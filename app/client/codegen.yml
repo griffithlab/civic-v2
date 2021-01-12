@@ -1,0 +1,12 @@
+overwrite: true
+schema: "schema/civic-api.graphql"
+# documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+  ./schema/graphql.schema.json:
+    plugins:
+      - "introspection"

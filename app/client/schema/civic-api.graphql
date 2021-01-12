@@ -1,0 +1,15 @@
+type User {
+  username: String!
+  email: String
+  comments: [Comment]
+}
+
+type Comment {
+  id: Int!
+  title: String
+  text: String!
+}
+
+schema {
+  query: User
+}
