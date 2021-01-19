@@ -1,5 +1,5 @@
 overwrite: true
-schema: "schema/civic-api.graphql"
+schema: "schema/graphql/civic.graphql"
 # documents: "src/**/*.graphql"
 generates:
   src/generated/graphql.ts:
