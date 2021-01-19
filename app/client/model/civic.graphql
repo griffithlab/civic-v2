@@ -42,7 +42,7 @@ type Disease {
   url: String
 }
 
-enumm EvidenceType {
+enum EvidenceType {
   DIAGNOSTIC
   FUNCTIONAL
   PREDICTIVE
@@ -99,6 +99,13 @@ type Organization {
   parent: Organization
 }
 
+type Query {
+  allEvidence: [Evidence!]!
+  allGenes: [Gene!]!
+  allVariants: [Variant!]!
+  allUsers: [User!]!
+}
+
 schema {
-  query: User
+  query: Query
 }
