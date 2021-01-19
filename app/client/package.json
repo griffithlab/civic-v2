@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "lint:schema": "graphql-codegen --config codegen.yml",
     "e2e": "ng e2e",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen"
   },
   "private": true,
   "dependencies": {
