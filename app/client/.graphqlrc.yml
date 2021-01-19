@@ -1,2 +1,13 @@
-schema: "model/civic.graphql"
-documents: "src/**/*.graphql"
+schema: ./model/civic.graphql
+documents: ./src/**/*.graphql
+extensions:
+  codegen:
+    generates:
+      ./src/generated/graphqlService.ts:
+        plugins:
+          - "typescript"
+          - "typescript-operations"
+          - "typescript-apollo-angular"
+      ./model/generated/graphql.schema.json:
+        plugins:
+          - "introspection"
