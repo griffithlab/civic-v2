@@ -1,0 +1,2 @@
+schema: "model/civic.graphql"
+documents: "src/**/*.graphql"

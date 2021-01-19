@@ -25,7 +25,7 @@
       "parser": "@graphql-eslint/eslint-plugin",
       "plugins": ["@graphql-eslint"],
       "parserOptions": {
-        "schema": "./schema/graphql/**/*.graphql",
+        "schema": "./model/civic.graphql",
         "operations": ["./src/**/*.graphql"]
       }
     }
