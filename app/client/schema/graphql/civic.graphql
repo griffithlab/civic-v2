@@ -1,0 +1,104 @@
+type Gene {
+  id: Int!
+  type: EntityType
+  name: String!
+  entrez_id: Int!
+  alias: [String]
+  lifecycle_actions: [LifecycleAction]
+  variants: [Variant]
+}
+
+type Variant {
+  id: Int!
+  type: EntityType
+  name: String!
+  alias: [String]
+  lifecycle_actions: [LifecycleAction]
+  evidence: [Evidence]
+}
+
+type Evidence {
+  id: Int!
+  type: EntityType
+  name: String!
+  summary: String!
+  description: String
+  disease: [Disease]
+  rating: Int!
+  evidence_level: String!
+  evidence_type: String!
+  evidence_direction: String!
+  variant_origin: String!
+  drug_interaction_type: String
+  status: String!
+  open_change_count: Int!
+}
+
+type Disease {
+  id: Int!
+  name: String!
+  display_name: String!
+  doid: Int!
+  url: String
+}
+
+enumm EvidenceType {
+  DIAGNOSTIC
+  FUNCTIONAL
+  PREDICTIVE
+  PREDISPOSING
+  PROGNOSTIC
+}
+
+enum AssertionType {
+  DIAGNOSTIC
+  PREDICTIVE
+  PREDISPOSING
+  PROGNOSTIC
+}
+enum EntityType {
+  EVIDENCE
+  GENE
+  SOURCE
+  VARIANT
+  VARIANT_GROUP
+}
+
+type LifecycleAction {
+  timestamp: String!
+  user: User
+  organization: Organization
+}
+
+enum LifecycleType {
+  ACCEPTED
+  LAST_MODIFIED
+  LAST_REVIEWED
+  REJECTED
+}
+
+type User {
+  id: Int!,
+  display_name: String!
+  username: String!
+  email: String
+  comments: [Comment]
+}
+
+type Comment {
+  id: Int!
+  title: String
+  text: String!
+}
+
+type Organization {
+  id: Int!
+  name: String!
+  url: String!
+  description: String!
+  parent: Organization
+}
+
+schema {
+  query: User
+}
