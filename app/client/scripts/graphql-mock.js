@@ -1,10 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
-const graphqlHTTP = require("express-graphql");
+const { graphqlHTTP } = require("express-graphql");
 const { makeExecutableSchema } = require("graphql-tools");
 
-const schemaFile = path.join(__dirname, "schema.graphql");
+const schemaFile = path.join(__dirname, "../model/civic.graphql");
 const typeDefs = fs.readFileSync(schemaFile, "utf8");
 
 const schema = makeExecutableSchema({ typeDefs });
@@ -17,4 +17,4 @@ app.use(
   })
 );
 app.listen(4000);
-console.log("Running a GraphQL API server at localhost:4000/graphql");
+console.log("Running a GraphQL API server at localhost:4000/api");
