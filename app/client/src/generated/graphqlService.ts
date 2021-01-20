@@ -21,9 +21,9 @@ export type Gene = {
   id: Scalars['Int'];
   type?: Maybe<EntityType>;
   name: Scalars['String'];
-  entrez_id: Scalars['Int'];
-  alias?: Maybe<Array<Maybe<Scalars['String']>>>;
-  lifecycle_actions?: Maybe<Array<Maybe<LifecycleAction>>>;
+  entrezId: Scalars['Int'];
+  aliases?: Maybe<Array<Maybe<Scalars['String']>>>;
+  lifecycleActions?: Maybe<Array<Maybe<LifecycleAction>>>;
   variants?: Maybe<Array<Maybe<Variant>>>;
 };
 
@@ -32,9 +32,18 @@ export type Variant = {
   id: Scalars['Int'];
   type?: Maybe<EntityType>;
   name: Scalars['String'];
-  alias?: Maybe<Array<Maybe<Scalars['String']>>>;
-  lifecycle_actions?: Maybe<Array<Maybe<LifecycleAction>>>;
+  aliases?: Maybe<Array<Maybe<Scalars['String']>>>;
+  lifecycleActions: Array<LifecycleAction>;
   evidence?: Maybe<Array<Maybe<Evidence>>>;
+};
+
+export type VariantGroup = {
+  __typename?: 'VariantGroup';
+  id: Scalars['Int'];
+  type?: Maybe<EntityType>;
+  name: Scalars['String'];
+  lifecycleActions: Array<LifecycleAction>;
+  variants: Array<Maybe<Variant>>;
 };
 
 export type Evidence = {
@@ -46,20 +55,39 @@ export type Evidence = {
   description?: Maybe<Scalars['String']>;
   disease?: Maybe<Array<Maybe<Disease>>>;
   rating: Scalars['Int'];
-  evidence_level: Scalars['String'];
-  evidence_type: Scalars['String'];
-  evidence_direction: Scalars['String'];
-  variant_origin: Scalars['String'];
-  drug_interaction_type?: Maybe<Scalars['String']>;
+  evidenceLevel: Scalars['String'];
+  evidenceType: EvidenceType;
+  evidenceDirection: Scalars['String'];
+  variantOrigin: Scalars['String'];
+  drugInteractionType?: Maybe<Scalars['String']>;
   status: Scalars['String'];
-  open_change_count: Scalars['Int'];
+  openChangeCount: Scalars['Int'];
+};
+
+export type Assertion = {
+  __typename?: 'Assertion';
+  id: Scalars['Int'];
+  type?: Maybe<EntityType>;
+  name: Scalars['String'];
+  summary: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  evidence?: Maybe<Array<Maybe<Evidence>>>;
+  disease?: Maybe<Array<Maybe<Disease>>>;
+  rating: Scalars['Int'];
+  evidenceLevel: Scalars['String'];
+  assertionType: AssertionType;
+  evidenceDirection: Scalars['String'];
+  variantOrigin: Scalars['String'];
+  drugInteractionType?: Maybe<Scalars['String']>;
+  status: Scalars['String'];
+  openChangeCount: Scalars['Int'];
 };
 
 export type Disease = {
   __typename?: 'Disease';
   id: Scalars['Int'];
   name: Scalars['String'];
-  display_name: Scalars['String'];
+  displayName: Scalars['String'];
   doid: Scalars['Int'];
   url?: Maybe<Scalars['String']>;
 };
@@ -89,6 +117,8 @@ export enum EntityType {
 
 export type LifecycleAction = {
   __typename?: 'LifecycleAction';
+  id: Scalars['Int'];
+  type: LifecycleType;
   timestamp: Scalars['String'];
   user?: Maybe<User>;
   organization?: Maybe<Organization>;
@@ -104,7 +134,7 @@ export enum LifecycleType {
 export type User = {
   __typename?: 'User';
   id: Scalars['Int'];
-  display_name: Scalars['String'];
+  displayName: Scalars['String'];
   username: Scalars['String'];
   email?: Maybe<Scalars['String']>;
   comments?: Maybe<Array<Maybe<Comment>>>;
@@ -128,10 +158,12 @@ export type Organization = {
 
 export type Query = {
   __typename?: 'Query';
-  allEvidence: Array<Evidence>;
-  allGenes: Array<Gene>;
+  allEvidence: Array<Maybe<Evidence>>;
+  allGenes: Array<Maybe<Gene>>;
   allVariants: Array<Variant>;
-  allUsers: Array<User>;
+  allUsers: Array<Maybe<User>>;
+  allAssertions: Array<Maybe<Assertion>>;
+  allVariantGroups: Array<Maybe<VariantGroup>>;
 };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
@@ -139,10 +171,10 @@ export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 export type Unnamed_1_Query = (
   { __typename?: 'Query' }
-  & { allGenes: Array<(
+  & { allGenes: Array<Maybe<(
     { __typename?: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
-  )> }
+  )>> }
 );
 
 export const Document = gql`

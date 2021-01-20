@@ -52,7 +52,7 @@ type Assertion {
   disease: [Disease]
   rating: Int!
   evidenceLevel: String!
-  evidenceType: AssertionType!
+  assertionType: AssertionType!
   evidenceDirection: String!
   variantOrigin: String!
   drugInteractionType: String
