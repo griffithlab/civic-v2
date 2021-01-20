@@ -25,21 +25,29 @@ module.exports = {
       files: ['*.graphql'],
       parser: '@graphql-eslint/eslint-plugin',
       parserOptions: {
-        "schema": ["./model/civic.graphql"],
-        "operations": ["./src/**/*.graphql"]
+        // use `yarn run generate` to recompile this introspection schema
+        "schema": ["./schema/civic.schema.json"],
       },
       plugins: ['@graphql-eslint'],
       rules: {
-        '@graphql-eslint/require-id-when-available': [
-          'error',
-          {fieldName: '_id',},
-        ],
-        '@graphql-eslint/unique-fragment-name': 'warn',
-        '@graphql-eslint/validate-against-schema': 'error',
+        '@graphql-eslint/avoid-operation-name-prefix': ['warn', {keywords:['get', 'post']}],
+        '@graphql-eslint/require-id-when-available': 'warn',
         '@graphql-eslint/no-anonymous-operations': 'warn',
+        '@graphql-eslint/no-case-insensitive-enum-values-duplicates': 'error',
+        '@graphql-eslint/no-deprecated': 'warn',
+        '@graphql-eslint/naming-convention': ["error", {"FieldDefinition":"camelCase","ObjectTypeDefinition":"PascalCase"}],
+        '@graphql-eslint/no-hashtag-description': 'warn',
         '@graphql-eslint/no-operation-name-suffix': 'error',
-        '@graphql-eslint/unique-enum-value-names': 'error',
-        '@graphql-eslint/no-case-insensitive-enum-values-duplicates': ['error'],
+        '@graphql-eslint/unique-fragment-name': 'error',
+        '@graphql-eslint/fields-on-correct-type': 'warn',
+        '@graphql-eslint/known-directives': 'warn',
+        '@graphql-eslint/known-fragment-names': 'warn',
+        '@graphql-eslint/known-type-names': 'warn',
+        '@graphql-eslint/unique-operation-name': 'error',
+
+        // the following options were causing weird errors
+        // '@graphql-eslint/no-unreachable-types': 'warn',
+        // '@graphql-eslint/unique-enum-value-names': 'error',
       },
     },
   ],

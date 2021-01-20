@@ -8,6 +8,6 @@ extensions:
           - "typescript"
           - "typescript-operations"
           - "typescript-apollo-angular"
-      ./model/generated/graphql.schema.json:
+      ./schema/civic.schema.json:
         plugins:
           - "introspection"
