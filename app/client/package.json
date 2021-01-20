@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "lint:schema": "graphql-codegen --config codegen.yml",
+    "lint:schema": "eslint model/civic.graphql",
     "e2e": "ng e2e",
     "generate": "graphql-codegen"
   },

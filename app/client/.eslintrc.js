@@ -38,15 +38,8 @@ module.exports = {
         '@graphql-eslint/validate-against-schema': 'error',
         '@graphql-eslint/no-anonymous-operations': 'warn',
         '@graphql-eslint/no-operation-name-suffix': 'error',
-        '@graphql-eslint/avoid-operation-name-prefix': [
-          'error',
-          {keywords: ['get'],},
-        ],
+        '@graphql-eslint/unique-enum-value-names': 'error',
         '@graphql-eslint/no-case-insensitive-enum-values-duplicates': ['error'],
-        '@graphql-eslint/require-description': [
-          'warn',
-          {on: ['SchemaDefinition', 'FieldDefinition'],},
-        ],
       },
     },
   ],

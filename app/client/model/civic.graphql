@@ -2,9 +2,9 @@ type Gene {
   id: Int!
   type: EntityType
   name: String!
-  entrez_id: Int!
-  alias: [String]
-  lifecycle_actions: [LifecycleAction]
+  entrezId: Int!
+  aliases: [String]
+  lifecycleActions: [LifecycleAction]
   variants: [Variant]
 }
 
@@ -12,9 +12,17 @@ type Variant {
   id: Int!
   type: EntityType
   name: String!
-  alias: [String]
-  lifecycle_actions: [LifecycleAction]
+  aliases: [String]
+  lifecycleActions: [LifecycleAction!]!
   evidence: [Evidence]
+}
+
+type VariantGroup {
+  id: Int!
+  type: EntityType
+  name: String!
+  lifecycleActions: [LifecycleAction!]!
+  variants: [Variant]!
 }
 
 type Evidence {
@@ -25,19 +33,37 @@ type Evidence {
   description: String
   disease: [Disease]
   rating: Int!
-  evidence_level: String!
-  evidence_type: String!
-  evidence_direction: String!
-  variant_origin: String!
-  drug_interaction_type: String
+  evidenceLevel: String!
+  evidenceType: EvidenceType!
+  evidenceDirection: String!
+  variantOrigin: String!
+  drugInteractionType: String
   status: String!
-  open_change_count: Int!
+  openChangeCount: Int!
+}
+
+type Assertion {
+  id: Int!
+  type: EntityType
+  name: String!
+  summary: String!
+  description: String
+  evidence: [Evidence]
+  disease: [Disease]
+  rating: Int!
+  evidenceLevel: String!
+  evidenceType: AssertionType!
+  evidenceDirection: String!
+  variantOrigin: String!
+  drugInteractionType: String
+  status: String!
+  openChangeCount: Int!
 }
 
 type Disease {
   id: Int!
   name: String!
-  display_name: String!
+  displayName: String!
   doid: Int!
   url: String
 }
@@ -65,6 +91,8 @@ enum EntityType {
 }
 
 type LifecycleAction {
+  id: Int!
+  type: LifecycleType!
   timestamp: String!
   user: User
   organization: Organization
@@ -79,7 +107,7 @@ enum LifecycleType {
 
 type User {
   id: Int!,
-  display_name: String!
+  displayName: String!
   username: String!
   email: String
   comments: [Comment]
@@ -100,10 +128,12 @@ type Organization {
 }
 
 type Query {
-  allEvidence: [Evidence!]!
-  allGenes: [Gene!]!
+  allEvidence: [Evidence]!
+  allGenes: [Gene]!
   allVariants: [Variant!]!
-  allUsers: [User!]!
+  allUsers: [User]!
+  allAssertions: [Assertion]!
+  allVariantGroups: [VariantGroup]!
 }
 
 schema {

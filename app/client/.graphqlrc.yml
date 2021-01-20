@@ -1,4 +1,4 @@
-schema: ./model/civic.graphql
+schema: ./model/*.graphql
 documents: ./src/**/*.graphql
 extensions:
   codegen:
