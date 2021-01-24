@@ -1,0 +1,6 @@
+query {
+  allGenes {
+    id
+    name
+  }
+}
