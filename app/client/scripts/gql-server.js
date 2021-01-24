@@ -2,12 +2,17 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
-const { makeExecutableSchema } = require("graphql-tools");
+const { makeExecutableSchema,
+        addMockFunctionsToSchema } = require("graphql-tools");
+
 
 const schemaFile = path.join(__dirname, "../model/civic.graphql");
 const typeDefs = fs.readFileSync(schemaFile, "utf8");
 
 const schema = makeExecutableSchema({ typeDefs });
+
+addMockFunctionsToSchema({ schema: schema });
+
 var app = express();
 app.use(
   "/api",

@@ -136,6 +136,11 @@ type Query {
   allVariantGroups: [VariantGroup]!
 }
 
+type Mutation {
+  domain: String
+}
+
 schema {
-  query: Query
+  query: Query,
+  mutation: Mutation
 }
