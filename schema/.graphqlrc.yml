@@ -1,4 +1,4 @@
-schema: ./model/*.graphql
+schema: ./graphql/*.graphql
 documents: ../client/src/**/*.graphql
 extensions:
   codegen:
@@ -11,7 +11,7 @@ extensions:
           - add:
               content: /* eslint-disable */
 
-      ./schema/gql.schema.json:
+      ./generated/gql.schema.json:
         plugins:
           - introspection
 

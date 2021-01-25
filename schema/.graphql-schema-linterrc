@@ -1,0 +1,13 @@
+{
+  "schemaPaths": ["graphql/**.graphql"],
+  "customRulePaths": [],
+  "rules": [
+    "defined-types-are-used",
+    "enum-values-all-caps",
+    "deprecations-have-a-reason",
+    "fields-are-camel-cased",
+    "input-object-values-are-camel-cased",
+    "relay-connection-types-spec",
+    "types-are-capitalized"
+  ]
+}
