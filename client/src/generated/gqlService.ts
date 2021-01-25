@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
@@ -164,6 +165,11 @@ export type Query = {
   allUsers: Array<Maybe<User>>;
   allAssertions: Array<Maybe<Assertion>>;
   allVariantGroups: Array<Maybe<VariantGroup>>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  domain?: Maybe<Scalars['String']>;
 };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
