@@ -3,7 +3,7 @@ documents: ../client/src/**/*.graphql
 extensions:
   codegen:
     generates:
-      ./src/generated/gqlService.ts:
+      ../client/src/generated/gqlService.ts:
         plugins:
           - typescript
           - typescript-operations
