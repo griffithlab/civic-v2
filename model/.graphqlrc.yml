@@ -1,24 +1,40 @@
-schema: ./src/schema/schema.graphql
+schema: ./model/*.graphql
+documents: ../client/src/**/*.graphql
 extensions:
   codegen:
     generates:
-      ./src/generated-types.ts:
-        config:
-          scalars:
-            GraphbackDate: Date
-            GraphbackDateTime: Date
-            GraphbackJSON: any
-            GraphbackJSONObject: '{ [key: string]: any }'
-            GraphbackObjectID: string
-            GraphbackTime: string
-            GraphbackTimestamp: number
+      ./src/generated/gqlService.ts:
         plugins:
+          - typescript
+          - typescript-operations
+          - typescript-apollo-angular
           - add:
               content: /* eslint-disable */
-          - typescript
-  graphback:
-    model: ./model/**/*.graphql
-    plugins:
-      graphback-schema:
-        format: graphql
-        outputPath: ./src/schema/schema.graphql
+
+      ./schema/gql.schema.json:
+        plugins:
+          - introspection
+
+# extensions:
+#   codegen:
+#     generates:
+#       ./src/generated-types.ts:
+#         config:
+#           scalars:
+#             GraphbackDate: Date
+#             GraphbackDateTime: Date
+#             GraphbackJSON: any
+#             GraphbackJSONObject: '{ [key: string]: any }'
+#             GraphbackObjectID: string
+#             GraphbackTime: string
+#             GraphbackTimestamp: number
+#         plugins:
+#           - add:
+#               content: /* eslint-disable */
+#           - typescript
+#   graphback:
+#     model: ./model/**/*.graphql
+#     plugins:
+#       graphback-schema:
+#         format: graphql
+#         outputPath: ./src/schema/schema.graphql
