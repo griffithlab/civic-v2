@@ -8,7 +8,7 @@
     "develop": "ts-node src/index.ts",
     "start": "node dist/index.js",
     "watch": "tsc -w",
-    "lint": "eslint model/civic.graphql",
+    "lint": "eslint graphql/civic.graphql",
     "generate": "graphql-codegen"
   },
   "license": "Apache 2.0",
