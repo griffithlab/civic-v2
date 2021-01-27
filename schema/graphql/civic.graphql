@@ -1,5 +1,7 @@
+""" @model """
 interface Entity {
   id: Int!
+  """ @id """
   type: EntityType!
   name: String!
   description: String!
@@ -7,8 +9,10 @@ interface Entity {
   lifecycleActions: [LifecycleAction!]!
 }
 
+""" @model """
 type Gene implements Entity {
   id: Int!
+  """ @id """
   type: EntityType!
   name: String!
   entrezId: Int!
@@ -20,8 +24,10 @@ type Gene implements Entity {
   variants: [Variant]
 }
 
+""" @model """
 type Variant implements Entity {
   id: Int!
+  """ @id """
   type: EntityType!
   name: String!
   displayName: String!
@@ -31,8 +37,10 @@ type Variant implements Entity {
   evidence: [Evidence]
 }
 
+""" @model """
 type VariantGroup implements Entity {
   id: Int!
+  """ @id """
   type: EntityType!
   name: String!
   displayName: String!
@@ -42,8 +50,10 @@ type VariantGroup implements Entity {
   variants: [Variant]!
 }
 
+""" @model """
 type Evidence implements Entity {
   id: Int!
+  """ @id """
   type: EntityType!
   name: String!
   displayName: String!
@@ -62,8 +72,10 @@ type Evidence implements Entity {
   supports: [Assertion]
 }
 
+""" @model """
 type Assertion implements Entity {
   id: Int!
+  """ @id """
   type: EntityType!
   name: String!
   displayName: String!
@@ -84,8 +96,10 @@ type Assertion implements Entity {
   openChangeCount: Int!
 }
 
+""" @model """
 type Source {
   id: Int!
+  """ @id """
   sourceType: SourceType!
   sourceUrl: String!
   name: String!
@@ -101,8 +115,10 @@ type Source {
   sourceSuggestions: [SourceSuggestion]
 }
 
+""" @model """
 type SourceSuggestion {
   id: Int!
+  """ @id """
   sourceId: Int!
   sourceType: SourceType!
   sourceUrl: Url

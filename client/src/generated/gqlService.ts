@@ -22,6 +22,7 @@ export type Scalars = {
 
 
 
+/**  @model  */
 export type Entity = {
   id: Scalars['Int'];
   type: EntityType;
@@ -31,6 +32,7 @@ export type Entity = {
   lifecycleActions: Array<LifecycleAction>;
 };
 
+/**  @model  */
 export type Gene = Entity & {
   __typename?: 'Gene';
   id: Scalars['Int'];
@@ -45,6 +47,7 @@ export type Gene = Entity & {
   variants?: Maybe<Array<Maybe<Variant>>>;
 };
 
+/**  @model  */
 export type Variant = Entity & {
   __typename?: 'Variant';
   id: Scalars['Int'];
@@ -57,6 +60,7 @@ export type Variant = Entity & {
   evidence?: Maybe<Array<Maybe<Evidence>>>;
 };
 
+/**  @model  */
 export type VariantGroup = Entity & {
   __typename?: 'VariantGroup';
   id: Scalars['Int'];
@@ -69,6 +73,7 @@ export type VariantGroup = Entity & {
   variants: Array<Maybe<Variant>>;
 };
 
+/**  @model  */
 export type Evidence = Entity & {
   __typename?: 'Evidence';
   id: Scalars['Int'];
@@ -90,6 +95,7 @@ export type Evidence = Entity & {
   supports?: Maybe<Array<Maybe<Assertion>>>;
 };
 
+/**  @model  */
 export type Assertion = Entity & {
   __typename?: 'Assertion';
   id: Scalars['Int'];
@@ -113,6 +119,7 @@ export type Assertion = Entity & {
   openChangeCount: Scalars['Int'];
 };
 
+/**  @model  */
 export type Source = {
   __typename?: 'Source';
   id: Scalars['Int'];
@@ -131,6 +138,7 @@ export type Source = {
   sourceSuggestions?: Maybe<Array<Maybe<SourceSuggestion>>>;
 };
 
+/**  @model  */
 export type SourceSuggestion = {
   __typename?: 'SourceSuggestion';
   id: Scalars['Int'];

@@ -11,7 +11,7 @@
       {
         "kind": "INTERFACE",
         "name": "Entity",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -172,7 +172,7 @@
       {
         "kind": "OBJECT",
         "name": "Gene",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -357,7 +357,7 @@
       {
         "kind": "OBJECT",
         "name": "Variant",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -510,7 +510,7 @@
       {
         "kind": "OBJECT",
         "name": "VariantGroup",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -667,7 +667,7 @@
       {
         "kind": "OBJECT",
         "name": "Evidence",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -968,7 +968,7 @@
       {
         "kind": "OBJECT",
         "name": "Assertion",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -1285,7 +1285,7 @@
       {
         "kind": "OBJECT",
         "name": "Source",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
@@ -1504,7 +1504,7 @@
       {
         "kind": "OBJECT",
         "name": "SourceSuggestion",
-        "description": null,
+        "description": " @model ",
         "fields": [
           {
             "name": "id",
