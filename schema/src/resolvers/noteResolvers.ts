@@ -1,7 +1,7 @@
 import { QueryFilter } from "graphback";
-import { NoteFilter } from '../generated-types';
-import { IResolvers } from 'apollo-server-express';
 import { GraphQLResolveInfo } from 'graphql';
+import { IResolvers } from 'apollo-server-express';
+import { NoteFilter } from '../generated-types';
 import { GraphQLContext } from '../customContext';
 
 export const noteResolvers: IResolvers = {

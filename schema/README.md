@@ -1,6 +1,6 @@
-## Graphback PostgreSQL + Apollo Server Template
+## Graphback MongoDB + Apollo Server Template
 
-A template that provides you with an easy setup for your application's backend using PostgreSQL and Apollo server with TypeScript.
+A template that provides you with an easy setup for your application's backend using MongoDB and Apollo server with TypeScript.
 
 ### Quickstart Guide
 
@@ -41,7 +41,7 @@ The following tools and technologies have been used to create this template:
 
 - [GraphQL Code Generator](https://graphql-code-generator.com/): GraphQL Code Generator is a tool that generates code out of your GraphQL schema by analyzing it.
 
-- [PostgreSQL](https://www.postgresql.org/): PostgreSQL, also known as Postgres, is a popular open-source relational SQL database.
+- [MongoDB](https://www.mongodb.com/): MongoDB is a popular open-source document NoSQL database written in C++.
 
 ### Project structure
 

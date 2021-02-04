@@ -8,13 +8,13 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  GraphbackObjectID: string;
 };
 
 /**  @model  */
 export type Comment = {
   __typename?: 'Comment';
-  /**  @id  */
-  _id: Scalars['ID'];
+  _id: Scalars['GraphbackObjectID'];
   text?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   /** @manyToOne(field: 'comments', key: 'noteId') */
@@ -22,10 +22,10 @@ export type Comment = {
 };
 
 export type CommentFilter = {
-  _id?: Maybe<IdInput>;
+  _id?: Maybe<GraphbackObjectIdInput>;
   text?: Maybe<StringInput>;
   description?: Maybe<StringInput>;
-  noteId?: Maybe<IdInput>;
+  noteId?: Maybe<GraphbackObjectIdInput>;
   and?: Maybe<Array<CommentFilter>>;
   or?: Maybe<Array<CommentFilter>>;
   not?: Maybe<CommentFilter>;
@@ -43,43 +43,43 @@ export type CommentSubscriptionFilter = {
   and?: Maybe<Array<CommentSubscriptionFilter>>;
   or?: Maybe<Array<CommentSubscriptionFilter>>;
   not?: Maybe<CommentSubscriptionFilter>;
-  _id?: Maybe<IdInput>;
+  _id?: Maybe<GraphbackObjectIdInput>;
   text?: Maybe<StringInput>;
   description?: Maybe<StringInput>;
 };
 
 export type CreateCommentInput = {
-  _id?: Maybe<Scalars['ID']>;
   text?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  noteId?: Maybe<Scalars['ID']>;
+  noteId?: Maybe<Scalars['GraphbackObjectID']>;
 };
 
 export type CreateNoteInput = {
-  _id?: Maybe<Scalars['ID']>;
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
 };
 
-export type IdInput = {
-  ne?: Maybe<Scalars['ID']>;
-  eq?: Maybe<Scalars['ID']>;
-  le?: Maybe<Scalars['ID']>;
-  lt?: Maybe<Scalars['ID']>;
-  ge?: Maybe<Scalars['ID']>;
-  gt?: Maybe<Scalars['ID']>;
-  in?: Maybe<Array<Scalars['ID']>>;
+
+export type GraphbackObjectIdInput = {
+  ne?: Maybe<Scalars['GraphbackObjectID']>;
+  eq?: Maybe<Scalars['GraphbackObjectID']>;
+  le?: Maybe<Scalars['GraphbackObjectID']>;
+  lt?: Maybe<Scalars['GraphbackObjectID']>;
+  ge?: Maybe<Scalars['GraphbackObjectID']>;
+  gt?: Maybe<Scalars['GraphbackObjectID']>;
+  in?: Maybe<Array<Scalars['GraphbackObjectID']>>;
+  between?: Maybe<Array<Scalars['GraphbackObjectID']>>;
 };
 
 export type MutateCommentInput = {
-  _id: Scalars['ID'];
+  _id: Scalars['GraphbackObjectID'];
   text?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  noteId?: Maybe<Scalars['ID']>;
+  noteId?: Maybe<Scalars['GraphbackObjectID']>;
 };
 
 export type MutateNoteInput = {
-  _id: Scalars['ID'];
+  _id: Scalars['GraphbackObjectID'];
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
 };
@@ -127,8 +127,7 @@ export type MutationDeleteCommentArgs = {
 /**  @model  */
 export type Note = {
   __typename?: 'Note';
-  /**  @id  */
-  _id: Scalars['ID'];
+  _id: Scalars['GraphbackObjectID'];
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   /**
@@ -145,7 +144,7 @@ export type NoteCommentsArgs = {
 };
 
 export type NoteFilter = {
-  _id?: Maybe<IdInput>;
+  _id?: Maybe<GraphbackObjectIdInput>;
   title?: Maybe<StringInput>;
   description?: Maybe<StringInput>;
   and?: Maybe<Array<NoteFilter>>;
@@ -165,7 +164,7 @@ export type NoteSubscriptionFilter = {
   and?: Maybe<Array<NoteSubscriptionFilter>>;
   or?: Maybe<Array<NoteSubscriptionFilter>>;
   not?: Maybe<NoteSubscriptionFilter>;
-  _id?: Maybe<IdInput>;
+  _id?: Maybe<GraphbackObjectIdInput>;
   title?: Maybe<StringInput>;
   description?: Maybe<StringInput>;
 };
@@ -191,7 +190,7 @@ export type Query = {
 
 
 export type QueryGetNoteArgs = {
-  id: Scalars['ID'];
+  id: Scalars['GraphbackObjectID'];
 };
 
 
@@ -203,7 +202,7 @@ export type QueryFindNotesArgs = {
 
 
 export type QueryGetCommentArgs = {
-  id: Scalars['ID'];
+  id: Scalars['GraphbackObjectID'];
 };
 
 

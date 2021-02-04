@@ -8,7 +8,8 @@ directive @specifiedBy(
 
 """ @model """
 type Comment {
-  _id: GraphbackObjectID!
+  """ @id """
+  _id: ID!
   text: String
   description: String
 
@@ -17,10 +18,10 @@ type Comment {
 }
 
 input CommentFilter {
-  _id: GraphbackObjectIDInput
+  _id: IDInput
   text: StringInput
   description: StringInput
-  noteId: GraphbackObjectIDInput
+  noteId: IDInput
   and: [CommentFilter!]
   or: [CommentFilter!]
   not: CommentFilter
@@ -37,44 +38,43 @@ input CommentSubscriptionFilter {
   and: [CommentSubscriptionFilter!]
   or: [CommentSubscriptionFilter!]
   not: CommentSubscriptionFilter
-  _id: GraphbackObjectIDInput
+  _id: IDInput
   text: StringInput
   description: StringInput
 }
 
 input CreateCommentInput {
+  _id: ID
   text: String
   description: String
-  noteId: GraphbackObjectID
+  noteId: ID
 }
 
 input CreateNoteInput {
+  _id: ID
   title: String!
   description: String
 }
 
-scalar GraphbackObjectID
-
-input GraphbackObjectIDInput {
-  ne: GraphbackObjectID
-  eq: GraphbackObjectID
-  le: GraphbackObjectID
-  lt: GraphbackObjectID
-  ge: GraphbackObjectID
-  gt: GraphbackObjectID
-  in: [GraphbackObjectID!]
-  between: [GraphbackObjectID!]
+input IDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  in: [ID!]
 }
 
 input MutateCommentInput {
-  _id: GraphbackObjectID!
+  _id: ID!
   text: String
   description: String
-  noteId: GraphbackObjectID
+  noteId: ID
 }
 
 input MutateNoteInput {
-  _id: GraphbackObjectID!
+  _id: ID!
   title: String
   description: String
 }
@@ -90,7 +90,8 @@ type Mutation {
 
 """ @model """
 type Note {
-  _id: GraphbackObjectID!
+  """ @id """
+  _id: ID!
   title: String!
   description: String
 
@@ -102,7 +103,7 @@ type Note {
 }
 
 input NoteFilter {
-  _id: GraphbackObjectIDInput
+  _id: IDInput
   title: StringInput
   description: StringInput
   and: [NoteFilter!]
@@ -121,7 +122,7 @@ input NoteSubscriptionFilter {
   and: [NoteSubscriptionFilter!]
   or: [NoteSubscriptionFilter!]
   not: NoteSubscriptionFilter
-  _id: GraphbackObjectIDInput
+  _id: IDInput
   title: StringInput
   description: StringInput
 }
@@ -138,9 +139,9 @@ input PageRequest {
 
 type Query {
   getDraftNotes: [Note]
-  getNote(id: GraphbackObjectID!): Note
+  getNote(id: ID!): Note
   findNotes(filter: NoteFilter, page: PageRequest, orderBy: OrderByInput): NoteResultList!
-  getComment(id: GraphbackObjectID!): Comment
+  getComment(id: ID!): Comment
   findComments(filter: CommentFilter, page: PageRequest, orderBy: OrderByInput): CommentResultList!
 }
 

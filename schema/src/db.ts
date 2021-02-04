@@ -1,26 +1,20 @@
-import Knex from 'knex'
+import { MongoClient } from 'mongodb';
 
-export function loadDBConfig() {
-  let port;
-  if (process.env.DB_PORT) {
-    port = parseInt(process.env.DB_PORT, 10)
+export async function connectDB() {
+  let url: string
+
+  const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE, DB_AUTHSOURCE } = process.env;
+
+  if (DB_USER && DB_PASSWORD) {
+    url = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?authSource=${DB_AUTHSOURCE}`;
+  } else {
+    url = `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`
   }
-  return {
-    client: process.env.DB_CLIENT,
-    connection: {
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      host: process.env.DB_HOST,
-      port: port && !isNaN(port) ? port : 5432
-    },
-    pool: { min: 5, max: 30 }
-  };
-}
 
-export function connectDB() {
-  const dbConfig = loadDBConfig()
-  const db = Knex(dbConfig)
+  const mongoClient = await MongoClient.connect(url, { useUnifiedTopology: true });
 
-  return db
+  // get db instance
+  const db = mongoClient.db(process.env.DB_DATABASE);
+
+  return db;
 }
