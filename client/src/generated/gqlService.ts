@@ -1,6 +1,8 @@
+/* eslint-disable */
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
+import { undefined } from '../client/src/app/app.module.ts';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -62,7 +64,7 @@ export const Document = gql`
     `;
 
   @Injectable({
-    providedIn: 'root'
+    providedIn: undefined
   })
   export class GQL extends Apollo.Query<Query, QueryVariables> {
     document = Document;
