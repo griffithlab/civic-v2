@@ -1,0 +1,13 @@
+overwrite: true
+schema: "./model/*.graphql"
+documents: "../client/src/**/*.graphql"
+generates:
+  ../client/src/generated/GqlService.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+      - "fragment-matcher"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

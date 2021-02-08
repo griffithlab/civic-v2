@@ -1,6 +1,6 @@
 query {
-  allGenes {
+  posts {
     id
-    name
+    title
   }
 }
