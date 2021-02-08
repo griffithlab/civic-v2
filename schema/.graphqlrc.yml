@@ -1,15 +1,23 @@
-# schema: ./model/*.graphql
-# documents: ../client/src/**/*.graphql
-# extensions:
-#   codegen:
-#     generates:
-#       ../client/src/generated/gqlService.ts:
-#         plugins:
-#           - typescript
-#           - typescript-operations
-#           - typescript-apollo-angular
-#           - add:
-#               content: /* eslint-disable */
-#       ./generated/gql.schema.json:
-#         plugins:
-#           - introspection
+# collect & merge model types 
+schema: ./model/*.graphql
+# collect & merge client queries, mutations, fragments
+documents: ../client/src/**/*.graphql
+extensions:
+  codegen:
+    config:
+      overwrite: true
+      ngModule: ../client/src/app/app.module.ts
+    generates:
+      # generate apollo-angular client service
+      ../client/src/generated/GqlService.ts:
+        plugins:
+          - typescript
+          - typescript-operations
+          - typescript-apollo-angular
+          - fragment-matcher
+          - add:
+              content: /* eslint-disable */
+      # generate introspection schema
+      ./generated/gql.schema.json:
+        plugins:
+          - introspection
