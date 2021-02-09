@@ -1,54 +1,38 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-require('dotenv').config();
-import { ApolloServer } from 'apollo-server-express';
-import { buildGraphbackAPI } from 'graphback';
-import { createMongoDbProvider } from '@graphback/runtime-mongo';
-import cors from 'cors';
-import express from 'express';
-import http from 'http';
-import { loadConfigSync } from 'graphql-config';
-import { connectDB } from './db';
-import { noteResolvers } from './resolvers/noteResolvers';
+const { loadSchema } = require('@graphql-tools/load');
+const { loadSchema } = require('@graphql-tools/load');
+const { buildClientSchema, graphql } = require('graphql');
+const { addMocksToSchema } = require('@graphql-tools/mock');
+const { readFileSync } = require('fs');
 
-async function start() {
-  const app = express();
+const civicSchema = readFileSync('./generated/gql.schema.json', 'utf-8');
 
-  app.use(cors());
+const schema = buildClientSchema(civicSchema);
 
-  const graphbackExtension = 'graphback';
-  const config = loadConfigSync({
-    extensions: [
-      () => ({
-        name: graphbackExtension
-      })
-    ]
-  });
+const schemaWithMocks = addMocksToSchema({schema});
 
-  const projectConfig = config.getDefault();
-  const graphbackConfig = projectConfig.extension(graphbackExtension);
-
-  const modelDefs = projectConfig.loadSchemaSync(graphbackConfig.model);
-
-  const db = await connectDB();
-
-  const { typeDefs, resolvers, contextCreator } = buildGraphbackAPI(modelDefs, {
-    dataProviderCreator: createMongoDbProvider(db)
-  });
-
-  const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers: [resolvers, noteResolvers],
-    context: contextCreator
-  });
-
-  apolloServer.applyMiddleware({ app });
-
-  const httpServer = http.createServer(app);
-  apolloServer.installSubscriptionHandlers(httpServer);
-
-  httpServer.listen({ port: 4000 }, () => {
-    console.log(`🚀  Server ready at http://localhost:4000/graphql`);
-  });
+const query = `
+query getPost {
+user(id: 6) { title, author }
 }
+`;
 
-start().catch((err: any) => console.log(err));
+graphql(schemaWithMocks, query).then((result:any) => console.log('Got result', result));
+
+const start = async () => {
+    try {
+        // fetch schema
+        const schema5 = await loadSchema('./src/**/*.graphql', { // load from multiple files using glob
+            loaders: [
+                new GraphQLFileLoader()
+            ]
+        });
+        // start the server
+        await server.start();
+        console.log( `Server running at http://localhost:${ port }` );
+    } catch ( err ) {
+        console.log( err );
+        process.exit( 1 );
+    }
+};
+
+start();
