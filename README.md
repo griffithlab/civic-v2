@@ -1,4 +1,4 @@
-# CIViC: Clinical Interpretations of Varints in Cancer 
+# CIViC: Clinical Interpretations of Variants in Cancer 
 
 CIViC is an open access, open source, community-driven web resource for Clinical Interpretation of Variants in Cancer, available online at [civicdb.org](https://civicdb.org/). Our goal is to enable precision medicine by providing an educational forum for dissemination of knowledge and active discussion of the clinical significance of cancer genome alterations. For more details and to cite CIViC please refer to [the CIViC publication in Nature Genetics](http://www.nature.com/ng/journal/v49/n2/full/ng.3774.html).
 
