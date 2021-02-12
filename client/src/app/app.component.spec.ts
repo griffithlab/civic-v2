@@ -26,10 +26,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('main');
   });
 
-  it('should render title', () => {
+  it('should display application title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('main app is running!');
+    expect(compiled.querySelector('#app-title').textContent).toContain('CIViC');
   });
 });

@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   isCollapsed = false;
-  test = "test";
+  title = 'main'
 }
