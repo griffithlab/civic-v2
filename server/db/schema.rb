@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_22_154530) do
+ActiveRecord::Schema.define(version: 2021_02_19_165841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 2020_10_22_154530) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "name"
+    t.index ["name"], name: "index_diseases_on_name"
   end
 
   create_table "domain_expert_tags", id: :serial, force: :cascade do |t|
@@ -301,6 +302,7 @@ ActiveRecord::Schema.define(version: 2020_10_22_154530) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "ncit_id"
+    t.index ["name"], name: "index_drugs_on_name"
     t.index ["ncit_id"], name: "index_drugs_on_ncit_id", unique: true
   end
 
@@ -759,4 +761,49 @@ ActiveRecord::Schema.define(version: 2020_10_22_154530) do
   add_foreign_key "variant_group_variants", "variants"
   add_foreign_key "variants", "genes"
   add_foreign_key "variants", "genes", column: "secondary_gene_id"
+
+  create_view "evidence_items_by_statuses", sql_definition: <<-SQL
+      SELECT v.id AS variant_id,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'accepted'::text) THEN 1
+              ELSE 0
+          END) AS accepted_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'rejected'::text) THEN 1
+              ELSE 0
+          END) AS rejected_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'submitted'::text) THEN 1
+              ELSE 0
+          END) AS submitted_count
+     FROM (variants v
+       JOIN evidence_items ei ON (((v.id = ei.variant_id) AND (ei.deleted = false))))
+    GROUP BY v.id;
+  SQL
+  create_view "gene_browse_views", sql_definition: <<-SQL
+      SELECT genes.id,
+      genes.name,
+      genes.entrez_id,
+      genes.flagged,
+      array_agg(DISTINCT gene_aliases.name ORDER BY gene_aliases.name) AS alias_names,
+      array_agg(DISTINCT diseases.name ORDER BY diseases.name) AS disease_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM ((((((((genes
+       LEFT JOIN gene_aliases_genes ON ((gene_aliases_genes.gene_id = genes.id)))
+       LEFT JOIN gene_aliases ON ((gene_aliases.id = gene_aliases_genes.gene_alias_id)))
+       JOIN variants ON ((variants.gene_id = genes.id)))
+       JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN assertions ON ((assertions.gene_id = genes.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY genes.id, genes.name, genes.entrez_id;
+  SQL
 end

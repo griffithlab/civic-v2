@@ -1,0 +1,2 @@
+class GeneBrowseView < ApplicationRecord
+end
