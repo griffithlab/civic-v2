@@ -12,13 +12,31 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/welcome">Welcome</a>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Knowledgebase">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
+            <a routerLink="/assertions" id="main-assertions">Assertions</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/genes">Genes</a>
+            <a routerLink="/genes" id="main-genes">Genes</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/variants" id="main-variants">Variants</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/evidence" id="main-evidence">Evidence</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/variant-groups" id="main-variant-groups">Variant Groups</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/diseases" id="main-diseases">Diseases</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/sources" id="main-sources">Sources</a>
           </li>
         </ul>
       </li>
