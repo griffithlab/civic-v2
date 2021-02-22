@@ -37,6 +37,11 @@ describe('Router: App', () => {
     expect(location.path()).toBe('/diseases');
   });
 
+  it('navigating to "evidence" directs browser to /evidence', async () => {
+    await router.navigate(['evidence']);
+    expect(location.path()).toBe('/evidence');
+  });
+
   it('navigating to "sources" directs browser to /sources', async () => {
     await router.navigate(['sources']);
     expect(location.path()).toBe('/sources');
