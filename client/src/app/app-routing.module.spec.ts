@@ -45,8 +45,8 @@ describe('Router: App', () => {
   });
 
   it('navigating to "variants" directs browser to /variants', async () => {
-    await router.navigate(['sources']);
-    expect(location.path()).toBe('/sources');
+    await router.navigate(['variants']);
+    expect(location.path()).toBe('/variants');
   });
 
   it('navigating to "variant-groups" directs browser to /variant-groups', async () => {
