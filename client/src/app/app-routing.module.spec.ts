@@ -9,7 +9,6 @@ import { routes } from './app-routing.module';
 describe('Router: App', () => {
   let location: Location;
   let router: Router;
-  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,7 +18,6 @@ describe('Router: App', () => {
 
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
-    fixture = TestBed.createComponent(AppComponent);
 
     router.initialNavigation();
   });
