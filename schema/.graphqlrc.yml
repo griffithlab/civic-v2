@@ -6,7 +6,8 @@ extensions:
   codegen:
     config:
       overwrite: true
-      ngModule: ../client/src/app/app.module.ts
+      # relative to generated GqlService.ts
+      ngModule: ../app/app.module#AppModule
     generates:
       # generate apollo-angular client service
       ../client/src/generated/GqlService.ts:
