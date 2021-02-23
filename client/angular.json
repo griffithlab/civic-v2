@@ -109,7 +109,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ng-zorro-antd/ng-zorro-antd.less"
+              "src/styles.less"
             ],
             "scripts": []
           }
