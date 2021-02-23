@@ -5,10 +5,10 @@
 */
 'use strict';
 
-// const mode = process.env.NODE_ENV === "production" ? "production" : "development";
+const mode = process.env.NODE_ENV === "production" ? "production" : "development";
 
 module.exports = {
-  // mode,
+  mode,
   module: {
     rules: [
       {
