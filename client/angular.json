@@ -21,8 +21,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.js",
+              "mergeStrategies": {
+                "module.rules": "append"
+              },
+              "replaceDuplicatePlugins": true
+            },
             "outputPath": "../../public",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -39,7 +46,7 @@
               }
             ],
             "styles": [
-              "src/styles.less"
+              "node_modules/ng-zorro-antd/ng-zorro-antd.less"
             ],
             "scripts": []
           },
@@ -74,7 +81,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "main:build"
           },
@@ -85,7 +92,7 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular-builders/custom-webpack:karma",
           "options": {
             "browserTarget": "main:build"
           }
@@ -102,7 +109,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "node_modules/ng-zorro-antd/ng-zorro-antd.less"
             ],
             "scripts": []
           }
