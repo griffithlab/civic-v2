@@ -13,7 +13,7 @@ describe('AppComponent', () => {
   let router: Router;
   let fixture: ComponentFixture<AppComponent>;
 
-  let primaryEntities:string[] = [
+  const primaryEntities:string[] = [
     'assertions',
     'diseases',
     'evidence',

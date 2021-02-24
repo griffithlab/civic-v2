@@ -19,7 +19,7 @@ describe('SourcesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create its component', () => {
     expect(component).toBeTruthy();
   });
 });
