@@ -1,0 +1,53 @@
+name: Server Unit Tests
+defaults:
+  run:
+    working-directory: server
+on:
+  push:
+    branches: [ main, staging ]
+  pull_request:
+    branches: [ main, staging]
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        ruby: [3.0]
+    services:
+        postgres:
+          image: postgres:13
+          env:
+            POSTGRES_USER: postgres
+            POSTGRES_DB: civic_test
+            POSTGRES_PASSWORD: 'ci'
+          ports:
+            - 5432:5432
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v2
+
+      - name: 'Setup Ruby'
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Setup DB
+        env:
+          CI_BUILD: true
+          RAILS_ENV: test
+        run: bundle exec rails db:create db:schema:load
+
+      - name: Run Tests
+        env:
+          CI_BUILD: true
+          RAILS_ENV: test
+        run: bundle exec rails test
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,15 @@
+<div id="user_nav">
+  <% if current_user %>
+    Welcome, <%= current_user.name %>!
+    <%= link_to "Sign Out", signout_path %>
+  <% else %>
+    <%= link_to "Sign in with Github", "/api/auth/github", method: :post %>
+    <%= link_to "Sign in with Orcid", "/api/auth/orcid", method: :post %>
+    <%= link_to "Sign in with Google", "/api/auth/google_oauth2", method: :post %>
+    <% unless Rails.env.production? %>
+      <%= link_to "Development Sign-in", "/api/auth/developer", method: :post %>
+    <% end %>
+  <% end %>
+</div>
+
+
