@@ -16,10 +16,14 @@ module.exports = {
         loader: 'less-loader',
         options: {
           lessOptions: {
-            javascriptEnabled: true,
             math: 'always',
+            javascriptEnabled: true,
           }
         }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
       }
     ]
   },
