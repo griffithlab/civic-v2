@@ -4,7 +4,9 @@
 * See https://www.npmjs.com/package/@angular-builders/custom-webpack for documentation.
 */
 'use strict';
+
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const mode = process.env.NODE_ENV === "production" ? "production" : "development";
 
 module.exports = {
@@ -17,14 +19,10 @@ module.exports = {
         options: {
           lessOptions: {
             math: 'always',
-            javascriptEnabled: true,
+            javascriptEnabled: true
           }
         }
       },
-      {
-        test: /\.svg$/,
-        loader: 'svg-inline-loader'
-      }
     ]
   },
   plugins: [

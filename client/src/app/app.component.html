@@ -1,10 +1,10 @@
 <nz-layout class="app-layout">
   <nz-sider class="menu-sidebar"
-            nzCollapsible
-            nzWidth="256px"
-            nzBreakpoint="md"
-            [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
     <div class="sidebar-logo">
       <a href="/" target="_blank">
         <img src="assets/images/civic-icon_half.svg" alt="CIViC - Clinical Interpretations of Variants in Cancer">
@@ -15,48 +15,44 @@
       <li nz-menu-item nzMatchRouter>
         <a routerLink="/welcome">Welcome</a>
       </li>
-      <li nz-submenu nzOpen nzTitle="Knowledgebase">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/assertions" id="main-assertions">Assertions</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/genes" id="main-genes">Genes</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/variants" id="main-variants">Variants</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/evidence" id="main-evidence">Evidence</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/variant-groups" id="main-variant-groups">Variant Groups</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/diseases" id="main-diseases">Diseases</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/sources" id="main-sources">Sources</a>
-          </li>
-        </ul>
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:assertion"></i>
+        <a routerLink="/assertions" id="main-assertions">Assertions</a>
       </li>
-      <!-- <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-           <ul>
-           <li nz-menu-item nzMatchRouter>
-           <a>Basic Form</a>
-           </li>
-           </ul>
-           </li> -->
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:gene"></i>
+        <a routerLink="/genes" id="main-genes">Genes</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:variant"></i>
+        <a routerLink="/variants" id="main-variants">Variants</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:evidence"></i>
+        <a routerLink="/evidence" id="main-evidence">Evidence</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:variant-group"></i>
+        <a routerLink="/variant-groups" id="main-variant-groups">Variant Groups</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:disease"></i>
+        <a routerLink="/diseases" id="main-diseases">Diseases</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <i nz-icon nzType="civic:"></i>
+        <a routerLink="/sources" id="main-sources">Sources</a>
+      </li>
     </ul>
   </nz-sider>
   <nz-layout>
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <i class="trigger"
-               nz-icon
-               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            ></i>
+          <i class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></i>
         </span>
       </div>
     </nz-header>

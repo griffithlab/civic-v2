@@ -1,0 +1,17 @@
+{
+  "conversionType": "constants",
+  "srcFiles": ["./src/assets/icons/**/*.svg"],
+  "outputDirectory": "./src/generated",
+  "interfaceName": "CivicIcon",
+  "typeName": "Icon",
+  "prefix": "icon",
+  "fileName": "civic.icons",
+  "svgoConfig": {
+    "plugins": [
+      {
+        "cleanupAttrs": true
+      }
+    ]
+  },
+  "compileSources": true
+}

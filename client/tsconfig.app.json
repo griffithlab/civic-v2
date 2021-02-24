@@ -7,7 +7,8 @@
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
+    "src/polyfills.ts",
+    "src/generated/civic.icons.ts"
   ],
   "include": [
     "src/**/*.d.ts"
