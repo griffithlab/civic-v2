@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "patch-package"
   },
   "private": true,
   "dependencies": {
@@ -34,7 +35,7 @@
     "@angular-eslint/eslint-plugin": "^1.0.0",
     "@angular-eslint/eslint-plugin-template": "^1.0.0",
     "@angular-eslint/template-parser": "^1.0.0",
-    "@angular/cli": "11.2.1",
+    "@angular/cli": "^11.2.1",
     "@angular/compiler-cli": "11.2.2",
     "@angular/language-server": "^11.1.0",
     "@graphql-codegen/cli": "1.20.0",
@@ -70,6 +71,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "patch-package": "^6.2.2",
     "protractor": "~7.0.0",
     "svg-inline-loader": "^0.8.2",
     "ts-node": "~8.3.0",
