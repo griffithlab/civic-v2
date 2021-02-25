@@ -7,7 +7,7 @@ import { iconGene,
          iconAssertion,
          iconSource,
          iconDrug,
-         iconDisease } from '../generated/civic.icons';
+         iconDisease } from '@app/generated/civic.icons';
 
 import { Component } from '@angular/core';
 

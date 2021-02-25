@@ -1,6 +1,6 @@
-query browseGenes(
+query BrowseGenes(
   $entrezSymbol: String,
-  $drugName:String,
+  $drugName: String,
   $geneAlias: String,
   $diseaseName: String,
   $first: Int,
