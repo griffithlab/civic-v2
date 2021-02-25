@@ -4,5 +4,13 @@ module Types::Entities
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :originating_user, Types::Entities::UserType, null: false
     field :organization, Types::Entities::OrganizationType, null: false
+
+    def originating_user
+      Loaders::RecordLoader.for(User).load(object.originating_user_id)
+    end
+
+    def organization
+      Loaders::RecordsLoader.for(Organization).load(object.organization_id)
+    end
   end
 end

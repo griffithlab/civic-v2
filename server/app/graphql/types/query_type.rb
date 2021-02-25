@@ -13,7 +13,7 @@ module Types
     end
 
     def gene(id: )
-      Gene.includes(:sources, :variants, :gene_aliases).find(id)
+      Gene.find(id)
     end
   end
 end

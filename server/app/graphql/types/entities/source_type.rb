@@ -13,5 +13,9 @@ module Types::Entities
     field :full_journal_title, String, null: false
     field :status, Types::SourceStatusType, null: false
     field :clincal_trials, [Types::Entities::ClinicalTrialType], null: true
+
+    def clinical_trials
+      Loaders::RecordLoader.for(ClinicalTrial).load_many(object.clinical_trial_ids)
+    end
   end
 end

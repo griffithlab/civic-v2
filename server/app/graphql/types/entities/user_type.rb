@@ -9,5 +9,9 @@ module Types::Entities
     field :bio, String, null: true
     field :country, String, null: true #this needs to be an enum
     field :organizations, [Types::Entities::OrganizationType], null: true
+
+    def organizations
+      Loaders::RecordLoader.for(Organization).load_many(object.organization_ids)
+    end
   end
 end

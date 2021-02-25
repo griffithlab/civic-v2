@@ -10,6 +10,18 @@ module Types::Entities
     field :variants, [Types::Entities::VariantType], null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
 
+    def gene_aliases
+      Loaders::RecordLoader.for(GeneAlias).load_many(object.gene_alias_ids)
+    end
+
+    def sources
+      Loaders::RecordLoader.for(Source).load_many(object.source_ids)
+    end
+
+    def variants
+      Loaders::RecordLoader.for(Variant).load_many(object.variant_ids)
+    end
+
     def lifecycle_actions
       {
         last_reviewed: object.last_review_event,
