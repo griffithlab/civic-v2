@@ -50,6 +50,8 @@ group :development do
   gem 'capistrano-passenger', '~> 0.2.0'
 
   gem 'graphiql-rails', '~> 1.7.0'
+
+  gem 'pry'
 end
 
 group :test do
