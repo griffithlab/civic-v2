@@ -1,8 +1,5 @@
 /* eslint-disable */
 import { gql } from 'apollo-angular';
-import { Injectable } from '@angular/core';
-import * as Apollo from 'apollo-angular';
-import { AppModule } from '../app/app.module';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -18,61 +15,112 @@ export type Scalars = {
 
 
 
-export type Author = {
-  __typename?: 'Author';
-  id: Scalars['Int'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  posts?: Maybe<Array<Maybe<Post>>>;
+export type Disease = {
+  __typename?: 'Disease';
+  name: Scalars['String'];
 };
 
-
-export type AuthorPostsArgs = {
-  findTitle?: Maybe<Scalars['String']>;
+export type Drug = {
+  __typename?: 'Drug';
+  name: Scalars['String'];
 };
 
-export type Post = {
-  __typename?: 'Post';
+export type Gene = {
+  __typename?: 'Gene';
+  assertionCount: Scalars['Int'];
+  description: Scalars['String'];
+  diseases?: Maybe<Array<Disease>>;
+  drugs?: Maybe<Array<Drug>>;
+  entrezId: Scalars['Int'];
+  evidenceItemCount: Scalars['Int'];
+  geneAliases?: Maybe<Array<GeneAlias>>;
   id: Scalars['Int'];
-  title: Scalars['String'];
-  author: Author;
+  name: Scalars['String'];
+  officialName: Scalars['String'];
+  variantCount: Scalars['Int'];
+};
+
+export type GeneAlias = {
+  __typename?: 'GeneAlias';
+  name: Scalars['String'];
+};
+
+/** The connection type for Gene. */
+export type GeneConnection = {
+  __typename?: 'GeneConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<GeneEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Gene>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type GeneEdge = {
+  __typename?: 'GeneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Gene>;
+};
+
+export type GenesSort = {
+  /** Available columns for sorting */
+  column: GenesSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum GenesSortColumns {
+  DiseaseName = 'diseaseName',
+  DrugName = 'drugName',
+  EntrezSymbol = 'entrezSymbol',
+  GeneAlias = 'geneAlias'
+}
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  /** An example field added by the generator */
+  testField: Scalars['String'];
+};
+
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  posts?: Maybe<Array<Maybe<Post>>>;
+  genes: GeneConnection;
 };
 
-export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
+export type QueryGenesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  entrezSymbol?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  geneAlias?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<GenesSort>;
+};
 
-export type Unnamed_1_Query = (
-  { __typename?: 'Query' }
-  & { posts?: Maybe<Array<Maybe<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title'>
-  )>>> }
-);
-
-export const Document = gql`
-    {
-  posts {
-    id
-    title
-  }
+export enum SortDirection {
+  Asc = 'ASC',
+  Desc = 'DESC'
 }
-    `;
 
-  @Injectable({
-    providedIn: AppModule
-  })
-  export class GQL extends Apollo.Query<Query, QueryVariables> {
-    document = Document;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 
       export interface PossibleTypesResultData {
         possibleTypes: {
