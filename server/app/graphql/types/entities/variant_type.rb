@@ -11,7 +11,7 @@ module Types::Entities
     end
 
     def evidence_items
-      Loaders::RecordLoader.for(EvidenceItem).load_many(object.evidence_item_ids)
+      Loaders::AssociationLoader.for(Variant, :evidence_items).load(object)
     end
   end
 end

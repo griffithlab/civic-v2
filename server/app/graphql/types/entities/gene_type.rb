@@ -11,15 +11,15 @@ module Types::Entities
     field :lifecycle_actions, Types::LifecycleType, null: false
 
     def gene_aliases
-      Loaders::RecordLoader.for(GeneAlias).load_many(object.gene_alias_ids)
+      Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
     end
 
     def sources
-      Loaders::RecordLoader.for(Source).load_many(object.source_ids)
+      Loaders::AssociationLoader.for(Gene, :sources).load(object)
     end
 
     def variants
-      Loaders::RecordLoader.for(Variant).load_many(object.variant_ids)
+      Loaders::AssociationLoader.for(Gene, :variants).load(object)
     end
 
     def lifecycle_actions

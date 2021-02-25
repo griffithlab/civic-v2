@@ -15,7 +15,7 @@ module Types::Entities
     field :clinical_trials, [Types::Entities::ClinicalTrialType], null: true
 
     def clinical_trials
-      Loaders::RecordLoader.for(ClinicalTrial).load_many(object.clinical_trial_ids)
+      Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
     end
   end
 end

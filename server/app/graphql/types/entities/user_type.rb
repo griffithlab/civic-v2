@@ -11,7 +11,7 @@ module Types::Entities
     field :organizations, [Types::Entities::OrganizationType], null: true
 
     def organizations
-      Loaders::RecordLoader.for(Organization).load_many(object.organization_ids)
+      Loaders::AssociationLoader.for(User, :organizations).load(object)
     end
   end
 end
