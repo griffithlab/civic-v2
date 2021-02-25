@@ -5,7 +5,7 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
   # include SearchObject for GraphQL
   include SearchObject.module(:graphql)
 
-  type Types::BrowseTables::GeneType.connection_type, null: false
+  type Types::BrowseTables::BrowseGeneType.connection_type, null: false
 
   scope { GeneBrowseView.all }
 

@@ -1,5 +1,5 @@
 module Types::BrowseTables
-  class GeneType < Types::BaseObject
+  class BrowseGeneType < Types::BaseObject
     field :id, Int, null: false
     field :entrez_id, Int, null: false
     field :name, String, null: false
