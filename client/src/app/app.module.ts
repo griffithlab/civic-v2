@@ -18,7 +18,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { GraphQLModule } from './graphql.module';
+import { GraphQLModule } from '@app/graphql.module';
 
 registerLocaleData(en);
 

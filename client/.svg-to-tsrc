@@ -1,7 +1,7 @@
 {
   "conversionType": "constants",
   "srcFiles": ["./src/assets/icons/**/*.svg"],
-  "outputDirectory": "./src/generated",
+  "outputDirectory": "./src/app/generated",
   "interfaceName": "CivicIcon",
   "typeName": "Icon",
   "prefix": "icon",

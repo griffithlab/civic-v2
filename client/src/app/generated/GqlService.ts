@@ -1,5 +1,8 @@
 /* eslint-disable */
 import { gql } from 'apollo-angular';
+import { Injectable } from '@angular/core';
+import * as Apollo from 'apollo-angular';
+import { AppModule } from '../app.module';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -121,6 +124,81 @@ export enum SortDirection {
   Desc = 'DESC'
 }
 
+export type BrowseGenesQueryVariables = Exact<{
+  entrezSymbol?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  geneAlias?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<GenesSort>;
+  genesSortColumn: GenesSortColumns;
+  sortDirection: SortDirection;
+}>;
+
+
+export type BrowseGenesQuery = (
+  { __typename?: 'Query' }
+  & { genes: (
+    { __typename?: 'GeneConnection' }
+    & { nodes?: Maybe<Array<Maybe<(
+      { __typename?: 'Gene' }
+      & Pick<Gene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+      & { drugs?: Maybe<Array<(
+        { __typename?: 'Drug' }
+        & Pick<Drug, 'name'>
+      )>>, geneAliases?: Maybe<Array<(
+        { __typename?: 'GeneAlias' }
+        & Pick<GeneAlias, 'name'>
+      )>>, diseases?: Maybe<Array<(
+        { __typename?: 'Disease' }
+        & Pick<Disease, 'name'>
+      )>> }
+    )>>>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage'>
+    ) }
+  ) }
+);
+
+export const BrowseGenesDocument = gql`
+    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $first: Int, $last: Int, $sortBy: GenesSort, $genesSortColumn: GenesSortColumns!, $sortDirection: SortDirection!) {
+  genes(entrezSymbol: $entrezSymbol, drugName: $drugName, geneAlias: $geneAlias, diseaseName: $diseaseName, first: $first, last: $last, sortBy: {column: $genesSortColumn, direction: $sortDirection}) {
+    nodes {
+      id
+      entrezId
+      name
+      drugs {
+        name
+      }
+      geneAliases {
+        name
+      }
+      diseases {
+        name
+      }
+      variantCount
+      evidenceItemCount
+      assertionCount
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
+    document = BrowseGenesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 
       export interface PossibleTypesResultData {
         possibleTypes: {
