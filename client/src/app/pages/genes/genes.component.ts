@@ -1,41 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { Apollo } from 'apollo-angular';
-
-import { BrowseGenesDocument, Gene } from '@app/generated/GqlService';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BrowseGenesGQL,
+         Gene,
+         GenesSortColumns,
+         SortDirection
+       } from '@app/generated/GqlService';
 
 @Component({
   selector: 'app-genes',
   templateUrl: './genes.component.html',
   styleUrls: ['./genes.component.less']
 })
-export class GenesComponent implements OnInit, OnDestroy {
-  private querySubscription!: Subscription;
-  private browseGenesQuery: any = BrowseGenesDocument;
-  loading = false;
-  geneNodes: Gene[] = [];
+export class GenesComponent implements OnInit {
+  geneNodes!: Observable<Gene[]>;
 
-  constructor(private apollo:Apollo) { }
+  constructor(private browseGenesGQL:BrowseGenesGQL) { }
 
   ngOnInit(): void {
-    this.querySubscription = this.apollo.watchQuery<any>({
-      query: this.browseGenesQuery,
-      variables: {
-        sortBy: {
-          column: "entrezSymbol",
-          direction: "ASC"
-        },
-        first: 25
-      }
+    this.geneNodes = this.browseGenesGQL.watch({
+      sortBy: {
+        column: GenesSortColumns.EntrezSymbol,
+        direction: SortDirection.Asc
+      },
+      first: 2
     })
       .valueChanges
-      .subscribe(({ data, loading }) => {
-        this.loading = loading;
-        this.geneNodes = data.genes.nodes;
-      });
-  }
-  ngOnDestroy(): void {
-    this.querySubscription.unsubscribe();
+      .pipe(map((result:any) => result.data.genes.nodes));
+
   }
 }

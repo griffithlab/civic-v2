@@ -5,9 +5,8 @@ query BrowseGenes(
   $diseaseName: String,
   $first: Int,
   $last: Int,
-  $sortBy: GenesSort,
-  $genesSortColumn: GenesSortColumns!,
-  $sortDirection: SortDirection!) {
+  $sortBy: GenesSort
+) {
 
   genes(
     entrezSymbol: $entrezSymbol,
@@ -16,21 +15,13 @@ query BrowseGenes(
     diseaseName: $diseaseName,
     first: $first,
     last: $last,
-    sortBy: {
-      column: $genesSortColumn,
-      direction: $sortDirection
-    }) {
+    sortBy: $sortBy
+  ) {
     nodes {
       id
       entrezId
       name
-      drugs {
-        name
-      }
       geneAliases {
-        name
-      }
-      diseases {
         name
       }
       variantCount
