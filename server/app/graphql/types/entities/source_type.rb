@@ -12,7 +12,7 @@ module Types::Entities
     field :journal, String, null: false
     field :full_journal_title, String, null: false
     field :status, Types::SourceStatusType, null: false
-    field :clincal_trials, [Types::Entities::ClinicalTrialType], null: true
+    field :clinical_trials, [Types::Entities::ClinicalTrialType], null: true
 
     def clinical_trials
       Loaders::RecordLoader.for(ClinicalTrial).load_many(object.clinical_trial_ids)
