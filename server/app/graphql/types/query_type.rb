@@ -6,12 +6,14 @@ module Types
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
+    field :browseGenes, resolver: Resolvers::BrowseGenes
+    field :gene, Types::Entities::GeneType, null: true do
+      description "Find a gene by CIViC ID"
+      argument :id, ID, required: true
+    end
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    def gene(id: )
+      Gene.find(id)
     end
   end
 end
