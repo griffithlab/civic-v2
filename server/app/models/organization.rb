@@ -7,4 +7,5 @@ class Organization < ActiveRecord::Base
   #TODO: stats hash
   #TODO: org membership helper methods
   #TODO: only allow one level of nesting
+  #TODO: Parent/child org relationships
 end
