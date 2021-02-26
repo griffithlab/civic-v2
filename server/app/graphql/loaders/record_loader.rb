@@ -1,3 +1,5 @@
+#Copied from https://raw.githubusercontent.com/Shopify/graphql-batch/3a157b54917a3a1dd2431f38d88ea4b89fd36942/examples/record_loader.rb
+
 module Loaders
   class RecordLoader < GraphQL::Batch::Loader
     def initialize(model, column: model.primary_key, where: nil)
@@ -12,10 +14,7 @@ module Loaders
     end
 
     def perform(keys)
-      query(keys).each do |record|
-        value = @column_type.cast(record.public_send(@column))
-        fulfill(value, record)
-      end
+      query(keys).each { |record| fulfill(record.public_send(@column), record) }
       keys.each { |key| fulfill(key, nil) unless fulfilled?(key) }
     end
 
