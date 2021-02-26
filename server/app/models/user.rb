@@ -14,8 +14,8 @@ class User < ActiveRecord::Base
   #has_many :domain_expert_tags
   #has_many :badge_awards
   #has_many :badge_claims
-  #has_many :affiliations
-  #has_many :organizations, through: :affiliations
+  has_many :affiliations
+  has_many :organizations, through: :affiliations
   #has_one :most_recent_organization, through: :most_recent_event, source: :organization
   #belongs_to :country
   #has_many :conflict_of_interest_statements, dependent: :destroy
