@@ -1,24 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { shareReplay, pluck} from 'rxjs/operators';
 import { BrowseGenesGQL,
          Gene,
          GenesSortColumns,
-         SortDirection
-       } from '@app/generated/GqlService';
+         SortDirection,
+         PageInfo
+       } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'app-genes',
   templateUrl: './genes.component.html',
   styleUrls: ['./genes.component.less']
 })
-export class GenesComponent implements OnInit {
-  geneNodes!: Observable<Gene[]>;
+export class GenesComponent implements OnInit, OnDestroy {
+  loading$: Observable<boolean>;
+  error$: Observable<any>;
 
-  constructor(private browseGenesGQL:BrowseGenesGQL) { }
+  pageInfo$: Observable<PageInfo>;
+  genes$: Observable<Gene[]>;
+
+  constructor(private browseGenesGQL:BrowseGenesGQL) {
+    const source$: Observable<any> = this.browseGenes();
+    this.loading$ = source$.pipe(pluck('loading'));
+    this.error$ = source$.pipe(pluck('errors'));
+
+    this.pageInfo$ = source$.pipe(pluck('data', 'pageInfo'));
+    this.genes$ = source$.pipe(pluck('data', 'genes', 'nodes'));
+}
 
   ngOnInit(): void {
-    this.geneNodes = this.browseGenesGQL.watch({
+    this.browseGenes();
+  }
+
+  browseGenes(): Observable<any> {
+    return this.browseGenesGQL.watch({
       sortBy: {
         column: GenesSortColumns.EntrezSymbol,
         direction: SortDirection.Asc
@@ -26,7 +42,10 @@ export class GenesComponent implements OnInit {
       first: 2
     })
       .valueChanges
-      .pipe(map((result:any) => result.data.genes.nodes));
+      .pipe(shareReplay(1));
+  }
 
+  ngOnDestroy(): void {
+    this.querySubscription.unsubscribe();
   }
 }
