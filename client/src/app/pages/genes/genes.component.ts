@@ -13,7 +13,7 @@ import { BrowseGenesGQL,
   templateUrl: './genes.component.html',
   styleUrls: ['./genes.component.less']
 })
-export class GenesComponent implements OnInit, OnDestroy {
+export class GenesComponent implements OnInit {
   loading$: Observable<boolean>;
   error$: Observable<any>;
 
@@ -21,7 +21,7 @@ export class GenesComponent implements OnInit, OnDestroy {
   genes$: Observable<Gene[]>;
 
   constructor(private browseGenesGQL:BrowseGenesGQL) {
-    const source$: Observable<any> = this.browseGenes();
+    const source$: Observable<any> = this.getSource();
     this.loading$ = source$.pipe(pluck('loading'));
     this.error$ = source$.pipe(pluck('errors'));
 
@@ -29,11 +29,9 @@ export class GenesComponent implements OnInit, OnDestroy {
     this.genes$ = source$.pipe(pluck('data', 'genes', 'nodes'));
 }
 
-  ngOnInit(): void {
-    this.browseGenes();
-  }
+  ngOnInit(): void {}
 
-  browseGenes(): Observable<any> {
+  getSource(): Observable<any> {
     return this.browseGenesGQL.watch({
       sortBy: {
         column: GenesSortColumns.EntrezSymbol,
@@ -45,7 +43,4 @@ export class GenesComponent implements OnInit, OnDestroy {
       .pipe(shareReplay(1));
   }
 
-  ngOnDestroy(): void {
-    this.querySubscription.unsubscribe();
-  }
 }
