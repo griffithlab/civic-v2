@@ -24,7 +24,7 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./custom-webpack.config.js",
+              "path": "./webpack.config.build.js",
               "mergeStrategies": {
                 "module.rules": "append"
               },
@@ -101,7 +101,7 @@
           "builder": "@angular-builders/custom-webpack:karma",
           "options": {
             "customWebpackConfig": {
-              "path": "./custom-webpack.config.js",
+              "path": "./webpack.config.test.js",
               "mergeStrategies": {
                 "module.rules": "append"
               },

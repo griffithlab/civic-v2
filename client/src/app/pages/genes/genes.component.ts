@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay, pluck} from 'rxjs/operators';
+import { NGXLogger } from "ngx-logger";
+
 import { BrowseGenesGQL,
          Gene,
          GenesSortColumns,
@@ -20,7 +22,7 @@ export class GenesComponent implements OnInit {
   pageInfo$: Observable<PageInfo>;
   genes$: Observable<Gene[]>;
 
-  constructor(private browseGenesGQL:BrowseGenesGQL) {
+  constructor(private browseGenesGQL:BrowseGenesGQL, private logger:NGXLogger) {
     const source$: Observable<any> = this.getSource();
     this.loading$ = source$.pipe(pluck('loading'));
     this.error$ = source$.pipe(pluck('errors'));
@@ -29,7 +31,9 @@ export class GenesComponent implements OnInit {
     this.genes$ = source$.pipe(pluck('data', 'genes', 'nodes'));
 }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.logger.trace("GenesComponent initialized.");
+  }
 
   getSource(): Observable<any> {
     return this.browseGenesGQL.watch({
