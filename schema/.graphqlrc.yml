@@ -1,16 +1,16 @@
 # collect & merge model types 
-schema: ./model/*.graphql
+schema: ../client/src/app/generated/civic.model.graphql
 # collect & merge client queries, mutations, fragments
-documents: ../client/src/**/*.graphql
+documents: ../client/src/**/*.gql
 extensions:
   codegen:
     config:
       overwrite: true
-      # relative to generated GqlService.ts
+      # relative to generated civic.apollo.ts
       ngModule: ../app.module#AppModule
     generates:
       # generate apollo-angular client service
-      ../client/src/app/generated/GqlService.ts:
+      ../client/src/app/generated/civic.apollo.ts:
         plugins:
           - typescript
           - typescript-operations
@@ -18,7 +18,3 @@ extensions:
           - fragment-matcher
           - add:
               content: /* eslint-disable */
-      # generate introspection schema
-      ../client/src/app/generated/gql.schema.json:
-        plugins:
-          - introspection
