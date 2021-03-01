@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import {
   ApolloTestingModule,
   ApolloTestingController,
@@ -18,7 +18,13 @@ describe('GenesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApolloTestingModule],
+      imports: [
+        ApolloTestingModule,
+        HttpClientModule,
+        GraphQLModule
+      ],
+      declarations: [ GenesComponent ],
+      providers: [ BrowseGenesGQL ]
     });
 
     controller = TestBed.inject(ApolloTestingController);
@@ -32,21 +38,18 @@ describe('GenesComponent', () => {
 
   let component: GenesComponent;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ GenesComponent ],
-      imports: [ GraphQLModule ],
-      providers: [ BrowseGenesGQL ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  // beforeEach(async () => {
+  //   await TestBed.configureTestingModule({
+  //     declarations: [ GenesComponent ],
+  //     imports: [ GraphQLModule ],
+  //     providers: [ BrowseGenesGQL ]
+  //   })
+  //   .compileComponents();
+  // });
 
   it('should create its component', () => {
+    TestBed.createComponent(GenesComponent);
+    component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });
