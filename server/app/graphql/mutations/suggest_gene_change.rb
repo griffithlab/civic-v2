@@ -19,27 +19,30 @@ class Mutations::SuggestGeneChange < Mutations::BaseMutation
 
   def resolve(fields:, id:, organization_id: nil)
     existing_gene = Gene.find_by(id: id)
-
-    if existing_gene
-      cmd = Actions::SuggestGeneChange.new(
-        existing_obj: existing_gene,
-        fields: fields,
-        originating_user: context[:current_user],
-        organization_id: organization_id
-      )
-      res = cmd.perform
-
-      if res.succeeded?
-        {
-          gene: existing_gene,
-          results: res.changes
-        }
-      else
-        raise GraphQL::ExecutionError, res.errors.join(', ')
-      end
-
-    else
+    if existing_gene.nil?
       raise GraphQL::ExecutionError, "Gene ID:#{gene.id} not found, cannot suggest change"
+    end
+
+    existing_source_ids = Source.where(id: fields.source_ids).pluck(:id)
+    if existing_source_ids.size != fields.source_ids.size
+      raise GraphQL::ExecutionError, "Provided source ids: #{fields.source_ids.join(', ')} but only #{existing_source_ids.join(', ')} exist."
+    end
+
+    cmd = Actions::SuggestGeneChange.new(
+      existing_obj: existing_gene,
+      fields: fields,
+      originating_user: context[:current_user],
+      organization_id: organization_id
+    )
+    res = cmd.perform
+
+    if res.succeeded?
+      {
+        gene: existing_gene,
+        results: res.changes
+      }
+    else
+      raise GraphQL::ExecutionError, res.errors.join(', ')
     end
 
   end
