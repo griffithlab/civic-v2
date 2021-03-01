@@ -4,17 +4,18 @@
   </div>
 </div>
 <div nz-row>
-  <div nz-col nzSpan="12" >
-    <nz-table #genesTable [nzData]="genes$ | async">
+  <div nz-col nzSpan="24">
+    <nz-table #genesTable [nzData]="genes$ | async"
+    nzWidth="100%">
       <thead>
         <tr>
           <th>Name</th>
           <th>Aliases</th>
           <th>Diseases</th>
           <th>Drugs</th>
-          <th>Variants</th>
-          <th>Evidence</th>
-          <th>Assertions</th>
+          <th><i nz-icon nzType="civic:variant"></i></th>
+          <th><i nz-icon nzType="civic:evidence"></i></th>
+          <th><i nz-icon nzType="civic:assertion"></i></th>
         </tr>
       </thead>
       <tbody>

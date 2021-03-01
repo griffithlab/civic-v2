@@ -1,5 +1,6 @@
 import { NzIconService } from 'ng-zorro-antd/icon';
 
+// TODO: import and add icons at root so available everywhere
 import { iconGene,
          iconVariant,
          iconVariantGroup,
@@ -20,7 +21,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   isCollapsed = false;
   title = 'main'
-  constructor(private iconService:NzIconService) {
+  constructor(private iconService: NzIconService) {
     this.iconService.addIconLiteral('civic:gene', iconGene.data);
     this.iconService.addIconLiteral('civic:variant', iconVariant.data);
     this.iconService.addIconLiteral('civic:variant-group', iconVariantGroup.data);

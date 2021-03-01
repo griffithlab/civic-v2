@@ -19,7 +19,7 @@ export class GenesBrowseService {
         column: GenesSortColumns.EntrezSymbol,
         direction: SortDirection.Asc
       },
-      first: 50
+      first: 10
     })
       .valueChanges
       .pipe(shareReplay(1));
