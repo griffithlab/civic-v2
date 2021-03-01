@@ -145,6 +145,12 @@ export type BrowseGenesQuery = (
       & { geneAliases?: Maybe<Array<(
         { __typename?: 'GeneAlias' }
         & Pick<GeneAlias, 'name'>
+      )>>, diseases?: Maybe<Array<(
+        { __typename?: 'Disease' }
+        & Pick<Disease, 'name'>
+      )>>, drugs?: Maybe<Array<(
+        { __typename?: 'Drug' }
+        & Pick<Drug, 'name'>
       )>> }
     )>>>, pageInfo: (
       { __typename?: 'PageInfo' }
@@ -161,6 +167,12 @@ export const BrowseGenesDocument = gql`
       entrezId
       name
       geneAliases {
+        name
+      }
+      diseases {
+        name
+      }
+      drugs {
         name
       }
       variantCount

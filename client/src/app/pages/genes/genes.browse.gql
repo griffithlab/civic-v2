@@ -24,6 +24,12 @@ query BrowseGenes(
       geneAliases {
         name
       }
+      diseases {
+        name
+      }
+      drugs {
+        name
+      }
       variantCount
       evidenceItemCount
       assertionCount

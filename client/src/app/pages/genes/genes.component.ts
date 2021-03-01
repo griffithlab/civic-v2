@@ -16,8 +16,8 @@ import { Gene,
   styleUrls: ['./genes.component.less']
 })
 export class GenesComponent implements OnInit {
-  pageInfo$: Observable<PageInfo>;
-  genes$: Observable<Gene[]>;
+  pageInfo$: Observable<any>;
+  genes$: Observable<any>;
 
   constructor(private api: GenesBrowseService,
               private logger: NGXLogger) {

@@ -6,6 +6,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,12 +19,6 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { IconsProviderModule } from './icons-provider.module';
 
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 import { GraphQLModule } from '@app/graphql.module';
 
@@ -42,11 +41,10 @@ registerLocaleData(en);
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
     NzLayoutModule,
+    NzGridModule,
     NzMenuModule,
     NzToolTipModule,
     ReactiveFormsModule,
-    FormlyModule.forRoot({ extras: { lazyRender: true } }),
-    FormlyNgZorroAntdModule,
     GraphQLModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
