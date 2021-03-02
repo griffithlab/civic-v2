@@ -1,7 +1,7 @@
 module Actions
   class AddComment
     include Actions::Transactional
-    include Actions::WithEvent
+    include Actions::WithOriginatingOrganization
     attr_reader :comment, :commenter, :originating_user, :commentable,
       :subject, :title, :body, :event, :organization_id
 
@@ -18,7 +18,12 @@ module Actions
     private
     def execute
       create_comment
-      @event = create_event('commented')
+      @event = Event.create(
+        action: 'change suggested',
+        originating_user: originating_user,
+        subject: subject,
+        organization: resolve_organization(originating_user, organization_id)
+      )
       #handle_mentions
       #subscribe_user
     end
