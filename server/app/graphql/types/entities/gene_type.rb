@@ -5,12 +5,12 @@ module Types::Entities
     field :name, String, null: false
     field :description, String, null: false
     field :official_name, String, null: false
-    field :gene_aliases, [Types::Entities::GeneAliasType], null: true
+    field :aliases, [Types::Entities::GeneAliasType], null: true
     field :sources, [Types::Entities::SourceType], null: true
     field :variants, [Types::Entities::VariantType], null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
 
-    def gene_aliases
+    def aliases
       Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
     end
 
