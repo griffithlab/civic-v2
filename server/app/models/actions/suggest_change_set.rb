@@ -1,13 +1,14 @@
 class Actions::SuggestChangeSet
   include Actions::Transactional
 
-  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :changes
+  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :changes, :comment
 
-  def initialize(existing_obj:, fields:, originating_user:, organization_id:)
+  def initialize(existing_obj:, fields:, originating_user:, organization_id:, comment:)
     @existing_obj = existing_obj
     @fields = fields
     @originating_user = originating_user
     @organization_id = organization_id
+    @comment = comment
     @changes = []
   end
 
@@ -35,7 +36,8 @@ class Actions::SuggestChangeSet
         current_value: current_value,
         suggested_value: suggested_value,
         originating_user: originating_user,
-        organization_id: organization_id
+        organization_id: organization_id,
+        comment: comment
       )
       res = cmd.perform
 

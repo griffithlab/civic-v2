@@ -2,6 +2,7 @@ class Mutations::SuggestGeneChange < Mutations::BaseMutation
   argument :id, Int, required: true
   argument :fields, Types::SuggestedChanges::GeneFields, required: true
   argument :organization_id, Int, required: false
+  argument :comment, String, required: true
 
   field :gene, Types::Entities::GeneType, null: false
   field :results, [Types::SuggestedChanges::SuggestedChangeResult], null: false
@@ -17,7 +18,7 @@ class Mutations::SuggestGeneChange < Mutations::BaseMutation
     end
   end
 
-  def resolve(fields:, id:, organization_id: nil)
+  def resolve(fields:, id:, organization_id: nil, comment:)
     existing_gene = Gene.find_by(id: id)
     if existing_gene.nil?
       raise GraphQL::ExecutionError, "Gene ID:#{gene.id} not found, cannot suggest change"
@@ -32,7 +33,8 @@ class Mutations::SuggestGeneChange < Mutations::BaseMutation
       existing_obj: existing_gene,
       fields: fields,
       originating_user: context[:current_user],
-      organization_id: organization_id
+      organization_id: organization_id,
+      comment: comment
     )
     res = cmd.perform
 
