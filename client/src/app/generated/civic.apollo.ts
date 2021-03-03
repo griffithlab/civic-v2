@@ -308,6 +308,41 @@ export type BrowseGenesQuery = (
   ) }
 );
 
+export type GeneDetailQueryVariables = Exact<{
+  geneId: Scalars['ID'];
+}>;
+
+
+export type GeneDetailQuery = (
+  { __typename?: 'Query' }
+  & { gene?: Maybe<(
+    { __typename?: 'Gene' }
+    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName'>
+    & { geneAliases?: Maybe<Array<(
+      { __typename?: 'GeneAlias' }
+      & Pick<GeneAlias, 'name'>
+    )>>, lifecycleActions: (
+      { __typename?: 'Lifecycle' }
+      & { lastModified?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'createdAt'>
+      )>, lastReviewed?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'createdAt'>
+      )>, lastCommentedOn?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'createdAt'>
+      )> }
+    ), sources?: Maybe<Array<(
+      { __typename?: 'Source' }
+      & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    )>>, variants?: Maybe<Array<(
+      { __typename?: 'Variant' }
+      & Pick<Variant, 'id' | 'name' | 'description'>
+    )>> }
+  )> }
+);
+
 export const BrowseGenesDocument = gql`
     query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $first: Int, $last: Int, $sortBy: GenesSort) {
   browseGenes(entrezSymbol: $entrezSymbol, drugName: $drugName, geneAlias: $geneAlias, diseaseName: $diseaseName, first: $first, last: $last, sortBy: $sortBy) {
@@ -341,6 +376,56 @@ export const BrowseGenesDocument = gql`
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneDetailDocument = gql`
+    query GeneDetail($geneId: ID!) {
+  gene(id: $geneId) {
+    description
+    entrezId
+    geneAliases {
+      name
+    }
+    id
+    lifecycleActions {
+      lastModified {
+        id
+        createdAt
+      }
+      lastReviewed {
+        id
+        createdAt
+      }
+      lastCommentedOn {
+        id
+        createdAt
+      }
+    }
+    name
+    officialName
+    sources {
+      id
+      citation
+      sourceUrl
+      sourceType
+    }
+    variants {
+      id
+      name
+      description
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
+    document = GeneDetailDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
