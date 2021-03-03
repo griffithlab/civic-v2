@@ -9,7 +9,6 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { GenesRoutingModule } from './genes-routing.module';
 import { GenesComponent } from './genes.component';
 
-
 @NgModule({
   declarations: [GenesComponent],
   imports: [
@@ -20,4 +19,5 @@ import { GenesComponent } from './genes.component';
     GenesRoutingModule
   ]
 })
+
 export class GenesModule { }
