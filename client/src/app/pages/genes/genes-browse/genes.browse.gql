@@ -8,7 +8,7 @@ query BrowseGenes(
   $sortBy: GenesSort
 ) {
 
-  genes(
+  browseGenes(
     entrezSymbol: $entrezSymbol,
     drugName: $drugName,
     geneAlias: $geneAlias,
