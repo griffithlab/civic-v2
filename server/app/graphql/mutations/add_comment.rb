@@ -1,6 +1,6 @@
 class Mutations::AddComment < Mutations::BaseMutation
   argument :title, String, required: false
-  argument :body, String, required: true
+  argument :body, String, required: true, validates: { length: { minimum: 10 } }
   argument :subject, Types::Commentable::CommentableInput, required: true
   argument :organization_id, Int, required: false
 

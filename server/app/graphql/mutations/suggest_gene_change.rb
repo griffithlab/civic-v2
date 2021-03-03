@@ -2,7 +2,7 @@ class Mutations::SuggestGeneChange < Mutations::BaseMutation
   argument :id, Int, required: true
   argument :fields, Types::SuggestedChanges::GeneFields, required: true
   argument :organization_id, Int, required: false
-  argument :comment, String, required: true
+  argument :comment, String, required: true, validates: { length: { minimum: 10 } }
 
   field :gene, Types::Entities::GeneType, null: false
   field :results, [Types::SuggestedChanges::SuggestedChangeResult], null: false
