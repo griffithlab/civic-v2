@@ -15,7 +15,7 @@ const routes: Routes = [
         component: GenesBrowseComponent
       },
       {
-        path: ':id',
+        path: ':geneId',
         component: GenesDetailComponent
       }
     ]

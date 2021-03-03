@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck} from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
@@ -12,13 +13,17 @@ import { Gene } from '@app/generated/civic.apollo';
   styleUrls: ['./genes-detail.component.less']
 })
 export class GenesDetailComponent implements OnInit {
-  gene$: Observable<any>;
+  gene$: Observable<any> | undefined;
 
   constructor(private api: GenesDetailService,
+              private route: ActivatedRoute,
               private logger: NGXLogger) {
 
-    const source$: Observable<any> = this.api.watchGeneDetail();
-    this.gene$ = source$.pipe(pluck('data', 'gene'));
+    this.route.params.subscribe(params => {
+      const geneId: string = params['geneId'];
+      const source$: Observable<any> = this.api.watchGeneDetail(geneId);
+      this.gene$ = source$.pipe(pluck('data', 'gene'));
+    });
   }
 
   ngOnInit(): void {

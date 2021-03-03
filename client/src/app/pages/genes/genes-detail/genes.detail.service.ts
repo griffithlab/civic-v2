@@ -11,9 +11,9 @@ export class GenesDetailService {
 
   constructor(private genesDetailGQL: GeneDetailGQL) { }
 
-  watchGeneDetail(): Observable<any> {
+  watchGeneDetail(id: string): Observable<any> {
     return this.genesDetailGQL.watch({
-      geneId: '3'
+      geneId: id
     })
       .valueChanges
       .pipe(shareReplay(1));
