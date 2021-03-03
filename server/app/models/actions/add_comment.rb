@@ -18,21 +18,24 @@ module Actions
     private
     def execute
       create_comment
-      @event = Event.create(
+      @event = Event.create!(
         action: 'commented',
         originating_user: originating_user,
         subject: subject,
-        organization: resolve_organization(originating_user, organization_id)
+        organization: resolve_organization(originating_user, organization_id),
+        originating_object: comment
       )
       #handle_mentions
       #subscribe_user
     end
 
     def create_comment
-      @comment = Comment.new(title: title, text: body)
-      comment.user = commenter
-      comment.commentable = commentable
-      comment.save
+      @comment = Comment.create!(
+        title: title,
+        text: body,
+        user: commenter,
+        commentable: commentable,
+      )
     end
 
     def handle_mentions
