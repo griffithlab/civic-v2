@@ -23,13 +23,13 @@ export class GenesBrowseComponent implements OnInit {
               private logger: NGXLogger) {
 
     const source$: Observable<any> = this.api.watchGenesBrowse();
-    this.genes$ = source$.pipe(pluck('data', 'genes', 'nodes'));
-    this.pageInfo$ = source$.pipe(pluck('data', 'genes', 'pageInfo'));
+    this.genes$ = source$.pipe(pluck('data', 'browseGenes', 'nodes'));
+    this.pageInfo$ = source$.pipe(pluck('data', 'browseGenes', 'pageInfo'));
 
   }
 
   ngOnInit(): void {
-    this.logger.trace("GenesComponent initialized.");
+    this.logger.trace("GenesBrowseComponent initialized.");
   }
 
 }
