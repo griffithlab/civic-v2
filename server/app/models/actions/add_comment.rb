@@ -37,9 +37,5 @@ module Actions
     def subscribe_user
       commentable.subscribe_user(commenter)
     end
-
-    def state_params
-      { comment: { id: comment.id } }
-    end
   end
 end
