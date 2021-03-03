@@ -4,14 +4,14 @@ module Types::BrowseTables
     field :entrez_id, Int, null: false
     field :name, String, null: false
     field :description, String, null: false
-    field :gene_aliases, [Types::Entities::GeneAliasType], null: true
+    field :aliases, [Types::Entities::GeneAliasType], null: true
     field :diseases, [Types::Entities::DiseaseType], null: true
     field :drugs, [Types::Entities::DrugType], null: true
     field :variant_count, Int, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
 
-    def gene_aliases
+    def aliases
       object.alias_names
         .compact
         .map { |d| { name: d } }
