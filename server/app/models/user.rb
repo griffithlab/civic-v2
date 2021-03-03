@@ -61,8 +61,8 @@ class User < ActiveRecord::Base
     auth_provider_adaptor(auth_hash['provider']).create_from_omniauth(auth_hash).tap do |user|
       user.authorizations << authorization
       user.role = 'curator'
+      user.save
     end
-    user.save
   end
 
   def stats_hash
