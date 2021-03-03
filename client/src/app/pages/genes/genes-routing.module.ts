@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: '',
     component: GenesComponent,
     children: [
+      { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
         component: GenesBrowseComponent
