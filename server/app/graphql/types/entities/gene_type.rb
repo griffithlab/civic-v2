@@ -9,6 +9,7 @@ module Types::Entities
     field :sources, [Types::Entities::SourceType], null: true
     field :variants, [Types::Entities::VariantType], null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
+    field :suggested_changes, [Types::SuggestedChanges::SuggestedChangeType], null: true
 
     def gene_aliases
       Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
@@ -20,6 +21,10 @@ module Types::Entities
 
     def variants
       Loaders::AssociationLoader.for(Gene, :variants).load(object)
+    end
+
+    def suggested_changes
+      Loaders::AssociationLoader.for(Gene, :v2_suggested_changes).load(object)
     end
 
     def lifecycle_actions

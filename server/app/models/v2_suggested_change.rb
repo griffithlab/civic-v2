@@ -4,6 +4,8 @@ class V2SuggestedChange < ApplicationRecord
   #TODO: will we want a mixin someday?
   has_many :events, as: :originating_object
 
+  has_many :comments, as: :commentable
+
   validates :status, inclusion: {
     in: ['applied', 'rejected', 'superseded', 'new'],
     message: "%{value} is not a valid suggested change status"
