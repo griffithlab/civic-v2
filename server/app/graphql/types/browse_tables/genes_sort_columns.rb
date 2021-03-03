@@ -1,4 +1,4 @@
-module Types
+module Types::BrowseTables
   class GenesSortColumns < Types::BaseEnum
     value "entrezSymbol"
     value "drugName"
