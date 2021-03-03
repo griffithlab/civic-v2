@@ -20,7 +20,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let gene of genesTable.data">
-          <td>{{gene.name}}</td>
+          <td>
+            <a routerLink="/genes/{{gene.id}}">{{gene.name}}</a>
+          </td>
           <td>
             <span *ngFor="let alias of gene.geneAliases; last as isLast" >
               {{ alias.name }}{{ isLast ? '' : ', ' }}
