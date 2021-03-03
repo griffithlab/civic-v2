@@ -138,6 +138,26 @@ class User < ActiveRecord::Base
     @providers_hash[provider]
   end
 
+  def has_valid_coi_statement?
+    #TODO port over coi model
+    #most_recent_conflict_of_interest_statement.present?
+    #&& !most_recent_conflict_of_interest_statement.expired?
+    true
+  end
+
+  def can_act_for_org?(organization_id: nil)
+    #The user is acting on behalf of an org of which they're a member
+    if organization_id.present? && self.organization_ids.include?(organization_id)
+      true
+    #The user is acting on behalf of an org of which they're not a member
+    elsif organization_id.present? && !self.organization_ids.include?(organization_id)
+      false
+    #The user is not acting on behalf of an org
+    else
+      true
+    end
+  end
+
   private
   def default_username
     basename = if username.present?

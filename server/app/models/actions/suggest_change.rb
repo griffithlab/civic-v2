@@ -47,7 +47,8 @@ class Actions::SuggestChange
         action: 'change suggested',
         originating_user: originating_user,
         subject: subject,
-        organization: resolve_organization(originating_user, organization_id)
+        organization: resolve_organization(originating_user, organization_id),
+        originating_object: suggested_change
       )
       Comment.add(
         "",
