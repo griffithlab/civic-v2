@@ -8,9 +8,11 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 
 import { GenesRoutingModule } from './genes-routing.module';
 import { GenesComponent } from './genes.component';
+import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
+import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 
 @NgModule({
-  declarations: [GenesComponent],
+  declarations: [GenesComponent, GenesBrowseComponent, GenesDetailComponent],
   imports: [
     NzGridModule,
     NzTableModule,

@@ -1,0 +1,56 @@
+<div nz-row>
+  <div nz-col nzSpan="12" >
+    <h1>Browse Genes</h1>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table #genesTable [nzData]="genes$ | async"
+    nzWidth="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Aliases</th>
+          <th>Diseases</th>
+          <th>Drugs</th>
+          <th><i nz-icon nzType="civic:variant"></i></th>
+          <th><i nz-icon nzType="civic:evidence"></i></th>
+          <th><i nz-icon nzType="civic:assertion"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gene of genesTable.data">
+          <td>{{gene.name}}</td>
+          <td>
+            <span *ngFor="let alias of gene.geneAliases; last as isLast" >
+              {{ alias.name }}{{ isLast ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <span *ngFor="let disease of gene.diseases; last as isLast" >
+             {{ disease.name }}{{ isLast ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <span *ngFor="let drug of gene.drugs; last as isLast" >
+             {{ drug.name }}{{ isLast ? '' : ', ' }}
+            </span>
+          </td>
+          <td>{{gene.variantCount}}</td>
+          <td>{{gene.evidenceItemCount}}</td>
+          <td>{{gene.assertionCount}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<!-- <div nz-row>
+     <div nz-col nzSpan="8" >
+     <pre>Genes: {{ genes$ | async | json }}</pre>
+     </div>
+     <div nz-col nzSpan="8" >
+     <pre>PageInfo: {{ pageInfo$ | async | json }}</pre>
+     </div>
+     <div nz-col nzSpan="8" >
+     </div>
+     </div> -->
