@@ -19,7 +19,7 @@ module Actions
     def execute
       create_comment
       @event = Event.create(
-        action: 'change suggested',
+        action: 'commented',
         originating_user: originating_user,
         subject: subject,
         organization: resolve_organization(originating_user, organization_id)
