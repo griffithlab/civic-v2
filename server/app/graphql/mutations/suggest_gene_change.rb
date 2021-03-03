@@ -8,7 +8,7 @@ class Mutations::SuggestGeneChange < Mutations::MutationWithOrg
 
   attr_reader :gene
 
-  def ready?(organization_id: nil, id:, fields:)
+  def ready?(organization_id: nil, id:, fields:, **kwargs)
     validate_user_logged_in
     validate_user_org(organization_id)
 
