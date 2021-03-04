@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -33,6 +33,7 @@ registerLocaleData(en);
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    HttpClientXsrfModule,
     BrowserAnimationsModule,
     IconsProviderModule,
     LoggerModule.forRoot({
