@@ -1,4 +1,6 @@
 class Flag < ActiveRecord::Base
+  include Commentable
+
   belongs_to :flaggable, polymorphic: true
   belongs_to :flagging_user, class_name: 'User'
   belongs_to :resolving_user, class_name: 'User', required: false
