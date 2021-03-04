@@ -2,7 +2,7 @@ class Actions::AcceptSuggestedChange
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :suggested_change, :accepting_user, :organization_id, :subject
+  attr_reader :suggested_change, :accepting_user, :organization_id, :subject, :superseded_suggested_changes
 
   def initialize(suggested_change:, accepting_user:, organization_id: nil)
     @suggested_change = suggested_change
@@ -23,7 +23,8 @@ class Actions::AcceptSuggestedChange
   end
 
   def supersede_conflicting_suggested_changes
-    V2SuggestedChange.where(field_name: suggested_change.field_name, status: 'new').each do |sc|
+    @superseded_suggested_changes = V2SuggestedChange.where(field_name: suggested_change.field_name, status: 'new')
+    superseded_suggested_changes.each do |sc|
       sc.status = 'superseded'
       sc.save!
       Event.create!(

@@ -2,6 +2,7 @@ class Mutations::AcceptSuggestedChange < Mutations::MutationWithOrg
   argument :id, Int, required: true
 
   field :suggested_change, Types::SuggestedChanges::SuggestedChangeType, null: false
+  field :superseded_suggested_changes, [Types::SuggestedChanges::SuggestedChangeType], null: false
 
   attr_reader :suggested_change
 
@@ -44,7 +45,8 @@ class Mutations::AcceptSuggestedChange < Mutations::MutationWithOrg
 
     if res.succeeded?
       {
-        suggested_change: res.suggested_change
+        suggested_change: res.suggested_change,
+        superseded_suggested_changes: res.superseded_suggested_changes
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')
