@@ -8,6 +8,7 @@ module Types::SuggestedChanges
     field :comments, [Types::Entities::CommentType], null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :changeset_id, String, null: false
 
     def comments
       Loaders::AssociationLoader.for(V2SuggestedChange, :comments).load(object)

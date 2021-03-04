@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_03_155701) do
+ActiveRecord::Schema.define(version: 2021_03_04_160005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -632,6 +632,8 @@ ActiveRecord::Schema.define(version: 2021_03_03_155701) do
     t.jsonb "suggested_value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "changeset_id", null: false
+    t.index ["changeset_id"], name: "index_v2_suggested_changes_on_changeset_id"
     t.index ["created_at"], name: "index_v2_suggested_changes_on_created_at"
     t.index ["field_name"], name: "index_v2_suggested_changes_on_field_name"
     t.index ["status"], name: "index_v2_suggested_changes_on_status"
