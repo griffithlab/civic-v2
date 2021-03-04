@@ -5,7 +5,7 @@ module Actions
     attr_reader :comment, :commenter, :originating_user, :commentable,
       :subject, :title, :body, :event, :organization_id
 
-    def initialize(title, body, commenter, commentable, organization_id)
+    def initialize(title: nil, body:, commenter:, commentable:, organization_id: nil)
       @title = title
       @body = body
       @commenter = commenter
