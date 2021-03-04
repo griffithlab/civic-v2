@@ -23,7 +23,7 @@ module Actions
     end
 
     def create_event
-      Event.create(
+      Event.create!(
         action: 'change rejected',
         originating_user: rejecting_user,
         subject: suggested_change.subject,

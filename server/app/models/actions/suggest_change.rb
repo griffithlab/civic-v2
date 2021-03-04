@@ -38,7 +38,7 @@ class Actions::SuggestChange
     if existing_changes.any?
       @suggested_change = existing_changes[0]
     else
-      @suggested_change = V2SuggestedChange.create(
+      @suggested_change = V2SuggestedChange.create!(
         current_value: current_value,
         suggested_value: suggested_value,
         subject: subject,
@@ -46,7 +46,7 @@ class Actions::SuggestChange
         status: 'new',
         changeset_id: changeset_id
       )
-      Event.create(
+      Event.create!(
         action: 'change suggested',
         originating_user: originating_user,
         subject: subject,
