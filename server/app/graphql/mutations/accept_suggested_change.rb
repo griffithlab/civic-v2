@@ -1,12 +1,13 @@
 class Mutations::AcceptSuggestedChange < Mutations::MutationWithOrg
   argument :id, Int, required: true
+  argument :comment, String, required: false, validates: {length: { minimum: 10 } }
 
   field :suggested_change, Types::SuggestedChanges::SuggestedChangeType, null: false
   field :superseded_suggested_changes, [Types::SuggestedChanges::SuggestedChangeType], null: false
 
   attr_reader :suggested_change
 
-  def ready?(organization_id: nil, id:)
+  def ready?(organization_id: nil, id:, **_)
     validate_user_logged_in
     validate_user_org(organization_id)
     suggested_change = V2SuggestedChange.find_by(id: id)
@@ -34,11 +35,12 @@ class Mutations::AcceptSuggestedChange < Mutations::MutationWithOrg
     end
   end
 
-  def resolve(organization_id: nil, **_)
+  def resolve(organization_id: nil, comment: nil, **_)
     cmd = Actions::AcceptSuggestedChange.new(
       suggested_change: suggested_change,
       accepting_user: context[:current_user],
-      organization_id: organization_id
+      organization_id: organization_id,
+      comment: comment
     )
 
     res = cmd.perform

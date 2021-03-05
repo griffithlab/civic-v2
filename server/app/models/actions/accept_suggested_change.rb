@@ -2,13 +2,14 @@ class Actions::AcceptSuggestedChange
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :suggested_change, :accepting_user, :organization_id, :subject, :superseded_suggested_changes
+  attr_reader :suggested_change, :accepting_user, :organization_id, :subject, :superseded_suggested_changes, :comment
 
-  def initialize(suggested_change:, accepting_user:, organization_id: nil)
+  def initialize(suggested_change:, accepting_user:, organization_id: nil, comment: nil)
     @suggested_change = suggested_change
     @accepting_user = accepting_user
     @organization_id = organization_id
     @subject = suggested_change.subject
+    @comment = comment
   end
 
   def execute
@@ -20,6 +21,16 @@ class Actions::AcceptSuggestedChange
     suggested_change.save!
     supersede_conflicting_suggested_changes
     create_event
+    unless comment.nil?
+      cmd = Actions::AddComment.new(
+        title: "",
+        body: comment,
+        commenter: accepting_user,
+        commentable: suggested_change,
+        organization_id: organization_id
+      )
+      cmd.perform
+    end
   end
 
   def supersede_conflicting_suggested_changes
