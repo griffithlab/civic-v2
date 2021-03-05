@@ -38,6 +38,14 @@ class Actions::SuggestChange
     if existing_changes.any?
       @suggested_change = existing_changes[0]
     else
+      create_suggested_change
+      create_event
+      create_comment
+      @change_created = true
+    end
+  end
+
+  def create_suggested_change
       @suggested_change = V2SuggestedChange.create!(
         current_value: current_value,
         suggested_value: suggested_value,
@@ -46,6 +54,9 @@ class Actions::SuggestChange
         status: 'new',
         changeset_id: changeset_id
       )
+  end
+
+  def create_event
       Event.create!(
         action: 'change suggested',
         originating_user: originating_user,
@@ -53,15 +64,17 @@ class Actions::SuggestChange
         organization: resolve_organization(originating_user, organization_id),
         originating_object: suggested_change
       )
-      Comment.add(
-        "",
-        comment,
-        originating_user,
-        suggested_change,
-        organization_id
-      )
-      @change_created = true
-    end
+  end
+
+  def create_comment
+    cmd = Actions::AddComment.new(
+      title: "",
+      body: comment,
+      commenter: originating_user,
+      commentable: suggested_change,
+      organization_id: organization_id
+    )
+    cmd.perform
   end
 
   def change_created?
