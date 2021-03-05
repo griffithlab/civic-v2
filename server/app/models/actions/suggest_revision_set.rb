@@ -1,7 +1,7 @@
-class Actions::SuggestChangeSet
+class Actions::SuggestRevisionSet
   include Actions::Transactional
 
-  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :changes, :comment, :changeset_id
+  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :revisions, :comment, :revisionset_id
 
   def initialize(existing_obj:, fields:, originating_user:, organization_id:, comment:)
     @existing_obj = existing_obj
@@ -9,8 +9,8 @@ class Actions::SuggestChangeSet
     @originating_user = originating_user
     @organization_id = organization_id
     @comment = comment
-    @changes = []
-    @changeset_id =  SecureRandom.uuid
+    @revisions = []
+    @revisionset_id =  SecureRandom.uuid
   end
 
   def execute
@@ -31,7 +31,7 @@ class Actions::SuggestChangeSet
       next unless change_present
       any_changes = true
 
-      cmd = Actions::SuggestChange.new(
+      cmd = Actions::SuggestRevision.new(
         subject: existing_obj,
         field_name: field_name,
         current_value: current_value,
@@ -39,25 +39,25 @@ class Actions::SuggestChangeSet
         originating_user: originating_user,
         organization_id: organization_id,
         comment: comment,
-        changeset_id: changeset_id
+        revisionset_id: revisionset_id
       )
       res = cmd.perform
 
       if res.errors.any?
         raise StandardError.new(res.errors.join(','))
       else
-        changes << {
-          id: res.suggested_change.id,
-          field_name: res.suggested_change.field_name,
-          newly_created: res.change_created?,
-          changeset_id: changeset_id
+        revisions << {
+          id: res.revision.id,
+          field_name: res.revision.field_name,
+          newly_created: res.revision_created?,
+          revisionset_id: revisionset_id
         }
       end
 
     end
 
     unless any_changes
-      raise StandardError.new("You must change at least one field in order to suggest a change")
+      raise StandardError.new("You must change at least one field in order to suggest a revision.")
     end
   end
 

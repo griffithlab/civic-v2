@@ -1,6 +1,6 @@
 module Types::Entities
   class GeneType < Types::BaseObject
-    include Types::SuggestedChanges::WithSuggestedChanges
+    include Types::Revisions::WithRevisions
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false
@@ -27,7 +27,7 @@ module Types::Entities
     def lifecycle_actions
       {
         last_reviewed: object.last_review_event,
-        last_modified: object.last_applied_change_event,
+        last_modified: object.last_accepted_revision_event,
         #last_commented_on: object.last_comment_event,
       }
     end

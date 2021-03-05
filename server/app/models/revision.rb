@@ -1,4 +1,4 @@
-class V2SuggestedChange < ApplicationRecord
+class Revision < ApplicationRecord
   include Commentable
 
   belongs_to :subject, polymorphic: true
@@ -7,13 +7,13 @@ class V2SuggestedChange < ApplicationRecord
 
   validates :status, inclusion: {
     in: ['accepted', 'rejected', 'superseded', 'new'],
-    message: "%{value} is not a valid suggested change status"
+    message: "%{value} is not a valid revision status"
   },
   allow_blank: false
 
   def suggesting_user
     events
-      .where(action: 'change suggested')
+      .where(action: 'revision suggested')
       .first
       .originating_user
   end

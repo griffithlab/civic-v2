@@ -1,35 +1,35 @@
 module Actions
-  class RejectSuggestedChange
+  class RejectRevision
     include Transactional
     include Actions::WithOriginatingOrganization
 
-    attr_reader :suggested_change, :rejecting_user, :organization_id, :comment
+    attr_reader :revision, :rejecting_user, :organization_id, :comment
 
-    def initialize(suggested_change:, rejecting_user:, organization_id:, comment:)
-      @suggested_change = suggested_change
+    def initialize(revision:, rejecting_user:, organization_id:, comment:)
+      @revision = revision
       @rejecting_user = rejecting_user
       @organization_id = organization_id
       @comment = comment
     end
 
     def execute
-      update_change_status
+      update_revision_status
       create_event
       create_comment
     end
 
-    def update_change_status
-      suggested_change.lock!
-      suggested_change.status = 'rejected'
-      suggested_change.save
+    def update_revision_status
+      revision.lock!
+      revision.status = 'rejected'
+      revision.save
     end
 
     def create_event
       Event.create!(
-        action: 'change rejected',
+        action: 'revision rejected',
         originating_user: rejecting_user,
-        subject: suggested_change.subject,
-        originating_object: suggested_change,
+        subject: revision.subject,
+        originating_object: revision,
         organization: resolve_organization(rejecting_user, organization_id)
       )
     end
@@ -39,7 +39,7 @@ module Actions
         title: "",
         body: comment,
         commenter: rejecting_user,
-        commentable: suggested_change,
+        commentable: revision,
         organization_id: organization_id
       )
       cmd.perform

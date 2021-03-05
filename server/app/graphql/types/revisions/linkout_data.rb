@@ -1,8 +1,8 @@
-module Types::SuggestedChanges
+module Types::Revisions
   class LinkoutData < Types::BaseObject
     field :name, String, null: false
-    field :current_value,  Types::SuggestedChanges::ModeratedFieldType, null: false
-    field :suggested_value, Types::SuggestedChanges::ModeratedFieldType, null: false
+    field :current_value,  Types::Revisions::ModeratedFieldType, null: false
+    field :suggested_value, Types::Revisions::ModeratedFieldType, null: false
 
     def self.from_revision(r)
       if r.field_name.ends_with?('_id') || r.field_name.ends_with?('_ids')

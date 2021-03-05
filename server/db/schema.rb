@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_05_151944) do
+ActiveRecord::Schema.define(version: 2021_03_05_181525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -507,6 +507,25 @@ ActiveRecord::Schema.define(version: 2021_03_05_151944) do
     t.index ["abbreviation"], name: "index_regulatory_agencies_on_abbreviation"
   end
 
+  create_table "revisions", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.text "status", default: "new", null: false
+    t.text "field_name", null: false
+    t.jsonb "current_value", null: false
+    t.jsonb "suggested_value", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "revisionset_id", null: false
+    t.index ["created_at"], name: "index_revisions_on_created_at"
+    t.index ["field_name"], name: "index_revisions_on_field_name"
+    t.index ["revisionset_id"], name: "index_revisions_on_revisionset_id"
+    t.index ["status"], name: "index_revisions_on_status"
+    t.index ["subject_id", "subject_type"], name: "index_revisions_on_subject_id_and_subject_type"
+    t.index ["subject_type", "subject_id"], name: "index_v2_suggested_changes_on_subject"
+    t.index ["updated_at"], name: "index_revisions_on_updated_at"
+  end
+
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
@@ -621,25 +640,6 @@ ActiveRecord::Schema.define(version: 2021_03_05_151944) do
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
     t.index ["role"], name: "index_users_on_role"
-  end
-
-  create_table "v2_suggested_changes", force: :cascade do |t|
-    t.string "subject_type"
-    t.bigint "subject_id"
-    t.text "status", default: "new", null: false
-    t.text "field_name", null: false
-    t.jsonb "current_value", null: false
-    t.jsonb "suggested_value", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.uuid "changeset_id", null: false
-    t.index ["changeset_id"], name: "index_v2_suggested_changes_on_changeset_id"
-    t.index ["created_at"], name: "index_v2_suggested_changes_on_created_at"
-    t.index ["field_name"], name: "index_v2_suggested_changes_on_field_name"
-    t.index ["status"], name: "index_v2_suggested_changes_on_status"
-    t.index ["subject_id", "subject_type"], name: "index_v2_suggested_changes_on_subject_id_and_subject_type"
-    t.index ["subject_type", "subject_id"], name: "index_v2_suggested_changes_on_subject"
-    t.index ["updated_at"], name: "index_v2_suggested_changes_on_updated_at"
   end
 
   create_table "variant_aliases", id: :serial, force: :cascade do |t|

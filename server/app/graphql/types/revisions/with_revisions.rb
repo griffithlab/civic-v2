@@ -1,16 +1,16 @@
-module Types::SuggestedChanges
-  module WithSuggestedChanges
+module Types::Revisions
+  module WithRevisions
     def self.included(klass)
-      klass.field :suggested_changes, [Types::SuggestedChanges::SuggestedChangeType], null: false do
+      klass.field :revisions, [Types::Revisions::RevisionType], null: false do
         argument :first, GraphQL::Types::Int, required: false, default_value: 5
-        argument :changeset_id, String, required: false
-        argument :status, Types::SuggestedChanges::SuggestedChangeStatus, required: false
+        argument :revisionset_id, String, required: false
+        argument :status, Types::Revisions::RevisionStatus, required: false
         argument :field_name, String, required: false
       end
 
-      klass.define_method(:suggested_changes) do |first:, changeset_id: nil, status: nil, field_name: nil|
+      klass.define_method(:revisions) do |first:, revisionset_id: nil, status: nil, field_name: nil|
         allowed_filters = {
-          changeset_id: changeset_id,
+          revisionset_id: revisionset_id,
           status: status,
           field_name: field_name
         }
@@ -24,7 +24,7 @@ module Types::SuggestedChanges
                        end
 
         Loaders::PolymorphicWindowLoader.for(
-          V2SuggestedChange,
+          Revision,
           :subject,
           object.class,
           limit: first,
