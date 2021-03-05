@@ -28,6 +28,9 @@ gem 'search_object_graphql', '0.3.1'
 
 gem 'scenic', '~>1.5.4'
 
+gem 'kaminari-activerecord', '~>  1.2.1'
+gem 'graphql-pagination', '~> 1.1.2'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
