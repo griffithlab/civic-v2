@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   has_many :authorizations
 
   has_many :comments
-  #has_many :suggested_changes
   #has_many :subscriptions
   has_many :events, foreign_key: :originating_user_id
   #has_one :most_recent_event,
@@ -66,6 +65,7 @@ class User < ActiveRecord::Base
   end
 
   def stats_hash
+    #TODO no longer a direct relation from user -> revision
     {
       comments: events.where(action: 'commented').count,
       suggested_changes: suggested_changes.count,

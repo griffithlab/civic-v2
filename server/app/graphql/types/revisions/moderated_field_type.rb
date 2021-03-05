@@ -1,4 +1,4 @@
-module Types::SuggestedChanges
+module Types::Revisions
   class ModeratedObjectField < Types::BaseObject
     field :id, Int, null: false
     field :display_name, String, null: false
@@ -11,18 +11,18 @@ module Types::SuggestedChanges
   end
 
   class ObjectFieldType < Types::BaseObject
-    field :objects, [Types::SuggestedChanges::ModeratedObjectField], null: false
+    field :objects, [Types::Revisions::ModeratedObjectField], null: false
   end
 
   class ModeratedFieldType < Types::BaseUnion
     description 'Fields that can have revisions can be either scalar values or complex objects'
-    possible_types Types::SuggestedChanges::ScalarFieldType, Types::SuggestedChanges::ObjectFieldType
+    possible_types Types::Revisions::ScalarFieldType, Types::Revisions::ObjectFieldType
 
     def self.resolve_type(object, context)
       if object.has_key?(:objects)
-        Types::SuggestedChanges::ObjectFieldType
+        Types::Revisions::ObjectFieldType
       else
-        Types::SuggestedChanges::ScalarFieldType
+        Types::Revisions::ScalarFieldType
       end
     end
   end

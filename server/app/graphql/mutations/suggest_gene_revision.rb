@@ -1,10 +1,10 @@
-class Mutations::SuggestGeneChange < Mutations::MutationWithOrg
+class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
   argument :id, Int, required: true
-  argument :fields, Types::SuggestedChanges::GeneFields, required: true
+  argument :fields, Types::Revisions::GeneFields, required: true
   argument :comment, String, required: true, validates: { length: { minimum: 10 } }
 
   field :gene, Types::Entities::GeneType, null: false
-  field :results, [Types::SuggestedChanges::SuggestedChangeResult], null: false
+  field :results, [Types::Revisions::RevisionResult], null: false
 
   attr_reader :gene
 
@@ -33,7 +33,7 @@ class Mutations::SuggestGeneChange < Mutations::MutationWithOrg
   end
 
   def resolve(fields:, id:, organization_id: nil, comment:)
-    cmd = Actions::SuggestGeneChange.new(
+    cmd = Actions::SuggestGeneRevision.new(
       existing_obj: gene,
       fields: fields,
       originating_user: context[:current_user],
@@ -45,7 +45,7 @@ class Mutations::SuggestGeneChange < Mutations::MutationWithOrg
     if res.succeeded?
       {
         gene: gene,
-        results: res.changes
+        results: res.revisions
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

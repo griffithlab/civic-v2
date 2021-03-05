@@ -1,4 +1,4 @@
-class Actions::SuggestGeneChange < Actions::SuggestChangeSet
+class Actions::SuggestGeneRevision < Actions::SuggestRevisionSet
   def editable_fields
     [
       :description,

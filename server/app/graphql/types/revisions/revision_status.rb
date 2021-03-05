@@ -1,5 +1,5 @@
-module Types::SuggestedChanges
-  class SuggestedChangeStatus < Types::BaseEnum
+module Types::Revisions
+  class RevisionStatus < Types::BaseEnum
     value "new"
     value "rejected"
     value "accepted"

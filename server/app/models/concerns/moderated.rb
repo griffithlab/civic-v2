@@ -1,37 +1,37 @@
 module Moderated
   extend ActiveSupport::Concern
-  @default_ignored_attributes = %w{updated_at created_at updated_on created_on id}
 
   included do
-    has_many :v2_suggested_changes,
+    has_many :revisions,
              as: :subject
 
-    has_many :open_changes,
+    has_many :open_revisions,
              ->{ where(status: 'new') },
              as: :subject,
-             class_name: 'V2SuggestedChange'
+             class_name: 'Revision'
 
-    has_one :last_applied_change,
-            ->() { where(status: 'applied').includes(:user).order('v2_suggested_changes.updated_at DESC') },
+    has_one :last_accepted_revision,
+            ->() { where(status: 'accepted').includes(:user).order('revisions.updated_at DESC') },
             as: :subject,
-            class_name: 'V2SuggestedChange'
+            class_name: 'Revision'
 
-    has_one :last_applied_change_event,
-            ->() { where(action: 'change suggested').includes(:originating_user).order('events.updated_at DESC') },
+    has_one :last_accepted_revision_event,
+            ->() { where(action: 'revision accepted').includes(:originating_user).order('events.updated_at DESC') },
             as: :subject,
             class_name: 'Event'
 
-    has_one :last_updator, through: :last_applied_change, source: :user
+    #TODO re-visit this, its wrong
+    has_one :last_updator, through: :last_accepted_revision, source: :originating_user
 
     has_many :events, as: :subject
     has_one :last_review_event,
-      ->() { where(action: 'change accepted').includes(:originating_user).order('events.updated_at DESC') },
+      ->() { where(action: 'revision accepted').includes(:originating_user).order('events.updated_at DESC') },
       as: :subject,
       class_name: 'Event'
     has_one :last_reviewer, through: :last_review_event, source: :originating_user
   end
 
-  #TODO: Refactor to use new V2SuggestedChange format
+  #TODO: Refactor to use new Revision format
   def pending_items # variant menu
     # get pending fields for the variant itself
     pending_fields = Actions::FindFieldsWithPendingChanges.new(self)

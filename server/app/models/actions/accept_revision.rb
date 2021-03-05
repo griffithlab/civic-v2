@@ -1,45 +1,45 @@
-class Actions::AcceptSuggestedChange
+class Actions::AcceptRevision
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :suggested_change, :accepting_user, :organization_id, :subject, :superseded_suggested_changes, :comment
+  attr_reader :revision, :accepting_user, :organization_id, :subject, :superseded_revisions, :comment
 
-  def initialize(suggested_change:, accepting_user:, organization_id: nil, comment: nil)
-    @suggested_change = suggested_change
+  def initialize(revision:, accepting_user:, organization_id: nil, comment: nil)
+    @revision = revision
     @accepting_user = accepting_user
     @organization_id = organization_id
-    @subject = suggested_change.subject
+    @subject = revision.subject
     @comment = comment
   end
 
   def execute
-    suggested_change.lock!
+    revision.lock!
     subject.lock!
-    subject.send("#{suggested_change.field_name}=", suggested_change.suggested_value)
+    subject.send("#{revision.field_name}=", revision.suggested_value)
     subject.save!
-    suggested_change.status = 'accepted'
-    suggested_change.save!
-    supersede_conflicting_suggested_changes
+    revision.status = 'accepted'
+    revision.save!
+    supersede_conflicting_revisions
     create_event
     unless comment.nil?
       cmd = Actions::AddComment.new(
         title: "",
         body: comment,
         commenter: accepting_user,
-        commentable: suggested_change,
+        commentable: revision,
         organization_id: organization_id
       )
       cmd.perform
     end
   end
 
-  def supersede_conflicting_suggested_changes
-    @superseded_suggested_changes = V2SuggestedChange.where(field_name: suggested_change.field_name, status: 'new')
-    superseded_suggested_changes.each do |sc|
+  def supersede_conflicting_revisions
+    @superseded_revisions = Revision.where(field_name: revision.field_name, status: 'new')
+    superseded_revisions.each do |sc|
       sc.status = 'superseded'
       sc.save!
       Event.create!(
-        action: 'change superseded',
+        action: 'revision superseded',
         originating_user: accepting_user,
         subject: subject,
         originating_object: sc,
@@ -50,10 +50,10 @@ class Actions::AcceptSuggestedChange
 
   def create_event
     Event.create!(
-      action: 'change accepted',
+      action: 'revision accepted',
       originating_user: accepting_user,
       subject: subject,
-      originating_object: suggested_change,
+      originating_object: revision,
       organization: resolve_organization(accepting_user, organization_id)
     )
   end
