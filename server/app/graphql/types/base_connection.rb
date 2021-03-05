@@ -12,7 +12,7 @@ module Types
     field :total_page_count, Int, 'Total # of pages, based on total count and pagesize', null: false
     def total_page_count
       my_total_count = total_count
-      return 1 unless my_total_count.positive?
+      return 1 unless my_total_count&.positive?
       # get total count and create array with total count as first item
       possible_page_sizes = [my_total_count]
 
