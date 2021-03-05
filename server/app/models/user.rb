@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :authorizations
 
-  #has_many :comments
+  has_many :comments
   #has_many :suggested_changes
   #has_many :subscriptions
   has_many :events, foreign_key: :originating_user_id

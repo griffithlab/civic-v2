@@ -5,9 +5,10 @@ class Actions::SuggestChange
   attr_reader :subject,
     :field_name, :current_value,
     :suggested_value, :originating_user,
-    :organization_id, :suggested_change, :comment
+    :organization_id, :suggested_change,
+    :comment, :changeset_id
 
-  def initialize(subject:, field_name:, current_value:, suggested_value:, originating_user:, organization_id:, comment:)
+  def initialize(subject:, field_name:, current_value:, suggested_value:, originating_user:, organization_id:, comment:, changeset_id:)
     @subject = subject
     @field_name = field_name
     @current_value = current_value
@@ -16,6 +17,7 @@ class Actions::SuggestChange
     @organization_id = organization_id
     @comment = comment
     @change_created = false
+    @changeset_id = changeset_id
   end
 
   def execute
@@ -36,14 +38,15 @@ class Actions::SuggestChange
     if existing_changes.any?
       @suggested_change = existing_changes[0]
     else
-      @suggested_change = V2SuggestedChange.create(
+      @suggested_change = V2SuggestedChange.create!(
         current_value: current_value,
         suggested_value: suggested_value,
         subject: subject,
         field_name: field_name,
-        status: 'new'
+        status: 'new',
+        changeset_id: changeset_id
       )
-      Event.create(
+      Event.create!(
         action: 'change suggested',
         originating_user: originating_user,
         subject: subject,

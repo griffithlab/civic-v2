@@ -1,7 +1,7 @@
 class Actions::SuggestChangeSet
   include Actions::Transactional
 
-  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :changes, :comment
+  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :changes, :comment, :changeset_id
 
   def initialize(existing_obj:, fields:, originating_user:, organization_id:, comment:)
     @existing_obj = existing_obj
@@ -10,6 +10,7 @@ class Actions::SuggestChangeSet
     @organization_id = organization_id
     @comment = comment
     @changes = []
+    @changeset_id =  SecureRandom.uuid
   end
 
   def execute
@@ -37,7 +38,8 @@ class Actions::SuggestChangeSet
         suggested_value: suggested_value,
         originating_user: originating_user,
         organization_id: organization_id,
-        comment: comment
+        comment: comment,
+        changeset_id: changeset_id
       )
       res = cmd.perform
 
@@ -47,7 +49,8 @@ class Actions::SuggestChangeSet
         changes << {
           id: res.suggested_change.id,
           field_name: res.suggested_change.field_name,
-          newly_created: res.change_created?
+          newly_created: res.change_created?,
+          changeset_id: changeset_id
         }
       end
 
