@@ -9,9 +9,14 @@ module Types::SuggestedChanges
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :changeset_id, String, null: false
+    field :linkout_data, Types::SuggestedChanges::LinkoutData, null: false
 
     def comments
       Loaders::AssociationLoader.for(V2SuggestedChange, :comments).load(object)
+    end
+
+    def linkout_data
+      Types::SuggestedChanges::LinkoutData.from_revision(object)
     end
   end
 end
