@@ -21,13 +21,16 @@ class Mutations::AddComment < Mutations::MutationWithOrg
   end
 
   def resolve(title: nil, body:, subject:, organization_id: nil)
-    res = Comment.add(
-      title,
-      body,
-      context[:current_user],
-      subject,
-      organization_id
+    cmd = Actions::AddComment.new(
+      title: title,
+      body: body,
+      commenter: context[:current_user],
+      commentable: subject,
+      organization_id: organization_id
     )
+
+    res = cmd.perform
+
     if res.succeeded?
       {
         comment: res.comment,

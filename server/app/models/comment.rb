@@ -9,11 +9,6 @@ class Comment < ActiveRecord::Base
 
   alias_attribute :text, :comment
 
-  def self.add(title, body, commenter, commentable, organization_id)
-    cmd = Actions::AddComment.new(title, body, commenter, commentable, organization_id)
-    cmd.perform
-  end
-
   private
   def mark_events_unlinkable
     if self.commentable.respond_to?(:events)
