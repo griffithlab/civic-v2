@@ -8,9 +8,13 @@ class Event < ActiveRecord::Base
 
   validates :originating_object, :originating_user, { presence: true }
 
-  #TODO:  Validation of action, user, and subject
-  #TODO: capture event and org to credit
+  before_create :capture_user_role
+
+  #TODO: Validation of action, user, and subject
   #TODO: validate that subject can be subscribed to
   #TODO: Notify subscribers to event's subject
-  #TODO capture user role at time of event creation
+
+  def capture_user_role
+    self.user_role = self.originating_user.role
+  end
 end
