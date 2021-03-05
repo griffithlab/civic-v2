@@ -6,7 +6,7 @@ class V2SuggestedChange < ApplicationRecord
   has_many :events, as: :originating_object
 
   validates :status, inclusion: {
-    in: ['applied', 'rejected', 'superseded', 'new'],
+    in: ['accepted', 'rejected', 'superseded', 'new'],
     message: "%{value} is not a valid suggested change status"
   },
   allow_blank: false

@@ -17,7 +17,7 @@ class Actions::AcceptSuggestedChange
     subject.lock!
     subject.send("#{suggested_change.field_name}=", suggested_change.suggested_value)
     subject.save!
-    suggested_change.status = 'applied'
+    suggested_change.status = 'accepted'
     suggested_change.save!
     supersede_conflicting_suggested_changes
     create_event
