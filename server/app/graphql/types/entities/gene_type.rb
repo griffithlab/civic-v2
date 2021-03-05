@@ -1,5 +1,7 @@
 module Types::Entities
   class GeneType < Types::BaseObject
+    include Types::SuggestedChanges::WithSuggestedChanges
+
     field :id, Int, null: false
     field :entrez_id, Int, null: false
     field :name, String, null: false

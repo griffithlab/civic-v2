@@ -1,11 +1,11 @@
 module Actions
   class AddComment
     include Actions::Transactional
-    include Actions::WithEvent
+    include Actions::WithOriginatingOrganization
     attr_reader :comment, :commenter, :originating_user, :commentable,
       :subject, :title, :body, :event, :organization_id
 
-    def initialize(title, body, commenter, commentable, organization_id)
+    def initialize(title: nil, body:, commenter:, commentable:, organization_id: nil)
       @title = title
       @body = body
       @commenter = commenter
@@ -18,16 +18,24 @@ module Actions
     private
     def execute
       create_comment
-      @event = create_event('commented')
+      @event = Event.create!(
+        action: 'commented',
+        originating_user: originating_user,
+        subject: subject,
+        organization: resolve_organization(originating_user, organization_id),
+        originating_object: comment
+      )
       #handle_mentions
       #subscribe_user
     end
 
     def create_comment
-      @comment = Comment.new(title: title, text: body)
-      comment.user = commenter
-      comment.commentable = commentable
-      comment.save
+      @comment = Comment.create!(
+        title: title,
+        text: body,
+        user: commenter,
+        commentable: commentable,
+      )
     end
 
     def handle_mentions
@@ -36,10 +44,6 @@ module Actions
 
     def subscribe_user
       commentable.subscribe_user(commenter)
-    end
-
-    def state_params
-      { comment: { id: comment.id } }
     end
   end
 end

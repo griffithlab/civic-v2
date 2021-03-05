@@ -1,5 +1,4 @@
 class Comment < ActiveRecord::Base
-  include ActsAsCommentable::Comment
   ##include WithTimepointCounts
   ##before_destroy :mark_events_unlinkable
 
@@ -9,11 +8,6 @@ class Comment < ActiveRecord::Base
   default_scope -> { order('created_at ASC') }
 
   alias_attribute :text, :comment
-
-  def self.add(title, body, commenter, commentable, organization_id)
-    cmd = Actions::AddComment.new(title, body, commenter, commentable, organization_id)
-    cmd.perform
-  end
 
   private
   def mark_events_unlinkable

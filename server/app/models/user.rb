@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :authorizations
 
-  #has_many :comments
+  has_many :comments
   #has_many :suggested_changes
   #has_many :subscriptions
   has_many :events, foreign_key: :originating_user_id
@@ -61,8 +61,8 @@ class User < ActiveRecord::Base
     auth_provider_adaptor(auth_hash['provider']).create_from_omniauth(auth_hash).tap do |user|
       user.authorizations << authorization
       user.role = 'curator'
+      user.save
     end
-    user.save
   end
 
   def stats_hash
@@ -136,6 +136,26 @@ class User < ActiveRecord::Base
       'developer'     => UserAdaptors::Developer
     }
     @providers_hash[provider]
+  end
+
+  def has_valid_coi_statement?
+    #TODO port over coi model
+    #most_recent_conflict_of_interest_statement.present?
+    #&& !most_recent_conflict_of_interest_statement.expired?
+    true
+  end
+
+  def can_act_for_org?(organization_id: nil)
+    #The user is acting on behalf of an org of which they're a member
+    if organization_id.present? && self.organization_ids.include?(organization_id)
+      true
+    #The user is acting on behalf of an org of which they're not a member
+    elsif organization_id.present? && !self.organization_ids.include?(organization_id)
+      false
+    #The user is not acting on behalf of an org
+    else
+      true
+    end
   end
 
   private
