@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Apollo, QueryRef, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck, tap } from 'rxjs/operators';
 import { NGXLogger } from 'ngx-logger';
 
-import { GenesBrowseService } from './genes.browse.service';
-import {
-  Gene,
-  GenesSortColumns,
-  SortDirection,
-  PageInfo,
-} from '@app/generated/civic.apollo';
+import { BrowseGenesGQL,
+         Gene,
+         GenesSortColumns,
+         SortDirection,
+         PageInfo
+       } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'genes-browse',
@@ -17,13 +17,23 @@ import {
   styleUrls: ['./genes-browse.component.less'],
 })
 export class GenesBrowseComponent implements OnInit {
-  pageInfo$: Observable<any>;
+  genesBrowseQuery: QueryRef<any>;
   genes$: Observable<any>;
+  pageInfo!: PageInfo;
+  pageSize = 25;
 
-  constructor(private api: GenesBrowseService, private logger: NGXLogger) {
-    const source$: Observable<any> = this.api.watchGenesBrowse();
-    this.genes$ = source$.pipe(pluck('data', 'browseGenes', 'nodes'));
-    this.pageInfo$ = source$.pipe(pluck('data', 'browseGenes', 'pageInfo'));
+  constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
+    this.genesBrowseQuery = this.query.watch({
+      first: this.pageSize
+    });
+
+    this.genes$ = this.genesBrowseQuery.valueChanges.pipe(
+      tap(result => {
+        this.pageInfo = result.data.browseGenes.pageInfo;
+      }),
+      map(result => result.data.browseGenes.nodes)
+    );
+    // this.genes$ = source$.pipe(pluck('data', 'browseGenes', 'nodes'));
   }
 
   ngOnInit(): void {
