@@ -11,6 +11,7 @@ module Types::Entities
     field :sources, [Types::Entities::SourceType], null: true
     field :variants, [Types::Entities::VariantType], null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
+    field :my_gene_info_details, GraphQL::Types::JSON, null: true
 
     def aliases
       Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
@@ -30,6 +31,10 @@ module Types::Entities
         last_modified: object.last_accepted_revision_event,
         #last_commented_on: object.last_comment_event,
       }
+    end
+
+    def my_gene_info_details
+      MyGeneInfo.get_by_gene_id(object.id)
     end
   end
 end
