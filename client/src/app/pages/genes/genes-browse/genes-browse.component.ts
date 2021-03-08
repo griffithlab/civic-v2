@@ -25,13 +25,16 @@ export class GenesBrowseComponent implements OnInit {
   constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
     this.genesBrowseQuery = this.query.watch({
       first: this.pageSize
-    });
+    },
+    { fetchPolicy: 'network-only' });
 
     this.genes$ = this.genesBrowseQuery.valueChanges.pipe(
       tap(result => {
         this.pageInfo = result.data.browseGenes.pageInfo;
       }),
-      map(result => result.data.browseGenes.nodes)
+      map((result) => {
+        return result.data.browseGenes.nodes
+      })
     );
     // this.genes$ = source$.pipe(pluck('data', 'browseGenes', 'nodes'));
   }
