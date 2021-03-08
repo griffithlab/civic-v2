@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -29,6 +30,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
     IconsProviderModule,
     NzAvatarModule,
     NzBreadCrumbModule,
+    NzButtonModule,
     NzCardModule,
     NzDropDownModule,
     NzGridModule,

@@ -456,7 +456,7 @@ export type BrowseGenesQuery = (
       )>> }
     )>>>, pageInfo: (
       { __typename?: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage'>
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
   ) }
 );
@@ -519,7 +519,9 @@ export const BrowseGenesDocument = gql`
     totalCount
     totalPageCount
     pageInfo {
+      startCursor
       endCursor
+      hasPreviousPage
       hasNextPage
     }
   }

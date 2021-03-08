@@ -37,7 +37,9 @@ query BrowseGenes(
     totalCount
     totalPageCount
     pageInfo {
+      startCursor
       endCursor
+      hasPreviousPage
       hasNextPage
     }
   }

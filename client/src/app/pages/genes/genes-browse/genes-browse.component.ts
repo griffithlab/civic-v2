@@ -36,6 +36,15 @@ export class GenesBrowseComponent implements OnInit {
     // this.genes$ = source$.pipe(pluck('data', 'browseGenes', 'nodes'));
   }
 
+  loadMore():void {
+    this.genesBrowseQuery.fetchMore({
+      variables: {
+        first: this.pageSize,
+        after: this.pageInfo.endCursor
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.logger.trace('GenesBrowseComponent initialized.');
   }
