@@ -15,13 +15,13 @@ query BrowseGenes(
     diseaseName: $diseaseName,
     first: $first,
     last: $last,
-    sortBy: $sortBy
+    sortBy: $sortBy,
   ) {
     nodes {
       id
       entrezId
       name
-      geneAliases {
+      aliases {
         name
       }
       diseases {
@@ -34,6 +34,8 @@ query BrowseGenes(
       evidenceItemCount
       assertionCount
     }
+    totalCount
+    totalPageCount
     pageInfo {
       endCursor
       hasNextPage

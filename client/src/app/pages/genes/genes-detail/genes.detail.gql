@@ -2,7 +2,7 @@ query GeneDetail($geneId: ID!) {
   gene(id: $geneId) {
     description
     entrezId
-    geneAliases {
+    aliases {
       name
     }
     id
