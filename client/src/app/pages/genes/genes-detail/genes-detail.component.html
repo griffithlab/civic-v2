@@ -1,7 +1,7 @@
 <ng-container *ngIf="{ gene: gene$ | async } as obs">
   <nz-page-header class="site-page-header">
-    <nz-page-header-title><i nz-icon nzType="civic:gene"></i> {{ obs.gene.name }}</nz-page-header-title>
-    <nz-page-header-subtitle>{{ obs.gene.officialName }}</nz-page-header-subtitle>
+    <nz-page-header-title><i nz-icon nzType="civic:gene"></i> {{ obs.gene?.name }}</nz-page-header-title>
+    <nz-page-header-subtitle>{{ obs.gene?.officialName }}</nz-page-header-subtitle>
     <nz-page-header-tags>
       <nz-tag [nzColor]="'red'">Flagged</nz-tag>
     </nz-page-header-tags>
@@ -26,7 +26,7 @@
         <div class="content">
           <div nz-row>
             <div nz-col nzSpan="12">
-              {{ obs.gene.description }}
+              {{ obs.gene?.description }}
             </div>
             <div nz-col nzSpan="12" >
               <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
