@@ -6,9 +6,7 @@ module AdvancedSearch
     end
 
     def results
-      foo  = process_node(query)
-      binding.pry
-      foo.pluck(:id)
+      process_node(query).pluck(:id)
     end
 
     private
