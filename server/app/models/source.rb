@@ -1,4 +1,6 @@
 class Source < ActiveRecord::Base
+  include ModeratedField
+
   has_and_belongs_to_many :genes
   has_and_belongs_to_many :clinical_trials
 
@@ -14,5 +16,13 @@ class Source < ActiveRecord::Base
     elsif source_type == 'ASCO'
       "https://meetinglibrary.asco.org/record/#{citation_id}/abstract"
     end
+  end
+
+  def display_name
+    "#{self.source_type}: #{self.citation_id}"
+  end
+
+  def display_type
+    "#{self.source_type} Source"
   end
 end

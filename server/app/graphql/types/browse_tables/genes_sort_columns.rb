@@ -4,5 +4,8 @@ module Types::BrowseTables
     value "drugName"
     value "geneAlias"
     value "diseaseName"
+    value "variantCount"
+    value "evidenceItemCount"
+    value "assertionCount"
   end
 end

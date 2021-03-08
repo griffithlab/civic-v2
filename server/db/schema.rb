@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_165841) do
+ActiveRecord::Schema.define(version: 2021_03_05_181525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -319,13 +319,17 @@ ActiveRecord::Schema.define(version: 2021_02_19_165841) do
     t.text "action"
     t.text "description"
     t.integer "originating_user_id"
-    t.string "subject_type"
-    t.integer "subject_id"
+    t.string "subject_type", null: false
+    t.integer "subject_id", null: false
     t.text "state_params"
     t.boolean "unlinkable", default: false
     t.integer "organization_id"
     t.text "user_role"
+    t.string "originating_object_type"
+    t.bigint "originating_object_id"
     t.index ["organization_id"], name: "index_events_on_organization_id"
+    t.index ["originating_object_id", "originating_object_type"], name: "idx_event_originating_obj"
+    t.index ["originating_object_type", "originating_object_id"], name: "index_events_on_originating_object"
     t.index ["originating_user_id"], name: "index_events_on_originating_user_id"
     t.index ["subject_id", "subject_type"], name: "index_events_on_subject_id_and_subject_type"
     t.index ["user_role"], name: "index_events_on_user_role"
@@ -501,6 +505,25 @@ ActiveRecord::Schema.define(version: 2021_02_19_165841) do
     t.text "name"
     t.integer "country_id"
     t.index ["abbreviation"], name: "index_regulatory_agencies_on_abbreviation"
+  end
+
+  create_table "revisions", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.text "status", default: "new", null: false
+    t.text "field_name", null: false
+    t.jsonb "current_value", null: false
+    t.jsonb "suggested_value", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "revisionset_id", null: false
+    t.index ["created_at"], name: "index_revisions_on_created_at"
+    t.index ["field_name"], name: "index_revisions_on_field_name"
+    t.index ["revisionset_id"], name: "index_revisions_on_revisionset_id"
+    t.index ["status"], name: "index_revisions_on_status"
+    t.index ["subject_id", "subject_type"], name: "index_revisions_on_subject_id_and_subject_type"
+    t.index ["subject_type", "subject_id"], name: "index_v2_suggested_changes_on_subject"
+    t.index ["updated_at"], name: "index_revisions_on_updated_at"
   end
 
   create_table "source_suggestions", id: :serial, force: :cascade do |t|

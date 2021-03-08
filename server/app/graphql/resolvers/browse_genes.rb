@@ -24,6 +24,12 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
       scope.order "alias_names #{value.direction}"
     when "diseaseName"
       scope.order "disease_names #{value.direction}"
+    when "variantCount"
+      scope.order "variant_count #{value.direction}"
+    when "evidenceItemCount"
+      scope.order "evidence_item_count #{value.direction}"
+    when "assertionCount"
+      scope.order "assertion_count #{value.direction}"
     end
   end
 
