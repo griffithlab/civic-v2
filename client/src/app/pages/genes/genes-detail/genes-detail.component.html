@@ -1,5 +1,53 @@
-<h1>Gene Detail</h1>
+<ng-container *ngIf="{ gene: gene$ | async } as obs">
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title><i nz-icon nzType="civic:gene"></i> {{ obs.gene.name }}</nz-page-header-title>
+    <nz-page-header-subtitle>{{ obs.gene.officialName }}</nz-page-header-subtitle>
+    <nz-page-header-tags>
+      <nz-tag [nzColor]="'red'">Flagged</nz-tag>
+    </nz-page-header-tags>
 
+  <!--extra-->
+    <nz-page-header-extra>
+      <button nz-button>Suggest Revision</button>
+      <button nz-button nzNoAnimation nz-dropdown [nzDropdownMenu]="menu" style="border: none; padding: 0">
+        <i nz-icon nzType="ellipsis" nzTheme="outline" style="font-size: 20px; vertical-align: top;"></i>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>1st menu item length</li>
+          <li nz-menu-item>2nd menu item length</li>
+          <li nz-menu-item>3rd menu item length</li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-page-header-extra>
+
+    <nz-page-header-content>
+      <div nz-row>
+        <div class="content">
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              {{ obs.gene.description }}
+            </div>
+            <div nz-col nzSpan="12" >
+              <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
+                <nz-card-tab>
+                  <!-- <nz-tabset nzSize="large" [(nzSelectedIndex)]="index2"> -->
+                  <nz-tabset nzSize="small">
+                    <nz-tab nzTitle="Summary"></nz-tab>
+                    <nz-tab nzTitle="Protein Domain"></nz-tab>
+                    <nz-tab nzTitle="Pathways"></nz-tab>
+                  </nz-tabset>
+                </nz-card-tab>
+                <p>Aliquam erat volutpat.  Nunc eleifend leo vitae magna.  In id erat non orci commodo lobortis.  Proin neque massa, cursus ut, gravida ut, lobortis eget, lacus.  Sed diam.  Praesent fermentum tempor tellus.  Nullam tempus.  Mauris ac felis vel velit tristique imperdiet.  Donec at pede.  Etiam vel neque nec dui dignissim bibendum.  Vivamus id enim.  Phasellus neque orci, porta a, aliquet quis, semper a, massa.  Phasellus purus.  Pellentesque tristique imperdiet tortor.  Nam euismod tellus id erat. </p>
+
+              </nz-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>
 <pre>
   {{ gene$ | async | json }}
 </pre>
