@@ -13,16 +13,49 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :search_genes, [Int], null: false do
+    field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
+      argument :create_permalink, Boolean, required: false, default_value: false
+    end
+
+    field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
+      argument :permalink_id, String, required: true
     end
 
     def gene(id: )
       Gene.find(id)
     end
 
-    def search_genes(query: )
-      ::AdvancedSearch::Gene.new(query: query).results
+    def search_genes(query:, create_permalink:)
+      permalink = if create_permalink
+                    ::AdvancedSearch.where(
+                      params: context.query.query_string,
+                      search_type: 'searchGenes'
+                    ).first_or_create
+                      .token
+                  else
+                    nil
+                  end
+
+      {
+        result_ids: ::AdvancedSearches::Gene.new(query: query).results,
+        permalink_id: permalink
+      }
+    end
+
+    def search_by_permalink(permalink_id:)
+      saved_search = ::AdvancedSearch.find_by(token: permalink_id)
+
+      if saved_search.nil?
+        raise GraphQL::ExecutionError.new("Saved search with id #{permalink_id} not found.")
+      end
+
+      result = Civic2Schema.execute(saved_search.params, context: context)
+      formatted_hash = result.to_h.dig('data', saved_search.search_type)
+      {
+        permalink_id: formatted_hash['permalinkId'],
+        result_ids: formatted_hash['resultIds']
+      }
     end
   end
 end

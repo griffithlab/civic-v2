@@ -1,4 +1,4 @@
-module AdvancedSearch
+module AdvancedSearches
   class Base
     attr_reader :query
     def initialize(query:)

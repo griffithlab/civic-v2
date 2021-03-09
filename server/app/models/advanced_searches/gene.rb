@@ -1,5 +1,5 @@
-module AdvancedSearch
-  class Gene < AdvancedSearch::Base
+module AdvancedSearches
+  class Gene < AdvancedSearches::Base
     def base_query
       ::Gene.left_outer_joins(:gene_aliases)
     end
