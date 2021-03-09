@@ -33,5 +33,6 @@ query GeneDetail($geneId: ID!) {
       name
       description
     }
+    myGeneInfoDetails
   }
 }

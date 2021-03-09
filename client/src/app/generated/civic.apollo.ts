@@ -580,7 +580,7 @@ export type GeneDetailQuery = (
   { __typename?: 'Query' }
   & { gene?: Maybe<(
     { __typename?: 'Gene' }
-    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName'>
+    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
     & { aliases?: Maybe<Array<(
       { __typename?: 'GeneAlias' }
       & Pick<GeneAlias, 'name'>
@@ -694,6 +694,7 @@ export const GeneDetailDocument = gql`
       name
       description
     }
+    myGeneInfoDetails
   }
 }
     `;
