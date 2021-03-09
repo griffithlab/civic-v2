@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate-icons": "svg-to-ts",
+    "generate-apollo": "graphql-codegen",
     "postinstall": "patch-package"
   },
   "private": true,
