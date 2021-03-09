@@ -3,13 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay, pluck } from 'rxjs/operators';
 
+import { offsetLimitPagination } from "@apollo/client/utilities";
+
 import { QueryRef } from 'apollo-angular';
 
 import { NGXLogger } from 'ngx-logger';
 
-import { GenesBrowseService } from './genes.browse.service';
+// import { GenesBrowseService } from './genes.browse.service';
 import {
   Gene,
+  BrowseGenesGQL,
   GenesSortColumns,
   QueryBrowseGenesArgs,
   SortDirection,
@@ -28,10 +31,10 @@ export class GenesBrowseComponent implements OnInit {
   pageSize = 25;
   endCursor = '';
 
-  constructor(private api: GenesBrowseService, private logger: NGXLogger) {
+  constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
     const initialQueryArgs: QueryBrowseGenesArgs = { first: this.pageSize }
 
-    this.source$ = this.api.watchGenesBrowse(initialQueryArgs);
+    this.source$ = this.query.watch(initialQueryArgs);
     this.genes$ = this.source$
       .valueChanges
       .pipe(shareReplay(1),
@@ -50,20 +53,7 @@ export class GenesBrowseComponent implements OnInit {
       variables: {
         first: this.pageSize,
         after: this.endCursor
-      },
-      updateQuery: (prev, {fetchMoreResult}) => {
-        if (!fetchMoreResult) return prev;
-
-        return Object.assign({}, prev, {
-          genes$: [...prev.genes$, ...fetchMoreResult.genes$],
-        });
-      },
-      // updateQuery(prev, {fetchMoreResult}) => {
-      //   if (!fetchMoreResult) return prev;
-      //   return Object.assign({}, prev, {
-      //     genes$: [...prev.genes$, ...fetchMoreResult.genes$],
-      //   });
-      // }
+      }
     });
   }
 
