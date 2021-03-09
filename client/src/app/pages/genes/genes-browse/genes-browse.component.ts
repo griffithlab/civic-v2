@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo, QueryRef, gql } from 'apollo-angular';
+
 import { Observable } from 'rxjs';
-import { map, pluck, tap } from 'rxjs/operators';
+import { shareReplay, pluck } from 'rxjs/operators';
+
+import { QueryRef } from 'apollo-angular';
+
 import { NGXLogger } from 'ngx-logger';
 
-import { BrowseGenesGQL,
-         Gene,
-         GenesSortColumns,
-         SortDirection,
-         PageInfo
-       } from '@app/generated/civic.apollo';
+import { GenesBrowseService } from './genes.browse.service';
+import {
+  Gene,
+  GenesSortColumns,
+  QueryBrowseGenesArgs,
+  SortDirection,
+  PageInfo,
+} from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'genes-browse',
@@ -17,34 +22,48 @@ import { BrowseGenesGQL,
   styleUrls: ['./genes-browse.component.less'],
 })
 export class GenesBrowseComponent implements OnInit {
-  genesBrowseQuery: QueryRef<any>;
+  source$: QueryRef<any>;
+  pageInfo$: Observable<any>;
   genes$: Observable<any>;
-  pageInfo!: PageInfo;
   pageSize = 25;
+  endCursor = '';
 
-  constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
-    this.genesBrowseQuery = this.query.watch({
-      first: this.pageSize
-    },
-    { fetchPolicy: 'network-only' });
+  constructor(private api: GenesBrowseService, private logger: NGXLogger) {
+    const initialQueryArgs: QueryBrowseGenesArgs = { first: this.pageSize }
 
-    this.genes$ = this.genesBrowseQuery.valueChanges.pipe(
-      tap(result => {
-        this.pageInfo = result.data.browseGenes.pageInfo;
-      }),
-      map((result) => {
-        return result.data.browseGenes.nodes
-      })
-    );
-    // this.genes$ = source$.pipe(pluck('data', 'browseGenes', 'nodes'));
+    this.source$ = this.api.watchGenesBrowse(initialQueryArgs);
+    this.genes$ = this.source$
+      .valueChanges
+      .pipe(shareReplay(1),
+            pluck('data', 'browseGenes', 'nodes'));
+
+    this.pageInfo$ = this.source$
+      .valueChanges
+      .pipe(shareReplay(1),
+            pluck('data', 'browseGenes', 'pageInfo'));
+
+    this.pageInfo$.subscribe((info) => {this.endCursor = info.endCursor})
   }
 
   loadMore():void {
-    this.genesBrowseQuery.fetchMore({
+    this.source$.fetchMore({
       variables: {
         first: this.pageSize,
-        after: this.pageInfo.endCursor
-      }
+        after: this.endCursor
+      },
+      updateQuery: (prev, {fetchMoreResult}) => {
+        if (!fetchMoreResult) return prev;
+
+        return Object.assign({}, prev, {
+          genes$: [...prev.genes$, ...fetchMoreResult.genes$],
+        });
+      },
+      // updateQuery(prev, {fetchMoreResult}) => {
+      //   if (!fetchMoreResult) return prev;
+      //   return Object.assign({}, prev, {
+      //     genes$: [...prev.genes$, ...fetchMoreResult.genes$],
+      //   });
+      // }
     });
   }
 

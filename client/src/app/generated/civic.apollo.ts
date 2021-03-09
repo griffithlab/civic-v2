@@ -430,9 +430,11 @@ export type BrowseGenesQueryVariables = Exact<{
   drugName?: Maybe<Scalars['String']>;
   geneAlias?: Maybe<Scalars['String']>;
   diseaseName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<GenesSort>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-  sortBy?: Maybe<GenesSort>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -497,8 +499,8 @@ export type GeneDetailQuery = (
 );
 
 export const BrowseGenesDocument = gql`
-    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $first: Int, $last: Int, $sortBy: GenesSort) {
-  browseGenes(entrezSymbol: $entrezSymbol, drugName: $drugName, geneAlias: $geneAlias, diseaseName: $diseaseName, first: $first, last: $last, sortBy: $sortBy) {
+    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseGenes(entrezSymbol: $entrezSymbol, drugName: $drugName, geneAlias: $geneAlias, diseaseName: $diseaseName, sortBy: $sortBy, first: $first, last: $last, before: $before, after: $after) {
     nodes {
       id
       entrezId

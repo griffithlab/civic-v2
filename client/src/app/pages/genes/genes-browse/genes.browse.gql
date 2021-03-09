@@ -3,9 +3,11 @@ query BrowseGenes(
   $drugName: String,
   $geneAlias: String,
   $diseaseName: String,
+  $sortBy: GenesSort,
   $first: Int,
   $last: Int,
-  $sortBy: GenesSort
+  $before: String,
+  $after: String,
 ) {
 
   browseGenes(
@@ -13,9 +15,11 @@ query BrowseGenes(
     drugName: $drugName,
     geneAlias: $geneAlias,
     diseaseName: $diseaseName,
+    sortBy: $sortBy,
     first: $first,
     last: $last,
-    sortBy: $sortBy,
+    before: $before,
+    after: $after,
   ) {
     nodes {
       id
