@@ -500,7 +500,17 @@ export type GeneDetailQuery = (
 
 export const BrowseGenesDocument = gql`
     query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
-  browseGenes(entrezSymbol: $entrezSymbol, drugName: $drugName, geneAlias: $geneAlias, diseaseName: $diseaseName, sortBy: $sortBy, first: $first, last: $last, before: $before, after: $after) {
+  browseGenes(
+    entrezSymbol: $entrezSymbol
+    drugName: $drugName
+    geneAlias: $geneAlias
+    diseaseName: $diseaseName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
     nodes {
       id
       entrezId

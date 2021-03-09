@@ -18,3 +18,5 @@ extensions:
           - fragment-matcher
           - add:
               content: /* eslint-disable */
+        config:
+          apolloClientVersion: 3
