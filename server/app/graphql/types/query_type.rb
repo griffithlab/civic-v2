@@ -39,7 +39,8 @@ module Types
 
       {
         result_ids: ::AdvancedSearches::Gene.new(query: query).results,
-        permalink_id: permalink
+        permalink_id: permalink,
+        search_endpoint: 'searchGenes'
       }
     end
 
@@ -54,7 +55,8 @@ module Types
       formatted_hash = result.to_h.dig('data', saved_search.search_type)
       {
         permalink_id: formatted_hash['permalinkId'],
-        result_ids: formatted_hash['resultIds']
+        result_ids: formatted_hash['resultIds'],
+        search_endpoint: saved_search.search_type
       }
     end
   end
