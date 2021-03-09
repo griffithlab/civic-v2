@@ -6,7 +6,7 @@ module AdvancedSearch
     end
 
     def results
-      process_node(query).pluck(:id)
+      process_node(query).distinct.pluck(:id)
     end
 
     private
