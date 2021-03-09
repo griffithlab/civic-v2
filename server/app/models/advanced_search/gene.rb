@@ -21,7 +21,8 @@ module AdvancedSearch
         return nil
       end
 
-      base_query.where(id: node.id.value)
+      (clause, value) = node.id.resolve_query_for_type('genes.id')
+      base_query.where(clause, value)
     end
 
     def resolve_entrez_id_filter(node)
@@ -29,7 +30,8 @@ module AdvancedSearch
         return nil
       end
 
-      base_query.where(entrez_id: node.id.value)
+      (clause, value) = node.entrez_id.resolve_query_for_type('genes.entrez_id')
+      base_query.where(clause, value)
     end
 
     def resolve_entrez_symbol_filter(node)
@@ -37,7 +39,8 @@ module AdvancedSearch
         return nil
       end
 
-      base_query.where(name: node.entrez_symbol.value)
+      (clause, value) = node.entrez_symbol.resolve_query_for_type('genes.name')
+      base_query.where(clause, value)
     end
 
     def resolve_description_filter(node)
@@ -45,7 +48,8 @@ module AdvancedSearch
         return nil
       end
 
-      base_query.where('genes.description ILIKE ?', node.description.value)
+      (clause, value) = node.description.resolve_query_for_type('genes.description')
+      base_query.where(clause, value)
     end
 
     def resolve_alias_filter(node)
@@ -53,7 +57,8 @@ module AdvancedSearch
         return nil
       end
 
-      base_query.where('gene_aliases.name ILIKE ?', node.alias.value)
+      (clause, value) = node.alias.resolve_query_for_type('gene_aliases.name')
+      base_query.where(clause, value)
     end
 
     def resolve_open_revision_count_filter(node)

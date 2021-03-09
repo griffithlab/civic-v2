@@ -1,5 +1,5 @@
 module Types::AdvancedSearch
-  class IntSearchOperators < Types::BaseEnum
+  class IntSearchOperator < Types::BaseEnum
     value 'EQ', description: 'Equal To'
     value 'NE'
     value 'LT'
@@ -10,7 +10,25 @@ module Types::AdvancedSearch
 
 
   class IntSearchInput < Types::BaseInputObject
-    argument :comparison_operator, Types::AdvancedSearch::IntSearchOperators, required: true
+    argument :comparison_operator, Types::AdvancedSearch::IntSearchOperator, required: true
     argument :value, Int, required: true
+
+    def resolve_query_for_type(column_name)
+      case comparison_operator
+      when 'EQ'
+        ["#{column_name} = ?", value]
+      when 'NE'
+        ["#{column_name} <> ?", value]
+      when 'LT'
+        ["#{column_name} < ?", value]
+      when 'GT'
+        ["#{column_name} > ?", value]
+      when 'LE'
+        ["#{column_name} <= ?", value]
+      when 'GE'
+        ["#{column_name} >= ?", value]
+      end
+
+    end
   end
 end

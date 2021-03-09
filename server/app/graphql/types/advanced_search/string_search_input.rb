@@ -11,5 +11,20 @@ module Types::AdvancedSearch
   class StringSearchInput < Types::BaseInputObject
     argument :comparison_operator, Types::AdvancedSearch::StringSearchOperator, required: true
     argument :value, String, required: true
+
+    def resolve_query_for_type(column_name)
+      case comparison_operator
+      when 'EQ'
+        ["#{column_name} = ?", value]
+      when 'NE'
+        ["#{column_name} != ?", value]
+      when 'CONTAINS'
+        ["#{column_name} ILIKE ?", "%#{value}%"]
+      when 'DOES_NOT_CONTAIN'
+        ["#{column_name} IS NULL OR #{column_name} NOT ILIKE ?", "%#{value}%"]
+      when 'STARTS_WITH'
+        ["#{column_name} ILIKE ?", "#{value}%"]
+      end
+    end
   end
 end
