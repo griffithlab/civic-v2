@@ -28,16 +28,16 @@ module AdvancedSearch
         q = if supplied_search_fields.size == 1
               base_query
             else
-              operation = node.operation.downcase.to_sym
+              operator = node.boolean_operator.downcase.to_sym
               supplied_search_fields[1..-1].inject(base_query) do |q, f|
-                q.send(operation, f)
+                q.send(operator, f)
               end
             end
 
         if node.sub_filters
-          operation = node.operation.downcase.to_sym
+          operator = node.boolean_operator.downcase.to_sym
           node.sub_filters.inject(q) do |q, f|
-            q.send(operation, process_node(f))
+            q.send(operator, process_node(f))
           end
         else
           return q
@@ -47,9 +47,9 @@ module AdvancedSearch
         if node.sub_filters.size == 1
           base_query
         else
-          operation = node.operation.downcase.to_sym
+          operator = node.boolean_operator.downcase.to_sym
           node.sub_filters[1..-1].inject(base_query) do |q, f|
-            q.send(operation, process_node(f))
+            q.send(operator, process_node(f))
           end
         end
       end
@@ -97,8 +97,8 @@ module AdvancedSearch
         return true
       end
 
-      if node.operation.nil?
-        raise StandardError.new('Must supply an operation.')
+      if node.boolean_operator.nil?
+        raise StandardError.new('Must supply a boolean operator.')
       end
     end
   end

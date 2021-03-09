@@ -14,7 +14,7 @@ module Types
     end
 
     field :search_genes, [Int], null: false do
-      argument :query, AdvancedSearch::Genes::GeneSearchFilterType, required: true
+      argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
     end
 
     def gene(id: )

@@ -1,5 +1,5 @@
 module Types::AdvancedSearch
-  class StringSearchOperations < Types::BaseEnum
+  class StringSearchOperator < Types::BaseEnum
     value 'EQ'
     value 'NE'
     value 'CONTAINS'
@@ -9,7 +9,7 @@ module Types::AdvancedSearch
 
 
   class StringSearchInput < Types::BaseInputObject
-    argument :operation_type, Types::AdvancedSearch::StringSearchOperations, required: true
+    argument :comparison_operator, Types::AdvancedSearch::StringSearchOperator, required: true
     argument :value, String, required: true
   end
 end

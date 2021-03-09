@@ -1,5 +1,5 @@
 module Types::AdvancedSearch
-  class IntSearchOperations < Types::BaseEnum
+  class IntSearchOperators < Types::BaseEnum
     value 'EQ', description: 'Equal To'
     value 'NE'
     value 'LT'
@@ -10,7 +10,7 @@ module Types::AdvancedSearch
 
 
   class IntSearchInput < Types::BaseInputObject
-    argument :operation_type, Types::AdvancedSearch::IntSearchOperations, required: true
+    argument :comparison_operator, Types::AdvancedSearch::IntSearchOperators, required: true
     argument :value, Int, required: true
   end
 end
