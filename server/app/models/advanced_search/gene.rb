@@ -1,58 +1,12 @@
 module AdvancedSearch
-  class Gene
-    attr_reader :query
-    def initialize(query:)
-      @query = query
-    end
-
-    def results
-      process_node(query).pluck(:id)
-    end
-
-    private
-    def process_node(node)
-      supplied_search_fields = []
-
-      supplied_search_fields << resolve_id_filter(node)
-      supplied_search_fields << resolve_entrez_id_filter(node)
-      supplied_search_fields << resolve_entrez_symbol_filter(node)
-      supplied_search_fields << resolve_description_filter(node)
-
-      supplied_search_fields.compact!
-
-      validate_node(node, supplied_search_fields)
-
-      if supplied_search_fields.any?
-        base_query = supplied_search_fields.first
-
-        q = if supplied_search_fields.size == 1
-              base_query
-            else
-              operator = node.boolean_operator.downcase.to_sym
-              supplied_search_fields[1..-1].inject(base_query) do |q, f|
-                q.send(operator, f)
-              end
-            end
-
-        if node.sub_filters
-          operator = node.boolean_operator.downcase.to_sym
-          node.sub_filters.inject(q) do |q, f|
-            q.send(operator, process_node(f))
-          end
-        else
-          return q
-        end
-      else
-        base_query = process_node(node.sub_filters.first)
-        if node.sub_filters.size == 1
-          base_query
-        else
-          operator = node.boolean_operator.downcase.to_sym
-          node.sub_filters[1..-1].inject(base_query) do |q, f|
-            q.send(operator, process_node(f))
-          end
-        end
-      end
+  class Gene < AdvancedSearch::Base
+    def resolve_search_fields(node)
+      [
+        resolve_id_filter(node),
+        resolve_entrez_id_filter(node),
+        resolve_entrez_symbol_filter(node),
+        resolve_description_filter(node),
+      ]
     end
 
     def resolve_id_filter(node)
@@ -85,21 +39,6 @@ module AdvancedSearch
       end
 
       ::Gene.where('genes.description ILIKE ?', node.description.value)
-    end
-
-    def validate_node(node, fields)
-
-      if fields.empty? && node.sub_filters.nil?
-        raise StandardError.new('Node has no filters.')
-      end
-
-      if fields.size == 1 && node.sub_filters.nil?
-        return true
-      end
-
-      if node.boolean_operator.nil?
-        raise StandardError.new('Must supply a boolean operator.')
-      end
     end
   end
 end
