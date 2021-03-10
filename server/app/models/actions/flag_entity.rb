@@ -49,6 +49,7 @@ module Actions
         action: 'flagged',
         originating_user: flagging_user,
         subject: flaggable,
+        originating_object: flag,
         organization: resolve_organization(flagging_user, organization_id)
       )
     end
