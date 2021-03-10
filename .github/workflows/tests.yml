@@ -46,9 +46,3 @@ jobs:
           RAILS_ENV: test
         run: bundle exec rails test
         working-directory: ./server
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-path: ./server
