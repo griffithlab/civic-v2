@@ -1,5 +1,6 @@
 class Gene < ActiveRecord::Base
   include Moderated
+  include Subscribable
   #TODO: fix
   #include Commentable
 

@@ -26,7 +26,7 @@ module Actions
         originating_object: comment
       )
       #handle_mentions
-      #subscribe_user
+      subscribe_user
     end
 
     def create_comment
@@ -43,7 +43,7 @@ module Actions
     end
 
     def subscribe_user
-      commentable.subscribe_user(commenter)
+      SubscribeUser.perform_later(commentable, commenter, subscribe_to_children: false)
     end
   end
 end
