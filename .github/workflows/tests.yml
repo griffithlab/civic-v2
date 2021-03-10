@@ -28,10 +28,10 @@ jobs:
 
       - name: 'Setup Ruby'
         uses: ruby/setup-ruby@v1
-        working-directory: ./server
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
+          working-directory: ./server
 
       - name: Setup DB
         env:
