@@ -6,7 +6,7 @@
       <nz-tag [nzColor]="'red'">Flagged</nz-tag>
     </nz-page-header-tags>
 
-  <!--extra-->
+    <!--extra-->
     <nz-page-header-extra>
       <button nz-button>Suggest Revision</button>
       <button nz-button nzNoAnimation nz-dropdown [nzDropdownMenu]="menu" style="border: none; padding: 0">
@@ -22,32 +22,29 @@
     </nz-page-header-extra>
 
     <nz-page-header-content>
-      <div nz-row>
-        <div class="content">
-          <div nz-row>
-            <div nz-col nzSpan="12">
-              {{ obs.gene?.description }}
-            </div>
-            <div nz-col nzSpan="12" >
-              <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
-                <nz-card-tab>
-                  <!-- <nz-tabset nzSize="large" [(nzSelectedIndex)]="index2"> -->
-                  <nz-tabset nzSize="small">
-                    <nz-tab nzTitle="Summary"></nz-tab>
-                    <nz-tab nzTitle="Protein Domain"></nz-tab>
-                    <nz-tab nzTitle="Pathways"></nz-tab>
-                  </nz-tabset>
-                </nz-card-tab>
-                <p>Aliquam erat volutpat.  Nunc eleifend leo vitae magna.  In id erat non orci commodo lobortis.  Proin neque massa, cursus ut, gravida ut, lobortis eget, lacus.  Sed diam.  Praesent fermentum tempor tellus.  Nullam tempus.  Mauris ac felis vel velit tristique imperdiet.  Donec at pede.  Etiam vel neque nec dui dignissim bibendum.  Vivamus id enim.  Phasellus neque orci, porta a, aliquet quis, semper a, massa.  Phasellus purus.  Pellentesque tristique imperdiet tortor.  Nam euismod tellus id erat. </p>
-
-              </nz-card>
-            </div>
+      <div class="content">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="12">
+            {{ obs.gene?.description }}
+          </div>
+          <div nz-col nzSpan="12" >
+            <cvc-my-gene-info [geneInfo]="myGeneInfo$ | async"></cvc-my-gene-info>
           </div>
         </div>
       </div>
     </nz-page-header-content>
   </nz-page-header>
 </ng-container>
-<pre>
-  {{ gene$ | async | json }}
-</pre>
+<!-- <div nz-row>
+     <div nz-col [nzSpan]="12" >
+     <pre>
+     {{ gene$ | async | json }}
+     </pre>
+     </div>
+     <div nz-col [nzSpan]="12" >
+     <pre>
+     {{ myGeneInfo$ | async | json }}
+     </pre>
+     </div>
+
+     </div> -->

@@ -21,9 +21,10 @@ import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesRoutingModule } from './genes-routing.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
+import { MyGeneInfoComponent } from './components/my-gene-info/my-gene-info.component';
 
 @NgModule({
-  declarations: [GenesComponent, GenesBrowseComponent, GenesDetailComponent],
+  declarations: [GenesComponent, GenesBrowseComponent, GenesDetailComponent, MyGeneInfoComponent],
   imports: [
     CommonModule,
     GenesRoutingModule,

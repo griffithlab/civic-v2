@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck} from 'rxjs/operators';
+import { pluck, map} from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes.detail.service';
@@ -14,6 +14,7 @@ import { Gene } from '@app/generated/civic.apollo';
 })
 export class GenesDetailComponent implements OnInit {
   gene$: Observable<any> | undefined;
+  myGeneInfo$: Observable<any> | undefined;
 
   constructor(private api: GenesDetailService,
               private route: ActivatedRoute,
@@ -23,6 +24,10 @@ export class GenesDetailComponent implements OnInit {
       const geneId: string = params['geneId'];
       const source$: Observable<any> = this.api.watchGeneDetail(geneId);
       this.gene$ = source$.pipe(pluck('data', 'gene'));
+      this.myGeneInfo$ = this.gene$.pipe(
+        pluck('myGeneInfoDetails'),
+        map(info => JSON.parse(info))
+      );
     });
   }
 
