@@ -4,6 +4,8 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
+    include Types::Queries::UserQueries
+
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
     field :browseGenes, resolver: Resolvers::BrowseGenes
@@ -20,24 +22,6 @@ module Types
 
     field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :permalink_id, String, required: true
-    end
-
-    field :user, Types::Entities::UserType, null: true do
-      argument :user_id, Int, required: true
-    end
-
-    field :viewer, Types::Entities::UserType, null: true
-
-    def user(user_id:)
-      User.find(user_id)
-    end
-
-    def viewer
-      if context[:current_user].nil?
-        nil
-      else
-        User.find(context[:current_user].id)
-      end
     end
 
     def gene(id: )
