@@ -1,7 +1,7 @@
 <ng-container *ngIf="geneInfo">
   <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
     <nz-card-tab>
-      <nz-tabset nzSize="small" (nzSelectChange)="change($event)">
+      <nz-tabset nzSize="small" (nzSelectChange)="tabChange($event)">
         <nz-tab nzTitle="Overview"> </nz-tab>
         <nz-tab nzTitle="Summary"> </nz-tab>
         <nz-tab nzTitle="Protein Domains"></nz-tab>
@@ -12,25 +12,28 @@
       <!-- overview tab -->
       <ng-container *ngSwitchCase="0">
         <div nz-row [nzGutter]="8">
-          <div nz-col [nzSpan]="6">
-            Entrez Symbol:
+          <div nz-col [nzSpan]="14">
+            <strong>Entrez Symbol:</strong> {{ info.symbol }} (ID: {{ info._id }})
           </div>
-          <div nz-col [nzSpan]="2">
-            {{ geneInfo.symbol }}
-          </div>
-          <div nz-col [nzSpan]="4">
-            Entrez ID:
-          </div>
-          <div nz-col [nzSpan]="2">
-            {{ geneInfo._id }}
-          </div>
-          <div nz-col [nzSpan]="5">
-            UniProtKB ID:
-          </div>
-          <div nz-col [nzSpan]="3">
-            {{ geneInfo.uniprot['Swiss-Prot'] }}
+          <div nz-col [nzSpan]="10">
+            <strong>UniProtKB ID:</strong> {{ info.uniprot['Swiss-Prot'] }}
           </div>
         </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col [nzSpan]="24">
+            <strong>Aliases: </strong> {{ info.alias.join(', ') }}
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col [nzSpan]="24">
+            <strong>Protein Domains: </strong> {{ info.interproList.join(', ') }}
+          </div>
+        </div>
+        <!-- <div nz-row [nzGutter]="8">
+             <div nz-col [nzSpan]="24">
+             <strong>Pathways: </strong> {{ info.pathList.join(', ') }}
+             </div>
+             </div> -->
       </ng-container>
 
       <!-- summary tab -->
