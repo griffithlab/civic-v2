@@ -1,0 +1,12 @@
+diff --git a/node_modules/@angular-devkit/build-angular/src/webpack/configs/styles.js b/node_modules/@angular-devkit/build-angular/src/webpack/configs/styles.js
+index abef458..58a1a4a 100644
+--- a/node_modules/@angular-devkit/build-angular/src/webpack/configs/styles.js
++++ b/node_modules/@angular-devkit/build-angular/src/webpack/configs/styles.js
+@@ -112,6 +112,7 @@ function getStylesConfig(wco) {
+                         implementation: require('less'),
+                         sourceMap: cssSourceMap,
+                         lessOptions: {
++                            math: 'always',
+                             javascriptEnabled: true,
+                             paths: includePaths,
+                         },
