@@ -122,6 +122,7 @@ export type ClinicalTrial = {
 export type Comment = {
   __typename?: 'Comment';
   comment: Scalars['String'];
+  commentor: User;
   id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
 };
@@ -196,6 +197,7 @@ export type FlaggableInput = {
 export type Gene = {
   __typename?: 'Gene';
   aliases?: Maybe<Array<GeneAlias>>;
+  comments?: Maybe<Array<Comment>>;
   description: Scalars['String'];
   entrezId: Scalars['Int'];
   id: Scalars['Int'];
@@ -203,17 +205,9 @@ export type Gene = {
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
-  revisions: Array<Revision>;
+  revisions?: Maybe<Array<Revision>>;
   sources?: Maybe<Array<Source>>;
   variants?: Maybe<Array<Variant>>;
-};
-
-
-export type GeneRevisionsArgs = {
-  fieldName?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  revisionsetId?: Maybe<Scalars['String']>;
-  status?: Maybe<RevisionStatus>;
 };
 
 export type GeneAlias = {
@@ -421,6 +415,7 @@ export type Revision = {
   id: Scalars['Int'];
   linkoutData: LinkoutData;
   revisionsetId: Scalars['String'];
+  revisor: User;
   status: RevisionStatus;
   suggestedValue: Scalars['JSON'];
   updatedAt: Scalars['ISO8601DateTime'];

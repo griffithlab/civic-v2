@@ -127,6 +127,7 @@ type ClinicalTrial {
 
 type Comment {
   comment: String!
+  commentor: User!
   id: Int!
   title: String
 }
@@ -206,6 +207,7 @@ input FlaggableInput {
 
 type Gene {
   aliases: [GeneAlias!]
+  comments: [Comment!]
   description: String!
   entrezId: Int!
   id: Int!
@@ -213,7 +215,7 @@ type Gene {
   myGeneInfoDetails: JSON
   name: String!
   officialName: String!
-  revisions(fieldName: String, first: Int = 5, revisionsetId: String, status: RevisionStatus): [Revision!]!
+  revisions: [Revision!]
   sources: [Source!]
   variants: [Variant!]
 }
@@ -449,6 +451,7 @@ type Revision {
   id: Int!
   linkoutData: LinkoutData!
   revisionsetId: String!
+  revisor: User!
   status: RevisionStatus!
   suggestedValue: JSON!
   updatedAt: ISO8601DateTime!
