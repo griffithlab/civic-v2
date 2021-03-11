@@ -2,10 +2,11 @@
   <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
     <nz-card-tab>
       <nz-tabset nzSize="small" (nzSelectChange)="tabChange($event)" [nzAnimated]="true">
-        <nz-tab nzTitle="Overview"> </nz-tab>
-        <nz-tab nzTitle="Summary"> </nz-tab>
-        <nz-tab nzTitle="Protein Domains"></nz-tab>
-        <nz-tab nzTitle="Pathways"></nz-tab>
+        <nz-tab [nzTitle]="'Overview'"> </nz-tab>
+        <nz-tab [nzTitle]="'Summary'"> </nz-tab>
+        <nz-tab [nzTitle]="'Protein Domains (' + info.interproList.length + ')'"></nz-tab>
+        <nz-tab [nzTitle]="'Pathways (' + info.pathway.length + ')'"></nz-tab>
+
       </nz-tabset>
     </nz-card-tab>
     <ng-container [ngSwitch]="tabIndex" >
@@ -48,7 +49,7 @@
 
       <!-- summary tab -->
       <ng-container *ngSwitchCase="1" >
-        <p>Summary</p>
+        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="12">{{ info.summary }}</p>
       </ng-container>
 
       <!-- summary tab -->
