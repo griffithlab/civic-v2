@@ -620,7 +620,7 @@ export type GeneDetailQuery = (
       & Pick<Variant, 'id' | 'name' | 'description'>
     )>>, comments?: Maybe<Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'title'>
+      & Pick<Comment, 'id' | 'title' | 'comment'>
       & { commentor: (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'name' | 'role'>
@@ -758,6 +758,7 @@ export const GeneDetailDocument = gql`
     comments {
       id
       title
+      comment
       commentor {
         id
         name
