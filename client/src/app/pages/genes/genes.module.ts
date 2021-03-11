@@ -9,7 +9,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
@@ -23,9 +25,10 @@ import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesRoutingModule } from './genes-routing.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { MyGeneInfoComponent } from './components/my-gene-info/my-gene-info.component';
+import { GeneDescriptionComponent } from './components/gene-description/gene-description.component';
 
 @NgModule({
-  declarations: [GenesComponent, GenesBrowseComponent, GenesDetailComponent, MyGeneInfoComponent],
+  declarations: [GenesComponent, GenesBrowseComponent, GenesDetailComponent, MyGeneInfoComponent, GeneDescriptionComponent],
   imports: [
     CommonModule,
     GenesRoutingModule,
@@ -36,7 +39,9 @@ import { MyGeneInfoComponent } from './components/my-gene-info/my-gene-info.comp
     NzCardModule,
     NzDropDownModule,
     NzGridModule,
+    NzListModule,
     NzPageHeaderModule,
+    NzSpaceModule,
     NzTableModule,
     NzTabsModule,
     NzTagModule,

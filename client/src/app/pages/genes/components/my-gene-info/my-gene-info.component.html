@@ -56,7 +56,7 @@
         </div>
       </ng-container>
 
-      <!-- summary tab -->
+      <!-- protein domains tab -->
       <ng-container *ngSwitchCase="2" >
         <nz-table #proteinDomainsTable [nzData]="info.interpro" nzSize="small">
           <thead>
@@ -82,7 +82,7 @@
         </nz-table>
       </ng-container>
 
-      <!-- summary tab -->
+      <!-- pathways tab -->
       <ng-container *ngSwitchCase="3" >
         <nz-table #pathwaysTable [nzData]="info.pathway" nzSize="small">
           <colgroup>
