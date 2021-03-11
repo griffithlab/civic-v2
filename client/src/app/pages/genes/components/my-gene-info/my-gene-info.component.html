@@ -12,54 +12,103 @@
     <ng-container [ngSwitch]="tabIndex" >
       <!-- overview tab -->
       <ng-container *ngSwitchCase="0">
-        <div nz-row [nzGutter]="8">
-          <div nz-col [nzSpan]="6" class="key-col">
-            Entrez Symbol:
+        <div class="tab-padding">
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6" class="key-col">
+              Entrez Symbol:
+            </div>
+            <div nz-col [nzSpan]="18">
+              {{ info.symbol }} (ID: {{ info._id }})
+              <strong style="margin-left: 8px;">UniProtKB ID:</strong> {{ info.uniprot['Swiss-Prot'] }}
+            </div>
           </div>
-          <div nz-col [nzSpan]="18">
-            {{ info.symbol }} (ID: {{ info._id }})
-            <strong style="margin-left: 8px;">UniProtKB ID:</strong> {{ info.uniprot['Swiss-Prot'] }}
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6" class="key-col">
+              Aliases:
+            </div>
+            <div nz-col [nzSpan]="18">
+              {{ info.alias.join(', ') }}
+            </div>
           </div>
-        </div>
-        <div nz-row [nzGutter]="8">
-          <div nz-col [nzSpan]="6" class="key-col">
-            Aliases:
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6" class="key-col">
+              Protein Domains:
+            </div>
+            <div nz-col [nzSpan]="18">
+              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.interproList.join(', ') }}</p>
+            </div>
           </div>
-          <div nz-col [nzSpan]="18">
-            {{ info.alias.join(', ') }}
-          </div>
-        </div>
-        <div nz-row [nzGutter]="8">
-          <div nz-col [nzSpan]="6" class="key-col">
-            Protein Domains:
-          </div>
-          <div nz-col [nzSpan]="18">
-            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.interproList.join(', ') }}</p>
-          </div>
-        </div>
-        <div nz-row [nzGutter]="8">
-          <div nz-col [nzSpan]="6" class="key-col">
-            Pathways:
-          </div>
-          <div nz-col [nzSpan]="18">
-            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.pathwayList.join(', ') }}</p>
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6" class="key-col">
+              Pathways:
+            </div>
+            <div nz-col [nzSpan]="18">
+              <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.pathwayList.join(', ') }}</p>
+            </div>
           </div>
         </div>
       </ng-container>
 
       <!-- summary tab -->
       <ng-container *ngSwitchCase="1" >
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="12">{{ info.summary }}</p>
+        <div class="tab-padding">
+          <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="12">{{ info.summary }}</p>
+        </div>
       </ng-container>
 
       <!-- summary tab -->
       <ng-container *ngSwitchCase="2" >
-        <p>Protein Domains</p>
+        <nz-table #proteinDomainsTable [nzData]="info.interpro" nzSize="small">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let protein of proteinDomainsTable.data">
+              <td>
+                {{ protein.short_desc }}
+              </td>
+              <td>
+                {{ protein.desc }}
+              </td>
+              <td>
+                {{ protein.id }}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
       </ng-container>
 
       <!-- summary tab -->
       <ng-container *ngSwitchCase="3" >
-        <p>Pathways</p>
+        <nz-table #pathwaysTable [nzData]="info.pathway" nzSize="small">
+          <colgroup>
+            <col width="90%">
+            <col width="10%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th class="button-col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pathway of pathwaysTable.data">
+              <td>
+                {{ pathway.name }}
+              </td>
+              <td class="button-col">
+                <a nz-button href="{{ pathway?.link }}" target="_blank"
+                  nzType="default" nzSize="small">
+                  {{ pathway.src}}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
       </ng-container>
     </ng-container>
   </nz-card>
