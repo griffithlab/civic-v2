@@ -46,7 +46,6 @@ export class MyGeneInfoService {
     geneInfo.pathway = pathwaysFinal;
     geneInfo.pathwayList = pathwaysFinal.map(p => p.name);
     geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => { return pd.desc; })
-    // geneInfo.interproList = geneInfo.interpro.map((i: ProteinDomain) => { i.desc });
     if (!Array.isArray(geneInfo.alias) && geneInfo.alias) {
       geneInfo.alias = [geneInfo.alias];
     }

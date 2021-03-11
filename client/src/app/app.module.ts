@@ -10,6 +10,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
 
@@ -45,6 +46,7 @@ registerLocaleData(en);
     NzGridModule,
     NzMenuModule,
     NzToolTipModule,
+    NzTypographyModule,
     ReactiveFormsModule,
     GraphQLModule
   ],

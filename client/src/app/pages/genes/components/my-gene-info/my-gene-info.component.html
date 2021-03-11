@@ -33,7 +33,7 @@
             Protein Domains:
           </div>
           <div nz-col [nzSpan]="18">
-            {{ info.interproList.join(', ') }}
+            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.interproList.join(', ') }}</p>
           </div>
         </div>
         <div nz-row [nzGutter]="8">
@@ -41,7 +41,7 @@
             Pathways:
           </div>
           <div nz-col [nzSpan]="18">
-            {{ info.pathwayList.join(', ') }}
+            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="5">{{ info.pathwayList.join(', ') }}</p>
           </div>
         </div>
       </ng-container>
