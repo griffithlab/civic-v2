@@ -42,7 +42,18 @@
             <div nz-row [nzGutter]="16">
               <nz-col [nzSpan]="12">
                 <nz-card nzTitle="Comments">
-                  COMMENTS
+                  <nz-list nzItemLayout="horizontal">
+                    <nz-list-item *ngFor="let comment of comments$ | async">
+                      <!-- <nz-list-item-meta-title>
+                           {{ comment.title }}
+                           </nz-list-item-meta-title> -->
+                      <nz-list-item-meta
+                        nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                        [nzDescription]="comment.comment">
+                      </nz-list-item-meta>
+                    </nz-list-item>
+                    <!-- <nz-list-empty *ngIf="(comments$ | async).length === 0"></nz-list-empty> -->
+                  </nz-list>
                 </nz-card>
               </nz-col>
               <nz-col [nzSpan]="12">
@@ -59,13 +70,15 @@
 </ng-container>
 <!-- <div nz-row>
      <div nz-col [nzSpan]="12" >
+     <h4>Comments JSON:</h4>
      <pre>
-     {{ gene$ | async | json }}
+     {{ comments$ | async | json }}
      </pre>
      </div>
      <div nz-col [nzSpan]="12" >
+     <h4>Revisions JSON:</h4>
      <pre>
-     {{ myGeneInfo$ | async | json }}
+     {{ revisions$ | async | json }}
      </pre>
      </div>
 

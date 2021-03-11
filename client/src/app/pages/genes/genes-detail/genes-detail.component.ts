@@ -14,6 +14,8 @@ import { Gene } from '@app/generated/civic.apollo';
 })
 export class GenesDetailComponent implements OnInit {
   gene$: Observable<any> | undefined;
+  comments$: Observable<any> | undefined;
+  revisions$: Observable<any> | undefined;
   myGeneInfo$: Observable<any> | undefined;
 
   constructor(private api: GenesDetailService,
@@ -24,6 +26,8 @@ export class GenesDetailComponent implements OnInit {
       const geneId: string = params['geneId'];
       const source$: Observable<any> = this.api.watchGeneDetail(geneId);
       this.gene$ = source$.pipe(pluck('data', 'gene'));
+      this.comments$ = this.gene$.pipe(pluck('comments'));
+      this.revisions$ = this.gene$.pipe(pluck('revisions'));
       this.myGeneInfo$ = this.gene$.pipe(
         pluck('myGeneInfoDetails'),
         map(info => JSON.parse(info))
