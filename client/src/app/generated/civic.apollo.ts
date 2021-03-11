@@ -581,15 +581,36 @@ export type GeneDetailQuery = (
       & Pick<GeneAlias, 'name'>
     )>>, lifecycleActions: (
       { __typename?: 'Lifecycle' }
-      & { lastModified?: Maybe<(
+      & { lastCommentedOn?: Maybe<(
         { __typename?: 'Event' }
-        & Pick<Event, 'id' | 'createdAt'>
+        & Pick<Event, 'createdAt' | 'id'>
+        & { organization: (
+          { __typename?: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        ), originatingUser: (
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'name'>
+        ) }
+      )>, lastModified?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'createdAt' | 'id'>
+        & { organization: (
+          { __typename?: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        ), originatingUser: (
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'name'>
+        ) }
       )>, lastReviewed?: Maybe<(
         { __typename?: 'Event' }
-        & Pick<Event, 'id' | 'createdAt'>
-      )>, lastCommentedOn?: Maybe<(
-        { __typename?: 'Event' }
-        & Pick<Event, 'id' | 'createdAt'>
+        & Pick<Event, 'createdAt' | 'id'>
+        & { organization: (
+          { __typename?: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        ), originatingUser: (
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'name'>
+        ) }
       )> }
     ), sources?: Maybe<Array<(
       { __typename?: 'Source' }
@@ -597,6 +618,27 @@ export type GeneDetailQuery = (
     )>>, variants?: Maybe<Array<(
       { __typename?: 'Variant' }
       & Pick<Variant, 'id' | 'name' | 'description'>
+    )>>, comments?: Maybe<Array<(
+      { __typename?: 'Comment' }
+      & Pick<Comment, 'id' | 'title'>
+      & { commentor: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'role'>
+        & { organizations?: Maybe<Array<(
+          { __typename?: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        )>> }
+      ) }
+    )>>, revisions?: Maybe<Array<(
+      { __typename?: 'Revision' }
+      & Pick<Revision, 'id' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+      & { linkoutData: (
+        { __typename?: 'LinkoutData' }
+        & Pick<LinkoutData, 'name'>
+      ), revisor: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name'>
+      ) }
     )>> }
   )> }
 );
@@ -663,17 +705,41 @@ export const GeneDetailDocument = gql`
     }
     id
     lifecycleActions {
-      lastModified {
-        id
+      lastCommentedOn {
         createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastModified {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
       }
       lastReviewed {
-        id
         createdAt
-      }
-      lastCommentedOn {
         id
-        createdAt
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
       }
     }
     name
@@ -688,6 +754,34 @@ export const GeneDetailDocument = gql`
       id
       name
       description
+    }
+    comments {
+      id
+      title
+      commentor {
+        id
+        name
+        organizations {
+          id
+          name
+        }
+        role
+      }
+    }
+    revisions {
+      id
+      createdAt
+      fieldName
+      currentValue
+      suggestedValue
+      linkoutData {
+        name
+      }
+      revisor {
+        id
+        name
+      }
+      status
     }
     myGeneInfoDetails
   }

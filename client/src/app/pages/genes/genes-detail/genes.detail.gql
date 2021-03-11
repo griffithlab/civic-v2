@@ -7,17 +7,41 @@ query GeneDetail($geneId: ID!) {
     }
     id
     lifecycleActions {
-      lastModified {
-        id
+      lastCommentedOn {
         createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastModified {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
       }
       lastReviewed {
-        id
         createdAt
-      }
-      lastCommentedOn {
         id
-        createdAt
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
       }
     }
     name
@@ -32,6 +56,34 @@ query GeneDetail($geneId: ID!) {
       id
       name
       description
+    }
+    comments {
+      id
+      title
+      commentor {
+        id
+        name
+        organizations {
+          id
+          name
+        }
+        role
+      }
+    }
+    revisions {
+      id
+      createdAt
+      fieldName
+      currentValue
+      suggestedValue
+      linkoutData {
+        name
+      }
+      revisor {
+        id
+        name
+      }
+      status
     }
     myGeneInfoDetails
   }
