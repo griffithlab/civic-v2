@@ -11,7 +11,7 @@ class Revision < ApplicationRecord
   },
   allow_blank: false
 
-  def suggesting_user
+  def revisor
     events
       .where(action: 'revision suggested')
       .first
