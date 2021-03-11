@@ -1,8 +1,6 @@
 class Gene < ActiveRecord::Base
   include Moderated
-  #TODO: fix
-  #include Commentable
-
+  include Commentable
 
   has_many :variants
   has_many :assertions
