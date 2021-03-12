@@ -123,6 +123,7 @@ export type Comment = {
   __typename?: 'Comment';
   comment: Scalars['String'];
   commentor: User;
+  createdAt: Scalars['ISO8601DateTime'];
   id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
 };
@@ -620,7 +621,7 @@ export type GeneDetailQuery = (
       & Pick<Variant, 'id' | 'name' | 'description'>
     )>>, comments?: Maybe<Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'title' | 'comment'>
+      & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
       & { commentor: (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'name' | 'role'>
@@ -757,6 +758,7 @@ export const GeneDetailDocument = gql`
     }
     comments {
       id
+      createdAt
       title
       comment
       commentor {
