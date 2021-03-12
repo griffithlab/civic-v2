@@ -8,6 +8,11 @@ module Types
     # They will be entry points for queries on your schema.
     field :browseGenes, resolver: Resolvers::BrowseGenes
 
+    field :disease, Types::Entities::DiseaseType, null: true do
+      description "Find a disease by CIViC ID"
+      argument :id, ID, required: true
+    end
+
     field :gene, Types::Entities::GeneType, null: true do
       description "Find a gene by CIViC ID"
       argument :id, ID, required: true
@@ -25,6 +30,10 @@ module Types
 
     field :search_by_permalink, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :permalink_id, String, required: true
+    end
+
+    def disease(id: )
+      Disease.find(id)
     end
 
     def gene(id: )
