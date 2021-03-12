@@ -19,12 +19,13 @@ module Subscribable
     end
   end
 
-  def unsubscribe_user(user, unsubscribe_to_children: false)
+  def unsubscribe_user(user, unsubscribe_from_children: false)
     subscribables =  EventHierarchy.self_with_direct_relations(self)
-    if unsubscribe_to_children
+    if unsubscribe_from_children
       subscribables.concat(EventHierarchy.self_with_children(self))
     end
     Subscription.where(subscribable: subscribables, user: user).destroy_all
+    subscribables
   end
 
   def subscribable_name

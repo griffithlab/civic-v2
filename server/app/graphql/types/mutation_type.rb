@@ -13,5 +13,6 @@ module Types
 
     #subscriptions
     field :subscribe, mutation: Mutations::Subscribe
+    field :unsubscribe, mutation: Mutations::Unsubscribe
   end
 end
