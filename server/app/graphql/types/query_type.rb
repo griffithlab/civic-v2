@@ -13,6 +13,11 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :drug, Types::Entities::DrugType, null: true do
+      description "Find a drug by CIViC ID"
+      argument :id, ID, required: true
+    end
+
     field :gene, Types::Entities::GeneType, null: true do
       description "Find a gene by CIViC ID"
       argument :id, ID, required: true
@@ -34,6 +39,10 @@ module Types
 
     def disease(id: )
       Disease.find(id)
+    end
+
+    def drug(id: )
+      Drug.find(id)
     end
 
     def gene(id: )
