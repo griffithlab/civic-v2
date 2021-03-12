@@ -13,6 +13,11 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :source, Types::Entities::SourceType, null: true do
+      description "Find a source by CIViC ID"
+      argument :id, ID, required: true
+    end
+
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -24,6 +29,10 @@ module Types
 
     def gene(id: )
       Gene.find(id)
+    end
+
+    def source(id: )
+      Source.find(id)
     end
 
     def search_genes(query:, create_permalink:)
