@@ -50,6 +50,7 @@ class EventHierarchy
         },
         Revision => {
           children: [ ],
+          direct_relations: [ ],
         },
         Assertion => {
           children: [

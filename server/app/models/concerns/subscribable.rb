@@ -14,7 +14,7 @@ module Subscribable
     if subscribe_to_children
       subscribables.concat(EventHierarchy.self_with_children(self))
     end
-    subscribables.uniq.each do |s|
+    subscribables.uniq.flat_map do |s|
       subscription_type.where(subscribable: s, user: user).first_or_create!
     end
   end
