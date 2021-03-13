@@ -7,6 +7,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -17,6 +18,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TimeagoModule } from 'ngx-timeago';
 
 // civic imports
 import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
@@ -37,6 +39,7 @@ import { GeneDescriptionComponent } from './components/gene-description/gene-des
     NzBreadCrumbModule,
     NzButtonModule,
     NzCardModule,
+    NzCommentModule,
     NzDropDownModule,
     NzGridModule,
     NzListModule,
@@ -47,6 +50,7 @@ import { GeneDescriptionComponent } from './components/gene-description/gene-des
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    TimeagoModule.forChild()
   ]
 })
 

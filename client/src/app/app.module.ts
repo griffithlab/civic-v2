@@ -11,6 +11,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TimeagoModule } from 'ngx-timeago';
 
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
 
@@ -47,6 +48,7 @@ registerLocaleData(en);
     NzMenuModule,
     NzToolTipModule,
     NzTypographyModule,
+    TimeagoModule.forRoot(),
     ReactiveFormsModule,
     GraphQLModule
   ],

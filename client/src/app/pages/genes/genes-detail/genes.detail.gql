@@ -59,6 +59,7 @@ query GeneDetail($geneId: ID!) {
     }
     comments {
       id
+      createdAt
       title
       comment
       commentor {
