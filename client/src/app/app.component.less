@@ -5,27 +5,32 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+// removed padding
+// TODO: figure out how to use antd less variables here (removed padding)
+.inner-content {
+  padding: 0;
+  background: #fff;
+  // height: 100%;
+}
+
+// schematic generated styles, modified for fixed header, sidebar
 .app-layout {
-  height: 100vh;
+  min-height: 100vh;
+}
+.right-layout {
+  margin-left: 170px;
 }
 
 .menu-sidebar {
-  position: relative;
-  z-index: 10;
-  min-height: 100vh;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  position: fixed;
+  height: 100%;
+  left: 0;
+  // min-height: 100vh;
+  // box-shadow: 2px 0 6px rgba(0,21,41,.35);
 }
 
-.header-trigger {
-  height: 64px;
-  padding: 20px 24px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all .3s,padding 0s;
-}
-
-.trigger:hover {
-  color: #1890ff;
+nz-content {
+  margin: 12px;
 }
 
 .sidebar-logo {
@@ -55,10 +60,22 @@
   vertical-align: middle;
 }
 
+
+.header-trigger {
+  height: 64px;
+  padding: 20px 24px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .3s,padding 0s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
 nz-header {
   padding: 0;
   width: 100%;
-  z-index: 2;
 }
 
 .app-header {
@@ -67,15 +84,4 @@ nz-header {
   padding: 0;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-}
-
-nz-content {
-  margin: 12px;
-}
-
-// TODO: figure out how to use antd less variables here (removed padding)
-.inner-content {
-  padding: 0;
-  background: #fff;
-  height: 100%;
 }
