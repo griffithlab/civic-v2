@@ -14,6 +14,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +44,7 @@ registerLocaleData(en);
       level: NgxLoggerLevel.TRACE,
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
+    NgxJsonViewerModule,
     NzLayoutModule,
     NzGridModule,
     NzMenuModule,

@@ -8896,6 +8896,13 @@ ng-zorro-antd@^11.0.0:
     resize-observer-polyfill "^1.5.1"
     tslib "^2.0.0"
 
+ngx-json-viewer@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-json-viewer/-/ngx-json-viewer-3.0.2.tgz#91e72fe41f80756181aa0d36b4bfaeac5df5b1b1"
+  integrity sha512-XBj0DgUDIBOeJuAczlFQIIMCaELJGoEbvjBWIXHIh2QebiB5lY6itslRkbE5TAgFn1bYK+2ToxqwspLgP4DDJg==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-logger@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/ngx-logger/-/ngx-logger-4.2.1.tgz#b5d5037efe9e141fd5979a2c48a019c6a2c2873c"
