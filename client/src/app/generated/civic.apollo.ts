@@ -801,19 +801,3 @@ export const GeneDetailDocument = gql`
       super(apollo);
     }
   }
-
-      export interface PossibleTypesResultData {
-        possibleTypes: {
-          [key: string]: string[]
-        }
-      }
-      const result: PossibleTypesResultData = {
-  "possibleTypes": {
-    "ModeratedField": [
-      "ObjectField",
-      "ScalarField"
-    ]
-  }
-};
-      export default result;
-    

@@ -1,0 +1,18 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "ModeratedField",
+        "possibleTypes": [
+          {
+            "name": "ObjectField"
+          },
+          {
+            "name": "ScalarField"
+          }
+        ]
+      }
+    ]
+  }
+}
