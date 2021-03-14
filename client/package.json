@@ -76,6 +76,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "ngx-json-viewer": "^3.0.2",
     "ngx-timeago": "^2.0.0",
     "patch-package": "^6.2.2",
     "prettier": "^2.2.1",
