@@ -3,18 +3,21 @@ import { HttpLink } from 'apollo-angular/http';
 
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { PossibleTypesMap } from '@apollo/client/cache'
+import { PossibleTypesMap } from '@apollo/client/cache';
 
-import introspectionQueryResultData from './generated/civic.possible-types.json';
+import {
+  default as result,
+  IntrospectionResultData,
+} from './generated/civic.possible-types';
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: httpLink.create({ uri }),
-    cache: new InMemoryCache(
-      { possibleTypes: introspectionToPossibleTypes(introspectionQueryResultData) }
-    ),
+    cache: new InMemoryCache({
+      possibleTypes: introspectionToPossibleTypes(result),
+    }),
   };
 }
 
@@ -27,22 +30,25 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     },
   ],
 })
+export class GraphQLModule {}
 
 /**
  * Extracts `PossibleTypesMap` as accepted by `@apollo/client` from GraphQL introspection query result. From: https://github.com/apollographql/apollo-client/issues/6855
  */
-const introspectionToPossibleTypes = (introspectionQueryResultData): PossibleTypesMap => {
-  const possibleTypes = {}
+const introspectionToPossibleTypes = (
+  introspectionResultData: IntrospectionResultData
+): PossibleTypesMap => {
+  const possibleTypes: PossibleTypesMap = {};
 
-  introspectionQueryResultData.__schema.types.forEach(supertype => {
+  introspectionResultData.__schema.types.forEach((supertype) => {
     if (supertype.possibleTypes) {
-      possibleTypes[supertype.name] = supertype.possibleTypes.map(subtype => subtype.name)
+      possibleTypes[supertype.name] = supertype.possibleTypes.map((subtype) => {
+        return subtype.name;
+      });
     }
-  })
+  });
 
-  return possibleTypes
-}
+  return possibleTypes;
+};
 
-export default introspectionToPossibleTypes
-
-export class GraphQLModule {}
+export default introspectionToPossibleTypes;
