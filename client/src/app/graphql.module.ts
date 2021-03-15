@@ -3,7 +3,8 @@ import { HttpLink } from 'apollo-angular/http';
 
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { PossibleTypesMap } from '@apollo/client/cache';
+import { relayStylePagination } from '@apollo/client/utilities';
+import { PossibleTypesMap, TypePolicies, TypePolicy } from '@apollo/client/cache';
 
 import {
   default as result,
@@ -12,11 +13,22 @@ import {
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
+const typePolicies: TypePolicies = {
+  Query: {
+    fields: {
+      genes: relayStylePagination(),
+      comments: relayStylePagination(),
+      revisions: relayStylePagination(),
+    }
+  }
+};
+
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: httpLink.create({ uri }),
     cache: new InMemoryCache({
       possibleTypes: introspectionToPossibleTypes(result),
+      typePolicies: typePolicies
     }),
   };
 }
