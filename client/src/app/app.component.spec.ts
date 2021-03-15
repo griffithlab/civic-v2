@@ -1,35 +1,68 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush  } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { AppComponent } from './app.component';
+import { routes } from './app-routing.module';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
+  let location: Location;
+  let router: Router;
+  let fixture: ComponentFixture<AppComponent>;
+
+  const primaryEntities:string[] = [
+    'assertions',
+    'diseases',
+    'evidence',
+    'genes',
+    'sources',
+    'variants',
+    'variant-groups'
+  ];
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ RouterTestingModule.withRoutes(routes) ],
+      declarations: [ AppComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     }).compileComponents();
+    fixture = TestBed.createComponent(AppComponent);
+
+    router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
+    router.initialNavigation();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  describe('Layout', () => {
+    it('should create the app', () => {
+      const app = fixture.componentInstance;
+      expect(app).toBeTruthy();
+    });
+
+    it(`should have as title 'main'`, () => {
+      const app = fixture.componentInstance;
+      expect(app.title).toEqual('main');
+    });
+
+    it('should display application title', () => {
+      fixture.detectChanges();
+      const compiled = fixture.nativeElement;
+      expect(compiled.querySelector('#app-title').textContent).toContain('CIViC');
+    });
   });
 
-  it(`should have as title 'main'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('main');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('main app is running!');
+  describe('Main Menu', () => {
+    // ensure menu item created for each primary entity
+    primaryEntities.forEach((entity) => {
+      it('should provide a router link to ' + entity + ' view', fakeAsync(() => {
+        const menu = fixture.debugElement.query(By.css('#main-' + entity));
+        menu.triggerEventHandler('click', { button: 0 });
+        flush();
+        expect(location.path()).toEqual('/' + entity);
+      }))
+    });
   });
 });
