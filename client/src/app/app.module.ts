@@ -1,21 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+
+import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
-import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { GraphQLModule } from './graphql.module';
+
+
+import { GraphQLModule } from '@app/graphql.module';
 
 registerLocaleData(en);
 
@@ -28,13 +34,20 @@ registerLocaleData(en);
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    HttpClientXsrfModule,
     BrowserAnimationsModule,
     IconsProviderModule,
+    LoggerModule.forRoot({
+      timestampFormat: 'mediumTime',
+      level: NgxLoggerLevel.TRACE,
+      serverLogLevel: NgxLoggerLevel.ERROR
+    }),
     NzLayoutModule,
+    NzGridModule,
     NzMenuModule,
+    NzToolTipModule,
+    NzTypographyModule,
     ReactiveFormsModule,
-    FormlyModule.forRoot({ extras: { lazyRender: true } }),
-    FormlyNgZorroAntdModule,
     GraphQLModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],

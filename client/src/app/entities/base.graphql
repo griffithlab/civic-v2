@@ -1,6 +1,0 @@
-query {
-  posts {
-    id
-    title
-  }
-}

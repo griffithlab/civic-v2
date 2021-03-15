@@ -1,7 +1,4 @@
 name: Server Unit Tests
-defaults:
-  run:
-    working-directory: server
 on:
   push:
     branches: [ main, staging ]
@@ -34,20 +31,18 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
+          working-directory: ./server
 
       - name: Setup DB
         env:
           CI_BUILD: true
           RAILS_ENV: test
         run: bundle exec rails db:create db:schema:load
+        working-directory: ./server
 
       - name: Run Tests
         env:
           CI_BUILD: true
           RAILS_ENV: test
         run: bundle exec rails test
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ./server

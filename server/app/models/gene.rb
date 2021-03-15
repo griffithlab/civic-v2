@@ -1,9 +1,7 @@
 class Gene < ActiveRecord::Base
   include Moderated
   include Flaggable
-  #TODO: fix
-  #include Commentable
-
+  include Commentable
 
   has_many :variants
   has_many :assertions

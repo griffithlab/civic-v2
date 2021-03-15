@@ -1,0 +1,35 @@
+<nz-row>
+  <nz-col [nzSpan]="24">
+    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="14">{{ description }}</p>
+  </nz-col>
+</nz-row>
+<nz-row [nzGutter]="12">
+  <nz-col [nzSpan]="18">
+    <nz-list *ngIf="sources" nzHeader="Sources" nzBordered nzSize="small">
+      <nz-list-item *ngFor="let source of sources">
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <a href="source.sourceUrl">{{ source.sourceType}}</a>
+          </nz-list-item-action>
+        </ul>
+        {{ source.citation }}
+      </nz-list-item>
+    </nz-list>
+  </nz-col>
+  <nz-col [nzSpan]="6">
+    <nz-space nzDirection="vertical" class="space-align-block">
+      <nz-space-item>
+        <a nz-button href="http://dgidb.org/genes/{{ name }}" target="_blank"
+          nzType="default" nzSize="small" nzBlock class="space-align-block">
+          DGIdb
+        </a>
+      </nz-space-item>
+      <nz-space-item>
+        <a nz-button href="https://pecan.stjude.cloud/proteinpaint/{{ name }}/hg19/civic" target="_blank"
+          nzType="default" nzSize="small" nzBlock class="space-align-block">
+          ProteinPaint
+        </a>
+      </nz-space-item>
+    </nz-space>
+  </nz-col>
+</nz-row>

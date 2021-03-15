@@ -10,6 +10,7 @@ module Types::Revisions
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :revisionset_id, String, null: false
     field :linkout_data, Types::Revisions::LinkoutData, null: false
+    field :revisor, Types::Entities::UserType, null: false
 
     def comments
       Loaders::AssociationLoader.for(Revision, :comments).load(object)
