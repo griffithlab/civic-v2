@@ -7,34 +7,65 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-// removed padding
-// TODO: figure out how to use antd less variables here (removed padding)
-.inner-content {
-  padding: 0;
-  background: #fff;
-  // height: 100%;
-}
+@app-sidebar-width: 170px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
+@app-sidebar-collapsed-width: 64px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
+@app-header-height: 64px;
 
-// schematic generated styles, modified for fixed header, sidebar
+// FIXED SIDEBAR MENU
+
 .app-layout {
   min-height: 100vh;
 }
-.right-layout {
-  margin-left: 170px;
+
+nz-sider {
+  width: @app-sidebar-width;
+  overflow: auto;
+  height: 100%;
+  position: fixed;
+  left: 0;
 }
 
-.menu-sidebar {
-  position: fixed;
-  height: 100%;
-  left: 0;
-  // min-height: 100vh;
-  // box-shadow: 2px 0 6px rgba(0,21,41,.35);
+.right-layout {
+  margin-left: @app-sidebar-width;
+  width: 100%;
+  position: relative;
+  &.is-collapsed {
+    margin-left: @app-sidebar-collapsed-width;
+  }
 }
 
 nz-content {
-  margin: 12px;
+  margin-top: @app-header-height;
+  // margin: 64px 16px 24px 16px;
+  overflow: initial;
+  z-index: 1;
 }
 
+.app-content {
+}
+
+// FIXED HEADER
+nz-header {
+  height: @app-header-height;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
+
+[nz-menu] {
+  line-height: 64px;
+}
+
+.header-trigger {
+  // height: 64px;
+  // padding: 20px 24px;
+  // font-size: 20px;
+  cursor: pointer;
+  color: @geekblue-2;
+  transition: all .3s,padding 0s;
+}
+
+// BRANDING
 .sidebar-logo {
   position: relative;
   height: 64px;
@@ -52,37 +83,94 @@ nz-content {
   vertical-align: middle;
 }
 
-.sidebar-logo h1 {
-  display: inline-block;
-  margin: 0 0 0 20px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-  vertical-align: middle;
-}
+// .sidebar-logo h1 {
+//   display: inline-block;
+//   margin: 0 0 0 20px;
+//   color: #fff;
+//   font-weight: 600;
+//   font-size: 14px;
+//   font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+//   vertical-align: middle;
+// }
 
 
-.header-trigger {
-  height: 64px;
-  padding: 20px 24px;
-  font-size: 20px;
-  cursor: pointer;
-  color: @geekblue-2;
-  transition: all .3s,padding 0s;
-}
 
-.trigger:hover {
-  color: #1890ff;
-}
+// removed padding
+// TODO: figure out how to use antd less variables here (removed padding)
+// .inner-content {
+//   padding: 0;
+//   background: #fff;
+//   // height: 100%;
+// }
 
-nz-header {
-  padding: 0;
-  width: 100%;
-}
+// // schematic generated styles, modified for fixed header, sidebar
+// .app-layout {
+//   min-height: 100vh;
+// }
+// .right-layout {
+//   margin-left: 170px;
+// }
 
-.app-header {
-  position: relative;
-  // height: 64px;
-  padding: 0;
-}
+// .menu-sidebar {
+//   position: fixed;
+//   height: 100%;
+//   left: 0;
+//   // min-height: 100vh;
+//   // box-shadow: 2px 0 6px rgba(0,21,41,.35);
+// }
+
+// nz-content {
+//   margin: 12px;
+// }
+
+// .sidebar-logo {
+//   position: relative;
+//   height: 64px;
+//   padding-left: 24px;
+//   overflow: hidden;
+//   line-height: 64px;
+//   background: #001529;
+//   transition: all .3s;
+// }
+
+// .sidebar-logo img {
+//   display: inline-block;
+//   height: 32px;
+//   width: 32px;
+//   vertical-align: middle;
+// }
+
+// .sidebar-logo h1 {
+//   display: inline-block;
+//   margin: 0 0 0 20px;
+//   color: #fff;
+//   font-weight: 600;
+//   font-size: 14px;
+//   font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+//   vertical-align: middle;
+// }
+
+
+// .header-trigger {
+//   height: 64px;
+//   padding: 20px 24px;
+//   font-size: 20px;
+//   cursor: pointer;
+//   color: @geekblue-2;
+//   transition: all .3s,padding 0s;
+// }
+
+// .trigger:hover {
+//   color: #1890ff;
+// }
+
+// nz-header {
+//   padding: 0;
+//   width: 100%;
+// }
+
+// .app-header {
+//   position: relative;
+//   // height: 64px;
+//   padding: 0;
+// }

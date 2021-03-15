@@ -1,7 +1,8 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar"
+  <nz-sider class="app-sider"
     nzCollapsible
-    nzWidth="170px"
+    [nzWidth]="170"
+    [nzCollapsedWidth]="64"
     nzBreakpoint="md"
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
@@ -80,18 +81,13 @@
       </li>
     </ul>
   </nz-sider>
-  <nz-layout class="right-layout">
-    <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <i class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          ></i>
-        </span>
-      </div>
+  <nz-layout class="right-layout" [ngClass]="{ 'is-collapsed': isCollapsed }">
+    <nz-header class="app-header">
+      <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+        <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" ></i>
+      </span>
     </nz-header>
-    <nz-content class="inner-content">
+    <nz-content class="app-content">
       <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>
