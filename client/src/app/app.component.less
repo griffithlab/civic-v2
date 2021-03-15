@@ -8,9 +8,9 @@
 }
 
 @app-sidebar-width: 170px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
-@app-sidebar-collapsed-width: 64px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
+@app-sidebar-collapsed-width: 64px; // ensure this is kept equal to <nz-sider [nzCollapsedWidth]> in template
 @app-header-height: 64px;
-
+@app-header-padding: 0 16px;
 // FIXED SIDEBAR MENU
 
 .app-layout {
@@ -29,6 +29,8 @@ nz-sider {
   margin-left: @app-sidebar-width;
   width: 100%;
   position: relative;
+  transition: all .2s,padding 0s;
+
   &.is-collapsed {
     margin-left: @app-sidebar-collapsed-width;
   }
@@ -36,7 +38,6 @@ nz-sider {
 
 nz-content {
   margin-top: @app-header-height;
-  // margin: 64px 16px 24px 16px;
   overflow: initial;
   z-index: 1;
 }
@@ -47,22 +48,16 @@ nz-content {
 // FIXED HEADER
 nz-header {
   height: @app-header-height;
+  padding: @app-header-padding;
   position: fixed;
   width: 100%;
   z-index: 10;
 }
 
-[nz-menu] {
-  line-height: 64px;
-}
-
 .header-trigger {
-  // height: 64px;
-  // padding: 20px 24px;
-  // font-size: 20px;
+  height: @app-header-height;
   cursor: pointer;
   color: @geekblue-2;
-  transition: all .3s,padding 0s;
 }
 
 // BRANDING
@@ -71,7 +66,6 @@ nz-header {
   height: 64px;
   padding-left: 24px;
   overflow: hidden;
-  line-height: 64px;
   background: #001529;
   transition: all .3s;
 }
