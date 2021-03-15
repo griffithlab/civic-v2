@@ -28,7 +28,7 @@ module Actions
     end
 
     def update_flaggable_status
-      if flaggable.flags.all? { |f| f.state == 'resolved' }
+      unless flaggable.flags.where(status: 'open').exists?
         flaggable.flagged = false
         flaggable.save
       end
