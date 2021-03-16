@@ -12,8 +12,6 @@ class Mutations::MarkNotificationsAsRead < Mutations::BaseMutation
       notification = Notification.find_by(id: id)
       if notification.nil?
         raise GraphQL::ExecutionError, "Notification with id #{id} doesn't exist."
-      elsif notification.seen
-        raise GraphQL::ExecutionError, "Notification with id #{id} has already been marked as read."
       end
       notification
     end
