@@ -12,7 +12,12 @@ import { iconGene,
          iconCurator,
          iconEditor,
          iconAdmin,
-         iconOrganization } from '@app/generated/civic.icons';
+         iconOrganization,
+         iconRevision,
+         iconSuggestedRevision,
+         iconEvent,
+         iconEventLog
+       } from '@app/generated/civic.icons';
 
 import { Component } from '@angular/core';
 
@@ -38,5 +43,9 @@ export class AppComponent {
     this.iconService.addIconLiteral('civic:admin', iconAdmin.data);
     this.iconService.addIconLiteral('civic:editor', iconEditor.data);
     this.iconService.addIconLiteral('civic:organization', iconOrganization.data);
+    this.iconService.addIconLiteral('civic:revision', iconRevision.data);
+    this.iconService.addIconLiteral('civic:suggested-revision', iconSuggestedRevision.data);
+    this.iconService.addIconLiteral('civic:event', iconEvent.data);
+    this.iconService.addIconLiteral('civic:event-log', iconEventLog.data);
   }
 }

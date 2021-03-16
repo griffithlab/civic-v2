@@ -62,33 +62,70 @@
                 </nz-card>
               </nz-col>
               <nz-col [nzSpan]="12">
-                <nz-card nzTitle="Revisions" >
+                <nz-card nzTitle="Revisions" class="card-list">
                   <nz-list [nzDataSource]="gene.revisions"
                     [nzRenderItem]="revision"
                     nzItemLayout="horizontal">
                     <ng-template #revision let-revision>
                       <nz-list-item>
-                        <nz-descriptions [nzTitle]="'Revision ' +  revision.id">
-                          <nz-descriptions-item nzTitle="Created by">{{ revision.revisor.name }} ({{ revision.revisor.username }})</nz-descriptions-item>
-                          <nz-descriptions-item nzTitle="Created on">{{ revision.createdAt | timeago }}</nz-descriptions-item>
-                          <nz-descriptions-item nzTitle="Status">{{ revision.status }}</nz-descriptions-item>
-                        </nz-descriptions>
+                        <!-- Revision Card -->
+                        <nz-card nzType="inner" nzSize="small"
+                          [nzTitle]="revCardHeaderTitle"
+                          [nzExtra]="revCardHeaderExtra">
+                          <ng-container [ngSwitch]="revision.fieldName">
+                            <ng-container *ngSwitchCase="'source_ids'" >
+                              <ng-container *ngTemplateOutlet="revDiffSourceIds"></ng-container>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'description'" >
+                              <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </nz-card>
+                        <!-- Revision Card Templates -->
+                        <!-- header title -->
+                        <ng-template #revCardHeaderTitle>
+                          <i nz-icon nzType="civic:revision"></i> RID{{ revision.id }}
+                          <span>{{ revision.linkoutData.name }} Updated</span>
+                        </ng-template>
+                        <!-- header secondary & status -->
+                        <ng-template #revCardHeaderExtra>
+                          <nz-space nzSize="small">
+                            <nz-space-item>
+                              <span nz-typography nzType="secondary" >{{ revision.createdAt | timeago }}</span>
+                            </nz-space-item>
+                            <nz-space-item>
+                              <nz-tag>{{ revision.status }}</nz-tag>
+                            </nz-space-item>
+                          </nz-space>
+                        </ng-template>
                       </nz-list-item>
+                      <!-- Field Diff Templates -->
+                      <!-- description -->
+                      <ng-template #revDiffDescription>
+                        <p>Description Diff will go here.</p>
+                      </ng-template>
+                      <!-- sources -->
+                      <ng-template #revDiffSourceIds>
+                        <p>Sources Diff will go here.</p>
+                      </ng-template>
                     </ng-template>
+
                   </nz-list>
                 </nz-card>
 
               </nz-col>
             </div>
           </nz-space-item>
-          <nz-space-item>
-            <div nz-row [nzGutter]="16" >
-              <h4>gene.revisions:</h4>
-              <ngx-json-viewer [json]="gene.revisions"></ngx-json-viewer>
-            </div>
-          </nz-space-item>
         </nz-space>
       </div>
+    </nz-page-header-content>
+    <nz-page-header-content>
+      <nz-row>
+        <nz-col [nzSpan]="24">
+          <h4>gene.revisions:</h4>
+          <ngx-json-viewer [json]="gene.revisions"></ngx-json-viewer>
+        </nz-col>
+      </nz-row>
     </nz-page-header-content>
   </nz-page-header>
 </ng-container>
