@@ -22,7 +22,6 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { IconsProviderModule } from './icons-provider.module';
 
-
 import { GraphQLModule } from '@app/graphql.module';
 import { GenesComponentsModule } from './components/genes/genes-components.module';
 

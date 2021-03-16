@@ -63,11 +63,12 @@
               </nz-col>
               <nz-col [nzSpan]="12">
                 <nz-card nzTitle="Revisions" class="card-list">
-                  <nz-list [nzDataSource]="gene.revisions"
+                  <nz-list [nzDataSource]="gene.revisions" class="revision-list"
                     [nzRenderItem]="revision"
                     nzItemLayout="horizontal">
                     <ng-template #revision let-revision>
                       <nz-list-item>
+
                         <!-- Revision Card -->
                         <nz-card nzType="inner" nzSize="small"
                           [nzTitle]="revCardHeaderTitle"
@@ -81,6 +82,7 @@
                             </ng-container>
                           </ng-container>
                         </nz-card>
+
                         <!-- Revision Card Templates -->
                         <!-- header title -->
                         <ng-template #revCardHeaderTitle>
@@ -99,15 +101,19 @@
                           </nz-space>
                         </ng-template>
                       </nz-list-item>
+
                       <!-- Field Diff Templates -->
                       <!-- description -->
                       <ng-template #revDiffDescription>
                         <nz-row [nzGutter]="8" >
                           <nz-col [nzSpan]="12">
-                            <p>Diff</p>
+                            <cvc-gene-description-revision [revision]="revision">
+
+                            </cvc-gene-description-revision>
+                            <!-- <div [innerHtml]="revision.linkoutData.diffValue.value" class="revision-description-diff"></div> -->
                           </nz-col>
                           <nz-col [nzSpan]="12">
-                            <p>Result</p>
+                            <p>{{ revision.suggestedValue }}</p>
                           </nz-col>
                         </nz-row>
                       </ng-template>
