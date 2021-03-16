@@ -9,11 +9,12 @@ module Types::Entities
     field :official_name, String, null: false
     field :aliases, [Types::Entities::GeneAliasType], null: true
     field :sources, [Types::Entities::SourceType], null: true
-    field :variants, [Types::Entities::VariantType], null: true
+    field :variants, Types::Entities::VariantType.connection_type, null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
     field :revisions, [Types::Revisions::RevisionType], null: true
     field :comments, [Types::Entities::CommentType], null: true
+    field :events, Types::Entities::EventType.connection_type, null: false
 
     def aliases
       Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
@@ -46,5 +47,10 @@ module Types::Entities
     def my_gene_info_details
       MyGeneInfo.get_by_gene_id(object.id)
     end
+
+    def events
+      Loaders::AssociationLoader.for(Gene, :events).load(object)
+    end
+
   end
 end

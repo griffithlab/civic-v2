@@ -6,7 +6,10 @@ class User < ActiveRecord::Base
 
   has_many :comments
   #has_many :subscriptions
-  has_many :events, foreign_key: :originating_user_id
+  has_many :events,
+    ->() { order('events.created_at DESC') },
+    foreign_key: :originating_user_id
+
   #has_one :most_recent_event,
     #->() { order('created_at DESC').limit(1) },
     #class_name: 'Event', foreign_key: :originating_user_id
