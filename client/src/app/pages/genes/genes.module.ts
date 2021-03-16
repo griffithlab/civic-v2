@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
@@ -24,22 +23,26 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { TimeagoModule } from 'ngx-timeago';
 
 // civic imports
+import { IconsProviderModule } from '@app/icons-provider.module'
 import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesRoutingModule } from './genes-routing.module';
-import { IconsProviderModule } from '@app/icons-provider.module';
-import { MyGeneInfoComponent } from './components/my-gene-info/my-gene-info.component';
-import { GeneDescriptionComponent } from './components/gene-description/gene-description.component';
+
+import { GenesComponentsModule } from '@app/components/genes/genes-components.module';
 
 @NgModule({
-  declarations: [GenesComponent, GenesBrowseComponent, GenesDetailComponent, MyGeneInfoComponent, GeneDescriptionComponent],
+  declarations: [
+    GenesComponent,
+    GenesBrowseComponent,
+    GenesDetailComponent,
+  ],
   imports: [
+    GenesComponentsModule,
     CommonModule,
     GenesRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
-    NzBreadCrumbModule,
     NzButtonModule,
     NzCardModule,
     NzCommentModule,

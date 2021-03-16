@@ -102,11 +102,25 @@
                       <!-- Field Diff Templates -->
                       <!-- description -->
                       <ng-template #revDiffDescription>
-                        <p>Description Diff will go here.</p>
+                        <nz-row [nzGutter]="8" >
+                          <nz-col [nzSpan]="12">
+                            <p>Diff</p>
+                          </nz-col>
+                          <nz-col [nzSpan]="12">
+                            <p>Result</p>
+                          </nz-col>
+                        </nz-row>
                       </ng-template>
                       <!-- sources -->
                       <ng-template #revDiffSourceIds>
-                        <p>Sources Diff will go here.</p>
+                        <nz-row [nzGutter]="8" >
+                          <nz-col [nzSpan]="12">
+                            <p>List Before</p>
+                          </nz-col>
+                          <nz-col [nzSpan]="12">
+                            <p>List After</p>
+                          </nz-col>
+                        </nz-row>
                       </ng-template>
                     </ng-template>
 

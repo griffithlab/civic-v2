@@ -24,6 +24,7 @@ import { IconsProviderModule } from './icons-provider.module';
 
 
 import { GraphQLModule } from '@app/graphql.module';
+import { GenesComponentsModule } from './components/genes/genes-components.module';
 
 registerLocaleData(en);
 
@@ -32,12 +33,14 @@ registerLocaleData(en);
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    GenesComponentsModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
     FormsModule,
+    GraphQLModule,
     HttpClientModule,
     HttpClientXsrfModule,
-    BrowserAnimationsModule,
     IconsProviderModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
@@ -45,14 +48,13 @@ registerLocaleData(en);
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
     NgxJsonViewerModule,
-    NzLayoutModule,
     NzGridModule,
+    NzLayoutModule,
     NzMenuModule,
     NzToolTipModule,
     NzTypographyModule,
-    TimeagoModule.forRoot(),
     ReactiveFormsModule,
-    GraphQLModule
+    TimeagoModule.forRoot(),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

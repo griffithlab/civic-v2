@@ -10,7 +10,6 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
@@ -30,7 +29,10 @@ import { GeneDescriptionComponent } from './gene-description/gene-description.co
 import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    GeneDescriptionComponent,
+    MyGeneInfoComponent,
+  ],
   imports: [
     CommonModule,
     IconsProviderModule,
@@ -43,7 +45,6 @@ import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
     NzDropDownModule,
     NzGridModule,
     NzListModule,
-    NzPageHeaderModule,
     NzSpaceModule,
     NzTableModule,
     NzTabsModule,

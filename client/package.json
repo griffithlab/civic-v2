@@ -28,6 +28,7 @@
     "apollo-angular": "^2.1.0",
     "ng-zorro-antd": "^11.0.0",
     "ngx-logger": "^4.2.1",
+    "ngx-timeago": "^2.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -78,7 +79,6 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "ngx-json-viewer": "^3.0.2",
-    "ngx-timeago": "^2.0.0",
     "patch-package": "^6.2.2",
     "prettier": "^2.2.1",
     "protractor": "~7.0.0",
