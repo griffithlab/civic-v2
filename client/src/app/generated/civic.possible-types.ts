@@ -24,6 +24,18 @@
             "name": "ScalarField"
           }
         ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ModeratedFieldDiff",
+        "possibleTypes": [
+          {
+            "name": "ObjectFieldDiff"
+          },
+          {
+            "name": "ScalarField"
+          }
+        ]
       }
     ]
   }

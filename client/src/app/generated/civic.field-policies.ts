@@ -112,9 +112,10 @@ export type LifecycleFieldPolicy = {
 	lastModified?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastReviewed?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LinkoutDataKeySpecifier = ('currentValue' | 'name' | 'suggestedValue' | LinkoutDataKeySpecifier)[];
+export type LinkoutDataKeySpecifier = ('currentValue' | 'diffValue' | 'name' | 'suggestedValue' | LinkoutDataKeySpecifier)[];
 export type LinkoutDataFieldPolicy = {
 	currentValue?: FieldPolicy<any> | FieldReadFunction<any>,
+	diffValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedValue?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -137,6 +138,12 @@ export type ObjectFieldKeySpecifier = ('objects' | ObjectFieldKeySpecifier)[];
 export type ObjectFieldFieldPolicy = {
 	objects?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ObjectFieldDiffKeySpecifier = ('addedObjects' | 'keptObjects' | 'removedObjects' | ObjectFieldDiffKeySpecifier)[];
+export type ObjectFieldDiffFieldPolicy = {
+	addedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
+	keptObjects?: FieldPolicy<any> | FieldReadFunction<any>,
+	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type OrganizationKeySpecifier = ('description' | 'id' | 'name' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -151,12 +158,14 @@ export type PageInfoFieldPolicy = {
 	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
 	startCursor?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseGenes' | 'gene' | 'searchByPermalink' | 'searchGenes' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseGenes' | 'gene' | 'searchByPermalink' | 'searchGenes' | 'user' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
-	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>
+	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	viewer?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RejectRevisionPayloadKeySpecifier = ('clientMutationId' | 'revision' | RejectRevisionPayloadKeySpecifier)[];
 export type RejectRevisionPayloadFieldPolicy = {
@@ -314,6 +323,10 @@ export type TypedTypePolicies = TypePolicies & {
 	ObjectField?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ObjectFieldKeySpecifier | (() => undefined | ObjectFieldKeySpecifier),
 		fields?: ObjectFieldFieldPolicy,
+	},
+	ObjectFieldDiff?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ObjectFieldDiffKeySpecifier | (() => undefined | ObjectFieldDiffKeySpecifier),
+		fields?: ObjectFieldDiffFieldPolicy,
 	},
 	Organization?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | OrganizationKeySpecifier | (() => undefined | OrganizationKeySpecifier),

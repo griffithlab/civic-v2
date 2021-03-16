@@ -299,6 +299,7 @@ type Lifecycle {
 
 type LinkoutData {
   currentValue: ModeratedField!
+  diffValue: ModeratedFieldDiff!
   name: String!
   suggestedValue: ModeratedField!
 }
@@ -307,6 +308,11 @@ type LinkoutData {
 Fields that can have revisions can be either scalar values or complex objects
 """
 union ModeratedField = ObjectField | ScalarField
+
+"""
+Fields that can have revisions can be either scalar values or complex objects
+"""
+union ModeratedFieldDiff = ObjectFieldDiff | ScalarField
 
 type ModeratedObjectField {
   displayName: String!
@@ -350,6 +356,12 @@ type Mutation {
 
 type ObjectField {
   objects: [ModeratedObjectField!]!
+}
+
+type ObjectFieldDiff {
+  addedObjects: [ModeratedObjectField!]!
+  keptObjects: [ModeratedObjectField!]!
+  removedObjects: [ModeratedObjectField!]!
 }
 
 type Organization {
@@ -418,6 +430,8 @@ type Query {
   gene(id: ID!): Gene
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
+  user(userId: Int!): User
+  viewer: User
 }
 
 """
