@@ -1,7 +1,7 @@
 class Notification < ActiveRecord::Base
   self.inheritance_column = :_unused
-  belongs_to :notified_user, class_name: 'User'
-  belongs_to :originating_user, class_name: 'User'
+  belongs_to :notified_user, foreign_key: :notified_user_id, class_name: 'User'
+  belongs_to :originating_user, foreign_key: :originating_user_id, class_name: 'User'
   belongs_to :event
   belongs_to :subscription
 

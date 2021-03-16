@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   belongs_to :organization, required: false
   belongs_to :originating_object, polymorphic: true
 
+  has_many  :notifications
+
   validates :originating_object, :originating_user, :subject, :action, { presence: true }
   validate :subject_is_subscribable
 
