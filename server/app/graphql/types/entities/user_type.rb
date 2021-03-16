@@ -25,7 +25,7 @@ module Types::Entities
       #TODO this should be the same enum we make in notification_type.rb
       argument :notification_type, String, required: false, description: type_desc
       #TODO this should be the same enum we make in event_type.rb
-      argument :event_type, String, required: false, description: event_desc
+      argument :event_type, Types::Entities::Event::EventActionType, required: false, description: event_desc
       argument :subscription_id, Int, required: false, description: sub_desc
       argument :include_seen, Boolean, required: false, default_value: false, description: sub_desc
 

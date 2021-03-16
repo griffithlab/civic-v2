@@ -1,0 +1,2 @@
+class VariantGroup < ApplicationRecord
+end

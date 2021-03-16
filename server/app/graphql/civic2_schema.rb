@@ -1,4 +1,5 @@
 class Civic2Schema < GraphQL::Schema
+  default_max_page_size 25
   mutation(Types::MutationType)
   query(Types::QueryType)
 

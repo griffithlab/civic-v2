@@ -1,0 +1,3 @@
+class SuggestedChange < ApplicationRecord
+
+end
