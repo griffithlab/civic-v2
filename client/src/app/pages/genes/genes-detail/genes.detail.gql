@@ -1,0 +1,38 @@
+query GeneDetail($geneId: ID!) {
+  gene(id: $geneId) {
+    description
+    entrezId
+    aliases {
+      name
+    }
+    id
+    lifecycleActions {
+      lastModified {
+        id
+        createdAt
+      }
+      lastReviewed {
+        id
+        createdAt
+      }
+      lastCommentedOn {
+        id
+        createdAt
+      }
+    }
+    name
+    officialName
+    sources {
+      id
+      citation
+      sourceUrl
+      sourceType
+    }
+    variants {
+      id
+      name
+      description
+    }
+    myGeneInfoDetails
+  }
+}

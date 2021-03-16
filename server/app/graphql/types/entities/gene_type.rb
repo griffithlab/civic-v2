@@ -12,6 +12,8 @@ module Types::Entities
     field :variants, [Types::Entities::VariantType], null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
+    field :revisions, [Types::Revisions::RevisionType], null: true
+    field :comments, [Types::Entities::CommentType], null: true
 
     def aliases
       Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
@@ -23,6 +25,14 @@ module Types::Entities
 
     def variants
       Loaders::AssociationLoader.for(Gene, :variants).load(object)
+    end
+
+    def revisions
+      Loaders::AssociationLoader.for(Gene, :revisions).load(object)
+    end
+
+    def comments
+      Loaders::AssociationLoader.for(Gene, :comments).load(object)
     end
 
     def lifecycle_actions
