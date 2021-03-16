@@ -2,15 +2,16 @@
   <nz-sider class="app-sider"
     nzCollapsible
     [nzWidth]="170"
-    [nzCollapsedWidth]="64"
+    [nzCollapsedWidth]="80"
     nzBreakpoint="md"
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="/welcome">
-        <img src="assets/images/civic-icon_half.svg" alt="CIViC - Clinical Interpretations of Variants in Cancer">
-        <h1 id="app-title">CIViC</h1>
-      </a>
+    <div class="sidebar-logo"
+      [ngClass]="{ 'is-collapsed': isCollapsed }">
+      <img src="assets/images/civic-logo_sidebar-expanded.png" *ngIf="!isCollapsed"
+        alt="CIViC - Clinical Interpretations of Variants in Cancer" >
+      <img src="assets/images/civic-logo_sidebar-collapsed.png" *ngIf="isCollapsed"
+        alt="CIViC - Clinical Interpretations of Variants in Cancer" >
     </div>
     <ul nz-menu
       nzTheme="dark"

@@ -8,10 +8,11 @@
 }
 
 @app-sidebar-width: 170px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
-@app-sidebar-collapsed-width: 64px; // ensure this is kept equal to <nz-sider [nzCollapsedWidth]> in template
+@app-sidebar-collapsed-width: 80px; // ensure this is kept equal to <nz-sider [nzCollapsedWidth]> in template
 @app-header-height: 64px;
 @app-header-padding: 0 16px;
-// FIXED SIDEBAR MENU
+
+// SIDER MENU
 
 .app-layout {
   min-height: 100vh;
@@ -36,16 +37,27 @@ nz-sider {
   }
 }
 
-nz-content {
-  margin-top: @app-header-height;
-  overflow: initial;
-  z-index: 1;
+
+// BRANDING
+.sidebar-logo {
+  height: 90px;
+  img {
+    width: 133px;
+    height: auto;
+    margin: 12px 16px;
+    transition: all .2s;
+  }
+  &.is-collapsed {
+    img {
+      width: 40px;
+      height: auto;
+      margin: 12px 20px;
+      transition: all .2s;
+    }
+  }
 }
 
-.app-content {
-}
-
-// FIXED HEADER
+// HEADER
 nz-header {
   height: @app-header-height;
   padding: @app-header-padding;
@@ -60,111 +72,11 @@ nz-header {
   color: @geekblue-2;
 }
 
-// BRANDING
-.sidebar-logo {
-  position: relative;
-  height: 64px;
-  padding-left: 24px;
-  overflow: hidden;
-  background: #001529;
-  transition: all .3s;
+// CONTENT
+nz-content {
+  margin-top: @app-header-height;
+  overflow: initial;
+  z-index: 1;
+  background-color: @purple-1;
+  padding: 12px;
 }
-
-.sidebar-logo img {
-  display: inline-block;
-  height: 32px;
-  width: 32px;
-  vertical-align: middle;
-}
-
-// .sidebar-logo h1 {
-//   display: inline-block;
-//   margin: 0 0 0 20px;
-//   color: #fff;
-//   font-weight: 600;
-//   font-size: 14px;
-//   font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-//   vertical-align: middle;
-// }
-
-
-
-// removed padding
-// TODO: figure out how to use antd less variables here (removed padding)
-// .inner-content {
-//   padding: 0;
-//   background: #fff;
-//   // height: 100%;
-// }
-
-// // schematic generated styles, modified for fixed header, sidebar
-// .app-layout {
-//   min-height: 100vh;
-// }
-// .right-layout {
-//   margin-left: 170px;
-// }
-
-// .menu-sidebar {
-//   position: fixed;
-//   height: 100%;
-//   left: 0;
-//   // min-height: 100vh;
-//   // box-shadow: 2px 0 6px rgba(0,21,41,.35);
-// }
-
-// nz-content {
-//   margin: 12px;
-// }
-
-// .sidebar-logo {
-//   position: relative;
-//   height: 64px;
-//   padding-left: 24px;
-//   overflow: hidden;
-//   line-height: 64px;
-//   background: #001529;
-//   transition: all .3s;
-// }
-
-// .sidebar-logo img {
-//   display: inline-block;
-//   height: 32px;
-//   width: 32px;
-//   vertical-align: middle;
-// }
-
-// .sidebar-logo h1 {
-//   display: inline-block;
-//   margin: 0 0 0 20px;
-//   color: #fff;
-//   font-weight: 600;
-//   font-size: 14px;
-//   font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-//   vertical-align: middle;
-// }
-
-
-// .header-trigger {
-//   height: 64px;
-//   padding: 20px 24px;
-//   font-size: 20px;
-//   cursor: pointer;
-//   color: @geekblue-2;
-//   transition: all .3s,padding 0s;
-// }
-
-// .trigger:hover {
-//   color: #1890ff;
-// }
-
-// nz-header {
-//   padding: 0;
-//   width: 100%;
-// }
-
-// .app-header {
-//   position: relative;
-//   // height: 64px;
-//   padding: 0;
-// }
