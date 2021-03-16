@@ -4,6 +4,8 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
+    include Types::Queries::UserQueries
+
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
     field :browseGenes, resolver: Resolvers::BrowseGenes
