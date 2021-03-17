@@ -1,5 +1,6 @@
 class Gene < ActiveRecord::Base
   include Moderated
+  include Flaggable
   include Commentable
 
   has_many :variants

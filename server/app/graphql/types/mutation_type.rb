@@ -5,5 +5,6 @@ module Types
     field :reject_revision, mutation: Mutations::RejectRevision
     field :accept_revision, mutation: Mutations::AcceptRevision
     field :flag_entity, mutation: Mutations::FlagEntity
+    field :resolve_flag, mutation: Mutations::ResolveFlag
   end
 end
