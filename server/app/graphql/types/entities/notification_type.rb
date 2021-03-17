@@ -6,7 +6,7 @@ module Types::Entities
     field :event, Types::Entities::EventType, null: false
     field :subscription, Types::SubscriptionType, null: true
     field :seen, Boolean, null: false
-    field :type, String, null: false #TODO this should be an enum type
+    field :type, Types::NotificationReasonType, null: false
 
     def originating_user
       Loaders::AssociationLoader.for(Notification, :originating_user).load(object)

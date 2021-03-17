@@ -4,6 +4,7 @@ module Types::Entities::Event
     value 'REVISION_SUGGESTED', value: 'revision suggested'
     value 'REVISION_REJECTED', value: 'revision rejected'
     value 'REVISION_ACCEPTED', value: 'revision accepted'
+    value 'REVISION_SUPERSEDED', value: 'revision superseded'
     value 'SUBMITTED', value: 'submitted'
     value 'ACCEPTED', value: 'accepted'
     value 'REJECTED', value: 'rejected'
