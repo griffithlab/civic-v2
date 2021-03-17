@@ -7,6 +7,8 @@ module Types::Entities
     field :subscription, Types::SubscriptionType, null: true
     field :seen, Boolean, null: false
     field :type, Types::NotificationReasonType, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def originating_user
       Loaders::AssociationLoader.for(Notification, :originating_user).load(object)
