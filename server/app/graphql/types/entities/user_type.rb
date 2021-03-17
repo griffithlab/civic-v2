@@ -52,7 +52,10 @@ module Types::Entities
         selected_filters[:events][:action] = event_type
       end
 
-      object.notifications.joins(:event).where(selected_filters)
+      object.notifications
+        .joins(:event)
+        .where(selected_filters)
+        .order('notifications.created_at DESC')
     end
 
     def events
