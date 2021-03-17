@@ -28,6 +28,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { GeneDescriptionComponent } from './gene-description/gene-description.component';
 import { GeneDescriptionRevisionComponent } from './gene-description-revision/gene-description-revision.component';
 import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
+import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sources-revision.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
     GeneDescriptionRevisionComponent,
     MyGeneInfoComponent,
     GeneDescriptionRevisionComponent,
+    GeneSourcesRevisionComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +62,7 @@ import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
   exports: [
     GeneDescriptionComponent,
     GeneDescriptionRevisionComponent,
+    GeneSourcesRevisionComponent,
     MyGeneInfoComponent,
   ]
 })
