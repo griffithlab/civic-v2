@@ -1,4 +1,19 @@
-<div class="diff-container"
-  [innerHtml]="revision.linkoutData.diffValue.value">
-
-</div>
+<nz-row [nzGutter]="8">
+  <nz-col [nzSpan]="12">
+    <div class="diff">
+      <div class="ul">
+        <div [innerHtml]="deletions" class="del"> </div>
+      </div>
+    </div>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <div class="diff">
+      <div [innerHtml]="insertions" class="ins"> </div>
+    </div>
+  </nz-col>
+</nz-row>
+<nz-row [nzGutter]="8">
+  <nz-col [nzSpan]="24" >
+    <p>{{ revision.suggestedValue }}</p>
+  </nz-col>
+</nz-row>

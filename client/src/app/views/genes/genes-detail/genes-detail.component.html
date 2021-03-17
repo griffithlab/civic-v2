@@ -105,17 +105,8 @@
                       <!-- Field Diff Templates -->
                       <!-- description -->
                       <ng-template #revDiffDescription>
-                        <nz-row [nzGutter]="8" >
-                          <nz-col [nzSpan]="12">
-                            <cvc-gene-description-revision [revision]="revision">
-
-                            </cvc-gene-description-revision>
-                            <!-- <div [innerHtml]="revision.linkoutData.diffValue.value" class="revision-description-diff"></div> -->
-                          </nz-col>
-                          <nz-col [nzSpan]="12">
-                            <p>{{ revision.suggestedValue }}</p>
-                          </nz-col>
-                        </nz-row>
+                        <cvc-gene-description-revision [revision]="revision">
+                        </cvc-gene-description-revision>
                       </ng-template>
                       <!-- sources -->
                       <ng-template #revDiffSourceIds>

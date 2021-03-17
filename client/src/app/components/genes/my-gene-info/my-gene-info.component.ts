@@ -32,11 +32,7 @@ export class MyGeneInfoComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if(this.geneInfo) {
-      this.logger.trace("this.geneInfo: ");
-      this.logger.trace(this.geneInfo);
       this.info = this.infoService.parse(this.geneInfo);
-      this.logger.trace("this.info: ");
-      this.logger.trace(this.info);
     }
   }
 
