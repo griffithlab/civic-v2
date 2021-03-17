@@ -1,85 +1,44 @@
+@import "~ng-zorro-antd/style/color/colors.less";
+
 :host {
-    display: block;
+  display: block;
 }
 
-// .diff {
-//   border: 1px solid red;
-//   overflow:auto;
-//   del, ins{display:block;text-decoration:none;}
-//   .ins{background:#ddf; color:#008}
-//   .del{background:#fee; color:#b00}
-//   // div.diff:hover{background:#ffc}
-//   /* try 'whitespace:pre;' if you don't want lines to wrap */
-//   del, ins,  span{white-space:pre-wrap;font-family:courier;}
-//   del strong{font-weight:normal;background:#fcc;}
-//   ins strong{font-weight:normal;background:#99f;}
-//   .diff-comment { display: none; }
-//   .diff-block-info { background: none repeat scroll 0 0 gray; }
-// }
+// converted from https://github.com/samg/diffy/blob/main/lib/diffy/css.rb
 .diff {
-    overflow: auto;
-}
+  overflow: auto;
+  width: 100%;
 
-.diff .ul {
-    background: #fff;
-    overflow: auto;
-    font-size: 13px;
-    margin: 0;
-    padding: 0;
-    display: table;
-    width: 100%;
-}
+  .background {
+    padding: 4px 8px;
+  }
 
-.diff del,
-.diff ins {
-    display: block;
+  &.insertions .background {
+    background: @green-1;
+    color: @green-8;
+  }
+
+  &.deletions .background {
+    background: @red-1;
+    color: @red-8;
+  }
+
+  &.suggested .background {
+    background: @geekblue-1;
+    color: @geekblue-8;
+  }
+
+  del, ins {
     text-decoration: none;
-}
+  }
 
-.diff li {
-    padding: 0;
-    display: table-row;
-    margin: 0;
-    height: 1em;
-}
-
-.diff li.ins {
-    background: #dfd;
-    color: #080
-}
-
-.diff li.del {
-    background: #fee;
-    color: #b00
-}
-
-.diff li:hover {
-    background: #ffc
-}
-
-/* try 'whitespace:pre;' if you don't want lines to wrap */
-
-.diff del,
-.diff ins,
-.diff span {
-    // white-space: pre-wrap;
-    // font-family: courier;
-}
-
-.diff del strong {
+  del strong {
     font-weight: normal;
     background: #fcc;
-}
+  }
 
-.diff ins strong {
+  ins strong {
     font-weight: normal;
     background: #9f9;
-}
-
-.diff li.diff-comment {
-    display: none;
-}
-
-.diff li.diff-block-info {
-    background: none repeat scroll 0 0 gray;
+  }
 }

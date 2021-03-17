@@ -1,19 +1,26 @@
-<nz-row [nzGutter]="8">
-  <nz-col [nzSpan]="12">
-    <div class="diff">
-      <div class="ul">
-        <div [innerHtml]="deletions" class="del"> </div>
+<nz-row [nzGutter]="16">
+  <nz-col [nzSpan]="8">
+    <h4>Deletions</h4>
+    <div class="diff deletions">
+      <div class="background">
+        <div [innerHtml]="deletionsHtml"> </div>
       </div>
     </div>
   </nz-col>
-  <nz-col [nzSpan]="12">
-    <div class="diff">
-      <div [innerHtml]="insertions" class="ins"> </div>
+  <nz-col [nzSpan]="8">
+    <h4>Insertions</h4>
+    <div class="diff insertions">
+      <div class="background">
+        <div [innerHtml]="insertionsHtml"> </div>
+      </div>
     </div>
   </nz-col>
-</nz-row>
-<nz-row [nzGutter]="8">
-  <nz-col [nzSpan]="24" >
-    <p>{{ revision.suggestedValue }}</p>
+  <nz-col [nzSpan]="8" >
+    <h4>Suggested</h4>
+    <div class="diff suggested" >
+      <div class="background" >
+        {{ revision.suggestedValue }}
+      </div>
+    </div>
   </nz-col>
 </nz-row>

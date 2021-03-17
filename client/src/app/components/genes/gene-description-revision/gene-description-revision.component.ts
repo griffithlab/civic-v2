@@ -20,8 +20,8 @@ import { NGXLogger } from 'ngx-logger';
 
 export class GeneDescriptionRevisionComponent implements OnChanges {
   @Input() revision!: any;
-  insertions!: string;
-  deletions!: string;
+  insertionsHtml!: string;
+  deletionsHtml!: string;
 
   constructor(private logger: NGXLogger) { }
 
@@ -30,9 +30,9 @@ export class GeneDescriptionRevisionComponent implements OnChanges {
     if(this.revision) {
       const diffDom = new DOMParser().parseFromString(this.revision.linkoutData.diffValue.value, "text/html")
       const ins = diffDom.querySelector('ins');
-      if(ins) { this.insertions = ins.outerHTML; }
+      if(ins) { this.insertionsHtml = ins.outerHTML; }
       const del = diffDom.querySelector('del');
-      if(del) { this.deletions = del.outerHTML; }
+      if(del) { this.deletionsHtml = del.outerHTML; }
     }
   }
 
