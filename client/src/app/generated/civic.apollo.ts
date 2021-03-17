@@ -650,7 +650,7 @@ export type GeneDetailQuery = (
       ) }
     )>>, revisions?: Maybe<Array<(
       { __typename?: 'Revision' }
-      & Pick<Revision, 'id' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+      & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
       & { linkoutData: (
         { __typename?: 'LinkoutData' }
         & Pick<LinkoutData, 'name'>
@@ -807,6 +807,7 @@ export const GeneDetailDocument = gql`
     }
     revisions {
       id
+      revisionsetId
       createdAt
       fieldName
       currentValue

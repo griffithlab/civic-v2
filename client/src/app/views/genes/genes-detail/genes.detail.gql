@@ -74,6 +74,7 @@ query GeneDetail($geneId: ID!) {
     }
     revisions {
       id
+      revisionsetId
       createdAt
       fieldName
       currentValue
