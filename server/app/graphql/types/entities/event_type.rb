@@ -10,7 +10,7 @@ module Types::Entities
     end
 
     def organization
-      Loaders::RecordsLoader.for(Organization).load(object.organization_id)
+      Loaders::RecordLoader.for(Organization).load(object.organization_id)
     end
   end
 end
