@@ -110,20 +110,12 @@
                       </ng-template>
                       <!-- sources -->
                       <ng-template #revDiffSourceIds>
-                        <nz-row [nzGutter]="8" >
-                          <nz-col [nzSpan]="12">
-                            <p>List Before</p>
-                          </nz-col>
-                          <nz-col [nzSpan]="12">
-                            <p>List After</p>
-                          </nz-col>
-                        </nz-row>
+                        <cvc-gene-sources-revision [revision]="revision">
+                        </cvc-gene-sources-revision>
                       </ng-template>
                     </ng-template>
-
                   </nz-list>
                 </nz-card>
-
               </nz-col>
             </div>
           </nz-space-item>

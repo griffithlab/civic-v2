@@ -1,1 +1,38 @@
-<p>gene-sources-revision works!</p>
+<nz-row [nzGutter]="16" >
+  <nz-col [nzSpan]="8">
+    <nz-list nzHeader="Removed Sources" nzBordered nzType="inner" nzSize="small">
+      <nz-list-item *ngFor="let source of removedSources">
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <span nz-typography>{{ source.publication}}</span>
+          </nz-list-item-action>
+        </ul>
+        <span nz-typography>{{ source.citation }}</span> <span nz-typeography nzType="secondary">{{ source.citationId }}</span>
+      </nz-list-item>
+    </nz-list>
+  </nz-col>
+  <nz-col [nzSpan]="8">
+    <nz-list nzHeader="Added Sources" nzBordered nzType="inner" nzSize="small">
+      <nz-list-item *ngFor="let source of addedSources">
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <span nz-typography>{{ source.publication}}</span>
+          </nz-list-item-action>
+        </ul>
+        <span nz-typography>{{ source.citation }}</span>
+      </nz-list-item>
+    </nz-list>
+  </nz-col>
+  <nz-col [nzSpan]="8">
+    <nz-list nzHeader="Suggested Sources" nzBordered nzType="inner" nzSize="small">
+      <nz-list-item *ngFor="let source of suggestedSources">
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <span nz-typography>{{ source.publication}}</span>
+          </nz-list-item-action>
+        </ul>
+        <span nz-typography>{{ source.citation }}</span>
+      </nz-list-item>
+    </nz-list>
+  </nz-col>
+</nz-row>
