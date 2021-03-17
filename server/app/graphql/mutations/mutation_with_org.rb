@@ -2,12 +2,6 @@ module Mutations
   class MutationWithOrg < Mutations::BaseMutation
     argument :organization_id, Int, required: false
 
-    def validate_user_logged_in
-      if ! context[:current_user].present?
-        raise GraphQL::ExecutionError, "You must log in to perform this mutation."
-      end
-    end
-
     def validate_user_org(organization_id)
       if organization_id.present? && !Organization.where(id: organization_id).exists?
         raise GraphQL::ExecutionError, "Organization with id #{organization_id} doesn't exist."
