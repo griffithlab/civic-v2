@@ -24,7 +24,7 @@ extensions:
           - fragment-matcher
         config:
           apolloClientVersion: 2
-      ./src/app/generated/civic.type-policies.ts:
+      ./src/app/generated/civic.field-policies.ts:
         plugins:
           - typescript-apollo-client-helpers
         config:
