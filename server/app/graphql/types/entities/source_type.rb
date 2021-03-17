@@ -3,6 +3,7 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :citation, String, null: false
+    field :citation_id, Int, null: false
     field :source_type, Types::SourceSourceType, null: false
     field :asco_abstract_id, Int, null: true
     field :source_url, String, null: false
