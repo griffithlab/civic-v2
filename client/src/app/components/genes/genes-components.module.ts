@@ -9,6 +9,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -48,6 +49,7 @@ import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sourc
     NzCommentModule,
     NzDescriptionsModule,
     NzDropDownModule,
+    NzEmptyModule,
     NzGridModule,
     NzListModule,
     NzSpaceModule,

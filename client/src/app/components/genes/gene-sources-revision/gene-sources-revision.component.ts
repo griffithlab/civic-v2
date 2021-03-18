@@ -16,34 +16,40 @@ export class GeneSourcesRevisionComponent implements OnChanges {
   addedSources!: DiffSource[];
   keptSources!: DiffSource[];
   suggestedSources!: DiffSource[];
+  currentSources!: DiffSource[];
 
   constructor() { }
 
   ngOnChanges(): void {
     if(this.revision) {
       const diff = this.revision.linkoutData.diffValue;
-      this.removedSources = parseSources(diff.removedObjects);
-      this.addedSources = parseSources(diff.addedObjects);
-      this.keptSources = parseSources(diff.keptObjects);
+      this.removedSources = parseSources(diff.removedObjects, 'removed');
+      this.addedSources = parseSources(diff.addedObjects, 'added');
+      this.keptSources = parseSources(diff.keptObjects, 'kept');
       // collect all diffValue source object
       const all = diff.keptObjects.concat(diff.removedObjects, diff.addedObjects);
       // pluck & parse source objects with ids included in suggestedValue
+      this.currentSources = parseSources(
+        all.filter((s: any) => {
+          return this.revision.currentValue.includes(s.id);
+        }), 'current');
       this.suggestedSources = parseSources(
         all.filter((s: any) => {
           return this.revision.suggestedValue.includes(s.id);
-        }));
+        }), 'suggested');
     }
   }
 
 }
 
-export function parseSources(sources: any[]): any {
+export function parseSources(sources: any[], action: string): DiffSource[] {
   if(sources.length == 0) { return sources; }
   return sources.map((source) => {
     const citationRx = /^(.*) \(ID: (.*)\)/;
     const rxexec = citationRx.exec(source.displayName);
     return {
       id: source.id,
+      action: action,
       citation: rxexec![1],
       citationId: rxexec![2],
       publication: source.displayType
@@ -53,7 +59,8 @@ export function parseSources(sources: any[]): any {
 
 export type DiffSource = {
   id: string
-  citation?: string | null
-  citationId?: string | null
-  publication?: string | null
+  action: string
+  citation?: string
+  citationId?: string
+  publication?: string
 }
