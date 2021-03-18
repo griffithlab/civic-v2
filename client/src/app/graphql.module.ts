@@ -19,6 +19,10 @@ const typePolicies: TypePolicies = {
       genes: relayStylePagination(),
       comments: relayStylePagination(),
       revisions: relayStylePagination(),
+      notifications: relayStylePagination(),
+      events: relayStylePagination(),
+      organizations: relayStylePagination(),
+      users: relayStylePagination(),
     }
   }
 };
