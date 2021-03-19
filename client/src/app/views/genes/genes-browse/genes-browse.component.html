@@ -41,10 +41,10 @@
       <div nz-col [nzSpan]="24">
         <div class="content">
           <nz-table #genesTable
-            [nzShowPagination]="false"
             [nzData]="(genes$ | async)"
             [nzLoading]="(isLoading$ | async)"
-            [nzLoadingIndicator]="loadingTemplate">
+            [nzLoadingDelay]="500"
+            [nzShowPagination]="false">
             <thead>
               <tr>
                 <th width="10%">Name</th>

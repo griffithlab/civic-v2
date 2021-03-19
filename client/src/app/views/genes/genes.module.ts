@@ -11,6 +11,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';import { NzDro
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -54,6 +55,7 @@ import { GenesComponentsModule } from '@app/components/genes/genes-components.mo
     NzPageHeaderModule,
     NzSpaceModule,
     NzSpinModule,
+    NzSkeletonModule,
     NzTableModule,
     NzTabsModule,
     NzTagModule,
