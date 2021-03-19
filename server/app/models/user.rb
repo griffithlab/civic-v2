@@ -34,11 +34,9 @@ class User < ActiveRecord::Base
   validate :require_email_for_editors
   after_create :assign_default_username
 
-  #has_attached_file :profile_image,
-    #styles: { x256: '256x256', x128: '128x128', x64: '64x64', x32: '32x32', x14: '14x14' }
-  #validates_attachment :profile_image,
-      #content_type: { content_type: ["image/jpeg", "image/gif", "image/png"] },
-      #size: { in: 0..15.megabytes }
+  has_one_attached :profile_image
+  validates :profile_image, content_type: ['image/png', 'image/jpg', 'image/jpeg'],
+    size: { less_than: 5.megabytes , message: 'Image must be smaller than 15MB' }
 
   def self.datatable_scope
     joins('LEFT OUTER JOIN events ON events.originating_user_id = users.id')
