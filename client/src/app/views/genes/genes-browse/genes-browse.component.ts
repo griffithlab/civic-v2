@@ -45,7 +45,13 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
   totalPageCount$!: Observable<number>;
   pageInfo$!: Observable<PageInfo>;
 
-  pageSize = 15;
+  initialPageSize = 15;
+  fetchMorePageSize= 15;
+
+  startCursor: string | null | undefined;
+  endCursor: string | null | undefined;
+  hasPreviousPage: boolean | null | undefined;
+  hasNextPage: boolean | null | undefined;
 
   spy: any;
 
@@ -53,12 +59,12 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
     this.spy = create();
 
     const initialQueryArgs: QueryBrowseGenesArgs = {
-      first: this.pageSize
+      first: this.initialPageSize
     }
 
     this.queryRef = this.query.watch(initialQueryArgs);
 
-    this.spy.log('data$');
+    // this.spy.log('data$');
     this.data$ = this.queryRef.valueChanges.pipe(
       tag('data$'),
       map((r: any) => {
@@ -81,7 +87,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
       startWith(true),
       tag('isLoading$'));
 
-    // this.spy.log('genes$');
+    this.spy.log('genes$');
     this.genes$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'nodes'),
       tag('genes$'));
@@ -89,6 +95,12 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
     // this.spy.log('pageInfo$');
     this.pageInfo$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'pageInfo'),
+      tap((info: PageInfo): void => {
+        this.startCursor = info.startCursor;
+        this.endCursor = info.endCursor;
+        this.hasPreviousPage = info.hasPreviousPage;
+        this.hasNextPage = info.hasNextPage;
+      }),
       tag('pageInfo$'));
 
     // this.spy.log('totalCount$');
@@ -104,12 +116,12 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
 
   loadMore():void {
     this.logger.trace('loadMore() called.');
-    // this.queryRef.fetchMore({
-    //   variables: {
-    //     first: this.pageSize,
-    //     after: this.endCursor
-    //   }
-    // });
+    this.queryRef.fetchMore({
+      variables: {
+        first: this.fetchMorePageSize,
+        after: this.endCursor
+      }
+    });
   }
 
   ngOnInit(): void {

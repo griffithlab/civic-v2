@@ -91,16 +91,16 @@
       </div>
     </div>
     <div nz-row>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="8">
         <h4>data$:</h4>
         <ngx-json-viewer *ngIf="(data$ | async) as data" [json]="data"></ngx-json-viewer>
       </div>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="8">
         <h4>genes$</h4>
         <p><button nz-button nzType="primary" (click)="loadMore()">Load More</button></p>
         <ngx-json-viewer *ngIf="(genes$ | async) as genes" [json]="genes"></ngx-json-viewer>
       </div>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="8">
         <h4>pageInfo$</h4>
         <p *ngIf="(totalCount$ | async) as totalCount">Total Count: {{ totalCount }}</p>
         <p *ngIf="(totalPageCount$ | async) as totalPageCount">Total Page Count: {{ totalPageCount }}</p>
