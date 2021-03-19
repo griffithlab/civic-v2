@@ -28,6 +28,13 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
       possibleTypes: introspectionToPossibleTypes(result),
       typePolicies: typePolicies
     }),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-and-network',
+        errorPolicy: 'all',
+        notifyOnNetworkStatusChange: true,
+      },
+    },
   };
 }
 
