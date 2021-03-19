@@ -3,9 +3,9 @@ module Actions
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
     attr_reader :comment, :commenter, :originating_user, :commentable,
-      :subject, :title, :body, :event, :organization_id
+      :subject, :title, :body, :event, :organization_id, :subscribe_user
 
-    def initialize(title: nil, body:, commenter:, commentable:, organization_id: nil)
+    def initialize(title: nil, body:, commenter:, commentable:, organization_id: nil, subscribe_user: true)
       @title = title
       @body = body
       @commenter = commenter
@@ -13,6 +13,7 @@ module Actions
       @commentable = commentable
       @subject = commentable
       @organization_id = organization_id
+      @subscribe_user = subscribe_user
     end
 
     private
@@ -26,7 +27,7 @@ module Actions
         originating_object: comment
       )
       #handle_mentions
-      subscribe_user
+      subscribe_user_to_commentable if subscribe_user
     end
 
     def create_comment
@@ -42,7 +43,7 @@ module Actions
       NotifyMentioned.perform_later(comment.text, comment.user, event)
     end
 
-    def subscribe_user
+    def subscribe_user_to_commentable
       SubscribeUser.perform_later(commentable, commenter, subscribe_to_children: false)
     end
   end

@@ -3,10 +3,20 @@ module Subscribable
 
   included do
     has_many :subscriptions, as: :subscribable
+
     has_many :events, as: :subject
+
+    has_many :originator_events,
+      as: :originating_object,
+      class_name: 'Event'
+
     #TODO make a final decision on delete strategy
     #after_save :sweep_unlinkable_events_for_soft_delete
     #before_destroy :sweep_unlinkable_events_for_hard_delete
+  end
+
+  def all_events
+     Event.where(subject: self).or(Event.where(originating_object: self)).distinct
   end
 
   def subscribe_user(user, subscription_type: OnSiteSubscription, subscribe_to_children: false)

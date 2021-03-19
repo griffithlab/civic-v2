@@ -2,11 +2,11 @@ class Event < ActiveRecord::Base
   belongs_to :subject, polymorphic: true
   belongs_to :originating_user, foreign_key: :originating_user_id, class_name: 'User'
   belongs_to :organization, required: false
-  belongs_to :originating_object, polymorphic: true
+  belongs_to :originating_object, polymorphic: true, required: false
 
   has_many  :notifications
 
-  validates :originating_object, :originating_user, :subject, :action, { presence: true }
+ # validates :originating_object, :originating_user, :subject, :action, { presence: true }
   validate :subject_is_subscribable
 
   before_create :capture_user_role
@@ -14,6 +14,9 @@ class Event < ActiveRecord::Base
   after_commit :queue_feed_updates, on: [:create]
 
   #TODO actions as an enum rather than freetext
+
+  #TODO REMOVE STATE PARAMS
+  serialize :state_params, JSON
 
   def capture_user_role
     self.user_role = self.originating_user.role
