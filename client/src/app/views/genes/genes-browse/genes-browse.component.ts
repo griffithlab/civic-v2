@@ -39,9 +39,10 @@ import {
 export class GenesBrowseComponent implements OnInit, OnDestroy {
   queryRef: QueryRef<any>;
   data$!: Observable<any>;
-  genes$!: Observable<BrowseGene[]>;
+  genes$!: Observable<any>;
   isLoading$!: Observable<boolean>;
-  totalGenes$!: Observable<number>;
+  totalCount$!: Observable<number>;
+  totalPageCount$!: Observable<number>;
   pageInfo$!: Observable<PageInfo>;
 
   pageSize = 15;
@@ -57,7 +58,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
 
     this.queryRef = this.query.watch(initialQueryArgs);
 
-    // this.spy.log('data$');
+    this.spy.log('data$');
     this.data$ = this.queryRef.valueChanges.pipe(
       tag('data$'),
       map((r: any) => {
@@ -74,7 +75,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
     // a `useInitialLoading` option.
     // See: https://github.com/kamilkisiela/apollo-angular/issues/1189
     // and keep an eye on: https://github.com/dotansimha/graphql-code-generator/discussions/5729
-    this.spy.log('isLoading$');
+    // this.spy.log('isLoading$');
     this.isLoading$ = this.data$.pipe(
       pluck('loading'),
       startWith(true),
@@ -85,6 +86,20 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
       pluck('data', 'browseGenes', 'nodes'),
       tag('genes$'));
 
+    // this.spy.log('pageInfo$');
+    this.pageInfo$ = this.data$.pipe(
+      pluck('data', 'browseGenes', 'pageInfo'),
+      tag('pageInfo$'));
+
+    // this.spy.log('totalCount$');
+    this.totalCount$ = this.data$.pipe(
+      pluck('data', 'browseGenes', 'totalCount'),
+      tag('totalCount$'));
+
+    // this.spy.log('totalPageCount$');
+    this.totalPageCount$ = this.data$.pipe(
+      pluck('data', 'browseGenes', 'totalPageCount'),
+      tag('totalPageCount$'));
   }
 
   loadMore():void {
