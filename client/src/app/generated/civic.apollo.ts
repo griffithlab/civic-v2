@@ -578,6 +578,13 @@ export type BrowseGenesQuery = (
         { __typename?: 'Drug' }
         & Pick<Drug, 'name'>
       )>> }
+    )>>>, edges?: Maybe<Array<Maybe<(
+      { __typename?: 'BrowseGeneEdge' }
+      & Pick<BrowseGeneEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename?: 'BrowseGene' }
+        & Pick<BrowseGene, 'id'>
+      )> }
     )>>>, pageInfo: (
       { __typename?: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
@@ -708,14 +715,20 @@ export const BrowseGenesDocument = gql`
       evidenceItemCount
       assertionCount
     }
-    totalCount
-    totalPageCount
+    edges {
+      cursor
+      node {
+        id
+      }
+    }
     pageInfo {
       startCursor
       endCursor
       hasPreviousPage
       hasNextPage
     }
+    totalCount
+    totalPageCount
   }
 }
     `;

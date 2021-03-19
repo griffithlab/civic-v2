@@ -16,13 +16,7 @@ const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 const typePolicies: TypePolicies = {
   Query: {
     fields: {
-      genes: relayStylePagination(),
-      comments: relayStylePagination(),
-      revisions: relayStylePagination(),
-      notifications: relayStylePagination(),
-      events: relayStylePagination(),
-      organizations: relayStylePagination(),
-      users: relayStylePagination(),
+      browseGenes: relayStylePagination(),
     }
   }
 };

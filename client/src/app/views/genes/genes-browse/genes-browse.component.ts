@@ -1,18 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { shareReplay, pluck } from 'rxjs/operators';
-
-import { offsetLimitPagination } from "@apollo/client/utilities";
+import { shareReplay, pluck, map, tap } from 'rxjs/operators';
 
 import { QueryRef } from 'apollo-angular';
 
 import { NGXLogger } from 'ngx-logger';
 
+import { RxjsSpyService } from '@app/utilities/rxjs-spy.service';
+import { tag } from "rxjs-spy/operators/tag";
+
 // import { GenesBrowseService } from './genes.browse.service';
+
 import {
-  Gene,
   BrowseGenesGQL,
+  BrowseGene,
   GenesSortColumns,
   QueryBrowseGenesArgs,
   SortDirection,
@@ -24,40 +30,61 @@ import {
   templateUrl: './genes-browse.component.html',
   styleUrls: ['./genes-browse.component.less'],
 })
-export class GenesBrowseComponent implements OnInit {
-  source$: QueryRef<any>;
-  pageInfo$: Observable<any>;
-  genes$: Observable<any>;
-  pageSize = 25;
-  endCursor = '';
 
-  constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
+export class GenesBrowseComponent implements OnInit, OnDestroy {
+  queryRef: QueryRef<any>;
+  data$!: Observable<any>;
+  genes$!: Observable<BrowseGene[]>;
+  isLoading$!: Observable<boolean>;
+  totalGenes$!: Observable<number>;
+  pageInfo$!: Observable<PageInfo>;
+
+  pageSize = 10;
+  loading = false;
+
+  constructor(private query: BrowseGenesGQL,
+              private logger: NGXLogger,
+              private spy: RxjsSpyService) {
+
+    this.spy.log();
+
     const initialQueryArgs: QueryBrowseGenesArgs = { first: this.pageSize }
 
-    this.source$ = this.query.watch(initialQueryArgs);
-    this.genes$ = this.source$
-      .valueChanges
-      .pipe(shareReplay(1),
-            pluck('data', 'browseGenes', 'nodes'));
+    this.queryRef = this.query.watch(initialQueryArgs);
 
-    this.pageInfo$ = this.source$
-      .valueChanges
-      .pipe(shareReplay(1),
-            pluck('data', 'browseGenes', 'pageInfo'));
+    this.data$ = this.queryRef.valueChanges.pipe(
+      tag('data$'),
+      map((r: any) => {
+        return {
+          data: r.data,
+          loading: r.loading,
+          networkStatus: r.networkStatus
+        };
+      }));
 
-    this.pageInfo$.subscribe((info) => {this.endCursor = info.endCursor})
+    this.isLoading$ = this.data$.pipe(pluck('loading'), tag('isLoading$'));
+
+    this.genes$ = this.data$.pipe(
+      pluck('data', 'browseGenes', 'nodes'),
+      tag('genes$'));
+
   }
 
   loadMore():void {
-    this.source$.fetchMore({
-      variables: {
-        first: this.pageSize,
-        after: this.endCursor
-      }
-    });
+    this.logger.trace('loadMore() called.');
+    // this.queryRef.fetchMore({
+    //   variables: {
+    //     first: this.pageSize,
+    //     after: this.endCursor
+    //   }
+    // });
   }
 
   ngOnInit(): void {
     this.logger.trace('GenesBrowseComponent initialized.');
+  }
+
+  ngOnDestroy(): void {
+    this.logger.trace('GenesBrowseComponent destroyed.');
   }
 }
