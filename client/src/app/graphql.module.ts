@@ -3,7 +3,7 @@ import { HttpLink } from 'apollo-angular/http';
 
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { relayStylePagination } from '@apollo/client/utilities';
+import { relayStylePagination, concatPagination } from '@apollo/client/utilities';
 import { PossibleTypesMap, TypePolicies, TypePolicy } from '@apollo/client/cache';
 
 import {
@@ -30,7 +30,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     }),
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'cache-and-network',
+        fetchPolicy: 'cache-first',
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
       },

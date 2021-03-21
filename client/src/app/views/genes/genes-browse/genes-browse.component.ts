@@ -46,7 +46,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
   pageInfo$!: Observable<PageInfo>;
 
   initialPageSize = 15;
-  fetchMorePageSize= 15;
+  fetchMorePageSize= 10;
 
   startCursor: string | null | undefined;
   endCursor: string | null | undefined;
@@ -89,7 +89,8 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
 
     this.spy.log('genes$');
     this.genes$ = this.data$.pipe(
-      pluck('data', 'browseGenes', 'nodes'),
+      pluck('data', 'browseGenes', 'edges'),
+      map((edges) => { return edges.map((e: any): BrowseGene[] => { return e.node; }) } ),
       tag('genes$'));
 
     // this.spy.log('pageInfo$');
@@ -120,7 +121,16 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
       variables: {
         first: this.fetchMorePageSize,
         after: this.endCursor
-      }
+      },
+      // updateQuery: (prev, { fetchMoreResult }) => {
+      //   this.logger.debug(prev);
+      //   this.logger.debug(fetchMoreResult);
+      //   return {
+      //     nodes: [...prev.nodes, ...fetchMoreResult.nodes],
+      //     edges: [...prev.edges, ...fetchMoreResult.edges],
+      //     pageInfo: fetchMoreResult.pageInfo
+      //   };
+      // },
     });
   }
 
