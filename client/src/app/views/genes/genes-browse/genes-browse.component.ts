@@ -1,19 +1,24 @@
 import {
+  AfterViewInit,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
-  shareReplay,
-  pluck,
   map,
-  tap,
+  pluck,
+  shareReplay,
   startWith,
+  takeUntil,
+  tap,
 } from 'rxjs/operators';
+
+import { NzTableComponent } from 'ng-zorro-antd/table';
 
 import { QueryRef } from 'apollo-angular';
 
@@ -39,6 +44,10 @@ import {
 })
 
 export class GenesBrowseComponent implements OnInit, OnDestroy {
+  @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<BrowseGene>;
+
+  private destroy$ = new Subject();
+
   queryRef: QueryRef<any>;
   data$!: Observable<any>;
   genes$!: Observable<any>;
@@ -145,8 +154,18 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
     this.logger.trace('GenesBrowseComponent initialized.');
   }
 
+  ngAfterViewInit(): void {
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: number) => {
+      console.log('scroll index to', data);
+    });
+  }
+
   ngOnDestroy(): void {
     this.spy.teardown();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.logger.trace('GenesBrowseComponent destroyed.');
   }
 }
