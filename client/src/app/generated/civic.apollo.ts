@@ -567,23 +567,23 @@ export type BrowseGenesQuery = (
     & Pick<BrowseGeneConnection, 'totalCount' | 'totalPageCount'>
     & { nodes?: Maybe<Array<Maybe<(
       { __typename?: 'BrowseGene' }
-      & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-      & { aliases?: Maybe<Array<(
-        { __typename?: 'GeneAlias' }
-        & Pick<GeneAlias, 'name'>
-      )>>, diseases?: Maybe<Array<(
-        { __typename?: 'Disease' }
-        & Pick<Disease, 'name'>
-      )>>, drugs?: Maybe<Array<(
-        { __typename?: 'Drug' }
-        & Pick<Drug, 'name'>
-      )>> }
+      & Pick<BrowseGene, 'id' | 'name'>
     )>>>, edges?: Maybe<Array<Maybe<(
       { __typename?: 'BrowseGeneEdge' }
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename?: 'BrowseGene' }
-        & Pick<BrowseGene, 'id'>
+        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+        & { aliases?: Maybe<Array<(
+          { __typename?: 'GeneAlias' }
+          & Pick<GeneAlias, 'name'>
+        )>>, diseases?: Maybe<Array<(
+          { __typename?: 'Disease' }
+          & Pick<Disease, 'name'>
+        )>>, drugs?: Maybe<Array<(
+          { __typename?: 'Drug' }
+          & Pick<Drug, 'name'>
+        )>> }
       )> }
     )>>>, pageInfo: (
       { __typename?: 'PageInfo' }
@@ -700,25 +700,26 @@ export const BrowseGenesDocument = gql`
   ) {
     nodes {
       id
-      entrezId
       name
-      aliases {
-        name
-      }
-      diseases {
-        name
-      }
-      drugs {
-        name
-      }
-      variantCount
-      evidenceItemCount
-      assertionCount
     }
     edges {
       cursor
       node {
         id
+        entrezId
+        name
+        aliases {
+          name
+        }
+        diseases {
+          name
+        }
+        drugs {
+          name
+        }
+        variantCount
+        evidenceItemCount
+        assertionCount
       }
     }
     pageInfo {
