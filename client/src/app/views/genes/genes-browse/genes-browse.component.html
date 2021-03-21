@@ -44,46 +44,51 @@
             [nzData]="(genes$ | async)"
             [nzLoading]="(isLoading$ | async)"
             [nzLoadingDelay]="500"
+            [nzVirtualForTrackBy]="trackById"
+            [nzScroll]="{ x: '100%', y: '640px' }"
+            [nzFrontPagination]="false"
             [nzShowPagination]="false">
             <thead>
               <tr>
-                <th width="10%">Name</th>
-                <th width="20%">Aliases</th>
-                <th width="25%">Diseases</th>
-                <th width="25%">Drugs</th>
-                <th width="3%"><i nz-icon nzType="civic:variant" nz-tooltip nzTooltipTitle="Variant count"></i></th>
-                <th width="3%"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
-                <th width="3%"><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
+                <th nzWidth="10%">Name</th>
+                <th nzWidth="20%">Aliases</th>
+                <th nzWidth="25%">Diseases</th>
+                <th nzWidth="25%">Drugs</th>
+                <th nzWidth="3%" nzRight><i nz-icon nzType="civic:variant" nz-tooltip nzTooltipTitle="Variant count"></i></th>
+                <th nzWidth="3%" nzRight><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
+                <th nzWidth="3%" nzRight><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let gene of genesTable.data">
-                <td>
-                  <a routerLink="/genes/{{gene.id}}">{{gene.name}}</a>
-                </td>
-                <td>
-                  <span *ngFor="let alias of gene.aliases; last as isLast" >
-                    {{ alias.name }}{{ isLast ? '' : ', ' }}
-                  </span>
-                </td>
-                <td>
-                  <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                    <span *ngFor="let disease of gene.diseases; last as isLast" >
-                      {{ disease.name }}{{ isLast ? '' : ', ' }}
+              <ng-template nz-virtual-scroll let-gene let-id="id">
+                <tr>
+                  <td>
+                    <a routerLink="/genes/{{gene.id}}">{{gene.name}}</a>
+                  </td>
+                  <td>
+                    <span *ngFor="let alias of gene.aliases; last as isLast" >
+                      {{ alias.name }}{{ isLast ? '' : ', ' }}
                     </span>
-                  </p>
-                </td>
-                <td>
-                  <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                    <span *ngFor="let drug of gene.drugs; last as isLast" >
-                      {{ drug.name }}{{ isLast ? '' : ', ' }}
-                    </span>
-                  </p>
-                </td>
-                <td>{{gene.variantCount}}</td>
-                <td>{{gene.evidenceItemCount}}</td>
-                <td>{{gene.assertionCount}}</td>
-              </tr>
+                  </td>
+                  <td>
+                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                      <span *ngFor="let disease of gene.diseases; last as isLast" >
+                        {{ disease.name }}{{ isLast ? '' : ', ' }}
+                      </span>
+                    </p>
+                  </td>
+                  <td>
+                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                      <span *ngFor="let drug of gene.drugs; last as isLast" >
+                        {{ drug.name }}{{ isLast ? '' : ', ' }}
+                      </span>
+                    </p>
+                  </td>
+                  <td nzRight>{{gene.variantCount}}</td>
+                  <td nzRight>{{gene.evidenceItemCount}}</td>
+                  <td nzRight>{{gene.assertionCount}}</td>
+                </tr>
+              </ng-template>
             </tbody>
           </nz-table>
           <ng-template #loadingTemplate><i nz-icon nzType="loading"></i></ng-template>

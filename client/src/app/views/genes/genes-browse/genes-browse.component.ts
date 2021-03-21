@@ -4,6 +4,8 @@ import {
   OnInit
 } from '@angular/core';
 
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+
 import { Observable } from 'rxjs';
 import {
   shareReplay,
@@ -45,8 +47,8 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
   totalPageCount$!: Observable<number>;
   pageInfo$!: Observable<PageInfo>;
 
-  initialPageSize = 15;
-  fetchMorePageSize= 10;
+  initialPageSize = 3;
+  fetchMorePageSize= 3;
 
   startCursor: string | null | undefined;
   endCursor: string | null | undefined;
@@ -113,6 +115,11 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
     this.totalPageCount$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'totalPageCount'),
       tag('totalPageCount$'));
+
+  }
+
+  trackById(_: number, data: BrowseGene): number {
+    return data.id;
   }
 
   loadMore():void {
