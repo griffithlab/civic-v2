@@ -1,3 +1,5 @@
+@import "~ng-zorro-antd/style/color/colors.less";
+
 :host {
   display: flex;
   text-rendering: optimizeLegibility;
@@ -5,77 +7,76 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@app-sidebar-width: 170px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
+@app-sidebar-collapsed-width: 80px; // ensure this is kept equal to <nz-sider [nzCollapsedWidth]> in template
+@app-header-height: 64px;
+@app-header-padding: 0 16px;
+
+// SIDER MENU
+
 .app-layout {
-  height: 100vh;
+  min-height: 100vh;
 }
 
-.menu-sidebar {
+nz-sider {
+  width: @app-sidebar-width;
+  overflow: auto;
+  height: 100%;
+  position: fixed;
+  left: 0;
+}
+
+.right-layout {
+  margin-left: @app-sidebar-width;
+  width: 100%;
   position: relative;
+  transition: all .2s,padding 0s;
+
+  &.is-collapsed {
+    margin-left: @app-sidebar-collapsed-width;
+  }
+}
+
+
+// BRANDING
+.sidebar-logo {
+  height: 90px;
+  img {
+    width: 133px;
+    height: auto;
+    margin: 12px 16px;
+    transition: all .2s;
+  }
+  &.is-collapsed {
+    img {
+      width: 40px;
+      height: auto;
+      margin: 12px 20px;
+      transition: all .2s;
+    }
+  }
+}
+
+// HEADER
+nz-header {
+  height: @app-header-height;
+  padding: @app-header-padding;
+  position: fixed;
+  width: 100%;
   z-index: 10;
-  min-height: 100vh;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
 }
 
 .header-trigger {
-  height: 64px;
-  padding: 20px 24px;
-  font-size: 20px;
+  height: @app-header-height;
   cursor: pointer;
-  transition: all .3s,padding 0s;
+  color: @geekblue-2;
 }
 
-.trigger:hover {
-  color: #1890ff;
-}
-
-.sidebar-logo {
-  position: relative;
-  height: 64px;
-  padding-left: 24px;
-  overflow: hidden;
-  line-height: 64px;
-  background: #001529;
-  transition: all .3s;
-}
-
-.sidebar-logo img {
-  display: inline-block;
-  height: 32px;
-  width: 32px;
-  vertical-align: middle;
-}
-
-.sidebar-logo h1 {
-  display: inline-block;
-  margin: 0 0 0 20px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-  vertical-align: middle;
-}
-
-nz-header {
-  padding: 0;
-  width: 100%;
-  z-index: 2;
-}
-
-.app-header {
-  position: relative;
-  height: 64px;
-  padding: 0;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-}
-
+// CONTENT
 nz-content {
-  margin: 12px;
-}
-
-// TODO: figure out how to use antd less variables here (removed padding)
-.inner-content {
-  padding: 0;
-  background: #fff;
-  height: 100%;
+  margin-top: @app-header-height;
+  overflow: initial;
+  z-index: 1;
+  background-color: @purple-1;
+  padding: 12px;
 }

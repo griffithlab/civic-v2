@@ -1,15 +1,17 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar"
+  <nz-sider class="app-sider"
     nzCollapsible
-    nzWidth="170px"
+    [nzWidth]="170"
+    [nzCollapsedWidth]="80"
     nzBreakpoint="md"
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="/welcome">
-        <img src="assets/images/civic-icon_half.svg" alt="CIViC - Clinical Interpretations of Variants in Cancer">
-        <h1 id="app-title">CIViC</h1>
-      </a>
+    <div class="sidebar-logo"
+      [ngClass]="{ 'is-collapsed': isCollapsed }">
+      <img src="assets/images/civic-logo_sidebar-expanded.png" *ngIf="!isCollapsed"
+        alt="CIViC - Clinical Interpretations of Variants in Cancer" >
+      <img src="assets/images/civic-logo_sidebar-collapsed.png" *ngIf="isCollapsed"
+        alt="CIViC - Clinical Interpretations of Variants in Cancer" >
     </div>
     <ul nz-menu
       nzTheme="dark"
@@ -80,21 +82,14 @@
       </li>
     </ul>
   </nz-sider>
-  <nz-layout>
-    <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <i class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          ></i>
-        </span>
-      </div>
+  <nz-layout class="right-layout" [ngClass]="{ 'is-collapsed': isCollapsed }">
+    <nz-header class="app-header">
+      <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+        <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" ></i>
+      </span>
     </nz-header>
-    <nz-content>
-      <div class="inner-content">
-        <router-outlet></router-outlet>
-      </div>
+    <nz-content class="app-content">
+      <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>
 </nz-layout>

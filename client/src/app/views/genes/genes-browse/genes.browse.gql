@@ -22,30 +22,37 @@ query BrowseGenes(
     after: $after,
   ) {
     nodes {
-      id
-      entrezId
+      id,
       name
-      aliases {
-        name
-      }
-      diseases {
-        name
-      }
-      drugs {
-        name
-      }
-      variantCount
-      evidenceItemCount
-      assertionCount
     }
-    totalCount
-    totalPageCount
+    edges {
+      cursor
+      node {
+        id
+        entrezId
+        name
+        aliases {
+          name
+        }
+        diseases {
+          name
+        }
+        drugs {
+          name
+        }
+        variantCount
+        evidenceItemCount
+        assertionCount
+      }
+    }
     pageInfo {
       startCursor
       endCursor
       hasPreviousPage
       hasNextPage
     }
+    totalCount
+    totalPageCount
   }
 
 }

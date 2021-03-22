@@ -1,0 +1,47 @@
+<nz-row [nzGutter]="16" >
+  <nz-col [nzSpan]="8">
+    <!-- show current sources, if removed, highlight red -->
+    <nz-list nzHeader="Removed Sources" nzBordered nzType="inner" nzSize="small">
+      <nz-list-item *ngFor="let source of removedSources" [ngClass]="source.action">
+        <!-- <ul nz-list-item-actions>
+             <nz-list-item-action>
+             <span nz-typography>{{ source.publication}}</span>
+             </nz-list-item-action>
+             </ul> -->
+        <span nz-typography>{{ source.citation }}</span>
+      </nz-list-item>
+      <nz-list-empty *ngIf="removedSources.length === 0"
+      [nzNoResult]="'No Sources Removed'"></nz-list-empty>
+    </nz-list>
+  </nz-col>
+  <nz-col [nzSpan]="8">
+    <!-- show current sources, plus added sources highlighted green-->
+    <nz-list nzHeader="Added Sources" nzBordered nzType="inner" nzSize="small">
+      <nz-list-item *ngFor="let source of addedSources" [ngClass]="source.action">
+        <!-- <ul nz-list-item-actions>
+             <nz-list-item-action>
+             <span nz-typography>{{ source.publication}}</span>
+             </nz-list-item-action>
+             </ul> -->
+        <span nz-typography>{{ source.citation }}</span>
+      </nz-list-item>
+      <nz-list-empty *ngIf="addedSources.length === 0"
+        [nzNoResult]="'No Sources Added'"></nz-list-empty>
+    </nz-list>
+  </nz-col>
+  <nz-col [nzSpan]="8">
+    <!-- show suggested sources in this revision -->
+    <nz-list nzHeader="Revised Source List" nzBordered nzType="inner" nzSize="small">
+      <nz-list-item *ngFor="let source of suggestedSources" [ngClass]="source.action">
+        <!-- <ul nz-list-item-actions>
+             <nz-list-item-action>
+             <span nz-typography>{{ source.publication}}</span>
+             </nz-list-item-action>
+             </ul> -->
+        <span nz-typography>{{ source.citation }}</span>
+      </nz-list-item>
+      <nz-list-empty *ngIf="suggestedSources.length === 0"
+        [nzNoResult]="'No Sources Kept'"></nz-list-empty>
+    </nz-list>
+  </nz-col>
+</nz-row>
