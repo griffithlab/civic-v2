@@ -10,12 +10,14 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { Observable, Subject } from 'rxjs';
 import {
+  filter,
   map,
+  pairwise,
   pluck,
-  shareReplay,
   startWith,
   takeUntil,
   tap,
+  throttleTime,
 } from 'rxjs/operators';
 
 import { NzTableComponent } from 'ng-zorro-antd/table';
@@ -31,6 +33,7 @@ import { tag } from "rxjs-spy/operators/tag";
 import {
   BrowseGenesGQL,
   BrowseGene,
+  BrowseGeneEdge,
   GenesSortColumns,
   QueryBrowseGenesArgs,
   SortDirection,
@@ -43,21 +46,24 @@ import {
   styleUrls: ['./genes-browse.component.less'],
 })
 
-export class GenesBrowseComponent implements OnInit, OnDestroy {
-  @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<BrowseGene>;
+export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('genesTable', { static: false }) nzTableComponent?: NzTableComponent<BrowseGene>;
 
-  private destroy$ = new Subject();
+  // TODO: figure out why specifying this as CdkVirtualScrollViewport
+  // causes type errors w/ viewport scrolling in ngAfterViewInit
+  viewport!: any;
 
   queryRef: QueryRef<any>;
   data$!: Observable<any>;
   genes$!: Observable<any>;
-  isLoading$!: Observable<boolean>;
-  totalCount$!: Observable<number>;
+  isLoading$: Observable<boolean>;
+  totalCount$: Observable<number>;
   totalPageCount$!: Observable<number>;
   pageInfo$!: Observable<PageInfo>;
 
-  initialPageSize = 3;
-  fetchMorePageSize= 3;
+  initialPageSize = 25;
+  fetchMorePageSize= 25;
+  isLoadingDelay = 500;
 
   startCursor: string | null | undefined;
   endCursor: string | null | undefined;
@@ -65,6 +71,9 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
   hasNextPage: boolean | null | undefined;
 
   spy: any;
+
+  // call in OnDestroy to clean up subscriptions
+  private destroy$ = new Subject();
 
   constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
     this.spy = create();
@@ -98,10 +107,13 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
       startWith(true),
       tag('isLoading$'));
 
-    this.spy.log('genes$');
+    // this.spy.log('genes$');
     this.genes$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'edges'),
-      map((edges) => { return edges.map((e: any): BrowseGene[] => { return e.node; }) } ),
+      map((edges) => {
+        // convert array of edges to array of BrowseGenes
+        return edges.map((e: BrowseGeneEdge): BrowseGene => { return e.node as BrowseGene; })
+      } ),
       tag('genes$'));
 
     // this.spy.log('pageInfo$');
@@ -118,11 +130,13 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
     // this.spy.log('totalCount$');
     this.totalCount$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'totalCount'),
+      startWith(0),
       tag('totalCount$'));
 
     // this.spy.log('totalPageCount$');
     this.totalPageCount$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'totalPageCount'),
+      startWith(0),
       tag('totalPageCount$'));
 
   }
@@ -132,21 +146,11 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
   }
 
   loadMore():void {
-    this.logger.trace('loadMore() called.');
     this.queryRef.fetchMore({
       variables: {
         first: this.fetchMorePageSize,
         after: this.endCursor
       },
-      // updateQuery: (prev, { fetchMoreResult }) => {
-      //   this.logger.debug(prev);
-      //   this.logger.debug(fetchMoreResult);
-      //   return {
-      //     nodes: [...prev.nodes, ...fetchMoreResult.nodes],
-      //     edges: [...prev.edges, ...fetchMoreResult.edges],
-      //     pageInfo: fetchMoreResult.pageInfo
-      //   };
-      // },
     });
   }
 
@@ -155,11 +159,25 @@ export class GenesBrowseComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: number) => {
-      console.log('scroll index to', data);
-    });
+    this.viewport = this.nzTableComponent?.cdkVirtualScrollViewport;
+
+    this.viewport.elementScrolled()
+      .pipe(
+        takeUntil(this.destroy$),
+        // measure pixels to bottom of viewport
+        map(() => this.viewport.measureScrollOffset('bottom')),
+        // pair with previous measurement
+        pairwise(),
+        // only pass events that indicate a scroll-down within 140px of bottom
+        filter(([y1, y2]) => (y2 < y1 && y2 < 140)),
+        // throttle events so we don't cause a lot of loadMore() requests
+        throttleTime(this.isLoadingDelay),
+        tag('elementScrolled'),
+      ).subscribe(() => {
+          this.loadMore();
+      });
+
+    // this.spy.log('elementScrolled');
   }
 
   ngOnDestroy(): void {
