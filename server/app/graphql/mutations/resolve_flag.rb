@@ -1,6 +1,14 @@
 class Mutations::ResolveFlag < Mutations::MutationWithOrg
-  argument :id, Int, required: true
-  argument :comment, String, required: true, validates: { length: { minimum: 10 } }
+  description  <<~DOC.strip
+    Resolve a flag on a CIViC entity indicating that it was either erronously flagged or the issue has been resolved.
+    Any user may resolve their own flag however only editors with valid conflict of interest statements can resolve other flags.
+  DOC
+
+  argument :id, Int, required: true,
+    description: 'The ID of the flag to resolve'
+  argument :comment, String, required: true,
+    validates: { length: { minimum: 10 } },
+    description: 'Text describing the reason for resolving the flag. Will be attached as a comment.'
 
   field :flag, Types::Entities::FlagType, null: true
 
