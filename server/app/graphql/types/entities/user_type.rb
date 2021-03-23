@@ -10,6 +10,17 @@ module Types::Entities
     field :organizations, [Types::Entities::OrganizationType], null: true
     field :events, Types::Entities::EventType.connection_type, null: false
 
+    profile_image_sizes = [256, 128, 64, 32, 18, 12]
+    field :profile_image_path, String, null: true do
+      argument :size, Int, required: false, default_value: 56,
+        validates: {
+          inclusion: {
+            in: profile_image_sizes,
+            message: "Size must be one of [#{profile_image_sizes.join(',')}]"
+          }
+        }
+    end
+
     field :email, String, null: true do
       def authorized?(object, args, context)
         object.id == context[:current_user]&.id
@@ -60,6 +71,14 @@ module Types::Entities
 
     def events
       Loaders::AssociationLoader.for(User, :events).load(object)
+    end
+
+    def profile_image_path(size: )
+      if object.profile_image.attached?
+        object.profile_image.variant(resize_to_limit: [size, size]).processed.url
+      else
+        nil
+      end
     end
   end
 end

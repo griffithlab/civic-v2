@@ -6,8 +6,27 @@ module Types::Entities
     field :description, String, null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
+    profile_image_sizes = [256, 128, 64, 32, 18, 12]
+    field :profile_image_path, String, null: true do
+      argument :size, Int, required: false, default_value: 56,
+        validates: {
+          inclusion: {
+            in: profile_image_sizes,
+            message: "Size must be one of [#{profile_image_sizes.join(',')}]"
+          }
+        }
+    end
+
     def events
       Loaders::AssociationLoader.for(Organization, :events).load(object)
+    end
+
+    def profile_image_path(size: )
+      if object.profile_image.attached?
+        object.profile_image.variant(resize_to_limit: [size, size]).processed.url
+      else
+        nil
+      end
     end
   end
 end
