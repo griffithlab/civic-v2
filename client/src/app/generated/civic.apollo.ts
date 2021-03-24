@@ -128,6 +128,29 @@ export type Comment = {
   title?: Maybe<Scalars['String']>;
 };
 
+/** The connection type for Comment. */
+export type CommentConnection = {
+  __typename?: 'CommentConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<CommentEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Comment>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+  /** Total # of pages, based on total count and pagesize */
+  totalPageCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type CommentEdge = {
+  __typename?: 'CommentEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Comment>;
+};
+
 export enum CommentableEntities {
   Gene = 'GENE'
 }
@@ -285,7 +308,7 @@ export type FlaggableInput = {
 export type Gene = {
   __typename?: 'Gene';
   aliases?: Maybe<Array<GeneAlias>>;
-  comments?: Maybe<Array<Comment>>;
+  comments?: Maybe<CommentConnection>;
   description: Scalars['String'];
   entrezId: Scalars['Int'];
   events: EventConnection;
@@ -294,13 +317,29 @@ export type Gene = {
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
-  revisions?: Maybe<Array<Revision>>;
+  revisions?: Maybe<RevisionConnection>;
   sources?: Maybe<Array<Source>>;
   variants?: Maybe<VariantConnection>;
 };
 
 
+export type GeneCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
 export type GeneEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type GeneRevisionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -690,6 +729,29 @@ export type Revision = {
   updatedAt: Scalars['ISO8601DateTime'];
 };
 
+/** The connection type for Revision. */
+export type RevisionConnection = {
+  __typename?: 'RevisionConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<RevisionEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Revision>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+  /** Total # of pages, based on total count and pagesize */
+  totalPageCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type RevisionEdge = {
+  __typename?: 'RevisionEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Revision>;
+};
+
 export type RevisionResult = {
   __typename?: 'RevisionResult';
   fieldName: Scalars['String'];
@@ -1027,44 +1089,56 @@ export type GeneDetailQuery = (
           & Pick<Variant, 'id' | 'name' | 'description'>
         )> }
       )>>> }
-    )>, comments?: Maybe<Array<(
-      { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
-      & { commentor: (
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-        & { organizations?: Maybe<Array<(
-          { __typename?: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        )>> }
-      ) }
-    )>>, revisions?: Maybe<Array<(
-      { __typename?: 'Revision' }
-      & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-      & { linkoutData: (
-        { __typename?: 'LinkoutData' }
-        & Pick<LinkoutData, 'name'>
-        & { diffValue: (
-          { __typename?: 'ObjectFieldDiff' }
-          & { addedObjects: Array<(
-            { __typename?: 'ModeratedObjectField' }
-            & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-          )>, removedObjects: Array<(
-            { __typename?: 'ModeratedObjectField' }
-            & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-          )>, keptObjects: Array<(
-            { __typename?: 'ModeratedObjectField' }
-            & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-          )> }
-        ) | (
-          { __typename?: 'ScalarField' }
-          & Pick<ScalarField, 'value'>
-        ) }
-      ), revisor: (
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'name'>
-      ) }
-    )>> }
+    )>, comments?: Maybe<(
+      { __typename?: 'CommentConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename?: 'CommentEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'Comment' }
+          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
+          & { commentor: (
+            { __typename?: 'User' }
+            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
+            & { organizations?: Maybe<Array<(
+              { __typename?: 'Organization' }
+              & Pick<Organization, 'id' | 'name'>
+            )>> }
+          ) }
+        )> }
+      )>>> }
+    )>, revisions?: Maybe<(
+      { __typename?: 'RevisionConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename?: 'RevisionEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'Revision' }
+          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+          & { linkoutData: (
+            { __typename?: 'LinkoutData' }
+            & Pick<LinkoutData, 'name'>
+            & { diffValue: (
+              { __typename?: 'ObjectFieldDiff' }
+              & { addedObjects: Array<(
+                { __typename?: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, removedObjects: Array<(
+                { __typename?: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, keptObjects: Array<(
+                { __typename?: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )> }
+            ) | (
+              { __typename?: 'ScalarField' }
+              & Pick<ScalarField, 'value'>
+            ) }
+          ), revisor: (
+            { __typename?: 'User' }
+            & Pick<User, 'id' | 'name'>
+          ) }
+        )> }
+      )>>> }
+    )> }
   )> }
 );
 
@@ -1192,61 +1266,69 @@ export const GeneDetailDocument = gql`
       }
     }
     comments {
-      id
-      createdAt
-      title
-      comment
-      commentor {
-        id
-        name
-        profileImagePath(size: 32)
-        organizations {
+      edges {
+        node {
           id
-          name
+          createdAt
+          title
+          comment
+          commentor {
+            id
+            name
+            profileImagePath(size: 32)
+            organizations {
+              id
+              name
+            }
+            role
+          }
         }
-        role
       }
     }
     revisions {
-      id
-      revisionsetId
-      createdAt
-      fieldName
-      currentValue
-      suggestedValue
-      linkoutData {
-        name
-        diffValue {
-          ... on ObjectFieldDiff {
-            addedObjects {
-              id
-              displayName
-              displayType
-              entityType
-            }
-            removedObjects {
-              id
-              displayName
-              displayType
-              entityType
-            }
-            keptObjects {
-              id
-              displayName
-              displayType
-              entityType
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
             }
           }
-          ... on ScalarField {
-            value
+          revisor {
+            id
+            name
           }
+          status
         }
       }
-      revisor {
-        id
-        name
-      }
-      status
     }
     myGeneInfoDetails
   }

@@ -57,6 +57,19 @@ export type CommentFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CommentConnectionKeySpecifier = ('edges' | 'nodes' | 'pageInfo' | 'totalCount' | 'totalPageCount' | CommentConnectionKeySpecifier)[];
+export type CommentConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalPageCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CommentEdgeKeySpecifier = ('cursor' | 'node' | CommentEdgeKeySpecifier)[];
+export type CommentEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DiseaseKeySpecifier = ('diseaseUrl' | 'displayName' | 'doid' | 'id' | 'name' | DiseaseKeySpecifier)[];
 export type DiseaseFieldPolicy = {
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -268,6 +281,19 @@ export type RevisionFieldPolicy = {
 	suggestedValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type RevisionConnectionKeySpecifier = ('edges' | 'nodes' | 'pageInfo' | 'totalCount' | 'totalPageCount' | RevisionConnectionKeySpecifier)[];
+export type RevisionConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalPageCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RevisionEdgeKeySpecifier = ('cursor' | 'node' | RevisionEdgeKeySpecifier)[];
+export type RevisionEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type RevisionResultKeySpecifier = ('fieldName' | 'id' | 'newlyCreated' | 'revisionsetId' | RevisionResultKeySpecifier)[];
 export type RevisionResultFieldPolicy = {
 	fieldName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -391,6 +417,14 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | CommentKeySpecifier | (() => undefined | CommentKeySpecifier),
 		fields?: CommentFieldPolicy,
 	},
+	CommentConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentConnectionKeySpecifier | (() => undefined | CommentConnectionKeySpecifier),
+		fields?: CommentConnectionFieldPolicy,
+	},
+	CommentEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentEdgeKeySpecifier | (() => undefined | CommentEdgeKeySpecifier),
+		fields?: CommentEdgeFieldPolicy,
+	},
 	Disease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DiseaseKeySpecifier | (() => undefined | DiseaseKeySpecifier),
 		fields?: DiseaseFieldPolicy,
@@ -502,6 +536,14 @@ export type TypedTypePolicies = TypePolicies & {
 	Revision?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RevisionKeySpecifier | (() => undefined | RevisionKeySpecifier),
 		fields?: RevisionFieldPolicy,
+	},
+	RevisionConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevisionConnectionKeySpecifier | (() => undefined | RevisionConnectionKeySpecifier),
+		fields?: RevisionConnectionFieldPolicy,
+	},
+	RevisionEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RevisionEdgeKeySpecifier | (() => undefined | RevisionEdgeKeySpecifier),
+		fields?: RevisionEdgeFieldPolicy,
 	},
 	RevisionResult?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RevisionResultKeySpecifier | (() => undefined | RevisionResultKeySpecifier),

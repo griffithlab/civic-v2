@@ -133,6 +133,47 @@ type Comment {
   title: String
 }
 
+"""
+The connection type for Comment.
+"""
+type CommentConnection {
+  """
+  A list of edges.
+  """
+  edges: [CommentEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Comment]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  totalCount: Int!
+
+  """
+  Total # of pages, based on total count and pagesize
+  """
+  totalPageCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type CommentEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Comment
+}
+
 enum CommentableEntities {
   GENE
 }
@@ -343,7 +384,27 @@ input FlaggableInput {
 
 type Gene {
   aliases: [GeneAlias!]
-  comments: [Comment!]
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): CommentConnection
   description: String!
   entrezId: Int!
   events(
@@ -372,7 +433,27 @@ type Gene {
   myGeneInfoDetails: JSON
   name: String!
   officialName: String!
-  revisions: [Revision!]
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): RevisionConnection
   sources: [Source!]
   variants(
     """
@@ -836,6 +917,47 @@ type Revision {
   status: RevisionStatus!
   suggestedValue: JSON!
   updatedAt: ISO8601DateTime!
+}
+
+"""
+The connection type for Revision.
+"""
+type RevisionConnection {
+  """
+  A list of edges.
+  """
+  edges: [RevisionEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Revision]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  totalCount: Int!
+
+  """
+  Total # of pages, based on total count and pagesize
+  """
+  totalPageCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type RevisionEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Revision
 }
 
 type RevisionResult {

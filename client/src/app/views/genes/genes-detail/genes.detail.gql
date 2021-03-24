@@ -62,61 +62,69 @@ query GeneDetail($geneId: ID!) {
       }
     }
     comments {
-      id
-      createdAt
-      title
-      comment
-      commentor {
-        id
-        name
-        profileImagePath(size: 32)
-        organizations {
+      edges {
+        node {
           id
-          name
+          createdAt
+          title
+          comment
+          commentor {
+            id
+            name
+            profileImagePath(size: 32)
+            organizations {
+              id
+              name
+            }
+            role
+          }
         }
-        role
       }
     }
     revisions {
-      id
-      revisionsetId
-      createdAt
-      fieldName
-      currentValue
-      suggestedValue
-      linkoutData {
-        name
-        diffValue {
-          ... on ObjectFieldDiff {
-            addedObjects {
-              id
-              displayName
-              displayType
-              entityType
-            }
-            removedObjects {
-              id
-              displayName
-              displayType
-              entityType
-            }
-            keptObjects {
-              id
-              displayName
-              displayType
-              entityType
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
             }
           }
-          ... on ScalarField {
-            value
+          revisor {
+            id
+            name
           }
+          status
         }
       }
-      revisor {
-        id
-        name
-      }
-      status
     }
     myGeneInfoDetails
   }
