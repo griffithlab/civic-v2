@@ -53,9 +53,13 @@ query GeneDetail($geneId: ID!) {
       sourceType
     }
     variants {
-      id
-      name
-      description
+      edges {
+        node {
+          id
+          name
+          description
+        }
+      }
     }
     comments {
       id
