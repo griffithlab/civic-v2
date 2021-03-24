@@ -1032,7 +1032,7 @@ export type GeneDetailQuery = (
       & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
       & { commentor: (
         { __typename?: 'User' }
-        & Pick<User, 'id' | 'name' | 'role'>
+        & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
         & { organizations?: Maybe<Array<(
           { __typename?: 'Organization' }
           & Pick<Organization, 'id' | 'name'>
@@ -1199,6 +1199,7 @@ export const GeneDetailDocument = gql`
       commentor {
         id
         name
+        profileImagePath(size: 32)
         organizations {
           id
           name

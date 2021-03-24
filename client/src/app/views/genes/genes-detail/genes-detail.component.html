@@ -50,7 +50,8 @@
                       <nz-list-item>
                         <nz-comment [nzAuthor]="comment.commentor.name"
                           [nzDatetime]="comment.createdAt | timeago">
-                          <nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar>
+                          <nz-avatar *ngIf="comment.commentor.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="comment.commentor.profileImagePath"></nz-avatar>
+                          <ng-template #noAvatar><nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar></ng-template>
                           <nz-comment-content>
                             <p>{{ comment.comment }}</p>
                           </nz-comment-content>

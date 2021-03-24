@@ -69,6 +69,7 @@ query GeneDetail($geneId: ID!) {
       commentor {
         id
         name
+        profileImagePath(size: 32)
         organizations {
           id
           name
