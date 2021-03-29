@@ -3,7 +3,7 @@ module Types::Flaggable
     description 'Entity to flag'
 
     argument :id, Int, required: true,
-      description: 'The ID of the entity'
+      description: 'The ID of the entity.'
 
     argument :entity_type, Types::Flaggable::FlaggableEntitiesType,
       required: true,

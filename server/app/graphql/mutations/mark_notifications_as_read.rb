@@ -1,7 +1,7 @@
 class Mutations::MarkNotificationsAsRead < Mutations::BaseMutation
   description 'Mark one or more of your notifications as read. The notification IDs provided must belong to the requesting user.'
   argument :ids, [Int], required: true,
-    description: 'A list of one or more Notification IDs'
+    description: 'A list of one or more Notification IDs.'
 
   field :notifications, [Types::Entities::NotificationType],
     null: false,

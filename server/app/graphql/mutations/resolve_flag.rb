@@ -5,7 +5,7 @@ class Mutations::ResolveFlag < Mutations::MutationWithOrg
   DOC
 
   argument :id, Int, required: true,
-    description: 'The ID of the flag to resolve'
+    description: 'The ID of the flag to resolve.'
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for resolving the flag. Will be attached as a comment.'

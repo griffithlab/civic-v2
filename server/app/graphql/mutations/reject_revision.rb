@@ -2,10 +2,10 @@ class Mutations::RejectRevision < Mutations::MutationWithOrg
   description 'Reject a revision by ID. Any user may reject a Revision that they submitted themselves. Otherwise, the rejecting user must be an editor with valid conflict of interest statement on file.'
 
   argument :id, Int, required: true,
-    description: 'The ID  of the Revision to reject'
+    description: 'The ID of the Revision to reject.'
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },
-    description: 'Text explaining the reasoning for rejecting this Revision'
+    description: 'Text explaining the reasoning for rejecting this Revision. Will be attached as a comment.'
 
   field :revision, Types::Revisions::RevisionType, null: false,
     description: 'The rejected Revision.'

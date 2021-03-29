@@ -1,8 +1,8 @@
 class Mutations::Unsubscribe < Mutations::BaseMutation
-  description 'Unsusbscribe from a CIViC entity to stop receiving notifications about it.'
+  description 'Unsubscribe from a CIViC entity to stop receiving notifications about it.'
 
   argument :subscribables, [Types::SubscribableInput], required: true,
-    description: 'A list of one or more entities to unsubscribe from.'
+    description: 'A list of one or more entities to unsubscribe from, each identified by its ID and type.'
 
   argument :unsubscribe_from_children, Boolean, required: false,
     default_value: false,

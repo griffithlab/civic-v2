@@ -3,7 +3,7 @@ class Mutations::FlagEntity < Mutations::MutationWithOrg
 
   argument :subject, Types::Flaggable::FlaggableInput,
     required: true,
-    description: 'The entity to flag, specified by its ID and type'
+    description: 'The entity to flag, specified by its ID and type.'
 
   argument :comment, String, required: true,
     validates: { length: { minimum: 10 } },

@@ -2,7 +2,7 @@ class Mutations::Subscribe < Mutations::BaseMutation
   description 'Subscribe to a CIViC entity in order to receive notifications about it.'
 
   argument :subscribables, [Types::SubscribableInput], required: true,
-    description: 'A list of one or more entities to subscribe to.'
+    description: 'A list of one or more entities to subscribe to, each identified by its ID and type.'
 
   argument :subscribe_to_children, Boolean, required: false,
     default_value: false,
