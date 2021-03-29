@@ -8,7 +8,7 @@ module Types
     field :page_count, Int, 'Total number of pages, based on filtered count and pagesize.', null: false
 
     def total_count
-      object.items&.unscoped.count
+      object.items&.klass.count
     end
 
     def filtered_count
