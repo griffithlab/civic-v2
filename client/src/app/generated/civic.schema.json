@@ -163,7 +163,7 @@
             },
             {
               "name": "title",
-              "description": "Optional title for the comment",
+              "description": "Optional title for the comment.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -175,7 +175,7 @@
             },
             {
               "name": "body",
-              "description": "Text of the comment",
+              "description": "Text of the comment.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -243,7 +243,7 @@
             },
             {
               "name": "comment",
-              "description": "The newly created comment",
+              "description": "The newly created comment.",
               "args": [
 
               ],
@@ -623,6 +623,24 @@
               "deprecationReason": null
             },
             {
+              "name": "filteredCount",
+              "description": "The total number of records in this set.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -634,6 +652,24 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "BrowseGene",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -660,25 +696,7 @@
             },
             {
               "name": "totalCount",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalPageCount",
-              "description": "Total # of pages, based on total count and pagesize",
+              "description": "The total number of records of this type, regardless of any filtering.",
               "args": [
 
               ],
@@ -1391,6 +1409,24 @@
               "deprecationReason": null
             },
             {
+              "name": "filteredCount",
+              "description": "The total number of records in this set.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -1402,6 +1438,24 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "Event",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -1428,25 +1482,7 @@
             },
             {
               "name": "totalCount",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalPageCount",
-              "description": "Total # of pages, based on total count and pagesize",
+              "description": "The total number of records of this type, regardless of any filtering.",
               "args": [
 
               ],
@@ -1671,6 +1707,24 @@
               "deprecationReason": null
             },
             {
+              "name": "filteredCount",
+              "description": "The total number of records in this set.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -1682,6 +1736,24 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "EvidenceItem",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -1708,25 +1780,7 @@
             },
             {
               "name": "totalCount",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalPageCount",
-              "description": "Total # of pages, based on total count and pagesize",
+              "description": "The total number of records of this type, regardless of any filtering.",
               "args": [
 
               ],
@@ -1864,7 +1918,7 @@
             },
             {
               "name": "subject",
-              "description": "The entity to flag, specified by its ID and type",
+              "description": "The entity to flag, specified by its ID and type.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2000,7 +2054,7 @@
           "inputFields": [
             {
               "name": "id",
-              "description": "The ID of the entity",
+              "description": "The ID of the entity.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2423,7 +2477,7 @@
           "inputFields": [
             {
               "name": "description",
-              "description": "The Gene's description/summary text",
+              "description": "The Gene's description/summary text.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2967,7 +3021,7 @@
           "inputFields": [
             {
               "name": "ids",
-              "description": "A list of one or more Notification IDs",
+              "description": "A list of one or more Notification IDs.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3222,7 +3276,7 @@
             },
             {
               "name": "addComment",
-              "description": "Add a comment to any commentable entity",
+              "description": "Add a comment to any commentable entity.",
               "args": [
                 {
                   "name": "input",
@@ -3425,7 +3479,7 @@
             },
             {
               "name": "unsubscribe",
-              "description": "Unsusbscribe from a CIViC entity to stop receiving notifications about it.",
+              "description": "Unsubscribe from a CIViC entity to stop receiving notifications about it.",
               "args": [
                 {
                   "name": "input",
@@ -3655,6 +3709,24 @@
               "deprecationReason": null
             },
             {
+              "name": "filteredCount",
+              "description": "The total number of records in this set.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -3666,6 +3738,24 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "Notification",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -3692,25 +3782,7 @@
             },
             {
               "name": "totalCount",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalPageCount",
-              "description": "Total # of pages, based on total count and pagesize",
+              "description": "The total number of records of this type, regardless of any filtering.",
               "args": [
 
               ],
@@ -4692,7 +4764,7 @@
             },
             {
               "name": "id",
-              "description": "The ID  of the Revision to reject",
+              "description": "The ID of the Revision to reject.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4708,7 +4780,7 @@
             },
             {
               "name": "comment",
-              "description": "Text explaining the reasoning for rejecting this Revision",
+              "description": "Text explaining the reasoning for rejecting this Revision. Will be attached as a comment.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4804,7 +4876,7 @@
             },
             {
               "name": "id",
-              "description": "The ID of the flag to resolve",
+              "description": "The ID of the flag to resolve.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -5136,7 +5208,7 @@
             },
             {
               "name": "id",
-              "description": "ID of the Revision",
+              "description": "ID of the Revision.",
               "args": [
 
               ],
@@ -5172,7 +5244,7 @@
             },
             {
               "name": "revisionsetId",
-              "description": "An identifier that can be used to group Revisions proposed at the sametime.",
+              "description": "An identifier that can be used to group Revisions proposed at the same time.",
               "args": [
 
               ],
@@ -5829,7 +5901,7 @@
           "inputFields": [
             {
               "name": "subscribables",
-              "description": "A list of one or more entities to subscribe to.",
+              "description": "A list of one or more entities to subscribe to, each identified by its ID and type.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6126,7 +6198,7 @@
           "inputFields": [
             {
               "name": "subscribables",
-              "description": "A list of one or more entities to unsubscribe from.",
+              "description": "A list of one or more entities to unsubscribe from, each identified by its ID and type.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6827,6 +6899,24 @@
               "deprecationReason": null
             },
             {
+              "name": "filteredCount",
+              "description": "The total number of records in this set.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -6838,6 +6928,24 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "Variant",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageCount",
+              "description": "Total number of pages, based on filtered count and pagesize.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -6864,25 +6972,7 @@
             },
             {
               "name": "totalCount",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalPageCount",
-              "description": "Total # of pages, based on total count and pagesize",
+              "description": "The total number of records of this type, regardless of any filtering.",
               "args": [
 
               ],
