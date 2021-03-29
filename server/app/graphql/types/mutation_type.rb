@@ -16,5 +16,8 @@ module Types
     #flags
     field :flag_entity, mutation: Mutations::FlagEntity
     field :resolve_flag, mutation: Mutations::ResolveFlag
+
+    #molecular profiles
+    field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile
   end
 end
