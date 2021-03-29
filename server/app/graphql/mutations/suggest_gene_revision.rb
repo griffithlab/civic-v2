@@ -1,10 +1,30 @@
 class Mutations::SuggestGeneRevision < Mutations::MutationWithOrg
-  argument :id, Int, required: true
-  argument :fields, Types::Revisions::GeneFields, required: true
-  argument :comment, String, required: true, validates: { length: { minimum: 10 } }
+  description 'Suggest a Revision to a Gene entity.'
 
-  field :gene, Types::Entities::GeneType, null: false
-  field :results, [Types::Revisions::RevisionResult], null: false
+  argument :id, Int, required: true,
+    description: 'The ID of the Gene to suggest a Revision to.'
+
+  argument :fields, Types::Revisions::GeneFields, required: true,
+    description: <<~DOC.strip
+      The desired state of the Gene's editable fields if the change were applied.
+      If no change is desired for a particular field, pass in the current value of that field.
+    DOC
+
+  argument :comment, String, required: true,
+    validates: { length: { minimum: 10 } },
+    description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
+
+  field :gene, Types::Entities::GeneType, null: false,
+    description: 'The Gene the user has proposed a Revision to.'
+
+  field :results, [Types::Revisions::RevisionResult], null: false,
+    description: <<~DOC.strip
+      A list of Revisions generated as a result of this suggestion.
+      If an existing Revision exactly matches the proposed one, it will be returned instead.
+      This is indicated via the 'newlyCreated' Boolean.
+      Revisions are stored on a per-field basis.
+      The changesetId can be used to group Revisions proposed at the same time.
+    DOC
 
   attr_reader :gene
 
