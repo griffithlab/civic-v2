@@ -13,11 +13,13 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
   field :molecular_profile_id, Int, null: false,
    description: 'The ID of the newly created (or already existing) Molecular Profile.'
 
+  attr_reader :variants
+
   def ready?(structure: )
     validate_user_logged_in
     variant_ids = structure.variant_ids.uniq
 
-    variants = Variant.where(id: variant_ids)
+    @variants = Variant.where(id: variant_ids)
 
     if variants.size !=  variant_ids.size
       missing = variant_ids - variants.map(&:id)
@@ -28,8 +30,19 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
   end
 
   def resolve(structure: )
-    {
-      molecular_profile_id: 1
-    }
+    cmd = Actions::CreateMolecularProfile.new(
+      variants: variants,
+      structure: structure,
+    )
+
+    res = cmd.perform
+
+    if res.succeeded?
+      {
+        molecular_profile_id: res.molecular_profile.id
+      }
+    else
+      raise GraphQL::ExecutionError, res.errors.join(', ')
+    end
   end
 end
