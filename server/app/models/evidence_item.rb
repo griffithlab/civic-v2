@@ -1,5 +1,8 @@
 class EvidenceItem < ActiveRecord::Base
   include Subscribable
+  include Commentable
+  include Flaggable
+  include Moderated
 
   belongs_to :variant
   belongs_to :disease

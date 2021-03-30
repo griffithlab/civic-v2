@@ -15,9 +15,11 @@ module Types::Entities
     field :source, Types::Entities::SourceType, null: false
     field :status, Types::EvidenceStatusType, null: false
     field :variant, Types::Entities::VariantType, null: false
-    field :events, Types::Entities::EventType.connection_type, null: false
     field :variant_hgvs, String, null: false
     field :variant_origin, Types::VariantOriginType, null: false
+    field :revisions, [Types::Revisions::RevisionType], null: true
+    field :comments, [Types::Entities::CommentType], null: true
+    field :events, Types::Entities::EventType.connection_type, null: false
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -42,6 +44,15 @@ module Types::Entities
     def variant
       Loaders::RecordLoader.for(Variant).load(object.variant_id)
     end
+
+    def revisions
+      Loaders::AssociationLoader.for(EvidenceItem, :revisions).load(object)
+    end
+
+    def comments
+      Loaders::AssociationLoader.for(EvidenceItem, :comments).load(object)
+    end
+
 
     def events
       Loaders::AssociationLoader.for(EvidenceItem, :events).load(object)
