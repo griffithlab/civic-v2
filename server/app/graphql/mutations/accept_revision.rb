@@ -1,9 +1,18 @@
 class Mutations::AcceptRevision < Mutations::MutationWithOrg
-  argument :id, Int, required: true
-  argument :comment, String, required: false, validates: {length: { minimum: 10 } }
+  description 'Accept a revision by ID. The accepting user must be an editor with a valid conflict of interest statement on file and the revision must not be their own.'
 
-  field :revision, Types::Revisions::RevisionType, null: false
-  field :superseded_revisions, [Types::Revisions::RevisionType], null: false
+  argument :id, Int, required: true,
+    description: 'The ID of the Revision to accept.'
+
+  argument :comment, String, required: false,
+    validates: {length: { minimum: 10 } },
+    description: 'Body of an optional comment to attach to the revision on acceptance.'
+
+  field :revision, Types::Revisions::RevisionType, null: false,
+    description: 'The newly accepted Revision.'
+
+  field :superseded_revisions, [Types::Revisions::RevisionType], null: false,
+    description: 'A list of any revisions that were superseded by the acceptance of this one.'
 
   attr_reader :revision
 
