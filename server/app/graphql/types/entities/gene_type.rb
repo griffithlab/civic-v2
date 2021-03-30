@@ -12,8 +12,8 @@ module Types::Entities
     field :variants, Types::Entities::VariantType.connection_type, null: true
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
-    field :revisions, [Types::Revisions::RevisionType], null: true
-    field :comments, [Types::Entities::CommentType], null: true
+    field :revisions, Types::Revisions::RevisionType.connection_type, null: true
+    field :comments, Types::Entities::CommentType.connection_type, null: true
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def aliases
