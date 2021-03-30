@@ -2,11 +2,11 @@ module Types::Queries
   module EvidenceItemQueries
     def self.included(klass)
       klass.field :evidence_item, Types::Entities::EvidenceItemType, null: true do
-        argument :evidence_item_id, GraphQL::Types::Int, required: true
+        argument :id, GraphQL::Types::ID, required: true
       end
 
-      def evidence_item(evidence_item_id:)
-        EvidenceItem.find(evidence_item_id)
+      def evidence_item(id:)
+        EvidenceItem.find(id)
       end
     end
   end
