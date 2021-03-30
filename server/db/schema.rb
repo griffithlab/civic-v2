@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_192408) do
+ActiveRecord::Schema.define(version: 2021_03_30_175400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(version: 2021_03_19_192408) do
     t.datetime "deleted_at"
     t.integer "drug_interaction_type"
     t.boolean "flagged", default: false, null: false
+    t.bigint "molecular_profile_id"
     t.index ["clinical_significance"], name: "index_evidence_items_on_clinical_significance"
     t.index ["deleted"], name: "index_evidence_items_on_deleted"
     t.index ["disease_id"], name: "index_evidence_items_on_disease_id"
@@ -389,6 +390,7 @@ ActiveRecord::Schema.define(version: 2021_03_19_192408) do
     t.index ["evidence_direction"], name: "index_evidence_items_on_evidence_direction"
     t.index ["evidence_level"], name: "index_evidence_items_on_evidence_level"
     t.index ["evidence_type"], name: "index_evidence_items_on_evidence_type"
+    t.index ["molecular_profile_id"], name: "index_evidence_items_on_molecular_profile_id"
     t.index ["source_id"], name: "index_evidence_items_on_source_id"
     t.index ["status"], name: "index_evidence_items_on_status"
     t.index ["variant_id"], name: "index_evidence_items_on_variant_id"
@@ -466,6 +468,17 @@ ActiveRecord::Schema.define(version: 2021_03_19_192408) do
     t.integer "hgvs_expressions_id"
     t.index ["hgvs_expression_id"], name: "index_hgvs_expressions_variants_on_hgvs_expression_id"
     t.index ["variant_id", "hgvs_expression_id"], name: "idx_variant_id_hgvs_id"
+  end
+
+  create_table "molecular_profiles", force: :cascade do |t|
+    t.string "name"
+    t.index ["name"], name: "index_molecular_profiles_on_name"
+  end
+
+  create_table "molecular_profiles_variants", id: false, force: :cascade do |t|
+    t.bigint "molecular_profile_id", null: false
+    t.bigint "variant_id", null: false
+    t.index ["molecular_profile_id", "variant_id"], name: "idx_molecular_profile_variant_id"
   end
 
   create_table "nccn_guidelines", force: :cascade do |t|
@@ -792,6 +805,8 @@ ActiveRecord::Schema.define(version: 2021_03_19_192408) do
   add_foreign_key "gene_aliases_genes", "genes"
   add_foreign_key "genes_sources", "genes"
   add_foreign_key "genes_sources", "sources"
+  add_foreign_key "molecular_profiles_variants", "molecular_profiles"
+  add_foreign_key "molecular_profiles_variants", "variants"
   add_foreign_key "notifications", "events"
   add_foreign_key "notifications", "subscriptions"
   add_foreign_key "notifications", "users", column: "notified_user_id"
