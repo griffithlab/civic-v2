@@ -5,6 +5,7 @@ class EvidenceItem < ActiveRecord::Base
   belongs_to :disease
   belongs_to :source
   has_and_belongs_to_many :drugs
+  has_and_belongs_to_many :phenotypes
 
   enum evidence_type: Constants::EVIDENCE_TYPES
   enum evidence_level: Constants::EVIDENCE_LEVELS

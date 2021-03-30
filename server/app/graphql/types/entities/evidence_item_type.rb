@@ -11,6 +11,7 @@ module Types::Entities
     field :evidence_rating, Int, null: false #these are ints, should we still try to express them as enums
     field :evidence_type, Types::EvidenceTypeType, null: false
     field :flagged, Boolean, null: false
+    field :phenotypes, [Types::Entities::PhenotypeType], null: true
     field :source, Types::Entities::SourceType, null: false
     field :status, Types::EvidenceStatusType, null: false
     field :variant, Types::Entities::VariantType, null: false
@@ -28,6 +29,10 @@ module Types::Entities
 
     def evidence_rating
       object.rating
+    end
+
+    def phenotypes
+      Loaders::AssociationLoader.for(EvidenceItem, :phenotypes).load(object)
     end
 
     def source
