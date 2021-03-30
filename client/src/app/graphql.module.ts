@@ -23,7 +23,7 @@ const typePolicies: TypePolicies = {
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
-    link: httpLink.create({ uri }),
+    link: httpLink.create({ uri: uri, withCredentials: true }),
     cache: new InMemoryCache({
       possibleTypes: introspectionToPossibleTypes(result),
       typePolicies: typePolicies
