@@ -19,7 +19,7 @@ class Source < ActiveRecord::Base
   end
 
   def display_name
-    "#{self.citation} (ID: #{self.citation_id})"
+    "#{self.citation} (#{self.display_type} ID: #{self.citation_id})"
   end
 
   def display_type

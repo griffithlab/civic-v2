@@ -18,4 +18,8 @@ class EvidenceItem < ActiveRecord::Base
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
   enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
+
+  def gene
+    self.variant.gene
+  end
 end
