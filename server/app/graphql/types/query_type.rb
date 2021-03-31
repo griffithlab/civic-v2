@@ -5,6 +5,7 @@ module Types
     include GraphQL::Types::Relay::HasNodesField
 
     include Types::Queries::UserQueries
+    include Types::Queries::EvidenceItemQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
@@ -13,22 +14,22 @@ module Types
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
-      argument :id, ID, required: true
+      argument :id, Int, required: true
     end
 
     field :drug, Types::Entities::DrugType, null: true do
       description "Find a drug by CIViC ID"
-      argument :id, ID, required: true
+      argument :id, Int, required: true
     end
 
     field :gene, Types::Entities::GeneType, null: true do
       description "Find a gene by CIViC ID"
-      argument :id, ID, required: true
+      argument :id, Int, required: true
     end
 
     field :source, Types::Entities::SourceType, null: true do
       description "Find a source by CIViC ID"
-      argument :id, ID, required: true
+      argument :id, Int, required: true
     end
 
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
