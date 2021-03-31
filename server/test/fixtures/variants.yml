@@ -1,0 +1,19 @@
+v600e:
+  name: V600E
+  gene: braf
+  description: The description for the V600E variant
+
+v600k:
+  name: V600K
+  gene: braf
+  description: The description for the V600K variant
+
+w88:
+  name: W88*
+  gene: vhl
+  description: The description for the W88* variant
+
+v87e:
+  name: V87E (c.260T>A)
+  gene: vhl
+  description: The description for the V87E (c.260T>A) variant
