@@ -42,17 +42,18 @@
             <div nz-row [nzGutter]="16">
               <nz-col [nzSpan]="8">
                 <nz-card nzTitle="Comments">
-                  <nz-list [nzDataSource]="gene.comments"
+                  <nz-list [nzDataSource]="gene.comments.edges"
                     [nzRenderItem]="comment"
                     nzSize="small"
                     nzItemLayout="horizontal">
                     <ng-template #comment let-comment>
                       <nz-list-item>
-                        <nz-comment [nzAuthor]="comment.commentor.name"
-                          [nzDatetime]="comment.createdAt | timeago">
-                          <nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar>
+                        <nz-comment [nzAuthor]="comment.node.commentor.name"
+                          [nzDatetime]="comment.node.createdAt | timeago">
+                          <nz-avatar *ngIf="comment.node.commentor.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="comment.node.commentor.profileImagePath"></nz-avatar>
+                          <ng-template #noAvatar><nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar></ng-template>
                           <nz-comment-content>
-                            <p>{{ comment.comment }}</p>
+                            <p>{{ comment.node.comment }}</p>
                           </nz-comment-content>
                           <nz-comment-action>Reply to</nz-comment-action>
                         </nz-comment>
@@ -63,7 +64,7 @@
               </nz-col>
               <nz-col [nzSpan]="16">
                 <nz-card nzTitle="Revisions" class="card-list">
-                  <nz-list [nzDataSource]="gene.revisions" class="revision-list"
+                  <nz-list [nzDataSource]="gene.revisions.edges" class="revision-list"
                     [nzRenderItem]="revision"
                     nzItemLayout="horizontal">
                     <ng-template #revision let-revision>
@@ -73,7 +74,7 @@
                         <nz-card nzType="inner" nzSize="small"
                           [nzTitle]="revCardHeaderTitle"
                           [nzExtra]="revCardHeaderExtra">
-                          <ng-container [ngSwitch]="revision.fieldName">
+                          <ng-container [ngSwitch]="revision.node.fieldName">
                             <ng-container *ngSwitchCase="'source_ids'" >
                               <ng-container *ngTemplateOutlet="revDiffSourceIds"></ng-container>
                             </ng-container>
@@ -86,17 +87,17 @@
                         <!-- Revision Card Templates -->
                         <!-- header title -->
                         <ng-template #revCardHeaderTitle>
-                          <i nz-icon nzType="civic:revision"></i> RID{{ revision.id }}
-                          <span>{{ revision.linkoutData.name }} Updated</span>
+                          <i nz-icon nzType="civic:revision"></i> RID{{ revision.node.id }}
+                          <span>{{ revision.node.linkoutData.name }} Updated</span>
                         </ng-template>
                         <!-- header secondary & status -->
                         <ng-template #revCardHeaderExtra>
                           <nz-space nzSize="small">
                             <nz-space-item>
-                              <span nz-typography nzType="secondary" >{{ revision.createdAt | timeago }}</span>
+                              <span nz-typography nzType="secondary" >{{ revision.node.createdAt | timeago }}</span>
                             </nz-space-item>
                             <nz-space-item>
-                              <nz-tag>{{ revision.status }}</nz-tag>
+                              <nz-tag>{{ revision.node.status }}</nz-tag>
                             </nz-space-item>
                           </nz-space>
                         </ng-template>
@@ -105,12 +106,12 @@
                       <!-- Field Diff Templates -->
                       <!-- description -->
                       <ng-template #revDiffDescription>
-                        <cvc-gene-description-revision [revision]="revision">
+                        <cvc-gene-description-revision [revision]="revision.node">
                         </cvc-gene-description-revision>
                       </ng-template>
                       <!-- sources -->
                       <ng-template #revDiffSourceIds>
-                        <cvc-gene-sources-revision [revision]="revision">
+                        <cvc-gene-sources-revision [revision]="revision.node">
                         </cvc-gene-sources-revision>
                       </ng-template>
                     </ng-template>
