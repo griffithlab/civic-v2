@@ -146,28 +146,232 @@ input CommentableInput {
 }
 
 type Disease {
+  diseaseUrl: String
+  displayName: String!
+  doid: Int
+  id: Int!
   name: String!
 }
 
 type Drug {
+  drugUrl: String
+  id: String!
   name: String!
+  ncitId: String
+}
+
+enum DrugInteraction {
+  COMBINATION
+  SEQUENTIAL
+  SUBSTITUTES
 }
 
 type Event {
+  action: EventAction!
   createdAt: ISO8601DateTime!
   id: Int!
   organization: Organization!
   originatingUser: User!
 }
 
+enum EventAction {
+  ACCEPTED
+  ASSERTION_ACCEPTED
+  ASSERTION_REJECTED
+  ASSERTION_SUBMITTED
+  COMMENTED
+  FLAGGED
+  FLAG_RESOLVED
+  PUBLICATION_SUGGESTED
+  REJECTED
+  REVERTED
+  REVISION_ACCEPTED
+  REVISION_REJECTED
+  REVISION_SUGGESTED
+  REVISION_SUPERSEDED
+  SUBMITTED
+}
+
+"""
+The connection type for Event.
+"""
+type EventConnection {
+  """
+  A list of edges.
+  """
+  edges: [EventEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Event]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  totalCount: Int!
+
+  """
+  Total # of pages, based on total count and pagesize
+  """
+  totalPageCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type EventEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Event
+}
+
+enum EvidenceClinicalSignificance {
+  ADVERSE_RESPONSE
+  BENIGN
+  BETTER_OUTCOME
+  DOMINANT_NEGATIVE
+  GAIN_OF_FUNCTION
+  LIKELY_BENIGN
+  LIKELY_PATHOGENIC
+  LOSS_OF_FUNCTION
+  NA
+  NEGATIVE
+  NEOMORPHIC
+  PATHOGENIC
+  POOR_OUTCOME
+  POSITIVE
+  REDUCED_SENSITIVITY
+  RESISTANCE
+  SENSITIVITYRESPONSE
+  UNALTERED_FUNCTION
+  UNCERTAIN_SIGNIFICANCE
+  UNKNOWN
+}
+
+enum EvidenceDirection {
+  DOES_NOT_SUPPORT
+  NA
+  SUPPORTS
+}
+
 type EvidenceItem {
+  clinicalSignificance: EvidenceClinicalSignificance!
+  comments: [Comment!]
   description: String!
+  disease: Disease
+  drugInteractionType: DrugInteraction
+  drugs: [Drug!]
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EventConnection!
+  evidenceDirection: EvidenceDirection!
+  evidenceLevel: EvidenceLevel!
+  evidenceRating: Int
+  evidenceType: EvidenceType!
+  flagged: Boolean!
   id: Int!
+  phenotypes: [Phenotype!]
+  revisions: [Revision!]
+  source: Source!
+  status: EvidenceStatus!
   variant: Variant!
+  variantHgvs: String!
+  variantOrigin: VariantOrigin!
+}
+
+"""
+The connection type for EvidenceItem.
+"""
+type EvidenceItemConnection {
+  """
+  A list of edges.
+  """
+  edges: [EvidenceItemEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [EvidenceItem]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  totalCount: Int!
+
+  """
+  Total # of pages, based on total count and pagesize
+  """
+  totalPageCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type EvidenceItemEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: EvidenceItem
+}
+
+enum EvidenceLevel {
+  A
+  B
+  C
+  D
+  E
+}
+
+enum EvidenceStatus {
+  ACCEPTED
+  REJECTED
+  SUBMITTED
+}
+
+enum EvidenceType {
+  DIAGNOSTIC
+  FUNCTIONAL
+  ONCOGENIC
+  PREDICTIVE
+  PREDISPOSING
+  PROGNOSTIC
 }
 
 type Flag {
   id: Int!
+  state: FlagState!
 }
 
 """
@@ -194,6 +398,11 @@ type FlagEntityPayload {
   flag: Flag
 }
 
+enum FlagState {
+  open
+  resolved
+}
+
 enum FlaggableEntities {
   GENE
 }
@@ -211,6 +420,27 @@ type Gene {
   comments: [Comment!]
   description: String!
   entrezId: Int!
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EventConnection!
   id: Int!
   lifecycleActions: Lifecycle!
   myGeneInfoDetails: JSON
@@ -218,7 +448,27 @@ type Gene {
   officialName: String!
   revisions: [Revision!]
   sources: [Source!]
-  variants: [Variant!]
+  variants(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): VariantConnection
 }
 
 type GeneAlias {
@@ -305,6 +555,28 @@ type LinkoutData {
 }
 
 """
+Autogenerated input type of MarkNotificationsAsRead
+"""
+input MarkNotificationsAsReadInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  ids: [Int!]!
+}
+
+"""
+Autogenerated return type of MarkNotificationsAsRead
+"""
+type MarkNotificationsAsReadPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  notifications: [Notification!]!
+}
+
+"""
 Fields that can have revisions can be either scalar values or complex objects
 """
 union ModeratedField = ObjectField | ScalarField
@@ -340,18 +612,100 @@ type Mutation {
     """
     input: FlagEntityInput!
   ): FlagEntityPayload
+  markNotificationsAsRead(
+    """
+    Parameters for MarkNotificationsAsRead
+    """
+    input: MarkNotificationsAsReadInput!
+  ): MarkNotificationsAsReadPayload
   rejectRevision(
     """
     Parameters for RejectRevision
     """
     input: RejectRevisionInput!
   ): RejectRevisionPayload
+  resolveFlag(
+    """
+    Parameters for ResolveFlag
+    """
+    input: ResolveFlagInput!
+  ): ResolveFlagPayload
+  subscribe(
+    """
+    Parameters for Subscribe
+    """
+    input: SubscribeInput!
+  ): SubscribePayload
   suggestGeneRevision(
     """
     Parameters for SuggestGeneRevision
     """
     input: SuggestGeneRevisionInput!
   ): SuggestGeneRevisionPayload
+  unsubscribe(
+    """
+    Parameters for Unsubscribe
+    """
+    input: UnsubscribeInput!
+  ): UnsubscribePayload
+}
+
+type Notification {
+  createdAt: ISO8601DateTime!
+  event: Event!
+  id: Int!
+  notifiedUser: User!
+  originatingUser: User!
+  seen: Boolean!
+  subscription: Subscription
+  type: NotificationReason!
+  updatedAt: ISO8601DateTime!
+}
+
+"""
+The connection type for Notification.
+"""
+type NotificationConnection {
+  """
+  A list of edges.
+  """
+  edges: [NotificationEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Notification]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  totalCount: Int!
+
+  """
+  Total # of pages, based on total count and pagesize
+  """
+  totalPageCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type NotificationEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Notification
+}
+
+enum NotificationReason {
+  MENTION
+  SUBSCRIPTION
 }
 
 type ObjectField {
@@ -366,8 +720,30 @@ type ObjectFieldDiff {
 
 type Organization {
   description: String!
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EventConnection!
   id: Int!
   name: String!
+  profileImagePath(size: Int = 56): String
   url: String!
 }
 
@@ -396,7 +772,38 @@ type PageInfo {
   startCursor: String
 }
 
+type Phenotype {
+  hpoClass: String!
+  hpoId: String!
+  id: Int!
+}
+
 type Query {
+  browseEvents(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+    subject: SubscribableInput
+  ): EventConnection!
   browseGenes(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -425,11 +832,27 @@ type Query {
   ): BrowseGeneConnection!
 
   """
+  Find a disease by CIViC ID
+  """
+  disease(id: Int!): Disease
+
+  """
+  Find a drug by CIViC ID
+  """
+  drug(id: Int!): Drug
+  evidenceItem(id: Int!): EvidenceItem
+
+  """
   Find a gene by CIViC ID
   """
-  gene(id: ID!): Gene
+  gene(id: Int!): Gene
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
+
+  """
+  Find a source by CIViC ID
+  """
+  source(id: Int!): Source
   user(userId: Int!): User
   viewer: User
 }
@@ -456,6 +879,30 @@ type RejectRevisionPayload {
   """
   clientMutationId: String
   revision: Revision!
+}
+
+"""
+Autogenerated input type of ResolveFlag
+"""
+input ResolveFlagInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  comment: String!
+  id: Int!
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of ResolveFlag
+"""
+type ResolveFlagPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  flag: Flag
 }
 
 type Revision {
@@ -498,6 +945,7 @@ enum SortDirection {
 type Source {
   ascoAbstractId: Int
   citation: String!
+  citationId: Int!
   clinicalTrials: [ClinicalTrial!]
   fullJournalTitle: String!
   id: Int!
@@ -535,6 +983,54 @@ enum StringSearchOperator {
   STARTS_WITH
 }
 
+type Subscribable {
+  entityType: SubscribableEntities!
+  id: Int!
+}
+
+enum SubscribableEntities {
+  ASSERTION
+  EVIDENCE_ITEM
+  GENE
+  REVISION
+  VARIANT
+}
+
+"""
+Entity to subscribe to
+"""
+input SubscribableInput {
+  entityType: SubscribableEntities!
+  id: Int!
+}
+
+"""
+Autogenerated input type of Subscribe
+"""
+input SubscribeInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  subscribables: [SubscribableInput!]!
+  subscribeToChildren: Boolean = false
+}
+
+"""
+Autogenerated return type of Subscribe
+"""
+type SubscribePayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  subscriptions: [Subscription!]!
+}
+
+type Subscription {
+  id: Int!
+}
+
 """
 Autogenerated input type of SuggestGeneRevision
 """
@@ -561,13 +1057,103 @@ type SuggestGeneRevisionPayload {
   results: [RevisionResult!]!
 }
 
+"""
+Autogenerated input type of Unsubscribe
+"""
+input UnsubscribeInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  subscribables: [SubscribableInput!]!
+  unsubscribeFromChildren: Boolean = false
+}
+
+"""
+Autogenerated return type of Unsubscribe
+"""
+type UnsubscribePayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+  unsubscribedEntities: [Subscribable!]!
+}
+
 type User {
   bio: String
   country: String
   email: String
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EventConnection!
   id: Int!
   name: String!
+
+  """
+  Filterable list of notifications for the logged in user.
+  """
+  notifications(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Filter the response to include only notifications generated by certain actions (ex: commenting).
+    """
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Filter the reponse to include only notifications generated by a particular subscription.
+    """
+    includeSeen: Boolean = false
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Filter the response to include only notifications of a certaint type (ex: mentions).
+    """
+    notificationType: NotificationReason
+
+    """
+    Filter the reponse to include only notifications generated by a particular subscription.
+    """
+    subscriptionId: Int
+  ): NotificationConnection
   organizations: [Organization!]
+  profileImagePath(size: Int = 56): String
   role: String!
   url: String
   username: String!
@@ -575,8 +1161,99 @@ type User {
 
 type Variant {
   description: String!
-  evidenceItems: [EvidenceItem!]
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EventConnection!
+  evidenceItems(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EvidenceItemConnection
   gene: Gene!
   id: Int!
   name: String!
+}
+
+"""
+The connection type for Variant.
+"""
+type VariantConnection {
+  """
+  A list of edges.
+  """
+  edges: [VariantEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Variant]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  totalCount: Int!
+
+  """
+  Total # of pages, based on total count and pagesize
+  """
+  totalPageCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type VariantEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Variant
+}
+
+enum VariantOrigin {
+  COMMON_GERMLINE
+  GERMLINE_OR_SOMATIC
+  NA
+  RARE_GERMLINE
+  SOMATIC
+  UNKNOWN
 }
