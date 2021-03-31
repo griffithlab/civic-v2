@@ -20,4 +20,8 @@ class EvidenceItem < ActiveRecord::Base
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
 
   validates :rating, inclusion: [1, 2, 3, 4, 5]
+
+  def gene
+    self.variant.gene
+  end
 end
