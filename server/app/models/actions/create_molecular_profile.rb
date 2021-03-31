@@ -12,7 +12,6 @@ module Actions
     private
     def execute
       name = parse_name_from_complex_component(structure)
-      byebug
       mp = MolecularProfile.where(name: name).first_or_create
       mp.variants = variants
       mp.save
