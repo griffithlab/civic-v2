@@ -12,3 +12,13 @@ admin:
   username: admin
   name: admin
   role: admin
+
+editor_in_one_org:
+  username: editor in one org
+  name: editor in one org
+  role: editor
+
+editor_in_multiple_orgs:
+  username: editor in multiple orgs
+  name: editor in multiple orgs
+  role: editor

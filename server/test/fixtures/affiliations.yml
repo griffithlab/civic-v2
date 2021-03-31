@@ -1,0 +1,11 @@
+single_org_1:
+  user: editor_in_one_org
+  organization: washu
+
+multi_org_1:
+  user: editor_in_multiple_orgs
+  organization: washu
+
+multi_org_2:
+  user: editor_in_multiple_orgs
+  organization: mgi
