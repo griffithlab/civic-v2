@@ -90,7 +90,6 @@ Trestle.resource(:assertions) do
       row do
         col(sm: 10) do
           select :drug_ids, Drug.order(:name), { label: "Drugs" }, multiple: true
-          #select :drug_ids, Drug.where(id: assertion.drug_ids), multiple: true
         end
         col(sm: 2) do
           drug_interaction_types = Assertion.drug_interaction_types.keys.map { |interaction_type| [interaction_type, interaction_type] }
@@ -176,20 +175,6 @@ Trestle.resource(:assertions) do
         end
       end
     end
-  end
-
-  controller do
-    def drugs
-      if params[:q]
-        render json: Drug.where("name ILIKE ?", "#{params[:q]}%").collect { |drug| {id: drug.id, text: drug.name} }
-      else
-        render json: []
-      end
-    end
-  end
-
-  routes do
-    get :drugs, on: :collection
   end
 
   # By default, all parameters passed to the update and create actions will be
