@@ -1,4 +1,8 @@
 Trestle.resource(:evidence_items) do
+  collection do
+    EvidenceItem.eager_load(:flags, variant: [:gene]).order(id: :asc)
+  end
+
   remove_action :destroy
   remove_action :new
 
