@@ -19,6 +19,8 @@ class EvidenceItem < ActiveRecord::Base
   enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
 
+  validates :rating, inclusion: [1, 2, 3, 4, 5]
+
   def gene
     self.variant.gene
   end

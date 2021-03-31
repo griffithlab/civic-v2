@@ -1,10 +1,10 @@
 module Types
   class VariantOriginType < Types::BaseEnum
     value 'SOMATIC', value: 'Somatic'
-    value 'RAREGERMLINE', value: 'Rare Germline'
-    value 'COMMONGERMLINE', value: 'Common Germline'
+    value 'RARE_GERMLINE', value: 'Rare Germline'
+    value 'COMMON_GERMLINE', value: 'Common Germline'
     value 'UNKNOWN', value: 'Unknown'
     value 'NA', value: 'N/A'
-    value 'GERMLINEORSOMATIC', value: 'Germline or Somatic'
+    value 'GERMLINE_OR_SOMATIC', value: 'Germline or Somatic'
   end
 end

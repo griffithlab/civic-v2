@@ -8,7 +8,8 @@ module Types::Entities
     field :drug_interaction_type, Types::DrugInteractionType, null: true
     field :evidence_direction, Types::EvidenceDirectionType, null: false
     field :evidence_level, Types::EvidenceLevelType, null: false
-    field :evidence_rating, Int, null: false #these are ints, should we still try to express them as enums
+    field :evidence_rating, Int, null: true,
+      validates: { inclusion: { in: [1, 2, 3, 4, 5], allow_blank: true } }
     field :evidence_type, Types::EvidenceTypeType, null: false
     field :flagged, Boolean, null: false
     field :phenotypes, [Types::Entities::PhenotypeType], null: true
