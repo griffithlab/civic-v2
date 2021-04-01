@@ -4,6 +4,7 @@ class FlagEntityTest < ActiveSupport::TestCase
   def setup
     @gene = genes(:braf)
     @editor_in_multiple_orgs = users(:editor_in_multiple_orgs)
+    @curator = users(:curator)
     @query_string = <<-GRAPHQL
     mutation {
       flagEntity(
@@ -89,5 +90,24 @@ class FlagEntityTest < ActiveSupport::TestCase
     GRAPHQL
     response = Civic2Schema.execute(query_string, context: { current_user: @editor_in_multiple_orgs })
     assert_equal(response["errors"][0]["message"], "Subject with the given ID doesn't exist")
+  end
+
+  test "flagging works" do
+    response = Civic2Schema.execute(@query_string, context: { current_user: @curator })
+    flag_id = response["data"]["flagEntity"]["flag"]["id"]
+    flag = Flag.find(flag_id)
+    assert_not_nil(flag)
+    assert_equal(flag.flaggable, @gene)
+    assert_equal(flag.flagging_user, @curator)
+    assert_equal(flag.state, 'open')
+    assert(Gene.find(@gene.id).flagged)
+    comment = Comment.find_by(commentable: flag)
+    assert_not_nil(comment)
+    assert_equal(comment.comment, "This is a test flag")
+    event = Event.find_by(originating_object: flag)
+    assert_not_nil(event)
+    assert_equal(event.action, 'flagged')
+    assert_equal(event.originating_user, @curator)
+    assert_equal(event.subject, @gene)
   end
 end
