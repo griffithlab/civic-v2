@@ -1,0 +1,44 @@
+<button
+  nz-button
+  nzType="primary"
+  nzValue="small"
+  (click)="showModal()">
+  <span>Sign In</span>
+</button>
+<nz-modal [(nzVisible)]="isVisible"
+  [nzTitle]="loginModalTitle"
+  [nzFooter]="loginModalFooter"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <p nzType="secondary">Click on one of the OAuth providers below to sign up or sign into CIViC.</p>
+    <p nzType="secondary"><strong>XSRF-TOKEN:</strong> {{ xsrfToken }}</p>
+    <nz-list nzBordered="false">
+      <nz-list-item>
+        <form action="/api/auth/google?origin={{ location }}" method="post">
+          <input type="hidden" name="XSRF-TOKEN" value="{{ xsrfToken }}" />
+          <input type="submit" value="Sign in with Google" />
+        </form>
+      </nz-list-item>
+      <nz-list-item>
+        <form action="/api/auth/orcid?origin={{ location }}" method="post">
+          <input type="hidden" name="XSRF-TOKEN" value="{{ xsrfToken }}" />
+          <input type="submit" value="Sign in with ORCid" />
+        </form>
+      </nz-list-item>
+      <nz-list-item>
+        <form action="/api/auth/github?origin={{ location }}" method="post">
+          <input type="hidden" name="XSRF-TOKEN" value="{{ xsrfToken }}" />
+          <input type="submit" value="Sign in with Github" />
+        </form>
+      </nz-list-item>
+    </nz-list>
+  </ng-container>
+</nz-modal>
+<ng-template #loginModalTitle>
+  Sign In or Sign Up
+</ng-template>
+
+<ng-template #loginModalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Custom Callback</button>
+</ng-template>

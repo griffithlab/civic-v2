@@ -6,11 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { CookieService } from 'ngx-cookie-service';
+
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+
 import { TimeagoModule } from 'ngx-timeago';
 
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
@@ -24,6 +28,8 @@ import { IconsProviderModule } from './icons-provider.module';
 
 import { GraphQLModule } from '@app/graphql.module';
 import { GenesComponentsModule } from './components/genes/genes-components.module';
+import { SharedComponentsModule } from './components/shared/shared-components.module';
+import { AppComponentsModule } from './components/app/app-components.module';
 
 registerLocaleData(en);
 
@@ -50,12 +56,17 @@ registerLocaleData(en);
     NzGridModule,
     NzLayoutModule,
     NzMenuModule,
+    NzPopoverModule,
     NzToolTipModule,
     NzTypographyModule,
     ReactiveFormsModule,
     TimeagoModule.forRoot(),
+    SharedComponentsModule,
+    AppComponentsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    CookieService,
+    { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

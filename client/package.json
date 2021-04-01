@@ -27,6 +27,7 @@
     "@ngx-formly/ng-zorro-antd": "^0.0",
     "apollo-angular": "^2.1.0",
     "ng-zorro-antd": "^11.0.0",
+    "ngx-cookie-service": "^11.0.2",
     "ngx-logger": "^4.2.1",
     "ngx-timeago": "^2.0.0",
     "rxjs": "~6.6.0",
