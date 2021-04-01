@@ -5,3 +5,7 @@ washu:
 mgi:
   name: MGI
   description: MI Org
+
+clingen:
+  name: ClinGen
+  description: ClinGen Org
