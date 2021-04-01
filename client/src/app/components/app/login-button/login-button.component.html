@@ -16,19 +16,19 @@
     <nz-list nzBordered="false">
       <nz-list-item>
         <form action="/api/auth/google?origin={{ location }}" method="post">
-          <input type="hidden" name="XSRF-TOKEN" value="{{ xsrfToken }}" />
+          <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
           <input type="submit" value="Sign in with Google" />
         </form>
       </nz-list-item>
       <nz-list-item>
         <form action="/api/auth/orcid?origin={{ location }}" method="post">
-          <input type="hidden" name="XSRF-TOKEN" value="{{ xsrfToken }}" />
+          <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
           <input type="submit" value="Sign in with ORCid" />
         </form>
       </nz-list-item>
       <nz-list-item>
         <form action="/api/auth/github?origin={{ location }}" method="post">
-          <input type="hidden" name="XSRF-TOKEN" value="{{ xsrfToken }}" />
+          <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
           <input type="submit" value="Sign in with Github" />
         </form>
       </nz-list-item>
