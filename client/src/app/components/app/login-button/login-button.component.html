@@ -2,43 +2,22 @@
   nz-button
   nzType="primary"
   nzValue="small"
-  (click)="showModal()">
+  (click)="showAuth()">
   <span>Sign In</span>
 </button>
-<nz-modal [(nzVisible)]="isVisible"
+<nz-modal [(nzVisible)]="authVisible"
   [nzTitle]="loginModalTitle"
   [nzFooter]="loginModalFooter"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
+  (nzOnCancel)="handleCancel()" >
   <ng-container *nzModalContent>
-    <p nzType="secondary">Click on one of the OAuth providers below to sign up or sign into CIViC.</p>
-    <p nzType="secondary"><strong>XSRF-TOKEN:</strong> {{ xsrfToken }}</p>
-    <nz-list nzBordered="false">
-      <nz-list-item>
-        <form action="/api/auth/google?origin={{ location }}" method="post">
-          <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
-          <input type="submit" value="Sign in with Google" />
-        </form>
-      </nz-list-item>
-      <nz-list-item>
-        <form action="/api/auth/orcid?origin={{ location }}" method="post">
-          <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
-          <input type="submit" value="Sign in with ORCid" />
-        </form>
-      </nz-list-item>
-      <nz-list-item>
-        <form action="/api/auth/github?origin={{ location }}" method="post">
-          <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
-          <input type="submit" value="Sign in with Github" />
-        </form>
-      </nz-list-item>
-    </nz-list>
+    <p nzType="secondary">Click on one of the OAuth providers below to sign into CIViC. If you do not not have a CIViC account, one will be created for you based upon the account information your OAuth provider provides.</p>
+    <cvc-auth-options-list></cvc-auth-options-list>
   </ng-container>
 </nz-modal>
 <ng-template #loginModalTitle>
-  Sign In or Sign Up
+  Sign In
 </ng-template>
 
 <ng-template #loginModalFooter>
-  <button nz-button nzType="default" (click)="handleCancel()">Custom Callback</button>
+  <button nz-button nzType="primary" nzValue="small" (click)="handleCancel()">Cancel</button>
 </ng-template>
