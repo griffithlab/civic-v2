@@ -49,6 +49,7 @@ export class LayoutComponent {
   isCollapsed = false;
   data$!: Observable<any>;
   viewer$!: Observable<User>;
+  signedIn$!: Observable<boolean>;
 
   constructor(
     private logger: NGXLogger,
@@ -62,6 +63,7 @@ export class LayoutComponent {
   ngOnInit(): void {
     this.data$ = this.queryService.watch();
     this.viewer$ = this.queryService.viewer$;
+    this.signedIn$ = this.queryService.signedIn$;
   }
 
   // TODO: create a icon service or module that loads all the custom icons

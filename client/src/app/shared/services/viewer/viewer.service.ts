@@ -17,12 +17,17 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class ViewerService implements OnDestroy {
   private queryRef!: QueryRef<any, any>;
+
   data$!: Observable<any>;
   isLoading$!: Observable<boolean>;
   viewer$!: Observable<User>;
-  role$!: Observable<string>;
 
-  signOut$!: Subscription;
+  signedIn$!: Observable<boolean>;
+  isAdmin$!: Observable<boolean>;
+  isEditor$!: Observable<boolean>;
+
+  canCurate$!: Observable<boolean>;
+  canModerate$!: Observable<boolean>;
 
   private spy: any;
 
@@ -59,12 +64,18 @@ export class ViewerService implements OnDestroy {
       pluck('data', 'viewer'),
     );
 
+    this.signedIn$ = this.viewer$.pipe(
+      map(d => {
+        return d === null ? false : true;
+      })
+    );
+
     return this.data$;
   }
 
   // GET /sign_out with HttpClient, then refetch Viewer
   signOut(): void {
-    this.signOut$ = this.http.get('/api/sign_out')
+    this.http.get('/api/sign_out')
       .subscribe(d => {
         this.refetch();
       });
