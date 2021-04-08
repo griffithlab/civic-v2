@@ -1,4 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+
 import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
@@ -21,7 +23,10 @@ export class ViewerService implements OnDestroy {
 
   private spy: any;
 
-  constructor(private viewerBaseGQL: ViewerBaseGQL) {
+  constructor(
+    private viewerBaseGQL: ViewerBaseGQL,
+    private http: HttpClient,
+  ) {
     this.spy = create();
 
   }
@@ -53,10 +58,9 @@ export class ViewerService implements OnDestroy {
     return this.data$;
   }
 
-  // TODO user apollo's HttpLink to directly query server GET /sign_out
-  // also need to add to dev proxy
+  // GET /sign_out with HttpClient, then refetch Viewer
   signOut(): void {
-
+    this.http.get('/sign_out');
   }
 
   refetch(): void {

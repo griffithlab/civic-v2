@@ -15,6 +15,10 @@
     "target": "http://localhost:3000",
     "secure": false
   },
+  "/sign_out": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
   "/packs/js": {
     "target": "http://localhost:3000",
     "secure": false
