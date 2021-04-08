@@ -9,11 +9,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { AuthOptionsListComponent } from './auth-options-list/auth-options-list.component';
+import { ViewerButtonComponent } from './viewer-button/viewer-button.component';
 
 @NgModule({
   declarations: [
     LoginButtonComponent,
     AuthOptionsListComponent,
+    ViewerButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { AuthOptionsListComponent } from './auth-options-list/auth-options-list.
   exports: [
     LoginButtonComponent,
     AuthOptionsListComponent,
+    ViewerButtonComponent,
   ]
 })
 
