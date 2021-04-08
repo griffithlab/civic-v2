@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
 import { NzIconService } from 'ng-zorro-antd/icon';
+import { User } from '@app/generated/civic.apollo';
+import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 // TODO: import and add icons at root so available everywhere
 import {
@@ -29,10 +31,13 @@ import {
   styleUrls: ['./layout.component.less']
 })
 export class LayoutComponent {
-
   isCollapsed = false;
   title = 'main'
-  constructor(private iconService: NzIconService) {
+
+  viewer$!: Observable<User>;
+
+  constructor(private iconService: NzIconService,
+              viewerService: ViewerService) {
     this.addIcons();
   }
 

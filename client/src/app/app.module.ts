@@ -22,7 +22,6 @@ import { AppComponent } from './app.component';
 
 import { GraphQLModule } from '@app/graphql.module';
 
-import { LayoutModule } from './layout/layout.module';
 
 registerLocaleData(en);
 
@@ -46,7 +45,6 @@ registerLocaleData(en);
     NgxJsonViewerModule,
     ReactiveFormsModule,
     TimeagoModule.forRoot(),
-    LayoutModule,
   ],
   providers: [
     CookieService,

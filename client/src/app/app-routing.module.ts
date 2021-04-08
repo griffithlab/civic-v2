@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', children: [] }
+  {
+    path: '',
+    loadChildren: () => import('@app/layout/layout.module').then(m => m.LayoutModule)
+  }
 ];
 
 @NgModule({

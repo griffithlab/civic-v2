@@ -1,0 +1,34 @@
+# Fetch only fields required for authorization, perms & tag display
+query ViewerBase {
+  viewer {
+    id
+    username
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+
+# Fetch all visitor fields
+# TODO: add event, notification fields
+query ViewerFull {
+  viewer {
+    id
+    username
+    name
+    email
+    bio
+    url
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}

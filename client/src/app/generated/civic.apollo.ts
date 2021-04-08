@@ -1121,14 +1121,29 @@ export type VariantEdge = {
   node?: Maybe<Variant>;
 };
 
-export type AuthenticateViewerQueryVariables = Exact<{ [key: string]: never; }>;
+export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthenticateViewerQuery = (
+export type ViewerBaseQuery = (
   { __typename?: 'Query' }
   & { viewer?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'username' | 'role' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath'>
+    & { organizations?: Maybe<Array<(
+      { __typename?: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )>> }
+  )> }
+);
+
+export type ViewerFullQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ViewerFullQuery = (
+  { __typename?: 'Query' }
+  & { viewer?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'name' | 'email' | 'bio' | 'url' | 'role' | 'profileImagePath'>
     & { organizations?: Maybe<Array<(
       { __typename?: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
@@ -1292,11 +1307,10 @@ export type GeneDetailQuery = (
   )> }
 );
 
-export const AuthenticateViewerDocument = gql`
-    query AuthenticateViewer {
+export const ViewerBaseDocument = gql`
+    query ViewerBase {
   viewer {
     id
-    name
     username
     role
     profileImagePath(size: 32)
@@ -1312,8 +1326,38 @@ export const AuthenticateViewerDocument = gql`
   @Injectable({
     providedIn: AppModule
   })
-  export class AuthenticateViewerGQL extends Apollo.Query<AuthenticateViewerQuery, AuthenticateViewerQueryVariables> {
-    document = AuthenticateViewerDocument;
+  export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
+    document = ViewerBaseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ViewerFullDocument = gql`
+    query ViewerFull {
+  viewer {
+    id
+    username
+    name
+    email
+    bio
+    url
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
+    document = ViewerFullDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
