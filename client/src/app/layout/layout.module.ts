@@ -16,6 +16,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { AppComponentsModule } from '@app/components/app/app-components.module';
 
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
@@ -28,6 +30,7 @@ import { AppComponentsModule } from '@app/components/app/app-components.module';
     NzPopoverModule,
     NzToolTipModule,
     NzTypographyModule,
+    NgxJsonViewerModule,
     IconsProviderModule,
     AppComponentsModule,
     SharedComponentsModule,

@@ -1,10 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
+import {
+  filter,
+  map,
+  pairwise,
+  pluck,
+  startWith,
+  takeUntil,
+  tap,
+  throttleTime,
+} from 'rxjs/operators';
 
 import { NzIconService } from 'ng-zorro-antd/icon';
+
 import { User } from '@app/generated/civic.apollo';
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
-// TODO: import and add icons at root so available everywhere
+import { NGXLogger } from 'ngx-logger';
+
 import {
   iconGene,
   iconVariant,
@@ -32,15 +47,24 @@ import {
 })
 export class LayoutComponent {
   isCollapsed = false;
-  title = 'main'
-
+  data$!: Observable<any>;
   viewer$!: Observable<User>;
 
-  constructor(private iconService: NzIconService,
-              viewerService: ViewerService) {
+  constructor(
+    private logger: NGXLogger,
+    private iconService: NzIconService,
+    private queryService: ViewerService,
+  ) {
     this.addIcons();
+
   }
 
+  ngOnInit(): void {
+    this.data$ = this.queryService.watch();
+    this.viewer$ = this.queryService.viewer$;
+  }
+
+  // TODO: create a icon service or module that loads all the custom icons
   private addIcons(): void {
     this.iconService.addIconLiteral('civic:gene', iconGene.data);
     this.iconService.addIconLiteral('civic:variant', iconVariant.data);
