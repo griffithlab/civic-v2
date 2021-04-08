@@ -50,6 +50,7 @@ export class LayoutComponent {
   data$!: Observable<any>;
   viewer$!: Observable<User>;
   signedIn$!: Observable<boolean>;
+  signedOut$!: Observable<boolean>;
   canCurate$!: Observable<boolean>;
   canModerate$!: Observable<boolean>;
 
@@ -66,6 +67,7 @@ export class LayoutComponent {
     this.data$ = this.queryService.watch();
     this.viewer$ = this.queryService.viewer$;
     this.signedIn$ = this.queryService.signedIn$;
+    this.signedOut$ = this.queryService.signedOut$;
     this.canCurate$ = this.queryService.canCurate$;
     this.canModerate$ = this.queryService.canModerate$;
   }

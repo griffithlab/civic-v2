@@ -23,6 +23,8 @@ export class ViewerService implements OnDestroy {
   viewer$!: Observable<User>;
 
   signedIn$!: Observable<boolean>;
+  signedOut$!: Observable<boolean>;
+
   isAdmin$!: Observable<boolean>;
   isEditor$!: Observable<boolean>;
 
@@ -64,6 +66,9 @@ export class ViewerService implements OnDestroy {
 
     this.signedIn$ = this.viewer$.pipe(
       map(v => v === null ? false : true));
+
+    this.signedOut$ = this.viewer$.pipe(
+      map(v => v === null ? true : false));
 
     this.canCurate$ = this.viewer$.pipe(
       map(v => {

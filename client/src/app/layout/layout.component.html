@@ -93,8 +93,8 @@
         </div>
         <!-- header user -->
         <div nz-col nzSpan="6" nzOffset="17" class="header-user" style="justify-items: end">
-          <cvc-login-button></cvc-login-button>
-          <cvc-viewer-button></cvc-viewer-button>
+          <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
+          <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>
         </div>
       </div>
     </nz-header>
@@ -108,6 +108,7 @@
         <div nz-icol nzSpan="12" >
           <h4>viewer$:</h4>
           <p>Signed in: {{ signedIn$ | async }}</p>
+          <p>Signed out: {{ signedOut$ | async }}</p>
           <p>Can curate: {{ canCurate$ | async }}</p>
           <p>Can moderate: {{ canModerate$ | async }}</p>
           <ngx-json-viewer *ngIf="(viewer$ | async) as data" [json]="data" [expanded]="false"></ngx-json-viewer>
