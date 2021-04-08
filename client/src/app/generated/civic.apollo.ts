@@ -1121,6 +1121,21 @@ export type VariantEdge = {
   node?: Maybe<Variant>;
 };
 
+export type AuthenticateViewerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AuthenticateViewerQuery = (
+  { __typename?: 'Query' }
+  & { viewer?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'username' | 'role' | 'profileImagePath'>
+    & { organizations?: Maybe<Array<(
+      { __typename?: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )>> }
+  )> }
+);
+
 export type BrowseGenesQueryVariables = Exact<{
   entrezSymbol?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
@@ -1277,6 +1292,33 @@ export type GeneDetailQuery = (
   )> }
 );
 
+export const AuthenticateViewerDocument = gql`
+    query AuthenticateViewer {
+  viewer {
+    id
+    name
+    username
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class AuthenticateViewerGQL extends Apollo.Query<AuthenticateViewerQuery, AuthenticateViewerQueryVariables> {
+    document = AuthenticateViewerDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseGenesDocument = gql`
     query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseGenes(
