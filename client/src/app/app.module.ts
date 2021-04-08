@@ -16,7 +16,6 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 
-import { IconsProviderModule } from './icons-provider.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,9 +23,6 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from '@app/graphql.module';
 
 import { LayoutModule } from './layout/layout.module';
-import { GenesComponentsModule } from './components/genes/genes-components.module';
-import { SharedComponentsModule } from './components/shared/shared-components.module';
-import { AppComponentsModule } from './components/app/app-components.module';
 
 registerLocaleData(en);
 
@@ -35,7 +31,6 @@ registerLocaleData(en);
     AppComponent
   ],
   imports: [
-    GenesComponentsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
@@ -43,7 +38,6 @@ registerLocaleData(en);
     GraphQLModule,
     HttpClientModule,
     HttpClientXsrfModule,
-    IconsProviderModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
       level: NgxLoggerLevel.TRACE,
@@ -52,8 +46,6 @@ registerLocaleData(en);
     NgxJsonViewerModule,
     ReactiveFormsModule,
     TimeagoModule.forRoot(),
-    SharedComponentsModule,
-    AppComponentsModule,
     LayoutModule,
   ],
   providers: [

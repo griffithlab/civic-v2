@@ -21,6 +21,7 @@ import { AppComponentsModule } from '@app/components/app/app-components.module';
   imports: [
     CommonModule,
     LayoutRoutingModule,
+    IconsProviderModule,
     NzGridModule,
     NzLayoutModule,
     NzMenuModule,
