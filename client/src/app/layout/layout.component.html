@@ -107,7 +107,9 @@
         </div>
         <div nz-icol nzSpan="12" >
           <h4>viewer$:</h4>
-          Signed in: {{ signedIn$ | async }}
+          <p>Signed in: {{ signedIn$ | async }}</p>
+          <p>Can curate: {{ canCurate$ | async }}</p>
+          <p>Can moderate: {{ canModerate$ | async }}</p>
           <ngx-json-viewer *ngIf="(viewer$ | async) as data" [json]="data" [expanded]="false"></ngx-json-viewer>
         </div>
       </div>

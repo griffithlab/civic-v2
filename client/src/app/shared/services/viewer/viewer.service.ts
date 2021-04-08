@@ -60,15 +60,32 @@ export class ViewerService implements OnDestroy {
       startWith(true));
 
     this.viewer$ = this.data$.pipe(
-      tag('viewer$'),
-      pluck('data', 'viewer'),
-    );
+      pluck('data', 'viewer'));
 
     this.signedIn$ = this.viewer$.pipe(
-      map(d => {
-        return d === null ? false : true;
-      })
-    );
+      map(v => v === null ? false : true));
+
+    this.canCurate$ = this.viewer$.pipe(
+      map(v => {
+        let canCurate;
+        if (v && (v.role === 'curator' || v.role === 'editor' || v.role === 'admin')) {
+          canCurate = true;
+        } else {
+          canCurate = false
+        }
+        return canCurate;
+      }));
+
+    this.canModerate$ = this.viewer$.pipe(
+      map(v => {
+        let canModerate;
+        if (v && (v.role === 'editor' || v.role === 'admin')) {
+          canModerate = true;
+        } else {
+          canModerate = false
+        }
+        return canModerate;
+      }));
 
     return this.data$;
   }

@@ -50,6 +50,8 @@ export class LayoutComponent {
   data$!: Observable<any>;
   viewer$!: Observable<User>;
   signedIn$!: Observable<boolean>;
+  canCurate$!: Observable<boolean>;
+  canModerate$!: Observable<boolean>;
 
   constructor(
     private logger: NGXLogger,
@@ -64,6 +66,8 @@ export class LayoutComponent {
     this.data$ = this.queryService.watch();
     this.viewer$ = this.queryService.viewer$;
     this.signedIn$ = this.queryService.signedIn$;
+    this.canCurate$ = this.queryService.canCurate$;
+    this.canModerate$ = this.queryService.canModerate$;
   }
 
   // TODO: create a icon service or module that loads all the custom icons
