@@ -2,6 +2,11 @@
   nz-button
   nzType="primary"
   nzValue="small"
-  (click)="signOut()">
-  <span>Sign Out</span>
+  nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight" >
+  <span>{{ username$ | async }}</span>
 </button>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="signOut()">Sign Out</li>
+  </ul>
+</nz-dropdown-menu>
