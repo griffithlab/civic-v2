@@ -15,7 +15,7 @@
     "target": "http://localhost:3000",
     "secure": false
   },
-  "/sign_out": {
+  "/api/sign_out": {
     "target": "http://localhost:3000",
     "secure": false
   },

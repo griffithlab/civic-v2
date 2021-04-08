@@ -1,15 +1,16 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 import { QueryRef } from 'apollo-angular';
 
-import { Observable } from 'rxjs';
-import { pluck, map, shareReplay, startWith } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { pluck, map, tap, shareReplay, startWith } from 'rxjs/operators';
 
 import { User, ViewerBaseGQL } from '@app/generated/civic.apollo';
 
 import { create } from "rxjs-spy";
 import { tag } from "rxjs-spy/operators/tag";
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,14 @@ export class ViewerService implements OnDestroy {
   viewer$!: Observable<User>;
   role$!: Observable<string>;
 
+  signOut$!: Subscription;
+
   private spy: any;
 
   constructor(
     private viewerBaseGQL: ViewerBaseGQL,
     private http: HttpClient,
+    private logger: NGXLogger,
   ) {
     this.spy = create();
 
@@ -60,7 +64,10 @@ export class ViewerService implements OnDestroy {
 
   // GET /sign_out with HttpClient, then refetch Viewer
   signOut(): void {
-    this.http.get('/sign_out');
+    this.signOut$ = this.http.get('/api/sign_out')
+      .subscribe(d => {
+        this.logger.trace(d);
+      });
   }
 
   refetch(): void {
