@@ -29,4 +29,4 @@ import { AuthOptionsListComponent } from './auth-options-list/auth-options-list.
   ]
 })
 
-export class AppComponentsModule { }
+export class LayoutComponentsModule { }

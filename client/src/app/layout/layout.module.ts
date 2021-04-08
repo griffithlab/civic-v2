@@ -14,7 +14,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
-import { AppComponentsModule } from '@app/components/app/app-components.module';
+import { LayoutComponentsModule } from '@app/components/layout/layout-components.module';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
@@ -32,7 +32,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzTypographyModule,
     NgxJsonViewerModule,
     IconsProviderModule,
-    AppComponentsModule,
+    LayoutComponentsModule,
     SharedComponentsModule,
   ]
 })
