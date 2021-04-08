@@ -1,23 +1,24 @@
 import { NzIconService } from 'ng-zorro-antd/icon';
 
 // TODO: import and add icons at root so available everywhere
-import { iconGene,
-         iconVariant,
-         iconVariantGroup,
-         iconEvidence,
-         iconAssertion,
-         iconSource,
-         iconDrug,
-         iconDisease,
-         iconCurator,
-         iconEditor,
-         iconAdmin,
-         iconOrganization,
-         iconRevision,
-         iconSuggestedRevision,
-         iconEvent,
-         iconEventLog
-       } from '@app/generated/civic.icons';
+import {
+  iconGene,
+  iconVariant,
+  iconVariantGroup,
+  iconEvidence,
+  iconAssertion,
+  iconSource,
+  iconDrug,
+  iconDisease,
+  iconCurator,
+  iconEditor,
+  iconAdmin,
+  iconOrganization,
+  iconRevision,
+  iconSuggestedRevision,
+  iconEvent,
+  iconEventLog
+} from '@app/generated/civic.icons';
 
 import { Component } from '@angular/core';
 
@@ -31,6 +32,10 @@ export class AppComponent {
   isCollapsed = false;
   title = 'main'
   constructor(private iconService: NzIconService) {
+    this.addIcons();
+  }
+
+  private addIcons(): void {
     this.iconService.addIconLiteral('civic:gene', iconGene.data);
     this.iconService.addIconLiteral('civic:variant', iconVariant.data);
     this.iconService.addIconLiteral('civic:variant-group', iconVariantGroup.data);
