@@ -66,12 +66,12 @@ export class ViewerService implements OnDestroy {
   signOut(): void {
     this.signOut$ = this.http.get('/api/sign_out')
       .subscribe(d => {
-        this.logger.trace(d);
+        this.refetch();
       });
   }
 
   refetch(): void {
-
+    this.queryRef.refetch();
   }
 
   ngOnDestroy(): void {
