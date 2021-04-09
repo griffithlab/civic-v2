@@ -35,7 +35,7 @@ export class CommentAddComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submitForm(value: { userName: string; email: string; password: string; confirm: string; comment: string }): void {
+  addComment(value: { comments: string }): void {
     for (const key in this.addCommentForm.controls) {
       this.addCommentForm.controls[key].markAsDirty();
       this.addCommentForm.controls[key].updateValueAndValidity();

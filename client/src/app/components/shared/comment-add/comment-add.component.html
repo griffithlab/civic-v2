@@ -1,7 +1,7 @@
 <nz-card nzType="inner" nzTitle="Add a Comment">
   <form nz-form
     [formGroup]="addCommentForm"
-    (ngSubmit)="submitForm(addCommentForm.value)"
+    (ngSubmit)="addComment(addCommentForm.value)"
     nzLayout="vertical">
     <nz-form-item>
       <!-- <nz-form-label nzRequired>Comment</nz-form-label> -->
