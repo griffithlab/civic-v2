@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -16,6 +21,7 @@ import { TimeagoModule } from 'ngx-timeago';
 
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentAddComponent } from './comment-add/comment-add.component';
+
 @NgModule({
   declarations: [
     CommentListComponent,
@@ -23,10 +29,13 @@ import { CommentAddComponent } from './comment-add/comment-add.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     NzAvatarModule,
     NzButtonModule,
     NzCardModule,
     NzCommentModule,
+    NzInputModule,
     NzFormModule,
     NzDescriptionsModule,
     NzDropDownModule,

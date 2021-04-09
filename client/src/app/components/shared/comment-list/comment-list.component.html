@@ -16,5 +16,5 @@
       </nz-list-item>
     </ng-template>
   </nz-list>
-  <cvc-comment-add *ngIf="canCurate$ | async"></cvc-comment-add>
+  <cvc-comment-add *ngIf="canCurate$ | async" [addFunction]="addFunction"></cvc-comment-add>
 </nz-card>

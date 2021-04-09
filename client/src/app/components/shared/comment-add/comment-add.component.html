@@ -1,3 +1,18 @@
 <nz-card nzType="inner" nzTitle="Add a Comment">
-  Add Comment Form Here
+  <form nz-form
+    [formGroup]="addCommentForm"
+    (ngSubmit)="submitForm(addCommentForm.value)"
+    nzLayout="vertical">
+    <nz-form-item>
+      <!-- <nz-form-label nzRequired>Comment</nz-form-label> -->
+      <nz-form-control nzErrorTip="Please write something here!">
+        <textarea formControlName="comment" nz-input rows="4" placeholder="Add your comment here."></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="!addCommentForm.valid">Submit</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </nz-card>
