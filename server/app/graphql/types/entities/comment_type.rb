@@ -5,9 +5,14 @@ module Types::Entities
     field :title, String, null: true
     field :comment, String, null: false
     field :commentor, Types::Entities::UserType, null: false
+    field :creation_event, Types::Entities::EventType, null: true
 
     def commentor
       Loaders::AssociationLoader.for(Comment, :user).load(object)
+    end
+
+    def creation_event
+      Loaders::AssociationLoader.for(Comment, :creation_event).load(object)
     end
   end
 end

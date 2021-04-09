@@ -5,6 +5,11 @@ class Revision < ApplicationRecord
   #TODO: will we want a mixin someday?
   has_many :events, as: :originating_object
 
+  has_one :creation_event,
+    ->() { where(action: 'revision suggested') },
+    as: :originating_object,
+    class_name: 'Event'
+
   validates :status, inclusion: {
     in: ['accepted', 'rejected', 'superseded', 'new'],
     message: "%{value} is not a valid revision status"
