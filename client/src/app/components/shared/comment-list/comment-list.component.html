@@ -1,0 +1,22 @@
+<nz-card nzTitle="Comments">
+  <nz-list [nzDataSource]="comments"
+    [nzRenderItem]="comment"
+    nzSize="small"
+    nzItemLayout="horizontal">
+    <ng-template #comment let-comment>
+      <nz-list-item>
+        <nz-comment [nzAuthor]="comment.node.commentor.name"
+          [nzDatetime]="comment.node.createdAt | timeago">
+          <nz-avatar *ngIf="comment.node.commentor.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="comment.node.commentor.profileImagePath"></nz-avatar>
+          <ng-template #noAvatar><nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar></ng-template>
+          <nz-comment-content>
+            <p>{{ comment.node.comment }}</p>
+          </nz-comment-content>
+        </nz-comment>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+  <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Add a Comment">
+    Add Comment Form Here
+  </nz-card>
+</nz-card>
