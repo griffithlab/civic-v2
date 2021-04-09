@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CommentListComponent } from './comment-list/comment-list.component';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -15,9 +14,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { TimeagoModule } from 'ngx-timeago';
 
+import { CommentListComponent } from './comment-list/comment-list.component';
+import { CommentAddComponent } from './comment-add/comment-add.component';
 @NgModule({
   declarations: [
     CommentListComponent,
+    CommentAddComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,7 @@ import { TimeagoModule } from 'ngx-timeago';
   ],
   exports: [
     CommentListComponent,
+    CommentAddComponent,
   ]
 })
 

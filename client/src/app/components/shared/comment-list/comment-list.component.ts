@@ -12,7 +12,8 @@ import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 export class CommentListComponent implements OnInit {
   @Input() comments!: Comment[];
-  @Input() addCommentFunction!: (args: any) => void;
+  @Input() addFunction!: (args: any) => void;
+  @Input() loadMoreFunction!: (args: any) => void;
 
   viewer$: Observable<User | null>;
   canCurate$: Observable<boolean>;

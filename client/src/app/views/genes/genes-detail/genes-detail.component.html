@@ -42,7 +42,8 @@
             <div nz-row [nzGutter]="16">
               <nz-col [nzSpan]="8">
                 <cvc-comment-list [comments]="gene.comments.edges"
-                  [addCommentFunction]="addGeneComment"
+                  [addFunction]="addComment"
+                  [loadMoreFunction]="loadMoreComments"
                 ></cvc-comment-list>
               </nz-col>
               <nz-col [nzSpan]="16">

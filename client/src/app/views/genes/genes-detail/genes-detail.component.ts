@@ -44,8 +44,12 @@ export class GenesDetailComponent implements OnInit {
     this.logger.trace("GenesDetailComponent initialized.");
   }
 
-  addGeneComment(): void {
+  addComment(): void {
     this.logger.trace('addGeneComment called.');
+  }
+
+  loadMoreComments(): void {
+    this.logger.trace('loadMoreComments called.');
   }
 
 }
