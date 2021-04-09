@@ -41,6 +41,7 @@ export class CommentAddComponent implements OnInit {
       this.addCommentForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
+    this.addFunction(value);
   }
 
 }
