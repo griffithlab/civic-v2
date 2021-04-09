@@ -41,7 +41,9 @@
           <nz-space-item>
             <div nz-row [nzGutter]="16">
               <nz-col [nzSpan]="8">
-                <cvc-comment-list [comments]="gene.comments.edges"></cvc-comment-list>
+                <cvc-comment-list [comments]="gene.comments.edges"
+                  [addCommentFunction]="addGeneComment"
+                ></cvc-comment-list>
               </nz-col>
               <nz-col [nzSpan]="16">
                 <nz-card nzTitle="Revisions" class="card-list">

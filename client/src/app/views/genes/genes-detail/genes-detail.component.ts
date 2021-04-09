@@ -5,7 +5,8 @@ import { pluck, map} from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes.detail.service';
-import { Gene } from '@app/generated/civic.apollo';
+import { Gene, User } from '@app/generated/civic.apollo';
+import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 @Component({
   selector: 'genes-detail',
@@ -13,12 +14,14 @@ import { Gene } from '@app/generated/civic.apollo';
   styleUrls: ['./genes-detail.component.less']
 })
 export class GenesDetailComponent implements OnInit {
-  gene$: Observable<any> | undefined;
-  comments$: Observable<any> | undefined;
-  revisions$: Observable<any> | undefined;
-  myGeneInfo$: Observable<any> | undefined;
+  gene$!: Observable<any>;
+  comments$!: Observable<any>;
+  revisions$!: Observable<any>;
+  myGeneInfo$!: Observable<any>;
+  viewer$!: Observable<User | null>;
 
   constructor(private api: GenesDetailService,
+              private viewerService: ViewerService,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
@@ -33,10 +36,16 @@ export class GenesDetailComponent implements OnInit {
         map(info => JSON.parse(info))
       );
     });
+
+    this.viewer$ = this.viewerService.viewer$;
   }
 
   ngOnInit(): void {
     this.logger.trace("GenesDetailComponent initialized.");
+  }
+
+  addGeneComment(): void {
+    this.logger.trace('addGeneComment called.');
   }
 
 }

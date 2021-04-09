@@ -16,7 +16,8 @@
       </nz-list-item>
     </ng-template>
   </nz-list>
-  <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Add a Comment">
+  <nz-card nzType="inner" nzTitle="Add a Comment"
+    *ngIf="canCurate$ | async">
     Add Comment Form Here
   </nz-card>
 </nz-card>
