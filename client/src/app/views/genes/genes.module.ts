@@ -8,6 +8,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -48,6 +49,7 @@ import { GenesComponentsModule } from '@app/components/genes/genes-components.mo
     NzButtonModule,
     NzCardModule,
     NzCommentModule,
+    NzFormModule,
     NzDescriptionsModule,
     NzDropDownModule,
     NzGridModule,
