@@ -1,0 +1,22 @@
+mutation AddComment($input: AddCommentInput!) {
+  addComment(input:$input) {
+    clientMutationId
+    comment {
+      id
+      title
+      comment
+      commentor {
+        id
+        username
+        name
+        role
+        profileImagePath(size: 32)
+        organizations {
+          id
+          name
+          profileImagePath(size: 32)
+        }
+      }
+    }
+  }
+}

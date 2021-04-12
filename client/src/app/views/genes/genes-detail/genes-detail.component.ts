@@ -5,8 +5,14 @@ import { pluck, map} from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes.detail.service';
-import { Gene, User } from '@app/generated/civic.apollo';
+import {
+  Gene,
+  User,
+  AddCommentInput,
+} from '@app/generated/civic.apollo';
+
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { NewComment } from '@app/components/shared/comment-add/comment-add.component';
 
 @Component({
   selector: 'genes-detail',
@@ -44,8 +50,8 @@ export class GenesDetailComponent implements OnInit {
     this.logger.trace("GenesDetailComponent initialized.");
   }
 
-  addComment = (value: any): void => {
-    this.logger.trace('addGeneComment called.', value);
+  submitComment = (newComment: NewComment): void => {
+    this.logger.trace('submitComment called.', newComment);
   }
 
   loadMoreComments(): void {

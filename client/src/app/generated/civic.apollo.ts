@@ -1121,6 +1121,31 @@ export type VariantEdge = {
   node?: Maybe<Variant>;
 };
 
+export type AddCommentMutationVariables = Exact<{
+  input: AddCommentInput;
+}>;
+
+
+export type AddCommentMutation = (
+  { __typename?: 'Mutation' }
+  & { addComment?: Maybe<(
+    { __typename?: 'AddCommentPayload' }
+    & Pick<AddCommentPayload, 'clientMutationId'>
+    & { comment?: Maybe<(
+      { __typename?: 'Comment' }
+      & Pick<Comment, 'id' | 'title' | 'comment'>
+      & { commentor: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
+        & { organizations?: Maybe<Array<(
+          { __typename?: 'Organization' }
+          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+        )>> }
+      ) }
+    )> }
+  )> }
+);
+
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1307,6 +1332,41 @@ export type GeneDetailQuery = (
   )> }
 );
 
+export const AddCommentDocument = gql`
+    mutation AddComment($input: AddCommentInput!) {
+  addComment(input: $input) {
+    clientMutationId
+    comment {
+      id
+      title
+      comment
+      commentor {
+        id
+        username
+        name
+        role
+        profileImagePath(size: 32)
+        organizations {
+          id
+          name
+          profileImagePath(size: 32)
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
+    document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ViewerBaseDocument = gql`
     query ViewerBase {
   viewer {

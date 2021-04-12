@@ -1,5 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit
+} from '@angular/core';
+
 import { Observable } from 'rxjs';
+
+import { NewComment } from '../comment-add/comment-add.component';
 
 import { Comment, User } from '@app/generated/civic.apollo';
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -12,8 +21,7 @@ import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 export class CommentListComponent implements OnInit {
   @Input() comments!: Comment[];
-  @Input() addFunction!: (args: any) => void;
-  @Input() loadMoreFunction!: (args: any) => void;
+  @Output() commentSubmitted = new EventEmitter<NewComment>();
 
   viewer$: Observable<User | null>;
   canCurate$: Observable<boolean>;
@@ -26,6 +34,10 @@ export class CommentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  submitComment(value: NewComment): void {
+    this.commentSubmitted.emit(value);
   }
 
 }

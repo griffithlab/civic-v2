@@ -2,6 +2,8 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 import {
@@ -17,31 +19,36 @@ import {
   Observer,
 } from 'rxjs';
 
+export interface NewComment {
+  body: string;
+  organizationId?: number
+}
+
 @Component({
   selector: 'cvc-comment-add',
   templateUrl: './comment-add.component.html',
   styleUrls: ['./comment-add.component.less']
 })
 export class CommentAddComponent implements OnInit {
-  @Input() addFunction!: (args: any) => void;
+  @Output() commentSubmitted = new EventEmitter<NewComment>();
 
   addCommentForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.addCommentForm = this.fb.group({
-      comment: ['', [Validators.required]]
+      body: ['', [Validators.required]]
     });
   }
   ngOnInit(): void {
   }
 
-  addComment(value: { comments: string }): void {
+  submitComment(value: NewComment): void {
     for (const key in this.addCommentForm.controls) {
       this.addCommentForm.controls[key].markAsDirty();
       this.addCommentForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
-    this.addFunction(value);
+    this.commentSubmitted.emit(value);
   }
 
 }
