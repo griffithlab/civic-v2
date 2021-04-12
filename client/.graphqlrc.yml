@@ -19,6 +19,7 @@ extensions:
               content: /* eslint-disable */
         config:
           apolloClientVersion: 3
+          nonOptionalTypename: true
       ./src/app/generated/civic.possible-types.ts:
         plugins:
           - fragment-matcher
