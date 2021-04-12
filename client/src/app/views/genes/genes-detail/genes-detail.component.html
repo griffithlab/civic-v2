@@ -41,9 +41,10 @@
           <nz-space-item>
             <div nz-row [nzGutter]="16">
               <nz-col [nzSpan]="8">
-                <cvc-comment-list [comments]="gene.comments.edges"
-                 (commentSubmitted)="submitComment($event)"
-                ></cvc-comment-list>
+                <cvc-comment-list
+                  [comments]="gene.comments.edges"
+                  [subject]="subject">
+                </cvc-comment-list>
               </nz-col>
               <nz-col [nzSpan]="16">
                 <nz-card nzTitle="Revisions" class="card-list">

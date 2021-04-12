@@ -22,6 +22,8 @@ import { TimeagoModule } from 'ngx-timeago';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentAddComponent } from './comment-add/comment-add.component';
 
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+
 @NgModule({
   declarations: [
     CommentListComponent,
@@ -42,7 +44,8 @@ import { CommentAddComponent } from './comment-add/comment-add.component';
     NzListModule,
     NzSpaceModule,
     NzTypographyModule,
-    TimeagoModule.forChild()
+    TimeagoModule.forChild(),
+    NgxJsonViewerModule
   ],
   exports: [
     CommentListComponent,

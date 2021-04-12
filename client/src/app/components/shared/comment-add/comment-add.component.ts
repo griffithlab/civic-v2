@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   Input,
-  Output,
   EventEmitter
 } from '@angular/core';
 
@@ -19,10 +18,18 @@ import {
   Observer,
 } from 'rxjs';
 
-export interface NewComment {
-  body: string;
-  organizationId?: number
-}
+import {
+  Gene,
+  AddCommentInput,
+  CommentableInput,
+  CommentableEntities,
+} from '@app/generated/civic.apollo';
+
+import { CommentAddService } from './comment-add.service';
+
+// a union type to specify `entity` @Inputs, update as more commentable entities are added.
+export type CommentableEntity =
+  Gene;
 
 @Component({
   selector: 'cvc-comment-add',
@@ -30,11 +37,12 @@ export interface NewComment {
   styleUrls: ['./comment-add.component.less']
 })
 export class CommentAddComponent implements OnInit {
-  @Output() commentSubmitted = new EventEmitter<NewComment>();
+  @Input() subject!: CommentableInput;
 
   addCommentForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private commentAddService: CommentAddService) {
     this.addCommentForm = this.fb.group({
       body: ['', [Validators.required]]
     });
@@ -42,13 +50,19 @@ export class CommentAddComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submitComment(value: NewComment): void {
+  submitComment(value: { body: string}): void {
     for (const key in this.addCommentForm.controls) {
       this.addCommentForm.controls[key].markAsDirty();
       this.addCommentForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
-    this.commentSubmitted.emit(value);
+    // const newCommentInput = <AddCommentInput>{
+    //   body: value.body,
+    //   organizationId: 1,
+    //   subject: { }
+
+    // }
+    // this.commentAddService.addComment
   }
 
 }

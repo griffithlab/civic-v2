@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck, map} from 'rxjs/operators';
+import { pluck, map, tap } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes.detail.service';
 import {
+  CommentableInput,
+  CommentableEntities,
   Gene,
   User,
-  AddCommentInput,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
-import { NewComment } from '@app/components/shared/comment-add/comment-add.component';
 
 @Component({
   selector: 'genes-detail',
@@ -26,6 +26,8 @@ export class GenesDetailComponent implements OnInit {
   myGeneInfo$!: Observable<any>;
   viewer$!: Observable<User | null>;
 
+  subject!: CommentableInput;
+
   constructor(private api: GenesDetailService,
               private viewerService: ViewerService,
               private route: ActivatedRoute,
@@ -34,7 +36,15 @@ export class GenesDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       const geneId: string = params['geneId'];
       const source$: Observable<any> = this.api.watchGeneDetail(geneId);
-      this.gene$ = source$.pipe(pluck('data', 'gene'));
+      this.gene$ = source$.pipe(
+        pluck('data', 'gene'),
+        tap((g: Gene) => {
+          this.subject = <CommentableInput>{
+            id: g.id,
+            entityType: CommentableEntities[g.__typename]
+          }
+        })
+      );
       this.comments$ = this.gene$.pipe(pluck('comments', 'edges'));
       this.revisions$ = this.gene$.pipe(pluck('revisions', 'edges'));
       this.myGeneInfo$ = this.gene$.pipe(
@@ -48,10 +58,6 @@ export class GenesDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.logger.trace("GenesDetailComponent initialized.");
-  }
-
-  submitComment = (newComment: NewComment): void => {
-    this.logger.trace('submitComment called.', newComment);
   }
 
   loadMoreComments(): void {

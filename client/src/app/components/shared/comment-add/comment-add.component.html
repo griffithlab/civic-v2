@@ -1,4 +1,5 @@
 <nz-card nzType="inner" nzTitle="Add a Comment">
+  <ngx-json-viewer [json]="subject" [expanded]="false"></ngx-json-viewer>
   <form nz-form
     [formGroup]="addCommentForm"
     (ngSubmit)="submitComment(addCommentForm.value)"
