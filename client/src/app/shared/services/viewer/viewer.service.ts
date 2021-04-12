@@ -8,8 +8,6 @@ import { pluck, map, tap, shareReplay, startWith } from 'rxjs/operators';
 
 import { User, ViewerBaseGQL } from '@app/generated/civic.apollo';
 
-import { create } from "rxjs-spy";
-import { tag } from "rxjs-spy/operators/tag";
 import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
@@ -38,7 +36,6 @@ export class ViewerService implements OnDestroy {
     private http: HttpClient,
     private logger: NGXLogger,
   ) {
-    this.spy = create();
 
   }
 
@@ -46,7 +43,6 @@ export class ViewerService implements OnDestroy {
     this.queryRef = this.viewerBaseGQL.watch();
 
     this.data$ = this.queryRef.valueChanges.pipe(
-      tag('viewerData$'),
       shareReplay(1),
       map((r: any) => {
         return {
@@ -108,7 +104,6 @@ export class ViewerService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.spy.teardown();
   }
   // getRole(): string | null {
   //   return this.role;
