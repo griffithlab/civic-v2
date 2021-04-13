@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrgSelectorButtonComponent } from './org-selector-button.component';
+import { OrgSelectorButtonComponent } from './org-selector-btn.component';
 
 describe('OrgSelectorButtonComponent', () => {
   let component: OrgSelectorButtonComponent;

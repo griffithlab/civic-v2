@@ -13,8 +13,7 @@
       <nz-form-control>
         <cvc-org-selector-btn
           [organizations]="(viewer$ | async)?.organizations"
-          [mostRecentOrgId]="1"
-          [disabled]="!addCommentForm.valid">
+          [mostRecentOrgId]="1">
           <button nz-button nzType="primary">Submit</button>
         </cvc-org-selector-btn>
       </nz-form-control>

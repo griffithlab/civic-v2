@@ -11,8 +11,8 @@ import {
 
 @Component({
   selector: 'cvc-org-selector-btn',
-  templateUrl: './org-selector-button.component.html',
-  styleUrls: ['./org-selector-button.component.less']
+  templateUrl: './org-selector-btn.component.html',
+  styleUrls: ['./org-selector-btn.component.less']
 })
 export class OrgSelectorButtonComponent implements OnInit {
   @Input() organizations!: Organization[] | null | undefined;
