@@ -57,19 +57,19 @@ export class LayoutComponent {
   constructor(
     private logger: NGXLogger,
     private iconService: NzIconService,
-    private queryService: ViewerService,
+    private viewerService: ViewerService,
   ) {
     this.addIcons();
 
   }
 
   ngOnInit(): void {
-    this.data$ = this.queryService.watch();
-    this.viewer$ = this.queryService.viewer$;
-    this.signedIn$ = this.queryService.signedIn$;
-    this.signedOut$ = this.queryService.signedOut$;
-    this.canCurate$ = this.queryService.canCurate$;
-    this.canModerate$ = this.queryService.canModerate$;
+    this.data$ = this.viewerService.data$;
+    this.viewer$ = this.viewerService.viewer$;
+    this.signedIn$ = this.viewerService.signedIn$;
+    this.signedOut$ = this.viewerService.signedOut$;
+    this.canCurate$ = this.viewerService.canCurate$;
+    this.canModerate$ = this.viewerService.canModerate$;
   }
 
   // TODO: create a icon service or module that loads all the custom icons

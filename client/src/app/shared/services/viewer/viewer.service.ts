@@ -47,12 +47,7 @@ export class ViewerService implements OnDestroy {
     private http: HttpClient,
     private logger: NGXLogger,
   ) {
-
-  }
-
-  watch(): Observable<any> {
     this.queryRef = this.viewerBaseGQL.watch();
-
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r: any) => {
         return {
@@ -133,16 +128,14 @@ export class ViewerService implements OnDestroy {
       return canModerate;
     }
 
-    // TODO implement using proper User and Viewer objects
     function mostRecentOrganizationId(v: User): number {
       let orgId: any = null;
-      if(v.events.nodes && v.events.nodes[0] !== null) {
+      if (v.events.nodes && v.events.nodes[0] !== null && v.events.nodes[0] !== undefined) {
         orgId = v.events.nodes[0].organization.id;
       }
       return orgId;
     }
 
-    return this.data$;
   }
 
   // GET /sign_out with HttpClient, then refetch Viewer
