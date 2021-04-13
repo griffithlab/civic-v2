@@ -6,9 +6,19 @@ import { QueryRef } from 'apollo-angular';
 import { Observable, Subscription } from 'rxjs';
 import { pluck, map, tap, shareReplay, startWith } from 'rxjs/operators';
 
-import { User, ViewerBaseGQL } from '@app/generated/civic.apollo';
+import { User, Organization, ViewerBaseGQL } from '@app/generated/civic.apollo';
 
 import { NGXLogger } from 'ngx-logger';
+
+export interface Viewer extends User {
+  mostRecentOrganization?: Organization;
+  signedIn: boolean;
+  signedOut: boolean;
+  isAdmin: boolean;
+  isEditor: boolean;
+  canCurate: boolean;
+  canModerate: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +28,12 @@ export class ViewerService implements OnDestroy {
 
   data$!: Observable<any>;
   isLoading$!: Observable<boolean>;
-  viewer$!: Observable<User>;
+  viewer$!: Observable<Viewer>;
 
   signedIn$!: Observable<boolean>;
   signedOut$!: Observable<boolean>;
 
+  isCurator$!: Observable<boolean>;
   isAdmin$!: Observable<boolean>;
   isEditor$!: Observable<boolean>;
 
@@ -55,35 +66,68 @@ export class ViewerService implements OnDestroy {
       startWith(true));
 
     this.viewer$ = this.data$.pipe(
-      pluck('data', 'viewer'));
+      pluck('data', 'viewer'),
+      map((v: User): Viewer => {
+        return <Viewer>{
+          ...v,
+          signedIn: v === null ? false : true,
+          signedOut: v === null ? true : false,
+          canCurate: canCurate(v),
+          canModerate: canModerate(v),
+          isAdmin: isAdmin(v),
+          isEditor: isEditor(v),
+          isCurator: isCurator(v)
+        }
+      }));
 
     this.signedIn$ = this.viewer$.pipe(
-      map(v => v === null ? false : true));
+      map(v => v.signedIn));
 
     this.signedOut$ = this.viewer$.pipe(
-      map(v => v === null ? true : false));
+      map(v => v.signedOut));
+
+    this.isAdmin$ = this.viewer$.pipe(
+      map(v => isAdmin(v)));
+
+    this.isEditor$ = this.viewer$.pipe(
+      map(v => isEditor(v)));
+
+    this.isCurator$ = this.viewer$.pipe(
+      map(v => isCurator(v)));
 
     this.canCurate$ = this.viewer$.pipe(
-      map(v => {
-        let canCurate;
-        if (v && (v.role === 'curator' || v.role === 'editor' || v.role === 'admin')) {
-          canCurate = true;
-        } else {
-          canCurate = false
-        }
-        return canCurate;
-      }));
+      map(v => canCurate(v)));
 
     this.canModerate$ = this.viewer$.pipe(
-      map(v => {
-        let canModerate;
-        if (v && (v.role === 'editor' || v.role === 'admin')) {
-          canModerate = true;
-        } else {
-          canModerate = false
-        }
-        return canModerate;
-      }));
+      map(v => canModerate(v)));
+
+    function isAdmin(v: User): boolean {
+      return (v && (v.role === 'admin')) ? true : false;
+    }
+
+    function isEditor(v: User): boolean {
+      return (v && (v.role === 'editor')) ? true : false;
+    }
+
+    function isCurator(v: User): boolean {
+      return (v && (v.role === 'curator')) ? true : false;
+    }
+
+    function canCurate(v: User): boolean {
+      let canCurate = false;
+      if (v && (v.role === 'curator' || v.role === 'editor' || v.role === 'admin')) {
+        canCurate = true;
+      }
+      return canCurate;
+    }
+
+    function canModerate(v: User): boolean {
+      let canModerate = false;
+      if (v && (v.role === 'editor' || v.role === 'admin')) {
+        canModerate = true;
+      }
+      return canModerate;
+    }
 
     return this.data$;
   }
