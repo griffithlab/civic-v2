@@ -1,4 +1,4 @@
-<nz-card nzType="inner" nzTitle="Add a Comment">
+<nz-card nzType="inner">
   <form nz-form
     [formGroup]="addCommentForm"
     (ngSubmit)="submitComment(addCommentForm.value)"
@@ -6,7 +6,7 @@
     <nz-form-item>
       <!-- <nz-form-label nzRequired>Comment</nz-form-label> -->
       <nz-form-control nzErrorTip="Please enter comment text.">
-        <textarea formControlName="body" nz-input rows="4" placeholder="Add your comment here."></textarea>
+        <textarea formControlName="body" nz-input rows="4" placeholder="Enter your comment here."></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -17,7 +17,7 @@
           <button nz-button cvcOrgSelectorBtn
             nzType="primary"
             [disabled]="!addCommentForm.valid">
-            Submit
+            Add Comment
           </button>
         </cvc-org-selector-btn-group>
       </nz-form-control>

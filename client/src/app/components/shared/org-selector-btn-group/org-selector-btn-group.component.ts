@@ -1,7 +1,6 @@
 import {
   Component,
   Input,
-  AfterViewInit,
   ContentChild,
 } from '@angular/core';
 
@@ -16,12 +15,11 @@ import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less']
 })
-export class OrgSelectorBtnGroupComponent implements AfterViewInit {
+export class OrgSelectorBtnGroupComponent {
   @Input() organizations!: Organization[] | null | undefined;
   @Input() mostRecentOrgId!: number | null | undefined;
 
   @ContentChild(OrgSelectorBtnDirective, {static: false}) button!: OrgSelectorBtnDirective
- 
 
   constructor() { }
 
@@ -29,7 +27,4 @@ export class OrgSelectorBtnGroupComponent implements AfterViewInit {
     return this.button.disabled;
   }
 
-  ngAfterViewInit(): void {
-    
-  }
 }
