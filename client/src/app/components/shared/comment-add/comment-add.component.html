@@ -11,10 +11,8 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
-        <cvc-org-selector-btn-group
-          [organizations]="(viewer$ | async)?.organizations"
-          [mostRecentOrgId]="1">
-          <button nz-button cvcOrgSelectorBtn
+        <cvc-org-selector-btn-group>
+          <button type="submit" nz-button cvcOrgSelectorBtn
             nzType="primary"
             [disabled]="!addCommentForm.valid">
             Add Comment

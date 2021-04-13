@@ -1,7 +1,26 @@
-<nz-button-group [nzSize]="'small'">
-  <ng-content></ng-content>
-  <button nz-button nzType="primary"
-    [disabled]="disabled">
-    <i nz-icon nzType="down"></i>
-  </button>
-</nz-button-group>
+<ng-container>
+  <nz-button-group [nzSize]="'small'">
+    <ng-content></ng-content>
+    <button type="button" nz-button nzType="primary"
+      [disabled]="disabled"
+      nz-dropdown [nzDropdownMenu]="orgMenu">
+      <i nz-icon nzType="down"></i>
+    </button>
+  </nz-button-group>
+  <nz-dropdown-menu #orgMenu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item *ngFor="let org of (viewer$ | async)?.organizations">
+        {{ org.name }}
+      </li>
+      <li nz-menu-item>
+        test
+      </li>
+      <li nz-menu-item>
+        test 2
+      </li>
+      <li nz-menu-item>
+        test 3
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</ng-container>

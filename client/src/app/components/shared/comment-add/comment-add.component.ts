@@ -20,12 +20,12 @@ import {
 
 import {
   Gene,
-  User,
   AddCommentInput,
   CommentableInput,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+
+import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
 
 @Component({
@@ -35,7 +35,7 @@ import { CommentAddService } from './comment-add.service';
 })
 export class CommentAddComponent implements OnInit {
   @Input() subject!: CommentableInput;
-  viewer$!: Observable<User | null>;
+  viewer$!: Observable<Viewer | null>;
   addCommentForm: FormGroup;
 
   constructor(private fb: FormBuilder,
