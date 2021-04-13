@@ -12,22 +12,24 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { TimeagoModule } from 'ngx-timeago';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentAddComponent } from './comment-add/comment-add.component';
-
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { OrgSelectorButtonComponent } from './org-selector-button/org-selector-button.component';
 
 @NgModule({
   declarations: [
     CommentListComponent,
     CommentAddComponent,
+    OrgSelectorButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzCardModule,
     NzCommentModule,
     NzInputModule,
+    NzIconModule,
     NzFormModule,
     NzDescriptionsModule,
     NzDropDownModule,
@@ -50,6 +53,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
   exports: [
     CommentListComponent,
     CommentAddComponent,
+    OrgSelectorButtonComponent,
   ]
 })
 

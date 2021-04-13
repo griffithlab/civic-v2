@@ -29,8 +29,6 @@ export class ViewerService implements OnDestroy {
   canCurate$!: Observable<boolean>;
   canModerate$!: Observable<boolean>;
 
-  private spy: any;
-
   constructor(
     private viewerBaseGQL: ViewerBaseGQL,
     private http: HttpClient,
@@ -51,7 +49,6 @@ export class ViewerService implements OnDestroy {
           networkStatus: r.networkStatus
         };
       }));
-    this.spy.log('visitorData$');
 
     this.isLoading$ = this.data$.pipe(
       pluck('loading'),

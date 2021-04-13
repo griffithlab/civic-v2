@@ -1,5 +1,4 @@
 <nz-card nzType="inner" nzTitle="Add a Comment">
-  <ngx-json-viewer [json]="subject" [expanded]="false"></ngx-json-viewer>
   <form nz-form
     [formGroup]="addCommentForm"
     (ngSubmit)="submitComment(addCommentForm.value)"
@@ -12,7 +11,12 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
-        <button nz-button nzType="primary" [disabled]="!addCommentForm.valid">Submit</button>
+        <cvc-org-selector-btn
+          [organizations]="(viewer$ | async)?.organizations"
+          [mostRecentOrgId]="1"
+          [disabled]="!addCommentForm.valid">
+          <button nz-button nzType="primary">Submit</button>
+        </cvc-org-selector-btn>
       </nz-form-control>
     </nz-form-item>
   </form>

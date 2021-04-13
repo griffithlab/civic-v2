@@ -20,16 +20,13 @@ import {
 
 import {
   Gene,
+  User,
   AddCommentInput,
   CommentableInput,
-  CommentableEntities,
 } from '@app/generated/civic.apollo';
 
+import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
-
-// a union type to specify `entity` @Inputs, update as more commentable entities are added.
-export type CommentableEntity =
-  Gene;
 
 @Component({
   selector: 'cvc-comment-add',
@@ -38,10 +35,11 @@ export type CommentableEntity =
 })
 export class CommentAddComponent implements OnInit {
   @Input() subject!: CommentableInput;
-
+  viewer$!: Observable<User | null>;
   addCommentForm: FormGroup;
 
   constructor(private fb: FormBuilder,
+              private viewerService: ViewerService,
               private commentAddService: CommentAddService) {
     this.addCommentForm = this.fb.group({
       body: ['', [Validators.required]]
@@ -56,13 +54,18 @@ export class CommentAddComponent implements OnInit {
       this.addCommentForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
-    // const newCommentInput = <AddCommentInput>{
-    //   body: value.body,
-    //   organizationId: 1,
-    //   subject: { }
 
-    // }
-    // this.commentAddService.addComment
+    const newCommentInput = <AddCommentInput>{
+      body: value.body,
+      subject: this.subject
+    };
+
+    this.commentAddService.addComment(newCommentInput)
+      .subscribe(({ data }) => {
+        console.log('got data', data);
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+      });
   }
 
 }

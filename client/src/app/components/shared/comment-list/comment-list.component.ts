@@ -6,8 +6,6 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { CommentableEntity } from '../comment-add/comment-add.component';
-
 import { Comment,
          User,
          CommentableInput,
