@@ -1,4 +1,7 @@
 <nz-button-group [nzSize]="'small'">
   <ng-content></ng-content>
-  <button nz-button nzType="primary"><i nz-icon nzType="down"></i></button>
+  <button nz-button nzType="primary"
+    [disabled]="selectorDisabled">
+    <i nz-icon nzType="down"></i>
+  </button>
 </nz-button-group>

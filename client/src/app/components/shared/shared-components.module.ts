@@ -24,12 +24,14 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentAddComponent } from './comment-add/comment-add.component';
 import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
+import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
 
 @NgModule({
   declarations: [
     CommentListComponent,
     CommentAddComponent,
     OrgSelectorBtnGroupComponent,
+    OrgSelectorBtnDirective,
   ],
   imports: [
     CommonModule,
@@ -54,6 +56,7 @@ import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selec
     CommentListComponent,
     CommentAddComponent,
     OrgSelectorBtnGroupComponent,
+    OrgSelectorBtnDirective,
   ]
 })
 

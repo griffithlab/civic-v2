@@ -18,6 +18,8 @@ export class OrgSelectorBtnGroupComponent implements OnInit {
   @Input() organizations!: Organization[] | null | undefined;
   @Input() mostRecentOrgId!: number | null | undefined;
 
+  selectorDisabled!: boolean;
+
   constructor() { }
 
   ngOnInit(): void {
