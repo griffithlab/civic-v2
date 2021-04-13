@@ -18,12 +18,13 @@ import {
   Observer,
 } from 'rxjs';
 
+import { pluck } from 'rxjs/operators';
+
 import {
-  Gene,
+  Organization,
   AddCommentInput,
   CommentableInput,
 } from '@app/generated/civic.apollo';
-
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
@@ -35,12 +36,15 @@ import { CommentAddService } from './comment-add.service';
 })
 export class CommentAddComponent implements OnInit {
   @Input() subject!: CommentableInput;
-  viewer$!: Observable<Viewer | null>;
+  viewer$: Observable<Viewer>;
+
   addCommentForm: FormGroup;
 
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
               private commentAddService: CommentAddService) {
+    this.viewer$ = this.viewerService.viewer$;
+
     this.addCommentForm = this.fb.group({
       body: ['', [Validators.required]]
     });

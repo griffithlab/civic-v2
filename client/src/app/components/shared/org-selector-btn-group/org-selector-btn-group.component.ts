@@ -5,14 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
 import { Organization } from '@app/generated/civic.apollo';
-
-import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
-
 import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
-import { pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-org-selector-btn-group',
@@ -20,17 +14,15 @@ import { pluck } from 'rxjs/operators';
   styleUrls: ['./org-selector-btn-group.component.less']
 })
 export class OrgSelectorBtnGroupComponent implements OnInit {
+  @Input() organizations!: Organization[] | null | undefined;
+  @Input() mostRecentOrgId!: number | null | undefined;
+
   @ContentChild(OrgSelectorBtnDirective, {static: false}) button!: OrgSelectorBtnDirective
   get disabled() {
     return this.button.disabled;
   }
 
-  viewer$: Observable<Viewer>;
-  organizations$: Observable<any>;
-
-  constructor(private viewerService: ViewerService) {
-    this.viewer$ = this.viewerService.viewer$;
-    this.organizations$ = this.viewer$.pipe(pluck('organizations'));
+  constructor() {
   }
 
   ngOnInit(): void {

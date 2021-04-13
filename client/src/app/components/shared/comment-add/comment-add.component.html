@@ -10,8 +10,8 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control>
-        <cvc-org-selector-btn-group>
+      <nz-form-control *ngIf="(viewer$ | async) as viewer">
+        <cvc-org-selector-btn-group [organizations]="viewer.organizations" [mostRecentOrgId]="viewer.mostRecentOrganizationId">
           <button type="submit" nz-button cvcOrgSelectorBtn nzType="primary"
             [disabled]="!addCommentForm.valid">
             Add Comment
