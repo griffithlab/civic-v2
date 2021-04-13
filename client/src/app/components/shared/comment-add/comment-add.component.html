@@ -11,11 +11,11 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
-        <cvc-org-selector-btn
+        <cvc-org-selector-btn-group
           [organizations]="(viewer$ | async)?.organizations"
           [mostRecentOrgId]="1">
           <button nz-button nzType="primary">Submit</button>
-        </cvc-org-selector-btn>
+        </cvc-org-selector-btn-group>
       </nz-form-control>
     </nz-form-item>
   </form>

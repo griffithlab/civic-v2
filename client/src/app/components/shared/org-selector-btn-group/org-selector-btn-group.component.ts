@@ -10,11 +10,11 @@ import {
 } from '@app/generated/civic.apollo';
 
 @Component({
-  selector: 'cvc-org-selector-btn',
-  templateUrl: './org-selector-btn.component.html',
-  styleUrls: ['./org-selector-btn.component.less']
+  selector: 'cvc-org-selector-btn-group',
+  templateUrl: './org-selector-btn-group.component.html',
+  styleUrls: ['./org-selector-btn-group.component.less']
 })
-export class OrgSelectorButtonComponent implements OnInit {
+export class OrgSelectorBtnGroupComponent implements OnInit {
   @Input() organizations!: Organization[] | null | undefined;
   @Input() mostRecentOrgId!: number | null | undefined;
 
