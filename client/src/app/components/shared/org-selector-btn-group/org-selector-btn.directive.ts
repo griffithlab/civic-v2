@@ -1,10 +1,27 @@
-import { Directive } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy
+} from '@angular/core';
 
 @Directive({
-  selector: '[cvcOrgSelectorBtn]'
+  selector: 'button[cvcOrgSelectorBtn]',
 })
-export class OrgSelectorBtnDirective {
+export class OrgSelectorBtnDirective implements OnDestroy {
+  public disabled!: boolean;
+  private observer: MutationObserver;
 
-  constructor() { }
+  constructor(private el: ElementRef) {
+    this.observer = new MutationObserver(([record]) =>
+      this.disabled = (record.target as HTMLInputElement).disabled);
+    this.observer.observe(this.el.nativeElement, {
+      attributeFilter: ['disabled'],
+      childList: false,
+      subtree: false
+    });
+  }
 
+  ngOnDestroy(): void {
+    this.observer.disconnect();
+  }
 }
