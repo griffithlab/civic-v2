@@ -8,18 +8,10 @@
     </button>
   </nz-button-group>
   <nz-dropdown-menu #orgMenu="nzDropdownMenu">
-    <ul nz-menu>
-      <li nz-menu-item *ngFor="let org of (viewer$ | async)?.organizations">
+    <ul nz-menu *ngIf="viewer$ | async as viewer">
+      <li *ngFor="let org of viewer.organizations"
+        nz-menu-item [nzSelected]="viewer.mostRecentOrganizationId === org.id">
         {{ org.name }}
-      </li>
-      <li nz-menu-item>
-        test
-      </li>
-      <li nz-menu-item>
-        test 2
-      </li>
-      <li nz-menu-item>
-        test 3
       </li>
     </ul>
   </nz-dropdown-menu>

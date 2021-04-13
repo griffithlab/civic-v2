@@ -5,16 +5,18 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NzInputModule } from 'ng-zorro-antd/input';
+
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
@@ -44,6 +46,7 @@ import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-b
     NzInputModule,
     NzIconModule,
     NzFormModule,
+    NzMenuModule,
     NzDescriptionsModule,
     NzDropDownModule,
     NzListModule,
