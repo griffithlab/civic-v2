@@ -1157,7 +1157,17 @@ export type ViewerBaseQuery = (
     & { organizations?: Maybe<Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )>> }
+    )>>, events: (
+      { __typename: 'EventConnection' }
+      & { nodes?: Maybe<Array<Maybe<(
+        { __typename: 'Event' }
+        & Pick<Event, 'id' | 'createdAt'>
+        & { organization: (
+          { __typename: 'Organization' }
+          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+        ) }
+      )>>> }
+    ) }
   )> }
 );
 
@@ -1378,6 +1388,17 @@ export const ViewerBaseDocument = gql`
       id
       name
       profileImagePath(size: 32)
+    }
+    events(first: 1) {
+      nodes {
+        id
+        createdAt
+        organization {
+          id
+          name
+          profileImagePath(size: 32)
+        }
+      }
     }
   }
 }

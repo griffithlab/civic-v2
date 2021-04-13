@@ -9,6 +9,18 @@ query ViewerBase {
       id
       name
       profileImagePath(size: 32)
+    },
+    # need to get latest event to generate mostRecentOrganization
+    events(first:1) {
+      nodes {
+        id
+        createdAt
+        organization {
+          id
+          name
+          profileImagePath(size: 32)
+        },
+      }
     }
   }
 }

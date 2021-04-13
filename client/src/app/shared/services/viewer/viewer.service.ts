@@ -1,3 +1,4 @@
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
@@ -6,12 +7,13 @@ import { QueryRef } from 'apollo-angular';
 import { Observable, Subscription } from 'rxjs';
 import { pluck, map, tap, shareReplay, startWith } from 'rxjs/operators';
 
-import { User, Organization, ViewerBaseGQL } from '@app/generated/civic.apollo';
+import { User, Organization, ViewerBaseGQL, EventConnection } from '@app/generated/civic.apollo';
 
 import { NGXLogger } from 'ngx-logger';
+import { Maybe } from 'graphql/jsutils/Maybe';
 
 export interface Viewer extends User {
-  mostRecentOrganization?: Organization;
+  mostRecentOrganizationId?: any;
   signedIn: boolean;
   signedOut: boolean;
   isAdmin: boolean;
@@ -52,14 +54,14 @@ export class ViewerService implements OnDestroy {
     this.queryRef = this.viewerBaseGQL.watch();
 
     this.data$ = this.queryRef.valueChanges.pipe(
-      shareReplay(1),
       map((r: any) => {
         return {
           data: r.data,
           loading: r.loading,
           networkStatus: r.networkStatus
         };
-      }));
+      }),
+      shareReplay(1));
 
     this.isLoading$ = this.data$.pipe(
       pluck('loading'),
@@ -76,9 +78,11 @@ export class ViewerService implements OnDestroy {
           canModerate: canModerate(v),
           isAdmin: isAdmin(v),
           isEditor: isEditor(v),
-          isCurator: isCurator(v)
+          isCurator: isCurator(v),
+          mostRecentOrganizationId: mostRecentOrganizationId(v)
         }
-      }));
+      }),
+      shareReplay(1));
 
     this.signedIn$ = this.viewer$.pipe(
       map(v => v.signedIn));
@@ -127,6 +131,15 @@ export class ViewerService implements OnDestroy {
         canModerate = true;
       }
       return canModerate;
+    }
+
+    // TODO implement using proper User and Viewer objects
+    function mostRecentOrganizationId(v: User): number {
+      let orgId: any = null;
+      if(v.events.nodes && v.events.nodes[0] !== null) {
+        orgId = v.events.nodes[0].organization.id;
+      }
+      return orgId;
     }
 
     return this.data$;
