@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
   Input,
+  OnDestroy,
   EventEmitter
 } from '@angular/core';
 
@@ -16,14 +17,16 @@ import {
 import {
   Observable,
   Observer,
+  Subject,
 } from 'rxjs';
 
-import { pluck } from 'rxjs/operators';
+import { pluck, takeUntil } from 'rxjs/operators';
 
 import {
   Organization,
   AddCommentInput,
   CommentableInput,
+  Maybe,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -34,22 +37,35 @@ import { CommentAddService } from './comment-add.service';
   templateUrl: './comment-add.component.html',
   styleUrls: ['./comment-add.component.less']
 })
-export class CommentAddComponent implements OnInit {
+export class CommentAddComponent implements OnDestroy {
   @Input() subject!: CommentableInput;
-  viewer$: Observable<Viewer>;
+  private destroy$ = new Subject();
+  organizations!: Array<Organization>;
+  mostRecentOrg!: Maybe<Organization>;
 
   addCommentForm: FormGroup;
 
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
               private commentAddService: CommentAddService) {
-    this.viewer$ = this.viewerService.viewer$;
+    // subscribing to viewer$ and setting local org, mostRecentOrg
+    // so that mostRecentOrg can be updated by org-selector's selectOrg events
+    this.viewerService.viewer$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((v: Viewer) => {
+        this.organizations = v.organizations;
+        this.mostRecentOrg = v.mostRecentOrg;
+      });
 
     this.addCommentForm = this.fb.group({
       body: ['', [Validators.required]]
     });
   }
-  ngOnInit(): void {
+
+  selectOrg(org: Organization): void {
+    console.log('selectOrg called');
+    console.log(org);
+    this.mostRecentOrg = org;
   }
 
   submitComment(value: { body: string}): void {
@@ -72,4 +88,8 @@ export class CommentAddComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

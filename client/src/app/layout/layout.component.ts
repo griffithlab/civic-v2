@@ -2,17 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import {
-  filter,
-  map,
-  pairwise,
-  pluck,
-  startWith,
-  takeUntil,
-  tap,
-  throttleTime,
-} from 'rxjs/operators';
-
 import { NzIconService } from 'ng-zorro-antd/icon';
 
 import { User } from '@app/generated/civic.apollo';

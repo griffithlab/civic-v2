@@ -22,7 +22,7 @@
   <ul nz-menu>
     <li *ngFor="let org of organizations"
       nz-menu-item [nzSelected]="mostRecentOrg?.id === org.id"
-      (click)="selectOrg(org.id)">
+      (click)="selectOrg(org)">
       <nz-avatar [nzSrc]="org?.profileImagePath" [nzSize]="10"
         [nzShape]="'square'"
         style="background-color:#f0f5ff;"></nz-avatar>

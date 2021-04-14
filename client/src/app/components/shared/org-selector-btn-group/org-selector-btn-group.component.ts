@@ -2,13 +2,11 @@ import {
   Component,
   Input,
   ContentChild,
-  OnInit,
   Output,
   EventEmitter,
 } from '@angular/core';
 
 import { Organization } from '@app/generated/civic.apollo';
-import { NzMenuItemDirective } from 'ng-zorro-antd/menu';
 import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
 
 @Component({
@@ -19,7 +17,7 @@ import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
 export class OrgSelectorBtnGroupComponent {
   @Input() organizations!: Organization[];
   @Input() mostRecentOrg!: Organization | undefined;
-  @Output() orgSelected = new EventEmitter<any>();
+  @Output() orgSelected = new EventEmitter<Organization>();
 
   @ContentChild(OrgSelectorBtnDirective, {static: false}) button!: OrgSelectorBtnDirective
 
