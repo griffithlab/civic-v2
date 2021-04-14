@@ -1,6 +1,6 @@
 <nz-list nzBordered="false" nzSplit="false">
   <nz-list-item>
-    <form action="/api/auth/google?origin={{ location }}" method="post">
+    <form action="/api/auth/google_oauth2?origin={{ location }}" method="post">
       <input type="hidden" name="authenticity_token" value="{{ xsrfToken }}" />
       <button type="submit" nz-button nzBlock
         nzType="default" nzSize="large" nzShape="round">
