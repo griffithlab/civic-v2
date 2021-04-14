@@ -22,7 +22,7 @@ extensions:
           nonOptionalTypename: true
           futureProofUnions: true
           futureProofEnums: true
-          maybeValue: T | null | undefined
+          maybeValue: T | undefined
       ./src/app/generated/civic.possible-types.ts:
         plugins:
           - fragment-matcher

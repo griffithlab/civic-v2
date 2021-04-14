@@ -4,16 +4,20 @@ import { HttpClient } from "@angular/common/http";
 
 import { QueryRef } from 'apollo-angular';
 
-import { Observable, Subscription } from 'rxjs';
-import { pluck, map, tap, shareReplay, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { pluck, map, shareReplay, startWith } from 'rxjs/operators';
 
-import { User, Organization, ViewerBaseGQL, EventConnection } from '@app/generated/civic.apollo';
+import {
+  User,
+  Organization,
+  ViewerBaseGQL,
+  Maybe
+} from '@app/generated/civic.apollo';
 
 import { NGXLogger } from 'ngx-logger';
-import { Maybe } from 'graphql/jsutils/Maybe';
 
 export interface Viewer extends User {
-  mostRecentOrg?: Organization;
+  mostRecentOrg: Maybe<Organization>;
   signedIn: boolean;
   signedOut: boolean;
   isAdmin: boolean;
@@ -28,19 +32,19 @@ export interface Viewer extends User {
 export class ViewerService implements OnDestroy {
   private queryRef!: QueryRef<any, any>;
 
-  data$!: Observable<any>;
-  isLoading$!: Observable<boolean>;
-  viewer$!: Observable<Viewer>;
+  data$: Observable<any>;
+  isLoading$: Observable<boolean>;
+  viewer$: Observable<Viewer>;
 
-  signedIn$!: Observable<boolean>;
-  signedOut$!: Observable<boolean>;
+  signedIn$: Observable<boolean>;
+  signedOut$: Observable<boolean>;
 
-  isCurator$!: Observable<boolean>;
-  isAdmin$!: Observable<boolean>;
-  isEditor$!: Observable<boolean>;
+  isCurator$: Observable<boolean>;
+  isAdmin$: Observable<boolean>;
+  isEditor$: Observable<boolean>;
 
-  canCurate$!: Observable<boolean>;
-  canModerate$!: Observable<boolean>;
+  canCurate$: Observable<boolean>;
+  canModerate$: Observable<boolean>;
 
   constructor(
     private viewerBaseGQL: ViewerBaseGQL,
@@ -69,12 +73,12 @@ export class ViewerService implements OnDestroy {
           ...v,
           signedIn: v === null ? false : true,
           signedOut: v === null ? true : false,
+          mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
           canCurate: canCurate(v),
           canModerate: canModerate(v),
           isAdmin: isAdmin(v),
           isEditor: isEditor(v),
           isCurator: isCurator(v),
-          mostRecentOrg: mostRecentOrg(v)
         }
       }),
       shareReplay(1));
@@ -128,12 +132,8 @@ export class ViewerService implements OnDestroy {
       return canModerate;
     }
 
-    function mostRecentOrg(v: User): Organization {
-      let org: any = null;
-      if (v.events.nodes && v.events.nodes[0] !== null && v.events.nodes[0] !== undefined) {
-        org = v.events.nodes[0].organization;
-      }
-      return org;
+    function mostRecentOrg(v: User): Maybe<Organization>{
+        return v.events?.nodes?.[0]?.organization;
     }
 
   }
@@ -152,20 +152,5 @@ export class ViewerService implements OnDestroy {
 
   ngOnDestroy(): void {
   }
-  // getRole(): string | null {
-  //   return this.role;
-  // }
-
-  // isEditor(): boolean {
-
-  // }
-
-  // isCurator(): boolean {
-
-  // }
-
-  // isAdmin(): boolean {
-
-  // }
 
 }

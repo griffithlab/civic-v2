@@ -3,7 +3,7 @@ import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 import { AppModule } from '../app.module';
-export type Maybe<T> = T | null | undefined;
+export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -1037,7 +1037,7 @@ export type User = {
   name: Scalars['String'];
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;
-  organizations?: Maybe<Array<Organization>>;
+  organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
   role: Scalars['String'];
   url?: Maybe<Scalars['String']>;
@@ -1137,10 +1137,10 @@ export type AddCommentMutation = (
       & { commentor: (
         { __typename: 'User' }
         & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
-        & { organizations?: Maybe<Array<(
+        & { organizations: Array<(
           { __typename: 'Organization' }
           & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        )>> }
+        )> }
       ) }
     )> }
   )> }
@@ -1154,10 +1154,10 @@ export type ViewerBaseQuery = (
   & { viewer?: Maybe<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath'>
-    & { organizations?: Maybe<Array<(
+    & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )>>, events: (
+    )>, events: (
       { __typename: 'EventConnection' }
       & { nodes?: Maybe<Array<Maybe<(
         { __typename: 'Event' }
@@ -1179,10 +1179,10 @@ export type ViewerFullQuery = (
   & { viewer?: Maybe<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'name' | 'email' | 'bio' | 'url' | 'role' | 'profileImagePath'>
-    & { organizations?: Maybe<Array<(
+    & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )>> }
+    )> }
   )> }
 );
 
@@ -1299,10 +1299,10 @@ export type GeneDetailQuery = (
           & { commentor: (
             { __typename: 'User' }
             & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-            & { organizations?: Maybe<Array<(
+            & { organizations: Array<(
               { __typename: 'Organization' }
               & Pick<Organization, 'id' | 'name'>
-            )>> }
+            )> }
           ) }
         )> }
       )>>> }
