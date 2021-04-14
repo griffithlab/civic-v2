@@ -1,10 +1,15 @@
 <ng-container>
   <nz-button-group [nzSize]="'small'">
     <ng-content></ng-content>
-    <button type="button" nz-button nzType="primary"
+    <button type="button" nz-button nzType="primary" class="org-dropdown-btn"
       [disabled]="disabled"
       nz-dropdown [nzDropdownMenu]="orgMenu">
-      <i nz-icon nzType="down"></i>
+      <nz-space nzDirection="horizontal" [nzSize]="4">
+        <span>for</span>
+        <nz-avatar [nzSrc]="mostRecentOrg?.profileImagePath" [nzSize]="10"
+          [nzShape]="'square'"></nz-avatar>
+        <i nz-icon nzType="down"></i>
+      </nz-space>
     </button>
   </nz-button-group>
   <nz-dropdown-menu #orgMenu="nzDropdownMenu">
@@ -12,7 +17,7 @@
       <li *ngFor="let org of organizations"
         nz-menu-item [nzSelected]="mostRecentOrg?.id === org.id"
         (click)="selectOrg(org.id)">
-        <nz-avatar [nzSrc]="mostRecentOrg.profileImagePath" [nzSize]="10"
+        <nz-avatar [nzSrc]="org?.profileImagePath" [nzSize]="10"
           [nzShape]="'square'"
           style="background-color:#f0f5ff;"></nz-avatar>
         {{ org.name }}

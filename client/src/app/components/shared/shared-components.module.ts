@@ -18,6 +18,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { TimeagoModule } from 'ngx-timeago';
@@ -51,6 +52,7 @@ import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-b
     NzDropDownModule,
     NzListModule,
     NzSpaceModule,
+    NzToolTipModule,
     NzTypographyModule,
     TimeagoModule.forChild(),
     NgxJsonViewerModule
