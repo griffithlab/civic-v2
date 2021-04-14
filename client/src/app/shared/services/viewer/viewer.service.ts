@@ -14,9 +14,8 @@ import {
   Maybe
 } from '@app/generated/civic.apollo';
 
-import { NGXLogger } from 'ngx-logger';
-
 export interface Viewer extends User {
+  organizations: Array<Organization>;
   mostRecentOrg: Maybe<Organization>;
   signedIn: boolean;
   signedOut: boolean;
@@ -49,7 +48,6 @@ export class ViewerService implements OnDestroy {
   constructor(
     private viewerBaseGQL: ViewerBaseGQL,
     private http: HttpClient,
-    private logger: NGXLogger,
   ) {
     this.queryRef = this.viewerBaseGQL.watch();
     this.data$ = this.queryRef.valueChanges.pipe(
@@ -71,6 +69,7 @@ export class ViewerService implements OnDestroy {
       map((v: User): Viewer => {
         return <Viewer>{
           ...v,
+          organizations: v === null ? [] : v.organizations,
           signedIn: v === null ? false : true,
           signedOut: v === null ? true : false,
           mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
@@ -117,23 +116,15 @@ export class ViewerService implements OnDestroy {
     }
 
     function canCurate(v: User): boolean {
-      let canCurate = false;
-      if (v && (v.role === 'curator' || v.role === 'editor' || v.role === 'admin')) {
-        canCurate = true;
-      }
-      return canCurate;
+      return (v && (v.role === 'curator' || v.role === 'editor' || v.role === 'admin')) ? true : false;
     }
 
     function canModerate(v: User): boolean {
-      let canModerate = false;
-      if (v && (v.role === 'editor' || v.role === 'admin')) {
-        canModerate = true;
-      }
-      return canModerate;
+      return (v && (v.role === 'editor' || v.role === 'admin')) ? true : false;
     }
 
     function mostRecentOrg(v: User): Maybe<Organization>{
-        return v.events?.nodes?.[0]?.organization;
+      return v.events?.nodes?.[0]?.organization;
     }
 
   }

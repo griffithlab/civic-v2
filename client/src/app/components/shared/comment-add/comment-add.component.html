@@ -11,7 +11,7 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control *ngIf="(viewer$ | async) as viewer">
-          <cvc-org-selector-btn-group *ngIf="viewer.organizations?.length > 1"
+          <cvc-org-selector-btn-group *ngIf="viewer.organizations.length > 1"
             [organizations]="viewer.organizations"
             [mostRecentOrg]="viewer.mostRecentOrg">
             <button type="submit" nz-button cvcOrgSelectorBtn nzType="primary"
@@ -19,10 +19,9 @@
               Add Comment
             </button>
           </cvc-org-selector-btn-group>
-          <button type="submit"  *ngIf="viewer.organizations?.length <= 1"
+          <button type="submit" *ngIf="viewer.organizations.length <= 1"
             nz-button
             [nzSize]="'small'"
-            cvcOrgSelectorBtn
             nzType="primary"
             [disabled]="!addCommentForm.valid">
             Add Comment
