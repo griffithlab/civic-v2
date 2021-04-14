@@ -13,7 +13,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Maybe } from 'graphql/jsutils/Maybe';
 
 export interface Viewer extends User {
-  mostRecentOrganizationId?: any;
+  mostRecentOrg?: Organization;
   signedIn: boolean;
   signedOut: boolean;
   isAdmin: boolean;
@@ -74,7 +74,7 @@ export class ViewerService implements OnDestroy {
           isAdmin: isAdmin(v),
           isEditor: isEditor(v),
           isCurator: isCurator(v),
-          mostRecentOrganizationId: mostRecentOrganizationId(v)
+          mostRecentOrg: mostRecentOrg(v)
         }
       }),
       shareReplay(1));
@@ -128,12 +128,12 @@ export class ViewerService implements OnDestroy {
       return canModerate;
     }
 
-    function mostRecentOrganizationId(v: User): number {
-      let orgId: any = null;
+    function mostRecentOrg(v: User): Organization {
+      let org: any = null;
       if (v.events.nodes && v.events.nodes[0] !== null && v.events.nodes[0] !== undefined) {
-        orgId = v.events.nodes[0].organization.id;
+        org = v.events.nodes[0].organization;
       }
-      return orgId;
+      return org;
     }
 
   }

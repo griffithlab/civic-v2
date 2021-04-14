@@ -10,7 +10,7 @@ query ViewerBase {
       name
       profileImagePath(size: 32)
     },
-    # need to get latest event to generate mostRecentOrganization
+    # fetch latest event to get most recent org
     events(first:1) {
       nodes {
         id
