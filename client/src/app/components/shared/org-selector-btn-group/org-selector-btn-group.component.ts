@@ -17,8 +17,8 @@ import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
   styleUrls: ['./org-selector-btn-group.component.less']
 })
 export class OrgSelectorBtnGroupComponent {
-  @Input() organizations!: Organization[] | null | undefined;
-  @Input() mostRecentOrg!: Organization | null | undefined;
+  @Input() organizations!: Organization[];
+  @Input() mostRecentOrg!: Organization | undefined;
   @Output() orgSelected = new EventEmitter<any>();
 
   @ContentChild(OrgSelectorBtnDirective, {static: false}) button!: OrgSelectorBtnDirective

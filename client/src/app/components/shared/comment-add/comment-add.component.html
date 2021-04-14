@@ -14,7 +14,9 @@
           <cvc-org-selector-btn-group *ngIf="viewer.organizations.length > 1"
             [organizations]="viewer.organizations"
             [mostRecentOrg]="viewer.mostRecentOrg">
-            <button type="submit" nz-button cvcOrgSelectorBtn nzType="primary"
+            <button type="submit" nz-button
+              cvcOrgSelectorBtn
+              nzType="primary"
               [disabled]="!addCommentForm.valid">
               Add Comment
             </button>
