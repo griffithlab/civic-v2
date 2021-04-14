@@ -20,6 +20,9 @@ extensions:
         config:
           apolloClientVersion: 3
           nonOptionalTypename: true
+          futureProofUnions: true
+          futureProofEnums: true
+          maybeValue: T | null | undefined
       ./src/app/generated/civic.possible-types.ts:
         plugins:
           - fragment-matcher
