@@ -10,7 +10,11 @@
   <nz-dropdown-menu #orgMenu="nzDropdownMenu">
     <ul nz-menu>
       <li *ngFor="let org of organizations"
-        nz-menu-item [nzSelected]="mostRecentOrgId === org.id">
+        nz-menu-item [nzSelected]="mostRecentOrg?.id === org.id"
+        (click)="selectOrg(org.id)">
+        <nz-avatar [nzSrc]="mostRecentOrg.profileImagePath" [nzSize]="10"
+          [nzShape]="'square'"
+          style="background-color:#f0f5ff;"></nz-avatar>
         {{ org.name }}
       </li>
     </ul>

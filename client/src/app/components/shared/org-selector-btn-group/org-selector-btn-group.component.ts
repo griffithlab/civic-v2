@@ -3,9 +3,12 @@ import {
   Input,
   ContentChild,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 
 import { Organization } from '@app/generated/civic.apollo';
+import { NzMenuItemDirective } from 'ng-zorro-antd/menu';
 import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
 
 @Component({
@@ -13,18 +16,22 @@ import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less']
 })
-export class OrgSelectorBtnGroupComponent implements OnInit {
+export class OrgSelectorBtnGroupComponent {
   @Input() organizations!: Organization[] | null | undefined;
-  @Input() mostRecentOrgId!: number | null | undefined;
+  @Input() mostRecentOrg!: Organization | null | undefined;
+  @Output() orgSelected = new EventEmitter<any>();
 
   @ContentChild(OrgSelectorBtnDirective, {static: false}) button!: OrgSelectorBtnDirective
+
   get disabled() {
     return this.button.disabled;
   }
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
+  selectOrg(org: any): void {
+    console.log('selectOrg clicked:');
+    console.log(org);
+    this.orgSelected.emit(org);
   }
 }
