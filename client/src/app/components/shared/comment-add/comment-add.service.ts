@@ -35,29 +35,24 @@ export class CommentAddService implements OnDestroy {
       { input: addCommentInput },
       {
         update: (cache: ApolloCache<any>, { data: { addComment } }:FetchResult<any>) => {
-          this.logger.trace(cache);
-          this.logger.trace(addComment);
           cache.modify({
             id: cache.identify(this.subject),
             fields: {
               comments(existingCommentRefs = []) {
-                const oldEdges = existingCommentRefs.edges
-                const newEdges = [
-                  ...oldEdges,
-                  {
-                    __typeName: 'CommentEdge',
-                    node: {
-                      __ref: cache.identify(addComment.comment)
-                    }
-                  }
-                ];
                 return {
                   ...existingCommentRefs,
-                  edges: newEdges
+                  edges: [
+                    ...existingCommentRefs.edges,
+                    {
+                      __typeName: 'CommentEdge',
+                      node: {
+                        __ref: cache.identify(addComment.comment)
+                      }
+                    }
+                  ]
                 }
               },
             },
-            /* broadcast: false // Include this to prevent automatic query refresh */
           });
         }
       }
