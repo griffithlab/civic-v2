@@ -13,23 +13,20 @@ import {
 
 import { NGXLogger } from 'ngx-logger';
 
+import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CommentAddService implements OnDestroy {
   private queryRef!: QueryRef<any, any>;
   private subject!: any;
-  constructor(private addCommentGQL: AddCommentGQL, private logger: NGXLogger) {
-
-  }
+  constructor(private addCommentGQL: AddCommentGQL, private logger: NGXLogger) { }
 
   addComment(addCommentInput: AddCommentInput): Observable<any> {
     this.subject = {
       id: addCommentInput.subject.id,
-      __typename: addCommentInput.subject.entityType
-        .toLowerCase()
-        .split('_')
-        .map(n => n[0].toUpperCase() + n.substring(1)).join('')
+      __typename: entityTypeToTypename(addCommentInput.subject.entityType)
     };
     return this.addCommentGQL.mutate(
       { input: addCommentInput },
