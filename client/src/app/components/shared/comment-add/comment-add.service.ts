@@ -41,9 +41,6 @@ export class CommentAddService implements OnDestroy {
             id: cache.identify(this.subject),
             fields: {
               comments(existingCommentRefs = []) {
-                console.log('--------- cache.modify.comments()');
-                console.log(existingCommentRefs);
-                console.log(addComment);
                 const oldEdges = existingCommentRefs.edges
                 const newEdges = [
                   ...oldEdges,
