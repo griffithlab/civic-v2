@@ -1,14 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { ApolloCache } from '@apollo/client/cache';
+import { ApolloCache, StoreObject } from '@apollo/client/cache';
 import { FetchResult } from '@apollo/client/core';
-import { QueryRef, gql } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
 
 import {
   AddCommentGQL,
   AddCommentInput,
+  AddCommentMutation,
 } from '@app/generated/civic.apollo';
 
 import { NGXLogger } from 'ngx-logger';
@@ -19,12 +19,12 @@ import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typena
   providedIn: 'root'
 })
 export class CommentAddService implements OnDestroy {
-  private queryRef!: QueryRef<any, any>;
-  private subject!: any;
+  private storeObj!: StoreObject;
+
   constructor(private addCommentGQL: AddCommentGQL, private logger: NGXLogger) { }
 
-  addComment(addCommentInput: AddCommentInput): Observable<any> {
-    this.subject = {
+  addComment(addCommentInput: AddCommentInput): Observable<FetchResult<AddCommentMutation>> {
+    this.storeObj= {
       id: addCommentInput.subject.id,
       __typename: entityTypeToTypename(addCommentInput.subject.entityType)
     };
@@ -33,7 +33,7 @@ export class CommentAddService implements OnDestroy {
       {
         update: (cache: ApolloCache<any>, { data: { addComment } }:FetchResult<any>) => {
           cache.modify({
-            id: cache.identify(this.subject),
+            id: cache.identify(this.storeObj),
             fields: {
               comments(existingCommentRefs = []) {
                 return {
