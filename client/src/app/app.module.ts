@@ -21,6 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { GraphQLModule } from '@app/graphql.module';
+import { environment } from 'environments/environment';
 
 
 registerLocaleData(en);
@@ -39,7 +40,8 @@ registerLocaleData(en);
     HttpClientXsrfModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
-      level: NgxLoggerLevel.TRACE,
+      level: !environment.production ? NgxLoggerLevel.TRACE : NgxLoggerLevel.OFF,
+      enableSourceMaps: true,
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
     NgxJsonViewerModule,

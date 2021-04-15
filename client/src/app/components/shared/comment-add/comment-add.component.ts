@@ -63,8 +63,6 @@ export class CommentAddComponent implements OnDestroy {
   }
 
   selectOrg(org: Organization): void {
-    console.log('selectOrg called');
-    console.log(org);
     this.mostRecentOrg = org;
   }
 
@@ -77,7 +75,8 @@ export class CommentAddComponent implements OnDestroy {
 
     const newCommentInput = <AddCommentInput>{
       body: value.body,
-      subject: this.subject
+      subject: this.subject,
+      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     };
 
     this.commentAddService.addComment(newCommentInput)

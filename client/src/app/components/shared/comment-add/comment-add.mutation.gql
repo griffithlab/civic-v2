@@ -5,6 +5,7 @@ mutation AddComment($input: AddCommentInput!) {
       id
       title
       comment
+      createdAt
       commentor {
         id
         username

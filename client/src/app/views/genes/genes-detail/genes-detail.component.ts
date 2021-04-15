@@ -38,6 +38,7 @@ export class GenesDetailComponent implements OnInit {
       const source$: Observable<any> = this.api.watchGeneDetail(geneId);
       this.gene$ = source$.pipe(
         pluck('data', 'gene'),
+        // add shareReplay
         tap((g: Gene) => {
           this.subject = <CommentableInput>{
             id: g.id,

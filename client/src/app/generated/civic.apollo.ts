@@ -1133,7 +1133,7 @@ export type AddCommentMutation = (
     & Pick<AddCommentPayload, 'clientMutationId'>
     & { comment?: Maybe<(
       { __typename: 'Comment' }
-      & Pick<Comment, 'id' | 'title' | 'comment'>
+      & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
       & { commentor: (
         { __typename: 'User' }
         & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
@@ -1350,6 +1350,7 @@ export const AddCommentDocument = gql`
       id
       title
       comment
+      createdAt
       commentor {
         id
         username

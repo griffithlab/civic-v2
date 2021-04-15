@@ -28,8 +28,6 @@ export class OrgSelectorBtnGroupComponent {
   constructor() {}
 
   selectOrg(org: any): void {
-    console.log('selectOrg clicked:');
-    console.log(org);
     this.orgSelected.emit(org);
   }
 }
