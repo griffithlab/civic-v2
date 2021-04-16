@@ -67,6 +67,12 @@ export class CommentAddComponent implements OnDestroy {
     this.isSubmitting$ = this.commentAddService.isSubmitting$;
     this.submitSuccess$ = this.commentAddService.submitSuccess$;
 
+    this.submitSuccess$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((e) => {
+        if(e) { this.resetForm(); }
+      });
+
     this.addCommentForm = this.fb.group({
       body: ['', [
         Validators.required,

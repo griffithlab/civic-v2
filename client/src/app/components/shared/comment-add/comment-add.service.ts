@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { ApolloCache, StoreObject } from '@apollo/client/cache';
 import { ApolloError, FetchResult } from '@apollo/client/core';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 import {
   AddCommentGQL,
@@ -14,7 +14,7 @@ import {
 import { NGXLogger } from 'ngx-logger';
 
 import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
-import { catchError, pluck, startWith, tap } from 'rxjs/operators';
+import { catchError, finalize, pluck, startWith, takeUntil, tap } from 'rxjs/operators';
 import { GraphQLError } from 'graphql';
 
 @Injectable({
@@ -26,6 +26,8 @@ export class CommentAddService implements OnDestroy {
   submitError$: BehaviorSubject<string[]>;
   isSubmitting$: BehaviorSubject<boolean>;
   submitSuccess$: BehaviorSubject<boolean>;
+
+  private destroy$ = new Subject();
 
   constructor(private addCommentGQL: AddCommentGQL, private logger: NGXLogger) {
     this.isSubmitting$ = new BehaviorSubject<boolean>(false);
@@ -66,20 +68,22 @@ export class CommentAddService implements OnDestroy {
           });
         }
       })
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => { this.isSubmitting$.next(false); }))
       .subscribe({
-        next: (result: any) => {
-          this.submitError$.next([]);
-          this.submitSuccess$.next(true);
-        },
         error: (error: ApolloError): void => {
           this.submitError$.next(error.graphQLErrors.map(e => e.message));
         },
         complete: (): void => {
-          this.isSubmitting$.next(false);
+          this.submitError$.next([]);
+          this.submitSuccess$.next(true);
         }
       });
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
