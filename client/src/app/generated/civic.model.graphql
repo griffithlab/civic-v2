@@ -183,6 +183,7 @@ type Comment {
   comment: String!
   commentor: User!
   createdAt: ISO8601DateTime!
+  creationEvent: Event
   id: Int!
   title: String
 }
@@ -1204,6 +1205,7 @@ type ResolveFlagPayload {
 type Revision {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
+  creationEvent: Event
   currentValue: JSON!
   fieldName: String!
   id: Int!

@@ -5,6 +5,13 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :commentable, ->() { unscope(where: :deleted) }, polymorphic: true
 
+  has_many :events, as: :originating_object
+
+  has_one :creation_event,
+    ->() { where(action: 'commented') },
+    as: :originating_object,
+    class_name: 'Event'
+
   default_scope -> { order('created_at ASC') }
 
   alias_attribute :text, :comment
