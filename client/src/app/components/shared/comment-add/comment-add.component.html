@@ -1,35 +1,52 @@
 <nz-card nzType="inner">
-  <form nz-form
-    [formGroup]="addCommentForm"
-    (ngSubmit)="submitComment(addCommentForm.value)"
-    nzLayout="vertical">
-    <nz-form-item>
-      <!-- <nz-form-label nzRequired>Comment</nz-form-label> -->
-      <nz-form-control nzErrorTip="Please enter comment text.">
-        <textarea formControlName="body" nz-input rows="4" placeholder="Enter your comment here."></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-          <cvc-org-selector-btn-group *ngIf="organizations.length > 1"
-            [organizations]="organizations"
-            [mostRecentOrg]="mostRecentOrg"
-            (orgSelected)="selectOrg($event)">
-            <button type="submit" nz-button
-              cvcOrgSelectorBtn
+  <nz-space nzDirection="vertical">
+    <nz-space-item>
+      <ng-container *ngIf="(submitError$ | async) as errors">
+        <nz-alert nzType="error" *ngIf="errors.length > 0"
+          [nzDescription]="errors[0]">
+        </nz-alert>
+      </ng-container>
+    </nz-space-item>
+    <nz-space-item>
+      <form nz-form
+        [formGroup]="addCommentForm"
+        (ngSubmit)="submitComment(addCommentForm.value)"
+        nzLayout="vertical">
+        <nz-form-item>
+          <!-- <nz-form-label nzRequired>Comment</nz-form-label> -->
+          <nz-form-control nzErrorTip="Please enter comment text.">
+            <textarea formControlName="body" nz-input rows="4" placeholder="Enter your comment here."></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <cvc-org-selector-btn-group *ngIf="organizations.length > 1"
+              [organizations]="organizations"
+              [mostRecentOrg]="mostRecentOrg"
+              (orgSelected)="selectOrg($event)">
+              <button type="submit" nz-button
+                cvcOrgSelectorBtn
+                nzType="primary"
+                [disabled]="!addCommentForm.valid">
+                Add Comment
+              </button>
+            </cvc-org-selector-btn-group>
+            <button type="submit" *ngIf="organizations.length <= 1"
+              nz-button
+              [nzSize]="'small'"
               nzType="primary"
               [disabled]="!addCommentForm.valid">
               Add Comment
             </button>
-          </cvc-org-selector-btn-group>
-          <button type="submit" *ngIf="organizations.length <= 1"
-            nz-button
-            [nzSize]="'small'"
-            nzType="primary"
-            [disabled]="!addCommentForm.valid">
-            Add Comment
-          </button>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-space-item>
+  </nz-space>
+  <p>submitSuccess$</p>
+  <ngx-json-viewer [json]="submitSuccess$ | async" ></ngx-json-viewer>
+  <p>isSubmitting$</p>
+  <ngx-json-viewer [json]="isSubmitting$ | async" ></ngx-json-viewer>
+  <p>error$</p>
+  <ngx-json-viewer [json]="submitError$ | async" ></ngx-json-viewer>
 </nz-card>

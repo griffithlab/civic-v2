@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 import { ApolloCache, StoreObject } from '@apollo/client/cache';
-import { FetchResult } from '@apollo/client/core';
+import { ApolloError, FetchResult } from '@apollo/client/core';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import {
   AddCommentGQL,
@@ -14,24 +14,37 @@ import {
 import { NGXLogger } from 'ngx-logger';
 
 import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
+import { catchError, pluck, startWith, tap } from 'rxjs/operators';
+import { GraphQLError } from 'graphql';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentAddService implements OnDestroy {
   private storeObj!: StoreObject;
+  result$!: Observable<FetchResult<AddCommentMutation>>;
+  submitError$: BehaviorSubject<string[]>;
+  isSubmitting$: BehaviorSubject<boolean>;
+  submitSuccess$: BehaviorSubject<boolean>;
 
-  constructor(private addCommentGQL: AddCommentGQL, private logger: NGXLogger) { }
+  constructor(private addCommentGQL: AddCommentGQL, private logger: NGXLogger) {
+    this.isSubmitting$ = new BehaviorSubject<boolean>(false);
+    this.submitSuccess$ = new BehaviorSubject<boolean>(false);
+    this.submitError$ = new BehaviorSubject<string[]>([]);
+  }
 
-  addComment(addCommentInput: AddCommentInput): Observable<FetchResult<AddCommentMutation>> {
-    this.storeObj= {
+  addComment(addCommentInput: AddCommentInput): void {
+    this.storeObj = {
       id: addCommentInput.subject.id,
       __typename: entityTypeToTypename(addCommentInput.subject.entityType)
     };
-    return this.addCommentGQL.mutate(
+
+    this.isSubmitting$.next(true);
+
+    this.addCommentGQL.mutate(
       { input: addCommentInput },
       {
-        update: (cache: ApolloCache<any>, { data: { addComment } }:FetchResult<any>) => {
+        update: (cache: ApolloCache<any>, { data: { addComment } }: FetchResult<any>) => {
           cache.modify({
             id: cache.identify(this.storeObj),
             fields: {
@@ -52,8 +65,19 @@ export class CommentAddService implements OnDestroy {
             },
           });
         }
-      }
-    )
+      })
+      .subscribe({
+        next: (result: any) => {
+          this.submitError$.next([]);
+          this.submitSuccess$.next(true);
+        },
+        error: (error: ApolloError): void => {
+          this.submitError$.next(error.graphQLErrors.map(e => e.message));
+        },
+        complete: (): void => {
+          this.isSubmitting$.next(false);
+        }
+      });
   }
 
   ngOnDestroy(): void {

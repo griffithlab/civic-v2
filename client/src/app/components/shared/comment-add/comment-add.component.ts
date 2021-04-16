@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 
 import {
+  BehaviorSubject,
   Observable,
   Observer,
   Subject,
@@ -31,6 +32,7 @@ import {
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
+import { GraphQLError } from 'graphql';
 
 @Component({
   selector: 'cvc-comment-add',
@@ -42,6 +44,10 @@ export class CommentAddComponent implements OnDestroy {
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
+
+  submitError$: BehaviorSubject<string[]>;
+  submitSuccess$: BehaviorSubject<boolean>;
+  isSubmitting$: BehaviorSubject<boolean>;
 
   addCommentForm: FormGroup;
 
@@ -57,8 +63,15 @@ export class CommentAddComponent implements OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
+    this.submitError$ = this.commentAddService.submitError$;
+    this.isSubmitting$ = this.commentAddService.isSubmitting$;
+    this.submitSuccess$ = this.commentAddService.submitSuccess$;
+
     this.addCommentForm = this.fb.group({
-      body: ['', [Validators.required]]
+      body: ['', [
+        Validators.required,
+        Validators.minLength(5)
+      ]]
     });
   }
 
@@ -79,13 +92,8 @@ export class CommentAddComponent implements OnDestroy {
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     };
 
-    this.commentAddService.addComment(newCommentInput)
-      .subscribe(({ data }) => {
-        console.log('got data', data);
-        this.resetForm();
-      }, (error) => {
-        console.log('there was an error sending the query', error);
-      });
+    this.commentAddService.addComment(newCommentInput);
+
   }
 
   resetForm(): void {

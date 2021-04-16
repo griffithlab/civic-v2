@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -40,6 +41,7 @@ import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-b
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NzAlertModule,
     NzAvatarModule,
     NzButtonModule,
     NzCardModule,
