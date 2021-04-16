@@ -82,9 +82,14 @@ export class CommentAddComponent implements OnDestroy {
     this.commentAddService.addComment(newCommentInput)
       .subscribe(({ data }) => {
         console.log('got data', data);
+        this.resetForm();
       }, (error) => {
         console.log('there was an error sending the query', error);
       });
+  }
+
+  resetForm(): void {
+    this.addCommentForm.reset();
   }
 
   ngOnDestroy(): void {
