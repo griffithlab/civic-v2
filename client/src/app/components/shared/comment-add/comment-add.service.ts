@@ -51,16 +51,17 @@ export class CommentAddService implements OnDestroy {
             id: cache.identify(this.storeObj),
             fields: {
               comments(existingCommentRefs = []) {
+                const newEdge = {
+                  __typeName: 'CommentEdge',
+                  node: {
+                    __ref: cache.identify(addComment.comment)
+                  }
+                };
                 return {
                   ...existingCommentRefs,
                   edges: [
                     ...existingCommentRefs.edges,
-                    {
-                      __typeName: 'CommentEdge',
-                      node: {
-                        __ref: cache.identify(addComment.comment)
-                      }
-                    }
+                    newEdge
                   ]
                 }
               },
