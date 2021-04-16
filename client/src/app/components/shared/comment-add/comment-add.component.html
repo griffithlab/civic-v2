@@ -1,12 +1,11 @@
 <nz-card nzType="inner">
   <nz-space nzDirection="vertical">
-    <nz-space-item>
-      <ng-container *ngIf="(submitError$ | async) as errors">
-        <nz-alert nzType="error" *ngIf="errors.length > 0"
-          [nzDescription]="errors[0]">
-        </nz-alert>
-      </ng-container>
-    </nz-space-item>
+    <ng-container *ngIf="(submitError$ | async) as errors">
+      <nz-space-item *ngIf="errors.length > 0">
+        <cvc-form-errors-alert [errors]="errors">
+        </cvc-form-errors-alert>
+      </nz-space-item>
+    </ng-container>
     <nz-space-item>
       <form nz-form
         [formGroup]="addCommentForm"
