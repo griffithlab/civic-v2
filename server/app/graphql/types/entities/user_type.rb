@@ -7,7 +7,7 @@ module Types::Entities
     field :role, String, null: false #TODO this needs to be an enum
     field :bio, String, null: true
     field :country, String, null: true #this needs to be an enum
-    field :organizations, [Types::Entities::OrganizationType], null: true
+    field :organizations, [Types::Entities::OrganizationType], null: false 
     field :events, Types::Entities::EventType.connection_type, null: false
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
