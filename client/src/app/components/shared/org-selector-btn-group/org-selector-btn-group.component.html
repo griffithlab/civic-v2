@@ -1,21 +1,16 @@
-<!-- TODO: conditionally display select if has more than 1 org,
-     instead of forcing the parent component to do the logic.
-     Try: https://stackoverflow.com/questions/41593973/how-to-conditionally-wrap-a-div-around-ng-content
-     Or: https://stackblitz.com/edit/angular-transcluding-bug?file=src%2Fapp%2Fworking-alternate-transcludes%2Fworking-alternate-transcludes.component.html -->
-
 <!-- create template with just the projected submit button -->
-<ng-template #transclude><ng-content></ng-content></ng-template>
+<ng-template #submitButton><ng-content></ng-content></ng-template>
 
 <!-- if 0 or 1 organization, display button template w/o btn-group wrapper -->
 <ng-container *ngIf="organizations.length <= 1" >
-  <ng-container *ngTemplateOutlet="transclude"></ng-container>
+  <ng-container *ngTemplateOutlet="submitButton"></ng-container>
 </ng-container>
 
-<!-- if multiple organization, wrap in btn-group w/ selector btn -->
+<!-- if multiple organizations, wrap in btn-group w/ selector btn -->
 <ng-container *ngIf="organizations.length > 1">
   <nz-button-group [nzSize]="'small'">
 
-    <ng-container *ngTemplateOutlet="transclude"></ng-container>
+    <ng-container *ngTemplateOutlet="submitButton"></ng-container>
 
     <button type="button" nz-button nzType="primary" class="org-dropdown-btn"
       [disabled]="disabled"

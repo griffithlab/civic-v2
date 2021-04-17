@@ -15,7 +15,6 @@ import {
 } from '@app/generated/civic.apollo';
 
 export interface Viewer extends User {
-  organizations: Array<Organization>;
   mostRecentOrg: Maybe<Organization>;
   signedIn: boolean;
   signedOut: boolean;
