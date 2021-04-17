@@ -69,15 +69,15 @@ export class ViewerService implements OnDestroy {
       map((v: User): Viewer => {
         return <Viewer>{
           ...v,
-          organizations: v === null ? [] : v.organizations,
           signedIn: v === null ? false : true,
           signedOut: v === null ? true : false,
-          mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
           canCurate: canCurate(v),
           canModerate: canModerate(v),
           isAdmin: isAdmin(v),
           isEditor: isEditor(v),
           isCurator: isCurator(v),
+          organizations: v === null ? [] : v.organizations,
+          mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
         }
       }),
       shareReplay(1));

@@ -1,23 +1,36 @@
 <!-- TODO: conditionally display select if has more than 1 org,
      instead of forcing the parent component to do the logic.
-     Try: https://stackoverflow.com/questions/41593973/how-to-conditionally-wrap-a-div-around-ng-content -->
+     Try: https://stackoverflow.com/questions/41593973/how-to-conditionally-wrap-a-div-around-ng-content
+     Or: https://stackblitz.com/edit/angular-transcluding-bug?file=src%2Fapp%2Fworking-alternate-transcludes%2Fworking-alternate-transcludes.component.html -->
 
-<nz-button-group [nzSize]="'small'">
+<!-- create template with just the projected submit button -->
+<ng-template #transclude><ng-content></ng-content></ng-template>
 
-  <ng-content></ng-content>
+<!-- if 0 or 1 organization, display button template w/o btn-group wrapper -->
+<ng-container *ngIf="organizations.length <= 1" >
+  <ng-container *ngTemplateOutlet="transclude"></ng-container>
+</ng-container>
 
-  <button type="button" nz-button nzType="primary" class="org-dropdown-btn"
-    [disabled]="disabled"
-    nz-dropdown [nzDropdownMenu]="orgMenu">
-    <nz-space nzDirection="horizontal" [nzSize]="4">
-      <span>for</span>
-      <nz-avatar [nzSrc]="mostRecentOrg?.profileImagePath" [nzSize]="10"
-        [nzShape]="'square'"></nz-avatar>
-      <i nz-icon nzType="down"></i>
-    </nz-space>
-  </button>
-</nz-button-group>
+<!-- if multiple organization, wrap in btn-group w/ selector btn -->
+<ng-container *ngIf="organizations.length > 1">
+  <nz-button-group [nzSize]="'small'">
 
+    <ng-container *ngTemplateOutlet="transclude"></ng-container>
+
+    <button type="button" nz-button nzType="primary" class="org-dropdown-btn"
+      [disabled]="disabled"
+      nz-dropdown [nzDropdownMenu]="orgMenu">
+      <nz-space nzDirection="horizontal" [nzSize]="4">
+        <span>for</span>
+        <nz-avatar [nzSrc]="mostRecentOrg?.profileImagePath" [nzSize]="10"
+          [nzShape]="'square'"></nz-avatar>
+        <i nz-icon nzType="down"></i>
+      </nz-space>
+    </button>
+  </nz-button-group>
+</ng-container>
+
+<!-- organization dropdown menu template -->
 <nz-dropdown-menu #orgMenu="nzDropdownMenu">
   <ul nz-menu>
     <li *ngFor="let org of organizations"

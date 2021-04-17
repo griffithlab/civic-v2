@@ -57,6 +57,7 @@ export class CommentAddService implements OnDestroy {
                     __ref: cache.identify(addComment.comment)
                   }
                 };
+
                 return {
                   ...existingCommentRefs,
                   edges: [

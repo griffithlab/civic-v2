@@ -17,24 +17,18 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
-        <cvc-org-selector-btn-group *ngIf="organizations.length > 1"
+        <cvc-org-selector-btn-group
           [organizations]="organizations"
           [mostRecentOrg]="mostRecentOrg"
           (orgSelected)="selectOrg($event)">
           <button type="submit" nz-button
             cvcOrgSelectorBtn
             nzType="primary"
+            nzSize="small"
             [disabled]="!addCommentForm.valid">
             Add Comment
           </button>
         </cvc-org-selector-btn-group>
-        <button type="submit" *ngIf="organizations.length <= 1"
-          nz-button
-          [nzSize]="'small'"
-          nzType="primary"
-          [disabled]="!addCommentForm.valid">
-          Add Comment
-        </button>
       </nz-form-control>
     </nz-form-item>
   </form>
