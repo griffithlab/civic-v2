@@ -183,6 +183,7 @@ type Comment {
   comment: String!
   commentor: User!
   createdAt: ISO8601DateTime!
+  creationEvent: Event
   id: Int!
   title: String
 }
@@ -271,6 +272,12 @@ type Drug {
   ncitId: String
 }
 
+enum DrugInteraction {
+  COMBINATION
+  SEQUENTIAL
+  SUBSTITUTES
+}
+
 type Event {
   action: EventAction!
   createdAt: ISO8601DateTime!
@@ -347,8 +354,42 @@ type EventEdge {
   node: Event
 }
 
+enum EvidenceClinicalSignificance {
+  ADVERSE_RESPONSE
+  BENIGN
+  BETTER_OUTCOME
+  DOMINANT_NEGATIVE
+  GAIN_OF_FUNCTION
+  LIKELY_BENIGN
+  LIKELY_PATHOGENIC
+  LOSS_OF_FUNCTION
+  NA
+  NEGATIVE
+  NEOMORPHIC
+  PATHOGENIC
+  POOR_OUTCOME
+  POSITIVE
+  REDUCED_SENSITIVITY
+  RESISTANCE
+  SENSITIVITYRESPONSE
+  UNALTERED_FUNCTION
+  UNCERTAIN_SIGNIFICANCE
+  UNKNOWN
+}
+
+enum EvidenceDirection {
+  DOES_NOT_SUPPORT
+  NA
+  SUPPORTS
+}
+
 type EvidenceItem {
+  clinicalSignificance: EvidenceClinicalSignificance!
+  comments: [Comment!]
   description: String!
+  disease: Disease
+  drugInteractionType: DrugInteraction
+  drugs: [Drug!]
   events(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -370,8 +411,19 @@ type EvidenceItem {
     """
     last: Int
   ): EventConnection!
+  evidenceDirection: EvidenceDirection!
+  evidenceLevel: EvidenceLevel!
+  evidenceRating: Int
+  evidenceType: EvidenceType!
+  flagged: Boolean!
   id: Int!
+  phenotypes: [Phenotype!]
+  revisions: [Revision!]
+  source: Source!
+  status: EvidenceStatus!
   variant: Variant!
+  variantHgvs: String!
+  variantOrigin: VariantOrigin!
 }
 
 """
@@ -422,6 +474,29 @@ type EvidenceItemEdge {
   The item at the end of the edge.
   """
   node: EvidenceItem
+}
+
+enum EvidenceLevel {
+  A
+  B
+  C
+  D
+  E
+}
+
+enum EvidenceStatus {
+  ACCEPTED
+  REJECTED
+  SUBMITTED
+}
+
+enum EvidenceType {
+  DIAGNOSTIC
+  FUNCTIONAL
+  ONCOGENIC
+  PREDICTIVE
+  PREDISPOSING
+  PROGNOSTIC
 }
 
 type Flag {
@@ -960,6 +1035,12 @@ type PageInfo {
   startCursor: String
 }
 
+type Phenotype {
+  hpoClass: String!
+  hpoId: String!
+  id: Int!
+}
+
 type Query {
   browseEvents(
     """
@@ -1016,24 +1097,25 @@ type Query {
   """
   Find a disease by CIViC ID
   """
-  disease(id: ID!): Disease
+  disease(id: Int!): Disease
 
   """
   Find a drug by CIViC ID
   """
-  drug(id: ID!): Drug
+  drug(id: Int!): Drug
+  evidenceItem(id: Int!): EvidenceItem
 
   """
   Find a gene by CIViC ID
   """
-  gene(id: ID!): Gene
+  gene(id: Int!): Gene
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
 
   """
   Find a source by CIViC ID
   """
-  source(id: ID!): Source
+  source(id: Int!): Source
   user(userId: Int!): User
   viewer: User
 }
@@ -1123,6 +1205,7 @@ type ResolveFlagPayload {
 type Revision {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
+  creationEvent: Event
   currentValue: JSON!
   fieldName: String!
   id: Int!
@@ -1604,4 +1687,16 @@ type VariantEdge {
   The item at the end of the edge.
   """
   node: Variant
+<<<<<<< HEAD:client/src/app/generated/server.model.graphql
+=======
+}
+
+enum VariantOrigin {
+  COMMON_GERMLINE
+  GERMLINE_OR_SOMATIC
+  NA
+  RARE_GERMLINE
+  SOMATIC
+  UNKNOWN
+>>>>>>> main:client/src/app/generated/civic.model.graphql
 }

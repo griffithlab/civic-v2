@@ -11,6 +11,7 @@ module Types::Revisions
     field :revisionset_id, String, null: false
     field :linkout_data, Types::Revisions::LinkoutData, null: false
     field :revisor, Types::Entities::UserType, null: false
+    field :creation_event, Types::Entities::EventType, null: true
 
     def comments
       Loaders::AssociationLoader.for(Revision, :comments).load(object)
@@ -18,6 +19,10 @@ module Types::Revisions
 
     def linkout_data
       Types::Revisions::LinkoutData.from_revision(object)
+    end
+
+    def creation_event
+      Loaders::AssociationLoader.for(Revision, :creation_event).load(object)
     end
   end
 end
