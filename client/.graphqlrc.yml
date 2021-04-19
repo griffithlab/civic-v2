@@ -1,5 +1,5 @@
 # collect & merge model types
-schema: ./src/app/generated/civic.model.graphql
+schema: ./src/app/generated/server.model.graphql
 # collect & merge client queries, mutations, fragments
 documents: ./src/**/*.gql
 extensions:

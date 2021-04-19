@@ -6,7 +6,7 @@ const { makeExecutableSchema,
         addMockFunctionsToSchema } = require("graphql-tools");
 
 
-const schemaFile = path.join(__dirname, "../model/civic.graphql");
+const schemaFile = path.join(__dirname, "../generated/server.model.graphql");
 const typeDefs = fs.readFileSync(schemaFile, "utf8");
 
 const schema = makeExecutableSchema({ typeDefs });

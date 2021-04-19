@@ -5,21 +5,16 @@ import { APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 import { relayStylePagination, concatPagination } from '@apollo/client/utilities';
 import { PossibleTypesMap, TypePolicies, TypePolicy } from '@apollo/client/cache';
+import { CvcTypePolicies } from  './graphql.type-policies';
 
 import {
   default as result,
   IntrospectionResultData,
-} from './generated/civic.possible-types';
+} from '../generated/civic.possible-types';
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
-const typePolicies: TypePolicies = {
-  Query: {
-    fields: {
-      browseGenes: relayStylePagination(),
-    }
-  }
-};
+const typePolicies: TypePolicies = CvcTypePolicies;
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {

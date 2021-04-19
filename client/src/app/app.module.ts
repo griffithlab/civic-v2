@@ -20,7 +20,7 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { GraphQLModule } from '@app/graphql.module';
+import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
 
 
