@@ -42,23 +42,23 @@
             <div nz-row [nzGutter]="16">
               <nz-col [nzSpan]="8">
                 <cvc-comment-list
-                  [comments]="gene.comments.edges"
+                  [comments]="comments$ | async"
                   [subject]="subject">
                 </cvc-comment-list>
               </nz-col>
               <nz-col [nzSpan]="16">
-                <nz-card nzTitle="Revisions" class="card-list">
-                  <nz-list [nzDataSource]="gene.revisions.edges" class="revision-list"
-                    [nzRenderItem]="revision"
-                    nzItemLayout="horizontal">
+                <nz-card nzTitle="Revisions" class="card-list" >
+                  <nz-list [nzDataSource]="revisions$ | async"
+                    class="revision-list"
+                    [nzRenderItem]="revision">
                     <ng-template #revision let-revision>
                       <nz-list-item>
-
                         <!-- Revision Card -->
                         <nz-card nzType="inner" nzSize="small"
                           [nzTitle]="revCardHeaderTitle"
                           [nzExtra]="revCardHeaderExtra">
-                          <ng-container [ngSwitch]="revision.node.fieldName">
+
+                        <ng-container [ngSwitch]="revision.node.fieldName">
                             <ng-container *ngSwitchCase="'source_ids'" >
                               <ng-container *ngTemplateOutlet="revDiffSourceIds"></ng-container>
                             </ng-container>
@@ -98,6 +98,7 @@
                         <cvc-gene-sources-revision [revision]="revision.node">
                         </cvc-gene-sources-revision>
                       </ng-template>
+
                     </ng-template>
                   </nz-list>
                 </nz-card>
@@ -109,9 +110,13 @@
     </nz-page-header-content>
     <!-- <nz-page-header-content>
          <nz-row>
-         <nz-col [nzSpan]="24">
-         <h4>gene.revisions:</h4>
-         <ngx-json-viewer [json]="gene.revisions" [expanded]="false"></ngx-json-viewer>
+         <nz-col [nzSpan]="12">
+         <h4>comments$:</h4>
+         <ngx-json-viewer [json]="(comments$ | async)" [expanded]="true"></ngx-json-viewer>
+         </nz-col>
+         <nz-col [nzSpan]="12">
+         <h4>revisions$:</h4>
+         <ngx-json-viewer [json]="(revisions$ | async)" [expanded]="true"></ngx-json-viewer>
          </nz-col>
          </nz-row>
          </nz-page-header-content> -->
