@@ -1687,8 +1687,6 @@ type VariantEdge {
   The item at the end of the edge.
   """
   node: Variant
-<<<<<<< HEAD:client/src/app/generated/server.model.graphql
-=======
 }
 
 enum VariantOrigin {
@@ -1698,5 +1696,4 @@ enum VariantOrigin {
   RARE_GERMLINE
   SOMATIC
   UNKNOWN
->>>>>>> main:client/src/app/generated/civic.model.graphql
 }

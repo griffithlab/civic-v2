@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { pluck, map, tap } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
-import { GenesDetailService } from './genes.detail.service';
+import { GenesDetailService } from './genes-detail.service';
 import {
   CommentableInput,
   CommentableEntities,
@@ -34,7 +34,7 @@ export class GenesDetailComponent implements OnInit {
               private logger: NGXLogger) {
 
     this.route.params.subscribe(params => {
-      const geneId: string = params['geneId'];
+      const geneId: number = +params['geneId'];
       const source$: Observable<any> = this.api.watchGeneDetail(geneId);
       this.gene$ = source$.pipe(
         pluck('data', 'gene'),

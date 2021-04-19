@@ -147,6 +147,7 @@ export type Comment = {
   comment: Scalars['String'];
   commentor: User;
   createdAt: Scalars['ISO8601DateTime'];
+  creationEvent?: Maybe<Event>;
   id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
 };
@@ -206,6 +207,12 @@ export type Drug = {
   ncitId?: Maybe<Scalars['String']>;
 };
 
+export enum DrugInteraction {
+  Combination = 'COMBINATION',
+  Sequential = 'SEQUENTIAL',
+  Substitutes = 'SUBSTITUTES'
+}
+
 export type Event = {
   __typename: 'Event';
   action: EventAction;
@@ -259,12 +266,57 @@ export type EventEdge = {
   node?: Maybe<Event>;
 };
 
+export enum EvidenceClinicalSignificance {
+  AdverseResponse = 'ADVERSE_RESPONSE',
+  Benign = 'BENIGN',
+  BetterOutcome = 'BETTER_OUTCOME',
+  DominantNegative = 'DOMINANT_NEGATIVE',
+  GainOfFunction = 'GAIN_OF_FUNCTION',
+  LikelyBenign = 'LIKELY_BENIGN',
+  LikelyPathogenic = 'LIKELY_PATHOGENIC',
+  LossOfFunction = 'LOSS_OF_FUNCTION',
+  Na = 'NA',
+  Negative = 'NEGATIVE',
+  Neomorphic = 'NEOMORPHIC',
+  Pathogenic = 'PATHOGENIC',
+  PoorOutcome = 'POOR_OUTCOME',
+  Positive = 'POSITIVE',
+  ReducedSensitivity = 'REDUCED_SENSITIVITY',
+  Resistance = 'RESISTANCE',
+  Sensitivityresponse = 'SENSITIVITYRESPONSE',
+  UnalteredFunction = 'UNALTERED_FUNCTION',
+  UncertainSignificance = 'UNCERTAIN_SIGNIFICANCE',
+  Unknown = 'UNKNOWN'
+}
+
+export enum EvidenceDirection {
+  DoesNotSupport = 'DOES_NOT_SUPPORT',
+  Na = 'NA',
+  Supports = 'SUPPORTS'
+}
+
 export type EvidenceItem = {
   __typename: 'EvidenceItem';
+  clinicalSignificance: EvidenceClinicalSignificance;
+  comments?: Maybe<Array<Comment>>;
   description: Scalars['String'];
+  disease?: Maybe<Disease>;
+  drugInteractionType?: Maybe<DrugInteraction>;
+  drugs?: Maybe<Array<Drug>>;
   events: EventConnection;
+  evidenceDirection: EvidenceDirection;
+  evidenceLevel: EvidenceLevel;
+  evidenceRating?: Maybe<Scalars['Int']>;
+  evidenceType: EvidenceType;
+  flagged: Scalars['Boolean'];
   id: Scalars['Int'];
+  phenotypes?: Maybe<Array<Phenotype>>;
+  revisions?: Maybe<Array<Revision>>;
+  source: Source;
+  status: EvidenceStatus;
   variant: Variant;
+  variantHgvs: Scalars['String'];
+  variantOrigin: VariantOrigin;
 };
 
 
@@ -300,6 +352,29 @@ export type EvidenceItemEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<EvidenceItem>;
 };
+
+export enum EvidenceLevel {
+  A = 'A',
+  B = 'B',
+  C = 'C',
+  D = 'D',
+  E = 'E'
+}
+
+export enum EvidenceStatus {
+  Accepted = 'ACCEPTED',
+  Rejected = 'REJECTED',
+  Submitted = 'SUBMITTED'
+}
+
+export enum EvidenceType {
+  Diagnostic = 'DIAGNOSTIC',
+  Functional = 'FUNCTIONAL',
+  Oncogenic = 'ONCOGENIC',
+  Predictive = 'PREDICTIVE',
+  Predisposing = 'PREDISPOSING',
+  Prognostic = 'PROGNOSTIC'
+}
 
 export type Flag = {
   __typename: 'Flag';
@@ -674,6 +749,13 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
 };
 
+export type Phenotype = {
+  __typename: 'Phenotype';
+  hpoClass: Scalars['String'];
+  hpoId: Scalars['String'];
+  id: Scalars['Int'];
+};
+
 export type Query = {
   __typename: 'Query';
   browseEvents: EventConnection;
@@ -682,6 +764,7 @@ export type Query = {
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
   drug?: Maybe<Drug>;
+  evidenceItem?: Maybe<EvidenceItem>;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
   searchByPermalink: AdvancedSearchResult;
@@ -719,17 +802,22 @@ export type QueryBrowseGenesArgs = {
 
 
 export type QueryDiseaseArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type QueryDrugArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
+};
+
+
+export type QueryEvidenceItemArgs = {
+  id: Scalars['Int'];
 };
 
 
 export type QueryGeneArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -745,7 +833,7 @@ export type QuerySearchGenesArgs = {
 
 
 export type QuerySourceArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -808,6 +896,7 @@ export type Revision = {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
+  creationEvent?: Maybe<Event>;
   currentValue: Scalars['JSON'];
   fieldName: Scalars['String'];
   id: Scalars['Int'];
@@ -1121,6 +1210,15 @@ export type VariantEdge = {
   node?: Maybe<Variant>;
 };
 
+export enum VariantOrigin {
+  CommonGermline = 'COMMON_GERMLINE',
+  GermlineOrSomatic = 'GERMLINE_OR_SOMATIC',
+  Na = 'NA',
+  RareGermline = 'RARE_GERMLINE',
+  Somatic = 'SOMATIC',
+  Unknown = 'UNKNOWN'
+}
+
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -1232,7 +1330,7 @@ export type BrowseGenesQuery = (
 );
 
 export type GeneDetailQueryVariables = Exact<{
-  geneId: Scalars['ID'];
+  geneId: Scalars['Int'];
 }>;
 
 
@@ -1506,7 +1604,7 @@ export const BrowseGenesDocument = gql`
     }
   }
 export const GeneDetailDocument = gql`
-    query GeneDetail($geneId: ID!) {
+    query GeneDetail($geneId: Int!) {
   gene(id: $geneId) {
     description
     entrezId
