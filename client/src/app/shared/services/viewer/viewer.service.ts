@@ -2,7 +2,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
-import { QueryRef } from 'apollo-angular';
+import { makeVar, ReactiveVar } from '@apollo/client/core';
+import { gql, QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
 import { pluck, map, shareReplay, startWith } from 'rxjs/operators';
@@ -24,6 +25,14 @@ export interface Viewer extends User {
   canModerate: boolean;
 }
 
+export const InitialViewer: Viewer = <Viewer>{
+  mostRecentOrg: undefined,
+  signedIn: false,
+  isAdmin: false,
+  isEditor: false,
+  canCurate: false,
+  canModerate: false
+}
 @Injectable({
   providedIn: 'root'
 })

@@ -23,12 +23,12 @@ extensions:
           futureProofUnions: true
           futureProofEnums: true
           maybeValue: T | undefined
-      ./src/app/generated/civic.possible-types.ts:
+      ./src/app/generated/server.possible-types.ts:
         plugins:
           - fragment-matcher
         config:
           apolloClientVersion: 2
-      ./src/app/generated/civic.field-policies.ts:
+      ./src/app/generated/server.field-policies.ts:
         plugins:
           - typescript-apollo-client-helpers
         config:

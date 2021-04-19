@@ -10,7 +10,7 @@ import { CvcTypePolicies } from  './graphql.type-policies';
 import {
   default as result,
   IntrospectionResultData,
-} from '../generated/civic.possible-types';
+} from '@app/generated/server.possible-types';
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
