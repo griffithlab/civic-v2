@@ -30,7 +30,7 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo';
 
-import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
 import { GraphQLError } from 'graphql';
 

@@ -30,6 +30,7 @@ import { CommentAddComponent } from './comment-add/comment-add.component';
 import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
 import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
 import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
+import { FormButtonsComponent } from './form-buttons/form-buttons.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.
     OrgSelectorBtnGroupComponent,
     OrgSelectorBtnDirective,
     FormErrorsAlertComponent,
+    FormButtonsComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +69,7 @@ import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.
     OrgSelectorBtnGroupComponent,
     OrgSelectorBtnDirective,
     FormErrorsAlertComponent,
+    FormButtonsComponent,
   ]
 })
 
