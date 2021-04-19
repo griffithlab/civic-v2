@@ -76,7 +76,7 @@ export class CommentAddComponent implements OnDestroy {
     this.addCommentForm = this.fb.group({
       body: ['', [
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(10)
       ]]
     });
   }
