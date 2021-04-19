@@ -1,4 +1,4 @@
-query GeneDetail($geneId: ID!) {
+query GeneDetail($geneId: Int!) {
   gene(id: $geneId) {
     description
     entrezId

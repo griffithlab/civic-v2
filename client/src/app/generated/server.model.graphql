@@ -1583,7 +1583,7 @@ type User {
     """
     subscriptionId: Int
   ): NotificationConnection
-  organizations: [Organization!]
+  organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   role: String!
   url: String

@@ -25,8 +25,6 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
 import { QueryRef } from 'apollo-angular';
 
 import { NGXLogger } from 'ngx-logger';
-import { create } from "rxjs-spy";
-import { tag } from "rxjs-spy/operators/tag";
 
 // import { GenesBrowseService } from './genes.browse.service';
 
@@ -76,8 +74,6 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject();
 
   constructor(private query: BrowseGenesGQL, private logger: NGXLogger) {
-    this.spy = create();
-
     const initialQueryArgs: QueryBrowseGenesArgs = {
       first: this.initialPageSize
     }
@@ -86,7 +82,6 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // this.spy.log('data$');
     this.data$ = this.queryRef.valueChanges.pipe(
-      tag('data$'),
       map((r: any) => {
         return {
           data: r.data,
@@ -105,7 +100,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isLoading$ = this.data$.pipe(
       pluck('loading'),
       startWith(true),
-      tag('isLoading$'));
+    );
 
     // this.spy.log('genes$');
     this.genes$ = this.data$.pipe(
@@ -114,7 +109,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
         // convert array of edges to array of BrowseGenes
         return edges.map((e: BrowseGeneEdge): BrowseGene => { return e.node as BrowseGene; })
       } ),
-      tag('genes$'));
+    );
 
     // this.spy.log('pageInfo$');
     this.pageInfo$ = this.data$.pipe(
@@ -125,19 +120,19 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hasPreviousPage = info.hasPreviousPage;
         this.hasNextPage = info.hasNextPage;
       }),
-      tag('pageInfo$'));
+    );
 
     // this.spy.log('totalCount$');
     this.totalCount$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'totalCount'),
       startWith(0),
-      tag('totalCount$'));
+    );
 
     // this.spy.log('totalPageCount$');
     this.totalPageCount$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'totalPageCount'),
       startWith(0),
-      tag('totalPageCount$'));
+    );
 
   }
 
@@ -172,7 +167,6 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
         filter(([y1, y2]) => (y2 < y1 && y2 < 140)),
         // throttle events so we don't cause a lot of loadMore() requests
         throttleTime(this.isLoadingDelay),
-        tag('elementScrolled'),
       ).subscribe(() => {
           this.loadMore();
       });
@@ -181,9 +175,7 @@ export class GenesBrowseComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.spy.teardown();
     this.destroy$.next();
     this.destroy$.complete();
-    this.logger.trace('GenesBrowseComponent destroyed.');
   }
 }

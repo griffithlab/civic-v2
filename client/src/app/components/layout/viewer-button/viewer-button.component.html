@@ -1,0 +1,19 @@
+<button
+  nz-button
+  nzType="primary"
+  nzValue="small"
+  nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight" >
+
+    <!-- <nz-avatar [nzSrc]="avatarUrl$ | async" [nzSize]="16"
+         [nzShape]="'square'"
+         style="background-color:#f0f5ff;"
+         *ngIf="(avatarUrl$ | async)"></nz-avatar> -->
+  <!-- <i nz-icon nzType="civic:editor"></i> -->
+    {{ username$ | async }}
+
+</button>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="signOut()">Sign Out</li>
+  </ul>
+</nz-dropdown-menu>

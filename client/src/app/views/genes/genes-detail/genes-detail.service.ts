@@ -11,7 +11,7 @@ export class GenesDetailService {
 
   constructor(private genesDetailGQL: GeneDetailGQL) { }
 
-  watchGeneDetail(id: string): Observable<any> {
+  watchGeneDetail(id: number): Observable<any> {
     return this.genesDetailGQL.watch({
       geneId: id
     })
