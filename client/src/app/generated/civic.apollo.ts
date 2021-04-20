@@ -1440,6 +1440,117 @@ export type GeneDetailQuery = (
   )> }
 );
 
+export type GeneRoutingQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneRoutingQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
+    & { aliases?: Maybe<Array<(
+      { __typename: 'GeneAlias' }
+      & Pick<GeneAlias, 'name'>
+    )>>, lifecycleActions: (
+      { __typename: 'Lifecycle' }
+      & { lastCommentedOn?: Maybe<(
+        { __typename: 'Event' }
+        & Pick<Event, 'createdAt' | 'id'>
+        & { organization: (
+          { __typename: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        ), originatingUser: (
+          { __typename: 'User' }
+          & Pick<User, 'id' | 'name'>
+        ) }
+      )>, lastModified?: Maybe<(
+        { __typename: 'Event' }
+        & Pick<Event, 'createdAt' | 'id'>
+        & { organization: (
+          { __typename: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        ), originatingUser: (
+          { __typename: 'User' }
+          & Pick<User, 'id' | 'name'>
+        ) }
+      )>, lastReviewed?: Maybe<(
+        { __typename: 'Event' }
+        & Pick<Event, 'createdAt' | 'id'>
+        & { organization: (
+          { __typename: 'Organization' }
+          & Pick<Organization, 'id' | 'name'>
+        ), originatingUser: (
+          { __typename: 'User' }
+          & Pick<User, 'id' | 'name'>
+        ) }
+      )> }
+    ), sources?: Maybe<Array<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    )>>, variants?: Maybe<(
+      { __typename: 'VariantConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename: 'VariantEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Variant' }
+          & Pick<Variant, 'id' | 'name' | 'description'>
+        )> }
+      )>>> }
+    )>, comments?: Maybe<(
+      { __typename: 'CommentConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename: 'CommentEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Comment' }
+          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
+          & { commentor: (
+            { __typename: 'User' }
+            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
+            & { organizations: Array<(
+              { __typename: 'Organization' }
+              & Pick<Organization, 'id' | 'name'>
+            )> }
+          ) }
+        )> }
+      )>>> }
+    )>, revisions?: Maybe<(
+      { __typename: 'RevisionConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename: 'RevisionEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Revision' }
+          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+          & { linkoutData: (
+            { __typename: 'LinkoutData' }
+            & Pick<LinkoutData, 'name'>
+            & { diffValue: (
+              { __typename: 'ObjectFieldDiff' }
+              & { addedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, removedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, keptObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )> }
+            ) | (
+              { __typename: 'ScalarField' }
+              & Pick<ScalarField, 'value'>
+            ) }
+          ), revisor: (
+            { __typename: 'User' }
+            & Pick<User, 'id' | 'name'>
+          ) }
+        )> }
+      )>>> }
+    )> }
+  )> }
+);
+
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -1742,6 +1853,150 @@ export const GeneDetailDocument = gql`
   })
   export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
     document = GeneDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneRoutingDocument = gql`
+    query GeneRouting($geneId: Int!) {
+  gene(id: $geneId) {
+    description
+    entrezId
+    aliases {
+      name
+    }
+    id
+    lifecycleActions {
+      lastCommentedOn {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastModified {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastReviewed {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+    }
+    name
+    officialName
+    sources {
+      id
+      citation
+      sourceUrl
+      sourceType
+    }
+    variants {
+      edges {
+        node {
+          id
+          name
+          description
+        }
+      }
+    }
+    comments {
+      edges {
+        node {
+          id
+          createdAt
+          title
+          comment
+          commentor {
+            id
+            name
+            profileImagePath(size: 32)
+            organizations {
+              id
+              name
+            }
+            role
+          }
+        }
+      }
+    }
+    revisions {
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
+            }
+          }
+          revisor {
+            id
+            name
+          }
+          status
+        }
+      }
+    }
+    myGeneInfoDetails
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneRoutingGQL extends Apollo.Query<GeneRoutingQuery, GeneRoutingQueryVariables> {
+    document = GeneRoutingDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

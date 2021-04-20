@@ -1,55 +1,65 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <nz-ribbon nzPlacement="start" [nzText]="flaggedIcon" nzColor="#F33">
-    <ng-template #flaggedIcon>
-      <a routerLink="flags" >
-        <i nz-icon nzType="flag" nzSize="small" nzTheme="fill"></i>
-      </a>
-    </ng-template>
-    <nz-page-header class="site-page-header">
-      <nz-page-header-title>
-        <nz-space nzDirection="horizontal" nzSize="small">
-          <nz-space-item>
-            <button nz-button routerLink="suggest-revision"
-              nzType="default" nzSize="small">
-              <i nz-icon nzType="edit" nzTheme="outline"></i>
-            </button>
-          </nz-space-item>
-          <nz-space-item>
-            <i nz-icon nzType="civic:gene"></i>
-          </nz-space-item>
-          {{ gene.name }}
-        </nz-space>
-      </nz-page-header-title>
-      <nz-page-header-subtitle>
-        {{ gene.officialName }}
-      </nz-page-header-subtitle>
-      <nz-page-header-tags>
-        <nz-tag [nzColor]="'red'" *ngIf="false">Flagged</nz-tag>
-      </nz-page-header-tags>
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal"
+        nzSize="small">
+        <nz-space-item>
+          <button routerLink="suggest-revision"
+            nz-button
+            nzType="default"
+            nzSize="small">
+            <i nz-icon
+              nzType="edit"
+              nzTheme="outline"></i>
+          </button>
+        </nz-space-item>
+        <nz-space-item>
+          <i nz-icon
+            nzType="civic:gene"></i>
+        </nz-space-item>
+        {{ gene.name }}
+      </nz-space>
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      {{ gene.officialName }}
+    </nz-page-header-subtitle>
+    <nz-page-header-tags>
+      <nz-tag [nzColor]="'red'"
+        *ngIf="false">Flagged</nz-tag>
+    </nz-page-header-tags>
 
-      <!--extra-->
-      <nz-page-header-extra>
-        <button nz-button routerLink="comments">Comments</button>
-        <button nz-button routerLink="revisions">Revisions</button>
-        <button nz-button nzNoAnimation nz-dropdown [nzDropdownMenu]="menu" style="border: none; padding: 0">
-          <i nz-icon nzType="ellipsis" nzTheme="outline" style="font-size: 20px; vertical-align: top;"></i>
-        </button>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item>1st menu item length</li>
-            <li nz-menu-item>2nd menu item length</li>
-            <li nz-menu-item>3rd menu item length</li>
-          </ul>
-        </nz-dropdown-menu>
-      </nz-page-header-extra>
+    <!--extra-->
+    <nz-page-header-extra>
+      <button routerLink="comments"
+        nz-button>Comments</button>
+      <button routerLink="revisions"
+        nz-button>Revisions</button>
+      <button nz-dropdown
+        [nzDropdownMenu]="menu"
+        nz-button
+        nzNoAnimation
+        style="border: none; padding: 0">
+        <i nz-icon
+          nzType="ellipsis"
+          nzTheme="outline"
+          style="font-size: 20px; vertical-align: top;"></i>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>1st menu item length</li>
+          <li nz-menu-item>2nd menu item length</li>
+          <li nz-menu-item>3rd menu item length</li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-page-header-extra>
 
-      <nz-page-header-content>
-        <div class="content">
-          <router-outlet></router-outlet>
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
 
-        </div>
-      </nz-page-header-content>
-      <!-- <nz-page-header-content>
+      </div>
+    </nz-page-header-content>
+    <!-- <nz-page-header-content>
          <nz-row>
          <nz-col [nzSpan]="12">
          <h4>comments$:</h4>
@@ -61,6 +71,5 @@
          </nz-col>
          </nz-row>
          </nz-page-header-content> -->
-    </nz-page-header>
-  </nz-ribbon>
+  </nz-page-header>
 </ng-container>
