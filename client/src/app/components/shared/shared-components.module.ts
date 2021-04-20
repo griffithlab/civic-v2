@@ -31,6 +31,7 @@ import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selec
 import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
 import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
 import { FormButtonsComponent } from './form-buttons/form-buttons.component';
+import { FlaggableComponent } from './flaggable/flaggable.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { FormButtonsComponent } from './form-buttons/form-buttons.component';
     OrgSelectorBtnDirective,
     FormErrorsAlertComponent,
     FormButtonsComponent,
+    FlaggableComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +72,7 @@ import { FormButtonsComponent } from './form-buttons/form-buttons.component';
     OrgSelectorBtnDirective,
     FormErrorsAlertComponent,
     FormButtonsComponent,
+    FlaggableComponent,
   ]
 })
 
