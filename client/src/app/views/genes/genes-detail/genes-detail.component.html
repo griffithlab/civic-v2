@@ -1,114 +1,55 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <nz-page-header class="site-page-header">
-    <nz-page-header-title><i nz-icon nzType="civic:gene"></i> {{ gene.name }}</nz-page-header-title>
-    <nz-page-header-subtitle>{{ gene.officialName }}</nz-page-header-subtitle>
-    <nz-page-header-tags>
-      <nz-tag [nzColor]="'red'">Flagged</nz-tag>
-    </nz-page-header-tags>
-
-    <!--extra-->
-    <nz-page-header-extra>
-      <button nz-button>Suggest Revision</button>
-      <button nz-button nzNoAnimation nz-dropdown [nzDropdownMenu]="menu" style="border: none; padding: 0">
-        <i nz-icon nzType="ellipsis" nzTheme="outline" style="font-size: 20px; vertical-align: top;"></i>
-      </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>1st menu item length</li>
-          <li nz-menu-item>2nd menu item length</li>
-          <li nz-menu-item>3rd menu item length</li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-page-header-extra>
-
-    <nz-page-header-content>
-      <div class="content">
-        <nz-space nzSize="middle" nzDirection="vertical" class="space-align-block">
+  <nz-ribbon nzPlacement="start" [nzText]="flaggedIcon" nzColor="#F33">
+    <ng-template #flaggedIcon>
+      <a routerLink="flags" >
+        <i nz-icon nzType="flag" nzSize="small" nzTheme="fill"></i>
+      </a>
+    </ng-template>
+    <nz-page-header class="site-page-header">
+      <nz-page-header-title>
+        <nz-space nzDirection="horizontal" nzSize="small">
           <nz-space-item>
-            <div nz-row [nzGutter]="16">
-              <div nz-col nzSpan="12">
-                <cvc-gene-description
-                  [name]="gene.name"
-                  [description]="gene.description"
-                  [sources]="gene.sources">
-                </cvc-gene-description>
-              </div>
-              <div nz-col nzSpan="12" >
-                <cvc-my-gene-info [geneInfo]="myGeneInfo$ | async"></cvc-my-gene-info>
-              </div>
-            </div>
+            <button nz-button routerLink="suggest-revision"
+              nzType="default" nzSize="small">
+              <i nz-icon nzType="edit" nzTheme="outline"></i>
+            </button>
           </nz-space-item>
           <nz-space-item>
-            <div nz-row [nzGutter]="16">
-              <nz-col [nzSpan]="8">
-                <cvc-comment-list
-                  [comments]="comments$ | async"
-                  [subject]="subject">
-                </cvc-comment-list>
-              </nz-col>
-              <nz-col [nzSpan]="16">
-                <nz-card nzTitle="Revisions" class="card-list" >
-                  <nz-list [nzDataSource]="revisions$ | async"
-                    class="revision-list"
-                    [nzRenderItem]="revision">
-                    <ng-template #revision let-revision>
-                      <nz-list-item>
-                        <!-- Revision Card -->
-                        <nz-card nzType="inner" nzSize="small"
-                          [nzTitle]="revCardHeaderTitle"
-                          [nzExtra]="revCardHeaderExtra">
-
-                        <ng-container [ngSwitch]="revision.node.fieldName">
-                            <ng-container *ngSwitchCase="'source_ids'" >
-                              <ng-container *ngTemplateOutlet="revDiffSourceIds"></ng-container>
-                            </ng-container>
-                            <ng-container *ngSwitchCase="'description'" >
-                              <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>
-                            </ng-container>
-                          </ng-container>
-                        </nz-card>
-
-                        <!-- Revision Card Templates -->
-                        <!-- header title -->
-                        <ng-template #revCardHeaderTitle>
-                          <i nz-icon nzType="civic:revision"></i> RID{{ revision.node.id }}
-                          <span>{{ revision.node.linkoutData.name }} Updated</span>
-                        </ng-template>
-                        <!-- header secondary & status -->
-                        <ng-template #revCardHeaderExtra>
-                          <nz-space nzSize="small">
-                            <nz-space-item>
-                              <span nz-typography nzType="secondary" >{{ revision.node.createdAt | timeago }}</span>
-                            </nz-space-item>
-                            <nz-space-item>
-                              <nz-tag>{{ revision.node.status }}</nz-tag>
-                            </nz-space-item>
-                          </nz-space>
-                        </ng-template>
-                      </nz-list-item>
-
-                      <!-- Field Diff Templates -->
-                      <!-- description -->
-                      <ng-template #revDiffDescription>
-                        <cvc-gene-description-revision [revision]="revision.node">
-                        </cvc-gene-description-revision>
-                      </ng-template>
-                      <!-- sources -->
-                      <ng-template #revDiffSourceIds>
-                        <cvc-gene-sources-revision [revision]="revision.node">
-                        </cvc-gene-sources-revision>
-                      </ng-template>
-
-                    </ng-template>
-                  </nz-list>
-                </nz-card>
-              </nz-col>
-            </div>
+            <i nz-icon nzType="civic:gene"></i>
           </nz-space-item>
+          {{ gene.name }}
         </nz-space>
-      </div>
-    </nz-page-header-content>
-    <!-- <nz-page-header-content>
+      </nz-page-header-title>
+      <nz-page-header-subtitle>
+        {{ gene.officialName }}
+      </nz-page-header-subtitle>
+      <nz-page-header-tags>
+        <nz-tag [nzColor]="'red'" *ngIf="false">Flagged</nz-tag>
+      </nz-page-header-tags>
+
+      <!--extra-->
+      <nz-page-header-extra>
+        <button nz-button routerLink="comments">Comments</button>
+        <button nz-button routerLink="revisions">Revisions</button>
+        <button nz-button nzNoAnimation nz-dropdown [nzDropdownMenu]="menu" style="border: none; padding: 0">
+          <i nz-icon nzType="ellipsis" nzTheme="outline" style="font-size: 20px; vertical-align: top;"></i>
+        </button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>1st menu item length</li>
+            <li nz-menu-item>2nd menu item length</li>
+            <li nz-menu-item>3rd menu item length</li>
+          </ul>
+        </nz-dropdown-menu>
+      </nz-page-header-extra>
+
+      <nz-page-header-content>
+        <div class="content">
+          <router-outlet></router-outlet>
+
+        </div>
+      </nz-page-header-content>
+      <!-- <nz-page-header-content>
          <nz-row>
          <nz-col [nzSpan]="12">
          <h4>comments$:</h4>
@@ -120,5 +61,6 @@
          </nz-col>
          </nz-row>
          </nz-page-header-content> -->
-  </nz-page-header>
+    </nz-page-header>
+  </nz-ribbon>
 </ng-container>

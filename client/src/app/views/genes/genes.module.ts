@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
@@ -36,12 +37,22 @@ import { GenesComponentsModule } from '@app/components/genes/genes-components.mo
 
 // debugging imports
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
+import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
+import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
+import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
+import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 
 @NgModule({
   declarations: [
     GenesComponent,
     GenesBrowseComponent,
     GenesDetailComponent,
+    GenesSuggestRevisionComponent,
+    GenesSummaryComponent,
+    GenesFlagsComponent,
+    GenesCommentsComponent,
+    GenesRevisionsComponent,
   ],
   imports: [
     SharedComponentsModule,
@@ -50,6 +61,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     GenesRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
+    NzBadgeModule,
     NzButtonModule,
     NzCardModule,
     NzCommentModule,
