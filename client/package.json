@@ -10,6 +10,7 @@
     "e2e": "ng e2e",
     "generate-icons": "svg-to-ts",
     "generate-apollo": "graphql-codegen",
+    "generate-apollo:start": "graphql-codegen --watch",
     "postinstall": "patch-package"
   },
   "private": true,
