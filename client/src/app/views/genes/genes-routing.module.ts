@@ -9,9 +9,11 @@ import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
+import { GenesDetailResolveService } from './genes-detail/genes-detail.resolve.service';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: GenesComponent,
     children: [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
@@ -22,29 +24,32 @@ const routes: Routes = [
       {
         path: ':geneId',
         component: GenesDetailComponent,
-          children: [
-            { path: '', redirectTo: 'summary', pathMatch: 'full' },
-            {
-              path: 'summary',
-              component: GenesSummaryComponent
-            },
-            {
-              path: 'suggest-revision',
-              component: GenesSuggestRevisionComponent
-            },
-            {
-              path: 'comments',
-              component: GenesCommentsComponent
-            },
-            {
-              path: 'revisions',
-              component: GenesRevisionsComponent
-            },
-            {
-              path: 'flags',
-              component: GenesFlagsComponent
-            }
-          ]
+        resolve: {
+          gene: GenesDetailResolveService
+        },
+        children: [
+          { path: '', redirectTo: 'summary', pathMatch: 'full' },
+          {
+            path: 'summary',
+            component: GenesSummaryComponent
+          },
+          {
+            path: 'suggest-revision',
+            component: GenesSuggestRevisionComponent
+          },
+          {
+            path: 'comments',
+            component: GenesCommentsComponent
+          },
+          {
+            path: 'revisions',
+            component: GenesRevisionsComponent
+          },
+          {
+            path: 'flags',
+            component: GenesFlagsComponent
+          }
+        ]
       }
     ]
   }

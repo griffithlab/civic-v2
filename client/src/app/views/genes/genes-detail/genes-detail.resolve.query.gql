@@ -1,4 +1,4 @@
-query GeneRouting($geneId: Int!) {
+query GenesDetailResolve($geneId: Int!) {
   gene(id: $geneId) {
     description
     entrezId
