@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
@@ -11,17 +11,17 @@ import {
 import { ApolloQueryResult } from '@apollo/client/core';
 
 @Injectable({providedIn: 'root'})
-export class GenesDetailResolveService implements Resolve<ApolloQueryResult<GenesDetailResolveQuery>> {
+export class GenesDetailResolveService implements Resolve<Observable<ApolloQueryResult<GenesDetailResolveQuery>>> {
   constructor(private query: GenesDetailResolveGQL) {
   }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ApolloQueryResult<GenesDetailResolveQuery>> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Observable<ApolloQueryResult<GenesDetailResolveQuery>>> {
     const vars = {
       geneId: +route.params['geneId']
     }
 
-    return this.query
-      .fetch(vars);
+    return of(this.query
+      .fetch(vars));
 
   }
 }

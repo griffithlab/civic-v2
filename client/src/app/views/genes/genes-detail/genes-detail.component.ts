@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, Data } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck, map, tap } from 'rxjs/operators';
+import { pluck, map, tap, switchMap, startWith, distinctUntilChanged } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes-detail.service';
@@ -23,8 +23,9 @@ import { ApolloQueryResult } from '@apollo/client/core';
 })
 
 export class GenesDetailComponent implements OnInit {
-  routeGene$: Observable<Data>;
-  gene$!: Observable<any>;
+  resolved$: Observable<Data>;
+  loading$: Observable<boolean>;
+  gene$: Observable<any>;
   comments$!: Observable<any>;
   revisions$!: Observable<any>;
   myGeneInfo$!: Observable<any>;
@@ -37,7 +38,28 @@ export class GenesDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
-    this.routeGene$ = this.route.data;
+    this.resolved$ = this.route.data.pipe(
+      switchMap((data) => {
+        return data.resolved as Observable<ApolloQueryResult<GenesDetailResolveQuery>>;
+      }));;
+
+    this.gene$ = this.resolved$.pipe(
+      distinctUntilChanged(),
+      map((response) => {
+        return response.data.gene;
+      }),
+      tap((gene: Gene) => {
+        this.subject = {
+          id: gene.id,
+          entityType: CommentableEntities[gene.__typename]
+        } as CommentableInput;
+      }));
+
+    this.loading$ = this.resolved$.pipe(
+      map((response) => {
+        return response.data.loading;
+      }),
+      startWith(true));
 
     this.route.params.subscribe(params => {
       const geneId: number = +params['geneId'];
