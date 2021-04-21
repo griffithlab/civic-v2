@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap, Data } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck, map, tap } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
@@ -10,16 +10,20 @@ import {
   CommentableEntities,
   Gene,
   User,
+  GenesDetailResolveQuery,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'genes-detail',
   templateUrl: './genes-detail.component.html',
   styleUrls: ['./genes-detail.component.less']
 })
+
 export class GenesDetailComponent implements OnInit {
+  routeGene$: Observable<Data>;
   gene$!: Observable<any>;
   comments$!: Observable<any>;
   revisions$!: Observable<any>;
@@ -32,6 +36,8 @@ export class GenesDetailComponent implements OnInit {
               private viewerService: ViewerService,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
+
+    this.routeGene$ = this.route.data;
 
     this.route.params.subscribe(params => {
       const geneId: number = +params['geneId'];

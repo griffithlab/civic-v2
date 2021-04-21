@@ -56,7 +56,8 @@
     <nz-page-header-content>
       <div class="content">
         <router-outlet></router-outlet>
-
+        <h4>routeGene$:</h4>
+        <ngx-json-viewer [json]="routeGene$ | async" [expanded]="true"></ngx-json-viewer>
       </div>
     </nz-page-header-content>
     <!-- <nz-page-header-content>

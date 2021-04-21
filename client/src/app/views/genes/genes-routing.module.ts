@@ -25,7 +25,7 @@ const routes: Routes = [
         path: ':geneId',
         component: GenesDetailComponent,
         resolve: {
-          gene: GenesDetailResolveService
+          resolved: GenesDetailResolveService
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
