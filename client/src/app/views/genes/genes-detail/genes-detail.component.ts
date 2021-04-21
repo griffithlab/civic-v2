@@ -23,64 +23,30 @@ import { ApolloQueryResult } from '@apollo/client/core';
 })
 
 export class GenesDetailComponent implements OnInit {
-  resolved$: Observable<Data>;
-  loading$: Observable<boolean>;
-  gene$: Observable<any>;
-  comments$!: Observable<any>;
-  revisions$!: Observable<any>;
-  myGeneInfo$!: Observable<any>;
-  viewer$!: Observable<User | null>;
+  loading$!: Observable<boolean>;
+  gene$!: Observable<any>;
+  viewer$: Observable<User | null>;
 
   subject!: CommentableInput;
 
-  constructor(private api: GenesDetailService,
+  constructor(private service: GenesDetailService,
               private viewerService: ViewerService,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
-    this.resolved$ = this.route.data.pipe(
-      switchMap((data) => {
-        return data.resolved as Observable<ApolloQueryResult<GenesDetailResolveQuery>>;
-      }));;
-
-    this.gene$ = this.resolved$.pipe(
-      distinctUntilChanged(),
-      map((response) => {
-        return response.data.gene;
-      }),
-      tap((gene: Gene) => {
-        this.subject = {
-          id: gene.id,
-          entityType: CommentableEntities[gene.__typename]
-        } as CommentableInput;
-      }));
-
-    this.loading$ = this.resolved$.pipe(
-      map((response) => {
-        return response.data.loading;
-      }),
-      startWith(true));
 
     this.route.params.subscribe(params => {
       const geneId: number = +params['geneId'];
-      const source$: Observable<any> = this.api.watchGeneDetail(geneId);
+      const source$: Observable<any> = this.service.watchGeneDetail(geneId);
+
       this.gene$ = source$.pipe(
         pluck('data', 'gene'),
-        // add shareReplay
-        tap((g: Gene) => {
-          this.subject = <CommentableInput>{
-            id: g.id,
-            entityType: CommentableEntities[g.__typename]
-          }
-        })
       );
-      this.comments$ = this.gene$.pipe(pluck('comments', 'edges'));
-      this.revisions$ = this.gene$.pipe(pluck('revisions', 'edges'));
-      this.myGeneInfo$ = this.gene$.pipe(
-        pluck('myGeneInfoDetails'),
-        map(info => JSON.parse(info))
-      );
+      this.loading$ = source$.pipe(
+        pluck('data', 'loading'),
+        startWith(true));
     });
+
 
     this.viewer$ = this.viewerService.viewer$;
   }

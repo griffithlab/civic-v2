@@ -9,7 +9,6 @@ import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
-import { GenesDetailResolveService } from './genes-detail/genes-detail.resolve.service';
 
 const routes: Routes = [
   {
@@ -24,9 +23,6 @@ const routes: Routes = [
       {
         path: ':geneId',
         component: GenesDetailComponent,
-        resolve: {
-          resolved: GenesDetailResolveService
-        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {

@@ -57,19 +57,6 @@
       <div class="content">
         <router-outlet></router-outlet>
       </div>
-      <nz-row>
-        <nz-col [nzSpan]="12">
-          <h4>resolved$: <strong *ngIf="loading$ | async">LOADING...</strong> </h4>
-          <ngx-json-viewer *ngIf="(resolved$ | async) as resolved" [json]="resolved"
-            [expanded]="true"></ngx-json-viewer>
-        </nz-col>
-        <nz-col [nzSpan]="12">
-          <h4>gene$:</h4>
-          <ngx-json-viewer *ngIf="(gene$ | async) as routeGene"
-            [json]="routeGene"
-            [expanded]="true"></ngx-json-viewer>
-        </nz-col>
-      </nz-row>
     </nz-page-header-content>
     <!-- <nz-page-header-content>
          <nz-row>

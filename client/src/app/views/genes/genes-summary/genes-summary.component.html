@@ -1,1 +1,53 @@
-<p>Gene Summary</p>
+<nz-space nzSize="middle" *ngIf="(gene$ | async) as gene"
+  nzDirection="vertical"
+  class="space-align-block">
+  <nz-space-item>
+    <div nz-row
+      [nzGutter]="16">
+      <div nz-col
+        nzSpan="12">
+        <cvc-gene-description [name]="gene.name"
+          [description]="gene.description"
+          [sources]="gene.sources">
+        </cvc-gene-description>
+      </div>
+      <div nz-col
+        nzSpan="12">
+        <cvc-my-gene-info [geneInfo]="myGeneInfo$ | async"></cvc-my-gene-info>
+      </div>
+    </div>
+  </nz-space-item>
+  <!-- <nz-space-item>
+       <div nz-row
+       [nzGutter]="16">
+       <nz-col [nzSpan]="8">
+       <ngx-json-viewer [json]="comments$ | async"></ngx-json-viewer>
+       </nz-col>
+       <nz-col [nzSpan]="16">
+       <ngx-json-viewer [json]="revisions$ | async"></ngx-json-viewer>
+       </nz-col>
+       </div>
+       </nz-space-item> -->
+</nz-space>
+<nz-space>
+  <nz-space-item>
+    <nz-row>
+      <nz-col [nzSpan]="8">
+        <h4>gene$: <strong *ngIf="loading$ | async">LOADING...</strong> </h4>
+        <ngx-json-viewer *ngIf="(gene$ | async) as gene "
+          [json]="gene"
+          [expanded]="true"></ngx-json-viewer>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <h4>comments$:</h4>
+        <ngx-json-viewer *ngIf="(comments$ | async) as comments" [json]="comments"
+          [expanded]="true"></ngx-json-viewer>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <h4>viewer$:</h4>
+        <ngx-json-viewer *ngIf="(viewer$ | async) as viewer" [json]="viewer"
+          [expanded]="true"></ngx-json-viewer>
+      </nz-col>
+    </nz-row>
+  </nz-space-item>
+</nz-space>

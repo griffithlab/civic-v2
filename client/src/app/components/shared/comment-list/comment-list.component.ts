@@ -11,7 +11,8 @@ import { Comment,
          CommentableInput,
          CommentableEntities
        } from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Component({
   selector: 'cvc-comment-list',
@@ -23,7 +24,7 @@ export class CommentListComponent implements OnInit {
   @Input() comments!: Comment[];
   @Input() subject!: CommentableInput;
 
-  viewer$: Observable<User | null>;
+  viewer$: Observable<Viewer>;
   canCurate$: Observable<boolean>;
   canModerate$: Observable<boolean>;
 
