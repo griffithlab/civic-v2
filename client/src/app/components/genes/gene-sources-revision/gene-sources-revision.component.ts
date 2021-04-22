@@ -45,13 +45,13 @@ export class GeneSourcesRevisionComponent implements OnChanges {
 export function parseSources(sources: any[], action: string): DiffSource[] {
   if(sources.length == 0) { return sources; }
   return sources.map((source) => {
-    const citationRx = /^(.*) \(ID: (.*)\)/;
-    const rxexec = citationRx.exec(source.displayName);
+    const citationRx = /^(.*) \((.*) ID: (.*)\)/;
+    const rxExec = citationRx.exec(source.displayName);
     return {
       id: source.id,
       action: action,
-      citation: rxexec![1],
-      citationId: rxexec![2],
+      citation: rxExec![1],
+      citationId: rxExec![3],
       publication: source.displayType
     } as DiffSource;
   });

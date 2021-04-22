@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: 'static#index'
 
+  get '/sign_in' =>"static#index"
+
   scope 'api', defaults: { format: :json } do
     post '/graphql', to: 'graphql#execute'
     get '/auth/:provider/callback' => 'sessions#create'
