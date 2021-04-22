@@ -129,7 +129,7 @@ type BrowseGeneConnection {
   """
   A list of edges.
   """
-  edges: [BrowseGeneEdge]
+  edges: [BrowseGeneEdge!]!
 
   """
   The total number of records in this set.
@@ -139,7 +139,7 @@ type BrowseGeneConnection {
   """
   A list of nodes.
   """
-  nodes: [BrowseGene]
+  nodes: [BrowseGene!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -195,7 +195,7 @@ type CommentConnection {
   """
   A list of edges.
   """
-  edges: [CommentEdge]
+  edges: [CommentEdge!]!
 
   """
   The total number of records in this set.
@@ -205,7 +205,7 @@ type CommentConnection {
   """
   A list of nodes.
   """
-  nodes: [Comment]
+  nodes: [Comment!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -311,7 +311,7 @@ type EventConnection {
   """
   A list of edges.
   """
-  edges: [EventEdge]
+  edges: [EventEdge!]!
 
   """
   The total number of records in this set.
@@ -321,7 +321,7 @@ type EventConnection {
   """
   A list of nodes.
   """
-  nodes: [Event]
+  nodes: [Event!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -385,7 +385,7 @@ enum EvidenceDirection {
 
 type EvidenceItem {
   clinicalSignificance: EvidenceClinicalSignificance!
-  comments: [Comment!]
+  comments: [Comment!]!
   description: String!
   disease: Disease
   drugInteractionType: DrugInteraction
@@ -439,7 +439,7 @@ type EvidenceItem {
   ): FlagConnection!
   id: Int!
   phenotypes: [Phenotype!]
-  revisions: [Revision!]
+  revisions: [Revision!]!
   source: Source!
   status: EvidenceStatus!
   variant: Variant!
@@ -454,7 +454,7 @@ type EvidenceItemConnection {
   """
   A list of edges.
   """
-  edges: [EvidenceItemEdge]
+  edges: [EvidenceItemEdge!]!
 
   """
   The total number of records in this set.
@@ -464,7 +464,7 @@ type EvidenceItemConnection {
   """
   A list of nodes.
   """
-  nodes: [EvidenceItem]
+  nodes: [EvidenceItem!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -555,7 +555,7 @@ type FlagConnection {
   """
   A list of edges.
   """
-  edges: [FlagEdge]
+  edges: [FlagEdge!]!
 
   """
   The total number of records in this set.
@@ -565,7 +565,7 @@ type FlagConnection {
   """
   A list of nodes.
   """
-  nodes: [Flag]
+  nodes: [Flag!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -669,7 +669,7 @@ input FlaggableInput {
 }
 
 type Gene {
-  aliases: [GeneAlias!]
+  aliases: [GeneAlias!]!
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -690,7 +690,7 @@ type Gene {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): CommentConnection
+  ): CommentConnection!
   description: String!
   entrezId: Int!
   events(
@@ -761,8 +761,8 @@ type Gene {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): RevisionConnection
-  sources: [Source!]
+  ): RevisionConnection!
+  sources: [Source!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -783,7 +783,7 @@ type Gene {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): VariantConnection
+  ): VariantConnection!
 }
 
 type GeneAlias {
@@ -1039,7 +1039,7 @@ type NotificationConnection {
   """
   A list of edges.
   """
-  edges: [NotificationEdge]
+  edges: [NotificationEdge!]!
 
   """
   The total number of records in this set.
@@ -1049,7 +1049,7 @@ type NotificationConnection {
   """
   A list of nodes.
   """
-  nodes: [Notification]
+  nodes: [Notification!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -1340,7 +1340,7 @@ type RevisionConnection {
   """
   A list of edges.
   """
-  edges: [RevisionEdge]
+  edges: [RevisionEdge!]!
 
   """
   The total number of records in this set.
@@ -1350,7 +1350,7 @@ type RevisionConnection {
   """
   A list of nodes.
   """
-  nodes: [Revision]
+  nodes: [Revision!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -1749,7 +1749,7 @@ type Variant {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): EvidenceItemConnection
+  ): EvidenceItemConnection!
   flagged: Boolean!
   flags(
     """
@@ -1784,7 +1784,7 @@ type VariantConnection {
   """
   A list of edges.
   """
-  edges: [VariantEdge]
+  edges: [VariantEdge!]!
 
   """
   The total number of records in this set.
@@ -1794,7 +1794,7 @@ type VariantConnection {
   """
   A list of nodes.
   """
-  nodes: [Variant]
+  nodes: [Variant!]!
 
   """
   Total number of pages, based on filtered count and pagesize.

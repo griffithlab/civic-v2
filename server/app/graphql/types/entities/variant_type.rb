@@ -6,7 +6,7 @@ module Types::Entities
     field :name, String, null: false
     field :description, String, null: false
     field :gene, Types::Entities::GeneType, null: false
-    field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: true
+    field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def gene

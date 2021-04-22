@@ -19,8 +19,8 @@ module Types::Entities
     field :variant, Types::Entities::VariantType, null: false
     field :variant_hgvs, String, null: false
     field :variant_origin, Types::VariantOriginType, null: false
-    field :revisions, [Types::Revisions::RevisionType], null: true
-    field :comments, [Types::Entities::CommentType], null: true
+    field :revisions, [Types::Revisions::RevisionType], null: false
+    field :comments, [Types::Entities::CommentType], null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def disease
