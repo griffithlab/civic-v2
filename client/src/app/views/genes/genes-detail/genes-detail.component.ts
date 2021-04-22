@@ -25,6 +25,9 @@ export class GenesDetailComponent implements OnInit {
   loading$!: Observable<boolean>;
   gene$!: Observable<any>;
   viewer$: Observable<Viewer>;
+  commentsTotal!: number;
+  revisionsTotal!: number;
+
 
   subject!: CommentableInput;
 
@@ -39,12 +42,17 @@ export class GenesDetailComponent implements OnInit {
 
       this.gene$ = source$.pipe(
         pluck('data', 'gene'),
+        tap((g: Gene) => {
+          console.log(g);
+          this.commentsTotal = g.comments?.edges ? g.comments.edges.length : 0;
+          this.revisionsTotal = g.revisions?.edges ? g.revisions.edges.length : 0;
+        })
       );
       this.loading$ = source$.pipe(
         pluck('data', 'loading'),
         startWith(true));
-    });
 
+    });
 
     this.viewer$ = this.viewerService.viewer$;
   }
