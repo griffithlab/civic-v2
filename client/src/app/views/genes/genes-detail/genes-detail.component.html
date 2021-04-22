@@ -1,26 +1,37 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <nz-ribbon [nzText]="flaggedText" nzPlacement="start" nzColor="#ff3333">
+  <nz-ribbon [nzText]="flaggedText"
+    nzPlacement="start"
+    nzColor="#ff3333">
     <ng-template #flaggedText>
-      <i nz-icon nzType="flag" nzTheme="fill"></i>
-     {{ flagsTotal }}
+      <a routerLink="flags" style="color: #FFF;">
+        <i nz-icon
+          nzType="flag"
+          nzTheme="fill"
+          nz-tooltip
+          nzTooltipPlacement="rightBottom"
+          [nzTooltipTitle]="flaggedTooltip"></i>
+      </a>
+    </ng-template>
+    <ng-template #flaggedTooltip>
+      {{ flagsTotal > 1 ? gene.name + ' has ' + flagsTotal + ' flags' : 'Entity has been flagged' }}
     </ng-template>
     <nz-page-header class="site-page-header">
-      <nz-page-header-title>
+      <nz-page-header-title [ngClass]="{ 'flagged': flagsTotal > 0 }">
         <nz-space nzDirection="horizontal"
-                  nzSize="small">
+          nzSize="small">
           <nz-space-item>
             <button routerLink="suggest-revision"
-                    nz-button
-                    nzType="default"
-                    nzSize="small">
+              nz-button
+              nzType="default"
+              nzSize="small">
               <i nz-icon
-                 nzType="edit"
-                 nzTheme="outline"></i>
+                nzType="edit"
+                nzTheme="outline"></i>
             </button>
           </nz-space-item>
           <nz-space-item>
             <i nz-icon
-               nzType="civic:gene"></i>
+              nzType="civic:gene"></i>
           </nz-space-item>
           {{ gene.name }}
         </nz-space>
@@ -30,41 +41,44 @@
       </nz-page-header-subtitle>
       <nz-page-header-tags>
         <nz-tag [nzColor]="'red'"
-                *ngIf="false">Flagged</nz-tag>
+          *ngIf="false">Flagged</nz-tag>
       </nz-page-header-tags>
 
       <!--extra-->
       <nz-page-header-extra>
         <button routerLink="summary"
-                nz-button>
+          routerLinkActive
+          #rlaSummary="routerLinkActive"
+          [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
+          nz-button>
           <i nz-icon
-             nzType="pic-right"></i>Summary
+            nzType="pic-right"></i>Summary
         </button>
         <button routerLink="comments"
-                nz-button>
+          routerLinkActive
+          #rlaComments="routerLinkActive"
+          [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+          nz-button>
           <i nz-icon
-             nzType="civic:comment"></i>Comments
-          <span nz-typography
-                nzType="secondary"
-                *ngIf="commentsTotal > 0">&nbsp;({{ commentsTotal }})</span>
+            nzType="civic:comment"></i>Comments ({{ commentsTotal }})
         </button>
         <button routerLink="revisions"
-                nz-button>
+          routerLinkActive
+          #rlaRevisions="routerLinkActive"
+          [nzType]="rlaRevisions.isActive ? 'primary' : 'default'"
+          nz-button>
           <i nz-icon
-             nzType="civic:revision"></i>Revisions
-          <span nz-typography
-                nzType="secondary"
-                *ngIf="revisionsTotal > 0">&nbsp;({{ revisionsTotal }})</span>
+            nzType="civic:revision"></i>Revisions ({{ revisionsTotal }})
         </button>
-        <button nz-dropdown
-                [nzDropdownMenu]="menu"
-                nz-button
-                nzNoAnimation
-                style="border: none; padding: 0">
+        <button nz-button
+          nz-dropdown
+          [nzDropdownMenu]="menu"
+          nzNoAnimation
+          style="border: none; padding: 0">
           <i nz-icon
-             nzType="ellipsis"
-             nzTheme="outline"
-             style="font-size: 20px; vertical-align: top;"></i>
+            nzType="ellipsis"
+            nzTheme="outline"
+            style="font-size: 20px; vertical-align: top;"></i>
         </button>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu>
