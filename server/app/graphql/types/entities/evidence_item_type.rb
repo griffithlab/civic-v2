@@ -1,6 +1,8 @@
 module Types::Entities
   class EvidenceItemType < Types::BaseObject
-    include Types::Flaggable::WithFlags
+
+    implements Types::Interfaces::Commentable
+    implements Types::Interfaces::Flaggable
 
     field :id, Int, null: false
     field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
@@ -20,7 +22,6 @@ module Types::Entities
     field :variant_hgvs, String, null: false
     field :variant_origin, Types::VariantOriginType, null: false
     field :revisions, [Types::Revisions::RevisionType], null: false
-    field :comments, [Types::Entities::CommentType], null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def disease
@@ -50,11 +51,6 @@ module Types::Entities
     def revisions
       Loaders::AssociationLoader.for(EvidenceItem, :revisions).load(object)
     end
-
-    def comments
-      Loaders::AssociationLoader.for(EvidenceItem, :comments).load(object)
-    end
-
 
     def events
       Loaders::AssociationLoader.for(EvidenceItem, :events).load(object)

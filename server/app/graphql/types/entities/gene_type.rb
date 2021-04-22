@@ -1,7 +1,9 @@
 module Types::Entities
   class GeneType < Types::BaseObject
     #include Types::Revisions::WithRevisions <- TODO: we don't seem to be using this right now
-    include Types::Flaggable::WithFlags
+
+    implements Types::Interfaces::Commentable
+    implements Types::Interfaces::Flaggable
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false
@@ -14,7 +16,6 @@ module Types::Entities
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
     field :revisions, Types::Revisions::RevisionType.connection_type, null: false
-    field :comments, Types::Entities::CommentType.connection_type, null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def aliases
@@ -31,10 +32,6 @@ module Types::Entities
 
     def revisions
       Loaders::AssociationLoader.for(Gene, :revisions).load(object)
-    end
-
-    def comments
-      Loaders::AssociationLoader.for(Gene, :comments).load(object)
     end
 
     def lifecycle_actions

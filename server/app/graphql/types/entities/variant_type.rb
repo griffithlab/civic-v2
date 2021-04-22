@@ -1,6 +1,8 @@
 module Types::Entities
   class VariantType < Types::BaseObject
-    include Types::Flaggable::WithFlags
+
+    implements Types::Interfaces::Commentable
+    implements Types::Interfaces::Flaggable
 
     field :id, Int, null: false
     field :name, String, null: false
