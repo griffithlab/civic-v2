@@ -3,31 +3,55 @@
     nzPlacement="start"
     nzColor="#ff3333">
     <ng-template #flaggedText>
-      <a routerLink="flags" style="color: #FFF;">
+      <a routerLink="flags"
+        style="color: #FFF;">
         <i nz-icon
           nzType="flag"
           nzTheme="fill"
           nz-tooltip
-          nzTooltipPlacement="rightBottom"
+          nzTooltipPlacement="top"
+          nzTooltipColor="#FF3333"
           [nzTooltipTitle]="flaggedTooltip"></i>
       </a>
     </ng-template>
     <ng-template #flaggedTooltip>
-      {{ flagsTotal > 1 ? gene.name + ' has ' + flagsTotal + ' flags' : 'Entity has been flagged' }}
+      <i nz-icon
+        nzType="civic:gene"></i> {{ flagsTotal > 1 ? gene.name + ' has ' + flagsTotal + ' flags' : 'Entity has been flagged' }}
     </ng-template>
     <nz-page-header class="site-page-header">
       <nz-page-header-title [ngClass]="{ 'flagged': flagsTotal > 0 }">
         <nz-space nzDirection="horizontal"
           nzSize="small">
           <nz-space-item>
-            <button routerLink="suggest-revision"
-              nz-button
+            <button nz-button
               nzType="default"
-              nzSize="small">
+              nzSize="small"
+              nz-popover
+              nzPopoverPlacement="bottom"
+              [nzPopoverContent]="editPopover">
               <i nz-icon
                 nzType="edit"
                 nzTheme="outline"></i>
             </button>
+            <ng-template #editPopover>
+              <button nz-button
+                style="margin-bottom: 1em;"
+                routerLink="suggest-revision"
+                routerLinkActive
+                #rlaSuggestRevision="routerLinkActive"
+                [nzType]="rlaSuggestRevision.isActive ? 'primary' : 'default'"
+                nzBlock>
+                Suggest Revision
+              </button>
+              <button nz-button
+                routerLink="flags"
+                routerLinkActive
+                #rlaFlags="routerLinkActive"
+                [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
+                nzBlock>
+                Add Flag
+              </button>
+            </ng-template>
           </nz-space-item>
           <nz-space-item>
             <i nz-icon

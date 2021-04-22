@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
@@ -14,6 +14,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -71,6 +72,7 @@ import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.compo
     NzGridModule,
     NzListModule,
     NzPageHeaderModule,
+    NzPopoverModule,
     NzSpaceModule,
     NzSpinModule,
     NzSkeletonModule,
