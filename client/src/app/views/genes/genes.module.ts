@@ -43,6 +43,7 @@ import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.compo
     GenesRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
+    NzAlertModule,
     NzBadgeModule,
     NzButtonModule,
     NzCardModule,

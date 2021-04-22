@@ -74,7 +74,7 @@
           routerLinkActive
           #rlaSummary="routerLinkActive"
           [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
-          nz-button>
+          nz-button nzSize="small">
           <i nz-icon
             nzType="pic-right"></i>Summary
         </button>
@@ -82,7 +82,8 @@
           routerLinkActive
           #rlaComments="routerLinkActive"
           [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-          nz-button>
+          nz-button
+          nzSize="small">
           <i nz-icon
             nzType="civic:comment"></i>Comments ({{ commentsTotal }})
         </button>
@@ -90,11 +91,12 @@
           routerLinkActive
           #rlaRevisions="routerLinkActive"
           [nzType]="rlaRevisions.isActive ? 'primary' : 'default'"
-          nz-button>
+          nz-button
+          nzSize="small">
           <i nz-icon
             nzType="civic:revision"></i>Revisions ({{ revisionsTotal }})
         </button>
-        <button nz-button
+        <button nz-button nzSize="small"
           nz-dropdown
           [nzDropdownMenu]="menu"
           nzNoAnimation

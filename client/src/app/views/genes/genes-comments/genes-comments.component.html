@@ -1,1 +1,49 @@
-<p>Gene Comments</p>
+<nz-row [nzGutter]="16">
+  <nz-col nzSpan="18">
+    <cvc-comment-list [comments]="(comments$ | async)"
+      [subject]="subject$ | async"></cvc-comment-list>
+  </nz-col>
+  <nz-col nzSpan="6">
+    <nz-card nzTitle="Commentors" nz-type="inner" style="margin-bottom: 1em">
+      <nz-space nzDirection="vertical" style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+    <nz-card nzTitle="Curators Mentioned" nz-type="inner" style="margin-bottom: 1em">
+      <nz-space nzDirection="vertical" style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+    <nz-card nzTitle="Entities Mentioned" nz-type="inner">
+      <nz-list nzDirection="vertical" style="width: 100%">
+        <nz-list-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+
+  </nz-col>
+</nz-row>
