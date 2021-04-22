@@ -27,7 +27,7 @@ export class GenesDetailComponent implements OnInit {
   viewer$: Observable<Viewer>;
   commentsTotal!: number;
   revisionsTotal!: number;
-
+  flagsTotal!: number;
 
   subject!: CommentableInput;
 
@@ -46,6 +46,7 @@ export class GenesDetailComponent implements OnInit {
           console.log(g);
           this.commentsTotal = g.comments?.edges ? g.comments.edges.length : 0;
           this.revisionsTotal = g.revisions?.edges ? g.revisions.edges.length : 0;
+          this.flagsTotal = g.id === 3 ? 2 : 0;
         })
       );
       this.loading$ = source$.pipe(

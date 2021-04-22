@@ -1,91 +1,97 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <nz-page-header class="site-page-header">
-    <nz-page-header-title>
-      <nz-space nzDirection="horizontal"
-                nzSize="small">
-        <nz-space-item>
-          <button routerLink="suggest-revision"
-                  nz-button
-                  nzType="default"
+  <nz-ribbon [nzText]="flaggedText" nzPlacement="start" nzColor="#ff3333">
+    <ng-template #flaggedText>
+      <i nz-icon nzType="flag" nzTheme="fill"></i>
+     {{ flagsTotal }}
+    </ng-template>
+    <nz-page-header class="site-page-header">
+      <nz-page-header-title>
+        <nz-space nzDirection="horizontal"
                   nzSize="small">
+          <nz-space-item>
+            <button routerLink="suggest-revision"
+                    nz-button
+                    nzType="default"
+                    nzSize="small">
+              <i nz-icon
+                 nzType="edit"
+                 nzTheme="outline"></i>
+            </button>
+          </nz-space-item>
+          <nz-space-item>
             <i nz-icon
-               nzType="edit"
-               nzTheme="outline"></i>
-          </button>
-        </nz-space-item>
-        <nz-space-item>
+               nzType="civic:gene"></i>
+          </nz-space-item>
+          {{ gene.name }}
+        </nz-space>
+      </nz-page-header-title>
+      <nz-page-header-subtitle>
+        {{ gene.officialName }}
+      </nz-page-header-subtitle>
+      <nz-page-header-tags>
+        <nz-tag [nzColor]="'red'"
+                *ngIf="false">Flagged</nz-tag>
+      </nz-page-header-tags>
+
+      <!--extra-->
+      <nz-page-header-extra>
+        <button routerLink="summary"
+                nz-button>
           <i nz-icon
-             nzType="civic:gene"></i>
-        </nz-space-item>
-        {{ gene.name }}
-      </nz-space>
-    </nz-page-header-title>
-    <nz-page-header-subtitle>
-      {{ gene.officialName }}
-    </nz-page-header-subtitle>
-    <nz-page-header-tags>
-      <nz-tag [nzColor]="'red'"
-              *ngIf="false">Flagged</nz-tag>
-    </nz-page-header-tags>
+             nzType="pic-right"></i>Summary
+        </button>
+        <button routerLink="comments"
+                nz-button>
+          <i nz-icon
+             nzType="civic:comment"></i>Comments
+          <span nz-typography
+                nzType="secondary"
+                *ngIf="commentsTotal > 0">&nbsp;({{ commentsTotal }})</span>
+        </button>
+        <button routerLink="revisions"
+                nz-button>
+          <i nz-icon
+             nzType="civic:revision"></i>Revisions
+          <span nz-typography
+                nzType="secondary"
+                *ngIf="revisionsTotal > 0">&nbsp;({{ revisionsTotal }})</span>
+        </button>
+        <button nz-dropdown
+                [nzDropdownMenu]="menu"
+                nz-button
+                nzNoAnimation
+                style="border: none; padding: 0">
+          <i nz-icon
+             nzType="ellipsis"
+             nzTheme="outline"
+             style="font-size: 20px; vertical-align: top;"></i>
+        </button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>1st menu item length</li>
+            <li nz-menu-item>2nd menu item length</li>
+            <li nz-menu-item>3rd menu item length</li>
+          </ul>
+        </nz-dropdown-menu>
+      </nz-page-header-extra>
 
-    <!--extra-->
-    <nz-page-header-extra>
-      <button routerLink="summary"
-              nz-button>
-        <i nz-icon
-           nzType="pic-right"></i>Summary
-      </button>
-      <button routerLink="comments"
-              nz-button>
-        <i nz-icon
-           nzType="civic:comment"></i>Comments
-        <span nz-typography
-              nzType="secondary"
-              *ngIf="commentsTotal > 0">&nbsp;({{ commentsTotal }})</span>
-      </button>
-      <button routerLink="revisions"
-              nz-button>
-        <i nz-icon
-           nzType="civic:revision"></i>Revisions
-        <span nz-typography
-              nzType="secondary"
-              *ngIf="revisionsTotal > 0">&nbsp;({{ revisionsTotal }})</span>
-      </button>
-      <button nz-dropdown
-              [nzDropdownMenu]="menu"
-              nz-button
-              nzNoAnimation
-              style="border: none; padding: 0">
-        <i nz-icon
-           nzType="ellipsis"
-           nzTheme="outline"
-           style="font-size: 20px; vertical-align: top;"></i>
-      </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>1st menu item length</li>
-          <li nz-menu-item>2nd menu item length</li>
-          <li nz-menu-item>3rd menu item length</li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-page-header-extra>
-
-    <nz-page-header-content>
-      <div class="content">
-        <router-outlet></router-outlet>
-      </div>
-    </nz-page-header-content>
-    <!-- <nz-page-header-content>
-         <nz-row>
-         <nz-col [nzSpan]="12">
-         <h4>comments$:</h4>
-         <ngx-json-viewer [json]="(comments$ | async)" [expanded]="true"></ngx-json-viewer>
-         </nz-col>
-         <nz-col [nzSpan]="12">
-         <h4>revisions$:</h4>
-         <ngx-json-viewer [json]="(revisions$ | async)" [expanded]="true"></ngx-json-viewer>
-         </nz-col>
-         </nz-row>
-         </nz-page-header-content> -->
-  </nz-page-header>
+      <nz-page-header-content>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-page-header-content>
+      <!-- <nz-page-header-content>
+           <nz-row>
+           <nz-col [nzSpan]="12">
+           <h4>comments$:</h4>
+           <ngx-json-viewer [json]="(comments$ | async)" [expanded]="true"></ngx-json-viewer>
+           </nz-col>
+           <nz-col [nzSpan]="12">
+           <h4>revisions$:</h4>
+           <ngx-json-viewer [json]="(revisions$ | async)" [expanded]="true"></ngx-json-viewer>
+           </nz-col>
+           </nz-row>
+           </nz-page-header-content> -->
+    </nz-page-header>
+  </nz-ribbon>
 </ng-container>
