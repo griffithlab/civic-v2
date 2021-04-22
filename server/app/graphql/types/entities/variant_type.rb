@@ -1,5 +1,7 @@
 module Types::Entities
   class VariantType < Types::BaseObject
+    include Types::Flaggable::WithFlags
+
     field :id, Int, null: false
     field :name, String, null: false
     field :description, String, null: false
