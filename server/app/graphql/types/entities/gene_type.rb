@@ -1,6 +1,7 @@
 module Types::Entities
   class GeneType < Types::BaseObject
-    include Types::Revisions::WithRevisions
+    #include Types::Revisions::WithRevisions <- TODO: we don't seem to be using this right now
+    include Types::Flaggable::WithFlags
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false
