@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, Data } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { pluck, map, tap, switchMap, startWith, distinctUntilChanged } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
@@ -21,6 +21,7 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
 })
 
 export class GenesDetailComponent implements OnInit {
+  params$: Subscription;
   loading$!: Observable<boolean>;
   gene$!: Observable<any>;
   viewer$: Observable<Viewer>;
@@ -32,7 +33,7 @@ export class GenesDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
-    this.route.params.subscribe(params => {
+    this.params$ = this.route.params.subscribe(params => {
       const geneId: number = +params['geneId'];
       const source$: Observable<any> = this.service.watchGeneDetail(geneId);
 
@@ -56,4 +57,7 @@ export class GenesDetailComponent implements OnInit {
     this.logger.trace('loadMoreComments called.');
   }
 
+  ngOnDestroy(): void {
+    this.params$.unsubscribe();
+  }
 }

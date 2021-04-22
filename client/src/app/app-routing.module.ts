@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
 export const routes: Routes = [
-  // layout-routing module handles all app routes
+  // see layout-routing module for the rest of the routes
   {
     path: '',
     loadChildren: () => import('@app/layout/layout.module').then(m => m.LayoutModule)
   }
 ];
 
+export const routingConfiguration: ExtraOptions = {
+  paramsInheritanceStrategy: 'always'
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routingConfiguration)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

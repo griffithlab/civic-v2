@@ -1329,12 +1329,12 @@ export type BrowseGenesQuery = (
   ) }
 );
 
-export type GenesDetailResolveQueryVariables = Exact<{
+export type GeneDetailQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
 
 
-export type GenesDetailResolveQuery = (
+export type GeneDetailQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
@@ -1440,12 +1440,12 @@ export type GenesDetailResolveQuery = (
   )> }
 );
 
-export type GeneDetailQueryVariables = Exact<{
+export type GenesSummaryQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
 
 
-export type GeneDetailQuery = (
+export type GenesSummaryQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
@@ -1714,150 +1714,6 @@ export const BrowseGenesDocument = gql`
       super(apollo);
     }
   }
-export const GenesDetailResolveDocument = gql`
-    query GenesDetailResolve($geneId: Int!) {
-  gene(id: $geneId) {
-    description
-    entrezId
-    aliases {
-      name
-    }
-    id
-    lifecycleActions {
-      lastCommentedOn {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-      lastModified {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-      lastReviewed {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-    }
-    name
-    officialName
-    sources {
-      id
-      citation
-      sourceUrl
-      sourceType
-    }
-    variants {
-      edges {
-        node {
-          id
-          name
-          description
-        }
-      }
-    }
-    comments {
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
-    }
-    revisions {
-      edges {
-        node {
-          id
-          revisionsetId
-          createdAt
-          fieldName
-          currentValue
-          suggestedValue
-          linkoutData {
-            name
-            diffValue {
-              ... on ObjectFieldDiff {
-                addedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                removedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                keptObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-              }
-              ... on ScalarField {
-                value
-              }
-            }
-          }
-          revisor {
-            id
-            name
-          }
-          status
-        }
-      }
-    }
-    myGeneInfoDetails
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: AppModule
-  })
-  export class GenesDetailResolveGQL extends Apollo.Query<GenesDetailResolveQuery, GenesDetailResolveQueryVariables> {
-    document = GenesDetailResolveDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const GeneDetailDocument = gql`
     query GeneDetail($geneId: Int!) {
   gene(id: $geneId) {
@@ -1997,6 +1853,150 @@ export const GeneDetailDocument = gql`
   })
   export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
     document = GeneDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GenesSummaryDocument = gql`
+    query GenesSummary($geneId: Int!) {
+  gene(id: $geneId) {
+    description
+    entrezId
+    aliases {
+      name
+    }
+    id
+    lifecycleActions {
+      lastCommentedOn {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastModified {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastReviewed {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+    }
+    name
+    officialName
+    sources {
+      id
+      citation
+      sourceUrl
+      sourceType
+    }
+    variants {
+      edges {
+        node {
+          id
+          name
+          description
+        }
+      }
+    }
+    comments {
+      edges {
+        node {
+          id
+          createdAt
+          title
+          comment
+          commentor {
+            id
+            name
+            profileImagePath(size: 32)
+            organizations {
+              id
+              name
+            }
+            role
+          }
+        }
+      }
+    }
+    revisions {
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
+            }
+          }
+          revisor {
+            id
+            name
+          }
+          status
+        }
+      }
+    }
+    myGeneInfoDetails
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
+    document = GenesSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
