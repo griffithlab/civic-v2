@@ -10,11 +10,9 @@ import {
   CommentableEntities,
   Gene,
   User,
-  GenesDetailResolveQuery,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
-import { ApolloQueryResult } from '@apollo/client/core';
+import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 @Component({
   selector: 'genes-detail',
@@ -25,7 +23,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 export class GenesDetailComponent implements OnInit {
   loading$!: Observable<boolean>;
   gene$!: Observable<any>;
-  viewer$: Observable<User | null>;
+  viewer$: Observable<Viewer>;
 
   subject!: CommentableInput;
 
@@ -33,7 +31,6 @@ export class GenesDetailComponent implements OnInit {
               private viewerService: ViewerService,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
-
 
     this.route.params.subscribe(params => {
       const geneId: number = +params['geneId'];
