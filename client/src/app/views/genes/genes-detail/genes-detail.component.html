@@ -114,22 +114,11 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
+        <cvc-lifecycle-actions></cvc-lifecycle-actions>
         <div class="content">
           <router-outlet></router-outlet>
         </div>
       </nz-page-header-content>
-      <!-- <nz-page-header-content>
-           <nz-row>
-           <nz-col [nzSpan]="12">
-           <h4>comments$:</h4>
-           <ngx-json-viewer [json]="(comments$ | async)" [expanded]="true"></ngx-json-viewer>
-           </nz-col>
-           <nz-col [nzSpan]="12">
-           <h4>revisions$:</h4>
-           <ngx-json-viewer [json]="(revisions$ | async)" [expanded]="true"></ngx-json-viewer>
-           </nz-col>
-           </nz-row>
-           </nz-page-header-content> -->
     </nz-page-header>
   </nz-ribbon>
 </ng-container>

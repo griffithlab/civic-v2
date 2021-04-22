@@ -32,6 +32,8 @@ import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-b
 import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
 import { FormButtonsComponent } from './form-buttons/form-buttons.component';
 import { FlaggableComponent } from './flaggable/flaggable.component';
+import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { FlaggableComponent } from './flaggable/flaggable.component';
     FormErrorsAlertComponent,
     FormButtonsComponent,
     FlaggableComponent,
+    LifecycleActionsComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { FlaggableComponent } from './flaggable/flaggable.component';
     NzDropDownModule,
     NzListModule,
     NzSpaceModule,
+    NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
     TimeagoModule.forChild(),
@@ -73,6 +77,7 @@ import { FlaggableComponent } from './flaggable/flaggable.component';
     FormErrorsAlertComponent,
     FormButtonsComponent,
     FlaggableComponent,
+    LifecycleActionsComponent,
   ]
 })
 
