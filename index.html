@@ -124,6 +124,8 @@
           <a href="#definition-EvidenceStatus"> EvidenceStatus </a>
           <a href="#definition-EvidenceType"> EvidenceType </a>
           <a href="#definition-Flag"> Flag </a>
+          <a href="#definition-FlagConnection"> FlagConnection </a>
+          <a href="#definition-FlagEdge"> FlagEdge </a>
           <a href="#definition-FlagEntityInput"> FlagEntityInput </a>
           <a href="#definition-FlagEntityPayload"> FlagEntityPayload </a>
           <a href="#definition-FlagState"> FlagState </a>
@@ -312,13 +314,13 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"eventType"</span>: EventAction,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"originatingUserId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"originatingUserId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"subject"</span>: SubscribableInput
 }
 </code></pre> </body>
@@ -341,7 +343,7 @@ https://example.com/graphql
       <span class="hljs-attr">"nodes"</span>: [Event],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: PageInfo,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
     }
   }
 }
@@ -461,14 +463,14 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"entrezSymbol"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"entrezSymbol"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"geneAlias"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sortBy"</span>: GenesSort
 }
 </code></pre> </body>
@@ -487,11 +489,11 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"browseGenes"</span>: {
       <span class="hljs-attr">"edges"</span>: [BrowseGeneEdge],
-      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"nodes"</span>: [BrowseGene],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: PageInfo,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
     }
   }
 }
@@ -577,10 +579,10 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"disease"</span>: {
       <span class="hljs-attr">"diseaseUrl"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"doid"</span>: <span class="hljs-number">123</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
 }
@@ -648,7 +650,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -664,10 +666,10 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"drug"</span>: {
-      <span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"id"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"abc123"</span>
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"xyz789"</span>
     }
   }
 }
@@ -718,8 +720,8 @@ https://example.com/graphql
                     <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> evidenceItem<span class="hljs-tag">(<span class="hljs-code">$id</span>:<span class="hljs-type"> Int!</span>)</span> <span class="hljs-tag">{
   <span class="hljs-symbol">evidenceItem<span class="hljs-tag">(id: <span class="hljs-code">$id</span>)</span> <span class="hljs-tag">{
     <span class="hljs-symbol">clinicalSignificance</span>
-    <span class="hljs-symbol">comments <span class="hljs-tag">{
-      <span class="hljs-type">...CommentFragment</span>
+    <span class="hljs-symbol">comments<span class="hljs-tag">(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>)</span> <span class="hljs-tag">{
+      <span class="hljs-type">...CommentConnectionFragment</span>
     }</span></span>
     <span class="hljs-symbol">description</span>
     <span class="hljs-symbol">disease <span class="hljs-tag">{
@@ -737,6 +739,9 @@ https://example.com/graphql
     <span class="hljs-symbol">evidenceRating</span>
     <span class="hljs-symbol">evidenceType</span>
     <span class="hljs-symbol">flagged</span>
+    <span class="hljs-symbol">flags<span class="hljs-tag">(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>)</span> <span class="hljs-tag">{
+      <span class="hljs-type">...FlagConnectionFragment</span>
+    }</span></span>
     <span class="hljs-symbol">id</span>
     <span class="hljs-symbol">phenotypes <span class="hljs-tag">{
       <span class="hljs-type">...PhenotypeFragment</span>
@@ -760,7 +765,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -777,7 +782,7 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"evidenceItem"</span>: {
       <span class="hljs-attr">"clinicalSignificance"</span>: EvidenceClinicalSignificance,
-      <span class="hljs-attr">"comments"</span>: [Comment],
+      <span class="hljs-attr">"comments"</span>: CommentConnection,
       <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"disease"</span>: Disease,
       <span class="hljs-attr">"drugInteractionType"</span>: DrugInteraction,
@@ -787,14 +792,15 @@ https://example.com/graphql
       <span class="hljs-attr">"evidenceLevel"</span>: EvidenceLevel,
       <span class="hljs-attr">"evidenceRating"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"evidenceType"</span>: EvidenceType,
-      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"flags"</span>: FlagConnection,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"phenotypes"</span>: [Phenotype],
       <span class="hljs-attr">"revisions"</span>: [Revision],
       <span class="hljs-attr">"source"</span>: Source,
       <span class="hljs-attr">"status"</span>: EvidenceStatus,
       <span class="hljs-attr">"variant"</span>: Variant,
-      <span class="hljs-attr">"variantHgvs"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"variantHgvs"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"variantOrigin"</span>: VariantOrigin
     }
   }
@@ -863,6 +869,10 @@ https://example.com/graphql
     <span class="hljs-symbol">events<span class="hljs-tag">(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>)</span> <span class="hljs-tag">{
       <span class="hljs-type">...EventConnectionFragment</span>
     }</span></span>
+    <span class="hljs-symbol">flagged</span>
+    <span class="hljs-symbol">flags<span class="hljs-tag">(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>)</span> <span class="hljs-tag">{
+      <span class="hljs-type">...FlagConnectionFragment</span>
+    }</span></span>
     <span class="hljs-symbol">id</span>
     <span class="hljs-symbol">lifecycleActions <span class="hljs-tag">{
       <span class="hljs-type">...LifecycleFragment</span>
@@ -904,14 +914,16 @@ https://example.com/graphql
     <span class="hljs-attr">"gene"</span>: {
       <span class="hljs-attr">"aliases"</span>: [GeneAlias],
       <span class="hljs-attr">"comments"</span>: CommentConnection,
-      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"events"</span>: EventConnection,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"flags"</span>: FlagConnection,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"lifecycleActions"</span>: Lifecycle,
       <span class="hljs-attr">"myGeneInfoDetails"</span>: {},
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"officialName"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"officialName"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"revisions"</span>: RevisionConnection,
       <span class="hljs-attr">"sources"</span>: [Source],
       <span class="hljs-attr">"variants"</span>: VariantConnection
@@ -974,7 +986,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"abc123"</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -991,7 +1003,7 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"searchByPermalink"</span>: {
       <span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">123</span>],
+      <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>],
       <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
@@ -1075,7 +1087,7 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"searchGenes"</span>: {
       <span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>],
+      <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">123</span>],
       <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"xyz789"</span>
     }
   }
@@ -1156,7 +1168,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -1172,19 +1184,19 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"source"</span>: {
-      <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">987</span>,
-      <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"clinicalTrials"</span>: [ClinicalTrial],
-      <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">987</span>,
-      <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"sourceType"</span>: SourceSource,
-      <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"status"</span>: SourceStatus
     }
   }
@@ -1260,7 +1272,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"userId"</span>: <span class="hljs-number">123</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"userId"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -1278,16 +1290,16 @@ https://example.com/graphql
     <span class="hljs-attr">"user"</span>: {
       <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"country"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"events"</span>: EventConnection,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"notifications"</span>: NotificationConnection,
       <span class="hljs-attr">"organizations"</span>: [Organization],
-      <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"xyz789"</span>
+      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
 }
@@ -1357,7 +1369,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"viewer"</span>: {
-      <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"country"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"email"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"events"</span>: EventConnection,
@@ -1365,10 +1377,10 @@ https://example.com/graphql
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"notifications"</span>: NotificationConnection,
       <span class="hljs-attr">"organizations"</span>: [Organization],
-      <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"abc123"</span>
+      <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"xyz789"</span>
     }
   }
 }
@@ -1448,7 +1460,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"acceptRevision"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"revision"</span>: Revision,
       <span class="hljs-attr">"supersededRevisions"</span>: [Revision]
     }
@@ -1619,7 +1631,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"flagEntity"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"flag"</span>: Flag
     }
   }
@@ -1704,7 +1716,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"markNotificationsAsRead"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"notifications"</span>: [Notification]
     }
   }
@@ -1874,7 +1886,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"resolveFlag"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"flag"</span>: Flag
     }
   }
@@ -1959,7 +1971,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"subscribe"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"subscriptions"</span>: [Subscription]
     }
   }
@@ -2229,7 +2241,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"revision"</span>: Revision,
   <span class="hljs-attr">"supersededRevisions"</span>: [Revision]
 }
@@ -2365,7 +2377,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>], <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"xyz789"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>], <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -2391,7 +2403,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-literal">true</span></span>
+                  <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-literal">false</span></span>
 </code></pre> </body>
                   </html>
                 </section>
@@ -2407,28 +2419,7 @@ https://example.com/graphql
               <p><code>BooleanOperator</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">AND</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">OR</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-BooleanSearchInput" class="definition panel" data-traverse-target="definition-BooleanSearchInput">
@@ -2549,13 +2540,13 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"aliases"</span>: [GeneAlias],
   <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"diseases"</span>: [Disease],
   <span class="hljs-attr">"drugs"</span>: [Drug],
-  <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
@@ -2585,7 +2576,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-BrowseGeneEdge"><code>[BrowseGeneEdge]</code></a>
+                        <a href="#definition-BrowseGeneEdge"><code>[BrowseGeneEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -2601,7 +2592,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-BrowseGene"><code>[BrowseGene]</code></a>
+                        <a href="#definition-BrowseGene"><code>[BrowseGene!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -2641,11 +2632,11 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [BrowseGeneEdge],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"nodes"</span>: [BrowseGene],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: PageInfo,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -2751,7 +2742,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"nctId"</span>: <span class="hljs-string">"xyz789"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"nctId"</span>: <span class="hljs-string">"xyz789"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -2819,11 +2810,11 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"commentor"</span>: User,
   <span class="hljs-attr">"createdAt"</span>: ISO8601DateTime,
   <span class="hljs-attr">"creationEvent"</span>: Event,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"title"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
@@ -2853,7 +2844,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-CommentEdge"><code>[CommentEdge]</code></a>
+                        <a href="#definition-CommentEdge"><code>[CommentEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -2869,7 +2860,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-Comment"><code>[Comment]</code></a>
+                        <a href="#definition-Comment"><code>[Comment!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -2911,9 +2902,9 @@ https://example.com/graphql
   <span class="hljs-attr">"edges"</span>: [CommentEdge],
   <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"nodes"</span>: [Comment],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: PageInfo,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -2964,7 +2955,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: Comment}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: Comment}
 </code></pre> </body>
                   </html>
                 </section>
@@ -2980,20 +2971,7 @@ https://example.com/graphql
               <p><code>CommentableEntities</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GENE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-CommentableInput" class="definition panel" data-traverse-target="definition-CommentableInput">
@@ -3087,9 +3065,9 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"diseaseUrl"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"doid"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>
+  <span class="hljs-attr">"doid"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
                   </html>
@@ -3145,7 +3123,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"xyz789"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -3161,36 +3139,7 @@ https://example.com/graphql
               <p><code>DrugInteraction</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">COMBINATION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SEQUENTIAL</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SUBSTITUTES</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-Event" class="definition panel" data-traverse-target="definition-Event">
@@ -3250,7 +3199,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"action"</span>: EventAction,
   <span class="hljs-attr">"createdAt"</span>: ISO8601DateTime,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"organization"</span>: Organization,
   <span class="hljs-attr">"originatingUser"</span>: User
 }
@@ -3269,132 +3218,7 @@ https://example.com/graphql
               <p><code>EventAction</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ACCEPTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ASSERTION_ACCEPTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ASSERTION_REJECTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ASSERTION_SUBMITTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">COMMENTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">FLAGGED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">FLAG_RESOLVED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PUBLICATION_SUGGESTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REJECTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REVERTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REVISION_ACCEPTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REVISION_REJECTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REVISION_SUGGESTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REVISION_SUPERSEDED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SUBMITTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-EventConnection" class="definition panel" data-traverse-target="definition-EventConnection">
@@ -3418,7 +3242,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-EventEdge"><code>[EventEdge]</code></a>
+                        <a href="#definition-EventEdge"><code>[EventEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -3434,7 +3258,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-Event"><code>[Event]</code></a>
+                        <a href="#definition-Event"><code>[Event!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -3529,7 +3353,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: Event}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: Event}
 </code></pre> </body>
                   </html>
                 </section>
@@ -3545,172 +3369,7 @@ https://example.com/graphql
               <p><code>EvidenceClinicalSignificance</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ADVERSE_RESPONSE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">BENIGN</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">BETTER_OUTCOME</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">DOMINANT_NEGATIVE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GAIN_OF_FUNCTION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">LIKELY_BENIGN</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">LIKELY_PATHOGENIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">LOSS_OF_FUNCTION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NA</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NEGATIVE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NEOMORPHIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PATHOGENIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">POOR_OUTCOME</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">POSITIVE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REDUCED_SENSITIVITY</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">RESISTANCE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SENSITIVITYRESPONSE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">UNALTERED_FUNCTION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">UNCERTAIN_SIGNIFICANCE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">UNKNOWN</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-EvidenceDirection" class="definition panel" data-traverse-target="definition-EvidenceDirection">
@@ -3722,36 +3381,7 @@ https://example.com/graphql
               <p><code>EvidenceDirection</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">DOES_NOT_SUPPORT</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NA</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SUPPORTS</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-EvidenceItem" class="definition panel" data-traverse-target="definition-EvidenceItem">
@@ -3778,9 +3408,50 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="comments"> <code>comments</code> -
-                        <a href="#definition-Comment"><code>[Comment!]</code></a>
+                        <a href="#definition-CommentConnection"><code>CommentConnection!</code></a>
                       </td>
                       <td> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no-top-border">
+                        <div class="field-arguments">
+                          <p class="field-arguments-header"> Arguments </p>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>after</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come after the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>before</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come before the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>first</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the first
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>last</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the last
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td data-property-name="description"> <code>description</code> -
@@ -3884,6 +3555,53 @@ https://example.com/graphql
                       <td> </td>
                     </tr>
                     <tr>
+                      <td data-property-name="flags"> <code>flags</code> -
+                        <a href="#definition-FlagConnection"><code>FlagConnection!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no-top-border">
+                        <div class="field-arguments">
+                          <p class="field-arguments-header"> Arguments </p>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>after</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come after the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>before</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come before the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>first</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the first
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>last</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the last
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
                       <td data-property-name="id"> <code>id</code> -
                         <a href="#definition-Int"><code>Int!</code></a>
                       </td>
@@ -3897,7 +3615,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="revisions"> <code>revisions</code> -
-                        <a href="#definition-Revision"><code>[Revision!]</code></a>
+                        <a href="#definition-Revision"><code>[Revision!]!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -3941,7 +3659,7 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"clinicalSignificance"</span>: EvidenceClinicalSignificance,
-  <span class="hljs-attr">"comments"</span>: [Comment],
+  <span class="hljs-attr">"comments"</span>: CommentConnection,
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"disease"</span>: Disease,
   <span class="hljs-attr">"drugInteractionType"</span>: DrugInteraction,
@@ -3952,13 +3670,14 @@ https://example.com/graphql
   <span class="hljs-attr">"evidenceRating"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"evidenceType"</span>: EvidenceType,
   <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"flags"</span>: FlagConnection,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"phenotypes"</span>: [Phenotype],
   <span class="hljs-attr">"revisions"</span>: [Revision],
   <span class="hljs-attr">"source"</span>: Source,
   <span class="hljs-attr">"status"</span>: EvidenceStatus,
   <span class="hljs-attr">"variant"</span>: Variant,
-  <span class="hljs-attr">"variantHgvs"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"variantHgvs"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"variantOrigin"</span>: VariantOrigin
 }
 </code></pre> </body>
@@ -3988,7 +3707,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-EvidenceItemEdge"><code>[EvidenceItemEdge]</code></a>
+                        <a href="#definition-EvidenceItemEdge"><code>[EvidenceItemEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -4004,7 +3723,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-EvidenceItem"><code>[EvidenceItem]</code></a>
+                        <a href="#definition-EvidenceItem"><code>[EvidenceItem!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -4044,7 +3763,7 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [EvidenceItemEdge],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"nodes"</span>: [EvidenceItem],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: PageInfo,
@@ -4115,52 +3834,7 @@ https://example.com/graphql
               <p><code>EvidenceLevel</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">A</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">B</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">C</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">D</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">E</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-EvidenceStatus" class="definition panel" data-traverse-target="definition-EvidenceStatus">
@@ -4172,36 +3846,7 @@ https://example.com/graphql
               <p><code>EvidenceStatus</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ACCEPTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REJECTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SUBMITTED</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-EvidenceType" class="definition panel" data-traverse-target="definition-EvidenceType">
@@ -4213,60 +3858,7 @@ https://example.com/graphql
               <p><code>EvidenceType</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">DIAGNOSTIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">FUNCTIONAL</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ONCOGENIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PREDICTIVE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PREDISPOSING</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PROGNOSTIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-Flag" class="definition panel" data-traverse-target="definition-Flag">
@@ -4286,8 +3878,67 @@ https://example.com/graphql
                       <th>Description</th>
                     </tr>
                     <tr>
+                      <td data-property-name="comments"> <code>comments</code> -
+                        <a href="#definition-CommentConnection"><code>CommentConnection!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no-top-border">
+                        <div class="field-arguments">
+                          <p class="field-arguments-header"> Arguments </p>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>after</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come after the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>before</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come before the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>first</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the first
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>last</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the last
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="flaggingUser"> <code>flaggingUser</code> -
+                        <a href="#definition-User"><code>User!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
                       <td data-property-name="id"> <code>id</code> -
                         <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="resolvingUser"> <code>resolvingUser</code> -
+                        <a href="#definition-User"><code>User</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -4305,7 +3956,152 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"state"</span>: FlagState}
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"comments"</span>: CommentConnection,
+  <span class="hljs-attr">"flaggingUser"</span>: User,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"resolvingUser"</span>: User,
+  <span class="hljs-attr">"state"</span>: FlagState
+}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-FlagConnection" class="definition panel" data-traverse-target="definition-FlagConnection">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/FlagConnection"></a>
+              <p><code>FlagConnection</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The connection type for Flag.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <table>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td data-property-name="edges"> <code>edges</code> -
+                        <a href="#definition-FlagEdge"><code>[FlagEdge!]!</code></a>
+                      </td>
+                      <td>
+                        <p>A list of edges.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="filteredCount"> <code>filteredCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td>
+                        <p>The total number of records in this set.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="nodes"> <code>nodes</code> -
+                        <a href="#definition-Flag"><code>[Flag!]!</code></a>
+                      </td>
+                      <td>
+                        <p>A list of nodes.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="pageCount"> <code>pageCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td>
+                        <p>Total number of pages, based on filtered count and pagesize.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="pageInfo"> <code>pageInfo</code> -
+                        <a href="#definition-PageInfo"><code>PageInfo!</code></a>
+                      </td>
+                      <td>
+                        <p>Information to aid in pagination.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="totalCount"> <code>totalCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td>
+                        <p>The total number of records of this type, regardless of any filtering.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"edges"</span>: [FlagEdge],
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"nodes"</span>: [Flag],
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageInfo"</span>: PageInfo,
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-FlagEdge" class="definition panel" data-traverse-target="definition-FlagEdge">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/FlagEdge"></a>
+              <p><code>FlagEdge</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>An edge in a connection.</p>
+                </section>
+                <section class="json-schema-properties">
+                  <table>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td data-property-name="cursor"> <code>cursor</code> -
+                        <a href="#definition-String"><code>String!</code></a>
+                      </td>
+                      <td>
+                        <p>A cursor for use in pagination.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="node"> <code>node</code> -
+                        <a href="#definition-Flag"><code>Flag</code></a>
+                      </td>
+                      <td>
+                        <p>The item at the end of the edge.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: Flag}
 </code></pre> </body>
                   </html>
                 </section>
@@ -4389,7 +4185,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"flag"</span>: Flag}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"flag"</span>: Flag}
 </code></pre> </body>
                   </html>
                 </section>
@@ -4405,28 +4201,7 @@ https://example.com/graphql
               <p><code>FlagState</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">open</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">resolved</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-FlaggableEntities" class="definition panel" data-traverse-target="definition-FlaggableEntities">
@@ -4442,17 +4217,19 @@ https://example.com/graphql
                 <section class="json-schema-description">
                   <p>Enumeration of all entities in CIViC that can be flagged.</p>
                 </section>
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GENE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
+                <section class="json-schema-properties-enum">
+                  <table>
+                    <tr>
+                      <th>Enum Value</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>GENE</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                  </table>
                 </section>
               </div>
             </div>
@@ -4509,13 +4286,13 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="aliases"> <code>aliases</code> -
-                        <a href="#definition-GeneAlias"><code>[GeneAlias!]</code></a>
+                        <a href="#definition-GeneAlias"><code>[GeneAlias!]!</code></a>
                       </td>
                       <td> </td>
                     </tr>
                     <tr>
                       <td data-property-name="comments"> <code>comments</code> -
-                        <a href="#definition-CommentConnection"><code>CommentConnection</code></a>
+                        <a href="#definition-CommentConnection"><code>CommentConnection!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -4620,6 +4397,59 @@ https://example.com/graphql
                       </td>
                     </tr>
                     <tr>
+                      <td data-property-name="flagged"> <code>flagged</code> -
+                        <a href="#definition-Boolean"><code>Boolean!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="flags"> <code>flags</code> -
+                        <a href="#definition-FlagConnection"><code>FlagConnection!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no-top-border">
+                        <div class="field-arguments">
+                          <p class="field-arguments-header"> Arguments </p>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>after</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come after the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>before</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come before the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>first</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the first
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>last</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the last
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
                       <td data-property-name="id"> <code>id</code> -
                         <a href="#definition-Int"><code>Int!</code></a>
                       </td>
@@ -4651,7 +4481,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="revisions"> <code>revisions</code> -
-                        <a href="#definition-RevisionConnection"><code>RevisionConnection</code></a>
+                        <a href="#definition-RevisionConnection"><code>RevisionConnection!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -4698,13 +4528,13 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="sources"> <code>sources</code> -
-                        <a href="#definition-Source"><code>[Source!]</code></a>
+                        <a href="#definition-Source"><code>[Source!]!</code></a>
                       </td>
                       <td> </td>
                     </tr>
                     <tr>
                       <td data-property-name="variants"> <code>variants</code> -
-                        <a href="#definition-VariantConnection"><code>VariantConnection</code></a>
+                        <a href="#definition-VariantConnection"><code>VariantConnection!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -4760,13 +4590,15 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"aliases"</span>: [GeneAlias],
   <span class="hljs-attr">"comments"</span>: CommentConnection,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"events"</span>: EventConnection,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"flags"</span>: FlagConnection,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"lifecycleActions"</span>: Lifecycle,
   <span class="hljs-attr">"myGeneInfoDetails"</span>: {},
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"officialName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"revisions"</span>: RevisionConnection,
   <span class="hljs-attr">"sources"</span>: [Source],
@@ -4808,7 +4640,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -4917,68 +4749,7 @@ https://example.com/graphql
               <p><code>GenesSortColumns</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">assertionCount</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">diseaseName</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">drugName</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">entrezSymbol</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">evidenceItemCount</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">geneAlias</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">variantCount</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-ISO8601DateTime" class="definition panel" data-traverse-target="definition-ISO8601DateTime">
@@ -5073,64 +4844,7 @@ https://example.com/graphql
               <p><code>IntSearchOperator</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">EQ</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd>
-                      <section class="json-schema-description">
-                        <p>Equal To</p>
-                      </section>
-                    </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GT</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">LE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">LT</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-JSON" class="definition panel" data-traverse-target="definition-JSON">
@@ -5385,7 +5099,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"displayType"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"entityType"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>
@@ -5480,7 +5194,7 @@ https://example.com/graphql
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"notifiedUser"</span>: User,
   <span class="hljs-attr">"originatingUser"</span>: User,
-  <span class="hljs-attr">"seen"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"seen"</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-attr">"subscription"</span>: Subscription,
   <span class="hljs-attr">"type"</span>: NotificationReason,
   <span class="hljs-attr">"updatedAt"</span>: ISO8601DateTime
@@ -5512,7 +5226,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-NotificationEdge"><code>[NotificationEdge]</code></a>
+                        <a href="#definition-NotificationEdge"><code>[NotificationEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -5528,7 +5242,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-Notification"><code>[Notification]</code></a>
+                        <a href="#definition-Notification"><code>[Notification!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -5572,7 +5286,7 @@ https://example.com/graphql
   <span class="hljs-attr">"nodes"</span>: [Notification],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: PageInfo,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -5623,7 +5337,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: Notification}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: Notification}
 </code></pre> </body>
                   </html>
                 </section>
@@ -5639,28 +5353,7 @@ https://example.com/graphql
               <p><code>NotificationReason</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">MENTION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SUBSCRIPTION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-ObjectField" class="definition panel" data-traverse-target="definition-ObjectField">
@@ -5869,7 +5562,7 @@ https://example.com/graphql
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"events"</span>: EventConnection,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>
 }
@@ -5939,9 +5632,9 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"endCursor"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"endCursor"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"hasNextPage"</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-attr">"hasPreviousPage"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"hasPreviousPage"</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">"startCursor"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
@@ -5992,7 +5685,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"hpoClass"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"hpoClass"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -6266,8 +5959,8 @@ https://example.com/graphql
   <span class="hljs-attr">"createdAt"</span>: ISO8601DateTime,
   <span class="hljs-attr">"creationEvent"</span>: Event,
   <span class="hljs-attr">"currentValue"</span>: {},
-  <span class="hljs-attr">"fieldName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"fieldName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"linkoutData"</span>: LinkoutData,
   <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"revisor"</span>: User,
@@ -6302,7 +5995,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-RevisionEdge"><code>[RevisionEdge]</code></a>
+                        <a href="#definition-RevisionEdge"><code>[RevisionEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -6318,7 +6011,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-Revision"><code>[Revision]</code></a>
+                        <a href="#definition-Revision"><code>[Revision!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -6358,9 +6051,9 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [RevisionEdge],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"nodes"</span>: [Revision],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: PageInfo,
   <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
@@ -6477,10 +6170,10 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"fieldName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"fieldName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"newlyCreated"</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"xyz789"</span>
+  <span class="hljs-attr">"newlyCreated"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
                   </html>
@@ -6497,44 +6190,7 @@ https://example.com/graphql
               <p><code>RevisionStatus</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">accepted</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">new</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">rejected</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">superseded</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-ScalarField" class="definition panel" data-traverse-target="definition-ScalarField">
@@ -6583,28 +6239,7 @@ https://example.com/graphql
               <p><code>SortDirection</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ASC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">DESC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-Source" class="definition panel" data-traverse-target="definition-Source">
@@ -6717,16 +6352,16 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"clinicalTrials"</span>: [ClinicalTrial],
-  <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sourceType"</span>: SourceSource,
   <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"status"</span>: SourceStatus
@@ -6746,28 +6381,7 @@ https://example.com/graphql
               <p><code>SourceSource</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ASCO</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PubMed</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-SourceStatus" class="definition panel" data-traverse-target="definition-SourceStatus">
@@ -6779,36 +6393,7 @@ https://example.com/graphql
               <p><code>SourceStatus</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">FullyCurated</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">PartiallyCurated</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">Submitted</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-String" class="definition panel" data-traverse-target="definition-String">
@@ -6867,52 +6452,7 @@ https://example.com/graphql
               <p><code>StringSearchOperator</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">CONTAINS</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">DOES_NOT_CONTAIN</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">EQ</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">STARTS_WITH</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div id="definition-Subscribable" class="definition panel" data-traverse-target="definition-Subscribable">
@@ -6971,49 +6511,43 @@ https://example.com/graphql
                 <section class="json-schema-description">
                   <p>Enumeration of all subscribable CIViC entities.</p>
                 </section>
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">ASSERTION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">EVIDENCE_ITEM</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GENE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">REVISION</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">VARIANT</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
+                <section class="json-schema-properties-enum">
+                  <table>
+                    <tr>
+                      <th>Enum Value</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>ASSERTION</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>EVIDENCE_ITEM</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>GENE</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>REVISION</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>VARIANT</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                  </table>
                 </section>
               </div>
             </div>
@@ -7130,7 +6664,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"subscriptions"</span>: [Subscription]
 }
 </code></pre> </body>
@@ -7169,7 +6703,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7534,7 +7068,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="organizations"> <code>organizations</code> -
-                        <a href="#definition-Organization"><code>[Organization!]</code></a>
+                        <a href="#definition-Organization"><code>[Organization!]!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -7582,7 +7116,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"country"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"email"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"events"</span>: EventConnection,
@@ -7590,8 +7124,8 @@ https://example.com/graphql
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"notifications"</span>: NotificationConnection,
   <span class="hljs-attr">"organizations"</span>: [Organization],
-  <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"role"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"role"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"username"</span>: <span class="hljs-string">"abc123"</span>
 }
@@ -7616,6 +7150,53 @@ https://example.com/graphql
                     <tr>
                       <th>Name</th>
                       <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td data-property-name="comments"> <code>comments</code> -
+                        <a href="#definition-CommentConnection"><code>CommentConnection!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no-top-border">
+                        <div class="field-arguments">
+                          <p class="field-arguments-header"> Arguments </p>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>after</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come after the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>before</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come before the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>first</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the first
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>last</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the last
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td data-property-name="description"> <code>description</code> -
@@ -7672,7 +7253,60 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="evidenceItems"> <code>evidenceItems</code> -
-                        <a href="#definition-EvidenceItemConnection"><code>EvidenceItemConnection</code></a>
+                        <a href="#definition-EvidenceItemConnection"><code>EvidenceItemConnection!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="no-top-border">
+                        <div class="field-arguments">
+                          <p class="field-arguments-header"> Arguments </p>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>after</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come after the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>before</code> -
+                              <a href="#definition-String"><code>String</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the elements in the list that come before the specified cursor.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>first</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the first
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                          <div class="field-argument">
+                            <p class="field-argument-name"><code>last</code> -
+                              <a href="#definition-Int"><code>Int</code></a>
+                            </p>
+                            <p>
+                              <p>Returns the last
+                                <em>n</em> elements from the list.</p>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="flagged"> <code>flagged</code> -
+                        <a href="#definition-Boolean"><code>Boolean!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="flags"> <code>flags</code> -
+                        <a href="#definition-FlagConnection"><code>FlagConnection!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -7744,11 +7378,14 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"comments"</span>: CommentConnection,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"events"</span>: EventConnection,
   <span class="hljs-attr">"evidenceItems"</span>: EvidenceItemConnection,
+  <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"flags"</span>: FlagConnection,
   <span class="hljs-attr">"gene"</span>: Gene,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
@@ -7778,7 +7415,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="edges"> <code>edges</code> -
-                        <a href="#definition-VariantEdge"><code>[VariantEdge]</code></a>
+                        <a href="#definition-VariantEdge"><code>[VariantEdge!]!</code></a>
                       </td>
                       <td>
                         <p>A list of edges.</p>
@@ -7794,7 +7431,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="nodes"> <code>nodes</code> -
-                        <a href="#definition-Variant"><code>[Variant]</code></a>
+                        <a href="#definition-Variant"><code>[Variant!]!</code></a>
                       </td>
                       <td>
                         <p>A list of nodes.</p>
@@ -7834,7 +7471,7 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [VariantEdge],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"nodes"</span>: [Variant],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: PageInfo,
@@ -7889,7 +7526,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: Variant}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: Variant}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7905,60 +7542,7 @@ https://example.com/graphql
               <p><code>VariantOrigin</code></p>
             </h2>
             <div class="doc-row">
-              <div class="doc-copy">
-                <section class="json-schema-anyOf">
-                  <dl>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">COMMON_GERMLINE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">GERMLINE_OR_SOMATIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">NA</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">RARE_GERMLINE</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">SOMATIC</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                    <dt>
-                      <div class="json-property-type">object</div>
-                      <span class="json-property-enum" title="Possible values">
-                        <span class="json-property-enum-item">UNKNOWN</span>
-                      </span>
-                      <span class="json-property-range" title="Value limits"></span>
-                    </dt>
-                    <dd> </dd>
-                  </dl>
-                </section>
-              </div>
+              <div class="doc-copy"> </div>
             </div>
           </div>
           <div class="doc-row no-margin">
