@@ -10,6 +10,7 @@ import {
   CommentableEntities,
   Gene,
   User,
+  Flag,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -27,7 +28,8 @@ export class GenesDetailComponent implements OnInit {
   viewer$: Observable<Viewer>;
   commentsTotal!: number;
   revisionsTotal!: number;
-  flagsTotal!: number;
+  flagsTotal: number = 2;
+  flags$!: Observable<Flag>;
 
   subject!: CommentableInput;
 
@@ -49,6 +51,10 @@ export class GenesDetailComponent implements OnInit {
           this.flagsTotal = g.id === 3 ? 2 : 0;
         })
       );
+
+      this.flags$ = this.gene$.pipe(
+        pluck('flags'));
+
       this.loading$ = source$.pipe(
         pluck('data', 'loading'),
         startWith(true));

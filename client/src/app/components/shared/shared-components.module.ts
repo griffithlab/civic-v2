@@ -34,6 +34,7 @@ import { FormButtonsComponent } from './form-buttons/form-buttons.component';
 import { FlaggableComponent } from './flaggable/flaggable.component';
 import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     ReactiveFormsModule,
     NzAlertModule,
     NzAvatarModule,
+    NzBadgeModule,
     NzButtonModule,
     NzCardModule,
     NzCommentModule,
