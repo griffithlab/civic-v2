@@ -1,6 +1,6 @@
 <ng-template #flaggedContent><ng-content></ng-content></ng-template>
 
-<ng-container *ngIf="flags > 0" >
+<ng-container *ngIf="flags === 0" >
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
