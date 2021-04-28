@@ -129,7 +129,7 @@ type BrowseGeneConnection {
   """
   A list of edges.
   """
-  edges: [BrowseGeneEdge]
+  edges: [BrowseGeneEdge!]!
 
   """
   The total number of records in this set.
@@ -139,7 +139,7 @@ type BrowseGeneConnection {
   """
   A list of nodes.
   """
-  nodes: [BrowseGene]
+  nodes: [BrowseGene!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -195,7 +195,7 @@ type CommentConnection {
   """
   A list of edges.
   """
-  edges: [CommentEdge]
+  edges: [CommentEdge!]!
 
   """
   The total number of records in this set.
@@ -205,7 +205,7 @@ type CommentConnection {
   """
   A list of nodes.
   """
-  nodes: [Comment]
+  nodes: [Comment!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -236,6 +236,33 @@ type CommentEdge {
   The item at the end of the edge.
   """
   node: Comment
+}
+
+"""
+A CIViC entity that can have comments on it.
+"""
+interface Commentable {
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): CommentConnection!
 }
 
 enum CommentableEntities {
@@ -311,7 +338,7 @@ type EventConnection {
   """
   A list of edges.
   """
-  edges: [EventEdge]
+  edges: [EventEdge!]!
 
   """
   The total number of records in this set.
@@ -321,7 +348,7 @@ type EventConnection {
   """
   A list of nodes.
   """
-  nodes: [Event]
+  nodes: [Event!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -383,9 +410,29 @@ enum EvidenceDirection {
   SUPPORTS
 }
 
-type EvidenceItem {
+type EvidenceItem implements Commentable & Flaggable {
   clinicalSignificance: EvidenceClinicalSignificance!
-  comments: [Comment!]
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): CommentConnection!
   description: String!
   disease: Disease
   drugInteractionType: DrugInteraction
@@ -416,9 +463,30 @@ type EvidenceItem {
   evidenceRating: Int
   evidenceType: EvidenceType!
   flagged: Boolean!
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FlagConnection!
   id: Int!
   phenotypes: [Phenotype!]
-  revisions: [Revision!]
+  revisions: [Revision!]!
   source: Source!
   status: EvidenceStatus!
   variant: Variant!
@@ -433,7 +501,7 @@ type EvidenceItemConnection {
   """
   A list of edges.
   """
-  edges: [EvidenceItemEdge]
+  edges: [EvidenceItemEdge!]!
 
   """
   The total number of records in this set.
@@ -443,7 +511,7 @@ type EvidenceItemConnection {
   """
   A list of nodes.
   """
-  nodes: [EvidenceItem]
+  nodes: [EvidenceItem!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -499,9 +567,82 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
-type Flag {
+type Flag implements Commentable {
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): CommentConnection!
+  flaggingUser: User!
   id: Int!
+  resolvingUser: User
   state: FlagState!
+}
+
+"""
+The connection type for Flag.
+"""
+type FlagConnection {
+  """
+  A list of edges.
+  """
+  edges: [FlagEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Flag!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type FlagEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Flag
 }
 
 """
@@ -553,6 +694,34 @@ enum FlagState {
 }
 
 """
+A CIViC entity that can be flagged for editor attention.
+"""
+interface Flaggable {
+  flagged: Boolean!
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FlagConnection!
+}
+
+"""
 Enumeration of all entities in CIViC that can be flagged.
 """
 enum FlaggableEntities {
@@ -574,8 +743,8 @@ input FlaggableInput {
   id: Int!
 }
 
-type Gene {
-  aliases: [GeneAlias!]
+type Gene implements Commentable & Flaggable {
+  aliases: [GeneAlias!]!
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -596,7 +765,7 @@ type Gene {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): CommentConnection
+  ): CommentConnection!
   description: String!
   entrezId: Int!
   events(
@@ -620,6 +789,28 @@ type Gene {
     """
     last: Int
   ): EventConnection!
+  flagged: Boolean!
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FlagConnection!
   id: Int!
   lifecycleActions: Lifecycle!
   myGeneInfoDetails: JSON
@@ -645,8 +836,8 @@ type Gene {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): RevisionConnection
-  sources: [Source!]
+  ): RevisionConnection!
+  sources: [Source!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -667,7 +858,7 @@ type Gene {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): VariantConnection
+  ): VariantConnection!
 }
 
 type GeneAlias {
@@ -923,7 +1114,7 @@ type NotificationConnection {
   """
   A list of edges.
   """
-  edges: [NotificationEdge]
+  edges: [NotificationEdge!]!
 
   """
   The total number of records in this set.
@@ -933,7 +1124,7 @@ type NotificationConnection {
   """
   A list of nodes.
   """
-  nodes: [Notification]
+  nodes: [Notification!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -1224,7 +1415,7 @@ type RevisionConnection {
   """
   A list of edges.
   """
-  edges: [RevisionEdge]
+  edges: [RevisionEdge!]!
 
   """
   The total number of records in this set.
@@ -1234,7 +1425,7 @@ type RevisionConnection {
   """
   A list of nodes.
   """
-  nodes: [Revision]
+  nodes: [Revision!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
@@ -1590,7 +1781,28 @@ type User {
   username: String!
 }
 
-type Variant {
+type Variant implements Commentable & Flaggable {
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): CommentConnection!
   description: String!
   events(
     """
@@ -1633,7 +1845,29 @@ type Variant {
     Returns the last _n_ elements from the list.
     """
     last: Int
-  ): EvidenceItemConnection
+  ): EvidenceItemConnection!
+  flagged: Boolean!
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FlagConnection!
   gene: Gene!
   id: Int!
   name: String!
@@ -1646,7 +1880,7 @@ type VariantConnection {
   """
   A list of edges.
   """
-  edges: [VariantEdge]
+  edges: [VariantEdge!]!
 
   """
   The total number of records in this set.
@@ -1656,7 +1890,7 @@ type VariantConnection {
   """
   A list of nodes.
   """
-  nodes: [Variant]
+  nodes: [Variant!]!
 
   """
   Total number of pages, based on filtered count and pagesize.

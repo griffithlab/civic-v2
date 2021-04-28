@@ -7,6 +7,10 @@ module Types
     field :filtered_count, Int, null: false, description: 'The total number of records in this set.'
     field :page_count, Int, 'Total number of pages, based on filtered count and pagesize.', null: false
 
+    edges_nullable(false)
+    edge_nullable(false)
+    node_nullable(false)
+
     def total_count
       object.items&.klass.count
     end

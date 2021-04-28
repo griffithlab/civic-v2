@@ -1,5 +1,9 @@
 module Types::Entities
   class EvidenceItemType < Types::BaseObject
+
+    implements Types::Interfaces::Commentable
+    implements Types::Interfaces::Flaggable
+
     field :id, Int, null: false
     field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
     field :description, String, null: false
@@ -11,15 +15,13 @@ module Types::Entities
     field :evidence_rating, Int, null: true,
       validates: { inclusion: { in: [1, 2, 3, 4, 5], allow_blank: true } }
     field :evidence_type, Types::EvidenceTypeType, null: false
-    field :flagged, Boolean, null: false
     field :phenotypes, [Types::Entities::PhenotypeType], null: true
     field :source, Types::Entities::SourceType, null: false
     field :status, Types::EvidenceStatusType, null: false
     field :variant, Types::Entities::VariantType, null: false
     field :variant_hgvs, String, null: false
     field :variant_origin, Types::VariantOriginType, null: false
-    field :revisions, [Types::Revisions::RevisionType], null: true
-    field :comments, [Types::Entities::CommentType], null: true
+    field :revisions, [Types::Revisions::RevisionType], null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def disease
@@ -49,11 +51,6 @@ module Types::Entities
     def revisions
       Loaders::AssociationLoader.for(EvidenceItem, :revisions).load(object)
     end
-
-    def comments
-      Loaders::AssociationLoader.for(EvidenceItem, :comments).load(object)
-    end
-
 
     def events
       Loaders::AssociationLoader.for(EvidenceItem, :events).load(object)
