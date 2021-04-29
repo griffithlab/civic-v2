@@ -198,11 +198,6 @@ type CommentConnection {
   edges: [CommentEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [Comment!]!
@@ -218,7 +213,7 @@ type CommentConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
@@ -341,11 +336,6 @@ type EventConnection {
   edges: [EventEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [Event!]!
@@ -361,7 +351,7 @@ type EventConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
@@ -504,11 +494,6 @@ type EvidenceItemConnection {
   edges: [EvidenceItemEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [EvidenceItem!]!
@@ -524,7 +509,7 @@ type EvidenceItemConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
@@ -605,11 +590,6 @@ type FlagConnection {
   edges: [FlagEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [Flag!]!
@@ -625,7 +605,7 @@ type FlagConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
@@ -1117,11 +1097,6 @@ type NotificationConnection {
   edges: [NotificationEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [Notification!]!
@@ -1137,7 +1112,7 @@ type NotificationConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
@@ -1418,11 +1393,6 @@ type RevisionConnection {
   edges: [RevisionEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [Revision!]!
@@ -1438,7 +1408,7 @@ type RevisionConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
@@ -1883,11 +1853,6 @@ type VariantConnection {
   edges: [VariantEdge!]!
 
   """
-  The total number of records in this set.
-  """
-  filteredCount: Int!
-
-  """
   A list of nodes.
   """
   nodes: [Variant!]!
@@ -1903,7 +1868,7 @@ type VariantConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records of this type, regardless of any filtering.
+  The total number of records in this filtered collection.
   """
   totalCount: Int!
 }
