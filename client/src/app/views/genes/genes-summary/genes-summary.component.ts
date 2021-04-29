@@ -9,7 +9,7 @@ import {
   CommentableInput,
   CommentableEntities,
   Gene,
-  Revision,
+  RevisionEdge,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -29,7 +29,7 @@ export class GenesSummaryComponent implements OnInit {
   myGeneInfo$!: Observable<any>;
   viewer$: Observable<Viewer>;
   comments$!: Observable<any>;
-  revisions$!: Observable<Revision[]>;
+  revisions$!: Observable<RevisionEdge[]>;
 
   constructor(private service: GenesSummaryService,
     private viewerService: ViewerService,

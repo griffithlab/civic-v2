@@ -112,11 +112,11 @@ export type BrowseGene = {
 export type BrowseGeneConnection = {
   __typename: 'BrowseGeneConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<BrowseGeneEdge>>>;
+  edges: Array<BrowseGeneEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<BrowseGene>>>;
+  nodes: Array<BrowseGene>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -156,11 +156,11 @@ export type Comment = {
 export type CommentConnection = {
   __typename: 'CommentConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<CommentEdge>>>;
+  edges: Array<CommentEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Comment>>>;
+  nodes: Array<Comment>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -176,6 +176,20 @@ export type CommentEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<Comment>;
+};
+
+/** A CIViC entity that can have comments on it. */
+export type Commentable = {
+  comments: CommentConnection;
+};
+
+
+/** A CIViC entity that can have comments on it. */
+export type CommentableCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export enum CommentableEntities {
@@ -244,11 +258,11 @@ export enum EventAction {
 export type EventConnection = {
   __typename: 'EventConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<EventEdge>>>;
+  edges: Array<EventEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Event>>>;
+  nodes: Array<Event>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -295,10 +309,10 @@ export enum EvidenceDirection {
   Supports = 'SUPPORTS'
 }
 
-export type EvidenceItem = {
+export type EvidenceItem = Commentable & Flaggable & {
   __typename: 'EvidenceItem';
   clinicalSignificance: EvidenceClinicalSignificance;
-  comments?: Maybe<Array<Comment>>;
+  comments: CommentConnection;
   description: Scalars['String'];
   disease?: Maybe<Disease>;
   drugInteractionType?: Maybe<DrugInteraction>;
@@ -309,14 +323,23 @@ export type EvidenceItem = {
   evidenceRating?: Maybe<Scalars['Int']>;
   evidenceType: EvidenceType;
   flagged: Scalars['Boolean'];
+  flags: FlagConnection;
   id: Scalars['Int'];
   phenotypes?: Maybe<Array<Phenotype>>;
-  revisions?: Maybe<Array<Revision>>;
+  revisions: Array<Revision>;
   source: Source;
   status: EvidenceStatus;
   variant: Variant;
   variantHgvs: Scalars['String'];
   variantOrigin: VariantOrigin;
+};
+
+
+export type EvidenceItemCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -327,15 +350,23 @@ export type EvidenceItemEventsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
+export type EvidenceItemFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
 /** The connection type for EvidenceItem. */
 export type EvidenceItemConnection = {
   __typename: 'EvidenceItemConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<EvidenceItemEdge>>>;
+  edges: Array<EvidenceItemEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<EvidenceItem>>>;
+  nodes: Array<EvidenceItem>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -376,10 +407,47 @@ export enum EvidenceType {
   Prognostic = 'PROGNOSTIC'
 }
 
-export type Flag = {
+export type Flag = Commentable & {
   __typename: 'Flag';
+  comments: CommentConnection;
+  flaggingUser: User;
   id: Scalars['Int'];
+  resolvingUser?: Maybe<User>;
   state: FlagState;
+};
+
+
+export type FlagCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** The connection type for Flag. */
+export type FlagConnection = {
+  __typename: 'FlagConnection';
+  /** A list of edges. */
+  edges: Array<FlagEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<Flag>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type FlagEdge = {
+  __typename: 'FlagEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Flag>;
 };
 
 /** Autogenerated input type of FlagEntity */
@@ -413,6 +481,21 @@ export enum FlagState {
   Resolved = 'resolved'
 }
 
+/** A CIViC entity that can be flagged for editor attention. */
+export type Flaggable = {
+  flagged: Scalars['Boolean'];
+  flags: FlagConnection;
+};
+
+
+/** A CIViC entity that can be flagged for editor attention. */
+export type FlaggableFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
 /** Enumeration of all entities in CIViC that can be flagged. */
 export enum FlaggableEntities {
   Gene = 'GENE'
@@ -426,21 +509,23 @@ export type FlaggableInput = {
   id: Scalars['Int'];
 };
 
-export type Gene = {
+export type Gene = Commentable & Flaggable & {
   __typename: 'Gene';
-  aliases?: Maybe<Array<GeneAlias>>;
-  comments?: Maybe<CommentConnection>;
+  aliases: Array<GeneAlias>;
+  comments: CommentConnection;
   description: Scalars['String'];
   entrezId: Scalars['Int'];
   events: EventConnection;
+  flagged: Scalars['Boolean'];
+  flags: FlagConnection;
   id: Scalars['Int'];
   lifecycleActions: Lifecycle;
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
-  revisions?: Maybe<RevisionConnection>;
-  sources?: Maybe<Array<Source>>;
-  variants?: Maybe<VariantConnection>;
+  revisions: RevisionConnection;
+  sources: Array<Source>;
+  variants: VariantConnection;
 };
 
 
@@ -453,6 +538,14 @@ export type GeneCommentsArgs = {
 
 
 export type GeneEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type GeneFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -674,11 +767,11 @@ export type Notification = {
 export type NotificationConnection = {
   __typename: 'NotificationConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<NotificationEdge>>>;
+  edges: Array<NotificationEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Notification>>>;
+  nodes: Array<Notification>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -912,11 +1005,11 @@ export type Revision = {
 export type RevisionConnection = {
   __typename: 'RevisionConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<RevisionEdge>>>;
+  edges: Array<RevisionEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Revision>>>;
+  nodes: Array<Revision>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -1158,14 +1251,25 @@ export type UserProfileImagePathArgs = {
   size?: Maybe<Scalars['Int']>;
 };
 
-export type Variant = {
+export type Variant = Commentable & Flaggable & {
   __typename: 'Variant';
+  comments: CommentConnection;
   description: Scalars['String'];
   events: EventConnection;
-  evidenceItems?: Maybe<EvidenceItemConnection>;
+  evidenceItems: EvidenceItemConnection;
+  flagged: Scalars['Boolean'];
+  flags: FlagConnection;
   gene: Gene;
   id: Scalars['Int'];
   name: Scalars['String'];
+};
+
+
+export type VariantCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -1184,15 +1288,23 @@ export type VariantEvidenceItemsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
+export type VariantFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
 /** The connection type for Variant. */
 export type VariantConnection = {
   __typename: 'VariantConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<VariantEdge>>>;
+  edges: Array<VariantEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Variant>>>;
+  nodes: Array<Variant>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -1257,14 +1369,14 @@ export type ViewerBaseQuery = (
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
     )>, events: (
       { __typename: 'EventConnection' }
-      & { nodes?: Maybe<Array<Maybe<(
+      & { nodes: Array<(
         { __typename: 'Event' }
         & Pick<Event, 'id' | 'createdAt'>
         & { organization: (
           { __typename: 'Organization' }
           & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
         ) }
-      )>>> }
+      )> }
     ) }
   )> }
 );
@@ -1302,10 +1414,10 @@ export type BrowseGenesQuery = (
   & { browseGenes: (
     { __typename: 'BrowseGeneConnection' }
     & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { nodes?: Maybe<Array<Maybe<(
+    & { nodes: Array<(
       { __typename: 'BrowseGene' }
       & Pick<BrowseGene, 'id' | 'name'>
-    )>>>, edges?: Maybe<Array<Maybe<(
+    )>, edges: Array<(
       { __typename: 'BrowseGeneEdge' }
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
@@ -1322,7 +1434,7 @@ export type BrowseGenesQuery = (
           & Pick<Drug, 'name'>
         )>> }
       )> }
-    )>>>, pageInfo: (
+    )>, pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
@@ -1339,10 +1451,10 @@ export type GeneDetailQuery = (
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
-    & { aliases?: Maybe<Array<(
+    & { aliases: Array<(
       { __typename: 'GeneAlias' }
       & Pick<GeneAlias, 'name'>
-    )>>, lifecycleActions: (
+    )>, lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
         { __typename: 'Event' }
@@ -1375,21 +1487,21 @@ export type GeneDetailQuery = (
           & Pick<User, 'id' | 'name'>
         ) }
       )> }
-    ), sources?: Maybe<Array<(
+    ), sources: Array<(
       { __typename: 'Source' }
       & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
-    )>>, variants?: Maybe<(
+    )>, variants: (
       { __typename: 'VariantConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & { edges: Array<(
         { __typename: 'VariantEdge' }
         & { node?: Maybe<(
           { __typename: 'Variant' }
           & Pick<Variant, 'id' | 'name' | 'description'>
         )> }
-      )>>> }
-    )>, comments?: Maybe<(
+      )> }
+    ), comments: (
       { __typename: 'CommentConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & { edges: Array<(
         { __typename: 'CommentEdge' }
         & { node?: Maybe<(
           { __typename: 'Comment' }
@@ -1403,10 +1515,10 @@ export type GeneDetailQuery = (
             )> }
           ) }
         )> }
-      )>>> }
-    )>, revisions?: Maybe<(
+      )> }
+    ), revisions: (
       { __typename: 'RevisionConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & { edges: Array<(
         { __typename: 'RevisionEdge' }
         & { node?: Maybe<(
           { __typename: 'Revision' }
@@ -1435,8 +1547,8 @@ export type GeneDetailQuery = (
             & Pick<User, 'id' | 'name'>
           ) }
         )> }
-      )>>> }
-    )> }
+      )> }
+    ) }
   )> }
 );
 
@@ -1450,10 +1562,10 @@ export type GenesSummaryQuery = (
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
-    & { aliases?: Maybe<Array<(
+    & { aliases: Array<(
       { __typename: 'GeneAlias' }
       & Pick<GeneAlias, 'name'>
-    )>>, lifecycleActions: (
+    )>, lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
         { __typename: 'Event' }
@@ -1486,21 +1598,21 @@ export type GenesSummaryQuery = (
           & Pick<User, 'id' | 'name'>
         ) }
       )> }
-    ), sources?: Maybe<Array<(
+    ), sources: Array<(
       { __typename: 'Source' }
       & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
-    )>>, variants?: Maybe<(
+    )>, variants: (
       { __typename: 'VariantConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & { edges: Array<(
         { __typename: 'VariantEdge' }
         & { node?: Maybe<(
           { __typename: 'Variant' }
           & Pick<Variant, 'id' | 'name' | 'description'>
         )> }
-      )>>> }
-    )>, comments?: Maybe<(
+      )> }
+    ), comments: (
       { __typename: 'CommentConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & { edges: Array<(
         { __typename: 'CommentEdge' }
         & { node?: Maybe<(
           { __typename: 'Comment' }
@@ -1514,10 +1626,10 @@ export type GenesSummaryQuery = (
             )> }
           ) }
         )> }
-      )>>> }
-    )>, revisions?: Maybe<(
+      )> }
+    ), revisions: (
       { __typename: 'RevisionConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & { edges: Array<(
         { __typename: 'RevisionEdge' }
         & { node?: Maybe<(
           { __typename: 'Revision' }
@@ -1546,8 +1658,8 @@ export type GenesSummaryQuery = (
             & Pick<User, 'id' | 'name'>
           ) }
         )> }
-      )>>> }
-    )> }
+      )> }
+    ) }
   )> }
 );
 

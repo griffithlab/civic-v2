@@ -10,6 +10,7 @@ import {
   CommentableEntities,
   Gene,
   Revision,
+  RevisionEdge,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -25,10 +26,8 @@ export class GenesRevisionsComponent implements OnInit {
   subject$!: Observable<any>;
   data$!: Observable<Data>;
   loading$!: Observable<boolean>
-  myGeneInfo$!: Observable<any>;
   viewer$: Observable<Viewer>;
-  comments$!: Observable<any>;
-  revisions$!: Observable<Revision[]>;
+  revisions$!: Observable<RevisionEdge[]>;
 
   constructor(private service: GenesSummaryService,
     private viewerService: ViewerService,
@@ -53,12 +52,6 @@ export class GenesRevisionsComponent implements OnInit {
           } as CommentableInput;
         }));
 
-      this.myGeneInfo$ = this.gene$.pipe(
-        pluck('myGeneInfoDetails'),
-        map(info => JSON.parse(info)));
-
-      this.comments$ = this.gene$
-        .pipe(pluck('comments', 'edges'));
 
       this.revisions$ = this.gene$
         .pipe(pluck('revisions', 'edges'));

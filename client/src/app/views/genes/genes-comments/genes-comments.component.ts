@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap, Params, Data } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck, map, tap, withLatestFrom, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { NGXLogger } from "ngx-logger";
+import { pluck, map } from 'rxjs/operators';
 
 import { GenesSummaryService } from '@app/views/genes/genes-summary/genes-summary.service';
 import {
   CommentableInput,
   CommentableEntities,
   Gene,
-  Revision,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
-import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Component({
   selector: 'cvc-genes-comments',
@@ -25,10 +22,8 @@ export class GenesCommentsComponent implements OnInit {
   subject$!: Observable<any>;
   data$!: Observable<Data>;
   loading$!: Observable<boolean>
-  myGeneInfo$!: Observable<any>;
   viewer$: Observable<Viewer>;
   comments$!: Observable<any>;
-  revisions$!: Observable<Revision[]>;
 
   constructor(private service: GenesSummaryService,
     private viewerService: ViewerService,
@@ -53,15 +48,9 @@ export class GenesCommentsComponent implements OnInit {
           } as CommentableInput;
         }));
 
-      this.myGeneInfo$ = this.gene$.pipe(
-        pluck('myGeneInfoDetails'),
-        map(info => JSON.parse(info)));
-
       this.comments$ = this.gene$
         .pipe(pluck('comments', 'edges'));
 
-      this.revisions$ = this.gene$
-        .pipe(pluck('revisions', 'edges'));
     });
   }
 

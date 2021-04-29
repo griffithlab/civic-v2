@@ -73,6 +73,10 @@ export type CommentEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CommentableKeySpecifier = ('comments' | CommentableKeySpecifier)[];
+export type CommentableFieldPolicy = {
+	comments?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DiseaseKeySpecifier = ('diseaseUrl' | 'displayName' | 'doid' | 'id' | 'name' | DiseaseKeySpecifier)[];
 export type DiseaseFieldPolicy = {
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -110,7 +114,7 @@ export type EventEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EvidenceItemKeySpecifier = ('clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'id' | 'phenotypes' | 'revisions' | 'source' | 'status' | 'variant' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
+export type EvidenceItemKeySpecifier = ('clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'id' | 'phenotypes' | 'revisions' | 'source' | 'status' | 'variant' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
 export type EvidenceItemFieldPolicy = {
 	clinicalSignificance?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -124,6 +128,7 @@ export type EvidenceItemFieldPolicy = {
 	evidenceRating?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -147,23 +152,47 @@ export type EvidenceItemEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagKeySpecifier = ('id' | 'state' | FlagKeySpecifier)[];
+export type FlagKeySpecifier = ('comments' | 'flaggingUser' | 'id' | 'resolvingUser' | 'state' | FlagKeySpecifier)[];
 export type FlagFieldPolicy = {
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	flaggingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolvingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type FlagConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | FlagConnectionKeySpecifier)[];
+export type FlagConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type FlagEdgeKeySpecifier = ('cursor' | 'node' | FlagEdgeKeySpecifier)[];
+export type FlagEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FlagEntityPayloadKeySpecifier = ('clientMutationId' | 'flag' | FlagEntityPayloadKeySpecifier)[];
 export type FlagEntityPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneKeySpecifier = ('aliases' | 'comments' | 'description' | 'entrezId' | 'events' | 'id' | 'lifecycleActions' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
+export type FlaggableKeySpecifier = ('flagged' | 'flags' | FlaggableKeySpecifier)[];
+export type FlaggableFieldPolicy = {
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type GeneKeySpecifier = ('aliases' | 'comments' | 'description' | 'entrezId' | 'events' | 'flagged' | 'flags' | 'id' | 'lifecycleActions' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
 export type GeneFieldPolicy = {
 	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	entrezId?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lifecycleActions?: FieldPolicy<any> | FieldReadFunction<any>,
 	myGeneInfoDetails?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -393,11 +422,14 @@ export type UserFieldPolicy = {
 	url?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantKeySpecifier = ('description' | 'events' | 'evidenceItems' | 'gene' | 'id' | 'name' | VariantKeySpecifier)[];
+export type VariantKeySpecifier = ('comments' | 'description' | 'events' | 'evidenceItems' | 'flagged' | 'flags' | 'gene' | 'id' | 'name' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
+	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
+	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
@@ -457,6 +489,10 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | CommentEdgeKeySpecifier | (() => undefined | CommentEdgeKeySpecifier),
 		fields?: CommentEdgeFieldPolicy,
 	},
+	Commentable?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentableKeySpecifier | (() => undefined | CommentableKeySpecifier),
+		fields?: CommentableFieldPolicy,
+	},
 	Disease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DiseaseKeySpecifier | (() => undefined | DiseaseKeySpecifier),
 		fields?: DiseaseFieldPolicy,
@@ -493,9 +529,21 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | FlagKeySpecifier | (() => undefined | FlagKeySpecifier),
 		fields?: FlagFieldPolicy,
 	},
+	FlagConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FlagConnectionKeySpecifier | (() => undefined | FlagConnectionKeySpecifier),
+		fields?: FlagConnectionFieldPolicy,
+	},
+	FlagEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FlagEdgeKeySpecifier | (() => undefined | FlagEdgeKeySpecifier),
+		fields?: FlagEdgeFieldPolicy,
+	},
 	FlagEntityPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FlagEntityPayloadKeySpecifier | (() => undefined | FlagEntityPayloadKeySpecifier),
 		fields?: FlagEntityPayloadFieldPolicy,
+	},
+	Flaggable?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FlaggableKeySpecifier | (() => undefined | FlaggableKeySpecifier),
+		fields?: FlaggableFieldPolicy,
 	},
 	Gene?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GeneKeySpecifier | (() => undefined | GeneKeySpecifier),
