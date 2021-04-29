@@ -4,9 +4,6 @@ query GeneDetail($geneId: Int!) {
     name
     officialName
     entrezId
-    aliases {
-      name
-    }
     flags {
       totalCount
       filteredCount

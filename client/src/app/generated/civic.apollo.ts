@@ -1451,10 +1451,7 @@ export type GeneDetailQuery = (
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'officialName' | 'entrezId'>
-    & { aliases: Array<(
-      { __typename: 'GeneAlias' }
-      & Pick<GeneAlias, 'name'>
-    )>, flags: (
+    & { flags: (
       { __typename: 'FlagConnection' }
       & Pick<FlagConnection, 'totalCount' | 'filteredCount'>
     ), revisions: (
@@ -1513,40 +1510,7 @@ export type GenesSummaryQuery = (
     & { aliases: Array<(
       { __typename: 'GeneAlias' }
       & Pick<GeneAlias, 'name'>
-    )>, lifecycleActions: (
-      { __typename: 'Lifecycle' }
-      & { lastCommentedOn?: Maybe<(
-        { __typename: 'Event' }
-        & Pick<Event, 'createdAt' | 'id'>
-        & { organization: (
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        ), originatingUser: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'name'>
-        ) }
-      )>, lastModified?: Maybe<(
-        { __typename: 'Event' }
-        & Pick<Event, 'createdAt' | 'id'>
-        & { organization: (
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        ), originatingUser: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'name'>
-        ) }
-      )>, lastReviewed?: Maybe<(
-        { __typename: 'Event' }
-        & Pick<Event, 'createdAt' | 'id'>
-        & { organization: (
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        ), originatingUser: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'name'>
-        ) }
-      )> }
-    ), sources: Array<(
+    )>, sources: Array<(
       { __typename: 'Source' }
       & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
     )>, variants: (
@@ -1556,55 +1520,6 @@ export type GenesSummaryQuery = (
         & { node?: Maybe<(
           { __typename: 'Variant' }
           & Pick<Variant, 'id' | 'name' | 'description'>
-        )> }
-      )> }
-    ), comments: (
-      { __typename: 'CommentConnection' }
-      & { edges: Array<(
-        { __typename: 'CommentEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Comment' }
-          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
-          & { commentor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-            & { organizations: Array<(
-              { __typename: 'Organization' }
-              & Pick<Organization, 'id' | 'name'>
-            )> }
-          ) }
-        )> }
-      )> }
-    ), revisions: (
-      { __typename: 'RevisionConnection' }
-      & { edges: Array<(
-        { __typename: 'RevisionEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Revision' }
-          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-          & { linkoutData: (
-            { __typename: 'LinkoutData' }
-            & Pick<LinkoutData, 'name'>
-            & { diffValue: (
-              { __typename: 'ObjectFieldDiff' }
-              & { addedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, removedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, keptObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )> }
-            ) | (
-              { __typename: 'ScalarField' }
-              & Pick<ScalarField, 'value'>
-            ) }
-          ), revisor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name'>
-          ) }
         )> }
       )> }
     ) }
@@ -1781,9 +1696,6 @@ export const GeneDetailDocument = gql`
     name
     officialName
     entrezId
-    aliases {
-      name
-    }
     flags {
       totalCount
       filteredCount
@@ -1857,44 +1769,6 @@ export const GenesSummaryDocument = gql`
       name
     }
     id
-    lifecycleActions {
-      lastCommentedOn {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-      lastModified {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-      lastReviewed {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-    }
     name
     officialName
     sources {
@@ -1909,71 +1783,6 @@ export const GenesSummaryDocument = gql`
           id
           name
           description
-        }
-      }
-    }
-    comments {
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
-    }
-    revisions {
-      edges {
-        node {
-          id
-          revisionsetId
-          createdAt
-          fieldName
-          currentValue
-          suggestedValue
-          linkoutData {
-            name
-            diffValue {
-              ... on ObjectFieldDiff {
-                addedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                removedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                keptObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-              }
-              ... on ScalarField {
-                value
-              }
-            }
-          }
-          revisor {
-            id
-            name
-          }
-          status
         }
       }
     }
