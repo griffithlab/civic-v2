@@ -35,6 +35,7 @@ import { FlaggableComponent } from './flaggable/flaggable.component';
 import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
