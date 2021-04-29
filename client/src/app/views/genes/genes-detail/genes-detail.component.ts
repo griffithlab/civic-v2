@@ -22,44 +22,40 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
 })
 
 export class GenesDetailComponent implements OnInit {
-  params$: Subscription;
-  loading$!: Observable<boolean>;
-  gene$!: Observable<any>;
+  loading$: Observable<boolean>;
+  gene$: Observable<Gene>;
   viewer$: Observable<Viewer>;
-  commentsTotal!: number;
-  revisionsTotal!: number;
-  flagsTotal: number = 2;
-  flags$!: Observable<Flag>;
+  commentsTotal$: Observable<number>;
+  revisionsTotal$: Observable<number>;
+  flagsTotal$: Observable<number>;
 
   subject!: CommentableInput;
 
   constructor(private service: GenesDetailService,
               private viewerService: ViewerService,
+              private router: Router,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
-    this.params$ = this.route.params.subscribe(params => {
-      const geneId: number = +params['geneId'];
-      const source$: Observable<any> = this.service.watchGeneDetail(geneId);
+    const geneId: number = +this.route.snapshot.params['geneId'];
+    const source$: Observable<any> = this.service.watchGeneDetail(geneId);
 
-      this.gene$ = source$.pipe(
-        pluck('data', 'gene'),
-        tap((g: Gene) => {
-          console.log(g);
-          this.commentsTotal = g.comments?.edges ? g.comments.edges.length : 0;
-          this.revisionsTotal = g.revisions?.edges ? g.revisions.edges.length : 0;
-          this.flagsTotal = g.id === 3 ? 2 : 0;
-        })
-      );
+    this.loading$ = source$.pipe(
+      pluck('data', 'loading'),
+      startWith(true));
 
-      this.flags$ = this.gene$.pipe(
-        pluck('flags'));
+    this.gene$ = source$.pipe(
+      pluck('data', 'gene'));
 
-      this.loading$ = source$.pipe(
-        pluck('data', 'loading'),
-        startWith(true));
+    this.commentsTotal$ = this.gene$.pipe(
+      pluck('comments', 'filteredCount'));
 
-    });
+    this.flagsTotal$ = this.gene$.pipe(
+      pluck('flags', 'filteredCount'));
+
+    this.revisionsTotal$ = this.gene$.pipe(
+      pluck('revisions', 'filteredCount'));
+
 
     this.viewer$ = this.viewerService.viewer$;
   }
@@ -73,6 +69,5 @@ export class GenesDetailComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.params$.unsubscribe();
   }
 }

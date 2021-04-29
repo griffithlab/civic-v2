@@ -1,7 +1,7 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <div cvcFlaggable [flags]="flagsTotal">
+  <div cvcFlaggable [flags]="gene.flags.filteredCount">
     <nz-page-header class="site-page-header">
-      <nz-page-header-title [ngClass]="{ 'flagged': flagsTotal > 0 }">
+      <nz-page-header-title [ngClass]="{ 'flagged': gene.flags.filteredCount > 0 }">
         <nz-space nzDirection="horizontal"
           nzSize="small">
           <nz-space-item>
@@ -66,7 +66,7 @@
           nz-button
           nzSize="small">
           <i nz-icon
-            nzType="civic:comment"></i>Comments ({{ commentsTotal }})
+            nzType="civic:comment"></i>Comments ({{ gene.comments.filteredCount }})
         </button>
         <button routerLink="revisions"
           routerLinkActive
@@ -75,7 +75,7 @@
           nz-button
           nzSize="small">
           <i nz-icon
-            nzType="civic:revision"></i>Revisions ({{ revisionsTotal }})
+            nzType="civic:revision"></i>Revisions ({{ gene.revisions.filteredCount }})
         </button>
         <button nz-button nzSize="small"
           nz-dropdown
@@ -99,6 +99,11 @@
       <nz-page-header-content>
         <cvc-lifecycle-actions></cvc-lifecycle-actions>
         <div class="content">
+          <div nz-row>
+            <div nz-col nzSpan="12" >
+              <ngx-json-viewer [json]="gene$ | async" ></ngx-json-viewer>
+            </div>
+          </div>
           <router-outlet></router-outlet>
 
         </div>

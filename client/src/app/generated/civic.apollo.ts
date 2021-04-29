@@ -1450,11 +1450,20 @@ export type GeneDetailQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
-    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
+    & Pick<Gene, 'id' | 'name' | 'officialName' | 'entrezId'>
     & { aliases: Array<(
       { __typename: 'GeneAlias' }
       & Pick<GeneAlias, 'name'>
-    )>, lifecycleActions: (
+    )>, flags: (
+      { __typename: 'FlagConnection' }
+      & Pick<FlagConnection, 'totalCount' | 'filteredCount'>
+    ), revisions: (
+      { __typename: 'RevisionConnection' }
+      & Pick<RevisionConnection, 'totalCount' | 'filteredCount'>
+    ), comments: (
+      { __typename: 'CommentConnection' }
+      & Pick<CommentConnection, 'totalCount' | 'filteredCount'>
+    ), lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
         { __typename: 'Event' }
@@ -1486,67 +1495,6 @@ export type GeneDetailQuery = (
           { __typename: 'User' }
           & Pick<User, 'id' | 'name'>
         ) }
-      )> }
-    ), sources: Array<(
-      { __typename: 'Source' }
-      & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
-    )>, variants: (
-      { __typename: 'VariantConnection' }
-      & { edges: Array<(
-        { __typename: 'VariantEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Variant' }
-          & Pick<Variant, 'id' | 'name' | 'description'>
-        )> }
-      )> }
-    ), comments: (
-      { __typename: 'CommentConnection' }
-      & { edges: Array<(
-        { __typename: 'CommentEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Comment' }
-          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
-          & { commentor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-            & { organizations: Array<(
-              { __typename: 'Organization' }
-              & Pick<Organization, 'id' | 'name'>
-            )> }
-          ) }
-        )> }
-      )> }
-    ), revisions: (
-      { __typename: 'RevisionConnection' }
-      & { edges: Array<(
-        { __typename: 'RevisionEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Revision' }
-          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-          & { linkoutData: (
-            { __typename: 'LinkoutData' }
-            & Pick<LinkoutData, 'name'>
-            & { diffValue: (
-              { __typename: 'ObjectFieldDiff' }
-              & { addedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, removedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, keptObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )> }
-            ) | (
-              { __typename: 'ScalarField' }
-              & Pick<ScalarField, 'value'>
-            ) }
-          ), revisor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name'>
-          ) }
-        )> }
       )> }
     ) }
   )> }
@@ -1829,12 +1777,25 @@ export const BrowseGenesDocument = gql`
 export const GeneDetailDocument = gql`
     query GeneDetail($geneId: Int!) {
   gene(id: $geneId) {
-    description
+    id
+    name
+    officialName
     entrezId
     aliases {
       name
     }
-    id
+    flags {
+      totalCount
+      filteredCount
+    }
+    revisions {
+      totalCount
+      filteredCount
+    }
+    comments {
+      totalCount
+      filteredCount
+    }
     lifecycleActions {
       lastCommentedOn {
         createdAt
@@ -1873,89 +1834,6 @@ export const GeneDetailDocument = gql`
         }
       }
     }
-    name
-    officialName
-    sources {
-      id
-      citation
-      sourceUrl
-      sourceType
-    }
-    variants {
-      edges {
-        node {
-          id
-          name
-          description
-        }
-      }
-    }
-    comments {
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
-    }
-    revisions {
-      edges {
-        node {
-          id
-          revisionsetId
-          createdAt
-          fieldName
-          currentValue
-          suggestedValue
-          linkoutData {
-            name
-            diffValue {
-              ... on ObjectFieldDiff {
-                addedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                removedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                keptObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-              }
-              ... on ScalarField {
-                value
-              }
-            }
-          }
-          revisor {
-            id
-            name
-          }
-          status
-        }
-      }
-    }
-    myGeneInfoDetails
   }
 }
     `;
