@@ -1,7 +1,9 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <div cvcFlaggable [flags]="gene.flags.filteredCount">
+  <div cvcFlaggable
+    [flags]="gene.flags.filteredCount">
     <nz-page-header class="site-page-header">
-      <nz-page-header-title [ngClass]="{ 'flagged': gene.flags.filteredCount > 0 }">
+      <nz-page-header-title cvcFlaggableOptions
+        [ngClass]="{ 'flagged': gene.flags.filteredCount > 0 }">
         <nz-space nzDirection="horizontal"
           nzSize="small">
           <nz-space-item>
@@ -55,7 +57,8 @@
           routerLinkActive
           #rlaSummary="routerLinkActive"
           [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
-          nz-button nzSize="small">
+          nz-button
+          nzSize="small">
           <i nz-icon
             nzType="pic-right"></i>Summary
         </button>
@@ -77,7 +80,8 @@
           <i nz-icon
             nzType="civic:revision"></i>Revisions ({{ gene.revisions.filteredCount }})
         </button>
-        <button nz-button nzSize="small"
+        <button nz-button
+          nzSize="small"
           nz-dropdown
           [nzDropdownMenu]="menu"
           nzNoAnimation
