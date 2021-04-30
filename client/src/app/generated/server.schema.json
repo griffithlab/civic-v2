@@ -1011,24 +1011,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -1092,7 +1074,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
@@ -1316,6 +1298,72 @@
           ],
           "interfaces": null,
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "DateSort",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "column",
+              "description": "Value to sort by.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "DateSortColumns",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "direction",
+              "description": "Sort direction.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SortDirection",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "DateSortColumns",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "LAST_MODIFIED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -1755,24 +1803,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -1836,7 +1866,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
@@ -2642,24 +2672,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -2723,7 +2735,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
@@ -3091,24 +3103,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -3172,7 +3166,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
@@ -5350,24 +5344,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -5431,7 +5407,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
@@ -6216,6 +6192,107 @@
               "deprecationReason": null
             },
             {
+              "name": "comments",
+              "description": "List and filter comments.",
+              "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "subject",
+                  "description": "Limit to comments on a certain subject.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CommentableInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CommentConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "disease",
               "description": "Find a disease by CIViC ID",
               "args": [
@@ -6974,24 +7051,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -7055,7 +7114,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
@@ -9013,24 +9072,6 @@
               "deprecationReason": null
             },
             {
-              "name": "filteredCount",
-              "description": "The total number of records in this set.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -9094,7 +9135,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records of this type, regardless of any filtering.",
+              "description": "The total number of records in this filtered collection.",
               "args": [
 
               ],
