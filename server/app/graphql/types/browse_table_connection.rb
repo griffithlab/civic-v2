@@ -1,11 +1,12 @@
 module Types
-  class BaseConnection < Types::BaseObject
+  class BrowseTableConnection < Types::BaseObject
     # add `nodes` and `pageInfo` fields, as well as `edge_type(...)` and `node_nullable(...)` overrides
     include GraphQL::Types::Relay::ConnectionBehaviors
 
-    description 'Default connection type.'
+    description 'Connection type used specifically for browse table behavior.'
 
-    field :total_count, Int, null: false, description:  'The total number of records in this filtered collection.'
+    field :total_count, Int, null: false, description:  'The total number of records of this type, regardless of any filtering.'
+    field :filtered_count, Int, null: false, description: 'The total number of records in this set.'
     field :page_count, Int, 'Total number of pages, based on filtered count and pagesize.', null: false
 
     edges_nullable(false)
@@ -13,6 +14,10 @@ module Types
     node_nullable(false)
 
     def total_count
+      object.items&.klass.count
+    end
+
+    def filtered_count
       object.items&.count
     end
 
