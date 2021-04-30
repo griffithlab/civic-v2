@@ -36,6 +36,7 @@ import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { RouterModule } from '@angular/router';
+import { FlaggableOptionsDirective } from './flaggable/flaggable-options.directive';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { RouterModule } from '@angular/router';
     FormButtonsComponent,
     FlaggableComponent,
     LifecycleActionsComponent,
+    FlaggableOptionsDirective,
   ],
   imports: [
     CommonModule,
@@ -82,6 +84,7 @@ import { RouterModule } from '@angular/router';
     FormButtonsComponent,
     FlaggableComponent,
     LifecycleActionsComponent,
+    FlaggableOptionsDirective,
   ]
 })
 
