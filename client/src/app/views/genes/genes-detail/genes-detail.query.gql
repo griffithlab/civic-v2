@@ -6,15 +6,12 @@ query GeneDetail($geneId: Int!) {
     entrezId
     flags {
       totalCount
-      filteredCount
     }
     revisions {
       totalCount
-      filteredCount
     }
     comments {
       totalCount
-      filteredCount
     }
     lifecycleActions {
       lastCommentedOn {

@@ -1,9 +1,9 @@
 <ng-container *ngIf="gene$ | async as gene">
   <div cvcFlaggable
-    [flags]="gene.flags.filteredCount">
+    [flags]="flagsTotal$ | async">
     <nz-page-header class="site-page-header">
       <nz-page-header-title cvcFlaggableOptions
-        [ngClass]="{ 'flagged': gene.flags.filteredCount > 0 }">
+        [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
         <nz-space nzDirection="horizontal"
           nzSize="small">
           <nz-space-item>
@@ -69,7 +69,7 @@
           nz-button
           nzSize="small">
           <i nz-icon
-            nzType="civic:comment"></i>Comments ({{ gene.comments.filteredCount }})
+            nzType="civic:comment"></i>Comments ({{ gene.comments.totalCount }})
         </button>
         <button routerLink="revisions"
           routerLinkActive
@@ -78,7 +78,7 @@
           nz-button
           nzSize="small">
           <i nz-icon
-            nzType="civic:revision"></i>Revisions ({{ gene.revisions.filteredCount }})
+            nzType="civic:revision"></i>Revisions ({{ gene.revisions.totalCount }})
         </button>
         <button nz-button
           nzSize="small"

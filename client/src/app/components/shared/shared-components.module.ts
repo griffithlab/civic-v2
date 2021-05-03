@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import {
   FormsModule,
@@ -8,6 +9,7 @@ import {
 
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
@@ -19,24 +21,23 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { TimeagoModule } from 'ngx-timeago';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
-import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentAddComponent } from './comment-add/comment-add.component';
-import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
-import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
-import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
-import { FormButtonsComponent } from './form-buttons/form-buttons.component';
+import { CommentListComponent } from './comment-list/comment-list.component';
 import { FlaggableComponent } from './flaggable/flaggable.component';
-import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { RouterModule } from '@angular/router';
 import { FlaggableOptionsDirective } from './flaggable/flaggable-options.directive';
+import { FormButtonsComponent } from './form-buttons/form-buttons.component';
+import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
+import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
+import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
+import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
+
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [
@@ -76,15 +77,15 @@ import { FlaggableOptionsDirective } from './flaggable/flaggable-options.directi
     NgxJsonViewerModule
   ],
   exports: [
-    CommentListComponent,
     CommentAddComponent,
-    OrgSelectorBtnGroupComponent,
-    OrgSelectorBtnDirective,
-    FormErrorsAlertComponent,
-    FormButtonsComponent,
+    CommentListComponent,
     FlaggableComponent,
-    LifecycleActionsComponent,
     FlaggableOptionsDirective,
+    FormButtonsComponent,
+    FormErrorsAlertComponent,
+    LifecycleActionsComponent,
+    OrgSelectorBtnDirective,
+    OrgSelectorBtnGroupComponent,
   ]
 })
 

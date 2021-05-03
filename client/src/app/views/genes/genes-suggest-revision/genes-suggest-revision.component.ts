@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { ActivatedRoute, } from '@angular/router';
+import { Observable } from 'rxjs';
+import { pluck, startWith } from 'rxjs/operators';
+import { NGXLogger } from "ngx-logger";
 
 @Component({
   selector: 'cvc-genes-suggest-revision',
@@ -13,8 +10,11 @@ import {
   styleUrls: ['./genes-suggest-revision.component.less']
 })
 export class GenesSuggestRevisionComponent implements OnInit {
+  geneId: number;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+    this.geneId = +this.route.snapshot.params['geneId'];
+  }
 
   ngOnInit(): void {
   }

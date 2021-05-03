@@ -59,10 +59,9 @@ export type CommentFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | CommentConnectionKeySpecifier)[];
+export type CommentConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | CommentConnectionKeySpecifier)[];
 export type CommentConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -100,10 +99,9 @@ export type EventFieldPolicy = {
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	originatingUser?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EventConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EventConnectionKeySpecifier)[];
+export type EventConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EventConnectionKeySpecifier)[];
 export type EventConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -138,10 +136,9 @@ export type EvidenceItemFieldPolicy = {
 	variantHgvs?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantOrigin?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EvidenceItemConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EvidenceItemConnectionKeySpecifier)[];
+export type EvidenceItemConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EvidenceItemConnectionKeySpecifier)[];
 export type EvidenceItemConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -160,10 +157,9 @@ export type FlagFieldPolicy = {
 	resolvingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | FlagConnectionKeySpecifier)[];
+export type FlagConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | FlagConnectionKeySpecifier)[];
 export type FlagConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -255,10 +251,9 @@ export type NotificationFieldPolicy = {
 	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type NotificationConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | NotificationConnectionKeySpecifier)[];
+export type NotificationConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | NotificationConnectionKeySpecifier)[];
 export type NotificationConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -301,10 +296,11 @@ export type PhenotypeFieldPolicy = {
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseEvents' | 'browseGenes' | 'disease' | 'drug' | 'evidenceItem' | 'gene' | 'searchByPermalink' | 'searchGenes' | 'source' | 'user' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseEvents' | 'browseGenes' | 'comments' | 'disease' | 'drug' | 'evidenceItem' | 'gene' | 'searchByPermalink' | 'searchGenes' | 'source' | 'user' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	browseEvents?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -340,10 +336,9 @@ export type RevisionFieldPolicy = {
 	suggestedValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevisionConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | RevisionConnectionKeySpecifier)[];
+export type RevisionConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | RevisionConnectionKeySpecifier)[];
 export type RevisionConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -434,10 +429,9 @@ export type VariantFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
+export type VariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
 export type VariantConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
-	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,

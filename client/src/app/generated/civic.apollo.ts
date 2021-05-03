@@ -157,15 +157,13 @@ export type CommentConnection = {
   __typename: 'CommentConnection';
   /** A list of edges. */
   edges: Array<CommentEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<Comment>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -203,6 +201,18 @@ export type CommentableInput = {
   /** ID of the entity to comment on. */
   id: Scalars['Int'];
 };
+
+export type DateSort = {
+  /** Value to sort by. */
+  column: DateSortColumns;
+  /** Sort direction. */
+  direction: SortDirection;
+};
+
+export enum DateSortColumns {
+  Created = 'CREATED',
+  LastModified = 'LAST_MODIFIED'
+}
 
 export type Disease = {
   __typename: 'Disease';
@@ -259,15 +269,13 @@ export type EventConnection = {
   __typename: 'EventConnection';
   /** A list of edges. */
   edges: Array<EventEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<Event>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -363,15 +371,13 @@ export type EvidenceItemConnection = {
   __typename: 'EvidenceItemConnection';
   /** A list of edges. */
   edges: Array<EvidenceItemEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<EvidenceItem>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -429,15 +435,13 @@ export type FlagConnection = {
   __typename: 'FlagConnection';
   /** A list of edges. */
   edges: Array<FlagEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<Flag>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -768,15 +772,13 @@ export type NotificationConnection = {
   __typename: 'NotificationConnection';
   /** A list of edges. */
   edges: Array<NotificationEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<Notification>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -853,6 +855,8 @@ export type Query = {
   __typename: 'Query';
   browseEvents: EventConnection;
   browseGenes: BrowseGeneConnection;
+  /** List and filter comments. */
+  comments: CommentConnection;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
@@ -891,6 +895,17 @@ export type QueryBrowseGenesArgs = {
   geneAlias?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<GenesSort>;
+};
+
+
+export type QueryCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  subject?: Maybe<CommentableInput>;
 };
 
 
@@ -1006,15 +1021,13 @@ export type RevisionConnection = {
   __typename: 'RevisionConnection';
   /** A list of edges. */
   edges: Array<RevisionEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<Revision>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -1301,15 +1314,13 @@ export type VariantConnection = {
   __typename: 'VariantConnection';
   /** A list of edges. */
   edges: Array<VariantEdge>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<Variant>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -1383,6 +1394,43 @@ export type CommentListQuery = (
         )> }
       )> }
     ) }
+  )> }
+);
+
+export type GeneRevisableFieldsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'description'>
+    & { sources: Array<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id'>
+    )> }
+  )> }
+);
+
+export type SuggestGeneRevisionMutationVariables = Exact<{
+  input: SuggestGeneRevisionInput;
+}>;
+
+
+export type SuggestGeneRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestGeneRevision?: Maybe<(
+    { __typename: 'SuggestGeneRevisionPayload' }
+    & Pick<SuggestGeneRevisionPayload, 'clientMutationId'>
+    & { gene: (
+      { __typename: 'Gene' }
+      & Pick<Gene, 'id' | 'entrezId'>
+    ), results: Array<(
+      { __typename: 'RevisionResult' }
+      & Pick<RevisionResult, 'id' | 'fieldName'>
+    )> }
   )> }
 );
 
@@ -1483,13 +1531,13 @@ export type GeneDetailQuery = (
     & Pick<Gene, 'id' | 'name' | 'officialName' | 'entrezId'>
     & { flags: (
       { __typename: 'FlagConnection' }
-      & Pick<FlagConnection, 'totalCount' | 'filteredCount'>
+      & Pick<FlagConnection, 'totalCount'>
     ), revisions: (
       { __typename: 'RevisionConnection' }
-      & Pick<RevisionConnection, 'totalCount' | 'filteredCount'>
+      & Pick<RevisionConnection, 'totalCount'>
     ), comments: (
       { __typename: 'CommentConnection' }
-      & Pick<CommentConnection, 'totalCount' | 'filteredCount'>
+      & Pick<CommentConnection, 'totalCount'>
     ), lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
@@ -1624,6 +1672,54 @@ export const CommentListDocument = gql`
   })
   export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
     document = CommentListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneRevisableFieldsDocument = gql`
+    query GeneRevisableFields($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    description
+    sources {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
+    document = GeneRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestGeneRevisionDocument = gql`
+    mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+  suggestGeneRevision(input: $input) {
+    clientMutationId
+    gene {
+      id
+      entrezId
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
+    document = SuggestGeneRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1765,15 +1861,12 @@ export const GeneDetailDocument = gql`
     entrezId
     flags {
       totalCount
-      filteredCount
     }
     revisions {
       totalCount
-      filteredCount
     }
     comments {
       totalCount
-      filteredCount
     }
     lifecycleActions {
       lastCommentedOn {

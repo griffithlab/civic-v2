@@ -29,6 +29,7 @@ import { TimeagoModule } from 'ngx-timeago';
 
 // civic imports
 import { IconsProviderModule } from '@app/icons-provider.module'
+import { CvcFormsModule } from '@app/forms/forms.module';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
 import { GenesComponent } from './genes.component';
@@ -57,6 +58,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     GenesRevisionsComponent,
   ],
   imports: [
+    CvcFormsModule,
     SharedComponentsModule,
     GenesComponentsModule,
     CommonModule,

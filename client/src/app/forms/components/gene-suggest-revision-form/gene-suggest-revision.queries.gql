@@ -1,0 +1,23 @@
+query GeneRevisableFields($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    description
+    sources {
+      id
+    }
+  }
+}
+
+mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+  suggestGeneRevision(input: $input) {
+    clientMutationId
+    gene {
+      id
+      entrezId
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}

@@ -1,16 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap, Data } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { pluck, map, tap, switchMap, startWith, distinctUntilChanged } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute,  } from '@angular/router';
+import { Observable } from 'rxjs';
+import { pluck, startWith } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes-detail.service';
 import {
   CommentableInput,
-  CommentableEntities,
   Gene,
-  User,
-  Flag,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -33,7 +30,6 @@ export class GenesDetailComponent implements OnInit {
 
   constructor(private service: GenesDetailService,
               private viewerService: ViewerService,
-              private router: Router,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
@@ -48,14 +44,13 @@ export class GenesDetailComponent implements OnInit {
       pluck('data', 'gene'));
 
     this.commentsTotal$ = this.gene$.pipe(
-      pluck('comments', 'filteredCount'));
+      pluck('comments', 'totalCount'));
 
     this.flagsTotal$ = this.gene$.pipe(
-      pluck('flags', 'filteredCount'));
+      pluck('flags', 'totalCount'));
 
     this.revisionsTotal$ = this.gene$.pipe(
-      pluck('revisions', 'filteredCount'));
-
+      pluck('revisions', 'Count'));
 
     this.viewer$ = this.viewerService.viewer$;
   }

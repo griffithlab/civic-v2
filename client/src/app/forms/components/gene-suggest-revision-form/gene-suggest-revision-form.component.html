@@ -1,0 +1,42 @@
+<form nz-form
+  [formGroup]="suggestGeneRevisionForm"
+  (ngSubmit)="submitRevision(suggestGeneRevisionForm.value)"
+  nzLayout="vertical">
+  <ng-container *ngIf="(submitError$ | async) as errors">
+    <nz-form-item *ngIf="errors.length > 0">
+      <cvc-form-errors-alert [errors]="errors">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+  </ng-container>
+  <nz-form-item>
+    <nz-form-label>Description</nz-form-label>
+    <nz-form-control nzErrorTip="Please enter a description at least 10 characters in length.">
+      <textarea formControlName="description" nz-input rows="4" placeholder="Enter a gene description here."></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Revision Comment</nz-form-label>
+    <nz-form-control nzErrorTip="Please enter a comment at least 10 characters in length.">
+      <textarea formControlName="comment" nz-input rows="4" placeholder="Enter your comment here."></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <cvc-form-buttons>
+        <cvc-org-selector-btn-group
+          [organizations]="organizations"
+          [mostRecentOrg]="mostRecentOrg"
+          (orgSelected)="selectOrg($event)">
+          <button type="submit" nz-button
+            cvcOrgSelectorBtn
+            nzType="primary"
+            nzSize="small"
+            [disabled]="!suggestGeneRevisionForm.valid">
+            Suggest Revision
+          </button>
+        </cvc-org-selector-btn-group>
+      </cvc-form-buttons>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<ngx-json-viewer [json]="suggestGeneRevisionForm.value"></ngx-json-viewer>
