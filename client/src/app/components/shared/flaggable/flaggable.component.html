@@ -4,7 +4,7 @@
   <ng-container *ngTemplateOutlet="flaggedContent"></ng-container>
 </ng-container>
 
-<ng-container *ngIf="flags > 1">
+<ng-container *ngIf="flags">
   <nz-ribbon [nzText]="flaggedText"
     nzPlacement="start"
     nzColor="#ff3333">
