@@ -47,7 +47,7 @@ export class GenesCommentsService implements ICommentListService {
 
       return this.queryRef;
     } else {
-      this.log.error('Set CommentableInput `subject` before calling watch().')
+      this.log.error('CommentableInput `subject` must be set before calling watch().')
       return undefined;
     }
   }

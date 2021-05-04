@@ -6,12 +6,17 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { Maybe, CommentableInput, CommentEdge } from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
-import { GenesCommentsService } from '@app/views/genes/genes-comments/genes-comments.service';
 import { ApolloError, ApolloQueryResult } from '@apollo/client/core';
 import { QueryRef } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
+
+import {
+  Maybe,
+  CommentableInput,
+  CommentEdge
+} from '@app/generated/civic.apollo';
+
+import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 export interface ICommentListService {
   subject: CommentableInput,
@@ -31,10 +36,10 @@ export interface ICommentListService {
 })
 
 export class CommentListComponent implements OnInit {
-  @Input() commentsService!: GenesCommentsService;
+  @Input() commentsService!: ICommentListService;
   viewer: ViewerService;
 
-  constructor(private viewerService: ViewerService) {
+  constructor(viewerService: ViewerService) {
     this.viewer = viewerService;
   }
 
