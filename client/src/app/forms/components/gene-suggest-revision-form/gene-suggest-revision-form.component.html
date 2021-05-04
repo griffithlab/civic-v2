@@ -24,8 +24,6 @@
     <nz-form-control>
       <cvc-form-buttons>
         <cvc-org-selector-btn-group
-          [organizations]="organizations"
-          [mostRecentOrg]="mostRecentOrg"
           (orgSelected)="selectOrg($event)">
           <button type="submit" nz-button
             cvcOrgSelectorBtn
@@ -39,4 +37,5 @@
     </nz-form-control>
   </nz-form-item>
 </form>
+<p>Most Recent Org: {{ mostRecentOrg | json }}</p>
 <ngx-json-viewer [json]="suggestGeneRevisionForm.value"></ngx-json-viewer>
