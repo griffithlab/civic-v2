@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApolloQueryResult, ApolloError } from '@apollo/client/core';
+import { ICommentListService } from '@app/components/shared/comment-list/comment-list.component';
 import {
   Maybe,
   CommentableInput,
@@ -15,7 +16,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
 
 @Injectable()
-export class GenesCommentsService {
+export class GenesCommentsService implements ICommentListService {
   subject!: CommentableInput;
   queryRef!: QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>;
   result$!: Observable<ApolloQueryResult<GeneCommentsQuery>>;
@@ -27,7 +28,7 @@ export class GenesCommentsService {
 
   constructor(private gql: GeneCommentsGQL, private log: NGXLogger) { }
 
-  watch(): void {
+  watch(): Maybe<QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>> {
     if(this.subject !== undefined) {
       this.queryRef = this.gql.watch({ geneId: this.subject.id });
       this.result$ = this.queryRef.valueChanges;
@@ -44,8 +45,10 @@ export class GenesCommentsService {
       this.comments$ = this.result$
         .pipe(pluck('data', 'gene', 'comments', 'edges'));
 
+      return this.queryRef;
     } else {
       this.log.error('Set CommentableInput `subject` before calling watch().')
+      return undefined;
     }
   }
 }
