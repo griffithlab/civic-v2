@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -55,6 +56,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     RouterModule,
     NzAlertModule,
     NzAvatarModule,

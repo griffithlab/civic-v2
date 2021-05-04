@@ -2349,6 +2349,13 @@
   resolved "https://registry.yarnpkg.com/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz#8ace5259254426ccef57f3175bc64ed7095ed919"
   integrity sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==
 
+"@ngrx/component@^11.1.1":
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-11.1.1.tgz#dcab88e0d4c1bacd38c74e3753cf3cfef3b7294b"
+  integrity sha512-Vw2jyz5O8g61OcDtX8FcJh+EV9VDJsk/q61WQyOuwr0yi3SbRnn/77bHzF27RVwiQn8lq3yteNnh32H/vRdFWQ==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngtools/webpack@11.2.1":
   version "11.2.1"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-11.2.1.tgz#6e922f2809854c898a3c62ea882a9cc0f43ecf0d"
