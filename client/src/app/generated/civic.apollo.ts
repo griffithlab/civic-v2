@@ -1501,6 +1501,7 @@ export type GeneCommentsQuery = (
     & Pick<Gene, 'id'>
     & { comments: (
       { __typename: 'CommentConnection' }
+      & Pick<CommentConnection, 'totalCount'>
       & { edges: Array<(
         { __typename: 'CommentEdge' }
         & { node?: Maybe<(
@@ -1821,6 +1822,7 @@ export const GeneCommentsDocument = gql`
   gene(id: $geneId) {
     id
     comments {
+      totalCount
       edges {
         node {
           id

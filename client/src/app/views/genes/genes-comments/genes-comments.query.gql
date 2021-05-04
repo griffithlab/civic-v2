@@ -2,6 +2,7 @@ query GeneComments($geneId: Int!) {
   gene(id: $geneId) {
     id
     comments {
+      totalCount
       edges {
         node {
           id
