@@ -1367,36 +1367,6 @@ export type AddCommentMutation = (
   )> }
 );
 
-export type CommentListQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type CommentListQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & { comments: (
-      { __typename: 'CommentConnection' }
-      & { edges: Array<(
-        { __typename: 'CommentEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Comment' }
-          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
-          & { commentor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-            & { organizations: Array<(
-              { __typename: 'Organization' }
-              & Pick<Organization, 'id' | 'name'>
-            )> }
-          ) }
-        )> }
-      )> }
-    ) }
-  )> }
-);
-
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -1519,6 +1489,37 @@ export type BrowseGenesQuery = (
   ) }
 );
 
+export type GeneCommentsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneCommentsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id'>
+    & { comments: (
+      { __typename: 'CommentConnection' }
+      & { edges: Array<(
+        { __typename: 'CommentEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Comment' }
+          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
+          & { commentor: (
+            { __typename: 'User' }
+            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
+            & { organizations: Array<(
+              { __typename: 'Organization' }
+              & Pick<Organization, 'id' | 'name'>
+            )> }
+          ) }
+        )> }
+      )> }
+    ) }
+  )> }
+);
+
 export type GeneDetailQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -1635,43 +1636,6 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CommentListDocument = gql`
-    query CommentList($geneId: Int!) {
-  gene(id: $geneId) {
-    comments {
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: AppModule
-  })
-  export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
-    document = CommentListDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1847,6 +1811,44 @@ export const BrowseGenesDocument = gql`
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneCommentsDocument = gql`
+    query GeneComments($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    comments {
+      edges {
+        node {
+          id
+          createdAt
+          title
+          comment
+          commentor {
+            id
+            name
+            profileImagePath(size: 32)
+            organizations {
+              id
+              name
+            }
+            role
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneCommentsGQL extends Apollo.Query<GeneCommentsQuery, GeneCommentsQueryVariables> {
+    document = GeneCommentsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

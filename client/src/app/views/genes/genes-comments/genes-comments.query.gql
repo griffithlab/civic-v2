@@ -1,0 +1,25 @@
+query GeneComments($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    comments {
+      edges {
+        node {
+          id
+          createdAt
+          title
+          comment
+          commentor {
+            id
+            name
+            profileImagePath(size: 32)
+            organizations {
+              id
+              name
+            }
+            role
+          }
+        }
+      }
+    }
+  }
+}
