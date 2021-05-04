@@ -11,10 +11,10 @@ import {
   Gene,
   Revision,
   RevisionEdge,
+  Maybe
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
-import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Component({
   selector: 'cvc-genes-revisions',

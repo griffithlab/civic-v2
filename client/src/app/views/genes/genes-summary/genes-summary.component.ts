@@ -10,10 +10,10 @@ import {
   CommentableEntities,
   Gene,
   RevisionEdge,
+  Maybe,
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
-import { Maybe } from 'graphql/jsutils/Maybe';
 
 
 @Component({
@@ -22,11 +22,11 @@ import { Maybe } from 'graphql/jsutils/Maybe';
   styleUrls: ['./genes-summary.component.less']
 })
 export class GenesSummaryComponent implements OnInit {
-  gene$!: Observable<Gene>;
-  subject$!: Observable<any>;
-  data$!: Observable<Data>;
-  loading$!: Observable<boolean>
-  myGeneInfo$!: Observable<any>;
+  gene$: Observable<Gene>;
+  subject$: Observable<any>;
+  data$: Observable<Data>;
+  loading$: Observable<boolean>
+  myGeneInfo$: Observable<any>;
   viewer$: Observable<Viewer>;
 
   constructor(private service: GenesSummaryService,
