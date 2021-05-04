@@ -17,15 +17,14 @@ import { GenesCommentsService } from '@app/views/genes/genes-comments/genes-comm
 })
 
 export class CommentListComponent implements OnInit {
+  @Input() commentsService!: GenesCommentsService;
   viewer: ViewerService;
-  comments: GenesCommentsService;
 
-  constructor(private viewerService: ViewerService, private commentsService2: GenesCommentsService) {
+  constructor(private viewerService: ViewerService) {
     this.viewer = viewerService;
-    this.comments = commentsService2;
-    this.comments.watch();
   }
 
   ngOnInit(): void {
+    this.commentsService.watch();
   }
 }

@@ -1,5 +1,5 @@
 <nz-card nzTitle="Comments">
-  <nz-list [nzDataSource]="comments.comments$ | async"
+  <nz-list [nzDataSource]="commentsService.comments$ | async"
     [nzRenderItem]="comment"
     nzSize="small"
     nzItemLayout="horizontal">
@@ -16,6 +16,6 @@
       </nz-list-item>
     </ng-template>
   </nz-list>
-  <cvc-comment-add *ngIf="viewer.canCurate$ | async" [subject]="subject"></cvc-comment-add>
+  <cvc-comment-add *ngIf="viewer.canCurate$ | async" [subject]="commentsService.subject"></cvc-comment-add>
 </nz-card>
 <ngx-json-viewer *ngIf="comments.comments$ | async as comments" [json]="comments" ></ngx-json-viewer>

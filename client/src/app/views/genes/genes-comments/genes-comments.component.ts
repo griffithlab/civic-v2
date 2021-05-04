@@ -20,14 +20,15 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
   providers: [GenesCommentsService]
 })
 export class GenesCommentsComponent implements OnInit {
-  commentsService: GenesCommentsService;
+  service: GenesCommentsService;
+
   constructor(
     private genesCommentsService: GenesCommentsService,
     private route: ActivatedRoute
   ) {
     const geneId: number = +this.route.snapshot.params['geneId'];
-    this.commentsService = genesCommentsService;
-    this.commentsService.subject = {
+    this.service = genesCommentsService;
+    this.service.subject = {
       id: geneId,
       entityType: CommentableEntities['Gene']
     };
