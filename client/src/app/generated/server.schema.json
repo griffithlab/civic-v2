@@ -1150,8 +1150,32 @@
           "fields": [
             {
               "name": "comments",
-              "description": null,
+              "description": "List and filter comments.",
               "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -2120,8 +2144,32 @@
             },
             {
               "name": "comments",
-              "description": null,
+              "description": "List and filter comments.",
               "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -2404,8 +2452,56 @@
             },
             {
               "name": "flags",
-              "description": null,
+              "description": "List and filter flags.",
               "args": [
+                {
+                  "name": "flaggingUserId",
+                  "description": "Limit to flags added by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "resolvingUserId",
+                  "description": "Limit to flags resolved by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "state",
+                  "description": "Limit to flags in a particular state",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FlagState",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -2928,8 +3024,32 @@
           "fields": [
             {
               "name": "comments",
-              "description": null,
+              "description": "List and filter comments.",
               "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -3352,13 +3472,13 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "open",
+              "name": "OPEN",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "resolved",
+              "name": "RESOLVED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -3391,8 +3511,56 @@
             },
             {
               "name": "flags",
-              "description": null,
+              "description": "List and filter flags.",
               "args": [
+                {
+                  "name": "flaggingUserId",
+                  "description": "Limit to flags added by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "resolvingUserId",
+                  "description": "Limit to flags resolved by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "state",
+                  "description": "Limit to flags in a particular state",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FlagState",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -3569,8 +3737,32 @@
             },
             {
               "name": "comments",
-              "description": null,
+              "description": "List and filter comments.",
               "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -3753,8 +3945,56 @@
             },
             {
               "name": "flags",
-              "description": null,
+              "description": "List and filter flags.",
               "args": [
+                {
+                  "name": "flaggingUserId",
+                  "description": "Limit to flags added by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "resolvingUserId",
+                  "description": "Limit to flags resolved by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "state",
+                  "description": "Limit to flags in a particular state",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FlagState",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -3904,8 +4144,68 @@
             },
             {
               "name": "revisions",
-              "description": null,
+              "description": "List and filter revisions.",
               "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to revisions by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "status",
+                  "description": "Limit to revisions with a certain status",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "RevisionStatus",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fieldName",
+                  "description": "Limit to revisions on a particular field.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "revisionsetId",
+                  "description": "Limit to revisions suggested as part of a single Revision Set.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -4069,6 +4369,11 @@
             {
               "kind": "INTERFACE",
               "name": "Flaggable",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "WithRevisions",
               "ofType": null
             }
           ],
@@ -6193,32 +6498,8 @@
             },
             {
               "name": "comments",
-              "description": "List and filter comments.",
+              "description": null,
               "args": [
-                {
-                  "name": "originatingUserId",
-                  "description": "Limit to comments by a certain user",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
-                  "name": "sortBy",
-                  "description": "Sort order for the comments. Defaults to most recent.",
-                  "type": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "DateSort",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
                 {
                   "name": "subject",
                   "description": "Limit to comments on a certain subject.",
@@ -7277,25 +7558,25 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "new",
+              "name": "NEW",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "rejected",
+              "name": "REJECTED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "accepted",
+              "name": "ACCEPTED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "superseded",
+              "name": "SUPERSEDED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -8675,8 +8956,32 @@
           "fields": [
             {
               "name": "comments",
-              "description": null,
+              "description": "List and filter comments.",
               "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -8906,8 +9211,56 @@
             },
             {
               "name": "flags",
-              "description": null,
+              "description": "List and filter flags.",
               "args": [
+                {
+                  "name": "flaggingUserId",
+                  "description": "Limit to flags added by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "resolvingUserId",
+                  "description": "Limit to flags resolved by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "state",
+                  "description": "Limit to flags in a particular state",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FlagState",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
                 {
                   "name": "after",
                   "description": "Returns the elements in the list that come after the specified cursor.",
@@ -9250,6 +9603,148 @@
             }
           ],
           "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "WithRevisions",
+          "description": "A CIViC entity that can have revisions proposed to it.",
+          "fields": [
+            {
+              "name": "revisions",
+              "description": "List and filter revisions.",
+              "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to revisions by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "status",
+                  "description": "Limit to revisions with a certain status",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "RevisionStatus",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fieldName",
+                  "description": "Limit to revisions on a particular field.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "revisionsetId",
+                  "description": "Limit to revisions suggested as part of a single Revision Set.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "RevisionConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "Gene",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "OBJECT",
