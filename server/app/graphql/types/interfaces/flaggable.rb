@@ -5,7 +5,7 @@ module Types::Interfaces
     description 'A CIViC entity that can be flagged for editor attention.'
 
     field :flagged, GraphQL::Types::Boolean, null: false
-    field :flags, Types::Entities::FlagType.connection_type, null: false
+    field :flags, resolver: Resolvers::Flags
 
     def flags
       Loaders::AssociationLoader.for(@object.class, :flags).load(object)
