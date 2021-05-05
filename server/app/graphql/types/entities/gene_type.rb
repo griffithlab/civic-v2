@@ -4,6 +4,7 @@ module Types::Entities
 
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
+    implements Types::Interfaces::WithRevisions
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false
@@ -15,7 +16,6 @@ module Types::Entities
     field :variants, Types::Entities::VariantType.connection_type, null: false
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
-    field :revisions, Types::Revisions::RevisionType.connection_type, null: false
     field :events, Types::Entities::EventType.connection_type, null: false
 
     def aliases
@@ -28,10 +28,6 @@ module Types::Entities
 
     def variants
       Loaders::AssociationLoader.for(Gene, :variants).load(object)
-    end
-
-    def revisions
-      Loaders::AssociationLoader.for(Gene, :revisions).load(object)
     end
 
     def lifecycle_actions
