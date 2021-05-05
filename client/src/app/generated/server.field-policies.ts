@@ -442,6 +442,10 @@ export type VariantEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type WithRevisionsKeySpecifier = ('revisions' | WithRevisionsKeySpecifier)[];
+export type WithRevisionsFieldPolicy = {
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type TypedTypePolicies = TypePolicies & {
 	AcceptRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AcceptRevisionPayloadKeySpecifier | (() => undefined | AcceptRevisionPayloadKeySpecifier),
@@ -670,5 +674,9 @@ export type TypedTypePolicies = TypePolicies & {
 	VariantEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantEdgeKeySpecifier | (() => undefined | VariantEdgeKeySpecifier),
 		fields?: VariantEdgeFieldPolicy,
+	},
+	WithRevisions?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | WithRevisionsKeySpecifier | (() => undefined | WithRevisionsKeySpecifier),
+		fields?: WithRevisionsFieldPolicy,
 	}
 };

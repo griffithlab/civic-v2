@@ -178,6 +178,7 @@ export type CommentEdge = {
 
 /** A CIViC entity that can have comments on it. */
 export type Commentable = {
+  /** List and filter comments. */
   comments: CommentConnection;
 };
 
@@ -188,6 +189,8 @@ export type CommentableCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 export enum CommentableEntities {
@@ -320,6 +323,7 @@ export enum EvidenceDirection {
 export type EvidenceItem = Commentable & Flaggable & {
   __typename: 'EvidenceItem';
   clinicalSignificance: EvidenceClinicalSignificance;
+  /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
   disease?: Maybe<Disease>;
@@ -331,6 +335,7 @@ export type EvidenceItem = Commentable & Flaggable & {
   evidenceRating?: Maybe<Scalars['Int']>;
   evidenceType: EvidenceType;
   flagged: Scalars['Boolean'];
+  /** List and filter flags. */
   flags: FlagConnection;
   id: Scalars['Int'];
   phenotypes?: Maybe<Array<Phenotype>>;
@@ -348,6 +353,8 @@ export type EvidenceItemCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -363,7 +370,11 @@ export type EvidenceItemFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
 };
 
 /** The connection type for EvidenceItem. */
@@ -415,6 +426,7 @@ export enum EvidenceType {
 
 export type Flag = Commentable & {
   __typename: 'Flag';
+  /** List and filter comments. */
   comments: CommentConnection;
   flaggingUser: User;
   id: Scalars['Int'];
@@ -428,6 +440,8 @@ export type FlagCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 /** The connection type for Flag. */
@@ -481,13 +495,14 @@ export type FlagEntityPayload = {
 };
 
 export enum FlagState {
-  Open = 'open',
-  Resolved = 'resolved'
+  Open = 'OPEN',
+  Resolved = 'RESOLVED'
 }
 
 /** A CIViC entity that can be flagged for editor attention. */
 export type Flaggable = {
   flagged: Scalars['Boolean'];
+  /** List and filter flags. */
   flags: FlagConnection;
 };
 
@@ -497,7 +512,11 @@ export type FlaggableFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
 };
 
 /** Enumeration of all entities in CIViC that can be flagged. */
@@ -513,20 +532,23 @@ export type FlaggableInput = {
   id: Scalars['Int'];
 };
 
-export type Gene = Commentable & Flaggable & {
+export type Gene = Commentable & Flaggable & WithRevisions & {
   __typename: 'Gene';
   aliases: Array<GeneAlias>;
+  /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
   entrezId: Scalars['Int'];
   events: EventConnection;
   flagged: Scalars['Boolean'];
+  /** List and filter flags. */
   flags: FlagConnection;
   id: Scalars['Int'];
   lifecycleActions: Lifecycle;
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
+  /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
   variants: VariantConnection;
@@ -538,6 +560,8 @@ export type GeneCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -553,15 +577,24 @@ export type GeneFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
 };
 
 
 export type GeneRevisionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
 };
 
 
@@ -855,7 +888,6 @@ export type Query = {
   __typename: 'Query';
   browseEvents: EventConnection;
   browseGenes: BrowseGeneConnection;
-  /** List and filter comments. */
   comments: CommentConnection;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
@@ -903,8 +935,6 @@ export type QueryCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-  originatingUserId?: Maybe<Scalars['Int']>;
-  sortBy?: Maybe<DateSort>;
   subject?: Maybe<CommentableInput>;
 };
 
@@ -1053,10 +1083,10 @@ export type RevisionResult = {
 };
 
 export enum RevisionStatus {
-  Accepted = 'accepted',
-  New = 'new',
-  Rejected = 'rejected',
-  Superseded = 'superseded'
+  Accepted = 'ACCEPTED',
+  New = 'NEW',
+  Rejected = 'REJECTED',
+  Superseded = 'SUPERSEDED'
 }
 
 export type ScalarField = {
@@ -1266,11 +1296,13 @@ export type UserProfileImagePathArgs = {
 
 export type Variant = Commentable & Flaggable & {
   __typename: 'Variant';
+  /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
   events: EventConnection;
   evidenceItems: EvidenceItemConnection;
   flagged: Scalars['Boolean'];
+  /** List and filter flags. */
   flags: FlagConnection;
   gene: Gene;
   id: Scalars['Int'];
@@ -1283,6 +1315,8 @@ export type VariantCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -1306,7 +1340,11 @@ export type VariantFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
 };
 
 /** The connection type for Variant. */
@@ -1341,6 +1379,26 @@ export enum VariantOrigin {
   Somatic = 'SOMATIC',
   Unknown = 'UNKNOWN'
 }
+
+/** A CIViC entity that can have revisions proposed to it. */
+export type WithRevisions = {
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
+};
+
+
+/** A CIViC entity that can have revisions proposed to it. */
+export type WithRevisionsRevisionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
+};
 
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;

@@ -69,6 +69,15 @@
             "name": "ScalarField"
           }
         ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "WithRevisions",
+        "possibleTypes": [
+          {
+            "name": "Gene"
+          }
+        ]
       }
     ]
   }
