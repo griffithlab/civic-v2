@@ -1,8 +1,8 @@
 module Types::Revisions
   class RevisionStatus < Types::BaseEnum
-    value "new"
-    value "rejected"
-    value "accepted"
-    value "superseded"
+    value 'NEW', value: 'new'
+    value 'REJECTED', value: 'rejected'
+    value 'ACCEPTED', value: 'accepted'
+    value 'SUPERSEDED', value: 'superseded'
   end
 end
