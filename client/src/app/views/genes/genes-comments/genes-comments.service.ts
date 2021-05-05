@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApolloQueryResult, ApolloError } from '@apollo/client/core';
-import { ICommentListService } from '@app/components/shared/comment-list/comment-list.component';
+import { CommentListService } from '@app/components/shared/comment-list/comment-list.component';
 import {
   Maybe,
   CommentableInput,
@@ -12,11 +12,11 @@ import {
 import { QueryRef } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { NGXLogger } from 'ngx-logger';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
 
 @Injectable()
-export class GenesCommentsService implements ICommentListService {
+export class GenesCommentsService implements CommentListService {
   subject!: CommentableInput;
   queryRef!: QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>;
   result$!: Observable<ApolloQueryResult<GeneCommentsQuery>>;

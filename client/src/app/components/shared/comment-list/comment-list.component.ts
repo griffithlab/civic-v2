@@ -18,7 +18,7 @@ import {
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
-export interface ICommentListService {
+export interface CommentListService {
   subject: CommentableInput,
   queryRef: QueryRef<any, any>,
   result$: Observable<ApolloQueryResult<any>>,
@@ -36,7 +36,7 @@ export interface ICommentListService {
 })
 
 export class CommentListComponent implements OnInit {
-  @Input() commentsService!: ICommentListService;
+  @Input() commentsService!: CommentListService;
   viewer: ViewerService;
 
   constructor(viewerService: ViewerService) {

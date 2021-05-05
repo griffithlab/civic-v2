@@ -1,5 +1,6 @@
 <nz-card nzTitle="Comments">
   <nz-list [nzDataSource]="commentsService.comments$ | ngrxPush"
+    [nzLoading]="commentsService.isLoading$ | ngrxPush"
     [nzRenderItem]="comment"
     nzSize="small"
     nzItemLayout="horizontal">
