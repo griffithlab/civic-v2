@@ -1,0 +1,27 @@
+fragment commentList on CommentConnection {
+  totalCount
+  edges {
+    node {
+      ...commentListNode
+    }
+  }
+}
+
+fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commentor {
+    id
+    username
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}

@@ -13,25 +13,7 @@ query GeneComments(
       before: $before,
       after: $after,
     ) {
-      totalCount
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
+      ...commentList
     }
   }
 }

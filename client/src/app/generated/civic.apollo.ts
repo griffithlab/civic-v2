@@ -1412,17 +1412,34 @@ export type AddCommentMutation = (
     & Pick<AddCommentPayload, 'clientMutationId'>
     & { comment?: Maybe<(
       { __typename: 'Comment' }
-      & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
-      & { commentor: (
-        { __typename: 'User' }
-        & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
-        & { organizations: Array<(
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        )> }
-      ) }
+      & CommentListNodeFragment
     )> }
   )> }
+);
+
+export type CommentListFragment = (
+  { __typename: 'CommentConnection' }
+  & Pick<CommentConnection, 'totalCount'>
+  & { edges: Array<(
+    { __typename: 'CommentEdge' }
+    & { node?: Maybe<(
+      { __typename: 'Comment' }
+      & CommentListNodeFragment
+    )> }
+  )> }
+);
+
+export type CommentListNodeFragment = (
+  { __typename: 'Comment' }
+  & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
+  & { commentor: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
+    & { organizations: Array<(
+      { __typename: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )> }
+  ) }
 );
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
@@ -1563,22 +1580,7 @@ export type GeneCommentsQuery = (
     & Pick<Gene, 'id'>
     & { comments: (
       { __typename: 'CommentConnection' }
-      & Pick<CommentConnection, 'totalCount'>
-      & { edges: Array<(
-        { __typename: 'CommentEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Comment' }
-          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
-          & { commentor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-            & { organizations: Array<(
-              { __typename: 'Organization' }
-              & Pick<Organization, 'id' | 'name'>
-            )> }
-          ) }
-        )> }
-      )> }
+      & CommentListFragment
     ) }
   )> }
 );
@@ -1668,31 +1670,46 @@ export type GenesSummaryQuery = (
   )> }
 );
 
+export const CommentListNodeFragmentDoc = gql`
+    fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commentor {
+    id
+    username
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+    `;
+export const CommentListFragmentDoc = gql`
+    fragment commentList on CommentConnection {
+  totalCount
+  edges {
+    node {
+      ...commentListNode
+    }
+  }
+}
+    ${CommentListNodeFragmentDoc}`;
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
     clientMutationId
     comment {
-      id
-      title
-      comment
-      createdAt
-      commentor {
-        id
-        username
-        name
-        role
-        profileImagePath(size: 32)
-        organizations {
-          id
-          name
-          profileImagePath(size: 32)
-        }
-      }
+      ...commentListNode
     }
   }
 }
-    `;
+    ${CommentListNodeFragmentDoc}`;
 
   @Injectable({
     providedIn: AppModule
@@ -1884,29 +1901,11 @@ export const GeneCommentsDocument = gql`
   gene(id: $geneId) {
     id
     comments(first: $first, last: $last, before: $before, after: $after) {
-      totalCount
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
+      ...commentList
     }
   }
 }
-    `;
+    ${CommentListFragmentDoc}`;
 
   @Injectable({
     providedIn: AppModule
