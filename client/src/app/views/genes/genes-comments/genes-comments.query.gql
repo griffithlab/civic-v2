@@ -1,7 +1,18 @@
-query GeneComments($geneId: Int!) {
+query GeneComments(
+  $geneId: Int!,
+  $first: Int,
+  $last: Int,
+  $before: String,
+  $after: String,
+) {
   gene(id: $geneId) {
     id
-    comments {
+    comments(
+      first: $first,
+      last: $last,
+      before: $before,
+      after: $after,
+    ) {
       totalCount
       edges {
         node {

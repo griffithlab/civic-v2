@@ -13,7 +13,8 @@ import { GraphQLError } from 'graphql';
 import {
   Maybe,
   CommentableInput,
-  CommentEdge
+  CommentEdge,
+  GeneCommentsQueryVariables
 } from '@app/generated/civic.apollo';
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -26,7 +27,7 @@ export interface CommentListService {
   isLoading$: Observable<boolean>,
   queryErrors$: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$: Observable<Maybe<ApolloError>>;
-  watch(): Maybe<QueryRef<any, any>>
+  watch(vars: GeneCommentsQueryVariables): QueryRef<any, any>
 }
 
 @Component({
@@ -44,6 +45,5 @@ export class CommentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commentsService.watch();
   }
 }

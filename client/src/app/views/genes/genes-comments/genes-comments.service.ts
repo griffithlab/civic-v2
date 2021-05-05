@@ -28,27 +28,22 @@ export class GenesCommentsService implements CommentListService {
 
   constructor(private gql: GeneCommentsGQL, private log: NGXLogger) { }
 
-  watch(): Maybe<QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>> {
-    if(this.subject !== undefined) {
-      this.queryRef = this.gql.watch({ geneId: this.subject.id });
-      this.result$ = this.queryRef.valueChanges;
+  watch(vars: GeneCommentsQueryVariables): QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables> {
+    this.queryRef = this.gql.watch(vars);
+    this.result$ = this.queryRef.valueChanges;
 
-      this.isLoading$ = this.result$
-        .pipe(pluck('loading'), startWith(true));
+    this.isLoading$ = this.result$
+      .pipe(pluck('loading'), startWith(true));
 
-      this.queryErrors$ = this.result$
-        .pipe(pluck('errors'));
+    this.queryErrors$ = this.result$
+      .pipe(pluck('errors'));
 
-      this.networkError$ = this.result$
-        .pipe(pluck('error'));
+    this.networkError$ = this.result$
+      .pipe(pluck('error'));
 
-      this.comments$ = this.result$
-        .pipe(pluck('data', 'gene', 'comments', 'edges'));
+    this.comments$ = this.result$
+      .pipe(pluck('data', 'gene', 'comments', 'edges'));
 
-      return this.queryRef;
-    } else {
-      this.log.error('CommentableInput `subject` must be set before calling watch().')
-      return undefined;
-    }
+    return this.queryRef;
   }
 }

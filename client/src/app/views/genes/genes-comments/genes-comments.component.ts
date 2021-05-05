@@ -28,10 +28,7 @@ export class GenesCommentsComponent implements OnInit {
   ) {
     const geneId: number = +this.route.snapshot.params['geneId'];
     this.service = genesCommentsService;
-    this.service.subject = {
-      id: geneId,
-      entityType: CommentableEntities['Gene']
-    };
+    this.service.watch({ geneId: 3});
   }
 
   ngOnInit(): void {
