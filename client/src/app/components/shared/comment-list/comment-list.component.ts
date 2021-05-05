@@ -14,7 +14,7 @@ import {
   Maybe,
   CommentableInput,
   CommentEdge,
-  GeneCommentsQueryVariables
+  Exact,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -27,7 +27,13 @@ export interface CommentListService {
   isLoading$: Observable<boolean>,
   queryErrors$: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$: Observable<Maybe<ApolloError>>;
-  watch(vars: GeneCommentsQueryVariables): QueryRef<any, any>
+  watch(vars: Exact<{
+    geneId: number;
+    first?: number;
+    last?: number;
+    before?: string;
+    after?: string;
+  }>): QueryRef<any, any>
 }
 
 @Component({
