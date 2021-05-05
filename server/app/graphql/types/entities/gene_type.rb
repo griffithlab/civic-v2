@@ -1,7 +1,5 @@
 module Types::Entities
   class GeneType < Types::BaseObject
-    #include Types::Revisions::WithRevisions <- TODO: we don't seem to be using this right now
-
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
