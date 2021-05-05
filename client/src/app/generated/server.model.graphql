@@ -1431,6 +1431,10 @@ type Query {
     last: Int
     sortBy: GenesSort
   ): BrowseGeneConnection!
+
+  """
+  List and filter comments.
+  """
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1451,6 +1455,16 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
 
     """
     Limit to comments on a certain subject.
