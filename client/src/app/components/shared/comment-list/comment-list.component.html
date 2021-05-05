@@ -4,6 +4,11 @@
     [nzRenderItem]="comment"
     nzSize="small"
     nzItemLayout="horizontal">
+    <nz-list-header>
+      <div nz-list-load-more>
+        <button nz-button nzType="link" nzSize="small" nzBlock (click)="onLoadMore()">Load older comments</button>
+      </div>
+    </nz-list-header>
     <ng-template #comment let-comment>
       <nz-list-item>
         <nz-comment [nzAuthor]="comment.node.commentor.name"

@@ -19,6 +19,8 @@ import {
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 
+import { NGXLogger } from 'ngx-logger';
+
 export interface CommentListService {
   subject: CommentableInput,
   queryRef: QueryRef<any, any>,
@@ -45,9 +47,15 @@ export interface CommentListService {
 export class CommentListComponent implements OnInit {
   @Input() commentsService!: CommentListService;
   viewer: ViewerService;
+  private log: NGXLogger;
 
-  constructor(viewerService: ViewerService) {
+  constructor(viewerService: ViewerService, private logger: NGXLogger) {
     this.viewer = viewerService;
+    this.log = logger;
+  }
+
+  onLoadMore(): void {
+    this.log.trace('onLoadMore() called')
   }
 
   ngOnInit(): void {
