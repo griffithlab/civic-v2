@@ -41,7 +41,7 @@ module Types
       argument :permalink_id, String, required: true
     end
 
-    field :comments, resolver: Resolvers::Comments
+    field :comments, resolver: Resolvers::TopLevelComments
 
     def disease(id: )
       Disease.find(id)
