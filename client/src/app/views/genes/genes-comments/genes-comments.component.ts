@@ -28,7 +28,7 @@ export class GenesCommentsComponent implements OnInit {
   ) {
     const geneId: number = +this.route.snapshot.params['geneId'];
     this.service = genesCommentsService;
-    this.service.watch({ geneId: 3});
+    this.service.watch({ geneId: 3, last: 5 });
   }
 
   ngOnInit(): void {

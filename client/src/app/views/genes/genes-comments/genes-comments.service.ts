@@ -7,7 +7,8 @@ import {
   CommentEdge,
   GeneCommentsGQL,
   GeneCommentsQuery,
-  GeneCommentsQueryVariables
+  GeneCommentsQueryVariables,
+  CommentableEntities
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
@@ -29,6 +30,7 @@ export class GenesCommentsService implements CommentListService {
   constructor(private gql: GeneCommentsGQL, private log: NGXLogger) { }
 
   watch(vars: GeneCommentsQueryVariables): QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables> {
+    this.subject = { id: vars.geneId, entityType: CommentableEntities['Gene'] };
     this.queryRef = this.gql.watch(vars);
     this.result$ = this.queryRef.valueChanges;
 
