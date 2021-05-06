@@ -1,4 +1,11 @@
-query GeneDetail($geneId: Int!) {
+query GeneDetail(
+  $geneId: Int!,
+
+  $commentFirst: Int,
+  $commentLast: Int,
+  $commentBefore: String,
+  $commentAfter: String
+) {
   gene(id: $geneId) {
     id
     name
@@ -10,13 +17,13 @@ query GeneDetail($geneId: Int!) {
     revisions {
       totalCount
     }
-    comments {
+    comments(
+      first: $commentFirst,
+      last: $commentLast
+      before: $commentBefore,
+      after: $commentAfter,
+    ) {
       totalCount,
-      edges {
-        node {
-          id
-        }
-      }
     }
     lifecycleActions {
       lastCommentedOn {

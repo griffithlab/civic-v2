@@ -1590,6 +1590,10 @@ export type GeneCommentsQuery = (
 
 export type GeneDetailQueryVariables = Exact<{
   geneId: Scalars['Int'];
+  commentFirst?: Maybe<Scalars['Int']>;
+  commentLast?: Maybe<Scalars['Int']>;
+  commentBefore?: Maybe<Scalars['String']>;
+  commentAfter?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1607,13 +1611,6 @@ export type GeneDetailQuery = (
     ), comments: (
       { __typename: 'CommentConnection' }
       & Pick<CommentConnection, 'totalCount'>
-      & { edges: Array<(
-        { __typename: 'CommentEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Comment' }
-          & Pick<Comment, 'id'>
-        )> }
-      )> }
     ), lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
@@ -1934,7 +1931,7 @@ export const GeneCommentsDocument = gql`
     }
   }
 export const GeneDetailDocument = gql`
-    query GeneDetail($geneId: Int!) {
+    query GeneDetail($geneId: Int!, $commentFirst: Int, $commentLast: Int, $commentBefore: String, $commentAfter: String) {
   gene(id: $geneId) {
     id
     name
@@ -1946,13 +1943,13 @@ export const GeneDetailDocument = gql`
     revisions {
       totalCount
     }
-    comments {
+    comments(
+      first: $commentFirst
+      last: $commentLast
+      before: $commentBefore
+      after: $commentAfter
+    ) {
       totalCount
-      edges {
-        node {
-          id
-        }
-      }
     }
     lifecycleActions {
       lastCommentedOn {

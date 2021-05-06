@@ -14,12 +14,19 @@ import {
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
-import { NGXLogger } from 'ngx-logger';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { pluck, startWith, takeUntil, tap } from 'rxjs/operators';
+import { map, pluck, shareReplay, startWith, takeUntil, tap } from 'rxjs/operators';
+
+// logging, debugging
+import { NGXLogger } from 'ngx-logger';
+import { Spy } from 'rxjs-spy/cjs/spy-interface'; // debug
+import { create } from "rxjs-spy"; // debug
+import { tag } from "rxjs-spy/operators/tag"; // debug
 
 @Injectable()
 export class GenesCommentsService implements CommentListService, OnDestroy {
+  private spy: Spy;
+
   subject!: CommentableInput;
   queryRef!: QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>;
   result$!: Observable<ApolloQueryResult<GeneCommentsQuery>>;
@@ -30,6 +37,7 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
   networkError$!: Observable<Maybe<ApolloError>>;
 
   pageInfo$!: Observable<PageInfo>;
+  pageInfo!: PageInfo;
 
   private pageInfoSubject$!: BehaviorSubject<PageInfo>;
   private initialListSize=  5;
@@ -37,11 +45,13 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
   private destroy$ = new Subject();
 
   constructor(private gql: GeneCommentsGQL, private log: NGXLogger) {
+    this.spy = create(); // debug
   }
 
   watch(vars: GeneCommentsQueryVariables): QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables> {
     const initialQueryVars: GeneCommentsQueryVariables = {
       geneId: vars.geneId,
+      before: '',
       last: vars.last ? vars.last : this.initialListSize
     }
     this.queryRef = this.gql.watch(initialQueryVars);
@@ -50,15 +60,13 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
     this.isLoading$ = this.result$
       .pipe(pluck('loading'), startWith(true));
 
-    this.pageInfoSubject$ = new BehaviorSubject<PageInfo>(<PageInfo>{})
-
     this.pageInfo$ = this.result$
       .pipe(pluck('data', 'gene', 'comments', 'pageInfo'));
 
-    // create pageInfo behavior subject to access syncronously in fetchMore()
+    // provide static local pageInfo
     this.pageInfo$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(this.pageInfoSubject$);
+      .pipe(takeUntil(this.destroy$), shareReplay(1))
+      .subscribe((info: PageInfo) => { this.pageInfo = info; });
 
     this.queryErrors$ = this.result$
       .pipe(pluck('errors'));
@@ -66,8 +74,13 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
     this.networkError$ = this.result$
       .pipe(pluck('error'));
 
+    this.spy.log('comments$'); // debug
     this.comments$ = this.result$
-      .pipe(pluck('data', 'gene', 'comments', 'edges'));
+      .pipe(
+        map(({ data }) => { return data.gene?.comments.edges as CommentEdge[]  }),
+        shareReplay(1));
+
+    this.comments$.pipe(takeUntil(this.destroy$),tag('comments$')).subscribe(); // debug
 
     this.subject = { id: vars.geneId, entityType: CommentableEntities['Gene'] };
 
@@ -78,7 +91,7 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
     this.queryRef.fetchMore({
       variables: <GeneCommentsQueryVariables>{
         last: this.fetchMoreSize,
-        before: this.pageInfoSubject$.value.startCursor
+        before: this.pageInfo.startCursor
       }
     });
   }
@@ -86,5 +99,6 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.spy.teardown();
   }
 }
