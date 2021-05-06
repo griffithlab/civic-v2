@@ -15,6 +15,7 @@ import {
   CommentableInput,
   CommentEdge,
   Exact,
+  PageInfo,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -29,13 +30,15 @@ export interface CommentListService {
   isLoading$: Observable<boolean>,
   queryErrors$: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$: Observable<Maybe<ApolloError>>;
+  pageInfo$: Observable<PageInfo>,
   watch(vars: Exact<{
     geneId: number;
     first?: number;
     last?: number;
     before?: string;
     after?: string;
-  }>): QueryRef<any, any>
+  }>): QueryRef<any, any>,
+  fetchMore(): void;
 }
 
 @Component({
@@ -56,6 +59,7 @@ export class CommentListComponent implements OnInit {
 
   onLoadMore(): void {
     this.log.trace('onLoadMore() called')
+    this.commentsService.fetchMore()
   }
 
   ngOnInit(): void {

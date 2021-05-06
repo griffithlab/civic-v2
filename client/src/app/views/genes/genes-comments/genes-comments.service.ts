@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { ApolloQueryResult, ApolloError } from '@apollo/client/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ApolloQueryResult, ApolloError, FetchMoreQueryOptions } from '@apollo/client/core';
 import { CommentListService } from '@app/components/shared/comment-list/comment-list.component';
 import {
   Maybe,
@@ -8,16 +8,18 @@ import {
   GeneCommentsGQL,
   GeneCommentsQuery,
   GeneCommentsQueryVariables,
-  CommentableEntities
+  CommentableEntities,
+  CommentConnection,
+  PageInfo
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { NGXLogger } from 'ngx-logger';
-import { Observable } from 'rxjs';
-import { pluck, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { pluck, startWith, takeUntil, tap } from 'rxjs/operators';
 
 @Injectable()
-export class GenesCommentsService implements CommentListService {
+export class GenesCommentsService implements CommentListService, OnDestroy {
   subject!: CommentableInput;
   queryRef!: QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>;
   result$!: Observable<ApolloQueryResult<GeneCommentsQuery>>;
@@ -27,15 +29,36 @@ export class GenesCommentsService implements CommentListService {
   queryErrors$!: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$!: Observable<Maybe<ApolloError>>;
 
-  constructor(private gql: GeneCommentsGQL, private log: NGXLogger) { }
+  pageInfo$!: Observable<PageInfo>;
+
+  private pageInfoSubject$!: BehaviorSubject<PageInfo>;
+  private initialListSize=  5;
+  private fetchMoreSize = 5;
+  private destroy$ = new Subject();
+
+  constructor(private gql: GeneCommentsGQL, private log: NGXLogger) {
+  }
 
   watch(vars: GeneCommentsQueryVariables): QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables> {
-    this.subject = { id: vars.geneId, entityType: CommentableEntities['Gene'] };
-    this.queryRef = this.gql.watch(vars);
+    const initialQueryVars: GeneCommentsQueryVariables = {
+      geneId: vars.geneId,
+      last: vars.last ? vars.last : this.initialListSize
+    }
+    this.queryRef = this.gql.watch(initialQueryVars);
     this.result$ = this.queryRef.valueChanges;
 
     this.isLoading$ = this.result$
       .pipe(pluck('loading'), startWith(true));
+
+    this.pageInfoSubject$ = new BehaviorSubject<PageInfo>(<PageInfo>{})
+
+    this.pageInfo$ = this.result$
+      .pipe(pluck('data', 'gene', 'comments', 'pageInfo'));
+
+    // create pageInfo behavior subject to access syncronously in fetchMore()
+    this.pageInfo$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.pageInfoSubject$);
 
     this.queryErrors$ = this.result$
       .pipe(pluck('errors'));
@@ -46,6 +69,22 @@ export class GenesCommentsService implements CommentListService {
     this.comments$ = this.result$
       .pipe(pluck('data', 'gene', 'comments', 'edges'));
 
+    this.subject = { id: vars.geneId, entityType: CommentableEntities['Gene'] };
+
     return this.queryRef;
+  }
+
+  fetchMore(): void {
+    this.queryRef.fetchMore({
+      variables: <GeneCommentsQueryVariables>{
+        last: this.fetchMoreSize,
+        before: this.pageInfoSubject$.value.startCursor
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

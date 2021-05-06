@@ -11,7 +11,12 @@ query GeneDetail($geneId: Int!) {
       totalCount
     }
     comments {
-      totalCount
+      totalCount,
+      edges {
+        node {
+          id
+        }
+      }
     }
     lifecycleActions {
       lastCommentedOn {

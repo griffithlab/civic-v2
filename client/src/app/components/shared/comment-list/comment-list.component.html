@@ -4,8 +4,8 @@
     [nzRenderItem]="comment"
     nzSize="small"
     nzItemLayout="horizontal">
-    <nz-list-header>
-      <div nz-list-load-more>
+    <nz-list-header *ngrxLet="commentsService.pageInfo$ as pageInfo">
+      <div nz-list-load-more *ngIf="pageInfo.hasPreviousPage">
         <button nz-button nzType="link" nzSize="small" nzBlock (click)="onLoadMore()">Load older comments</button>
       </div>
     </nz-list-header>

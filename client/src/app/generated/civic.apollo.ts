@@ -1420,7 +1420,10 @@ export type AddCommentMutation = (
 export type CommentListFragment = (
   { __typename: 'CommentConnection' }
   & Pick<CommentConnection, 'totalCount'>
-  & { edges: Array<(
+  & { pageInfo: (
+    { __typename: 'PageInfo' }
+    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+  ), edges: Array<(
     { __typename: 'CommentEdge' }
     & { node?: Maybe<(
       { __typename: 'Comment' }
@@ -1604,6 +1607,13 @@ export type GeneDetailQuery = (
     ), comments: (
       { __typename: 'CommentConnection' }
       & Pick<CommentConnection, 'totalCount'>
+      & { edges: Array<(
+        { __typename: 'CommentEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Comment' }
+          & Pick<Comment, 'id'>
+        )> }
+      )> }
     ), lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
@@ -1693,6 +1703,12 @@ export const CommentListNodeFragmentDoc = gql`
 export const CommentListFragmentDoc = gql`
     fragment commentList on CommentConnection {
   totalCount
+  pageInfo {
+    startCursor
+    endCursor
+    hasPreviousPage
+    hasNextPage
+  }
   edges {
     node {
       ...commentListNode
@@ -1932,6 +1948,11 @@ export const GeneDetailDocument = gql`
     }
     comments {
       totalCount
+      edges {
+        node {
+          id
+        }
+      }
     }
     lifecycleActions {
       lastCommentedOn {

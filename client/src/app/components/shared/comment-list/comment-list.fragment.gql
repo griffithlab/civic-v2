@@ -1,5 +1,11 @@
 fragment commentList on CommentConnection {
   totalCount
+  pageInfo {
+    startCursor
+    endCursor
+    hasPreviousPage
+    hasNextPage
+  }
   edges {
     node {
       ...commentListNode
