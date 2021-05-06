@@ -1,4 +1,4 @@
-module Types::Entities::Event
+module Types::Events
   class EventActionType < Types::BaseEnum
     value 'COMMENTED', value: 'commented'
     value 'REVISION_SUGGESTED', value: 'revision suggested'

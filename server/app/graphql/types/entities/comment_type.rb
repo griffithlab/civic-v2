@@ -1,5 +1,7 @@
 module Types::Entities
   class CommentType < Types::BaseObject
+    implements Types::Interfaces::EventOriginObject
+
     field :id, Int, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :title, String, null: true
