@@ -1,4 +1,4 @@
-module Types
+module Types::Subscribable
   class SubscribableEntitiesType < Types::BaseEnum
     description 'Enumeration of all subscribable CIViC entities.'
     value 'GENE'
