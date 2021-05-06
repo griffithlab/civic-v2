@@ -1475,7 +1475,41 @@ export type SuggestGeneRevisionMutation = (
     & Pick<SuggestGeneRevisionPayload, 'clientMutationId'>
     & { gene: (
       { __typename: 'Gene' }
-      & Pick<Gene, 'id' | 'entrezId'>
+      & Pick<Gene, 'id'>
+      & { revisions: (
+        { __typename: 'RevisionConnection' }
+        & Pick<RevisionConnection, 'totalCount'>
+        & { edges: Array<(
+          { __typename: 'RevisionEdge' }
+          & { node?: Maybe<(
+            { __typename: 'Revision' }
+            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+            & { linkoutData: (
+              { __typename: 'LinkoutData' }
+              & Pick<LinkoutData, 'name'>
+              & { diffValue: (
+                { __typename: 'ObjectFieldDiff' }
+                & { addedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, removedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, keptObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )> }
+              ) | (
+                { __typename: 'ScalarField' }
+                & Pick<ScalarField, 'value'>
+              ) }
+            ), revisor: (
+              { __typename: 'User' }
+              & Pick<User, 'id' | 'name'>
+            ) }
+          )> }
+        )> }
+      ) }
     ), results: Array<(
       { __typename: 'RevisionResult' }
       & Pick<RevisionResult, 'id' | 'fieldName'>
@@ -1673,6 +1707,7 @@ export type GeneRevisionsQuery = (
     & Pick<Gene, 'id'>
     & { revisions: (
       { __typename: 'RevisionConnection' }
+      & Pick<RevisionConnection, 'totalCount'>
       & { edges: Array<(
         { __typename: 'RevisionEdge' }
         & { node?: Maybe<(
@@ -1822,7 +1857,52 @@ export const SuggestGeneRevisionDocument = gql`
     clientMutationId
     gene {
       id
-      entrezId
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
     }
     results {
       id
@@ -2074,6 +2154,7 @@ export const GeneRevisionsDocument = gql`
   gene(id: $geneId) {
     id
     revisions(first: $first, last: $last, before: $before, after: $after) {
+      totalCount
       edges {
         node {
           id

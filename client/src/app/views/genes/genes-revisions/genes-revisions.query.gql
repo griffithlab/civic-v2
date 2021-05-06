@@ -13,6 +13,7 @@ query GeneRevisions(
       before: $before,
       after: $after,
     ) {
+      totalCount
       edges {
         node {
           id

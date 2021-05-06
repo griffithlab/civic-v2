@@ -36,8 +36,8 @@ export class GenesRevisionsService implements OnDestroy {
   pageInfo!: PageInfo;
 
   private pageInfoSubject$!: BehaviorSubject<PageInfo>;
-  private initialListSize=  5;
-  private fetchMoreSize = 5;
+  private initialFirst =  50;
+  private fetchMoreSize = 10;
   private destroy$ = new Subject();
 
   constructor(private gql: GeneRevisionsGQL, private log: NGXLogger) {
@@ -47,8 +47,10 @@ export class GenesRevisionsService implements OnDestroy {
   watch(vars: GeneRevisionsQueryVariables): QueryRef<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
     const initialQueryVars: GeneRevisionsQueryVariables = {
       geneId: vars.geneId,
-      last: vars.last ? vars.last : this.initialListSize,
-      before: vars.before ? vars.before : undefined
+      // last: vars.last ? vars.last : this.initialLast,
+      first: vars.first ? vars.first : this.initialFirst,
+      before: vars.before ? vars.before : undefined,
+      after: vars.after? vars.after: undefined
     }
 
     this.queryRef = this.gql.watch(initialQueryVars);

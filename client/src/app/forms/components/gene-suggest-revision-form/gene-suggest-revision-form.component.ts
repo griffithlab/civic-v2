@@ -34,6 +34,7 @@ import {
 
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
+import { ObservableQuery } from '@apollo/client/core';
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',
@@ -79,14 +80,19 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
       });
 
     this.suggestGeneRevisionForm = this.fb.group({
-      description: ['', [
-        Validators.minLength(10)
-      ]],
-
+      id: [undefined, Validators.required],
       comment: ['', [
         Validators.required,
         Validators.minLength(10)
       ]],
+      fields: this.fb.group({
+        description: ['', [
+          Validators.minLength(10)
+        ]],
+        sourceIds: [[], [
+          Validators.required
+        ]],
+      })
     });
   }
 
@@ -96,8 +102,11 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
       .subscribe(({ data: { gene } }) => {
         if(gene) {
           this.suggestGeneRevisionForm.patchValue({
-            description: gene.description,
-            sourceIds: gene.sources.map(s => s.id)
+            id: gene.id,
+            fields: {
+              description: gene.description,
+              sourceIds: gene.sources.map(s => s.id)
+            }
           })
         } else {
           // TODO: handle errors with subscribe({complete, error})
@@ -117,7 +126,12 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
     }
     console.log(value);
 
-    this.geneSuggestRevisionService.suggestRevision(value);
+    const newRevisionInput = <SuggestGeneRevisionInput>{
+      ...value,
+      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+    }
+
+    this.geneSuggestRevisionService.suggestRevision(newRevisionInput);
 
   }
 

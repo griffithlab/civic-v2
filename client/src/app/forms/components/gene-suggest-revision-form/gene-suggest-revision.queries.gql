@@ -13,7 +13,52 @@ mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
     clientMutationId
     gene {
       id
-      entrezId
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
     }
     results {
       id

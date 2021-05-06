@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -16,6 +17,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [GeneSuggestRevisionFormComponent],
@@ -25,13 +27,15 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ReactiveFormsModule,
     CommonModule,
     NzButtonModule,
+    NzAlertModule,
     NzFormModule,
     NzInputModule,
     NzListModule,
     NzSpaceModule,
     NzToolTipModule,
     NzTypographyModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    RouterModule,
   ],
   exports: [GeneSuggestRevisionFormComponent]
 })

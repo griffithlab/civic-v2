@@ -47,25 +47,26 @@ export class GeneSuggestRevisionService implements OnDestroy {
     this.suggestGeneRevisionGQL.mutate(
       { input: suggestGeneRevisionInput },
       {
-        update: (cache: ApolloCache<any>, { data: { suggestGene } }: FetchResult<any>) => {
+        update: (cache: ApolloCache<any>, { data: { suggestGeneRevision } }: FetchResult<any>) => {
           cache.modify({
             id: cache.identify(this.storeObj),
             fields: {
-              comments(existingCommentRefs = []) {
-                const newEdge = {
-                  __typeName: 'CommentEdge',
-                  node: {
-                    __ref: cache.identify(suggestGene.comment)
-                  }
-                };
+              revisions(existingRevisionConnection = []) {
+                // const newConnection = {
+                //   __typeName: 'RevisionConnection',
+                //   node: {
+                //     __ref: cache.identify(suggestGeneRevision.gene.revisions)
+                //   }
+                // };
 
-                return {
-                  ...existingCommentRefs,
-                  edges: [
-                    ...existingCommentRefs.edges,
-                    newEdge
-                  ]
-                }
+                return suggestGeneRevision.gene.revisions
+
+                // return {
+                //   ...existingRevisionConnection,
+                //   edges: [
+                //     ...existingRevisionConnection.edges,
+                //   ]
+                // }
               },
             },
           });
