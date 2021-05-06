@@ -11,10 +11,10 @@ import {
   Revision,
   RevisionEdge,
   Maybe,
-  GeneRevisionsQueryVariables
+  GeneRevisionsQueryVariables,
+  Organization
 } from '@app/generated/civic.apollo';
 
-import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 import { GenesRevisionsService } from './genes-revisions.service';
 
 @Component({
@@ -25,6 +25,7 @@ import { GenesRevisionsService } from './genes-revisions.service';
 })
 export class GenesRevisionsComponent implements OnInit {
   service: GenesRevisionsService;
+  mostRecentOrg!: Maybe<Organization>;
 
   constructor(
     private genesRevisionsService: GenesRevisionsService,
@@ -37,4 +38,9 @@ export class GenesRevisionsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  selectOrg(org: Organization): void {
+    this.mostRecentOrg = org;
+  }
+
 }

@@ -24,6 +24,43 @@
                     <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>
                   </ng-container>
                 </ng-container>
+                <nz-card-meta [nzDescription]="moderationButtons">
+                </nz-card-meta>
+                <ng-template #moderationButtons>
+                  <div nz-row
+                    style="margin-top: 1em;">
+                    <div nz-col
+                      nzSpan="24"
+                      style="text-align: right;">
+                      <nz-space nzDirection="horizontal">
+                        <nz-space-item>
+                          <cvc-org-selector-btn-group (orgSelected)="selectOrg($event)">
+                            <button type="submit"
+                              nz-button
+                              cvcOrgSelectorBtn
+                              nzType="primary"
+                              nzSize="small">
+                              Reject Revision
+                            </button>
+                          </cvc-org-selector-btn-group>
+                        </nz-space-item>
+                        <nz-space-item>
+                          <cvc-org-selector-btn-group (orgSelected)="selectOrg($event)">
+                            <button type="submit"
+                              nz-button
+                              cvcOrgSelectorBtn
+                              nzType="primary"
+                              nzSize="small">
+                              Accept Revision
+                            </button>
+                          </cvc-org-selector-btn-group>
+
+                        </nz-space-item>
+                      </nz-space>
+
+                    </div>
+                  </div>
+                </ng-template>
               </nz-card>
 
               <!-- Revision Card Templates -->
@@ -65,8 +102,11 @@
     </ng-container>
   </nz-col>
   <nz-col nzSpan="6">
-    <nz-card nzTitle="Revisors" nz-type="inner" style="margin-bottom: 1em">
-      <nz-space nzDirection="vertical" style="width: 100%">
+    <nz-card nzTitle="Revisors"
+      nz-type="inner"
+      style="margin-bottom: 1em">
+      <nz-space nzDirection="vertical"
+        style="width: 100%">
         <nz-space-item>
           <nz-skeleton [nzAvatar]="true"
             [nzParagraph]="{ rows: 0 }"></nz-skeleton>
@@ -81,19 +121,18 @@
         </nz-space-item>
       </nz-space>
     </nz-card>
-    <nz-card nzTitle="Fields Revised" nz-type="inner">
-      <nz-list nzDirection="vertical" style="width: 100%">
+    <nz-card nzTitle="Fields Revised"
+      nz-type="inner">
+      <nz-list nzDirection="vertical"
+        style="width: 100%">
         <nz-list-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
         </nz-list-item>
         <nz-list-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
         </nz-list-item>
         <nz-list-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
         </nz-list-item>
       </nz-list>
     </nz-card>
