@@ -237,6 +237,9 @@ type CommentEdge {
 A CIViC entity that can have comments on it.
 """
 interface Commentable {
+  """
+  List and filter comments.
+  """
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -257,6 +260,16 @@ interface Commentable {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
   ): CommentConnection!
 }
 
@@ -419,6 +432,10 @@ enum EvidenceDirection {
 
 type EvidenceItem implements Commentable & Flaggable {
   clinicalSignificance: EvidenceClinicalSignificance!
+
+  """
+  List and filter comments.
+  """
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -439,6 +456,16 @@ type EvidenceItem implements Commentable & Flaggable {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
   ): CommentConnection!
   description: String!
   disease: Disease
@@ -470,6 +497,10 @@ type EvidenceItem implements Commentable & Flaggable {
   evidenceRating: Int
   evidenceType: EvidenceType!
   flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
   flags(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -487,9 +518,29 @@ type EvidenceItem implements Commentable & Flaggable {
     first: Int
 
     """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
   ): FlagConnection!
   id: Int!
   phenotypes: [Phenotype!]
@@ -570,6 +621,9 @@ enum EvidenceType {
 }
 
 type Flag implements Commentable {
+  """
+  List and filter comments.
+  """
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -590,6 +644,16 @@ type Flag implements Commentable {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
   ): CommentConnection!
   flaggingUser: User!
   id: Int!
@@ -686,8 +750,8 @@ type FlagEntityPayload {
 }
 
 enum FlagState {
-  open
-  resolved
+  OPEN
+  RESOLVED
 }
 
 """
@@ -695,6 +759,10 @@ A CIViC entity that can be flagged for editor attention.
 """
 interface Flaggable {
   flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
   flags(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -712,9 +780,29 @@ interface Flaggable {
     first: Int
 
     """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
   ): FlagConnection!
 }
 
@@ -740,8 +828,12 @@ input FlaggableInput {
   id: Int!
 }
 
-type Gene implements Commentable & Flaggable {
+type Gene implements Commentable & Flaggable & WithRevisions {
   aliases: [GeneAlias!]!
+
+  """
+  List and filter comments.
+  """
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -762,6 +854,16 @@ type Gene implements Commentable & Flaggable {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
   ): CommentConnection!
   description: String!
   entrezId: Int!
@@ -787,6 +889,10 @@ type Gene implements Commentable & Flaggable {
     last: Int
   ): EventConnection!
   flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
   flags(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -804,15 +910,39 @@ type Gene implements Commentable & Flaggable {
     first: Int
 
     """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
   ): FlagConnection!
   id: Int!
   lifecycleActions: Lifecycle!
   myGeneInfoDetails: JSON
   name: String!
   officialName: String!
+
+  """
+  List and filter revisions.
+  """
   revisions(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -825,6 +955,11 @@ type Gene implements Commentable & Flaggable {
     before: String
 
     """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -833,6 +968,26 @@ type Gene implements Commentable & Flaggable {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionsetId: String
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
   variants(
@@ -1508,10 +1663,10 @@ type RevisionResult {
 }
 
 enum RevisionStatus {
-  accepted
-  new
-  rejected
-  superseded
+  ACCEPTED
+  NEW
+  REJECTED
+  SUPERSEDED
 }
 
 type ScalarField {
@@ -1809,6 +1964,9 @@ type User {
 }
 
 type Variant implements Commentable & Flaggable {
+  """
+  List and filter comments.
+  """
   comments(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1829,6 +1987,16 @@ type Variant implements Commentable & Flaggable {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
   ): CommentConnection!
   description: String!
   events(
@@ -1874,6 +2042,10 @@ type Variant implements Commentable & Flaggable {
     last: Int
   ): EvidenceItemConnection!
   flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
   flags(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1891,9 +2063,29 @@ type Variant implements Commentable & Flaggable {
     first: Int
 
     """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
   ): FlagConnection!
   gene: Gene!
   id: Int!
@@ -1952,4 +2144,59 @@ enum VariantOrigin {
   RARE_GERMLINE
   SOMATIC
   UNKNOWN
+}
+
+"""
+A CIViC entity that can have revisions proposed to it.
+"""
+interface WithRevisions {
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionsetId: String
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
 }

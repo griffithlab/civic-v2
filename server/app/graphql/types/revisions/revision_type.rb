@@ -24,5 +24,11 @@ module Types::Revisions
     def creation_event
       Loaders::AssociationLoader.for(Revision, :creation_event).load(object)
     end
+
+    def revisor
+      Loaders::AssociationLoader.for(Revision, :creation_event).load(object).then do |event|
+        Loaders::AssociationLoader.for(Event, :originating_user).load(event)
+      end
+    end
   end
 end
