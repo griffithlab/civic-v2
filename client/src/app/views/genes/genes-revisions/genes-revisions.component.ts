@@ -4,58 +4,35 @@ import { Observable } from 'rxjs';
 import { pluck, map, tap, withLatestFrom, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
-import { GenesSummaryService } from '@app/views/genes/genes-summary/genes-summary.service';
 import {
   CommentableInput,
   CommentableEntities,
   Gene,
   Revision,
   RevisionEdge,
-  Maybe
+  Maybe,
+  GeneRevisionsQueryVariables
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { GenesRevisionsService } from './genes-revisions.service';
 
 @Component({
   selector: 'cvc-genes-revisions',
   templateUrl: './genes-revisions.component.html',
-  styleUrls: ['./genes-revisions.component.less']
+  styleUrls: ['./genes-revisions.component.less'],
+  providers: [GenesRevisionsService]
 })
 export class GenesRevisionsComponent implements OnInit {
-  gene$!: Observable<Gene>;
-  subject$!: Observable<any>;
-  data$!: Observable<Data>;
-  loading$!: Observable<boolean>
-  viewer$: Observable<Viewer>;
-  revisions$!: Observable<RevisionEdge[]>;
+  service: GenesRevisionsService;
 
-  constructor(private service: GenesSummaryService,
-    private viewerService: ViewerService,
+  constructor(
+    private genesRevisionsService: GenesRevisionsService,
     private route: ActivatedRoute) {
 
-    this.viewer$ = this.viewerService.viewer$;
-    this.route.params.subscribe(params => {
-      const geneId: number = +params['geneId'];
-      this.data$ = this.service.watchGenesSummary(geneId);
-      this.gene$ = this.data$.pipe(
-        pluck('data', 'gene'),
-      );
-
-      this.loading$ = this.data$
-        .pipe(pluck('loading'));
-
-      this.subject$ = this.gene$.pipe(
-        map(gene => {
-          return {
-            id: +gene.id,
-            entityType: CommentableEntities[gene.__typename]
-          } as CommentableInput;
-        }));
-
-
-      this.revisions$ = this.gene$
-        .pipe(pluck('revisions', 'edges'));
-    });
+    const geneId: number = +this.route.snapshot.params['geneId'];
+    this.service = genesRevisionsService;
+    this.service.watch(<GeneRevisionsQueryVariables>{ geneId: geneId});
   }
 
   ngOnInit(): void {

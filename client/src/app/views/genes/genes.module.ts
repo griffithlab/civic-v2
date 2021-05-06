@@ -26,6 +26,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 // additional imports
 import { TimeagoModule } from 'ngx-timeago';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 // civic imports
 import { IconsProviderModule } from '@app/icons-provider.module'
@@ -86,6 +87,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzToolTipModule,
     NzTypographyModule,
     NgxJsonViewerModule,
+    ReactiveComponentModule,
     TimeagoModule.forChild()
   ]
 })

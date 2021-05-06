@@ -1425,6 +1425,7 @@ export type CommentListFragment = (
     & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
   ), edges: Array<(
     { __typename: 'CommentEdge' }
+    & Pick<CommentEdge, 'cursor'>
     & { node?: Maybe<(
       { __typename: 'Comment' }
       & CommentListNodeFragment
@@ -1611,6 +1612,14 @@ export type GeneDetailQuery = (
     ), comments: (
       { __typename: 'CommentConnection' }
       & Pick<CommentConnection, 'totalCount'>
+      & { edges: Array<(
+        { __typename: 'CommentEdge' }
+        & Pick<CommentEdge, 'cursor'>
+        & { node?: Maybe<(
+          { __typename: 'Comment' }
+          & Pick<Comment, 'id'>
+        )> }
+      )> }
     ), lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
@@ -1643,6 +1652,56 @@ export type GeneDetailQuery = (
           { __typename: 'User' }
           & Pick<User, 'id' | 'name'>
         ) }
+      )> }
+    ) }
+  )> }
+);
+
+export type GeneRevisionsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GeneRevisionsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id'>
+    & { revisions: (
+      { __typename: 'RevisionConnection' }
+      & { edges: Array<(
+        { __typename: 'RevisionEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Revision' }
+          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+          & { linkoutData: (
+            { __typename: 'LinkoutData' }
+            & Pick<LinkoutData, 'name'>
+            & { diffValue: (
+              { __typename: 'ObjectFieldDiff' }
+              & { addedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, removedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, keptObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )> }
+            ) | (
+              { __typename: 'ScalarField' }
+              & Pick<ScalarField, 'value'>
+            ) }
+          ), revisor: (
+            { __typename: 'User' }
+            & Pick<User, 'id' | 'name'>
+          ) }
+        )> }
       )> }
     ) }
   )> }
@@ -1707,6 +1766,7 @@ export const CommentListFragmentDoc = gql`
     hasNextPage
   }
   edges {
+    cursor
     node {
       ...commentListNode
     }
@@ -1950,6 +2010,12 @@ export const GeneDetailDocument = gql`
       after: $commentAfter
     ) {
       totalCount
+      edges {
+        cursor
+        node {
+          id
+        }
+      }
     }
     lifecycleActions {
       lastCommentedOn {
@@ -1998,6 +2064,69 @@ export const GeneDetailDocument = gql`
   })
   export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
     document = GeneDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneRevisionsDocument = gql`
+    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+  gene(id: $geneId) {
+    id
+    revisions(first: $first, last: $last, before: $before, after: $after) {
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
+            }
+          }
+          revisor {
+            id
+            name
+          }
+          status
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneRevisionsGQL extends Apollo.Query<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
+    document = GeneRevisionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,6 +1,6 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="18">
-    <ng-container *ngIf="(revisions$ | async) as revisions">
+    <ng-container *ngIf="service.revisions$ | ngrxPush as revisions">
       <nz-card nzTitle="Revisions"
         class="card-list">
         <nz-list [nzDataSource]="revisions"

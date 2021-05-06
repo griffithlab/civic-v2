@@ -7,6 +7,7 @@ fragment commentList on CommentConnection {
     hasNextPage
   }
   edges {
+    cursor
     node {
       ...commentListNode
     }

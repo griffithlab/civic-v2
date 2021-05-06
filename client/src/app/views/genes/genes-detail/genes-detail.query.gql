@@ -24,6 +24,12 @@ query GeneDetail(
       after: $commentAfter,
     ) {
       totalCount,
+      edges {
+        cursor
+        node {
+          id
+        }
+      }
     }
     lifecycleActions {
       lastCommentedOn {

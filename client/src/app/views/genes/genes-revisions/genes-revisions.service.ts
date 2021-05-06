@@ -1,15 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ApolloQueryResult, ApolloError, FetchMoreQueryOptions } from '@apollo/client/core';
-import { CommentListService } from '@app/components/shared/comment-list/comment-list.component';
 import {
   Maybe,
-  CommentableInput,
-  CommentEdge,
-  GeneCommentsGQL,
-  GeneCommentsQuery,
-  GeneCommentsQueryVariables,
-  CommentableEntities,
-  CommentConnection,
+  RevisionEdge,
+  GeneRevisionsGQL,
+  GeneRevisionsQuery,
+  GeneRevisionsQueryVariables,
+  RevisionConnection,
   PageInfo
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
@@ -24,14 +21,13 @@ import { create } from "rxjs-spy"; // debug
 import { tag } from "rxjs-spy/operators/tag"; // debug
 
 @Injectable()
-export class GenesCommentsService implements CommentListService, OnDestroy {
+export class GenesRevisionsService implements OnDestroy {
   private spy: Spy;
 
-  subject!: CommentableInput;
-  queryRef!: QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables>;
-  result$!: Observable<ApolloQueryResult<GeneCommentsQuery>>;
+  queryRef!: QueryRef<GeneRevisionsQuery, GeneRevisionsQueryVariables>;
+  result$!: Observable<ApolloQueryResult<GeneRevisionsQuery>>;
 
-  comments$: Maybe<Observable<CommentEdge[]>>;
+  revisions$: Maybe<Observable<RevisionEdge[]>>;
   isLoading$!: Observable<boolean>;
   queryErrors$!: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$!: Observable<Maybe<ApolloError>>;
@@ -44,12 +40,12 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
   private fetchMoreSize = 5;
   private destroy$ = new Subject();
 
-  constructor(private gql: GeneCommentsGQL, private log: NGXLogger) {
+  constructor(private gql: GeneRevisionsGQL, private log: NGXLogger) {
     this.spy = create(); // debug
   }
 
-  watch(vars: GeneCommentsQueryVariables): QueryRef<GeneCommentsQuery, GeneCommentsQueryVariables> {
-    const initialQueryVars: GeneCommentsQueryVariables = {
+  watch(vars: GeneRevisionsQueryVariables): QueryRef<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
+    const initialQueryVars: GeneRevisionsQueryVariables = {
       geneId: vars.geneId,
       last: vars.last ? vars.last : this.initialListSize,
       before: vars.before ? vars.before : undefined
@@ -62,7 +58,7 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
       .pipe(pluck('loading'), startWith(true));
 
     this.pageInfo$ = this.result$
-      .pipe(pluck('data', 'gene', 'comments', 'pageInfo'));
+      .pipe(pluck('data', 'gene', 'revisions', 'pageInfo'));
 
     // provide static local pageInfo
     this.pageInfo$
@@ -75,22 +71,20 @@ export class GenesCommentsService implements CommentListService, OnDestroy {
     this.networkError$ = this.result$
       .pipe(pluck('error'));
 
-    this.spy.log('comments$'); // debug
-    this.comments$ = this.result$
+    this.spy.log('revisions$'); // debug
+    this.revisions$ = this.result$
       .pipe(
-        map(({ data }) => { return data.gene?.comments.edges as CommentEdge[]  }),
+        map(({ data }) => { return data.gene?.revisions.edges as RevisionEdge[]  }),
         shareReplay(1));
 
-    this.comments$.pipe(takeUntil(this.destroy$),tag('comments$')).subscribe(); // debug
-
-    this.subject = { id: vars.geneId, entityType: CommentableEntities['Gene'] };
+    this.revisions$.pipe(takeUntil(this.destroy$),tag('revisions$')).subscribe(); // debug
 
     return this.queryRef;
   }
 
   fetchMore(): void {
     this.queryRef.fetchMore({
-      variables: <GeneCommentsQueryVariables>{
+      variables: <GeneRevisionsQueryVariables>{
         last: this.fetchMoreSize,
         before: this.pageInfo.startCursor
       },
