@@ -24,7 +24,7 @@ import { create } from "rxjs-spy"; // debug
 import { tag } from "rxjs-spy/operators/tag"; // debug
 
 @Injectable()
-export class GenesCommentsService implements CommentListService, OnDestroy {
+export class GenesCommentsService implements CommentListService<GeneCommentsQuery, GeneCommentsQueryVariables>, OnDestroy {
   private spy: Spy;
 
   subject!: CommentableInput;
