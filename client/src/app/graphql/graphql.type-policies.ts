@@ -5,6 +5,11 @@ import gql from "graphql-tag";
 import { Maybe } from "@app/generated/civic.apollo";
 
 export const CvcTypePolicies: TypePolicies = {
+  Gene: {
+    fields: {
+      comments: relayStylePagination(),
+    }
+  },
   Query: {
     fields: {
       browseGenes: relayStylePagination(),
