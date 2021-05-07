@@ -1,11 +1,11 @@
 query GeneComments(
-  $geneId: Int!,
+  $id: Int!,
   $first: Int,
   $last: Int,
   $before: String,
   $after: String,
 ) {
-  gene(id: $geneId) {
+  gene(id: $id) {
     id
     comments(
       first: $first,

@@ -1603,7 +1603,7 @@ export type BrowseGenesQuery = (
 );
 
 export type GeneCommentsQueryVariables = Exact<{
-  geneId: Scalars['Int'];
+  id: Scalars['Int'];
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
@@ -2050,8 +2050,8 @@ export const BrowseGenesDocument = gql`
     }
   }
 export const GeneCommentsDocument = gql`
-    query GeneComments($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String) {
-  gene(id: $geneId) {
+    query GeneComments($id: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+  gene(id: $id) {
     id
     comments(first: $first, last: $last, before: $before, after: $after) {
       ...commentList
