@@ -181,7 +181,7 @@ type ClinicalTrial {
 
 type Comment {
   comment: String!
-  commentor: User!
+  commenter: User!
   createdAt: ISO8601DateTime!
   creationEvent: Event
   id: Int!
@@ -271,6 +271,11 @@ interface Commentable {
     """
     sortBy: DateSort
   ): CommentConnection!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
 }
 
 enum CommentableEntities {
@@ -547,6 +552,11 @@ type EvidenceItem implements Commentable & Flaggable {
   revisions: [Revision!]!
   source: Source!
   status: EvidenceStatus!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
   variant: Variant!
   variantHgvs: String!
   variantOrigin: VariantOrigin!
@@ -659,6 +669,11 @@ type Flag implements Commentable {
   id: Int!
   resolvingUser: User
   state: FlagState!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
 }
 
 """
@@ -990,6 +1005,11 @@ type Gene implements Commentable & Flaggable & WithRevisions {
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -2076,6 +2096,11 @@ type Variant implements Commentable & Flaggable {
   gene: Gene!
   id: Int!
   name: String!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
 }
 
 """

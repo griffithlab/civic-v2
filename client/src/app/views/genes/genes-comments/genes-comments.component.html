@@ -3,22 +3,7 @@
     <cvc-comment-list [commentsService]="service"></cvc-comment-list>
   </nz-col>
   <nz-col nzSpan="6">
-    <nz-card nzTitle="Commentors" nz-type="inner" style="margin-bottom: 1em">
-      <nz-space nzDirection="vertical" style="width: 100%">
-        <nz-space-item>
-          <nz-skeleton [nzAvatar]="true"
-            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton [nzAvatar]="true"
-            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton [nzAvatar]="true"
-            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
-        </nz-space-item>
-      </nz-space>
-    </nz-card>
+    <cvc-participant-list listTitle="Commenters" [participantList]="service.commenters$ | ngrxPush" (participantSelectedEvent)="onParticipantSelected($event)"></cvc-participant-list>
     <nz-card nzTitle="Curators Mentioned" nz-type="inner" style="margin-bottom: 1em">
       <nz-space nzDirection="vertical" style="width: 100%">
         <nz-space-item>

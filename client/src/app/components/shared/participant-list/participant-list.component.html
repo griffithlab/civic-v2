@@ -1,0 +1,13 @@
+<nz-card [nzTitle]="listTitle" nz-type="inner" style="margin-bottom: 1em">
+    <nz-list>
+        <nz-list-item *ngFor="let u of participantList" nzSize="small"
+            [class.selected-participant]="u.id == selectedUser?.id" (click)="onParticipantSelected(u)" class="participant-list-item">
+            <nz-avatar *ngIf="u.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="u.profileImagePath">
+            </nz-avatar>
+            <ng-template #noAvatar>
+                <nz-avatar nz-comment-avatar [nzText]="u.username.charAt(0) | uppercase"></nz-avatar>
+            </ng-template>
+            <span>{{u.username}}</span>
+        </nz-list-item>
+    </nz-list>
+</nz-card>

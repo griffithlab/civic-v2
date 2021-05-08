@@ -145,7 +145,7 @@ export type ClinicalTrial = {
 export type Comment = {
   __typename: 'Comment';
   comment: Scalars['String'];
-  commentor: User;
+  commenter: User;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
   id: Scalars['Int'];
@@ -180,6 +180,8 @@ export type CommentEdge = {
 export type Commentable = {
   /** List and filter comments. */
   comments: CommentConnection;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
 };
 
 
@@ -342,6 +344,8 @@ export type EvidenceItem = Commentable & Flaggable & {
   revisions: Array<Revision>;
   source: Source;
   status: EvidenceStatus;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
   variant: Variant;
   variantHgvs: Scalars['String'];
   variantOrigin: VariantOrigin;
@@ -432,6 +436,8 @@ export type Flag = Commentable & {
   id: Scalars['Int'];
   resolvingUser?: Maybe<User>;
   state: FlagState;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
 };
 
 
@@ -551,6 +557,8 @@ export type Gene = Commentable & Flaggable & WithRevisions & {
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
   variants: VariantConnection;
 };
 
@@ -1307,6 +1315,8 @@ export type Variant = Commentable & Flaggable & {
   gene: Gene;
   id: Scalars['Int'];
   name: Scalars['String'];
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
 };
 
 
@@ -1436,7 +1446,7 @@ export type CommentListFragment = (
 export type CommentListNodeFragment = (
   { __typename: 'Comment' }
   & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
-  & { commentor: (
+  & { commenter: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
     & { organizations: Array<(
@@ -1445,6 +1455,40 @@ export type CommentListNodeFragment = (
     )> }
   ) }
 );
+
+type ParticipantList_EvidenceItem_Fragment = (
+  { __typename: 'EvidenceItem' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+type ParticipantList_Flag_Fragment = (
+  { __typename: 'Flag' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+type ParticipantList_Gene_Fragment = (
+  { __typename: 'Gene' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+type ParticipantList_Variant_Fragment = (
+  { __typename: 'Variant' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+export type ParticipantListFragment = ParticipantList_EvidenceItem_Fragment | ParticipantList_Flag_Fragment | ParticipantList_Gene_Fragment | ParticipantList_Variant_Fragment;
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
@@ -1608,6 +1652,7 @@ export type GeneCommentsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1620,6 +1665,7 @@ export type GeneCommentsQuery = (
       { __typename: 'CommentConnection' }
       & CommentListFragment
     ) }
+    & ParticipantList_Gene_Fragment
   )> }
 );
 
@@ -1777,7 +1823,7 @@ export const CommentListNodeFragmentDoc = gql`
   title
   comment
   createdAt
-  commentor {
+  commenter {
     id
     username
     name
@@ -1808,6 +1854,15 @@ export const CommentListFragmentDoc = gql`
   }
 }
     ${CommentListNodeFragmentDoc}`;
+export const ParticipantListFragmentDoc = gql`
+    fragment participantList on Commentable {
+  uniqueCommenters {
+    id
+    username
+    profileImagePath(size: 32)
+  }
+}
+    `;
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -2050,15 +2105,23 @@ export const BrowseGenesDocument = gql`
     }
   }
 export const GeneCommentsDocument = gql`
-    query GeneComments($id: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+    query GeneComments($id: Int!, $first: Int, $last: Int, $before: String, $after: String, $userId: Int) {
   gene(id: $id) {
     id
-    comments(first: $first, last: $last, before: $before, after: $after) {
+    comments(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      originatingUserId: $userId
+    ) {
       ...commentList
     }
+    ...participantList
   }
 }
-    ${CommentListFragmentDoc}`;
+    ${CommentListFragmentDoc}
+${ParticipantListFragmentDoc}`;
 
   @Injectable({
     providedIn: AppModule

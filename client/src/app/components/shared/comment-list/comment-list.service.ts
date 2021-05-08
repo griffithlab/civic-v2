@@ -4,20 +4,24 @@ import {
   Maybe,
   CommentableInput,
   CommentEdge,
-  PageInfo
+  PageInfo,
+  User,
+  CommentableEntities
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import  * as Apollo from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, shareReplay, startWith, takeUntil } from 'rxjs/operators';
+import { CommentsParticipant } from '../participant-list/participant-list.component';
 
 export interface CommentQueryVars {
   id: number
   first?: number
   last?: number
   before?: string
-  after?: string
+  after?: string,
+  userId?: number
 }
 
 @Injectable()
@@ -27,6 +31,7 @@ export abstract class GenericCommentsService<CommentsQuery> implements OnDestroy
   result$!: Observable<ApolloQueryResult<CommentsQuery>>;
 
   comments$: Maybe<Observable<CommentEdge[]>>;
+  commenters$: Maybe<Observable<CommentsParticipant[]>>
   isLoading$!: Observable<boolean>;
   queryErrors$!: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$!: Observable<Maybe<ApolloError>>;
@@ -39,6 +44,8 @@ export abstract class GenericCommentsService<CommentsQuery> implements OnDestroy
   private destroy$ = new Subject();
 
   abstract extractCommentEdges(q: CommentsQuery): CommentEdge[]
+  abstract extractCommenters(q: CommentsQuery): CommentsParticipant[]
+  abstract commentableEntity: CommentableEntities
   abstract pageInfoPath: string[]
 
   constructor(private gql: Apollo.Query<CommentsQuery, CommentQueryVars> ) { 
@@ -76,7 +83,11 @@ export abstract class GenericCommentsService<CommentsQuery> implements OnDestroy
         map(({data}) => this.extractCommentEdges(data)),
         shareReplay(1));
 
-    //this.subject = { id: vars.geneId, entityType: CommentableEntities['Gene'] };
+    this.commenters$ = this.result$
+        .pipe(map(({data}) => this.extractCommenters(data)),
+        shareReplay(1));
+
+    this.subject = { id: vars.id, entityType: this.commentableEntity };
 
     return this.queryRef;
   }
@@ -88,6 +99,14 @@ export abstract class GenericCommentsService<CommentsQuery> implements OnDestroy
         before: this.pageInfo.startCursor
       },
     });
+  }
+
+  userFilterSelected(u: Maybe<CommentsParticipant>): void {
+    this.queryRef.refetch({
+      id: this.subject.id,
+      last: this.initialListSize,
+      userId: u?.id
+    })
   }
 
   ngOnDestroy(): void {
