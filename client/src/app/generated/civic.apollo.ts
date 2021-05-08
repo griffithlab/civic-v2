@@ -1456,7 +1456,7 @@ export type CommentListNodeFragment = (
   ) }
 );
 
-type ParticipantList_EvidenceItem_Fragment = (
+type CommentParticipants_EvidenceItem_Fragment = (
   { __typename: 'EvidenceItem' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1464,7 +1464,7 @@ type ParticipantList_EvidenceItem_Fragment = (
   )> }
 );
 
-type ParticipantList_Flag_Fragment = (
+type CommentParticipants_Flag_Fragment = (
   { __typename: 'Flag' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1472,7 +1472,7 @@ type ParticipantList_Flag_Fragment = (
   )> }
 );
 
-type ParticipantList_Gene_Fragment = (
+type CommentParticipants_Gene_Fragment = (
   { __typename: 'Gene' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1480,7 +1480,7 @@ type ParticipantList_Gene_Fragment = (
   )> }
 );
 
-type ParticipantList_Variant_Fragment = (
+type CommentParticipants_Variant_Fragment = (
   { __typename: 'Variant' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1488,7 +1488,7 @@ type ParticipantList_Variant_Fragment = (
   )> }
 );
 
-export type ParticipantListFragment = ParticipantList_EvidenceItem_Fragment | ParticipantList_Flag_Fragment | ParticipantList_Gene_Fragment | ParticipantList_Variant_Fragment;
+export type CommentParticipantsFragment = CommentParticipants_EvidenceItem_Fragment | CommentParticipants_Flag_Fragment | CommentParticipants_Gene_Fragment | CommentParticipants_Variant_Fragment;
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
@@ -1665,7 +1665,7 @@ export type GeneCommentsQuery = (
       { __typename: 'CommentConnection' }
       & CommentListFragment
     ) }
-    & ParticipantList_Gene_Fragment
+    & CommentParticipants_Gene_Fragment
   )> }
 );
 
@@ -1854,8 +1854,8 @@ export const CommentListFragmentDoc = gql`
   }
 }
     ${CommentListNodeFragmentDoc}`;
-export const ParticipantListFragmentDoc = gql`
-    fragment participantList on Commentable {
+export const CommentParticipantsFragmentDoc = gql`
+    fragment commentParticipants on Commentable {
   uniqueCommenters {
     id
     username
@@ -2117,11 +2117,11 @@ export const GeneCommentsDocument = gql`
     ) {
       ...commentList
     }
-    ...participantList
+    ...commentParticipants
   }
 }
     ${CommentListFragmentDoc}
-${ParticipantListFragmentDoc}`;
+${CommentParticipantsFragmentDoc}`;
 
   @Injectable({
     providedIn: AppModule
