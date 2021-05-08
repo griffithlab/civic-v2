@@ -4,6 +4,7 @@ query GeneComments(
   $last: Int,
   $before: String,
   $after: String,
+  $userId: Int
 ) {
   gene(id: $id) {
     id
@@ -12,8 +13,10 @@ query GeneComments(
       last: $last,
       before: $before,
       after: $after,
+      originatingUserId: $userId
     ) {
       ...commentList
     }
+    ...participantList
   }
 }

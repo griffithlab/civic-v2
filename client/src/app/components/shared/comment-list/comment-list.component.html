@@ -11,9 +11,9 @@
     </nz-list-header>
     <ng-template #comment let-comment>
       <nz-list-item>
-        <nz-comment [nzAuthor]="comment.node.commentor.name"
+        <nz-comment [nzAuthor]="comment.node.commenter.name"
           [nzDatetime]="comment.node.createdAt | timeago">
-          <nz-avatar *ngIf="comment.node.commentor.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="comment.node.commentor.profileImagePath"></nz-avatar>
+          <nz-avatar *ngIf="comment.node.commenter.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="comment.node.commenter.profileImagePath"></nz-avatar>
           <ng-template #noAvatar><nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar></ng-template>
           <nz-comment-content>
             <p>{{ comment.node.comment }}</p>

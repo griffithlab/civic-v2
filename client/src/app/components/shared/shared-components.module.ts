@@ -25,6 +25,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 
 import { TimeagoModule } from 'ngx-timeago';
 
@@ -37,6 +38,7 @@ import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.
 import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
 import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
 import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
+import { ParticipantListComponent } from './participant-list/participant-list.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
@@ -51,6 +53,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     FlaggableComponent,
     LifecycleActionsComponent,
     FlaggableOptionsDirective,
+    ParticipantListComponent,
   ],
   imports: [
     CommonModule,
@@ -76,7 +79,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzToolTipModule,
     NzTypographyModule,
     TimeagoModule.forChild(),
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    NzSkeletonModule
   ],
   exports: [
     CommentAddComponent,
@@ -88,6 +92,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     LifecycleActionsComponent,
     OrgSelectorBtnDirective,
     OrgSelectorBtnGroupComponent,
+    ParticipantListComponent,
   ]
 })
 
