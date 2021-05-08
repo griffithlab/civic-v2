@@ -956,6 +956,11 @@ type Gene implements Commentable & Flaggable & WithRevisions {
   officialName: String!
 
   """
+  List of all fields that have at least one revision.
+  """
+  revisedFieldNames: [String!]!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -1010,6 +1015,11 @@ type Gene implements Commentable & Flaggable & WithRevisions {
   List of all users that have commented on this entity.
   """
   uniqueCommenters: [User!]!
+
+  """
+  List of all users that have submitted a revision to this entity.
+  """
+  uniqueRevisors: [User!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -2162,6 +2172,11 @@ A CIViC entity that can have revisions proposed to it.
 """
 interface WithRevisions {
   """
+  List of all fields that have at least one revision.
+  """
+  revisedFieldNames: [String!]!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -2210,4 +2225,9 @@ interface WithRevisions {
     """
     status: RevisionStatus
   ): RevisionConnection!
+
+  """
+  List of all users that have submitted a revision to this entity.
+  """
+  uniqueRevisors: [User!]!
 }
