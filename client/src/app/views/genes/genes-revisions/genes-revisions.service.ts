@@ -20,6 +20,12 @@ import { Spy } from 'rxjs-spy/cjs/spy-interface'; // debug
 import { create } from "rxjs-spy"; // debug
 import { tag } from "rxjs-spy/operators/tag"; // debug
 
+export interface SelectableFieldName {
+  id: number
+  name: string
+  displayName: string
+}
+
 @Injectable()
 export class GenesRevisionsService implements OnDestroy {
   private spy: Spy;
@@ -28,6 +34,8 @@ export class GenesRevisionsService implements OnDestroy {
   result$!: Observable<ApolloQueryResult<GeneRevisionsQuery>>;
 
   revisions$: Maybe<Observable<RevisionEdge[]>>;
+  revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
+
   isLoading$!: Observable<boolean>;
   queryErrors$!: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
   networkError$!: Observable<Maybe<ApolloError>>;
@@ -74,14 +82,37 @@ export class GenesRevisionsService implements OnDestroy {
       .pipe(pluck('error'));
 
     this.spy.log('revisions$'); // debug
+    //TODO This cast is not safe - it will blow up if revisions is empty. 
     this.revisions$ = this.result$
       .pipe(
         map(({ data }) => { return data.gene?.revisions.edges as RevisionEdge[]  }),
         shareReplay(1));
 
+    
+    this.revisionFields$ = this.result$.pipe(
+      map(({ data }) => {
+        return data.gene?.revisedFieldNames.map((f, i) => {
+          return { 
+           ...f,
+           id: i 
+           };
+        });
+      }),
+      shareReplay(1)
+    );
+
     this.revisions$.pipe(takeUntil(this.destroy$),tag('revisions$')).subscribe(); // debug
 
     return this.queryRef;
+  }
+
+  fieldNameSelected(field: Maybe<SelectableFieldName>) {
+    let oldVars = this.queryRef.variables
+    this.queryRef.refetch({
+      geneId: 5,
+      first: this.initialFirst,
+      fieldName: field?.name
+    })
   }
 
   fetchMore(): void {

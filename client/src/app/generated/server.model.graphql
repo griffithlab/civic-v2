@@ -630,6 +630,18 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
+type FieldName {
+  """
+  The user facing representation of the field name.
+  """
+  displayName: String!
+
+  """
+  The internal server representation of the field name.
+  """
+  name: String!
+}
+
 type Flag implements Commentable {
   """
   List and filter comments.
@@ -958,7 +970,7 @@ type Gene implements Commentable & Flaggable & WithRevisions {
   """
   List of all fields that have at least one revision.
   """
-  revisedFieldNames: [String!]!
+  revisedFieldNames: [FieldName!]!
 
   """
   List and filter revisions.
@@ -2174,7 +2186,7 @@ interface WithRevisions {
   """
   List of all fields that have at least one revision.
   """
-  revisedFieldNames: [String!]!
+  revisedFieldNames: [FieldName!]!
 
   """
   List and filter revisions.

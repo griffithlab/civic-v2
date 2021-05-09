@@ -121,20 +121,10 @@
         </nz-space-item>
       </nz-space>
     </nz-card>
-    <nz-card nzTitle="Fields Revised"
-      nz-type="inner">
-      <nz-list nzDirection="vertical"
-        style="width: 100%">
-        <nz-list-item>
-          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
-        </nz-list-item>
-        <nz-list-item>
-          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
-        </nz-list-item>
-        <nz-list-item>
-          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
-        </nz-list-item>
-      </nz-list>
-    </nz-card>
+    <cvc-participant-list listTitle="Fields Revised" [participantList]="service.revisionFields$ | ngrxPush" (participantSelectedEvent)="onFieldNameSelected($event)">
+      <ng-template #itemTemplate let-field>
+        <span>{{field.displayName}}</span>
+      </ng-template>
+    </cvc-participant-list>
   </nz-col>
 </nz-row>

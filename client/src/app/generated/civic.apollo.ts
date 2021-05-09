@@ -428,6 +428,14 @@ export enum EvidenceType {
   Prognostic = 'PROGNOSTIC'
 }
 
+export type FieldName = {
+  __typename: 'FieldName';
+  /** The user facing representation of the field name. */
+  displayName: Scalars['String'];
+  /** The internal server representation of the field name. */
+  name: Scalars['String'];
+};
+
 export type Flag = Commentable & {
   __typename: 'Flag';
   /** List and filter comments. */
@@ -554,11 +562,15 @@ export type Gene = Commentable & Flaggable & WithRevisions & {
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
+  /** List of all fields that have at least one revision. */
+  revisedFieldNames: Array<FieldName>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
   /** List of all users that have commented on this entity. */
   uniqueCommenters: Array<User>;
+  /** List of all users that have submitted a revision to this entity. */
+  uniqueRevisors: Array<User>;
   variants: VariantConnection;
 };
 
@@ -1392,8 +1404,12 @@ export enum VariantOrigin {
 
 /** A CIViC entity that can have revisions proposed to it. */
 export type WithRevisions = {
+  /** List of all fields that have at least one revision. */
+  revisedFieldNames: Array<FieldName>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
+  /** List of all users that have submitted a revision to this entity. */
+  uniqueRevisors: Array<User>;
 };
 
 
@@ -1743,6 +1759,7 @@ export type GeneRevisionsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1751,7 +1768,13 @@ export type GeneRevisionsQuery = (
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id'>
-    & { revisions: (
+    & { uniqueRevisors: Array<(
+      { __typename: 'User' }
+      & Pick<User, 'username' | 'id' | 'profileImagePath'>
+    )>, revisedFieldNames: Array<(
+      { __typename: 'FieldName' }
+      & Pick<FieldName, 'name' | 'displayName'>
+    )>, revisions: (
       { __typename: 'RevisionConnection' }
       & Pick<RevisionConnection, 'totalCount'>
       & { edges: Array<(
@@ -2213,10 +2236,25 @@ export const GeneDetailDocument = gql`
     }
   }
 export const GeneRevisionsDocument = gql`
-    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String) {
   gene(id: $geneId) {
     id
-    revisions(first: $first, last: $last, before: $before, after: $after) {
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
+    revisions(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      fieldName: $fieldName
+    ) {
       totalCount
       edges {
         node {

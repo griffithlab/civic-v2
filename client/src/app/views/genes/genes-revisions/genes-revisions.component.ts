@@ -15,7 +15,7 @@ import {
   Organization
 } from '@app/generated/civic.apollo';
 
-import { GenesRevisionsService } from './genes-revisions.service';
+import { GenesRevisionsService, SelectableFieldName } from './genes-revisions.service';
 
 @Component({
   selector: 'cvc-genes-revisions',
@@ -37,6 +37,10 @@ export class GenesRevisionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onFieldNameSelected(field: Maybe<SelectableFieldName>) {
+    this.genesRevisionsService.fieldNameSelected(field)
   }
 
   selectOrg(org: Organization): void {
