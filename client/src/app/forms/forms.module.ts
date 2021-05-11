@@ -20,26 +20,23 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { CommentFieldComponent } from './fields/comment-field/comment-field.component';
 import { ValidationMessageOption } from '@ngx-formly/core/lib/services/formly.config';
-
-export function minlengthValidationMessage(err: any, field: FormlyFieldConfig) {
-  return `Should have atleast ${field.templateOptions?.minLength} characters`;
-}
 
 export const defaultValidationMessages: ValidationMessageOption[] = [
   { name: 'required',
     message: 'This field is required.'
   },
   { name: 'minlength',
-    message: (err: any, field: FormlyFieldConfig): string => {
+    message: (_err: any, field: FormlyFieldConfig): string => {
       return `Should have at least ${field.templateOptions?.minLength} characters`;
     }
   },
 ]
 
 @NgModule({
-  declarations: [GeneSuggestRevisionFormComponent, CommentFieldComponent],
+  declarations: [
+    GeneSuggestRevisionFormComponent,
+  ],
   imports: [
     FormsModule,
     SharedComponentsModule,
@@ -61,6 +58,8 @@ export const defaultValidationMessages: ValidationMessageOption[] = [
     }),
     FormlyNgZorroAntdModule,
   ],
-  exports: [GeneSuggestRevisionFormComponent, CommentFieldComponent]
+  exports: [
+    GeneSuggestRevisionFormComponent,
+  ]
 })
 export class CvcFormsModule { }
