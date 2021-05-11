@@ -22,9 +22,6 @@ import { AppComponent } from './app.component';
 
 import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-
 
 registerLocaleData(en);
 
@@ -50,8 +47,6 @@ registerLocaleData(en);
     ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot(),
-    FormlyModule.forRoot({ extras: { lazyRender: true } }),
-    FormlyNgZorroAntdModule,
   ],
   providers: [
     CookieService,

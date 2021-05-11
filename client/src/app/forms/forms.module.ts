@@ -18,6 +18,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 @NgModule({
   declarations: [GeneSuggestRevisionFormComponent],
@@ -36,6 +38,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzTypographyModule,
     NgxJsonViewerModule,
     RouterModule,
+    FormlyModule.forRoot({ extras: { lazyRender: true } }),
+    FormlyNgZorroAntdModule,
   ],
   exports: [GeneSuggestRevisionFormComponent]
 })

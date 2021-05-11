@@ -35,6 +35,7 @@ import {
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
 import { ObservableQuery } from '@apollo/client/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',
@@ -53,7 +54,9 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  suggestGeneRevisionForm: FormGroup;
+  formModel!: SuggestGeneRevisionInput;
+  formGroup: FormGroup = new FormGroup({});
+  formFields: FormlyFieldConfig[];
 
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
@@ -79,21 +82,32 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         if(e) { this.resetForm(); }
       });
 
-    this.suggestGeneRevisionForm = this.fb.group({
-      id: [undefined, Validators.required],
-      comment: ['', [
-        Validators.required,
-        Validators.minLength(10)
-      ]],
-      fields: this.fb.group({
-        description: ['', [
-          Validators.minLength(10)
-        ]],
-        sourceIds: [[], [
-          Validators.required
-        ]],
-      })
-    });
+    this.formFields = [
+      {
+        key: 'id',
+        type: 'input',
+        hide: true,
+      },
+      {
+        key: 'fields.description',
+        type: 'textarea',
+        templateOptions: {
+          label: 'Description',
+          placeholder: 'Enter a description for this gene.',
+          required: false
+        }
+      },
+      {
+        key: 'comment',
+        type: 'textarea',
+        templateOptions: {
+          label: 'Comment',
+          placeholder: 'Please enter a comment briefly describing your revision.',
+          required: true
+        }
+      }
+    ]
+
   }
 
   ngOnInit(): void {
@@ -101,18 +115,19 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
     this.geneRevisableFieldsGQL.fetch({geneId: this.geneId})
       .subscribe(({ data: { gene } }) => {
         if(gene) {
-          this.suggestGeneRevisionForm.patchValue({
+          this.formModel = {
             id: gene.id,
             fields: {
               description: gene.description,
               sourceIds: gene.sources.map(s => s.id)
-            }
-          })
+            },
+            comment: ''
+          }
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve gene.');
         }
-      })
+      });
   }
 
   selectOrg(org: Organization): void {
@@ -120,9 +135,9 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   }
 
   submitRevision(value: SuggestGeneRevisionInput): void {
-    for (const key in this.suggestGeneRevisionForm.controls) {
-      this.suggestGeneRevisionForm.controls[key].markAsDirty();
-      this.suggestGeneRevisionForm.controls[key].updateValueAndValidity();
+    for (const key in this.formGroup.controls) {
+      this.formGroup.controls[key].markAsDirty();
+      this.formGroup.controls[key].updateValueAndValidity();
     }
     console.log(value);
 
@@ -136,7 +151,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   }
 
   resetForm(): void {
-    this.suggestGeneRevisionForm.reset();
+    this.formGroup.reset();
   }
 
   ngOnDestroy(): void {

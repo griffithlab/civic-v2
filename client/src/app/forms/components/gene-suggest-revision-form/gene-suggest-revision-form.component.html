@@ -1,6 +1,6 @@
 <form nz-form
-  [formGroup]="suggestGeneRevisionForm"
-  (ngSubmit)="submitRevision(suggestGeneRevisionForm.value)"
+  [formGroup]="formGroup"
+  (ngSubmit)="submitRevision(formModel)"
   nzLayout="vertical">
   <input type="hidden" name="id">
   <ng-container *ngIf="(submitError$ | async) as errors">
@@ -18,19 +18,20 @@
       <p>View it on the <a routerLink="../revisions">Revisions Page</a></p>
     </ng-template>
   </ng-container>
-  <nz-form-item formGroupName="fields" *ngIf="!(submitSuccess$ | async)">
-    <nz-form-label>Description</nz-form-label>
-    <nz-form-control nzErrorTip="Please enter a description at least 10 characters in length.">
-      <textarea formControlName="description" nz-input rows="4" placeholder="Enter a gene description here."></textarea>
-    </nz-form-control>
-  </nz-form-item>
+  <formly-form [form]="formGroup" [fields]="formFields" [model]="formModel"></formly-form>
+  <!-- <nz-form-item formGroupName="fields" *ngIf="!(submitSuccess$ | async)">
+       <nz-form-label>Description</nz-form-label>
+       <nz-form-control nzErrorTip="Please enter a description at least 10 characters in length.">
+       <textarea formControlName="description" nz-input rows="4" placeholder="Enter a gene description here."></textarea>
+       </nz-form-control>
+       </nz-form-item>
+       <nz-form-item *ngIf="!(submitSuccess$ | async)">
+       <nz-form-label nzRequired>Revision Comment</nz-form-label>
+       <nz-form-control nzErrorTip="Please enter a comment at least 10 characters in length.">
+       <textarea formControlName="comment" nz-input rows="4" placeholder="Enter your comment here."></textarea>
+       </nz-form-control>
+       </nz-form-item> -->
   <nz-form-item *ngIf="!(submitSuccess$ | async)">
-    <nz-form-label nzRequired>Revision Comment</nz-form-label>
-    <nz-form-control nzErrorTip="Please enter a comment at least 10 characters in length.">
-      <textarea formControlName="comment" nz-input rows="4" placeholder="Enter your comment here."></textarea>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item  *ngIf="!(submitSuccess$ | async)">
     <nz-form-control>
       <cvc-form-buttons>
         <cvc-org-selector-btn-group
@@ -39,7 +40,7 @@
             cvcOrgSelectorBtn
             nzType="primary"
             nzSize="small"
-            [disabled]="!suggestGeneRevisionForm.valid">
+            [disabled]="!formGroup.valid">
             Suggest Revision
           </button>
         </cvc-org-selector-btn-group>
@@ -47,4 +48,4 @@
     </nz-form-control>
   </nz-form-item>
 </form>
-<!-- <ngx-json-viewer *ngIf="suggestGeneRevisionForm" [json]="suggestGeneRevisionForm.value"></ngx-json-viewer> -->
+<ngx-json-viewer *ngIf="formGroup" [json]="formGroup.value"></ngx-json-viewer>
