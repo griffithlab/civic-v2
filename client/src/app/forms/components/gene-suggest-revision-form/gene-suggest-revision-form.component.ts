@@ -35,7 +35,7 @@ import {
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
 import { ObservableQuery } from '@apollo/client/core';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',
@@ -54,9 +54,10 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: SuggestGeneRevisionInput;
+  formModel!: any;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
+  formOptions: FormlyFormOptions = {};
 
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
@@ -102,9 +103,15 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         type: 'textarea',
         templateOptions: {
           label: 'Comment',
-          placeholder: 'Please enter a comment briefly describing your revision.',
-          required: true
-        }
+          placeholder: 'Please enter a comment describing your revision.',
+          required: true,
+          minLength: 10
+        },
+        // validation: {
+        //   messages: {
+        //     minLength: (error, field: FormlyFieldConfig) => `Comment must be at least ${field.templateOptions?.minLength} characters long.`,
+        //   },
+        // },
       }
     ]
 

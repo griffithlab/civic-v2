@@ -20,9 +20,14 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { CommentFieldComponent } from './fields/comment-field/comment-field.component';
+
+export function minlengthValidationMessage(err: any, field: any) {
+  return `Should have atleast ${field.templateOptions.minLength} characters`;
+}
 
 @NgModule({
-  declarations: [GeneSuggestRevisionFormComponent],
+  declarations: [GeneSuggestRevisionFormComponent, CommentFieldComponent],
   imports: [
     FormsModule,
     SharedComponentsModule,
@@ -38,9 +43,14 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     NzTypographyModule,
     NgxJsonViewerModule,
     RouterModule,
-    FormlyModule.forRoot({ extras: { lazyRender: true } }),
+    FormlyModule.forRoot({
+      validationMessages: [
+        { name: 'minlength', message: minlengthValidationMessage },
+      ],
+      extras: { lazyRender: true }
+    }),
     FormlyNgZorroAntdModule,
   ],
-  exports: [GeneSuggestRevisionFormComponent]
+  exports: [GeneSuggestRevisionFormComponent, CommentFieldComponent]
 })
 export class CvcFormsModule { }

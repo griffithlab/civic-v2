@@ -2,7 +2,6 @@
   [formGroup]="formGroup"
   (ngSubmit)="submitRevision(formModel)"
   nzLayout="vertical">
-  <input type="hidden" name="id">
   <ng-container *ngIf="(submitError$ | async) as errors">
     <nz-form-item *ngIf="errors.length > 0">
       <cvc-form-errors-alert [errors]="errors">
@@ -18,7 +17,7 @@
       <p>View it on the <a routerLink="../revisions">Revisions Page</a></p>
     </ng-template>
   </ng-container>
-  <formly-form [form]="formGroup" [fields]="formFields" [model]="formModel"></formly-form>
+  <formly-form [form]="formGroup" [fields]="formFields" [model]="formModel" [options]="formOptions"></formly-form>
   <!-- <nz-form-item formGroupName="fields" *ngIf="!(submitSuccess$ | async)">
        <nz-form-label>Description</nz-form-label>
        <nz-form-control nzErrorTip="Please enter a description at least 10 characters in length.">
