@@ -107,11 +107,6 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
           required: true,
           minLength: 10
         },
-        // validation: {
-        //   messages: {
-        //     minLength: (error, field: FormlyFieldConfig) => `Comment must be at least ${field.templateOptions?.minLength} characters long.`,
-        //   },
-        // },
       }
     ]
 
