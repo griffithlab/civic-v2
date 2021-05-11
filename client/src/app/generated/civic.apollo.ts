@@ -428,6 +428,14 @@ export enum EvidenceType {
   Prognostic = 'PROGNOSTIC'
 }
 
+export type FieldName = {
+  __typename: 'FieldName';
+  /** The user facing representation of the field name. */
+  displayName: Scalars['String'];
+  /** The internal server representation of the field name. */
+  name: Scalars['String'];
+};
+
 export type Flag = Commentable & {
   __typename: 'Flag';
   /** List and filter comments. */
@@ -554,11 +562,15 @@ export type Gene = Commentable & Flaggable & WithRevisions & {
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
+  /** List of all fields that have at least one revision. */
+  revisedFieldNames: Array<FieldName>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
   /** List of all users that have commented on this entity. */
   uniqueCommenters: Array<User>;
+  /** List of all users that have submitted a revision to this entity. */
+  uniqueRevisors: Array<User>;
   variants: VariantConnection;
 };
 
@@ -1392,8 +1404,12 @@ export enum VariantOrigin {
 
 /** A CIViC entity that can have revisions proposed to it. */
 export type WithRevisions = {
+  /** List of all fields that have at least one revision. */
+  revisedFieldNames: Array<FieldName>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
+  /** List of all users that have submitted a revision to this entity. */
+  uniqueRevisors: Array<User>;
 };
 
 
@@ -1456,7 +1472,7 @@ export type CommentListNodeFragment = (
   ) }
 );
 
-type ParticipantList_EvidenceItem_Fragment = (
+type CommentParticipants_EvidenceItem_Fragment = (
   { __typename: 'EvidenceItem' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1464,7 +1480,7 @@ type ParticipantList_EvidenceItem_Fragment = (
   )> }
 );
 
-type ParticipantList_Flag_Fragment = (
+type CommentParticipants_Flag_Fragment = (
   { __typename: 'Flag' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1472,7 +1488,7 @@ type ParticipantList_Flag_Fragment = (
   )> }
 );
 
-type ParticipantList_Gene_Fragment = (
+type CommentParticipants_Gene_Fragment = (
   { __typename: 'Gene' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1480,7 +1496,7 @@ type ParticipantList_Gene_Fragment = (
   )> }
 );
 
-type ParticipantList_Variant_Fragment = (
+type CommentParticipants_Variant_Fragment = (
   { __typename: 'Variant' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
@@ -1488,7 +1504,7 @@ type ParticipantList_Variant_Fragment = (
   )> }
 );
 
-export type ParticipantListFragment = ParticipantList_EvidenceItem_Fragment | ParticipantList_Flag_Fragment | ParticipantList_Gene_Fragment | ParticipantList_Variant_Fragment;
+export type CommentParticipantsFragment = CommentParticipants_EvidenceItem_Fragment | CommentParticipants_Flag_Fragment | CommentParticipants_Gene_Fragment | CommentParticipants_Variant_Fragment;
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
@@ -1665,7 +1681,7 @@ export type GeneCommentsQuery = (
       { __typename: 'CommentConnection' }
       & CommentListFragment
     ) }
-    & ParticipantList_Gene_Fragment
+    & CommentParticipants_Gene_Fragment
   )> }
 );
 
@@ -1743,6 +1759,8 @@ export type GeneRevisionsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1751,7 +1769,13 @@ export type GeneRevisionsQuery = (
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id'>
-    & { revisions: (
+    & { uniqueRevisors: Array<(
+      { __typename: 'User' }
+      & Pick<User, 'username' | 'id' | 'profileImagePath'>
+    )>, revisedFieldNames: Array<(
+      { __typename: 'FieldName' }
+      & Pick<FieldName, 'name' | 'displayName'>
+    )>, revisions: (
       { __typename: 'RevisionConnection' }
       & Pick<RevisionConnection, 'totalCount'>
       & { edges: Array<(
@@ -1854,8 +1878,8 @@ export const CommentListFragmentDoc = gql`
   }
 }
     ${CommentListNodeFragmentDoc}`;
-export const ParticipantListFragmentDoc = gql`
-    fragment participantList on Commentable {
+export const CommentParticipantsFragmentDoc = gql`
+    fragment commentParticipants on Commentable {
   uniqueCommenters {
     id
     username
@@ -2117,11 +2141,11 @@ export const GeneCommentsDocument = gql`
     ) {
       ...commentList
     }
-    ...participantList
+    ...commentParticipants
   }
 }
     ${CommentListFragmentDoc}
-${ParticipantListFragmentDoc}`;
+${CommentParticipantsFragmentDoc}`;
 
   @Injectable({
     providedIn: AppModule
@@ -2213,10 +2237,26 @@ export const GeneDetailDocument = gql`
     }
   }
 export const GeneRevisionsDocument = gql`
-    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
   gene(id: $geneId) {
     id
-    revisions(first: $first, last: $last, before: $before, after: $after) {
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
+    revisions(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      fieldName: $fieldName
+      originatingUserId: $originatingUserId
+    ) {
       totalCount
       edges {
         node {

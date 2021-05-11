@@ -1,21 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap, Params, Data } from '@angular/router';
-import { Observable } from 'rxjs';
-import { pluck, map, tap, withLatestFrom, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { NGXLogger } from "ngx-logger";
-
-import {
-  CommentableInput,
-  CommentableEntities,
-  Gene,
-  Revision,
-  RevisionEdge,
-  Maybe,
-  GeneRevisionsQueryVariables,
-  Organization
-} from '@app/generated/civic.apollo';
-
-import { GenesRevisionsService } from './genes-revisions.service';
+import { ActivatedRoute } from '@angular/router';
+import { Maybe, Organization } from '@app/generated/civic.apollo';
+import { GenesRevisionsService, SelectableFieldName, UniqueRevisor } from './genes-revisions.service';
 
 @Component({
   selector: 'cvc-genes-revisions',
@@ -25,18 +11,27 @@ import { GenesRevisionsService } from './genes-revisions.service';
 })
 export class GenesRevisionsComponent implements OnInit {
   service: GenesRevisionsService;
-  mostRecentOrg!: Maybe<Organization>;
+  mostRecentOrg: Maybe<Organization>;
+  geneId: number
 
   constructor(
     private genesRevisionsService: GenesRevisionsService,
     private route: ActivatedRoute) {
 
-    const geneId: number = +this.route.snapshot.params['geneId'];
+    this.geneId = +this.route.snapshot.params['geneId'];
     this.service = genesRevisionsService;
-    this.service.watch(<GeneRevisionsQueryVariables>{ geneId: geneId});
   }
 
   ngOnInit(): void {
+    this.service.createQuery({geneId: this.geneId});
+  }
+
+  onFieldNameSelected(field: Maybe<SelectableFieldName>) {
+    this.service.fieldNameSelected(field)
+  }
+
+  onRevisorSelected(user: Maybe<UniqueRevisor>) {
+    this.service.revisorSelected(user)
   }
 
   selectOrg(org: Organization): void {
