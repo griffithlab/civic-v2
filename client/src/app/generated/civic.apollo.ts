@@ -1760,6 +1760,7 @@ export type GeneRevisionsQueryVariables = Exact<{
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   fieldName?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -2236,7 +2237,7 @@ export const GeneDetailDocument = gql`
     }
   }
 export const GeneRevisionsDocument = gql`
-    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String) {
+    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
   gene(id: $geneId) {
     id
     uniqueRevisors {
@@ -2254,6 +2255,7 @@ export const GeneRevisionsDocument = gql`
       before: $before
       after: $after
       fieldName: $fieldName
+      originatingUserId: $originatingUserId
     ) {
       totalCount
       edges {

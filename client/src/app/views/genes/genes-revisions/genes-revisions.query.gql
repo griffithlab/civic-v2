@@ -5,6 +5,7 @@ query GeneRevisions(
   $before: String,
   $after: String,
   $fieldName: String,
+  $originatingUserId: Int
 ) {
   gene(id: $geneId) {
     id
@@ -22,7 +23,8 @@ query GeneRevisions(
       last: $last,
       before: $before,
       after: $after,
-      fieldName: $fieldName
+      fieldName: $fieldName,
+      originatingUserId: $originatingUserId
     ) {
       totalCount
       edges {

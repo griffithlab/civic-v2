@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult, ApolloError, FetchMoreQueryOptions } from '@apollo/client/core';
 import {
   Maybe,
@@ -26,6 +26,12 @@ export interface SelectableFieldName {
   displayName: string
 }
 
+export interface UniqueRevisor {
+  id: number
+  username: string
+  profileImagePath?: string
+}
+
 @Injectable()
 export class GenesRevisionsService implements OnDestroy {
   private spy: Spy;
@@ -35,6 +41,7 @@ export class GenesRevisionsService implements OnDestroy {
 
   revisions$: Maybe<Observable<RevisionEdge[]>>;
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
+  uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>;
 
   isLoading$!: Observable<boolean>;
   queryErrors$!: Observable<Maybe<ReadonlyArray<GraphQLError>>>;
@@ -43,25 +50,24 @@ export class GenesRevisionsService implements OnDestroy {
   pageInfo$!: Observable<PageInfo>;
   pageInfo!: PageInfo;
 
-  private pageInfoSubject$!: BehaviorSubject<PageInfo>;
-  private initialFirst =  50;
+  private initialFirst =  10;
   private fetchMoreSize = 10;
   private destroy$ = new Subject();
+  protected initialQueryVars?: GeneRevisionsQueryVariables
 
   constructor(private gql: GeneRevisionsGQL, private log: NGXLogger) {
     this.spy = create(); // debug
   }
 
-  watch(vars: GeneRevisionsQueryVariables): QueryRef<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
-    const initialQueryVars: GeneRevisionsQueryVariables = {
+  createQuery(vars: GeneRevisionsQueryVariables): QueryRef<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
+    this.initialQueryVars = {
       geneId: vars.geneId,
-      // last: vars.last ? vars.last : this.initialLast,
       first: vars.first ? vars.first : this.initialFirst,
       before: vars.before ? vars.before : undefined,
       after: vars.after? vars.after: undefined
     }
 
-    this.queryRef = this.gql.watch(initialQueryVars);
+    this.queryRef = this.gql.watch(this.initialQueryVars);
     this.result$ = this.queryRef.valueChanges;
 
     this.isLoading$ = this.result$
@@ -82,12 +88,16 @@ export class GenesRevisionsService implements OnDestroy {
       .pipe(pluck('error'));
 
     this.spy.log('revisions$'); // debug
-    //TODO This cast is not safe - it will blow up if revisions is empty. 
     this.revisions$ = this.result$
       .pipe(
-        map(({ data }) => { return data.gene?.revisions.edges as RevisionEdge[]  }),
+        map(({ data }) => { return data.gene?.revisions?.edges as RevisionEdge[]  }),
         shareReplay(1));
 
+    this.uniqueRevisors$ = this.result$
+        .pipe(
+          map(({data}) => { return data.gene?.uniqueRevisors }),
+          shareReplay(1)
+        );
     
     this.revisionFields$ = this.result$.pipe(
       map(({ data }) => {
@@ -107,17 +117,30 @@ export class GenesRevisionsService implements OnDestroy {
   }
 
   fieldNameSelected(field: Maybe<SelectableFieldName>) {
-    let oldVars = this.queryRef.variables
-    this.queryRef.refetch({
-      geneId: 5,
-      first: this.initialFirst,
-      fieldName: field?.name
-    })
+    if (this.initialQueryVars) {
+      this.queryRef.refetch({
+        ...this.initialQueryVars,
+        originatingUserId: this.currentVariables()?.originatingUserId,
+        fieldName: field?.name
+      })
+    }
   }
 
+  revisorSelected(u: Maybe<UniqueRevisor>) {
+    if (this.initialQueryVars) {
+      this.queryRef.refetch({
+        ...this.initialQueryVars,
+        fieldName: this.currentVariables()?.fieldName,
+        originatingUserId: u?.id
+      })
+    }
+  }
+
+  //TOO test this with filtering in place
   fetchMore(): void {
     this.queryRef.fetchMore({
       variables: <GeneRevisionsQueryVariables>{
+        ...this.currentVariables(),
         last: this.fetchMoreSize,
         before: this.pageInfo.startCursor
       },
@@ -128,5 +151,10 @@ export class GenesRevisionsService implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.spy.teardown();
+  }
+
+  //TODO - Sigh, fix this when the new angular-apollo comes out
+  private currentVariables(): GeneRevisionsQueryVariables {
+    return this.queryRef['obsQuery'].variables as GeneRevisionsQueryVariables;
   }
 }
