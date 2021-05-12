@@ -13,7 +13,6 @@ import  * as Apollo from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, shareReplay, startWith, takeUntil } from 'rxjs/operators';
-import { CommentsParticipant } from '../participant-list/participant-list.component';
 
 export interface CommentQueryVars {
   id: number
@@ -22,6 +21,12 @@ export interface CommentQueryVars {
   before?: string
   after?: string,
   userId?: number
+}
+
+export interface CommentsParticipant {
+    id: number
+    username: string
+    profileImagePath: Maybe<string>
 }
 
 @Injectable()

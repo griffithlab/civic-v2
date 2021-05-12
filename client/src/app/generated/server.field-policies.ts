@@ -165,6 +165,11 @@ export type EvidenceItemEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type FieldNameKeySpecifier = ('displayName' | 'name' | FieldNameKeySpecifier)[];
+export type FieldNameFieldPolicy = {
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FlagKeySpecifier = ('comments' | 'flaggingUser' | 'id' | 'name' | 'resolvingUser' | 'state' | 'uniqueCommenters' | FlagKeySpecifier)[];
 export type FlagFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -198,7 +203,7 @@ export type FlaggableFieldPolicy = {
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneKeySpecifier = ('aliases' | 'comments' | 'description' | 'entrezId' | 'events' | 'flagged' | 'flags' | 'id' | 'lifecycleActions' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'uniqueCommenters' | 'variants' | GeneKeySpecifier)[];
+export type GeneKeySpecifier = ('aliases' | 'comments' | 'description' | 'entrezId' | 'events' | 'flagged' | 'flags' | 'id' | 'lifecycleActions' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisedFieldNames' | 'revisions' | 'sources' | 'uniqueCommenters' | 'uniqueRevisors' | 'variants' | GeneKeySpecifier)[];
 export type GeneFieldPolicy = {
 	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -212,9 +217,11 @@ export type GeneFieldPolicy = {
 	myGeneInfoDetails?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	officialName?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisedFieldNames?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	uniqueCommenters?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueRevisors?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type GeneAliasKeySpecifier = ('name' | GeneAliasKeySpecifier)[];
@@ -464,9 +471,11 @@ export type VariantEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type WithRevisionsKeySpecifier = ('revisions' | WithRevisionsKeySpecifier)[];
+export type WithRevisionsKeySpecifier = ('revisedFieldNames' | 'revisions' | 'uniqueRevisors' | WithRevisionsKeySpecifier)[];
 export type WithRevisionsFieldPolicy = {
-	revisions?: FieldPolicy<any> | FieldReadFunction<any>
+	revisedFieldNames?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueRevisors?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TypedTypePolicies = TypePolicies & {
 	AcceptRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
@@ -552,6 +561,10 @@ export type TypedTypePolicies = TypePolicies & {
 	EvidenceItemEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EvidenceItemEdgeKeySpecifier | (() => undefined | EvidenceItemEdgeKeySpecifier),
 		fields?: EvidenceItemEdgeFieldPolicy,
+	},
+	FieldName?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FieldNameKeySpecifier | (() => undefined | FieldNameKeySpecifier),
+		fields?: FieldNameFieldPolicy,
 	},
 	Flag?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FlagKeySpecifier | (() => undefined | FlagKeySpecifier),

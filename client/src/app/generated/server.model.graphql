@@ -684,6 +684,18 @@ enum EvidenceType {
   PROGNOSTIC
 }
 
+type FieldName {
+  """
+  The user facing representation of the field name.
+  """
+  displayName: String!
+
+  """
+  The internal server representation of the field name.
+  """
+  name: String!
+}
+
 type Flag implements Commentable & EventOriginObject {
   """
   List and filter comments.
@@ -1023,6 +1035,11 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
   officialName: String!
 
   """
+  List of all fields that have at least one revision.
+  """
+  revisedFieldNames: [FieldName!]!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -1077,6 +1094,11 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
   List of all users that have commented on this entity.
   """
   uniqueCommenters: [User!]!
+
+  """
+  List of all users that have submitted a revision to this entity.
+  """
+  uniqueRevisors: [User!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -2254,6 +2276,11 @@ A CIViC entity that can have revisions proposed to it.
 """
 interface WithRevisions {
   """
+  List of all fields that have at least one revision.
+  """
+  revisedFieldNames: [FieldName!]!
+
+  """
   List and filter revisions.
   """
   revisions(
@@ -2302,4 +2329,9 @@ interface WithRevisions {
     """
     status: RevisionStatus
   ): RevisionConnection!
+
+  """
+  List of all users that have submitted a revision to this entity.
+  """
+  uniqueRevisors: [User!]!
 }

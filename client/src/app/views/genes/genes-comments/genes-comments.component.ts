@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentsParticipant } from '@app/components/shared/participant-list/participant-list.component';
+import { CommentsParticipant } from '@app/components/shared/comment-list/comment-list.service';
 import { Maybe } from '@app/generated/civic.apollo';
 import { GenesCommentsService } from './genes-comments.service';
 

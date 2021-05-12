@@ -4,14 +4,27 @@ query GeneRevisions(
   $last: Int,
   $before: String,
   $after: String,
+  $fieldName: String,
+  $originatingUserId: Int
 ) {
   gene(id: $geneId) {
     id
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
     revisions(
       first: $first,
       last: $last,
       before: $before,
       after: $after,
+      fieldName: $fieldName,
+      originatingUserId: $originatingUserId
     ) {
       totalCount
       edges {

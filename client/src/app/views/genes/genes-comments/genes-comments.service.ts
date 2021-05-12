@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GenericCommentsService } from '@app/components/shared/comment-list/comment-list.service';
-import { CommentsParticipant } from '@app/components/shared/participant-list/participant-list.component';
+import { CommentsParticipant, GenericCommentsService } from '@app/components/shared/comment-list/comment-list.service';
 import {
   CommentableEntities,
   CommentEdge,

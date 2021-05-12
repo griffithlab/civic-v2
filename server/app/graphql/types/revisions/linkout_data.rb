@@ -8,7 +8,7 @@ module Types::Revisions
     def self.from_revision(r)
       if r.field_name.ends_with?('_id') || r.field_name.ends_with?('_ids')
         {
-          name: display_name(r),
+          name: revision_display_name(r),
           current_value: -> { { objects: value_for_field(r, method_name: :current_value) } },
           suggested_value: -> { { objects: value_for_field(r, method_name: :suggested_value) } },
           diff_value: -> { {
@@ -19,7 +19,7 @@ module Types::Revisions
         }
       else
         {
-          name: display_name(r),
+          name: revision_display_name(r),
           current_value: { value: r.current_value },
           suggested_value: { value: r.suggested_value },
           diff_value: { value: Diffy::Diff.new(r.current_value, r.suggested_value).to_s(:html) }
@@ -49,13 +49,17 @@ module Types::Revisions
       end
     end
 
-    def self.display_name(r)
-      display_name = r.field_name
-      if display_name.ends_with?('_ids')
-        display_name.singularize.titleize.pluralize
+    def self.display_name(name)
+      if name.ends_with?('_ids')
+        name.singularize.titleize.pluralize
       else
-        display_name.titleize
+        name.titleize
       end
+    end
+
+    private
+    def self.revision_display_name(r)
+      display_name(r.field_name)
     end
 
     def self.value_for_field(r, method_name:)
@@ -63,7 +67,7 @@ module Types::Revisions
     end
 
     def self.value_for_set(r, set:)
-      field_class = display_name(r).singularize.constantize
+      field_class = revision_display_name(r).singularize.constantize
       field_class.find(set).map do |obj|
         {
           id: obj.id,

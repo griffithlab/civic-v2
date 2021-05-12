@@ -17,6 +17,6 @@ query GeneComments(
     ) {
       ...commentList
     }
-    ...participantList
+    ...commentParticipants
   }
 }
