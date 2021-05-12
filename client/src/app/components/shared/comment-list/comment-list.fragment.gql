@@ -1,0 +1,34 @@
+fragment commentList on CommentConnection {
+  totalCount
+  pageInfo {
+    startCursor
+    endCursor
+    hasPreviousPage
+    hasNextPage
+  }
+  edges {
+    cursor
+    node {
+      ...commentListNode
+    }
+  }
+}
+
+fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commenter {
+    id
+    username
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}

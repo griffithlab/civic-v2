@@ -14,6 +14,39 @@
   "__schema": {
     "types": [
       {
+        "kind": "INTERFACE",
+        "name": "Commentable",
+        "possibleTypes": [
+          {
+            "name": "EvidenceItem"
+          },
+          {
+            "name": "Flag"
+          },
+          {
+            "name": "Gene"
+          },
+          {
+            "name": "Variant"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Flaggable",
+        "possibleTypes": [
+          {
+            "name": "EvidenceItem"
+          },
+          {
+            "name": "Gene"
+          },
+          {
+            "name": "Variant"
+          }
+        ]
+      },
+      {
         "kind": "UNION",
         "name": "ModeratedField",
         "possibleTypes": [
@@ -34,6 +67,15 @@
           },
           {
             "name": "ScalarField"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "WithRevisions",
+        "possibleTypes": [
+          {
+            "name": "Gene"
           }
         ]
       }

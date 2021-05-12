@@ -83,16 +83,22 @@
     </ul>
   </nz-sider>
   <nz-layout class="right-layout" [ngClass]="{ 'is-collapsed': isCollapsed }">
-    <nz-header class="app-header">
+    <nz-header>
       <div nz-row>
         <!-- sidebar collapse/show trigger -->
-        <div nz-col nzSpan="1" >
+        <div nz-col nzFlex="40px">
           <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" ></i>
           </span>
         </div>
+        <div nz-col nzFlex="auto">
+          <p>QuickSearch</p>
+        </div>
+        <div nz-col nzFlex="auto">
+          <p>Menu</p>
+        </div>
         <!-- header user -->
-        <div nz-col nzSpan="6" nzOffset="17" class="header-user" style="justify-items: end">
+        <div nz-col nzFlex="250px" class="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
           <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>
         </div>

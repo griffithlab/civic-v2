@@ -10,6 +10,7 @@
     "e2e": "ng e2e",
     "generate-icons": "svg-to-ts",
     "generate-apollo": "graphql-codegen",
+    "generate-apollo:start": "graphql-codegen --watch",
     "postinstall": "patch-package"
   },
   "private": true,
@@ -23,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~11.2.2",
     "@angular/router": "~11.2.2",
     "@apollo/client": "^3.0.0",
+    "@ngrx/component": "^11.1.1",
     "@ngx-formly/core": "^5.0.0",
     "@ngx-formly/ng-zorro-antd": "^0.0",
     "apollo-angular": "^2.1.0",

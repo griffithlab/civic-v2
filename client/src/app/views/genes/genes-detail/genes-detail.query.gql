@@ -1,0 +1,73 @@
+query GeneDetail(
+  $geneId: Int!,
+
+  $commentFirst: Int,
+  $commentLast: Int,
+  $commentBefore: String,
+  $commentAfter: String
+) {
+  gene(id: $geneId) {
+    id
+    name
+    officialName
+    entrezId
+    flags {
+      totalCount
+    }
+    revisions {
+      totalCount
+    }
+    comments(
+      first: $commentFirst,
+      last: $commentLast
+      before: $commentBefore,
+      after: $commentAfter,
+    ) {
+      totalCount,
+      edges {
+        cursor
+        node {
+          id
+        }
+      }
+    }
+    lifecycleActions {
+      lastCommentedOn {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastModified {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+      lastReviewed {
+        createdAt
+        id
+        organization {
+          id
+          name
+        }
+        originatingUser {
+          id
+          name
+        }
+      }
+    }
+  }
+}

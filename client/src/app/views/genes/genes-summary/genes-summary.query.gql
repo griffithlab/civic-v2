@@ -1,0 +1,28 @@
+query GenesSummary($geneId: Int!) {
+  gene(id: $geneId) {
+    description
+    entrezId
+    aliases {
+      name
+    }
+    id
+    name
+    officialName
+    sources {
+      id
+      citation
+      sourceUrl
+      sourceType
+    }
+    variants {
+      edges {
+        node {
+          id
+          name
+          description
+        }
+      }
+    }
+    myGeneInfoDetails
+  }
+}

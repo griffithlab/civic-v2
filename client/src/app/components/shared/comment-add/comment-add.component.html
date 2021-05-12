@@ -19,9 +19,7 @@
       <nz-form-control>
         <cvc-form-buttons>
           <cvc-org-selector-btn-group
-            [organizations]="organizations"
-            [mostRecentOrg]="mostRecentOrg"
-            (orgSelected)="selectOrg($event)">
+            [(selectedOrg)]="this.mostRecentOrg">
             <button type="submit" nz-button
               cvcOrgSelectorBtn
               nzType="primary"

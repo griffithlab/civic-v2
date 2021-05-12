@@ -1,0 +1,140 @@
+<nz-row [nzGutter]="16">
+  <nz-col nzSpan="18">
+    <ng-container *ngIf="service.revisions$ | ngrxPush as revisions">
+      <nz-card nzTitle="Revisions"
+        class="card-list">
+        <nz-list [nzDataSource]="revisions"
+          class="revision-list"
+          [nzRenderItem]="revision">
+          <ng-template #revision
+            let-revision>
+            <nz-list-item>
+              <!-- Revision Card -->
+              <nz-card nzType="inner"
+                nzSize="small"
+                style="width: 100%"
+                [nzTitle]="revCardHeaderTitle"
+                [nzExtra]="revCardHeaderExtra">
+
+                <ng-container [ngSwitch]="revision.node.fieldName">
+                  <ng-container *ngSwitchCase="'source_ids'">
+                    <ng-container *ngTemplateOutlet="revDiffSourceIds"></ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'description'">
+                    <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>
+                  </ng-container>
+                </ng-container>
+                <nz-card-meta [nzDescription]="moderationButtons">
+                </nz-card-meta>
+                <ng-template #moderationButtons>
+                  <div nz-row
+                    style="margin-top: 1em;">
+                    <div nz-col
+                      nzSpan="24"
+                      style="text-align: right;">
+                      <nz-space nzDirection="horizontal">
+                        <nz-space-item>
+                          <cvc-org-selector-btn-group [(selectedOrg)]="mostRecentOrg">
+                            <button type="submit"
+                              nz-button
+                              cvcOrgSelectorBtn
+                              nzType="primary"
+                              nzSize="small">
+                              Reject Revision
+                            </button>
+                          </cvc-org-selector-btn-group>
+                        </nz-space-item>
+                        <nz-space-item>
+                          <cvc-org-selector-btn-group [(selectedOrg)]="mostRecentOrg">
+                            <button type="submit"
+                              nz-button
+                              cvcOrgSelectorBtn
+                              nzType="primary"
+                              nzSize="small">
+                              Accept Revision
+                            </button>
+                          </cvc-org-selector-btn-group>
+
+                        </nz-space-item>
+                      </nz-space>
+
+                    </div>
+                  </div>
+                </ng-template>
+              </nz-card>
+
+              <!-- Revision Card Templates -->
+              <!-- header title -->
+              <ng-template #revCardHeaderTitle>
+                <i nz-icon
+                  nzType="civic:revision"></i> RID{{ revision.node.id }}
+                <span>{{ revision.node.linkoutData.name }} Updated</span>
+              </ng-template>
+              <!-- header secondary & status -->
+              <ng-template #revCardHeaderExtra>
+                <nz-space nzSize="small">
+                  <nz-space-item>
+                    <span nz-typography
+                      nzType="secondary">{{ revision.node.createdAt | timeago }}</span>
+                  </nz-space-item>
+                  <nz-space-item>
+                    <nz-tag>{{ revision.node.status }}</nz-tag>
+                  </nz-space-item>
+                </nz-space>
+              </ng-template>
+            </nz-list-item>
+
+            <!-- Field Diff Templates -->
+            <!-- description -->
+            <ng-template #revDiffDescription>
+              <cvc-gene-description-revision [revision]="revision.node">
+              </cvc-gene-description-revision>
+            </ng-template>
+            <!-- sources -->
+            <ng-template #revDiffSourceIds>
+              <cvc-gene-sources-revision [revision]="revision.node">
+              </cvc-gene-sources-revision>
+            </ng-template>
+
+          </ng-template>
+        </nz-list>
+      </nz-card>
+    </ng-container>
+  </nz-col>
+  <nz-col nzSpan="6">
+    <nz-card nzTitle="Revisors"
+      nz-type="inner"
+      style="margin-bottom: 1em">
+      <nz-space nzDirection="vertical"
+        style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+    <nz-card nzTitle="Fields Revised"
+      nz-type="inner">
+      <nz-list nzDirection="vertical"
+        style="width: 100%">
+        <nz-list-item>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+  </nz-col>
+</nz-row>

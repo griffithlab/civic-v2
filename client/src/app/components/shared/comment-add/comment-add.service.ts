@@ -60,6 +60,7 @@ export class CommentAddService implements OnDestroy {
 
                 return {
                   ...existingCommentRefs,
+                  totalCount: existingCommentRefs.totalCount + 1,
                   edges: [
                     ...existingCommentRefs.edges,
                     newEdge

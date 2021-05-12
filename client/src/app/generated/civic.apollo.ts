@@ -112,11 +112,11 @@ export type BrowseGene = {
 export type BrowseGeneConnection = {
   __typename: 'BrowseGeneConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<BrowseGeneEdge>>>;
+  edges: Array<BrowseGeneEdge>;
   /** The total number of records in this set. */
   filteredCount: Scalars['Int'];
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<BrowseGene>>>;
+  nodes: Array<BrowseGene>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
@@ -145,7 +145,7 @@ export type ClinicalTrial = {
 export type Comment = {
   __typename: 'Comment';
   comment: Scalars['String'];
-  commentor: User;
+  commenter: User;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
   id: Scalars['Int'];
@@ -156,16 +156,14 @@ export type Comment = {
 export type CommentConnection = {
   __typename: 'CommentConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<CommentEdge>>>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  edges: Array<CommentEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Comment>>>;
+  nodes: Array<Comment>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -176,6 +174,25 @@ export type CommentEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<Comment>;
+};
+
+/** A CIViC entity that can have comments on it. */
+export type Commentable = {
+  /** List and filter comments. */
+  comments: CommentConnection;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
+};
+
+
+/** A CIViC entity that can have comments on it. */
+export type CommentableCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 export enum CommentableEntities {
@@ -189,6 +206,18 @@ export type CommentableInput = {
   /** ID of the entity to comment on. */
   id: Scalars['Int'];
 };
+
+export type DateSort = {
+  /** Value to sort by. */
+  column: DateSortColumns;
+  /** Sort direction. */
+  direction: SortDirection;
+};
+
+export enum DateSortColumns {
+  Created = 'CREATED',
+  LastModified = 'LAST_MODIFIED'
+}
 
 export type Disease = {
   __typename: 'Disease';
@@ -244,16 +273,14 @@ export enum EventAction {
 export type EventConnection = {
   __typename: 'EventConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<EventEdge>>>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  edges: Array<EventEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Event>>>;
+  nodes: Array<Event>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -295,10 +322,11 @@ export enum EvidenceDirection {
   Supports = 'SUPPORTS'
 }
 
-export type EvidenceItem = {
+export type EvidenceItem = Commentable & Flaggable & {
   __typename: 'EvidenceItem';
   clinicalSignificance: EvidenceClinicalSignificance;
-  comments?: Maybe<Array<Comment>>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   description: Scalars['String'];
   disease?: Maybe<Disease>;
   drugInteractionType?: Maybe<DrugInteraction>;
@@ -309,14 +337,28 @@ export type EvidenceItem = {
   evidenceRating?: Maybe<Scalars['Int']>;
   evidenceType: EvidenceType;
   flagged: Scalars['Boolean'];
+  /** List and filter flags. */
+  flags: FlagConnection;
   id: Scalars['Int'];
   phenotypes?: Maybe<Array<Phenotype>>;
-  revisions?: Maybe<Array<Revision>>;
+  revisions: Array<Revision>;
   source: Source;
   status: EvidenceStatus;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
   variant: Variant;
   variantHgvs: Scalars['String'];
   variantOrigin: VariantOrigin;
+};
+
+
+export type EvidenceItemCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -327,20 +369,30 @@ export type EvidenceItemEventsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
+export type EvidenceItemFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
+};
+
 /** The connection type for EvidenceItem. */
 export type EvidenceItemConnection = {
   __typename: 'EvidenceItemConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<EvidenceItemEdge>>>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  edges: Array<EvidenceItemEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<EvidenceItem>>>;
+  nodes: Array<EvidenceItem>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -376,10 +428,50 @@ export enum EvidenceType {
   Prognostic = 'PROGNOSTIC'
 }
 
-export type Flag = {
+export type Flag = Commentable & {
   __typename: 'Flag';
+  /** List and filter comments. */
+  comments: CommentConnection;
+  flaggingUser: User;
   id: Scalars['Int'];
+  resolvingUser?: Maybe<User>;
   state: FlagState;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
+};
+
+
+export type FlagCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+};
+
+/** The connection type for Flag. */
+export type FlagConnection = {
+  __typename: 'FlagConnection';
+  /** A list of edges. */
+  edges: Array<FlagEdge>;
+  /** A list of nodes. */
+  nodes: Array<Flag>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type FlagEdge = {
+  __typename: 'FlagEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Flag>;
 };
 
 /** Autogenerated input type of FlagEntity */
@@ -409,9 +501,29 @@ export type FlagEntityPayload = {
 };
 
 export enum FlagState {
-  Open = 'open',
-  Resolved = 'resolved'
+  Open = 'OPEN',
+  Resolved = 'RESOLVED'
 }
+
+/** A CIViC entity that can be flagged for editor attention. */
+export type Flaggable = {
+  flagged: Scalars['Boolean'];
+  /** List and filter flags. */
+  flags: FlagConnection;
+};
+
+
+/** A CIViC entity that can be flagged for editor attention. */
+export type FlaggableFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
+};
 
 /** Enumeration of all entities in CIViC that can be flagged. */
 export enum FlaggableEntities {
@@ -426,21 +538,28 @@ export type FlaggableInput = {
   id: Scalars['Int'];
 };
 
-export type Gene = {
+export type Gene = Commentable & Flaggable & WithRevisions & {
   __typename: 'Gene';
-  aliases?: Maybe<Array<GeneAlias>>;
-  comments?: Maybe<CommentConnection>;
+  aliases: Array<GeneAlias>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   description: Scalars['String'];
   entrezId: Scalars['Int'];
   events: EventConnection;
+  flagged: Scalars['Boolean'];
+  /** List and filter flags. */
+  flags: FlagConnection;
   id: Scalars['Int'];
   lifecycleActions: Lifecycle;
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
-  revisions?: Maybe<RevisionConnection>;
-  sources?: Maybe<Array<Source>>;
-  variants?: Maybe<VariantConnection>;
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
+  sources: Array<Source>;
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
+  variants: VariantConnection;
 };
 
 
@@ -449,6 +568,8 @@ export type GeneCommentsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -460,11 +581,28 @@ export type GeneEventsArgs = {
 };
 
 
-export type GeneRevisionsArgs = {
+export type GeneFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
+};
+
+
+export type GeneRevisionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
 };
 
 
@@ -674,16 +812,14 @@ export type Notification = {
 export type NotificationConnection = {
   __typename: 'NotificationConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<NotificationEdge>>>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  edges: Array<NotificationEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Notification>>>;
+  nodes: Array<Notification>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -760,6 +896,7 @@ export type Query = {
   __typename: 'Query';
   browseEvents: EventConnection;
   browseGenes: BrowseGeneConnection;
+  comments: CommentConnection;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
@@ -798,6 +935,15 @@ export type QueryBrowseGenesArgs = {
   geneAlias?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<GenesSort>;
+};
+
+
+export type QueryCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  subject?: Maybe<CommentableInput>;
 };
 
 
@@ -912,16 +1058,14 @@ export type Revision = {
 export type RevisionConnection = {
   __typename: 'RevisionConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<RevisionEdge>>>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  edges: Array<RevisionEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Revision>>>;
+  nodes: Array<Revision>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -947,10 +1091,10 @@ export type RevisionResult = {
 };
 
 export enum RevisionStatus {
-  Accepted = 'accepted',
-  New = 'new',
-  Rejected = 'rejected',
-  Superseded = 'superseded'
+  Accepted = 'ACCEPTED',
+  New = 'NEW',
+  Rejected = 'REJECTED',
+  Superseded = 'SUPERSEDED'
 }
 
 export type ScalarField = {
@@ -1158,14 +1302,31 @@ export type UserProfileImagePathArgs = {
   size?: Maybe<Scalars['Int']>;
 };
 
-export type Variant = {
+export type Variant = Commentable & Flaggable & {
   __typename: 'Variant';
+  /** List and filter comments. */
+  comments: CommentConnection;
   description: Scalars['String'];
   events: EventConnection;
-  evidenceItems?: Maybe<EvidenceItemConnection>;
+  evidenceItems: EvidenceItemConnection;
+  flagged: Scalars['Boolean'];
+  /** List and filter flags. */
+  flags: FlagConnection;
   gene: Gene;
   id: Scalars['Int'];
   name: Scalars['String'];
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
+};
+
+
+export type VariantCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -1184,20 +1345,30 @@ export type VariantEvidenceItemsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
+export type VariantFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
+};
+
 /** The connection type for Variant. */
 export type VariantConnection = {
   __typename: 'VariantConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<VariantEdge>>>;
-  /** The total number of records in this set. */
-  filteredCount: Scalars['Int'];
+  edges: Array<VariantEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Variant>>>;
+  nodes: Array<Variant>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records of this type, regardless of any filtering. */
+  /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
 };
 
@@ -1219,6 +1390,26 @@ export enum VariantOrigin {
   Unknown = 'UNKNOWN'
 }
 
+/** A CIViC entity that can have revisions proposed to it. */
+export type WithRevisions = {
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
+};
+
+
+/** A CIViC entity that can have revisions proposed to it. */
+export type WithRevisionsRevisionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
+};
+
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -1231,15 +1422,141 @@ export type AddCommentMutation = (
     & Pick<AddCommentPayload, 'clientMutationId'>
     & { comment?: Maybe<(
       { __typename: 'Comment' }
-      & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
-      & { commentor: (
-        { __typename: 'User' }
-        & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
-        & { organizations: Array<(
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+      & CommentListNodeFragment
+    )> }
+  )> }
+);
+
+export type CommentListFragment = (
+  { __typename: 'CommentConnection' }
+  & Pick<CommentConnection, 'totalCount'>
+  & { pageInfo: (
+    { __typename: 'PageInfo' }
+    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+  ), edges: Array<(
+    { __typename: 'CommentEdge' }
+    & Pick<CommentEdge, 'cursor'>
+    & { node?: Maybe<(
+      { __typename: 'Comment' }
+      & CommentListNodeFragment
+    )> }
+  )> }
+);
+
+export type CommentListNodeFragment = (
+  { __typename: 'Comment' }
+  & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
+  & { commenter: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
+    & { organizations: Array<(
+      { __typename: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )> }
+  ) }
+);
+
+type ParticipantList_EvidenceItem_Fragment = (
+  { __typename: 'EvidenceItem' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+type ParticipantList_Flag_Fragment = (
+  { __typename: 'Flag' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+type ParticipantList_Gene_Fragment = (
+  { __typename: 'Gene' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+type ParticipantList_Variant_Fragment = (
+  { __typename: 'Variant' }
+  & { uniqueCommenters: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+  )> }
+);
+
+export type ParticipantListFragment = ParticipantList_EvidenceItem_Fragment | ParticipantList_Flag_Fragment | ParticipantList_Gene_Fragment | ParticipantList_Variant_Fragment;
+
+export type GeneRevisableFieldsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'description'>
+    & { sources: Array<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id'>
+    )> }
+  )> }
+);
+
+export type SuggestGeneRevisionMutationVariables = Exact<{
+  input: SuggestGeneRevisionInput;
+}>;
+
+
+export type SuggestGeneRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestGeneRevision?: Maybe<(
+    { __typename: 'SuggestGeneRevisionPayload' }
+    & Pick<SuggestGeneRevisionPayload, 'clientMutationId'>
+    & { gene: (
+      { __typename: 'Gene' }
+      & Pick<Gene, 'id'>
+      & { revisions: (
+        { __typename: 'RevisionConnection' }
+        & Pick<RevisionConnection, 'totalCount'>
+        & { edges: Array<(
+          { __typename: 'RevisionEdge' }
+          & { node?: Maybe<(
+            { __typename: 'Revision' }
+            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+            & { linkoutData: (
+              { __typename: 'LinkoutData' }
+              & Pick<LinkoutData, 'name'>
+              & { diffValue: (
+                { __typename: 'ObjectFieldDiff' }
+                & { addedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, removedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, keptObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )> }
+              ) | (
+                { __typename: 'ScalarField' }
+                & Pick<ScalarField, 'value'>
+              ) }
+            ), revisor: (
+              { __typename: 'User' }
+              & Pick<User, 'id' | 'name'>
+            ) }
+          )> }
         )> }
       ) }
+    ), results: Array<(
+      { __typename: 'RevisionResult' }
+      & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
   )> }
 );
@@ -1257,14 +1574,14 @@ export type ViewerBaseQuery = (
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
     )>, events: (
       { __typename: 'EventConnection' }
-      & { nodes?: Maybe<Array<Maybe<(
+      & { nodes: Array<(
         { __typename: 'Event' }
         & Pick<Event, 'id' | 'createdAt'>
         & { organization: (
           { __typename: 'Organization' }
           & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
         ) }
-      )>>> }
+      )> }
     ) }
   )> }
 );
@@ -1302,10 +1619,10 @@ export type BrowseGenesQuery = (
   & { browseGenes: (
     { __typename: 'BrowseGeneConnection' }
     & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { nodes?: Maybe<Array<Maybe<(
+    & { nodes: Array<(
       { __typename: 'BrowseGene' }
       & Pick<BrowseGene, 'id' | 'name'>
-    )>>>, edges?: Maybe<Array<Maybe<(
+    )>, edges: Array<(
       { __typename: 'BrowseGeneEdge' }
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
@@ -1322,15 +1639,42 @@ export type BrowseGenesQuery = (
           & Pick<Drug, 'name'>
         )>> }
       )> }
-    )>>>, pageInfo: (
+    )>, pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
   ) }
 );
 
+export type GeneCommentsQueryVariables = Exact<{
+  id: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GeneCommentsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id'>
+    & { comments: (
+      { __typename: 'CommentConnection' }
+      & CommentListFragment
+    ) }
+    & ParticipantList_Gene_Fragment
+  )> }
+);
+
 export type GeneDetailQueryVariables = Exact<{
   geneId: Scalars['Int'];
+  commentFirst?: Maybe<Scalars['Int']>;
+  commentLast?: Maybe<Scalars['Int']>;
+  commentBefore?: Maybe<Scalars['String']>;
+  commentAfter?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1338,11 +1682,25 @@ export type GeneDetailQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
-    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
-    & { aliases?: Maybe<Array<(
-      { __typename: 'GeneAlias' }
-      & Pick<GeneAlias, 'name'>
-    )>>, lifecycleActions: (
+    & Pick<Gene, 'id' | 'name' | 'officialName' | 'entrezId'>
+    & { flags: (
+      { __typename: 'FlagConnection' }
+      & Pick<FlagConnection, 'totalCount'>
+    ), revisions: (
+      { __typename: 'RevisionConnection' }
+      & Pick<RevisionConnection, 'totalCount'>
+    ), comments: (
+      { __typename: 'CommentConnection' }
+      & Pick<CommentConnection, 'totalCount'>
+      & { edges: Array<(
+        { __typename: 'CommentEdge' }
+        & Pick<CommentEdge, 'cursor'>
+        & { node?: Maybe<(
+          { __typename: 'Comment' }
+          & Pick<Comment, 'id'>
+        )> }
+      )> }
+    ), lifecycleActions: (
       { __typename: 'Lifecycle' }
       & { lastCommentedOn?: Maybe<(
         { __typename: 'Event' }
@@ -1375,38 +1733,28 @@ export type GeneDetailQuery = (
           & Pick<User, 'id' | 'name'>
         ) }
       )> }
-    ), sources?: Maybe<Array<(
-      { __typename: 'Source' }
-      & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
-    )>>, variants?: Maybe<(
-      { __typename: 'VariantConnection' }
-      & { edges?: Maybe<Array<Maybe<(
-        { __typename: 'VariantEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Variant' }
-          & Pick<Variant, 'id' | 'name' | 'description'>
-        )> }
-      )>>> }
-    )>, comments?: Maybe<(
-      { __typename: 'CommentConnection' }
-      & { edges?: Maybe<Array<Maybe<(
-        { __typename: 'CommentEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Comment' }
-          & Pick<Comment, 'id' | 'createdAt' | 'title' | 'comment'>
-          & { commentor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name' | 'profileImagePath' | 'role'>
-            & { organizations: Array<(
-              { __typename: 'Organization' }
-              & Pick<Organization, 'id' | 'name'>
-            )> }
-          ) }
-        )> }
-      )>>> }
-    )>, revisions?: Maybe<(
+    ) }
+  )> }
+);
+
+export type GeneRevisionsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GeneRevisionsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id'>
+    & { revisions: (
       { __typename: 'RevisionConnection' }
-      & { edges?: Maybe<Array<Maybe<(
+      & Pick<RevisionConnection, 'totalCount'>
+      & { edges: Array<(
         { __typename: 'RevisionEdge' }
         & { node?: Maybe<(
           { __typename: 'Revision' }
@@ -1435,32 +1783,114 @@ export type GeneDetailQuery = (
             & Pick<User, 'id' | 'name'>
           ) }
         )> }
-      )>>> }
-    )> }
+      )> }
+    ) }
   )> }
 );
 
+export type GenesSummaryQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GenesSummaryQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
+    & { aliases: Array<(
+      { __typename: 'GeneAlias' }
+      & Pick<GeneAlias, 'name'>
+    )>, sources: Array<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    )>, variants: (
+      { __typename: 'VariantConnection' }
+      & { edges: Array<(
+        { __typename: 'VariantEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Variant' }
+          & Pick<Variant, 'id' | 'name' | 'description'>
+        )> }
+      )> }
+    ) }
+  )> }
+);
+
+export const CommentListNodeFragmentDoc = gql`
+    fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commenter {
+    id
+    username
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+    `;
+export const CommentListFragmentDoc = gql`
+    fragment commentList on CommentConnection {
+  totalCount
+  pageInfo {
+    startCursor
+    endCursor
+    hasPreviousPage
+    hasNextPage
+  }
+  edges {
+    cursor
+    node {
+      ...commentListNode
+    }
+  }
+}
+    ${CommentListNodeFragmentDoc}`;
+export const ParticipantListFragmentDoc = gql`
+    fragment participantList on Commentable {
+  uniqueCommenters {
+    id
+    username
+    profileImagePath(size: 32)
+  }
+}
+    `;
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
     clientMutationId
     comment {
+      ...commentListNode
+    }
+  }
+}
+    ${CommentListNodeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
+    document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneRevisableFieldsDocument = gql`
+    query GeneRevisableFields($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    description
+    sources {
       id
-      title
-      comment
-      createdAt
-      commentor {
-        id
-        username
-        name
-        role
-        profileImagePath(size: 32)
-        organizations {
-          id
-          name
-          profileImagePath(size: 32)
-        }
-      }
     }
   }
 }
@@ -1469,8 +1899,79 @@ export const AddCommentDocument = gql`
   @Injectable({
     providedIn: AppModule
   })
-  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
-    document = AddCommentDocument;
+  export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
+    document = GeneRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestGeneRevisionDocument = gql`
+    mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+  suggestGeneRevision(input: $input) {
+    clientMutationId
+    gene {
+      id
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
+    document = SuggestGeneRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1603,15 +2104,62 @@ export const BrowseGenesDocument = gql`
       super(apollo);
     }
   }
-export const GeneDetailDocument = gql`
-    query GeneDetail($geneId: Int!) {
-  gene(id: $geneId) {
-    description
-    entrezId
-    aliases {
-      name
-    }
+export const GeneCommentsDocument = gql`
+    query GeneComments($id: Int!, $first: Int, $last: Int, $before: String, $after: String, $userId: Int) {
+  gene(id: $id) {
     id
+    comments(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      originatingUserId: $userId
+    ) {
+      ...commentList
+    }
+    ...participantList
+  }
+}
+    ${CommentListFragmentDoc}
+${ParticipantListFragmentDoc}`;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneCommentsGQL extends Apollo.Query<GeneCommentsQuery, GeneCommentsQueryVariables> {
+    document = GeneCommentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneDetailDocument = gql`
+    query GeneDetail($geneId: Int!, $commentFirst: Int, $commentLast: Int, $commentBefore: String, $commentAfter: String) {
+  gene(id: $geneId) {
+    id
+    name
+    officialName
+    entrezId
+    flags {
+      totalCount
+    }
+    revisions {
+      totalCount
+    }
+    comments(
+      first: $commentFirst
+      last: $commentLast
+      before: $commentBefore
+      after: $commentAfter
+    ) {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+        }
+      }
+    }
     lifecycleActions {
       lastCommentedOn {
         createdAt
@@ -1650,44 +2198,26 @@ export const GeneDetailDocument = gql`
         }
       }
     }
-    name
-    officialName
-    sources {
-      id
-      citation
-      sourceUrl
-      sourceType
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
+    document = GeneDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
     }
-    variants {
-      edges {
-        node {
-          id
-          name
-          description
-        }
-      }
-    }
-    comments {
-      edges {
-        node {
-          id
-          createdAt
-          title
-          comment
-          commentor {
-            id
-            name
-            profileImagePath(size: 32)
-            organizations {
-              id
-              name
-            }
-            role
-          }
-        }
-      }
-    }
-    revisions {
+  }
+export const GeneRevisionsDocument = gql`
+    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+  gene(id: $geneId) {
+    id
+    revisions(first: $first, last: $last, before: $before, after: $after) {
+      totalCount
       edges {
         node {
           id
@@ -1732,6 +2262,46 @@ export const GeneDetailDocument = gql`
         }
       }
     }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneRevisionsGQL extends Apollo.Query<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
+    document = GeneRevisionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GenesSummaryDocument = gql`
+    query GenesSummary($geneId: Int!) {
+  gene(id: $geneId) {
+    description
+    entrezId
+    aliases {
+      name
+    }
+    id
+    name
+    officialName
+    sources {
+      id
+      citation
+      sourceUrl
+      sourceType
+    }
+    variants {
+      edges {
+        node {
+          id
+          name
+          description
+        }
+      }
+    }
     myGeneInfoDetails
   }
 }
@@ -1740,8 +2310,8 @@ export const GeneDetailDocument = gql`
   @Injectable({
     providedIn: AppModule
   })
-  export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
-    document = GeneDetailDocument;
+  export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
+    document = GenesSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

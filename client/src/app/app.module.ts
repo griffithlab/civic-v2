@@ -5,7 +5,7 @@ import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ReactiveComponentModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
 
 import { TimeagoModule } from 'ngx-timeago';
@@ -46,6 +46,7 @@ registerLocaleData(en);
     }),
     NgxJsonViewerModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     TimeagoModule.forRoot(),
   ],
   providers: [

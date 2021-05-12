@@ -4,14 +4,10 @@ import {
   OnInit
 } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
-import { Comment,
-         User,
-         CommentableInput,
-         CommentableEntities
-       } from '@app/generated/civic.apollo';
 import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+
+import { NGXLogger } from 'ngx-logger';
+import { GenericCommentsService } from './comment-list.service';
 
 @Component({
   selector: 'cvc-comment-list',
@@ -19,21 +15,21 @@ import { ViewerService } from '@app/shared/services/viewer/viewer.service';
   styleUrls: ['./comment-list.component.less']
 })
 
-export class CommentListComponent implements OnInit {
-  @Input() comments!: Comment[];
-  @Input() subject!: CommentableInput;
+export class CommentListComponent<CommentQuery> implements OnInit {
+  @Input() commentsService!: GenericCommentsService<CommentQuery>;
+  viewer: ViewerService;
+  private log: NGXLogger;
 
-  viewer$: Observable<User | null>;
-  canCurate$: Observable<boolean>;
-  canModerate$: Observable<boolean>;
+  constructor(viewerService: ViewerService, private logger: NGXLogger) {
+    this.viewer = viewerService;
+    this.log = logger;
+  }
 
-  constructor(private viewerService: ViewerService) {
-    this.viewer$ = viewerService.viewer$;
-    this.canCurate$ = viewerService.canCurate$;
-    this.canModerate$ = viewerService.canModerate$;
+  onLoadMore(): void {
+    this.log.trace('onLoadMore() called')
+    this.commentsService.fetchMore()
   }
 
   ngOnInit(): void {
   }
-
 }

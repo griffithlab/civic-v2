@@ -1,0 +1,34 @@
+<nz-space nzSize="middle" *ngIf="(gene$ | async) as gene"
+  nzDirection="vertical"
+  class="space-align-block">
+  <nz-space-item>
+    <div nz-row
+      [nzGutter]="16">
+      <div nz-col
+        nzSpan="12">
+        <cvc-gene-description [name]="gene.name"
+          [description]="gene.description"
+          [sources]="gene.sources">
+        </cvc-gene-description>
+      </div>
+      <div nz-col
+        nzSpan="12">
+        <cvc-my-gene-info [geneInfo]="myGeneInfo$ | async"></cvc-my-gene-info>
+      </div>
+    </div>
+  </nz-space-item>
+  <nz-space-item>
+    <div nz-row
+      [nzGutter]="16">
+      <nz-col [nzSpan]="8">
+        <p>comments will go here.</p>
+        <!-- <cvc-comment-list [comments]="comments$ | async"
+             [subject]="subject$ | async">
+             </cvc-comment-list> -->
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <p>revisions will go here.</p>
+      </nz-col>
+    </div>
+  </nz-space-item>
+</nz-space>
