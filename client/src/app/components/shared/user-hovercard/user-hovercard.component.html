@@ -1,0 +1,13 @@
+<nz-card *ngIf="user$ | ngrxPush as user" [nzTitle]="user.displayName" [nzExtra]="avatar" style="width:400px;">
+    <ng-template #avatar>
+        <cvc-user-avatar [user]="user" [size]="64"></cvc-user-avatar>
+    </ng-template>
+    <p>{{ user.bio }}</p>
+    <nz-divider></nz-divider>
+    <div *ngIf="user.organizations.length > 0">
+        Member of:
+        <span *ngFor="let o of user.organizations; last as isLast">
+            {{ o.name }}<span *ngIf="!isLast">,</span>
+        </span>
+    </div>
+</nz-card>

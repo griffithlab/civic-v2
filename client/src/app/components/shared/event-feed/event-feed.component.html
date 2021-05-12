@@ -1,0 +1,17 @@
+<div class="event-feed">
+    <h3>History</h3>
+    <nz-timeline>
+        <nz-timeline-item *ngFor="let e of events$ | ngrxPush" [nzDot]="timelineDotTemplate">
+            <ng-template #timelineDotTemplate>
+                <icon nz-icon [nzType]="iconNameForEventAction(e.action)" style="font-size: 24px;"></icon>
+            </ng-template>
+            <div class="event-feed-item">
+                <nz-divider nz-tooltip [nzTooltipTitle]="e.createdAt | date" nzTooltipPlacement="topRight"
+                    [nzText]="e.createdAt | timeago" nzPlain="true" nzOrientation="right"></nz-divider>
+                <cvc-user-pill [user]="e.originatingUser"></cvc-user-pill>
+                <span>{{ verbiageForEvent(e) }}</span>
+                <span> {{ e.subject.name }}</span>
+            </div>
+        </nz-timeline-item>
+    </nz-timeline>
+</div>

@@ -50,13 +50,14 @@ export type ClinicalTrialFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	nctId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentKeySpecifier = ('comment' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'title' | CommentKeySpecifier)[];
+export type CommentKeySpecifier = ('comment' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	commenter?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CommentConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | CommentConnectionKeySpecifier)[];
@@ -92,13 +93,15 @@ export type DrugFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EventKeySpecifier = ('action' | 'createdAt' | 'id' | 'organization' | 'originatingUser' | EventKeySpecifier)[];
+export type EventKeySpecifier = ('action' | 'createdAt' | 'id' | 'organization' | 'originatingObject' | 'originatingUser' | 'subject' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
 	action?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
-	originatingUser?: FieldPolicy<any> | FieldReadFunction<any>
+	originatingObject?: FieldPolicy<any> | FieldReadFunction<any>,
+	originatingUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	subject?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EventConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | EventConnectionKeySpecifier)[];
 export type EventConnectionFieldPolicy = {
@@ -112,6 +115,17 @@ export type EventEdgeKeySpecifier = ('cursor' | 'node' | EventEdgeKeySpecifier)[
 export type EventEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EventOriginObjectKeySpecifier = ('id' | 'name' | EventOriginObjectKeySpecifier)[];
+export type EventOriginObjectFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EventSubjectKeySpecifier = ('events' | 'id' | 'name' | EventSubjectKeySpecifier)[];
+export type EventSubjectFieldPolicy = {
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EvidenceItemKeySpecifier = ('clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'id' | 'phenotypes' | 'revisions' | 'source' | 'status' | 'uniqueCommenters' | 'variant' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
 export type EvidenceItemFieldPolicy = {
@@ -151,11 +165,12 @@ export type EvidenceItemEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagKeySpecifier = ('comments' | 'flaggingUser' | 'id' | 'resolvingUser' | 'state' | 'uniqueCommenters' | FlagKeySpecifier)[];
+export type FlagKeySpecifier = ('comments' | 'flaggingUser' | 'id' | 'name' | 'resolvingUser' | 'state' | 'uniqueCommenters' | FlagKeySpecifier)[];
 export type FlagFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	flaggingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolvingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>,
 	uniqueCommenters?: FieldPolicy<any> | FieldReadFunction<any>
@@ -300,13 +315,13 @@ export type PhenotypeFieldPolicy = {
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseEvents' | 'browseGenes' | 'comments' | 'disease' | 'drug' | 'evidenceItem' | 'gene' | 'searchByPermalink' | 'searchGenes' | 'source' | 'user' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseGenes' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'gene' | 'searchByPermalink' | 'searchGenes' | 'source' | 'user' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
-	browseEvents?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -325,7 +340,7 @@ export type ResolveFlagPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevisionKeySpecifier = ('comments' | 'createdAt' | 'creationEvent' | 'currentValue' | 'fieldName' | 'id' | 'linkoutData' | 'revisionsetId' | 'revisor' | 'status' | 'suggestedValue' | 'updatedAt' | RevisionKeySpecifier)[];
+export type RevisionKeySpecifier = ('comments' | 'createdAt' | 'creationEvent' | 'currentValue' | 'fieldName' | 'id' | 'linkoutData' | 'name' | 'revisionsetId' | 'revisor' | 'status' | 'suggestedValue' | 'updatedAt' | RevisionKeySpecifier)[];
 export type RevisionFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -334,6 +349,7 @@ export type RevisionFieldPolicy = {
 	fieldName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkoutData?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionsetId?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisor?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -406,10 +422,11 @@ export type UnsubscribePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribedEntities?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('bio' | 'country' | 'email' | 'events' | 'id' | 'name' | 'notifications' | 'organizations' | 'profileImagePath' | 'role' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('bio' | 'country' | 'displayName' | 'email' | 'events' | 'id' | 'name' | 'notifications' | 'organizations' | 'profileImagePath' | 'role' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
 	country?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -515,6 +532,14 @@ export type TypedTypePolicies = TypePolicies & {
 	EventEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventEdgeKeySpecifier | (() => undefined | EventEdgeKeySpecifier),
 		fields?: EventEdgeFieldPolicy,
+	},
+	EventOriginObject?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EventOriginObjectKeySpecifier | (() => undefined | EventOriginObjectKeySpecifier),
+		fields?: EventOriginObjectFieldPolicy,
+	},
+	EventSubject?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EventSubjectKeySpecifier | (() => undefined | EventSubjectKeySpecifier),
+		fields?: EventSubjectFieldPolicy,
 	},
 	EvidenceItem?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EvidenceItemKeySpecifier | (() => undefined | EvidenceItemKeySpecifier),

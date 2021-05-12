@@ -26,6 +26,9 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { TimeagoModule } from 'ngx-timeago';
 
@@ -39,6 +42,10 @@ import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions
 import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
 import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
 import { ParticipantListComponent } from './participant-list/participant-list.component';
+import { EventFeedComponent } from './event-feed/event-feed.component';
+import { UserAvatarComponent } from './user-avatar/user-avatar.component';
+import { UserHovercardComponent } from './user-hovercard/user-hovercard.component';
+import { UserPillComponent } from './user-pill/user-pill.component'
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
@@ -54,6 +61,10 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     LifecycleActionsComponent,
     FlaggableOptionsDirective,
     ParticipantListComponent,
+    EventFeedComponent,
+    UserAvatarComponent,
+    UserHovercardComponent,
+    UserPillComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +91,11 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzTypographyModule,
     TimeagoModule.forChild(),
     NgxJsonViewerModule,
-    NzSkeletonModule
+    NzSkeletonModule,
+    NzTimelineModule,
+    NzDividerModule,
+    NzAvatarModule,
+    NzPopoverModule
   ],
   exports: [
     CommentAddComponent,
@@ -93,6 +108,10 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     OrgSelectorBtnDirective,
     OrgSelectorBtnGroupComponent,
     ParticipantListComponent,
+    EventFeedComponent,
+    UserAvatarComponent,
+    UserHovercardComponent,
+    UserPillComponent
   ]
 })
 

@@ -1984,6 +1984,7 @@ type UnsubscribePayload {
 type User {
   bio: String
   country: String
+  displayName: String!
   email: String
   events(
     """

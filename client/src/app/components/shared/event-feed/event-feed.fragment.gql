@@ -1,0 +1,76 @@
+query EventFeed (
+    $subject: SubscribableInput
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String,
+){
+events (
+    subject: $subject,
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after
+) { ...eventFeed }
+
+}
+fragment eventFeed on EventConnection {
+    totalCount
+    pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+    }
+    edges {
+        cursor
+        node {
+            ...eventFeedNode
+        }
+    }
+}
+
+fragment eventFeedNode on Event {
+    id
+    action
+    createdAt
+    organization {
+        name
+        profileImagePath(size: 32)
+    }
+    originatingUser {
+        id
+        username
+        displayName
+        profileImagePath(size: 32)
+    }
+    subject {
+        name
+        id
+        __typename
+    }
+    originatingObject {
+        id
+        name
+        ... on Revision {
+            id
+            revisor {
+                id
+                username
+                profileImagePath(size: 32)
+            }
+            linkoutData {
+                name
+            }
+            revisionsetId
+
+        }
+        ... on Comment {
+            id
+            comment
+        }
+        ... on Flag {
+            id
+        }
+    }
+}
