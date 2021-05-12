@@ -1605,6 +1605,11 @@ type Query {
   Find a gene by CIViC ID
   """
   gene(id: Int!): Gene
+
+  """
+  Find an organization by CIViC ID
+  """
+  organization(id: Int!): Organization
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
 

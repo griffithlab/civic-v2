@@ -46,6 +46,8 @@ import { EventFeedComponent } from './event-feed/event-feed.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserHovercardComponent } from './user-hovercard/user-hovercard.component';
 import { UserPillComponent } from './user-pill/user-pill.component'
+import { OrganizationPillComponent } from './organization-pill/organization-pill.component'
+import { OrganizationHovercardComponent } from './organization-hovercard/organization-hovercard.component'
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
@@ -64,7 +66,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     EventFeedComponent,
     UserAvatarComponent,
     UserHovercardComponent,
-    UserPillComponent
+    UserPillComponent,
+    OrganizationPillComponent,
+    OrganizationHovercardComponent
   ],
   imports: [
     CommonModule,
@@ -111,7 +115,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     EventFeedComponent,
     UserAvatarComponent,
     UserHovercardComponent,
-    UserPillComponent
+    UserPillComponent,
+    OrganizationPillComponent,
+    OrganizationHovercardComponent
   ]
 })
 

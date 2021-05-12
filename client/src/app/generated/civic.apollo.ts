@@ -959,6 +959,8 @@ export type Query = {
   evidenceItem?: Maybe<EvidenceItem>;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
+  /** Find an organization by CIViC ID */
+  organization?: Maybe<Organization>;
   searchByPermalink: AdvancedSearchResult;
   searchGenes: AdvancedSearchResult;
   /** Find a source by CIViC ID */
@@ -1021,6 +1023,11 @@ export type QueryEvidenceItemArgs = {
 
 
 export type QueryGeneArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryOrganizationArgs = {
   id: Scalars['Int'];
 };
 
@@ -1592,7 +1599,7 @@ export type EventFeedNodeFragment = (
   & Pick<Event, 'id' | 'action' | 'createdAt'>
   & { organization: (
     { __typename: 'Organization' }
-    & Pick<Organization, 'name' | 'profileImagePath'>
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
   ), originatingUser: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'displayName' | 'profileImagePath'>
@@ -1616,6 +1623,24 @@ export type EventFeedNodeFragment = (
       & Pick<LinkoutData, 'name'>
     ) }
   )> }
+);
+
+export type OrgHoverCardQueryVariables = Exact<{
+  orgId: Scalars['Int'];
+}>;
+
+
+export type OrgHoverCardQuery = (
+  { __typename: 'Query' }
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & HovercardOrgFragment
+  )> }
+);
+
+export type HovercardOrgFragment = (
+  { __typename: 'Organization' }
+  & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
 );
 
 export type UserHoverCardQueryVariables = Exact<{
@@ -2027,6 +2052,7 @@ export const EventFeedNodeFragmentDoc = gql`
   action
   createdAt
   organization {
+    id
     name
     profileImagePath(size: 32)
   }
@@ -2083,6 +2109,15 @@ export const EventFeedFragmentDoc = gql`
   }
 }
     ${EventFeedNodeFragmentDoc}`;
+export const HovercardOrgFragmentDoc = gql`
+    fragment hovercardOrg on Organization {
+  id
+  profileImagePath(size: 64)
+  name
+  description
+  url
+}
+    `;
 export const HovercardUserFragmentDoc = gql`
     fragment hovercardUser on User {
   id
@@ -2135,6 +2170,24 @@ export const EventFeedDocument = gql`
   })
   export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
     document = EventFeedDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrgHoverCardDocument = gql`
+    query OrgHoverCard($orgId: Int!) {
+  organization(id: $orgId) {
+    ...hovercardOrg
+  }
+}
+    ${HovercardOrgFragmentDoc}`;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
+    document = OrgHoverCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

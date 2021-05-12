@@ -1,0 +1,13 @@
+query OrgHoverCard($orgId: Int!) {
+    organization(id: $orgId) {
+        ...hovercardOrg
+    }
+}
+
+fragment hovercardOrg on Organization {
+    id
+    profileImagePath(size: 64)
+    name
+    description
+    url
+}

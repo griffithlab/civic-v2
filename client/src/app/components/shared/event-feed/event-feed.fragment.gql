@@ -35,6 +35,7 @@ fragment eventFeedNode on Event {
     action
     createdAt
     organization {
+        id
         name
         profileImagePath(size: 32)
     }

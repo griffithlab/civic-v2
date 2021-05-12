@@ -11,6 +11,9 @@
                 <cvc-user-pill [user]="e.originatingUser"></cvc-user-pill>
                 <span>{{ verbiageForEvent(e) }}</span>
                 <span> {{ e.subject.name }}</span>
+                <span *ngIf="e.organization">
+                    on behalf of <cvc-org-pill [org]="e.organization"></cvc-org-pill>
+                </span>
             </div>
         </nz-timeline-item>
     </nz-timeline>

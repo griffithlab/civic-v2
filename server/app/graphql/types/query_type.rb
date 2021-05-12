@@ -32,6 +32,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :organization, Types::Entities::OrganizationType, null: true do
+      description 'Find an organization by CIViC ID'
+      argument :id, Int, required: true
+    end
+
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -57,6 +62,10 @@ module Types
 
     def source(id: )
       Source.find(id)
+    end
+
+    def organization(id: )
+      Organization.find(id)
     end
 
     def search_genes(query:, create_permalink:)
