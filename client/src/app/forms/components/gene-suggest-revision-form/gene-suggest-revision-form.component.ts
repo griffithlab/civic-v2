@@ -100,7 +100,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
       },
       {
         key: 'comment',
-        type: 'textarea',
+        type: 'comment-textarea',
         templateOptions: {
           label: 'Comment',
           placeholder: 'Please enter a comment describing your revision.',

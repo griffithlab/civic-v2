@@ -18,24 +18,15 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { ValidationMessageOption } from '@ngx-formly/core/lib/services/formly.config';
-
-export const defaultValidationMessages: ValidationMessageOption[] = [
-  { name: 'required',
-    message: 'This field is required.'
-  },
-  { name: 'minlength',
-    message: (_err: any, field: FormlyFieldConfig): string => {
-      return `Should have at least ${field.templateOptions?.minLength} characters`;
-    }
-  },
-]
+import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
+import { formlyConfig } from './forms.config';
 
 @NgModule({
   declarations: [
     GeneSuggestRevisionFormComponent,
+    CommentTextareaComponent,
   ],
   imports: [
     FormsModule,
@@ -52,14 +43,12 @@ export const defaultValidationMessages: ValidationMessageOption[] = [
     NzTypographyModule,
     NgxJsonViewerModule,
     RouterModule,
-    FormlyModule.forRoot({
-      validationMessages: defaultValidationMessages,
-      extras: { lazyRender: true }
-    }),
+    FormlyModule.forRoot(formlyConfig),
     FormlyNgZorroAntdModule,
   ],
   exports: [
     GeneSuggestRevisionFormComponent,
+    CommentTextareaComponent,
   ]
 })
 export class CvcFormsModule { }
