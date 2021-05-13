@@ -3,38 +3,28 @@ import {
   OnInit,
   Input,
   OnDestroy,
-  EventEmitter
 } from '@angular/core';
 
 import {
-  FormBuilder,
-  FormControl,
   FormGroup,
-  ValidationErrors,
-  Validators,
 } from '@angular/forms';
 
 import {
   BehaviorSubject,
-  Observable,
-  Observer,
   Subject,
 } from 'rxjs';
 
-import { pluck, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import {
   GeneRevisableFieldsGQL,
   Organization,
   SuggestGeneRevisionInput,
   Maybe,
-  Gene,
-  Source
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
-import { ObservableQuery } from '@apollo/client/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
@@ -59,8 +49,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
-  constructor(private fb: FormBuilder,
-              private viewerService: ViewerService,
+  constructor(private viewerService: ViewerService,
               private geneRevisableFieldsGQL: GeneRevisableFieldsGQL,
               private geneSuggestRevisionService: GeneSuggestRevisionService) {
 
@@ -109,7 +98,6 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         },
       }
     ]
-
   }
 
   ngOnInit(): void {
@@ -141,7 +129,6 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
       this.formGroup.controls[key].markAsDirty();
       this.formGroup.controls[key].updateValueAndValidity();
     }
-    console.log(value);
 
     const newRevisionInput = <SuggestGeneRevisionInput>{
       ...value,

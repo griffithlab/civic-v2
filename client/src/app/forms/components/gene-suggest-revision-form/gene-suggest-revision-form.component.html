@@ -8,34 +8,26 @@
       </cvc-form-errors-alert>
     </nz-form-item>
   </ng-container>
-  <ng-container *ngIf="submitSuccess$ | async" >
+  <ng-container *ngIf="submitSuccess$ | async">
     <nz-alert nzType="success"
       nzMessage="Suggested Revision Submitted"
       [nzDescription]="successMessage"
       nzShowIcon></nz-alert>
-    <ng-template #successMessage nzSize="small">
+    <ng-template #successMessage
+      nzSize="small">
       <p>View it on the <a routerLink="../revisions">Revisions Page</a></p>
     </ng-template>
   </ng-container>
-  <formly-form [form]="formGroup" [fields]="formFields" [model]="formModel" [options]="formOptions"></formly-form>
-  <!-- <nz-form-item formGroupName="fields" *ngIf="!(submitSuccess$ | async)">
-       <nz-form-label>Description</nz-form-label>
-       <nz-form-control nzErrorTip="Please enter a description at least 10 characters in length.">
-       <textarea formControlName="description" nz-input rows="4" placeholder="Enter a gene description here."></textarea>
-       </nz-form-control>
-       </nz-form-item>
-       <nz-form-item *ngIf="!(submitSuccess$ | async)">
-       <nz-form-label nzRequired>Revision Comment</nz-form-label>
-       <nz-form-control nzErrorTip="Please enter a comment at least 10 characters in length.">
-       <textarea formControlName="comment" nz-input rows="4" placeholder="Enter your comment here."></textarea>
-       </nz-form-control>
-       </nz-form-item> -->
+  <formly-form [form]="formGroup"
+    [fields]="formFields"
+    [model]="formModel"
+    [options]="formOptions"></formly-form>
   <nz-form-item *ngIf="!(submitSuccess$ | async)">
     <nz-form-control>
       <cvc-form-buttons>
-        <cvc-org-selector-btn-group
-          [(selectedOrg)]="this.mostRecentOrg">
-          <button type="submit" nz-button
+        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+          <button type="submit"
+            nz-button
             cvcOrgSelectorBtn
             nzType="primary"
             nzSize="small"
@@ -47,4 +39,5 @@
     </nz-form-control>
   </nz-form-item>
 </form>
-<ngx-json-viewer *ngIf="formGroup" [json]="formGroup.value"></ngx-json-viewer>
+<ngx-json-viewer *ngIf="formGroup"
+  [json]="formGroup.value"></ngx-json-viewer>

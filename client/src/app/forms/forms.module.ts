@@ -21,12 +21,14 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
-import { formlyConfig } from './forms.config';
+import { CommentAddFormComponent } from './components/comment-add-form/comment-add-form.component';
+
 
 @NgModule({
   declarations: [
     GeneSuggestRevisionFormComponent,
     CommentTextareaComponent,
+    CommentAddFormComponent,
   ],
   imports: [
     FormsModule,
@@ -43,12 +45,13 @@ import { formlyConfig } from './forms.config';
     NzTypographyModule,
     NgxJsonViewerModule,
     RouterModule,
-    FormlyModule.forRoot(formlyConfig),
+    FormlyModule.forChild(),
     FormlyNgZorroAntdModule,
   ],
   exports: [
     GeneSuggestRevisionFormComponent,
     CommentTextareaComponent,
+    CommentAddFormComponent,
   ]
 })
 export class CvcFormsModule { }

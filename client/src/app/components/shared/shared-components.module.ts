@@ -41,6 +41,8 @@ import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selec
 import { ParticipantListComponent } from './participant-list/participant-list.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzTypographyModule,
     TimeagoModule.forChild(),
     NgxJsonViewerModule,
-    NzSkeletonModule
+    NzSkeletonModule,
+    FormlyNgZorroAntdModule,
+    FormlyModule.forChild()
   ],
   exports: [
     CommentAddComponent,
