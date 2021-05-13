@@ -22,6 +22,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
 import { CommentAddFormComponent } from './components/comment-add-form/comment-add-form.component';
+import { MultiFieldComponent } from './types/multi-field/multi-field.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { CommentAddFormComponent } from './components/comment-add-form/comment-a
     GeneSuggestRevisionFormComponent,
     CommentTextareaComponent,
     CommentAddFormComponent,
+    MultiFieldComponent,
   ],
   imports: [
     FormsModule,
@@ -52,6 +54,7 @@ import { CommentAddFormComponent } from './components/comment-add-form/comment-a
     GeneSuggestRevisionFormComponent,
     CommentTextareaComponent,
     CommentAddFormComponent,
+    MultiFieldComponent,
   ]
 })
 export class CvcFormsModule { }

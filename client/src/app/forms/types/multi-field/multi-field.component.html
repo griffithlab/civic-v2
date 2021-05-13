@@ -1,0 +1,22 @@
+<nz-form-item *ngFor="let field of field.fieldGroup; let i = index;">
+  <nz-form-label [nzXs]="24"
+    *ngIf="i == 0">{{ to.label }}</nz-form-label>
+  <nz-form-control [nzXs]="24">
+    <formly-field [field]="field"></formly-field>
+    <i nz-icon
+      nzType="minus-circle-o"
+      class="dynamic-delete-button"
+      (click)="remove(i)"></i>
+  </nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <nz-form-control [nzXs]="24">
+    <button nz-button
+      nzType="dashed"
+      class="add-button"
+      (click)="add()">
+      <i nz-icon
+        nzType="plus"></i> {{ to.addText }}
+    </button>
+  </nz-form-control>
+</nz-form-item>
