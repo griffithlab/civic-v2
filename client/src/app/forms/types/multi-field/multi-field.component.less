@@ -12,9 +12,9 @@
 
 .field-col {
   display: inline-block;
-  width: calc(~'100% - @{delete-btn-width} - @{delete-btn-margin}');
+  width: calc(~'100% - 2*(@{delete-btn-width} + @{delete-btn-margin})');
 }
-.field-delete-btn {
+.field-delete-btn, .field-add-btn {
   display: inline-block;
   margin-left: @delete-btn-margin;
   i {

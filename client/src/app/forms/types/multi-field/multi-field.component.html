@@ -1,4 +1,4 @@
-<nz-form-item *ngFor="let field of field.fieldGroup; let i = index;">
+<nz-form-item *ngFor="let field of field.fieldGroup; let i = index; let last = last">
   <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
     <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
       nzSpan="24"
@@ -15,16 +15,10 @@
         nzType="minus-circle-o"
         (click)="remove(i)"></i>
     </div>
-  </div>
-</nz-form-item>
-<nz-form-item>
-  <nz-form-control [nzXs]="24">
-    <button nz-button
-      nzType="dashed"
-      class="add-button"
-      (click)="addField($event)">
+    <div class="field-add-btn" *ngIf="last">
       <i nz-icon
-        nzType="plus"></i> {{ to.addText }}
-    </button>
-  </nz-form-control>
+        nzType="plus-circle-o"
+        (click)="addField($event)"></i>
+    </div>
+  </div>
 </nz-form-item>
