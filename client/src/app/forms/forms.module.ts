@@ -20,6 +20,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+
+import { IconsProviderModule } from '@app/icons-provider.module';
+
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
 import { CommentAddFormComponent } from './components/comment-add-form/comment-add-form.component';
 import { MultiFieldComponent } from './types/multi-field/multi-field.component';
@@ -37,6 +40,7 @@ import { MultiFieldComponent } from './types/multi-field/multi-field.component';
     SharedComponentsModule,
     ReactiveFormsModule,
     CommonModule,
+    IconsProviderModule,
     NzButtonModule,
     NzAlertModule,
     NzFormModule,

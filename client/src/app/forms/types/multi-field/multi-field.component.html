@@ -1,16 +1,21 @@
 <nz-form-item *ngFor="let field of field.fieldGroup; let i = index;">
   <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
-    <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true" [nzFor]="id">
+    <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
+      nzSpan="24"
+      [nzFor]="id">
       {{ to.label }}
     </nz-form-label>
   </ng-container>
-  <nz-form-control [nzXs]="24">
-    <formly-field [field]="field"></formly-field>
-    <i nz-icon
-      nzType="minus-circle-o"
-      class="dynamic-delete-button"
-      (click)="remove(i)"></i>
-  </nz-form-control>
+  <div class="field-row">
+    <div class="field-col">
+      <formly-field [field]="field"></formly-field>
+    </div>
+    <div class="field-delete-btn">
+      <i nz-icon
+        nzType="minus-circle-o"
+        (click)="remove(i)"></i>
+    </div>
+  </div>
 </nz-form-item>
 <nz-form-item>
   <nz-form-control [nzXs]="24">

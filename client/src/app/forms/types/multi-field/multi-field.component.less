@@ -2,13 +2,27 @@
   display: block;
 }
 
-.dynamic-delete-button {
-  cursor: pointer;
-  position: relative;
-  top: 4px;
-  font-size: 24px;
-  color: #999;
-  transition: all 0.3s;
+@delete-btn-width: 24px;
+@delete-btn-margin: 1em;
+.field-row {
+  width: 100%;
+}
+.field-col {
+  display: inline-block;
+  width: calc(~'100% - @{delete-btn-width} - @{delete-btn-margin}');
+}
+
+.field-delete-btn {
+  display: inline-block;
+  margin-left: @delete-btn-margin;
+  i {
+    top: 5px;
+    position: relative;
+    cursor: pointer;
+    font-size: @delete-btn-width;
+    color: #999;
+    transition: all 0.3s;
+  }
 }
 
 .dynamic-delete-button:hover {
