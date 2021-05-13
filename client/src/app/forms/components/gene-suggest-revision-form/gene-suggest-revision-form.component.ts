@@ -50,8 +50,8 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   formOptions: FormlyFormOptions = {};
 
   constructor(private viewerService: ViewerService,
-              private geneRevisableFieldsGQL: GeneRevisableFieldsGQL,
-              private geneSuggestRevisionService: GeneSuggestRevisionService) {
+    private geneRevisableFieldsGQL: GeneRevisableFieldsGQL,
+    private geneSuggestRevisionService: GeneSuggestRevisionService) {
 
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
@@ -69,8 +69,9 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
     this.submitSuccess$
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => {
-        if(e) { this.resetForm(); }
+        if (e) { this.resetForm(); }
       });
+
 
     this.formFields = [
       {
@@ -88,6 +89,25 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         }
       },
       {
+        key: 'fields.sources',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Sources',
+          addText: 'Add another Source'
+        },
+        fieldArray: {
+          fieldGroup: [
+            {
+              type: 'input',
+              key: 'id',
+              templateOptions: {
+                required: true
+              }
+            }
+          ]
+        }
+      },
+      {
         key: 'comment',
         type: 'comment-textarea',
         templateOptions: {
@@ -102,14 +122,14 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
-    this.geneRevisableFieldsGQL.fetch({geneId: this.geneId})
+    this.geneRevisableFieldsGQL.fetch({ geneId: this.geneId })
       .subscribe(({ data: { gene } }) => {
-        if(gene) {
+        if (gene) {
           this.formModel = {
             id: gene.id,
             fields: {
               description: gene.description,
-              sourceIds: gene.sources.map(s => s.id)
+              sources: gene.sources.map(s => { return { id: +s.id } })
             },
             comment: ''
           }
@@ -124,7 +144,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
     this.mostRecentOrg = org;
   }
 
-  submitRevision(value: SuggestGeneRevisionInput): void {
+  submitRevision(value: any): void {
     for (const key in this.formGroup.controls) {
       this.formGroup.controls[key].markAsDirty();
       this.formGroup.controls[key].updateValueAndValidity();
@@ -132,6 +152,10 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
 
     const newRevisionInput = <SuggestGeneRevisionInput>{
       ...value,
+      fields: {
+        description: value.fields.description,
+        sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
+      },
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     }
 

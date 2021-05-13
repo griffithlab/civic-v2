@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FieldArrayType, FormlyFieldConfig, FormlyFormBuilder } from '@ngx-formly/core';
+import { Component } from '@angular/core';
+import { FieldArrayType, FormlyFieldConfig } from '@ngx-formly/core';
 
 export class RepeatType {
   name!: string;
@@ -16,11 +16,15 @@ export interface RepeatFieldConfig extends FormlyFieldConfig {
   selector: 'cvc-multi-field',
   templateUrl: './multi-field.component.html',
   styleUrls: ['./multi-field.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiFieldComponent extends FieldArrayType {
-  constructor(builder: FormlyFormBuilder) {
-    super(builder);
+  constructor() {
+    super();
+  }
+
+  addField(e?: MouseEvent): void {
+    if (e) { e.preventDefault(); } // prevent form submit
+    this.add();
   }
 }
 

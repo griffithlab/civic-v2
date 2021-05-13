@@ -1,6 +1,9 @@
 <nz-form-item *ngFor="let field of field.fieldGroup; let i = index;">
-  <nz-form-label [nzXs]="24"
-    *ngIf="i == 0">{{ to.label }}</nz-form-label>
+  <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
+    <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true" [nzFor]="id">
+      {{ to.label }}
+    </nz-form-label>
+  </ng-container>
   <nz-form-control [nzXs]="24">
     <formly-field [field]="field"></formly-field>
     <i nz-icon
@@ -14,7 +17,7 @@
     <button nz-button
       nzType="dashed"
       class="add-button"
-      (click)="add()">
+      (click)="addField($event)">
       <i nz-icon
         nzType="plus"></i> {{ to.addText }}
     </button>
