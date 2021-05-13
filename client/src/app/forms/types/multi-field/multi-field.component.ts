@@ -1,14 +1,20 @@
 import { Component } from '@angular/core';
 import { FieldArrayType, FormlyFieldConfig } from '@ngx-formly/core';
 
-export class RepeatType {
+export class MultiFieldArray {
+  name!: string;
+  templateOptions!: { label?: string };
+  fieldArray!: FormlyFieldConfig;
+}
+
+export class MultiFieldGroup {
   name!: string;
   templateOptions!: { label?: string };
   fieldGroup!: FormlyFieldConfig[];
 }
 
-export interface RepeatFieldConfig extends FormlyFieldConfig {
-  types: RepeatType[];
+export interface MultiFieldConfig extends FormlyFieldConfig {
+  types: MultiFieldArray | MultiFieldGroup[];
   defaultTypes: string[];
 }
 
@@ -17,7 +23,7 @@ export interface RepeatFieldConfig extends FormlyFieldConfig {
   templateUrl: './multi-field.component.html',
   styleUrls: ['./multi-field.component.less'],
 })
-export class MultiFieldComponent extends FieldArrayType {
+export class MultiFieldComponent extends FieldArrayType<MultiFieldConfig> {
   constructor() {
     super();
   }

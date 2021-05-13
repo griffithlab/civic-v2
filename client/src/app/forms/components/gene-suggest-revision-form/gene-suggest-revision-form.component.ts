@@ -89,15 +89,10 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
           addText: 'Add another Source'
         },
         fieldArray: {
-          fieldGroup: [
-            {
-              type: 'input',
-              key: 'id',
-              templateOptions: {
-                required: true
-              }
-            }
-          ]
+          type: 'input',
+          templateOptions: {
+            required: true
+          }
         }
       },
       {
@@ -131,7 +126,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
             id: gene.id,
             fields: {
               description: gene.description,
-              sources: gene.sources.map(s => { return { id: +s.id } })
+              sources: gene.sources.map(s => { return +s.id })
             },
             comment: ''
           }
@@ -139,7 +134,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve gene.');
         };
-        if(this.formOptions.updateInitialValue) {
+        if (this.formOptions.updateInitialValue) {
           this.formOptions.updateInitialValue();
         }
       });
