@@ -66,13 +66,6 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
     this.isSubmitting$ = this.geneSuggestRevisionService.isSubmitting$;
     this.submitSuccess$ = this.geneSuggestRevisionService.submitSuccess$;
 
-    this.submitSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((e) => {
-        if (e) { this.resetForm(); }
-      });
-
-
     this.formFields = [
       {
         key: 'id',
@@ -118,6 +111,15 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         },
       }
     ]
+
+    // reset form upon successful submit
+    this.submitSuccess$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(s => {
+        if (s && this.formOptions.resetModel) {
+          this.formOptions.resetModel();
+        }
+      })
   }
 
   ngOnInit(): void {
@@ -136,6 +138,9 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve gene.');
+        };
+        if(this.formOptions.updateInitialValue) {
+          this.formOptions.updateInitialValue();
         }
       });
   }
@@ -145,10 +150,10 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
   }
 
   submitRevision(value: any): void {
-    for (const key in this.formGroup.controls) {
-      this.formGroup.controls[key].markAsDirty();
-      this.formGroup.controls[key].updateValueAndValidity();
-    }
+    // for (const key in this.formGroup.controls) {
+    //   this.formGroup.controls[key].markAsDirty();
+    //   this.formGroup.controls[key].updateValueAndValidity();
+    // }
 
     const newRevisionInput = <SuggestGeneRevisionInput>{
       ...value,
@@ -160,11 +165,6 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
     }
 
     this.geneSuggestRevisionService.suggestRevision(newRevisionInput);
-
-  }
-
-  resetForm(): void {
-    this.formGroup.reset();
   }
 
   ngOnDestroy(): void {
