@@ -89,7 +89,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
           addText: 'Add another Source'
         },
         fieldArray: {
-          type: 'input',
+          type: 'source-id-input',
           templateOptions: {
             required: true
           }

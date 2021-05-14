@@ -9129,6 +9129,13 @@ ngx-logger@^4.2.1:
     tslib "^1.9.0"
     vlq "^1.0.0"
 
+ngx-mask@^11.1.5:
+  version "11.1.5"
+  resolved "https://registry.yarnpkg.com/ngx-mask/-/ngx-mask-11.1.5.tgz#c4bdf0a99d2e9cf10417af5df93a137fc879fce9"
+  integrity sha512-rp0iH0bCpM7SiKi9FHZAyl6KwzwtIzO3vmxDPWCjjMxPN7cgUGA88mN2aAgFjL5cMvvQZRwUGyOfT2Di/GpPgg==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-timeago@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ngx-timeago/-/ngx-timeago-2.0.0.tgz#b28634b0c2d24549f8f090fd1989efa1ee4f632a"

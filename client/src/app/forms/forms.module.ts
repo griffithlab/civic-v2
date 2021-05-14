@@ -26,6 +26,9 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
 import { CommentAddFormComponent } from './components/comment-add-form/comment-add-form.component';
 import { MultiFieldComponent } from './types/multi-field/multi-field.component';
+import { SourceIdInputComponent } from './types/source-id-input/source-id-input.component';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import { MultiFieldComponent } from './types/multi-field/multi-field.component';
     CommentTextareaComponent,
     CommentAddFormComponent,
     MultiFieldComponent,
+    SourceIdInputComponent,
   ],
   imports: [
     FormsModule,
@@ -45,10 +49,12 @@ import { MultiFieldComponent } from './types/multi-field/multi-field.component';
     NzAlertModule,
     NzFormModule,
     NzInputModule,
+    NzInputNumberModule,
     NzListModule,
     NzSpaceModule,
     NzToolTipModule,
     NzTypographyModule,
+    NgxMaskModule.forChild(),
     NgxJsonViewerModule,
     RouterModule,
     FormlyModule.forChild(),
@@ -59,6 +65,7 @@ import { MultiFieldComponent } from './types/multi-field/multi-field.component';
     CommentTextareaComponent,
     CommentAddFormComponent,
     MultiFieldComponent,
+    SourceIdInputComponent,
   ]
 })
 export class CvcFormsModule { }

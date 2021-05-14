@@ -25,9 +25,12 @@ import { AppComponent } from './app.component';
 
 import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
 
 registerLocaleData(en);
-
+const maskConfig: Partial<IConfig> = {
+  validation: true,
+};
 @NgModule({
   declarations: [
     AppComponent
@@ -47,6 +50,7 @@ registerLocaleData(en);
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
     NgxJsonViewerModule,
+    NgxMaskModule.forRoot(maskConfig),
     ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot(),
