@@ -1487,6 +1487,11 @@ type Query {
   Find a gene by CIViC ID
   """
   gene(id: Int!): Gene
+
+  """
+  Check to see if a citation ID for a source not already in CIViC exists in an external database.
+  """
+  remoteCitation(citationId: Int!, sourceType: SourceSource!): String
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
 
@@ -1494,6 +1499,11 @@ type Query {
   Find a source by CIViC ID
   """
   source(id: Int!): Source
+
+  """
+  Provide suggestions for sources based on a partial citation ID
+  """
+  sourceTypeahead(citationId: Int!, sourceType: SourceSource!): [Source!]!
   user(userId: Int!): User
   viewer: User
 }
@@ -1697,7 +1707,7 @@ type Source {
 
 enum SourceSource {
   ASCO
-  PubMed
+  PUBMED
 }
 
 enum SourceStatus {
