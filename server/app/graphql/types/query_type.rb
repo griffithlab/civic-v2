@@ -6,6 +6,7 @@ module Types
 
     include Types::Queries::UserQueries
     include Types::Queries::EvidenceItemQueries
+    include Types::Queries::SourceQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
