@@ -15,6 +15,20 @@ module Types::Queries
       end
 
       def source_existence(citation_id:, source_type:)
+        citation = case source_type
+        when 'ASCO'
+          Scrapers::Asco.get_citation_from_asco_id(citation_id)
+        when 'PubMed'
+          Scrapers::PubMed.get_citation_from_pubmed_id(citation_id)
+        else
+          raise GraphQL::ExecutionError, "#{source_type} not found for existence check, non-exhaustive match"
+        end
+
+        if citation.present?
+          citation
+        else
+          nil
+        end
       end
 
       def source_typeahead(citation_id:, source_type:)
