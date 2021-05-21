@@ -1,34 +1,34 @@
 import { Component } from '@angular/core';
 import { FieldArrayType, FormlyFieldConfig } from '@ngx-formly/core';
 
-export class MultiFieldArray {
-  name!: string;
-  templateOptions!: { label?: string };
-  fieldArray!: FormlyFieldConfig;
-}
+// export class MultiFieldArray {
+//   name!: string;
+//   templateOptions!: { label?: string };
+//   fieldArray!: FormlyFieldConfig;
+// }
 
-export class MultiFieldGroup {
-  name!: string;
-  templateOptions!: { label?: string };
-  fieldGroup!: FormlyFieldConfig[];
-}
+// export class MultiFieldGroup {
+//   name!: string;
+//   templateOptions!: { label?: string };
+//   fieldGroup!: FormlyFieldConfig[];
+// }
 
-export interface MultiFieldConfig extends FormlyFieldConfig {
-  types: MultiFieldArray | MultiFieldGroup[];
-  defaultTypes: string[];
-}
+// export interface MultiFieldConfig extends FormlyFieldConfig {
+//   types: MultiFieldArray | MultiFieldGroup[];
+//   defaultTypes: string[];
+// }
 
 @Component({
   selector: 'cvc-multi-field',
   templateUrl: './multi-field.component.html',
   styleUrls: ['./multi-field.component.less'],
 })
-export class MultiFieldComponent extends FieldArrayType<MultiFieldConfig> {
+export class MultiFieldComponent extends FieldArrayType {
   constructor() {
     super();
   }
 
-  addField(e?: MouseEvent): void {
+  addField(e: MouseEvent): void {
     if (e) { e.preventDefault(); } // prevent form submit
     this.add();
   }

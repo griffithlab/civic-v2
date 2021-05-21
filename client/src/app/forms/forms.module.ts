@@ -13,6 +13,7 @@ import { SharedComponentsModule } from '@app/components/shared/shared-components
 import { GeneSuggestRevisionFormComponent } from './components/gene-suggest-revision-form/gene-suggest-revision-form.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -52,6 +53,7 @@ import { NgxMaskModule } from 'ngx-mask';
     NzInputNumberModule,
     NzListModule,
     NzSpaceModule,
+    NzSelectModule,
     NzToolTipModule,
     NzTypographyModule,
     NgxMaskModule.forChild(),

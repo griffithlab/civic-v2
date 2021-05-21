@@ -2,7 +2,6 @@
 import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
-import { AppModule } from '../app.module';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -1502,7 +1501,7 @@ export type GeneRevisableFieldsQuery = (
     & Pick<Gene, 'id' | 'description'>
     & { sources: Array<(
       { __typename: 'Source' }
-      & Pick<Source, 'id'>
+      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
     )> }
   )> }
 );
@@ -1875,7 +1874,7 @@ export const AddCommentDocument = gql`
     ${CommentListNodeFragmentDoc}`;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
@@ -1891,13 +1890,16 @@ export const GeneRevisableFieldsDocument = gql`
     description
     sources {
       id
+      sourceType
+      citation
+      citationId
     }
   }
 }
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
     document = GeneRevisableFieldsDocument;
@@ -1968,7 +1970,7 @@ export const SuggestGeneRevisionDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
@@ -2005,7 +2007,7 @@ export const ViewerBaseDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
     document = ViewerBaseDocument;
@@ -2035,7 +2037,7 @@ export const ViewerFullDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
     document = ViewerFullDocument;
@@ -2095,7 +2097,7 @@ export const BrowseGenesDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
@@ -2124,7 +2126,7 @@ export const GeneCommentsDocument = gql`
 ${ParticipantListFragmentDoc}`;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class GeneCommentsGQL extends Apollo.Query<GeneCommentsQuery, GeneCommentsQueryVariables> {
     document = GeneCommentsDocument;
@@ -2203,7 +2205,7 @@ export const GeneDetailDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
     document = GeneDetailDocument;
@@ -2267,7 +2269,7 @@ export const GeneRevisionsDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class GeneRevisionsGQL extends Apollo.Query<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
     document = GeneRevisionsDocument;
@@ -2308,7 +2310,7 @@ export const GenesSummaryDocument = gql`
     `;
 
   @Injectable({
-    providedIn: AppModule
+    providedIn: 'root'
   })
   export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
     document = GenesSummaryDocument;

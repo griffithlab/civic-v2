@@ -1,4 +1,16 @@
-<input nz-input
-  [mask]="to.mask"
-  [formControl]="formControl"
-  [formlyAttributes]="field" />
+<div class="field-row">
+  <div class="source-selector" >
+    <nz-select [ngModel]="sourceSource" nzPlaceHolder="Select Type">
+      <nz-option *ngFor="let option of sourceOptions"
+        [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+    </nz-select>
+  </div>
+  <div class="id-input">
+    <input nz-input
+      [formControl]="formControl"
+      [formlyAttributes]="field" />
+  </div>
+</div>
+<div>
+  <ngx-json-viewer [json]="field.model" ></ngx-json-viewer>
+</div>
