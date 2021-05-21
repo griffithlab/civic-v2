@@ -130,7 +130,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
             id: gene.id,
             fields: {
               description: gene.description,
-              sources: gene.sources
+              sources: [... gene.sources]
             },
             comment: ''
           }
