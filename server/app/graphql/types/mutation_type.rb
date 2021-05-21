@@ -16,5 +16,8 @@ module Types
     #flags
     field :flag_entity, mutation: Mutations::FlagEntity
     field :resolve_flag, mutation: Mutations::ResolveFlag
+
+    #sources
+    field :add_remote_citation, mutation: Mutations::AddRemoteCitation
   end
 end
