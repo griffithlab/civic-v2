@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { $enum } from "ts-enum-util";
-import { SourceSource } from '@app/generated/civic.apollo';
+import { CitationExistenceCheckGQL, CitationTypeaheadGQL, Maybe, SourceSource, SourceTypeaheadResultFragment } from '@app/generated/civic.apollo';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 
@@ -13,16 +13,22 @@ import { distinctUntilChanged, tap } from 'rxjs/operators';
 })
 export class SourceIdInputComponent extends FieldType {
   formControl!: FormControl;
-  sourceSource: string | undefined;
+  selectedSourceType: Maybe<SourceSource>;
   citationId!: number;
-  sourceOptions: { label: string, value: string | undefined }[];
-  // defaultSource: any = sourceOptions.filter();
+  sourceOptions: { label: string, value: SourceSource }[];
 
-  constructor() {
+  sourceTypeaheadQuery: CitationTypeaheadGQL
+
+  constructor(
+    existenceCheckQuery: CitationExistenceCheckGQL,
+    sourceTypeaheadQuery: CitationTypeaheadGQL
+    ) {
     super();
+    
+    this.sourceTypeaheadQuery = sourceTypeaheadQuery
     this.sourceOptions = $enum(SourceSource)
       .map((value, key) => {
-        return {label: value, value: key};
+        return {value: value, label: key};
       });
 
     this.defaultOptions = {
@@ -55,6 +61,25 @@ export class SourceIdInputComponent extends FieldType {
 
   ngOnInit(): void {
     console.log(this.formControl);
+  }
+
+  onSourceTypeSelected(sourceType: string) {
+    console.log("HERE")
+    console.log(sourceType)
+    //this.selectedSourceType = sourceType
+    console.log(this.selectedSourceType)
+  }
+
+  onCitationIdChanged(citationId: string):  SourceTypeaheadResultFragment[] {
+    if (!this.selectedSourceType) {
+      return []
+    }
+
+    this.sourceTypeaheadQuery.fetch({
+      sourceType: this.selectedSourceType,
+      partialCitationId: +citationId
+    })
+    return []
   }
 }
 

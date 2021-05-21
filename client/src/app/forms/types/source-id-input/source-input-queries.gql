@@ -1,0 +1,18 @@
+query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+
+
+query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+
+fragment SourceTypeaheadResult on Source {
+    id
+    name
+    citation
+    citationId
+    sourceType
+}
