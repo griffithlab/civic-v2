@@ -1,38 +1,61 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { $enum } from "ts-enum-util";
 import { CitationExistenceCheckGQL, CitationTypeaheadGQL, Maybe, SourceSource, SourceTypeaheadResultFragment } from '@app/generated/civic.apollo';
-import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
+import { FieldType, FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-source-id-input',
   templateUrl: './source-id-input.component.html',
   styleUrls: ['./source-id-input.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceIdInputComponent extends FieldType {
   formControl!: FormControl;
+  sourceForm: FormGroup = new FormGroup({});
   selectedSourceType: Maybe<SourceSource>;
   citationId!: number;
   sourceOptions: { label: string, value: SourceSource }[];
 
+  formOptions: FormlyFormOptions = {};
   sourceTypeaheadQuery: CitationTypeaheadGQL
-
+  sourceFields: FormlyFieldConfig[];
+  sourceModel: any = {
+    sourceType: undefined,
+    citationId: undefined
+  }
+  sourceOption: FormlyFormOptions = {};
   constructor(
     existenceCheckQuery: CitationExistenceCheckGQL,
     sourceTypeaheadQuery: CitationTypeaheadGQL
-    ) {
+  ) {
     super();
-    
+
     this.sourceTypeaheadQuery = sourceTypeaheadQuery
     this.sourceOptions = $enum(SourceSource)
       .map((value, key) => {
-        return {value: value, label: key};
+        return { value: value, label: key };
       });
 
+    this.sourceFields = [
+      {
+        key: 'sourceType',
+        type: 'select',
+        templateOptions: {
+          options: $enum(SourceSource)
+            .map((value, key) => {
+              return { value: value, label: key };
+            })
+        }
+      },
+      {
+        key: 'citationId',
+        type: 'input',
+      }
+    ]
+
+
     this.defaultOptions = {
-      defaultValue: '',
       validation: {
         messages: {
           'minlength': (_err: any, field: FormlyFieldConfig): string => {
@@ -70,7 +93,7 @@ export class SourceIdInputComponent extends FieldType {
     console.log(this.selectedSourceType)
   }
 
-  onCitationIdChanged(citationId: string):  SourceTypeaheadResultFragment[] {
+  onCitationIdChanged(citationId: string): SourceTypeaheadResultFragment[] {
     if (!this.selectedSourceType) {
       return []
     }
