@@ -30,6 +30,7 @@ import { MultiFieldComponent } from './types/multi-field/multi-field.component';
 import { SourceIdInputComponent } from './types/source-id-input/source-id-input.component';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxMaskModule } from 'ngx-mask';
+import { SourceInputComponent } from './types/source-input/source-input.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { NgxMaskModule } from 'ngx-mask';
     CommentAddFormComponent,
     MultiFieldComponent,
     SourceIdInputComponent,
+    SourceInputComponent,
   ],
   imports: [
     FormsModule,
@@ -68,6 +70,7 @@ import { NgxMaskModule } from 'ngx-mask';
     CommentAddFormComponent,
     MultiFieldComponent,
     SourceIdInputComponent,
+    SourceInputComponent,
   ]
 })
 export class CvcFormsModule { }
