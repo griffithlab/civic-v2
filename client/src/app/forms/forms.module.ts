@@ -21,6 +21,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { FormlySelectModule } from '@ngx-formly/core/select';
 
 import { IconsProviderModule } from '@app/icons-provider.module';
 
@@ -69,6 +70,7 @@ import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead
     RouterModule,
     FormlyModule.forChild(),
     FormlyNgZorroAntdModule,
+    FormlySelectModule
   ],
   exports: [
     GeneSuggestRevisionFormComponent,
