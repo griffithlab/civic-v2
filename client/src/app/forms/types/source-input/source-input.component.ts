@@ -7,11 +7,9 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ['./source-input.component.less']
 })
 export class SourceInputComponent extends FieldType {
-
   constructor() {
     super();
   }
-
 }
 
 export const SourceInputType = {
