@@ -54,7 +54,6 @@ export class SourceIdInputComponent extends FieldType {
       }
     ]
 
-
     this.defaultOptions = {
       validation: {
         messages: {

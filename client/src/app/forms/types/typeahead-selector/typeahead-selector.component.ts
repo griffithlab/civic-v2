@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
@@ -8,15 +9,23 @@ import { FieldType } from '@ngx-formly/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TypeaheadSelectorComponent extends FieldType implements OnInit {
-  defaultOptions = {
-    templateOptions: { options: [] },
-  };
+  formControl!: FormControl;
 
   constructor() {
     super();
+    this.defaultOptions = {
+      templateOptions: {
+        placeholder: 'placeholder',
+        options: []
+      },
+    };
   }
 
   ngOnInit(): void {
+  }
+
+  onSearch(e: any) {
+    console.log(e);
   }
 
 }

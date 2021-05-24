@@ -1,5 +1,5 @@
 <nz-select [class.ng-dirty]="showError"
-  [nzPlaceHolder]="to.placeholder"
+  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
   [formControl]="formControl"
   [formlyAttributes]="field"
   [nzMode]="to.multiple ? 'multiple' : 'default'">
