@@ -1,8 +1,8 @@
 <ng-container *ngIf="!model.id; else sourceListItem">
-  <cvc-source-selector [(source)]="model"></cvc-source-selector>
+  <cvc-source-selector (sourceSelected)="onSourceSelected($event)"></cvc-source-selector>
 </ng-container>
 <ng-template #sourceListItem>
-  <cvc-source-list-item [source]="model"></cvc-source-list-item>
+  <cvc-source-list-item [(source)]="model"></cvc-source-list-item>
 </ng-template>
 <!-- <ngx-json-viewer [json]="field" ></ngx-json-viewer> -->
 <!-- <p>Multi-Field Field Model:</p>

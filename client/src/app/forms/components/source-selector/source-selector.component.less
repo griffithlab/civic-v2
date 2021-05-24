@@ -5,17 +5,19 @@
 @source-selector-width: 10em;
 @input-spacer: 0.5em;
 
-.source-selector-sourcetype {
-  border: 1px solid red;
-  display: inline-block;
-  width: @source-selector-width;
-  input {
-    border: 1px solid red;
+cvc-source-input {
+  .formly-form {
+    width: 100%;
   }
-}
 
-.source-selector-citationid {
-  display: inline-block;
-  margin-left: @input-spacer;
-  width: calc(~'100% - @{source-selector-width} - @{input-spacer}')
+  .source-type-field {
+    display: inline-block;
+    width: @source-selector-width;
+  }
+
+  .citation-id-field {
+    display: inline-block;
+    margin-left: @input-spacer;
+    width: calc(~'100% - @{source-selector-width} - @{input-spacer}')
+  }
 }

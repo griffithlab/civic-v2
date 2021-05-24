@@ -1,13 +1,20 @@
 <form nz-form
   [formGroup]="form"
-  nzLayout="inline">
+  nzLayout="horizontal"
+  (ngSubmit)="onSubmit()">
 
   <formly-form [model]="model"
     [fields]="fields"
     [options]="options"
-    [form]="form"></formly-form>
+    [form]="form"
+    class="formly-form"></formly-form>
+  <button type="submit"
+    nz-button
+    nzType="primary"
+    nzSize="small">
+    +
+  </button>
 </form>
 <p class="viewer">
-
   <ngx-json-viewer [json]="form.value"> </ngx-json-viewer>
 </p>

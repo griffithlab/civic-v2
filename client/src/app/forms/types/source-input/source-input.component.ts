@@ -1,11 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { SourceSource, Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { Source } from 'graphql';
 
-export const sourceInputInitialModel = {
+export const sourceInputInitialModel: SourceInputModel = {
   id: undefined,
   citation: undefined,
   citationId: undefined,
   sourceType: undefined
+}
+
+export interface SourceInputModel {
+  id: Maybe<number>,
+  citation: Maybe<string>,
+  citationId: Maybe<number>,
+  sourceType: Maybe<string>
 }
 
 @Component({
@@ -14,8 +23,13 @@ export const sourceInputInitialModel = {
   styleUrls: ['./source-input.component.less']
 })
 export class SourceInputComponent extends FieldType implements OnInit {
+  selectorModel!: any;
   constructor() {
     super();
+  }
+
+  onSourceSelected(s: Maybe<any>): void {
+    console.log(s);
   }
 
   ngOnInit(): void {

@@ -1,9 +1,7 @@
-import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.component';
-import { SourceSource } from '@app/generated/civic.apollo';
+import { Source, SourceSource, Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { EventEmitter } from 'events';
 import { $enum } from 'ts-enum-util';
 
 @Component({
@@ -13,10 +11,11 @@ import { $enum } from 'ts-enum-util';
   encapsulation: ViewEncapsulation.None,
 })
 export class SourceSelectorComponent implements OnInit {
-  @Input() source!: any;
-  @Output() sourceChanges = new EventEmitter();
+
+  @Output() sourceSelected = new EventEmitter<Maybe<any>>();
+  enum = $enum;
+  model = {};
   form = new FormGroup({});
-  model = sourceInputInitialModel;
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
     {
@@ -30,7 +29,7 @@ export class SourceSelectorComponent implements OnInit {
     {
       key: 'sourceType',
       type: 'select',
-      className: 'source-selector-sourcetype',
+      className: 'source-type-field',
       templateOptions: {
         placeholder: 'Select Type',
         options: $enum(SourceSource)
@@ -41,14 +40,26 @@ export class SourceSelectorComponent implements OnInit {
     },
     {
       key: 'citationId',
-      className: 'source-selector-citationid',
+      className: 'citation-id-field',
       type: 'input',
     },
   ];
+
   constructor() { }
 
   ngOnInit(): void {
-    this.model = this.source;
+  }
+
+  onSubmit(): void {
+    console.log('source-select form submitted.');
+    this.sourceSelected.emit(
+      {
+        id: 123,
+        citationId: 987654,
+        citation: 'This is a new source.',
+        sourceType: SourceSource.Asco
+      }
+    );
   }
 
 }
