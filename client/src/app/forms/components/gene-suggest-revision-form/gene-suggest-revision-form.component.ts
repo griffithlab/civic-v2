@@ -26,6 +26,7 @@ import {
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.component';
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',
@@ -86,12 +87,13 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         type: 'multi-field',
         templateOptions: {
           label: 'Sources',
-          addText: 'Add another Source'
+          addText: 'Add another Source',
+          initialModel: sourceInputInitialModel
         },
         fieldArray: {
           fieldGroup: [{
             type: 'source-input',
-            key: 'sourceId',
+            key: 'id',
             templateOptions: {
               required: true
             }

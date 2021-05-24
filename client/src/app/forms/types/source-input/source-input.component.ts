@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
+export const sourceInputInitialModel = {
+  id: undefined,
+  citation: undefined,
+  citationId: undefined,
+  sourceType: undefined
+}
+
 @Component({
   selector: 'cvc-source-input',
   templateUrl: './source-input.component.html',

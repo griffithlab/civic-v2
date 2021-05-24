@@ -30,7 +30,7 @@ export class MultiFieldComponent extends FieldArrayType {
 
   addField(e: MouseEvent): void {
     if (e) { e.preventDefault(); } // prevent form submit
-    this.add();
+    this.add(undefined, this.to.initialModel ? this.to.initialModel : undefined); // provide initial model if defined
   }
 }
 
