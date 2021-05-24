@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { formlyConfig } from '@app/forms/forms.config';
 
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
@@ -43,6 +43,7 @@ const maskConfig: Partial<IConfig> = {
     GraphQLModule,
     HttpClientModule,
     HttpClientXsrfModule,
+    HttpClientJsonpModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
       level: !environment.production ? NgxLoggerLevel.TRACE : NgxLoggerLevel.OFF,

@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cvc-typeahead-selector',
@@ -11,9 +11,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TypeaheadSelectorComponent extends FieldType implements OnInit {
   formControl!: FormControl;
-  searchChange$ = new BehaviorSubject('');
+  selectedValue = null;
+  listOfOption: Array<{ value: string; text: string }> = [];
+  nzFilterOption = () => true;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     super();
     this.defaultOptions = {
       templateOptions: {
@@ -24,12 +26,21 @@ export class TypeaheadSelectorComponent extends FieldType implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('typeahead-selector init');
   }
 
-  onSearch(value: string): void {
-    // this.isLoading = true;
-    this.searchChange$.next(value);
+  search(value: string): void {
+    this.httpClient
+      .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
+      .subscribe(data => {
+        const listOfOption: Array<{ value: string; text: string }> = [];
+        data.result.forEach(item => {
+          listOfOption.push({
+            value: item[0],
+            text: item[0]
+          });
+        });
+        this.listOfOption = listOfOption;
+      });
   }
 }
 
