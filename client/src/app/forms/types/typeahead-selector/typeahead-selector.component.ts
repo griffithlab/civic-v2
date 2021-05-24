@@ -20,3 +20,9 @@ export class TypeaheadSelectorComponent extends FieldType implements OnInit {
   }
 
 }
+
+export const TypeaheadSelectorType = {
+  name: 'typeahead-selector',
+  component: TypeaheadSelectorComponent,
+  wrappers: ['form-field'],
+}

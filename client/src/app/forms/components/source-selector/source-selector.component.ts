@@ -15,6 +15,7 @@ import { $enum } from 'ts-enum-util';
   selector: 'cvc-source-selector',
   templateUrl: './source-selector.component.html',
   styleUrls: ['./source-selector.component.less'],
+  // view encapsulation off, so that 'className' styles will be applied
   encapsulation: ViewEncapsulation.None,
 })
 export class SourceSelectorComponent implements OnInit {
