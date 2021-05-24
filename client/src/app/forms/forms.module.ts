@@ -33,6 +33,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { SourceInputComponent } from './types/source-input/source-input.component';
 import { SourceSelectorComponent } from './components/source-selector/source-selector.component';
 import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
+import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { SourcesComponentsModule } from '@app/components/sources/sources-compone
     SourceIdInputComponent,
     SourceInputComponent,
     SourceSelectorComponent,
+    TypeaheadSelectorComponent,
   ],
   imports: [
     FormsModule,
@@ -76,6 +78,7 @@ import { SourcesComponentsModule } from '@app/components/sources/sources-compone
     SourceIdInputComponent,
     SourceInputComponent,
     SourceSelectorComponent,
+    TypeaheadSelectorComponent,
   ]
 })
 export class CvcFormsModule { }
