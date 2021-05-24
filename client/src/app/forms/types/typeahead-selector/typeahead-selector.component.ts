@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cvc-typeahead-selector',
@@ -10,6 +11,7 @@ import { FieldType } from '@ngx-formly/core';
 })
 export class TypeaheadSelectorComponent extends FieldType implements OnInit {
   formControl!: FormControl;
+  searchChange$ = new BehaviorSubject('');
 
   constructor() {
     super();
@@ -22,12 +24,13 @@ export class TypeaheadSelectorComponent extends FieldType implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('typeahead-selector init');
   }
 
-  onSearch(e: any) {
-    console.log(e);
+  onSearch(value: string): void {
+    // this.isLoading = true;
+    this.searchChange$.next(value);
   }
-
 }
 
 export const TypeaheadSelectorType = {

@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.component';
 import {
   Maybe,
   Source,
@@ -20,7 +21,7 @@ import { $enum } from 'ts-enum-util';
 })
 export class SourceSelectorComponent implements OnInit {
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
-  model = {};
+  model = sourceInputInitialModel;
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
@@ -32,12 +33,10 @@ export class SourceSelectorComponent implements OnInit {
     this.fields = [
       {
         key: 'id',
-        defaultValue: 12345,
         hide: true
       },
       {
         key: 'citation',
-        defaultValue: 'this is a new citation.',
         hide: true
       },
       {
@@ -56,9 +55,13 @@ export class SourceSelectorComponent implements OnInit {
       {
         key: 'citationId',
         className: 'citation-id-field',
-        type: 'input',
+        type: 'typeahead-selector',
         templateOptions: {
           required: true
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.sourceType',
+          'templateOptions.placeholder': '!model.sourceType ? "Select source type before searching" : "Search " + model.sourceType + " sources"'
         }
       },
     ];
