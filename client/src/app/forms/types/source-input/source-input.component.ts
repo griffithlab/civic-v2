@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { SourceSource, Maybe } from '@app/generated/civic.apollo';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import { Source } from 'graphql';
 
 export const sourceInputInitialModel: SourceInputModel = {
   id: undefined,
@@ -20,7 +19,8 @@ export interface SourceInputModel {
 @Component({
   selector: 'cvc-source-input',
   templateUrl: './source-input.component.html',
-  styleUrls: ['./source-input.component.less']
+  styleUrls: ['./source-input.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceInputComponent extends FieldType implements OnInit {
   selectorModel!: any;
@@ -30,8 +30,7 @@ export class SourceInputComponent extends FieldType implements OnInit {
 
   onSourceSelected(s: Maybe<any>): void {
     console.log(s);
-    this.formControl.setValue(s.id);
-    this.model = s;
+    this.formControl.setValue(s);
   }
 
   ngOnInit(): void {
@@ -42,5 +41,5 @@ export class SourceInputComponent extends FieldType implements OnInit {
 export const SourceInputType = {
   name: 'source-input',
   component: SourceInputComponent,
-  wrappers: ['form-field'],
+  // wrappers: ['form-field'],
 }

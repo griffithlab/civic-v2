@@ -1,6 +1,13 @@
 import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Source, SourceSource, Maybe } from '@app/generated/civic.apollo';
+import {
+  Maybe,
+  Source,
+  SourceSource,
+  CitationExistenceCheckGQL,
+  CitationTypeaheadGQL,
+  SourceTypeaheadResultFragment
+} from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { $enum } from 'ts-enum-util';
 
@@ -11,47 +18,50 @@ import { $enum } from 'ts-enum-util';
   encapsulation: ViewEncapsulation.None,
 })
 export class SourceSelectorComponent implements OnInit {
-
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
-  enum = $enum;
   model = {};
   form = new FormGroup({});
   options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'id',
-      defaultValue: 12345,
-      hide: true
-    },
-    {
-      key: 'citation',
-      defaultValue: 'this is a new citation.',
-      hide: true
-    },
-    {
-      key: 'sourceType',
-      type: 'select',
-      className: 'source-type-field',
-      templateOptions: {
-        required: true,
-        placeholder: 'Select Type',
-        options: $enum(SourceSource)
-          .map((value, key) => {
-            return { value: value, label: key };
-          })
-      }
-    },
-    {
-      key: 'citationId',
-      className: 'citation-id-field',
-      type: 'input',
-      templateOptions: {
-        required: true
-      }
-    },
-  ];
+  fields: FormlyFieldConfig[];
 
-  constructor() { }
+  constructor(
+    existenceCheckQuery: CitationExistenceCheckGQL,
+    sourceTypeaheadQuery: CitationTypeaheadGQL
+  ) {
+    this.fields = [
+      {
+        key: 'id',
+        defaultValue: 12345,
+        hide: true
+      },
+      {
+        key: 'citation',
+        defaultValue: 'this is a new citation.',
+        hide: true
+      },
+      {
+        key: 'sourceType',
+        type: 'select',
+        className: 'source-type-field',
+        templateOptions: {
+          required: true,
+          placeholder: 'Select Type',
+          options: $enum(SourceSource)
+            .map((value, key) => {
+              return { value: value, label: key };
+            })
+        }
+      },
+      {
+        key: 'citationId',
+        className: 'citation-id-field',
+        type: 'input',
+        templateOptions: {
+          required: true
+        }
+      },
+    ];
+  }
 
   ngOnInit(): void {
   }
