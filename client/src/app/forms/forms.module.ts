@@ -31,6 +31,8 @@ import { SourceIdInputComponent } from './types/source-id-input/source-id-input.
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxMaskModule } from 'ngx-mask';
 import { SourceInputComponent } from './types/source-input/source-input.component';
+import { SourceSelectorComponent } from './components/source-selector/source-selector.component';
+import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
 
 
 @NgModule({
@@ -41,10 +43,12 @@ import { SourceInputComponent } from './types/source-input/source-input.componen
     MultiFieldComponent,
     SourceIdInputComponent,
     SourceInputComponent,
+    SourceSelectorComponent,
   ],
   imports: [
     FormsModule,
     SharedComponentsModule,
+    SourcesComponentsModule,
     ReactiveFormsModule,
     CommonModule,
     IconsProviderModule,
@@ -71,6 +75,7 @@ import { SourceInputComponent } from './types/source-input/source-input.componen
     MultiFieldComponent,
     SourceIdInputComponent,
     SourceInputComponent,
+    SourceSelectorComponent,
   ]
 })
 export class CvcFormsModule { }

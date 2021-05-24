@@ -1,5 +1,10 @@
-<p>source-input Field:</p>
-<ngx-json-viewer [json]="field" ></ngx-json-viewer>
+<ng-container *ngIf="!model.id; else sourceListItem">
+  <cvc-source-selector ></cvc-source-selector>
+</ng-container>
+<ng-template #sourceListItem>
+  <cvc-source-list-item [source]="model"></cvc-source-list-item>
+</ng-template>
+<!-- <ngx-json-viewer [json]="field" ></ngx-json-viewer> -->
 <!-- <p>Multi-Field Field Model:</p>
      <ngx-json-viewer [json]="field.model" ></ngx-json-viewer> -->
 
