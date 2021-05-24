@@ -90,17 +90,10 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         },
         fieldArray: {
           type: 'source-input',
+          key: 'id',
           templateOptions: {
             required: true
           }
-          // fieldGroup: [
-          //   {
-          //     type: 'source-id-input',
-          //     templateOptions: {
-          //       required: true
-          //     }
-          //   }
-          // ]
         }
       },
       {
