@@ -1,3 +1,21 @@
 :host {
   display: block;
 }
+
+@source-selector-width: 10em;
+@input-spacer: 0.5em;
+
+.source-selector-sourcetype {
+  border: 1px solid red;
+  display: inline-block;
+  width: @source-selector-width;
+  input {
+    border: 1px solid red;
+  }
+}
+
+.source-selector-citationid {
+  display: inline-block;
+  margin-left: @input-spacer;
+  width: calc(~'100% - @{source-selector-width} - @{input-spacer}')
+}

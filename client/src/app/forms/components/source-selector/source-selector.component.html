@@ -1,1 +1,13 @@
-<p>source-selector works!</p>
+<form nz-form
+  [formGroup]="form"
+  nzLayout="inline">
+
+  <formly-form [model]="model"
+    [fields]="fields"
+    [options]="options"
+    [form]="form"></formly-form>
+</form>
+<p class="viewer">
+
+  <ngx-json-viewer [json]="form.value"> </ngx-json-viewer>
+</p>
