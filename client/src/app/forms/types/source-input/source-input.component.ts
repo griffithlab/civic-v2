@@ -30,6 +30,8 @@ export class SourceInputComponent extends FieldType implements OnInit {
 
   onSourceSelected(s: Maybe<any>): void {
     console.log(s);
+    this.formControl.setValue(s.id);
+    this.model = s;
   }
 
   ngOnInit(): void {

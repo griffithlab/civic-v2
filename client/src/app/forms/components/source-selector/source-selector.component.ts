@@ -20,10 +20,12 @@ export class SourceSelectorComponent implements OnInit {
   fields: FormlyFieldConfig[] = [
     {
       key: 'id',
+      defaultValue: 12345,
       hide: true
     },
     {
       key: 'citation',
+      defaultValue: 'this is a new citation.',
       hide: true
     },
     {
@@ -31,6 +33,7 @@ export class SourceSelectorComponent implements OnInit {
       type: 'select',
       className: 'source-type-field',
       templateOptions: {
+        required: true,
         placeholder: 'Select Type',
         options: $enum(SourceSource)
           .map((value, key) => {
@@ -42,6 +45,9 @@ export class SourceSelectorComponent implements OnInit {
       key: 'citationId',
       className: 'citation-id-field',
       type: 'input',
+      templateOptions: {
+        required: true
+      }
     },
   ];
 
@@ -52,14 +58,7 @@ export class SourceSelectorComponent implements OnInit {
 
   onSubmit(): void {
     console.log('source-select form submitted.');
-    this.sourceSelected.emit(
-      {
-        id: 123,
-        citationId: 987654,
-        citation: 'This is a new source.',
-        sourceType: SourceSource.Asco
-      }
-    );
+    this.sourceSelected.emit(this.model);
   }
 
 }
