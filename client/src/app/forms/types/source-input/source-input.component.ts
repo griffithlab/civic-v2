@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
@@ -6,9 +6,13 @@ import { FieldType } from '@ngx-formly/core';
   templateUrl: './source-input.component.html',
   styleUrls: ['./source-input.component.less']
 })
-export class SourceInputComponent extends FieldType {
+export class SourceInputComponent extends FieldType implements OnInit {
   constructor() {
     super();
+  }
+
+  ngOnInit(): void {
+    console.log(this.field.model);
   }
 }
 

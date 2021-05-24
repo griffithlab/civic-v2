@@ -89,11 +89,13 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
           addText: 'Add another Source'
         },
         fieldArray: {
-          type: 'source-input',
-          key: 'id',
-          templateOptions: {
-            required: true
-          }
+          fieldGroup: [{
+            type: 'source-input',
+            key: 'sourceId',
+            templateOptions: {
+              required: true
+            }
+          }]
         }
       },
       {
@@ -127,7 +129,7 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
             id: gene.id,
             fields: {
               description: gene.description,
-              sources: [... gene.sources]
+              sources: [...gene.sources]
             },
             comment: ''
           }
