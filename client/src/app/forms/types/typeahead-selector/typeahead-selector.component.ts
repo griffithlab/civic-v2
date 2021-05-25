@@ -3,6 +3,15 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angu
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
+import {
+  Maybe,
+  Source,
+  SourceSource,
+  CitationExistenceCheckGQL,
+  CitationTypeaheadGQL,
+  SourceTypeaheadResultFragment
+} from '@app/generated/civic.apollo';
+
 @Component({
   selector: 'cvc-typeahead-selector',
   templateUrl: './typeahead-selector.component.html',
@@ -14,11 +23,15 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
   selectedValue = null;
   nzFilterOption = () => true;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private sourceTypeaheadQuery: CitationTypeaheadGQL
+  ) {
     super();
     this.defaultOptions = {
       templateOptions: {
         placeholder: 'Search',
+        sourceType: undefined,
         showArrow: false,
         onSearch: () => {},
         filterOption: () => { },
@@ -31,18 +44,30 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
     // super.ngAfterViewInit();
     this.to.filterOption = () => true;
     this.to.onSearch = (value: string): void => {
-      this.httpClient
-        .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
-        .subscribe(data => {
-          const options: Array<{ value: string; label: string }> = [];
-          data.result.forEach(item => {
-            options.push({
-              value: item[0],
-              label: item[0]
-            });
-          });
-          this.to.options = options;
-        });
+      this.sourceTypeaheadQuery
+        .fetch({
+          sourceType: this.to.sourceType,
+          partialCitationId: +value
+        })
+        .subscribe(
+          ({ data: { sourceTypeahead } }) => {
+            this.to.options = sourceTypeahead.map(s => {
+              return { value: s.id, label: s.citation }
+            })
+          })
+
+      // this.httpClient
+      //   .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
+      //   .subscribe(data => {
+      //     const options: Array<{ value: string; label: string }> = [];
+      //     data.result.forEach(item => {
+      //       options.push({
+      //         value: item[0],
+      //         label: item[0]
+      //       });
+      //     });
+      //     this.to.options = options;
+      //   });
     }
   }
 }

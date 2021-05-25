@@ -61,7 +61,8 @@ export class SourceSelectorComponent implements OnInit {
         },
         expressionProperties: {
           'templateOptions.disabled': '!model.sourceType',
-          'templateOptions.placeholder': '!model.sourceType ? "Select source type before searching" : "Search " + model.sourceType + " sources"'
+          'templateOptions.placeholder': '!model.sourceType ? "Select source type before searching" : "Search " + model.sourceType + " sources"',
+          'templateOptions.sourceType': 'model.sourceType'
         }
       },
     ];
