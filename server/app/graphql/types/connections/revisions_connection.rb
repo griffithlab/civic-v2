@@ -2,10 +2,6 @@ module Types::Connections
   class RevisionsConnection < Types::BaseConnection
     description 'Connection type for objects with revisions including additional metadata.'
 
-    field :total_count, Int, null: false, description:  'The total number of records of this type, regardless of any filtering.'
-    field :page_count, Int, 'Total number of pages, based on filtered count and pagesize.', null: false
-
-
     field :unique_revisors, [Types::Entities::UserType], null: false,
       description: 'List of all users that have submitted a revision to this entity.'
 

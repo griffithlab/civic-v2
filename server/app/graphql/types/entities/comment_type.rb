@@ -1,5 +1,7 @@
 module Types::Entities
   class CommentType < Types::BaseObject
+    connection_type_class Types::Connections::CommentsConnection
+
     implements Types::Interfaces::EventOriginObject
 
     field :id, Int, null: false
