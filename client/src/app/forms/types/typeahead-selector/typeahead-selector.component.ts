@@ -12,7 +12,6 @@ import { FieldType } from '@ngx-formly/core';
 export class TypeaheadSelectorComponent extends FieldType implements AfterViewInit {
   formControl!: FormControl;
   selectedValue = null;
-  listOfOption: Array<{ value: string; text: string }> = [];
   nzFilterOption = () => true;
 
   constructor(private httpClient: HttpClient) {
@@ -23,7 +22,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         showArrow: false,
         onSearch: () => {},
         filterOption: () => { },
-        options: []
+        options: [] as Array<{ value: string; label: string }>
       },
     };
   }
@@ -35,14 +34,14 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
       this.httpClient
         .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
         .subscribe(data => {
-          const listOfOption: Array<{ value: string; text: string }> = [];
+          const options: Array<{ value: string; label: string }> = [];
           data.result.forEach(item => {
-            listOfOption.push({
+            options.push({
               value: item[0],
-              text: item[0]
+              label: item[0]
             });
           });
-          this.listOfOption = listOfOption;
+          this.to.options = options;
         });
     }
   }

@@ -26,7 +26,7 @@
   [nzShowArrow]="to.showArrow"
   [nzFilterOption]="to.filterOption"
   (nzOnSearch)="to.onSearch($event)">
-  <nz-option *ngFor="let o of listOfOption"
-    [nzLabel]="o.text"
+  <nz-option *ngFor="let o of to.options | formlySelectOptions: field | async"
+    [nzLabel]="o.label"
     [nzValue]="o.value"> </nz-option>
 </nz-select>
