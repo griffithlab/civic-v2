@@ -88,7 +88,6 @@ export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Sources',
           addText: 'Add another Source',
-          initialModel: sourceInputInitialModel
         },
         fieldArray: {
           type: 'source-input',

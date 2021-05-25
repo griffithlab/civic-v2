@@ -1,45 +1,25 @@
-<!-- <nz-select [class.ng-dirty]="showError"
-     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
-     [formControl]="formControl"
-     [formlyAttributes]="field"
-     [nzFilterOption]="to.filterOption"
-     [nzMode]="to.multiple ? 'multiple' : 'default'">
-     <ng-container *ngFor="let item of to.optionList | formlySelectOptions: field | async">
-     <nz-option *ngIf="!to.isLoading"
-     [nzValue]="item.value"
-     [nzLabel]="item.label"
-     [nzDisabled]="item.disabled"></nz-option>
-     </ng-container>
-     <nz-option *ngIf="to.isLoading"
-     nzDisabled
-     nzCustomContent>
-     <i nz-icon
-     nzType="loading"
-     class="loading-icon"></i> Loading Data...
-     </nz-option>
-     </nz-select> -->
 <nz-select nzShowSearch
   nzServerSearch
-  (ngModelChange)="to.modelChange($event)"
-  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
   [formControl]="formControl"
   [formlyAttributes]="field"
+  (ngModelChange)="to.modelChange($event)"
+  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
   [nzShowArrow]="to.showArrow"
   [nzFilterOption]="to.filterOption"
   (nzOnSearch)="to.onSearch($event)">
-  <nz-option *ngFor="let o of to.optionList"
+  <nz-option *ngFor="let opt of to.optionList"
     nzCustomContent
-    [nzLabel]="o.label"
-    [nzValue]="o.value">
-    {{ o.source.citation }} ({{ o.source.citationId }})
+    [nzLabel]="opt.label"
+    [nzValue]="opt.value">
+    {{ opt.source.citation }} ({{ opt.source.citationId }})
   </nz-option>
 </nz-select>
 <div class="ant-form-item-explain">
   Citation:
-  <ng-container *ngIf="model.citation.length === 0">
+  <span *ngIf="model.citation.length === 0">
     --
-  </ng-container>
-  <ng-container *ngIf="model.citation.length > 0" >
+  </span>
+  <span *ngIf="model.citation.length > 0" class="source-citation">
     {{ model.citation }}
-  </ng-container>
+  </span>
 </div>

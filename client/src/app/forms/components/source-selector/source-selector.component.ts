@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 
@@ -21,9 +21,9 @@ import { $enum } from 'ts-enum-util';
   // view encapsulation off, so that 'className' styles will be applied
   encapsulation: ViewEncapsulation.None,
 })
-export class SourceSelectorComponent implements OnInit {
+export class SourceSelectorComponent implements OnInit, OnDestroy {
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
-  model = sourceInputInitialModel;
+  model = {};
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
@@ -82,4 +82,7 @@ export class SourceSelectorComponent implements OnInit {
     this.sourceSelected.emit(this.model);
   }
 
+  ngOnDestroy(): void {
+    console.log('source-selector onDestroy called.');
+  }
 }
