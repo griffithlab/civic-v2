@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
@@ -9,7 +9,7 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ['./typeahead-selector.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TypeaheadSelectorComponent extends FieldType implements OnInit {
+export class TypeaheadSelectorComponent extends FieldType implements AfterViewInit {
   formControl!: FormControl;
   selectedValue = null;
   listOfOption: Array<{ value: string; text: string }> = [];
@@ -19,28 +19,32 @@ export class TypeaheadSelectorComponent extends FieldType implements OnInit {
     super();
     this.defaultOptions = {
       templateOptions: {
-        placeholder: 'placeholder',
+        placeholder: 'Search',
+        showArrow: false,
+        onSearch: () => {},
+        filterOption: () => { },
         options: []
       },
     };
   }
 
-  ngOnInit(): void {
-  }
-
-  search(value: string): void {
-    this.httpClient
-      .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
-      .subscribe(data => {
-        const listOfOption: Array<{ value: string; text: string }> = [];
-        data.result.forEach(item => {
-          listOfOption.push({
-            value: item[0],
-            text: item[0]
+  ngAfterViewInit() {
+    // super.ngAfterViewInit();
+    this.to.filterOption = () => true;
+    this.to.onSearch = (value: string): void => {
+      this.httpClient
+        .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
+        .subscribe(data => {
+          const listOfOption: Array<{ value: string; text: string }> = [];
+          data.result.forEach(item => {
+            listOfOption.push({
+              value: item[0],
+              text: item[0]
+            });
           });
+          this.listOfOption = listOfOption;
         });
-        this.listOfOption = listOfOption;
-      });
+    }
   }
 }
 

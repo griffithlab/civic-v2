@@ -20,11 +20,12 @@
      </nz-select> -->
 <nz-select nzShowSearch
   nzServerSearch
-  nzPlaceHolder="input search text"
-  [(ngModel)]="selectedValue"
-  [nzShowArrow]="false"
-  [nzFilterOption]="nzFilterOption"
-  (nzOnSearch)="search($event)">
+  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [nzShowArrow]="to.showArrow"
+  [nzFilterOption]="to.filterOption"
+  (nzOnSearch)="to.onSearch($event)">
   <nz-option *ngFor="let o of listOfOption"
     [nzLabel]="o.text"
     [nzValue]="o.value"> </nz-option>
