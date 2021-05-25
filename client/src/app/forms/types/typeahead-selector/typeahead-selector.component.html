@@ -34,3 +34,12 @@
     {{ o.source.citation }} ({{ o.source.citationId }})
   </nz-option>
 </nz-select>
+<div class="ant-form-item-explain">
+  Citation:
+  <ng-container *ngIf="model.citation.length === 0">
+    --
+  </ng-container>
+  <ng-container *ngIf="model.citation.length > 0" >
+    {{ model.citation }}
+  </ng-container>
+</div>

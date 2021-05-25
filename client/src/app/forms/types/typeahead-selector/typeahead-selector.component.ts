@@ -46,6 +46,8 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
     this.to.filterOption = () => true;
     this.to.modelChange = (e: any): void => {
       // update form model with selected source's id & citation
+      // TODO figure out why directly destructuring the returned option below with { source }
+      // causes browser to complain about being unable to destructure
       const option = this.to.optionList.find((opt: any) => opt.value === +e);
       const source = option.source;
       this.form.patchValue({ citation: source.citation, id: source.id });
