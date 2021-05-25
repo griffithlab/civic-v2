@@ -1,5 +1,7 @@
 import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
+
 import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.component';
 import {
   Maybe,
@@ -31,13 +33,10 @@ export class SourceSelectorComponent implements OnInit {
     sourceTypeaheadQuery: CitationTypeaheadGQL
   ) {
     this.fields = [
-      {
-        key: 'id',
-        hide: true
-      },
+      { key: 'id' },
       {
         key: 'citation',
-        hide: true
+        defaultValue: ''
       },
       {
         key: 'sourceType',
@@ -65,6 +64,13 @@ export class SourceSelectorComponent implements OnInit {
           'templateOptions.sourceType': 'model.sourceType'
         }
       },
+      {
+        template: '<button type="submit" nz-button nzType="primary" nzSize="small">+</button>',
+        className: 'submit-button',
+        templateOptions: {
+          safeHtml: true
+        }
+      }
     ];
   }
 

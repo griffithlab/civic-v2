@@ -20,13 +20,17 @@
      </nz-select> -->
 <nz-select nzShowSearch
   nzServerSearch
+  (ngModelChange)="to.modelChange($event)"
   [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
   [formControl]="formControl"
   [formlyAttributes]="field"
   [nzShowArrow]="to.showArrow"
   [nzFilterOption]="to.filterOption"
   (nzOnSearch)="to.onSearch($event)">
-  <nz-option *ngFor="let o of to.options | formlySelectOptions: field | async"
+  <nz-option *ngFor="let o of to.optionList"
+    nzCustomContent
     [nzLabel]="o.label"
-    [nzValue]="o.value"> </nz-option>
+    [nzValue]="o.value">
+    {{ o.source.citation }} ({{ o.source.citationId }})
+  </nz-option>
 </nz-select>

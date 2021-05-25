@@ -33,9 +33,10 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         placeholder: 'Search',
         sourceType: undefined,
         showArrow: false,
-        onSearch: () => {},
+        onSearch: () => { },
         filterOption: () => { },
-        options: [] as Array<{ value: string; label: string }>
+        modelChange: () => { },
+        optionList: [] as Array<{ value: string; label: string }>
       },
     };
   }
@@ -43,31 +44,23 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
   ngAfterViewInit() {
     // super.ngAfterViewInit();
     this.to.filterOption = () => true;
+    this.to.modelChange = (e: any): void => {
+      // update form model with selected source's id & citation
+      const option = this.to.optionList.find((opt: any) => opt.value === +e);
+      const source = option.source;
+      this.form.patchValue({ citation: source.citation, id: source.id });
+    }
     this.to.onSearch = (value: string): void => {
       this.sourceTypeaheadQuery
         .fetch({
           sourceType: this.to.sourceType,
           partialCitationId: +value
         })
-        .subscribe(
-          ({ data: { sourceTypeahead } }) => {
-            this.to.options = sourceTypeahead.map(s => {
-              return { value: s.id, label: s.citation }
-            })
+        .subscribe(({ data: { sourceTypeahead } }) => {
+          this.to.optionList = sourceTypeahead.map(s => {
+            return { value: s.id, label: s.citationId, source: s }
           })
-
-      // this.httpClient
-      //   .jsonp<{ result: Array<[string, string]> }>(`https://suggest.taobao.com/sug?code=utf-8&q=${value}`, 'callback')
-      //   .subscribe(data => {
-      //     const options: Array<{ value: string; label: string }> = [];
-      //     data.result.forEach(item => {
-      //       options.push({
-      //         value: item[0],
-      //         label: item[0]
-      //       });
-      //     });
-      //     this.to.options = options;
-      //   });
+        })
     }
   }
 }
