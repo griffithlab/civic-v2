@@ -217,6 +217,11 @@ type CommentConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
 }
 
 """
@@ -272,11 +277,6 @@ interface Commentable {
     """
     sortBy: DateSort
   ): CommentConnection!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 enum CommentableEntities {
@@ -606,11 +606,6 @@ type EvidenceItem implements Commentable & Flaggable {
   revisions: [Revision!]!
   source: Source!
   status: EvidenceStatus!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
   variant: Variant!
   variantHgvs: String!
   variantOrigin: VariantOrigin!
@@ -736,11 +731,6 @@ type Flag implements Commentable & EventOriginObject {
   name: String!
   resolvingUser: User
   state: FlagState!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 """
@@ -1035,11 +1025,6 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
   officialName: String!
 
   """
-  List of all fields that have at least one revision.
-  """
-  revisedFieldNames: [FieldName!]!
-
-  """
   List and filter revisions.
   """
   revisions(
@@ -1089,16 +1074,6 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
-
-  """
-  List of all users that have submitted a revision to this entity.
-  """
-  uniqueRevisors: [User!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1744,9 +1719,19 @@ type RevisionConnection {
   pageInfo: PageInfo!
 
   """
+  List of all fields that have at least one revision.
+  """
+  revisedFieldNames: [FieldName!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  List of all users that have submitted a revision to this entity.
+  """
+  uniqueRevisors: [User!]!
 }
 
 """
@@ -2215,11 +2200,6 @@ type Variant implements Commentable & Flaggable {
   gene: Gene!
   id: Int!
   name: String!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 """
@@ -2281,11 +2261,6 @@ A CIViC entity that can have revisions proposed to it.
 """
 interface WithRevisions {
   """
-  List of all fields that have at least one revision.
-  """
-  revisedFieldNames: [FieldName!]!
-
-  """
   List and filter revisions.
   """
   revisions(
@@ -2334,9 +2309,4 @@ interface WithRevisions {
     """
     status: RevisionStatus
   ): RevisionConnection!
-
-  """
-  List of all users that have submitted a revision to this entity.
-  """
-  uniqueRevisors: [User!]!
 }

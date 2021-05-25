@@ -1,4 +1,4 @@
-fragment commentParticipants on Commentable {
+fragment commentParticipants on CommentConnection {
   uniqueCommenters {
     id
     username

@@ -95,13 +95,13 @@ export class GenesRevisionsService implements OnDestroy {
 
     this.uniqueRevisors$ = this.result$
         .pipe(
-          map(({data}) => { return data.gene?.uniqueRevisors }),
+          map(({data}) => { return data.gene?.revisions?.uniqueRevisors }),
           shareReplay(1)
         );
     
     this.revisionFields$ = this.result$.pipe(
       map(({ data }) => {
-        return data.gene?.revisedFieldNames.map((f, i) => {
+        return data.gene?.revisions?.revisedFieldNames.map((f, i) => {
           return { 
            ...f,
            id: i 

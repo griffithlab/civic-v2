@@ -19,7 +19,7 @@ export class GenesCommentsService extends GenericCommentsService<GeneCommentsQue
   }
 
   extractCommenters(q: GeneCommentsQuery): CommentsParticipant[] {
-    return q.gene?.uniqueCommenters as CommentsParticipant[]
+    return q.gene?.comments?.uniqueCommenters as CommentsParticipant[]
   }
 
   commentableEntity: CommentableEntities = CommentableEntities.Gene
