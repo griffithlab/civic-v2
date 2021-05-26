@@ -14,6 +14,7 @@ import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LinkableUser } from "../user-pill/user-pill.component";
+import { LinkableOrganization } from "../organization-pill/organization-pill.component";
 
 @Component({
     selector: 'cvc-event-feed',
@@ -29,9 +30,10 @@ export class EventFeedComponent implements OnInit {
 
     private initialQueryVars?: EventFeedQueryVariables
 
-    events$?: Observable<EventFeedNodeFragment[]>
+    events$?: Observable<Maybe<EventFeedNodeFragment>[]>
     pageInfo$?: Observable<PageInfo>
     participants$?: Observable<LinkableUser[]>
+    organizations$?: Observable<LinkableOrganization[]>
 
     constructor(private eventFeedService: EventFeedService) { }
 
@@ -49,11 +51,16 @@ export class EventFeedComponent implements OnInit {
         )
 
         this.events$ = this.results$.pipe(
-            map(({data}) => data.events.edges.map(e => e.node as EventFeedNodeFragment) )
+            map(({data}) => {
+                return data.events.edges.map(e => e.node)})
         )
 
         this.participants$ = this.results$.pipe(
             map(({data}) => data.events.uniqueParticipants)
+        )
+
+        this.organizations$ = this.results$.pipe(
+            map(({data}) => data.events.participatingOrganizations)
         )
     }
     
@@ -67,7 +74,16 @@ export class EventFeedComponent implements OnInit {
     onParticipantSelected(u: Maybe<LinkableUser>) {
         this.queryRef.refetch({
             ...this.initialQueryVars,
+            organizationId: this.currentVariables()?.organizationId,
             originatingUserId: u?.id
+        })
+    }
+
+    onOrganizationSelected(o: Maybe<LinkableOrganization>) {
+        this.queryRef.refetch({
+            ...this.initialQueryVars,
+            originatingUserId: this.currentVariables().originatingUserId,
+            organizationId: o?.id
         })
     }
 
@@ -100,9 +116,14 @@ export class EventFeedComponent implements OnInit {
             case(EventAction.RevisionRejected):
                 return 'rejected a revision to'
             case(EventAction.RevisionSuperseded):
-                return 'accepted a a superseding revision on'
+                return 'accepted a a superseding revision to'
             default:
                 throw new Error('Not handling all event action types yet')
         }
     }
+
+  //TODO - Sigh, fix this when the new angular-apollo comes out
+  private currentVariables(): EventFeedQueryVariables {
+    return this.queryRef['obsQuery'].variables as EventFeedQueryVariables;
+  }
 }

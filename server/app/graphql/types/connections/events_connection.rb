@@ -8,6 +8,9 @@ module Types::Connections
     field :event_types, [Types::Events::EventActionType], null: false,
       description: 'List of event types that have occured on this entity.'
 
+    field :participating_organizations, [Types::Entities::OrganizationType], null: false,
+      description: 'List of all organizations who are involved in this event stream.'
+
     def unique_participants
       if event_subject
         User.where(id:
@@ -25,6 +28,16 @@ module Types::Connections
           .pluck(:action)
       else
         object.items.except(:order).distinct.pluck(:action)
+      end
+    end
+
+    def participating_organizations
+      if event_subject
+        Organization.where(id:
+                   Event.where(subject: event_subject).select(:organization_id)
+                  ).distinct
+      else
+        Organization.where(id: object.items.except(:order).select(:organization_id)).distinct
       end
     end
 

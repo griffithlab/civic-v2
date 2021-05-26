@@ -394,6 +394,11 @@ type EventConnection {
   pageInfo: PageInfo!
 
   """
+  List of all organizations who are involved in this event stream.
+  """
+  participatingOrganizations: [Organization!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!

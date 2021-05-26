@@ -4,7 +4,8 @@ query EventFeed (
     $last: Int,
     $before: String,
     $after: String,
-    $originatingUserId: Int
+    $originatingUserId: Int,
+    $organizationId: Int
 ){
 events (
     subject: $subject,
@@ -12,7 +13,8 @@ events (
     last: $last,
     before: $before,
     after: $after,
-    originatingUserId: $originatingUserId
+    originatingUserId: $originatingUserId,
+    organizationId: $organizationId
 ) { ...eventFeed }
 
 }
@@ -27,6 +29,11 @@ fragment eventFeed on EventConnection {
     uniqueParticipants {
         id
         displayName
+        profileImagePath(size: 32)
+    }
+    participatingOrganizations {
+        id
+        name
         profileImagePath(size: 32)
     }
     edges {

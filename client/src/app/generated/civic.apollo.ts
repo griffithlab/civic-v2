@@ -285,6 +285,8 @@ export type EventConnection = {
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
+  /** List of all organizations who are involved in this event stream. */
+  participatingOrganizations: Array<Organization>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
   /** List of all users that have generated an event on the subject entity. */
@@ -1534,6 +1536,7 @@ export type EventFeedQueryVariables = Exact<{
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1554,6 +1557,9 @@ export type EventFeedFragment = (
   ), uniqueParticipants: Array<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+  )>, participatingOrganizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
   )>, edges: Array<(
     { __typename: 'EventEdge' }
     & Pick<EventEdge, 'cursor'>
@@ -2088,6 +2094,11 @@ export const EventFeedFragmentDoc = gql`
     displayName
     profileImagePath(size: 32)
   }
+  participatingOrganizations {
+    id
+    name
+    profileImagePath(size: 32)
+  }
   edges {
     cursor
     node {
@@ -2139,7 +2150,7 @@ export const AddCommentDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int) {
+    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int) {
   events(
     subject: $subject
     first: $first
@@ -2147,6 +2158,7 @@ export const EventFeedDocument = gql`
     before: $before
     after: $after
     originatingUserId: $originatingUserId
+    organizationId: $organizationId
   ) {
     ...eventFeed
   }
