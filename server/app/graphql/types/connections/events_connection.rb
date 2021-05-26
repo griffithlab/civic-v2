@@ -9,16 +9,28 @@ module Types::Connections
       description: 'List of event types that have occured on this entity.'
 
     def unique_participants
-       User.where(id:
-            Event.where(subject: parent).select(:originating_user_id)
-       ).distinct
+      if event_subject
+        User.where(id:
+                   Event.where(subject: event_subject).select(:originating_user_id)
+                  ).distinct
+      else
+        User.where(id: object.items.except(:order).select(:originating_user_id)).distinct
+      end
     end
 
     def event_types
-        Event.where(subject: parent)
+      if event_subject
+        Event.where(subject: event_subject)
           .distinct
           .pluck(:action)
+      else
+        object.items.except(:order).distinct.pluck(:action)
+      end
     end
 
+    private
+    def event_subject
+      @event_subject ||= object.arguments[:subject]
+    end
   end
 end
