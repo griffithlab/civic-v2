@@ -11,7 +11,7 @@ import {
 import { EventFeedService } from "./event-feed.service";
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LinkableUser } from "../user-pill/user-pill.component";
 
@@ -28,7 +28,6 @@ export class EventFeedComponent implements OnInit {
     private results$!: Observable<ApolloQueryResult<EventFeedQuery>>
 
     private initialQueryVars?: EventFeedQueryVariables
-    private destroy$ = new Subject<void>();
 
     events$?: Observable<EventFeedNodeFragment[]>
     pageInfo$?: Observable<PageInfo>
@@ -70,11 +69,6 @@ export class EventFeedComponent implements OnInit {
             ...this.initialQueryVars,
             originatingUserId: u?.id
         })
-    }
-
-    ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete()
     }
 
     iconNameForEventAction(a: EventAction): string {
