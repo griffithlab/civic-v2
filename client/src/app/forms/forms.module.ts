@@ -35,6 +35,7 @@ import { SourceInputComponent } from './types/source-input/source-input.componen
 import { SourceSelectorComponent } from './components/source-selector/source-selector.component';
 import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
 import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.component';
+import { SourceLoaderComponent } from './components/source-loader/source-loader.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead
     SourceInputComponent,
     SourceSelectorComponent,
     TypeaheadSelectorComponent,
+    SourceLoaderComponent,
   ],
   imports: [
     FormsModule,
@@ -81,6 +83,7 @@ import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead
     SourceInputComponent,
     SourceSelectorComponent,
     TypeaheadSelectorComponent,
+    SourceLoaderComponent,
   ]
 })
 export class CvcFormsModule { }

@@ -4,6 +4,7 @@
   [formlyAttributes]="field"
   (ngModelChange)="to.modelChange($event)"
   [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+  [nzNotFoundContent]="sourceLoader"
   [nzShowArrow]="to.showArrow"
   [nzFilterOption]="to.filterOption"
   (nzOnSearch)="to.onSearch($event)">
@@ -14,12 +15,17 @@
     {{ opt.source.citation }} ({{ opt.source.citationId }})
   </nz-option>
 </nz-select>
-<div class="ant-form-item-explain">
+<div class="ant-form-item-explain" *ngIf="model.citation.length > 0">
   Citation:
-  <span *ngIf="model.citation.length === 0">
-    --
-  </span>
-  <span *ngIf="model.citation.length > 0" class="source-citation">
+  <span class="source-citation">
     {{ model.citation }}
   </span>
 </div>
+<ng-template #sourceLoader>
+  <ng-container [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
+    <div *ngSwitchCase="false" class="ant-form-item-explain">
+      Enter a {{ model.sourceType }} citation ID to search CIViC sources
+    </div>
+    <cvc-source-loader *ngSwitchCase="true" [(model)]="model"></cvc-source-loader>
+  </ng-container>
+</ng-template>

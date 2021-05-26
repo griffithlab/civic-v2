@@ -1627,6 +1627,22 @@ export type CitationExistenceCheckQuery = (
   & Pick<Query, 'remoteCitation'>
 );
 
+export type CreateSourceStubMutationVariables = Exact<{
+  input: AddRemoteCitationInput;
+}>;
+
+
+export type CreateSourceStubMutation = (
+  { __typename: 'Mutation' }
+  & { addRemoteCitation?: Maybe<(
+    { __typename: 'AddRemoteCitationPayload' }
+    & { newSource: (
+      { __typename: 'SourceStub' }
+      & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
+    ) }
+  )> }
+);
+
 export type CitationTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['Int'];
   sourceType: SourceSource;
@@ -2085,6 +2101,28 @@ export const CitationExistenceCheckDocument = gql`
   })
   export class CitationExistenceCheckGQL extends Apollo.Query<CitationExistenceCheckQuery, CitationExistenceCheckQueryVariables> {
     document = CitationExistenceCheckDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateSourceStubDocument = gql`
+    mutation CreateSourceStub($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      id
+      citationId
+      sourceType
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
+    document = CreateSourceStubDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

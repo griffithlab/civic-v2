@@ -36,6 +36,8 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         onSearch: () => { },
         filterOption: () => { },
         modelChange: () => { },
+        minLengthSearch: 1,
+        fieldLength: 0,
         optionList: [] as Array<{ value: string; label: string; source: any}>
       },
     };
@@ -50,6 +52,8 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
       this.form.patchValue({ citation: source.citation, id: source.id });
     }
     this.to.onSearch = (value: string): void => {
+      this.to.fieldLength = value.length;
+      if(value.length < this.to.minLengthSearch) { return }
       this.sourceTypeaheadQuery
         .fetch({
           sourceType: this.to.sourceType,
@@ -57,7 +61,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         })
         .subscribe(({ data: { sourceTypeahead } }) => {
           this.to.optionList = sourceTypeahead.map(s => {
-            return { value: s.id, label: s.citationId, source: s }
+            return { value: s.citationId, label: s.citationId, source: s }
           })
         })
     }
