@@ -1,27 +1,39 @@
 <div class="event-feed">
-    <h3>History</h3>
-    <nz-timeline>
-        <nz-timeline-item *ngFor="let e of events$ | ngrxPush" [nzDot]="timelineDotTemplate">
-            <ng-template #timelineDotTemplate>
-                <icon nz-icon [nzType]="iconNameForEventAction(e.action)" style="font-size: 24px;"></icon>
-            </ng-template>
-            <div class="event-feed-item">
-                <nz-divider nz-tooltip [nzTooltipTitle]="e.createdAt | date" nzTooltipPlacement="topRight"
-                    [nzText]="e.createdAt | timeago" nzPlain="true" nzOrientation="right"></nz-divider>
-                <cvc-user-pill [user]="e.originatingUser"></cvc-user-pill>
-                <span>{{ verbiageForEvent(e) }}</span>
-                <span> {{ e.subject.name }}</span>
-                <span *ngIf="e.organization">
-                    on behalf of <cvc-org-pill [org]="e.organization"></cvc-org-pill>
-                </span>
-            </div>
-        </nz-timeline-item>
-    </nz-timeline>
+    <nz-row [nzGutter]="16">
+        <nz-col nzSpan="18">
+            <h3>History</h3>
+            <nz-timeline>
+                <nz-timeline-item *ngFor="let e of events$ | ngrxPush" [nzDot]="timelineDotTemplate">
+                    <ng-template #timelineDotTemplate>
+                        <icon nz-icon [nzType]="iconNameForEventAction(e.action)" style="font-size: 24px;"></icon>
+                    </ng-template>
+                    <div class="event-feed-item">
+                        <nz-divider nz-tooltip [nzTooltipTitle]="e.createdAt | date" nzTooltipPlacement="topRight"
+                            [nzText]="e.createdAt | timeago" nzPlain="true" nzOrientation="right"></nz-divider>
+                        <cvc-user-pill [user]="e.originatingUser"></cvc-user-pill>
+                        <span>{{ verbiageForEvent(e) }}</span>
+                        <span> {{ e.subject.name }}</span>
+                        <span *ngIf="e.organization">
+                            on behalf of <cvc-org-pill [org]="e.organization"></cvc-org-pill>
+                        </span>
+                    </div>
+                </nz-timeline-item>
+            </nz-timeline>
 
-    <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-        <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
-            <button nz-button nzType="link" nzSize="small" nzBlock (click)="fetchMore(pageInfo.endCursor)">Load
-                More</button>
-        </div>
-    </ng-container>
+            <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+                <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
+                    <button nz-button nzType="link" nzSize="small" nzBlock (click)="fetchMore(pageInfo.endCursor)">Load
+                        More</button>
+                </div>
+            </ng-container>
+        </nz-col>
+        <nz-col nzSpan="6">
+            <h3>Filter History</h3>
+            <cvc-participant-list listTitle="Participants" [participantList]="participants$ | ngrxPush" (participantSelectedEvent)="onParticipantSelected($event)">
+                <ng-template #itemTemplate let-user>
+                    <cvc-user-pill [user]="user"></cvc-user-pill>
+                </ng-template>
+            </cvc-participant-list>
+        </nz-col>
+    </nz-row>
 </div>

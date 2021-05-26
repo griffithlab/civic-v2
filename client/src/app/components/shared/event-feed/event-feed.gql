@@ -4,23 +4,30 @@ query EventFeed (
     $last: Int,
     $before: String,
     $after: String,
+    $originatingUserId: Int
 ){
 events (
     subject: $subject,
     first: $first,
     last: $last,
     before: $before,
-    after: $after
+    after: $after,
+    originatingUserId: $originatingUserId
 ) { ...eventFeed }
 
 }
 fragment eventFeed on EventConnection {
-    totalCount
     pageInfo {
         startCursor
         endCursor
         hasNextPage
         hasPreviousPage
+    }
+    eventTypes
+    uniqueParticipants {
+        id
+        displayName
+        profileImagePath(size: 32)
     }
     edges {
         cursor

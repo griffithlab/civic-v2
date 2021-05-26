@@ -4,6 +4,7 @@ import {
     EventFeedNodeFragment,
     EventFeedQuery,
     EventFeedQueryVariables,
+    Maybe,
     PageInfo, 
     SubscribableInput 
 } from "@app/generated/civic.apollo";
@@ -11,7 +12,8 @@ import { EventFeedService } from "./event-feed.service";
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable, Subject } from 'rxjs';
-import { map, pluck, takeUntil } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { LinkableUser } from "../user-pill/user-pill.component";
 
 @Component({
     selector: 'cvc-event-feed',
@@ -24,11 +26,13 @@ export class EventFeedComponent implements OnInit {
     
     private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>
     private results$!: Observable<ApolloQueryResult<EventFeedQuery>>
-    events$?: Observable<EventFeedNodeFragment[]>
-    pageInfo$?: Observable<PageInfo>
 
     private initialQueryVars?: EventFeedQueryVariables
     private destroy$ = new Subject<void>();
+
+    events$?: Observable<EventFeedNodeFragment[]>
+    pageInfo$?: Observable<PageInfo>
+    participants$?: Observable<LinkableUser[]>
 
     constructor(private eventFeedService: EventFeedService) { }
 
@@ -42,10 +46,15 @@ export class EventFeedComponent implements OnInit {
         this.results$ = this.queryRef.valueChanges;
 
         this.pageInfo$ = this.results$.pipe(
-            map(({data}) => data.events.pageInfo ))
+            map(({data}) => data.events.pageInfo)
+        )
 
         this.events$ = this.results$.pipe(
             map(({data}) => data.events.edges.map(e => e.node as EventFeedNodeFragment) )
+        )
+
+        this.participants$ = this.results$.pipe(
+            map(({data}) => data.events.uniqueParticipants)
         )
     }
     
@@ -54,6 +63,13 @@ export class EventFeedComponent implements OnInit {
             first: this.eventFeedService.fetchMoreSize,
             after: endCursor
         }})
+    }
+
+    onParticipantSelected(u: Maybe<LinkableUser>) {
+        this.queryRef.refetch({
+            ...this.initialQueryVars,
+            originatingUserId: u?.id
+        })
     }
 
     ngOnDestroy() {

@@ -1533,6 +1533,7 @@ export type EventFeedQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1546,11 +1547,14 @@ export type EventFeedQuery = (
 
 export type EventFeedFragment = (
   { __typename: 'EventConnection' }
-  & Pick<EventConnection, 'totalCount'>
+  & Pick<EventConnection, 'eventTypes'>
   & { pageInfo: (
     { __typename: 'PageInfo' }
     & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
-  ), edges: Array<(
+  ), uniqueParticipants: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+  )>, edges: Array<(
     { __typename: 'EventEdge' }
     & Pick<EventEdge, 'cursor'>
     & { node?: Maybe<(
@@ -2072,12 +2076,17 @@ export const EventFeedNodeFragmentDoc = gql`
     `;
 export const EventFeedFragmentDoc = gql`
     fragment eventFeed on EventConnection {
-  totalCount
   pageInfo {
     startCursor
     endCursor
     hasNextPage
     hasPreviousPage
+  }
+  eventTypes
+  uniqueParticipants {
+    id
+    displayName
+    profileImagePath(size: 32)
   }
   edges {
     cursor
@@ -2130,13 +2139,14 @@ export const AddCommentDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String) {
+    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int) {
   events(
     subject: $subject
     first: $first
     last: $last
     before: $before
     after: $after
+    originatingUserId: $originatingUserId
   ) {
     ...eventFeed
   }
