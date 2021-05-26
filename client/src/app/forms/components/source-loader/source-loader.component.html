@@ -1,11 +1,17 @@
-<nz-alert nzType="info"
-  [nzMessage]="'Source not known to CIViC, query ' + model.sourceType + '?'">
-</nz-alert>
-<button type="submit"
-  nz-button
-  nzBlock
-  nzType="default"
-  nzSize="large"
-  nzShape="round">
-  Query Resource
-</button>
+<nz-space nzDirection="vertical">
+  <nz-space-item>
+    <nz-alert nzType="info"
+      [nzMessage]="'Source not known to CIViC, query ' + sourceTypeKey + '?'">
+    </nz-alert>
+  </nz-space-item>
+  <nz-space-item>
+    <button type="submit"
+      nz-button
+      nzBlock
+      nzType="default"
+      nzSize="default"
+      nzShape="round">
+      Fetch {{ sourceTypeKey }} {{ citationId }} Citation
+    </button>
+  </nz-space-item>
+</nz-space>

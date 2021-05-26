@@ -1,18 +1,17 @@
 import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 
-import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.component';
 import {
   Maybe,
-  Source,
   SourceSource,
-  CitationExistenceCheckGQL,
-  CitationTypeaheadGQL,
-  SourceTypeaheadResultFragment
 } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { $enum } from 'ts-enum-util';
+
+export interface SelectorModel {
+  sourceType: Maybe<SourceSource>,
+  citationId: Maybe<string>
+}
 
 @Component({
   selector: 'cvc-source-selector',
@@ -23,15 +22,12 @@ import { $enum } from 'ts-enum-util';
 })
 export class SourceSelectorComponent implements OnInit, OnDestroy {
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
-  model = {};
+  model: SelectorModel = { sourceType: undefined, citationId: undefined };
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
 
-  constructor(
-    existenceCheckQuery: CitationExistenceCheckGQL,
-    sourceTypeaheadQuery: CitationTypeaheadGQL
-  ) {
+  constructor() {
     this.fields = [
       { key: 'id' },
       {
@@ -56,12 +52,18 @@ export class SourceSelectorComponent implements OnInit, OnDestroy {
         className: 'citation-id-field',
         type: 'typeahead-selector',
         templateOptions: {
+          maxLength: 10,
           required: true
         },
         expressionProperties: {
           'templateOptions.disabled': '!model.sourceType',
           'templateOptions.placeholder': '!model.sourceType ? "Select source type before searching" : "Search " + model.sourceType + " sources"',
-          'templateOptions.sourceType': 'model.sourceType'
+          'templateOptions.sourceType': 'model.sourceType',
+          'templateOptions.sourceTypeKey': (model: SelectorModel): Maybe<string> => {
+            if(!model.sourceType) { return }
+            return $enum(SourceSource).getKeyOrThrow(model.sourceType);
+          }
+
         }
       },
       {

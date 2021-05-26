@@ -24,8 +24,9 @@
 <ng-template #sourceLoader>
   <ng-container [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
     <div *ngSwitchCase="false" class="ant-form-item-explain">
-      Enter a {{ model.sourceType }} citation ID to search CIViC sources
+      Enter a {{ to.sourceTypeKey }} citation ID to search CIViC sources
     </div>
-    <cvc-source-loader *ngSwitchCase="true" [(model)]="model"></cvc-source-loader>
+    <cvc-source-loader *ngSwitchCase="true" [(model)]="model"
+    [(sourceType)]="model.sourceType" [(citationId)]="to.fieldValue"></cvc-source-loader>
   </ng-container>
 </ng-template>

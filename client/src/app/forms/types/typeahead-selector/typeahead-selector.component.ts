@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
@@ -25,7 +25,8 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
 
   constructor(
     private httpClient: HttpClient,
-    private sourceTypeaheadQuery: CitationTypeaheadGQL
+    private sourceTypeaheadQuery: CitationTypeaheadGQL,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
     this.defaultOptions = {
@@ -37,7 +38,10 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         filterOption: () => { },
         modelChange: () => { },
         minLengthSearch: 1,
+        // selector component doesn't update field value until it's valid
+        // storing its value and length (for various UI conditionals) here
         fieldLength: 0,
+        fieldValue: '',
         optionList: [] as Array<{ value: string; label: string; source: any}>
       },
     };
@@ -52,8 +56,9 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
       this.form.patchValue({ citation: source.citation, id: source.id });
     }
     this.to.onSearch = (value: string): void => {
+      this.to.fieldValue = value;
       this.to.fieldLength = value.length;
-      if(value.length < this.to.minLengthSearch) { return }
+      if(value.length < this.to.minLengthSearch || value.length > this.to.maxLength!) { return }
       this.sourceTypeaheadQuery
         .fetch({
           sourceType: this.to.sourceType,
@@ -63,6 +68,8 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
           this.to.optionList = sourceTypeahead.map(s => {
             return { value: s.citationId, label: s.citationId, source: s }
           })
+          // TODO implement this search as an observable to avoid detectChanges
+          this.changeDetectorRef.detectChanges();
         })
     }
   }
