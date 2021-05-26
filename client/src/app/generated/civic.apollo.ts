@@ -277,6 +277,8 @@ export type EventConnection = {
   __typename: 'EventConnection';
   /** A list of edges. */
   edges: Array<EventEdge>;
+  /** List of event types that have occured on this entity. */
+  eventTypes: Array<EventAction>;
   /** A list of nodes. */
   nodes: Array<Event>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -285,6 +287,8 @@ export type EventConnection = {
   pageInfo: PageInfo;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** List of all users that have generated an event on the subject entity. */
+  uniqueParticipants: Array<User>;
 };
 
 /** An edge in a connection. */
@@ -1574,6 +1578,13 @@ export type EventFeedNodeFragment = (
   ) | (
     { __typename: 'Flag' }
     & Pick<Flag, 'id' | 'name'>
+    & { comments: (
+      { __typename: 'CommentConnection' }
+      & { nodes: Array<(
+        { __typename: 'Comment' }
+        & Pick<Comment, 'comment'>
+      )> }
+    ) }
   ) | (
     { __typename: 'Revision' }
     & Pick<Revision, 'id' | 'revisionsetId' | 'name'>
@@ -2050,6 +2061,11 @@ export const EventFeedNodeFragmentDoc = gql`
     }
     ... on Flag {
       id
+      comments(first: 1) {
+        nodes {
+          comment
+        }
+      }
     }
   }
 }

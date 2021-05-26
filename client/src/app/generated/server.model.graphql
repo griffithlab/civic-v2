@@ -374,6 +374,11 @@ type EventConnection {
   edges: [EventEdge!]!
 
   """
+  List of event types that have occured on this entity.
+  """
+  eventTypes: [EventAction!]!
+
+  """
   A list of nodes.
   """
   nodes: [Event!]!
@@ -392,6 +397,11 @@ type EventConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  List of all users that have generated an event on the subject entity.
+  """
+  uniqueParticipants: [User!]!
 }
 
 """

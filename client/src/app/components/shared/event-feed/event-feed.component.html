@@ -17,4 +17,11 @@
             </div>
         </nz-timeline-item>
     </nz-timeline>
+
+    <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+        <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
+            <button nz-button nzType="link" nzSize="small" nzBlock (click)="fetchMore(pageInfo.endCursor)">Load
+                More</button>
+        </div>
+    </ng-container>
 </div>

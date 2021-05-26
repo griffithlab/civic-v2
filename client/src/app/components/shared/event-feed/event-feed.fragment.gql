@@ -72,6 +72,11 @@ fragment eventFeedNode on Event {
         }
         ... on Flag {
             id
+            comments(first: 1) {
+                nodes {
+                    comment
+                }
+            }
         }
     }
 }

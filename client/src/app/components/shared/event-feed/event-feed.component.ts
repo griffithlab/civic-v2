@@ -25,9 +25,9 @@ export class EventFeedComponent implements OnInit {
     private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>
     private results$!: Observable<ApolloQueryResult<EventFeedQuery>>
     events$?: Observable<EventFeedNodeFragment[]>
+    pageInfo$?: Observable<PageInfo>
 
     private initialQueryVars?: EventFeedQueryVariables
-    private pageInfo?: PageInfo
     private destroy$ = new Subject<void>();
 
     constructor(private eventFeedService: EventFeedService) { }
@@ -35,27 +35,24 @@ export class EventFeedComponent implements OnInit {
     ngOnInit() {
         this.initialQueryVars = {
             subject: this.subscribable,
-            last: this.eventFeedService.initialListSize,
+            first: this.eventFeedService.initialListSize,
         }
 
         this.queryRef = this.eventFeedService.query.watch(this.initialQueryVars);
         this.results$ = this.queryRef.valueChanges;
 
-        this.results$.pipe(
-            takeUntil(this.destroy$)
-        )
-        .subscribe((res) => { this.pageInfo = res.data.events.pageInfo; });
+        this.pageInfo$ = this.results$.pipe(
+            map(({data}) => data.events.pageInfo ))
 
         this.events$ = this.results$.pipe(
             map(({data}) => data.events.edges.map(e => e.node as EventFeedNodeFragment) )
         )
-
     }
     
-    fetchMore() {
+    fetchMore(endCursor: string) {
         this.queryRef.fetchMore({variables: {
-            last: this.eventFeedService.fetchMoreSize,
-            before: this.pageInfo?.startCursor
+            first: this.eventFeedService.fetchMoreSize,
+            after: endCursor
         }})
     }
 
@@ -75,7 +72,7 @@ export class EventFeedComponent implements OnInit {
             case(EventAction.RevisionRejected):
                 return 'close-circle'
             case(EventAction.RevisionSuperseded):
-                return 'deleted'
+                return 'clear'
             default:
                 throw new Error('Not handling all event action types yet')
 
