@@ -48,6 +48,7 @@ import { UserHovercardComponent } from './user-hovercard/user-hovercard.componen
 import { UserPillComponent } from './user-pill/user-pill.component'
 import { OrganizationPillComponent } from './organization-pill/organization-pill.component'
 import { OrganizationHovercardComponent } from './organization-hovercard/organization-hovercard.component'
+import { CommentDisplayComponent } from './comment-display/comment-display.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
@@ -68,7 +69,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     UserHovercardComponent,
     UserPillComponent,
     OrganizationPillComponent,
-    OrganizationHovercardComponent
+    OrganizationHovercardComponent,
+    CommentDisplayComponent
   ],
   imports: [
     CommonModule,

@@ -1513,7 +1513,7 @@ export type CommentListNodeFragment = (
   & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
   & { commenter: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'displayName' | 'name' | 'role' | 'profileImagePath'>
     & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
@@ -1592,7 +1592,11 @@ export type EventFeedNodeFragment = (
       { __typename: 'CommentConnection' }
       & { nodes: Array<(
         { __typename: 'Comment' }
-        & Pick<Comment, 'comment'>
+        & Pick<Comment, 'comment' | 'createdAt'>
+        & { commenter: (
+          { __typename: 'User' }
+          & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+        ) }
       )> }
     ) }
   ) | (
@@ -1600,7 +1604,7 @@ export type EventFeedNodeFragment = (
     & Pick<Revision, 'id' | 'revisionsetId' | 'name'>
     & { revisor: (
       { __typename: 'User' }
-      & Pick<User, 'id' | 'username' | 'profileImagePath'>
+      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
     ), linkoutData: (
       { __typename: 'LinkoutData' }
       & Pick<LinkoutData, 'name'>
@@ -1992,6 +1996,7 @@ export const CommentListNodeFragmentDoc = gql`
   commenter {
     id
     username
+    displayName
     name
     role
     profileImagePath(size: 32)
@@ -2053,11 +2058,12 @@ export const EventFeedNodeFragmentDoc = gql`
   originatingObject {
     id
     name
+    __typename
     ... on Revision {
       id
       revisor {
         id
-        username
+        displayName
         profileImagePath(size: 32)
       }
       linkoutData {
@@ -2074,6 +2080,12 @@ export const EventFeedNodeFragmentDoc = gql`
       comments(first: 1) {
         nodes {
           comment
+          createdAt
+          commenter {
+            id
+            displayName
+            profileImagePath(size: 32)
+          }
         }
       }
     }

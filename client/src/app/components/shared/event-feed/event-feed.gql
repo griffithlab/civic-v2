@@ -67,11 +67,12 @@ fragment eventFeedNode on Event {
     originatingObject {
         id
         name
+        __typename
         ... on Revision {
             id
             revisor {
                 id
-                username
+                displayName
                 profileImagePath(size: 32)
             }
             linkoutData {
@@ -89,6 +90,12 @@ fragment eventFeedNode on Event {
             comments(first: 1) {
                 nodes {
                     comment
+                    createdAt
+                    commenter {
+                        id
+                        displayName
+                        profileImagePath(size: 32)
+                    }
                 }
             }
         }

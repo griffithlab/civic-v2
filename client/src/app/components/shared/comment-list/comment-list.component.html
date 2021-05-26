@@ -11,14 +11,7 @@
     </nz-list-header>
     <ng-template #comment let-comment>
       <nz-list-item>
-        <nz-comment [nzAuthor]="comment.node.commenter.name"
-          [nzDatetime]="comment.node.createdAt | timeago">
-          <nz-avatar *ngIf="comment.node.commenter.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="comment.node.commenter.profileImagePath"></nz-avatar>
-          <ng-template #noAvatar><nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar></ng-template>
-          <nz-comment-content>
-            <p>{{ comment.node.comment }}</p>
-          </nz-comment-content>
-        </nz-comment>
+        <cvc-comment-display [comment]="comment.node"></cvc-comment-display>
       </nz-list-item>
     </ng-template>
   </nz-list>

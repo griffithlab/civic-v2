@@ -99,6 +99,8 @@ export class EventFeedComponent implements OnInit {
                 return 'close-circle'
             case(EventAction.RevisionSuperseded):
                 return 'clear'
+            case(EventAction.Flagged):
+                return 'flag'
             default:
                 throw new Error('Not handling all event action types yet')
 
@@ -117,6 +119,8 @@ export class EventFeedComponent implements OnInit {
                 return 'rejected a revision to'
             case(EventAction.RevisionSuperseded):
                 return 'accepted a a superseding revision to'
+            case(EventAction.Flagged):
+                return 'opened a new flag on'
             default:
                 throw new Error('Not handling all event action types yet')
         }
