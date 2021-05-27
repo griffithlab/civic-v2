@@ -9,8 +9,8 @@ import {
   CommentableInput,
   CommentableEntities,
   Gene,
-  RevisionEdge,
-  Maybe,
+  SubscribableEntities,
+  SubscribableInput, 
 } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
@@ -29,12 +29,20 @@ export class GenesSummaryComponent implements OnInit {
   myGeneInfo$: Observable<any>;
   viewer$: Observable<Viewer>;
 
+  subscribableEntity: SubscribableInput 
+
   constructor(private service: GenesSummaryService,
     private viewerService: ViewerService,
     private route: ActivatedRoute) {
 
     this.viewer$ = this.viewerService.viewer$;
     const geneId: number = +this.route.snapshot.params['geneId'];
+
+    this.subscribableEntity = {
+      id: geneId,
+      entityType: SubscribableEntities.Gene
+    }
+
     this.data$ = this.service.watchGenesSummary(geneId);
     this.gene$ = this.data$.pipe(
       pluck('data', 'gene'),

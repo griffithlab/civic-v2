@@ -4,7 +4,7 @@ module Types::Entities
     field :notified_user, Types::Entities::UserType, null: false
     field :originating_user, Types::Entities::UserType, null: false
     field :event, Types::Entities::EventType, null: false
-    field :subscription, Types::SubscriptionType, null: true
+    field :subscription, Types::Subscribable::SubscriptionType, null: true
     field :seen, Boolean, null: false
     field :type, Types::NotificationReasonType, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false

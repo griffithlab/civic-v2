@@ -9,15 +9,6 @@ query GeneRevisions(
 ) {
   gene(id: $geneId) {
     id
-    uniqueRevisors {
-      username
-      id
-      profileImagePath(size: 32)
-    }
-    revisedFieldNames {
-      name
-      displayName
-    }
     revisions(
       first: $first,
       last: $last,
@@ -27,6 +18,15 @@ query GeneRevisions(
       originatingUserId: $originatingUserId
     ) {
       totalCount
+      uniqueRevisors {
+        username
+        id
+        profileImagePath(size: 32)
+      }
+      revisedFieldNames {
+        name
+        displayName
+      }
       edges {
         node {
           id

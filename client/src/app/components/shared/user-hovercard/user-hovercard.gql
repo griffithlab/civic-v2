@@ -1,0 +1,16 @@
+query UserHoverCard($userId: Int!) {
+  user(userId: $userId) {
+    ...hovercardUser
+  }
+}
+
+fragment hovercardUser on User {
+  id
+  profileImagePath(size: 64)
+  displayName
+  bio
+  organizations {
+    id
+    name
+  }
+}

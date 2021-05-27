@@ -8,11 +8,14 @@ export const CvcTypePolicies: TypePolicies = {
   Gene: {
     fields: {
       comments: relayStylePagination(),
+      revisions: relayStylePagination(),
+      events: relayStylePagination(),
     }
   },
   Query: {
     fields: {
       browseGenes: relayStylePagination(),
+      events: relayStylePagination()
     }
   }
 };

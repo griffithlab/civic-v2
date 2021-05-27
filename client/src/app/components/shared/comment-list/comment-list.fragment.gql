@@ -22,6 +22,7 @@ fragment commentListNode on Comment {
   commenter {
     id
     username
+    displayName
     name
     role
     profileImagePath(size: 32)

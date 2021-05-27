@@ -160,13 +160,14 @@ export type ClinicalTrial = {
   nctId: Scalars['String'];
 };
 
-export type Comment = {
+export type Comment = EventOriginObject & {
   __typename: 'Comment';
   comment: Scalars['String'];
   commenter: User;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
   id: Scalars['Int'];
+  name: Scalars['String'];
   title?: Maybe<Scalars['String']>;
 };
 
@@ -183,6 +184,8 @@ export type CommentConnection = {
   pageInfo: PageInfo;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** List of all users that have commented on this entity. */
+  uniqueCommenters: Array<User>;
 };
 
 /** An edge in a connection. */
@@ -198,8 +201,6 @@ export type CommentEdge = {
 export type Commentable = {
   /** List and filter comments. */
   comments: CommentConnection;
-  /** List of all users that have commented on this entity. */
-  uniqueCommenters: Array<User>;
 };
 
 
@@ -266,7 +267,9 @@ export type Event = {
   createdAt: Scalars['ISO8601DateTime'];
   id: Scalars['Int'];
   organization: Organization;
+  originatingObject?: Maybe<EventOriginObject>;
   originatingUser: User;
+  subject: EventSubject;
 };
 
 export enum EventAction {
@@ -292,14 +295,20 @@ export type EventConnection = {
   __typename: 'EventConnection';
   /** A list of edges. */
   edges: Array<EventEdge>;
+  /** List of event types that have occured on this entity. */
+  eventTypes: Array<EventAction>;
   /** A list of nodes. */
   nodes: Array<Event>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
+  /** List of all organizations who are involved in this event stream. */
+  participatingOrganizations: Array<Organization>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** List of all users that have generated an event on the subject entity. */
+  uniqueParticipants: Array<User>;
 };
 
 /** An edge in a connection. */
@@ -309,6 +318,38 @@ export type EventEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<Event>;
+};
+
+/**
+ * The originating object for an event.
+ * This is useful when the subject of an event is not the actual origin of the event.
+ * For instance when you suggest a revision, the subject of the Event will be the entity being revised,
+ * while the originating object will be the Revision itself.
+ */
+export type EventOriginObject = {
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+/** The subject of an event log event. */
+export type EventSubject = {
+  /** List and filter events for an object */
+  events: EventConnection;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+
+/** The subject of an event log event. */
+export type EventSubjectEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 export enum EvidenceClinicalSignificance {
@@ -362,8 +403,6 @@ export type EvidenceItem = Commentable & Flaggable & {
   revisions: Array<Revision>;
   source: Source;
   status: EvidenceStatus;
-  /** List of all users that have commented on this entity. */
-  uniqueCommenters: Array<User>;
   variant: Variant;
   variantHgvs: Scalars['String'];
   variantOrigin: VariantOrigin;
@@ -454,16 +493,15 @@ export type FieldName = {
   name: Scalars['String'];
 };
 
-export type Flag = Commentable & {
+export type Flag = Commentable & EventOriginObject & {
   __typename: 'Flag';
   /** List and filter comments. */
   comments: CommentConnection;
   flaggingUser: User;
   id: Scalars['Int'];
+  name: Scalars['String'];
   resolvingUser?: Maybe<User>;
   state: FlagState;
-  /** List of all users that have commented on this entity. */
-  uniqueCommenters: Array<User>;
 };
 
 
@@ -564,13 +602,14 @@ export type FlaggableInput = {
   id: Scalars['Int'];
 };
 
-export type Gene = Commentable & Flaggable & WithRevisions & {
+export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Gene';
   aliases: Array<GeneAlias>;
   /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
   entrezId: Scalars['Int'];
+  /** List and filter events for an object */
   events: EventConnection;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
@@ -580,15 +619,9 @@ export type Gene = Commentable & Flaggable & WithRevisions & {
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
-  /** List of all fields that have at least one revision. */
-  revisedFieldNames: Array<FieldName>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   sources: Array<Source>;
-  /** List of all users that have commented on this entity. */
-  uniqueCommenters: Array<User>;
-  /** List of all users that have submitted a revision to this entity. */
-  uniqueRevisors: Array<User>;
   variants: VariantConnection;
 };
 
@@ -606,8 +639,12 @@ export type GeneCommentsArgs = {
 export type GeneEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -935,7 +972,6 @@ export type Phenotype = {
 
 export type Query = {
   __typename: 'Query';
-  browseEvents: EventConnection;
   browseGenes: BrowseGeneConnection;
   /** List and filter comments. */
   comments: CommentConnection;
@@ -943,9 +979,13 @@ export type Query = {
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
   drug?: Maybe<Drug>;
+  /** List and filter events for an object */
+  events: EventConnection;
   evidenceItem?: Maybe<EvidenceItem>;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
+  /** Find an organization by CIViC ID */
+  organization?: Maybe<Organization>;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
   searchByPermalink: AdvancedSearchResult;
@@ -956,18 +996,6 @@ export type Query = {
   sourceTypeahead: Array<Source>;
   user?: Maybe<User>;
   viewer?: Maybe<User>;
-};
-
-
-export type QueryBrowseEventsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  eventType?: Maybe<EventAction>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  organizationId?: Maybe<Scalars['Int']>;
-  originatingUserId?: Maybe<Scalars['Int']>;
-  subject?: Maybe<SubscribableInput>;
 };
 
 
@@ -1005,12 +1033,30 @@ export type QueryDrugArgs = {
 };
 
 
+export type QueryEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  subject?: Maybe<SubscribableInput>;
+};
+
+
 export type QueryEvidenceItemArgs = {
   id: Scalars['Int'];
 };
 
 
 export type QueryGeneArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryOrganizationArgs = {
   id: Scalars['Int'];
 };
 
@@ -1098,7 +1144,7 @@ export type ResolveFlagPayload = {
   flag?: Maybe<Flag>;
 };
 
-export type Revision = {
+export type Revision = EventOriginObject & {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
@@ -1107,6 +1153,7 @@ export type Revision = {
   fieldName: Scalars['String'];
   id: Scalars['Int'];
   linkoutData: LinkoutData;
+  name: Scalars['String'];
   revisionsetId: Scalars['String'];
   revisor: User;
   status: RevisionStatus;
@@ -1125,8 +1172,12 @@ export type RevisionConnection = {
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
+  /** List of all fields that have at least one revision. */
+  revisedFieldNames: Array<FieldName>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** List of all users that have submitted a revision to this entity. */
+  uniqueRevisors: Array<User>;
 };
 
 /** An edge in a connection. */
@@ -1331,6 +1382,7 @@ export type User = {
   __typename: 'User';
   bio?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
+  displayName: Scalars['String'];
   email?: Maybe<Scalars['String']>;
   events: EventConnection;
   id: Scalars['Int'];
@@ -1382,8 +1434,6 @@ export type Variant = Commentable & Flaggable & {
   gene: Gene;
   id: Scalars['Int'];
   name: Scalars['String'];
-  /** List of all users that have commented on this entity. */
-  uniqueCommenters: Array<User>;
 };
 
 
@@ -1459,12 +1509,8 @@ export enum VariantOrigin {
 
 /** A CIViC entity that can have revisions proposed to it. */
 export type WithRevisions = {
-  /** List of all fields that have at least one revision. */
-  revisedFieldNames: Array<FieldName>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
-  /** List of all users that have submitted a revision to this entity. */
-  uniqueRevisors: Array<User>;
 };
 
 
@@ -1480,6 +1526,31 @@ export type WithRevisionsRevisionsArgs = {
   sortBy?: Maybe<DateSort>;
   status?: Maybe<RevisionStatus>;
 };
+
+export type GeneHoverCardQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneHoverCardQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & HovercardGeneFragment
+  )> }
+);
+
+export type HovercardGeneFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'officialName'>
+  & { aliases: Array<(
+    { __typename: 'GeneAlias' }
+    & Pick<GeneAlias, 'name'>
+  )>, variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+  ) }
+);
 
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
@@ -1519,7 +1590,7 @@ export type CommentListNodeFragment = (
   & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
   & { commenter: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'name' | 'role' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'displayName' | 'name' | 'role' | 'profileImagePath'>
     & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
@@ -1527,39 +1598,136 @@ export type CommentListNodeFragment = (
   ) }
 );
 
-type CommentParticipants_EvidenceItem_Fragment = (
-  { __typename: 'EvidenceItem' }
+export type CommentParticipantsFragment = (
+  { __typename: 'CommentConnection' }
   & { uniqueCommenters: Array<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'profileImagePath'>
   )> }
 );
 
-type CommentParticipants_Flag_Fragment = (
-  { __typename: 'Flag' }
-  & { uniqueCommenters: Array<(
+export type EventFeedQueryVariables = Exact<{
+  subject?: Maybe<SubscribableInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type EventFeedQuery = (
+  { __typename: 'Query' }
+  & { events: (
+    { __typename: 'EventConnection' }
+    & EventFeedFragment
+  ) }
+);
+
+export type EventFeedFragment = (
+  { __typename: 'EventConnection' }
+  & Pick<EventConnection, 'eventTypes'>
+  & { pageInfo: (
+    { __typename: 'PageInfo' }
+    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
+  ), uniqueParticipants: Array<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+  )>, participatingOrganizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+  )>, edges: Array<(
+    { __typename: 'EventEdge' }
+    & Pick<EventEdge, 'cursor'>
+    & { node?: Maybe<(
+      { __typename: 'Event' }
+      & EventFeedNodeFragment
+    )> }
   )> }
 );
 
-type CommentParticipants_Gene_Fragment = (
-  { __typename: 'Gene' }
-  & { uniqueCommenters: Array<(
+export type EventFeedNodeFragment = (
+  { __typename: 'Event' }
+  & Pick<Event, 'id' | 'action' | 'createdAt'>
+  & { organization: (
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+  ), originatingUser: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'displayName' | 'profileImagePath'>
+  ), subject: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'name' | 'id'>
+  ), originatingObject?: Maybe<(
+    { __typename: 'Comment' }
+    & Pick<Comment, 'id' | 'comment' | 'name'>
+  ) | (
+    { __typename: 'Flag' }
+    & Pick<Flag, 'id' | 'name'>
+    & { comments: (
+      { __typename: 'CommentConnection' }
+      & { nodes: Array<(
+        { __typename: 'Comment' }
+        & Pick<Comment, 'comment' | 'createdAt'>
+        & { commenter: (
+          { __typename: 'User' }
+          & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+        ) }
+      )> }
+    ) }
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'revisionsetId' | 'name'>
+    & { revisor: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    ), linkoutData: (
+      { __typename: 'LinkoutData' }
+      & Pick<LinkoutData, 'name'>
+    ) }
   )> }
 );
 
-type CommentParticipants_Variant_Fragment = (
-  { __typename: 'Variant' }
-  & { uniqueCommenters: Array<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'profileImagePath'>
+export type OrgHoverCardQueryVariables = Exact<{
+  orgId: Scalars['Int'];
+}>;
+
+
+export type OrgHoverCardQuery = (
+  { __typename: 'Query' }
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & HovercardOrgFragment
   )> }
 );
 
-export type CommentParticipantsFragment = CommentParticipants_EvidenceItem_Fragment | CommentParticipants_Flag_Fragment | CommentParticipants_Gene_Fragment | CommentParticipants_Variant_Fragment;
+export type HovercardOrgFragment = (
+  { __typename: 'Organization' }
+  & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
+);
+
+export type UserHoverCardQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type UserHoverCardQuery = (
+  { __typename: 'Query' }
+  & { user?: Maybe<(
+    { __typename: 'User' }
+    & HovercardUserFragment
+  )> }
+);
+
+export type HovercardUserFragment = (
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )> }
+);
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
@@ -1781,8 +1949,8 @@ export type GeneCommentsQuery = (
     & { comments: (
       { __typename: 'CommentConnection' }
       & CommentListFragment
+      & CommentParticipantsFragment
     ) }
-    & CommentParticipants_Gene_Fragment
   )> }
 );
 
@@ -1870,16 +2038,16 @@ export type GeneRevisionsQuery = (
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id'>
-    & { uniqueRevisors: Array<(
-      { __typename: 'User' }
-      & Pick<User, 'username' | 'id' | 'profileImagePath'>
-    )>, revisedFieldNames: Array<(
-      { __typename: 'FieldName' }
-      & Pick<FieldName, 'name' | 'displayName'>
-    )>, revisions: (
+    & { revisions: (
       { __typename: 'RevisionConnection' }
       & Pick<RevisionConnection, 'totalCount'>
-      & { edges: Array<(
+      & { uniqueRevisors: Array<(
+        { __typename: 'User' }
+        & Pick<User, 'username' | 'id' | 'profileImagePath'>
+      )>, revisedFieldNames: Array<(
+        { __typename: 'FieldName' }
+        & Pick<FieldName, 'name' | 'displayName'>
+      )>, edges: Array<(
         { __typename: 'RevisionEdge' }
         & { node?: Maybe<(
           { __typename: 'Revision' }
@@ -1942,6 +2110,19 @@ export type GenesSummaryQuery = (
   )> }
 );
 
+export const HovercardGeneFragmentDoc = gql`
+    fragment hovercardGene on Gene {
+  id
+  name
+  officialName
+  aliases {
+    name
+  }
+  variants {
+    totalCount
+  }
+}
+    `;
 export const CommentListNodeFragmentDoc = gql`
     fragment commentListNode on Comment {
   id
@@ -1951,6 +2132,7 @@ export const CommentListNodeFragmentDoc = gql`
   commenter {
     id
     username
+    displayName
     name
     role
     profileImagePath(size: 32)
@@ -1980,11 +2162,117 @@ export const CommentListFragmentDoc = gql`
 }
     ${CommentListNodeFragmentDoc}`;
 export const CommentParticipantsFragmentDoc = gql`
-    fragment commentParticipants on Commentable {
+    fragment commentParticipants on CommentConnection {
   uniqueCommenters {
     id
     username
     profileImagePath(size: 32)
+  }
+}
+    `;
+export const EventFeedNodeFragmentDoc = gql`
+    fragment eventFeedNode on Event {
+  id
+  action
+  createdAt
+  organization {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  originatingUser {
+    id
+    username
+    displayName
+    profileImagePath(size: 32)
+  }
+  subject {
+    name
+    id
+    __typename
+  }
+  originatingObject {
+    id
+    name
+    __typename
+    ... on Revision {
+      id
+      revisor {
+        id
+        displayName
+        profileImagePath(size: 32)
+      }
+      linkoutData {
+        name
+      }
+      revisionsetId
+    }
+    ... on Comment {
+      id
+      comment
+    }
+    ... on Flag {
+      id
+      comments(first: 1) {
+        nodes {
+          comment
+          createdAt
+          commenter {
+            id
+            displayName
+            profileImagePath(size: 32)
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const EventFeedFragmentDoc = gql`
+    fragment eventFeed on EventConnection {
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  eventTypes
+  uniqueParticipants {
+    id
+    displayName
+    profileImagePath(size: 32)
+  }
+  participatingOrganizations {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  edges {
+    cursor
+    node {
+      ...eventFeedNode
+    }
+  }
+}
+    ${EventFeedNodeFragmentDoc}`;
+export const HovercardOrgFragmentDoc = gql`
+    fragment hovercardOrg on Organization {
+  id
+  profileImagePath(size: 64)
+  name
+  description
+  url
+}
+    `;
+export const HovercardUserFragmentDoc = gql`
+    fragment hovercardUser on User {
+  id
+  profileImagePath(size: 64)
+  displayName
+  bio
+  organizations {
+    id
+    name
   }
 }
     `;
@@ -1997,6 +2285,24 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   sourceType
 }
     `;
+export const GeneHoverCardDocument = gql`
+    query GeneHoverCard($geneId: Int!) {
+  gene(id: $geneId) {
+    ...hovercardGene
+  }
+}
+    ${HovercardGeneFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneHoverCardGQL extends Apollo.Query<GeneHoverCardQuery, GeneHoverCardQueryVariables> {
+    document = GeneHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -2013,6 +2319,68 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EventFeedDocument = gql`
+    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+  ) {
+    ...eventFeed
+  }
+}
+    ${EventFeedFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
+    document = EventFeedDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrgHoverCardDocument = gql`
+    query OrgHoverCard($orgId: Int!) {
+  organization(id: $orgId) {
+    ...hovercardOrg
+  }
+}
+    ${HovercardOrgFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
+    document = OrgHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserHoverCardDocument = gql`
+    query UserHoverCard($userId: Int!) {
+  user(userId: $userId) {
+    ...hovercardUser
+  }
+}
+    ${HovercardUserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserHoverCardGQL extends Apollo.Query<UserHoverCardQuery, UserHoverCardQueryVariables> {
+    document = UserHoverCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -2309,8 +2677,8 @@ export const GeneCommentsDocument = gql`
       originatingUserId: $userId
     ) {
       ...commentList
+      ...commentParticipants
     }
-    ...commentParticipants
   }
 }
     ${CommentListFragmentDoc}
@@ -2409,15 +2777,6 @@ export const GeneRevisionsDocument = gql`
     query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
   gene(id: $geneId) {
     id
-    uniqueRevisors {
-      username
-      id
-      profileImagePath(size: 32)
-    }
-    revisedFieldNames {
-      name
-      displayName
-    }
     revisions(
       first: $first
       last: $last
@@ -2427,6 +2786,15 @@ export const GeneRevisionsDocument = gql`
       originatingUserId: $originatingUserId
     ) {
       totalCount
+      uniqueRevisors {
+        username
+        id
+        profileImagePath(size: 32)
+      }
+      revisedFieldNames {
+        name
+        displayName
+      }
       edges {
         node {
           id

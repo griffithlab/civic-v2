@@ -18,16 +18,9 @@
     </div>
   </nz-space-item>
   <nz-space-item>
-    <div nz-row
-      [nzGutter]="16">
-      <nz-col [nzSpan]="8">
-        <p>comments will go here.</p>
-        <!-- <cvc-comment-list [comments]="comments$ | async"
-             [subject]="subject$ | async">
-             </cvc-comment-list> -->
-      </nz-col>
+    <div nz-row [nzGutter]="16">
       <nz-col [nzSpan]="16">
-        <p>revisions will go here.</p>
+        <cvc-event-feed [subscribable]="subscribableEntity"></cvc-event-feed>
       </nz-col>
     </div>
   </nz-space-item>

@@ -33,6 +33,30 @@
       },
       {
         "kind": "INTERFACE",
+        "name": "EventOriginObject",
+        "possibleTypes": [
+          {
+            "name": "Comment"
+          },
+          {
+            "name": "Flag"
+          },
+          {
+            "name": "Revision"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "EventSubject",
+        "possibleTypes": [
+          {
+            "name": "Gene"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
         "name": "Flaggable",
         "possibleTypes": [
           {

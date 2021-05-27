@@ -11,7 +11,7 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
     field :browseGenes, resolver: Resolvers::BrowseGenes
-    field :browseEvents, resolver: Resolvers::BrowseEvents
+    field :events, resolver: Resolvers::TopLevelEvents
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
@@ -30,6 +30,11 @@ module Types
 
     field :source, Types::Entities::SourceType, null: true do
       description "Find a source by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :organization, Types::Entities::OrganizationType, null: true do
+      description 'Find an organization by CIViC ID'
       argument :id, Int, required: true
     end
 
@@ -58,6 +63,10 @@ module Types
 
     def source(id: )
       Source.find(id)
+    end
+
+    def organization(id: )
+      Organization.find(id)
     end
 
     def search_genes(query:, create_permalink:)

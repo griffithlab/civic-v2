@@ -1,6 +1,6 @@
 module Types::BrowseTables
   class BrowseGeneType < Types::BaseObject
-    connection_type_class(Types::BrowseTableConnection)
+    connection_type_class(Types::Connections::BrowseTableConnection)
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false

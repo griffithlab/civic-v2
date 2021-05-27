@@ -1,6 +1,7 @@
 module Types::Entities
   class FlagType < Types::BaseObject
     implements Types::Interfaces::Commentable
+    implements Types::Interfaces::EventOriginObject
 
     field :id, Int, null: false
     field :state, Types::FlagStateType, null: false

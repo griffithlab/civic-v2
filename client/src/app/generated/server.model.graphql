@@ -214,12 +214,13 @@ type ClinicalTrial {
   nctId: String!
 }
 
-type Comment {
+type Comment implements EventOriginObject {
   comment: String!
   commenter: User!
   createdAt: ISO8601DateTime!
   creationEvent: Event
   id: Int!
+  name: String!
   title: String
 }
 
@@ -251,6 +252,11 @@ type CommentConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  List of all users that have commented on this entity.
+  """
+  uniqueCommenters: [User!]!
 }
 
 """
@@ -306,11 +312,6 @@ interface Commentable {
     """
     sortBy: DateSort
   ): CommentConnection!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 enum CommentableEntities {
@@ -375,7 +376,9 @@ type Event {
   createdAt: ISO8601DateTime!
   id: Int!
   organization: Organization!
+  originatingObject: EventOriginObject
   originatingUser: User!
+  subject: EventSubject!
 }
 
 enum EventAction {
@@ -406,6 +409,11 @@ type EventConnection {
   edges: [EventEdge!]!
 
   """
+  List of event types that have occured on this entity.
+  """
+  eventTypes: [EventAction!]!
+
+  """
   A list of nodes.
   """
   nodes: [Event!]!
@@ -421,9 +429,19 @@ type EventConnection {
   pageInfo: PageInfo!
 
   """
+  List of all organizations who are involved in this event stream.
+  """
+  participatingOrganizations: [Organization!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  List of all users that have generated an event on the subject entity.
+  """
+  uniqueParticipants: [User!]!
 }
 
 """
@@ -439,6 +457,57 @@ type EventEdge {
   The item at the end of the edge.
   """
   node: Event
+}
+
+"""
+The originating object for an event.
+This is useful when the subject of an event is not the actual origin of the event.
+For instance when you suggest a revision, the subject of the Event will be the entity being revised,
+while the originating object will be the Revision itself.
+"""
+interface EventOriginObject {
+  id: Int!
+  name: String!
+}
+
+"""
+The subject of an event log event.
+"""
+interface EventSubject {
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  id: Int!
+  name: String!
 }
 
 enum EvidenceClinicalSignificance {
@@ -587,11 +656,6 @@ type EvidenceItem implements Commentable & Flaggable {
   revisions: [Revision!]!
   source: Source!
   status: EvidenceStatus!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
   variant: Variant!
   variantHgvs: String!
   variantOrigin: VariantOrigin!
@@ -677,7 +741,7 @@ type FieldName {
   name: String!
 }
 
-type Flag implements Commentable {
+type Flag implements Commentable & EventOriginObject {
   """
   List and filter comments.
   """
@@ -714,13 +778,9 @@ type Flag implements Commentable {
   ): CommentConnection!
   flaggingUser: User!
   id: Int!
+  name: String!
   resolvingUser: User
   state: FlagState!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 """
@@ -890,7 +950,7 @@ input FlaggableInput {
   id: Int!
 }
 
-type Gene implements Commentable & Flaggable & WithRevisions {
+type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
   aliases: [GeneAlias!]!
 
   """
@@ -929,6 +989,10 @@ type Gene implements Commentable & Flaggable & WithRevisions {
   ): CommentConnection!
   description: String!
   entrezId: Int!
+
+  """
+  List and filter events for an object
+  """
   events(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -939,6 +1003,7 @@ type Gene implements Commentable & Flaggable & WithRevisions {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+    eventType: EventAction
 
     """
     Returns the first _n_ elements from the list.
@@ -949,6 +1014,13 @@ type Gene implements Commentable & Flaggable & WithRevisions {
     Returns the last _n_ elements from the list.
     """
     last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
   ): EventConnection!
   flagged: Boolean!
 
@@ -1003,11 +1075,6 @@ type Gene implements Commentable & Flaggable & WithRevisions {
   officialName: String!
 
   """
-  List of all fields that have at least one revision.
-  """
-  revisedFieldNames: [FieldName!]!
-
-  """
   List and filter revisions.
   """
   revisions(
@@ -1057,16 +1124,6 @@ type Gene implements Commentable & Flaggable & WithRevisions {
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
-
-  """
-  List of all users that have submitted a revision to this entity.
-  """
-  uniqueRevisors: [User!]!
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1469,31 +1526,6 @@ type Phenotype {
 }
 
 type Query {
-  browseEvents(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-    eventType: EventAction
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-    organizationId: Int
-    originatingUserId: Int
-    subject: SubscribableInput
-  ): EventConnection!
   browseGenes(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1570,12 +1602,51 @@ type Query {
   Find a drug by CIViC ID
   """
   drug(id: Int!): Drug
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+    subject: SubscribableInput
+  ): EventConnection!
   evidenceItem(id: Int!): EvidenceItem
 
   """
   Find a gene by CIViC ID
   """
   gene(id: Int!): Gene
+
+  """
+  Find an organization by CIViC ID
+  """
+  organization(id: Int!): Organization
 
   """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
@@ -1679,7 +1750,7 @@ type ResolveFlagPayload {
   flag: Flag
 }
 
-type Revision {
+type Revision implements EventOriginObject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
   creationEvent: Event
@@ -1687,6 +1758,7 @@ type Revision {
   fieldName: String!
   id: Int!
   linkoutData: LinkoutData!
+  name: String!
   revisionsetId: String!
   revisor: User!
   status: RevisionStatus!
@@ -1719,9 +1791,19 @@ type RevisionConnection {
   pageInfo: PageInfo!
 
   """
+  List of all fields that have at least one revision.
+  """
+  revisedFieldNames: [FieldName!]!
+
+  """
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  List of all users that have submitted a revision to this entity.
+  """
+  uniqueRevisors: [User!]!
 }
 
 """
@@ -1992,6 +2074,7 @@ type UnsubscribePayload {
 type User {
   bio: String
   country: String
+  displayName: String!
   email: String
   events(
     """
@@ -2195,11 +2278,6 @@ type Variant implements Commentable & Flaggable {
   gene: Gene!
   id: Int!
   name: String!
-
-  """
-  List of all users that have commented on this entity.
-  """
-  uniqueCommenters: [User!]!
 }
 
 """
@@ -2261,11 +2339,6 @@ A CIViC entity that can have revisions proposed to it.
 """
 interface WithRevisions {
   """
-  List of all fields that have at least one revision.
-  """
-  revisedFieldNames: [FieldName!]!
-
-  """
   List and filter revisions.
   """
   revisions(
@@ -2314,9 +2387,4 @@ interface WithRevisions {
     """
     status: RevisionStatus
   ): RevisionConnection!
-
-  """
-  List of all users that have submitted a revision to this entity.
-  """
-  uniqueRevisors: [User!]!
 }

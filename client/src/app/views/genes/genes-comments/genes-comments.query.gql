@@ -16,7 +16,7 @@ query GeneComments(
       originatingUserId: $userId
     ) {
       ...commentList
+      ...commentParticipants
     }
-    ...commentParticipants
   }
 }

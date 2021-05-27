@@ -1,5 +1,9 @@
 module Types::Revisions
   class RevisionType < Types::BaseObject
+    connection_type_class Types::Connections::RevisionsConnection
+
+    implements Types::Interfaces::EventOriginObject
+
     field :id, Int, null: false
     field :status, Types::Revisions::RevisionStatus, null: false
     field :current_value, GraphQL::Types::JSON, null: false

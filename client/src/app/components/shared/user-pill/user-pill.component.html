@@ -1,0 +1,11 @@
+<nz-space nzAlign="center" nz-popover [nzPopoverMouseEnterDelay]="0.5" [nzPopoverContent]="userHovercard" nzPopoverPlacement="topCenter">
+    <nz-space-item>
+        <cvc-user-avatar [user]="user" size="small"></cvc-user-avatar>
+    </nz-space-item>
+    <nz-space-item>
+        <strong>{{ user.displayName }}</strong>
+    </nz-space-item>
+    <ng-template #userHovercard>
+        <cvc-user-hovercard [userId]="user.id"></cvc-user-hovercard>
+    </ng-template>
+</nz-space>

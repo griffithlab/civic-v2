@@ -3,6 +3,7 @@ module Types::Entities
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
+    implements Types::Interfaces::EventSubject
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false
@@ -14,7 +15,6 @@ module Types::Entities
     field :variants, Types::Entities::VariantType.connection_type, null: false
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
-    field :events, Types::Entities::EventType.connection_type, null: false
 
     def aliases
       Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
@@ -39,10 +39,5 @@ module Types::Entities
     def my_gene_info_details
       MyGeneInfo.get_by_gene_id(object.id)
     end
-
-    def events
-      Loaders::AssociationLoader.for(Gene, :events).load(object)
-    end
-
   end
 end

@@ -88,7 +88,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzTypographyModule,
     NgxJsonViewerModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild()
+    TimeagoModule.forChild(),
   ]
 })
 
