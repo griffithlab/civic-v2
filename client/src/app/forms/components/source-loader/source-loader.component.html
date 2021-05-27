@@ -1,17 +1,55 @@
-<nz-space nzDirection="vertical">
-  <nz-space-item>
-    <nz-alert nzType="info"
-      [nzMessage]="'Source not known to CIViC, query ' + sourceTypeKey + '?'">
-    </nz-alert>
-  </nz-space-item>
-  <nz-space-item>
-    <button type="submit"
-      nz-button
-      nzBlock
-      nzType="default"
-      nzSize="default"
-      nzShape="round">
-      Fetch {{ sourceTypeKey }} {{ citationId }} Citation
-    </button>
-  </nz-space-item>
-</nz-space>
+<ng-container *ngIf="foundCitation; else fetchCitation">
+  <nz-space nzDirection="vertical">
+    <nz-space-item>
+      <nz-alert nzType="success"
+        [nzMessage]="successMessage"
+        nzShowIcon>
+      </nz-alert>
+      <ng-template #successMessage>
+        Found citation: <em>{{ foundCitation }}</em>
+      </ng-template>
+    </nz-space-item>
+    <nz-space-item>
+      <button type="submit"
+        (click)="onCreateSourceStub($event)"
+        [nzLoading]="isCreating"
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default">
+        Add {{ foundCitation }} to CIViC's Sources
+      </button>
+    </nz-space-item>
+  </nz-space>
+</ng-container>
+<ng-template #fetchCitation>
+  <nz-space nzDirection="vertical">
+    <nz-space-item>
+      <span *ngIf="showPrompt"
+        nz-typography>
+        <i nz-icon nzType="info-circle" nzTheme="twotone"></i>
+        Source not known to CIViC, fetch citation from {{ sourceTypeKey }}?
+      </span>
+      <span *ngIf="existenceFail">
+        <nz-alert nzType="warning"
+          [nzMessage]="existenceFail"
+          nzShowIcon>
+        </nz-alert>
+        <ng-template #existenceFail>
+          Citation not found for {{ sourceTypeKey }}: {{ citationId  }}.
+        </ng-template>
+      </span>
+    </nz-space-item>
+    <nz-space-item>
+      <button type="submit"
+        (click)="onExistenceQuery($event)"
+        [nzLoading]="isChecking"
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default">
+        Fetch Citation for&nbsp;<strong>{{ sourceTypeKey }} {{ citationId }}</strong>
+      </button>
+    </nz-space-item>
+  </nz-space>
+</ng-template>

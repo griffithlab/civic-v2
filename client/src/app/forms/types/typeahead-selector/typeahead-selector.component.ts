@@ -48,8 +48,8 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
   }
 
   ngAfterViewInit() {
-    // super.ngAfterViewInit();
-    this.to.filterOption = () => true;
+    // super.ngAfterViewInit(); NOTE: will be required with v6
+    this.to.filterOption = () => true; // TODO: look up what this does
     this.to.modelChange = (e: any): void => {
       // update form model with selected source's id & citation
       const { source }= this.to.optionList.find((opt: any) => opt.value === +e);
