@@ -37,6 +37,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         onSearch: () => { },
         filterOption: () => { },
         modelChange: () => { },
+        triggerParentSubmit: () => { },
         minLengthSearch: 1,
         // selector component doesn't update field value until it's valid
         // storing its value and length (for various UI conditionals) here
@@ -83,7 +84,9 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
   }
   onModelUpdated(e: any) {
     this.form.patchValue(e);
+    // TODO determine if detecteChanges() required here
     this.changeDetectorRef.detectChanges();
+    this.to.triggerParentSubmit();
   }
 }
 

@@ -53,7 +53,8 @@ export class SourceSelectorComponent implements OnInit, OnDestroy {
         type: 'typeahead-selector',
         templateOptions: {
           maxLength: 10,
-          required: true
+          required: true,
+          triggerParentSubmit: () => { this.onSubmit(); }
         },
         expressionProperties: {
           'templateOptions.disabled': '!model.sourceType',
