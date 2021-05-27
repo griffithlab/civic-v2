@@ -1,0 +1,7 @@
+fragment commentParticipants on Commentable {
+  uniqueCommenters {
+    id
+    username
+    profileImagePath(size: 32)
+  }
+}

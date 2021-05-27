@@ -1,58 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute,  } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck, map, tap } from 'rxjs/operators';
+import { pluck, startWith } from 'rxjs/operators';
 import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes-detail.service';
 import {
   CommentableInput,
-  CommentableEntities,
   Gene,
-  User,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 @Component({
   selector: 'genes-detail',
   templateUrl: './genes-detail.component.html',
   styleUrls: ['./genes-detail.component.less']
 })
+
 export class GenesDetailComponent implements OnInit {
-  gene$!: Observable<any>;
-  comments$!: Observable<any>;
-  revisions$!: Observable<any>;
-  myGeneInfo$!: Observable<any>;
-  viewer$!: Observable<User | null>;
+  loading$: Observable<boolean>;
+  gene$: Observable<Gene>;
+  viewer$: Observable<Viewer>;
+  commentsTotal$: Observable<number>;
+  revisionsTotal$: Observable<number>;
+  flagsTotal$: Observable<number>;
 
   subject!: CommentableInput;
 
-  constructor(private api: GenesDetailService,
+  constructor(private service: GenesDetailService,
               private viewerService: ViewerService,
               private route: ActivatedRoute,
               private logger: NGXLogger) {
 
-    this.route.params.subscribe(params => {
-      const geneId: number = +params['geneId'];
-      const source$: Observable<any> = this.api.watchGeneDetail(geneId);
-      this.gene$ = source$.pipe(
-        pluck('data', 'gene'),
-        // add shareReplay
-        tap((g: Gene) => {
-          this.subject = <CommentableInput>{
-            id: g.id,
-            entityType: CommentableEntities[g.__typename]
-          }
-        })
-      );
-      this.comments$ = this.gene$.pipe(pluck('comments', 'edges'));
-      this.revisions$ = this.gene$.pipe(pluck('revisions', 'edges'));
-      this.myGeneInfo$ = this.gene$.pipe(
-        pluck('myGeneInfoDetails'),
-        map(info => JSON.parse(info))
-      );
-    });
+    const geneId: number = +this.route.snapshot.params['geneId'];
+    const source$: Observable<any> = this.service.watchGeneDetail(geneId);
+
+    this.loading$ = source$.pipe(
+      pluck('data', 'loading'),
+      startWith(true));
+
+    this.gene$ = source$.pipe(
+      pluck('data', 'gene'));
+
+    this.commentsTotal$ = this.gene$.pipe(
+      pluck('comments', 'totalCount'));
+
+    this.flagsTotal$ = this.gene$.pipe(
+      pluck('flags', 'totalCount'));
+
+    this.revisionsTotal$ = this.gene$.pipe(
+      pluck('revisions', 'Count'));
 
     this.viewer$ = this.viewerService.viewer$;
   }
@@ -65,4 +63,6 @@ export class GenesDetailComponent implements OnInit {
     this.logger.trace('loadMoreComments called.');
   }
 
+  ngOnDestroy(): void {
+  }
 }

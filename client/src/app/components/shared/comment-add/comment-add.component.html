@@ -1,7 +1,7 @@
 <nz-card nzType="inner">
   <form nz-form
-    [formGroup]="addCommentForm"
-    (ngSubmit)="submitComment(addCommentForm.value)"
+    [formGroup]="formGroup"
+    (ngSubmit)="submitComment(formModel)"
     nzLayout="vertical">
     <ng-container *ngIf="(submitError$ | async) as errors">
       <nz-form-item *ngIf="errors.length > 0">
@@ -9,24 +9,20 @@
         </cvc-form-errors-alert>
       </nz-form-item>
     </ng-container>
-    <nz-form-item>
-      <!-- <nz-form-label nzRequired>Comment</nz-form-label> -->
-      <nz-form-control nzErrorTip="Please enter a comment at least 10 characters in length.">
-        <textarea formControlName="body" nz-input rows="4" placeholder="Enter your comment here."></textarea>
-      </nz-form-control>
-    </nz-form-item>
+    <formly-form [form]="formGroup"
+      [fields]="formFields"
+      [model]="formModel"
+      [options]="formOptions"></formly-form>
     <nz-form-item>
       <nz-form-control>
         <cvc-form-buttons>
-          <cvc-org-selector-btn-group
-            [organizations]="organizations"
-            [mostRecentOrg]="mostRecentOrg"
-            (orgSelected)="selectOrg($event)">
-            <button type="submit" nz-button
+          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+            <button type="submit"
+              nz-button
               cvcOrgSelectorBtn
               nzType="primary"
               nzSize="small"
-              [disabled]="!addCommentForm.valid">
+              [disabled]="!formGroup.valid">
               Add Comment
             </button>
           </cvc-org-selector-btn-group>
@@ -35,3 +31,4 @@
     </nz-form-item>
   </form>
 </nz-card>
+<ngx-json-viewer *ngIf="formModel" [json]="formModel"></ngx-json-viewer>

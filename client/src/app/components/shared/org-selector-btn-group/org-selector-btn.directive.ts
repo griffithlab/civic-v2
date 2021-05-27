@@ -12,8 +12,9 @@ export class OrgSelectorBtnDirective implements OnDestroy {
   private observer: MutationObserver;
 
   constructor(private el: ElementRef) {
-    this.observer = new MutationObserver(([record]) =>
-      this.disabled = (record.target as HTMLInputElement).disabled);
+    this.observer = new MutationObserver(([record]) => {
+      return this.disabled = (record.target as HTMLInputElement).disabled
+    });
     this.observer.observe(this.el.nativeElement, {
       attributeFilter: ['disabled'],
       childList: false,

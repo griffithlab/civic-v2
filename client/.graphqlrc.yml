@@ -7,7 +7,8 @@ extensions:
     config:
       overwrite: true
       # app.module, relative to generated civic.apollo.ts
-      ngModule: ../app.module#AppModule
+      # ngModule: ../app.module#AppModule
+      serviceProvidedInRoot: true
     generates:
       # generate apollo-angular client service
       ./src/app/generated/civic.apollo.ts:

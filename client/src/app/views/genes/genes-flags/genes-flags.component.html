@@ -1,0 +1,42 @@
+<nz-row [nzGutter]="16">
+  <nz-col nzSpan="16" >
+    <nz-card nzTitle="Flags" nz-type="inner" style="margin-bottom: 1em;">
+      <nz-list nzDirection="vertical" style="width: 100%">
+        <nz-list-item>
+          <nz-alert nzType="error" nzMessage="Flag" nzDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquam semper ipsum. Cras eu tempor felis. Aliquam erat volutpat." style="width: 100%"> </nz-alert>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-alert nzType="error" nzMessage="Flag" nzDescription="This entity name is waaaaaaaaay too long." style="width: 100%"> </nz-alert>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-alert nzType="error" nzMessage="Flag" nzDescription="Dolor sit amet, consectetur adipiscing elit. Phasellus aliquam semper ipsum. Cras eu tempor felis. Aliquam erat volutpat." style="width: 100%"> </nz-alert>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+    <nz-card nzTitle="Add a Flag" nz-type="inner" style="min-height: 150px;">
+
+    </nz-card>
+  </nz-col>
+  <nz-col nzSpan="8" >
+    <nz-card nzTitle="Instructions" nz-type="inner">
+      <nz-space nzDirection="vertical" style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 3 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+  </nz-col>
+</nz-row>

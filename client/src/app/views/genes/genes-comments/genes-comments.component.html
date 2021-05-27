@@ -1,0 +1,42 @@
+<nz-row [nzGutter]="16">
+  <nz-col nzSpan="18">
+    <cvc-comment-list [commentsService]="service"></cvc-comment-list>
+  </nz-col>
+  <nz-col nzSpan="6">
+    <cvc-participant-list listTitle="Commenters" [participantList]="service.commenters$ | ngrxPush" (participantSelectedEvent)="onParticipantSelected($event)">
+      <ng-template #itemTemplate let-user>
+        <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
+        </nz-avatar>
+        <ng-template #noAvatar>
+            <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+        </ng-template>
+        <span>{{user.username}}</span>
+      </ng-template>
+    </cvc-participant-list>
+    <nz-card nzTitle="Curators Mentioned" nz-type="inner" style="margin-bottom: 1em">
+      <nz-space nzDirection="vertical" style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton [nzAvatar]="true"
+            [nzParagraph]="{ rows: 0 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+    <nz-card nzTitle="Entities Mentioned" nz-type="inner">
+      <nz-list nzDirection="vertical" style="width: 100%">
+        <nz-list-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+        <nz-list-item>
+          <nz-skeleton
+            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+
+  </nz-col>
+</nz-row>

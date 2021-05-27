@@ -2,9 +2,14 @@ import { makeVar, ReactiveVar, TypePolicies } from "@apollo/client/cache";
 import { relayStylePagination } from "@apollo/client/utilities";
 import { Organization, User } from "@app/generated/civic.apollo";
 import gql from "graphql-tag";
-import { Maybe } from "graphql/jsutils/Maybe";
+import { Maybe } from "@app/generated/civic.apollo";
 
 export const CvcTypePolicies: TypePolicies = {
+  Gene: {
+    fields: {
+      comments: relayStylePagination(),
+    }
+  },
   Query: {
     fields: {
       browseGenes: relayStylePagination(),

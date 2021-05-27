@@ -1,0 +1,25 @@
+<nz-form-item *ngFor="let field of field.fieldGroup; let i = index; let last = last">
+  <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
+    <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
+      nzSpan="24"
+      [nzFor]="id">
+      {{ to.label }}
+    </nz-form-label>
+  </ng-container>
+  <div>
+    <div class="field-col">
+      <formly-field [field]="field"></formly-field>
+    </div>
+    <div class="field-delete-btn">
+      <i nz-icon
+        nzType="minus-circle-o"
+        (click)="remove(i)"></i>
+    </div>
+    <div class="field-add-btn"
+      *ngIf="last">
+      <i nz-icon
+        nzType="plus-circle-o"
+        (click)="addField($event)"></i>
+    </div>
+  </div>
+</nz-form-item>

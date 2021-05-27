@@ -4,10 +4,10 @@ module Types::Entities
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :title, String, null: true
     field :comment, String, null: false
-    field :commentor, Types::Entities::UserType, null: false
+    field :commenter, Types::Entities::UserType, null: false
     field :creation_event, Types::Entities::EventType, null: true
 
-    def commentor
+    def commenter
       Loaders::AssociationLoader.for(Comment, :user).load(object)
     end
 

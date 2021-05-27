@@ -10,7 +10,7 @@
 @app-sidebar-width: 170px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
 @app-sidebar-collapsed-width: 80px; // ensure this is kept equal to <nz-sider [nzCollapsedWidth]> in template
 @app-header-height: 64px;
-@app-header-padding: 0 16px;
+@app-header-padding: 0;
 
 // SIDER MENU
 
@@ -58,18 +58,34 @@ nz-sider {
 }
 
 // HEADER
-nz-header {
+.ant-layout-header {
   height: @app-header-height;
+  line-height: @app-header-height;
   padding: @app-header-padding;
   position: fixed;
-  width: 100%;
+  width: calc(~'100% - @{app-sidebar-width}');
   z-index: 10;
+  color: @geekblue-2;
 }
 
 .header-trigger {
   height: @app-header-height;
   cursor: pointer;
   color: @geekblue-2;
+  padding: 1em 1em 1em 0;
+}
+
+.header-menu {
+  height: @app-header-height;
+}
+
+.header-search{
+  height: @app-header-height;
+}
+
+.header-viewer {
+  text-align: right;
+  padding-right: 1em;
 }
 
 .header-quicksearch p, .header-menu p, .header-user p {

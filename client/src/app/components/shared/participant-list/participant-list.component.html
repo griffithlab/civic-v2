@@ -1,0 +1,11 @@
+<nz-card [nzTitle]="listTitle" nz-type="inner" style="margin-bottom: 1em">
+    <nz-list>
+        <nz-list-item *ngFor="let u of participantList" nzSize="small"
+            [class.selected-participant]="u.id == selectedItem?.id" (click)="onParticipantSelected(u)" class="participant-list-item">
+            <ng-container
+                [ngTemplateOutlet]="itemTemplateRef || null"
+                [ngTemplateOutletContext]="{ $implicit: u }">
+            </ng-container>
+        </nz-list-item>
+    </nz-list>
+</nz-card>

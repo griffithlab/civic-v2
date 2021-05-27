@@ -1,0 +1,22 @@
+query GeneComments(
+  $id: Int!,
+  $first: Int,
+  $last: Int,
+  $before: String,
+  $after: String,
+  $userId: Int
+) {
+  gene(id: $id) {
+    id
+    comments(
+      first: $first,
+      last: $last,
+      before: $before,
+      after: $after,
+      originatingUserId: $userId
+    ) {
+      ...commentList
+    }
+    ...commentParticipants
+  }
+}

@@ -1,27 +1,21 @@
 import {
   Component,
-  OnInit,
   Input,
   OnDestroy,
-  EventEmitter
 } from '@angular/core';
 
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
 import {
   BehaviorSubject,
-  Observable,
-  Observer,
   Subject,
 } from 'rxjs';
 
-import { pluck, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import {
   Organization,
@@ -32,7 +26,7 @@ import {
 
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
-import { GraphQLError } from 'graphql';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
   selector: 'cvc-comment-add',
@@ -49,7 +43,10 @@ export class CommentAddComponent implements OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  addCommentForm: FormGroup;
+  formModel!: AddCommentInput;
+  formGroup: FormGroup = new FormGroup({});
+  formFields: FormlyFieldConfig[];
+  formOptions: FormlyFormOptions = {};
 
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
@@ -73,37 +70,48 @@ export class CommentAddComponent implements OnDestroy {
         if(e) { this.resetForm(); }
       });
 
-    this.addCommentForm = this.fb.group({
-      body: ['', [
-        Validators.required,
-        Validators.minLength(10)
-      ]]
-    });
+
+    this.formFields = [
+      {
+        key: 'body',
+        type: 'comment-textarea',
+        templateOptions: {
+          placeholder: 'Please enter a comment.',
+          required: true,
+          minLength: 10
+        },
+      }
+    ];
+  }
+
+  ngOnInit(): void {
+    this.formModel = {
+      body: '',
+      subject: this.subject,
+    }
   }
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
   }
 
-  submitComment(value: { body: string}): void {
-    for (const key in this.addCommentForm.controls) {
-      this.addCommentForm.controls[key].markAsDirty();
-      this.addCommentForm.controls[key].updateValueAndValidity();
+  submitComment(value: AddCommentInput): void {
+    for (const key in this.formGroup.controls) {
+      this.formGroup.controls[key].markAsDirty();
+      this.formGroup.controls[key].updateValueAndValidity();
     }
-    console.log(value);
 
     const newCommentInput = <AddCommentInput>{
-      body: value.body,
+      ...value,
       subject: this.subject,
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     };
 
     this.commentAddService.addComment(newCommentInput);
-
   }
 
   resetForm(): void {
-    this.addCommentForm.reset();
+    this.formGroup.reset();
   }
 
   ngOnDestroy(): void {
