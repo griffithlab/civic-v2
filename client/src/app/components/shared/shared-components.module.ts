@@ -51,6 +51,7 @@ import { OrganizationHovercardComponent } from './organization-hovercard/organiz
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { GenesComponentsModule } from '../genes/genes-components.module';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzTimelineModule,
     NzDividerModule,
     NzAvatarModule,
-    NzPopoverModule
+    NzPopoverModule,
+    GenesComponentsModule
   ],
   exports: [
     CommentAddComponent,

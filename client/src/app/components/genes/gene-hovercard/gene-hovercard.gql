@@ -1,0 +1,17 @@
+query GeneHoverCard($geneId: Int!) {
+    gene(id: $geneId) {
+        ...hovercardGene
+    }
+}
+
+fragment hovercardGene on Gene {
+    id,
+    name,
+    officialName,
+    aliases {
+        name
+    }
+    variants {
+        totalCount
+    }
+}

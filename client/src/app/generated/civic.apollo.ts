@@ -1475,6 +1475,31 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type GeneHoverCardQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneHoverCardQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & HovercardGeneFragment
+  )> }
+);
+
+export type HovercardGeneFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'officialName'>
+  & { aliases: Array<(
+    { __typename: 'GeneAlias' }
+    & Pick<GeneAlias, 'name'>
+  )>, variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+  ) }
+);
+
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -1987,6 +2012,19 @@ export type GenesSummaryQuery = (
   )> }
 );
 
+export const HovercardGeneFragmentDoc = gql`
+    fragment hovercardGene on Gene {
+  id
+  name
+  officialName
+  aliases {
+    name
+  }
+  variants {
+    totalCount
+  }
+}
+    `;
 export const CommentListNodeFragmentDoc = gql`
     fragment commentListNode on Comment {
   id
@@ -2140,6 +2178,24 @@ export const HovercardUserFragmentDoc = gql`
   }
 }
     `;
+export const GeneHoverCardDocument = gql`
+    query GeneHoverCard($geneId: Int!) {
+  gene(id: $geneId) {
+    ...hovercardGene
+  }
+}
+    ${HovercardGeneFragmentDoc}`;
+
+  @Injectable({
+    providedIn: AppModule
+  })
+  export class GeneHoverCardGQL extends Apollo.Query<GeneHoverCardQuery, GeneHoverCardQueryVariables> {
+    document = GeneHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
