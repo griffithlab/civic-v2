@@ -12,7 +12,7 @@ import { $enum } from 'ts-enum-util';
 })
 export class SourceLoaderComponent implements AfterContentInit {
   @Input() model!: any;
-  @Output() modelChange = new EventEmitter<any>();
+  @Output() modelUpdate = new EventEmitter<any>();
 
   @Input() citationId!: string;
   @Output() citationIdChange = new EventEmitter<string>();
@@ -82,6 +82,7 @@ export class SourceLoaderComponent implements AfterContentInit {
   }
 
   onCreateSourceStub(e: any) {
+    // TODO determine if this preventDefault is actuall required
     if (e) { e.preventDefault(); } // prevent form submit
     this.isCreating = true;
     this.createSuccess = false;
@@ -117,6 +118,18 @@ export class SourceLoaderComponent implements AfterContentInit {
         }
       )
 
+  }
+
+  onAcceptSource(e: any): void {
+    if (e) { e.preventDefault(); } // prevent form submit
+    console.log('source accepted');
+    const model = {
+      ...this.model,
+      id: this.sourceStub!.id,
+      citation: this.foundCitation,
+      citationId: this.citationId,
+    }
+    this.modelUpdate.emit(model)
   }
 
   ngAfterContentInit(): void {

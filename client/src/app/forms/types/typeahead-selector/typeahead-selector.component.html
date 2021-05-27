@@ -26,7 +26,7 @@
     <div *ngSwitchCase="false" class="ant-form-item-explain">
       Enter a {{ to.sourceTypeKey }} citation ID to search CIViC sources
     </div>
-    <cvc-source-loader *ngSwitchCase="true" [(model)]="model"
+    <cvc-source-loader *ngSwitchCase="true" [model]="model" (modelUpdate)="onModelUpdated($event)"
     [(sourceType)]="model.sourceType" [(citationId)]="to.fieldValue"></cvc-source-loader>
   </ng-container>
 </ng-template>

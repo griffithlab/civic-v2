@@ -51,9 +51,17 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
     // super.ngAfterViewInit(); NOTE: will be required with v6
     this.to.filterOption = () => true; // TODO: look up what this does
     this.to.modelChange = (e: any): void => {
-      // update form model with selected source's id & citation
-      const { source }= this.to.optionList.find((opt: any) => opt.value === +e);
-      this.form.patchValue({ citation: source.citation, id: source.id });
+      // this gets called both when an existing source is selected,
+      // and when onModelUpdated() patches the form
+      if(this.to.optionList.length > 0) {
+        // update form model with selected source's id & citation
+        const { source } = this.to.optionList.find((opt: any) => opt.value === +e);
+        if (source) {
+          this.form.patchValue({ citation: source.citation, id: source.id });
+        } else {
+          console.error('Could not find selected citation in list?');
+        }
+      }
     }
     this.to.onSearch = (value: string): void => {
       this.to.fieldValue = value;
@@ -72,6 +80,10 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
           this.changeDetectorRef.detectChanges();
         })
     }
+  }
+  onModelUpdated(e: any) {
+    this.form.patchValue(e);
+    this.changeDetectorRef.detectChanges();
   }
 }
 
