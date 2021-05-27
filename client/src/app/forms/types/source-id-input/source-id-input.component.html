@@ -1,0 +1,20 @@
+<ng-container *ngIf="field.model">
+  {{ field.model.citation }}
+</ng-container>
+<ng-container *ngIf="!field.model.id">
+  <formly-form [form]="sourceForm" [model]="sourceModel" [fields]="sourceFields" [options]="formOptions"></formly-form>
+  <!-- <div class="field-row">
+       <div class="source-selector">
+       <nz-select nzPlaceHolder="Select Type" (nzOnSearch)="onSourceTypeSelected">
+       <nz-option *ngFor="let option of sourceOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+       </nz-select>
+       </div>
+       <div class="id-input">
+       <input nz-input [attr.disabled]="selectedSourceType == undefined ? 'disabled' : null" [formControl]="formControl" [formlyAttributes]="field" />
+       </div>
+       </div> -->
+</ng-container>
+<div>
+  <p>MODEL:</p>
+  <ngx-json-viewer [json]="sourceModel"></ngx-json-viewer>
+</div>

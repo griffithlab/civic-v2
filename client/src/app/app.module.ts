@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { FormlyModule } from '@ngx-formly/core';
+import { formlyConfig } from '@app/forms/forms.config';
+
+import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
@@ -22,13 +25,15 @@ import { AppComponent } from './app.component';
 
 import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
-
+import { IConfig, NgxMaskModule } from 'ngx-mask';
 
 registerLocaleData(en);
-
+const maskConfig: Partial<IConfig> = {
+  validation: true,
+};
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -38,6 +43,7 @@ registerLocaleData(en);
     GraphQLModule,
     HttpClientModule,
     HttpClientXsrfModule,
+    HttpClientJsonpModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
       level: !environment.production ? NgxLoggerLevel.TRACE : NgxLoggerLevel.OFF,
@@ -45,9 +51,11 @@ registerLocaleData(en);
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
     NgxJsonViewerModule,
+    NgxMaskModule.forRoot(maskConfig),
     ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot(),
+    FormlyModule.forRoot(formlyConfig),
   ],
   providers: [
     CookieService,

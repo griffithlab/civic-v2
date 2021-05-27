@@ -10,6 +10,11 @@ export type AddCommentPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	comment?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type AddRemoteCitationPayloadKeySpecifier = ('clientMutationId' | 'newSource' | AddRemoteCitationPayloadKeySpecifier)[];
+export type AddRemoteCitationPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	newSource?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type AdvancedSearchResultKeySpecifier = ('permalinkId' | 'resultIds' | 'searchEndpoint' | AdvancedSearchResultKeySpecifier)[];
 export type AdvancedSearchResultFieldPolicy = {
 	permalinkId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -238,10 +243,11 @@ export type ModeratedObjectFieldFieldPolicy = {
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevision' | 'addComment' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevision' | 'resolveFlag' | 'subscribe' | 'suggestGeneRevision' | 'unsubscribe' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevision' | 'addComment' | 'addRemoteCitation' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevision' | 'resolveFlag' | 'subscribe' | 'suggestGeneRevision' | 'unsubscribe' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
+	addRemoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	markNotificationsAsRead?: FieldPolicy<any> | FieldReadFunction<any>,
 	rejectRevision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -307,7 +313,7 @@ export type PhenotypeFieldPolicy = {
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseEvents' | 'browseGenes' | 'comments' | 'disease' | 'drug' | 'evidenceItem' | 'gene' | 'searchByPermalink' | 'searchGenes' | 'source' | 'user' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseEvents' | 'browseGenes' | 'comments' | 'disease' | 'drug' | 'evidenceItem' | 'gene' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	browseEvents?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -316,9 +322,11 @@ export type QueryFieldPolicy = {
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
+	remoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -387,6 +395,12 @@ export type SourceFieldPolicy = {
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SourceStubKeySpecifier = ('citationId' | 'id' | 'sourceType' | SourceStubKeySpecifier)[];
+export type SourceStubFieldPolicy = {
+	citationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SubscribableKeySpecifier = ('entityType' | 'id' | SubscribableKeySpecifier)[];
 export type SubscribableFieldPolicy = {
@@ -468,6 +482,10 @@ export type TypedTypePolicies = TypePolicies & {
 	AddCommentPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AddCommentPayloadKeySpecifier | (() => undefined | AddCommentPayloadKeySpecifier),
 		fields?: AddCommentPayloadFieldPolicy,
+	},
+	AddRemoteCitationPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AddRemoteCitationPayloadKeySpecifier | (() => undefined | AddRemoteCitationPayloadKeySpecifier),
+		fields?: AddRemoteCitationPayloadFieldPolicy,
 	},
 	AdvancedSearchResult?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AdvancedSearchResultKeySpecifier | (() => undefined | AdvancedSearchResultKeySpecifier),
@@ -656,6 +674,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Source?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceKeySpecifier | (() => undefined | SourceKeySpecifier),
 		fields?: SourceFieldPolicy,
+	},
+	SourceStub?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SourceStubKeySpecifier | (() => undefined | SourceStubKeySpecifier),
+		fields?: SourceStubFieldPolicy,
 	},
 	Subscribable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscribableKeySpecifier | (() => undefined | SubscribableKeySpecifier),

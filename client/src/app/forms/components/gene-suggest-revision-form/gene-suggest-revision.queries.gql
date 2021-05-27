@@ -4,6 +4,9 @@ query GeneRevisableFields($geneId: Int!) {
     description
     sources {
       id
+      sourceType
+      citation
+      citationId
     }
   }
 }
