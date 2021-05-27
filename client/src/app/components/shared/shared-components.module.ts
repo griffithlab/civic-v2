@@ -52,6 +52,8 @@ import { CommentDisplayComponent } from './comment-display/comment-display.compo
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,9 @@ import { GenesComponentsModule } from '../genes/genes-components.module';
     NzDividerModule,
     NzAvatarModule,
     NzPopoverModule,
-    GenesComponentsModule
+    GenesComponentsModule,
+    FormlyNgZorroAntdModule,
+    FormlyModule.forChild()
   ],
   exports: [
     CommentAddComponent,

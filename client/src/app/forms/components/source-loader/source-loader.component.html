@@ -1,0 +1,82 @@
+<ng-container *ngIf="foundCitation; else fetchCitation">
+  <!-- found citation, add to CIViC sources?-->
+  <nz-space nzDirection="vertical">
+    <nz-space-item *ngIf="createSuccess === false && createErrors.length === 0">
+      <nz-alert nzType="info"
+        [nzMessage]="foundCitationMsg"
+        nzShowIcon>
+      </nz-alert>
+      <ng-template #foundCitationMsg>
+        Found citation: <em>{{ foundCitation }}</em>
+      </ng-template>
+    </nz-space-item>
+    <nz-space-item *ngIf="createSuccess === true">
+      <nz-alert nzType="success"
+        [nzMessage]="createdMsg"
+        nzShowIcon>
+      </nz-alert>
+      <ng-template #createdMsg>
+        '<em>{{ foundCitation }}</em>' created.
+      </ng-template>
+    </nz-space-item>
+    <nz-form-item *ngIf="createErrors.length > 0">
+      <cvc-form-errors-alert [errors]="createErrors">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+    <nz-space-item *ngIf="createSuccess === false">
+      <!-- create new source stub button -->
+      <button type="submit"
+        (click)="onCreateSourceStub($event)"
+        [nzLoading]="isCreating"
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default">
+        Create&nbsp;'<em>{{ foundCitation }}</em>'&nbsp; CIViC Source
+      </button>
+    </nz-space-item>
+    <nz-space-item *ngIf="createSuccess === true">
+      <!-- Accept & add new source to source list -->
+      <button type="submit"
+        (click)="onAcceptSource($event)"
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default">
+        Add Source to List
+      </button>
+    </nz-space-item>
+  </nz-space>
+</ng-container>
+<ng-template #fetchCitation>
+  <!-- source not found, fetch citation? -->
+  <nz-space nzDirection="vertical">
+    <nz-space-item>
+      <span *ngIf="showPrompt"
+        nz-typography>
+        <i nz-icon nzType="info-circle" nzTheme="twotone"></i>
+        Source not known to CIViC, fetch citation from {{ sourceTypeKey }}?
+      </span>
+      <span *ngIf="existenceFail">
+        <nz-alert nzType="warning"
+          [nzMessage]="existenceFail"
+          nzShowIcon>
+        </nz-alert>
+        <ng-template #existenceFail>
+          Citation not found for {{ sourceTypeKey }}: {{ citationId  }}.
+        </ng-template>
+      </span>
+    </nz-space-item>
+    <nz-space-item>
+      <button type="submit"
+        (click)="onExistenceQuery($event)"
+        [nzLoading]="isChecking"
+        nz-button
+        nzBlock
+        nzType="primary"
+        nzSize="default">
+        Fetch Citation for&nbsp;<strong>{{ sourceTypeKey }} {{ citationId }}</strong>
+      </button>
+    </nz-space-item>
+  </nz-space>
+</ng-template>

@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+@source-selector-width: 10em;
+@input-spacer: 0.5em;
+@submit-button-width: 2em;
+
+// viewEncapsulation off for this type, so styles scoped to its element:
+cvc-source-input {
+  .formly-form {
+    width: 100%;
+  }
+
+  .source-type-field {
+    display: inline-block;
+    width: @source-selector-width;
+  }
+
+  .citation-id-field {
+    display: inline-block;
+    margin-left: @input-spacer;
+    width: calc(~'100% - @{source-selector-width} - 2*@{input-spacer} - @{submit-button-width}')
+  }
+  .submit-button {
+    margin-left: @input-spacer;
+    display: inline-block;
+    width: @submit-button-width
+  }
+}

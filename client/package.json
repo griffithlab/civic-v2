@@ -31,8 +31,10 @@
     "ng-zorro-antd": "^11.0.0",
     "ngx-cookie-service": "^11.0.2",
     "ngx-logger": "^4.2.1",
+    "ngx-mask": "^11.1.5",
     "ngx-timeago": "^2.0.0",
     "rxjs": "~6.6.0",
+    "ts-enum-util": "^4.0.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
