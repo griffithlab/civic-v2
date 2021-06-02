@@ -1,0 +1,8 @@
+<input type="text" nz-input placeholder="Variant Name" (change)="onVariantFilterChanged($event)" />
+<ng-container *ngIf="menuVariants$ | ngrxPush as variants">
+    <ng-container *ngFor="let v of variants">
+        <nz-card>
+            {{ v.name }}
+        </nz-card>
+    </ng-container>
+</ng-container>

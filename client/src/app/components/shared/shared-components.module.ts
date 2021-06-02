@@ -54,6 +54,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     UserPillComponent,
     OrganizationPillComponent,
     OrganizationHovercardComponent,
-    CommentDisplayComponent
+    CommentDisplayComponent,
+    VariantsMenuComponent
   ],
   imports: [
     CommonModule,
@@ -125,7 +127,8 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     UserHovercardComponent,
     UserPillComponent,
     OrganizationPillComponent,
-    OrganizationHovercardComponent
+    OrganizationHovercardComponent,
+    VariantsMenuComponent
   ]
 })
 

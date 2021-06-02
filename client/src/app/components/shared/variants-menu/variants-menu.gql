@@ -1,0 +1,19 @@
+query VariantsMenu($geneId: Int!, $variantName: String) {
+  variants(geneId: $geneId, name: $variantName) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    nodes {
+      ...menuVariant
+    }
+  }
+}
+
+fragment menuVariant on Variant {
+  id
+  name
+}
