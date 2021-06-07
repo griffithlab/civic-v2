@@ -49,6 +49,7 @@ import { UserPillComponent } from './user-pill/user-pill.component'
 import { OrganizationPillComponent } from './organization-pill/organization-pill.component'
 import { OrganizationHovercardComponent } from './organization-hovercard/organization-hovercard.component'
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
+import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
@@ -73,7 +74,8 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     UserPillComponent,
     OrganizationPillComponent,
     OrganizationHovercardComponent,
-    CommentDisplayComponent
+    CommentDisplayComponent,
+    FlagEntityComponent
   ],
   imports: [
     CommonModule,
@@ -125,7 +127,8 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     UserHovercardComponent,
     UserPillComponent,
     OrganizationPillComponent,
-    OrganizationHovercardComponent
+    OrganizationHovercardComponent,
+    FlagEntityComponent
   ]
 })
 

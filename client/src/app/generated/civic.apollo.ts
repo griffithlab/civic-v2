@@ -1689,6 +1689,22 @@ export type EventFeedNodeFragment = (
   )> }
 );
 
+export type FlagEntityMutationVariables = Exact<{
+  input: FlagEntityInput;
+}>;
+
+
+export type FlagEntityMutation = (
+  { __typename: 'Mutation' }
+  & { flagEntity?: Maybe<(
+    { __typename: 'FlagEntityPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
 export type OrgHoverCardQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -2345,6 +2361,26 @@ export const EventFeedDocument = gql`
   })
   export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
     document = EventFeedDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FlagEntityDocument = gql`
+    mutation FlagEntity($input: FlagEntityInput!) {
+  flagEntity(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
+    document = FlagEntityDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
