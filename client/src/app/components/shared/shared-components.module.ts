@@ -29,6 +29,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 import { TimeagoModule } from 'ngx-timeago';
 
@@ -109,7 +110,8 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
     NzPopoverModule,
     GenesComponentsModule,
     FormlyNgZorroAntdModule,
-    FormlyModule.forChild()
+    FormlyModule.forChild(),
+    NzSelectModule
   ],
   exports: [
     CommentAddComponent,

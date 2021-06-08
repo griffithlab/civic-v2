@@ -1757,8 +1757,13 @@ export type HovercardUserFragment = (
 );
 
 export type VariantsMenuQueryVariables = Exact<{
-  geneId: Scalars['Int'];
+  geneId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
+  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1770,9 +1775,13 @@ export type VariantsMenuQuery = (
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ), nodes: Array<(
-      { __typename: 'Variant' }
-      & MenuVariantFragment
+    ), edges: Array<(
+      { __typename: 'VariantEdge' }
+      & Pick<VariantEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Variant' }
+        & MenuVariantFragment
+      )> }
     )> }
   ) }
 );
@@ -2446,8 +2455,16 @@ export const UserHoverCardDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int!, $variantName: String) {
-  variants(geneId: $geneId, name: $variantName) {
+    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
+  variants(
+    geneId: $geneId
+    name: $variantName
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
     totalCount
     pageInfo {
       startCursor
@@ -2455,8 +2472,11 @@ export const VariantsMenuDocument = gql`
       hasPreviousPage
       hasNextPage
     }
-    nodes {
-      ...menuVariant
+    edges {
+      cursor
+      node {
+        ...menuVariant
+      }
     }
   }
 }
