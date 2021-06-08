@@ -49,7 +49,9 @@
             <i nz-icon
               nzType="civic:gene"></i>
           </nz-space-item>
-          {{ gene.name }}
+          <span routerLink="/genes/{{gene.id}}">
+            {{ gene.name }}
+          </span>
         </nz-space>
       </nz-page-header-title>
       <nz-page-header-subtitle>
