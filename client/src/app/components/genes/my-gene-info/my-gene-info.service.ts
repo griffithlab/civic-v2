@@ -45,13 +45,13 @@ export class MyGeneInfoService {
     });
     geneInfo.pathway = pathwaysFinal;
     geneInfo.pathwayList = pathwaysFinal.map(p => p.name);
-    geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => { return pd.desc; })
     if (!Array.isArray(geneInfo.alias) && geneInfo.alias) {
       geneInfo.alias = [geneInfo.alias];
     }
     if (!Array.isArray(geneInfo.interpro) && geneInfo.interpro) {
       geneInfo.interpro = [geneInfo.interpro];
     }
+    geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => { return pd.desc; })
     return geneInfo;
   }
 }
