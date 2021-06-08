@@ -2701,10 +2701,10 @@ export const GeneDetailDocument = gql`
     name
     officialName
     entrezId
-    flags {
+    flags(state: OPEN) {
       totalCount
     }
-    revisions {
+    revisions(status: NEW) {
       totalCount
     }
     comments(

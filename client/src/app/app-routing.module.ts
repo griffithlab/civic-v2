@@ -10,7 +10,11 @@ export const routes: Routes = [
 ];
 
 export const routingConfiguration: ExtraOptions = {
-  paramsInheritanceStrategy: 'always'
+  paramsInheritanceStrategy: 'always',
+  anchorScrolling: 'enabled',
+  scrollOffset: [0, 64],
+  onSameUrlNavigation: 'reload',
+  scrollPositionRestoration: 'enabled'
 };
 
 @NgModule({

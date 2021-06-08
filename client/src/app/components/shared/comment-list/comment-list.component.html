@@ -15,6 +15,6 @@
       </nz-list-item>
     </ng-template>
   </nz-list>
-  <cvc-comment-add *ngIf="viewer.canCurate$ | ngrxPush" [subject]="commentsService.subject"></cvc-comment-add>
+  <cvc-comment-add id="addComment" *ngIf="viewer.canCurate$ | ngrxPush" [subject]="commentsService.subject"></cvc-comment-add>
 </nz-card>
 <ngx-json-viewer *ngIf="commentsService.comments$ | ngrxPush as comments" [json]="comments" ></ngx-json-viewer>
