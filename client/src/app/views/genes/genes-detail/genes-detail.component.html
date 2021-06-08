@@ -27,12 +27,21 @@
                 Suggest Revision
               </button>
               <button nz-button
+                style="margin-bottom: 1em;"
                 routerLink="flags"
                 routerLinkActive
                 #rlaFlags="routerLinkActive"
                 [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
                 nzBlock>
-                Add Flag
+                Flag Gene
+              </button>
+              <button nz-button
+                routerLink="comments"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nzBlock>
+                Add Comment
               </button>
             </ng-template>
           </nz-space-item>
@@ -52,45 +61,100 @@
       </nz-page-header-tags>
 
       <!--extra-->
-      <nz-page-header-extra>
-        <button routerLink="summary"
-          routerLinkActive
-          #rlaSummary="routerLinkActive"
-          [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
-          nz-button
-          nzSize="small">
-          <i nz-icon
-            nzType="pic-right"></i>Summary
-        </button>
-        <button routerLink="comments"
-          routerLinkActive
-          #rlaComments="routerLinkActive"
-          [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-          nz-button
-          nzSize="small">
-          <i nz-icon
-            nzType="civic:comment"></i>Comments ({{ gene.comments.totalCount }})
-        </button>
-        <button routerLink="revisions"
-          routerLinkActive
-          #rlaRevisions="routerLinkActive"
-          [nzType]="rlaRevisions.isActive ? 'primary' : 'default'"
-          nz-button
-          nzSize="small">
-          <i nz-icon
-            nzType="civic:revision"></i>Revisions ({{ gene.revisions.totalCount }})
-        </button>
-        <button nz-button
-          nzSize="small"
-          nz-dropdown
-          [nzDropdownMenu]="menu"
-          nzNoAnimation
-          style="border: none; padding: 0">
-          <i nz-icon
-            nzType="ellipsis"
-            nzTheme="outline"
-            style="font-size: 20px; vertical-align: top;"></i>
-        </button>
+      <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+        <nz-space nzDirection="horizontal" nzSize="small">
+          <nz-space-item>
+            <nz-button-group>
+              <button routerLink="summary"
+                routerLinkActive
+                #rlaSummary="routerLinkActive"
+                [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon
+                  nzType="pic-right"></i>Summary
+              </button>
+            </nz-button-group>
+          </nz-space-item>
+          <nz-space-item>
+            <nz-button-group>
+              <button routerLink="comments"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon
+                  nzType="civic:comment"></i>Comments ({{ gene.comments.totalCount }})
+              </button>
+              <button *ngIf="viewer.signedIn"
+                routerLink="comments"
+                fragment="addComment"
+                routerLinkActive
+                #rlaComments="routerLinkActive"
+                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon nzType="plus"></i>
+              </button>
+            </nz-button-group>
+          </nz-space-item>
+          <nz-space-item>
+            <nz-button-group>
+              <button routerLink="revisions"
+                routerLinkActive
+                #rlaRevisions="routerLinkActive"
+                [nzType]="rlaRevisions.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon
+                  nzType="civic:revision"></i>Revisions ({{ gene.revisions.totalCount }})
+              </button>
+              <button *ngIf="viewer.signedIn"
+                routerLink="suggest-revision"
+                routerLinkActive
+                #rlaSuggestRevision="routerLinkActive"
+                [nzType]="rlaSuggestRevision.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon nzType="plus"></i>
+              </button>
+            </nz-button-group>
+          </nz-space-item>
+          <nz-space-item>
+            <nz-button-group>
+              <button routerLink="flags"
+                routerLinkActive
+                #rlaFlags="routerLinkActive"
+                [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon
+                  nzType="flag"></i>Flags ({{ gene.flags.totalCount }})
+              </button>
+              <button *ngIf="viewer.signedIn"
+                routerLink="flags"
+                routerLinkActive
+                #rlaFlags="routerLinkActive"
+                [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
+                nz-button
+                nzSize="small">
+                <i nz-icon nzType="plus"></i>
+              </button>
+            </nz-button-group>
+          </nz-space-item>
+        </nz-space>
+          <button nz-button
+            nzSize="small"
+            nz-dropdown
+            [nzDropdownMenu]="menu"
+            nzNoAnimation
+            style="border: none; padding: 0">
+            <i nz-icon
+              nzType="ellipsis"
+              nzTheme="outline"
+              style="font-size: 20px; vertical-align: top;"></i>
+          </button>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item>1st menu item length</li>
