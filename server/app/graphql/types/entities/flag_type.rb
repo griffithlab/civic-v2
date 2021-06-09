@@ -30,7 +30,11 @@ module Types::Entities
     end
 
     def resolution_comment
-      object.state == 'resolved' ? object.comments.last : nil
+      if object.state == 'resolved' && object.comments.last != open_comment
+        object.comments.last
+      else
+        nil
+      end
     end
 
     private

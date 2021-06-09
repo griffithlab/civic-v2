@@ -20,12 +20,19 @@
                 <cvc-user-pill [user]="f.node.resolvingUser"></cvc-user-pill>
                 resolved flag
                 {{ f.node.resolvedAt|timeago }}
-                <p>{{ f.node.resolutionComment.comment }}</p>
+                <p>{{ f.node.resolutionComment?.comment }}</p>
             </span>
+            <ng-container *ngIf="userId$ | ngrxPush as loggedInUserId" >
+            <ng-container *ngrxLet="canResolveOtherFlags$ as canResolveOtherFlags" >
+                <button *ngIf="f.node.state === 'OPEN' && canResolve(f.node.flaggingUser.id, canResolveOtherFlags, loggedInUserId)" (click)="resolveClicked(f.node.id)" nz-button>Resolve</button>
+            </ng-container>
+            </ng-container>
         </nz-card>
       </nz-list-item>
     </nz-list>
  </nz-card>
-<nz-card nzTitle="Add a Flag" nz-type="inner" style="min-height: 150px;">
-    <cvc-flag-entity [flaggable]="flaggable" [flagAddedCallback]="refresh"></cvc-flag-entity>
-</nz-card>
+<ng-container *ngIf="userId$ | ngrxPush as loggedInUserId" >
+  <nz-card nzTitle="Add a Flag" nz-type="inner" style="min-height: 150px;">
+      <cvc-flag-entity [flaggable]="flaggable" [flagAddedCallback]="refresh"></cvc-flag-entity>
+  </nz-card>
+</ng-container>

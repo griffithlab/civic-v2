@@ -1803,6 +1803,22 @@ export type HovercardOrgFragment = (
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
 );
 
+export type ResolveFlagMutationVariables = Exact<{
+  input: ResolveFlagInput;
+}>;
+
+
+export type ResolveFlagMutation = (
+  { __typename: 'Mutation' }
+  & { resolveFlag?: Maybe<(
+    { __typename: 'ResolveFlagPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
 export type UserHoverCardQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -2527,7 +2543,7 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -2545,6 +2561,26 @@ export const OrgHoverCardDocument = gql`
   })
   export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
     document = OrgHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResolveFlagDocument = gql`
+    mutation ResolveFlag($input: ResolveFlagInput!) {
+  resolveFlag(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
+    document = ResolveFlagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -29,6 +29,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { TimeagoModule } from 'ngx-timeago';
 
@@ -57,6 +58,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     OrganizationHovercardComponent,
     CommentDisplayComponent,
     FlagEntityComponent,
-    FlagListComponent
+    FlagListComponent,
+    ResolveFlagComponent
   ],
   imports: [
     CommonModule,
@@ -113,7 +116,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzPopoverModule,
     GenesComponentsModule,
     FormlyNgZorroAntdModule,
-    FormlyModule.forChild()
+    FormlyModule.forChild(),
+    NzModalModule
   ],
   exports: [
     CommentAddComponent,
@@ -133,7 +137,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     OrganizationPillComponent,
     OrganizationHovercardComponent,
     FlagEntityComponent,
-    FlagListComponent
+    FlagListComponent,
+    ResolveFlagComponent
   ]
 })
 
