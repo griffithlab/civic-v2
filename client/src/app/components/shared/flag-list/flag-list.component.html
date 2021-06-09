@@ -1,0 +1,20 @@
+<nz-card *ngIf="flags$ | ngrxPush as flags" nzTitle="Flags" nz-type="inner" style="margin-bottom: 1em;">
+    <nz-list nzDirection="vertical" style="width: 100%">
+      <nz-list-item *ngFor="let f of flags.edges">
+        <nz-card>
+            <cvc-user-pill [user]="f.node.flaggingUser"></cvc-user-pill>
+            flagged
+            <ng-container [ngSwitch]="this.flaggable.entityType">
+                <span *ngSwitchCase="'GENE'"><cvc-gene-pill [gene]="f.node.flaggable"></cvc-gene-pill></span>
+                <span *ngSwitchDefault>{{ f.node.flaggable.name }}</span>
+            </ng-container>
+            {{ f.node.createdAt|timeago }}
+            <nz-list nzDirection="vertical" style="width: 100%">
+                <nz-list-item *ngFor="let c of f.node.comments.edges">
+                    {{c.node.comment}}
+                </nz-list-item>
+            </nz-list> 
+        </nz-card>
+      </nz-list-item>
+    </nz-list>
+ </nz-card>

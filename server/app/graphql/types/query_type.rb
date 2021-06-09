@@ -48,6 +48,7 @@ module Types
     end
 
     field :comments, resolver: Resolvers::TopLevelComments
+    field :flags, resolver: Resolvers::TopLevelFlags
 
     def disease(id: )
       Disease.find(id)
