@@ -1,7 +1,13 @@
 <nz-card *ngIf="flags$ | ngrxPush as flags" nzTitle="Flags" nz-type="inner" style="margin-bottom: 1em;">
+    Show
+    <nz-radio-group [(ngModel)]="stateFilter" (ngModelChange)="fetchFlags($event)">
+        <label nz-radio-button nzValue="open"><span>Open Only</span></label>
+        <label nz-radio-button nzValue="resolved"><span>Resolved Only</span></label>
+        <label nz-radio-button nzValue="all"><span>All</span></label>
+      </nz-radio-group>
     <nz-list nzDirection="vertical" style="width: 100%">
       <nz-list-item *ngFor="let f of flags.edges">
-        <nz-card>
+        <nz-card style="width: 100%">
             <cvc-user-pill [user]="f.node.flaggingUser"></cvc-user-pill>
             flagged
             <ng-container [ngSwitch]="this.flaggable.entityType">
@@ -9,12 +15,17 @@
                 <span *ngSwitchDefault>{{ f.node.flaggable.name }}</span>
             </ng-container>
             {{ f.node.createdAt|timeago }}
-            <nz-list nzDirection="vertical" style="width: 100%">
-                <nz-list-item *ngFor="let c of f.node.comments.edges">
-                    {{c.node.comment}}
-                </nz-list-item>
-            </nz-list> 
+            <p>{{ f.node.openComment.comment }}</p>
+            <span *ngIf="f.node.state === 'RESOLVED'">
+                <cvc-user-pill [user]="f.node.resolvingUser"></cvc-user-pill>
+                resolved flag
+                {{ f.node.resolvedAt|timeago }}
+                <p>{{ f.node.resolutionComment.comment }}</p>
+            </span>
         </nz-card>
       </nz-list-item>
     </nz-list>
  </nz-card>
+<nz-card nzTitle="Add a Flag" nz-type="inner" style="min-height: 150px;">
+    <cvc-flag-entity [flaggable]="flaggable" [flagAddedCallback]="refresh"></cvc-flag-entity>
+</nz-card>

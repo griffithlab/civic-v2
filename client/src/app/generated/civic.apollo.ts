@@ -503,6 +503,9 @@ export type Flag = Commentable & EventOriginObject & {
   flaggingUser: User;
   id: Scalars['Int'];
   name: Scalars['String'];
+  openComment: Comment;
+  resolutionComment?: Maybe<Comment>;
+  resolvedAt?: Maybe<Scalars['ISO8601DateTime']>;
   resolvingUser?: Maybe<User>;
   state: FlagState;
 };
@@ -1755,7 +1758,7 @@ export type FlagListFragment = (
     { __typename: 'FlagEdge' }
     & { node?: Maybe<(
       { __typename: 'Flag' }
-      & Pick<Flag, 'id' | 'state' | 'createdAt'>
+      & Pick<Flag, 'id' | 'state' | 'createdAt' | 'resolvedAt'>
       & { flaggable: (
         { __typename: 'EvidenceItem' }
         & Pick<EvidenceItem, 'id' | 'name'>
@@ -1771,20 +1774,13 @@ export type FlagListFragment = (
       ), resolvingUser?: Maybe<(
         { __typename: 'User' }
         & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-      )>, comments: (
-        { __typename: 'CommentConnection' }
-        & { edges: Array<(
-          { __typename: 'CommentEdge' }
-          & { node?: Maybe<(
-            { __typename: 'Comment' }
-            & Pick<Comment, 'createdAt' | 'comment'>
-            & { commenter: (
-              { __typename: 'User' }
-              & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-            ) }
-          )> }
-        )> }
-      ) }
+      )>, openComment: (
+        { __typename: 'Comment' }
+        & Pick<Comment, 'comment'>
+      ), resolutionComment?: Maybe<(
+        { __typename: 'Comment' }
+        & Pick<Comment, 'comment'>
+      )> }
     )> }
   )> }
 );
@@ -2368,6 +2364,7 @@ export const FlagListFragmentDoc = gql`
       id
       state
       createdAt
+      resolvedAt
       flaggable {
         id
         name
@@ -2382,18 +2379,11 @@ export const FlagListFragmentDoc = gql`
         displayName
         profileImagePath(size: 32)
       }
-      comments {
-        edges {
-          node {
-            createdAt
-            commenter {
-              id
-              displayName
-              profileImagePath(size: 32)
-            }
-            comment
-          }
-        }
+      openComment {
+        comment
+      }
+      resolutionComment {
+        comment
       }
     }
   }

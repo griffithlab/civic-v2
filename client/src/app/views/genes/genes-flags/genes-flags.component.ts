@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
 
 @Component({
@@ -12,10 +13,14 @@ export class GenesFlagsComponent implements OnInit {
 
   flaggable: FlaggableInput
 
-  constructor() { 
+  constructor(
+      private route: ActivatedRoute
+    ) {
+    const geneId: number = +this.route.snapshot.params['geneId']; 
+    
     this.flaggable = {
       entityType: FlaggableEntities.Gene,
-      id: 5
+      id: geneId
     }
     
   }

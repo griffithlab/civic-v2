@@ -782,6 +782,9 @@ type Flag implements Commentable & EventOriginObject {
   flaggingUser: User!
   id: Int!
   name: String!
+  openComment: Comment!
+  resolutionComment: Comment
+  resolvedAt: ISO8601DateTime
   resolvingUser: User
   state: FlagState!
 }

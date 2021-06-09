@@ -178,7 +178,7 @@ export type FieldNameFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagKeySpecifier = ('comments' | 'createdAt' | 'flaggable' | 'flaggingUser' | 'id' | 'name' | 'resolvingUser' | 'state' | FlagKeySpecifier)[];
+export type FlagKeySpecifier = ('comments' | 'createdAt' | 'flaggable' | 'flaggingUser' | 'id' | 'name' | 'openComment' | 'resolutionComment' | 'resolvedAt' | 'resolvingUser' | 'state' | FlagKeySpecifier)[];
 export type FlagFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -186,6 +186,9 @@ export type FlagFieldPolicy = {
 	flaggingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	openComment?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolutionComment?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolvedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolvingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>
 };

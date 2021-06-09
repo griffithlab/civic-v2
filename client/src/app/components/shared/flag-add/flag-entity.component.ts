@@ -10,6 +10,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
 })
 export class FlagEntityComponent implements OnInit {
     @Input() flaggable!: FlaggableInput
+    @Input() flagAddedCallback?: () => void
 
     formModel!: FlagEntityInput
     formFields: FormlyFieldConfig[]
@@ -46,6 +47,9 @@ export class FlagEntityComponent implements OnInit {
     submitFlag(input: FlagEntityInput) {
         this.gql.mutate({input: input}).subscribe(
             ({data}) => { 
+                if (this.flagAddedCallback) {
+                    this.flagAddedCallback()
+                }
                 console.log(data?.flagEntity?.flag?.id) 
             },
             (error) => {

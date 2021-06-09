@@ -56,6 +56,7 @@ import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FlagListComponent } from './flag-list/flag-list.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { FlagListComponent } from './flag-list/flag-list.component';
     NzDescriptionsModule,
     NzDropDownModule,
     NzListModule,
+    NzRadioModule,
     NzSpaceModule,
     NzTagModule,
     NzToolTipModule,
