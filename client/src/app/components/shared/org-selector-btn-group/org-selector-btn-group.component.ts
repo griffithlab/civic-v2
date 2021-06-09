@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 
 import {
@@ -22,33 +23,20 @@ import { OrgSelectorBtnDirective } from './org-selector-btn.directive';
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less']
 })
-export class OrgSelectorBtnGroupComponent implements OnDestroy {
+export class OrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
   @Input() selectedOrg!: Maybe<Organization>;
   @Output() selectedOrgChange = new EventEmitter<Organization>();
 
   @ContentChild(OrgSelectorBtnDirective, {static: false}) button!: OrgSelectorBtnDirective
 
-  organizations$: Observable<Organization[]>;
-  mostRecentOrg$: Observable<Maybe<Organization>>;
+  organizations$!: Observable<Organization[]>;
+  mostRecentOrg$!: Observable<Maybe<Organization>>;
 
   mostRecentOrg: Maybe<Organization>;
 
   private destroy$ = new Subject();
 
-  constructor(private viewerService: ViewerService) {
-    this.organizations$ = this.viewerService.viewer$
-      .pipe(map((v: Viewer) => v.organizations));
-
-    this.mostRecentOrg$ = this.viewerService.viewer$
-      .pipe(
-        pluck('mostRecentOrg'),
-        tap((org: Maybe<Organization>) => {
-          this.mostRecentOrg = org;
-          this.selectedOrgChange.emit(org)
-        }));
-
-    this.mostRecentOrg$.pipe(takeUntil(this.destroy$)).subscribe();
-  }
+  constructor(private viewerService: ViewerService) { }
 
   get disabled() {
     return this.button.disabled;
@@ -57,6 +45,22 @@ export class OrgSelectorBtnGroupComponent implements OnDestroy {
   selectOrg(org: any): void {
     this.mostRecentOrg = org;
     this.selectedOrgChange.emit(org);
+  }
+
+  ngOnInit() {
+    this.organizations$ = this.viewerService.viewer$
+      .pipe(map((v: Viewer) => v.organizations));
+
+    this.mostRecentOrg$ = this.viewerService.viewer$
+      .pipe(pluck('mostRecentOrg'),
+        tap((org: Maybe<Organization>) => {
+          this.mostRecentOrg = org;
+          if (org) {
+            this.selectedOrgChange.emit(org)
+          }
+        }));
+
+    this.mostRecentOrg$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

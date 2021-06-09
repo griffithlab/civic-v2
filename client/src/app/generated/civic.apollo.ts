@@ -399,6 +399,7 @@ export type EvidenceItem = Commentable & Flaggable & {
   /** List and filter flags. */
   flags: FlagConnection;
   id: Scalars['Int'];
+  name: Scalars['String'];
   phenotypes?: Maybe<Array<Phenotype>>;
   revisions: Array<Revision>;
   source: Source;
@@ -497,9 +498,14 @@ export type Flag = Commentable & EventOriginObject & {
   __typename: 'Flag';
   /** List and filter comments. */
   comments: CommentConnection;
+  createdAt: Scalars['ISO8601DateTime'];
+  flaggable: Flaggable;
   flaggingUser: User;
   id: Scalars['Int'];
   name: Scalars['String'];
+  openComment: Comment;
+  resolutionComment?: Maybe<Comment>;
+  resolvedAt?: Maybe<Scalars['ISO8601DateTime']>;
   resolvingUser?: Maybe<User>;
   state: FlagState;
 };
@@ -574,6 +580,8 @@ export type Flaggable = {
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 
@@ -982,6 +990,8 @@ export type Query = {
   /** List and filter events for an object */
   events: EventConnection;
   evidenceItem?: Maybe<EvidenceItem>;
+  /** List and filter flags. */
+  flags: FlagConnection;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
   /** Find an organization by CIViC ID */
@@ -1048,6 +1058,19 @@ export type QueryEventsArgs = {
 
 export type QueryEvidenceItemArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  flaggable?: Maybe<FlaggableInput>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
 };
 
 
@@ -1689,6 +1712,79 @@ export type EventFeedNodeFragment = (
   )> }
 );
 
+export type FlagEntityMutationVariables = Exact<{
+  input: FlagEntityInput;
+}>;
+
+
+export type FlagEntityMutation = (
+  { __typename: 'Mutation' }
+  & { flagEntity?: Maybe<(
+    { __typename: 'FlagEntityPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
+export type FlagListQueryVariables = Exact<{
+  flaggable?: Maybe<FlaggableInput>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  state?: Maybe<FlagState>;
+  sortBy?: Maybe<DateSort>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FlagListQuery = (
+  { __typename: 'Query' }
+  & { flags: (
+    { __typename: 'FlagConnection' }
+    & FlagListFragment
+  ) }
+);
+
+export type FlagListFragment = (
+  { __typename: 'FlagConnection' }
+  & { pageInfo: (
+    { __typename: 'PageInfo' }
+    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
+  ), edges: Array<(
+    { __typename: 'FlagEdge' }
+    & { node?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id' | 'state' | 'createdAt' | 'resolvedAt'>
+      & { flaggable: (
+        { __typename: 'EvidenceItem' }
+        & Pick<EvidenceItem, 'id' | 'name'>
+      ) | (
+        { __typename: 'Gene' }
+        & Pick<Gene, 'id' | 'name'>
+      ) | (
+        { __typename: 'Variant' }
+        & Pick<Variant, 'id' | 'name'>
+      ), flaggingUser: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+      ), resolvingUser?: Maybe<(
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+      )>, openComment: (
+        { __typename: 'Comment' }
+        & Pick<Comment, 'comment'>
+      ), resolutionComment?: Maybe<(
+        { __typename: 'Comment' }
+        & Pick<Comment, 'comment'>
+      )> }
+    )> }
+  )> }
+);
+
 export type OrgHoverCardQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -1705,6 +1801,22 @@ export type OrgHoverCardQuery = (
 export type HovercardOrgFragment = (
   { __typename: 'Organization' }
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
+);
+
+export type ResolveFlagMutationVariables = Exact<{
+  input: ResolveFlagInput;
+}>;
+
+
+export type ResolveFlagMutation = (
+  { __typename: 'Mutation' }
+  & { resolveFlag?: Maybe<(
+    { __typename: 'ResolveFlagPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
 );
 
 export type UserHoverCardQueryVariables = Exact<{
@@ -2255,6 +2367,44 @@ export const EventFeedFragmentDoc = gql`
   }
 }
     ${EventFeedNodeFragmentDoc}`;
+export const FlagListFragmentDoc = gql`
+    fragment flagList on FlagConnection {
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  edges {
+    node {
+      id
+      state
+      createdAt
+      resolvedAt
+      flaggable {
+        id
+        name
+      }
+      flaggingUser {
+        id
+        displayName
+        profileImagePath(size: 32)
+      }
+      resolvingUser {
+        id
+        displayName
+        profileImagePath(size: 32)
+      }
+      openComment {
+        comment
+      }
+      resolutionComment {
+        comment
+      }
+    }
+  }
+}
+    `;
 export const HovercardOrgFragmentDoc = gql`
     fragment hovercardOrg on Organization {
   id
@@ -2350,6 +2500,54 @@ export const EventFeedDocument = gql`
       super(apollo);
     }
   }
+export const FlagEntityDocument = gql`
+    mutation FlagEntity($input: FlagEntityInput!) {
+  flagEntity(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
+    document = FlagEntityDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FlagListDocument = gql`
+    query FlagList($flaggable: FlaggableInput, $flaggingUserId: Int, $resolvingUserId: Int, $state: FlagState, $sortBy: DateSort, $first: Int, $last: Int, $before: String, $after: String) {
+  flags(
+    flaggable: $flaggable
+    flaggingUserId: $flaggingUserId
+    resolvingUserId: $resolvingUserId
+    state: $state
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    ...flagList
+  }
+}
+    ${FlagListFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
+    document = FlagListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const OrgHoverCardDocument = gql`
     query OrgHoverCard($orgId: Int!) {
   organization(id: $orgId) {
@@ -2363,6 +2561,26 @@ export const OrgHoverCardDocument = gql`
   })
   export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
     document = OrgHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResolveFlagDocument = gql`
+    mutation ResolveFlag($input: ResolveFlagInput!) {
+  resolveFlag(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
+    document = ResolveFlagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
