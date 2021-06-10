@@ -1688,17 +1688,21 @@ export type EventFeedNodeFragment = (
   ) | (
     { __typename: 'Flag' }
     & Pick<Flag, 'id' | 'name'>
-    & { comments: (
-      { __typename: 'CommentConnection' }
-      & { nodes: Array<(
-        { __typename: 'Comment' }
-        & Pick<Comment, 'comment' | 'createdAt'>
-        & { commenter: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-        ) }
-      )> }
-    ) }
+    & { openComment: (
+      { __typename: 'Comment' }
+      & Pick<Comment, 'comment' | 'createdAt'>
+      & { commenter: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+      ) }
+    ), resolutionComment?: Maybe<(
+      { __typename: 'Comment' }
+      & Pick<Comment, 'comment' | 'createdAt'>
+      & { commenter: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+      ) }
+    )> }
   ) | (
     { __typename: 'Revision' }
     & Pick<Revision, 'id' | 'revisionsetId' | 'name'>
@@ -2325,15 +2329,22 @@ export const EventFeedNodeFragmentDoc = gql`
     }
     ... on Flag {
       id
-      comments(first: 1) {
-        nodes {
-          comment
-          createdAt
-          commenter {
-            id
-            displayName
-            profileImagePath(size: 32)
-          }
+      openComment {
+        comment
+        createdAt
+        commenter {
+          id
+          displayName
+          profileImagePath(size: 32)
+        }
+      }
+      resolutionComment {
+        comment
+        createdAt
+        commenter {
+          id
+          displayName
+          profileImagePath(size: 32)
         }
       }
     }
