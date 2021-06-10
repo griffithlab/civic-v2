@@ -2016,10 +2016,7 @@ export type BrowseGenesQuery = (
   & { browseGenes: (
     { __typename: 'BrowseGeneConnection' }
     & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { nodes: Array<(
-      { __typename: 'BrowseGene' }
-      & Pick<BrowseGene, 'id' | 'name'>
-    )>, edges: Array<(
+    & { edges: Array<(
       { __typename: 'BrowseGeneEdge' }
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
@@ -2836,10 +2833,6 @@ export const BrowseGenesDocument = gql`
     before: $before
     after: $after
   ) {
-    nodes {
-      id
-      name
-    }
     edges {
       cursor
       node {
