@@ -14,7 +14,6 @@ import { QueryRef } from 'apollo-angular';
 
 import {
   BrowseGenesGQL,
-  BrowseGene,
   QueryBrowseGenesArgs,
   PageInfo,
   Maybe,
@@ -55,7 +54,6 @@ export class GenesBrowseComponent implements OnInit {
 
   initialPageSize = 25;
   fetchMorePageSize = 25;
-  isLoadingDelay = 500;
 
   constructor(private query: BrowseGenesGQL) {
     const initialQueryArgs: QueryBrowseGenesArgs = {
