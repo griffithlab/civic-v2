@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_210105) do
+ActiveRecord::Schema.define(version: 2021_06_10_233248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -844,7 +844,7 @@ ActiveRecord::Schema.define(version: 2021_05_20_210105) do
        JOIN evidence_items ei ON (((v.id = ei.variant_id) AND (ei.deleted = false))))
     GROUP BY v.id;
   SQL
-  create_view "gene_browse_views", sql_definition: <<-SQL
+  create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT genes.id,
       genes.name,
       genes.entrez_id,
@@ -867,4 +867,6 @@ ActiveRecord::Schema.define(version: 2021_05_20_210105) do
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY genes.id, genes.name, genes.entrez_id;
   SQL
+  add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
+
 end
