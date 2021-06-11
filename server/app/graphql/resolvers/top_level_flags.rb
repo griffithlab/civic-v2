@@ -1,14 +1,20 @@
 require 'search_object'
 require 'search_object/plugin/graphql'
 
-class Resolvers::Flags < GraphQL::Schema::Resolver
+class Resolvers::TopLevelFlags < GraphQL::Schema::Resolver
   include SearchObject.module(:graphql)
 
   type Types::Entities::FlagType.connection_type, null: false
 
   description 'List and filter flags.'
 
-  scope { object.flags.order('flags.created_at DESC') }
+  scope {
+    Flag.order("flags.created_at DESC")
+  }
+
+  option(:flaggable, type: Types::Flaggable::FlaggableInput) do |scope, value|
+    scope.where(flaggable: value)
+  end
 
   option(:flagging_user_id, type: Int, description: 'Limit to flags added by a certain user') do |scope, value|
     scope.where(flagging_user_id: value)

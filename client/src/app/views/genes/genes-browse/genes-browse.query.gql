@@ -21,10 +21,6 @@ query BrowseGenes(
     before: $before,
     after: $after,
   ) {
-    nodes {
-      id,
-      name
-    }
     edges {
       cursor
       node {

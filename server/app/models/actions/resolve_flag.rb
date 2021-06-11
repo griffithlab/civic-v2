@@ -28,7 +28,7 @@ module Actions
     end
 
     def update_flaggable_status
-      unless flaggable.flags.where(status: 'open').exists?
+      unless flaggable.flags.where(state: 'open').exists?
         flaggable.flagged = false
         flaggable.save
       end
@@ -51,7 +51,7 @@ module Actions
         commenter: resolving_user,
         commentable: flag,
         organization_id: organization_id
-      )
+      ).perform
     end
   end
 end

@@ -30,6 +30,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { TimeagoModule } from 'ngx-timeago';
 
@@ -50,12 +51,17 @@ import { UserPillComponent } from './user-pill/user-pill.component'
 import { OrganizationPillComponent } from './organization-pill/organization-pill.component'
 import { OrganizationHovercardComponent } from './organization-hovercard/organization-hovercard.component'
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
+import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
+import { FlagListComponent } from './flag-list/flag-list.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
+>>>>>>> origin/main
 
 @NgModule({
   declarations: [
@@ -77,6 +83,9 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
     OrganizationHovercardComponent,
     CommentDisplayComponent,
     VariantsMenuComponent
+    FlagEntityComponent,
+    FlagListComponent,
+    ResolveFlagComponent
   ],
   imports: [
     CommonModule,
@@ -97,6 +106,7 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
     NzDescriptionsModule,
     NzDropDownModule,
     NzListModule,
+    NzRadioModule,
     NzSpaceModule,
     NzTagModule,
     NzToolTipModule,
@@ -112,6 +122,7 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
     FormlyNgZorroAntdModule,
     FormlyModule.forChild(),
     NzSelectModule
+    NzModalModule
   ],
   exports: [
     CommentAddComponent,
@@ -131,6 +142,9 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
     OrganizationPillComponent,
     OrganizationHovercardComponent,
     VariantsMenuComponent
+    FlagEntityComponent,
+    FlagListComponent,
+    ResolveFlagComponent
   ]
 })
 

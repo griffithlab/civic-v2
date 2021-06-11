@@ -38,6 +38,7 @@ export class SourceSelectorComponent implements OnInit, OnDestroy {
         key: 'sourceType',
         type: 'select',
         className: 'source-type-field',
+        defaultValue: SourceSource.Pubmed,
         templateOptions: {
           required: true,
           placeholder: 'Select Type',

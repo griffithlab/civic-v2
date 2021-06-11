@@ -48,7 +48,10 @@ module Types
     end
 
     field :comments, resolver: Resolvers::TopLevelComments
+
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 40
+
+    field :flags, resolver: Resolvers::TopLevelFlags
 
     def disease(id: )
       Disease.find(id)

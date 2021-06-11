@@ -642,7 +642,7 @@ type EvidenceItem implements Commentable & Flaggable {
     resolvingUserId: Int
 
     """
-    Sort order for the comments. Defaults to most recent.
+    Sort order for the flags. Defaults to most recent.
     """
     sortBy: DateSort
 
@@ -652,6 +652,7 @@ type EvidenceItem implements Commentable & Flaggable {
     state: FlagState
   ): FlagConnection!
   id: Int!
+  name: String!
   phenotypes: [Phenotype!]
   revisions: [Revision!]!
   source: Source!
@@ -776,9 +777,14 @@ type Flag implements Commentable & EventOriginObject {
     """
     sortBy: DateSort
   ): CommentConnection!
+  createdAt: ISO8601DateTime!
+  flaggable: Flaggable!
   flaggingUser: User!
   id: Int!
   name: String!
+  openComment: Comment!
+  resolutionComment: Comment
+  resolvedAt: ISO8601DateTime
   resolvingUser: User
   state: FlagState!
 }
@@ -917,7 +923,7 @@ interface Flaggable {
     resolvingUserId: Int
 
     """
-    Sort order for the comments. Defaults to most recent.
+    Sort order for the flags. Defaults to most recent.
     """
     sortBy: DateSort
 
@@ -926,6 +932,8 @@ interface Flaggable {
     """
     state: FlagState
   ): FlagConnection!
+  id: Int!
+  name: String!
 }
 
 """
@@ -1059,7 +1067,7 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     resolvingUserId: Int
 
     """
-    Sort order for the comments. Defaults to most recent.
+    Sort order for the flags. Defaults to most recent.
     """
     sortBy: DateSort
 
@@ -1651,6 +1659,52 @@ type Query {
     subject: SubscribableInput
   ): EventConnection!
   evidenceItem(id: Int!): EvidenceItem
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+    flaggable: FlaggableInput
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
 
   """
   Find a gene by CIViC ID
@@ -2320,7 +2374,7 @@ type Variant implements Commentable & Flaggable {
     resolvingUserId: Int
 
     """
-    Sort order for the comments. Defaults to most recent.
+    Sort order for the flags. Defaults to most recent.
     """
     sortBy: DateSort
 
