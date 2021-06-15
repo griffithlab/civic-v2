@@ -22,10 +22,9 @@
               [nzFrontPagination]="false"
               [nzShowPagination]="false"
               >
-              <thead
-                >
+              <thead (nzSortOrderChange)="onSortChanged($event)" >
                 <tr>
-                  <th nzWidth="10%">
+                  <th nzWidth="10%" [nzColumnKey]="sortColumns.EntrezSymbol" [nzSortFn]="true">
                     Name
                     <nz-input-group [nzSuffix]="nameInputClearTpl">
                       <input type="text" nz-input placeholder="Search name" [(ngModel)]="nameInput" (ngModelChange)="searchName($event)" />
@@ -34,7 +33,7 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="nameInput" (click)="nameInput = undefined; searchName(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="20%">
+                  <th nzWidth="20%" [nzColumnKey]="sortColumns.GeneAlias" [nzSortFn]="true"> 
                     Aliases
                     <nz-input-group [nzSuffix]="aliasInputClearTpl">
                       <input type="text" nz-input placeholder="Search alias" [(ngModel)]="aliasInput" (ngModelChange)="searchAlias($event)" />
@@ -43,7 +42,7 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="aliasInput" (click)="aliasInput = undefined; searchAlias(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="25%">
+                  <th nzWidth="25%" [nzColumnKey]="sortColumns.DiseaseName" [nzSortFn]="true">
                     Diseases
                     <nz-input-group [nzSuffix]="diseaseInputClearTpl">
                       <input type="text" nz-input placeholder="Search disease" [(ngModel)]="diseaseInput" (ngModelChange)="searchDisease($event)" />
@@ -52,7 +51,7 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="diseaseInput" (click)="diseaseInput = undefined; searchDisease(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="25%">
+                  <th nzWidth="25%" [nzColumnKey]="sortColumns.DrugName" [nzSortFn]="true">
                     Drugs
                     <nz-input-group [nzSuffix]="drugInputClearTpl">
                       <input type="text" nz-input placeholder="Search drug" [(ngModel)]="drugInput" (ngModelChange)="searchDrug($event)" />
@@ -61,9 +60,9 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="drugInput" (click)="drugInput = undefined; searchDrug(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="3%" nzRight><i nz-icon nzType="civic:variant" nz-tooltip nzTooltipTitle="Variant count"></i></th>
-                  <th nzWidth="3%" nzRight><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
-                  <th nzWidth="3%" nzRight><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
+                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.VariantCount" [nzSortFn]="true"><i nz-icon nzType="civic:variant" nz-tooltip nzTooltipTitle="Variant count"></i></th>
+                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.EvidenceItemCount" [nzSortFn]="true"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
+                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.AssertionCount" [nzSortFn]="true"><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
                 </tr>
               </thead>
               <tbody>

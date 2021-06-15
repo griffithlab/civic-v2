@@ -3,10 +3,6 @@ import {
   OnInit,
 } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms'
-
 import { Observable } from 'rxjs';
 import {
   map,
@@ -22,9 +18,11 @@ import {
   PageInfo,
   Maybe,
   BrowseGenesQuery,
+  GenesSort,
+  GenesSortColumns,
+  SortDirection
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 export interface GeneTableRow {
   id: number
@@ -41,6 +39,11 @@ export interface GeneTableRow {
 export interface WithName {
   name: string
 }
+
+  export interface SortDirectionEvent  {
+    key: any
+    value: null | string
+  }
 
 @Component({
   selector: 'genes-browse',
@@ -61,6 +64,8 @@ export class GenesBrowseComponent implements OnInit {
   drugInput: Maybe<string>
   nameInput: Maybe<string>
   aliasInput: Maybe<string>
+
+  sortColumns: typeof GenesSortColumns = GenesSortColumns
 
   private initialQueryArgs!: QueryBrowseGenesArgs
 
@@ -152,6 +157,37 @@ export class GenesBrowseComponent implements OnInit {
       ...this.initialQueryArgs,
       drugName: drug
     })
+  }
+
+  
+  onSortChanged(params: SortDirectionEvent) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      sortBy: this.buildSortParams(params)
+    })
+  }
+
+  buildSortParams(e: SortDirectionEvent): Maybe<GenesSort> {
+    var direction: SortDirection
+
+    switch(e.value) {
+      case 'ascend': {
+        direction = SortDirection.Asc
+        break;
+      }
+      case 'descend': {
+        direction = SortDirection.Desc
+        break;
+      }
+      default: {
+        return undefined
+      }
+    }
+
+    return { 
+      column: e.key,
+      direction: direction
+    }
   }
 
   ngOnInit(): void {

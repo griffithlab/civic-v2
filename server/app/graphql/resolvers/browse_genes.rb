@@ -17,7 +17,7 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
   option :sort_by, type: Types::BrowseTables::GenesSortType do |scope, value|
     case value.column
     when "entrezSymbol"
-      scope.order "gene_browse_views.name #{value.direction}"
+      scope.order "gene_browse_table_rows.name #{value.direction}"
     when "drugName"
       scope.order "drug_names #{value.direction}"
     when "geneAlias"
