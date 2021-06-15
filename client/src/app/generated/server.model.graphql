@@ -1132,6 +1132,10 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     status: RevisionStatus
   ): RevisionConnection!
   sources: [Source!]!
+
+  """
+  List and filter variants.
+  """
   variants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -1144,6 +1148,11 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     before: String
 
     """
+    Limit variants by the status of attached evidence.
+    """
+    evidenceStatusFilter: VariantDisplayFilter
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -1152,6 +1161,11 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Left anchored filtering for variant name.
+    """
+    name: String
   ): VariantConnection!
 }
 
@@ -1719,6 +1733,46 @@ type Query {
   """
   sourceTypeahead(citationId: Int!, sourceType: SourceSource!): [Source!]!
   user(userId: Int!): User
+
+  """
+  List and filter variants.
+  """
+  variants(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit variants by the status of attached evidence.
+    """
+    evidenceStatusFilter: VariantDisplayFilter
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Gene that variants are associated with.
+    """
+    geneId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Left anchored filtering for variant name.
+    """
+    name: String
+  ): VariantConnection!
   viewer: User
 }
 
@@ -2362,6 +2416,28 @@ type VariantConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+}
+
+enum VariantDisplayFilter {
+  """
+  Display all variants regardless of attached evience.
+  """
+  ALL
+
+  """
+  Display only variants which have at least one accepted evidence item.
+  """
+  WITH_ACCEPTED
+
+  """
+  Display only variants which have evidence in either an accepted or submitted state.
+  """
+  WITH_ACCEPTED_OR_SUBMITTED
+
+  """
+  Display variants which have at least one submited evidence item.
+  """
+  WITH_SUBMITTED
 }
 
 """

@@ -10,12 +10,14 @@ export const CvcTypePolicies: TypePolicies = {
       comments: relayStylePagination(),
       revisions: relayStylePagination(),
       events: relayStylePagination(),
+      variants: relayStylePagination()
     }
   },
   Query: {
     fields: {
       browseGenes: relayStylePagination(),
-      events: relayStylePagination()
+      events: relayStylePagination(),
+      variants: relayStylePagination()
     }
   }
 };

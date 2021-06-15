@@ -1,0 +1,38 @@
+query VariantsMenu(
+  $geneId: Int,
+  $variantName: String,
+  $evidenceStatusFilter: VariantDisplayFilter,
+  $first: Int,
+  $last: Int,
+  $before: String,
+  $after: String
+  ) {
+  variants(
+    geneId: $geneId,
+    name: $variantName,
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after,
+    ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...menuVariant
+      }
+    }
+  }
+}
+
+fragment menuVariant on Variant {
+  id
+  name
+}

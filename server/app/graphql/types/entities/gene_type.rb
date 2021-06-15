@@ -12,7 +12,7 @@ module Types::Entities
     field :official_name, String, null: false
     field :aliases, [Types::Entities::GeneAliasType], null: false
     field :sources, [Types::Entities::SourceType], null: false
-    field :variants, Types::Entities::VariantType.connection_type, null: false
+    field :variants, resolver: Resolvers::Variants
     field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
 

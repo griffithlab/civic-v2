@@ -13,6 +13,7 @@ class Variant < ActiveRecord::Base
   has_and_belongs_to_many :clinvar_entries
   has_and_belongs_to_many :hgvs_expressions
   has_and_belongs_to_many :sources
+  has_one :evidence_items_by_status
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 end

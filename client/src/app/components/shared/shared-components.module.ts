@@ -29,6 +29,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { TimeagoModule } from 'ngx-timeago';
@@ -56,6 +57,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
 import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
@@ -79,6 +81,7 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     OrganizationPillComponent,
     OrganizationHovercardComponent,
     CommentDisplayComponent,
+    VariantsMenuComponent
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent
@@ -117,6 +120,7 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     GenesComponentsModule,
     FormlyNgZorroAntdModule,
     FormlyModule.forChild(),
+    NzSelectModule
     NzModalModule
   ],
   exports: [
@@ -136,6 +140,7 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     UserPillComponent,
     OrganizationPillComponent,
     OrganizationHovercardComponent,
+    VariantsMenuComponent
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent

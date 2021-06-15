@@ -1,5 +1,6 @@
 module Types::Entities
   class VariantType < Types::BaseObject
+    connection_type_class Types::Connections::VariantsConnection
 
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
