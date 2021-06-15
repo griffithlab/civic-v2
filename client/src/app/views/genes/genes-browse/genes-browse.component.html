@@ -20,13 +20,47 @@
               [nzData]="(genes$ | ngrxPush)"
               [nzLoading]="(isLoading$ | ngrxPush)"
               [nzFrontPagination]="false"
-              [nzShowPagination]="false">
-              <thead>
+              [nzShowPagination]="false"
+              >
+              <thead
+                >
                 <tr>
-                  <th nzWidth="10%">Name</th>
-                  <th nzWidth="20%">Aliases</th>
-                  <th nzWidth="25%">Diseases</th>
-                  <th nzWidth="25%">Drugs</th>
+                  <th nzWidth="10%">
+                    Name
+                    <nz-input-group [nzSuffix]="nameInputClearTpl">
+                      <input type="text" nz-input placeholder="Search name" [(ngModel)]="nameInput" (ngModelChange)="searchName($event)" />
+                    </nz-input-group>
+                    <ng-template #nameInputClearTpl>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="nameInput" (click)="nameInput = undefined; searchName(undefined)"></i>
+                    </ng-template>
+                  </th>
+                  <th nzWidth="20%">
+                    Aliases
+                    <nz-input-group [nzSuffix]="aliasInputClearTpl">
+                      <input type="text" nz-input placeholder="Search alias" [(ngModel)]="aliasInput" (ngModelChange)="searchAlias($event)" />
+                    </nz-input-group>
+                    <ng-template #aliasInputClearTpl>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="aliasInput" (click)="aliasInput = undefined; searchAlias(undefined)"></i>
+                    </ng-template>
+                  </th>
+                  <th nzWidth="25%">
+                    Diseases
+                    <nz-input-group [nzSuffix]="diseaseInputClearTpl">
+                      <input type="text" nz-input placeholder="Search disease" [(ngModel)]="diseaseInput" (ngModelChange)="searchDisease($event)" />
+                    </nz-input-group>
+                    <ng-template #diseaseInputClearTpl>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="diseaseInput" (click)="diseaseInput = undefined; searchDisease(undefined)"></i>
+                    </ng-template>
+                  </th>
+                  <th nzWidth="25%">
+                    Drugs
+                    <nz-input-group [nzSuffix]="drugInputClearTpl">
+                      <input type="text" nz-input placeholder="Search drug" [(ngModel)]="drugInput" (ngModelChange)="searchDrug($event)" />
+                    </nz-input-group>
+                    <ng-template #drugInputClearTpl>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="drugInput" (click)="drugInput = undefined; searchDrug(undefined)"></i>
+                    </ng-template>
+                  </th>
                   <th nzWidth="3%" nzRight><i nz-icon nzType="civic:variant" nz-tooltip nzTooltipTitle="Variant count"></i></th>
                   <th nzWidth="3%" nzRight><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
                   <th nzWidth="3%" nzRight><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>

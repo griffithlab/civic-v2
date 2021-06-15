@@ -1,6 +1,7 @@
 // framework imports
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -12,6 +13,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
@@ -89,6 +91,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NgxJsonViewerModule,
     ReactiveComponentModule,
     TimeagoModule.forChild(),
+    NzInputModule,
+    FormsModule,
   ]
 })
 

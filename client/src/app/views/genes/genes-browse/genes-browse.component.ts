@@ -3,6 +3,10 @@ import {
   OnInit,
 } from '@angular/core';
 
+import {
+  FormsModule
+} from '@angular/forms'
+
 import { Observable } from 'rxjs';
 import {
   map,
@@ -20,6 +24,7 @@ import {
   BrowseGenesQuery,
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 export interface GeneTableRow {
   id: number
@@ -52,15 +57,23 @@ export class GenesBrowseComponent implements OnInit {
   pageCount$: Observable<number>;
   pageInfo$: Observable<PageInfo>;
 
+  diseaseInput: Maybe<string>
+  drugInput: Maybe<string>
+  nameInput: Maybe<string>
+  aliasInput: Maybe<string>
+
+  private initialQueryArgs!: QueryBrowseGenesArgs
+
   initialPageSize = 25;
   fetchMorePageSize = 25;
 
   constructor(private query: BrowseGenesGQL) {
-    const initialQueryArgs: QueryBrowseGenesArgs = {
+
+    this.queryRef = this.query.watch(this.initialQueryArgs);
+
+    this.initialQueryArgs = {
       first: this.initialPageSize
     }
-
-    this.queryRef = this.query.watch(initialQueryArgs);
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -111,6 +124,34 @@ export class GenesBrowseComponent implements OnInit {
         after: afterCursor
       },
     });
+  }
+
+  searchName(name: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      entrezSymbol: name
+    })
+  }
+
+  searchAlias(alias: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      geneAlias: alias
+    })
+  }
+
+  searchDisease(disease: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      diseaseName: disease
+    })
+  }
+
+  searchDrug(drug: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      drugName: drug
+    })
   }
 
   ngOnInit(): void {
