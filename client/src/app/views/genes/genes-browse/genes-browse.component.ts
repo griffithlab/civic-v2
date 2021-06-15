@@ -18,6 +18,9 @@ import {
   PageInfo,
   Maybe,
   BrowseGenesQuery,
+  GenesSort,
+  GenesSortColumns,
+  SortDirection
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
 
@@ -37,6 +40,11 @@ export interface WithName {
   name: string
 }
 
+  export interface SortDirectionEvent  {
+    key: any
+    value: null | string
+  }
+
 @Component({
   selector: 'genes-browse',
   templateUrl: './genes-browse.component.html',
@@ -52,15 +60,25 @@ export class GenesBrowseComponent implements OnInit {
   pageCount$: Observable<number>;
   pageInfo$: Observable<PageInfo>;
 
+  diseaseInput: Maybe<string>
+  drugInput: Maybe<string>
+  nameInput: Maybe<string>
+  aliasInput: Maybe<string>
+
+  sortColumns: typeof GenesSortColumns = GenesSortColumns
+
+  private initialQueryArgs!: QueryBrowseGenesArgs
+
   initialPageSize = 25;
   fetchMorePageSize = 25;
 
   constructor(private query: BrowseGenesGQL) {
-    const initialQueryArgs: QueryBrowseGenesArgs = {
+
+    this.queryRef = this.query.watch(this.initialQueryArgs);
+
+    this.initialQueryArgs = {
       first: this.initialPageSize
     }
-
-    this.queryRef = this.query.watch(initialQueryArgs);
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -111,6 +129,65 @@ export class GenesBrowseComponent implements OnInit {
         after: afterCursor
       },
     });
+  }
+
+  searchName(name: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      entrezSymbol: name
+    })
+  }
+
+  searchAlias(alias: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      geneAlias: alias
+    })
+  }
+
+  searchDisease(disease: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      diseaseName: disease
+    })
+  }
+
+  searchDrug(drug: Maybe<string>) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      drugName: drug
+    })
+  }
+
+  
+  onSortChanged(params: SortDirectionEvent) {
+    this.queryRef.refetch({
+      ...this.initialQueryArgs,
+      sortBy: this.buildSortParams(params)
+    })
+  }
+
+  buildSortParams(e: SortDirectionEvent): Maybe<GenesSort> {
+    var direction: SortDirection
+
+    switch(e.value) {
+      case 'ascend': {
+        direction = SortDirection.Asc
+        break;
+      }
+      case 'descend': {
+        direction = SortDirection.Desc
+        break;
+      }
+      default: {
+        return undefined
+      }
+    }
+
+    return { 
+      column: e.key,
+      direction: direction
+    }
   }
 
   ngOnInit(): void {
