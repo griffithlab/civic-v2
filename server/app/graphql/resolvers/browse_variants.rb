@@ -10,14 +10,14 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   scope { VariantBrowseTableRow.all }
 
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
-  option(:entrez_symbol, type: String) { |scope, value| scope.where("genes.name ILIKE ?", "#{value}%") }
+  option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(array_query_for_column('disease_names'), "#{value}%") }
   option(:drug_name, type: String)     { |scope, value| scope.where(array_query_for_column('drug_names'), "#{value}%") }
 
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column
     when "variantName"
-      scope.order "variants.name #{value.direction}"
+      scope.order "name #{value.direction}"
     when "entrezSymbol"
       scope.order "gene_name #{value.direction}"
     when "drugName"
@@ -29,7 +29,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
     when "assertionCount"
       scope.order "assertion_count #{value.direction}"
     when "evidenceScore"
-      scope.order "variants.civic_actionability_score #{value.direction}"
+      scope.order "evidence_score #{value.direction}"
     end
   end
 
