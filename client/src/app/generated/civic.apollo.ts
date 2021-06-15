@@ -2346,6 +2346,45 @@ export type GenesSummaryQuery = (
   )> }
 );
 
+export type BrowseVariantsQueryVariables = Exact<{
+  variantName?: Maybe<Scalars['String']>;
+  entrezSymbol?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantsSort>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseVariantsQuery = (
+  { __typename: 'Query' }
+  & { browseVariants: (
+    { __typename: 'BrowseVariantConnection' }
+    & Pick<BrowseVariantConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantEdge' }
+      & Pick<BrowseVariantEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariant' }
+        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneName' | 'assertionCount'>
+        & { diseases: Array<(
+          { __typename: 'Disease' }
+          & Pick<Disease, 'name'>
+        )>, drugs: Array<(
+          { __typename: 'Drug' }
+          & Pick<Drug, 'name'>
+        )> }
+      )> }
+    )> }
+  ) }
+);
+
 export const HovercardGeneFragmentDoc = gql`
     fragment hovercardGene on Gene {
   id
@@ -3266,6 +3305,59 @@ export const GenesSummaryDocument = gql`
   })
   export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
     document = GenesSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseVariantsDocument = gql`
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseVariants(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    drugName: $drugName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        evidenceScore
+        evidenceItemCount
+        geneName
+        diseases {
+          name
+        }
+        drugs {
+          name
+        }
+        assertionCount
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseVariantsGQL extends Apollo.Query<BrowseVariantsQuery, BrowseVariantsQueryVariables> {
+    document = BrowseVariantsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

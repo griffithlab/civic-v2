@@ -16,6 +16,7 @@ export const CvcTypePolicies: TypePolicies = {
   Query: {
     fields: {
       browseGenes: relayStylePagination(),
+      browseVariants: relayStylePagination(),
       events: relayStylePagination(),
       variants: relayStylePagination()
     }

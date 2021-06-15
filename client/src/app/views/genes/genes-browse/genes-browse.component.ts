@@ -18,11 +18,10 @@ import {
   PageInfo,
   Maybe,
   BrowseGenesQuery,
-  GenesSort,
   GenesSortColumns,
-  SortDirection
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { buildSortParams, SortDirectionEvent, WithName } from '@app/shared/utilities/datatable-helpers';
 
 export interface GeneTableRow {
   id: number
@@ -36,14 +35,6 @@ export interface GeneTableRow {
   assertionCount: number
 }
 
-export interface WithName {
-  name: string
-}
-
-  export interface SortDirectionEvent  {
-    key: any
-    value: null | string
-  }
 
 @Component({
   selector: 'genes-browse',
@@ -67,18 +58,18 @@ export class GenesBrowseComponent implements OnInit {
 
   sortColumns: typeof GenesSortColumns = GenesSortColumns
 
-  private initialQueryArgs!: QueryBrowseGenesArgs
+  private initialQueryArgs: QueryBrowseGenesArgs
 
   initialPageSize = 25;
   fetchMorePageSize = 25;
 
   constructor(private query: BrowseGenesGQL) {
 
-    this.queryRef = this.query.watch(this.initialQueryArgs);
-
     this.initialQueryArgs = {
       first: this.initialPageSize
     }
+
+    this.queryRef = this.query.watch(this.initialQueryArgs);
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -163,32 +154,10 @@ export class GenesBrowseComponent implements OnInit {
   onSortChanged(params: SortDirectionEvent) {
     this.queryRef.refetch({
       ...this.initialQueryArgs,
-      sortBy: this.buildSortParams(params)
+      sortBy: buildSortParams(params)
     })
   }
 
-  buildSortParams(e: SortDirectionEvent): Maybe<GenesSort> {
-    var direction: SortDirection
-
-    switch(e.value) {
-      case 'ascend': {
-        direction = SortDirection.Asc
-        break;
-      }
-      case 'descend': {
-        direction = SortDirection.Desc
-        break;
-      }
-      default: {
-        return undefined
-      }
-    }
-
-    return { 
-      column: e.key,
-      direction: direction
-    }
-  }
 
   ngOnInit(): void {
   }
