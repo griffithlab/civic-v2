@@ -207,6 +207,67 @@ type BrowseGeneEdge {
   node: BrowseGene
 }
 
+type BrowseVariant {
+  assertionCount: Int!
+  diseases: [Disease!]!
+  drugs: [Drug!]!
+  evidenceItemCount: Int!
+  evidenceScore: Float!
+  geneName: String!
+  id: Int!
+  name: String!
+}
+
+"""
+The connection type for BrowseVariant.
+"""
+type BrowseVariantConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseVariantEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseVariant!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseVariantEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseVariant
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -1574,6 +1635,32 @@ type Query {
     last: Int
     sortBy: GenesSort
   ): BrowseGeneConnection!
+  browseVariants(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    diseaseName: String
+    drugName: String
+    entrezSymbol: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    sortBy: VariantsSort
+    variantName: String
+  ): BrowseVariantConnection!
 
   """
   List and filter comments.
@@ -2462,6 +2549,28 @@ enum VariantOrigin {
   RARE_GERMLINE
   SOMATIC
   UNKNOWN
+}
+
+input VariantsSort {
+  """
+  Available columns for sorting
+  """
+  column: VariantsSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum VariantsSortColumns {
+  assertionCount
+  diseaseName
+  drugName
+  entrezSymbol
+  evidenceItemCount
+  evidenceScore
+  variantName
 }
 
 """

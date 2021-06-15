@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_10_233248) do
+ActiveRecord::Schema.define(version: 2021_06_15_163047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -868,5 +868,26 @@ ActiveRecord::Schema.define(version: 2021_06_10_233248) do
     GROUP BY genes.id, genes.name, genes.entrez_id;
   SQL
   add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
+
+  create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variants.id,
+      variants.name,
+      variants.civic_actionability_score AS evidence_score,
+      genes.name AS gene_name,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      array_agg(DISTINCT diseases.name ORDER BY diseases.name) AS disease_names,
+      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM ((((((variants
+       JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN assertions ON ((assertions.variant_id = variants.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variants.id, variants.name, variants.civic_actionability_score, genes.name;
+  SQL
+  add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
 
 end

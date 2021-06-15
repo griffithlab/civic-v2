@@ -11,6 +11,7 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
     field :browseGenes, resolver: Resolvers::BrowseGenes
+    field :browseVariants, resolver: Resolvers::BrowseVariants
     field :events, resolver: Resolvers::TopLevelEvents
 
     field :disease, Types::Entities::DiseaseType, null: true do
