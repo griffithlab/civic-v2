@@ -81,7 +81,7 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     OrganizationPillComponent,
     OrganizationHovercardComponent,
     CommentDisplayComponent,
-    VariantsMenuComponent
+    VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent
@@ -120,7 +120,7 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     GenesComponentsModule,
     FormlyNgZorroAntdModule,
     FormlyModule.forChild(),
-    NzSelectModule
+    NzSelectModule,
     NzModalModule
   ],
   exports: [
@@ -140,7 +140,7 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     UserPillComponent,
     OrganizationPillComponent,
     OrganizationHovercardComponent,
-    VariantsMenuComponent
+    VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent
