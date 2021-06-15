@@ -60,7 +60,6 @@ export class VariantsMenuComponent implements OnInit {
     }
 
     onVariantStatusFilterChanged(value: string) {
-        console.log("Here")
         this.queryRef$.refetch({
             ...this.initialQueryVars,
             variantName: this.currentVariables().variantName,
