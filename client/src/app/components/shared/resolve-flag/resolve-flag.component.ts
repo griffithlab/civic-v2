@@ -24,6 +24,8 @@ export class ResolveFlagComponent implements OnInit {
   formGroup = new FormGroup({});
   formOptions: FormlyFormOptions = {};
 
+  errorMessages: Maybe<string[]>
+
   constructor(private gql: ResolveFlagGQL, private modal: NzModalRef) {
     this.formFields = [
       {
@@ -53,8 +55,14 @@ export class ResolveFlagComponent implements OnInit {
   }
 
   resolveFlag(input: ResolveFlagInput) {
-    this.gql.mutate({ input: input }).subscribe(
-      ({ data }) => {
+    this.gql.mutate(
+      { input: input },
+      {errorPolicy: 'all'}
+     ).subscribe(({ data, errors }) => {
+        if(errors) {
+          this.errorMessages = errors.map(e => e.message)
+          return;
+        }
         if (this.flagResolvedCallback) {
           this.flagResolvedCallback();
         }

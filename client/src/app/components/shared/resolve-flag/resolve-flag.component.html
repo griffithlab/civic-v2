@@ -1,3 +1,12 @@
+<nz-alert *ngIf="errorMessages" nzType="error" nzShowIcon [nzDescription]="errorContents" nzMessage="Error Resolving Flag"> </nz-alert>
+<ng-template #errorContents>
+  <ul>
+    <li *ngFor="let error of errorMessages">
+      {{ error }}
+    </li>
+  </ul>
+</ng-template>
+
 <nz-card nzType="inner">
     <form nz-form
       [formGroup]="formGroup"
