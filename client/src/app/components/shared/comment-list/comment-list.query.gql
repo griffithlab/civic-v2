@@ -1,0 +1,58 @@
+query CommentList(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $originatingUserId: Int
+  $subject: CommentableInput,
+  $sortBy: DateSort
+) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    subject: $subject,
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    uniqueCommenters {
+      id
+      displayName
+      profileImagePath(size: 32)
+    }
+    edges {
+      cursor
+      node {
+        ...commentListNode
+      }
+    }
+  }
+}
+
+fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commenter {
+    id
+    username
+    displayName
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}

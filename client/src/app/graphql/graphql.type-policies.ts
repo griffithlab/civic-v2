@@ -18,7 +18,8 @@ export const CvcTypePolicies: TypePolicies = {
       browseGenes: relayStylePagination(),
       browseVariants: relayStylePagination(),
       events: relayStylePagination(),
-      variants: relayStylePagination()
+      variants: relayStylePagination(),
+      comments: relayStylePagination()
     }
   }
 };

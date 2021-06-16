@@ -1,7 +1,0 @@
-fragment commentParticipants on CommentConnection {
-  uniqueCommenters {
-    id
-    username
-    profileImagePath(size: 32)
-  }
-}

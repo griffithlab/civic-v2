@@ -6,7 +6,18 @@ module Types::Connections
       description: 'List of all users that have commented on this entity.'
 
     def unique_commenters
-      User.where(id: parent.comments.select(:user_id)).distinct
+      if comment_subject
+        User.where(id:
+          Comment.where(commentable: comment_subject).select(:user_id)
+        ).distinct
+      else
+        User.where(id: parent.comments.select(:user_id)).distinct
+      end
+    end
+
+    private
+    def comment_subject
+      @comment_subject ||= object.arguments[:subject]
     end
 
   end

@@ -1751,20 +1751,37 @@ export type AddCommentMutation = (
   )> }
 );
 
-export type CommentListFragment = (
-  { __typename: 'CommentConnection' }
-  & Pick<CommentConnection, 'totalCount'>
-  & { pageInfo: (
-    { __typename: 'PageInfo' }
-    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-  ), edges: Array<(
-    { __typename: 'CommentEdge' }
-    & Pick<CommentEdge, 'cursor'>
-    & { node?: Maybe<(
-      { __typename: 'Comment' }
-      & CommentListNodeFragment
+export type CommentListQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  subject?: Maybe<CommentableInput>;
+  sortBy?: Maybe<DateSort>;
+}>;
+
+
+export type CommentListQuery = (
+  { __typename: 'Query' }
+  & { comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ), uniqueCommenters: Array<(
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    )>, edges: Array<(
+      { __typename: 'CommentEdge' }
+      & Pick<CommentEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Comment' }
+        & CommentListNodeFragment
+      )> }
     )> }
-  )> }
+  ) }
 );
 
 export type CommentListNodeFragment = (
@@ -1778,14 +1795,6 @@ export type CommentListNodeFragment = (
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
     )> }
   ) }
-);
-
-export type CommentParticipantsFragment = (
-  { __typename: 'CommentConnection' }
-  & { uniqueCommenters: Array<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'profileImagePath'>
-  )> }
 );
 
 export type EventFeedQueryVariables = Exact<{
@@ -2233,29 +2242,6 @@ export type BrowseGenesQuery = (
   ) }
 );
 
-export type GeneCommentsQueryVariables = Exact<{
-  id: Scalars['Int'];
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type GeneCommentsQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id'>
-    & { comments: (
-      { __typename: 'CommentConnection' }
-      & CommentListFragment
-      & CommentParticipantsFragment
-    ) }
-  )> }
-);
-
 export type GeneDetailQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -2554,32 +2540,6 @@ export const CommentListNodeFragmentDoc = gql`
       name
       profileImagePath(size: 32)
     }
-  }
-}
-    `;
-export const CommentListFragmentDoc = gql`
-    fragment commentList on CommentConnection {
-  totalCount
-  pageInfo {
-    startCursor
-    endCursor
-    hasPreviousPage
-    hasNextPage
-  }
-  edges {
-    cursor
-    node {
-      ...commentListNode
-    }
-  }
-}
-    ${CommentListNodeFragmentDoc}`;
-export const CommentParticipantsFragmentDoc = gql`
-    fragment commentParticipants on CommentConnection {
-  uniqueCommenters {
-    id
-    username
-    profileImagePath(size: 32)
   }
 }
     `;
@@ -2924,6 +2884,49 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CommentListDocument = gql`
+    query CommentList($first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $subject: CommentableInput, $sortBy: DateSort) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    subject: $subject
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    uniqueCommenters {
+      id
+      displayName
+      profileImagePath(size: 32)
+    }
+    edges {
+      cursor
+      node {
+        ...commentListNode
+      }
+    }
+  }
+}
+    ${CommentListNodeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
+    document = CommentListDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -3367,35 +3370,6 @@ export const BrowseGenesDocument = gql`
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneCommentsDocument = gql`
-    query GeneComments($id: Int!, $first: Int, $last: Int, $before: String, $after: String, $userId: Int) {
-  gene(id: $id) {
-    id
-    comments(
-      first: $first
-      last: $last
-      before: $before
-      after: $after
-      originatingUserId: $userId
-    ) {
-      ...commentList
-      ...commentParticipants
-    }
-  }
-}
-    ${CommentListFragmentDoc}
-${CommentParticipantsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneCommentsGQL extends Apollo.Query<GeneCommentsQuery, GeneCommentsQueryVariables> {
-    document = GeneCommentsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
