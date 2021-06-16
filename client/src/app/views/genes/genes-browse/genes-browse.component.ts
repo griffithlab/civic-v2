@@ -3,8 +3,9 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
+  debounceTime,
   map,
   pluck,
   startWith,
@@ -42,6 +43,8 @@ export interface GeneTableRow {
   styleUrls: ['./genes-browse.component.less'],
 })
 export class GenesBrowseComponent implements OnInit {
+  private initialQueryArgs: QueryBrowseGenesArgs
+  private debouncedQuery = new Subject<void>();
 
   queryRef: QueryRef<BrowseGenesQuery,QueryBrowseGenesArgs>;
   data$: Observable<ApolloQueryResult<BrowseGenesQuery>>;
@@ -57,8 +60,6 @@ export class GenesBrowseComponent implements OnInit {
   aliasInput: Maybe<string>
 
   sortColumns: typeof GenesSortColumns = GenesSortColumns
-
-  private initialQueryArgs: QueryBrowseGenesArgs
 
   initialPageSize = 25;
   fetchMorePageSize = 25;
@@ -111,6 +112,17 @@ export class GenesBrowseComponent implements OnInit {
       pluck('data', 'browseGenes', 'pageCount'),
       startWith(0),
     );
+
+    this.debouncedQuery
+    .pipe(debounceTime(500))
+    .subscribe((_) => {
+      this.queryRef.refetch({
+        entrezSymbol: this.nameInput,
+        geneAlias: this.aliasInput,
+        diseaseName: this.diseaseInput,
+        drugName: this.drugInput,
+      });
+    });
   }
 
   loadMore(afterCursor: Maybe<string>):void {
@@ -122,42 +134,16 @@ export class GenesBrowseComponent implements OnInit {
     });
   }
 
-  searchName(name: Maybe<string>) {
+  onSortChanged(e: SortDirectionEvent) {
     this.queryRef.refetch({
       ...this.initialQueryArgs,
-      entrezSymbol: name
-    })
+      sortBy: buildSortParams(e),
+    });
   }
 
-  searchAlias(alias: Maybe<string>) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      geneAlias: alias
-    })
+  onModelUpdated(_: Maybe<string>) {
+    this.debouncedQuery.next();
   }
-
-  searchDisease(disease: Maybe<string>) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      diseaseName: disease
-    })
-  }
-
-  searchDrug(drug: Maybe<string>) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      drugName: drug
-    })
-  }
-
-  
-  onSortChanged(params: SortDirectionEvent) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      sortBy: buildSortParams(params)
-    })
-  }
-
 
   ngOnInit(): void {
   }

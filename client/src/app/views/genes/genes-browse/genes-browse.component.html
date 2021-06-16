@@ -43,34 +43,34 @@
                 <tr>
                   <th>
                     <nz-input-group [nzSuffix]="nameInputClearTpl">
-                      <input type="text" nz-input placeholder="Search name" [(ngModel)]="nameInput" (ngModelChange)="searchName($event)" />
+                      <input type="text" nz-input placeholder="Search name" [(ngModel)]="nameInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
                     <ng-template #nameInputClearTpl>
-                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="nameInput" (click)="nameInput = undefined; searchName(undefined)"></i>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="nameInput" (click)="nameInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
                   <th>
                     <nz-input-group [nzSuffix]="aliasInputClearTpl">
-                      <input type="text" nz-input placeholder="Search alias" [(ngModel)]="aliasInput" (ngModelChange)="searchAlias($event)" />
+                      <input type="text" nz-input placeholder="Search alias" [(ngModel)]="aliasInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
                     <ng-template #aliasInputClearTpl>
-                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="aliasInput" (click)="aliasInput = undefined; searchAlias(undefined)"></i>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="aliasInput" (click)="aliasInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
                   <th>
                     <nz-input-group [nzSuffix]="diseaseInputClearTpl">
-                      <input type="text" nz-input placeholder="Search disease" [(ngModel)]="diseaseInput" (ngModelChange)="searchDisease($event)" />
+                      <input type="text" nz-input placeholder="Search disease" [(ngModel)]="diseaseInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
                     <ng-template #diseaseInputClearTpl>
-                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="diseaseInput" (click)="diseaseInput = undefined; searchDisease(undefined)"></i>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="diseaseInput" (click)="diseaseInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
                   <th>
                     <nz-input-group [nzSuffix]="drugInputClearTpl">
-                      <input type="text" nz-input placeholder="Search drug" [(ngModel)]="drugInput" (ngModelChange)="searchDrug($event)" />
+                      <input type="text" nz-input placeholder="Search drug" [(ngModel)]="drugInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
                     <ng-template #drugInputClearTpl>
-                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="drugInput" (click)="drugInput = undefined; searchDrug(undefined)"></i>
+                      <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="drugInput" (click)="drugInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
                   <th></th>
