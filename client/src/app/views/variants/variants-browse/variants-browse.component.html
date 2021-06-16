@@ -23,6 +23,22 @@
                 <tr>
                   <th nzWidth="10%" [nzColumnKey]="sortColumns.VariantName" [nzSortFn]="true">
                     Name
+                  </th>
+                  <th nzWidth="20%" [nzColumnKey]="sortColumns.EntrezSymbol" [nzSortFn]="true">
+                    Gene Symbol
+                  </th>
+                  <th nzWidth="25%" [nzColumnKey]="sortColumns.DiseaseName" [nzSortFn]="true">
+                    Diseases
+                  </th>
+                  <th nzWidth="25%" [nzColumnKey]="sortColumns.DrugName" [nzSortFn]="true">
+                    Drugs
+                  </th>
+                  <th nzWidth="3%" nzRight [nzSortFn]="true" [nzColumnKey]="sortColumns.EvidenceScore">Evidence Score</th>
+                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.EvidenceItemCount" [nzSortFn]="true"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
+                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.AssertionCount" [nzSortFn]="true"><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
+                </tr>
+                <tr>
+                  <th>
                     <nz-input-group [nzSuffix]="nameInputClearTpl">
                       <input type="text" nz-input placeholder="Search name" [(ngModel)]="variantNameInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
@@ -30,8 +46,7 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="variantNameInput" (click)="variantNameInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="20%" [nzColumnKey]="sortColumns.EntrezSymbol" [nzSortFn]="true"> 
-                    Gene Symbol
+                  <th>
                     <nz-input-group [nzSuffix]="aliasInputClearTpl">
                       <input type="text" nz-input placeholder="Search gene" [(ngModel)]="geneSymbolInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
@@ -39,8 +54,7 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="geneSymbolInput" (click)="geneSymbolInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="25%" [nzColumnKey]="sortColumns.DiseaseName" [nzSortFn]="true">
-                    Diseases
+                  <th>
                     <nz-input-group [nzSuffix]="diseaseInputClearTpl">
                       <input type="text" nz-input placeholder="Search disease" [(ngModel)]="diseaseNameInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
@@ -48,8 +62,7 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="diseaseNameInput" (click)="diseaseNameInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="25%" [nzColumnKey]="sortColumns.DrugName" [nzSortFn]="true">
-                    Drugs
+                  <th>
                     <nz-input-group [nzSuffix]="drugInputClearTpl">
                       <input type="text" nz-input placeholder="Search drug" [(ngModel)]="drugNameInput" (ngModelChange)="onModelUpdated($event)" />
                     </nz-input-group>
@@ -57,9 +70,9 @@
                       <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="drugNameInput" (click)="drugNameInput = undefined; onModelUpdated(undefined)"></i>
                     </ng-template>
                   </th>
-                  <th nzWidth="3%" nzRight [nzSortFn]="true" [nzColumnKey]="sortColumns.EvidenceScore">Evidence Score</th>
-                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.EvidenceItemCount" [nzSortFn]="true"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
-                  <th nzWidth="3%" nzRight [nzColumnKey]="sortColumns.AssertionCount" [nzSortFn]="true"><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
