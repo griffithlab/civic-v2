@@ -2454,6 +2454,37 @@ export type VariantDetailQuery = (
 
 export type VariantDetailFieldsFragment = (
   { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
+export type VariantSummaryQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantSummaryQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & VariantSummaryFieldsFragment
+  )> }
+);
+
+export type VariantSummaryFieldsFragment = (
+  { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsExpressions' | 'clinvarEntries' | 'evidenceScore'>
   & { gene: (
     { __typename: 'Gene' }
@@ -2698,6 +2729,25 @@ export const SourceTypeaheadResultFragmentDoc = gql`
     `;
 export const VariantDetailFieldsFragmentDoc = gql`
     fragment VariantDetailFields on Variant {
+  id
+  name
+  gene {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
+export const VariantSummaryFieldsFragmentDoc = gql`
+    fragment VariantSummaryFields on Variant {
   id
   name
   description
@@ -3511,7 +3561,25 @@ export const VariantDetailDocument = gql`
   })
   export class VariantDetailGQL extends Apollo.Query<VariantDetailQuery, VariantDetailQueryVariables> {
     document = VariantDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantSummaryDocument = gql`
+    query VariantSummary($variantId: Int!) {
+  variant(id: $variantId) {
+    ...VariantSummaryFields
+  }
+}
+    ${VariantSummaryFieldsFragmentDoc}`;
 
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantSummaryGQL extends Apollo.Query<VariantSummaryQuery, VariantSummaryQueryVariables> {
+    document = VariantSummaryDocument;
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

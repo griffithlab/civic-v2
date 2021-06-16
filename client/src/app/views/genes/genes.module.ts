@@ -48,6 +48,7 @@ import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { VariantsModule } from '../variants/variants.module';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
+    VariantsModule
   ]
 })
 

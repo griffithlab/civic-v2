@@ -9,39 +9,9 @@ query VariantDetail(
 fragment VariantDetailFields on Variant {
     id
     name
-    description
     gene {
         id
         name
-    }
-    sources {
-        id
-        citation
-    }
-    variantAliases
-    alleleRegistryId
-    variantTypes {
-        soid,
-        displayName
-    }
-    hgvsExpressions
-    clinvarEntries
-    evidenceScore
-    fivePrimeCoordinates {
-        representativeTranscript
-        chromosome
-        start
-        stop
-        referenceBases
-        variantBases
-    }
-    threePrimeCoordinates {
-        representativeTranscript
-        chromosome
-        start
-        stop
-        referenceBases
-        variantBases
     }
     flags(state: OPEN) {
       totalCount

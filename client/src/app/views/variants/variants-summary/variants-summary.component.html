@@ -1,0 +1,86 @@
+<nz-space nzSize="middle" *ngIf="(variant$ | ngrxPush) as variant" nzDirection="vertical" class="space-align-block">
+  <nz-space-item>
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="12">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <ng-container [ngPlural]="variant.variantAliases.length"> 
+              <ng-template  ngPluralCase="=0"><b>No Aliases</b></ng-template>
+              <ng-template  ngPluralCase="=1"><b>Alias: </b></ng-template>
+              <ng-template  ngPluralCase="other"><b>Aliases: </b></ng-template>
+              <ng-container *ngFor="let alias of variant.variantAliases; let last = last">
+                {{ alias }} <ng-container *ngIf="!last">, </ng-container>
+              </ng-container>
+            </ng-container>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <ng-container *ngIf="variant.alleleRegistryId as registryId; else alleleElse">
+            <b>Allele Registry Id: </b>
+              <a nz-button href="https://reg.genome.network/allele/{{registryId}}.html" target="_blank">{{registryId}}</a>
+            </ng-container>
+            <ng-template #alleleElse><b>No Allele Registry Id Found</b></ng-template>
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col [nzSpan]="24">
+            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="14">{{ variant.description }}</p>
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col [nzSpan]="12">
+            <ng-container [ngPlural]="variant.variantTypes.length"> 
+              <ng-template  ngPluralCase="=0"><b>Variant Type:</b> None Specified</ng-template>
+              <ng-template  ngPluralCase="=1"><b>Variant Type:</b> </ng-template>
+              <ng-template  ngPluralCase="other"><b>Variant Types: </b></ng-template>
+              <ng-container *ngFor="let vt of variant.variantTypes; let last = last">
+                  <a nz-button href="http://www.sequenceontology.org/browser/current_svn/term/{{vt.soid}}" target="_blank">{{ vt.displayName }}</a>
+                   <ng-container *ngIf="!last">, </ng-container>
+              </ng-container>
+            </ng-container>
+          </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="12">
+          <nz-col [nzSpan]="18">
+            <nz-list *ngIf="variant.sources" nzHeader="Sources" nzBordered nzSize="small">
+              <nz-list-item *ngFor="let source of variant.sources">
+                <ul nz-list-item-actions>
+                  <nz-list-item-action>
+                    <a href="source.sourceUrl">{{ source.sourceType}}</a>
+                  </nz-list-item-action>
+                </ul>
+                {{ source.citation }}
+              </nz-list-item>
+            </nz-list>
+          </nz-col>
+          <nz-col [nzSpan]="6">
+            <nz-space nzDirection="vertical" class="space-align-block">
+              <nz-space-item>
+                <!-- <a nz-button href="http://dgidb.org/genes/{{ name }}" target="_blank" nzType="default" nzSize="small"
+                  nzBlock class="space-align-block">
+                  DGIdb
+                </a> -->
+              </nz-space-item>
+              <nz-space-item>
+                <!-- <a nz-button href="https://pecan.stjude.cloud/proteinpaint/{{ name }}/hg19/civic" target="_blank"
+                  nzType="default" nzSize="small" nzBlock class="space-align-block">
+                  ProteinPaint
+                </a> -->
+              </nz-space-item>
+            </nz-space>
+          </nz-col>
+        </nz-row>
+      </div>
+      <div nz-col nzSpan="12">
+        My Variant Info
+        <!-- <cvc-my-gene-info [geneInfo]="myGeneInfo$ | async"></cvc-my-gene-info> -->
+      </div>
+    </div>
+  </nz-space-item>
+  <nz-space-item>
+    <div nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
+        <cvc-event-feed [subscribable]="subscribable"></cvc-event-feed>
+      </nz-col>
+    </div>
+  </nz-space-item>
+</nz-space>

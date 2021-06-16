@@ -23,7 +23,6 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
 })
 export class GenesSummaryComponent implements OnInit {
   gene$: Observable<Gene>;
-  subject$: Observable<any>;
   data$: Observable<Data>;
   loading$: Observable<boolean>
   myGeneInfo$: Observable<any>;
@@ -50,14 +49,6 @@ export class GenesSummaryComponent implements OnInit {
 
     this.loading$ = this.data$
       .pipe(pluck('loading'));
-
-    this.subject$ = this.gene$.pipe(
-      map(gene => {
-        return {
-          id: +gene.id,
-          entityType: CommentableEntities[gene.__typename]
-        } as CommentableInput;
-      }));
 
     this.myGeneInfo$ = this.gene$.pipe(
       pluck('myGeneInfoDetails'),

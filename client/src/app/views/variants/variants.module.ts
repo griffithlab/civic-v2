@@ -38,12 +38,14 @@ import { VariantsBrowseComponent } from './variants-browse/variants-browse.compo
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
+import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
 
 @NgModule({
   declarations: [
     VariantsComponent,
     VariantsBrowseComponent,
     VariantsDetailComponent,
+    VariantSummaryComponent
   ],
   imports: [
     CvcFormsModule,
@@ -75,6 +77,6 @@ import { VariantsDetailComponent } from './variants-detail/variants-detail.compo
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-  ]
+  ],
 })
 export class VariantsModule { }
