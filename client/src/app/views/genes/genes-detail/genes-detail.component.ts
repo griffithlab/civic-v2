@@ -45,7 +45,7 @@ export class GenesDetailComponent {
       pluck('flags', 'totalCount'));
 
     this.revisionsTotal$ = this.gene$.pipe(
-      pluck('revisions', 'Count'));
+      pluck('revisions', 'totalCount'));
 
     this.viewer$ = this.viewerService.viewer$;
   }

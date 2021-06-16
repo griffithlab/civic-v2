@@ -108,6 +108,15 @@ export type CommentableKeySpecifier = ('comments' | CommentableKeySpecifier)[];
 export type CommentableFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CoordinateKeySpecifier = ('chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | CoordinateKeySpecifier)[];
+export type CoordinateFieldPolicy = {
+	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
+	referenceBases?: FieldPolicy<any> | FieldReadFunction<any>,
+	representativeTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	start?: FieldPolicy<any> | FieldReadFunction<any>,
+	stop?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantBases?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DiseaseKeySpecifier = ('diseaseUrl' | 'displayName' | 'doid' | 'id' | 'name' | DiseaseKeySpecifier)[];
 export type DiseaseFieldPolicy = {
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -359,7 +368,7 @@ export type PhenotypeFieldPolicy = {
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseGenes' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'flags' | 'gene' | 'organization' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseGenes' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'flags' | 'gene' | 'organization' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'variant' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseVariants?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -377,6 +386,7 @@ export type QueryFieldPolicy = {
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	variant?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -496,17 +506,29 @@ export type UserFieldPolicy = {
 	url?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantKeySpecifier = ('comments' | 'description' | 'events' | 'evidenceItems' | 'flagged' | 'flags' | 'gene' | 'id' | 'name' | VariantKeySpecifier)[];
+export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarEntries' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'gene' | 'hgvsExpressions' | 'id' | 'name' | 'referenceBuild' | 'revisions' | 'sources' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
+	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarEntries?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	ensemblVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	fivePrimeCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
+	hgvsExpressions?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	sources?: FieldPolicy<any> | FieldReadFunction<any>,
+	threePrimeCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
 export type VariantConnectionFieldPolicy = {
@@ -520,6 +542,14 @@ export type VariantEdgeKeySpecifier = ('cursor' | 'node' | VariantEdgeKeySpecifi
 export type VariantEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type VariantTypeKeySpecifier = ('description' | 'displayName' | 'id' | 'name' | 'soid' | VariantTypeKeySpecifier)[];
+export type VariantTypeFieldPolicy = {
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	soid?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type WithRevisionsKeySpecifier = ('revisions' | WithRevisionsKeySpecifier)[];
 export type WithRevisionsFieldPolicy = {
@@ -585,6 +615,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Commentable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentableKeySpecifier | (() => undefined | CommentableKeySpecifier),
 		fields?: CommentableFieldPolicy,
+	},
+	Coordinate?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CoordinateKeySpecifier | (() => undefined | CoordinateKeySpecifier),
+		fields?: CoordinateFieldPolicy,
 	},
 	Disease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DiseaseKeySpecifier | (() => undefined | DiseaseKeySpecifier),
@@ -785,6 +819,10 @@ export type TypedTypePolicies = TypePolicies & {
 	VariantEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantEdgeKeySpecifier | (() => undefined | VariantEdgeKeySpecifier),
 		fields?: VariantEdgeFieldPolicy,
+	},
+	VariantType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantTypeKeySpecifier | (() => undefined | VariantTypeKeySpecifier),
+		fields?: VariantTypeFieldPolicy,
 	},
 	WithRevisions?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | WithRevisionsKeySpecifier | (() => undefined | WithRevisionsKeySpecifier),

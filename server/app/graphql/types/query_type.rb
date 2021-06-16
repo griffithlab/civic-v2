@@ -29,6 +29,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :variant, Types::Entities::VariantType, null: true do
+      description "Find a variant by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :source, Types::Entities::SourceType, null: true do
       description "Find a source by CIViC ID"
       argument :id, Int, required: true
@@ -64,6 +69,10 @@ module Types
 
     def gene(id: )
       Gene.find(id)
+    end
+
+    def variant(id: )
+      Variant.find(id)
     end
 
     def source(id: )

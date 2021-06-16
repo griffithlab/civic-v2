@@ -1,0 +1,55 @@
+query VariantDetail(
+  $variantId: Int!
+) {
+  variant(id: $variantId) {
+      ...VariantDetailFields
+  }
+}
+
+fragment VariantDetailFields on Variant {
+    id
+    name
+    description
+    gene {
+        id
+        name
+    }
+    sources {
+        id
+        citation
+    }
+    variantAliases
+    alleleRegistryId
+    variantTypes {
+        soid,
+        displayName
+    }
+    hgvsExpressions
+    clinvarEntries
+    evidenceScore
+    fivePrimeCoordinates {
+        representativeTranscript
+        chromosome
+        start
+        stop
+        referenceBases
+        variantBases
+    }
+    threePrimeCoordinates {
+        representativeTranscript
+        chromosome
+        start
+        stop
+        referenceBases
+        variantBases
+    }
+    flags(state: OPEN) {
+      totalCount
+    }
+    revisions(status: NEW) {
+      totalCount
+    }
+    comments {
+      totalCount
+    }
+} 

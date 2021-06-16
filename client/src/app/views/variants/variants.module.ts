@@ -37,12 +37,13 @@ import { SharedComponentsModule } from '@app/components/shared/shared-components
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
-
+import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 
 @NgModule({
   declarations: [
     VariantsComponent,
     VariantsBrowseComponent,
+    VariantsDetailComponent,
   ],
   imports: [
     CvcFormsModule,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
+import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 
 import { VariantsComponent } from './variants.component';
 
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path: 'browse',
         component: VariantsBrowseComponent
+      },
+      {
+        path: ':variantId',
+        component: VariantsDetailComponent,
       }
     ]
   }
