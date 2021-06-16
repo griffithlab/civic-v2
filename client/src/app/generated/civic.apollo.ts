@@ -2265,51 +2265,56 @@ export type GeneDetailQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name' | 'officialName' | 'entrezId'>
-    & { flags: (
-      { __typename: 'FlagConnection' }
-      & Pick<FlagConnection, 'totalCount'>
-    ), revisions: (
-      { __typename: 'RevisionConnection' }
-      & Pick<RevisionConnection, 'totalCount'>
-    ), comments: (
-      { __typename: 'CommentConnection' }
-      & Pick<CommentConnection, 'totalCount'>
-    ), lifecycleActions: (
-      { __typename: 'Lifecycle' }
-      & { lastCommentedOn?: Maybe<(
-        { __typename: 'Event' }
-        & Pick<Event, 'createdAt' | 'id'>
-        & { organization: (
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        ), originatingUser: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'name'>
-        ) }
-      )>, lastModified?: Maybe<(
-        { __typename: 'Event' }
-        & Pick<Event, 'createdAt' | 'id'>
-        & { organization: (
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        ), originatingUser: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'name'>
-        ) }
-      )>, lastReviewed?: Maybe<(
-        { __typename: 'Event' }
-        & Pick<Event, 'createdAt' | 'id'>
-        & { organization: (
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name'>
-        ), originatingUser: (
-          { __typename: 'User' }
-          & Pick<User, 'id' | 'name'>
-        ) }
-      )> }
-    ) }
+    & GeneDetailFieldsFragment
   )> }
+);
+
+export type GeneDetailFieldsFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'officialName' | 'entrezId'>
+  & { flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), lifecycleActions: (
+    { __typename: 'Lifecycle' }
+    & { lastCommentedOn?: Maybe<(
+      { __typename: 'Event' }
+      & Pick<Event, 'createdAt' | 'id'>
+      & { organization: (
+        { __typename: 'Organization' }
+        & Pick<Organization, 'id' | 'name'>
+      ), originatingUser: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'name'>
+      ) }
+    )>, lastModified?: Maybe<(
+      { __typename: 'Event' }
+      & Pick<Event, 'createdAt' | 'id'>
+      & { organization: (
+        { __typename: 'Organization' }
+        & Pick<Organization, 'id' | 'name'>
+      ), originatingUser: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'name'>
+      ) }
+    )>, lastReviewed?: Maybe<(
+      { __typename: 'Event' }
+      & Pick<Event, 'createdAt' | 'id'>
+      & { organization: (
+        { __typename: 'Organization' }
+        & Pick<Organization, 'id' | 'name'>
+      ), originatingUser: (
+        { __typename: 'User' }
+        & Pick<User, 'id' | 'name'>
+      ) }
+    )> }
+  ) }
 );
 
 export type GeneRevisionsQueryVariables = Exact<{
@@ -2730,6 +2735,61 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   citation
   citationId
   sourceType
+}
+    `;
+export const GeneDetailFieldsFragmentDoc = gql`
+    fragment GeneDetailFields on Gene {
+  id
+  name
+  officialName
+  entrezId
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  lifecycleActions {
+    lastCommentedOn {
+      createdAt
+      id
+      organization {
+        id
+        name
+      }
+      originatingUser {
+        id
+        name
+      }
+    }
+    lastModified {
+      createdAt
+      id
+      organization {
+        id
+        name
+      }
+      originatingUser {
+        id
+        name
+      }
+    }
+    lastReviewed {
+      createdAt
+      id
+      organization {
+        id
+        name
+      }
+      originatingUser {
+        id
+        name
+      }
+    }
+  }
 }
     `;
 export const GeneSummaryFieldsFragmentDoc = gql`
@@ -3344,60 +3404,10 @@ ${CommentParticipantsFragmentDoc}`;
 export const GeneDetailDocument = gql`
     query GeneDetail($geneId: Int!) {
   gene(id: $geneId) {
-    id
-    name
-    officialName
-    entrezId
-    flags(state: OPEN) {
-      totalCount
-    }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
-    lifecycleActions {
-      lastCommentedOn {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-      lastModified {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-      lastReviewed {
-        createdAt
-        id
-        organization {
-          id
-          name
-        }
-        originatingUser {
-          id
-          name
-        }
-      }
-    }
+    ...GeneDetailFields
   }
 }
-    `;
+    ${GeneDetailFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

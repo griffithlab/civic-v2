@@ -1,7 +1,8 @@
-query GeneDetail(
-  $geneId: Int!
-) {
-  gene(id: $geneId) {
+query GeneDetail( $geneId: Int!) {
+  gene(id: $geneId) { ...GeneDetailFields }
+}
+
+fragment GeneDetailFields on Gene {
     id
     name
     officialName
@@ -54,4 +55,3 @@ query GeneDetail(
       }
     }
   }
-}

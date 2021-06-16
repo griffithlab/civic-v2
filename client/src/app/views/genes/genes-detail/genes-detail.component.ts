@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute,  } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
-
-import { GenesDetailService } from './genes-detail.service';
-import {
-  Gene,
-} from '@app/generated/civic.apollo';
-
+import {GeneDetailFieldsFragment, GeneDetailGQL, Maybe } from '@app/generated/civic.apollo';
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 @Component({
@@ -18,25 +13,23 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
 
 export class GenesDetailComponent {
   loading$: Observable<boolean>;
-  gene$: Observable<Gene>;
+  gene$: Observable<Maybe<GeneDetailFieldsFragment>>;
   viewer$: Observable<Viewer>;
   commentsTotal$: Observable<number>;
   revisionsTotal$: Observable<number>;
   flagsTotal$: Observable<number>;
 
-  constructor(private service: GenesDetailService,
+  constructor(private gql: GeneDetailGQL,
               private viewerService: ViewerService,
               private route: ActivatedRoute) {
 
     const geneId: number = +this.route.snapshot.params['geneId'];
-    const source$: Observable<any> = this.service.watchGeneDetail(geneId);
 
-    this.loading$ = source$.pipe(
-      pluck('data', 'loading'),
-      startWith(true));
+    let observable = this.gql.watch({geneId: geneId}).valueChanges
 
-    this.gene$ = source$.pipe(
-      pluck('data', 'gene'));
+    this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+
+    this.gene$ = observable.pipe(pluck('data', 'gene'));
 
     this.commentsTotal$ = this.gene$.pipe(
       pluck('comments', 'totalCount'));
