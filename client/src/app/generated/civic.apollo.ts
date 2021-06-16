@@ -152,6 +152,44 @@ export type BrowseGeneEdge = {
   node?: Maybe<BrowseGene>;
 };
 
+export type BrowseVariant = {
+  __typename: 'BrowseVariant';
+  assertionCount: Scalars['Int'];
+  diseases: Array<Disease>;
+  drugs: Array<Drug>;
+  evidenceItemCount: Scalars['Int'];
+  evidenceScore: Scalars['Float'];
+  geneName: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+/** The connection type for BrowseVariant. */
+export type BrowseVariantConnection = {
+  __typename: 'BrowseVariantConnection';
+  /** A list of edges. */
+  edges: Array<BrowseVariantEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<BrowseVariant>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseVariantEdge = {
+  __typename: 'BrowseVariantEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseVariant>;
+};
+
 export type ClinicalTrial = {
   __typename: 'ClinicalTrial';
   description: Scalars['String'];
@@ -984,6 +1022,7 @@ export type Phenotype = {
 export type Query = {
   __typename: 'Query';
   browseGenes: BrowseGeneConnection;
+  browseVariants: BrowseVariantConnection;
   /** List and filter comments. */
   comments: CommentConnection;
   /** Find a disease by CIViC ID */
@@ -1024,6 +1063,19 @@ export type QueryBrowseGenesArgs = {
   geneAlias?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<GenesSort>;
+};
+
+
+export type QueryBrowseVariantsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  entrezSymbol?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<VariantsSort>;
+  variantName?: Maybe<Scalars['String']>;
 };
 
 
@@ -1557,6 +1609,23 @@ export enum VariantOrigin {
   Unknown = 'UNKNOWN'
 }
 
+export type VariantsSort = {
+  /** Available columns for sorting */
+  column: VariantsSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum VariantsSortColumns {
+  AssertionCount = 'assertionCount',
+  DiseaseName = 'diseaseName',
+  DrugName = 'drugName',
+  EntrezSymbol = 'entrezSymbol',
+  EvidenceItemCount = 'evidenceItemCount',
+  EvidenceScore = 'evidenceScore',
+  VariantName = 'variantName'
+}
+
 /** A CIViC entity that can have revisions proposed to it. */
 export type WithRevisions = {
   /** List and filter revisions. */
@@ -1717,18 +1786,10 @@ export type EventFeedNodeFragment = (
     & Pick<Flag, 'id' | 'name'>
     & { openComment: (
       { __typename: 'Comment' }
-      & Pick<Comment, 'comment' | 'createdAt'>
-      & { commenter: (
-        { __typename: 'User' }
-        & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-      ) }
+      & Pick<Comment, 'comment'>
     ), resolutionComment?: Maybe<(
       { __typename: 'Comment' }
-      & Pick<Comment, 'comment' | 'createdAt'>
-      & { commenter: (
-        { __typename: 'User' }
-        & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-      ) }
+      & Pick<Comment, 'comment'>
     )> }
   ) | (
     { __typename: 'Revision' }
@@ -2285,6 +2346,45 @@ export type GenesSummaryQuery = (
   )> }
 );
 
+export type BrowseVariantsQueryVariables = Exact<{
+  variantName?: Maybe<Scalars['String']>;
+  entrezSymbol?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantsSort>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseVariantsQuery = (
+  { __typename: 'Query' }
+  & { browseVariants: (
+    { __typename: 'BrowseVariantConnection' }
+    & Pick<BrowseVariantConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantEdge' }
+      & Pick<BrowseVariantEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariant' }
+        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneName' | 'assertionCount'>
+        & { diseases: Array<(
+          { __typename: 'Disease' }
+          & Pick<Disease, 'name'>
+        )>, drugs: Array<(
+          { __typename: 'Drug' }
+          & Pick<Drug, 'name'>
+        )> }
+      )> }
+    )> }
+  ) }
+);
+
 export const HovercardGeneFragmentDoc = gql`
     fragment hovercardGene on Gene {
   id
@@ -2390,21 +2490,9 @@ export const EventFeedNodeFragmentDoc = gql`
       id
       openComment {
         comment
-        createdAt
-        commenter {
-          id
-          displayName
-          profileImagePath(size: 32)
-        }
       }
       resolutionComment {
         comment
-        createdAt
-        commenter {
-          id
-          displayName
-          profileImagePath(size: 32)
-        }
       }
     }
   }
@@ -3217,6 +3305,59 @@ export const GenesSummaryDocument = gql`
   })
   export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
     document = GenesSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseVariantsDocument = gql`
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseVariants(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    drugName: $drugName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        evidenceScore
+        evidenceItemCount
+        geneName
+        diseases {
+          name
+        }
+        drugs {
+          name
+        }
+        assertionCount
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseVariantsGQL extends Apollo.Query<BrowseVariantsQuery, BrowseVariantsQueryVariables> {
+    document = BrowseVariantsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

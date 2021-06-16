@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-variants',
   templateUrl: './variants.component.html',
   styleUrls: ['./variants.component.less']
 })
-export class VariantsComponent implements OnInit {
-
+export class VariantsComponent {
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

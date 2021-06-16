@@ -3,8 +3,9 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
+  debounceTime,
   map,
   pluck,
   startWith,
@@ -18,11 +19,10 @@ import {
   PageInfo,
   Maybe,
   BrowseGenesQuery,
-  GenesSort,
   GenesSortColumns,
-  SortDirection
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { buildSortParams, SortDirectionEvent, WithName } from '@app/shared/utilities/datatable-helpers';
 
 export interface GeneTableRow {
   id: number
@@ -36,14 +36,6 @@ export interface GeneTableRow {
   assertionCount: number
 }
 
-export interface WithName {
-  name: string
-}
-
-  export interface SortDirectionEvent  {
-    key: any
-    value: null | string
-  }
 
 @Component({
   selector: 'genes-browse',
@@ -51,6 +43,8 @@ export interface WithName {
   styleUrls: ['./genes-browse.component.less'],
 })
 export class GenesBrowseComponent implements OnInit {
+  private initialQueryArgs: QueryBrowseGenesArgs
+  private debouncedQuery = new Subject<void>();
 
   queryRef: QueryRef<BrowseGenesQuery,QueryBrowseGenesArgs>;
   data$: Observable<ApolloQueryResult<BrowseGenesQuery>>;
@@ -67,18 +61,16 @@ export class GenesBrowseComponent implements OnInit {
 
   sortColumns: typeof GenesSortColumns = GenesSortColumns
 
-  private initialQueryArgs!: QueryBrowseGenesArgs
-
   initialPageSize = 25;
   fetchMorePageSize = 25;
 
   constructor(private query: BrowseGenesGQL) {
 
-    this.queryRef = this.query.watch(this.initialQueryArgs);
-
     this.initialQueryArgs = {
       first: this.initialPageSize
     }
+
+    this.queryRef = this.query.watch(this.initialQueryArgs);
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -120,6 +112,17 @@ export class GenesBrowseComponent implements OnInit {
       pluck('data', 'browseGenes', 'pageCount'),
       startWith(0),
     );
+
+    this.debouncedQuery
+    .pipe(debounceTime(500))
+    .subscribe((_) => {
+      this.queryRef.refetch({
+        entrezSymbol: this.nameInput,
+        geneAlias: this.aliasInput,
+        diseaseName: this.diseaseInput,
+        drugName: this.drugInput,
+      });
+    });
   }
 
   loadMore(afterCursor: Maybe<string>):void {
@@ -131,63 +134,15 @@ export class GenesBrowseComponent implements OnInit {
     });
   }
 
-  searchName(name: Maybe<string>) {
+  onSortChanged(e: SortDirectionEvent) {
     this.queryRef.refetch({
       ...this.initialQueryArgs,
-      entrezSymbol: name
-    })
+      sortBy: buildSortParams(e),
+    });
   }
 
-  searchAlias(alias: Maybe<string>) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      geneAlias: alias
-    })
-  }
-
-  searchDisease(disease: Maybe<string>) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      diseaseName: disease
-    })
-  }
-
-  searchDrug(drug: Maybe<string>) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      drugName: drug
-    })
-  }
-
-  
-  onSortChanged(params: SortDirectionEvent) {
-    this.queryRef.refetch({
-      ...this.initialQueryArgs,
-      sortBy: this.buildSortParams(params)
-    })
-  }
-
-  buildSortParams(e: SortDirectionEvent): Maybe<GenesSort> {
-    var direction: SortDirection
-
-    switch(e.value) {
-      case 'ascend': {
-        direction = SortDirection.Asc
-        break;
-      }
-      case 'descend': {
-        direction = SortDirection.Desc
-        break;
-      }
-      default: {
-        return undefined
-      }
-    }
-
-    return { 
-      column: e.key,
-      direction: direction
-    }
+  onModelUpdated(_: Maybe<string>) {
+    this.debouncedQuery.next();
   }
 
   ngOnInit(): void {

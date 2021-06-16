@@ -1,0 +1,50 @@
+query BrowseVariants(
+  $variantName: String
+  $entrezSymbol: String
+  $diseaseName: String
+  $drugName: String
+  $sortBy: VariantsSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  browseVariants(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    drugName: $drugName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        evidenceScore
+        evidenceItemCount
+        geneName
+        diseases {
+          name
+        }
+        drugs {
+          name
+        }
+        assertionCount
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
