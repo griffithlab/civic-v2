@@ -90,7 +90,7 @@ export class VariantsBrowseComponent implements OnDestroy {
     );
 
     this.debouncedQuery
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(500))
       .subscribe((_) => {
         this.queryRef.refetch({
           variantName: this.variantNameInput,
