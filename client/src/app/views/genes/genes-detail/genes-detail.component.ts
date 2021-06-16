@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute,  } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
-import { NGXLogger } from "ngx-logger";
 
 import { GenesDetailService } from './genes-detail.service';
 import {
-  CommentableInput,
   Gene,
 } from '@app/generated/civic.apollo';
 
@@ -18,7 +16,7 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
   styleUrls: ['./genes-detail.component.less']
 })
 
-export class GenesDetailComponent implements OnInit {
+export class GenesDetailComponent {
   loading$: Observable<boolean>;
   gene$: Observable<Gene>;
   viewer$: Observable<Viewer>;
@@ -26,12 +24,9 @@ export class GenesDetailComponent implements OnInit {
   revisionsTotal$: Observable<number>;
   flagsTotal$: Observable<number>;
 
-  subject!: CommentableInput;
-
   constructor(private service: GenesDetailService,
               private viewerService: ViewerService,
-              private route: ActivatedRoute,
-              private logger: NGXLogger) {
+              private route: ActivatedRoute) {
 
     const geneId: number = +this.route.snapshot.params['geneId'];
     const source$: Observable<any> = this.service.watchGeneDetail(geneId);
@@ -53,16 +48,5 @@ export class GenesDetailComponent implements OnInit {
       pluck('revisions', 'Count'));
 
     this.viewer$ = this.viewerService.viewer$;
-  }
-
-  ngOnInit(): void {
-    this.logger.trace("GenesDetailComponent initialized.");
-  }
-
-  loadMoreComments(): void {
-    this.logger.trace('loadMoreComments called.');
-  }
-
-  ngOnDestroy(): void {
   }
 }
