@@ -2380,24 +2380,29 @@ export type GenesSummaryQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
-    & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
-    & { aliases: Array<(
-      { __typename: 'GeneAlias' }
-      & Pick<GeneAlias, 'name'>
-    )>, sources: Array<(
-      { __typename: 'Source' }
-      & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
-    )>, variants: (
-      { __typename: 'VariantConnection' }
-      & { edges: Array<(
-        { __typename: 'VariantEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Variant' }
-          & Pick<Variant, 'id' | 'name' | 'description'>
-        )> }
-      )> }
-    ) }
+    & GeneSummaryFieldsFragment
   )> }
+);
+
+export type GeneSummaryFieldsFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
+  & { aliases: Array<(
+    { __typename: 'GeneAlias' }
+    & Pick<GeneAlias, 'name'>
+  )>, sources: Array<(
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+  )>, variants: (
+    { __typename: 'VariantConnection' }
+    & { edges: Array<(
+      { __typename: 'VariantEdge' }
+      & { node?: Maybe<(
+        { __typename: 'Variant' }
+        & Pick<Variant, 'id' | 'name' | 'description'>
+      )> }
+    )> }
+  ) }
 );
 
 export type BrowseVariantsQueryVariables = Exact<{
@@ -2491,7 +2496,7 @@ export type VariantSummaryFieldsFragment = (
     & Pick<Gene, 'id' | 'name'>
   ), sources: Array<(
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation'>
+    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
   )>, variantTypes?: Maybe<Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'soid' | 'displayName'>
@@ -2727,6 +2732,34 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   sourceType
 }
     `;
+export const GeneSummaryFieldsFragmentDoc = gql`
+    fragment GeneSummaryFields on Gene {
+  description
+  entrezId
+  aliases {
+    name
+  }
+  id
+  name
+  officialName
+  sources {
+    id
+    citation
+    sourceUrl
+    sourceType
+  }
+  variants {
+    edges {
+      node {
+        id
+        name
+        description
+      }
+    }
+  }
+  myGeneInfoDetails
+}
+    `;
 export const VariantDetailFieldsFragmentDoc = gql`
     fragment VariantDetailFields on Variant {
   id
@@ -2758,6 +2791,8 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   sources {
     id
     citation
+    sourceUrl
+    sourceType
   }
   variantAliases
   alleleRegistryId
@@ -3457,33 +3492,10 @@ export const GeneRevisionsDocument = gql`
 export const GenesSummaryDocument = gql`
     query GenesSummary($geneId: Int!) {
   gene(id: $geneId) {
-    description
-    entrezId
-    aliases {
-      name
-    }
-    id
-    name
-    officialName
-    sources {
-      id
-      citation
-      sourceUrl
-      sourceType
-    }
-    variants {
-      edges {
-        node {
-          id
-          name
-          description
-        }
-      }
-    }
-    myGeneInfoDetails
+    ...GeneSummaryFields
   }
 }
-    `;
+    ${GeneSummaryFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
