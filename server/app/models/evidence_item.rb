@@ -21,6 +21,10 @@ class EvidenceItem < ActiveRecord::Base
 
   validates :rating, inclusion: [1, 2, 3, 4, 5]
 
+  def name
+    "EID#{self.id}"
+  end
+
   def gene
     self.variant.gene
   end

@@ -57,6 +57,8 @@ module Types
 
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 40
 
+    field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
+
     field :flags, resolver: Resolvers::TopLevelFlags
 
     def disease(id: )
