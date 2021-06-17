@@ -21,8 +21,8 @@ module Types::Entities
     field :evidence_score, Float, null: false
     field :variant_aliases, [String], null: true
     field :variant_types, [Types::Entities::VariantTypeType], null: true
-    field :clinvar_entries, [String], null: true
-    field :hgvs_expressions, [String], null: true
+    field :clinvar_ids, [String], null: true
+    field :hgvs_descriptions, [String], null: true
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
@@ -62,11 +62,11 @@ module Types::Entities
       object.variant_aliases.map{|a| a.name}
     end
 
-    def clinvar_entries
+    def clinvar_ids
       object.clinvar_entries.map{|e| e.clinvar_id}
     end
 
-    def hgvs_expressions
+    def hgvs_descriptions
       object.hgvs_expressions.map{|e| e.expression}
     end
   end

@@ -15,10 +15,10 @@
           </nz-col>
           <nz-col [nzSpan]="12">
             <ng-container *ngIf="variant.alleleRegistryId as registryId; else alleleElse">
-            <b>Allele Registry Id: </b>
+            <b>Allele Registry ID: </b>
               <a nz-button href="https://reg.genome.network/allele/{{registryId}}.html" target="_blank">{{registryId}}</a>
             </ng-container>
-            <ng-template #alleleElse><b>No Allele Registry Id Found</b></ng-template>
+            <ng-template #alleleElse><b>No Allele Registry ID Found</b></ng-template>
           </nz-col>
         </nz-row>
         <nz-row>
@@ -34,9 +34,41 @@
               <ng-template  ngPluralCase="other"><b>Variant Types: </b></ng-template>
               <ng-container *ngFor="let vt of variant.variantTypes; let last = last">
                   <a nz-button href="http://www.sequenceontology.org/browser/current_svn/term/{{vt.soid}}" target="_blank">{{ vt.displayName }}</a>
+                  <ng-container *ngIf="!last">, </ng-container>
+              </ng-container>
+            </ng-container>
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col [nzSpan]="12">
+            <ng-container [ngPlural]="variant.hgvsDescriptions.length"> 
+              <ng-template  ngPluralCase="=0"><b>HGVS Descriptions:</b> None Specified</ng-template>
+              <ng-template  ngPluralCase="=1"><b>HGVS Description:</b> </ng-template>
+              <ng-template  ngPluralCase="other"><b>HGVS Descriptions: </b></ng-template>
+              <ng-container *ngFor="let hgvs of variant.hgvsDescriptions; let last = last">
+                  {{ hgvs }}
                    <ng-container *ngIf="!last">, </ng-container>
               </ng-container>
             </ng-container>
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col [nzSpan]="12">
+            <ng-container [ngPlural]="variant.clinvarIds.length"> 
+              <ng-template  ngPluralCase="=0"><b>ClinVar IDs:</b> None Specified</ng-template>
+              <ng-template  ngPluralCase="=1"><b>ClinVar ID: </b> </ng-template>
+              <ng-template  ngPluralCase="other"><b>ClinVar IDs: </b></ng-template>
+              <ng-container *ngFor="let c of variant.clinvarIds; let last = last">
+                <a *ngIf="c !== 'N/A', else clinvarNA" href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{c}}" target="_blank">{{ c }}</a>
+                <ng-template #clinvarNA>{{ c }}</ng-template>
+                <ng-container *ngIf="!last">, </ng-container>
+              </ng-container>
+            </ng-container>
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col [nzSpan]="12">
+            <b>CIViC Variant Evidence Score: </b> {{ variant.evidenceScore }}
           </nz-col>
         </nz-row>
         <nz-row [nzGutter]="12">

@@ -2368,7 +2368,7 @@ type User {
 
 type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
   alleleRegistryId: String
-  clinvarEntries: [String!]
+  clinvarIds: [String!]
 
   """
   List and filter comments.
@@ -2509,7 +2509,7 @@ type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
     state: FlagState
   ): FlagConnection!
   gene: Gene!
-  hgvsExpressions: [String!]
+  hgvsDescriptions: [String!]
   id: Int!
   name: String!
   referenceBuild: ReferenceBuild

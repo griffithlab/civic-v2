@@ -27,8 +27,8 @@ fragment VariantSummaryFields on Variant {
         soid,
         displayName
     }
-    hgvsExpressions
-    clinvarEntries
+    hgvsDescriptions
+    clinvarIds
     evidenceScore
     fivePrimeCoordinates {
         representativeTranscript

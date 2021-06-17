@@ -1538,7 +1538,7 @@ export type UserProfileImagePathArgs = {
 export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Variant';
   alleleRegistryId?: Maybe<Scalars['String']>;
-  clinvarEntries?: Maybe<Array<Scalars['String']>>;
+  clinvarIds?: Maybe<Array<Scalars['String']>>;
   /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
@@ -1552,7 +1552,7 @@ export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
   /** List and filter flags. */
   flags: FlagConnection;
   gene: Gene;
-  hgvsExpressions?: Maybe<Array<Scalars['String']>>;
+  hgvsDescriptions?: Maybe<Array<Scalars['String']>>;
   id: Scalars['Int'];
   name: Scalars['String'];
   referenceBuild?: Maybe<ReferenceBuild>;
@@ -2481,7 +2481,7 @@ export type VariantSummaryQuery = (
 
 export type VariantSummaryFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsExpressions' | 'clinvarEntries' | 'evidenceScore'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -2820,8 +2820,8 @@ export const VariantSummaryFieldsFragmentDoc = gql`
     soid
     displayName
   }
-  hgvsExpressions
-  clinvarEntries
+  hgvsDescriptions
+  clinvarIds
   evidenceScore
   fivePrimeCoordinates {
     representativeTranscript

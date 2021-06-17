@@ -10972,7 +10972,7 @@
               "deprecationReason": null
             },
             {
-              "name": "clinvarEntries",
+              "name": "clinvarIds",
               "description": null,
               "args": [
 
@@ -11474,7 +11474,7 @@
               "deprecationReason": null
             },
             {
-              "name": "hgvsExpressions",
+              "name": "hgvsDescriptions",
               "description": null,
               "args": [
 
