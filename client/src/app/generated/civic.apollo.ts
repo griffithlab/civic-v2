@@ -2045,6 +2045,31 @@ export type MenuVariantFragment = (
   & Pick<Variant, 'id' | 'name'>
 );
 
+export type VariantHovercardQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantHovercardQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & VariantHovercardFieldsFragment
+  )> }
+);
+
+export type VariantHovercardFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases'>
+  & { evidenceItems: (
+    { __typename: 'EvidenceItemConnection' }
+    & Pick<EvidenceItemConnection, 'totalCount'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'name'>
+  ) }
+);
+
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -2690,6 +2715,20 @@ export const MenuVariantFragmentDoc = gql`
   name
 }
     `;
+export const VariantHovercardFieldsFragmentDoc = gql`
+    fragment variantHovercardFields on Variant {
+  id
+  name
+  description
+  variantAliases
+  evidenceItems {
+    totalCount
+  }
+  gene {
+    name
+  }
+}
+    `;
 export const SourceTypeaheadResultFragmentDoc = gql`
     fragment SourceTypeaheadResult on Source {
   id
@@ -3097,6 +3136,24 @@ export const VariantsMenuDocument = gql`
   })
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantHovercardDocument = gql`
+    query VariantHovercard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...variantHovercardFields
+  }
+}
+    ${VariantHovercardFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantHovercardGQL extends Apollo.Query<VariantHovercardQuery, VariantHovercardQueryVariables> {
+    document = VariantHovercardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

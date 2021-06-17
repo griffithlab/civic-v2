@@ -12,7 +12,7 @@
                 <nz-list-item>
                     <nz-card>
                         <a routerLink="/variants/{{v.id}}">
-                            {{ v.name }}
+                            <cvc-variant-pill [variant]="v"></cvc-variant-pill>
                         </a>
                     </nz-card>
                 </nz-list-item>

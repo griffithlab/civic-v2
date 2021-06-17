@@ -61,6 +61,7 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
 import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
+import { VariantsComponentsModule } from '../variants/variants-components.module';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
     FormlyNgZorroAntdModule,
     FormlyModule.forChild(),
     NzSelectModule,
-    NzModalModule
+    NzModalModule,
+    VariantsComponentsModule
   ],
   exports: [
     CommentAddComponent,

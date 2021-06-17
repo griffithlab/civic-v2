@@ -1,0 +1,17 @@
+<nz-card *ngIf="variant$ | ngrxPush as variant" [nzTitle]="variant.name" [nzExtra]="avatar" style="width:400px;">
+    <nz-card-meta [nzDescription]="variant.gene.name"></nz-card-meta>
+    <ng-template #avatar>
+        <nz-avatar nz-page-header-avatar nzIcon="civic:variant"> </nz-avatar>  
+    </ng-template>
+    <p>{{ variant.description }}</p>
+    <nz-divider></nz-divider>
+    <div *ngIf="variant.variantAliases.length > 0">
+        Aliases: 
+        <span *ngFor="let alias of variant.variantAliases; last as isLast">
+            {{alias}}<span *ngIf="!isLast">,</span>
+        </span>
+        <nz-divider></nz-divider>
+    </div>
+    <nz-avatar nzIcon="civic:evidence"> </nz-avatar>  
+    Evidence Count: {{ variant.evidenceItems.totalCount }}
+</nz-card>
