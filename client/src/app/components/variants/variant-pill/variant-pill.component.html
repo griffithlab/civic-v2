@@ -1,0 +1,11 @@
+<nz-space nzAlign="center" nz-popover [nzPopoverMouseEnterDelay]="0.5" [nzPopoverContent]="variantHovercard">
+    <nz-space-item>
+        <nz-avatar nz-page-header-avatar nzIcon="civic:variant"> </nz-avatar>  
+    </nz-space-item>
+    <nz-space-item>
+        <strong>{{ variant.name }}</strong>
+    </nz-space-item>
+    <ng-template #variantHovercard>
+        <cvc-variant-hovercard [variantId]="variant.id"></cvc-variant-hovercard>
+    </ng-template>
+</nz-space>

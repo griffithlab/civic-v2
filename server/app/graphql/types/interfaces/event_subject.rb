@@ -14,6 +14,8 @@ module Types::Interfaces
         case object
         when Gene
           Types::Entities::GeneType
+        when Variant
+          Types::Entities::VariantType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

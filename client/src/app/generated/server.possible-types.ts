@@ -52,6 +52,9 @@
         "possibleTypes": [
           {
             "name": "Gene"
+          },
+          {
+            "name": "Variant"
           }
         ]
       },
@@ -100,6 +103,9 @@
         "possibleTypes": [
           {
             "name": "Gene"
+          },
+          {
+            "name": "Variant"
           }
         ]
       }

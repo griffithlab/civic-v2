@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { 
     EventAction,
+    EventFeedGQL,
     EventFeedNodeFragment,
     EventFeedQuery,
     EventFeedQueryVariables,
@@ -8,7 +9,6 @@ import {
     PageInfo, 
     SubscribableInput 
 } from "@app/generated/civic.apollo";
-import { EventFeedService } from "./event-feed.service";
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable } from 'rxjs';
@@ -20,7 +20,6 @@ import { LinkableOrganization } from "../organization-pill/organization-pill.com
     selector: 'cvc-event-feed',
     templateUrl: './event-feed.component.html',
     styleUrls: ['./event-feed.component.less'],
-    providers: [EventFeedService]
 })
 export class EventFeedComponent implements OnInit {
     @Input() subscribable?: SubscribableInput
@@ -29,21 +28,22 @@ export class EventFeedComponent implements OnInit {
     private results$!: Observable<ApolloQueryResult<EventFeedQuery>>
 
     private initialQueryVars?: EventFeedQueryVariables
+    private pageSize = 5
 
     events$?: Observable<Maybe<EventFeedNodeFragment>[]>
     pageInfo$?: Observable<PageInfo>
     participants$?: Observable<LinkableUser[]>
     organizations$?: Observable<LinkableOrganization[]>
 
-    constructor(private eventFeedService: EventFeedService) { }
+    constructor(private  gql: EventFeedGQL) { }
 
     ngOnInit() {
         this.initialQueryVars = {
             subject: this.subscribable,
-            first: this.eventFeedService.initialListSize,
+            first: this.pageSize,
         }
 
-        this.queryRef = this.eventFeedService.query.watch(this.initialQueryVars);
+        this.queryRef = this.gql.watch(this.initialQueryVars, {fetchPolicy: 'cache-and-network'});
         this.results$ = this.queryRef.valueChanges;
 
         this.pageInfo$ = this.results$.pipe(
@@ -66,7 +66,7 @@ export class EventFeedComponent implements OnInit {
     
     fetchMore(endCursor: string) {
         this.queryRef.fetchMore({variables: {
-            first: this.eventFeedService.fetchMoreSize,
+            first: this.pageSize,
             after: endCursor
         }})
     }

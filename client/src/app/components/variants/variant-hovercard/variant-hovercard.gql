@@ -1,0 +1,19 @@
+query VariantHovercard($variantId: Int!){ 
+  variant(id: $variantId) {
+    ... variantHovercardFields
+  }
+}
+
+fragment variantHovercardFields on Variant {
+    id
+    name
+    description
+    variantAliases
+    evidenceItems {
+      totalCount
+    }
+    gene {
+      name
+    }
+
+}

@@ -1,28 +1,32 @@
 query GenesSummary($geneId: Int!) {
   gene(id: $geneId) {
-    description
-    entrezId
-    aliases {
-      name
-    }
-    id
+    ...GeneSummaryFields
+  }
+}
+
+fragment GeneSummaryFields on Gene {
+  description
+  entrezId
+  aliases {
     name
-    officialName
-    sources {
-      id
-      citation
-      sourceUrl
-      sourceType
-    }
-    variants {
-      edges {
-        node {
-          id
-          name
-          description
-        }
+  }
+  id
+  name
+  officialName
+  sources {
+    id
+    citation
+    sourceUrl
+    sourceType
+  }
+  variants {
+    edges {
+      node {
+        id
+        name
+        description
       }
     }
-    myGeneInfoDetails
   }
+  myGeneInfoDetails
 }

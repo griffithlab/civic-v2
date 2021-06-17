@@ -11,7 +11,9 @@
             <div nz-col [nzSpan]="3" *ngFor="let v of variants">
                 <nz-list-item>
                     <nz-card>
-                        {{ v.name }}
+                        <a routerLink="/variants/{{v.id}}">
+                            <cvc-variant-pill [variant]="v"></cvc-variant-pill>
+                        </a>
                     </nz-card>
                 </nz-list-item>
             </div>

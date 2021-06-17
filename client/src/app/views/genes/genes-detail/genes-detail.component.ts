@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute,  } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
-import { NGXLogger } from "ngx-logger";
-
-import { GenesDetailService } from './genes-detail.service';
-import {
-  CommentableInput,
-  Gene,
-} from '@app/generated/civic.apollo';
-
+import {GeneDetailFieldsFragment, GeneDetailGQL, Maybe } from '@app/generated/civic.apollo';
 import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
 
 @Component({
@@ -18,30 +11,25 @@ import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.servic
   styleUrls: ['./genes-detail.component.less']
 })
 
-export class GenesDetailComponent implements OnInit {
+export class GenesDetailComponent {
   loading$: Observable<boolean>;
-  gene$: Observable<Gene>;
+  gene$: Observable<Maybe<GeneDetailFieldsFragment>>;
   viewer$: Observable<Viewer>;
   commentsTotal$: Observable<number>;
   revisionsTotal$: Observable<number>;
   flagsTotal$: Observable<number>;
 
-  subject!: CommentableInput;
-
-  constructor(private service: GenesDetailService,
+  constructor(private gql: GeneDetailGQL,
               private viewerService: ViewerService,
-              private route: ActivatedRoute,
-              private logger: NGXLogger) {
+              private route: ActivatedRoute) {
 
     const geneId: number = +this.route.snapshot.params['geneId'];
-    const source$: Observable<any> = this.service.watchGeneDetail(geneId);
 
-    this.loading$ = source$.pipe(
-      pluck('data', 'loading'),
-      startWith(true));
+    let observable = this.gql.watch({geneId: geneId}).valueChanges
 
-    this.gene$ = source$.pipe(
-      pluck('data', 'gene'));
+    this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+
+    this.gene$ = observable.pipe(pluck('data', 'gene'));
 
     this.commentsTotal$ = this.gene$.pipe(
       pluck('comments', 'totalCount'));
@@ -50,19 +38,8 @@ export class GenesDetailComponent implements OnInit {
       pluck('flags', 'totalCount'));
 
     this.revisionsTotal$ = this.gene$.pipe(
-      pluck('revisions', 'Count'));
+      pluck('revisions', 'totalCount'));
 
     this.viewer$ = this.viewerService.viewer$;
-  }
-
-  ngOnInit(): void {
-    this.logger.trace("GenesDetailComponent initialized.");
-  }
-
-  loadMoreComments(): void {
-    this.logger.trace('loadMoreComments called.');
-  }
-
-  ngOnDestroy(): void {
   }
 }
