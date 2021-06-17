@@ -43,7 +43,7 @@ export class EventFeedComponent implements OnInit {
             first: this.pageSize,
         }
 
-        this.queryRef = this.gql.watch(this.initialQueryVars);
+        this.queryRef = this.gql.watch(this.initialQueryVars, {fetchPolicy: 'cache-and-network'});
         this.results$ = this.queryRef.valueChanges;
 
         this.pageInfo$ = this.results$.pipe(
