@@ -1780,6 +1780,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "VARIANT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -4806,6 +4812,12 @@
           "enumValues": [
             {
               "name": "GENE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

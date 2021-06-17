@@ -377,6 +377,7 @@ interface Commentable {
 
 enum CommentableEntities {
   GENE
+  VARIANT
 }
 
 """
@@ -1011,6 +1012,7 @@ Enumeration of all entities in CIViC that can be flagged.
 """
 enum FlaggableEntities {
   GENE
+  VARIANT
 }
 
 """

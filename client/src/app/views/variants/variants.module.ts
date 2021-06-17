@@ -39,13 +39,17 @@ import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
+import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
+import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 
 @NgModule({
   declarations: [
     VariantsComponent,
     VariantsBrowseComponent,
     VariantsDetailComponent,
-    VariantSummaryComponent
+    VariantSummaryComponent,
+    VariantsCommentsComponent,
+    VariantsFlagsComponent
   ],
   imports: [
     CvcFormsModule,
@@ -77,6 +81,7 @@ import { VariantSummaryComponent } from './variants-summary/variants-summary.com
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
+    SharedComponentsModule
   ],
 })
 export class VariantsModule { }

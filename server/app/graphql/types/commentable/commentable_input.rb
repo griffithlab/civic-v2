@@ -11,6 +11,8 @@ module Types::Commentable
       const = case entity_type
       when 'GENE'
         Gene
+      when 'VARIANT'
+        Variant
       else
         raise 'Unknown Enum Value'
       end

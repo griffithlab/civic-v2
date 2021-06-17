@@ -253,7 +253,8 @@ export type CommentableCommentsArgs = {
 };
 
 export enum CommentableEntities {
-  Gene = 'GENE'
+  Gene = 'GENE',
+  Variant = 'VARIANT'
 }
 
 /** Entity to comment on */
@@ -647,7 +648,8 @@ export type FlaggableFlagsArgs = {
 
 /** Enumeration of all entities in CIViC that can be flagged. */
 export enum FlaggableEntities {
-  Gene = 'GENE'
+  Gene = 'GENE',
+  Variant = 'VARIANT'
 }
 
 /** Entity to flag */

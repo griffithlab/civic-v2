@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
+import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
+import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
 
 import { VariantsComponent } from './variants.component';
@@ -24,6 +26,14 @@ const routes: Routes = [
           {
             path: 'summary',
             component: VariantSummaryComponent
+          },
+          {
+            path: 'comments',
+            component: VariantsCommentsComponent,
+          },
+          {
+            path: 'flags',
+            component: VariantsFlagsComponent
           }
         ]
       }
