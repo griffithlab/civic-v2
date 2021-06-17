@@ -1235,7 +1235,7 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     last: Int
 
     """
-    Left anchored filtering for variant name.
+    Left anchored filtering for variant name and aliases.
     """
     name: String
   ): VariantConnection!
@@ -1872,7 +1872,7 @@ type Query {
     last: Int
 
     """
-    Left anchored filtering for variant name.
+    Left anchored filtering for variant name and aliases.
     """
     name: String
   ): VariantConnection!
