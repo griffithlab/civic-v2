@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-
+import { Component, } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
@@ -42,7 +38,7 @@ export interface GeneTableRow {
   templateUrl: './genes-browse.component.html',
   styleUrls: ['./genes-browse.component.less'],
 })
-export class GenesBrowseComponent implements OnInit {
+export class GenesBrowseComponent {
   private initialQueryArgs: QueryBrowseGenesArgs
   private debouncedQuery = new Subject<void>();
 
@@ -143,8 +139,5 @@ export class GenesBrowseComponent implements OnInit {
 
   onModelUpdated(_: Maybe<string>) {
     this.debouncedQuery.next();
-  }
-
-  ngOnInit(): void {
   }
 }

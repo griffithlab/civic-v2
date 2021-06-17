@@ -7,7 +7,7 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
 
   description 'List and filter variants.'
 
-  scope { Variant.order('variants.name ASC') }
+  scope { Variant.order('variants.name ASC').distinct }
 
   option(:evidence_status_filter, default_value: 'WITH_ACCEPTED_OR_SUBMITTED', type: Types::VariantDisplayFilterType , description: 'Limit variants by the status of attached evidence.') do |scope, value|
     case value
@@ -25,8 +25,9 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
     end
   end
 
-  option(:name, type: GraphQL::Types::String, description: 'Left anchored filtering for variant name.') do |scope, value|
-    scope.where('variants.name ILIKE ?', "#{value}%")
+  option(:name, type: GraphQL::Types::String, description: 'Left anchored filtering for variant name and aliases.') do |scope, value|
+    scope.left_joins(:variant_aliases)
+      .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "#{value}%" })
   end
 
   option(:gene_id, type: GraphQL::Types::Int, description: 'Gene that variants are associated with.') do |scope, value|
