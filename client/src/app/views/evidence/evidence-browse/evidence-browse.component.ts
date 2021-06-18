@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceGridFieldsFragment, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
@@ -27,6 +27,12 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   diseaseNameInput: Maybe<string>
   drugNameInput: Maybe<string>
   descriptionInput: Maybe<string>
+  evidenceLevelInput: Maybe<EvidenceLevel>
+  evidenceTypeInput: Maybe<EvidenceType>
+  evidenceDirectionInput: Maybe<EvidenceDirection>
+  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  variantOriginInput: Maybe<VariantOrigin>
+  evidenceRatingInput: Maybe<number>
 
   constructor(private gql: EvidenceBrowseGQL) { }
 
@@ -34,7 +40,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       variantId: this.variantId
-    });
+    }, { fetchPolicy: 'cache-and-network' });
 
     let observable = this.queryRef.valueChanges;
 
@@ -67,7 +73,13 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       id: this.eidInput ? +this.eidInput : undefined,
       diseaseName: this.diseaseNameInput,
       drugName: this.drugNameInput,
-      description: this.descriptionInput
+      description: this.descriptionInput,
+      evidenceLevel: this.evidenceLevelInput ? this.evidenceLevelInput : undefined,
+      evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
+      evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
+      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
+      variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
+      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined
     })
   }
 

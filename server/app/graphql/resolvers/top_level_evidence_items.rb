@@ -40,7 +40,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
     scope.where(variant_origin: value)
   end
   option(:evidence_rating, type: GraphQL::Types::Int, description: 'Filtering on the evidence rating. Valid values: 1, 2, 3, 4, 5') do |scope, value|
-    scope.where(evidence_rating: value)
+    scope.where(rating: value)
   end
   option(:status, type: Types::EvidenceStatusType, description: 'Filtering on the evidence status.') do |scope, value|
     scope.where(status: value)

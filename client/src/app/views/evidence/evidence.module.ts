@@ -32,6 +32,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { VariantsRoutingModule } from '../variants/variants-routing.module';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { VariantsRoutingModule } from '../variants/variants-routing.module';
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    NzSelectModule
   ],
   exports: [
     EvidenceComponent,
