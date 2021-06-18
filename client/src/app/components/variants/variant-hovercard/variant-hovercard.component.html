@@ -1,10 +1,14 @@
 <nz-card *ngIf="variant$ | ngrxPush as variant" [nzTitle]="variant.name" [nzExtra]="avatar" style="width:400px;">
-    <nz-card-meta [nzDescription]="variant.gene.name"></nz-card-meta>
     <ng-template #avatar>
         <nz-avatar nz-page-header-avatar nzIcon="civic:variant"> </nz-avatar>  
     </ng-template>
-    <p>{{ variant.description }}</p>
+    <nz-avatar nzIcon="civic:gene" nzSize="small"></nz-avatar>{{ variant.gene.name }}
     <nz-divider></nz-divider>
+    <div *ngIf="variant.alleleRegistryId">
+        Allele Registry ID:
+        <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html" target="_blank">{{variant.alleleRegistryId}}</a>
+        <nz-divider></nz-divider>
+    </div>
     <div *ngIf="variant.variantAliases.length > 0">
         Aliases: 
         <span *ngFor="let alias of variant.variantAliases; last as isLast">
@@ -12,6 +16,10 @@
         </span>
         <nz-divider></nz-divider>
     </div>
-    <nz-avatar nzIcon="civic:evidence"> </nz-avatar>  
+    <nz-avatar nzIcon="civic:evidence" nzSize="small"> </nz-avatar>  
     Evidence Count: {{ variant.evidenceItems.totalCount }}
+    <nz-divider></nz-divider>
+    <nz-avatar nzIcon="flag" nzSize="small"></nz-avatar>{{ variant.flags.totalCount }} open flags
+    <nz-avatar nzIcon="civic:revision" nzSize="small"></nz-avatar>{{ variant.revisions.totalCount }} open revisions
+    <nz-avatar nzIcon="civic:comment" nzSize="small"></nz-avatar>{{ variant.comments.totalCount }} comments
 </nz-card>
