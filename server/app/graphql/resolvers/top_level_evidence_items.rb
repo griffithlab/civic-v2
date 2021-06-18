@@ -10,7 +10,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   scope { EvidenceItem.order('evidence_items.id ASC') }
 
   option(:id, type: GraphQL::Types::Int, description: 'Left anchored filtering on the ID of the evidence item.') do |scope, value|
-    scope.where("evidence_items.id LIKE ?", "#{value}%")
+    scope.where("evidence_items.id = ?", value)
   end
   option(:variant_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the variant.') do |scope, value|
     scope.where("evidence_items.variant_id = ?", value)

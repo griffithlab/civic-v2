@@ -368,7 +368,7 @@ export type PhenotypeFieldPolicy = {
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseGenes' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'flags' | 'gene' | 'organization' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'variant' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseGenes' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flags' | 'gene' | 'organization' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'variant' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseVariants?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -377,6 +377,7 @@ export type QueryFieldPolicy = {
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,

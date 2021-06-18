@@ -1,0 +1,155 @@
+<nz-page-header class="site-page-header">
+  <nz-page-header-title>
+    <i nz-icon nzType="civic:evidence"></i>
+    Evidence Items
+    <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
+  </nz-page-header-title>
+
+  <nz-page-header-content>
+    <div nz-row>
+      <div nz-col [nzSpan]="24">
+        <div class="content">
+          <nz-table #evidenceTable
+            [nzData]="(evidence$ | ngrxPush)"
+            [nzLoading]="(isLoading$ | ngrxPush)"
+            [nzFrontPagination]="false"
+            [nzShowPagination]="false">
+
+            <thead>
+              <tr>
+                <th nzWidth="5%">
+                  EID
+                </th>
+                <th nzWidth="25%">
+                  Diseases
+                </th>
+                <th nzWidth="25%">
+                  Drugs
+                </th>
+                <th nzWidth="5%">
+                  Description
+                </th>
+                <th nzWidth="5%">
+                  Evidence Level
+                </th>
+                <th nzWidth="5%">
+                  Evidence Type
+                </th>
+                <th nzWidth="5%">
+                  Evidence Direction
+                </th>
+                <th nzWidth="5%">
+                  Clinical Significance
+                </th>
+                <th nzWidth="5%">
+                  Variant Origin
+                </th>
+                <th nzWidth="5%">
+                  Rating
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <nz-input-group [nzSuffix]="eidInputClearTpl">
+                    <input type="text" nz-input placeholder="Search EID" [(ngModel)]="eidInput" (ngModelChange)="onModelChanged()" />
+                  </nz-input-group>
+                  <ng-template #eidInputClearTpl>
+                    <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="eidInput" (click)="eidInput = undefined; onModelChanged()"></i>
+                  </ng-template>
+                </th>
+                <th nzWidth="25%">
+                  <nz-input-group [nzSuffix]="diseaseInputClearTpl">
+                    <input type="text" nz-input placeholder="Search Disease" [(ngModel)]="diseaseNameInput" (ngModelChange)="onModelChanged()" />
+                  </nz-input-group>
+                  <ng-template #diseaseInputClearTpl>
+                    <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="diseaseNameInput" (click)="diseaseNameInput = undefined; onModelChanged()"></i>
+                  </ng-template>
+                </th>
+                <th nzWidth="25%">
+                  <nz-input-group [nzSuffix]="drugInputClearTpl">
+                    <input type="text" nz-input placeholder="Search Drugs" [(ngModel)]="drugNameInput" (ngModelChange)="onModelChanged()" />
+                  </nz-input-group>
+                  <ng-template #drugInputClearTpl>
+                    <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="drugNameInput" (click)="drugNameInput = undefined; onModelChanged()"></i>
+                  </ng-template>
+                </th>
+                <th nzWidth="5%">
+                  <nz-input-group [nzSuffix]="descriptionInputClearTpl">
+                    <input type="text" nz-input placeholder="Search Drugs" [(ngModel)]="descriptionInput" (ngModelChange)="onModelChanged()" />
+                  </nz-input-group>
+                  <ng-template #descriptionInputClearTpl>
+                    <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="descriptionInput" (click)="descriptionInput = undefined; onModelChanged()"></i>
+                  </ng-template>
+                </th>
+                <th nzWidth="5%">
+                  Evidence Level
+                </th>
+                <th nzWidth="5%">
+                  Evidence Type
+                </th>
+                <th nzWidth="5%">
+                  Evidence Direction
+                </th>
+                <th nzWidth="5%">
+                  Clinical Significance
+                </th>
+                <th nzWidth="5%">
+                  Variant Origin
+                </th>
+                <th nzWidth="5%">
+                  Rating
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let eid of evidenceTable.data">
+                <td>
+                  {{ eid.id }}
+                </td>
+                <td>
+                  <ng-container *ngIf="eid.disease.displayName; else diseaseElse">
+                    {{ eid.disease.displayName }}
+                  </ng-container>
+                  <ng-template #diseaseElse>
+                    <i>N/A</i>
+                  </ng-template>
+                </td>
+                <td>
+                  <p *ngIf="eid.drugs.length > 0; else drugsElse" nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="1">
+                    <span *ngFor="let drug of eid.drugs; last as isLast" >
+                      {{ drug.name }}{{ isLast ? '' : ', ' }}{{isLast && eid.drugs.length > 1 ?  ' (' + eid.drugInteractionType + ')' : '' }}
+                    </span>
+                  </p>
+                  <ng-template #drugsElse>
+                    <i>N/A</i>
+                  </ng-template>
+                </td>
+                <td>
+                  <i nz-icon nzType="align-left" nz-tooltip nzTooltipPlacement="top" [nzTooltipTitle]="eid.description"></i>
+                </td>
+                <td>
+                  {{ eid.evidenceLevel }}
+                </td>
+                <td>
+                  {{ eid.evidenceType }}
+                </td>
+                <td>
+                  {{ eid.evidenceDirection }}
+                </td>
+                <td>
+                  {{ eid.clinicalSignificance }}
+                </td>
+                <td>
+                  {{ eid.variantOrigin }}
+                </td>
+                <td>
+                  {{ eid.evidenceRating}}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>

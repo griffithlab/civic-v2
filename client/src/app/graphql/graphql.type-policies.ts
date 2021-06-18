@@ -19,7 +19,8 @@ export const CvcTypePolicies: TypePolicies = {
       browseVariants: relayStylePagination(),
       events: relayStylePagination(),
       variants: relayStylePagination(),
-      comments: relayStylePagination()
+      comments: relayStylePagination(),
+      evidenceItems: relayStylePagination()
     }
   }
 };

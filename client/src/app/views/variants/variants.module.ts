@@ -41,6 +41,7 @@ import { VariantsDetailComponent } from './variants-detail/variants-detail.compo
 import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
+import { EvidenceModule } from '../evidence/evidence.module';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { VariantsFlagsComponent } from './variants-flags/variants-flags.componen
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    EvidenceModule
   ],
 })
 export class VariantsModule { }
