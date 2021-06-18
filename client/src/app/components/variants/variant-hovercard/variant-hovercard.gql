@@ -9,11 +9,20 @@ fragment variantHovercardFields on Variant {
     name
     description
     variantAliases
+    alleleRegistryId
     evidenceItems {
       totalCount
     }
     gene {
       name
     }
-
+    revisions(status: NEW) {
+      totalCount
+    }
+    comments {
+      totalCount
+    }
+    flags(state: OPEN) {
+      totalCount
+    }
 }
