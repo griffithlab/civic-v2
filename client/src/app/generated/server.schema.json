@@ -5533,7 +5533,7 @@
                 },
                 {
                   "name": "name",
-                  "description": "Left anchored filtering for variant name.",
+                  "description": "Left anchored filtering for variant name and aliases.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -8569,7 +8569,7 @@
                 },
                 {
                   "name": "name",
-                  "description": "Left anchored filtering for variant name.",
+                  "description": "Left anchored filtering for variant name and aliases.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",

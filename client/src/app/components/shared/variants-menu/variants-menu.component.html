@@ -1,5 +1,10 @@
-<input type="text" nz-input placeholder="Variant Name" (change)="onVariantNameFilterChanged($event)" />
-<nz-select (ngModelChange)="onVariantStatusFilterChanged($event)" ngModel="WITH_ACCEPTED_OR_SUBMITTED">
+<nz-input-group [nzSuffix]="nameInputClearTpl">
+    <input type="text" nz-input placeholder="Variant Name" (ngModelChange)="onModelUpdated()" [(ngModel)]="variantNameFilter" />
+    <ng-template #nameInputClearTpl>
+        <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="variantNameFilter" (click)="variantNameFilter = undefined; onModelUpdated()"></i>
+    </ng-template>
+</nz-input-group>
+<nz-select (ngModelChange)="onVariantStatusFilterChanged($event)" [(ngModel)]="statusFilter">
     <nz-option nzValue="WITH_ACCEPTED" nzLabel="Show variants with accepted evidence"></nz-option>
     <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED" nzLabel="Show variants with accepted and/or submitted evidence" selected></nz-option>
     <nz-option nzValue="WITH_SUBMITTED" nzLabel="Show variants with submitted evidence"></nz-option>
