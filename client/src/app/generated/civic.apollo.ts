@@ -1733,6 +1733,15 @@ export type HovercardGeneFragment = (
   )>, variants: (
     { __typename: 'VariantConnection' }
     & Pick<VariantConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
   ) }
 );
 
@@ -2545,6 +2554,15 @@ export const HovercardGeneFragmentDoc = gql`
     name
   }
   variants {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
     totalCount
   }
 }
