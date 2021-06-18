@@ -3,8 +3,6 @@
     <ng-template #avatar>
         <nz-avatar nz-page-header-avatar nzIcon="civic:gene"> </nz-avatar>  
     </ng-template>
-    <p>{{ gene.description }}</p>
-    <nz-divider></nz-divider>
     <div *ngIf="gene.aliases.length > 0">
         Aliases: 
         <span *ngFor="let alias of gene.aliases; last as isLast">
@@ -12,6 +10,10 @@
         </span>
         <nz-divider></nz-divider>
     </div>
-    <nz-avatar nzIcon="civic:variant"> </nz-avatar>  
+    <nz-avatar nzIcon="civic:variant" nzSize="small"> </nz-avatar>  
     Variant Count: {{ gene.variants.totalCount }}
+    <nz-divider></nz-divider>
+    <nz-avatar nzIcon="flag" nzSize="small"></nz-avatar> {{ gene.flags.totalCount }} open flags
+    <nz-avatar nzIcon="civic:revision" nzSize="small"></nz-avatar> {{ gene.revisions.totalCount }} open revisions
+    <nz-avatar nzIcon="civic:comment" nzSize="small"></nz-avatar> {{ gene.comments.totalCount }} comments
 </nz-card>

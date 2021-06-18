@@ -1733,6 +1733,15 @@ export type HovercardGeneFragment = (
   )>, variants: (
     { __typename: 'VariantConnection' }
     & Pick<VariantConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
   ) }
 );
 
@@ -2060,13 +2069,22 @@ export type VariantHovercardQuery = (
 
 export type VariantHovercardFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
   & { evidenceItems: (
     { __typename: 'EvidenceItemConnection' }
     & Pick<EvidenceItemConnection, 'totalCount'>
   ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'name'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
   ) }
 );
 
@@ -2547,6 +2565,15 @@ export const HovercardGeneFragmentDoc = gql`
   variants {
     totalCount
   }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
 }
     `;
 export const CommentListNodeFragmentDoc = gql`
@@ -2721,11 +2748,21 @@ export const VariantHovercardFieldsFragmentDoc = gql`
   name
   description
   variantAliases
+  alleleRegistryId
   evidenceItems {
     totalCount
   }
   gene {
     name
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
   }
 }
     `;
