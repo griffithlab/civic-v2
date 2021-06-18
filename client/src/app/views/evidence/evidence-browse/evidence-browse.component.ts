@@ -21,6 +21,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   totalCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
 
+  textInputCallback?: () => void
 
   //filters
   eidInput: Maybe<string>
@@ -66,9 +67,12 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh() );
+      
+    this.textInputCallback = () => { this.debouncedQuery.next(); }
   }
 
   refresh() {
+    console.log("REFRESH")
     this.queryRef.refetch({
       id: this.eidInput ? +this.eidInput : undefined,
       diseaseName: this.diseaseNameInput,

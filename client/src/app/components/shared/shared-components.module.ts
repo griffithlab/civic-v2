@@ -62,6 +62,7 @@ import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
 import { VariantsComponentsModule } from '../variants/variants-components.module';
+import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-text-filter.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { VariantsComponentsModule } from '../variants/variants-components.module
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
-    ResolveFlagComponent
+    ResolveFlagComponent,
+    ClearableTextComponentFilter
   ],
   imports: [
     CommonModule,
@@ -145,7 +147,8 @@ import { VariantsComponentsModule } from '../variants/variants-components.module
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
-    ResolveFlagComponent
+    ResolveFlagComponent,
+    ClearableTextComponentFilter
   ]
 })
 
