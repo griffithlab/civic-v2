@@ -786,6 +786,32 @@ enum EvidenceLevel {
   E
 }
 
+input EvidenceSort {
+  """
+  Available columns for sorting
+  """
+  column: EvidenceSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum EvidenceSortColumns {
+  CLINICAL_SIGNIFICANCE
+  DESCRIPTION
+  DISEASE_NAME
+  DRUG_NAME
+  EVIDENCE_DIRECTION
+  EVIDENCE_LEVEL
+  EVIDENCE_RATING
+  EVIDENCE_TYPE
+  ID
+  STATUS
+  VARIANT_ORIGIN
+}
+
 enum EvidenceStatus {
   ACCEPTED
   REJECTED
@@ -1757,6 +1783,96 @@ type Query {
     subject: SubscribableInput
   ): EventConnection!
   evidenceItem(id: Int!): EvidenceItem
+
+  """
+  List and filter evidence items.
+  """
+  evidenceItems(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Filtering on the evidence clinical significance.
+    """
+    clinicalSignificance: EvidenceClinicalSignificance
+
+    """
+    Substring filtering on evidence item description.
+    """
+    description: String
+
+    """
+    Substring filtering on disease name.
+    """
+    diseaseName: String
+
+    """
+    Substring filtering on drug name.
+    """
+    drugName: String
+
+    """
+    Filtering on the evidence direction.
+    """
+    evidenceDirection: EvidenceDirection
+
+    """
+    Filtering on the evidence level.
+    """
+    evidenceLevel: EvidenceLevel
+
+    """
+    Filtering on the evidence rating. Valid values: 1, 2, 3, 4, 5
+    """
+    evidenceRating: Int
+
+    """
+    Filtering on the evidence type.
+    """
+    evidenceType: EvidenceType
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Left anchored filtering on the ID of the evidence item.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: EvidenceSort
+
+    """
+    Filtering on the evidence status.
+    """
+    status: EvidenceStatus
+
+    """
+    Exact match filtering on the ID of the variant.
+    """
+    variantId: Int
+
+    """
+    Filtering on the evidence variant origin.
+    """
+    variantOrigin: VariantOrigin
+  ): EvidenceItemConnection!
 
   """
   List and filter flags.

@@ -11,7 +11,7 @@ import {
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/shared/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map, pluck, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
 
 export interface VariantTableRow {
   id: number;

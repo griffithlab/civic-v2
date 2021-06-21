@@ -34,7 +34,7 @@ export interface GeneTableRow {
 
 
 @Component({
-  selector: 'genes-browse',
+  selector: 'cvc-genes-browse',
   templateUrl: './genes-browse.component.html',
   styleUrls: ['./genes-browse.component.less'],
 })

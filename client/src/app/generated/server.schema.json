@@ -3910,6 +3910,126 @@
           "possibleTypes": null
         },
         {
+          "kind": "INPUT_OBJECT",
+          "name": "EvidenceSort",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "column",
+              "description": "Available columns for sorting",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "EvidenceSortColumns",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "direction",
+              "description": "Sort direction",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SortDirection",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "EvidenceSortColumns",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ID",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DISEASE_NAME",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DRUG_NAME",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DESCRIPTION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_LEVEL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_RATING",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "STATUS",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_TYPE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_DIRECTION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CLINICAL_SIGNIFICANCE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_ORIGIN",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
           "kind": "ENUM",
           "name": "EvidenceStatus",
           "description": null,
@@ -8097,6 +8217,227 @@
                 "kind": "OBJECT",
                 "name": "EvidenceItem",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceItems",
+              "description": "List and filter evidence items.",
+              "args": [
+                {
+                  "name": "id",
+                  "description": "Left anchored filtering on the ID of the evidence item.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "variantId",
+                  "description": "Exact match filtering on the ID of the variant.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "diseaseName",
+                  "description": "Substring filtering on disease name.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "drugName",
+                  "description": "Substring filtering on drug name.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "description",
+                  "description": "Substring filtering on evidence item description.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "evidenceLevel",
+                  "description": "Filtering on the evidence level.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EvidenceLevel",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "evidenceType",
+                  "description": "Filtering on the evidence type.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EvidenceType",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "evidenceDirection",
+                  "description": "Filtering on the evidence direction.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EvidenceDirection",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "clinicalSignificance",
+                  "description": "Filtering on the evidence clinical significance.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EvidenceClinicalSignificance",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "variantOrigin",
+                  "description": "Filtering on the evidence variant origin.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "VariantOrigin",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "evidenceRating",
+                  "description": "Filtering on the evidence rating. Valid values: 1, 2, 3, 4, 5",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "status",
+                  "description": "Filtering on the evidence status.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EvidenceStatus",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Columm and direction to sort evidence on.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "EvidenceSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "EvidenceItemConnection",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
