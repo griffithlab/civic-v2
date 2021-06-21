@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import { buildSortParams, SortDirectionEvent } from '@app/shared/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
@@ -34,6 +35,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
   variantOriginInput: Maybe<VariantOrigin>
   evidenceRatingInput: Maybe<number>
+
+  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
 
   constructor(private gql: EvidenceBrowseGQL) { }
 
@@ -72,7 +75,6 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    console.log("REFRESH")
     this.queryRef.refetch({
       id: this.eidInput ? +this.eidInput : undefined,
       diseaseName: this.diseaseNameInput,
@@ -88,6 +90,10 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   }
 
   onModelChanged() { this.debouncedQuery.next(); }
+
+  onSortChanged(e: SortDirectionEvent) {
+    this.queryRef.refetch({ sortBy: buildSortParams(e) })
+  }
   
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 

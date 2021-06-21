@@ -520,6 +520,27 @@ export enum EvidenceLevel {
   E = 'E'
 }
 
+export type EvidenceSort = {
+  /** Available columns for sorting */
+  column: EvidenceSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum EvidenceSortColumns {
+  ClinicalSignificance = 'CLINICAL_SIGNIFICANCE',
+  Description = 'DESCRIPTION',
+  DiseaseName = 'DISEASE_NAME',
+  DrugName = 'DRUG_NAME',
+  EvidenceDirection = 'EVIDENCE_DIRECTION',
+  EvidenceLevel = 'EVIDENCE_LEVEL',
+  EvidenceRating = 'EVIDENCE_RATING',
+  EvidenceType = 'EVIDENCE_TYPE',
+  Id = 'ID',
+  Status = 'STATUS',
+  VariantOrigin = 'VARIANT_ORIGIN'
+}
+
 export enum EvidenceStatus {
   Accepted = 'ACCEPTED',
   Rejected = 'REJECTED',
@@ -1148,6 +1169,7 @@ export type QueryEvidenceItemsArgs = {
   first?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<EvidenceSort>;
   status?: Maybe<EvidenceStatus>;
   variantId?: Maybe<Scalars['Int']>;
   variantOrigin?: Maybe<VariantOrigin>;
@@ -2283,6 +2305,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   rating?: Maybe<Scalars['Int']>;
   variantOrigin?: Maybe<VariantOrigin>;
   variantId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<EvidenceSort>;
 }>;
 
 
@@ -3510,7 +3533,7 @@ export const ViewerFullDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $sortBy: EvidenceSort) {
   evidenceItems(
     first: $first
     last: $last
@@ -3527,6 +3550,7 @@ export const EvidenceBrowseDocument = gql`
     evidenceRating: $rating
     variantOrigin: $variantOrigin
     variantId: $variantId
+    sortBy: $sortBy
   ) {
     totalCount
     pageInfo {

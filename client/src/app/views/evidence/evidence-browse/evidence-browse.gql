@@ -13,7 +13,8 @@ query EvidenceBrowse(
   $evidenceType: EvidenceType
   $rating: Int
   $variantOrigin: VariantOrigin
-  $variantId: Int
+  $variantId: Int,
+  $sortBy: EvidenceSort
 ) {
   evidenceItems(
     first: $first
@@ -30,7 +31,8 @@ query EvidenceBrowse(
     evidenceType: $evidenceType
     evidenceRating: $rating
     variantOrigin: $variantOrigin
-    variantId: $variantId
+    variantId: $variantId,
+    sortBy: $sortBy
   ) {
     totalCount
     pageInfo {

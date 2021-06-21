@@ -786,6 +786,32 @@ enum EvidenceLevel {
   E
 }
 
+input EvidenceSort {
+  """
+  Available columns for sorting
+  """
+  column: EvidenceSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum EvidenceSortColumns {
+  CLINICAL_SIGNIFICANCE
+  DESCRIPTION
+  DISEASE_NAME
+  DRUG_NAME
+  EVIDENCE_DIRECTION
+  EVIDENCE_LEVEL
+  EVIDENCE_RATING
+  EVIDENCE_TYPE
+  ID
+  STATUS
+  VARIANT_ORIGIN
+}
+
 enum EvidenceStatus {
   ACCEPTED
   REJECTED
@@ -1826,6 +1852,11 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: EvidenceSort
 
     """
     Filtering on the evidence status.

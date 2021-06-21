@@ -15,36 +15,36 @@
             [nzFrontPagination]="false"
             [nzShowPagination]="false">
 
-            <thead>
+            <thead (nzSortOrderChange)="onSortChanged($event)">
               <tr>
-                <th nzWidth="5%">
+                <th nzWidth="5%" [nzColumnKey]="sortColumns.Id" [nzSortFn]="true">
                   EID
                 </th>
-                <th nzWidth="20%">
+                <th nzWidth="20%" [nzColumnKey]="sortColumns.DiseaseName" [nzSortFn]="true">
                   Diseases
                 </th>
-                <th nzWidth="20%">
+                <th nzWidth="20%" [nzColumnKey]="sortColumns.DrugName" [nzSortFn]="true">
                   Drugs
                 </th>
-                <th nzWidth="5%">
+                <th nzWidth="5%" [nzColumnKey]="sortColumns.Description" [nzSortFn]="true">
                   Description
                 </th>
-                <th nzWidth="5%">
+                <th nzWidth="5%" [nzColumnKey]="sortColumns.EvidenceLevel" [nzSortFn]="true">
                   Evidence Level
                 </th>
-                <th nzWidth="10%">
+                <th nzWidth="10%" [nzColumnKey]="sortColumns.EvidenceType" [nzSortFn]="true">
                   Evidence Type
                 </th>
-                <th nzWidth="10%">
+                <th nzWidth="10%" [nzColumnKey]="sortColumns.EvidenceDirection" [nzSortFn]="true">
                   Evidence Direction
                 </th>
-                <th nzWidth="10%">
+                <th nzWidth="10%" [nzColumnKey]="sortColumns.ClinicalSignificance" [nzSortFn]="true">
                   Clinical Significance
                 </th>
-                <th nzWidth="10%">
+                <th nzWidth="10%" [nzColumnKey]="sortColumns.VariantOrigin" [nzSortFn]="true">
                   Variant Origin
                 </th>
-                <th nzWidth="5%">
+                <th nzWidth="5%" [nzColumnKey]="sortColumns.EvidenceRating" [nzSortFn]="true">
                   Rating
                 </th>
               </tr>

@@ -7,7 +7,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
 
   description 'List and filter evidence items.'
 
-  scope { EvidenceItem.order('evidence_items.id ASC') }
+  scope { EvidenceItem.all }
 
   option(:id, type: GraphQL::Types::Int, description: 'Left anchored filtering on the ID of the evidence item.') do |scope, value|
     scope.where("evidence_items.id = ?", value)
@@ -44,5 +44,32 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   end
   option(:status, type: Types::EvidenceStatusType, description: 'Filtering on the evidence status.') do |scope, value|
     scope.where(status: value)
+  end
+
+
+  option :sort_by, type: Types::BrowseTables::EvidenceSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|
+    case value.column
+    when 'ID'
+      scope.order("id #{value.direction}")
+    when 'DISEASE_NAME'
+      scope.joins(:disease).order("diseases.name #{value.direction}")
+    when 'DRUG_NAME'
+    when 'DESCRIPTION'
+      scope.order("description #{value.direction}")
+    when 'EVIDENCE_LEVEL'
+      scope.order("evidence_level #{value.direction}")
+    when 'EVIDENCE_RATING'
+      scope.order("rating #{value.direction}")
+    when 'STATUS'
+      scope.order("status #{value.direction}")
+    when 'EVIDENCE_TYPE'
+      scope.order("evidence_type #{value.direction}")
+    when 'EVIDENCE_DIRECTION'
+      scope.order("evidence_direction #{value.direction}")
+    when 'CLINICAL_SIGNIFICANCE'
+      scope.order("clinical_significance #{value.direction}")
+    when 'VARIANT_ORIGIN'
+      scope.order("variant_origin #{value.direction}")
+    end
   end
 end
