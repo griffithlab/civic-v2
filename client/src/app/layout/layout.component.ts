@@ -14,18 +14,13 @@ import {
   iconAssertion,
   iconCurator,
   iconComment,
-  iconCommentThread,
   iconDisease,
-  iconDrug,
   iconEditor,
-  iconEvent,
-  iconEventLog,
   iconEvidence,
   iconGene,
   iconOrganization,
   iconRevision,
   iconSource,
-  iconSuggestedRevision,
   iconVariant,
   iconVariantGroup,
 } from '@app/generated/civic.icons';
@@ -70,16 +65,12 @@ export class LayoutComponent {
     this.iconService.addIconLiteral('civic:comment', iconComment.data);
     this.iconService.addIconLiteral('civic:curator', iconCurator.data);
     this.iconService.addIconLiteral('civic:disease', iconDisease.data);
-    this.iconService.addIconLiteral('civic:drug', iconDrug.data);
     this.iconService.addIconLiteral('civic:editor', iconEditor.data);
-    this.iconService.addIconLiteral('civic:event', iconEvent.data);
-    this.iconService.addIconLiteral('civic:event-log', iconEventLog.data);
     this.iconService.addIconLiteral('civic:evidence', iconEvidence.data);
     this.iconService.addIconLiteral('civic:gene', iconGene.data);
     this.iconService.addIconLiteral('civic:organization', iconOrganization.data);
     this.iconService.addIconLiteral('civic:revision', iconRevision.data);
     this.iconService.addIconLiteral('civic:source', iconSource.data);
-    this.iconService.addIconLiteral('civic:suggested-revision', iconSuggestedRevision.data);
     this.iconService.addIconLiteral('civic:variant', iconVariant.data);
     this.iconService.addIconLiteral('civic:variant-group', iconVariantGroup.data);
   }
