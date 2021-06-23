@@ -1,6 +1,5 @@
 module Types::BrowseTables
   class EvidenceSortColumns < Types::BaseEnum
-    value 'ID'
     value 'DISEASE_NAME'
     value 'DRUG_NAME'
     value 'DESCRIPTION'
@@ -11,5 +10,7 @@ module Types::BrowseTables
     value 'EVIDENCE_DIRECTION'
     value 'CLINICAL_SIGNIFICANCE'
     value 'VARIANT_ORIGIN'
+    value 'GENE_NAME'
+    value 'VARIANT_NAME'
   end
 end

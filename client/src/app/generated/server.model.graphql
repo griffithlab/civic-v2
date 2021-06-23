@@ -144,6 +144,72 @@ input BooleanSearchInput {
   value: Boolean!
 }
 
+type BrowseEvidence {
+  clinicalSignificance: EvidenceClinicalSignificance
+  description: String!
+  diseaseName: String!
+  drugNames: [String!]!
+  evidenceDirection: EvidenceDirection!
+  evidenceLevel: EvidenceLevel!
+  evidenceRating: Int
+  evidenceType: EvidenceType!
+  geneName: String!
+  id: Int!
+  status: EvidenceStatus!
+  variantName: String!
+  variantOrigin: VariantOrigin!
+}
+
+"""
+The connection type for BrowseEvidence.
+"""
+type BrowseEvidenceConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseEvidenceEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseEvidence!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseEvidenceEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseEvidence
+}
+
 type BrowseGene {
   aliases: [GeneAlias!]
   assertionCount: Int!
@@ -807,8 +873,9 @@ enum EvidenceSortColumns {
   EVIDENCE_LEVEL
   EVIDENCE_RATING
   EVIDENCE_TYPE
-  ID
+  GENE_NAME
   STATUS
+  VARIANT_NAME
   VARIANT_ORIGIN
 }
 
@@ -1646,6 +1713,100 @@ type Phenotype {
 }
 
 type Query {
+  """
+  List and filter evidence items.
+  """
+  browseEvidence(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Filtering on the evidence clinical significance.
+    """
+    clinicalSignificance: EvidenceClinicalSignificance
+
+    """
+    Substring filtering on evidence item description.
+    """
+    description: String
+
+    """
+    Substring filtering on disease name.
+    """
+    diseaseName: String
+
+    """
+    Substring filtering on drug name.
+    """
+    drugName: String
+
+    """
+    Filtering on the evidence direction.
+    """
+    evidenceDirection: EvidenceDirection
+
+    """
+    Filtering on the evidence level.
+    """
+    evidenceLevel: EvidenceLevel
+
+    """
+    Filtering on the evidence rating. Valid values: 1, 2, 3, 4, 5
+    """
+    evidenceRating: Int
+
+    """
+    Filtering on the evidence type.
+    """
+    evidenceType: EvidenceType
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Substring filtering on gene name
+    """
+    geneName: String
+
+    """
+    Left anchored filtering on the ID of the evidence item.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: EvidenceSort
+
+    """
+    Filtering on the evidence status.
+    """
+    status: EvidenceStatus
+
+    """
+    Substring filtering on variant name
+    """
+    variantName: String
+
+    """
+    Filtering on the evidence variant origin.
+    """
+    variantOrigin: VariantOrigin
+  ): BrowseEvidenceConnection!
   browseGenes(
     """
     Returns the elements in the list that come after the specified cursor.
