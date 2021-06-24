@@ -48,6 +48,31 @@ export type BrowseGeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type BrowseSourceKeySpecifier = ('authors' | 'citationId' | 'evidenceItemCount' | 'id' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | BrowseSourceKeySpecifier)[];
+export type BrowseSourceFieldPolicy = {
+	authors?: FieldPolicy<any> | FieldReadFunction<any>,
+	citationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	journal?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	publicationYear?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BrowseSourceConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseSourceConnectionKeySpecifier)[];
+export type BrowseSourceConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type BrowseSourceEdgeKeySpecifier = ('cursor' | 'node' | BrowseSourceEdgeKeySpecifier)[];
+export type BrowseSourceEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type BrowseVariantKeySpecifier = ('assertionCount' | 'diseases' | 'drugs' | 'evidenceItemCount' | 'evidenceScore' | 'geneName' | 'id' | 'name' | BrowseVariantKeySpecifier)[];
 export type BrowseVariantFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -368,9 +393,10 @@ export type PhenotypeFieldPolicy = {
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('browseGenes' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flags' | 'gene' | 'organization' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'variant' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('browseGenes' | 'browseSources' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flags' | 'gene' | 'organization' | 'remoteCitation' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'variant' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	browseGenes?: FieldPolicy<any> | FieldReadFunction<any>,
+	browseSources?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseVariants?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -584,6 +610,18 @@ export type TypedTypePolicies = TypePolicies & {
 	BrowseGeneEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BrowseGeneEdgeKeySpecifier | (() => undefined | BrowseGeneEdgeKeySpecifier),
 		fields?: BrowseGeneEdgeFieldPolicy,
+	},
+	BrowseSource?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BrowseSourceKeySpecifier | (() => undefined | BrowseSourceKeySpecifier),
+		fields?: BrowseSourceFieldPolicy,
+	},
+	BrowseSourceConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BrowseSourceConnectionKeySpecifier | (() => undefined | BrowseSourceConnectionKeySpecifier),
+		fields?: BrowseSourceConnectionFieldPolicy,
+	},
+	BrowseSourceEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | BrowseSourceEdgeKeySpecifier | (() => undefined | BrowseSourceEdgeKeySpecifier),
+		fields?: BrowseSourceEdgeFieldPolicy,
 	},
 	BrowseVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BrowseVariantKeySpecifier | (() => undefined | BrowseVariantKeySpecifier),

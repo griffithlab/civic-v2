@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_163047) do
+ActiveRecord::Schema.define(version: 2021_06_24_171329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -890,4 +890,43 @@ ActiveRecord::Schema.define(version: 2021_06_15_163047) do
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
 
+  create_view "evidence_browse_table_rows", sql_definition: <<-SQL
+      SELECT evidence_items.id,
+      genes.name AS gene_name,
+      variants.name AS variant_name,
+      diseases.name AS disease_name,
+      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
+      evidence_items.status,
+      evidence_items.description,
+      evidence_items.evidence_direction,
+      evidence_items.evidence_level,
+      evidence_items.rating AS evidence_rating,
+      evidence_items.evidence_type,
+      evidence_items.variant_origin,
+      evidence_items.clinical_significance
+     FROM (((((evidence_items
+       JOIN variants ON ((evidence_items.variant_id = variants.id)))
+       JOIN genes ON ((variants.gene_id = genes.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY evidence_items.id, evidence_items.status, evidence_items.description, evidence_items.evidence_direction, evidence_items.evidence_level, evidence_items.rating, evidence_items.evidence_type, evidence_items.variant_origin, evidence_items.clinical_significance, genes.name, variants.name, diseases.name;
+  SQL
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(concat(authors.last_name, ', ', authors.fore_name)) AS authors,
+      sources.publication_year,
+      sources.journal,
+      sources.name,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM (((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.name;
+  SQL
 end

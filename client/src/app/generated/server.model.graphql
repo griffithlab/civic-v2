@@ -207,6 +207,67 @@ type BrowseGeneEdge {
   node: BrowseGene
 }
 
+type BrowseSource {
+  authors: [String!]!
+  citationId: Int!
+  evidenceItemCount: Int!
+  id: Int!
+  journal: String
+  name: String
+  publicationYear: Int
+  sourceType: SourceSource!
+}
+
+"""
+The connection type for BrowseSource.
+"""
+type BrowseSourceConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseSourceEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseSource!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseSourceEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseSource
+}
+
 type BrowseVariant {
   assertionCount: Int!
   diseases: [Disease!]!
@@ -1672,6 +1733,34 @@ type Query {
     last: Int
     sortBy: GenesSort
   ): BrowseGeneConnection!
+  browseSources(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+    author: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    citationId: Int
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+    journal: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    name: String
+    sortBy: SourcesSort
+    sourceType: SourceSource
+    year: Int
+  ): BrowseSourceConnection!
   browseVariants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -2224,6 +2313,28 @@ type SourceStub {
   citationId: Int!
   id: Int!
   sourceType: SourceSource!
+}
+
+input SourcesSort {
+  """
+  Available columns for sorting
+  """
+  column: SourcesSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum SourcesSortColumns {
+  AUTHORS
+  CITATION_ID
+  EVIDENCE_COUNT
+  JOURNAL
+  NAME
+  SOURCE_TYPE
+  YEAR
 }
 
 input StringSearchInput {

@@ -152,6 +152,44 @@ export type BrowseGeneEdge = {
   node?: Maybe<BrowseGene>;
 };
 
+export type BrowseSource = {
+  __typename: 'BrowseSource';
+  authors: Array<Scalars['String']>;
+  citationId: Scalars['Int'];
+  evidenceItemCount: Scalars['Int'];
+  id: Scalars['Int'];
+  journal?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  publicationYear?: Maybe<Scalars['Int']>;
+  sourceType: SourceSource;
+};
+
+/** The connection type for BrowseSource. */
+export type BrowseSourceConnection = {
+  __typename: 'BrowseSourceConnection';
+  /** A list of edges. */
+  edges: Array<BrowseSourceEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<BrowseSource>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseSourceEdge = {
+  __typename: 'BrowseSourceEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseSource>;
+};
+
 export type BrowseVariant = {
   __typename: 'BrowseVariant';
   assertionCount: Scalars['Int'];
@@ -1055,6 +1093,7 @@ export type Phenotype = {
 export type Query = {
   __typename: 'Query';
   browseGenes: BrowseGeneConnection;
+  browseSources: BrowseSourceConnection;
   browseVariants: BrowseVariantConnection;
   /** List and filter comments. */
   comments: CommentConnection;
@@ -1100,6 +1139,21 @@ export type QueryBrowseGenesArgs = {
   geneAlias?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<GenesSort>;
+};
+
+
+export type QueryBrowseSourcesArgs = {
+  after?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  citationId?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  journal?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<SourcesSort>;
+  sourceType?: Maybe<SourceSource>;
+  year?: Maybe<Scalars['Int']>;
 };
 
 
@@ -1413,6 +1467,23 @@ export type SourceStub = {
   id: Scalars['Int'];
   sourceType: SourceSource;
 };
+
+export type SourcesSort = {
+  /** Available columns for sorting */
+  column: SourcesSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum SourcesSortColumns {
+  Authors = 'AUTHORS',
+  CitationId = 'CITATION_ID',
+  EvidenceCount = 'EVIDENCE_COUNT',
+  Journal = 'JOURNAL',
+  Name = 'NAME',
+  SourceType = 'SOURCE_TYPE',
+  Year = 'YEAR'
+}
 
 export type StringSearchInput = {
   comparisonOperator: StringSearchOperator;
@@ -2536,6 +2607,45 @@ export type GeneSummaryFieldsFragment = (
   ) }
 );
 
+export type BrowseSourcesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<SourcesSort>;
+  name?: Maybe<Scalars['String']>;
+  year?: Maybe<Scalars['Int']>;
+  sourceType?: Maybe<SourceSource>;
+  citationId?: Maybe<Scalars['Int']>;
+  author?: Maybe<Scalars['String']>;
+  journal?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseSourcesQuery = (
+  { __typename: 'Query' }
+  & { browseSources: (
+    { __typename: 'BrowseSourceConnection' }
+    & Pick<BrowseSourceConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseSourceEdge' }
+      & Pick<BrowseSourceEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseSource' }
+        & BrowseSourceRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseSourceRowFieldsFragment = (
+  { __typename: 'BrowseSource' }
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType'>
+);
+
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   entrezSymbol?: Maybe<Scalars['String']>;
@@ -2973,6 +3083,18 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     }
   }
   myGeneInfoDetails
+}
+    `;
+export const BrowseSourceRowFieldsFragmentDoc = gql`
+    fragment BrowseSourceRowFields on BrowseSource {
+  id
+  authors
+  citationId
+  evidenceItemCount
+  journal
+  name
+  publicationYear
+  sourceType
 }
     `;
 export const VariantDetailFieldsFragmentDoc = gql`
@@ -3746,6 +3868,50 @@ export const GenesSummaryDocument = gql`
   })
   export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
     document = GenesSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseSourcesDocument = gql`
+    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String) {
+  browseSources(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    year: $year
+    sourceType: $sourceType
+    citationId: $citationId
+    author: $author
+    journal: $journal
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseSourceRowFields
+      }
+    }
+  }
+}
+    ${BrowseSourceRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
+    document = BrowseSourcesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
