@@ -8,7 +8,7 @@ module.exports = {
         attrs: [
           '*:fill:#666', // remove fill from single tone icons paths
           '*:*:preserve', // remove xml:space=preserve
-          'xmlns'
+          'xmlns', // remove any XML namespace attrs
         ]
       }
     },
@@ -28,13 +28,11 @@ module.exports = {
       params: {
         viewBox: '64 64 896 896', // ng-zorro's updated standard viewBox dimensions
       },
-      fn: (ast, params) => {
-        if(ast.type === 'element' && ast.name === 'svg') {
-          if(ast.attributes.viewBox) {
-            ast.attributes = {
-              ...ast.attributes,
-              viewBox: params.viewBox
-            }
+      fn: (ast, params, info) => {
+        if (ast.type === 'element' && ast.name === 'svg') {
+          ast.attributes = {
+            ...ast.attributes,
+            viewBox: params.viewBox
           }
         }
         return ast;

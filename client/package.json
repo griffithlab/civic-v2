@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate-svgo": "svgo --config .svgo.config.js -f ./src/assets/icons/ -r -o ./src/assets/icons/.tmp",
-    "generate-icons": "svgo --config .svgo.config.js -f ./src/assets/icons/ -r && svg-to-ts",
+    "generate-icons": "yarn run generate-svgo && svg-to-ts",
     "generate-apollo": "graphql-codegen",
     "generate-apollo:start": "graphql-codegen --watch",
     "postinstall": "patch-package"
