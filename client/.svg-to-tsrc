@@ -3,7 +3,7 @@
   "srcFiles": ["./src/assets/icons/.tmp/**/*.svg"],
   "outputDirectory": "./src/app/generated",
   "interfaceName": "CivicIcon",
-  "typeName": "Icon",
+  "typeName": "CivicIconLiteral",
   "prefix": "icon",
   "fileName": "civic.icons",
   "compileSources": true
