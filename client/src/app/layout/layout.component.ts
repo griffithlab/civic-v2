@@ -10,19 +10,21 @@ import { ViewerService } from '@app/shared/services/viewer/viewer.service';
 import { NGXLogger } from 'ngx-logger';
 
 import {
-  iconAdmin,
-  iconAssertion,
-  iconCurator,
-  iconComment,
-  iconDisease,
-  iconEditor,
-  iconEvidence,
-  iconGene,
-  iconOrganization,
-  iconRevision,
-  iconSource,
-  iconVariant,
-  iconVariantGroup,
+  iconAdminOutline,
+  iconAssertionOutline,
+  iconCommentOutline,
+  iconCuratorOutline,
+  iconDiseaseOutline,
+  iconEditorOutline,
+  iconEvidenceOutline,
+  iconFlagOutline,
+  iconGeneOutline,
+  iconInterventionOutline,
+  iconOrganizationOutline,
+  iconRevisionOutline,
+  iconSourceOutline,
+  iconVariantOutline,
+  iconVariantGroupOutline,
 } from '@app/generated/civic.icons';
 
 
@@ -60,19 +62,20 @@ export class LayoutComponent {
 
   // TODO: create a icon service or module that loads all the custom icons
   private addIcons(): void {
-    this.iconService.addIconLiteral('civic:admin', iconAdmin.data);
-    this.iconService.addIconLiteral('civic:assertion', iconAssertion.data);
-    this.iconService.addIconLiteral('civic:comment', iconComment.data);
-    this.iconService.addIconLiteral('civic:curator', iconCurator.data);
-    this.iconService.addIconLiteral('civic:disease', iconDisease.data);
-    this.iconService.addIconLiteral('civic:editor', iconEditor.data);
-    this.iconService.addIconLiteral('civic:evidence', iconEvidence.data);
-    this.iconService.addIconLiteral('civic:gene', iconGene.data);
-    this.iconService.addIconLiteral('civic:organization', iconOrganization.data);
-    this.iconService.addIconLiteral('civic:revision', iconRevision.data);
-    this.iconService.addIconLiteral('civic:source', iconSource.data);
-    this.iconService.addIconLiteral('civic:variant', iconVariant.data);
-    this.iconService.addIconLiteral('civic:variant-group', iconVariantGroup.data);
+    this.iconService.addIconLiteral('civic:admin', iconAdminOutline.data);
+    this.iconService.addIconLiteral('civic:assertion', iconAssertionOutline.data);
+    this.iconService.addIconLiteral('civic:comment', iconCommentOutline.data);
+    this.iconService.addIconLiteral('civic:curator', iconCuratorOutline.data);
+    this.iconService.addIconLiteral('civic:disease', iconDiseaseOutline.data);
+    this.iconService.addIconLiteral('civic:editor', iconEditorOutline.data);
+    this.iconService.addIconLiteral('civic:evidence', iconEvidenceOutline.data);
+    this.iconService.addIconLiteral('civic:gene', iconGeneOutline.data);
+    this.iconService.addIconLiteral('civic:drug', iconInterventionOutline.data);
+    this.iconService.addIconLiteral('civic:organization', iconOrganizationOutline.data);
+    this.iconService.addIconLiteral('civic:revision', iconRevisionOutline.data);
+    this.iconService.addIconLiteral('civic:source', iconSourceOutline.data);
+    this.iconService.addIconLiteral('civic:variant', iconVariantOutline.data);
+    this.iconService.addIconLiteral('civic:variant-group', iconVariantGroupOutline.data);
   }
 
 }
