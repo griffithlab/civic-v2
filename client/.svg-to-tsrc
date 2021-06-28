@@ -2,9 +2,12 @@
   "conversionType": "constants",
   "srcFiles": ["./src/assets/icons/.tmp/**/*.svg"],
   "outputDirectory": "./src/app/generated",
-  "interfaceName": "CivicIcon",
-  "typeName": "CivicIconLiteral",
-  "prefix": "icon",
+  "interfaceName": "CivicIconLiteral",
+  "delimiter": "CAMEL",
+  "typeName": "CivicIcon",
+  "generateType": false,
+  "generateTypeObject": true,
+  "prefix": "civic",
   "fileName": "civic.icons",
   "compileSources": true
 }
