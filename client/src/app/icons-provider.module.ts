@@ -1,6 +1,8 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 import { IconDefinition, ThemeType } from '@ant-design/icons-angular';
+
+import { camelToKebab } from '@app/shared/utilities/camel-to-kebab';
 
 import {
   MenuFoldOutline,
@@ -49,7 +51,8 @@ import {
   CivicIconLiteral
 } from '@app/generated/civic.icons';
 
-const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
+export const CIVIC_ICONS = new InjectionToken('civic_icons');
+
 const iconLiterals = [
   civicAdminOutline,
   civicAssertionOutline,
@@ -89,13 +92,18 @@ const iconLiterals = [
   civicVariantgroupTwotone,
 ];
 
-// TODO: import civic.icons, create IconDefinition for each, append to icons array
-console.log(toIconDefs(iconLiterals))
+const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
+const civicIcons = toIconDefs(iconLiterals);
+
+console.log(NZ_ICONS);
+console.log(CIVIC_ICONS);
+
 @NgModule({
   imports: [NzIconModule],
   exports: [NzIconModule],
   providers: [
-    { provide: NZ_ICONS, useValue: icons }
+    { provide: NZ_ICONS, useValue: icons },
+    { provide: CIVIC_ICONS, useValue: civicIcons }
   ]
 })
 export class IconsProviderModule {
@@ -116,7 +124,7 @@ export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
 
 export function getName(name: string): string {
   const regex = /Outline|Fill|TwoTone/i;
-  return 'civic:' + name.replace(regex, '');
+  return 'civic:' + camelToKebab(name.replace(regex, ''));
 }
 
 export function getTheme(name: string): ThemeType | undefined {
