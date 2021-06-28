@@ -11,6 +11,15 @@ import {
   DashboardOutline
 } from '@ant-design/icons-angular/icons';
 
+// NZ icons used in base app components
+const icons = [
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  DashboardOutline,
+  FormOutline
+];
+
+// all civic custom icons
 import {
   civicAdminOutline,
   civicAssertionOutline,
@@ -51,8 +60,6 @@ import {
   CivicIconLiteral
 } from '@app/generated/civic.icons';
 
-export const CIVIC_ICONS = new InjectionToken('civic_icons');
-
 const iconLiterals = [
   civicAdminOutline,
   civicAssertionOutline,
@@ -92,18 +99,13 @@ const iconLiterals = [
   civicVariantgroupTwotone,
 ];
 
-const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
-const civicIcons = toIconDefs(iconLiterals);
-
-console.log(NZ_ICONS);
-console.log(CIVIC_ICONS);
+export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals);
 
 @NgModule({
   imports: [NzIconModule],
   exports: [NzIconModule],
   providers: [
     { provide: NZ_ICONS, useValue: icons },
-    { provide: CIVIC_ICONS, useValue: civicIcons }
   ]
 })
 export class IconsProviderModule {
@@ -122,9 +124,10 @@ export function toIconDefs(icons: CivicIconLiteral[]): IconDefinition[] {
   return defs;
 }
 
+// remove theme, prepend namespace
 export function getName(name: string): string {
   const regex = /Outline|Fill|TwoTone/i;
-  return 'civic:' + camelToKebab(name.replace(regex, ''));
+  return 'civic-' + camelToKebab(name.replace(regex, ''));
 }
 
 export function getTheme(name: string): ThemeType | undefined {
