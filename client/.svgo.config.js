@@ -6,7 +6,7 @@ module.exports = {
       name: 'removeAttrs',
       params: {
         attrs: [
-          '*:fill:#666', // remove fill from single tone icons paths
+          '*:fill:(#666|#666666)', // remove fill from single tone icons paths
           '*:*:preserve', // remove xml:space=preserve
           'xmlns', // remove any XML namespace attrs
         ]
