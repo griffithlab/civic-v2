@@ -27,6 +27,9 @@ module Types::Entities
     field :nccn_guideline, String, null: true
     field :acmg_codes, [Types::Entities::AcmgCodeType], null: true
     field :amp_level, Types::AmpLevelType, null: true
+    field :submission_event, Types::Entities::EventType, null: false
+    field :acceptance_event, Types::Entities::EventType, null: true
+    field :rejection_event, Types::Entities::EventType, null: true
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -69,11 +72,19 @@ module Types::Entities
     end
 
     def nccn_guideline
-      if object.nccn_guideline
-        object.nccn_guideline.name
-      else
-        nil
-      end
+      object.nccn_guideline&.name
+    end
+
+    def submission_event
+      Loaders::AssociationLoader.for(Assertion, :submission_event).load(object)
+    end
+
+    def acceptance_event
+      Loaders::AssociationLoader.for(Assertion, :acceptance_event).load(object)
+    end
+
+    def rejection_event
+      Loaders::AssociationLoader.for(Assertion, :rejection_event).load(object)
     end
   end
 end

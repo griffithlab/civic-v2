@@ -20,6 +20,22 @@ class EvidenceItem < ActiveRecord::Base
   enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
 
+  has_one :submission_event,
+    ->() { where(action: 'submitted').includes(:originating_user) },
+    as: :subject,
+    class_name: 'Event'
+  has_one :submitter, through: :submission_event, source: :originating_user
+  has_one :acceptance_event,
+    ->() { where(action: 'accepted').includes(:originating_user) },
+    as: :subject,
+    class_name: 'Event'
+  has_one :acceptor, through: :acceptance_event, source: :originating_user
+  has_one :rejection_event,
+    ->() { where(action: 'rejected').includes(:originating_user) },
+    as: :subject,
+    class_name: 'Event'
+  has_one :rejector, through: :rejection_event, source: :originating_user
+
   validates :rating, inclusion: [1, 2, 3, 4, 5]
 
   def name
