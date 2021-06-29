@@ -13,6 +13,7 @@ module Types
     field :browseGenes, resolver: Resolvers::BrowseGenes
     field :browseVariants, resolver: Resolvers::BrowseVariants
     field :browseSources, resolver: Resolvers::BrowseSources
+    field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :events, resolver: Resolvers::TopLevelEvents
 
     field :disease, Types::Entities::DiseaseType, null: true do

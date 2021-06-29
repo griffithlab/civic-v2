@@ -228,6 +228,42 @@ export type BrowseVariantEdge = {
   node?: Maybe<BrowseVariant>;
 };
 
+export type BrowseVariantGroup = {
+  __typename: 'BrowseVariantGroup';
+  evidenceItemCount: Scalars['Int'];
+  geneNames: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  variantCount: Scalars['Int'];
+  variantNames: Array<Scalars['String']>;
+};
+
+/** The connection type for BrowseVariantGroup. */
+export type BrowseVariantGroupConnection = {
+  __typename: 'BrowseVariantGroupConnection';
+  /** A list of edges. */
+  edges: Array<BrowseVariantGroupEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<BrowseVariantGroup>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseVariantGroupEdge = {
+  __typename: 'BrowseVariantGroupEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseVariantGroup>;
+};
+
 export type ClinicalTrial = {
   __typename: 'ClinicalTrial';
   description: Scalars['String'];
@@ -1094,6 +1130,7 @@ export type Query = {
   __typename: 'Query';
   browseGenes: BrowseGeneConnection;
   browseSources: BrowseSourceConnection;
+  browseVariantGroups: BrowseVariantGroupConnection;
   browseVariants: BrowseVariantConnection;
   /** List and filter comments. */
   comments: CommentConnection;
@@ -1154,6 +1191,18 @@ export type QueryBrowseSourcesArgs = {
   sortBy?: Maybe<SourcesSort>;
   sourceType?: Maybe<SourceSource>;
   year?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryBrowseVariantGroupsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  geneNames?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantGroupsSort>;
+  variantNames?: Maybe<Scalars['String']>;
 };
 
 
@@ -1770,6 +1819,21 @@ export type VariantEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<Variant>;
 };
+
+export type VariantGroupsSort = {
+  /** Available columns for sorting */
+  column: VariantGroupsSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum VariantGroupsSortColumns {
+  EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
+  GeneNames = 'GENE_NAMES',
+  Name = 'NAME',
+  VariantCount = 'VARIANT_COUNT',
+  VariantNames = 'VARIANT_NAMES'
+}
 
 export enum VariantOrigin {
   CommonGermline = 'COMMON_GERMLINE',
@@ -2646,6 +2710,42 @@ export type BrowseSourceRowFieldsFragment = (
   & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType'>
 );
 
+export type BrowseVariantGroupsQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantGroupsSort>;
+  name?: Maybe<Scalars['String']>;
+  geneNames?: Maybe<Scalars['String']>;
+  variantNames?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseVariantGroupsQuery = (
+  { __typename: 'Query' }
+  & { browseVariantGroups: (
+    { __typename: 'BrowseVariantGroupConnection' }
+    & Pick<BrowseVariantGroupConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantGroupEdge' }
+      & Pick<BrowseVariantGroupEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantGroup' }
+        & BrowseVariantGroupRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseVariantGroupRowFieldsFragment = (
+  { __typename: 'BrowseVariantGroup' }
+  & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
+);
+
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   entrezSymbol?: Maybe<Scalars['String']>;
@@ -3095,6 +3195,16 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   name
   publicationYear
   sourceType
+}
+    `;
+export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
+    fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
+  id
+  name
+  geneNames
+  variantNames
+  variantCount
+  evidenceItemCount
 }
     `;
 export const VariantDetailFieldsFragmentDoc = gql`
@@ -3912,6 +4022,47 @@ export const BrowseSourcesDocument = gql`
   })
   export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
     document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseVariantGroupsDocument = gql`
+    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $geneNames: String, $variantNames: String) {
+  browseVariantGroups(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    geneNames: $geneNames
+    variantNames: $variantNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseVariantGroupRowFields
+      }
+    }
+  }
+}
+    ${BrowseVariantGroupRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
+    document = BrowseVariantGroupsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

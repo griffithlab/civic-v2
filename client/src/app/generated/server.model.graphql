@@ -329,6 +329,65 @@ type BrowseVariantEdge {
   node: BrowseVariant
 }
 
+type BrowseVariantGroup {
+  evidenceItemCount: Int!
+  geneNames: [String!]!
+  id: Int!
+  name: String!
+  variantCount: Int!
+  variantNames: [String!]!
+}
+
+"""
+The connection type for BrowseVariantGroup.
+"""
+type BrowseVariantGroupConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseVariantGroupEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseVariantGroup!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseVariantGroupEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseVariantGroup
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -1761,6 +1820,31 @@ type Query {
     sourceType: SourceSource
     year: Int
   ): BrowseSourceConnection!
+  browseVariantGroups(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+    geneNames: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    name: String
+    sortBy: VariantGroupsSort
+    variantNames: String
+  ): BrowseVariantGroupConnection!
   browseVariants(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -2863,6 +2947,26 @@ type VariantEdge {
   The item at the end of the edge.
   """
   node: Variant
+}
+
+input VariantGroupsSort {
+  """
+  Available columns for sorting
+  """
+  column: VariantGroupsSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum VariantGroupsSortColumns {
+  EVIDENCE_ITEM_COUNT
+  GENE_NAMES
+  NAME
+  VARIANT_COUNT
+  VARIANT_NAMES
 }
 
 enum VariantOrigin {
