@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse.component';
 import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
@@ -12,6 +13,11 @@ const routes: Routes = [
     path: '',
     component: AssertionsComponent,
     children: [
+      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      {
+        path: 'browse',
+        component: AssertionsBrowseComponent
+      },
       {
         path: ':assertionId',
         component: AssertionsDetailComponent,

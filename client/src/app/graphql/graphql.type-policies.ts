@@ -23,7 +23,8 @@ export const CvcTypePolicies: TypePolicies = {
       events: relayStylePagination(),
       variants: relayStylePagination(),
       comments: relayStylePagination(),
-      evidenceItems: relayStylePagination()
+      evidenceItems: relayStylePagination(),
+      assertions: relayStylePagination()
     }
   }
 };

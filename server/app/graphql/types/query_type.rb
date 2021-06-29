@@ -66,6 +66,7 @@ module Types
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 40
 
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
+    field :assertions, resolver: Resolvers::TopLevelAssertions
 
     field :flags, resolver: Resolvers::TopLevelFlags
 

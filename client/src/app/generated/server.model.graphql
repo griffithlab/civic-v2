@@ -345,6 +345,77 @@ type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions
   variantOrigin: VariantOrigin!
 }
 
+"""
+The connection type for Assertion.
+"""
+type AssertionConnection {
+  """
+  A list of edges.
+  """
+  edges: [AssertionEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Assertion!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type AssertionEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Assertion
+}
+
+input AssertionSort {
+  """
+  Available columns for sorting
+  """
+  column: AssertionSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum AssertionSortColumns {
+  AMP_LEVEL
+  ASSERTION_DIRECTION
+  ASSERTION_TYPE
+  CLINICAL_SIGNIFICANCE
+  DISEASE_NAME
+  DRUG_NAME
+  GENE_NAME
+  ID
+  STATUS
+  SUMMARY
+  VARIANT_NAME
+}
+
 enum BooleanOperator {
   AND
   OR
@@ -2131,6 +2202,96 @@ type Query {
   Find an assertion by CIViC ID
   """
   assertion(id: Int!): Assertion
+
+  """
+  List and filter assertions.
+  """
+  assertions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Filtering on the AMP/ASCO/CAP category.
+    """
+    ampLevel: AmpLevel
+
+    """
+    Filtering on the assertion direction.
+    """
+    assertionDirection: EvidenceDirection
+
+    """
+    Filtering on the assertion type.
+    """
+    assertionType: EvidenceType
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Filtering on the assertion's clinical significance.
+    """
+    clinicalSignificance: EvidenceClinicalSignificance
+
+    """
+    Substring filtering on disease name.
+    """
+    diseaseName: String
+
+    """
+    Substring filtering on drug name.
+    """
+    drugName: String
+
+    """
+    Exact match filtering on the ID of evidence underlying the assertion.
+    """
+    evidenceId: Int
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Substring filtering on gene name.
+    """
+    geneName: String
+
+    """
+    Left anchored filtering on the ID of the assertion.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: AssertionSort
+
+    """
+    Substring filtering on assertion description.
+    """
+    summary: String
+
+    """
+    Exact match filtering on the ID of the variant.
+    """
+    variantId: Int
+
+    """
+    Substring filtering on variant name.
+    """
+    variantName: String
+  ): AssertionConnection!
   browseDiseases(
     """
     Returns the elements in the list that come after the specified cursor.
