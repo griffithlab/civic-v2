@@ -12,15 +12,8 @@ import {
 import { map, debounceTime } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
 import { Apollo, QueryRef } from "apollo-angular";
-import { ApolloQueryResult, gql } from "@apollo/client/core";
+import { ApolloQueryResult } from "@apollo/client/core";
 
-const GET_GENE = gql`
-  query getGene($geneId: Int!) {
-    gene(id: $geneId) {
-      name
-    }
-  }
-`
 
 @Component({
   selector: 'cvc-variant-menu',
@@ -29,9 +22,10 @@ const GET_GENE = gql`
 })
 export class VariantsMenuComponent implements OnInit {
   @Input() geneId?: number;
+  @Input() geneName?: string;
 
-  gene?: Gene;
   menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
+  totalVariants$?: Observable<number>;
   queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
 
@@ -43,20 +37,12 @@ export class VariantsMenuComponent implements OnInit {
   private initialQueryVars!: VariantsMenuQueryVariables;
   private pageSize = 40;
 
-  constructor(private gql: VariantsMenuGQL, private apollo: Apollo) { }
+  constructor(private gql: VariantsMenuGQL) { }
 
   ngOnInit() {
     if (this.geneId === undefined) {
       throw new Error('Must pass a gene id into variant menu component.');
     }
-    // TODO see if there's a better way to destructure into this.gene
-    // instead of appending `.gene` to this function call
-    this.gene = this.apollo.client.readQuery({
-      query: GET_GENE,
-      variables: {
-        geneId: this.geneId
-      }
-    }).gene;
 
     this.initialQueryVars = {
       geneId: this.geneId,
@@ -74,6 +60,9 @@ export class VariantsMenuComponent implements OnInit {
     this.menuVariants$ = this.results$.pipe(
       map(({ data }) => data.variants.edges.map((e) => e.node))
     );
+
+    this.totalVariants$ = this.results$
+      .pipe(map(({data}) => data.variants.totalCount));
 
     this.debouncedQuery
       .pipe(debounceTime(500))
