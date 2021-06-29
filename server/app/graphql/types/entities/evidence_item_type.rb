@@ -3,14 +3,19 @@ module Types::Entities
 
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::Flaggable
+    implements Types::Interfaces::WithRevisions
+    implements Types::Interfaces::EventSubject
 
     field :id, Int, null: false
+    field :name, String, null: false
+    field :variant, Types::Entities::VariantType, null: false
+    field :gene, Types::Entities::GeneType, null: false
     field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :drugs, [Types::Entities::DrugType], null: true
     field :drug_interaction_type, Types::DrugInteractionType, null: true
-    field :evidence_direction, Types::EvidenceDirectionType, null: false
+    field :evidence_direction, Types::EvidenceDirectionType, null: true
     field :evidence_level, Types::EvidenceLevelType, null: false
     field :evidence_rating, Int, null: true,
       validates: { inclusion: { in: [1, 2, 3, 4, 5], allow_blank: true } }
@@ -21,8 +26,9 @@ module Types::Entities
     field :variant, Types::Entities::VariantType, null: false
     field :variant_hgvs, String, null: false
     field :variant_origin, Types::VariantOriginType, null: false
-    field :revisions, [Types::Revisions::RevisionType], null: false
-    field :events, Types::Entities::EventType.connection_type, null: false
+    field :submission_event, Types::Entities::EventType, null: false
+    field :acceptance_event, Types::Entities::EventType, null: true
+    field :rejection_event, Types::Entities::EventType, null: true
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -48,12 +54,16 @@ module Types::Entities
       Loaders::RecordLoader.for(Variant).load(object.variant_id)
     end
 
-    def revisions
-      Loaders::AssociationLoader.for(EvidenceItem, :revisions).load(object)
+    def submission_event
+      Loaders::AssociationLoader.for(EvidenceItem, :submission_event).load(object)
     end
 
-    def events
-      Loaders::AssociationLoader.for(EvidenceItem, :events).load(object)
+    def acceptance_event
+      Loaders::AssociationLoader.for(EvidenceItem, :acceptance_event).load(object)
+    end
+
+    def rejection_event
+      Loaders::AssociationLoader.for(EvidenceItem, :rejection_event).load(object)
     end
   end
 end

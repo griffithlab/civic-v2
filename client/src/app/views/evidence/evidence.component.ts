@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-evidence',
   templateUrl: './evidence.component.html',
   styleUrls: ['./evidence.component.less']
 })
-export class EvidenceComponent implements OnInit {
-
+export class EvidenceComponent {
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

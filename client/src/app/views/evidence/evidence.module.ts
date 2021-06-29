@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { EvidenceRoutingModule } from './evidence-routing.module';
 import { EvidenceComponent } from './evidence.component';
-import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { FormsModule } from '@angular/forms';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { CvcFormsModule } from '@app/forms/forms.module';
@@ -31,21 +30,28 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
-import { VariantsRoutingModule } from '../variants/variants-routing.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
+import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
+import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
+import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
+import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 
 
 @NgModule({
   declarations: [
     EvidenceComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    EvidenceDetailComponent,
+    EvidenceSummaryComponent,
+    EvidenceCommentsComponent,
+    EvidenceFlagsComponent
   ],
   imports: [
     CommonModule,
     EvidenceRoutingModule,
     CvcFormsModule,
     SharedComponentsModule,
-    VariantsRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -76,7 +82,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
   ],
   exports: [
     EvidenceComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    EvidenceDetailComponent,
+    EvidenceSummaryComponent,
+    EvidenceFlagsComponent,
+    EvidenceCommentsComponent
   ]
 })
 export class EvidenceModule { }

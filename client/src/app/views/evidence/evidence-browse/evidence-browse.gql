@@ -13,7 +13,8 @@ query EvidenceBrowse(
   $evidenceType: EvidenceType
   $rating: Int
   $variantOrigin: VariantOrigin
-  $variantId: Int,
+  $variantId: Int
+  $assertionId: Int
   $sortBy: EvidenceSort
 ) {
   evidenceItems(
@@ -31,7 +32,8 @@ query EvidenceBrowse(
     evidenceType: $evidenceType
     evidenceRating: $rating
     variantOrigin: $variantOrigin
-    variantId: $variantId,
+    variantId: $variantId
+    assertionId: $assertionId
     sortBy: $sortBy
   ) {
     totalCount
@@ -52,6 +54,7 @@ query EvidenceBrowse(
 
 fragment EvidenceGridFields on EvidenceItem {
     id
+    name
     disease {
       id
       displayName

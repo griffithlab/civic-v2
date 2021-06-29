@@ -13,7 +13,6 @@ module Types::Entities
     field :aliases, [Types::Entities::GeneAliasType], null: false
     field :sources, [Types::Entities::SourceType], null: false
     field :variants, resolver: Resolvers::Variants
-    field :lifecycle_actions, Types::LifecycleType, null: false
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
 
     def aliases
@@ -26,14 +25,6 @@ module Types::Entities
 
     def variants
       Loaders::AssociationLoader.for(Gene, :variants).load(object)
-    end
-
-    def lifecycle_actions
-      {
-        last_reviewed: object.last_review_event,
-        last_modified: object.last_accepted_revision_event,
-        #last_commented_on: object.last_comment_event,
-      }
     end
 
     def my_gene_info_details
