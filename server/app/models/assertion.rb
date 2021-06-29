@@ -21,4 +21,7 @@ class Assertion < ActiveRecord::Base
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
 
   #associate_by_attribute :nccn_guideline, :name
+  def name
+    "AID#{self.id}"
+  end
 end

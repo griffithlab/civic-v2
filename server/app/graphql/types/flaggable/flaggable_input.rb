@@ -15,6 +15,8 @@ module Types::Flaggable
         Gene
       when 'VARIANT'
         Variant
+      when 'ASSERTION'
+        Assertion
       else
         raise 'Unknown Enum Value'
       end

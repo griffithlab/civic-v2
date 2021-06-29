@@ -13,6 +13,8 @@ module Types::Commentable
         Gene
       when 'VARIANT'
         Variant
+      when 'ASSERTION'
+        Assertion
       else
         raise 'Unknown Enum Value'
       end
