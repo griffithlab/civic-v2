@@ -11,17 +11,18 @@
     </ng-template>
 
     <ng-template #cardExtra>
-      <form nz-form nzLayout="inline" id="variantFilters">
+      <form nz-form nzLayout="inline" id="variant-filters">
         <nz-form-item>
           <nz-form-label>Filter</nz-form-label>
           <nz-form-control>
             <nz-input-group [nzSuffix]="nameInputClearTpl"
+              id="name-filter-group"
               [nzCompact]="true"
               nzSize="small">
               <input type="text"
                 nz-input
                 placeholder="Variant Names"
-                name="nameFilter"
+                name="name-filter"
                 (ngModelChange)="onModelUpdated()"
                 [(ngModel)]="variantNameFilter" />
               <ng-template #nameInputClearTpl>
@@ -40,7 +41,7 @@
           <nz-form-control>
             <nz-select (ngModelChange)="onVariantStatusFilterChanged($event)"
               nzSize="small"
-              id="statusFilter"
+              id="status-filter"
               name="statusFilter"
               [(ngModel)]="statusFilter">
               <nz-option nzValue="WITH_ACCEPTED"
