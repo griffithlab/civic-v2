@@ -2,6 +2,7 @@ module Types::Queries
   module EvidenceItemQueries
     def self.included(klass)
       klass.field :evidence_item, Types::Entities::EvidenceItemType, null: true do
+        description "Find an evidence item by CIViC ID"
         argument :id, GraphQL::Types::Int, required: true
       end
 

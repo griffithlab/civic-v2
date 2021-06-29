@@ -16,6 +16,10 @@ module Types::Interfaces
           Types::Entities::GeneType
         when Variant
           Types::Entities::VariantType
+        when EvidenceItem
+          Types::Entities::EvidenceItemType
+        when Assertion
+          Types::Entities::AssertionType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

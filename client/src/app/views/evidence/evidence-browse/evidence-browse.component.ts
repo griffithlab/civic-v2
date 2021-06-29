@@ -12,6 +12,7 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
 })
 export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() variantId: Maybe<number>
+  @Input() assertionId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -43,8 +44,9 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
-      variantId: this.variantId
-    }, { fetchPolicy: 'cache-and-network' });
+      variantId: this.variantId,
+      assertionId: this.assertionId
+    }, { fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
 
     let observable = this.queryRef.valueChanges;
 

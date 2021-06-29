@@ -18,6 +18,9 @@
         "name": "Commentable",
         "possibleTypes": [
           {
+            "name": "Assertion"
+          },
+          {
             "name": "EvidenceItem"
           },
           {
@@ -51,6 +54,12 @@
         "name": "EventSubject",
         "possibleTypes": [
           {
+            "name": "Assertion"
+          },
+          {
+            "name": "EvidenceItem"
+          },
+          {
             "name": "Gene"
           },
           {
@@ -62,6 +71,9 @@
         "kind": "INTERFACE",
         "name": "Flaggable",
         "possibleTypes": [
+          {
+            "name": "Assertion"
+          },
           {
             "name": "EvidenceItem"
           },
@@ -101,6 +113,12 @@
         "kind": "INTERFACE",
         "name": "WithRevisions",
         "possibleTypes": [
+          {
+            "name": "Assertion"
+          },
+          {
+            "name": "EvidenceItem"
+          },
           {
             "name": "Gene"
           },

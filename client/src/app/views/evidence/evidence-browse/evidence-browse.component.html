@@ -145,7 +145,7 @@
             <tbody>
               <tr *ngFor="let eid of evidenceTable.data">
                 <td>
-                  {{ eid.id }}
+                  <a routerLink="/evidence/{{eid.id}}">{{eid.name}}</a>
                 </td>
                 <td>
                   <ng-container *ngIf="eid.disease.displayName; else diseaseElse">

@@ -1,0 +1,177 @@
+<ng-container *ngIf="evidence$ | ngrxPush as evidence">
+    <div cvcFlaggable
+      [flags]="flagsTotal$ | ngrxPush">
+      <nz-page-header class="site-page-header">
+        <nz-page-header-title cvcFlaggableOptions
+          [ngClass]="{ 'flagged': evidence.flags.totalCount > 0 }">
+          <nz-space nzDirection="horizontal"
+            nzSize="small">
+            <nz-space-item>
+              <button nz-button
+                nzType="default"
+                nz-popover
+                nzPopoverPlacement="bottom"
+                [nzPopoverContent]="editPopover">
+                <i nz-icon
+                  nzType="edit"
+                  nzTheme="outline"></i>
+              </button>
+              <ng-template #editPopover>
+                <button nz-button
+                  style="margin-bottom: 1em;"
+                  routerLink="suggest-revision"
+                  routerLinkActive
+                  #rlaSuggestRevision="routerLinkActive"
+                  [nzType]="rlaSuggestRevision.isActive ? 'primary' : 'default'"
+                  nzBlock>
+                  Suggest Revision
+                </button>
+                <button nz-button
+                  style="margin-bottom: 1em;"
+                  routerLink="flags"
+                  routerLinkActive
+                  #rlaFlags="routerLinkActive"
+                  [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
+                  nzBlock>
+                  Flag Evidence Item
+                </button>
+                <button nz-button
+                  routerLink="comments"
+                  routerLinkActive
+                  #rlaComments="routerLinkActive"
+                  [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                  nzBlock>
+                  Add Comment
+                </button>
+              </ng-template>
+            </nz-space-item>
+            <nz-space-item>
+              <i nz-icon
+                nzType="civic:evidence"></i>
+            </nz-space-item>
+            <span routerLink="/evidence/{{evidence.id}}">
+              {{ evidence.name }}
+            </span>
+          </nz-space>
+        </nz-page-header-title>
+        <nz-page-header-subtitle>
+            <!-- Make this a gene pill with hover card -->
+            {{ evidence.gene.name }}
+            {{ evidence.variant.name }}
+        </nz-page-header-subtitle>
+        <nz-page-header-tags>
+          <nz-tag [nzColor]="'red'"
+            *ngIf="false">Flagged</nz-tag>
+        </nz-page-header-tags>
+  
+        <!--extra-->
+        <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+          <nz-space nzDirection="horizontal" nzSize="small">
+            <nz-space-item>
+              <nz-button-group>
+                <button routerLink="summary"
+                  routerLinkActive
+                  #rlaSummary="routerLinkActive"
+                  [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon
+                    nzType="pic-right"></i>Summary
+                </button>
+              </nz-button-group>
+            </nz-space-item>
+            <nz-space-item>
+              <nz-button-group>
+                <button routerLink="comments"
+                  routerLinkActive
+                  #rlaComments="routerLinkActive"
+                  [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon
+                    nzType="civic:comment"></i>Comments ({{ evidence.comments.totalCount }})
+                </button>
+                <button *ngIf="viewer.signedIn"
+                  routerLink="comments"
+                  fragment="addComment"
+                  routerLinkActive
+                  #rlaComments="routerLinkActive"
+                  [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon nzType="plus"></i>
+                </button>
+              </nz-button-group>
+            </nz-space-item>
+            <nz-space-item>
+              <nz-button-group>
+                <button routerLink="revisions"
+                  routerLinkActive
+                  #rlaRevisions="routerLinkActive"
+                  [nzType]="rlaRevisions.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon
+                    nzType="civic:revision"></i>Revisions ({{ evidence.revisions.totalCount }})
+                </button>
+                <button *ngIf="viewer.signedIn"
+                  routerLink="suggest-revision"
+                  routerLinkActive
+                  #rlaSuggestRevision="routerLinkActive"
+                  [nzType]="rlaSuggestRevision.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon nzType="plus"></i>
+                </button>
+              </nz-button-group>
+            </nz-space-item>
+            <nz-space-item>
+              <nz-button-group>
+                <button routerLink="flags"
+                  routerLinkActive
+                  #rlaFlags="routerLinkActive"
+                  [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon
+                    nzType="flag"></i>Flags ({{ evidence.flags.totalCount }})
+                </button>
+                <button *ngIf="viewer.signedIn"
+                  routerLink="flags"
+                  routerLinkActive
+                  #rlaFlags="routerLinkActive"
+                  [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
+                  nz-button
+                  nzSize="small">
+                  <i nz-icon nzType="plus"></i>
+                </button>
+              </nz-button-group>
+            </nz-space-item>
+          </nz-space>
+            <button nz-button
+              nzSize="small"
+              nz-dropdown
+              [nzDropdownMenu]="menu"
+              nzNoAnimation
+              style="border: none; padding: 0">
+              <i nz-icon
+                nzType="ellipsis"
+                nzTheme="outline"
+                style="font-size: 20px; vertical-align: top;"></i>
+            </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>1st menu item length</li>
+              <li nz-menu-item>2nd menu item length</li>
+              <li nz-menu-item>3rd menu item length</li>
+            </ul>
+          </nz-dropdown-menu>
+        </nz-page-header-extra>
+        <nz-page-header-content>
+          <div class="content">
+            <router-outlet></router-outlet>
+          </div>
+        </nz-page-header-content>
+      </nz-page-header>
+    </div>
+</ng-container>

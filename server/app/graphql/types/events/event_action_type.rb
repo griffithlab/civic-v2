@@ -11,7 +11,7 @@ module Types::Events
     value 'PUBLICATION_SUGGESTED', value: 'publication suggested'
     value 'FLAG_RESOLVED', value: 'flag resolved'
     value 'FLAGGED', value: 'flagged'
-    value 'ASSERTION_SUBMITTED', value: 'assertion_submitted'
+    value 'ASSERTION_SUBMITTED', value: 'assertion submitted'
     value 'ASSERTION_ACCEPTED', value: 'assertion accepted'
     value 'ASSERTION_REJECTED', value: 'assertion rejected'
     value 'REVERTED', value: 'reverted'

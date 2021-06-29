@@ -37,6 +37,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :assertion, Types::Entities::AssertionType, null: true do
+      description "Find an assertion by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :source, Types::Entities::SourceType, null: true do
       description "Find a source by CIViC ID"
       argument :id, Int, required: true
@@ -78,6 +83,10 @@ module Types
 
     def variant(id: )
       Variant.find(id)
+    end
+
+    def assertion(id: )
+      Assertion.find(id)
     end
 
     def source(id: )

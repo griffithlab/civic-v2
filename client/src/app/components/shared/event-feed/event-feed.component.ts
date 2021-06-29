@@ -103,6 +103,18 @@ export class EventFeedComponent implements OnInit {
                 return 'flag'
             case(EventAction.FlagResolved):
                 return 'flag'
+            case(EventAction.AssertionSubmitted):
+                return 'plus'
+            case(EventAction.AssertionAccepted):
+                return 'check-circle'
+            case(EventAction.AssertionRejected):
+                return 'close-circle'
+            case(EventAction.Submitted):
+                return 'plus'
+            case(EventAction.Accepted):
+                return 'check-circle'
+            case(EventAction.Rejected):
+                return 'close-circle'
             default:
                 throw new Error('Not handling all event action types yet')
 
@@ -125,6 +137,18 @@ export class EventFeedComponent implements OnInit {
                 return 'opened a new flag on'
             case(EventAction.FlagResolved):
                 return 'resolved a flag on'
+            case(EventAction.AssertionSubmitted):
+                return 'submitted assertion'
+            case(EventAction.AssertionAccepted):
+                return 'accepted assertion'
+            case(EventAction.AssertionRejected):
+                return 'rejected assertion'
+            case(EventAction.Submitted):
+                return 'submited evidence item'
+            case(EventAction.Accepted):
+                return 'accepted evience item'
+            case(EventAction.Rejected):
+                return 'rejected evidence item'
             default:
                 throw new Error('Not handling all event action types yet')
         }
