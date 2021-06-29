@@ -4,10 +4,14 @@
 
     <ng-template #cardTitle>
       <i nz-icon
-        nzType="civic:gene"></i> {{ gene?.name }} Variants
-      <span nz-typography
-        *ngIf="variants"
-        nzType="secondary">({{ variants.length }} Total)</span>
+        nzType="civic:gene"></i> {{ geneName }} Variants
+      <ng-container *ngIf="totalVariants$ | ngrxPush as total">
+        <span nz-typography
+          nzType="secondary">{{ total }} Total</span>
+        <span nz-typography *ngIf="total  > variants.length"
+          nzType="secondary">({{ variants.length }} displayed)</span>
+      </ng-container>
+
     </ng-template>
 
     <ng-template #cardExtra>
@@ -58,44 +62,15 @@
         </nz-form-item>
       </form>
     </ng-template>
-
-    <nz-list nzGrid>
-      <div nz-row
-        [nzGutter]="2">
-        <div nz-col
-          [nzSpan]="3"
-          *ngFor="let v of variants">
-          <nz-list-item>
-            <nz-card>
-              <a routerLink="/variants/{{v.id}}">
-                <cvc-variant-pill [variant]="v"></cvc-variant-pill>
-              </a>
-            </nz-card>
-          </nz-list-item>
-        </div>
-      </div>
-    </nz-list>
+    <nz-row id="variant-tags">
+      <nz-col nzSpan="24">
+        <a routerLink="/variants/{{v.id}}" *ngFor="let v of variants">
+          <cvc-variant-pill [variant]="v"></cvc-variant-pill>
+        </a>
+      </nz-col>
+    </nz-row>
   </nz-card>
 </ng-container>
-<!-- <ng-container *ngIf="menuVariants$ | ngrxPush as variants">
-     <nz-list nzGrid>
-     <div nz-row
-     [nzGutter]="2">
-     <div nz-col
-     [nzSpan]="3"
-     *ngFor="let v of variants">
-     <nz-list-item>
-     <nz-card>
-     <a routerLink="/variants/{{v.id}}">
-     <cvc-variant-pill [variant]="v"></cvc-variant-pill>
-     </a>
-     </nz-card>
-     </nz-list-item>
-     </div>
-     </div>
-     </nz-list>
-
-     </ng-container> -->
 <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
   <div nz-list-load-more
     *ngIf="pageInfo.hasNextPage">
