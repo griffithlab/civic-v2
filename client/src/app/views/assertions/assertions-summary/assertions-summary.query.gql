@@ -32,6 +32,10 @@ fragment AssertionSummaryFields on Assertion {
       ncitId
       name
     }
+    phenotypes {
+      id
+      hpoClass
+    }
     drugInteractionType
     ampLevel
     acmgCodes {
