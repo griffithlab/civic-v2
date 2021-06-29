@@ -12,13 +12,12 @@ import {
 import { map, debounceTime } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
 import { Apollo, QueryRef } from "apollo-angular";
-import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client/core";
+import { ApolloQueryResult, gql } from "@apollo/client/core";
 
 const GET_GENE = gql`
   query getGene($geneId: Int!) {
     gene(id: $geneId) {
       name
-      officialName
     }
   }
 `
@@ -50,13 +49,14 @@ export class VariantsMenuComponent implements OnInit {
     if (this.geneId === undefined) {
       throw new Error('Must pass a gene id into variant menu component.');
     }
-
-     this.gene = this.apollo.client.readQuery({
+    // TODO see if there's a better way to destructure into this.gene
+    // instead of appending `.gene` to this function call
+    this.gene = this.apollo.client.readQuery({
       query: GET_GENE,
       variables: {
         geneId: this.geneId
       }
-     }).gene;
+    }).gene;
 
     this.initialQueryVars = {
       geneId: this.geneId,
