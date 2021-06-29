@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "generate-icons": "svg-to-ts",
+    "generate-svgo": "svgo --config .svgo.config.js -f ./src/assets/icons/ -r -o ./src/assets/icons/.tmp",
+    "generate-icons": "yarn run generate-svgo && svg-to-ts",
     "generate-apollo": "graphql-codegen",
     "generate-apollo:start": "graphql-codegen --watch",
     "postinstall": "patch-package"
@@ -34,6 +35,7 @@
     "ngx-mask": "^11.1.5",
     "ngx-timeago": "^2.0.0",
     "rxjs": "~6.6.0",
+    "svgo": "^2.3.0",
     "ts-enum-util": "^4.0.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
