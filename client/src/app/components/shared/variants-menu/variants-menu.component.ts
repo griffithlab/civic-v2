@@ -1,9 +1,27 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { VariantsMenuGQL, Maybe, MenuVariantFragment, VariantsMenuQuery, VariantsMenuQueryVariables, VariantDisplayFilter, PageInfo } from "@app/generated/civic.apollo";
+import {
+  Gene,
+  VariantsMenuGQL,
+  Maybe,
+  MenuVariantFragment,
+  VariantsMenuQuery,
+  VariantsMenuQueryVariables,
+  VariantDisplayFilter,
+  PageInfo
+} from "@app/generated/civic.apollo";
 import { map, debounceTime } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
-import { QueryRef } from "apollo-angular";
-import { ApolloQueryResult } from "@apollo/client/core";
+import { Apollo, QueryRef } from "apollo-angular";
+import { ApolloClient, ApolloQueryResult, gql } from "@apollo/client/core";
+
+const GET_GENE = gql`
+  query getGene($geneId: Int!) {
+    gene(id: $geneId) {
+      name
+      officialName
+    }
+  }
+`
 
 @Component({
   selector: 'cvc-variant-menu',
@@ -13,12 +31,12 @@ import { ApolloQueryResult } from "@apollo/client/core";
 export class VariantsMenuComponent implements OnInit {
   @Input() geneId?: number;
 
+  gene?: Gene;
   menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
   queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
 
-  statusFilter: VariantDisplayFilter =
-    VariantDisplayFilter.WithAcceptedOrSubmitted;
+  statusFilter: VariantDisplayFilter = VariantDisplayFilter.WithAcceptedOrSubmitted;
   variantNameFilter: Maybe<string>;
 
   private debouncedQuery = new Subject<void>();
@@ -26,12 +44,19 @@ export class VariantsMenuComponent implements OnInit {
   private initialQueryVars!: VariantsMenuQueryVariables;
   private pageSize = 40;
 
-  constructor(private gql: VariantsMenuGQL) {}
+  constructor(private gql: VariantsMenuGQL, private apollo: Apollo) { }
 
   ngOnInit() {
     if (this.geneId === undefined) {
       throw new Error('Must pass a gene id into variant menu component.');
     }
+
+     this.gene = this.apollo.client.readQuery({
+      query: GET_GENE,
+      variables: {
+        geneId: this.geneId
+      }
+     }).gene;
 
     this.initialQueryVars = {
       geneId: this.geneId,
@@ -64,7 +89,11 @@ export class VariantsMenuComponent implements OnInit {
   }
 
   refresh() {
+    if (this.geneId === undefined) {
+      throw new Error('Must pass a gene id into variant menu component.');
+    }
     this.queryRef$.refetch({
+      geneId: this.geneId,
       variantName: this.variantNameFilter,
       evidenceStatusFilter: this.statusFilter,
     });
