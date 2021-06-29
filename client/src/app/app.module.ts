@@ -11,6 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
 
+import { civicIcons } from '@app/icons-provider.module';
+
+
 import { TimeagoModule } from 'ngx-timeago';
 
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
@@ -26,6 +29,7 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 registerLocaleData(en);
 const maskConfig: Partial<IConfig> = {
@@ -52,6 +56,7 @@ const maskConfig: Partial<IConfig> = {
     }),
     NgxJsonViewerModule,
     NgxMaskModule.forRoot(maskConfig),
+    NzIconModule.forRoot(civicIcons),
     ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot(),

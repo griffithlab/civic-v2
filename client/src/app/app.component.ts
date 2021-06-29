@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { NzIconService } from 'ng-zorro-antd/icon';
+
+import { fullColorIcons } from '@app/icons-provider.module';
+import { CivicIconLiteral } from './generated/civic.icons';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +11,15 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  constructor() {}
+  constructor(private iconService: NzIconService) {
+    this.addIcons(fullColorIcons);
+  }
 
+  private addIcons(icons: CivicIconLiteral[]): void {
+    icons.forEach((icon: CivicIconLiteral) => {
+      const regex = /Fullcolor/i;
+      const name = 'civic:' + icon.name.replace(regex, '');
+      this.iconService.addIconLiteral(name, icon.data);
+    })
+  }
 }
