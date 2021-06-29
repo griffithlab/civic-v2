@@ -109,6 +109,12 @@ export class EventFeedComponent implements OnInit {
                 return 'check-circle'
             case(EventAction.AssertionRejected):
                 return 'close-circle'
+            case(EventAction.Submitted):
+                return 'plus'
+            case(EventAction.Accepted):
+                return 'check-circle'
+            case(EventAction.Rejected):
+                return 'close-circle'
             default:
                 throw new Error('Not handling all event action types yet')
 
@@ -137,6 +143,12 @@ export class EventFeedComponent implements OnInit {
                 return 'accepted assertion'
             case(EventAction.AssertionRejected):
                 return 'rejected assertion'
+            case(EventAction.Submitted):
+                return 'submited evidence item'
+            case(EventAction.Accepted):
+                return 'accepted evience item'
+            case(EventAction.Rejected):
+                return 'rejected evidence item'
             default:
                 throw new Error('Not handling all event action types yet')
         }

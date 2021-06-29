@@ -3104,6 +3104,12 @@
               "deprecationReason": null
             },
             {
+              "name": "EVIDENCE_ITEM",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ASSERTION",
               "description": null,
               "isDeprecated": false,
@@ -4222,6 +4228,11 @@
             {
               "kind": "OBJECT",
               "name": "Assertion",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "EvidenceItem",
               "ofType": null
             },
             {
@@ -6445,6 +6456,12 @@
             },
             {
               "name": "VARIANT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_ITEM",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -9885,7 +9902,7 @@
             },
             {
               "name": "evidenceItem",
-              "description": null,
+              "description": "Find an evidence item by CIViC ID",
               "args": [
                 {
                   "name": "id",
@@ -14516,6 +14533,11 @@
             {
               "kind": "OBJECT",
               "name": "Assertion",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "EvidenceItem",
               "ofType": null
             },
             {

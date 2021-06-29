@@ -15,7 +15,7 @@ module Types::Entities
     field :disease, Types::Entities::DiseaseType, null: true
     field :drugs, [Types::Entities::DrugType], null: true
     field :drug_interaction_type, Types::DrugInteractionType, null: true
-    field :evidence_direction, Types::EvidenceDirectionType, null: false
+    field :evidence_direction, Types::EvidenceDirectionType, null: true
     field :evidence_level, Types::EvidenceLevelType, null: false
     field :evidence_rating, Int, null: true,
       validates: { inclusion: { in: [1, 2, 3, 4, 5], allow_blank: true } }

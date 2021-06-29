@@ -7,7 +7,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
 
   description 'List and filter evidence items.'
 
-  scope { EvidenceItem.all }
+  scope { EvidenceItem.all.order(:id) }
 
   option(:id, type: GraphQL::Types::Int, description: 'Left anchored filtering on the ID of the evidence item.') do |scope, value|
     scope.where("evidence_items.id = ?", value)

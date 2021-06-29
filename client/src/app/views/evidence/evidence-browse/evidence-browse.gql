@@ -54,6 +54,7 @@ query EvidenceBrowse(
 
 fragment EvidenceGridFields on EvidenceItem {
     id
+    name
     disease {
       id
       displayName

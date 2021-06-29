@@ -57,6 +57,9 @@
             "name": "Assertion"
           },
           {
+            "name": "EvidenceItem"
+          },
+          {
             "name": "Gene"
           },
           {
@@ -112,6 +115,9 @@
         "possibleTypes": [
           {
             "name": "Assertion"
+          },
+          {
+            "name": "EvidenceItem"
           },
           {
             "name": "Gene"

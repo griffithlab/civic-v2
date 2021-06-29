@@ -46,7 +46,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       first: this.initialPageSize,
       variantId: this.variantId,
       assertionId: this.assertionId
-    }, { fetchPolicy: 'cache-and-network' });
+    }, { fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
 
     let observable = this.queryRef.valueChanges;
 

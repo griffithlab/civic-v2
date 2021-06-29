@@ -390,6 +390,7 @@ export type CommentableCommentsArgs = {
 
 export enum CommentableEntities {
   Assertion = 'ASSERTION',
+  EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
   Variant = 'VARIANT'
 }
@@ -567,7 +568,7 @@ export enum EvidenceDirection {
   Supports = 'SUPPORTS'
 }
 
-export type EvidenceItem = Commentable & Flaggable & {
+export type EvidenceItem = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'EvidenceItem';
   clinicalSignificance: EvidenceClinicalSignificance;
   /** List and filter comments. */
@@ -576,6 +577,7 @@ export type EvidenceItem = Commentable & Flaggable & {
   disease?: Maybe<Disease>;
   drugInteractionType?: Maybe<DrugInteraction>;
   drugs?: Maybe<Array<Drug>>;
+  /** List and filter events for an object */
   events: EventConnection;
   evidenceDirection: EvidenceDirection;
   evidenceLevel: EvidenceLevel;
@@ -584,10 +586,12 @@ export type EvidenceItem = Commentable & Flaggable & {
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  gene: Gene;
   id: Scalars['Int'];
   name: Scalars['String'];
   phenotypes?: Maybe<Array<Phenotype>>;
-  revisions: Array<Revision>;
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
   source: Source;
   status: EvidenceStatus;
   variant: Variant;
@@ -609,8 +613,12 @@ export type EvidenceItemCommentsArgs = {
 export type EvidenceItemEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -623,6 +631,19 @@ export type EvidenceItemFlagsArgs = {
   resolvingUserId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<DateSort>;
   state?: Maybe<FlagState>;
+};
+
+
+export type EvidenceItemRevisionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
 };
 
 /** The connection type for EvidenceItem. */
@@ -807,6 +828,7 @@ export type FlaggableFlagsArgs = {
 /** Enumeration of all entities in CIViC that can be flagged. */
 export enum FlaggableEntities {
   Assertion = 'ASSERTION',
+  EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
   Variant = 'VARIANT'
 }
@@ -1205,6 +1227,7 @@ export type Query = {
   drug?: Maybe<Drug>;
   /** List and filter events for an object */
   events: EventConnection;
+  /** Find an evidence item by CIViC ID */
   evidenceItem?: Maybe<EvidenceItem>;
   /** List and filter evidence items. */
   evidenceItems: EvidenceItemConnection;
@@ -2085,6 +2108,9 @@ export type EventFeedNodeFragment = (
     { __typename: 'Assertion' }
     & Pick<Assertion, 'name' | 'id'>
   ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'name' | 'id'>
+  ) | (
     { __typename: 'Gene' }
     & Pick<Gene, 'name' | 'id'>
   ) | (
@@ -2536,6 +2562,9 @@ export type AssertionSummaryFieldsFragment = (
   ), drugs?: Maybe<Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'ncitId' | 'name'>
+  )>>, phenotypes?: Maybe<Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoClass'>
   )>>, acmgCodes?: Maybe<Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
@@ -2593,7 +2622,7 @@ export type EvidenceBrowseQuery = (
 
 export type EvidenceGridFieldsFragment = (
   { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'status' | 'drugInteractionType' | 'description' | 'evidenceType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'clinicalSignificance' | 'variantOrigin'>
+  & Pick<EvidenceItem, 'id' | 'name' | 'status' | 'drugInteractionType' | 'description' | 'evidenceType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'clinicalSignificance' | 'variantOrigin'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'displayName'>
@@ -2601,6 +2630,90 @@ export type EvidenceGridFieldsFragment = (
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
   )>> }
+);
+
+export type EvidenceDetailQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidenceDetailQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & EvidenceDetailFieldsFragment
+  )> }
+);
+
+export type EvidenceDetailFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
+export type EvidenceSummaryQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidenceSummaryQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & EvidenceSummaryFieldsFragment
+  )> }
+);
+
+export type EvidenceSummaryFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & { drugs?: Maybe<Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, phenotypes?: Maybe<Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoClass'>
+  )>>, source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
+    & { clinicalTrials?: Maybe<Array<(
+      { __typename: 'ClinicalTrial' }
+      & Pick<ClinicalTrial, 'nctId'>
+    )>> }
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
 );
 
 export type BrowseGenesQueryVariables = Exact<{
@@ -3221,6 +3334,10 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     ncitId
     name
   }
+  phenotypes {
+    id
+    hpoClass
+  }
   drugInteractionType
   ampLevel
   acmgCodes {
@@ -3244,6 +3361,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
 export const EvidenceGridFieldsFragmentDoc = gql`
     fragment EvidenceGridFields on EvidenceItem {
   id
+  name
   disease {
     id
     displayName
@@ -3261,6 +3379,92 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   evidenceRating
   clinicalSignificance
   variantOrigin
+}
+    `;
+export const EvidenceDetailFieldsFragmentDoc = gql`
+    fragment EvidenceDetailFields on EvidenceItem {
+  id
+  name
+  variant {
+    id
+    name
+  }
+  gene {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
+export const EvidenceSummaryFieldsFragmentDoc = gql`
+    fragment EvidenceSummaryFields on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    hpoClass
+  }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    sourceUrl
+    ascoAbstractId
+    clinicalTrials {
+      nctId
+    }
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceUrl
+    sourceType
+    clinicalTrials {
+      nctId
+    }
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
 }
     `;
 export const GeneDetailFieldsFragmentDoc = gql`
@@ -3994,6 +4198,42 @@ export const EvidenceBrowseDocument = gql`
   })
   export class EvidenceBrowseGQL extends Apollo.Query<EvidenceBrowseQuery, EvidenceBrowseQueryVariables> {
     document = EvidenceBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceDetailDocument = gql`
+    query EvidenceDetail($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...EvidenceDetailFields
+  }
+}
+    ${EvidenceDetailFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceDetailGQL extends Apollo.Query<EvidenceDetailQuery, EvidenceDetailQueryVariables> {
+    document = EvidenceDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceSummaryDocument = gql`
+    query EvidenceSummary($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...EvidenceSummaryFields
+  }
+}
+    ${EvidenceSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceSummaryGQL extends Apollo.Query<EvidenceSummaryQuery, EvidenceSummaryQueryVariables> {
+    document = EvidenceSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

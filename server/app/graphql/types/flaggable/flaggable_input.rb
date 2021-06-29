@@ -15,6 +15,8 @@ module Types::Flaggable
         Gene
       when 'VARIANT'
         Variant
+      when 'EVIDENCE_ITEM'
+        EvidenceItem
       when 'ASSERTION'
         Assertion
       else
