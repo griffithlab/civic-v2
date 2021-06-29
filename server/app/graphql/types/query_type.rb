@@ -14,6 +14,7 @@ module Types
     field :browseVariants, resolver: Resolvers::BrowseVariants
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
+    field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :events, resolver: Resolvers::TopLevelEvents
 
     field :disease, Types::Entities::DiseaseType, null: true do

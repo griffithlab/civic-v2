@@ -19,6 +19,7 @@ export const CvcTypePolicies: TypePolicies = {
       browseVariants: relayStylePagination(),
       browseVariantGroups: relayStylePagination(),
       browseSources: relayStylePagination(),
+      browseDiseases: relayStylePagination(),
       events: relayStylePagination(),
       variants: relayStylePagination(),
       comments: relayStylePagination(),

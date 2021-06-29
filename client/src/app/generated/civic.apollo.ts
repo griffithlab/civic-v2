@@ -112,6 +112,43 @@ export type BooleanSearchInput = {
   value: Scalars['Boolean'];
 };
 
+export type BrowseDisease = {
+  __typename: 'BrowseDisease';
+  assertionCount: Scalars['Int'];
+  doid?: Maybe<Scalars['String']>;
+  evidenceItemCount: Scalars['Int'];
+  geneNames: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  variantCount: Scalars['Int'];
+};
+
+/** The connection type for BrowseDisease. */
+export type BrowseDiseaseConnection = {
+  __typename: 'BrowseDiseaseConnection';
+  /** A list of edges. */
+  edges: Array<BrowseDiseaseEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<BrowseDisease>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseDiseaseEdge = {
+  __typename: 'BrowseDiseaseEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseDisease>;
+};
+
 export type BrowseGene = {
   __typename: 'BrowseGene';
   aliases?: Maybe<Array<GeneAlias>>;
@@ -369,6 +406,22 @@ export type Disease = {
   id: Scalars['Int'];
   name: Scalars['String'];
 };
+
+export type DiseasesSort = {
+  /** Available columns for sorting */
+  column: DiseasesSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum DiseasesSortColumns {
+  AssertionCount = 'ASSERTION_COUNT',
+  Doid = 'DOID',
+  EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
+  GeneNames = 'GENE_NAMES',
+  Name = 'NAME',
+  VariantCount = 'VARIANT_COUNT'
+}
 
 export type Drug = {
   __typename: 'Drug';
@@ -1128,6 +1181,7 @@ export type Phenotype = {
 
 export type Query = {
   __typename: 'Query';
+  browseDiseases: BrowseDiseaseConnection;
   browseGenes: BrowseGeneConnection;
   browseSources: BrowseSourceConnection;
   browseVariantGroups: BrowseVariantGroupConnection;
@@ -1163,6 +1217,18 @@ export type Query = {
   /** List and filter variants. */
   variants: VariantConnection;
   viewer?: Maybe<User>;
+};
+
+
+export type QueryBrowseDiseasesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  doid?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  geneNames?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DiseasesSort>;
 };
 
 
@@ -2424,6 +2490,42 @@ export type ViewerFullQuery = (
   )> }
 );
 
+export type BrowseDiseasesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DiseasesSort>;
+  name?: Maybe<Scalars['String']>;
+  doid?: Maybe<Scalars['String']>;
+  geneNames?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseDiseasesQuery = (
+  { __typename: 'Query' }
+  & { browseDiseases: (
+    { __typename: 'BrowseDiseaseConnection' }
+    & Pick<BrowseDiseaseConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseDiseaseEdge' }
+      & Pick<BrowseDiseaseEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseDisease' }
+        & BrowseDiseaseRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseDiseaseRowFieldsFragment = (
+  { __typename: 'BrowseDisease' }
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+);
+
 export type EvidenceBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3078,6 +3180,17 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   citation
   citationId
   sourceType
+}
+    `;
+export const BrowseDiseaseRowFieldsFragmentDoc = gql`
+    fragment BrowseDiseaseRowFields on BrowseDisease {
+  id
+  name
+  doid
+  geneNames
+  assertionCount
+  evidenceItemCount
+  variantCount
 }
     `;
 export const EvidenceGridFieldsFragmentDoc = gql`
@@ -3759,6 +3872,47 @@ export const ViewerFullDocument = gql`
   })
   export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
     document = ViewerFullDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseDiseasesDocument = gql`
+    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $geneNames: String) {
+  browseDiseases(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    doid: $doid
+    geneNames: $geneNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseDiseaseRowFields
+      }
+    }
+  }
+}
+    ${BrowseDiseaseRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
+    document = BrowseDiseasesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
