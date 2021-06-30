@@ -72,6 +72,7 @@ import {
   civicPhenotypeFullcolor,
   civicRevisionFullcolor,
   civicSourceFullcolor,
+  civicUserFullcolor,
   civicVariant,
   civicVariantgroupFullcolor,
 
@@ -171,6 +172,7 @@ const iconLiterals = [
   civicPhenotypeOutline,
   civicRevisionOutline,
   civicSourceOutline,
+  civicUserOutline,
   civicVariantgroupOutline,
   civicVariantOutline,
   civicAdminTwotone,
@@ -180,7 +182,7 @@ const iconLiterals = [
   civicCuratorTwotone,
   civicDiseaseTwotone,
   civicEditorTwotone,
-  civicEventOutline,
+  civicEventTwotone,
   civicEvidenceTwotone,
   civicFlagTwotone,
   civicGeneTwotone,
@@ -190,6 +192,7 @@ const iconLiterals = [
   civicPhenotypeTwotone,
   civicRevisionTwotone,
   civicSourceTwotone,
+  civicUserTwotone,
   civicVariantTwotone,
   civicVariantgroupTwotone,
 ];
@@ -211,6 +214,7 @@ export const fullColorIcons: CivicIconLiteral[] = [
   civicPhenotypeFullcolor,
   civicRevisionFullcolor,
   civicSourceFullcolor,
+  civicUserFullcolor,
   civicVariant,
   civicVariantgroupFullcolor,
 ];
