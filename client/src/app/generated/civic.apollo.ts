@@ -2754,7 +2754,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel'>
+  & Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -3597,6 +3597,7 @@ export const SourceTypeaheadResultFragmentDoc = gql`
 export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     fragment AssertionBrowseTableRowFields on Assertion {
   id
+  name
   gene {
     id
     name

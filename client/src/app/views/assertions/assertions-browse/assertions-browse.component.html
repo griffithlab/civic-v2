@@ -1,3 +1,4 @@
+<ng-container *ngIf="(totalCount$ | ngrxPush) > 0">
 <nz-page-header class="site-page-header">
   <nz-page-header-title>
     <i nz-icon nzType="civic:assertion"></i>
@@ -20,19 +21,19 @@
                 <th nzWidth="5%" [nzColumnKey]="sortColumns.Id" [nzSortFn]="true">
                   AID
                 </th>
-                <th nzWidth="20%" [nzColumnKey]="sortColumns.GeneName" [nzSortFn]="true">
+                <th nzWidth="5%" [nzColumnKey]="sortColumns.GeneName" [nzSortFn]="true">
                   Gene
                 </th>
-                <th nzWidth="20%" [nzColumnKey]="sortColumns.VariantName" [nzSortFn]="true">
+                <th nzWidth="10%" [nzColumnKey]="sortColumns.VariantName" [nzSortFn]="true">
                   Variant
                 </th>
-                <th nzWidth="5%" [nzColumnKey]="sortColumns.DiseaseName" [nzSortFn]="true">
+                <th nzWidth="15%" [nzColumnKey]="sortColumns.DiseaseName" [nzSortFn]="true">
                   Disease
                 </th>
-                <th nzWidth="5%" [nzColumnKey]="sortColumns.DrugName" [nzSortFn]="true">
+                <th nzWidth="15%" [nzColumnKey]="sortColumns.DrugName" [nzSortFn]="true">
                   Drugs
                 </th>
-                <th nzWidth="10%" [nzColumnKey]="sortColumns.Summary" [nzSortFn]="true">
+                <th nzWidth="5%" [nzColumnKey]="sortColumns.Summary" [nzSortFn]="true">
                   Summary
                 </th>
                 <th nzWidth="10%" [nzColumnKey]="sortColumns.AssertionType" [nzSortFn]="true">
@@ -172,3 +173,4 @@
     </div>
   </nz-page-header-content>
 </nz-page-header>
+</ng-container>

@@ -54,6 +54,7 @@ query AssertionsBrowse (
 
 fragment AssertionBrowseTableRowFields on Assertion {
   id
+  name
   gene {
     id
     name
