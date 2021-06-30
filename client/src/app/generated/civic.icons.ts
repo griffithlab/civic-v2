@@ -265,6 +265,13 @@ export const civicEditorFullcolor: {
   name: 'editorFullcolor',
   data: `<svg viewBox="64 64 896 896"><path fill="#E6F1F6" d="M164 896c0-192.3 155.6-348 348-348 192.3 0 348 155.6 348 348M732 328V108H292v220c0 121.6 98.4 220 220 220s220-98.4 220-220z"/><path fill="#58A0C4" d="M655.8 539.9C723.6 493.9 768 416.2 768 328V151.4h64.3c24 0 43.4-19.4 43.4-43.4s-19.4-43.4-43.4-43.4H191.7c-24 0-43.4 19.4-43.4 43.4s19.4 43.4 43.4 43.4H256V328c0 88.2 44.4 165.8 112.1 211.8C225.9 597.4 128 736 128 896c0 19.9 16.1 36 36 36s36-16.1 36-36c0-182.7 147.1-306.4 303.7-312.1 6.5.2 11.8.2 19.4-.1C685 588 824 723.4 824 896c0 19.9 16.1 36 36 36s36-16.1 36-36c0-166.9-103.1-300.2-240.2-356.1zM523 511.8c-8.1-.2-16.3-.2-24.5.1-92-6-170.5-84.2-170.5-183.9V192h368v136c0 105.3-83 177.5-173 183.8z"/></svg>`
 };
+export const civicEventFullcolor: {
+  name: 'eventFullcolor';
+  data: string;
+} = {
+  name: 'eventFullcolor',
+  data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#FFF8CC"/><path fill="#FFDB00" d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm147.8 386.8L693 331l-119.8 33.2L512 256l-61.2 108.2L331 331l33.2 119.8L256 512l108.2 61.2L331 693l119.8-33.2L512 768l61.2-108.2L693 693l-33.2-119.8L768 512l-108.2-61.2z"/></svg>`
+};
 export const civicEvidenceFullcolor: {
   name: 'evidenceFullcolor';
   data: string;
@@ -327,6 +334,13 @@ export const civicSourceFullcolor: {
 } = {
   name: 'sourceFullcolor',
   data: `<svg viewBox="64 64 896 896"><path fill="#FEF5E3" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z"/><path fill="#F9BA45" d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 320c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
+};
+export const civicUserFullcolor: {
+  name: 'userFullcolor';
+  data: string;
+} = {
+  name: 'userFullcolor',
+  data: `<svg viewBox="64 64 896 896"><path fill="#A0D8F5" d="M895.2 870.4c-6.2-93.3-45.8-180.2-111.6-246-38.6-38.6-81.7-66.7-126.9-85.1C724 493.2 768 415.8 768 328c0-141.6-114.4-256-256-256S256 186.4 256 328c0 88.6 44.8 166.6 113.1 212.5-128.7 51.9-230.4 170.8-240.3 330-.9 13.9 10.2 25.5 24 25.5 782.9 0 724.8 4.3 736-7.6 4.5-4.9 6.8-11.4 6.4-18z"/></svg>`
 };
 export const civicVariant: {
   name: 'variant';
@@ -398,6 +412,13 @@ export const civicEditorOutline: {
   name: 'editorOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M655.8 539.9C723.6 493.9 768 416.2 768 328V151.4h64.3c24 0 43.4-19.4 43.4-43.4s-19.4-43.4-43.4-43.4H191.7c-24 0-43.4 19.4-43.4 43.4s19.4 43.4 43.4 43.4H256V328c0 88.2 44.4 165.8 112.1 211.8C225.9 597.4 128 736 128 896c0 19.9 16.1 36 36 36s36-16.1 36-36c0-182.7 147.1-306.4 303.7-312.1 6.5.2 11.8.2 19.4-.1C685 588 824 723.4 824 896c0 19.9 16.1 36 36 36s36-16.1 36-36c0-166.9-103.1-300.2-240.2-356.1zM523 511.8c-8.1-.2-16.3-.2-24.5.1-92-6-170.5-84.2-170.5-183.9V192h368v136c0 105.3-83 177.5-173 183.8z"/></svg>`
 };
+export const civicEventOutline: {
+  name: 'eventOutline';
+  data: string;
+} = {
+  name: 'eventOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm147.8 386.8L693 331l-119.8 33.2L512 256l-61.2 108.2L331 331l33.2 119.8L256 512l108.2 61.2L331 693l119.8-33.2L512 768l61.2-108.2L693 693l-33.2-119.8L768 512l-108.2-61.2z"/></svg>`
+};
 export const civicEvidenceOutline: {
   name: 'evidenceOutline';
   data: string;
@@ -467,6 +488,13 @@ export const civicSourceOutline: {
 } = {
   name: 'sourceOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 320c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
+};
+export const civicUserOutline: {
+  name: 'userOutline';
+  data: string;
+} = {
+  name: 'userOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="M895.2 870.4c-6.2-93.3-45.8-180.2-111.6-246-38.6-38.6-81.7-66.7-126.9-85.1C724 493.2 768 415.8 768 328c0-141.6-114.4-256-256-256S256 186.4 256 328c0 88.6 44.8 166.6 113.1 212.5-128.7 51.9-230.4 170.8-240.3 330-.9 13.9 10.2 25.5 24 25.5 782.9 0 724.8 4.3 736-7.6 4.5-4.9 6.8-11.4 6.4-18z"/></svg>`
 };
 export const civicVariantGroupOutline: {
   name: 'variantGroupOutline';
@@ -545,6 +573,13 @@ export const civicEditorTwotone: {
   name: 'editorTwotone',
   data: `<svg viewBox="64 64 896 896"><path fill="#E6E6E6" d="M164 896c0-192.3 155.6-348 348-348 192.3 0 348 155.6 348 348M732 328V108H292v220c0 121.6 98.4 220 220 220s220-98.4 220-220z"/><path fill="#333" d="M655.8 539.9C723.6 493.9 768 416.2 768 328V151.4h64.3c24 0 43.4-19.4 43.4-43.4s-19.4-43.4-43.4-43.4H191.7c-24 0-43.4 19.4-43.4 43.4s19.4 43.4 43.4 43.4H256V328c0 88.2 44.4 165.8 112.1 211.8C225.9 597.4 128 736 128 896c0 19.9 16.1 36 36 36s36-16.1 36-36c0-182.7 147.1-306.4 303.7-312.1 6.5.2 11.8.2 19.4-.1C685 588 824 723.4 824 896c0 19.9 16.1 36 36 36s36-16.1 36-36c0-166.9-103.1-300.2-240.2-356.1zM523 511.8c-8.1-.2-16.3-.2-24.5.1-92-6-170.5-84.2-170.5-183.9V192h368v136c0 105.3-83 177.5-173 183.8z"/></svg>`
 };
+export const civicEventTwotone: {
+  name: 'eventTwotone';
+  data: string;
+} = {
+  name: 'eventTwotone',
+  data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#FAFAFA"/><path fill="#333" d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm147.8 386.8L693 331l-119.8 33.2L512 256l-61.2 108.2L331 331l33.2 119.8L256 512l108.2 61.2L331 693l119.8-33.2L512 768l61.2-108.2L693 693l-33.2-119.8L768 512l-108.2-61.2z"/></svg>`
+};
 export const civicEvidenceTwotone: {
   name: 'evidenceTwotone';
   data: string;
@@ -615,6 +650,13 @@ export const civicSourceTwotone: {
   name: 'sourceTwotone',
   data: `<svg viewBox="64 64 896 896"><path fill="#E6E6E6" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z"/><path fill="#333" d="M512 136c207.7 0 376 168.3 376 376S719.7 888 512 888 136 719.7 136 512s168.3-376 376-376m0-72C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 320c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128z"/></svg>`
 };
+export const civicUserTwotone: {
+  name: 'userTwotone';
+  data: string;
+} = {
+  name: 'userTwotone',
+  data: `<svg viewBox="64 64 896 896"><path fill="#333" d="M895.2 870.4c-6.2-93.3-45.8-180.2-111.6-246-38.6-38.6-81.7-66.7-126.9-85.1C724 493.2 768 415.8 768 328c0-141.6-114.4-256-256-256S256 186.4 256 328c0 88.6 44.8 166.6 113.1 212.5-128.7 51.9-230.4 170.8-240.3 330-.9 13.9 10.2 25.5 24 25.5 782.9 0 724.8 4.3 736-7.6 4.5-4.9 6.8-11.4 6.4-18z"/></svg>`
+};
 export const civicVariantTwotone: {
   name: 'variantTwotone';
   data: string;
@@ -668,6 +710,7 @@ export const CivicIcon = {
   coordinatesystemFullcolor: 'coordinatesystemFullcolor',
   diseaseFullcolor: 'diseaseFullcolor',
   editorFullcolor: 'editorFullcolor',
+  eventFullcolor: 'eventFullcolor',
   evidenceFullcolor: 'evidenceFullcolor',
   flagFullcolor: 'flagFullcolor',
   geneFullcolor: 'geneFullcolor',
@@ -677,6 +720,7 @@ export const CivicIcon = {
   phenotypeFullcolor: 'phenotypeFullcolor',
   revisionFullcolor: 'revisionFullcolor',
   sourceFullcolor: 'sourceFullcolor',
+  userFullcolor: 'userFullcolor',
   variant: 'variant',
   variantgroupFullcolor: 'variantgroupFullcolor',
   adminOutline: 'adminOutline',
@@ -687,6 +731,7 @@ export const CivicIcon = {
   curatorOutline: 'curatorOutline',
   diseaseOutline: 'diseaseOutline',
   editorOutline: 'editorOutline',
+  eventOutline: 'eventOutline',
   evidenceOutline: 'evidenceOutline',
   flagOutline: 'flagOutline',
   geneOutline: 'geneOutline',
@@ -697,6 +742,7 @@ export const CivicIcon = {
   phenotypeOutline: 'phenotypeOutline',
   revisionOutline: 'revisionOutline',
   sourceOutline: 'sourceOutline',
+  userOutline: 'userOutline',
   variantGroupOutline: 'variantGroupOutline',
   variantOutline: 'variantOutline',
   variantgroupOutline: 'variantgroupOutline',
@@ -708,6 +754,7 @@ export const CivicIcon = {
   curatorTwotone: 'curatorTwotone',
   diseaseTwotone: 'diseaseTwotone',
   editorTwotone: 'editorTwotone',
+  eventTwotone: 'eventTwotone',
   evidenceTwotone: 'evidenceTwotone',
   flagTwotone: 'flagTwotone',
   geneTwotone: 'geneTwotone',
@@ -718,6 +765,7 @@ export const CivicIcon = {
   phenotypeTwotone: 'phenotypeTwotone',
   revisionTwotone: 'revisionTwotone',
   sourceTwotone: 'sourceTwotone',
+  userTwotone: 'userTwotone',
   variantTwotone: 'variantTwotone',
   variantgroupTwotone: 'variantgroupTwotone'
 };
