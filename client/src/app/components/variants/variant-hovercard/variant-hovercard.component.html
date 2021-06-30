@@ -30,35 +30,36 @@
             nzType="civic:gene"></i> {{ variant.gene.name }}
         </nz-descriptions-item>
       </nz-descriptions>
+      <nz-row id="entity-child-counts">
+        <nz-col nzSpan="24">
+          <nz-space nzSize="small">
+            <nz-space-item>
+              <nz-tag nzColor="gold" >
+                <i nz-icon nzType="civic-evidence"></i>
+                Evidence ({{ variant.evidenceItems.totalCount }})
+              </nz-tag>
+            </nz-space-item>
+            <nz-space-item>
+              <nz-tag nzColor="red" >
+                <i nz-icon nzType="civic-flag"></i>
+                Flags ({{ variant.flags.totalCount }})
+              </nz-tag>
+            </nz-space-item>
+            <nz-space-item>
+              <nz-tag nzColor="orange">
+                <i nz-icon nzType="civic-revision"></i>
+                Revisions ({{ variant.revisions.totalCount }})
+              </nz-tag>
+            </nz-space-item>
+            <nz-space-item>
+              <nz-tag nzColor="blue" >
+                <i nz-icon nzType="civic-comment"></i>
+                Comments ({{ variant.comments.totalCount }})
+              </nz-tag>
+            </nz-space-item>
+          </nz-space>
+        </nz-col>
+      </nz-row>
     </nz-card>
   </ng-container>
 </div>
-<!-- <nz-card *ngIf="variant$ | ngrxPush as variant"
-     style="width:400px;">
-     <nz-avatar nzIcon="civic:gene"
-     nzSize="small"></nz-avatar>{{ variant.gene.name }}
-     <nz-divider></nz-divider>
-     <div *ngIf="variant.alleleRegistryId">
-     Allele Registry ID:
-     <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html"
-     target="_blank">{{variant.alleleRegistryId}}</a>
-     <nz-divider></nz-divider>
-     </div>
-     <div *ngIf="variant.variantAliases.length > 0">
-     Aliases:
-     <span *ngFor="let alias of variant.variantAliases; last as isLast">
-     {{alias}}<span *ngIf="!isLast">,</span>
-     </span>
-     <nz-divider></nz-divider>
-     </div>
-     <nz-avatar nzIcon="civic:evidence"
-     nzSize="small"> </nz-avatar>
-     Evidence Count: {{ variant.evidenceItems.totalCount }}
-     <nz-divider></nz-divider>
-     <nz-avatar nzIcon="flag"
-     nzSize="small"></nz-avatar>{{ variant.flags.totalCount }} open flags
-     <nz-avatar nzIcon="civic:revision"
-     nzSize="small"></nz-avatar>{{ variant.revisions.totalCount }} open revisions
-     <nz-avatar nzIcon="civic:comment"
-     nzSize="small"></nz-avatar>{{ variant.comments.totalCount }} comments
-     </nz-card> -->
