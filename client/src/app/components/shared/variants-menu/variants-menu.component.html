@@ -65,12 +65,7 @@
     <nz-row id="variant-tags">
       <nz-col nzSpan="24">
         <a routerLink="/variants/{{v.id}}" *ngFor="let v of variants">
-          <cvc-variant-pill [variant]="v"
-            nz-popover [nzPopoverMouseEnterDelay]="0.5" [nzPopoverContent]="variantHovercard">
-          </cvc-variant-pill>
-          <ng-template #variantHovercard>
-            <cvc-variant-hovercard [variantId]="v.id"></cvc-variant-hovercard>
-          </ng-template>
+          <cvc-variant-pill [variant]="v"></cvc-variant-pill>
         </a>
       </nz-col>
     </nz-row>
