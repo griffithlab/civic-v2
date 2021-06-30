@@ -1,0 +1,80 @@
+query AssertionsBrowse (
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $diseaseName: String
+  $drugName: String
+  $id: Int
+  $summary: String
+  $assertionDirection: EvidenceDirection
+  $clinicalSignificance: EvidenceClinicalSignificance
+  $assertionType: EvidenceType
+  $variantId: Int,
+  $evidenceId: Int,
+  $geneName: String,
+  $variantName: String,
+  $sortBy: AssertionSort
+  $ampLevel: AmpLevel
+) {
+  assertions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    diseaseName: $diseaseName
+    drugName: $drugName
+    id: $id
+    summary: $summary
+    assertionDirection: $assertionDirection
+    clinicalSignificance: $clinicalSignificance
+    assertionType: $assertionType
+    variantId: $variantId,
+    sortBy: $sortBy,
+    ampLevel: $ampLevel,
+    geneName: $geneName,
+    variantName: $variantName,
+    evidenceId: $evidenceId
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...AssertionBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment AssertionBrowseTableRowFields on Assertion {
+  id
+  name
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  disease {
+    id
+    displayName
+  }
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  summary
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  ampLevel
+}

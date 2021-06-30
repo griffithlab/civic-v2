@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_24_171329) do
+ActiveRecord::Schema.define(version: 2021_06_29_151230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -905,5 +905,37 @@ ActiveRecord::Schema.define(version: 2021_06_24_171329) do
        LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.name;
+  SQL
+  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variant_groups.id,
+      variant_groups.name,
+      array_agg(DISTINCT variants.name) AS variant_names,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM ((((variant_groups
+       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
+       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
+       JOIN genes ON ((variants.gene_id = genes.id)))
+       LEFT JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variant_groups.id, variant_groups.name;
+  SQL
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.doid,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM (((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       JOIN variants ON ((variants.id = evidence_items.variant_id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY diseases.id, diseases.name, diseases.doid;
   SQL
 end

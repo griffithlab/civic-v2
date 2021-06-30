@@ -43,7 +43,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
     AssertionsDetailComponent,
     AssertionsSummaryComponent,
     AssertionsCommentsComponent,
-    AssertionsFlagsComponent
+    AssertionsFlagsComponent,
   ],
   imports: [
     CommonModule,
@@ -84,7 +84,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
     AssertionsDetailComponent,
     AssertionsSummaryComponent,
     AssertionsFlagsComponent,
-    AssertionsCommentsComponent
+    AssertionsCommentsComponent,
   ]
 })
 export class AssertionsModule { }

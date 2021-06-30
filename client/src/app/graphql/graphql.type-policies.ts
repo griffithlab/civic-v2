@@ -17,11 +17,14 @@ export const CvcTypePolicies: TypePolicies = {
     fields: {
       browseGenes: relayStylePagination(),
       browseVariants: relayStylePagination(),
+      browseVariantGroups: relayStylePagination(),
       browseSources: relayStylePagination(),
+      browseDiseases: relayStylePagination(),
       events: relayStylePagination(),
       variants: relayStylePagination(),
       comments: relayStylePagination(),
-      evidenceItems: relayStylePagination()
+      evidenceItems: relayStylePagination(),
+      assertions: relayStylePagination()
     }
   }
 };

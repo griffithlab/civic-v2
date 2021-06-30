@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
+import { EvidenceBrowseComponent } from '@app/components/shared/evidence-browse/evidence-browse.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';

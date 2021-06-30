@@ -1,0 +1,46 @@
+query BrowseVariantGroups(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $sortBy: VariantGroupsSort
+  $name: String
+  $geneNames: String
+  $variantNames: String
+){
+  browseVariantGroups(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    geneNames: $geneNames
+    variantNames: $variantNames
+  ){
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseVariantGroupRowFields
+      }
+    }
+  }
+}
+
+fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
+  id
+  name
+  geneNames
+  variantNames
+  variantCount
+  evidenceItemCount
+}

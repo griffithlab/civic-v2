@@ -63,6 +63,10 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
 import { VariantsComponentsModule } from '../variants/variants-components.module';
 import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-text-filter.component';
+import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse.component';
+import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
   declarations: [
@@ -87,7 +91,9 @@ import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
-    ClearableTextComponentFilter
+    ClearableTextComponentFilter,
+    AssertionsBrowseComponent,
+    EvidenceBrowseComponent
   ],
   imports: [
     CommonModule,
@@ -125,7 +131,10 @@ import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-
     FormlyModule.forChild(),
     NzSelectModule,
     NzModalModule,
-    VariantsComponentsModule
+    VariantsComponentsModule,
+    NzSelectModule,
+    NzPageHeaderModule,
+    NzTableModule
   ],
   exports: [
     CommentAddComponent,
@@ -148,7 +157,9 @@ import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
-    ClearableTextComponentFilter
+    ClearableTextComponentFilter,
+    AssertionsBrowseComponent,
+    EvidenceBrowseComponent
   ]
 })
 
