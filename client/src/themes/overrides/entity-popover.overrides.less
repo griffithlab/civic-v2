@@ -1,0 +1,23 @@
+@import 'global-variables.less';
+
+:host {
+  // remove default popover padding so that component border flush with popover border
+  margin: -@padding-sm -@popover-padding-horizontal;
+}
+
+:host ::ng-deep {
+  // remove card body padding
+  .ant-card-body {
+    padding: 0;
+    // card title has a -1 bottom margin for some reason, partially occluding nz-description's top boreder
+    margin-top: 1px;
+  }
+  // remove nz-description container border, as nz-card already has one
+  .ant-descriptions-view {
+    border: none;
+  }
+}
+
+#popover-content {
+  width: 400px;
+}

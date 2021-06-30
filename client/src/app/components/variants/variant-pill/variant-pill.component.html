@@ -1,10 +1,11 @@
 <nz-tag nzColor="green"
   nz-popover
   [nzPopoverMouseEnterDelay]="0.5"
-  [nzPopoverContent]="variantHovercard">
+  [nzPopoverContent]="popoverContent"
+  nzPopoverTrigger="click">
   <i nz-icon
     nzType="civic-variant"></i> {{ variant.name }}
 </nz-tag>
-<ng-template #variantHovercard>
+<ng-template #popoverContent>
   <cvc-variant-hovercard [variantId]="variant.id"></cvc-variant-hovercard>
 </ng-template>

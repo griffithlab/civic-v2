@@ -64,9 +64,12 @@
     </ng-template>
     <nz-row id="variant-tags">
       <nz-col nzSpan="24">
-        <a routerLink="/variants/{{v.id}}" *ngFor="let v of variants">
+        <ng-container *ngFor="let v of variants">
           <cvc-variant-pill [variant]="v"></cvc-variant-pill>
-        </a>
+        </ng-container>
+        <!-- <a routerLink="/variants/{{v.id}}" *ngFor="let v of variants">
+             <cvc-variant-pill [variant]="v"></cvc-variant-pill>
+             </a> -->
       </nz-col>
     </nz-row>
   </nz-card>
