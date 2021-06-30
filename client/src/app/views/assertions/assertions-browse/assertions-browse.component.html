@@ -73,8 +73,6 @@
                     <nz-option nzValue="PROGNOSTIC" nzLabel="Prognostic"></nz-option>
                     <nz-option nzValue="DIAGNOSTIC" nzLabel="Diagnostic"></nz-option>
                     <nz-option nzValue="PREDISPOSING" nzLabel="Predisposing"></nz-option>
-                    <nz-option nzValue="ONCOGENIC" nzLabel="Oncogenic"></nz-option>
-                    <nz-option nzValue="FUNCTIONAL" nzLabel="Functional"></nz-option>
                   </nz-select>
                 </th>
                 <th>
@@ -103,18 +101,11 @@
                       <nz-option nzValue="NEGATIVE" nzLabel="Negative"></nz-option>
                     </nz-option-group>
                     <nz-option-group nzLabel="Predisposing">
-                      <nz-option nzValue="NA" nzLabel="N/A"></nz-option>
-                    </nz-option-group>
-                    <nz-option-group nzLabel="Oncogenic">
-                      <nz-option nzValue="NA" nzLabel="N/A"></nz-option>
-                    </nz-option-group>
-                    <nz-option-group nzLabel="Functional">
-                      <nz-option nzValue="GAIN_OF_FUNCTION" nzLabel="Gain of Function"></nz-option>,
-                      <nz-option nzValue="LOSS_OF_FUNCTION" nzLabel="Loss of Function"></nz-option>,
-                      <nz-option nzValue="UNALTERED_FUNCTION" nzLabel="Unaltered Function"></nz-option>,
-                      <nz-option nzValue="NEOMORPHIC" nzLabel="Neomorphic"></nz-option>,
-                      <nz-option nzValue="DOMINANT_NEGATIVE" nzLabel="Dominant Negative"></nz-option>,
-                      <nz-option nzValue="UNKNOWN" nzLabel="Unknown"></nz-option>
+                      <nz-option nzValue="PATHOGENIC" nzLabel="Pathogenic"></nz-option>
+                      <nz-option nzValue="LIKELY_PATHOGENIC" nzLabel="Likely Pathogenic"></nz-option>
+                      <nz-option nzValue="BENIGN" nzLabel="Benign"></nz-option>
+                      <nz-option nzValue="LIKELY_BENIGN" nzLabel="Likely Benign"></nz-option>
+                      <nz-option nzValue="UNCERTAIN_SIGNIFICANCE" nzLabel="Uncertain Significance"></nz-option>
                     </nz-option-group>
                   </nz-select>
                 </th>
@@ -132,7 +123,7 @@
             <tbody>
               <tr *ngFor="let aid of assertionsTable.data">
                 <td>
-                  {{ aid.id }}
+                  <a routerLink="/assertions/{{aid.id}}">{{aid.name}}</a>
                 </td>
                 <td>
                   {{ aid.gene.name }}
