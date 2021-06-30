@@ -1,6 +1,6 @@
 <nz-card *ngIf="variant$ | ngrxPush as variant" [nzTitle]="variant.name" [nzExtra]="avatar" style="width:400px;">
     <ng-template #avatar>
-        <nz-avatar nz-page-header-avatar nzIcon="civic:variant"> </nz-avatar>  
+        <nz-avatar nz-page-header-avatar nzIcon="civic:variant"> </nz-avatar>
     </ng-template>
     <nz-avatar nzIcon="civic:gene" nzSize="small"></nz-avatar>{{ variant.gene.name }}
     <nz-divider></nz-divider>
@@ -10,13 +10,13 @@
         <nz-divider></nz-divider>
     </div>
     <div *ngIf="variant.variantAliases.length > 0">
-        Aliases: 
+        Aliases:
         <span *ngFor="let alias of variant.variantAliases; last as isLast">
             {{alias}}<span *ngIf="!isLast">,</span>
         </span>
         <nz-divider></nz-divider>
     </div>
-    <nz-avatar nzIcon="civic:evidence" nzSize="small"> </nz-avatar>  
+    <nz-avatar nzIcon="civic:evidence" nzSize="small"> </nz-avatar>
     Evidence Count: {{ variant.evidenceItems.totalCount }}
     <nz-divider></nz-divider>
     <nz-avatar nzIcon="flag" nzSize="small"></nz-avatar>{{ variant.flags.totalCount }} open flags
