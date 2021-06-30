@@ -36,7 +36,6 @@ import { AssertionsSummaryComponent } from './assertions-summary/assertions-summ
 import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
     AssertionsSummaryComponent,
     AssertionsCommentsComponent,
     AssertionsFlagsComponent,
-    AssertionsBrowseComponent
   ],
   imports: [
     CommonModule,
@@ -87,7 +85,6 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
     AssertionsSummaryComponent,
     AssertionsFlagsComponent,
     AssertionsCommentsComponent,
-    AssertionsBrowseComponent
   ]
 })
 export class AssertionsModule { }

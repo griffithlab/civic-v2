@@ -35,13 +35,11 @@ import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.compo
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
-import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 
 
 @NgModule({
   declarations: [
     EvidenceComponent,
-    EvidenceBrowseComponent,
     EvidenceDetailComponent,
     EvidenceSummaryComponent,
     EvidenceCommentsComponent,
@@ -82,7 +80,6 @@ import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.compo
   ],
   exports: [
     EvidenceComponent,
-    EvidenceBrowseComponent,
     EvidenceDetailComponent,
     EvidenceSummaryComponent,
     EvidenceFlagsComponent,
