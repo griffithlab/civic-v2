@@ -3,7 +3,7 @@ module Types::Revisions
     description 'Fields on a Variant that curators may propose revisions to.'
     argument :name, String, required: true,
       description: "The Variant's name."
-    argument :description, String, required: true,
+    argument :description, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "The Variant's description/summary text."
     argument :source_ids, [Int], required: true,
       description: "Source IDs cited by the Variant's summary."
@@ -15,7 +15,7 @@ module Types::Revisions
       description: 'List of ClinVar IDs for the Variant.'
     argument :variant_type_ids, [Int], required: true,
       description: 'List of IDs for the variant types for this Variant'
-    argument :reference_build, Types::ReferenceBuildType, required: true,
+    argument :reference_build, Types::NullableValueInputType.for(Types::ReferenceBuildType), required: true,
       description: 'The reference build for the genomic coordinates of this Variant.'
     argument :ensembl_version, Int, required: true,
       description: 'The Ensembl database version.'
@@ -25,8 +25,8 @@ module Types::Revisions
       description:  "The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner."
     argument :gene_id, Int, required: true,
       description: 'The ID of the Gene this Variant corresponds to.'
-    argument :reference_bases, String, required: true,
-      validates: { format: { with: /\A[ACTG]+\z/, allow_null: true } }
+    argument :reference_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true
+      #validates: { format: { with: /\A[ACTG]+\z/, allow_null: true } }
     argument :variant_bases, String, required: true,
       validates: { format: { with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/, allow_null: true } }
   end
