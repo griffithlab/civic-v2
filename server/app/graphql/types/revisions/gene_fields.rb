@@ -1,5 +1,6 @@
 module Types::Revisions
   class GeneFields < Types::BaseInputObject
+    description 'Fields on a Gene that curators may propose revisions to.'
     argument :description, String, required: true,
       description: "The Gene's description/summary text."
     argument :source_ids, [Int], required: true,

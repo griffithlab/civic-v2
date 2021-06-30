@@ -28,7 +28,7 @@ class Resolvers::Variants < GraphQL::Schema::Resolver
 
   option(:name, type: GraphQL::Types::String, description: 'Left anchored filtering for variant name and aliases.') do |scope, value|
     scope.left_joins(:variant_aliases)
-      .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "#{value}%" })
+      .where('variants.name ILIKE :query OR variant_aliases.name ILIKE :query', { query: "%#{value}%" })
   end
 
 end

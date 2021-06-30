@@ -5,6 +5,7 @@ module Types
 
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
+    field :suggest_variant_revision, mutation: Mutations::SuggestVariantRevision
     field :reject_revision, mutation: Mutations::RejectRevision
     field :accept_revision, mutation: Mutations::AcceptRevision
 
