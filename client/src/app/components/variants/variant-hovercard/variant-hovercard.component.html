@@ -1,32 +1,38 @@
-<ng-container *ngIf="variant$ | ngrxPush as variant">
-  <div id="popover-content">
-    <nz-card [nzTitle]="cardTitle" id="card-content">
+<div id="popover-content">
+  <ng-container *ngIf="variant$ | ngrxPush as variant">
+    <nz-card [nzTitle]="cardTitle"
+      id="card-content">
       <ng-template #cardTitle>
         <i nz-icon
           nzType="civic:variant"></i> {{ variant.name }}
       </ng-template>
 
       <!-- aliases -->
-      <nz-descriptions nzSize="small" [nzColumn]="2" nzBordered="true">
-        <nz-descriptions-item nzTitle="Aliases" nzSpan="2"
+      <nz-descriptions nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+        <nz-descriptions-item nzTitle="Aliases"
+          nzSpan="2"
           *ngIf="variant.variantAliases.length > 0">
           <span *ngFor="let alias of variant.variantAliases; last as isLast">
             {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
           </span>
         </nz-descriptions-item>
         <!-- allele registry-->
-        <nz-descriptions-item nzTitle="Allele Registry ID" *ngIf="variant.alleleRegistryId">
+        <nz-descriptions-item nzTitle="Allele Registry ID"
+          *ngIf="variant.alleleRegistryId">
           <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html"
             target="_blank">{{variant.alleleRegistryId}}</a>
         </nz-descriptions-item>
         <!-- gene -->
         <nz-descriptions-item nzTitle="Gene">
-          <i nz-icon nzType="civic:gene"></i> {{ variant.gene.name }}
+          <i nz-icon
+            nzType="civic:gene"></i> {{ variant.gene.name }}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
 <!-- <nz-card *ngIf="variant$ | ngrxPush as variant"
      style="width:400px;">
      <nz-avatar nzIcon="civic:gene"
