@@ -38,28 +38,36 @@
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
             <nz-space-item>
-              <nz-tag nzColor="gold" >
-                <i nz-icon nzType="civic-evidence"></i>
-                Evidence ({{ variant.evidenceItems.totalCount }})
-              </nz-tag>
+              <a routerLink="/variants/{{variant.id}}/evidence">
+                <nz-tag nzColor="gold" >
+                  <i nz-icon nzType="civic-evidence"></i>
+                  Evidence ({{ variant.evidenceItems.totalCount }})
+                </nz-tag>
+              </a>
             </nz-space-item>
             <nz-space-item>
-              <nz-tag nzColor="red" >
-                <i nz-icon nzType="civic-flag"></i>
-                Flags ({{ variant.flags.totalCount }})
-              </nz-tag>
+              <a routerLink="/variants/{{variant.id}}/flags">
+                <nz-tag nzColor="red" >
+                  <i nz-icon nzType="civic-flag"></i>
+                  Flags ({{ variant.flags.totalCount }})
+                </nz-tag>
+              </a>
             </nz-space-item>
             <nz-space-item>
-              <nz-tag nzColor="orange">
-                <i nz-icon nzType="civic-revision"></i>
-                Revisions ({{ variant.revisions.totalCount }})
-              </nz-tag>
+              <a routerLink="/variants/{{variant.id}}/revisions">
+                <nz-tag nzColor="orange">
+                  <i nz-icon nzType="civic-revision"></i>
+                  Revisions ({{ variant.revisions.totalCount }})
+                </nz-tag>
+              </a>
             </nz-space-item>
             <nz-space-item>
-              <nz-tag nzColor="blue" >
-                <i nz-icon nzType="civic-comment"></i>
-                Comments ({{ variant.comments.totalCount }})
-              </nz-tag>
+              <a routerLink="/variants/{{variant.id}}/comments">
+                <nz-tag nzColor="blue">
+                  <i nz-icon nzType="civic-comment"></i>
+                  Comments ({{ variant.comments.totalCount }})
+                </nz-tag>
+              </a>
             </nz-space-item>
           </nz-space>
         </nz-col>
