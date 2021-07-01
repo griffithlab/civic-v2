@@ -51,6 +51,11 @@
             "styles": [
               "src/styles.less"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/themes/"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

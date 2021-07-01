@@ -74,7 +74,7 @@
                 nz-button
                 nzSize="small">
                 <i nz-icon
-                  nzType="pic-right"></i>Summary
+                  nzType="civic-gene"></i>Summary
               </button>
             </nz-button-group>
           </nz-space-item>
@@ -87,7 +87,7 @@
                 nz-button
                 nzSize="small">
                 <i nz-icon
-                  nzType="civic:comment"></i>Comments ({{ gene.comments.totalCount }})
+                  nzType="civic-comment"></i>Comments ({{ gene.comments.totalCount }})
               </button>
               <button *ngIf="viewer.signedIn"
                 routerLink="comments"
@@ -110,8 +110,7 @@
                 nz-button
                 nzSize="small">
                 <i nz-icon
-                  nzType="civic:revision"></i>Revisions ({{ gene.revisions.totalCount }})
-              </button>
+                  nzType="civic-revision"></i>Revisions ({{ gene.revisions.totalCount }}) </button>
               <button *ngIf="viewer.signedIn"
                 routerLink="suggest-revision"
                 routerLinkActive
@@ -132,7 +131,7 @@
                 nz-button
                 nzSize="small">
                 <i nz-icon
-                  nzType="flag"></i>Flags ({{ gene.flags.totalCount }})
+                  nzType="civic-flag"></i>Flags ({{ gene.flags.totalCount }})
               </button>
               <button *ngIf="viewer.signedIn"
                 routerLink="flags"

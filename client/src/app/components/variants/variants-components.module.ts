@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 // zorro imports
@@ -39,6 +40,7 @@ import { VariantHovercardComponent } from './variant-hovercard/variant-hovercard
   ],
   imports: [
     CommonModule,
+    RouterModule,
     IconsProviderModule,
     NzAvatarModule,
     NzBreadCrumbModule,

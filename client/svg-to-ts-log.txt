@@ -1,8 +1,0 @@
-yarn run v1.22.4
-$ /Users/jmcmichael/vc/civic-v2/client/node_modules/.bin/svg-to-ts
-==========================================================
-👷 Hi I am svg-to-ts - let's build an awesome icon library
-==========================================================
-svg-to-ts: ℹ️ We are using the conversion type "constants"
-svg-to-ts: 🏁 Everything is perfect: Icons succesfully generated under ./src/app/generated
-Done in 1.32s.

@@ -1,9 +1,19 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { VariantsMenuGQL, Maybe, MenuVariantFragment, VariantsMenuQuery, VariantsMenuQueryVariables, VariantDisplayFilter, PageInfo } from "@app/generated/civic.apollo";
+import {
+  Gene,
+  VariantsMenuGQL,
+  Maybe,
+  MenuVariantFragment,
+  VariantsMenuQuery,
+  VariantsMenuQueryVariables,
+  VariantDisplayFilter,
+  PageInfo
+} from "@app/generated/civic.apollo";
 import { map, debounceTime } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
-import { QueryRef } from "apollo-angular";
+import { Apollo, QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
+
 
 @Component({
   selector: 'cvc-variant-menu',
@@ -12,13 +22,14 @@ import { ApolloQueryResult } from "@apollo/client/core";
 })
 export class VariantsMenuComponent implements OnInit {
   @Input() geneId?: number;
+  @Input() geneName?: string;
 
   menuVariants$?: Observable<Maybe<MenuVariantFragment>[]>;
+  totalVariants$?: Observable<number>;
   queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
 
-  statusFilter: VariantDisplayFilter =
-    VariantDisplayFilter.WithAcceptedOrSubmitted;
+  statusFilter: VariantDisplayFilter = VariantDisplayFilter.WithAcceptedOrSubmitted;
   variantNameFilter: Maybe<string>;
 
   private debouncedQuery = new Subject<void>();
@@ -26,7 +37,7 @@ export class VariantsMenuComponent implements OnInit {
   private initialQueryVars!: VariantsMenuQueryVariables;
   private pageSize = 40;
 
-  constructor(private gql: VariantsMenuGQL) {}
+  constructor(private gql: VariantsMenuGQL) { }
 
   ngOnInit() {
     if (this.geneId === undefined) {
@@ -50,6 +61,9 @@ export class VariantsMenuComponent implements OnInit {
       map(({ data }) => data.variants.edges.map((e) => e.node))
     );
 
+    this.totalVariants$ = this.results$
+      .pipe(map(({data}) => data.variants.totalCount));
+
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh());
@@ -64,7 +78,11 @@ export class VariantsMenuComponent implements OnInit {
   }
 
   refresh() {
+    if (this.geneId === undefined) {
+      throw new Error('Must pass a gene id into variant menu component.');
+    }
     this.queryRef$.refetch({
+      geneId: this.geneId,
       variantName: this.variantNameFilter,
       evidenceStatusFilter: this.statusFilter,
     });
