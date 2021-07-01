@@ -9,25 +9,35 @@
   // remove card body padding
   .ant-card-body {
     padding: 0;
-    // card title has a -1 bottom margin for some reason, partially occluding nz-description's top boreder
+    // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
     margin-top: 1px;
   }
-  // remove nz-description container border, as nz-card already has one
+  // removes nz-description container border -
+  // nz-card does provide an nzBordered option, but its label backgrounds
+  // and compact mode are only available with ts borders toggled on
   .ant-descriptions-view {
     border: none;
   }
-  #card-content {
-    border: none;
-  }
   #entity-child-counts {
+    // nz-description no longer has a border, so here we need to add one
+    // to provide a divider between the entity details and this child-count row
     border-top: 1px solid @border-color-split;
     padding: @padding-sm;
+    // nz-space doesn't automatically expand to fit available horizontal space :(
     nz-space {
       width: 100%;
+    }
+    // and it applies its margin-right space to the final element, which breaks symmetry :(
+    nz-space-item:last-child {
+      margin-right: 0 !important; // TODO determine a more precise selector so !important can be removed
+      nz-tag {
+        // tags also have a margin-right, we can remove that b/c we rely on nz-space
+        margin-right: 0;
+      }
     }
   }
 }
 
 #popover-content {
-  width: 500px;
+  min-width: 400px;
 }

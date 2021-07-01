@@ -8,14 +8,17 @@
       <ng-container *ngIf="totalVariants$ | ngrxPush as total">
         <span nz-typography
           nzType="secondary">{{ total }} Total</span>
-        <span nz-typography *ngIf="total  > variants.length"
+        <span nz-typography
+          *ngIf="total  > variants.length"
           nzType="secondary">({{ variants.length }} displayed)</span>
       </ng-container>
 
     </ng-template>
 
     <ng-template #cardExtra>
-      <form nz-form nzLayout="inline" id="variant-filters">
+      <form nz-form
+        nzLayout="inline"
+        id="variant-filters">
         <nz-form-item>
           <nz-form-label>Filter</nz-form-label>
           <nz-form-control>
@@ -64,21 +67,21 @@
     </ng-template>
     <nz-row id="variant-tags">
       <nz-col nzSpan="24">
-        <a routerLink="/variants/{{v.id}}" *ngFor="let v of variants">
+        <a routerLink="/variants/{{v.id}}"
+          *ngFor="let v of variants">
           <cvc-variant-pill [variant]="v"></cvc-variant-pill>
         </a>
       </nz-col>
     </nz-row>
+    <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage">
+        <button nz-button
+          nzType="default"
+          nzSize="small"
+          nzBlock
+          (click)="fetchMore(pageInfo.endCursor)">Load More
+        </button>
+      </nz-row>
+    </ng-container>
   </nz-card>
-</ng-container>
-<ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-  <div nz-list-load-more
-    *ngIf="pageInfo.hasNextPage">
-    <button nz-button
-      nzType="link"
-      nzSize="small"
-      nzBlock
-      (click)="fetchMore(pageInfo.endCursor)">Load More
-    </button>
-  </div>
 </ng-container>
