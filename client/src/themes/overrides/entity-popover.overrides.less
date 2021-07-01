@@ -1,7 +1,7 @@
 @import 'global-variables.less';
 
 :host {
-  // remove default popover padding so that component border flush with popover border
+  // remove default popover padding so that component edges are flush with popover border
   margin: -@padding-sm -@popover-padding-horizontal;
 }
 
@@ -27,9 +27,9 @@
     nz-space {
       width: 100%;
     }
-    // and it applies its margin-right space to the final element, which breaks symmetry :(
     nz-space-item:last-child {
-      margin-right: 0 !important; // TODO determine a more precise selector so !important can be removed
+      // and it applies its margin-right space to the final element, which breaks symmetry :(
+      margin-right: 0 !important; // TODO determine a more precise selector so this !important may be removed
       nz-tag {
         // tags also have a margin-right, we can remove that b/c we rely on nz-space
         margin-right: 0;

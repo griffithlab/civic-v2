@@ -18,18 +18,22 @@
             {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
           </span>
         </nz-descriptions-item>
+
         <!-- allele registry-->
         <nz-descriptions-item nzTitle="Allele Registry ID"
           *ngIf="variant.alleleRegistryId">
           <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html"
             target="_blank">{{variant.alleleRegistryId}}</a>
         </nz-descriptions-item>
+
         <!-- gene -->
         <nz-descriptions-item nzTitle="Gene">
           <i nz-icon
             nzType="civic:gene"></i> {{ variant.gene.name }}
         </nz-descriptions-item>
       </nz-descriptions>
+
+      <!-- entity comment, flags, etc. tags -->
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">

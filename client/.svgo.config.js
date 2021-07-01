@@ -1,4 +1,4 @@
-// configures SVG icon optimization, part of generate-icons workflow
+// configures SVG icon optimization, editing - part of generate-icons workflow
 const { extendDefaultPlugins } = require('svgo');
 module.exports = {
   plugins: extendDefaultPlugins([
@@ -24,7 +24,7 @@ module.exports = {
     },
     {
       name: 'modifyViewBox',
-      type: 'perItem', // 'perItem', 'perItemReverse' or 'full'
+      type: 'perItem',
       params: {
         viewBox: '64 64 896 896', // ng-zorro's updated standard viewBox dimensions
       },
