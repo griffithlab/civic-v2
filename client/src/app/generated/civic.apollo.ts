@@ -1312,13 +1312,28 @@ export type ObjectFieldDiff = {
   removedObjects: Array<ModeratedObjectField>;
 };
 
+export type OrgStats = {
+  __typename: 'OrgStats';
+  acceptedAssertions: Scalars['Int'];
+  acceptedEvidenceItems: Scalars['Int'];
+  appliedRevisions: Scalars['Int'];
+  comments: Scalars['Int'];
+  revisions: Scalars['Int'];
+  submittedAssertions: Scalars['Int'];
+  submittedEvidenceItems: Scalars['Int'];
+  suggestedSources: Scalars['Int'];
+};
+
 export type Organization = {
   __typename: 'Organization';
   description: Scalars['String'];
   events: EventConnection;
   id: Scalars['Int'];
+  members: Array<User>;
   name: Scalars['String'];
   profileImagePath?: Maybe<Scalars['String']>;
+  statsHash: OrgStats;
+  subGroups: Array<Organization>;
   url: Scalars['String'];
 };
 
@@ -1333,6 +1348,14 @@ export type OrganizationEventsArgs = {
 
 export type OrganizationProfileImagePathArgs = {
   size?: Maybe<Scalars['Int']>;
+};
+
+/** Filter on organization id and whether or not to include the organization's subgroups */
+export type OrganizationFilter = {
+  /** The organization ID. */
+  id: Scalars['Int'];
+  /** Whether or not to include the organization's subgroup. */
+  includeSubgroups?: Maybe<Scalars['Boolean']>;
 };
 
 /** Information about pagination in a connection. */
@@ -1393,6 +1416,8 @@ export type Query = {
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
   user?: Maybe<User>;
+  /** List and filter users. */
+  users: UserConnection;
   /** Find a variant by CIViC ID */
   variant?: Maybe<Variant>;
   /** List and filter variants. */
@@ -1420,6 +1445,7 @@ export type QueryAssertionsArgs = {
   geneName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<AssertionSort>;
   summary?: Maybe<Scalars['String']>;
   variantId?: Maybe<Scalars['Int']>;
@@ -1546,6 +1572,7 @@ export type QueryEvidenceItemsArgs = {
   first?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   status?: Maybe<EvidenceStatus>;
   variantId?: Maybe<Scalars['Int']>;
@@ -1606,6 +1633,15 @@ export type QuerySourceTypeaheadArgs = {
 
 export type QueryUserArgs = {
   userId: Scalars['Int'];
+};
+
+
+export type QueryUsersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organization?: Maybe<OrganizationFilter>;
 };
 
 
@@ -1681,12 +1717,14 @@ export type ResolveFlagPayload = {
   flag?: Maybe<Flag>;
 };
 
-export type Revision = EventOriginObject & {
+export type Revision = EventOriginObject & EventSubject & {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
   currentValue: Scalars['JSON'];
+  /** List and filter events for an object */
+  events: EventConnection;
   fieldName: Scalars['String'];
   id: Scalars['Int'];
   linkoutData: LinkoutData;
@@ -1696,6 +1734,18 @@ export type Revision = EventOriginObject & {
   status: RevisionStatus;
   suggestedValue: Scalars['JSON'];
   updatedAt: Scalars['ISO8601DateTime'];
+};
+
+
+export type RevisionEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 /** The connection type for Revision. */
@@ -1755,12 +1805,14 @@ export enum SortDirection {
   Desc = 'DESC'
 }
 
-export type Source = {
+export type Source = EventSubject & {
   __typename: 'Source';
   ascoAbstractId?: Maybe<Scalars['Int']>;
   citation: Scalars['String'];
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  /** List and filter events for an object */
+  events: EventConnection;
   fullJournalTitle: Scalars['String'];
   id: Scalars['Int'];
   journal: Scalars['String'];
@@ -1771,6 +1823,18 @@ export type Source = {
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
   status: SourceStatus;
+};
+
+
+export type SourceEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 export enum SourceSource {
@@ -1934,18 +1998,23 @@ export type UnsubscribePayload = {
 
 export type User = {
   __typename: 'User';
+  areaOfExpertise?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
   email?: Maybe<Scalars['String']>;
   events: EventConnection;
+  facebookProfile?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  linkedinProfile?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;
+  orcid?: Maybe<Scalars['String']>;
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
   role: Scalars['String'];
+  twitterHandle?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
   username: Scalars['String'];
 };
@@ -1973,6 +2042,30 @@ export type UserNotificationsArgs = {
 
 export type UserProfileImagePathArgs = {
   size?: Maybe<Scalars['Int']>;
+};
+
+/** The connection type for User. */
+export type UserConnection = {
+  __typename: 'UserConnection';
+  /** A list of edges. */
+  edges: Array<UserEdge>;
+  /** A list of nodes. */
+  nodes: Array<User>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type UserEdge = {
+  __typename: 'UserEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<User>;
 };
 
 export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
@@ -2221,6 +2314,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   sortBy?: Maybe<AssertionSort>;
   ampLevel?: Maybe<AmpLevel>;
+  organizationId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -2332,6 +2426,7 @@ export type EventFeedQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
   originatingUserId?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
+  eventType?: Maybe<EventAction>;
 }>;
 
 
@@ -2384,6 +2479,12 @@ export type EventFeedNodeFragment = (
     { __typename: 'Gene' }
     & Pick<Gene, 'name' | 'id'>
   ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'name' | 'id'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'name' | 'id'>
+  ) | (
     { __typename: 'Variant' }
     & Pick<Variant, 'name' | 'id'>
   ), originatingObject?: Maybe<(
@@ -2429,6 +2530,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   variantOrigin?: Maybe<VariantOrigin>;
   variantId?: Maybe<Scalars['Int']>;
   assertionId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
 }>;
 
@@ -2571,6 +2673,28 @@ export type ResolveFlagMutation = (
       { __typename: 'Flag' }
       & Pick<Flag, 'id'>
     )> }
+  )> }
+);
+
+export type UserCardQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type UserCardQuery = (
+  { __typename: 'Query' }
+  & { user?: Maybe<(
+    { __typename: 'User' }
+    & CardUserFragment
+  )> }
+);
+
+export type CardUserFragment = (
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
   )> }
 );
 
@@ -3185,6 +3309,52 @@ export type GeneSummaryFieldsFragment = (
   ) }
 );
 
+export type OrganizationDetailQueryVariables = Exact<{
+  organizationId: Scalars['Int'];
+}>;
+
+
+export type OrganizationDetailQuery = (
+  { __typename: 'Query' }
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & OrganizationDetailFieldsFragment
+  )> }
+);
+
+export type OrganizationDetailFieldsFragment = (
+  { __typename: 'Organization' }
+  & Pick<Organization, 'id' | 'name' | 'url' | 'description' | 'profileImagePath'>
+  & { subGroups: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+  )>, statsHash: (
+    { __typename: 'OrgStats' }
+    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+  ) }
+);
+
+export type OrganizationMembersQueryVariables = Exact<{
+  organizationId: Scalars['Int'];
+}>;
+
+
+export type OrganizationMembersQuery = (
+  { __typename: 'Query' }
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & OrganizationMembersFieldsFragment
+  )> }
+);
+
+export type OrganizationMembersFieldsFragment = (
+  { __typename: 'Organization' }
+  & { members: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'name' | 'displayName' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  )> }
+);
+
 export type BrowseSourcesQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3594,6 +3764,18 @@ export const HovercardOrgFragmentDoc = gql`
   url
 }
     `;
+export const CardUserFragmentDoc = gql`
+    fragment cardUser on User {
+  id
+  profileImagePath(size: 64)
+  displayName
+  bio
+  organizations {
+    id
+    name
+  }
+}
+    `;
 export const HovercardUserFragmentDoc = gql`
     fragment hovercardUser on User {
   id
@@ -3860,6 +4042,47 @@ export const GeneSummaryFieldsFragmentDoc = gql`
   myGeneInfoDetails
 }
     `;
+export const OrganizationDetailFieldsFragmentDoc = gql`
+    fragment OrganizationDetailFields on Organization {
+  id
+  name
+  url
+  description
+  profileImagePath(size: 256)
+  subGroups {
+    id
+    name
+    profileImagePath(size: 12)
+  }
+  statsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+}
+    `;
+export const OrganizationMembersFieldsFragmentDoc = gql`
+    fragment OrganizationMembersFields on Organization {
+  members {
+    id
+    name
+    displayName
+    profileImagePath(size: 36)
+    role
+    url
+    areaOfExpertise
+    orcid
+    twitterHandle
+    facebookProfile
+    linkedinProfile
+  }
+}
+    `;
 export const BrowseSourceRowFieldsFragmentDoc = gql`
     fragment BrowseSourceRowFields on BrowseSource {
   id
@@ -3971,7 +4194,7 @@ export const GeneHoverCardDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int) {
   assertions(
     first: $first
     last: $last
@@ -3990,6 +4213,7 @@ export const AssertionsBrowseDocument = gql`
     geneName: $geneName
     variantName: $variantName
     evidenceId: $evidenceId
+    organizationId: $organizationId
   ) {
     totalCount
     pageInfo {
@@ -4083,7 +4307,7 @@ export const CommentListDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int) {
+    query EventFeed($subject: SubscribableInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction) {
   events(
     subject: $subject
     first: $first
@@ -4092,6 +4316,7 @@ export const EventFeedDocument = gql`
     after: $after
     originatingUserId: $originatingUserId
     organizationId: $organizationId
+    eventType: $eventType
   ) {
     ...eventFeed
   }
@@ -4109,7 +4334,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $sortBy: EvidenceSort) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $sortBy: EvidenceSort) {
   evidenceItems(
     first: $first
     last: $last
@@ -4127,6 +4352,7 @@ export const EvidenceBrowseDocument = gql`
     variantOrigin: $variantOrigin
     variantId: $variantId
     assertionId: $assertionId
+    organizationId: $organizationId
     sortBy: $sortBy
   ) {
     totalCount
@@ -4237,6 +4463,24 @@ export const ResolveFlagDocument = gql`
   })
   export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
     document = ResolveFlagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserCardDocument = gql`
+    query UserCard($userId: Int!) {
+  user(userId: $userId) {
+    ...cardUser
+  }
+}
+    ${CardUserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserCardGQL extends Apollo.Query<UserCardQuery, UserCardQueryVariables> {
+    document = UserCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -4815,6 +5059,42 @@ export const GenesSummaryDocument = gql`
   })
   export class GenesSummaryGQL extends Apollo.Query<GenesSummaryQuery, GenesSummaryQueryVariables> {
     document = GenesSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationDetailDocument = gql`
+    query OrganizationDetail($organizationId: Int!) {
+  organization(id: $organizationId) {
+    ...OrganizationDetailFields
+  }
+}
+    ${OrganizationDetailFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationDetailGQL extends Apollo.Query<OrganizationDetailQuery, OrganizationDetailQueryVariables> {
+    document = OrganizationDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationMembersDocument = gql`
+    query OrganizationMembers($organizationId: Int!) {
+  organization(id: $organizationId) {
+    ...OrganizationMembersFields
+  }
+}
+    ${OrganizationMembersFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationMembersGQL extends Apollo.Query<OrganizationMembersQuery, OrganizationMembersQueryVariables> {
+    document = OrganizationMembersDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

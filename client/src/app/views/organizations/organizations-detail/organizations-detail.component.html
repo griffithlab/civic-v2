@@ -1,0 +1,170 @@
+<ng-container *ngIf="organization$ | ngrxPush as organization">
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal"
+        nzSize="small">
+        <nz-space-item>
+          <i nz-icon
+            nzType="civic:organization"></i>
+        </nz-space-item>
+        <span routerLink="/organizatons/{{organization.id}}">
+          {{ organization.name }}
+        </span>
+        <a nz-button nzType="link" href="organization.url" target="_blank"><i nz-icon nzType="link"></i>Organization Website</a>
+      </nz-space>
+    </nz-page-header-title>
+
+    <!--extra-->
+    <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+      <nz-space nzDirection="horizontal" nzSize="small">
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="members"
+              routerLinkActive
+              #rlaMembers="routerLinkActive"
+              [nzType]="rlaMembers.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="pic-right"></i>Members
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="evidence"
+              routerLinkActive
+              #rlaEvidence="routerLinkActive"
+              [nzType]="rlaEvidence.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:evidence"></i>Evidence Items
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="assertions"
+              routerLinkActive
+              #rlaAssertions="routerLinkActive"
+              [nzType]="rlaAssertions.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:assertion"></i>Assertions
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="activity"
+              routerLinkActive
+              #rlaActivity="routerLinkActive"
+              [nzType]="rlaActivity.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:event"></i>Activity
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+      </nz-space>
+        <button nz-button
+          nzSize="small"
+          nz-dropdown
+          [nzDropdownMenu]="menu"
+          nzNoAnimation
+          style="border: none; padding: 0">
+          <i nz-icon
+            nzType="ellipsis"
+            nzTheme="outline"
+            style="font-size: 20px; vertical-align: top;"></i>
+        </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>1st menu item length</li>
+          <li nz-menu-item>2nd menu item length</li>
+          <li nz-menu-item>3rd menu item length</li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+      <div class="content">
+        <nz-space>
+          <nz-space-item>
+            <div nz-row [nzGutter]="16">
+                <nz-row>
+                  <nz-col [nzSpan]="2">
+                    <img
+                      nz-image
+                      width="121px"
+                      height="121px"
+                      nzSrc="{{ organization.profileImagePath }}"
+                      alt=""
+                    />
+                  </nz-col>
+                  <nz-col [nzSpan]="18">
+                    <nz-row>
+                      <p nz-typography><b>Description: </b>{{ organization.description }}</p>
+                    </nz-row>
+                    <nz-row [nzGutter]="16">
+                      <nz-col [nzSpan]="2">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.statsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                    </nz-row>
+                  </nz-col>
+                  <nz-col [nzSpan]="4">
+                    <nz-list *ngIf="organization.subGroups.length > 0" nzBordered nzSize="small">
+                      <nz-list-header>Child Organizations: </nz-list-header>
+                      <nz-list-item *ngFor="let suborg of organization.subGroups">
+                        <cvc-org-pill [org]="suborg"></cvc-org-pill>
+                      </nz-list-item>
+                    </nz-list>
+                  </nz-col>
+                </nz-row>
+            </div>
+          </nz-space-item>
+        </nz-space>
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

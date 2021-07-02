@@ -67,6 +67,7 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { UserCardComponent } from './user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     ResolveFlagComponent,
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    UserCardComponent
   ],
   imports: [
     CommonModule,
@@ -159,7 +161,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     ResolveFlagComponent,
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    UserCardComponent
   ]
 })
 

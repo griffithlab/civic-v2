@@ -2137,6 +2137,17 @@ type ObjectFieldDiff {
   removedObjects: [ModeratedObjectField!]!
 }
 
+type OrgStats {
+  acceptedAssertions: Int!
+  acceptedEvidenceItems: Int!
+  appliedRevisions: Int!
+  comments: Int!
+  revisions: Int!
+  submittedAssertions: Int!
+  submittedEvidenceItems: Int!
+  suggestedSources: Int!
+}
+
 type Organization {
   description: String!
   events(
@@ -2161,9 +2172,27 @@ type Organization {
     last: Int
   ): EventConnection!
   id: Int!
+  members: [User!]!
   name: String!
   profileImagePath(size: Int = 56): String
+  statsHash: OrgStats!
+  subGroups: [Organization!]!
   url: String!
+}
+
+"""
+Filter on organization id and whether or not to include the organization's subgroups
+"""
+input OrganizationFilter {
+  """
+  The organization ID.
+  """
+  id: Int!
+
+  """
+  Whether or not to include the organization's subgroup.
+  """
+  includeSubgroups: Boolean = false
 }
 
 """
@@ -2271,6 +2300,11 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Exact match filtering on the ID of the organization the assertion was submitted under.
+    """
+    organizationId: Int
 
     """
     Columm and direction to sort evidence on.
@@ -2587,6 +2621,11 @@ type Query {
     last: Int
 
     """
+    Exact match filtering on the ID of the organization the evidence item was submitted under.
+    """
+    organizationId: Int
+
+    """
     Columm and direction to sort evidence on.
     """
     sortBy: EvidenceSort
@@ -2680,6 +2719,36 @@ type Query {
   """
   sourceTypeahead(citationId: Int!, sourceType: SourceSource!): [Source!]!
   user(userId: Int!): User
+
+  """
+  List and filter users.
+  """
+  users(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to users that belong to a certain organizations
+    """
+    organization: OrganizationFilter
+  ): UserConnection!
 
   """
   Find a variant by CIViC ID
@@ -2816,11 +2885,44 @@ type ResolveFlagPayload {
   flag: Flag
 }
 
-type Revision implements EventOriginObject {
+type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
   creationEvent: Event
   currentValue: JSON!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   fieldName: String!
   id: Int!
   linkoutData: LinkoutData!
@@ -2925,11 +3027,44 @@ enum SortDirection {
   DESC
 }
 
-type Source {
+type Source implements EventSubject {
   ascoAbstractId: Int
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   fullJournalTitle: String!
   id: Int!
   journal: String!
@@ -3160,6 +3295,7 @@ type UnsubscribePayload {
 }
 
 type User {
+  areaOfExpertise: String
   bio: String
   country: String
   displayName: String!
@@ -3185,7 +3321,9 @@ type User {
     """
     last: Int
   ): EventConnection!
+  facebookProfile: String
   id: Int!
+  linkedinProfile: String
   name: String!
 
   """
@@ -3232,11 +3370,58 @@ type User {
     """
     subscriptionId: Int
   ): NotificationConnection
+  orcid: String
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   role: String!
+  twitterHandle: String
   url: String
   username: String!
+}
+
+"""
+The connection type for User.
+"""
+type UserConnection {
+  """
+  A list of edges.
+  """
+  edges: [UserEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [User!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type UserEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: User
 }
 
 type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {

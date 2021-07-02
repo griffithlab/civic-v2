@@ -16,6 +16,7 @@ query AssertionsBrowse (
   $variantName: String,
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
+  $organizationId: Int
 ) {
   assertions(
     first: $first
@@ -35,6 +36,7 @@ query AssertionsBrowse (
     geneName: $geneName,
     variantName: $variantName,
     evidenceId: $evidenceId
+    organizationId: $organizationId
   ) {
     totalCount
     pageInfo {

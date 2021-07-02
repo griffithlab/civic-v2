@@ -1,0 +1,24 @@
+
+query OrganizationMembers(
+  $organizationId: Int!
+) {
+  organization(id: $organizationId) {
+    ...OrganizationMembersFields
+  }
+}
+
+fragment OrganizationMembersFields on Organization {
+  members {
+    id
+    name
+    displayName
+    profileImagePath(size:36)
+    role
+    url
+    areaOfExpertise
+    orcid
+    twitterHandle
+    facebookProfile
+    linkedinProfile
+  }
+} 

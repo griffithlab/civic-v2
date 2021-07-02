@@ -15,6 +15,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LinkableUser } from "../user-pill/user-pill.component";
 import { LinkableOrganization } from "../organization-pill/organization-pill.component";
+import { sourceInputInitialModel } from "@app/forms/types/source-input/source-input.component";
+
+interface SelectableAction { id: EventAction }
 
 @Component({
     selector: 'cvc-event-feed',
@@ -23,7 +26,8 @@ import { LinkableOrganization } from "../organization-pill/organization-pill.com
 })
 export class EventFeedComponent implements OnInit {
     @Input() subscribable?: SubscribableInput
-    
+    @Input() organizationId: Maybe<number>
+
     private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>
     private results$!: Observable<ApolloQueryResult<EventFeedQuery>>
 
@@ -34,6 +38,7 @@ export class EventFeedComponent implements OnInit {
     pageInfo$?: Observable<PageInfo>
     participants$?: Observable<LinkableUser[]>
     organizations$?: Observable<LinkableOrganization[]>
+    actions$?: Observable<SelectableAction[]>
 
     constructor(private  gql: EventFeedGQL) { }
 
@@ -41,6 +46,7 @@ export class EventFeedComponent implements OnInit {
         this.initialQueryVars = {
             subject: this.subscribable,
             first: this.pageSize,
+            organizationId: this.organizationId
         }
 
         this.queryRef = this.gql.watch(this.initialQueryVars, {fetchPolicy: 'cache-and-network'});
@@ -61,6 +67,10 @@ export class EventFeedComponent implements OnInit {
 
         this.organizations$ = this.results$.pipe(
             map(({data}) => data.events.participatingOrganizations)
+        )
+
+        this.actions$ = this.results$.pipe(
+            map(({data}) => data.events.eventTypes.map((et) => {return {id: et}}))
         )
     }
     
@@ -84,6 +94,12 @@ export class EventFeedComponent implements OnInit {
             ...this.initialQueryVars,
             originatingUserId: this.currentVariables().originatingUserId,
             organizationId: o?.id
+        })
+    }
+
+    onActionSelected(a: Maybe<SelectableAction>) {
+        this.queryRef.refetch({
+            eventType: a?.id
         })
     }
 
@@ -115,8 +131,10 @@ export class EventFeedComponent implements OnInit {
                 return 'check-circle'
             case(EventAction.Rejected):
                 return 'close-circle'
+            case(EventAction.PublicationSuggested):
+                return 'file-add'
             default:
-                throw new Error('Not handling all event action types yet')
+                throw new Error('Not handling all event action types yet: ' + a)
 
         }
     }
@@ -149,8 +167,10 @@ export class EventFeedComponent implements OnInit {
                 return 'accepted evience item'
             case(EventAction.Rejected):
                 return 'rejected evidence item'
+            case(EventAction.PublicationSuggested):
+                return 'suggested publication'
             default:
-                throw new Error('Not handling all event action types yet')
+                throw new Error('Not handling all event action types yet: ' + e.action)
         }
     }
 

@@ -65,6 +65,12 @@
                         <cvc-org-pill [org]="org"></cvc-org-pill>
                     </ng-template>
                 </cvc-participant-list>
+                <cvc-participant-list listTitle="Action" [participantList]="actions$ | ngrxPush"
+                    (participantSelectedEvent)="onActionSelected($event)">
+                    <ng-template #itemTemplate let-action>
+                        {{ action.id }}
+                    </ng-template>
+                </cvc-participant-list>
             </nz-col>
         </nz-row>
     </div>

@@ -18,6 +18,9 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:evidence_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of evidence underlying the assertion.') do |scope, value|
     scope.joins(:evidence_items).where('evidence_items.id = ?', value)
   end
+  option(:organization_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the organization the assertion was submitted under.') do  |scope, value|
+    scope.joins(:submission_event).where('events.organization_id = ?', value)
+  end
   option(:disease_name, type: GraphQL::Types::String, description: 'Substring filtering on disease name.') do |scope, value|
     scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
   end

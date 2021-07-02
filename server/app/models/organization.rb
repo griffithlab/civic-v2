@@ -2,13 +2,32 @@ class Organization < ActiveRecord::Base
   has_many :events
   has_many :affiliations
   has_many :users, through: :affiliations
+  has_many :groups, :class_name => 'Organization', :foreign_key => 'parent_id'
 
   has_one_attached :profile_image
   validates :profile_image, content_type: ['image/png', 'image/jpg', 'image/jpeg'],
     size: { less_than: 5.megabytes , message: 'Image must be smaller than 15MB' }
 
-  #TODO: stats hash
   #TODO: org membership helper methods
   #TODO: only allow one level of nesting
-  #TODO: Parent/child org relationships
+
+  def stats_hash
+    r_ids = Event.where(organization_id: org_and_suborg_ids, action: 'revision suggested').pluck(:originating_object_id).compact.uniq
+    e_ids = Event.where(organization_id: org_and_suborg_ids, action: 'submitted').pluck(:subject_id).uniq
+    a_ids = Event.where(organization_id: org_and_suborg_ids, action: 'assertion submitted').pluck(:subject_id).uniq
+    {
+      'comments': Event.where(organization_id: org_and_suborg_ids).where(action: 'commented').count,
+      'revisions': r_ids.count,
+      'applied_revisions': Revision.where(id: r_ids, status: 'accepted').count,
+      'submitted_evidence_items': e_ids.count,
+      'accepted_evidence_items': EvidenceItem.where(id: e_ids, status: 'accepted').count,
+      'suggested_sources': Event.where(organization_id: org_and_suborg_ids).where(action: 'publication suggested').count,
+      'submitted_assertions': a_ids.count,
+      'accepted_assertions': Assertion.where(id: a_ids, status: 'accepted').count,
+    }
+  end
+
+  def org_and_suborg_ids
+    return [self.id] + self.group_ids
+  end
 end
