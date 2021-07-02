@@ -5,7 +5,7 @@ class Variant < ActiveRecord::Base
   include Commentable
 
   belongs_to :gene
-  belongs_to :secondary_gene, class_name: 'Gene'
+  belongs_to :secondary_gene, class_name: 'Gene', optional: true
   has_many :evidence_items
   has_many :assertions
   has_and_belongs_to_many :variant_aliases
@@ -16,4 +16,14 @@ class Variant < ActiveRecord::Base
   has_one :evidence_items_by_status
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
+
+  validates :reference_bases, format: {
+    with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
+    message: "only allows A,C,T,G or /"
+  }, allow_nil: true
+
+  validates :variant_bases, format: {
+    with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
+    message: "only allows A,C,T,G or /"
+  }, allow_nil: true
 end

@@ -26,9 +26,7 @@ module Types::Revisions
     argument :gene_id, Int, required: true,
       description: 'The ID of the Gene this Variant corresponds to.'
     argument :reference_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true
-      #validates: { format: { with: /\A[ACTG]+\z/, allow_null: true } }
-    argument :variant_bases, String, required: true,
-      validates: { format: { with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/, allow_null: true } }
+    argument :variant_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
   end
 end
 
