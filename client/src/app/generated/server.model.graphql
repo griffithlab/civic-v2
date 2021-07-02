@@ -1097,6 +1097,7 @@ enum EvidenceDirection {
 
 type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
+  assertions: [Assertion!]!
   clinicalSignificance: EvidenceClinicalSignificance!
 
   """
@@ -1136,7 +1137,7 @@ type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisi
   description: String!
   disease: Disease
   drugInteractionType: DrugInteraction
-  drugs: [Drug!]
+  drugs: [Drug!]!
 
   """
   List and filter events for an object
@@ -1226,7 +1227,7 @@ type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisi
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   name: String!
-  phenotypes: [Phenotype!]
+  phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
   """

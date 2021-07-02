@@ -296,9 +296,10 @@ export type EventSubjectFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EvidenceItemKeySpecifier = ('acceptanceEvent' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'gene' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'phenotypes' | 'rejectionEvent' | 'revisions' | 'source' | 'status' | 'submissionEvent' | 'variant' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
+export type EvidenceItemKeySpecifier = ('acceptanceEvent' | 'assertions' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'gene' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'phenotypes' | 'rejectionEvent' | 'revisions' | 'source' | 'status' | 'submissionEvent' | 'variant' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
 export type EvidenceItemFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinicalSignificance?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,

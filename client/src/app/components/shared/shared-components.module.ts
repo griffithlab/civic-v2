@@ -68,6 +68,9 @@ import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.compo
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { UserCardComponent } from './user-card/user-card.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
+
 
 @NgModule({
   declarations: [
@@ -95,7 +98,8 @@ import { UserCardComponent } from './user-card/user-card.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
-    UserCardComponent
+    UserCardComponent,
+    EvidenceCardComponent
   ],
   imports: [
     CommonModule,
@@ -136,7 +140,8 @@ import { UserCardComponent } from './user-card/user-card.component';
     VariantsComponentsModule,
     NzSelectModule,
     NzPageHeaderModule,
-    NzTableModule
+    NzTableModule,
+    NzSwitchModule
   ],
   exports: [
     CommentAddComponent,
@@ -162,7 +167,8 @@ import { UserCardComponent } from './user-card/user-card.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
-    UserCardComponent
+    UserCardComponent,
+    EvidenceCardComponent
   ]
 })
 

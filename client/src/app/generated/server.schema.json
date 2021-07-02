@@ -5557,6 +5557,32 @@
               "deprecationReason": null
             },
             {
+              "name": "assertions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Assertion",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "clinicalSignificance",
               "description": null,
               "args": [
@@ -5716,15 +5742,19 @@
 
               ],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Drug",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Drug",
+                      "ofType": null
+                    }
                   }
                 }
               },
@@ -6142,15 +6172,19 @@
 
               ],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Phenotype",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Phenotype",
+                      "ofType": null
+                    }
                   }
                 }
               },

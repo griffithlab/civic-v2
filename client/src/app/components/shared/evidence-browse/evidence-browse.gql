@@ -65,6 +65,32 @@ fragment EvidenceGridFields on EvidenceItem {
       id
       name
     }
+    gene {
+      id
+      name
+    }
+    variant {
+      id
+      name
+    }
+    phenotypes{
+      id
+      hpoClass
+    }
+    source {
+      id
+      citation
+      citationId
+      sourceType
+      sourceUrl
+      clinicalTrials {
+        nctId
+      }
+    }
+    assertions {
+      id
+      name
+    }
     status
     drugInteractionType
     description

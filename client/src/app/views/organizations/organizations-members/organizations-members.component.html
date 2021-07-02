@@ -1,7 +1,7 @@
-<nz-space nzSize="middle" *ngIf="(organization$ | ngrxPush) as organization" nzDirection="vertical" class="space-align-block">
+<nz-space nzSize="middle" *ngIf="(members$ | ngrxPush) as members" nzDirection="vertical" class="space-align-block">
   <nz-space-item>
     <div nz-row [nzGutter]="16">
-      <div *ngFor="let member of organization.members" nz-col [nzSpan]="2">
+      <div *ngFor="let member of members" nz-col [nzSpan]="2">
         <cvc-user-card [user]="member"></cvc-user-card>
       </div>
     </div>

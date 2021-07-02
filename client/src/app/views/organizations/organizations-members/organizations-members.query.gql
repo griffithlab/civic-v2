@@ -3,22 +3,22 @@ query OrganizationMembers(
   $organizationId: Int!
 ) {
   organization(id: $organizationId) {
-    ...OrganizationMembersFields
+    members {
+      ...OrganizationMembersFields
+    }
   }
 }
 
-fragment OrganizationMembersFields on Organization {
-  members {
-    id
-    name
-    displayName
-    profileImagePath(size:36)
-    role
-    url
-    areaOfExpertise
-    orcid
-    twitterHandle
-    facebookProfile
-    linkedinProfile
-  }
+fragment OrganizationMembersFields on User {
+  id
+  name
+  displayName
+  profileImagePath(size:36)
+  role
+  url
+  areaOfExpertise
+  orcid
+  twitterHandle
+  facebookProfile
+  linkedinProfile
 } 

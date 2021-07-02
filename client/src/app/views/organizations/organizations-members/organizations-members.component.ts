@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 export class OrganizationsMembersComponent {
   queryRef: QueryRef<OrganizationMembersQuery, OrganizationMembersQueryVariables>;
 
-  organization$: Observable<Maybe<OrganizationMembersFieldsFragment>>;
+  members$: Observable<Maybe<OrganizationMembersFieldsFragment>[]>;
   loading$: Observable<boolean>;
   viewer$: Observable<Viewer>;
 
@@ -30,8 +30,8 @@ export class OrganizationsMembersComponent {
           pluck('loading'),
           startWith(true));
     
-      this.organization$ = observable.pipe(
-      pluck('data', 'organization'));
+      this.members$ = observable.pipe(
+      pluck('data', 'organization', 'members'));
   
       this.viewer$ = this.viewerService.viewer$;
   }

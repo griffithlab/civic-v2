@@ -712,13 +712,14 @@ export enum EvidenceDirection {
 export type EvidenceItem = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'EvidenceItem';
   acceptanceEvent?: Maybe<Event>;
+  assertions: Array<Assertion>;
   clinicalSignificance: EvidenceClinicalSignificance;
   /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
   disease?: Maybe<Disease>;
   drugInteractionType?: Maybe<DrugInteraction>;
-  drugs?: Maybe<Array<Drug>>;
+  drugs: Array<Drug>;
   /** List and filter events for an object */
   events: EventConnection;
   evidenceDirection?: Maybe<EvidenceDirection>;
@@ -734,7 +735,7 @@ export type EvidenceItem = Commentable & EventSubject & Flaggable & WithRevision
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
   name: Scalars['String'];
-  phenotypes?: Maybe<Array<Phenotype>>;
+  phenotypes: Array<Phenotype>;
   rejectionEvent?: Maybe<Event>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
@@ -2560,10 +2561,29 @@ export type EvidenceGridFieldsFragment = (
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'displayName'>
-  )>, drugs?: Maybe<Array<(
+  )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
-  )>> }
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoClass'>
+  )>, source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl'>
+    & { clinicalTrials?: Maybe<Array<(
+      { __typename: 'ClinicalTrial' }
+      & Pick<ClinicalTrial, 'nctId'>
+    )>> }
+  ), assertions: Array<(
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  )> }
 );
 
 export type FlagEntityMutationVariables = Exact<{
@@ -2673,28 +2693,6 @@ export type ResolveFlagMutation = (
       { __typename: 'Flag' }
       & Pick<Flag, 'id'>
     )> }
-  )> }
-);
-
-export type UserCardQueryVariables = Exact<{
-  userId: Scalars['Int'];
-}>;
-
-
-export type UserCardQuery = (
-  { __typename: 'Query' }
-  & { user?: Maybe<(
-    { __typename: 'User' }
-    & CardUserFragment
-  )> }
-);
-
-export type CardUserFragment = (
-  { __typename: 'User' }
-  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio'>
-  & { organizations: Array<(
-    { __typename: 'Organization' }
-    & Pick<Organization, 'id' | 'name'>
   )> }
 );
 
@@ -3112,16 +3110,16 @@ export type EvidenceSummaryQuery = (
 export type EvidenceSummaryFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
-  & { drugs?: Maybe<Array<(
+  & { drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
-  )>>, disease?: Maybe<(
+  )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
-  )>, phenotypes?: Maybe<Array<(
+    & Pick<Disease, 'id' | 'displayName'>
+  )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'hpoClass'>
-  )>>, source: (
+  )>, source: (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
     & { clinicalTrials?: Maybe<Array<(
@@ -3343,16 +3341,16 @@ export type OrganizationMembersQuery = (
   { __typename: 'Query' }
   & { organization?: Maybe<(
     { __typename: 'Organization' }
-    & OrganizationMembersFieldsFragment
+    & { members: Array<(
+      { __typename: 'User' }
+      & OrganizationMembersFieldsFragment
+    )> }
   )> }
 );
 
 export type OrganizationMembersFieldsFragment = (
-  { __typename: 'Organization' }
-  & { members: Array<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'name' | 'displayName' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
-  )> }
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'name' | 'displayName' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
 );
 
 export type BrowseSourcesQueryVariables = Exact<{
@@ -3706,6 +3704,32 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     id
     name
   }
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  phenotypes {
+    id
+    hpoClass
+  }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    sourceUrl
+    clinicalTrials {
+      nctId
+    }
+  }
+  assertions {
+    id
+    name
+  }
   status
   drugInteractionType
   description
@@ -3762,18 +3786,6 @@ export const HovercardOrgFragmentDoc = gql`
   name
   description
   url
-}
-    `;
-export const CardUserFragmentDoc = gql`
-    fragment cardUser on User {
-  id
-  profileImagePath(size: 64)
-  displayName
-  bio
-  organizations {
-    id
-    name
-  }
 }
     `;
 export const HovercardUserFragmentDoc = gql`
@@ -3951,7 +3963,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   drugInteractionType
   disease {
     id
-    name
+    displayName
   }
   phenotypes {
     id
@@ -4067,20 +4079,18 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
 }
     `;
 export const OrganizationMembersFieldsFragmentDoc = gql`
-    fragment OrganizationMembersFields on Organization {
-  members {
-    id
-    name
-    displayName
-    profileImagePath(size: 36)
-    role
-    url
-    areaOfExpertise
-    orcid
-    twitterHandle
-    facebookProfile
-    linkedinProfile
-  }
+    fragment OrganizationMembersFields on User {
+  id
+  name
+  displayName
+  profileImagePath(size: 36)
+  role
+  url
+  areaOfExpertise
+  orcid
+  twitterHandle
+  facebookProfile
+  linkedinProfile
 }
     `;
 export const BrowseSourceRowFieldsFragmentDoc = gql`
@@ -4463,24 +4473,6 @@ export const ResolveFlagDocument = gql`
   })
   export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
     document = ResolveFlagDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const UserCardDocument = gql`
-    query UserCard($userId: Int!) {
-  user(userId: $userId) {
-    ...cardUser
-  }
-}
-    ${CardUserFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UserCardGQL extends Apollo.Query<UserCardQuery, UserCardQueryVariables> {
-    document = UserCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -5085,7 +5077,9 @@ export const OrganizationDetailDocument = gql`
 export const OrganizationMembersDocument = gql`
     query OrganizationMembers($organizationId: Int!) {
   organization(id: $organizationId) {
-    ...OrganizationMembersFields
+    members {
+      ...OrganizationMembersFields
+    }
   }
 }
     ${OrganizationMembersFieldsFragmentDoc}`;
