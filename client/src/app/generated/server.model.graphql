@@ -736,6 +736,19 @@ type ClinicalTrial {
   nctId: String!
 }
 
+"""
+An input object representing possible ClinVar ID states.
+You may specify either one or more Integer IDs OR either none found or not applicable.
+"""
+input ClinvarInput {
+  """
+  The ClinVar ID(s)
+  """
+  ids: [Int!]
+  noneFound: Boolean
+  notApplicable: Boolean
+}
+
 type Comment implements EventOriginObject {
   comment: String!
   commenter: User!
@@ -866,6 +879,13 @@ type Coordinate {
   start: Int
   stop: Int
   variantBases: String
+}
+
+input CoordinateInput {
+  chromosome: String
+  representativeTranscript: String
+  start: Int
+  stop: Int
 }
 
 input DateSort {
@@ -1329,6 +1349,76 @@ type EvidenceItemEdge {
   The item at the end of the edge.
   """
   node: EvidenceItem
+}
+
+"""
+Fields on an EvidenceItem that curators may propose revisions to.
+"""
+input EvidenceItemFields {
+  """
+  The Clinical Significance of the EvidenceItem
+  """
+  clinicalSignificance: EvidenceClinicalSignificance!
+
+  """
+  The Evidence Items's description/summary text.
+  """
+  description: NullableStringInput!
+
+  """
+  The ID of the disease (if applicable) for this EvidenceItem
+  """
+  diseaseId: NullableIntInput!
+
+  """
+  List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none.
+  """
+  drugIds: [Int!]!
+
+  """
+  Drug interaction type for cases where more than one drug ID is provided.
+  """
+  drugInteractionType: NullableDrugInteractionTypeInput!
+
+  """
+  The evidence direction for this EvidenceItem.
+  """
+  evidenceDirection: EvidenceDirection!
+
+  """
+  The evidence level of the EvidenceItem
+  """
+  evidenceLevel: EvidenceLevel!
+
+  """
+  The Type of the EvidenceItem
+  """
+  evidenceType: EvidenceType!
+
+  """
+  List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none.
+  """
+  phenotypeIds: [Int!]!
+
+  """
+  The rating for this EvidenceItem
+  """
+  rating: Int!
+
+  """
+  The ID of the Source from which this EvidenceItem was curated.
+  """
+  sourceId: Int!
+
+  """
+  The ID of the Variant to which this EvidenceItem belongs
+  """
+  variantId: Int!
+
+  """
+  The Variant Origin for this EvidenceItem.
+  """
+  variantOrigin: VariantOrigin!
 }
 
 enum EvidenceLevel {
@@ -1829,6 +1919,9 @@ type GeneAlias {
   name: String!
 }
 
+"""
+Fields on a Gene that curators may propose revisions to.
+"""
 input GeneFields {
   """
   The Gene's description/summary text.
@@ -2045,6 +2138,16 @@ type Mutation {
   ): SubscribePayload
 
   """
+  Suggest a Revision to an EvidenceItem entity.
+  """
+  suggestEvidenceItemRevision(
+    """
+    Parameters for SuggestEvidenceItemRevision
+    """
+    input: SuggestEvidenceItemRevisionInput!
+  ): SuggestEvidenceItemRevisionPayload
+
+  """
   Suggest a Revision to a Gene entity.
   """
   suggestGeneRevision(
@@ -2053,6 +2156,16 @@ type Mutation {
     """
     input: SuggestGeneRevisionInput!
   ): SuggestGeneRevisionPayload
+
+  """
+  Suggest a Revision to a Variant entity.
+  """
+  suggestVariantRevision(
+    """
+    Parameters for SuggestVariantRevision
+    """
+    input: SuggestVariantRevisionInput!
+  ): SuggestVariantRevisionPayload
 
   """
   Unsubscribe from a CIViC entity to stop receiving notifications about it.
@@ -2125,6 +2238,78 @@ type NotificationEdge {
 enum NotificationReason {
   MENTION
   SUBSCRIPTION
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
+input NullableDrugInteractionTypeInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: DrugInteraction
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
+input NullableIntInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: Int
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
+input NullableReferenceBuildTypeInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: ReferenceBuild
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
+input NullableStringInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: String
 }
 
 type ObjectField {
@@ -3066,6 +3251,64 @@ type Subscription {
 }
 
 """
+Autogenerated input type of SuggestEvidenceItemRevision
+"""
+input SuggestEvidenceItemRevisionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Text describing the reason for the change. Will be attached to the Revision as a comment.
+  """
+  comment: String!
+
+  """
+  The desired state of the EvidenceItems's editable fields if the change were applied.
+  If no change is desired for a particular field, pass in the current value of that field.
+  """
+  fields: EvidenceItemFields!
+
+  """
+  The ID of the EvidenceItem to suggest a Revision to.
+  """
+  id: Int!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SuggestEvidenceItemRevision
+"""
+type SuggestEvidenceItemRevisionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The EvidenceItem the user has proposed a Revision to.
+  """
+  evidenceItem: EvidenceItem!
+
+  """
+  A list of Revisions generated as a result of this suggestion.
+  If an existing Revision exactly matches the proposed one, it will be returned instead.
+  This is indicated via the 'newlyCreated' Boolean.
+  Revisions are stored on a per-field basis.
+  The changesetId can be used to group Revisions proposed at the same time.
+  """
+  results: [RevisionResult!]!
+}
+
+"""
 Autogenerated input type of SuggestGeneRevision
 """
 input SuggestGeneRevisionInput {
@@ -3121,6 +3364,64 @@ type SuggestGeneRevisionPayload {
   The changesetId can be used to group Revisions proposed at the same time.
   """
   results: [RevisionResult!]!
+}
+
+"""
+Autogenerated input type of SuggestVariantRevision
+"""
+input SuggestVariantRevisionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Text describing the reason for the change. Will be attached to the Revision as a comment.
+  """
+  comment: String!
+
+  """
+  The desired state of the Variant's editable fields if the change were applied.
+  If no change is desired for a particular field, pass in the current value of that field.
+  """
+  fields: VariantFields!
+
+  """
+  The ID of the Variant to suggest a Revision to.
+  """
+  id: Int!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SuggestVariantRevision
+"""
+type SuggestVariantRevisionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  A list of Revisions generated as a result of this suggestion.
+  If an existing Revision exactly matches the proposed one, it will be returned instead.
+  This is indicated via the 'newlyCreated' Boolean.
+  Revisions are stored on a per-field basis.
+  The changesetId can be used to group Revisions proposed at the same time.
+  """
+  results: [RevisionResult!]!
+
+  """
+  The Variant the user has proposed a Revision to.
+  """
+  variant: Variant!
 }
 
 """
@@ -3510,6 +3811,81 @@ type VariantEdge {
   The item at the end of the edge.
   """
   node: Variant
+}
+
+"""
+Fields on a Variant that curators may propose revisions to.
+"""
+input VariantFields {
+  """
+  List of aliases or alternate names for the Variant.
+  """
+  aliases: [String!]!
+
+  """
+  List of ClinVar IDs for the Variant.
+  """
+  clinvarIds: ClinvarInput!
+
+  """
+  The Variant's description/summary text.
+  """
+  description: NullableStringInput!
+
+  """
+  The Ensembl database version.
+  """
+  ensemblVersion: Int!
+
+  """
+  The ID of the Gene this Variant corresponds to.
+  """
+  geneId: Int!
+
+  """
+  List of HGVS descriptions for the Variant.
+  """
+  hgvsDescriptions: [String!]!
+
+  """
+  The Variant's name.
+  """
+  name: String!
+
+  """
+  The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner.
+  """
+  primaryCoordinates: CoordinateInput!
+
+  """
+  Reference bases for this variant
+  """
+  referenceBases: NullableStringInput!
+
+  """
+  The reference build for the genomic coordinates of this Variant.
+  """
+  referenceBuild: NullableReferenceBuildTypeInput!
+
+  """
+  In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null.
+  """
+  secondaryCoordinates: CoordinateInput!
+
+  """
+  Source IDs cited by the Variant's summary.
+  """
+  sourceIds: [Int!]!
+
+  """
+  Variant bases for this variant
+  """
+  variantBases: NullableStringInput!
+
+  """
+  List of IDs for the variant types for this Variant
+  """
+  variantTypeIds: [Int!]!
 }
 
 input VariantGroupsSort {
