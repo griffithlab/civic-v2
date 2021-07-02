@@ -1,6 +1,8 @@
 class Types::NullableValueInputType
   @existing_types = {}
 
+  #usage: NullableValueInputType.for(SomeType)
+  #SomeType must itself be a valid input type (ie, Scalar, InputObject, or Enum)
   def self.for(input_type)
     valid_parents = [
       GraphQL::Schema::Scalar,
@@ -11,6 +13,7 @@ class Types::NullableValueInputType
       raise StandardError.new('Input type must be a GraphQL Scalar, Enum, or Input Object')
     end
 
+    #only define one wrapper type per wrapped type
     if @existing_types.has_key?(input_type)
       return @existing_types[input_type]
     else
@@ -22,6 +25,8 @@ class Types::NullableValueInputType
 
   private_class_method def self.generate_class(input_type: )
     className = "Nullable#{input_type.name.demodulize}InputType"
+
+    #define a new class that inherits from BaseInputObject
     klass = Class.new(Types::BaseInputObject) do
       description <<~DOC.strip
         An input object that represents a field value that can be "unset" or changed to null.
@@ -49,6 +54,7 @@ class Types::NullableValueInputType
       end
     end
 
+    #create a constant identifier for our new class based on the generated name
     Object.const_set(className, klass)
     return klass
   end
