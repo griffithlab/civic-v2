@@ -20,7 +20,7 @@ module Types::Revisions
     argument :ensembl_version, Int, required: true,
       description: 'The Ensembl database version.'
     argument :secondary_coordinates, Types::Revisions::CoordinateInputType, required: true,
-      description:  "In the case of Fusions these will be the coordinates of the 3' partner, otherwise null."
+      description:  "In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null."
     argument :primary_coordinates, Types::Revisions::CoordinateInputType, required: true,
       description:  "The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner."
     argument :gene_id, Int, required: true,

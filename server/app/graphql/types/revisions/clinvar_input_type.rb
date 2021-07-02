@@ -1,6 +1,6 @@
 module Types::Revisions
   class ClinvarInputType < Types::BaseInputObject
-    description <<~DOC.strip 
+    description <<~DOC.strip
     An input object representing possible ClinVar ID states.
     You may specify either one or more Integer IDs OR either none found or not applicable.
     DOC
