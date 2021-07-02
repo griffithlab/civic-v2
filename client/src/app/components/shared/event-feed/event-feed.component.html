@@ -1,8 +1,13 @@
 <ng-container *ngIf="events$ | ngrxPush as events">
-  <div class="event-feed">
+  <nz-card [nzTitle]="cardTitle"
+    id="card-content">
+    <ng-template #cardTitle>
+      <i nz-icon
+        [nzType]="iconNameForSubscribableEntity(subscribable.entityType)"
+        *ngIf="subscribable"></i> {{ subscribableName }} Events
+    </ng-template>
     <nz-row [nzGutter]="16">
       <nz-col nzSpan="18">
-        <h3>History</h3>
         <nz-timeline *ngIf="events.length">
           <nz-timeline-item *ngFor="let e of events"
             [nzDot]="timelineDotTemplate">
@@ -32,8 +37,7 @@
                   </ng-container>
                 </nz-space-item>
                 <nz-space-item>
-                  <span *ngIf="e.organization">
-                                        on behalf of <cvc-org-pill [org]="e.organization"></cvc-org-pill>
+                  <span *ngIf="e.organization"> on behalf of <cvc-org-pill [org]="e.organization"></cvc-org-pill>
                                     </span>
                 </nz-space-item>
               </nz-space>
@@ -49,7 +53,6 @@
             </ng-container>
           </nz-timeline-item>
         </nz-timeline>
-
         <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
           <div nz-list-load-more
             *ngIf="pageInfo.hasNextPage">
@@ -63,7 +66,6 @@
         </ng-container>
       </nz-col>
       <nz-col nzSpan="6">
-        <h3>Filter History</h3>
         <cvc-participant-list listTitle="Participants"
           [participantList]="participants$ | ngrxPush"
           (participantSelectedEvent)="onParticipantSelected($event)">
@@ -83,6 +85,5 @@
         </cvc-participant-list>
       </nz-col>
     </nz-row>
-  </div>
-
+  </nz-card>
 </ng-container>
