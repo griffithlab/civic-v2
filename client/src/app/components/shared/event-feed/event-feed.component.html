@@ -12,9 +12,19 @@
           <nz-timeline-item *ngFor="let e of events"
             [nzDot]="timelineDotTemplate">
             <ng-template #timelineDotTemplate>
-              <i nz-icon
-                [nzType]="iconNameForEventAction(e.action)"
-                style="font-size: 24px;"></i>
+              <ng-container *ngIf="iconColorForEventAction(e.action) !== 'default'; else defaultPrimaryColor">
+                <i nz-icon
+                  [nzType]="iconNameForEventAction(e.action)"
+                  [nzTwotoneColor]="iconColorForEventAction(e.action)"
+                  nzTheme="twotone"
+                  class="item-icon"></i>
+              </ng-container>
+              <ng-template #defaultPrimaryColor>
+                <i nz-icon
+                  [nzType]="iconNameForEventAction(e.action)"
+                  nzTheme="twotone"
+                  class="item-icon"></i>
+              </ng-template>
             </ng-template>
             <div class="event-feed-item">
               <nz-divider nz-tooltip
@@ -86,4 +96,4 @@
       </nz-col>
     </nz-row>
   </nz-card>
-</ng-container>
+  </ng-container>

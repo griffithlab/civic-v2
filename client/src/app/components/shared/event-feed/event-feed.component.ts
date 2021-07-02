@@ -32,8 +32,6 @@ export class EventFeedComponent implements OnInit {
   private initialQueryVars?: EventFeedQueryVariables;
   private pageSize = 5;
 
-  private iconName!: string;
-
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
   participants$?: Observable<LinkableUser[]>;
@@ -94,16 +92,48 @@ export class EventFeedComponent implements OnInit {
     })
   }
 
+  iconColorForEventAction(a: EventAction): string {
+    // returns status colors for entities that have statuses
+    switch (a) {
+      case (EventAction.RevisionSuggested):
+        return 'orange'
+      case (EventAction.RevisionAccepted):
+        return 'green'
+      case (EventAction.RevisionRejected):
+        return 'red'
+      case (EventAction.RevisionSuperseded):
+        return 'grey'
+      case (EventAction.Flagged):
+        return 'red'
+      case (EventAction.FlagResolved):
+        return 'green'
+      case (EventAction.AssertionSubmitted):
+        return 'orange'
+      case (EventAction.AssertionAccepted):
+        return 'green'
+      case (EventAction.AssertionRejected):
+        return 'red'
+      case (EventAction.Submitted):
+        return 'orange'
+      case (EventAction.Accepted):
+        return 'green'
+      case (EventAction.Rejected):
+        return 'red'
+      default:
+        return 'default'
+    }
+  }
+
   iconNameForEventAction(a: EventAction): string {
     switch (a) {
       case (EventAction.Commented):
-        return 'comment'
+        return 'civic-comment'
       case (EventAction.RevisionSuggested):
-        return 'diff'
+        return 'civic-revision'
       case (EventAction.RevisionAccepted):
-        return 'check-circle'
+        return 'civic-revision'
       case (EventAction.RevisionRejected):
-        return 'close-circle'
+        return 'civic-revision'
       case (EventAction.RevisionSuperseded):
         return 'clear'
       case (EventAction.Flagged):
