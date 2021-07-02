@@ -25,8 +25,10 @@ module Types::Revisions
       description:  "The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner."
     argument :gene_id, Int, required: true,
       description: 'The ID of the Gene this Variant corresponds to.'
-    argument :reference_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true
+    argument :reference_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
+      description: 'Reference bases for this variant'
     argument :variant_bases, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
+      description: 'Variant bases for this variant'
   end
 end
 
