@@ -1,0 +1,18 @@
+<nz-input-group nzSize="large" [nzSuffix]="suffixIcon">
+  <input placeholder="input here" nz-input [(ngModel)]="searchQuery" (ngModelChange)="refresh()"
+    [nzAutocomplete]="auto" />
+</nz-input-group>
+<ng-template #suffixIcon>
+  <i nz-icon nzType="search"></i>
+</ng-template>
+
+<nz-autocomplete #auto>
+  <ng-container *ngFor="let res of searchResults$ | ngrxPush">
+    <nz-auto-option [nzValue]="res.id">
+      <span>
+        <i nz-icon nzType="civic:{{ res.resultType | lowercase }}"></i>
+        {{res.previewText}}
+      </span>
+    </nz-auto-option>
+  </ng-container>
+</nz-autocomplete>

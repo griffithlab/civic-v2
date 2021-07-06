@@ -16,4 +16,14 @@ class Variant < ActiveRecord::Base
   has_one :evidence_items_by_status
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
+
+  searchkick
+  scope :search_import, -> { includes(:variant_aliases) }
+
+  def search_data
+    {
+      name: name,
+      aliases: variant_aliases.map(&:name)
+    }
+  end
 end

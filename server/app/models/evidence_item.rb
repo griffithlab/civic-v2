@@ -45,4 +45,5 @@ class EvidenceItem < ActiveRecord::Base
   def gene
     self.variant.gene
   end
+
 end

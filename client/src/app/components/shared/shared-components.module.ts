@@ -67,6 +67,8 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { QuicksearchComponent } from './quicksearch/quicksearch-component';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     ResolveFlagComponent,
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    QuicksearchComponent
   ],
   imports: [
     CommonModule,
@@ -134,7 +137,9 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     VariantsComponentsModule,
     NzSelectModule,
     NzPageHeaderModule,
-    NzTableModule
+    NzTableModule,
+    NzAutocompleteModule,
+    NzInputModule
   ],
   exports: [
     CommentAddComponent,
@@ -159,7 +164,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     ResolveFlagComponent,
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    QuicksearchComponent
   ]
 })
 

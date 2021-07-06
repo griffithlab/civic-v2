@@ -1386,6 +1386,7 @@ export type Query = {
   organization?: Maybe<Organization>;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
+  search: Array<SearchResult>;
   searchByPermalink: AdvancedSearchResult;
   searchGenes: AdvancedSearchResult;
   /** Find a source by CIViC ID */
@@ -1582,6 +1583,11 @@ export type QueryRemoteCitationArgs = {
 };
 
 
+export type QuerySearchArgs = {
+  query: Scalars['String'];
+};
+
+
 export type QuerySearchByPermalinkArgs = {
   permalinkId: Scalars['String'];
 };
@@ -1749,6 +1755,18 @@ export type ScalarField = {
   __typename: 'ScalarField';
   value?: Maybe<Scalars['String']>;
 };
+
+export type SearchResult = {
+  __typename: 'SearchResult';
+  id: Scalars['Int'];
+  previewText: Scalars['String'];
+  resultType: SearchableEntities;
+};
+
+export enum SearchableEntities {
+  Gene = 'GENE',
+  Variant = 'VARIANT'
+}
 
 export enum SortDirection {
   Asc = 'ASC',
@@ -2556,6 +2574,24 @@ export type OrgHoverCardQuery = (
 export type HovercardOrgFragment = (
   { __typename: 'Organization' }
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
+);
+
+export type QuicksearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type QuicksearchQuery = (
+  { __typename: 'Query' }
+  & { search: Array<(
+    { __typename: 'SearchResult' }
+    & QuicksearchResultFragment
+  )> }
+);
+
+export type QuicksearchResultFragment = (
+  { __typename: 'SearchResult' }
+  & Pick<SearchResult, 'id' | 'resultType' | 'previewText'>
 );
 
 export type ResolveFlagMutationVariables = Exact<{
@@ -3594,6 +3630,13 @@ export const HovercardOrgFragmentDoc = gql`
   url
 }
     `;
+export const QuicksearchResultFragmentDoc = gql`
+    fragment QuicksearchResult on SearchResult {
+  id
+  resultType
+  previewText
+}
+    `;
 export const HovercardUserFragmentDoc = gql`
     fragment hovercardUser on User {
   id
@@ -4217,6 +4260,24 @@ export const OrgHoverCardDocument = gql`
   })
   export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
     document = OrgHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuicksearchDocument = gql`
+    query Quicksearch($query: String!) {
+  search(query: $query) {
+    ...QuicksearchResult
+  }
+}
+    ${QuicksearchResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
+    document = QuicksearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
