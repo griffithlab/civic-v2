@@ -17,7 +17,17 @@ fragment OrganizationDetailFields on Organization {
     name
     profileImagePath(size: 12)
   }
-  statsHash {
+  orgStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  orgAndSuborgsStatsHash {
     comments
     revisions
     appliedRevisions

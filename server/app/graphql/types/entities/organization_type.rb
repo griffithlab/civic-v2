@@ -6,7 +6,8 @@ module Types::Entities
     field :description, String, null: false
     field :events, Types::Entities::EventType.connection_type, null: false
     field :sub_groups, [Types::Entities::OrganizationType], null: false
-    field :stats_hash, Types::OrgStatsType, null: false
+    field :org_stats_hash, Types::OrgStatsType, null: false
+    field :org_and_suborgs_stats_hash, Types::OrgStatsType, null: false
     field :members, [Types::Entities::UserType], null: false
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]

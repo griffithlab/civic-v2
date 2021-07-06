@@ -108,45 +108,93 @@
                     <nz-row>
                       <p nz-typography><b>Description: </b>{{ organization.description }}</p>
                     </nz-row>
+                    <nz-row>
+                      <p nz-typography><b>Organization Statistics <span *ngIf="organization.subGroups.length > 0">(Excl. Child Organizations)</span></b></p>
+                    </nz-row>
                     <nz-row [nzGutter]="16">
                       <nz-col [nzSpan]="2">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                       <nz-col [nzSpan]="3">
                         <nz-card>
-                          <nz-statistic [nzValue]="(organization.statsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
+                          <nz-statistic [nzValue]="(organization.orgStatsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                    </nz-row>
+                    <nz-row>
+                      <p nz-typography *ngIf="organization.subGroups.length > 0"><b>Organization Statistics (Incl. Child Organizations)</b></p>
+                    </nz-row>
+                    <nz-row  *ngIf="organization.subGroups.length > 0" [nzGutter]="16">
+                      <nz-col [nzSpan]="2">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
                         </nz-card>
                       </nz-col>
                     </nz-row>

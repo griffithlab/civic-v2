@@ -1332,8 +1332,9 @@ export type Organization = {
   id: Scalars['Int'];
   members: Array<User>;
   name: Scalars['String'];
+  orgAndSuborgsStatsHash: OrgStats;
+  orgStatsHash: OrgStats;
   profileImagePath?: Maybe<Scalars['String']>;
-  statsHash: OrgStats;
   subGroups: Array<Organization>;
   url: Scalars['String'];
 };
@@ -3332,7 +3333,10 @@ export type OrganizationDetailFieldsFragment = (
   & { subGroups: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-  )>, statsHash: (
+  )>, orgStatsHash: (
+    { __typename: 'OrgStats' }
+    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+  ), orgAndSuborgsStatsHash: (
     { __typename: 'OrgStats' }
     & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ) }
@@ -4083,7 +4087,17 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
     name
     profileImagePath(size: 12)
   }
-  statsHash {
+  orgStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  orgAndSuborgsStatsHash {
     comments
     revisions
     appliedRevisions

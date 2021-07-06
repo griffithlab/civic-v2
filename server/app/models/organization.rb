@@ -11,7 +11,7 @@ class Organization < ActiveRecord::Base
   #TODO: org membership helper methods
   #TODO: only allow one level of nesting
 
-  def stats_hash
+  def org_and_suborgs_stats_hash
     r_ids = Event.where(organization_id: org_and_suborg_ids, action: 'revision suggested').pluck(:originating_object_id).compact.uniq
     e_ids = Event.where(organization_id: org_and_suborg_ids, action: 'submitted').pluck(:subject_id).uniq
     a_ids = Event.where(organization_id: org_and_suborg_ids, action: 'assertion submitted').pluck(:subject_id).uniq
@@ -22,6 +22,22 @@ class Organization < ActiveRecord::Base
       'submitted_evidence_items': e_ids.count,
       'accepted_evidence_items': EvidenceItem.where(id: e_ids, status: 'accepted').count,
       'suggested_sources': Event.where(organization_id: org_and_suborg_ids).where(action: 'publication suggested').count,
+      'submitted_assertions': a_ids.count,
+      'accepted_assertions': Assertion.where(id: a_ids, status: 'accepted').count,
+    }
+  end
+
+  def org_stats_hash
+    r_ids = Event.where(organization_id: self.id, action: 'revision suggested').pluck(:originating_object_id).compact.uniq
+    e_ids = Event.where(organization_id: self.id, action: 'submitted').pluck(:subject_id).uniq
+    a_ids = Event.where(organization_id: self.id, action: 'assertion submitted').pluck(:subject_id).uniq
+    {
+      'comments': Event.where(organization_id: self.id).where(action: 'commented').count,
+      'revisions': r_ids.count,
+      'applied_revisions': Revision.where(id: r_ids, status: 'accepted').count,
+      'submitted_evidence_items': e_ids.count,
+      'accepted_evidence_items': EvidenceItem.where(id: e_ids, status: 'accepted').count,
+      'suggested_sources': Event.where(organization_id: self.id).where(action: 'publication suggested').count,
       'submitted_assertions': a_ids.count,
       'accepted_assertions': Assertion.where(id: a_ids, status: 'accepted').count,
     }

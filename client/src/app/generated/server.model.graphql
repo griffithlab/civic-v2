@@ -2175,8 +2175,9 @@ type Organization {
   id: Int!
   members: [User!]!
   name: String!
+  orgAndSuborgsStatsHash: OrgStats!
+  orgStatsHash: OrgStats!
   profileImagePath(size: Int = 56): String
-  statsHash: OrgStats!
   subGroups: [Organization!]!
   url: String!
 }
