@@ -39,7 +39,7 @@
                 <cvc-user-tag [user]="e.originatingUser"></cvc-user-tag>
 
                 <!-- event action -->
-                <span nz-typography>{{ verbiageForEvent(e) }}</span>
+                <span nz-typography>{{ verbiageForEvent(e) }}&nbsp;</span>
 
                 <!-- event subject -->
                 <ng-container [ngSwitch]="e.subject.__typename">
@@ -51,7 +51,7 @@
 
                 <!-- user organization -->
                 <ng-container *ngIf="e.organization">
-                  <span nz-typography>on behalf of</span>
+                  <span nz-typography>on behalf of&nbsp;</span>
                   <cvc-org-tag [org]="e.organization"></cvc-org-tag>
                 </ng-container>
               </ng-template>

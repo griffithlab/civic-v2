@@ -10,6 +10,15 @@
   }
 }
 
-.event-feed-card {
+@event-feed-card-padding-top: .25em;
+.event-feed-card ::ng-deep {
   width: 100%;
+  .ant-card-head-title, .ant-card-extra {
+    // remove card title  & extra padding so title is more or less centered w/ timeline's avatar circle
+    padding-top: @event-feed-card-padding-top;
+  }
+  .ant-card-head {
+    // reduce left padding so title is a bit closer to timeline avatar circle
+    padding-left: .25em;
+  }
 }
