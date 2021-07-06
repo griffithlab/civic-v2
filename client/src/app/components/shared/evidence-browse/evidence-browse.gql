@@ -16,7 +16,8 @@ query EvidenceBrowse(
   $variantId: Int
   $assertionId: Int
   $organizationId: Int
-  $sortBy: EvidenceSort
+  $sortBy: EvidenceSort,
+  $cardView: Boolean!
 ) {
   evidenceItems(
     first: $first
@@ -73,11 +74,11 @@ fragment EvidenceGridFields on EvidenceItem {
       id
       name
     }
-    phenotypes{
+    phenotypes @include(if: $cardView) {
       id
       hpoClass
     }
-    source {
+    source @include(if: $cardView)  {
       id
       citation
       citationId
@@ -87,7 +88,7 @@ fragment EvidenceGridFields on EvidenceItem {
         nctId
       }
     }
-    assertions {
+    assertions @include(if: $cardView) {
       id
       name
     }

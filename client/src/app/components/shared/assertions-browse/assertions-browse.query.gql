@@ -16,7 +16,8 @@ query AssertionsBrowse (
   $variantName: String,
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
-  $organizationId: Int
+  $organizationId: Int,
+  $cardView: Boolean!
 ) {
   assertions(
     first: $first
@@ -73,7 +74,7 @@ fragment AssertionBrowseTableRowFields on Assertion {
     id
     name
   }
-  phenotypes {
+  phenotypes @include(if: $cardView) {
     id
     hpoClass
   }
@@ -83,11 +84,11 @@ fragment AssertionBrowseTableRowFields on Assertion {
   assertionDirection
   clinicalSignificance
   ampLevel
-  acmgCodes {
+  acmgCodes @include(if: $cardView) {
     code
   }
-  fdaCompanionTest
-  regulatoryApproval
-  nccnGuideline
-  variantOrigin
+  fdaCompanionTest @include(if: $cardView)
+  regulatoryApproval @include(if: $cardView)
+  nccnGuideline @include(if: $cardView)
+  variantOrigin @include(if: $cardView)
 }

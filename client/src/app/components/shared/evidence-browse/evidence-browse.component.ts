@@ -49,7 +49,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       first: this.initialPageSize,
       variantId: this.variantId,
       assertionId: this.assertionId,
-      organizationId: this.organizationId
+      organizationId: this.organizationId,
+      cardView: !this.tableView
     }, { fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
 
     let observable = this.queryRef.valueChanges;
@@ -91,14 +92,15 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined
+      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+      cardView: !this.tableView
     })
   }
 
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({ sortBy: buildSortParams(e) })
+    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
   
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }

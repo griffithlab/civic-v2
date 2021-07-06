@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection,  EvidenceType, Maybe, PageInfo, QueryAssertionsArgs } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection,  EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/shared/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -16,7 +16,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   @Input() organizationId: Maybe<number>
 
   private initialPageSize = 25
-  private queryRef!: QueryRef<AssertionsBrowseQuery, QueryAssertionsArgs>
+  private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
@@ -49,7 +49,8 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       first: this.initialPageSize,
       variantId: this.variantId,
       evidenceId: this.evidenceId,
-      organizationId: this.organizationId
+      organizationId: this.organizationId,
+      cardView: !this.tableView
 
     }, { fetchPolicy: 'cache-and-network' });
 
@@ -93,13 +94,14 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
+      cardView: !this.tableView
     })
   }
 
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({ sortBy: buildSortParams(e) })
+    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
   
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }

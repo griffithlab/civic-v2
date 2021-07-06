@@ -72,7 +72,9 @@ module Types::Entities
     end
 
     def nccn_guideline
-      object.nccn_guideline&.name
+      Loaders::AssociationLoader.for(Assertion, :nccn_guideline).load(object).then do | nccn_guideline |
+        nccn_guideline&.name
+      end
     end
 
     def submission_event

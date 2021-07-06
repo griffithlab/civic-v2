@@ -2317,6 +2317,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   sortBy?: Maybe<AssertionSort>;
   ampLevel?: Maybe<AmpLevel>;
   organizationId?: Maybe<Scalars['Int']>;
+  cardView: Scalars['Boolean'];
 }>;
 
 
@@ -2341,7 +2342,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -2540,6 +2541,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   assertionId?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
+  cardView: Scalars['Boolean'];
 }>;
 
 
@@ -3618,7 +3620,7 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     id
     name
   }
-  phenotypes {
+  phenotypes @include(if: $cardView) {
     id
     hpoClass
   }
@@ -3628,13 +3630,13 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   assertionDirection
   clinicalSignificance
   ampLevel
-  acmgCodes {
+  acmgCodes @include(if: $cardView) {
     code
   }
-  fdaCompanionTest
-  regulatoryApproval
-  nccnGuideline
-  variantOrigin
+  fdaCompanionTest @include(if: $cardView)
+  regulatoryApproval @include(if: $cardView)
+  nccnGuideline @include(if: $cardView)
+  variantOrigin @include(if: $cardView)
 }
     `;
 export const CommentListNodeFragmentDoc = gql`
@@ -3758,11 +3760,11 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     id
     name
   }
-  phenotypes {
+  phenotypes @include(if: $cardView) {
     id
     hpoClass
   }
-  source {
+  source @include(if: $cardView) {
     id
     citation
     citationId
@@ -3772,7 +3774,7 @@ export const EvidenceGridFieldsFragmentDoc = gql`
       nctId
     }
   }
-  assertions {
+  assertions @include(if: $cardView) {
     id
     name
   }
@@ -4278,7 +4280,7 @@ export const GeneHoverCardDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -4418,7 +4420,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $sortBy: EvidenceSort) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $sortBy: EvidenceSort, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last

@@ -5,7 +5,7 @@
     <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
   </nz-page-header-title>
   <nz-page-header-extra>
-    Card View <nz-switch [(ngModel)]="tableView"></nz-switch> Table View
+    Card View <nz-switch [(ngModel)]="tableView" (ngModelChange)="refresh()"></nz-switch> Table View
   </nz-page-header-extra>
 
   <nz-page-header-content>
