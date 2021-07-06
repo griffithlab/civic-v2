@@ -153,7 +153,7 @@ enum AmpLevel {
 
 type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
-  acmgCodes: [AcmgCode!]
+  acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
   assertionDirection: EvidenceDirection!
   assertionType: EvidenceType!
@@ -196,7 +196,7 @@ type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions
   description: String!
   disease: Disease
   drugInteractionType: DrugInteraction
-  drugs: [Drug!]
+  drugs: [Drug!]!
 
   """
   List and filter events for an object
@@ -284,7 +284,7 @@ type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions
   lastSubmittedRevisionEvent: Event
   name: String!
   nccnGuideline: String
-  phenotypes: [Phenotype!]
+  phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   rejectionEvent: Event
 

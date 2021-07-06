@@ -73,10 +73,21 @@ fragment AssertionBrowseTableRowFields on Assertion {
     id
     name
   }
+  phenotypes {
+    id
+    hpoClass
+  }
   drugInteractionType
   summary
   assertionType
   assertionDirection
   clinicalSignificance
   ampLevel
+  acmgCodes {
+    code
+  }
+  fdaCompanionTest
+  regulatoryApproval
+  nccnGuideline
+  variantOrigin
 }

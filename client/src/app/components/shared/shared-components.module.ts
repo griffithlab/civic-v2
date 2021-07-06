@@ -70,6 +70,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { UserCardComponent } from './user-card/user-card.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
+import { AssertionCardComponent } from './assertion-card/assertion-card.component';
 
 
 @NgModule({
@@ -99,7 +100,8 @@ import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
     UserCardComponent,
-    EvidenceCardComponent
+    EvidenceCardComponent,
+    AssertionCardComponent
   ],
   imports: [
     CommonModule,
@@ -168,7 +170,8 @@ import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
     UserCardComponent,
-    EvidenceCardComponent
+    EvidenceCardComponent,
+    AssertionCardComponent
   ]
 })
 

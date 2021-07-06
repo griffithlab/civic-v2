@@ -123,7 +123,7 @@ export enum AmpLevel {
 export type Assertion = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Assertion';
   acceptanceEvent?: Maybe<Event>;
-  acmgCodes?: Maybe<Array<AcmgCode>>;
+  acmgCodes: Array<AcmgCode>;
   ampLevel?: Maybe<AmpLevel>;
   assertionDirection: EvidenceDirection;
   assertionType: EvidenceType;
@@ -133,7 +133,7 @@ export type Assertion = Commentable & EventSubject & Flaggable & WithRevisions &
   description: Scalars['String'];
   disease?: Maybe<Disease>;
   drugInteractionType?: Maybe<DrugInteraction>;
-  drugs?: Maybe<Array<Drug>>;
+  drugs: Array<Drug>;
   /** List and filter events for an object */
   events: EventConnection;
   fdaCompanionTest?: Maybe<Scalars['Boolean']>;
@@ -147,7 +147,7 @@ export type Assertion = Commentable & EventSubject & Flaggable & WithRevisions &
   lastSubmittedRevisionEvent?: Maybe<Event>;
   name: Scalars['String'];
   nccnGuideline?: Maybe<Scalars['String']>;
-  phenotypes?: Maybe<Array<Phenotype>>;
+  phenotypes: Array<Phenotype>;
   regulatoryApproval?: Maybe<Scalars['Boolean']>;
   rejectionEvent?: Maybe<Event>;
   /** List and filter revisions. */
@@ -2340,7 +2340,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel'>
+  & Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -2350,10 +2350,16 @@ export type AssertionBrowseTableRowFieldsFragment = (
   ), disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'displayName'>
-  )>, drugs?: Maybe<Array<(
+  )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
-  )>> }
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoClass'>
+  )>, acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'code'>
+  )> }
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -3003,16 +3009,16 @@ export type AssertionSummaryFieldsFragment = (
   ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
-  ), drugs?: Maybe<Array<(
+  ), drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'ncitId' | 'name'>
-  )>>, phenotypes?: Maybe<Array<(
+  )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'hpoClass'>
-  )>>, acmgCodes?: Maybe<Array<(
+  )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
-  )>>, flags: (
+  )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
   ), revisions: (
@@ -3583,12 +3589,23 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     id
     name
   }
+  phenotypes {
+    id
+    hpoClass
+  }
   drugInteractionType
   summary
   assertionType
   assertionDirection
   clinicalSignificance
   ampLevel
+  acmgCodes {
+    code
+  }
+  fdaCompanionTest
+  regulatoryApproval
+  nccnGuideline
+  variantOrigin
 }
     `;
 export const CommentListNodeFragmentDoc = gql`

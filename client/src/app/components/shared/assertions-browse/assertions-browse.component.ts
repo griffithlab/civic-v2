@@ -24,6 +24,8 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   totalCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
 
+  tableView: boolean = true
+
   textInputCallback?: () => void
 
   //filters
