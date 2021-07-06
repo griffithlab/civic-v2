@@ -4,6 +4,7 @@ import { OrganizationsAssertionsComponent } from './organizations-assertions/org
 import { OrganizationsDetailComponent } from './organizations-detail/organizations-detail.component';
 import { OrganizationsEventsComponent } from './organizations-events/organizations-events.component';
 import { OrganizationsEvidenceComponent } from './organizations-evidence/organizations-evidence.component';
+import { OrganizationsGroupsComponent } from './organizations-groups/organizations-groups.component';
 import { OrganizationsMembersComponent } from './organizations-members/organizations-members.component';
 
 import { OrganizationsComponent } from './organizations.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
           {
             path: 'members',
             component: OrganizationsMembersComponent
+          },
+          {
+            path: 'groups',
+            component: OrganizationsGroupsComponent
           },
           {
             path: 'evidence',

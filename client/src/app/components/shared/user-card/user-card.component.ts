@@ -11,7 +11,7 @@ export class UserCardComponent implements OnInit {
 
     ngOnInit(){
         if(this.user == undefined) {
-            throw new Error("Must pass a user into user hovercard");
+            throw new Error("Must pass a user into user card");
         }
     }
 }

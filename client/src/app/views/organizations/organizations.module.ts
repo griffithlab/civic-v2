@@ -39,6 +39,7 @@ import { OrganizationsAssertionsComponent } from './organizations-assertions/org
 import { OrganizationsEventsComponent } from './organizations-events/organizations-events.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { OrganizationsGroupsComponent } from './organizations-groups/organizations-groups.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     OrganizationsMembersComponent,
     OrganizationsEvidenceComponent,
     OrganizationsAssertionsComponent,
-    OrganizationsEventsComponent
+    OrganizationsEventsComponent,
+    OrganizationsGroupsComponent
   ],
   imports: [
     CommonModule,
@@ -92,7 +94,8 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     OrganizationsMembersComponent,
     OrganizationsEvidenceComponent,
     OrganizationsAssertionsComponent,
-    OrganizationsEventsComponent
+    OrganizationsEventsComponent,
+    OrganizationsGroupsComponent
   ]
 })
 export class OrganizationsModule { }

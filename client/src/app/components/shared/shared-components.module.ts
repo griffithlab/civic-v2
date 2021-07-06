@@ -71,6 +71,10 @@ import { UserCardComponent } from './user-card/user-card.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
 import { AssertionCardComponent } from './assertion-card/assertion-card.component';
+import { OrganizationCardComponent } from './organization-card/organization-card.component';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
 
 
 @NgModule({
@@ -101,7 +105,9 @@ import { AssertionCardComponent } from './assertion-card/assertion-card.componen
     EvidenceBrowseComponent,
     UserCardComponent,
     EvidenceCardComponent,
-    AssertionCardComponent
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent
   ],
   imports: [
     CommonModule,
@@ -143,7 +149,9 @@ import { AssertionCardComponent } from './assertion-card/assertion-card.componen
     NzSelectModule,
     NzPageHeaderModule,
     NzTableModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzStatisticModule,
+    NzImageModule,
   ],
   exports: [
     CommentAddComponent,
@@ -171,7 +179,9 @@ import { AssertionCardComponent } from './assertion-card/assertion-card.componen
     EvidenceBrowseComponent,
     UserCardComponent,
     EvidenceCardComponent,
-    AssertionCardComponent
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent
   ]
 })
 

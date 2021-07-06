@@ -30,6 +30,19 @@
             </button>
           </nz-button-group>
         </nz-space-item>
+        <nz-space-item *ngIf="organization.subGroups.length > 0">
+          <nz-button-group>
+            <button routerLink="groups"
+              routerLinkActive
+              #rlaGroups="routerLinkActive"
+              [nzType]="rlaGroups.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:organization"></i>Child Organizations
+            </button>
+          </nz-button-group>
+        </nz-space-item>
         <nz-space-item>
           <nz-button-group>
             <button routerLink="evidence"

@@ -3342,6 +3342,31 @@ export type OrganizationDetailFieldsFragment = (
   ) }
 );
 
+export type OrganizationGroupsQueryVariables = Exact<{
+  organizationId: Scalars['Int'];
+}>;
+
+
+export type OrganizationGroupsQuery = (
+  { __typename: 'Query' }
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & { subGroups: Array<(
+      { __typename: 'Organization' }
+      & OrganizationGroupsFieldsFragment
+    )> }
+  )> }
+);
+
+export type OrganizationGroupsFieldsFragment = (
+  { __typename: 'Organization' }
+  & Pick<Organization, 'id' | 'name' | 'description' | 'profileImagePath'>
+  & { orgStatsHash: (
+    { __typename: 'OrgStats' }
+    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+  ) }
+);
+
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
 }>;
@@ -4098,6 +4123,24 @@ export const OrganizationDetailFieldsFragmentDoc = gql`
     acceptedAssertions
   }
   orgAndSuborgsStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+}
+    `;
+export const OrganizationGroupsFieldsFragmentDoc = gql`
+    fragment OrganizationGroupsFields on Organization {
+  id
+  name
+  description
+  profileImagePath(size: 12)
+  orgStatsHash {
     comments
     revisions
     appliedRevisions
@@ -5100,6 +5143,26 @@ export const OrganizationDetailDocument = gql`
   })
   export class OrganizationDetailGQL extends Apollo.Query<OrganizationDetailQuery, OrganizationDetailQueryVariables> {
     document = OrganizationDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrganizationGroupsDocument = gql`
+    query OrganizationGroups($organizationId: Int!) {
+  organization(id: $organizationId) {
+    subGroups {
+      ...OrganizationGroupsFields
+    }
+  }
+}
+    ${OrganizationGroupsFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationGroupsGQL extends Apollo.Query<OrganizationGroupsQuery, OrganizationGroupsQueryVariables> {
+    document = OrganizationGroupsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
