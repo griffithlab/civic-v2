@@ -1,8 +1,7 @@
-<ng-container *ngIf="(totalCount$ | ngrxPush) > 0">
 <nz-page-header class="site-page-header">
   <nz-page-header-title>
     <i nz-icon nzType="civic:assertion"></i>
-    Assertions Card View
+    Assertions
     <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
   </nz-page-header-title>
   <nz-page-header-extra>
@@ -183,4 +182,3 @@
     </div>
   </nz-page-header-content>
 </nz-page-header>
-</ng-container>

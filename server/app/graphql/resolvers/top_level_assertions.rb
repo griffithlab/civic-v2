@@ -9,7 +9,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
 
   scope { Assertion.all.order(:id) }
 
-  option(:id, type: GraphQL::Types::Int, description: 'Left anchored filtering on the ID of the assertion.') do |scope, value|1
+  option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the assertion.') do |scope, value|
     scope.where("assertions.id = ?", value)
   end
   option(:variant_id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the variant.') do |scope, value|
@@ -31,7 +31,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     scope.joins(:gene).where('genes.name ILIKE ?', "%#{value}%")
   end
   option(:variant_name, type: GraphQL::Types::String, description: 'Substring filtering on variant name.') do |scope, value|
-    scope.joins(:variant).where('varaints.name ILIKE ?', "%#{value}%")
+    scope.joins(:variant).where('variants.name ILIKE ?', "%#{value}%")
   end
   option(:summary, type: GraphQL::Types::String, description: 'Substring filtering on assertion description.') do |scope, value|
     scope.where("assertions.summary ILIKE ?", "%#{value}%")

@@ -10750,7 +10750,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "Left anchored filtering on the ID of the assertion.",
+                  "description": "Exact match filtering on the ID of the assertion.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -11921,7 +11921,7 @@
               "args": [
                 {
                   "name": "id",
-                  "description": "Left anchored filtering on the ID of the evidence item.",
+                  "description": "Exact match filtering on the ID of the evidence item.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
