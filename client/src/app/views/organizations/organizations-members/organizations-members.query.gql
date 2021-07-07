@@ -4,7 +4,12 @@ query OrganizationMembers(
 ) {
   organization(id: $organizationId) {
     members {
-      ...OrganizationMembersFields
+      edges {
+        cursor
+        node {
+          ...OrganizationMembersFields
+        }
+      }
     }
   }
 }
@@ -13,6 +18,7 @@ fragment OrganizationMembersFields on User {
   id
   name
   displayName
+  userName
   profileImagePath(size:36)
   role
   url

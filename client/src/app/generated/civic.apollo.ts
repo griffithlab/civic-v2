@@ -1328,9 +1328,12 @@ export type OrgStats = {
 export type Organization = {
   __typename: 'Organization';
   description: Scalars['String'];
+  eventCount: Scalars['Int'];
   events: EventConnection;
   id: Scalars['Int'];
-  members: Array<User>;
+  memberCount: Scalars['Int'];
+  members: UserConnection;
+  mostRecentEvent?: Maybe<Event>;
   name: Scalars['String'];
   orgAndSuborgsStatsHash: OrgStats;
   orgStatsHash: OrgStats;
@@ -1348,8 +1351,40 @@ export type OrganizationEventsArgs = {
 };
 
 
+export type OrganizationMembersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
 export type OrganizationProfileImagePathArgs = {
   size?: Maybe<Scalars['Int']>;
+};
+
+/** The connection type for Organization. */
+export type OrganizationConnection = {
+  __typename: 'OrganizationConnection';
+  /** A list of edges. */
+  edges: Array<OrganizationEdge>;
+  /** A list of nodes. */
+  nodes: Array<Organization>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type OrganizationEdge = {
+  __typename: 'OrganizationEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Organization>;
 };
 
 /** Filter on organization id and whether or not to include the organization's subgroups */
@@ -1359,6 +1394,18 @@ export type OrganizationFilter = {
   /** Whether or not to include the organization's subgroup. */
   includeSubgroups?: Maybe<Scalars['Boolean']>;
 };
+
+export type OrganizationSort = {
+  /** Available columns for sorting */
+  column: OrganizationSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum OrganizationSortColumns {
+  Id = 'ID',
+  Name = 'NAME'
+}
 
 /** Information about pagination in a connection. */
 export type PageInfo = {
@@ -1409,6 +1456,8 @@ export type Query = {
   gene?: Maybe<Gene>;
   /** Find an organization by CIViC ID */
   organization?: Maybe<Organization>;
+  /** List and filter organizations. */
+  organizations: OrganizationConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
   searchByPermalink: AdvancedSearchResult;
@@ -1602,6 +1651,17 @@ export type QueryGeneArgs = {
 
 export type QueryOrganizationArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryOrganizationsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<OrganizationSort>;
 };
 
 
@@ -2689,6 +2749,49 @@ export type HovercardOrgFragment = (
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
 );
 
+export type OrganizationsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  orgName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<OrganizationSort>;
+  cardView: Scalars['Boolean'];
+}>;
+
+
+export type OrganizationsBrowseQuery = (
+  { __typename: 'Query' }
+  & { organizations: (
+    { __typename: 'OrganizationConnection' }
+    & Pick<OrganizationConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'OrganizationEdge' }
+      & Pick<OrganizationEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Organization' }
+        & OrganizationBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type OrganizationBrowseTableRowFieldsFragment = (
+  { __typename: 'Organization' }
+  & MakeOptional<Pick<Organization, 'id' | 'name' | 'description' | 'profileImagePath' | 'url' | 'memberCount' | 'eventCount'>, 'description' | 'profileImagePath'>
+  & { mostRecentEvent?: Maybe<(
+    { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
+  )>, orgStatsHash: (
+    { __typename: 'OrgStats' }
+    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+  ) }
+);
+
 export type ResolveFlagMutationVariables = Exact<{
   input: ResolveFlagInput;
 }>;
@@ -3378,10 +3481,17 @@ export type OrganizationMembersQuery = (
   { __typename: 'Query' }
   & { organization?: Maybe<(
     { __typename: 'Organization' }
-    & { members: Array<(
-      { __typename: 'User' }
-      & OrganizationMembersFieldsFragment
-    )> }
+    & { members: (
+      { __typename: 'UserConnection' }
+      & { edges: Array<(
+        { __typename: 'UserEdge' }
+        & Pick<UserEdge, 'cursor'>
+        & { node?: Maybe<(
+          { __typename: 'User' }
+          & OrganizationMembersFieldsFragment
+        )> }
+      )> }
+    ) }
   )> }
 );
 
@@ -3834,6 +3944,30 @@ export const HovercardOrgFragmentDoc = gql`
   name
   description
   url
+}
+    `;
+export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
+    fragment OrganizationBrowseTableRowFields on Organization {
+  id
+  name
+  description @include(if: $cardView)
+  profileImagePath(size: 256) @include(if: $cardView)
+  url
+  memberCount
+  eventCount
+  mostRecentEvent {
+    createdAt
+  }
+  orgStatsHash @include(if: $cardView) {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
 }
     `;
 export const HovercardUserFragmentDoc = gql`
@@ -4534,6 +4668,44 @@ export const OrgHoverCardDocument = gql`
       super(apollo);
     }
   }
+export const OrganizationsBrowseDocument = gql`
+    query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $orgName: String, $sortBy: OrganizationSort, $cardView: Boolean!) {
+  organizations(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $orgName
+    id: $id
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...OrganizationBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${OrganizationBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrganizationsBrowseGQL extends Apollo.Query<OrganizationsBrowseQuery, OrganizationsBrowseQueryVariables> {
+    document = OrganizationsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ResolveFlagDocument = gql`
     mutation ResolveFlag($input: ResolveFlagInput!) {
   resolveFlag(input: $input) {
@@ -5174,7 +5346,12 @@ export const OrganizationMembersDocument = gql`
     query OrganizationMembers($organizationId: Int!) {
   organization(id: $organizationId) {
     members {
-      ...OrganizationMembersFields
+      edges {
+        cursor
+        node {
+          ...OrganizationMembersFields
+        }
+      }
     }
   }
 }

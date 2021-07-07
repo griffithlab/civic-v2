@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { OrganizationsBrowseComponent } from '@app/components/shared/organizations-browse/organizations-browse.component';
 import { OrganizationsAssertionsComponent } from './organizations-assertions/organizations-assertions.component';
 import { OrganizationsDetailComponent } from './organizations-detail/organizations-detail.component';
 import { OrganizationsEventsComponent } from './organizations-events/organizations-events.component';
@@ -14,11 +15,11 @@ const routes: Routes = [
     path: '',
     component: OrganizationsComponent,
     children: [
-      //{ path: '', redirectTo: 'browse', pathMatch: 'full' },
-      //{
-      //  path: 'browse',
-      //  component: OrganizationsBrowseComponent
-      //},
+      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      {
+        path: 'browse',
+        component: OrganizationsBrowseComponent
+      },
       {
         path: ':organizationId',
         component: OrganizationsDetailComponent,

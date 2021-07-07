@@ -75,6 +75,7 @@ import { OrganizationCardComponent } from './organization-card/organization-card
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
+import { OrganizationsBrowseComponent } from './organizations-browse/organizations-browse.component';
 
 
 @NgModule({
@@ -107,7 +108,8 @@ import { OrganizationAvatarComponent } from './organization-avatar/organization-
     EvidenceCardComponent,
     AssertionCardComponent,
     OrganizationCardComponent,
-    OrganizationAvatarComponent
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent
   ],
   imports: [
     CommonModule,
@@ -181,7 +183,8 @@ import { OrganizationAvatarComponent } from './organization-avatar/organization-
     EvidenceCardComponent,
     AssertionCardComponent,
     OrganizationCardComponent,
-    OrganizationAvatarComponent
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent
   ]
 })
 

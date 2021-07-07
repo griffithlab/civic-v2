@@ -8,7 +8,10 @@ module Types::Entities
     field :sub_groups, [Types::Entities::OrganizationType], null: false
     field :org_stats_hash, Types::OrgStatsType, null: false
     field :org_and_suborgs_stats_hash, Types::OrgStatsType, null: false
-    field :members, [Types::Entities::UserType], null: false
+    field :members, Types::Entities::UserType.connection_type, null: false
+    field :most_recent_event, Types::Entities::EventType, null: true
+    field :member_count, Int, null: false
+    field :event_count, Int, null: false
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
@@ -39,6 +42,14 @@ module Types::Entities
       else
         nil
       end
+    end
+
+    def member_count
+      Loaders::CountLoader.for(Organization, association: :users).load(object.id)
+    end
+
+    def event_count
+      Loaders::CountLoader.for(Organization, association: :events).load(object.id)
     end
   end
 end

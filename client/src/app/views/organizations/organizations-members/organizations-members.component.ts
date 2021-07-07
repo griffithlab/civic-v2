@@ -31,7 +31,7 @@ export class OrganizationsMembersComponent {
           startWith(true));
     
       this.members$ = observable.pipe(
-      pluck('data', 'organization', 'members'));
+      pluck('data', 'organization', 'members', 'edges'));
   
       this.viewer$ = this.viewerService.viewer$;
   }

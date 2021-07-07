@@ -8,6 +8,10 @@ class Organization < ActiveRecord::Base
   validates :profile_image, content_type: ['image/png', 'image/jpg', 'image/jpeg'],
     size: { less_than: 5.megabytes , message: 'Image must be smaller than 15MB' }
 
+  has_one :most_recent_event,
+    ->() { order('created_at DESC').limit(1) },
+    class_name: 'Event', foreign_key: :organization_id
+
   #TODO: org membership helper methods
   #TODO: only allow one level of nesting
 

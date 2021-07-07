@@ -2,7 +2,7 @@
   <nz-space-item>
     <div nz-row [nzGutter]="16">
       <div *ngFor="let member of members" nz-col [nzSpan]="2">
-        <cvc-user-card [user]="member"></cvc-user-card>
+        <cvc-user-card [user]="member.node"></cvc-user-card>
       </div>
     </div>
   </nz-space-item>

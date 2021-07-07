@@ -24,7 +24,8 @@ export const CvcTypePolicies: TypePolicies = {
       variants: relayStylePagination(),
       comments: relayStylePagination(),
       evidenceItems: relayStylePagination(),
-      assertions: relayStylePagination()
+      assertions: relayStylePagination(),
+      organizations: relayStylePagination(),
     }
   }
 };

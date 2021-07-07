@@ -72,6 +72,8 @@ module Types
 
     field :users, resolver: Resolvers::TopLevelUsers
 
+    field :organizations, resolver: Resolvers::TopLevelOrganizations
+
     def disease(id: )
       Disease.find(id)
     end
