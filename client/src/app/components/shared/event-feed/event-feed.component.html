@@ -17,7 +17,8 @@
               nzSize="small"
               id="participant-filter"
               name="selectedParticipant"
-              [(ngModel)]="participantFilter">
+              [(ngModel)]="participantFilter"
+              [nzDropdownMatchSelectWidth]="false">
               <nz-option nzLabel="All Participants" nzValue="ALL"></nz-option>
               <nz-option *ngFor="let p of participants$ | ngrxPush"
                 [nzLabel]="p.displayName" [nzValue]="p.id">
@@ -31,7 +32,8 @@
               nzSize="small"
               id="organization-filter"
               name="selectedOrganization"
-              [(ngModel)]="organizationFilter">
+              [(ngModel)]="organizationFilter"
+              [nzDropdownMatchSelectWidth]="false">
               <nz-option nzLabel="All Organizations" nzValue="ALL"></nz-option>
               <nz-option *ngFor="let o of organizations$ | ngrxPush"
                 [nzLabel]="o.name" [nzValue]="o.id">
