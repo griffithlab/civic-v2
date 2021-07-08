@@ -91,17 +91,17 @@ export class EventTimelineComponent implements OnInit {
       case (EventAction.Commented):
         return 'commented on'
       case (EventAction.RevisionSuggested):
-        return 'suggested a revision to'
+        return 'suggested revision'
       case (EventAction.RevisionAccepted):
-        return 'accepted a revision to'
+        return 'accepted revision'
       case (EventAction.RevisionRejected):
-        return 'rejected a revision to'
+        return 'rejected revision'
       case (EventAction.RevisionSuperseded):
-        return 'accepted a a superseding revision to'
+        return 'accepted superseding revision'
       case (EventAction.Flagged):
-        return 'opened a new flag on'
+        return 'opened new flag'
       case (EventAction.FlagResolved):
-        return 'resolved a flag on'
+        return 'resolved flag'
       case (EventAction.AssertionSubmitted):
         return 'submitted assertion'
       case (EventAction.AssertionAccepted):
@@ -114,6 +114,27 @@ export class EventTimelineComponent implements OnInit {
         return 'accepted evience item'
       case (EventAction.Rejected):
         return 'rejected evidence item'
+      default:
+        throw new Error('Not handling all event action types yet')
+    }
+  }
+
+  prepositionForSubject(e: EventFeedNodeFragment): string {
+    switch (e.action) {
+      case (EventAction.Commented):
+        return 'commented on'
+      case (EventAction.RevisionSuggested):
+        return 'to'
+      case (EventAction.RevisionAccepted):
+        return 'to'
+      case (EventAction.RevisionRejected):
+        return 'to'
+      case (EventAction.RevisionSuperseded):
+        return 'to'
+      case (EventAction.Flagged):
+        return 'on'
+      case (EventAction.FlagResolved):
+        return 'on'
       default:
         throw new Error('Not handling all event action types yet')
     }

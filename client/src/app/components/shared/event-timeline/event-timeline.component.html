@@ -25,9 +25,17 @@
           <!-- user tag -->
           <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
 
-          <!-- event action -->
+          <!-- verb -->
           <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
 
+          <!-- originating object -->
+          <ng-container *ngIf="event.originatingObject as object"
+            [ngSwitch]="object.__typename">
+            <cvc-revision-tag *ngSwitchCase="'Revision'" [revision]="object"></cvc-revision-tag>
+            <span nz-typography *ngSwitchDefault>{{ object.name }}</span>
+          </ng-container>
+          <!-- preposition -->
+          <span nz-typography>{{ prepositionForSubject(event) }}&nbsp;</span>
           <!-- event subject -->
           <ng-container [ngSwitch]="event.subject.__typename">
             <ng-container *ngSwitchCase="'Gene'">

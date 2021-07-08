@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+export interface LinkableRevision {
+  id: number,
+  name: string
+}
 
 @Component({
   selector: 'cvc-revision-tag',
@@ -6,10 +11,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./revision-tag.component.less']
 })
 export class RevisionTagComponent implements OnInit {
+  @Input() revision!: LinkableRevision
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    if (this.revision=== undefined) {
+      throw new Error('cvc-revision-tag requires LinkableRevision input, none supplied.')
+    }
   }
 
 }

@@ -17,7 +17,7 @@ export class GeneTagComponent implements OnInit {
 
   ngOnInit() {
     if (this.gene === undefined) {
-      throw new Error('cvc-gene-pill requires gene input, none supplied.')
+      throw new Error('cvc-gene-tag requires LinkableGene input, none supplied.')
     }
   }
 
