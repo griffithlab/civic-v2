@@ -13301,7 +13301,25 @@
               "deprecationReason": null
             },
             {
-              "name": "previewText",
+              "name": "matchingText",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
               "description": null,
               "args": [
 
@@ -13360,6 +13378,24 @@
             },
             {
               "name": "VARIANT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_ITEM",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ASSERTION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_GROUP",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

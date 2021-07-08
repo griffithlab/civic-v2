@@ -4,19 +4,58 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   argument :query, String, required: true, description: 'The term to query for'
 
   def resolve(query: )
-    Searchkick.search(
+    results = Searchkick.search(
       query,
-      models: [Gene, Variant],
+      models: [Gene, Variant, EvidenceItem, Assertion, VariantGroup],
+      highlight: { tag: '<strong>' },
       limit: 10,
-      fields: ['name', 'aliases'],
-    ).results.map do |res|
+      fields: ['id^10', 'name', 'aliases']
+    ).with_highlights(multiple: true)
+
+    results.map do |res, highlights|
       {
         id: res.id,
-        preview_text: res.name,
-        result_type: res.class.to_s.upcase
+        name: format_name(res.name, highlights),
+        result_type: format_type_name(res),
+        matching_text: format_highlights(highlights)
       }
     end
   end
 
-end
 
+  private
+  def format_type_name(type)
+    case type
+    when Gene
+      'GENE'
+    when Variant
+      'VARIANT'
+    when VariantGroup
+      'VARIANT_GROUP'
+    when EvidenceItem
+      'EVIDENCE_ITEM'
+    when Assertion
+      'ASSERTION'
+    else
+      raise StandardError.new('Unsupported type for quicksearch')
+    end
+  end
+
+  def format_name(name, highlights)
+    if highlights[:name]
+      highlights[:name].first
+    else
+      name
+    end
+  end
+
+  def format_highlights(highlights)
+    rows = highlights.map do |field_name, matches|
+      next if field_name == :name
+      name = field_name.to_s.titleize
+      match_string = matches.join(', ')
+      "#{name}: #{match_string}"
+    end
+    rows.compact.join('<br/>')
+  end
+end

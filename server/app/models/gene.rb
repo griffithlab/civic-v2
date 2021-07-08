@@ -9,12 +9,12 @@ class Gene < ActiveRecord::Base
   has_and_belongs_to_many :sources
   has_and_belongs_to_many :gene_aliases
 
-  searchkick
+  searchkick highlight: [:symbol, :aliases]
   scope :search_import, -> { includes(:gene_aliases) }
 
   def search_data
     {
-      symbol: name,
+      name: name,
       aliases: gene_aliases.map(&:name)
     }
   end

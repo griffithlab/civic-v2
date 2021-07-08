@@ -580,10 +580,11 @@ export type ScalarFieldKeySpecifier = ('value' | ScalarFieldKeySpecifier)[];
 export type ScalarFieldFieldPolicy = {
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SearchResultKeySpecifier = ('id' | 'previewText' | 'resultType' | SearchResultKeySpecifier)[];
+export type SearchResultKeySpecifier = ('id' | 'matchingText' | 'name' | 'resultType' | SearchResultKeySpecifier)[];
 export type SearchResultFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	previewText?: FieldPolicy<any> | FieldReadFunction<any>,
+	matchingText?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SourceKeySpecifier = ('ascoAbstractId' | 'citation' | 'citationId' | 'clinicalTrials' | 'fullJournalTitle' | 'id' | 'journal' | 'name' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'status' | SourceKeySpecifier)[];

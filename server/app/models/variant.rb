@@ -17,13 +17,13 @@ class Variant < ActiveRecord::Base
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 
-  searchkick
+  searchkick highlight: [:name, :aliases]
   scope :search_import, -> { includes(:variant_aliases) }
 
   def search_data
     {
       name: name,
       aliases: variant_aliases.map(&:name)
-    }
+    } 
   end
 end

@@ -2928,13 +2928,17 @@ type ScalarField {
 
 type SearchResult {
   id: Int!
-  previewText: String!
+  matchingText: String!
+  name: String!
   resultType: SearchableEntities!
 }
 
 enum SearchableEntities {
+  ASSERTION
+  EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 enum SortDirection {

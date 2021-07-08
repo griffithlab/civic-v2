@@ -1759,13 +1759,17 @@ export type ScalarField = {
 export type SearchResult = {
   __typename: 'SearchResult';
   id: Scalars['Int'];
-  previewText: Scalars['String'];
+  matchingText: Scalars['String'];
+  name: Scalars['String'];
   resultType: SearchableEntities;
 };
 
 export enum SearchableEntities {
+  Assertion = 'ASSERTION',
+  EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 export enum SortDirection {
@@ -2591,7 +2595,7 @@ export type QuicksearchQuery = (
 
 export type QuicksearchResultFragment = (
   { __typename: 'SearchResult' }
-  & Pick<SearchResult, 'id' | 'resultType' | 'previewText'>
+  & Pick<SearchResult, 'id' | 'resultType' | 'name' | 'matchingText'>
 );
 
 export type ResolveFlagMutationVariables = Exact<{
@@ -3634,7 +3638,8 @@ export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
   resultType
-  previewText
+  name
+  matchingText
 }
     `;
 export const HovercardUserFragmentDoc = gql`

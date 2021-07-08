@@ -7,5 +7,6 @@ query Quicksearch($query: String!) {
 fragment QuicksearchResult on SearchResult {
     id
     resultType
-    previewText
+    name
+    matchingText
 }
