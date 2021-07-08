@@ -2937,6 +2937,7 @@ enum SearchableEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  REVISION
   VARIANT
   VARIANT_GROUP
 }

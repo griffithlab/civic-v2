@@ -1768,6 +1768,7 @@ export enum SearchableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
+  Revision = 'REVISION',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
