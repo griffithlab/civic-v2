@@ -6,3 +6,11 @@
   padding-top: 6px;
   padding-left: 6px;
 }
+
+#event-filters {
+  // all form items get a right margin which creates an unsightly gap on the right :(
+  // so we remove that here
+  nz-form-item:last-child {
+    margin-right: 0;
+  }
+}

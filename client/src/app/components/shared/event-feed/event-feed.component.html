@@ -1,13 +1,50 @@
 <ng-container *ngIf="events$ | ngrxPush as events">
-  <nz-card [nzTitle]="cardTitle"
+  <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra"
     id="card-content">
     <ng-template #cardTitle>
       <i nz-icon
         [nzType]="iconNameForSubscribableEntity(subscribable.entityType)"
         *ngIf="subscribable"></i> {{ subscribableName }} Events
     </ng-template>
+    <ng-template #cardExtra>
+      <form nz-form
+        nzLayout="inline"
+        id="event-filters">
+        <nz-form-item>
+          <nz-form-label>Show</nz-form-label>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onParticipantSelected($event)"
+              nzSize="small"
+              id="participant-filter"
+              name="selectedParticipant"
+              [(ngModel)]="participantFilter">
+              <nz-option nzLabel="All Participants" nzValue="ALL"></nz-option>
+              <nz-option *ngFor="let p of participants$ | ngrxPush"
+                [nzLabel]="p.displayName" [nzValue]="p.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onOrganizationSelected($event)"
+              nzSize="small"
+              id="organization-filter"
+              name="selectedOrganization"
+              [(ngModel)]="organizationFilter">
+              <nz-option nzLabel="All Organizations" nzValue="ALL"></nz-option>
+              <nz-option *ngFor="let o of organizations$ | ngrxPush"
+                [nzLabel]="o.name" [nzValue]="o.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-template>
+
     <nz-row [nzGutter]="16">
-      <nz-col nzSpan="20" class="timeline">
+      <nz-col nzSpan="20"
+        class="timeline">
         <ng-container *ngIf="events.length">
           <cvc-event-timeline [events]="events"></cvc-event-timeline>
         </ng-container>
@@ -25,7 +62,8 @@
           </div>
         </ng-container>
       </nz-col>
-      <nz-col nzSpan="4" class="sidebar">
+      <nz-col nzSpan="4"
+        class="sidebar">
         <cvc-participant-list listTitle="Participants"
           [participantList]="participants$ | ngrxPush"
           (participantSelectedEvent)="onParticipantSelected($event)">
@@ -45,5 +83,10 @@
         </cvc-participant-list>
       </nz-col>
     </nz-row>
+    <!-- <nz-row>
+         <nz-col nzSpan="24">
+         <ngx-json-viewer *ngIf="organizations$ | ngrxPush" [json]="organizations$ | ngrxPush"></ngx-json-viewer>
+         </nz-col>
+         </nz-row> -->
   </nz-card>
 </ng-container>

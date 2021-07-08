@@ -32,6 +32,9 @@ export class EventFeedComponent implements OnInit {
   private initialQueryVars?: EventFeedQueryVariables;
   private pageSize = 5;
 
+  participantFilter: any = 'ALL';
+  organizationFilter: any = 'ALL';
+
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
   participants$?: Observable<LinkableUser[]>;
@@ -76,7 +79,7 @@ export class EventFeedComponent implements OnInit {
     })
   }
 
-  onParticipantSelected(u: Maybe<LinkableUser>) {
+  onParticipantSelected(u: any) {
     this.queryRef.refetch({
       ...this.initialQueryVars,
       organizationId: this.currentVariables()?.organizationId,
@@ -84,7 +87,7 @@ export class EventFeedComponent implements OnInit {
     })
   }
 
-  onOrganizationSelected(o: Maybe<LinkableOrganization>) {
+  onOrganizationSelected(o: any) {
     this.queryRef.refetch({
       ...this.initialQueryVars,
       originatingUserId: this.currentVariables().originatingUserId,
