@@ -2,7 +2,7 @@
   <ng-container *ngFor="let event of events">
     <nz-timeline-item [nzDot]="timelineDotTemplate">
       <ng-template #timelineDotTemplate>
-        <cvc-user-avatar [user]="event.originatingUser" [border]="true"
+        <cvc-user-avatar [user]="event.originatingUser"
           size="small"></cvc-user-avatar>
 
         <!-- <ng-container *ngIf="iconColorForEventAction(event.action) !== 'default'; else defaultPrimaryColor">

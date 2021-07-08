@@ -1,6 +1,9 @@
-<nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar
-    [nzSrc]="user.profileImagePath" [nzSize]="size">
+<nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+  nz-comment-avatar
+  [nzSrc]="user.profileImagePath"
+  [nzSize]="size">
 </nz-avatar>
 <ng-template #noAvatar>
-    <nz-avatar nz-comment-avatar [nzText]="user.displayName.charAt(0) | uppercase"></nz-avatar>
+  <nz-avatar nz-comment-avatar
+    [nzText]="user.displayName.charAt(0) | uppercase"></nz-avatar>
 </ng-template>
