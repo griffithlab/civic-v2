@@ -63,23 +63,23 @@ export class EventTimelineComponent implements OnInit {
       case (EventAction.RevisionRejected):
         return 'civic-revision'
       case (EventAction.RevisionSuperseded):
-        return 'clear'
+        return 'civic-revision'
       case (EventAction.Flagged):
-        return 'flag'
+        return 'civic-flag'
       case (EventAction.FlagResolved):
-        return 'flag'
+        return 'civic-flag'
       case (EventAction.AssertionSubmitted):
-        return 'plus'
+        return 'civic-assertion'
       case (EventAction.AssertionAccepted):
-        return 'check-circle'
+        return 'civic-assertion'
       case (EventAction.AssertionRejected):
-        return 'close-circle'
+        return 'civic-assertion'
       case (EventAction.Submitted):
-        return 'plus'
+        return 'civic-evidence'
       case (EventAction.Accepted):
-        return 'check-circle'
+        return 'civic-evidence'
       case (EventAction.Rejected):
-        return 'close-circle'
+        return 'civic-evidence'
       default:
         throw new Error('Not handling all event action types yet')
 
@@ -89,7 +89,7 @@ export class EventTimelineComponent implements OnInit {
   verbiageForEvent(e: EventFeedNodeFragment): string {
     switch (e.action) {
       case (EventAction.Commented):
-        return 'commented on'
+        return 'added comment'
       case (EventAction.RevisionSuggested):
         return 'suggested revision'
       case (EventAction.RevisionAccepted):
@@ -122,7 +122,7 @@ export class EventTimelineComponent implements OnInit {
   prepositionForSubject(e: EventFeedNodeFragment): string {
     switch (e.action) {
       case (EventAction.Commented):
-        return 'commented on'
+        return 'to'
       case (EventAction.RevisionSuggested):
         return 'to'
       case (EventAction.RevisionAccepted):
