@@ -72,6 +72,10 @@ import { GeneTagComponent } from './gene-tag/gene-tag.component';
 import { OrgTagComponent } from './org-tag/org-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
+import { CommentTagComponent } from './comment-tag/comment-tag.component';
+import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
+import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
+import { FlagTagComponent } from './flag-tag/flag-tag.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +107,11 @@ import { EventTimelineComponent } from './event-timeline/event-timeline.componen
     GeneTagComponent,
     OrgTagComponent,
     RevisionTagComponent,
-    EventTimelineComponent
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ],
   imports: [
     CommonModule,
@@ -174,7 +182,11 @@ import { EventTimelineComponent } from './event-timeline/event-timeline.componen
     GeneTagComponent,
     OrgTagComponent,
     RevisionTagComponent,
-    EventTimelineComponent
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ]
 })
 
