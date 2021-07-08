@@ -5,5 +5,6 @@ module Types::Quicksearch
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
     value 'VARIANT_GROUP'
+    value 'REVISION'
   end
 end

@@ -6,7 +6,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   def resolve(query: )
     results = Searchkick.search(
       query,
-      models: [Gene, Variant, EvidenceItem, Assertion, VariantGroup],
+      models: [Gene, Variant, EvidenceItem, Assertion, VariantGroup, Revision],
       highlight: { tag: '<strong>' },
       limit: 10,
       fields: ['id^10', 'name', 'aliases']
@@ -36,6 +36,8 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
       'EVIDENCE_ITEM'
     when Assertion
       'ASSERTION'
+    when Revision
+      'REVISION'
     else
       raise StandardError.new('Unsupported type for quicksearch')
     end
