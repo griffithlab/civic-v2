@@ -7,7 +7,7 @@
         *ngIf="subscribable"></i> {{ subscribableName }} Events
     </ng-template>
     <nz-row [nzGutter]="16">
-      <nz-col nzSpan="20">
+      <nz-col nzSpan="20" class="timeline">
         <ng-container *ngIf="events.length">
           <cvc-event-timeline [events]="events"></cvc-event-timeline>
         </ng-container>
@@ -25,7 +25,7 @@
           </div>
         </ng-container>
       </nz-col>
-      <nz-col nzSpan="4">
+      <nz-col nzSpan="4" class="sidebar">
         <cvc-participant-list listTitle="Participants"
           [participantList]="participants$ | ngrxPush"
           (participantSelectedEvent)="onParticipantSelected($event)">

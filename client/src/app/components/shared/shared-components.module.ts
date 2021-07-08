@@ -71,7 +71,6 @@ import { UserTagComponent } from './user-tag/user-tag.component';
 import { GeneTagComponent } from './gene-tag/gene-tag.component';
 import { OrgTagComponent } from './org-tag/org-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
-import { EventFeedItemComponent } from './event-feed/event-feed-item.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
 
 @NgModule({
@@ -104,7 +103,6 @@ import { EventTimelineComponent } from './event-timeline/event-timeline.componen
     GeneTagComponent,
     OrgTagComponent,
     RevisionTagComponent,
-    EventFeedItemComponent,
     EventTimelineComponent
   ],
   imports: [
@@ -176,7 +174,6 @@ import { EventTimelineComponent } from './event-timeline/event-timeline.componen
     GeneTagComponent,
     OrgTagComponent,
     RevisionTagComponent,
-    EventFeedItemComponent,
     EventTimelineComponent
   ]
 })
