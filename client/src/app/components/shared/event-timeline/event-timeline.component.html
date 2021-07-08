@@ -1,0 +1,66 @@
+<nz-timeline *ngIf="events?.length">
+  <ng-container *ngFor="let event of events">
+    <nz-timeline-item [nzDot]="timelineDotTemplate">
+      <ng-template #timelineDotTemplate>
+        <cvc-user-avatar [user]="event.originatingUser"
+          size="small"></cvc-user-avatar>
+
+        <!-- <ng-container *ngIf="iconColorForEventAction(event.action) !== 'default'; else defaultPrimaryColor">
+             <i nz-icon
+             [nzType]="iconNameForEventAction(event.action)"
+             [nzTwotoneColor]="iconColorForEventAction(event.action)"
+             nzTheme="twotone"
+             class="item-icon"></i>
+             </ng-container>
+             <ng-template #defaultPrimaryColor>
+             <i nz-icon
+             [nzType]="iconNameForEventAction(event.action)"
+             nzTheme="twotone"
+             class="item-icon"></i>
+             </ng-template> -->
+      </ng-template>
+      <nz-row class="timeline-item">
+        <nz-col nzFlex="auto" class="description">
+
+          <!-- user tag -->
+          <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
+
+          <!-- event action -->
+          <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
+
+          <!-- event subject -->
+          <ng-container [ngSwitch]="event.subject.__typename">
+            <ng-container *ngSwitchCase="'Gene'">
+              <cvc-gene-tag [gene]="event.subject"></cvc-gene-tag>
+            </ng-container>
+            <ng-container *ngSwitchCaseDefault>{{ event.subject.name }}</ng-container>
+          </ng-container>
+
+          <!-- user organization -->
+          <ng-container *ngIf="event.organization">
+            <span nz-typography>on behalf of&nbsp;</span>
+            <cvc-org-tag [org]="event.organization"></cvc-org-tag>
+          </ng-container>
+
+        </nz-col>
+        <nz-col nzFlex="80px" class="timestamp">
+          <div nz-tooltip
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="event.createdAt | date">
+            {{ event.createdAt | timeago }}
+          </div>
+        </nz-col>
+      </nz-row>
+
+      <!-- <ng-container *ngIf="event.originatingObject"
+           [ngSwitch]="event.originatingObject.__typename">
+           <nz-card *ngSwitchCase="'Comment'"> {{ event.originatingObject.comment }} </nz-card>
+           <nz-card *ngSwitchCase="'Flag'"> {{ commentForFlagEvent(e) }} </nz-card>
+           <nz-card *ngSwitchCase="'Revision'">
+           <cvc-user-pill [user]="event.originatingObject.revisor"></cvc-user-pill>
+           {{ event.originatingObject.name }} to {{ event.originatingObject.linkoutData.name }}
+           </nz-card>
+           </ng-container> -->
+    </nz-timeline-item>
+  </ng-container>
+</nz-timeline>
