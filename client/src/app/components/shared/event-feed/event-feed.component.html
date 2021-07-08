@@ -1,5 +1,6 @@
 <ng-container *ngIf="events$ | ngrxPush as events">
-  <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra"
+  <nz-card [nzTitle]="cardTitle"
+    [nzExtra]="cardExtra"
     id="card-content">
     <ng-template #cardTitle>
       <i nz-icon
@@ -19,9 +20,11 @@
               name="selectedParticipant"
               [(ngModel)]="participantFilter"
               [nzDropdownMatchSelectWidth]="false">
-              <nz-option nzLabel="All Participants" nzValue="ALL"></nz-option>
+              <nz-option nzLabel="All Curators"
+                nzValue="ALL"></nz-option>
               <nz-option *ngFor="let p of participants$ | ngrxPush"
-                [nzLabel]="p.displayName" [nzValue]="p.id">
+                [nzLabel]="p.displayName"
+                [nzValue]="p.id">
               </nz-option>
             </nz-select>
           </nz-form-control>
@@ -34,9 +37,11 @@
               name="selectedOrganization"
               [(ngModel)]="organizationFilter"
               [nzDropdownMatchSelectWidth]="false">
-              <nz-option nzLabel="All Organizations" nzValue="ALL"></nz-option>
+              <nz-option nzLabel="All Organizations"
+                nzValue="ALL"></nz-option>
               <nz-option *ngFor="let o of organizations$ | ngrxPush"
-                [nzLabel]="o.name" [nzValue]="o.id">
+                [nzLabel]="o.name"
+                [nzValue]="o.id">
               </nz-option>
             </nz-select>
           </nz-form-control>
@@ -56,7 +61,7 @@
           <div nz-list-load-more
             *ngIf="pageInfo.hasNextPage">
             <button nz-button
-              nzType="link"
+              nzType="default"
               nzSize="small"
               nzBlock
               (click)="fetchMore(pageInfo.endCursor)">Load More
@@ -66,29 +71,17 @@
       </nz-col>
       <nz-col nzSpan="4"
         class="sidebar">
-        <cvc-participant-list listTitle="Participants"
-          [participantList]="participants$ | ngrxPush"
-          (participantSelectedEvent)="onParticipantSelected($event)">
-          <ng-template #itemTemplate
-            let-user>
-            <cvc-user-pill [user]="user"></cvc-user-pill>
-          </ng-template>
-        </cvc-participant-list>
-        <nz-divider></nz-divider>
-        <cvc-participant-list listTitle="Organizations"
-          [participantList]="organizations$ | ngrxPush"
-          (participantSelectedEvent)="onOrganizationSelected($event)">
-          <ng-template #itemTemplate
-            let-org>
-            <cvc-org-pill [org]="org"></cvc-org-pill>
-          </ng-template>
-        </cvc-participant-list>
+        <nz-card nzTitle="Curators" >
+          <h4>Users</h4>
+          <cvc-user-avatar *ngFor="let u of participants$ | ngrxPush"
+            [user]="u"></cvc-user-avatar>
+          <br/>
+          <br/>
+          <h4>Organizations</h4>
+          <cvc-user-avatar *ngFor="let o of organizations$ | ngrxPush"
+            [user]="{ displayName: o.name, profileImagePath: o.profileImagePath }"></cvc-user-avatar>
+        </nz-card>
       </nz-col>
     </nz-row>
-    <!-- <nz-row>
-         <nz-col nzSpan="24">
-         <ngx-json-viewer *ngIf="organizations$ | ngrxPush" [json]="organizations$ | ngrxPush"></ngx-json-viewer>
-         </nz-col>
-         </nz-row> -->
   </nz-card>
 </ng-container>

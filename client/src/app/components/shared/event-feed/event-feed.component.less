@@ -3,6 +3,8 @@
 }
 
 .timeline {
+  // timeline's base styles pull it up and left of its container,
+  // this padding adds them back b/c in the event feed card it looks to cramped
   padding-top: 6px;
   padding-left: 6px;
 }
@@ -13,6 +15,7 @@
   nz-form-item:last-child {
     margin-right: 0;
   }
+  // need to specify selector widths or else item names clipped
   #participant-filter {
     width: 200px;
   }
