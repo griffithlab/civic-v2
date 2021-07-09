@@ -67,6 +67,15 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { UserTagComponent } from './user-tag/user-tag.component';
+import { GeneTagComponent } from './gene-tag/gene-tag.component';
+import { OrgTagComponent } from './org-tag/org-tag.component';
+import { RevisionTagComponent } from './revision-tag/revision-tag.component';
+import { EventTimelineComponent } from './event-timeline/event-timeline.component';
+import { CommentTagComponent } from './comment-tag/comment-tag.component';
+import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
+import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
+import { FlagTagComponent } from './flag-tag/flag-tag.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +102,16 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     ResolveFlagComponent,
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    UserTagComponent,
+    GeneTagComponent,
+    OrgTagComponent,
+    RevisionTagComponent,
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ],
   imports: [
     CommonModule,
@@ -159,7 +177,16 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     ResolveFlagComponent,
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
-    EvidenceBrowseComponent
+    EvidenceBrowseComponent,
+    UserTagComponent,
+    GeneTagComponent,
+    OrgTagComponent,
+    RevisionTagComponent,
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ]
 })
 

@@ -2373,7 +2373,7 @@ export type EventFeedNodeFragment = (
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
   ), originatingUser: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
   ), subject: (
     { __typename: 'Assertion' }
     & Pick<Assertion, 'name' | 'id'>
@@ -3458,6 +3458,7 @@ export const EventFeedNodeFragmentDoc = gql`
     id
     username
     displayName
+    role
     profileImagePath(size: 32)
   }
   subject {

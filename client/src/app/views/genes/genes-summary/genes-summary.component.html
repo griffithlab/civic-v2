@@ -1,4 +1,5 @@
-<nz-space nzSize="middle" *ngIf="(gene$ | ngrxPush) as gene"
+<nz-space nzSize="middle"
+  *ngIf=" (gene$ | ngrxPush) as gene"
   nzDirection="vertical"
   class="space-align-block">
   <nz-space-item>
@@ -18,16 +19,20 @@
     </div>
   </nz-space-item>
   <nz-space-item>
-    <div nz-row [nzGutter]="16" >
-      <nz-col [nzSpan]="24" >
-        <cvc-variant-menu [geneId]="gene.id" [geneName]="gene.name"></cvc-variant-menu>
+    <div nz-row
+      [nzGutter]="16">
+      <nz-col [nzSpan]="24">
+        <cvc-variant-menu [geneId]="gene.id"
+          [geneName]="gene.name"></cvc-variant-menu>
       </nz-col>
     </div>
   </nz-space-item>
   <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="16">
-        <cvc-event-feed [subscribable]="subscribableEntity"></cvc-event-feed>
+    <div nz-row
+      [nzGutter]="24">
+      <nz-col [nzSpan]="24">
+        <cvc-event-feed [subscribable]="subscribableEntity"
+          [subscribableName]="gene.name"></cvc-event-feed>
       </nz-col>
     </div>
   </nz-space-item>
