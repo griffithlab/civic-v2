@@ -46,7 +46,7 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
+        <nz-form-item *ngIf="!organizationId">
           <nz-form-control>
             <nz-select (ngModelChange)="onOrganizationSelected($event)"
               nzSize="small"
