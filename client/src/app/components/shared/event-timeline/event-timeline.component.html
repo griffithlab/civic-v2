@@ -2,139 +2,65 @@
   <ng-container *ngFor="let event of events">
     <nz-timeline-item [nzDot]="timelineDotTemplate">
       <ng-template #timelineDotTemplate>
-        <ng-container *ngIf="event.originatingObject as originating"
-          [ngSwitch]="originating.__typename">
-          <cvc-user-avatar *ngSwitchCase="'Comment'"
-            [user]="event.originatingUser"
-            size="small"></cvc-user-avatar>
-
-          <i *ngSwitchDefault
-            nz-icon
-            [nzType]="iconNameForEventAction(event.action)"
-            nzTheme="twotone"
-            class="item-icon"></i>
-        </ng-container>
-        <!-- <ng-container *ngIf="iconColorForEventAction(event.action) !== 'default'; else defaultPrimaryColor">
-             <i nz-icon
-             [nzType]="iconNameForEventAction(event.action)"
-             [nzTwotoneColor]="iconColorForEventAction(event.action)"
-             nzTheme="twotone"
-             class="item-icon"></i>
-             </ng-container> -->
+        <i nz-icon
+          [nzType]="iconNameForEventAction(event.action)"
+          nzTheme="twotone"
+          class="item-icon"></i>
       </ng-template>
-
-      <!-- display full description row unless Comment type -->
       <nz-row class="timeline-item"
-        *ngIf="event.originatingObject"
-        [ngSwitch]="event.originatingObject.__typename">
-
-        <!-- show comment card if comment -->
-        <ng-container *ngSwitchCase="'Comment'">
-          <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra" class="comment-card">
-            <ng-template #cardTitle>
-              <div class="comment-title" >
-                <!-- commenter -->
-                <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
-
-                <!-- verb -->
-                <span nz-typography>commented on</span>
-
-                <!-- comment subject -->
-                <ng-container *ngIf="event.subject as subject"
-                  [ngSwitch]="subject.__typename">
-                  <cvc-gene-tag *ngSwitchCase="'Gene'"
-                    [gene]="subject"></cvc-gene-tag>
-                  <ng-container *ngSwitchCaseDefault>{{ subject.name }}</ng-container>
-                </ng-container>
-
-                <!-- user organization -->
-                <ng-container *ngIf="event.organization as org">
-                  <span nz-typography>for&nbsp;</span>
-                  <cvc-org-tag [org]="org"></cvc-org-tag>
-                </ng-container>
-
-                <!-- comment timestamp -->
-                <span nz-typography
-                  nz-tooltip
-                  nzTooltipPlacement="top"
-                  [nzTooltipTitle]="event.createdAt | date">{{ event.createdAt | timeago }}</span>
-              </div>
-            </ng-template>
-
-            <!-- TODO: preserve type checking -->
-            {{ $any(event.originatingObject).comment }}
-
-            <!-- <pre>{{ object | json }}</pre> -->
-            <ng-template #cardExtra>
-              <div class="comment-extra" >
-                <cvc-comment-tag [comment]="event.originatingObject"></cvc-comment-tag>
-              </div>
-            </ng-template>
-          </nz-card>
-        </ng-container>
+        *ngIf="event.originatingObject">
 
         <!-- default to full description -->
-        <ng-container *ngSwitchDefault>
-          <nz-col nzFlex="auto"
-            class="description">
+        <nz-col nzFlex="auto"
+          class="description">
 
-            <!-- user tag -->
-            <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
+          <!-- user tag -->
+          <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
 
-            <!-- verb -->
-            <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
+          <!-- verb -->
+          <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
 
-            <!-- originating object -->
-            <ng-container *ngIf="event.originatingObject as object"
-              [ngSwitch]="object.__typename">
-              <cvc-revision-tag *ngSwitchCase="'Revision'"
-                [revision]="object"></cvc-revision-tag>
-              <cvc-comment-tag *ngSwitchCase="'Comment'"
-                [comment]="object"></cvc-comment-tag>
-              <cvc-flag-tag *ngSwitchCase="'Flag'"
-                [flag]="object"></cvc-flag-tag>
-              <span nz-typography
-                *ngSwitchDefault>{{ object.name }}</span>
-            </ng-container>
+          <!-- originating object -->
+          <ng-container *ngIf="event.originatingObject as object"
+            [ngSwitch]="object.__typename">
+            <cvc-revision-tag *ngSwitchCase="'Revision'"
+              [revision]="object"></cvc-revision-tag>
+            <cvc-comment-tag *ngSwitchCase="'Comment'"
+              [comment]="object"></cvc-comment-tag>
+            <cvc-flag-tag *ngSwitchCase="'Flag'"
+              [flag]="object"></cvc-flag-tag>
+            <span nz-typography
+              *ngSwitchDefault>{{ object.name }}</span>
+          </ng-container>
 
-            <!-- preposition -->
-            <span nz-typography>{{ prepositionForSubject(event) }}&nbsp;</span>
+          <!-- preposition -->
+          <span nz-typography>{{ prepositionForSubject(event) }}&nbsp;</span>
 
-            <!-- subject -->
-            <ng-container *ngIf="event.subject as subject"
-              [ngSwitch]="subject.__typename">
-              <cvc-gene-tag *ngSwitchCase="'Gene'"
-                [gene]="subject"></cvc-gene-tag>
-              <ng-container *ngSwitchCaseDefault>{{ subject.name }}</ng-container>
-            </ng-container>
+          <!-- subject -->
+          <ng-container *ngIf="event.subject as subject"
+            [ngSwitch]="subject.__typename">
+            <cvc-gene-tag *ngSwitchCase="'Gene'"
+              [gene]="subject"></cvc-gene-tag>
+            <ng-container *ngSwitchCaseDefault>{{ subject.name }}</ng-container>
+          </ng-container>
 
-            <!-- user organization -->
-            <ng-container *ngIf="event.organization as org">
-              <span nz-typography>for&nbsp;</span>
-              <cvc-org-tag [org]="org"></cvc-org-tag>
-            </ng-container>
+          <!-- user organization -->
+          <ng-container *ngIf="event.organization as org">
+            <span nz-typography>for&nbsp;</span>
+            <cvc-org-tag [org]="org"></cvc-org-tag>
+          </ng-container>
 
-          </nz-col>
-          <nz-col nzFlex="100px"
-            class="timestamp">
-            <span nz-tooltip
-              nzTooltipPlacement="top"
-              [nzTooltipTitle]="event.createdAt | date">
-              {{ event.createdAt | timeago }}
-            </span>
-          </nz-col>
-        </ng-container>
+        </nz-col>
+        <nz-col nzFlex="100px"
+          class="timestamp">
+          <span nz-typography nzType="secondary" nz-tooltip
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="event.createdAt | date">
+            {{ event.createdAt | timeago }}
+          </span>
+        </nz-col>
       </nz-row>
 
-      <!-- <ng-container *ngIf="event.originatingObject"
-           [ngSwitch]="event.originatingObject.__typename">
-           <nz-card *ngSwitchCase="'Comment'"> {{ event.originatingObject.comment }} </nz-card>
-           <nz-card *ngSwitchCase="'Flag'"> {{ commentForFlagEvent(e) }} </nz-card>
-           <nz-card *ngSwitchCase="'Revision'">
-           <cvc-user-pill [user]="event.originatingObject.revisor"></cvc-user-pill>
-           {{ event.originatingObject.name }} to {{ event.originatingObject.linkoutData.name }}
-           </nz-card>
-           </ng-container> -->
     </nz-timeline-item>
   </ng-container>
 </nz-timeline>
