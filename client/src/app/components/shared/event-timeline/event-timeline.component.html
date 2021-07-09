@@ -25,10 +25,49 @@
 
       <!-- display full description row unless Comment type -->
       <nz-row class="timeline-item"
-        *ngIf="event.originatingObject as object"
-        [ngSwitch]="object.__typename">
+        *ngIf="event.originatingObject"
+        [ngSwitch]="event.originatingObject.__typename">
 
-        <!-- default full description -->
+        <!-- show comment card if comment -->
+        <ng-container *ngSwitchCase="'Comment'">
+          <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra" class="comment-card">
+            <ng-template #cardTitle>
+              <div class="comment-title" >
+                <!-- commenter -->
+                <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
+
+                <!-- verb -->
+                <span nz-typography>commented on</span>
+
+                <!-- comment subject -->
+                <ng-container *ngIf="event.subject as subject"
+                  [ngSwitch]="subject.__typename">
+                  <cvc-gene-tag *ngSwitchCase="'Gene'"
+                    [gene]="subject"></cvc-gene-tag>
+                  <ng-container *ngSwitchCaseDefault>{{ subject.name }}</ng-container>
+                </ng-container>
+
+                <!-- comment timestamp -->
+                <span nz-typography
+                  nz-tooltip
+                  nzTooltipPlacement="top"
+                  [nzTooltipTitle]="event.createdAt | date">{{ event.createdAt | timeago }}</span>
+              </div>
+            </ng-template>
+
+            <!-- TODO: preserve type checking -->
+            {{ $any(event.originatingObject).comment }}
+
+            <!-- <pre>{{ object | json }}</pre> -->
+            <ng-template #cardExtra>
+              <div class="comment-extra" >
+                <cvc-comment-tag [comment]="event.originatingObject"></cvc-comment-tag>
+              </div>
+            </ng-template>
+          </nz-card>
+        </ng-container>
+
+        <!-- default to full description -->
         <ng-container *ngSwitchDefault>
           <nz-col nzFlex="auto"
             class="description">
@@ -78,49 +117,6 @@
               {{ event.createdAt | timeago }}
             </span>
           </nz-col>
-        </ng-container>
-
-        <!-- comment card -->
-        <ng-container *ngSwitchCase="'Comment'">
-          <ng-container *ngIf="event.originatingObject as object" >
-            <nz-card [nzTitle]="cardTitle" [nzExtra]="cardExtra" class="comment-card">
-              <ng-template #cardTitle>
-                <div class="comment-title" >
-                  <!-- commenter -->
-                  <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
-
-                  <!-- verb -->
-                  <span nz-typography>commented on</span>
-
-                  <!-- comment subject -->
-                  <ng-container *ngIf="event.subject as subject"
-                    [ngSwitch]="subject.__typename">
-                    <cvc-gene-tag *ngSwitchCase="'Gene'"
-                      [gene]="subject"></cvc-gene-tag>
-                    <ng-container *ngSwitchCaseDefault>{{ subject.name }}</ng-container>
-                  </ng-container>
-
-                  <!-- comment timestamp -->
-                  <span nz-typography
-                    nz-tooltip
-                    nzTooltipPlacement="top"
-                    [nzTooltipTitle]="event.createdAt | date">{{ event.createdAt | timeago }}</span>
-                </div>
-              </ng-template>
-              <!-- object.comment below fails with error
-                   Property 'comment' does not exist on type '{ __typename: "Flag"; }
-                   & Pick<Flag, "id" | "name"> & { openComment: { __typename: "Comment"; }
-                   & Pick<Comment, "comment">; resolutionComment?: Maybe<{ ...; } & Pick<...>>; }'.
-              -->
-              <!-- {{ object.comment }} -->
-              <pre>{{ object | json }}</pre>
-              <ng-template #cardExtra>
-                <div class="comment-extra" >
-                  <cvc-comment-tag [comment]="object"></cvc-comment-tag>
-                </div>
-              </ng-template>
-            </nz-card>
-          </ng-container>
         </ng-container>
       </nz-row>
 
