@@ -1,78 +1,90 @@
 <ng-container *ngIf="events$ | ngrxPush as events">
-    <div class="event-feed">
-        <nz-row [nzGutter]="16">
-            <nz-col nzSpan="18">
-                <h3>History</h3>
-                <nz-timeline *ngIf="events.length">
-                    <nz-timeline-item *ngFor="let e of events" [nzDot]="timelineDotTemplate">
-                        <ng-template #timelineDotTemplate>
-                            <icon nz-icon [nzType]="iconNameForEventAction(e.action)" style="font-size: 24px;"></icon>
-                        </ng-template>
-                        <div class="event-feed-item">
-                            <nz-divider nz-tooltip [nzTooltipTitle]="e.createdAt | date" nzTooltipPlacement="topRight"
-                                [nzText]="e.createdAt | timeago" nzPlain="true" nzOrientation="right"></nz-divider>
-                            <nz-space>
-                                <nz-space-item>
-                                    <cvc-user-pill [user]="e.originatingUser"></cvc-user-pill>
-                                </nz-space-item>
-                                <nz-space-item>
-                                    <span>{{ verbiageForEvent(e) }}</span>
-                                </nz-space-item>
-                                <nz-space-item>
-                                    <ng-container [ngSwitch]="e.subject.__typename">
-                                        <span *ngSwitchCase="'Gene'"><cvc-gene-pill [gene]="e.subject"></cvc-gene-pill></span>
-                                        <span *ngSwitchDefault>{{ e.subject.name }}</span>
-                                    </ng-container>
-                                </nz-space-item>
-                                <nz-space-item>
-                                    <span *ngIf="e.organization">
-                                        on behalf of <cvc-org-pill [org]="e.organization"></cvc-org-pill>
-                                    </span>
-                                </nz-space-item>
-                            </nz-space>
-                        </div>
-                        <ng-container *ngIf="e.originatingObject" [ngSwitch]="e.originatingObject.__typename">
-                            <nz-card *ngSwitchCase="'Comment'"> {{ e.originatingObject.comment }} </nz-card>
-                            <nz-card *ngSwitchCase="'Flag'"> {{ commentForFlagEvent(e) }} </nz-card>
-                            <nz-card *ngSwitchCase="'Revision'">
-                                <cvc-user-pill [user]="e.originatingObject.revisor"></cvc-user-pill>
-                                {{ e.originatingObject.name }} to {{ e.originatingObject.linkoutData.name }}
-                            </nz-card>
-                        </ng-container>
-                    </nz-timeline-item>
-                </nz-timeline>
-
-                <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-                    <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
-                        <button nz-button nzType="link" nzSize="small" nzBlock
-                            (click)="fetchMore(pageInfo.endCursor)">Load
-                            More</button>
-                    </div>
-                </ng-container>
-            </nz-col>
-            <nz-col nzSpan="5">
-                <h3>Filter History</h3>
-                <cvc-participant-list listTitle="Participants" [participantList]="participants$ | ngrxPush"
-                    (participantSelectedEvent)="onParticipantSelected($event)">
-                    <ng-template #itemTemplate let-user>
-                        <cvc-user-pill [user]="user"></cvc-user-pill>
-                    </ng-template>
-                </cvc-participant-list>
-                <nz-divider></nz-divider>
-                <cvc-participant-list listTitle="Organizations" [participantList]="organizations$ | ngrxPush"
-                    (participantSelectedEvent)="onOrganizationSelected($event)">
-                    <ng-template #itemTemplate let-org>
-                        <cvc-org-pill [org]="org"></cvc-org-pill>
-                    </ng-template>
-                </cvc-participant-list>
-                <cvc-participant-list listTitle="Action" [participantList]="actions$ | ngrxPush"
-                    (participantSelectedEvent)="onActionSelected($event)">
-                    <ng-template #itemTemplate let-action>
-                        {{ action.id }}
-                    </ng-template>
-                </cvc-participant-list>
-            </nz-col>
-        </nz-row>
-    </div>
-
+  <nz-card [nzTitle]="cardTitle"
+    [nzExtra]="cardExtra"
+    id="card-content">
+    <ng-template #cardTitle>
+      <i nz-icon
+        [nzType]="iconNameForSubscribableEntity(subscribable.entityType)"
+        *ngIf="subscribable"></i> {{ subscribableName }} Events
+    </ng-template>
+    <ng-template #cardExtra>
+      <form nz-form
+        nzLayout="inline"
+        id="event-filters">
+        <nz-form-item>
+          <nz-form-label>Show</nz-form-label>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onActionSelected($event)"
+              nzSize="small"
+              id="action-filter"
+              name="selectedAction"
+              [(ngModel)]="actionFilter"
+              [nzDropdownMatchSelectWidth]="false">
+              <nz-option nzLabel="All Actions"
+                nzValue="ALL"></nz-option>
+              <nz-option *ngFor="let a of actions$ | ngrxPush"
+                [nzLabel]="a.id"
+                [nzValue]="a.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onParticipantSelected($event)"
+              nzSize="small"
+              id="participant-filter"
+              name="selectedParticipant"
+              [(ngModel)]="participantFilter"
+              [nzDropdownMatchSelectWidth]="false">
+              <nz-option nzLabel="All Curators"
+                nzValue="ALL"></nz-option>
+              <nz-option *ngFor="let p of participants$ | ngrxPush"
+                [nzLabel]="p.displayName"
+                [nzValue]="p.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onOrganizationSelected($event)"
+              nzSize="small"
+              id="organization-filter"
+              name="selectedOrganization"
+              [(ngModel)]="organizationFilter"
+              [nzDropdownMatchSelectWidth]="false">
+              <nz-option nzLabel="All Organizations"
+                nzValue="ALL"></nz-option>
+              <nz-option *ngFor="let o of organizations$ | ngrxPush"
+                [nzLabel]="o.name"
+                [nzValue]="o.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-template>
+    <nz-row [nzGutter]="16">
+      <nz-col nzSpan="24"
+        class="timeline">
+        <ng-container *ngIf="events.length">
+          <cvc-event-timeline [events]="events"></cvc-event-timeline>
+        </ng-container>
+        <nz-timeline *ngIf="events.length">
+        </nz-timeline>
+        <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+          <div nz-list-load-more
+            *ngIf="pageInfo.hasNextPage">
+            <button nz-button
+              nzType="default"
+              nzSize="small"
+              nzBlock
+              (click)="fetchMore(pageInfo.endCursor)">Load More
+            </button>
+          </div>
+        </ng-container>
+      </nz-col>
+    </nz-row>
+  </nz-card>
 </ng-container>

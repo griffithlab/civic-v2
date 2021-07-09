@@ -59,6 +59,7 @@ fragment eventFeedNode on Event {
         id
         username
         displayName
+        role
         profileImagePath(size: 32)
     }
     subject {

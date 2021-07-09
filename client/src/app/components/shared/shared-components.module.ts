@@ -76,7 +76,15 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
 import { OrganizationsBrowseComponent } from './organizations-browse/organizations-browse.component';
-
+import { UserTagComponent } from './user-tag/user-tag.component';
+import { GeneTagComponent } from './gene-tag/gene-tag.component';
+import { OrgTagComponent } from './org-tag/org-tag.component';
+import { RevisionTagComponent } from './revision-tag/revision-tag.component';
+import { EventTimelineComponent } from './event-timeline/event-timeline.component';
+import { CommentTagComponent } from './comment-tag/comment-tag.component';
+import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
+import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
+import { FlagTagComponent } from './flag-tag/flag-tag.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +117,16 @@ import { OrganizationsBrowseComponent } from './organizations-browse/organizatio
     AssertionCardComponent,
     OrganizationCardComponent,
     OrganizationAvatarComponent,
-    OrganizationsBrowseComponent
+    OrganizationsBrowseComponent,
+    UserTagComponent,
+    GeneTagComponent,
+    OrgTagComponent,
+    RevisionTagComponent,
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ],
   imports: [
     CommonModule,
@@ -184,7 +201,16 @@ import { OrganizationsBrowseComponent } from './organizations-browse/organizatio
     AssertionCardComponent,
     OrganizationCardComponent,
     OrganizationAvatarComponent,
-    OrganizationsBrowseComponent
+    OrganizationsBrowseComponent,
+    UserTagComponent,
+    GeneTagComponent,
+    OrgTagComponent,
+    RevisionTagComponent,
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ]
 })
 
