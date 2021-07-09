@@ -151,7 +151,7 @@
                   <a routerLink="/evidence/{{eid.id}}">{{eid.name}}</a>
                 </td>
                 <td>
-                  <ng-container *ngIf="eid.disease.displayName; else diseaseElse">
+                  <ng-container *ngIf="eid.disease; else diseaseElse">
                     {{ eid.disease.displayName }}
                   </ng-container>
                   <ng-template #diseaseElse>
