@@ -14,6 +14,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
   @Input() organizationId: Maybe<number>
+  @Input() userId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
@@ -50,6 +51,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       variantId: this.variantId,
       evidenceId: this.evidenceId,
       organizationId: this.organizationId,
+      userId: this.userId,
       cardView: !this.tableView
 
     }, { fetchPolicy: 'cache-and-network' });

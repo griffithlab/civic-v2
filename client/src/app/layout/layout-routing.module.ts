@@ -24,6 +24,7 @@ const routes: Routes = [
       { path: 'variant-groups', loadChildren: () => import('@app/views/variant-groups/variant-groups.module').then(m => m.VariantGroupsModule) },
       { path: 'variants', loadChildren: () => import('@app/views/variants/variants.module').then(m => m.VariantsModule) },
       { path: 'organizations', loadChildren: () => import('@app/views/organizations/organizations.module').then(m => m.OrganizationsModule)},
+      { path: 'users', loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule)},
 
       // Other App Views
       { path: 'welcome', loadChildren: () => import('@app/views/welcome/welcome.module').then(m => m.WelcomeModule) },

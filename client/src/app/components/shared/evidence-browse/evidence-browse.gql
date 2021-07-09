@@ -16,6 +16,7 @@ query EvidenceBrowse(
   $variantId: Int
   $assertionId: Int
   $organizationId: Int
+  $userId: Int
   $sortBy: EvidenceSort,
   $cardView: Boolean!
 ) {
@@ -37,6 +38,7 @@ query EvidenceBrowse(
     variantId: $variantId
     assertionId: $assertionId
     organizationId: $organizationId
+    userId: $userId
     sortBy: $sortBy
   ) {
     totalCount

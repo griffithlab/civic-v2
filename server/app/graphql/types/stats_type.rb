@@ -1,5 +1,5 @@
 module Types
-  class OrgStatsType < Types::BaseObject
+  class StatsType < Types::BaseObject
     field :comments, Int, null: false
     field :revisions, Int, null: false
     field :applied_revisions, Int, null: false

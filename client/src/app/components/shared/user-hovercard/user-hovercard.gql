@@ -1,5 +1,5 @@
 query UserHoverCard($userId: Int!) {
-  user(userId: $userId) {
+  user(id: $userId) {
     ...hovercardUser
   }
 }
