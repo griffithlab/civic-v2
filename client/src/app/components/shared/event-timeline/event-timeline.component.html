@@ -47,6 +47,12 @@
                   <ng-container *ngSwitchCaseDefault>{{ subject.name }}</ng-container>
                 </ng-container>
 
+                <!-- user organization -->
+                <ng-container *ngIf="event.organization as org">
+                  <span nz-typography>for&nbsp;</span>
+                  <cvc-org-tag [org]="org"></cvc-org-tag>
+                </ng-container>
+
                 <!-- comment timestamp -->
                 <span nz-typography
                   nz-tooltip

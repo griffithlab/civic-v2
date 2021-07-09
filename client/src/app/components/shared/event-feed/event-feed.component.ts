@@ -40,7 +40,8 @@ export class EventFeedComponent implements OnInit {
   participants$?: Observable<LinkableUser[]>;
   organizations$?: Observable<LinkableOrganization[]>;
 
-  constructor(private gql: EventFeedGQL) { }
+  constructor(private gql: EventFeedGQL) {
+  }
 
   ngOnInit() {
     this.initialQueryVars = {
@@ -48,7 +49,7 @@ export class EventFeedComponent implements OnInit {
       first: this.pageSize,
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryVars, { fetchPolicy: 'cache-and-network' });
+    this.queryRef = this.gql.watch(this.initialQueryVars, {});
     this.results$ = this.queryRef.valueChanges;
 
     this.pageInfo$ = this.results$.pipe(
@@ -74,7 +75,7 @@ export class EventFeedComponent implements OnInit {
     this.queryRef.fetchMore({
       variables: {
         first: this.pageSize,
-        after: endCursor
+        after: endCursor,
       }
     })
   }
@@ -82,7 +83,6 @@ export class EventFeedComponent implements OnInit {
   onParticipantSelected(u: 'ALL' | number) {
     this.queryRef.refetch({
       ...this.initialQueryVars,
-      organizationId: this.currentVariables()?.organizationId,
       originatingUserId: u === 'ALL' ? undefined : u
     })
   }
@@ -90,7 +90,6 @@ export class EventFeedComponent implements OnInit {
   onOrganizationSelected(o: 'ALL' | number) {
     this.queryRef.refetch({
       ...this.initialQueryVars,
-      originatingUserId: this.currentVariables().originatingUserId,
       organizationId: o === 'ALL' ? undefined : o
     })
   }
@@ -112,8 +111,4 @@ export class EventFeedComponent implements OnInit {
     }
   }
 
-  //TODO - Sigh, fix this when the new angular-apollo comes out
-  private currentVariables(): EventFeedQueryVariables {
-    return this.queryRef['obsQuery'].variables as EventFeedQueryVariables;
-  }
 }

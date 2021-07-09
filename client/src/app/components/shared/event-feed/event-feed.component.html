@@ -50,7 +50,7 @@
     </ng-template>
 
     <nz-row [nzGutter]="16">
-      <nz-col nzSpan="20"
+      <nz-col nzSpan="24"
         class="timeline">
         <ng-container *ngIf="events.length">
           <cvc-event-timeline [events]="events"></cvc-event-timeline>
@@ -68,19 +68,6 @@
             </button>
           </div>
         </ng-container>
-      </nz-col>
-      <nz-col nzSpan="4"
-        class="sidebar">
-        <nz-card nzTitle="Curators" >
-          <h4>Users</h4>
-          <cvc-user-avatar *ngFor="let u of participants$ | ngrxPush"
-            [user]="u"></cvc-user-avatar>
-          <br/>
-          <br/>
-          <h4>Organizations</h4>
-          <cvc-user-avatar *ngFor="let o of organizations$ | ngrxPush"
-            [user]="{ displayName: o.name, profileImagePath: o.profileImagePath }"></cvc-user-avatar>
-        </nz-card>
       </nz-col>
     </nz-row>
   </nz-card>
