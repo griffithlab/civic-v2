@@ -8,8 +8,8 @@
 }
 
 .tag-list ::ng-deep > * {
-  // immediate child element might be an anchor, need to set to inline block
-  // so that margin will be applied
+  // immediate child element might be displayed inline (span or anchor),
+  // need to set to inline block to ensure margin will be applied
   display: inline-block;
   // add bottom margin to tags to ensure gap between wrapped rows of tags
   margin-bottom: @default-padding-xs;
