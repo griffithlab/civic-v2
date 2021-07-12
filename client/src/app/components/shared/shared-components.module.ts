@@ -67,6 +67,15 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { UserCardComponent } from './user-card/user-card.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
+import { AssertionCardComponent } from './assertion-card/assertion-card.component';
+import { OrganizationCardComponent } from './organization-card/organization-card.component';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
+import { OrganizationsBrowseComponent } from './organizations-browse/organizations-browse.component';
 import { UserTagComponent } from './user-tag/user-tag.component';
 import { GeneTagComponent } from './gene-tag/gene-tag.component';
 import { OrgTagComponent } from './org-tag/org-tag.component';
@@ -103,6 +112,12 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
+    UserCardComponent,
+    EvidenceCardComponent,
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent,
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,
@@ -152,7 +167,10 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     VariantsComponentsModule,
     NzSelectModule,
     NzPageHeaderModule,
-    NzTableModule
+    NzTableModule,
+    NzSwitchModule,
+    NzStatisticModule,
+    NzImageModule,
   ],
   exports: [
     CommentAddComponent,
@@ -178,6 +196,12 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
+    UserCardComponent,
+    EvidenceCardComponent,
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent,
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,

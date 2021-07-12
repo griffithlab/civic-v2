@@ -63,6 +63,12 @@
             "name": "Gene"
           },
           {
+            "name": "Revision"
+          },
+          {
+            "name": "Source"
+          },
+          {
             "name": "Variant"
           }
         ]

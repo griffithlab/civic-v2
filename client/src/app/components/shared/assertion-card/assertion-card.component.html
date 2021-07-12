@@ -1,0 +1,73 @@
+<nz-space nzDirection="vertical">
+    <nz-space-item >
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="24">
+                <nz-card [nzTitle]="assertionTitle" style="width: 100%">
+                    <ng-template #assertionTitle>
+                        <i nz-icon nzType="civic:assertion"></i>
+                        {{ assertion.name }}
+                        <i nz-icon nzType="civic:gene"></i>
+                        {{ assertion.gene.name }}
+                        <i nz-icon nzType="civic:variant"></i>
+                        {{ assertion.variant.name }}
+                    </ng-template>
+                    <nz-row [nzGutter]="16">
+                        <nz-col [nzSpan]="8">
+                            <nz-row><b>Summary:&nbsp;</b>{{assertion.summary}}</nz-row>
+                        </nz-col>
+                        <nz-col [nzSpan]="8">
+                            <nz-row><b>Assertion Type:&nbsp;</b>{{ assertion.assertionType }}</nz-row>
+                            <nz-row><b>Assertion Direction:&nbsp;</b>{{ assertion.assertionDirection }}</nz-row>
+                            <nz-row><b>Clinical Significance:&nbsp;</b>{{ assertion.clinicalSignificance }}</nz-row>
+                            <nz-row><b>Variant Origin:&nbsp;</b>{{ assertion.variantOrigin }}</nz-row>
+                            <nz-row [ngPlural]="assertion.drugs.length">
+                                <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
+                                <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
+                                <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
+                                <ng-container *ngFor="let drug of assertion.drugs; let last = last">
+                                  {{ drug.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="assertion.drugs.length > 1">{{ ' (' + assertion.drugInteractionType + ')' }}</ng-container>
+                            </nz-row>
+                        </nz-col>
+                        <nz-col [nzSpan]="8">
+                            <nz-row *ngIf="assertion.disease"><b>Disease:&nbsp;</b>{{ assertion.disease.displayName }}</nz-row>
+                            <nz-row *ngIf="!assertion.disease"><b>Disease:&nbsp;</b><i>Not Applicable</i></nz-row>
+                            <nz-row [ngPlural]="assertion.phenotypes.length">
+                                <ng-template ngPluralCase="=0"><b>Associated Phenotype:&nbsp;</b> <i>-</i></ng-template>
+                                <ng-template ngPluralCase="=1"><b>Associated Phenotype:&nbsp;</b></ng-template>
+                                <ng-template ngPluralCase="other"><b>Associated Phenotypes:&nbsp;</b></ng-template>
+                                <ng-container *ngFor="let p of assertion.phenotypes; let last = last">
+                                  {{ p.hpoClass }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                </ng-container>
+                            </nz-row>
+                            <nz-row *ngIf="assertion.ampLevel"><b>AMP/ASCO/CAP Category:&nbsp;</b>{{ assertion.ampLevel }}</nz-row>
+                            <nz-row *ngIf="assertion.acmgCodes.length > 0">
+                            <span *ngIf="assertion.acmgCodes.length === 1; else acmgElse"><b>ACMG Code:&nbsp;</b></span>
+                            <ng-template #acmgElse><b>ACMG Codes:&nbsp;</b></ng-template>
+                            <span *ngFor="let code of assertion.acmgCodes; let last = last" >
+                                {{ code.code }}<ng-container *ngIf="!last">,&nbsp;</ng-container>
+                            </span>
+                            </nz-row>
+                            <nz-row *ngIf="assertion.nccnGuideline"><b>NCCN Guideline:&nbsp;</b>{{ assertion.nccnGuideline }}</nz-row>
+                            <nz-row>
+                            <b>Regulatory Approval:&nbsp;</b>
+                            <i *ngIf="assertion.regulatoryApproval; else regulatoryApprovalElse" nz-icon nzType="check-square"></i>
+                            <ng-template #regulatoryApprovalElse>
+                                <i nz-icon nzType="close-square"></i>
+                            </ng-template>
+                            </nz-row>
+                            <nz-row>
+                            <b>FDA Companion Test:&nbsp;</b>
+                            <i *ngIf="assertion.fdaCompanionTest; else fdaTestElse" nz-icon nzType="check-square"></i>
+                            <ng-template #fdaTestElse>
+                                <i nz-icon nzType="close-square"></i>
+                            </ng-template>
+                            </nz-row>
+                        </nz-col>
+                    </nz-row>
+                </nz-card>
+            </nz-col>
+        </nz-row>
+    </nz-space-item>
+</nz-space>

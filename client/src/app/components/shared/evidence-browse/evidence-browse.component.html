@@ -4,9 +4,12 @@
     Evidence Items
     <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
   </nz-page-header-title>
+  <nz-page-header-extra>
+    Card View <nz-switch [(ngModel)]="tableView" (ngModelChange)="refresh()"></nz-switch> Table View
+  </nz-page-header-extra>
 
   <nz-page-header-content>
-    <div nz-row>
+    <div *ngIf="tableView" nz-row>
       <div nz-col [nzSpan]="24">
         <div class="content">
           <nz-table #evidenceTable
@@ -148,7 +151,7 @@
                   <a routerLink="/evidence/{{eid.id}}">{{eid.name}}</a>
                 </td>
                 <td>
-                  <ng-container *ngIf="eid.disease.displayName; else diseaseElse">
+                  <ng-container *ngIf="eid.disease; else diseaseElse">
                     {{ eid.disease.displayName }}
                   </ng-container>
                   <ng-template #diseaseElse>
@@ -190,6 +193,13 @@
             </tbody>
           </nz-table>
         </div>
+      </div>
+    </div>
+    <div *ngIf="!tableView" nz-row>
+      <div nz-col [nzSpan]="24">
+        <ng-container *ngFor="let evidence of evidence$ | ngrxPush">
+          <cvc-evidence-card [evidence]="evidence"></cvc-evidence-card>
+        </ng-container>
       </div>
     </div>
   </nz-page-header-content>

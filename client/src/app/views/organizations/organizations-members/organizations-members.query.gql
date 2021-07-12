@@ -1,0 +1,30 @@
+
+query OrganizationMembers(
+  $organizationId: Int!
+) {
+  organization(id: $organizationId) {
+    members {
+      edges {
+        cursor
+        node {
+          ...OrganizationMembersFields
+        }
+      }
+    }
+  }
+}
+
+fragment OrganizationMembersFields on User {
+  id
+  name
+  displayName
+  userName
+  profileImagePath(size:36)
+  role
+  url
+  areaOfExpertise
+  orcid
+  twitterHandle
+  facebookProfile
+  linkedinProfile
+} 

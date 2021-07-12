@@ -23,7 +23,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     drugInteractionType
     disease {
       id
-      name
+      displayName
     }
     phenotypes {
       id
