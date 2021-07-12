@@ -76,6 +76,7 @@ import { CommentTagComponent } from './comment-tag/comment-tag.component';
 import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
 import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
+import { TagListComponent } from './tag-list/tag-list.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     CommentTagComponent,
     EvidenceTagComponent,
     AssertionTagComponent,
-    FlagTagComponent
+    FlagTagComponent,
+    TagListComponent
   ],
   imports: [
     CommonModule,
@@ -186,7 +188,8 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     CommentTagComponent,
     EvidenceTagComponent,
     AssertionTagComponent,
-    FlagTagComponent
+    FlagTagComponent,
+    TagListComponent
   ]
 })
 

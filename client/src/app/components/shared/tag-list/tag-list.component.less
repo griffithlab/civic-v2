@@ -1,0 +1,16 @@
+@import 'global-variables.less';
+
+:host {
+  display: block;
+  // pull up the bottom margin of the card by the same height as the tag
+  // margins we apply above otherwise the bottom margin will be too large
+  margin-bottom: -@default-padding-xs;
+}
+
+.tag-list ::ng-deep > * {
+  // immediate child element might be an anchor, need to set to inline block
+  // so that margin will be applied
+  display: inline-block;
+  // add bottom margin to tags to ensure gap between wrapped rows of tags
+  margin-bottom: @default-padding-xs;
+}
