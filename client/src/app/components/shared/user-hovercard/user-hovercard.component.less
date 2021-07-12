@@ -8,13 +8,3 @@
   margin-left: @margin-md;
   font-weight: normal;
 }
-
-.tag-container {
-  & > * {
-    // provide margins between rows of tags by applying a margin to each
-    margin-bottom: @default-padding-xs;
-  }
-  // pull up the bottom margin of the card by the same height as the tag
-  // margins we apply above otherwise the bottom margin will be too large
-  margin-bottom: -@default-padding-xs;
-}

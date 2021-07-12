@@ -65,12 +65,14 @@
         </nz-form-item>
       </form>
     </ng-template>
-    <nz-row id="variant-tags">
+    <nz-row>
       <nz-col nzSpan="24">
-        <a routerLink="/variants/{{v.id}}"
-          *ngFor="let v of variants">
-          <cvc-variant-pill [variant]="v"></cvc-variant-pill>
-        </a>
+        <cvc-tag-list>
+          <a routerLink="/variants/{{v.id}}"
+            *ngFor="let v of variants">
+            <cvc-variant-pill [variant]="v"></cvc-variant-pill>
+          </a>
+        </cvc-tag-list>
       </nz-col>
     </nz-row>
     <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
