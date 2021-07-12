@@ -2589,7 +2589,7 @@ export type UserHoverCardQuery = (
 
 export type HovercardUserFragment = (
   { __typename: 'User' }
-  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio'>
+  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio' | 'role'>
   & { organizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
@@ -3601,6 +3601,7 @@ export const HovercardUserFragmentDoc = gql`
   profileImagePath(size: 64)
   displayName
   bio
+  role
   organizations {
     id
     name
