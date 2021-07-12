@@ -77,6 +77,7 @@ import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
 import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
+import { OrgPopoverComponent } from './org-popover/org-popover.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { TagListComponent } from './tag-list/tag-list.component';
     EvidenceTagComponent,
     AssertionTagComponent,
     FlagTagComponent,
-    TagListComponent
+    TagListComponent,
+    OrgPopoverComponent
   ],
   imports: [
     CommonModule,
@@ -189,7 +191,8 @@ import { TagListComponent } from './tag-list/tag-list.component';
     EvidenceTagComponent,
     AssertionTagComponent,
     FlagTagComponent,
-    TagListComponent
+    TagListComponent,
+    OrgPopoverComponent
   ]
 })
 

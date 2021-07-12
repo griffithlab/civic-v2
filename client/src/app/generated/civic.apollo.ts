@@ -2540,6 +2540,24 @@ export type FlagListFragment = (
   )> }
 );
 
+export type OrgPopoverQueryVariables = Exact<{
+  orgId: Scalars['Int'];
+}>;
+
+
+export type OrgPopoverQuery = (
+  { __typename: 'Query' }
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & OrgPopoverFragment
+  )> }
+);
+
+export type OrgPopoverFragment = (
+  { __typename: 'Organization' }
+  & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
+);
+
 export type OrgHoverCardQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -3586,6 +3604,15 @@ export const FlagListFragmentDoc = gql`
   }
 }
     `;
+export const OrgPopoverFragmentDoc = gql`
+    fragment orgPopover on Organization {
+  id
+  profileImagePath(size: 64)
+  name
+  description
+  url
+}
+    `;
 export const HovercardOrgFragmentDoc = gql`
     fragment hovercardOrg on Organization {
   id
@@ -4201,6 +4228,24 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const OrgPopoverDocument = gql`
+    query OrgPopover($orgId: Int!) {
+  organization(id: $orgId) {
+    ...orgPopover
+  }
+}
+    ${OrgPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class OrgPopoverGQL extends Apollo.Query<OrgPopoverQuery, OrgPopoverQueryVariables> {
+    document = OrgPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
