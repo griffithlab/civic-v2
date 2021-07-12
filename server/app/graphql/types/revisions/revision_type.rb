@@ -32,7 +32,9 @@ module Types::Revisions
 
     def revisor
       Loaders::AssociationLoader.for(Revision, :creation_event).load(object).then do |event|
-        Loaders::AssociationLoader.for(Event, :originating_user).load(event)
+        if !event.nil?
+          Loaders::AssociationLoader.for(Event, :originating_user).load(event)
+        end
       end
     end
   end
