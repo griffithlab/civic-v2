@@ -1,4 +1,9 @@
-<nz-tag nzColor="cyan">
-  <i nz-icon nzType="civic-organization"></i>
-  {{ org.name }}
+<nz-tag nzColor="cyan"
+  nz-popover
+  [nzPopoverContent]="orgPopover">
+  <i nz-icon
+    nzType="civic-organization"></i> {{ org.name }}
 </nz-tag>
+<ng-template #orgPopover>
+  <cvc-org-hovercard [orgId]="org.id"></cvc-org-hovercard>
+</ng-template>

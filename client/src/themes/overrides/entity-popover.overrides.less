@@ -43,8 +43,14 @@
     }
   }
 }
-
+.popover-text {
+  width: 100%;
+  // add padding for paragraphs displayed in the card content area
+  padding: @padding-sm;
+  border-bottom: 1px solid @border-color-split;
+}
 #popover-content {
   // need to specify a width to popover content or else it won't be able to correctly calculate its display position
   min-width: 400px;
+  max-width: 400px;
 }

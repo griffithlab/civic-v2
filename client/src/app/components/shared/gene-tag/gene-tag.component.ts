@@ -1,24 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 export interface LinkableGene {
-  id: number,
-  name: string,
+  id: number;
+  name: string;
 }
 
 @Component({
   selector: 'cvc-gene-tag',
   templateUrl: './gene-tag.component.html',
-  styleUrls: ['./gene-tag.component.less']
+  styleUrls: ['./gene-tag.component.less'],
 })
 export class GeneTagComponent implements OnInit {
-  @Input() gene!: LinkableGene
+  @Input() gene!: LinkableGene;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.gene === undefined) {
-      throw new Error('cvc-gene-tag requires LinkableGene input, none supplied.')
+      throw new Error(
+        'cvc-gene-tag requires LinkableGene input, none supplied.'
+      );
     }
   }
-
 }
