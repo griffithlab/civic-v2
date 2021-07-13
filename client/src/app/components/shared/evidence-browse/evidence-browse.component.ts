@@ -53,7 +53,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       organizationId: this.organizationId,
       userId: this.userId,
       cardView: !this.tableView
-    }, { fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
+    });
 
     let observable = this.queryRef.valueChanges;
 
