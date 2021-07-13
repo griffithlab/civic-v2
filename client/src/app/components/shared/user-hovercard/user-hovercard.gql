@@ -9,6 +9,7 @@ fragment hovercardUser on User {
   profileImagePath(size: 64)
   displayName
   bio
+  role
   organizations {
     id
     name

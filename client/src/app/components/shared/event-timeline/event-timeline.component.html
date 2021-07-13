@@ -2,24 +2,10 @@
   <ng-container *ngFor="let event of events">
     <nz-timeline-item [nzDot]="timelineDotTemplate">
       <ng-template #timelineDotTemplate>
-        <ng-container *ngIf="event.action === 'COMMENTED'; else otherAction">
-          <cvc-user-avatar
-            [user]="event.originatingUser"
-            size="small"></cvc-user-avatar>
-        </ng-container>
-        <ng-template #otherAction>
           <i nz-icon
             [nzType]="iconNameForEventAction(event.action)"
             nzTheme="twotone"
             class="item-icon"></i>
-        </ng-template>
-        <!-- <ng-container *ngIf="iconColorForEventAction(event.action) !== 'default'; else defaultPrimaryColor">
-             <i nz-icon
-             [nzType]="iconNameForEventAction(event.action)"
-             [nzTwotoneColor]="iconColorForEventAction(event.action)"
-             nzTheme="twotone"
-             class="item-icon"></i>
-             </ng-container> -->
       </ng-template>
 
       <!-- display full description row unless Comment type -->
@@ -28,7 +14,7 @@
         <!-- default to full description -->
         <nz-col nzFlex="auto"
           class="description">
-          
+
           <!-- user tag -->
           <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
 

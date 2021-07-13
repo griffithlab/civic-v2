@@ -1,19 +1,27 @@
-<nz-card *ngIf="gene$ | ngrxPush as gene" [nzTitle]="gene.name" [nzExtra]="avatar" style="width:400px;">
-    <nz-card-meta [nzDescription]="gene.officialName"></nz-card-meta>
-    <ng-template #avatar>
-        <nz-avatar nz-page-header-avatar nzIcon="civic:gene"> </nz-avatar>  
-    </ng-template>
-    <div *ngIf="gene.aliases.length > 0">
-        Aliases: 
-        <span *ngFor="let alias of gene.aliases; last as isLast">
+<nz-card *ngIf="gene$ | ngrxPush as gene"
+  [nzTitle]="gene.name"
+  [nzExtra]="avatar"
+  style="width:400px;">
+  <nz-card-meta [nzDescription]="gene.officialName"></nz-card-meta>
+  <ng-template #avatar>
+    <nz-avatar nz-page-header-avatar
+      nzIcon="civic:gene"> </nz-avatar>
+  </ng-template>
+  <div *ngIf="gene.aliases.length > 0">
+    Aliases:
+    <span *ngFor="let alias of gene.aliases; last as isLast">
             {{alias.name}}<span *ngIf="!isLast">,</span>
-        </span>
-        <nz-divider></nz-divider>
-    </div>
-    <nz-avatar nzIcon="civic:variant" nzSize="small"> </nz-avatar>  
-    Variant Count: {{ gene.variants.totalCount }}
+    </span>
     <nz-divider></nz-divider>
-    <nz-avatar nzIcon="flag" nzSize="small"></nz-avatar> {{ gene.flags.totalCount }} open flags
-    <nz-avatar nzIcon="civic:revision" nzSize="small"></nz-avatar> {{ gene.revisions.totalCount }} open revisions
-    <nz-avatar nzIcon="civic:comment" nzSize="small"></nz-avatar> {{ gene.comments.totalCount }} comments
+  </div>
+  <nz-avatar nzIcon="civic:variant"
+    nzSize="small"> </nz-avatar>
+  Variant Count: {{ gene.variants.totalCount }}
+  <nz-divider></nz-divider>
+  <nz-avatar nzIcon="flag"
+    nzSize="small"></nz-avatar> {{ gene.flags.totalCount }} open flags
+  <nz-avatar nzIcon="civic:revision"
+    nzSize="small"></nz-avatar> {{ gene.revisions.totalCount }} open revisions
+  <nz-avatar nzIcon="civic:comment"
+    nzSize="small"></nz-avatar> {{ gene.comments.totalCount }} comments
 </nz-card>

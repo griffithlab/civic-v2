@@ -1,0 +1,26 @@
+query GenePopover($geneId: Int!) {
+  gene(id: $geneId) {
+    ...genePopover
+  }
+}
+
+fragment genePopover on Gene {
+  id,
+  name,
+  officialName,
+  aliases {
+    name
+  }
+  variants {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+}

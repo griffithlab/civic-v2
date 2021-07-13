@@ -1,0 +1,22 @@
+@import 'global-variables.less';
+
+:host {
+  display: block;
+  // pull up the bottom margin of the list container by the same height as the tag
+  // margins we apply below, otherwise the bottom padding will be too large
+  margin-bottom: -@margin-sm;
+}
+
+// > * selects all direct children and no deeper
+.tag-list ::ng-deep > * {
+  // direct child element might be inline (span or anchor),
+  // need to set to inline-block to ensure margin will be applied
+  display: inline-block;
+  // add bottom margin to tags to ensure gap between wrapped rows of tags
+  margin-bottom: @margin-sm;
+}
+.tag-list ::ng-deep > *:last-child {
+  // remove right margin from last tag to prevent extra gap between it
+  // and parent container
+  margin-right: -@margin-sm;
+}

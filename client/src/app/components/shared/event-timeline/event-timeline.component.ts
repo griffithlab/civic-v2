@@ -20,38 +20,6 @@ export class EventTimelineComponent implements OnInit {
     }
   }
 
-  iconColorForEventAction(a: EventAction): string {
-    // returns status colors for entities that have statuses
-    switch (a) {
-      case (EventAction.RevisionSuggested):
-        return 'orange'
-      case (EventAction.RevisionAccepted):
-        return 'green'
-      case (EventAction.RevisionRejected):
-        return 'red'
-      case (EventAction.RevisionSuperseded):
-        return 'grey'
-      case (EventAction.Flagged):
-        return 'red'
-      case (EventAction.FlagResolved):
-        return 'green'
-      case (EventAction.AssertionSubmitted):
-        return 'orange'
-      case (EventAction.AssertionAccepted):
-        return 'green'
-      case (EventAction.AssertionRejected):
-        return 'red'
-      case (EventAction.Submitted):
-        return 'orange'
-      case (EventAction.Accepted):
-        return 'green'
-      case (EventAction.Rejected):
-        return 'red'
-      default:
-        return 'default'
-    }
-  }
-
   iconNameForEventAction(a: EventAction): string {
     switch (a) {
       case (EventAction.Commented):
