@@ -2540,6 +2540,40 @@ export type FlagListFragment = (
   )> }
 );
 
+export type GenePopoverQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GenePopoverQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & GenePopoverFragment
+  )> }
+);
+
+export type GenePopoverFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'officialName'>
+  & { aliases: Array<(
+    { __typename: 'GeneAlias' }
+    & Pick<GeneAlias, 'name'>
+  )>, variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ) }
+);
+
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -3604,6 +3638,28 @@ export const FlagListFragmentDoc = gql`
   }
 }
     `;
+export const GenePopoverFragmentDoc = gql`
+    fragment genePopover on Gene {
+  id
+  name
+  officialName
+  aliases {
+    name
+  }
+  variants {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+}
+    `;
 export const OrgPopoverFragmentDoc = gql`
     fragment orgPopover on Organization {
   id
@@ -4228,6 +4284,24 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GenePopoverDocument = gql`
+    query GenePopover($geneId: Int!) {
+  gene(id: $geneId) {
+    ...genePopover
+  }
+}
+    ${GenePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
+    document = GenePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

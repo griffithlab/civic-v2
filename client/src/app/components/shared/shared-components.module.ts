@@ -78,6 +78,7 @@ import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
+import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { OrgPopoverComponent } from './org-popover/org-popover.component';
     AssertionTagComponent,
     FlagTagComponent,
     TagListComponent,
-    OrgPopoverComponent
+    OrgPopoverComponent,
+    GenePopoverComponent
   ],
   imports: [
     CommonModule,
@@ -192,7 +194,8 @@ import { OrgPopoverComponent } from './org-popover/org-popover.component';
     AssertionTagComponent,
     FlagTagComponent,
     TagListComponent,
-    OrgPopoverComponent
+    OrgPopoverComponent,
+    GenePopoverComponent
   ]
 })
 
