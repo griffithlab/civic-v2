@@ -151,7 +151,7 @@ enum AmpLevel {
   TIER_I_LEVEL_B
 }
 
-type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions {
+type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
@@ -1103,7 +1103,7 @@ enum EvidenceDirection {
   SUPPORTS
 }
 
-type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisions {
+type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
   clinicalSignificance: EvidenceClinicalSignificance!
