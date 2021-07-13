@@ -69,6 +69,24 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { QuicksearchComponent } from './quicksearch/quicksearch-component';
+import { UserCardComponent } from './user-card/user-card.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
+import { AssertionCardComponent } from './assertion-card/assertion-card.component';
+import { OrganizationCardComponent } from './organization-card/organization-card.component';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
+import { OrganizationsBrowseComponent } from './organizations-browse/organizations-browse.component';
+import { UserTagComponent } from './user-tag/user-tag.component';
+import { GeneTagComponent } from './gene-tag/gene-tag.component';
+import { OrgTagComponent } from './org-tag/org-tag.component';
+import { RevisionTagComponent } from './revision-tag/revision-tag.component';
+import { EventTimelineComponent } from './event-timeline/event-timeline.component';
+import { CommentTagComponent } from './comment-tag/comment-tag.component';
+import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
+import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
+import { FlagTagComponent } from './flag-tag/flag-tag.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +114,22 @@ import { QuicksearchComponent } from './quicksearch/quicksearch-component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
-    QuicksearchComponent
+    QuicksearchComponent,
+    UserCardComponent,
+    EvidenceCardComponent,
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent,
+    UserTagComponent,
+    GeneTagComponent,
+    OrgTagComponent,
+    RevisionTagComponent,
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ],
   imports: [
     CommonModule,
@@ -139,7 +172,10 @@ import { QuicksearchComponent } from './quicksearch/quicksearch-component';
     NzPageHeaderModule,
     NzTableModule,
     NzAutocompleteModule,
-    NzInputModule
+    NzInputModule,
+    NzSwitchModule,
+    NzStatisticModule,
+    NzImageModule,
   ],
   exports: [
     CommentAddComponent,
@@ -165,7 +201,22 @@ import { QuicksearchComponent } from './quicksearch/quicksearch-component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
-    QuicksearchComponent
+    QuicksearchComponent,
+    UserCardComponent,
+    EvidenceCardComponent,
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent,
+    UserTagComponent,
+    GeneTagComponent,
+    OrgTagComponent,
+    RevisionTagComponent,
+    EventTimelineComponent,
+    CommentTagComponent,
+    EvidenceTagComponent,
+    AssertionTagComponent,
+    FlagTagComponent
   ]
 })
 

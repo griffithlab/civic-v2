@@ -20,6 +20,10 @@ module Types::Interfaces
           Types::Entities::EvidenceItemType
         when Assertion
           Types::Entities::AssertionType
+        when Revision
+          Types::Revisions::RevisionType
+        when Source
+          Types::Entities::SourceType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

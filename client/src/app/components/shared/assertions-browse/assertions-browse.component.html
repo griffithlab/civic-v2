@@ -1,13 +1,15 @@
-<ng-container *ngIf="(totalCount$ | ngrxPush) > 0">
 <nz-page-header class="site-page-header">
   <nz-page-header-title>
     <i nz-icon nzType="civic:assertion"></i>
     Assertions
     <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
   </nz-page-header-title>
+  <nz-page-header-extra>
+    Card View <nz-switch [(ngModel)]="tableView" (ngModelChange)="refresh()"></nz-switch> Table View
+  </nz-page-header-extra>
 
   <nz-page-header-content>
-    <div nz-row>
+    <div *ngIf="tableView" nz-row>
       <div nz-col [nzSpan]="24">
         <div class="content">
           <nz-table #assertionsTable
@@ -171,6 +173,12 @@
         </div>
       </div>
     </div>
+    <div *ngIf="!tableView" nz-row>
+      <div nz-col [nzSpan]="24">
+        <ng-container *ngFor="let assertion of assertions$ | ngrxPush">
+          <cvc-assertion-card [assertion]="assertion"></cvc-assertion-card>
+        </ng-container>
+      </div>
+    </div>
   </nz-page-header-content>
 </nz-page-header>
-</ng-container>

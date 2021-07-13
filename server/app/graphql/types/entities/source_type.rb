@@ -1,5 +1,7 @@
 module Types::Entities
   class SourceType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
+
     field :id, Int, null: false
     field :name, String, null: false
     field :citation, String, null: false
