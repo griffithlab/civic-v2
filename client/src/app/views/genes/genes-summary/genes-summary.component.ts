@@ -1,50 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { pluck, map} from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { pluck, map } from 'rxjs/operators';
 
 import {
   SubscribableEntities,
   SubscribableInput,
   GenesSummaryGQL,
   GeneSummaryFieldsFragment,
-  Maybe, 
+  Maybe,
 } from '@app/generated/civic.apollo';
 
-import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/shared/services/viewer/viewer.service';
 
 @Component({
   selector: 'cvc-genes-summary',
   templateUrl: './genes-summary.component.html',
-  styleUrls: ['./genes-summary.component.less']
+  styleUrls: ['./genes-summary.component.less'],
 })
-export class GenesSummaryComponent {
-  gene$: Observable<Maybe<GeneSummaryFieldsFragment>>;
-  loading$: Observable<boolean>
-  myGeneInfo$: Observable<any>;
-  viewer$: Observable<Viewer>;
+export class GenesSummaryComponent implements OnDestroy {
+  gene$?: Observable<Maybe<GeneSummaryFieldsFragment>>;
+  loading$?: Observable<boolean>;
+  myGeneInfo$?: Observable<any>;
+  viewer$?: Observable<Viewer>;
 
-  subscribableEntity: SubscribableInput 
+  subscribableEntity?: SubscribableInput;
 
-  constructor(private gql: GenesSummaryGQL,
+  routeSub: Subscription
+
+  constructor(
+    private gql: GenesSummaryGQL,
     private viewerService: ViewerService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute
+  ) {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.viewer$ = this.viewerService.viewer$;
 
-    this.viewer$ = this.viewerService.viewer$;
-    const geneId: number = +this.route.snapshot.params['geneId'];
+      let queryRef = this.gql.watch({ geneId: +params.geneId });
+      let observable = queryRef.valueChanges;
 
-    this.subscribableEntity = {
-      id: geneId,
-      entityType: SubscribableEntities.Gene
-    }
+      this.subscribableEntity = {
+        id: params.geneId,
+        entityType: SubscribableEntities.Gene,
+      };
 
-    let observable = this.gql.watch({geneId: geneId}).valueChanges
-    
-    this.gene$ = observable.pipe(pluck('data', 'gene'));
-    this.loading$ = observable.pipe(pluck('loading'));
+      this.gene$ = observable.pipe(pluck('data', 'gene'));
+      this.loading$ = observable.pipe(pluck('loading'));
 
-    this.myGeneInfo$ = this.gene$.pipe(
-      pluck('myGeneInfoDetails'),
-      map(info => JSON.parse(String(info))));
+      this.myGeneInfo$ = this.gene$.pipe(
+        pluck('myGeneInfoDetails'),
+        map((info) => JSON.parse(String(info)))
+      );
+    });
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe()
   }
 }

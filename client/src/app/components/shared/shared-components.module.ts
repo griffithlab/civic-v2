@@ -67,6 +67,8 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { QuicksearchComponent } from './quicksearch/quicksearch-component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
@@ -112,6 +114,7 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
+    QuicksearchComponent,
     UserCardComponent,
     EvidenceCardComponent,
     AssertionCardComponent,
@@ -168,6 +171,8 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     NzSelectModule,
     NzPageHeaderModule,
     NzTableModule,
+    NzAutocompleteModule,
+    NzInputModule,
     NzSwitchModule,
     NzStatisticModule,
     NzImageModule,
@@ -196,6 +201,7 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
+    QuicksearchComponent,
     UserCardComponent,
     EvidenceCardComponent,
     AssertionCardComponent,

@@ -25,7 +25,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     }),
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'cache-first',
+        fetchPolicy: 'cache-and-network',
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: false,
       },

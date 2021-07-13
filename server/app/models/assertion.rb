@@ -37,6 +37,15 @@ class Assertion < ActiveRecord::Base
   has_one :rejector, through: :rejection_event, source: :originating_user
 
   #associate_by_attribute :nccn_guideline, :name
+  
+  searchkick highlight: [:id]
+
+  def search_data
+    {
+      id: name
+    }
+  end
+
   def name
     "AID#{self.id}"
   end

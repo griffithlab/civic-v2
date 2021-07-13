@@ -2833,6 +2833,12 @@ type Query {
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
   """
   remoteCitation(citationId: Int!, sourceType: SourceSource!): String
+  search(
+    """
+    The term to query for
+    """
+    query: String!
+  ): [SearchResult!]!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
 
@@ -3147,6 +3153,22 @@ enum RevisionStatus {
 
 type ScalarField {
   value: String
+}
+
+type SearchResult {
+  id: Int!
+  matchingText: String!
+  name: String!
+  resultType: SearchableEntities!
+}
+
+enum SearchableEntities {
+  ASSERTION
+  EVIDENCE_ITEM
+  GENE
+  REVISION
+  VARIANT
+  VARIANT_GROUP
 }
 
 enum SortDirection {

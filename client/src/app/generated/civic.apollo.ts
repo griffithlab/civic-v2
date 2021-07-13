@@ -1460,6 +1460,7 @@ export type Query = {
   organizations: OrganizationConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
+  search: Array<SearchResult>;
   searchByPermalink: AdvancedSearchResult;
   searchGenes: AdvancedSearchResult;
   /** Find a source by CIViC ID */
@@ -1671,6 +1672,11 @@ export type QueryRemoteCitationArgs = {
 };
 
 
+export type QuerySearchArgs = {
+  query: Scalars['String'];
+};
+
+
 export type QuerySearchByPermalinkArgs = {
   permalinkId: Scalars['String'];
 };
@@ -1861,6 +1867,23 @@ export type ScalarField = {
   __typename: 'ScalarField';
   value?: Maybe<Scalars['String']>;
 };
+
+export type SearchResult = {
+  __typename: 'SearchResult';
+  id: Scalars['Int'];
+  matchingText: Scalars['String'];
+  name: Scalars['String'];
+  resultType: SearchableEntities;
+};
+
+export enum SearchableEntities {
+  Assertion = 'ASSERTION',
+  EvidenceItem = 'EVIDENCE_ITEM',
+  Gene = 'GENE',
+  Revision = 'REVISION',
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
+}
 
 export enum SortDirection {
   Asc = 'ASC',
@@ -2792,6 +2815,24 @@ export type OrganizationBrowseTableRowFieldsFragment = (
   ) }
 );
 
+export type QuicksearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type QuicksearchQuery = (
+  { __typename: 'Query' }
+  & { search: Array<(
+    { __typename: 'SearchResult' }
+    & QuicksearchResultFragment
+  )> }
+);
+
+export type QuicksearchResultFragment = (
+  { __typename: 'SearchResult' }
+  & Pick<SearchResult, 'id' | 'resultType' | 'name' | 'matchingText'>
+);
+
 export type ResolveFlagMutationVariables = Exact<{
   input: ResolveFlagInput;
 }>;
@@ -3497,7 +3538,7 @@ export type OrganizationMembersQuery = (
 
 export type OrganizationMembersFieldsFragment = (
   { __typename: 'User' }
-  & Pick<User, 'id' | 'name' | 'displayName' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
 );
 
 export type BrowseSourcesQueryVariables = Exact<{
@@ -3971,6 +4012,14 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
   }
 }
     `;
+export const QuicksearchResultFragmentDoc = gql`
+    fragment QuicksearchResult on SearchResult {
+  id
+  resultType
+  name
+  matchingText
+}
+    `;
 export const HovercardUserFragmentDoc = gql`
     fragment hovercardUser on User {
   id
@@ -4294,6 +4343,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   id
   name
   displayName
+  username
   profileImagePath(size: 36)
   role
   url
@@ -4702,6 +4752,24 @@ export const OrganizationsBrowseDocument = gql`
   })
   export class OrganizationsBrowseGQL extends Apollo.Query<OrganizationsBrowseQuery, OrganizationsBrowseQueryVariables> {
     document = OrganizationsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuicksearchDocument = gql`
+    query Quicksearch($query: String!) {
+  search(query: $query) {
+    ...QuicksearchResult
+  }
+}
+    ${QuicksearchResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
+    document = QuicksearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -18,7 +18,7 @@ fragment OrganizationMembersFields on User {
   id
   name
   displayName
-  userName
+  username
   profileImagePath(size:36)
   role
   url
