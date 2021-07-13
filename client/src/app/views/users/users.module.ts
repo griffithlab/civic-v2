@@ -37,6 +37,7 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 import { UsersAssertionsComponent } from './users-assertions/users-assertions.component';
+import { UsersEventsComponent } from './users-events/users-events.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { UsersAssertionsComponent } from './users-assertions/users-assertions.co
     UsersDetailComponent,
     UsersEvidenceComponent,
     UsersAssertionsComponent,
+    UsersEventsComponent,
   ],
   imports: [
     CommonModule,
@@ -87,6 +89,7 @@ import { UsersAssertionsComponent } from './users-assertions/users-assertions.co
     UsersDetailComponent,
     UsersEvidenceComponent,
     UsersAssertionsComponent,
+    UsersEventsComponent,
   ]
 })
 export class UsersModule { }

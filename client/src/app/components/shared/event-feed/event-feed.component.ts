@@ -29,6 +29,7 @@ export class EventFeedComponent implements OnInit {
   @Input() subscribable?: SubscribableInput;
   @Input() subscribableName?: string;
   @Input() organizationId: Maybe<number>
+  @Input() userId: Maybe<number>
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
@@ -53,6 +54,7 @@ export class EventFeedComponent implements OnInit {
     this.initialQueryVars = {
       subject: this.subscribable,
       organizationId: this.organizationId,
+      originatingUserId: this.userId,
       first: this.pageSize,
     }
 

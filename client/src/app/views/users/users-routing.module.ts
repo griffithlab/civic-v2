@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UsersAssertionsComponent } from './users-assertions/users-assertions.component';
 import { UsersDetailComponent } from './users-detail/users-detail.component';
+import { UsersEventsComponent } from './users-events/users-events.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 
 import { UsersComponent } from './users.component';
@@ -33,10 +34,10 @@ const routes: Routes = [
             path: 'assertions',
             component: UsersAssertionsComponent,
           },
-        //  {
-        //    path: 'activity',
-        //    component: UsersEventsComponent,
-        //  }
+          {
+            path: 'activity',
+            component: UsersEventsComponent,
+          }
         ]
       }
     ]
