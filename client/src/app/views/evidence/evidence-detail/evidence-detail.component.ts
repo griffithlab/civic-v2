@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { QueryRef } from "apollo-angular";
 import {
     EvidenceDetailFieldsFragment,
@@ -8,7 +8,7 @@ import {
 import { Viewer, ViewerService } from "@app/shared/services/viewer/viewer.service";
 import { ActivatedRoute } from "@angular/router";
 import { pluck, startWith } from "rxjs/operators";
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'evidence-detail',
@@ -16,40 +16,45 @@ import { Observable } from 'rxjs';
     styleUrls: ['./evidence-detail.component.less']
 })
 
-export class EvidenceDetailComponent {
-    queryRef: QueryRef<EvidenceDetailQuery, EvidenceDetailQueryVariables>;
+export class EvidenceDetailComponent implements OnDestroy {
+    queryRef?: QueryRef<EvidenceDetailQuery, EvidenceDetailQueryVariables>;
 
-    evidence$: Observable<Maybe<EvidenceDetailFieldsFragment>>;
-    loading$: Observable<boolean>;
-    commentsTotal$: Observable<number>;
-    flagsTotal$: Observable<number>;
-    revisionsTotal$: Observable<number>;
-    viewer$: Observable<Viewer>;
+    evidence$?: Observable<Maybe<EvidenceDetailFieldsFragment>>;
+    loading$?: Observable<boolean>;
+    commentsTotal$?: Observable<number>;
+    flagsTotal$?: Observable<number>;
+    revisionsTotal$?: Observable<number>;
+    viewer$?: Observable<Viewer>;
+
+    routeSub: Subscription
 
     constructor(private gql: EvidenceDetailGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
+        this.routeSub = this.route.params.subscribe((params) => {
+            this.queryRef = this.gql.watch({evidenceId: +params.evidenceId});
 
-        const evidenceId: number = +this.route.snapshot.params['evidenceId'];
+            let observable = this.queryRef.valueChanges
 
-        this.queryRef = this.gql.watch({evidenceId: evidenceId});
+            this.loading$ = observable.pipe(
+                pluck('loading'),
+                startWith(true));
+        
+            this.evidence$ = observable.pipe(
+            pluck('data', 'evidenceItem'));
+        
+            this.commentsTotal$ = this.evidence$.pipe(
+            pluck('comments', 'totalCount'));
+        
+            this.flagsTotal$ = this.evidence$.pipe(
+            pluck('flags', 'totalCount'));
+        
+            this.revisionsTotal$ = this.evidence$.pipe(
+            pluck('revisions', 'totalCount'));
+        
+            this.viewer$ = this.viewerService.viewer$;
+        })
+    }
 
-        let observable = this.queryRef.valueChanges
-
-        this.loading$ = observable.pipe(
-            pluck('loading'),
-            startWith(true));
-      
-        this.evidence$ = observable.pipe(
-        pluck('data', 'evidenceItem'));
-    
-        this.commentsTotal$ = this.evidence$.pipe(
-        pluck('comments', 'totalCount'));
-    
-        this.flagsTotal$ = this.evidence$.pipe(
-        pluck('flags', 'totalCount'));
-    
-        this.revisionsTotal$ = this.evidence$.pipe(
-        pluck('revisions', 'totalCount'));
-    
-        this.viewer$ = this.viewerService.viewer$;
+    ngOnDestroy() {
+        this.routeSub.unsubscribe()
     }
 }

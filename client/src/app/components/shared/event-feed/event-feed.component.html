@@ -14,6 +14,23 @@
         <nz-form-item>
           <nz-form-label>Show</nz-form-label>
           <nz-form-control>
+            <nz-select (ngModelChange)="onActionSelected($event)"
+              nzSize="small"
+              id="action-filter"
+              name="selectedAction"
+              [(ngModel)]="actionFilter"
+              [nzDropdownMatchSelectWidth]="false">
+              <nz-option nzLabel="All Actions"
+                nzValue="ALL"></nz-option>
+              <nz-option *ngFor="let a of actions$ | ngrxPush"
+                [nzLabel]="a.id"
+                [nzValue]="a.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
             <nz-select (ngModelChange)="onParticipantSelected($event)"
               nzSize="small"
               id="participant-filter"
@@ -29,7 +46,7 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
+        <nz-form-item *ngIf="!organizationId">
           <nz-form-control>
             <nz-select (ngModelChange)="onOrganizationSelected($event)"
               nzSize="small"
@@ -48,7 +65,6 @@
         </nz-form-item>
       </form>
     </ng-template>
-
     <nz-row [nzGutter]="16">
       <nz-col nzSpan="24"
         class="timeline">

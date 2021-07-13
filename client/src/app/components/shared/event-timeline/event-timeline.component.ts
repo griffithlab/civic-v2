@@ -77,9 +77,9 @@ export class EventTimelineComponent implements OnInit {
       case (EventAction.AssertionRejected):
         return 'rejected assertion'
       case (EventAction.Submitted):
-        return 'submited evidence item'
+        return 'submitted evidence item'
       case (EventAction.Accepted):
-        return 'accepted evience item'
+        return 'accepted evidence item'
       case (EventAction.Rejected):
         return 'rejected evidence item'
       default:
@@ -104,7 +104,7 @@ export class EventTimelineComponent implements OnInit {
       case (EventAction.FlagResolved):
         return 'on'
       default:
-        throw new Error('Not handling all event action types yet')
+        throw new Error('Not handling all event action types yet ' + e.action)
     }
   }
 

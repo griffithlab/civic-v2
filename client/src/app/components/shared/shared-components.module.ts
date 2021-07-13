@@ -67,6 +67,17 @@ import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { QuicksearchComponent } from './quicksearch/quicksearch-component';
+import { UserCardComponent } from './user-card/user-card.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
+import { AssertionCardComponent } from './assertion-card/assertion-card.component';
+import { OrganizationCardComponent } from './organization-card/organization-card.component';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
+import { OrganizationsBrowseComponent } from './organizations-browse/organizations-browse.component';
 import { UserTagComponent } from './user-tag/user-tag.component';
 import { GeneTagComponent } from './gene-tag/gene-tag.component';
 import { OrgTagComponent } from './org-tag/org-tag.component';
@@ -106,6 +117,13 @@ import { GenePopoverComponent } from './gene-popover/gene-popover.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
+    QuicksearchComponent,
+    UserCardComponent,
+    EvidenceCardComponent,
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent,
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,
@@ -158,7 +176,12 @@ import { GenePopoverComponent } from './gene-popover/gene-popover.component';
     VariantsComponentsModule,
     NzSelectModule,
     NzPageHeaderModule,
-    NzTableModule
+    NzTableModule,
+    NzAutocompleteModule,
+    NzInputModule,
+    NzSwitchModule,
+    NzStatisticModule,
+    NzImageModule,
   ],
   exports: [
     CommentAddComponent,
@@ -184,6 +207,13 @@ import { GenePopoverComponent } from './gene-popover/gene-popover.component';
     ClearableTextComponentFilter,
     AssertionsBrowseComponent,
     EvidenceBrowseComponent,
+    QuicksearchComponent,
+    UserCardComponent,
+    EvidenceCardComponent,
+    AssertionCardComponent,
+    OrganizationCardComponent,
+    OrganizationAvatarComponent,
+    OrganizationsBrowseComponent,
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,

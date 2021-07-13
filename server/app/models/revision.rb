@@ -16,10 +16,23 @@ class Revision < ApplicationRecord
   },
   allow_blank: false
 
+  searchkick highlight: [:id]
+
   def revisor
     events
       .where(action: 'revision suggested')
       .first
       .originating_user
+  end
+
+
+  def search_data
+    {
+      id: name
+    }
+  end
+
+  def name
+    "RID#{self.id}"
   end
 end

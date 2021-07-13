@@ -153,7 +153,7 @@ enum AmpLevel {
 
 type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
-  acmgCodes: [AcmgCode!]
+  acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
   assertionDirection: EvidenceDirection!
   assertionType: EvidenceType!
@@ -196,7 +196,7 @@ type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions
   description: String!
   disease: Disease
   drugInteractionType: DrugInteraction
-  drugs: [Drug!]
+  drugs: [Drug!]!
 
   """
   List and filter events for an object
@@ -284,7 +284,7 @@ type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions
   lastSubmittedRevisionEvent: Event
   name: String!
   nccnGuideline: String
-  phenotypes: [Phenotype!]
+  phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   rejectionEvent: Event
 
@@ -1097,6 +1097,7 @@ enum EvidenceDirection {
 
 type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
+  assertions: [Assertion!]!
   clinicalSignificance: EvidenceClinicalSignificance!
 
   """
@@ -1136,7 +1137,7 @@ type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisi
   description: String!
   disease: Disease
   drugInteractionType: DrugInteraction
-  drugs: [Drug!]
+  drugs: [Drug!]!
 
   """
   List and filter events for an object
@@ -1226,7 +1227,7 @@ type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisi
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   name: String!
-  phenotypes: [Phenotype!]
+  phenotypes: [Phenotype!]!
   rejectionEvent: Event
 
   """
@@ -2137,8 +2138,20 @@ type ObjectFieldDiff {
   removedObjects: [ModeratedObjectField!]!
 }
 
+type OrgStats {
+  acceptedAssertions: Int!
+  acceptedEvidenceItems: Int!
+  appliedRevisions: Int!
+  comments: Int!
+  revisions: Int!
+  submittedAssertions: Int!
+  submittedEvidenceItems: Int!
+  suggestedSources: Int!
+}
+
 type Organization {
   description: String!
+  eventCount: Int!
   events(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -2161,9 +2174,112 @@ type Organization {
     last: Int
   ): EventConnection!
   id: Int!
+  memberCount: Int!
+  members(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): UserConnection!
+  mostRecentEvent: Event
   name: String!
+  orgAndSuborgsStatsHash: OrgStats!
+  orgStatsHash: OrgStats!
   profileImagePath(size: Int = 56): String
+  subGroups: [Organization!]!
   url: String!
+}
+
+"""
+The connection type for Organization.
+"""
+type OrganizationConnection {
+  """
+  A list of edges.
+  """
+  edges: [OrganizationEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Organization!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type OrganizationEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Organization
+}
+
+"""
+Filter on organization id and whether or not to include the organization's subgroups
+"""
+input OrganizationFilter {
+  """
+  The organization ID.
+  """
+  id: Int!
+
+  """
+  Whether or not to include the organization's subgroup.
+  """
+  includeSubgroups: Boolean = false
+}
+
+input OrganizationSort {
+  """
+  Available columns for sorting
+  """
+  column: OrganizationSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum OrganizationSortColumns {
+  ID
+  NAME
 }
 
 """
@@ -2263,7 +2379,7 @@ type Query {
     geneName: String
 
     """
-    Left anchored filtering on the ID of the assertion.
+    Exact match filtering on the ID of the assertion.
     """
     id: Int
 
@@ -2271,6 +2387,11 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Exact match filtering on the ID of the organization the assertion was submitted under.
+    """
+    organizationId: Int
 
     """
     Columm and direction to sort evidence on.
@@ -2577,7 +2698,7 @@ type Query {
     first: Int
 
     """
-    Left anchored filtering on the ID of the evidence item.
+    Exact match filtering on the ID of the evidence item.
     """
     id: Int
 
@@ -2585,6 +2706,11 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Exact match filtering on the ID of the organization the evidence item was submitted under.
+    """
+    organizationId: Int
 
     """
     Columm and direction to sort evidence on.
@@ -2664,9 +2790,55 @@ type Query {
   organization(id: Int!): Organization
 
   """
+  List and filter organizations.
+  """
+  organizations(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Exact match filtering on the id of the organization.
+    """
+    id: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Substring filtering on the name of the organization.
+    """
+    name: String
+
+    """
+    Columm and direction to sort evidence on.
+    """
+    sortBy: OrganizationSort
+  ): OrganizationConnection!
+
+  """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
   """
   remoteCitation(citationId: Int!, sourceType: SourceSource!): String
+  search(
+    """
+    The term to query for
+    """
+    query: String!
+  ): [SearchResult!]!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
 
@@ -2680,6 +2852,36 @@ type Query {
   """
   sourceTypeahead(citationId: Int!, sourceType: SourceSource!): [Source!]!
   user(userId: Int!): User
+
+  """
+  List and filter users.
+  """
+  users(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to users that belong to a certain organizations
+    """
+    organization: OrganizationFilter
+  ): UserConnection!
 
   """
   Find a variant by CIViC ID
@@ -2816,11 +3018,44 @@ type ResolveFlagPayload {
   flag: Flag
 }
 
-type Revision implements EventOriginObject {
+type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
   creationEvent: Event
   currentValue: JSON!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   fieldName: String!
   id: Int!
   linkoutData: LinkoutData!
@@ -2920,16 +3155,65 @@ type ScalarField {
   value: String
 }
 
+type SearchResult {
+  id: Int!
+  matchingText: String!
+  name: String!
+  resultType: SearchableEntities!
+}
+
+enum SearchableEntities {
+  ASSERTION
+  EVIDENCE_ITEM
+  GENE
+  REVISION
+  VARIANT
+  VARIANT_GROUP
+}
+
 enum SortDirection {
   ASC
   DESC
 }
 
-type Source {
+type Source implements EventSubject {
   ascoAbstractId: Int
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
   fullJournalTitle: String!
   id: Int!
   journal: String!
@@ -3160,6 +3444,7 @@ type UnsubscribePayload {
 }
 
 type User {
+  areaOfExpertise: String
   bio: String
   country: String
   displayName: String!
@@ -3185,7 +3470,9 @@ type User {
     """
     last: Int
   ): EventConnection!
+  facebookProfile: String
   id: Int!
+  linkedinProfile: String
   name: String!
 
   """
@@ -3232,11 +3519,58 @@ type User {
     """
     subscriptionId: Int
   ): NotificationConnection
+  orcid: String
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   role: String!
+  twitterHandle: String
   url: String
   username: String!
+}
+
+"""
+The connection type for User.
+"""
+type UserConnection {
+  """
+  A list of edges.
+  """
+  edges: [UserEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [User!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type UserEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: User
 }
 
 type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {

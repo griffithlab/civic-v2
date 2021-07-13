@@ -9,7 +9,12 @@ module Types::Entities
     field :country, String, null: true #this needs to be an enum
     field :organizations, [Types::Entities::OrganizationType], null: false 
     field :events, Types::Entities::EventType.connection_type, null: false
-    field  :display_name, String, null: false
+    field :display_name, String, null: false
+    field :area_of_expertise, String, null: true
+    field :orcid, String, null: true
+    field :twitter_handle, String, null: true
+    field :facebook_profile, String, null: true
+    field :linkedin_profile, String, null: true
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do

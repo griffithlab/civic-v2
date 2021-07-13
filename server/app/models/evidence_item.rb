@@ -38,6 +38,15 @@ class EvidenceItem < ActiveRecord::Base
 
   validates :rating, inclusion: [1, 2, 3, 4, 5]
 
+
+  searchkick highlight: [:id]
+
+  def search_data
+    {
+      id: name
+    }
+  end
+
   def name
     "EID#{self.id}"
   end
@@ -45,4 +54,5 @@ class EvidenceItem < ActiveRecord::Base
   def gene
     self.variant.gene
   end
+
 end

@@ -16,6 +16,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LinkableUser } from "../user-pill/user-pill.component";
 import { LinkableOrganization } from "../organization-pill/organization-pill.component";
+import { sourceInputInitialModel } from "@app/forms/types/source-input/source-input.component";
+
+interface SelectableAction { id: EventAction }
 
 @Component({
   selector: 'cvc-event-feed',
@@ -25,6 +28,7 @@ import { LinkableOrganization } from "../organization-pill/organization-pill.com
 export class EventFeedComponent implements OnInit {
   @Input() subscribable?: SubscribableInput;
   @Input() subscribableName?: string;
+  @Input() organizationId: Maybe<number>
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
@@ -34,11 +38,13 @@ export class EventFeedComponent implements OnInit {
 
   participantFilter: 'ALL' | number = 'ALL';
   organizationFilter: 'ALL' | number = 'ALL';
+  actionFilter: 'ALL' | number = 'ALL';
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
   participants$?: Observable<LinkableUser[]>;
   organizations$?: Observable<LinkableOrganization[]>;
+  actions$?: Observable<SelectableAction[]>
 
   constructor(private gql: EventFeedGQL) {
   }
@@ -46,6 +52,7 @@ export class EventFeedComponent implements OnInit {
   ngOnInit() {
     this.initialQueryVars = {
       subject: this.subscribable,
+      organizationId: this.organizationId,
       first: this.pageSize,
     }
 
@@ -69,6 +76,10 @@ export class EventFeedComponent implements OnInit {
     this.organizations$ = this.results$.pipe(
       map(({ data }) => data.events.participatingOrganizations)
     )
+
+    this.actions$ = this.results$.pipe(
+      map(({data}) => data.events.eventTypes.map((et) => {return {id: et}}))
+    )
   }
 
   fetchMore(endCursor: string) {
@@ -91,6 +102,15 @@ export class EventFeedComponent implements OnInit {
     this.queryRef.refetch({
       ...this.initialQueryVars,
       organizationId: o === 'ALL' ? undefined : o
+    })
+  }
+
+  //onActionSelected(a: 'ALL' | Maybe<SelectableAction>) {
+  onActionSelected(a: 'ALL' | EventAction) {
+      console.log(a)
+    this.queryRef.refetch({
+      ...this.initialQueryVars,
+      eventType: a === 'ALL'? undefined : a
     })
   }
 

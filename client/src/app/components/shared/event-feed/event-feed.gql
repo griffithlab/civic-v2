@@ -5,7 +5,8 @@ query EventFeed (
     $before: String,
     $after: String,
     $originatingUserId: Int,
-    $organizationId: Int
+    $organizationId: Int,
+    $eventType: EventAction
 ){
 events (
     subject: $subject,
@@ -15,6 +16,7 @@ events (
     after: $after,
     originatingUserId: $originatingUserId,
     organizationId: $organizationId
+    eventType: $eventType
 ) { ...eventFeed }
 
 }

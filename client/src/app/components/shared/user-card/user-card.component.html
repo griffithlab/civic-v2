@@ -1,0 +1,9 @@
+<nz-card [nzTitle]="user.displayName" [nzExtra]="avatar">
+    <ng-template #avatar>
+        <cvc-user-avatar [user]="user" [size]="64"></cvc-user-avatar>
+    </ng-template>
+    Name: {{user.name}}
+    Role: {{user.role}}
+    ORCID iD: {{user.orcid}}
+     
+</nz-card>

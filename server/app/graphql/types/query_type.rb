@@ -17,6 +17,8 @@ module Types
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :events, resolver: Resolvers::TopLevelEvents
 
+    field :search, resolver: Resolvers::Quicksearch
+
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
       argument :id, Int, required: true
@@ -69,6 +71,10 @@ module Types
     field :assertions, resolver: Resolvers::TopLevelAssertions
 
     field :flags, resolver: Resolvers::TopLevelFlags
+
+    field :users, resolver: Resolvers::TopLevelUsers
+
+    field :organizations, resolver: Resolvers::TopLevelOrganizations
 
     def disease(id: )
       Disease.find(id)
