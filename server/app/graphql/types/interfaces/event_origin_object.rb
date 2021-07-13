@@ -25,6 +25,10 @@ module Types::Interfaces
           Types::Revisions::RevisionType
         when Flag
           Types::Entities::FlagType
+        when Assertion
+          Types::Entities::AssertionType
+        when EvidenceItem
+          Types::Entities::EvidenceItemType
         else
           raise "Unexpected EventOriginObject type: #{object.class}"
         end
