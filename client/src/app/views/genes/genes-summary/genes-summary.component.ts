@@ -43,7 +43,7 @@ export class GenesSummaryComponent implements OnDestroy {
       let observable = queryRef.valueChanges;
 
       this.subscribableEntity = {
-        id: params.geneId,
+        id: +params.geneId,
         entityType: SubscribableEntities.Gene,
       };
 
