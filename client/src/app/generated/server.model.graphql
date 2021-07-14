@@ -566,6 +566,11 @@ type BrowsePhenotypeConnection {
   edges: [BrowsePhenotypeEdge!]!
 
   """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
   A list of nodes.
   """
   nodes: [BrowsePhenotype!]!
@@ -581,7 +586,7 @@ type BrowsePhenotypeConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records in this filtered collection.
+  The total number of records of this type, regardless of any filtering.
   """
   totalCount: Int!
 }

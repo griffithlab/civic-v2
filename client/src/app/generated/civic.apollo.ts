@@ -352,13 +352,15 @@ export type BrowsePhenotypeConnection = {
   __typename: 'BrowsePhenotypeConnection';
   /** A list of edges. */
   edges: Array<BrowsePhenotypeEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
   /** A list of nodes. */
   nodes: Array<BrowsePhenotype>;
   /** Total number of pages, based on filtered count and pagesize. */
   pageCount: Scalars['Int'];
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The total number of records in this filtered collection. */
+  /** The total number of records of this type, regardless of any filtering. */
   totalCount: Scalars['Int'];
 };
 
@@ -1502,6 +1504,8 @@ export type Query = {
   organization?: Maybe<Organization>;
   /** List and filter organizations. */
   organizations: OrganizationConnection;
+  /** Find a phenotype by CIViC ID */
+  phenotype?: Maybe<Phenotype>;
   /** List and filter Phenotypes from the Sequence Ontology. */
   phenotypes: BrowsePhenotypeConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
@@ -1713,6 +1717,11 @@ export type QueryOrganizationsArgs = {
   last?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   sortBy?: Maybe<OrganizationSort>;
+};
+
+
+export type QueryPhenotypeArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -3686,6 +3695,41 @@ export type OrganizationMembersFieldsFragment = (
   & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
 );
 
+export type PhenotypesBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  hpoId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<PhenotypeSort>;
+}>;
+
+
+export type PhenotypesBrowseQuery = (
+  { __typename: 'Query' }
+  & { phenotypes: (
+    { __typename: 'BrowsePhenotypeConnection' }
+    & Pick<BrowsePhenotypeConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowsePhenotypeEdge' }
+      & Pick<BrowsePhenotypeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowsePhenotype' }
+        & PhenotypeBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type PhenotypeBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowsePhenotype' }
+  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'assertionCount' | 'evidenceCount'>
+);
+
 export type BrowseSourcesQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -4557,6 +4601,15 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   twitterHandle
   facebookProfile
   linkedinProfile
+}
+    `;
+export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
+    fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
+  id
+  name
+  hpoId
+  assertionCount
+  evidenceCount
 }
     `;
 export const BrowseSourceRowFieldsFragmentDoc = gql`
@@ -5713,6 +5766,44 @@ export const OrganizationMembersDocument = gql`
   })
   export class OrganizationMembersGQL extends Apollo.Query<OrganizationMembersQuery, OrganizationMembersQueryVariables> {
     document = OrganizationMembersDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PhenotypesBrowseDocument = gql`
+    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
+  phenotypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    hpoId: $hpoId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...PhenotypeBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${PhenotypeBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
+    document = PhenotypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

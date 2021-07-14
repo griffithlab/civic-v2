@@ -2706,6 +2706,24 @@
               "deprecationReason": null
             },
             {
+              "name": "filteredCount",
+              "description": "The total number of records in this set.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "nodes",
               "description": "A list of nodes.",
               "args": [
@@ -2769,7 +2787,7 @@
             },
             {
               "name": "totalCount",
-              "description": "The total number of records in this filtered collection.",
+              "description": "The total number of records of this type, regardless of any filtering.",
               "args": [
 
               ],
