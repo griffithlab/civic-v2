@@ -13,6 +13,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzPageHeaderModule,
     ReactiveComponentModule,
     NzGridModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzSpaceModule
   ]
 })
 export class PhenotypesModule { }
