@@ -6,7 +6,7 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('@app/layout/layout.module').then(m => m.LayoutModule)
-  }
+  },
 ];
 
 export const routingConfiguration: ExtraOptions = {
