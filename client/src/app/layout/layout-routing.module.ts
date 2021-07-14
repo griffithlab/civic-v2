@@ -22,6 +22,7 @@ const routes: Routes = [
       { path: 'flags', loadChildren: () => import('@app/views/flags/flags.module').then(m => m.FlagsModule) },
       { path: 'comments', loadChildren: () => import('@app/views/comments/comments.module').then(m => m.CommentsModule) },
       { path: 'genes', loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule) },
+      { path: 'revisions', loadChildren: () => import('@app/views/revisions/revisions.module').then(m => m.RevisionsModule) },
       { path: 'sources', loadChildren: () => import('@app/views/sources/sources.module').then(m => m.SourcesModule) },
       { path: 'variant-groups', loadChildren: () => import('@app/views/variant-groups/variant-groups.module').then(m => m.VariantGroupsModule) },
       { path: 'variants', loadChildren: () => import('@app/views/variants/variants.module').then(m => m.VariantsModule) },
