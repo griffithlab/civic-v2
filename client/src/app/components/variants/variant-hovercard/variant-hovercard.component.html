@@ -1,25 +1,78 @@
-<nz-card *ngIf="variant$ | ngrxPush as variant" [nzTitle]="variant.name" [nzExtra]="avatar" style="width:400px;">
-    <ng-template #avatar>
-        <nz-avatar nz-page-header-avatar nzIcon="civic:variant"> </nz-avatar>  
-    </ng-template>
-    <nz-avatar nzIcon="civic:gene" nzSize="small"></nz-avatar>{{ variant.gene.name }}
-    <nz-divider></nz-divider>
-    <div *ngIf="variant.alleleRegistryId">
-        Allele Registry ID:
-        <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html" target="_blank">{{variant.alleleRegistryId}}</a>
-        <nz-divider></nz-divider>
-    </div>
-    <div *ngIf="variant.variantAliases.length > 0">
-        Aliases: 
-        <span *ngFor="let alias of variant.variantAliases; last as isLast">
-            {{alias}}<span *ngIf="!isLast">,</span>
-        </span>
-        <nz-divider></nz-divider>
-    </div>
-    <nz-avatar nzIcon="civic:evidence" nzSize="small"> </nz-avatar>  
-    Evidence Count: {{ variant.evidenceItems.totalCount }}
-    <nz-divider></nz-divider>
-    <nz-avatar nzIcon="flag" nzSize="small"></nz-avatar>{{ variant.flags.totalCount }} open flags
-    <nz-avatar nzIcon="civic:revision" nzSize="small"></nz-avatar>{{ variant.revisions.totalCount }} open revisions
-    <nz-avatar nzIcon="civic:comment" nzSize="small"></nz-avatar>{{ variant.comments.totalCount }} comments
-</nz-card>
+<div id="popover-content">
+  <ng-container *ngIf="variant$ | ngrxPush as variant">
+    <nz-card [nzTitle]="cardTitle" nzBordered="false"
+      id="card-content">
+      <ng-template #cardTitle>
+        <i nz-icon
+          nzType="civic:variant"></i> {{ variant.name }}
+      </ng-template>
+
+      <nz-descriptions nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+
+        <!-- aliases -->
+        <nz-descriptions-item nzTitle="Aliases"
+          nzSpan="2"
+          *ngIf="variant.variantAliases.length > 0">
+          <span *ngFor="let alias of variant.variantAliases; last as isLast">
+            {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
+          </span>
+        </nz-descriptions-item>
+
+        <!-- allele registry-->
+        <nz-descriptions-item nzTitle="Allele Registry ID"
+          *ngIf="variant.alleleRegistryId">
+          <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html"
+            target="_blank">{{variant.alleleRegistryId}}</a>
+        </nz-descriptions-item>
+
+        <!-- gene -->
+        <nz-descriptions-item nzTitle="Gene">
+          <i nz-icon
+            nzType="civic:gene"></i> {{ variant.gene.name }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <!-- entity comment, flags, etc. tags -->
+      <nz-row id="entity-child-counts">
+        <nz-col nzSpan="24">
+          <nz-space nzSize="small">
+            <nz-space-item>
+              <a routerLink="/variants/{{variant.id}}/evidence">
+                <nz-tag nzColor="gold" >
+                  <i nz-icon nzType="civic-evidence"></i>
+                  Evidence ({{ variant.evidenceItems.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+            <nz-space-item>
+              <a routerLink="/variants/{{variant.id}}/flags">
+                <nz-tag nzColor="red" >
+                  <i nz-icon nzType="civic-flag"></i>
+                  Flags ({{ variant.flags.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+            <nz-space-item>
+              <a routerLink="/variants/{{variant.id}}/revisions">
+                <nz-tag nzColor="orange">
+                  <i nz-icon nzType="civic-revision"></i>
+                  Revisions ({{ variant.revisions.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+            <nz-space-item>
+              <a routerLink="/variants/{{variant.id}}/comments">
+                <nz-tag nzColor="blue">
+                  <i nz-icon nzType="civic-comment"></i>
+                  Comments ({{ variant.comments.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+          </nz-space>
+        </nz-col>
+      </nz-row>
+    </nz-card>
+  </ng-container>
+</div>

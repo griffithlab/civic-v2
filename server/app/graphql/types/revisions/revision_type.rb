@@ -2,6 +2,7 @@ module Types::Revisions
   class RevisionType < Types::BaseObject
     connection_type_class Types::Connections::RevisionsConnection
 
+    implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
 
     field :id, Int, null: false
@@ -31,7 +32,9 @@ module Types::Revisions
 
     def revisor
       Loaders::AssociationLoader.for(Revision, :creation_event).load(object).then do |event|
-        Loaders::AssociationLoader.for(Event, :originating_user).load(event)
+        if !event.nil?
+          Loaders::AssociationLoader.for(Event, :originating_user).load(event)
+        end
       end
     end
   end

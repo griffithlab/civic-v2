@@ -1,36 +1,89 @@
-<nz-input-group [nzSuffix]="nameInputClearTpl">
-    <input type="text" nz-input placeholder="Variant Name" (ngModelChange)="onModelUpdated()" [(ngModel)]="variantNameFilter" />
-    <ng-template #nameInputClearTpl>
-        <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="variantNameFilter" (click)="variantNameFilter = undefined; onModelUpdated()"></i>
-    </ng-template>
-</nz-input-group>
-<nz-select (ngModelChange)="onVariantStatusFilterChanged($event)" [(ngModel)]="statusFilter">
-    <nz-option nzValue="WITH_ACCEPTED" nzLabel="Show variants with accepted evidence"></nz-option>
-    <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED" nzLabel="Show variants with accepted and/or submitted evidence" selected></nz-option>
-    <nz-option nzValue="WITH_SUBMITTED" nzLabel="Show variants with submitted evidence"></nz-option>
-    <nz-option nzValue="ALL" nzLabel="Show all: variants with accepted, submitted, rejected, and/or no evidence (orphans)"></nz-option>
-</nz-select>
 <ng-container *ngIf="menuVariants$ | ngrxPush as variants">
-    <nz-list nzGrid>
-        <div nz-row [nzGutter]="2">
-            <div nz-col [nzSpan]="3" *ngFor="let v of variants">
-                <nz-list-item>
-                    <nz-card>
-                        <a routerLink="/variants/{{v.id}}">
-                            <cvc-variant-pill [variant]="v"></cvc-variant-pill>
-                        </a>
-                    </nz-card>
-                </nz-list-item>
-            </div>
-        </div>
-    </nz-list>
+  <nz-card [nzTitle]="cardTitle"
+    [nzExtra]="cardExtra">
 
-</ng-container>
-<ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-    <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
-        <button nz-button nzType="link" nzSize="small" nzBlock
-            (click)="fetchMore(pageInfo.endCursor)">Load
-            More
+    <ng-template #cardTitle>
+      <i nz-icon
+        nzType="civic:gene"></i> {{ geneName }} Variants
+      <ng-container *ngIf="totalVariants$ | ngrxPush as total">
+        <span nz-typography
+          nzType="secondary">{{ total }} Total</span>
+        <span nz-typography
+          *ngIf="total  > variants.length"
+          nzType="secondary">({{ variants.length }} displayed)</span>
+      </ng-container>
+
+    </ng-template>
+
+    <ng-template #cardExtra>
+      <form nz-form
+        nzLayout="inline"
+        id="variant-filters">
+        <nz-form-item>
+          <nz-form-label>Filter</nz-form-label>
+          <nz-form-control>
+            <nz-input-group [nzSuffix]="nameInputClearTpl"
+              id="name-filter-group"
+              [nzCompact]="true"
+              nzSize="small">
+              <input type="text"
+                nz-input
+                placeholder="Variant Names"
+                name="name-filter"
+                (ngModelChange)="onModelUpdated()"
+                [(ngModel)]="variantNameFilter" />
+              <ng-template #nameInputClearTpl>
+                <i nz-icon
+                  class="ant-input-clear-icon"
+                  nzTheme="fill"
+                  nzType="close-circle"
+                  *ngIf="variantNameFilter"
+                  (click)="variantNameFilter = undefined; onModelUpdated()"></i>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Show</nz-form-label>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onVariantStatusFilterChanged($event)"
+              nzSize="small"
+              id="status-filter"
+              name="statusFilter"
+              [(ngModel)]="statusFilter">
+              <nz-option nzValue="WITH_ACCEPTED"
+                nzLabel="Variants with accepted evidence"></nz-option>
+              <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED"
+                nzLabel="Variants with accepted and/or submitted evidence"
+                selected></nz-option>
+              <nz-option nzValue="WITH_SUBMITTED"
+                nzLabel="Variants with submitted evidence"></nz-option>
+              <nz-option nzValue="ALL"
+                nzLabel="All Variants"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-template>
+    <nz-row>
+      <nz-col nzSpan="24">
+        <cvc-tag-list>
+          <a routerLink="/variants/{{v.id}}"
+            *ngFor="let v of variants">
+            <cvc-variant-pill [variant]="v"></cvc-variant-pill>
+          </a>
+        </cvc-tag-list>
+      </nz-col>
+    </nz-row>
+    <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+      <nz-row id="load-more-btn" *ngIf="pageInfo.hasNextPage">
+        <button nz-button
+          nzType="default"
+          nzSize="small"
+          nzBlock
+          (click)="fetchMore(pageInfo.endCursor)">Load More
         </button>
-    </div>
+      </nz-row>
+    </ng-container>
+  </nz-card>
 </ng-container>

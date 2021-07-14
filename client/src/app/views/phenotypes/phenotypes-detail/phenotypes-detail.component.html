@@ -1,0 +1,25 @@
+<ng-container *ngIf="phenotype$ | ngrxPush as phenotype" >
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal">
+        <nz-space-item>
+          <i nz-icon nzType="civic:phenotype"></i>
+        </nz-space-item>
+        <span routerLink="/phenotypes/{{phenotype.id}}">
+          {{ phenotype.name }}
+        </span>
+      </nz-space>
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      <a href="https://hpo.jax.org/app/browse/term/{{phenotype.hpoId}}" target="_blank">
+        {{ phenotype.hpoId }}
+        <i nz-icon nzType="link"></i>
+      </a>
+    </nz-page-header-subtitle>
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

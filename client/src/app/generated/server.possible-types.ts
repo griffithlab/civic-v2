@@ -39,7 +39,13 @@
         "name": "EventOriginObject",
         "possibleTypes": [
           {
+            "name": "Assertion"
+          },
+          {
             "name": "Comment"
+          },
+          {
+            "name": "EvidenceItem"
           },
           {
             "name": "Flag"
@@ -61,6 +67,12 @@
           },
           {
             "name": "Gene"
+          },
+          {
+            "name": "Revision"
+          },
+          {
+            "name": "Source"
           },
           {
             "name": "Variant"

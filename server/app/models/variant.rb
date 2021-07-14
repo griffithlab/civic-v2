@@ -26,4 +26,14 @@ class Variant < ActiveRecord::Base
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
     message: "only allows A,C,T,G or /"
   }, allow_nil: true
+
+  searchkick highlight: [:name, :aliases]
+  scope :search_import, -> { includes(:variant_aliases) }
+
+  def search_data
+    {
+      name: name,
+      aliases: variant_aliases.map(&:name)
+    } 
+  end
 end

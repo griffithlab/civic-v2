@@ -1,0 +1,86 @@
+<nz-timeline *ngIf="events?.length">
+  <ng-container *ngFor="let event of events">
+    <nz-timeline-item [nzDot]="timelineDotTemplate">
+      <ng-template #timelineDotTemplate>
+          <i nz-icon
+            [nzType]="iconNameForEventAction(event.action)"
+            nzTheme="twotone"
+            class="item-icon"></i>
+      </ng-template>
+
+      <!-- display full description row unless Comment type -->
+      <nz-row class="timeline-item" *ngIf="event.originatingObject; else noOriginating">
+
+        <!-- default to full description -->
+        <nz-col nzFlex="auto"
+          class="description">
+
+          <!-- user tag -->
+          <cvc-user-tag [user]="event.originatingUser" *ngIf="tagDisplay != 'hideUser'"></cvc-user-tag>
+
+          <!-- verb -->
+          <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
+
+          <!-- originating object -->
+          <ng-container *ngIf="event.originatingObject as object">
+            <ng-container
+              [ngSwitch]="object.__typename">
+              <span *ngSwitchCase="'Revision'"> 
+                <cvc-revision-tag [revision]="object"></cvc-revision-tag>
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
+              </span>
+              <span *ngSwitchCase="'Comment'">
+                <cvc-comment-tag [comment]="object"></cvc-comment-tag>
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
+              </span>
+              <span *ngSwitchCase="'Flag'">
+                <cvc-flag-tag [flag]="object"></cvc-flag-tag>
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
+              </span>
+            </ng-container>
+          </ng-container>
+
+          <!-- subject -->
+          <ng-container *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
+            [ngSwitch]="subject.__typename">
+            <cvc-gene-tag *ngSwitchCase="'Gene'"
+              [gene]="subject"></cvc-gene-tag>
+            <cvc-assertion-tag *ngSwitchCase="'Assertion'"
+              [assertion]="subject"></cvc-assertion-tag>
+            <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'"
+              [evidence]="subject"></cvc-evidence-tag>
+            <span *ngSwitchDefault>{{ subject.name }}</span>
+          </ng-container>
+
+          <!-- user organization -->
+          <ng-container *ngIf="tagDisplay != 'hideOrg' && event.organization as org">
+            <span nz-typography>for&nbsp;</span>
+            <cvc-org-tag [org]="org"></cvc-org-tag>
+          </ng-container>
+
+        </nz-col>
+        <nz-col nzFlex="100px"
+          class="timestamp">
+          <span nz-tooltip
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="event.createdAt | date">
+            {{ event.createdAt | timeago }}
+          </span>
+        </nz-col>
+      </nz-row>
+
+      <ng-template #noOriginating>
+        Event database entry is malformed and cannot be displayed
+      </ng-template>
+      <!-- <ng-container *ngIf="event.originatingObject"
+           [ngSwitch]="event.originatingObject.__typename">
+           <nz-card *ngSwitchCase="'Comment'"> {{ event.originatingObject.comment }} </nz-card>
+           <nz-card *ngSwitchCase="'Flag'"> {{ commentForFlagEvent(e) }} </nz-card>
+           <nz-card *ngSwitchCase="'Revision'">
+           <cvc-user-pill [user]="event.originatingObject.revisor"></cvc-user-pill>
+           {{ event.originatingObject.name }} to {{ event.originatingObject.linkoutData.name }}
+           </nz-card>
+           </ng-container> -->
+    </nz-timeline-item>
+  </ng-container>
+</nz-timeline>

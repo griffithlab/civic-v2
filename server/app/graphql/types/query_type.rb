@@ -16,6 +16,9 @@ module Types
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :events, resolver: Resolvers::TopLevelEvents
+    field :phenotypes, resolver: Resolvers::Phenotypes
+
+    field :search, resolver: Resolvers::Quicksearch
 
     field :disease, Types::Entities::DiseaseType, null: true do
       description "Find a disease by CIViC ID"
@@ -52,6 +55,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :phenotype, Types::Entities::PhenotypeType, null: true do
+      description 'Find a phenotype by CIViC ID'
+      argument :id, Int, required: true
+    end
+
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -69,6 +77,10 @@ module Types
     field :assertions, resolver: Resolvers::TopLevelAssertions
 
     field :flags, resolver: Resolvers::TopLevelFlags
+
+    field :users, resolver: Resolvers::TopLevelUsers
+
+    field :organizations, resolver: Resolvers::TopLevelOrganizations
 
     def disease(id: )
       Disease.find(id)
@@ -96,6 +108,10 @@ module Types
 
     def organization(id: )
       Organization.find(id)
+    end
+
+    def phenotype(id: )
+      Phenotype.find(id)
     end
 
     def search_genes(query:, create_permalink:)

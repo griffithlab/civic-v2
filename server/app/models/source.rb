@@ -6,6 +6,10 @@ class Source < ActiveRecord::Base
 
   enum source_type: ['PubMed', 'ASCO']
 
+  def name
+    display_name
+  end
+
   def citation
     description
   end

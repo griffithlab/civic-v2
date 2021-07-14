@@ -1,45 +1,55 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute,  } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { pluck, startWith } from 'rxjs/operators';
-import {GeneDetailFieldsFragment, GeneDetailGQL, Maybe } from '@app/generated/civic.apollo';
-import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
+import {
+  GeneDetailFieldsFragment,
+  GeneDetailGQL,
+  Maybe,
+} from '@app/generated/civic.apollo';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/shared/services/viewer/viewer.service';
 
 @Component({
   selector: 'genes-detail',
   templateUrl: './genes-detail.component.html',
-  styleUrls: ['./genes-detail.component.less']
+  styleUrls: ['./genes-detail.component.less'],
 })
+export class GenesDetailComponent implements OnDestroy {
+  loading$?: Observable<boolean>;
+  gene$?: Observable<Maybe<GeneDetailFieldsFragment>>;
+  viewer$?: Observable<Viewer>;
+  commentsTotal$?: Observable<number>;
+  revisionsTotal$?: Observable<number>;
+  flagsTotal$?: Observable<number>;
 
-export class GenesDetailComponent {
-  loading$: Observable<boolean>;
-  gene$: Observable<Maybe<GeneDetailFieldsFragment>>;
-  viewer$: Observable<Viewer>;
-  commentsTotal$: Observable<number>;
-  revisionsTotal$: Observable<number>;
-  flagsTotal$: Observable<number>;
+  routeSub: Subscription;
 
-  constructor(private gql: GeneDetailGQL,
-              private viewerService: ViewerService,
-              private route: ActivatedRoute) {
+  constructor(
+    private gql: GeneDetailGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
+    this.routeSub = this.route.params.subscribe((params) => {
+      let observable = this.gql.watch({ geneId: +params.geneId }).valueChanges;
 
-    const geneId: number = +this.route.snapshot.params['geneId'];
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-    let observable = this.gql.watch({geneId: geneId}).valueChanges
+      this.gene$ = observable.pipe(pluck('data', 'gene'));
 
-    this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+      this.commentsTotal$ = this.gene$.pipe(pluck('comments', 'totalCount'));
 
-    this.gene$ = observable.pipe(pluck('data', 'gene'));
+      this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'));
 
-    this.commentsTotal$ = this.gene$.pipe(
-      pluck('comments', 'totalCount'));
+      this.revisionsTotal$ = this.gene$.pipe(pluck('revisions', 'totalCount'));
 
-    this.flagsTotal$ = this.gene$.pipe(
-      pluck('flags', 'totalCount'));
+      this.viewer$ = this.viewerService.viewer$;
+    });
+  }
 
-    this.revisionsTotal$ = this.gene$.pipe(
-      pluck('revisions', 'totalCount'));
-
-    this.viewer$ = this.viewerService.viewer$;
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
 }

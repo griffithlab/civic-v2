@@ -40,9 +40,7 @@ export class CommentListComponent implements OnInit {
       sortBy: {
         column: DateSortColumns.Created,
         direction: SortDirection.Desc
-      }}, {
-        fetchPolicy: 'cache-and-network'
-      });
+      }});
 
     this.viewer$ = this.viewerService.viewer$;
 

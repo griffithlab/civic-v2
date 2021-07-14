@@ -13,6 +13,9 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
 export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() variantId: Maybe<number>
   @Input() assertionId: Maybe<number>
+  @Input() organizationId: Maybe<number>
+  @Input() userId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -22,6 +25,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   totalCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
+
+  tableView: boolean = true
 
   textInputCallback?: () => void
 
@@ -45,8 +50,12 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       variantId: this.variantId,
-      assertionId: this.assertionId
-    }, { fetchPolicy: 'cache-and-network', errorPolicy: 'all' });
+      assertionId: this.assertionId,
+      organizationId: this.organizationId,
+      userId: this.userId,
+      phenotypeId: this.phenotypeId,
+      cardView: !this.tableView
+    });
 
     let observable = this.queryRef.valueChanges;
 
@@ -87,14 +96,15 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined
+      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+      cardView: !this.tableView
     })
   }
 
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({ sortBy: buildSortParams(e) })
+    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
   
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }

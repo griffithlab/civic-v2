@@ -1,0 +1,12 @@
+query Quicksearch($query: String!) {
+  search(query: $query) {
+    ...QuicksearchResult
+  }
+}
+
+fragment QuicksearchResult on SearchResult {
+    id
+    resultType
+    name
+    matchingText
+}

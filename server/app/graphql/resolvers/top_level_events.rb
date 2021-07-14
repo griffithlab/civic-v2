@@ -26,7 +26,7 @@ class Resolvers::TopLevelEvents < GraphQL::Schema::Resolver
     scope.where(organization_id: value)
   end
 
-  option(:subject, type: Types::Subscribable::SubscribableInput) do |scope, value|
+  option(:subject, type: Types::Subscribable::SubscribableQueryInput) do |scope, value|
     scope.where(subject: value)
   end
 

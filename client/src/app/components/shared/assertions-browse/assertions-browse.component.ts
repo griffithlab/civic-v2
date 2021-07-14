@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection,  EvidenceType, Maybe, PageInfo, QueryAssertionsArgs } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection,  EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/shared/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -13,15 +13,20 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
 export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
+  @Input() organizationId: Maybe<number>
+  @Input() userId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
 
   private initialPageSize = 25
-  private queryRef!: QueryRef<AssertionsBrowseQuery, QueryAssertionsArgs>
+  private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
   assertions$?: Observable<Maybe<AssertionBrowseTableRowFieldsFragment>[]>
   totalCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
+
+  tableView: boolean = true
 
   textInputCallback?: () => void
 
@@ -45,9 +50,12 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       variantId: this.variantId,
-      evidenceId: this.evidenceId
-
-    }, { fetchPolicy: 'cache-and-network' });
+      evidenceId: this.evidenceId,
+      organizationId: this.organizationId,
+      userId: this.userId,
+      phenotypeId: this.phenotypeId,
+      cardView: !this.tableView
+    });
 
     let observable = this.queryRef.valueChanges;
 
@@ -89,13 +97,14 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
+      cardView: !this.tableView
     })
   }
 
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({ sortBy: buildSortParams(e) })
+    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
   
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }

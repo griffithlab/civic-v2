@@ -34,7 +34,7 @@ fragment AssertionSummaryFields on Assertion {
     }
     phenotypes {
       id
-      hpoClass
+      name
     }
     drugInteractionType
     ampLevel

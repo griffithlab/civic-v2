@@ -15,7 +15,11 @@ query EvidenceBrowse(
   $variantOrigin: VariantOrigin
   $variantId: Int
   $assertionId: Int
-  $sortBy: EvidenceSort
+  $organizationId: Int
+  $userId: Int
+  $sortBy: EvidenceSort,
+  $phenotypeId: Int,
+  $cardView: Boolean!
 ) {
   evidenceItems(
     first: $first
@@ -34,6 +38,9 @@ query EvidenceBrowse(
     variantOrigin: $variantOrigin
     variantId: $variantId
     assertionId: $assertionId
+    organizationId: $organizationId
+    userId: $userId
+    phenotypeId: $phenotypeId
     sortBy: $sortBy
   ) {
     totalCount
@@ -60,6 +67,32 @@ fragment EvidenceGridFields on EvidenceItem {
       displayName
     }
     drugs {
+      id
+      name
+    }
+    gene {
+      id
+      name
+    }
+    variant {
+      id
+      name
+    }
+    phenotypes @include(if: $cardView) {
+      id
+      name
+    }
+    source @include(if: $cardView)  {
+      id
+      citation
+      citationId
+      sourceType
+      sourceUrl
+      clinicalTrials {
+        nctId
+      }
+    }
+    assertions @include(if: $cardView) {
       id
       name
     }

@@ -1,11 +1,12 @@
 query EventFeed (
-    $subject: SubscribableInput
+    $subject: SubscribableQueryInput
     $first: Int,
     $last: Int,
     $before: String,
     $after: String,
     $originatingUserId: Int,
-    $organizationId: Int
+    $organizationId: Int,
+    $eventType: EventAction
 ){
 events (
     subject: $subject,
@@ -15,6 +16,7 @@ events (
     after: $after,
     originatingUserId: $originatingUserId,
     organizationId: $organizationId
+    eventType: $eventType
 ) { ...eventFeed }
 
 }
@@ -57,6 +59,7 @@ fragment eventFeedNode on Event {
         id
         username
         displayName
+        role
         profileImagePath(size: 32)
     }
     subject {

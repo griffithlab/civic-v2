@@ -1,5 +1,5 @@
 <ng-container *ngIf="geneInfo">
-  <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
+  <nz-card nzTitle="MyGeneInfo">
     <nz-card-tab>
       <nz-tabset nzSize="small" (nzSelectChange)="tabChange($event)" [nzAnimated]="true">
         <nz-tab [nzTitle]="'Overview'"> </nz-tab>
@@ -58,8 +58,8 @@
 
       <!-- protein domains tab -->
       <ng-container *ngSwitchCase="2" >
-        <nz-table #proteinDomainsTable 
-          [nzData]="info.interpro" 
+        <nz-table #proteinDomainsTable
+          [nzData]="info.interpro"
           [nzScroll]="{x: '100%', y: '200px'}"
           [nzFrontPagination]="false"
           [nzShowPagination]="false"
@@ -91,8 +91,8 @@
 
       <!-- pathways tab -->
       <ng-container *ngSwitchCase="3" >
-        <nz-table #pathwaysTable 
-          [nzData]="info.pathway" 
+        <nz-table #pathwaysTable
+          [nzData]="info.pathway"
           [nzScroll]="{x: '100%', y: '200px'}"
           [nzFrontPagination]="false"
           [nzShowPagination]="false"

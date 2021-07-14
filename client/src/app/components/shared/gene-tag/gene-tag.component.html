@@ -1,0 +1,11 @@
+<nz-tag nzColor="blue"
+  nz-popover
+  [nzPopoverMouseEnterDelay]="0.5"
+  [nzPopoverContent]="genePopover"
+  nzPopoverTrigger="hover">
+  <i nz-icon
+    nzType="civic-gene"></i> {{ gene.name }}
+</nz-tag>
+<ng-template #genePopover>
+  <cvc-gene-popover [geneId]="gene.id"></cvc-gene-popover>
+</ng-template>
