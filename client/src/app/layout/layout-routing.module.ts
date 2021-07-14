@@ -25,6 +25,7 @@ const routes: Routes = [
       { path: 'genes', loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule) },
       { path: 'organizations', loadChildren: () => import('@app/views/organizations/organizations.module').then(m => m.OrganizationsModule)},
       { path: 'phenotypes', loadChildren: () => import('@app/views/phenotypes/phenotypes.module').then(m => m.PhenotypesModule) },
+      { path: 'releases', loadChildren: () => import('@app/views/releases/releases.module').then(m => m.ReleasesModule) },
       { path: 'revisions', loadChildren: () => import('@app/views/revisions/revisions.module').then(m => m.RevisionsModule) },
       { path: 'sources', loadChildren: () => import('@app/views/sources/sources.module').then(m => m.SourcesModule) },
       { path: 'users', loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule)},

@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PhenotypesRoutingModule } from './phenotypes-routing.module';
-import { PhenotypesComponent } from './phenotypes.component';
-import { PhenotypesBrowseComponent } from './phenotypes-browse/phenotypes-browse.component';
-import { PhenotypesDetailComponent } from './phenotypes-detail/phenotypes-detail.component';
-import { PhenotypesSummaryComponent } from './phenotypes-summary/phenotypes-summary.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
@@ -15,12 +10,16 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 
+import { ReleasesRoutingModule } from './releases-routing.module';
+import { ReleasesComponent } from './releases.component';
+import { ReleasesMainComponent } from './releases-main/releases-main.component';
+
 
 @NgModule({
-  declarations: [PhenotypesComponent, PhenotypesBrowseComponent, PhenotypesDetailComponent, PhenotypesSummaryComponent],
+  declarations: [ReleasesComponent, ReleasesMainComponent],
   imports: [
     CommonModule,
-    PhenotypesRoutingModule,
+    ReleasesRoutingModule,
     IconsProviderModule,
     NzTableModule,
     SharedComponentsModule,
@@ -31,4 +30,4 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzSpaceModule
   ]
 })
-export class PhenotypesModule { }
+export class ReleasesModule { }

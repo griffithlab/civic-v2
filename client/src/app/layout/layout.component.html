@@ -183,6 +183,24 @@
       </li>
 
     </ul>
+
+    <ul nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      class="menu-group"
+      [nzInlineCollapsed]="isCollapsed">
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Data Releases' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="download"></i>
+        <span>
+          <a routerLink="/releases" id="releases">Data Releases</a>
+        </span>
+      </li>
+    </ul>
+
   </nz-sider>
   <nz-layout class="right-layout" [ngClass]="{ 'is-collapsed': isCollapsed }">
     <nz-header>
