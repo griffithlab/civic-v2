@@ -4,6 +4,7 @@ import {
   EventFeedNodeFragment,
   SubscribableEntities
 } from '@app/generated/civic.apollo';
+import { EventDisplayOption } from '../event-feed/event-feed.component';
 
 @Component({
   selector: 'cvc-event-timeline',
@@ -12,6 +13,7 @@ import {
 })
 export class EventTimelineComponent implements OnInit {
   @Input() events?: EventFeedNodeFragment[];
+  @Input() tagDisplay: EventDisplayOption = "displayAll"
   constructor() { }
 
   ngOnInit(): void {

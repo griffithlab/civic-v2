@@ -16,7 +16,7 @@
           class="description">
 
           <!-- user tag -->
-          <cvc-user-tag [user]="event.originatingUser"></cvc-user-tag>
+          <cvc-user-tag [user]="event.originatingUser" *ngIf="tagDisplay != 'hideUser'"></cvc-user-tag>
 
           <!-- verb -->
           <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
@@ -27,21 +27,21 @@
               [ngSwitch]="object.__typename">
               <span *ngSwitchCase="'Revision'"> 
                 <cvc-revision-tag [revision]="object"></cvc-revision-tag>
-                <span nz-typography>{{ prepositionForSubject(event) }}&nbsp;</span>
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
               </span>
               <span *ngSwitchCase="'Comment'">
                 <cvc-comment-tag [comment]="object"></cvc-comment-tag>
-                <span nz-typography>{{ prepositionForSubject(event) }}&nbsp;</span>
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
               </span>
               <span *ngSwitchCase="'Flag'">
                 <cvc-flag-tag [flag]="object"></cvc-flag-tag>
-                <span nz-typography>{{ prepositionForSubject(event) }}&nbsp;</span>
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
               </span>
             </ng-container>
           </ng-container>
 
           <!-- subject -->
-          <ng-container *ngIf="event.subject as subject"
+          <ng-container *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
             [ngSwitch]="subject.__typename">
             <cvc-gene-tag *ngSwitchCase="'Gene'"
               [gene]="subject"></cvc-gene-tag>
@@ -53,7 +53,7 @@
           </ng-container>
 
           <!-- user organization -->
-          <ng-container *ngIf="event.organization as org">
+          <ng-container *ngIf="tagDisplay != 'hideOrg' && event.organization as org">
             <span nz-typography>for&nbsp;</span>
             <cvc-org-tag [org]="org"></cvc-org-tag>
           </ng-container>

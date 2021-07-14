@@ -39,7 +39,13 @@
         "name": "EventOriginObject",
         "possibleTypes": [
           {
+            "name": "Assertion"
+          },
+          {
             "name": "Comment"
+          },
+          {
+            "name": "EvidenceItem"
           },
           {
             "name": "Flag"

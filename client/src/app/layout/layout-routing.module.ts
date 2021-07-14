@@ -27,6 +27,7 @@ const routes: Routes = [
       { path: 'phenotypes', loadChildren: () => import('@app/views/phenotypes/phenotypes.module').then(m => m.PhenotypesModule) },
       { path: 'revisions', loadChildren: () => import('@app/views/revisions/revisions.module').then(m => m.RevisionsModule) },
       { path: 'sources', loadChildren: () => import('@app/views/sources/sources.module').then(m => m.SourcesModule) },
+      { path: 'users', loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule)},
       { path: 'variant-groups', loadChildren: () => import('@app/views/variant-groups/variant-groups.module').then(m => m.VariantGroupsModule) },
       { path: 'variants', loadChildren: () => import('@app/views/variants/variants.module').then(m => m.VariantsModule) },
 

@@ -17,6 +17,7 @@ query AssertionsBrowse (
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
   $organizationId: Int,
+  $userId: Int
   $cardView: Boolean!
 ) {
   assertions(
@@ -38,6 +39,7 @@ query AssertionsBrowse (
     variantName: $variantName,
     evidenceId: $evidenceId
     organizationId: $organizationId
+    userId: $userId
   ) {
     totalCount
     pageInfo {

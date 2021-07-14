@@ -40,9 +40,7 @@ export class FlagListComponent implements OnInit {
             throw new Error("Must pass a flaggable into flag list");
         }
 
-        this.queryRef = this.gql.watch({flaggable: this.flaggable, state: this.resolveStateFilter()},
-            { fetchPolicy: 'cache-and-network' }
-        );
+        this.queryRef = this.gql.watch({flaggable: this.flaggable, state: this.resolveStateFilter()});
         this.results$ = this.queryRef.valueChanges
         this.flags$ = this.results$.pipe(map(({data}) => data.flags))
         this.refresh = () => { this.queryRef.refetch() }
