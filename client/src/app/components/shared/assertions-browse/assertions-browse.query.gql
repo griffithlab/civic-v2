@@ -17,7 +17,8 @@ query AssertionsBrowse (
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
   $organizationId: Int,
-  $userId: Int
+  $userId: Int,
+  $phenotypeId: Int,
   $cardView: Boolean!
 ) {
   assertions(
@@ -39,7 +40,8 @@ query AssertionsBrowse (
     variantName: $variantName,
     evidenceId: $evidenceId
     organizationId: $organizationId
-    userId: $userId
+    userId: $userId,
+    phenotypeId: $phenotypeId
   ) {
     totalCount
     pageInfo {
@@ -78,7 +80,7 @@ fragment AssertionBrowseTableRowFields on Assertion {
   }
   phenotypes @include(if: $cardView) {
     id
-    hpoClass
+    name
   }
   drugInteractionType
   summary

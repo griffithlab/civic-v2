@@ -27,7 +27,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
     phenotypes {
       id
-      hpoClass
+      name
     }
     source {
       id

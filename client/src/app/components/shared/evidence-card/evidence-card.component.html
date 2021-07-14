@@ -45,7 +45,7 @@
                                 <ng-template ngPluralCase="=1"><b>Associated Phenotype:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Associated Phenotypes:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let p of evidence.phenotypes; let last = last">
-                                  {{ p.hpoClass }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                  {{ p.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
                                 </ng-container>
                             </nz-row>
                             <nz-row><b>Source:&nbsp;</b>{{ evidence.source.citation }}</nz-row>

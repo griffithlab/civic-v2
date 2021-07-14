@@ -15,6 +15,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() assertionId: Maybe<number>
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -52,6 +53,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       assertionId: this.assertionId,
       organizationId: this.organizationId,
       userId: this.userId,
+      phenotypeId: this.phenotypeId,
       cardView: !this.tableView
     });
 

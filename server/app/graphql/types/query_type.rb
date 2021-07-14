@@ -16,6 +16,7 @@ module Types
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :events, resolver: Resolvers::TopLevelEvents
+    field :phenotypes, resolver: Resolvers::Phenotypes
 
     field :search, resolver: Resolvers::Quicksearch
 
@@ -51,6 +52,11 @@ module Types
 
     field :organization, Types::Entities::OrganizationType, null: true do
       description 'Find an organization by CIViC ID'
+      argument :id, Int, required: true
+    end
+
+    field :phenotype, Types::Entities::PhenotypeType, null: true do
+      description 'Find a phenotype by CIViC ID'
       argument :id, Int, required: true
     end
 
@@ -102,6 +108,10 @@ module Types
 
     def organization(id: )
       Organization.find(id)
+    end
+
+    def phenotype(id: )
+      Phenotype.find(id)
     end
 
     def search_genes(query:, create_permalink:)
