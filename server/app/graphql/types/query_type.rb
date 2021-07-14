@@ -16,6 +16,7 @@ module Types
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :events, resolver: Resolvers::TopLevelEvents
+    field :phenotypes, resolver: Resolvers::Phenotypes
 
     field :search, resolver: Resolvers::Quicksearch
 

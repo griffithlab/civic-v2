@@ -51,6 +51,9 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:amp_level, type: Types::AmpLevelType, description: 'Filtering on the AMP/ASCO/CAP category.') do |scope, value|
     scope.where(amp_level: value)
   end
+  option(:phenotype_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC phenotype id') do |scope, value|
+    scope.joins(:phenotypes).where('phenotypes.id = ?', value)
+  end
 
 
   option :sort_by, type: Types::BrowseTables::AssertionSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|

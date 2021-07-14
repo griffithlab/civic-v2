@@ -338,6 +338,39 @@ export type BrowseGeneEdge = {
   node?: Maybe<BrowseGene>;
 };
 
+export type BrowsePhenotype = {
+  __typename: 'BrowsePhenotype';
+  assertionCount: Scalars['Int'];
+  evidenceCount: Scalars['Int'];
+  hpoId: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+/** The connection type for BrowsePhenotype. */
+export type BrowsePhenotypeConnection = {
+  __typename: 'BrowsePhenotypeConnection';
+  /** A list of edges. */
+  edges: Array<BrowsePhenotypeEdge>;
+  /** A list of nodes. */
+  nodes: Array<BrowsePhenotype>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowsePhenotypeEdge = {
+  __typename: 'BrowsePhenotypeEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowsePhenotype>;
+};
+
 export type BrowseSource = {
   __typename: 'BrowseSource';
   authors: Array<Scalars['String']>;
@@ -1424,6 +1457,20 @@ export type Phenotype = {
   name: Scalars['String'];
 };
 
+export type PhenotypeSort = {
+  /** Available columns for sorting */
+  column: PhenotypeSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum PhenotypeSortColumns {
+  AssertionCount = 'ASSERTION_COUNT',
+  EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
+  HpoId = 'HPO_ID',
+  Name = 'NAME'
+}
+
 export type Query = {
   __typename: 'Query';
   /** Find an assertion by CIViC ID */
@@ -1455,6 +1502,8 @@ export type Query = {
   organization?: Maybe<Organization>;
   /** List and filter organizations. */
   organizations: OrganizationConnection;
+  /** List and filter Phenotypes from the Sequence Ontology. */
+  phenotypes: BrowsePhenotypeConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
   search: Array<SearchResult>;
@@ -1495,6 +1544,7 @@ export type QueryAssertionsArgs = {
   id?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
+  phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<AssertionSort>;
   summary?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
@@ -1623,6 +1673,7 @@ export type QueryEvidenceItemsArgs = {
   id?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
+  phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   status?: Maybe<EvidenceStatus>;
   userId?: Maybe<Scalars['Int']>;
@@ -1662,6 +1713,17 @@ export type QueryOrganizationsArgs = {
   last?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   sortBy?: Maybe<OrganizationSort>;
+};
+
+
+export type QueryPhenotypesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  hpoId?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<PhenotypeSort>;
 };
 
 
