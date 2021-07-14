@@ -493,6 +493,17 @@ export type ClinicalTrial = {
   nctId: Scalars['String'];
 };
 
+/**
+ * An input object representing possible ClinVar ID states.
+ * You may specify either one or more Integer IDs OR either none found or not applicable.
+ */
+export type ClinvarInput = {
+  /** The ClinVar ID(s) */
+  ids?: Maybe<Array<Scalars['Int']>>;
+  noneFound?: Maybe<Scalars['Boolean']>;
+  notApplicable?: Maybe<Scalars['Boolean']>;
+};
+
 export type Coi = {
   __typename: 'Coi';
   coiPresent: Scalars['Boolean'];
@@ -580,6 +591,13 @@ export type Coordinate = {
   start?: Maybe<Scalars['Int']>;
   stop?: Maybe<Scalars['Int']>;
   variantBases?: Maybe<Scalars['String']>;
+};
+
+export type CoordinateInput = {
+  chromosome?: Maybe<Scalars['String']>;
+  representativeTranscript?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['Int']>;
+  stop?: Maybe<Scalars['Int']>;
 };
 
 export type DateSort = {
@@ -862,6 +880,36 @@ export type EvidenceItemEdge = {
   node?: Maybe<EvidenceItem>;
 };
 
+/** Fields on an EvidenceItem that curators may propose revisions to. */
+export type EvidenceItemFields = {
+  /** The Clinical Significance of the EvidenceItem */
+  clinicalSignificance: EvidenceClinicalSignificance;
+  /** The Evidence Items's description/summary text. */
+  description: NullableStringInput;
+  /** The ID of the disease (if applicable) for this EvidenceItem */
+  diseaseId: NullableIntInput;
+  /** List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none. */
+  drugIds: Array<Scalars['Int']>;
+  /** Drug interaction type for cases where more than one drug ID is provided. */
+  drugInteractionType: NullableDrugInteractionTypeInput;
+  /** The evidence direction for this EvidenceItem. */
+  evidenceDirection: EvidenceDirection;
+  /** The evidence level of the EvidenceItem */
+  evidenceLevel: EvidenceLevel;
+  /** The Type of the EvidenceItem */
+  evidenceType: EvidenceType;
+  /** List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none. */
+  phenotypeIds: Array<Scalars['Int']>;
+  /** The rating for this EvidenceItem */
+  rating: Scalars['Int'];
+  /** The ID of the Source from which this EvidenceItem was curated. */
+  sourceId: Scalars['Int'];
+  /** The ID of the Variant to which this EvidenceItem belongs */
+  variantId: Scalars['Int'];
+  /** The Variant Origin for this EvidenceItem. */
+  variantOrigin: VariantOrigin;
+};
+
 export enum EvidenceLevel {
   A = 'A',
   B = 'B',
@@ -1122,6 +1170,7 @@ export type GeneAlias = {
   name: Scalars['String'];
 };
 
+/** Fields on a Gene that curators may propose revisions to. */
 export type GeneFields = {
   /** The Gene's description/summary text. */
   description: Scalars['String'];
@@ -1247,8 +1296,12 @@ export type Mutation = {
   resolveFlag?: Maybe<ResolveFlagPayload>;
   /** Subscribe to a CIViC entity in order to receive notifications about it. */
   subscribe?: Maybe<SubscribePayload>;
+  /** Suggest a Revision to an EvidenceItem entity. */
+  suggestEvidenceItemRevision?: Maybe<SuggestEvidenceItemRevisionPayload>;
   /** Suggest a Revision to a Gene entity. */
   suggestGeneRevision?: Maybe<SuggestGeneRevisionPayload>;
+  /** Suggest a Revision to a Variant entity. */
+  suggestVariantRevision?: Maybe<SuggestVariantRevisionPayload>;
   /** Unsubscribe from a CIViC entity to stop receiving notifications about it. */
   unsubscribe?: Maybe<UnsubscribePayload>;
 };
@@ -1294,8 +1347,18 @@ export type MutationSubscribeArgs = {
 };
 
 
+export type MutationSuggestEvidenceItemRevisionArgs = {
+  input: SuggestEvidenceItemRevisionInput;
+};
+
+
 export type MutationSuggestGeneRevisionArgs = {
   input: SuggestGeneRevisionInput;
+};
+
+
+export type MutationSuggestVariantRevisionArgs = {
+  input: SuggestVariantRevisionInput;
 };
 
 
@@ -1344,6 +1407,58 @@ export enum NotificationReason {
   Mention = 'MENTION',
   Subscription = 'SUBSCRIPTION'
 }
+
+/**
+ * An input object that represents a field value that can be "unset" or changed to null.
+ * To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+ * This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+ * and the inability to have an input object argument be both required _and_ nullable at the same time.
+ */
+export type NullableDrugInteractionTypeInput = {
+  /** Set to true if you wish to set the field's value to null. */
+  unset?: Maybe<Scalars['Boolean']>;
+  /** The desired value for the field. Mutually exclusive with unset. */
+  value?: Maybe<DrugInteraction>;
+};
+
+/**
+ * An input object that represents a field value that can be "unset" or changed to null.
+ * To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+ * This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+ * and the inability to have an input object argument be both required _and_ nullable at the same time.
+ */
+export type NullableIntInput = {
+  /** Set to true if you wish to set the field's value to null. */
+  unset?: Maybe<Scalars['Boolean']>;
+  /** The desired value for the field. Mutually exclusive with unset. */
+  value?: Maybe<Scalars['Int']>;
+};
+
+/**
+ * An input object that represents a field value that can be "unset" or changed to null.
+ * To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+ * This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+ * and the inability to have an input object argument be both required _and_ nullable at the same time.
+ */
+export type NullableReferenceBuildTypeInput = {
+  /** Set to true if you wish to set the field's value to null. */
+  unset?: Maybe<Scalars['Boolean']>;
+  /** The desired value for the field. Mutually exclusive with unset. */
+  value?: Maybe<ReferenceBuild>;
+};
+
+/**
+ * An input object that represents a field value that can be "unset" or changed to null.
+ * To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+ * This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+ * and the inability to have an input object argument be both required _and_ nullable at the same time.
+ */
+export type NullableStringInput = {
+  /** Set to true if you wish to set the field's value to null. */
+  unset?: Maybe<Scalars['Boolean']>;
+  /** The desired value for the field. Mutually exclusive with unset. */
+  value?: Maybe<Scalars['String']>;
+};
 
 export type ObjectField = {
   __typename: 'ObjectField';
@@ -2112,6 +2227,45 @@ export type Subscription = {
   id: Scalars['Int'];
 };
 
+/** Autogenerated input type of SuggestEvidenceItemRevision */
+export type SuggestEvidenceItemRevisionInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Text describing the reason for the change. Will be attached to the Revision as a comment. */
+  comment: Scalars['String'];
+  /**
+   * The desired state of the EvidenceItems's editable fields if the change were applied.
+   * If no change is desired for a particular field, pass in the current value of that field.
+   */
+  fields: EvidenceItemFields;
+  /** The ID of the EvidenceItem to suggest a Revision to. */
+  id: Scalars['Int'];
+  /**
+   * The ID of the organization to credit the user's contributions to.
+   * If the user belongs to a single organization or no organizations, this field is not required.
+   * This field is required if the user belongs to more than one organization.
+   * The user must belong to the organization provided.
+   */
+  organizationId?: Maybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of SuggestEvidenceItemRevision */
+export type SuggestEvidenceItemRevisionPayload = {
+  __typename: 'SuggestEvidenceItemRevisionPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The EvidenceItem the user has proposed a Revision to. */
+  evidenceItem: EvidenceItem;
+  /**
+   * A list of Revisions generated as a result of this suggestion.
+   * If an existing Revision exactly matches the proposed one, it will be returned instead.
+   * This is indicated via the 'newlyCreated' Boolean.
+   * Revisions are stored on a per-field basis.
+   * The changesetId can be used to group Revisions proposed at the same time.
+   */
+  results: Array<RevisionResult>;
+};
+
 /** Autogenerated input type of SuggestGeneRevision */
 export type SuggestGeneRevisionInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -2149,6 +2303,45 @@ export type SuggestGeneRevisionPayload = {
    * The changesetId can be used to group Revisions proposed at the same time.
    */
   results: Array<RevisionResult>;
+};
+
+/** Autogenerated input type of SuggestVariantRevision */
+export type SuggestVariantRevisionInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Text describing the reason for the change. Will be attached to the Revision as a comment. */
+  comment: Scalars['String'];
+  /**
+   * The desired state of the Variant's editable fields if the change were applied.
+   * If no change is desired for a particular field, pass in the current value of that field.
+   */
+  fields: VariantFields;
+  /** The ID of the Variant to suggest a Revision to. */
+  id: Scalars['Int'];
+  /**
+   * The ID of the organization to credit the user's contributions to.
+   * If the user belongs to a single organization or no organizations, this field is not required.
+   * This field is required if the user belongs to more than one organization.
+   * The user must belong to the organization provided.
+   */
+  organizationId?: Maybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of SuggestVariantRevision */
+export type SuggestVariantRevisionPayload = {
+  __typename: 'SuggestVariantRevisionPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /**
+   * A list of Revisions generated as a result of this suggestion.
+   * If an existing Revision exactly matches the proposed one, it will be returned instead.
+   * This is indicated via the 'newlyCreated' Boolean.
+   * Revisions are stored on a per-field basis.
+   * The changesetId can be used to group Revisions proposed at the same time.
+   */
+  results: Array<RevisionResult>;
+  /** The Variant the user has proposed a Revision to. */
+  variant: Variant;
 };
 
 /** Autogenerated input type of Unsubscribe */
@@ -2367,6 +2560,38 @@ export type VariantEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<Variant>;
+};
+
+/** Fields on a Variant that curators may propose revisions to. */
+export type VariantFields = {
+  /** List of aliases or alternate names for the Variant. */
+  aliases: Array<Scalars['String']>;
+  /** List of ClinVar IDs for the Variant. */
+  clinvarIds: ClinvarInput;
+  /** The Variant's description/summary text. */
+  description: NullableStringInput;
+  /** The Ensembl database version. */
+  ensemblVersion: Scalars['Int'];
+  /** The ID of the Gene this Variant corresponds to. */
+  geneId: Scalars['Int'];
+  /** List of HGVS descriptions for the Variant. */
+  hgvsDescriptions: Array<Scalars['String']>;
+  /** The Variant's name. */
+  name: Scalars['String'];
+  /** The primary coordinates for this Variant. In the case of Fusions this will be the coordinates of the 5' partner. */
+  primaryCoordinates: CoordinateInput;
+  /** Reference bases for this variant */
+  referenceBases: NullableStringInput;
+  /** The reference build for the genomic coordinates of this Variant. */
+  referenceBuild: NullableReferenceBuildTypeInput;
+  /** In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null. */
+  secondaryCoordinates: CoordinateInput;
+  /** Source IDs cited by the Variant's summary. */
+  sourceIds: Array<Scalars['Int']>;
+  /** Variant bases for this variant */
+  variantBases: NullableStringInput;
+  /** List of IDs for the variant types for this Variant */
+  variantTypeIds: Array<Scalars['Int']>;
 };
 
 export type VariantGroupsSort = {
