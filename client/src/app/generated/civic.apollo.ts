@@ -1419,9 +1419,9 @@ export type PageInfo = {
 
 export type Phenotype = {
   __typename: 'Phenotype';
-  hpoClass: Scalars['String'];
   hpoId: Scalars['String'];
   id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type Query = {
@@ -2464,7 +2464,7 @@ export type AssertionBrowseTableRowFieldsFragment = (
     & Pick<Drug, 'id' | 'name'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'hpoClass'>
+    & Pick<Phenotype, 'id' | 'name'>
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
@@ -2695,7 +2695,7 @@ export type EvidenceGridFieldsFragment = (
     & Pick<Variant, 'id' | 'name'>
   ), phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'hpoClass'>
+    & Pick<Phenotype, 'id' | 'name'>
   )>, source: (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl'>
@@ -3244,7 +3244,7 @@ export type AssertionSummaryFieldsFragment = (
     & Pick<Drug, 'ncitId' | 'name'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'hpoClass'>
+    & Pick<Phenotype, 'id' | 'name'>
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
@@ -3354,7 +3354,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Disease, 'id' | 'displayName'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'hpoClass'>
+    & Pick<Phenotype, 'id' | 'name'>
   )>, source: (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
@@ -3884,7 +3884,7 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   }
   phenotypes @include(if: $cardView) {
     id
-    hpoClass
+    name
   }
   drugInteractionType
   summary
@@ -4025,7 +4025,7 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   }
   phenotypes @include(if: $cardView) {
     id
-    hpoClass
+    name
   }
   source @include(if: $cardView) {
     id
@@ -4265,7 +4265,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
   phenotypes {
     id
-    hpoClass
+    name
   }
   drugInteractionType
   ampLevel
@@ -4342,7 +4342,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   }
   phenotypes {
     id
-    hpoClass
+    name
   }
   source {
     id

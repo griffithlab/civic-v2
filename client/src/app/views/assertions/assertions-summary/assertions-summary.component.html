@@ -39,7 +39,7 @@
           <ng-template ngPluralCase="=1"><b>Associated Phenotype:&nbsp;</b></ng-template>
           <ng-template ngPluralCase="other"><b>Associated Phenotypes:&nbsp;</b></ng-template>
           <ng-container *ngFor="let p of assertion.phenotypes; let last = last">
-            {{ p.hpoClass }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+            {{ p.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
           </ng-container>
         </nz-row>
         <nz-row *ngIf="assertion.ampLevel"><b>AMP/ASCO/CAP Category:&nbsp;</b>{{ assertion.ampLevel }}</nz-row>

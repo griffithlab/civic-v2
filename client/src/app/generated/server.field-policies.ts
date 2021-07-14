@@ -522,11 +522,11 @@ export type PageInfoFieldPolicy = {
 	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
 	startCursor?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PhenotypeKeySpecifier = ('hpoClass' | 'hpoId' | 'id' | PhenotypeKeySpecifier)[];
+export type PhenotypeKeySpecifier = ('hpoId' | 'id' | 'name' | PhenotypeKeySpecifier)[];
 export type PhenotypeFieldPolicy = {
-	hpoClass?: FieldPolicy<any> | FieldReadFunction<any>,
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flags' | 'gene' | 'organization' | 'organizations' | 'remoteCitation' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'users' | 'variant' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {

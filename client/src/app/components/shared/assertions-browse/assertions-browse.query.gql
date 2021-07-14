@@ -78,7 +78,7 @@ fragment AssertionBrowseTableRowFields on Assertion {
   }
   phenotypes @include(if: $cardView) {
     id
-    hpoClass
+    name
   }
   drugInteractionType
   summary

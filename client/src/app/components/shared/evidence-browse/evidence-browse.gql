@@ -78,7 +78,7 @@ fragment EvidenceGridFields on EvidenceItem {
     }
     phenotypes @include(if: $cardView) {
       id
-      hpoClass
+      name
     }
     source @include(if: $cardView)  {
       id

@@ -2305,9 +2305,9 @@ type PageInfo {
 }
 
 type Phenotype {
-  hpoClass: String!
   hpoId: String!
   id: Int!
+  name: String!
 }
 
 type Query {
