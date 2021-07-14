@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: 'assertions', loadChildren: () => import('@app/views/assertions/assertions.module').then(m => m.AssertionsModule) },
       { path: 'diseases', loadChildren: () => import('@app/views/diseases/diseases.module').then(m => m.DiseasesModule) },
       { path: 'evidence', loadChildren: () => import('@app/views/evidence/evidence.module').then(m => m.EvidenceModule) },
+      { path: 'flags', loadChildren: () => import('@app/views/flags/flags.module').then(m => m.FlagsModule) },
       { path: 'genes', loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule) },
       { path: 'sources', loadChildren: () => import('@app/views/sources/sources.module').then(m => m.SourcesModule) },
       { path: 'variant-groups', loadChildren: () => import('@app/views/variant-groups/variant-groups.module').then(m => m.VariantGroupsModule) },
