@@ -2627,7 +2627,7 @@ type Query {
     Sort order for the events. Defaults to most recent.
     """
     sortBy: DateSort
-    subject: SubscribableInput
+    subject: SubscribableQueryInput
   ): EventConnection!
 
   """
@@ -3325,6 +3325,26 @@ input SubscribableInput {
   ID of subscribable entity.
   """
   id: Int!
+}
+
+"""
+Entity to subscribe to.
+"""
+input SubscribableQueryInput {
+  """
+  Type of subscribable entity.
+  """
+  entityType: SubscribableEntities!
+
+  """
+  ID of subscribable entity.
+  """
+  id: Int!
+
+  """
+  Include child entities of the requested subscribable
+  """
+  includeChildren: Boolean = false
 }
 
 """

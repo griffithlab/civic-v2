@@ -12095,7 +12095,7 @@
                   "description": null,
                   "type": {
                     "kind": "INPUT_OBJECT",
-                    "name": "SubscribableInput",
+                    "name": "SubscribableQueryInput",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -15362,6 +15362,61 @@
                 }
               },
               "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "SubscribableQueryInput",
+          "description": "Entity to subscribe to.",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "id",
+              "description": "ID of subscribable entity.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "entityType",
+              "description": "Type of subscribable entity.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SubscribableEntities",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "includeChildren",
+              "description": "Include child entities of the requested subscribable",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": "false",
               "isDeprecated": false,
               "deprecationReason": null
             }

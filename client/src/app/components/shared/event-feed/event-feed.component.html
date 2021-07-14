@@ -64,12 +64,16 @@
           </nz-form-control>
         </nz-form-item>
       </form>
+      <span *ngIf="subscribable">
+        Show Child Events
+        <nz-switch nzSize="small" [(ngModel)]="showChildren" (ngModelChange)="onShowChildrenToggle()"></nz-switch>
+      </span>
     </ng-template>
     <nz-row [nzGutter]="16">
       <nz-col nzSpan="24"
         class="timeline">
         <ng-container *ngIf="events.length">
-          <cvc-event-timeline [events]="events"></cvc-event-timeline>
+          <cvc-event-timeline [events]="events" [tagDisplay]=tagDisplay></cvc-event-timeline>
         </ng-container>
         <nz-timeline *ngIf="events.length">
         </nz-timeline>

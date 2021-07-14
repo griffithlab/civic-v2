@@ -1,5 +1,5 @@
 query EventFeed (
-    $subject: SubscribableInput
+    $subject: SubscribableQueryInput
     $first: Int,
     $last: Int,
     $before: String,
