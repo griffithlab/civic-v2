@@ -30,6 +30,7 @@ const routes: Routes = [
       { path: 'users', loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule)},
       { path: 'variant-groups', loadChildren: () => import('@app/views/variant-groups/variant-groups.module').then(m => m.VariantGroupsModule) },
       { path: 'variants', loadChildren: () => import('@app/views/variants/variants.module').then(m => m.VariantsModule) },
+      { path: 'variant-types', loadChildren: () => import('@app/views/variant-types/variant-types.module').then(m => m.VariantTypesModule) },
 
       // Other App Views
       { path: 'welcome', loadChildren: () => import('@app/views/welcome/welcome.module').then(m => m.WelcomeModule) },

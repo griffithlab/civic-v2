@@ -97,6 +97,15 @@
           <a routerLink="/sources">Sources</a>
         </span>
       </li>
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="apartment"></i>
+        <span>
+          <a routerLink="/variant-types">Variant Types</a>
+        </span>
+      </li>
     </ul>
 
     <ul nz-menu
