@@ -7,7 +7,6 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('@app/layout/layout.module').then(m => m.LayoutModule)
   },
-  { path: 'flags', loadChildren: () => import('./views/flags/flags.module').then(m => m.FlagsModule) }
 ];
 
 export const routingConfiguration: ExtraOptions = {
