@@ -120,7 +120,7 @@ export enum AmpLevel {
   TierILevelB = 'TIER_I_LEVEL_B'
 }
 
-export type Assertion = Commentable & EventSubject & Flaggable & WithRevisions & {
+export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Assertion';
   acceptanceEvent?: Maybe<Event>;
   acmgCodes: Array<AcmgCode>;
@@ -718,7 +718,7 @@ export enum EvidenceDirection {
   Supports = 'SUPPORTS'
 }
 
-export type EvidenceItem = Commentable & EventSubject & Flaggable & WithRevisions & {
+export type EvidenceItem = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
   __typename: 'EvidenceItem';
   acceptanceEvent?: Maybe<Event>;
   assertions: Array<Assertion>;
@@ -2594,8 +2594,14 @@ export type EventFeedNodeFragment = (
     { __typename: 'Variant' }
     & Pick<Variant, 'name' | 'id'>
   ), originatingObject?: Maybe<(
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  ) | (
     { __typename: 'Comment' }
     & Pick<Comment, 'id' | 'comment' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
   ) | (
     { __typename: 'Flag' }
     & Pick<Flag, 'id' | 'name'>
