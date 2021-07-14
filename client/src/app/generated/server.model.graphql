@@ -2919,6 +2919,11 @@ type Query {
   ): OrganizationConnection!
 
   """
+  Find a phenotype by CIViC ID
+  """
+  phenotype(id: Int!): Phenotype
+
+  """
   List and filter Phenotypes from the Sequence Ontology.
   """
   phenotypes(
