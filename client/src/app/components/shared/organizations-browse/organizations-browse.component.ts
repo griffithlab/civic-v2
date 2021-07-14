@@ -36,8 +36,7 @@ export class OrganizationsBrowseComponent implements OnInit, OnDestroy {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       cardView: !this.tableView
-
-    }, { fetchPolicy: 'cache-and-network' });
+    });
 
     let observable = this.queryRef.valueChanges;
 

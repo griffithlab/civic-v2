@@ -15,17 +15,18 @@ export const CvcTypePolicies: TypePolicies = {
   },
   Query: {
     fields: {
-      browseGenes: relayStylePagination(),
-      browseVariants: relayStylePagination(),
-      browseVariantGroups: relayStylePagination(),
-      browseSources: relayStylePagination(),
-      browseDiseases: relayStylePagination(),
-      events: relayStylePagination(),
-      variants: relayStylePagination(),
-      comments: relayStylePagination(),
-      evidenceItems: relayStylePagination(),
-      assertions: relayStylePagination(),
-      organizations: relayStylePagination(),
+      browseGenes: relayStylePagination(["entrezSymbol", "drugName", "geneAlias", "diseaseName"]),
+      browseVariants: relayStylePagination(["variantName", "entrezSymbol", "diseaseName", "drugName"]),
+      browseVariantGroups: relayStylePagination(["name", "geneNames", "variantNames"]),
+      browseSources: relayStylePagination(["name", "year", "sourceType", "citationId", "author", "journal"]),
+      browseDiseases: relayStylePagination(["name", "doid", "geneNames"]),
+      events: relayStylePagination(["subject", "organizationId", "originatingUserId", "eventType"]),
+      variants: relayStylePagination(["geneId", "name", "evidenceStatusFilter"]),
+      comments: relayStylePagination(["originatingUserId", "subject"]),
+      evidenceItems: relayStylePagination(["diseaseName", "drugName", "id", "description", "evidenceLevel", "evidenceDirection", "clinicalSignificance", "evidenceType", "evidenceRating", "variantOrigin", "variantId", "assertionId", "organizationId", "userId"]),
+      assertions: relayStylePagination(["diseaseName", "drugName", "id", "summary", "assertionDirection", "clinicalSignificance", "assertionType", "variantId", "ampLevel", "geneName", "variantName", "evidenceId", "organizationId", "userId"]),
+      organizations: relayStylePagination(["name", "id"]),
+      flags: relayStylePagination(["flaggable", "flaggingUserId", "resolvingUserId", "state"]),
     }
   }
 };

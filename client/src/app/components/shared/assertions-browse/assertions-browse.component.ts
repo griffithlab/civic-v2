@@ -53,8 +53,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       organizationId: this.organizationId,
       userId: this.userId,
       cardView: !this.tableView
-
-    }, { fetchPolicy: 'cache-and-network' });
+    });
 
     let observable = this.queryRef.valueChanges;
 
