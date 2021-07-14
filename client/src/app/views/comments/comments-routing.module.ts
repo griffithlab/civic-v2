@@ -5,7 +5,8 @@ import { CommentsComponent } from './comments.component';
 
 const routes: Routes = [
   {
-    path: '', component: CommentsComponent,
+    path: '',
+    component: CommentsComponent,
     children: [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
