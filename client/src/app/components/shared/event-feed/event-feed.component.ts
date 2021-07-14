@@ -8,7 +8,8 @@ import {
   Maybe,
   PageInfo,
   SubscribableEntities,
-  SubscribableInput
+  SubscribableInput,
+  SubscribableQueryInput
 } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
@@ -20,16 +21,19 @@ import { sourceInputInitialModel } from "@app/forms/types/source-input/source-in
 
 interface SelectableAction { id: EventAction }
 
+export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displayAll"
+
 @Component({
   selector: 'cvc-event-feed',
   templateUrl: './event-feed.component.html',
   styleUrls: ['./event-feed.component.less'],
 })
 export class EventFeedComponent implements OnInit {
-  @Input() subscribable?: SubscribableInput;
+  @Input() subscribable?: SubscribableQueryInput;
   @Input() subscribableName?: string;
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
+  @Input() tagDisplay: EventDisplayOption = "displayAll"
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
@@ -46,6 +50,8 @@ export class EventFeedComponent implements OnInit {
   participants$?: Observable<LinkableUser[]>;
   organizations$?: Observable<LinkableOrganization[]>;
   actions$?: Observable<SelectableAction[]>
+
+  showChildren: boolean = false
 
   constructor(private gql: EventFeedGQL) {
   }
@@ -113,6 +119,32 @@ export class EventFeedComponent implements OnInit {
     this.queryRef.refetch({
       ...this.initialQueryVars,
       eventType: a === 'ALL'? undefined : a
+    })
+  }
+
+  onShowChildrenToggle() {
+    console.log(this.showChildren)
+    let newSubscribable: Maybe<SubscribableQueryInput>
+    if (this.subscribable) {
+      newSubscribable = {
+        id: this.subscribable.id,
+        entityType: this.subscribable.entityType,
+        includeChildren: this.showChildren
+      }
+      if (this.showChildren) {
+        this.tagDisplay = 'displayAll'
+      }
+      else {
+        this.tagDisplay = 'hideSubject'
+      }
+    }
+    else {
+      newSubscribable = undefined
+    }
+
+    this.queryRef.refetch({
+      ...this.initialQueryVars,
+      subject: newSubscribable
     })
   }
 
