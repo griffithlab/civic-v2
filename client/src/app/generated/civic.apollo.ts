@@ -458,6 +458,15 @@ export type ClinicalTrial = {
   nctId: Scalars['String'];
 };
 
+export type Coi = {
+  __typename: 'Coi';
+  coiPresent: Scalars['Boolean'];
+  coiStatement?: Maybe<Scalars['String']>;
+  coiStatus: Scalars['String'];
+  createdAt?: Maybe<Scalars['ISO8601DateTime']>;
+  expiresAt: Scalars['ISO8601DateTime'];
+};
+
 export type Comment = EventOriginObject & {
   __typename: 'Comment';
   comment: Scalars['String'];
@@ -1313,18 +1322,6 @@ export type ObjectFieldDiff = {
   removedObjects: Array<ModeratedObjectField>;
 };
 
-export type OrgStats = {
-  __typename: 'OrgStats';
-  acceptedAssertions: Scalars['Int'];
-  acceptedEvidenceItems: Scalars['Int'];
-  appliedRevisions: Scalars['Int'];
-  comments: Scalars['Int'];
-  revisions: Scalars['Int'];
-  submittedAssertions: Scalars['Int'];
-  submittedEvidenceItems: Scalars['Int'];
-  suggestedSources: Scalars['Int'];
-};
-
 export type Organization = {
   __typename: 'Organization';
   description: Scalars['String'];
@@ -1335,8 +1332,8 @@ export type Organization = {
   members: UserConnection;
   mostRecentEvent?: Maybe<Event>;
   name: Scalars['String'];
-  orgAndSuborgsStatsHash: OrgStats;
-  orgStatsHash: OrgStats;
+  orgAndSuborgsStatsHash: Stats;
+  orgStatsHash: Stats;
   profileImagePath?: Maybe<Scalars['String']>;
   subGroups: Array<Organization>;
   url: Scalars['String'];
@@ -1500,6 +1497,7 @@ export type QueryAssertionsArgs = {
   organizationId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<AssertionSort>;
   summary?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
 };
@@ -1627,6 +1625,7 @@ export type QueryEvidenceItemsArgs = {
   organizationId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   status?: Maybe<EvidenceStatus>;
+  userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
   variantOrigin?: Maybe<VariantOrigin>;
 };
@@ -1700,7 +1699,7 @@ export type QuerySourceTypeaheadArgs = {
 
 
 export type QueryUserArgs = {
-  userId: Scalars['Int'];
+  id: Scalars['Int'];
 };
 
 
@@ -1957,6 +1956,18 @@ export enum SourcesSortColumns {
   Year = 'YEAR'
 }
 
+export type Stats = {
+  __typename: 'Stats';
+  acceptedAssertions: Scalars['Int'];
+  acceptedEvidenceItems: Scalars['Int'];
+  appliedRevisions: Scalars['Int'];
+  comments: Scalars['Int'];
+  revisions: Scalars['Int'];
+  submittedAssertions: Scalars['Int'];
+  submittedEvidenceItems: Scalars['Int'];
+  suggestedSources: Scalars['Int'];
+};
+
 export type StringSearchInput = {
   comparisonOperator: StringSearchOperator;
   value: Scalars['String'];
@@ -2092,6 +2103,7 @@ export type User = {
   facebookProfile?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
+  mostRecentConflictOfInterestStatement?: Maybe<Coi>;
   name: Scalars['String'];
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;
@@ -2099,6 +2111,7 @@ export type User = {
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
   role: Scalars['String'];
+  statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
   username: Scalars['String'];
@@ -2400,6 +2413,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   sortBy?: Maybe<AssertionSort>;
   ampLevel?: Maybe<AmpLevel>;
   organizationId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -2623,6 +2637,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   variantId?: Maybe<Scalars['Int']>;
   assertionId?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   cardView: Scalars['Boolean'];
 }>;
@@ -2862,8 +2877,8 @@ export type OrganizationBrowseTableRowFieldsFragment = (
     { __typename: 'Event' }
     & Pick<Event, 'createdAt'>
   )>, orgStatsHash: (
-    { __typename: 'OrgStats' }
-    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+    { __typename: 'Stats' }
+    & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ) }
 );
 
@@ -3532,11 +3547,11 @@ export type OrganizationDetailFieldsFragment = (
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
   )>, orgStatsHash: (
-    { __typename: 'OrgStats' }
-    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+    { __typename: 'Stats' }
+    & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ), orgAndSuborgsStatsHash: (
-    { __typename: 'OrgStats' }
-    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+    { __typename: 'Stats' }
+    & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ) }
 );
 
@@ -3560,8 +3575,8 @@ export type OrganizationGroupsFieldsFragment = (
   { __typename: 'Organization' }
   & Pick<Organization, 'id' | 'name' | 'description' | 'profileImagePath'>
   & { orgStatsHash: (
-    { __typename: 'OrgStats' }
-    & Pick<OrgStats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+    { __typename: 'Stats' }
+    & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ) }
 );
 
@@ -3630,6 +3645,34 @@ export type BrowseSourcesQuery = (
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
   & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType'>
+);
+
+export type UserDetailQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type UserDetailQuery = (
+  { __typename: 'Query' }
+  & { user?: Maybe<(
+    { __typename: 'User' }
+    & UserDetailFieldsFragment
+  )> }
+);
+
+export type UserDetailFieldsFragment = (
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'bio' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile' | 'country'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )>, statsHash: (
+    { __typename: 'Stats' }
+    & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+  ), mostRecentConflictOfInterestStatement?: Maybe<(
+    { __typename: 'Coi' }
+    & Pick<Coi, 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
+  )> }
 );
 
 export type BrowseVariantGroupsQueryVariables = Exact<{
@@ -4450,6 +4493,45 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   sourceType
 }
     `;
+export const UserDetailFieldsFragmentDoc = gql`
+    fragment UserDetailFields on User {
+  id
+  name
+  displayName
+  username
+  profileImagePath(size: 36)
+  role
+  url
+  bio
+  areaOfExpertise
+  orcid
+  twitterHandle
+  facebookProfile
+  linkedinProfile
+  organizations {
+    id
+    name
+  }
+  country
+  statsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  mostRecentConflictOfInterestStatement {
+    coiPresent
+    coiStatement
+    coiStatus
+    createdAt
+    expiresAt
+  }
+}
+    `;
 export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
     fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
   id
@@ -4549,7 +4631,7 @@ export const GeneHoverCardDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -4569,6 +4651,7 @@ export const AssertionsBrowseDocument = gql`
     variantName: $variantName
     evidenceId: $evidenceId
     organizationId: $organizationId
+    userId: $userId
   ) {
     totalCount
     pageInfo {
@@ -4689,7 +4772,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $sortBy: EvidenceSort, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last
@@ -4708,6 +4791,7 @@ export const EvidenceBrowseDocument = gql`
     variantId: $variantId
     assertionId: $assertionId
     organizationId: $organizationId
+    userId: $userId
     sortBy: $sortBy
   ) {
     totalCount
@@ -4917,7 +5001,7 @@ export const ResolveFlagDocument = gql`
   }
 export const UserHoverCardDocument = gql`
     query UserHoverCard($userId: Int!) {
-  user(userId: $userId) {
+  user(id: $userId) {
     ...hovercardUser
   }
 }
@@ -5595,6 +5679,24 @@ export const BrowseSourcesDocument = gql`
   })
   export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
     document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserDetailDocument = gql`
+    query UserDetail($userId: Int!) {
+  user(id: $userId) {
+    ...UserDetailFields
+  }
+}
+    ${UserDetailFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserDetailGQL extends Apollo.Query<UserDetailQuery, UserDetailQueryVariables> {
+    document = UserDetailDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

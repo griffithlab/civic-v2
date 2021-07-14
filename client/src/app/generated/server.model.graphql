@@ -151,7 +151,7 @@ enum AmpLevel {
   TIER_I_LEVEL_B
 }
 
-type Assertion implements Commentable & EventSubject & Flaggable & WithRevisions {
+type Assertion implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
@@ -736,6 +736,14 @@ type ClinicalTrial {
   nctId: String!
 }
 
+type Coi {
+  coiPresent: Boolean!
+  coiStatement: String
+  coiStatus: String!
+  createdAt: ISO8601DateTime
+  expiresAt: ISO8601DateTime!
+}
+
 type Comment implements EventOriginObject {
   comment: String!
   commenter: User!
@@ -1095,7 +1103,7 @@ enum EvidenceDirection {
   SUPPORTS
 }
 
-type EvidenceItem implements Commentable & EventSubject & Flaggable & WithRevisions {
+type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
   clinicalSignificance: EvidenceClinicalSignificance!
@@ -2138,17 +2146,6 @@ type ObjectFieldDiff {
   removedObjects: [ModeratedObjectField!]!
 }
 
-type OrgStats {
-  acceptedAssertions: Int!
-  acceptedEvidenceItems: Int!
-  appliedRevisions: Int!
-  comments: Int!
-  revisions: Int!
-  submittedAssertions: Int!
-  submittedEvidenceItems: Int!
-  suggestedSources: Int!
-}
-
 type Organization {
   description: String!
   eventCount: Int!
@@ -2198,8 +2195,8 @@ type Organization {
   ): UserConnection!
   mostRecentEvent: Event
   name: String!
-  orgAndSuborgsStatsHash: OrgStats!
-  orgStatsHash: OrgStats!
+  orgAndSuborgsStatsHash: Stats!
+  orgStatsHash: Stats!
   profileImagePath(size: Int = 56): String
   subGroups: [Organization!]!
   url: String!
@@ -2402,6 +2399,11 @@ type Query {
     Substring filtering on assertion description.
     """
     summary: String
+
+    """
+    Exact match filtering on the ID of the user who submitted the assertion.
+    """
+    userId: Int
 
     """
     Exact match filtering on the ID of the variant.
@@ -2723,6 +2725,11 @@ type Query {
     status: EvidenceStatus
 
     """
+    Exact match filtering on the ID of the user who submitted the evidence item.
+    """
+    userId: Int
+
+    """
     Exact match filtering on the ID of the variant.
     """
     variantId: Int
@@ -2851,7 +2858,7 @@ type Query {
   Provide suggestions for sources based on a partial citation ID
   """
   sourceTypeahead(citationId: Int!, sourceType: SourceSource!): [Source!]!
-  user(userId: Int!): User
+  user(id: Int!): User
 
   """
   List and filter users.
@@ -3265,6 +3272,17 @@ enum SourcesSortColumns {
   YEAR
 }
 
+type Stats {
+  acceptedAssertions: Int!
+  acceptedEvidenceItems: Int!
+  appliedRevisions: Int!
+  comments: Int!
+  revisions: Int!
+  submittedAssertions: Int!
+  submittedEvidenceItems: Int!
+  suggestedSources: Int!
+}
+
 input StringSearchInput {
   comparisonOperator: StringSearchOperator!
   value: String!
@@ -3473,6 +3491,7 @@ type User {
   facebookProfile: String
   id: Int!
   linkedinProfile: String
+  mostRecentConflictOfInterestStatement: Coi
   name: String!
 
   """
@@ -3523,6 +3542,7 @@ type User {
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
   role: String!
+  statsHash: Stats!
   twitterHandle: String
   url: String
   username: String!

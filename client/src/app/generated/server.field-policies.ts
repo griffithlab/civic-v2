@@ -206,6 +206,14 @@ export type ClinicalTrialFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	nctId?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CoiKeySpecifier = ('coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt' | CoiKeySpecifier)[];
+export type CoiFieldPolicy = {
+	coiPresent?: FieldPolicy<any> | FieldReadFunction<any>,
+	coiStatement?: FieldPolicy<any> | FieldReadFunction<any>,
+	coiStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CommentKeySpecifier = ('comment' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -478,17 +486,6 @@ export type ObjectFieldDiffFieldPolicy = {
 	keptObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrgStatsKeySpecifier = ('acceptedAssertions' | 'acceptedEvidenceItems' | 'appliedRevisions' | 'comments' | 'revisions' | 'submittedAssertions' | 'submittedEvidenceItems' | 'suggestedSources' | OrgStatsKeySpecifier)[];
-export type OrgStatsFieldPolicy = {
-	acceptedAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
-	acceptedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
-	appliedRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
-	comments?: FieldPolicy<any> | FieldReadFunction<any>,
-	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
-	submittedAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
-	submittedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
-	suggestedSources?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -646,6 +643,17 @@ export type SourceStubFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type StatsKeySpecifier = ('acceptedAssertions' | 'acceptedEvidenceItems' | 'appliedRevisions' | 'comments' | 'revisions' | 'submittedAssertions' | 'submittedEvidenceItems' | 'suggestedSources' | StatsKeySpecifier)[];
+export type StatsFieldPolicy = {
+	acceptedAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
+	appliedRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	submittedAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
+	submittedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestedSources?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SubscribableKeySpecifier = ('entityType' | 'id' | SubscribableKeySpecifier)[];
 export type SubscribableFieldPolicy = {
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -671,7 +679,7 @@ export type UnsubscribePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribedEntities?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'role' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentConflictOfInterestStatement' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -682,12 +690,14 @@ export type UserFieldPolicy = {
 	facebookProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	profileImagePath?: FieldPolicy<any> | FieldReadFunction<any>,
 	role?: FieldPolicy<any> | FieldReadFunction<any>,
+	statsHash?: FieldPolicy<any> | FieldReadFunction<any>,
 	twitterHandle?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
@@ -856,6 +866,10 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | ClinicalTrialKeySpecifier | (() => undefined | ClinicalTrialKeySpecifier),
 		fields?: ClinicalTrialFieldPolicy,
 	},
+	Coi?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CoiKeySpecifier | (() => undefined | CoiKeySpecifier),
+		fields?: CoiFieldPolicy,
+	},
 	Comment?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentKeySpecifier | (() => undefined | CommentKeySpecifier),
 		fields?: CommentFieldPolicy,
@@ -984,10 +998,6 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | ObjectFieldDiffKeySpecifier | (() => undefined | ObjectFieldDiffKeySpecifier),
 		fields?: ObjectFieldDiffFieldPolicy,
 	},
-	OrgStats?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | OrgStatsKeySpecifier | (() => undefined | OrgStatsKeySpecifier),
-		fields?: OrgStatsFieldPolicy,
-	},
 	Organization?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | OrganizationKeySpecifier | (() => undefined | OrganizationKeySpecifier),
 		fields?: OrganizationFieldPolicy,
@@ -1051,6 +1061,10 @@ export type TypedTypePolicies = TypePolicies & {
 	SourceStub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceStubKeySpecifier | (() => undefined | SourceStubKeySpecifier),
 		fields?: SourceStubFieldPolicy,
+	},
+	Stats?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | StatsKeySpecifier | (() => undefined | StatsKeySpecifier),
+		fields?: StatsFieldPolicy,
 	},
 	Subscribable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscribableKeySpecifier | (() => undefined | SubscribableKeySpecifier),

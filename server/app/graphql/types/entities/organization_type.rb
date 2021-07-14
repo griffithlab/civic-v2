@@ -6,8 +6,8 @@ module Types::Entities
     field :description, String, null: false
     field :events, Types::Entities::EventType.connection_type, null: false
     field :sub_groups, [Types::Entities::OrganizationType], null: false
-    field :org_stats_hash, Types::OrgStatsType, null: false
-    field :org_and_suborgs_stats_hash, Types::OrgStatsType, null: false
+    field :org_stats_hash, Types::StatsType, null: false
+    field :org_and_suborgs_stats_hash, Types::StatsType, null: false
     field :members, Types::Entities::UserType.connection_type, null: false
     field :most_recent_event, Types::Entities::EventType, null: true
     field :member_count, Int, null: false

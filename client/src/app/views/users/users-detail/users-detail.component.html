@@ -1,0 +1,201 @@
+<ng-container *ngIf="user$ | ngrxPush as user">
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal"
+        nzSize="small">
+        <nz-space-item>
+          <i nz-icon
+            nzType="civic:user"></i>
+        </nz-space-item>
+        <span routerLink="/user/{{user.id}}">
+          {{ user.name }}
+        </span>
+      </nz-space>
+    </nz-page-header-title>
+
+    <!--extra-->
+    <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+      <nz-space nzDirection="horizontal" nzSize="small">
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="badges"
+              routerLinkActive
+              #rlaBadges="routerLinkActive"
+              [nzType]="rlaBadges.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:user"></i>Badges
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="evidence"
+              routerLinkActive
+              #rlaEvidence="routerLinkActive"
+              [nzType]="rlaEvidence.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:evidence"></i>Evidence Items
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="assertions"
+              routerLinkActive
+              #rlaAssertions="routerLinkActive"
+              [nzType]="rlaAssertions.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:assertion"></i>Assertions
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-button-group>
+            <button routerLink="activity"
+              routerLinkActive
+              #rlaActivity="routerLinkActive"
+              [nzType]="rlaActivity.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              <i nz-icon
+                nzType="civic:event"></i>Activity
+            </button>
+          </nz-button-group>
+        </nz-space-item>
+      </nz-space>
+        <button nz-button
+          nzSize="small"
+          nz-dropdown
+          [nzDropdownMenu]="menu"
+          nzNoAnimation
+          style="border: none; padding: 0">
+          <i nz-icon
+            nzType="ellipsis"
+            nzTheme="outline"
+            style="font-size: 20px; vertical-align: top;"></i>
+        </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>1st menu item length</li>
+          <li nz-menu-item>2nd menu item length</li>
+          <li nz-menu-item>3rd menu item length</li>
+        </ul>
+      </nz-dropdown-menu>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+      <div class="content">
+        <nz-space>
+          <nz-space-item>
+            <div nz-row [nzGutter]="16">
+                <nz-row>
+                  <nz-col [nzSpan]="2">
+                    <cvc-user-card [user]="user"></cvc-user-card>
+                  </nz-col>
+                  <nz-col [nzSpan]="18">
+                    <nz-row [nzGutter]="16">
+                      <nz-col [nzSpan]="12">
+                        <nz-row>
+                          <p nz-typography><b>Biography: </b>{{ user.bio }}</p>
+                        </nz-row>
+                      </nz-col>
+                      <nz-col [nzSpan]="6">
+                        <nz-row>
+                          <b>Role:&nbsp;</b>{{ user.role }}
+                        </nz-row>
+                        <nz-row>
+                          <b>Username:&nbsp;</b>{{ user.username }}
+                        </nz-row>
+                        <nz-row>
+                          <b>Area of Expertise:&nbsp;</b>{{ user.areaOfExpertise }}
+                        </nz-row>
+                        <nz-row>
+                          <b>Country:&nbsp;</b>{{ user.country }}
+                        </nz-row>
+                      </nz-col>
+                      <nz-col [nzSpan]="6">
+                        <nz-row>
+                          <b>Editor's Conflict of Interest Statement:&nbsp;</b>
+                        </nz-row>
+                        <nz-row>
+                          <b>Satus:&nbsp;</b>{{ user.mostRecentConflictOfInterestStatement.coiStatus }}
+                        </nz-row>
+                        <nz-row>
+                          <b>Created:&nbsp;</b>{{ user.mostRecentConflictOfInterestStatement.createdAt }}
+                        </nz-row>
+                        <nz-row>
+                          <b>Expires:&nbsp;</b>{{ user.mostRecentConflictOfInterestStatement.expiresAt }}
+                        </nz-row>
+                        <nz-row>
+                          <b>Statement:&nbsp;</b>{{ user.mostRecentConflictOfInterestStatement.coiStatement }}
+                        </nz-row>
+                      </nz-col>
+                    </nz-row>
+                    <nz-row>
+                      <p nz-typography><b>User Statistics</b></p>
+                    </nz-row>
+                    <nz-row [nzGutter]="16">
+                      <nz-col [nzSpan]="2">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                      <nz-col [nzSpan]="3">
+                        <nz-card>
+                          <nz-statistic [nzValue]="(user.statsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
+                        </nz-card>
+                      </nz-col>
+                    </nz-row>
+                  </nz-col>
+                  <nz-col [nzSpan]="4">
+                    <nz-list *ngIf="user.organizations.length > 0" nzBordered nzSize="small">
+                      <nz-list-header>Organizations: </nz-list-header>
+                      <nz-list-item *ngFor="let org of user.organizations">
+                        <cvc-org-pill [org]="org"></cvc-org-pill>
+                      </nz-list-item>
+                    </nz-list>
+                  </nz-col>
+                </nz-row>
+            </div>
+          </nz-space-item>
+        </nz-space>
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>
