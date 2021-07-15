@@ -34,7 +34,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { IconsProviderModule } from '@app/icons-provider.module'
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
-import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
@@ -46,7 +45,6 @@ import { EvidenceModule } from '../evidence/evidence.module';
 @NgModule({
   declarations: [
     VariantsComponent,
-    VariantsBrowseComponent,
     VariantsDetailComponent,
     VariantSummaryComponent,
     VariantsCommentsComponent,
@@ -84,6 +82,6 @@ import { EvidenceModule } from '../evidence/evidence.module';
     FormsModule,
     SharedComponentsModule,
     EvidenceModule
-  ],
+  ]
 })
 export class VariantsModule { }

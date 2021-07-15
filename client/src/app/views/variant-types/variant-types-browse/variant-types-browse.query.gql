@@ -1,0 +1,40 @@
+query VariantTypesBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $name: String
+  $soid: String
+  $sortBy: VariantTypeSort
+){
+  variantTypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    soid: $soid
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...VariantTypeBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
+  id
+  name
+  soid
+  variantCount
+}

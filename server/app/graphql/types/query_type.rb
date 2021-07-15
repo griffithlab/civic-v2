@@ -60,6 +60,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :variant_type, Types::Entities::VariantTypeType, null: true do
+      description 'Find a variant type by CIViC ID'
+      argument :id, Int, required: true
+    end
+
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -81,6 +86,8 @@ module Types
     field :users, resolver: Resolvers::TopLevelUsers
 
     field :organizations, resolver: Resolvers::TopLevelOrganizations
+
+    field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
     def disease(id: )
       Disease.find(id)
@@ -112,6 +119,10 @@ module Types
 
     def phenotype(id: )
       Phenotype.find(id)
+    end
+
+    def variant_type(id: )
+      VariantType.find(id)
     end
 
     def search_genes(query:, create_permalink:)

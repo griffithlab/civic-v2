@@ -1,15 +1,25 @@
-<nz-page-header class="site-page-header">
-  <nz-page-header-title>
-    <nz-space nzDirection="horizontal">
-      <nz-space-item>
-        <i nz-icon nzType="apartment"></i>
-      </nz-space-item>
-      VARIANT-TYPE NAME
-    </nz-space>
-  </nz-page-header-title>
-  <nz-page-header-content>
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
-  </nz-page-header-content>
-</nz-page-header>
+<ng-container *ngIf="variantType$ | ngrxPush as variantType" >
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal">
+        <nz-space-item>
+          <i nz-icon nzType="apartment"></i>
+        </nz-space-item>
+          <span routerLink="/variant-types/{{variantType.id}}">
+            {{ variantType.name }}
+          </span>
+      </nz-space>
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      <a [href]="variantType.url" target="_blank">
+        {{ variantType.soid }}
+        <i nz-icon nzType="link"></i>
+      </a>
+    </nz-page-header-subtitle>
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

@@ -23,6 +23,7 @@ export const CvcTypePolicies: TypePolicies = {
         'entrezSymbol',
         'diseaseName',
         'drugName',
+        'variantTypeId'
       ]),
       browseVariantGroups: relayStylePagination([
         'name',

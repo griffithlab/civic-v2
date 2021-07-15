@@ -33,7 +33,7 @@
               <ng-template  ngPluralCase="=1"><b>Variant Type:</b> </ng-template>
               <ng-template  ngPluralCase="other"><b>Variant Types: </b></ng-template>
               <ng-container *ngFor="let vt of variant.variantTypes; let last = last">
-                  <a nz-button href="http://www.sequenceontology.org/browser/current_svn/term/{{vt.soid}}" target="_blank">{{ vt.displayName }}</a>
+                  <a nz-button href="http://www.sequenceontology.org/browser/current_svn/term/{{vt.soid}}" target="_blank">{{ vt.name }}</a>
                   <ng-container *ngIf="!last">, </ng-container>
               </ng-container>
             </ng-container>

@@ -8,8 +8,47 @@
     <div nz-row>
       <div nz-col [nzSpan]="24">
         <div class="content">
-          <h2>Variant Types Browse table goes here.</h2>
-          <p><a routerLink="/variant-types/1">Test variant detail link</a></p>
+          <nz-table #variantTypesTable
+            [nzData]="(variantTypes$ | ngrxPush)"
+            [nzLoading]="(isLoading$ | ngrxPush)"
+            [nzFrontPagination]="false"
+            [nzShowPagination]="false">
+
+            <thead (nzSortOrderChange)="onSortChanged($event)">
+              <tr>
+                <th nzWidth="40%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
+                  Name
+                </th>
+                <th nzWidth="40%" [nzColumnKey]="sortColumns.Soid" [nzSortFn]="true">
+                  HPO ID
+                </th>
+                <th nzWidth="20%" nzRight [nzColumnKey]="sortColumns.VariantCount" [nzSortFn]="true"><i nz-icon nzType="civic:variant" nz-tooltip nzTooltipTitle="Variant count"></i></th>
+              </tr>
+              <tr>
+                <th>
+                  <cvc-clearable-text-filter [(inputModel)]="nameFilter" placeholderText="Search Name" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th>
+                  <cvc-clearable-text-filter [(inputModel)]="soidFilter" placeholderText="Search SO ID" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of variantTypesTable.data">
+                <td>
+                  <a routerLink="/variant-types/{{t.id}}">{{t.name}}</a>
+                </td>
+                <td>
+                  {{ t.soid}}
+                </td>
+                <td>
+                  {{ t.variantCount }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
         </div>
       </div>
     </div>

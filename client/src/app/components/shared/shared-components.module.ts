@@ -90,6 +90,7 @@ import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
 import { GenePopoverComponent } from './gene-popover/gene-popover.component';
+import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { GenePopoverComponent } from './gene-popover/gene-popover.component';
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
-    GenePopoverComponent
+    GenePopoverComponent,
+    VariantsBrowseComponent
   ],
   imports: [
     CommonModule,
@@ -225,7 +227,8 @@ import { GenePopoverComponent } from './gene-popover/gene-popover.component';
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
-    GenePopoverComponent
+    GenePopoverComponent,
+    VariantsBrowseComponent
   ]
 })
 
