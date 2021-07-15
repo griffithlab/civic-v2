@@ -20,6 +20,7 @@ const routes: Routes = [
       { path: 'comments', loadChildren: () => import('@app/views/comments/comments.module').then(m => m.CommentsModule) },
       { path: 'community', loadChildren: () => import('@app/views/community/community.module').then(m => m.CommunityModule) },
       { path: 'diseases', loadChildren: () => import('@app/views/diseases/diseases.module').then(m => m.DiseasesModule) },
+      { path: 'drugs', loadChildren: () => import('@app/views/drugs/drugs.module').then(m => m.DrugsModule) },
       { path: 'evidence', loadChildren: () => import('@app/views/evidence/evidence.module').then(m => m.EvidenceModule) },
       { path: 'flags', loadChildren: () => import('@app/views/flags/flags.module').then(m => m.FlagsModule) },
       { path: 'genes', loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule) },

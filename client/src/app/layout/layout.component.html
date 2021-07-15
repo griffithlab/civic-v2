@@ -18,6 +18,7 @@
       nzMode="inline"
       class="menu-group"
       [nzInlineCollapsed]="isCollapsed">
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Assertions' : ''"
@@ -27,24 +28,7 @@
           <a routerLink="/assertions">Assertions</a>
         </span>
       </li>
-      <li nz-menu-item nz-tooltip
-        nzTooltipPlacement="right"
-        [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
-        nzSelected nzMatchRouter>
-        <i nz-icon nzType="civic-gene"></i>
-        <span>
-          <a routerLink="/genes">Genes</a>
-        </span>
-      </li>
-      <li nz-menu-item nz-tooltip
-        nzTooltipPlacement="right"
-        [nzTooltipTitle]="isCollapsed ? 'Variants' : ''"
-        nzSelected nzMatchRouter>
-        <i nz-icon nzType="civic-variant"></i>
-        <span>
-          <a routerLink="/variants">Variants</a>
-        </span>
-      </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Evidence' : ''"
@@ -54,6 +38,17 @@
           <a routerLink="/evidence">Evidence</a>
         </span>
       </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="civic-gene"></i>
+        <span>
+          <a routerLink="/genes">Genes</a>
+        </span>
+      </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Groups' : ''"
@@ -63,6 +58,7 @@
           <a routerLink="/variant-groups">Variant Groups</a>
         </span>
       </li>
+
     </ul>
 
     <ul nz-menu
@@ -70,6 +66,7 @@
       nzMode="inline"
       class="menu-group"
       [nzInlineCollapsed]="isCollapsed">
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
@@ -79,6 +76,17 @@
           <a routerLink="/diseases">Diseases</a>
         </span>
       </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Drugs' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="civic-intervention"></i>
+        <span>
+          <a routerLink="/drugs">Drugs</a>
+        </span>
+      </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Phenotypes' : ''"
@@ -88,6 +96,7 @@
           <a routerLink="/phenotypes">Phenotypes</a>
         </span>
       </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Sources' : ''"
@@ -97,6 +106,7 @@
           <a routerLink="/sources">Sources</a>
         </span>
       </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
@@ -106,6 +116,7 @@
           <a routerLink="/variant-types">Variant Types</a>
         </span>
       </li>
+
     </ul>
 
     <ul nz-menu
