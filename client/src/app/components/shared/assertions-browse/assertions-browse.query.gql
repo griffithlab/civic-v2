@@ -19,6 +19,7 @@ query AssertionsBrowse (
   $organizationId: Int,
   $userId: Int,
   $phenotypeId: Int,
+  $diseaseId: Int,
   $cardView: Boolean!
 ) {
   assertions(
@@ -42,6 +43,7 @@ query AssertionsBrowse (
     organizationId: $organizationId
     userId: $userId,
     phenotypeId: $phenotypeId
+    diseaseId: $diseaseId
   ) {
     totalCount
     pageInfo {

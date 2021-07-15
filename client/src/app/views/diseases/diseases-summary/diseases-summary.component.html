@@ -1,0 +1,8 @@
+<nz-space nzSize="middle" *ngIf="diseaseId" nzDirection="vertical" class="space-align-block">
+  <nz-space-item>
+    <cvc-assertions-browse [diseaseId]="diseaseId"></cvc-assertions-browse>
+  </nz-space-item>
+  <nz-space-item>
+    <cvc-evidence-browse [diseaseId]="diseaseId"></cvc-evidence-browse>
+  </nz-space-item>
+</nz-space>

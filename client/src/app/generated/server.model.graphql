@@ -2613,6 +2613,11 @@ type Query {
     clinicalSignificance: EvidenceClinicalSignificance
 
     """
+    Exact match filtering of the assertions based on the internal CIViC disease id
+    """
+    diseaseId: Int
+
+    """
     Substring filtering on disease name.
     """
     diseaseName: String
@@ -2653,7 +2658,7 @@ type Query {
     organizationId: Int
 
     """
-    Exact match filtering of the evidence items based on the internal CIViC phenotype id
+    Exact match filtering of the assertions based on the internal CIViC phenotype id
     """
     phenotypeId: Int
 
@@ -2930,6 +2935,11 @@ type Query {
     Substring filtering on evidence item description.
     """
     description: String
+
+    """
+    Exact match filtering of the evidence items based on the internal CIViC disease id
+    """
+    diseaseId: Int
 
     """
     Substring filtering on disease name.

@@ -1655,6 +1655,7 @@ export type QueryAssertionsArgs = {
   assertionType?: Maybe<EvidenceType>;
   before?: Maybe<Scalars['String']>;
   clinicalSignificance?: Maybe<EvidenceClinicalSignificance>;
+  diseaseId?: Maybe<Scalars['Int']>;
   diseaseName?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
   evidenceId?: Maybe<Scalars['Int']>;
@@ -1782,6 +1783,7 @@ export type QueryEvidenceItemsArgs = {
   before?: Maybe<Scalars['String']>;
   clinicalSignificance?: Maybe<EvidenceClinicalSignificance>;
   description?: Maybe<Scalars['String']>;
+  diseaseId?: Maybe<Scalars['Int']>;
   diseaseName?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
   evidenceDirection?: Maybe<EvidenceDirection>;
@@ -2721,6 +2723,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   organizationId?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
   phenotypeId?: Maybe<Scalars['Int']>;
+  diseaseId?: Maybe<Scalars['Int']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -2953,6 +2956,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   userId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   phenotypeId?: Maybe<Scalars['Int']>;
+  diseaseId?: Maybe<Scalars['Int']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -3592,6 +3596,19 @@ export type BrowseDiseasesQuery = (
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
   & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+);
+
+export type DiseaseDetailQueryVariables = Exact<{
+  diseaseId: Scalars['Int'];
+}>;
+
+
+export type DiseaseDetailQuery = (
+  { __typename: 'Query' }
+  & { disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName'>
+  )> }
 );
 
 export type EvidenceDetailQueryVariables = Exact<{
@@ -5002,7 +5019,7 @@ export const GeneHoverCardDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -5024,6 +5041,7 @@ export const AssertionsBrowseDocument = gql`
     organizationId: $organizationId
     userId: $userId
     phenotypeId: $phenotypeId
+    diseaseId: $diseaseId
   ) {
     totalCount
     pageInfo {
@@ -5144,7 +5162,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last
@@ -5165,6 +5183,7 @@ export const EvidenceBrowseDocument = gql`
     organizationId: $organizationId
     userId: $userId
     phenotypeId: $phenotypeId
+    diseaseId: $diseaseId
     sortBy: $sortBy
   ) {
     totalCount
@@ -5737,6 +5756,28 @@ export const BrowseDiseasesDocument = gql`
   })
   export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
     document = BrowseDiseasesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiseaseDetailDocument = gql`
+    query DiseaseDetail($diseaseId: Int!) {
+  disease(id: $diseaseId) {
+    id
+    name
+    doid
+    diseaseUrl
+    displayName
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseaseDetailGQL extends Apollo.Query<DiseaseDetailQuery, DiseaseDetailQueryVariables> {
+    document = DiseaseDetailDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

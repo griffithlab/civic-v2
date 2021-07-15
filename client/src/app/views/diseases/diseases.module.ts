@@ -34,12 +34,16 @@ import { EvidenceModule } from '../evidence/evidence.module';
 import { SourcesRoutingModule } from '../sources/sources-routing.module';
 import { VariantsRoutingModule } from '../variants/variants-routing.module';
 import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.component';
+import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.component';
+import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
 
 
 @NgModule({
   declarations: [
     DiseasesComponent,
-    DiseasesBrowseComponent
+    DiseasesBrowseComponent,
+    DiseasesSummaryComponent,
+    DiseasesDetailComponent
   ],
   imports: [
     DiseasesRoutingModule,
@@ -78,7 +82,9 @@ import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.compo
     NzSelectModule
   ],
   exports: [
-    DiseasesBrowseComponent
+    DiseasesBrowseComponent,
+    DiseasesSummaryComponent,
+    DiseasesDetailComponent
   ]
 })
 export class DiseasesModule { }
