@@ -57,6 +57,9 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:phenotype_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC phenotype id') do |scope, value|
     scope.joins(:phenotypes).where('phenotypes.id = ?', value)
   end
+  option(:disease_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC disease id') do |scope, value|
+    scope.joins(:disease).where('diseases.id = ?', value)
+  end
 
 
   option :sort_by, type: Types::BrowseTables::EvidenceSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|

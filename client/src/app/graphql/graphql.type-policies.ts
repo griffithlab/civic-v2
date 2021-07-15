@@ -66,6 +66,7 @@ export const CvcTypePolicies: TypePolicies = {
         'organizationId',
         'userId',
         'phenotypeId',
+        'diseaseId'
       ]),
       assertions: relayStylePagination([
         'diseaseName',
@@ -83,6 +84,7 @@ export const CvcTypePolicies: TypePolicies = {
         'organizationId',
         'userId',
         'phenotypeId',
+        'diseaseId'
       ]),
       organizations: relayStylePagination(['name', 'id']),
       flags: relayStylePagination([

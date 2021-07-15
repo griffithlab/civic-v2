@@ -1,0 +1,25 @@
+<ng-container *ngIf="disease$ | ngrxPush as disease" >
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal">
+        <nz-space-item>
+          <i nz-icon nzType="civic:disease"></i>
+        </nz-space-item>
+        <span routerLink="/diseases/{{disease.id}}">
+          {{ disease.name }}
+        </span>
+      </nz-space>
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      <a [href]="disease.diseaseUrl" target="_blank">
+        {{ disease.name }}
+        <i nz-icon nzType="link"></i>
+      </a>
+    </nz-page-header-subtitle>
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

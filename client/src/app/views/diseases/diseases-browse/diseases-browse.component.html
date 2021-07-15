@@ -61,7 +61,7 @@
               <tbody>
                 <tr *ngFor="let d of diseasesTable.data">
                   <td>
-                    {{ d.name }}
+                    <a routerLink="/diseases/{{d.id}}">{{ d.name }}</a>
                   </td>
                   <td>
                     {{ d.doid }}

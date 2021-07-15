@@ -1,0 +1,11 @@
+query DiseaseDetail(
+  $diseaseId: Int!
+){
+  disease(id: $diseaseId){
+    id
+    name
+    doid
+    diseaseUrl
+    displayName
+  }
+}

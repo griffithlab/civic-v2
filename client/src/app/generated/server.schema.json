@@ -12105,7 +12105,19 @@
                 },
                 {
                   "name": "phenotypeId",
-                  "description": "Exact match filtering of the evidence items based on the internal CIViC phenotype id",
+                  "description": "Exact match filtering of the assertions based on the internal CIViC phenotype id",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "diseaseId",
+                  "description": "Exact match filtering of the assertions based on the internal CIViC disease id",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -13313,6 +13325,18 @@
                 {
                   "name": "phenotypeId",
                   "description": "Exact match filtering of the evidence items based on the internal CIViC phenotype id",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "diseaseId",
+                  "description": "Exact match filtering of the evidence items based on the internal CIViC disease id",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
