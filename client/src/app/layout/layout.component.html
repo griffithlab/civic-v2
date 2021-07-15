@@ -51,6 +51,16 @@
 
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Variants' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="civic-variant"></i>
+        <span>
+          <a routerLink="/variants">Variants</a>
+        </span>
+      </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Groups' : ''"
         nzSelected nzMatchRouter>
         <i nz-icon nzType="civic-variantgroup"></i>
