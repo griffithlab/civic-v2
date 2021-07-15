@@ -36,6 +36,7 @@ const routes: Routes = [
       { path: 'welcome', loadChildren: () => import('@app/views/welcome/welcome.module').then(m => m.WelcomeModule) },
       { path: 'statistics', loadChildren: () => import('@app/views/statistics/statistics.module').then(m => m.StatisticsModule) },
       { path: 'releases', loadChildren: () => import('@app/views/releases/releases.module').then(m => m.ReleasesModule) },
+      { path: 'pages', loadChildren: () => import('@app/views/pages/pages.module').then(m => m.PagesModule) },
     ]
   },
 ];

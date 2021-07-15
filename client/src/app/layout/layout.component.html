@@ -221,14 +221,24 @@
             <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" ></i>
           </span>
         </div>
-        <div nz-col nzFlex="auto">
+        <div nz-col nzFlex="300px" id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
-        <div nz-col nzFlex="auto">
-          <p>Menu</p>
+        <div nz-col nzFlex="300px" id="header-menu">
+          <ul nz-menu nzMode="horizontal" nzTheme="dark">
+            <li nz-menu-item nzSelected nzMatchRouter>
+              <a routerLink="/pages/about">About CIViC</a>
+            </li>
+            <li nz-menu-item nzSelected nzMatchRouter>
+              <a routerLink="/pages/help">Help</a>
+            </li>
+            <li nz-menu-item nzSelected nzMatchRouter>
+              <a routerLink="/pages/contact">Contact</a>
+            </li>
+          </ul>
         </div>
         <!-- header user -->
-        <div nz-col nzFlex="250px" class="header-viewer">
+        <div nz-col nzFlex="auto" id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
           <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>
         </div>
