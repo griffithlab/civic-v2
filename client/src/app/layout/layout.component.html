@@ -199,6 +199,16 @@
           <a routerLink="/releases" id="releases">Data Releases</a>
         </span>
       </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Statistics' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="bar-chart"></i>
+        <span>
+          <a routerLink="/statistics" id="statistics">Statistics</a>
+        </span>
+      </li>
     </ul>
 
   </nz-sider>
