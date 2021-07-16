@@ -18,32 +18,53 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: GenesBrowseComponent
+        component: GenesBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':geneId',
         component: GenesDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in gene-details.component
+        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: GenesSummaryComponent
+            component: GenesSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           },
           {
             path: 'suggest-revision',
-            component: GenesSuggestRevisionComponent
+            component: GenesSuggestRevisionComponent,
+            data: {
+              breadcrumb: 'Suggest Revision'
+            }
           },
           {
             path: 'comments',
-            component: GenesCommentsComponent
+            component: GenesCommentsComponent,
+            data: {
+              breadcrumb: 'Comments'
+            }
           },
           {
             path: 'revisions',
-            component: GenesRevisionsComponent
+            component: GenesRevisionsComponent,
+            data: {
+              breadcrumb: 'Revisions'
+            }
           },
           {
             path: 'flags',
-            component: GenesFlagsComponent
+            component: GenesFlagsComponent,
+            data: {
+              breadcrumb: 'Flags'
+            }
           }
         ]
       }

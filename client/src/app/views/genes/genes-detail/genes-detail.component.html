@@ -1,58 +1,17 @@
 <ng-container *ngIf="gene$ | async as gene">
+  <nz-breadcrumb [nzAutoGenerate]="true"
+    [nzRouteLabelFn]="getRouteLabel"
+    nz-page-header-breadcrumb> </nz-breadcrumb>
   <div cvcFlaggable
     [flags]="flagsTotal$ | async">
     <nz-page-header class="site-page-header">
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
-        <nz-space nzDirection="horizontal"
-          nzSize="small">
-          <nz-space-item>
-            <button nz-button
-              nzType="default"
-              nz-popover
-              nzPopoverPlacement="bottom"
-              [nzPopoverContent]="editPopover">
-              <i nz-icon
-                nzType="edit"
-                nzTheme="outline"></i>
-            </button>
-            <ng-template #editPopover>
-              <button nz-button
-                style="margin-bottom: 1em;"
-                routerLink="suggest-revision"
-                routerLinkActive
-                #rlaSuggestRevision="routerLinkActive"
-                [nzType]="rlaSuggestRevision.isActive ? 'primary' : 'default'"
-                nzBlock>
-                Suggest Revision
-              </button>
-              <button nz-button
-                style="margin-bottom: 1em;"
-                routerLink="flags"
-                routerLinkActive
-                #rlaFlags="routerLinkActive"
-                [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
-                nzBlock>
-                Flag Gene
-              </button>
-              <button nz-button
-                routerLink="comments"
-                routerLinkActive
-                #rlaComments="routerLinkActive"
-                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-                nzBlock>
-                Add Comment
-              </button>
-            </ng-template>
-          </nz-space-item>
-          <nz-space-item>
-            <i nz-icon
-              nzType="civic:gene"></i>
-          </nz-space-item>
-          <span routerLink="/genes/{{gene.id}}">
-            {{ gene.name }}
-          </span>
-        </nz-space>
+        <i nz-icon
+          nzType="civic:gene"></i>
+        <span routerLink="/genes/{{gene.id}}">
+          {{ gene.name }}
+        </span>
       </nz-page-header-title>
       <nz-page-header-subtitle>
         {{ gene.officialName }}
@@ -62,111 +21,116 @@
           *ngIf="false">Flagged</nz-tag>
       </nz-page-header-tags>
 
-      <!--extra-->
+      <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
-        <nz-space nzDirection="horizontal" nzSize="small">
+        <nz-space nzDirection="horizontal"
+          nzSize="small">
+
+          <!-- add revision btn -->
           <nz-space-item>
-            <nz-button-group>
-              <button routerLink="summary"
-                routerLinkActive
-                #rlaSummary="routerLinkActive"
-                [nzType]="rlaSummary.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                <i nz-icon
-                  nzType="civic-gene"></i>Summary
-              </button>
-            </nz-button-group>
+            <button routerLink="suggest-revision"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Revise
+            </button>
           </nz-space-item>
+
+          <!-- add flag btn -->
+          <!-- TODO implement as flag form within popover window -->
           <nz-space-item>
-            <nz-button-group>
-              <button routerLink="comments"
-                routerLinkActive
-                #rlaComments="routerLinkActive"
-                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                <i nz-icon
-                  nzType="civic-comment"></i>Comments ({{ gene.comments.totalCount }})
-              </button>
-              <button *ngIf="viewer.signedIn"
-                routerLink="comments"
-                fragment="addComment"
-                routerLinkActive
-                #rlaComments="routerLinkActive"
-                [nzType]="rlaComments.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                <i nz-icon nzType="plus"></i>
-              </button>
-            </nz-button-group>
+            <button routerLink="flags"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
           </nz-space-item>
+
+          <!-- actions menu -->
           <nz-space-item>
-            <nz-button-group>
-              <button routerLink="revisions"
-                routerLinkActive
-                #rlaRevisions="routerLinkActive"
-                [nzType]="rlaRevisions.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
+            <nz-space-item>
+              <button nz-button
+                nzSize="small"
+                nz-dropdown
+                [nzDropdownMenu]="menu"
+                nzNoAnimation
+                style="border: none; padding: 0">
                 <i nz-icon
-                  nzType="civic-revision"></i>Revisions ({{ gene.revisions.totalCount }}) </button>
-              <button *ngIf="viewer.signedIn"
-                routerLink="suggest-revision"
-                routerLinkActive
-                #rlaSuggestRevision="routerLinkActive"
-                [nzType]="rlaSuggestRevision.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                <i nz-icon nzType="plus"></i>
+                  nzType="ellipsis"
+                  nzTheme="outline"
+                  style="font-size: 20px; vertical-align: top;"></i>
               </button>
-            </nz-button-group>
-          </nz-space-item>
-          <nz-space-item>
-            <nz-button-group>
-              <button routerLink="flags"
-                routerLinkActive
-                #rlaFlags="routerLinkActive"
-                [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                <i nz-icon
-                  nzType="civic-flag"></i>Flags ({{ gene.flags.totalCount }})
-              </button>
-              <button *ngIf="viewer.signedIn"
-                routerLink="flags"
-                routerLinkActive
-                #rlaFlags="routerLinkActive"
-                [nzType]="rlaFlags.isActive ? 'primary' : 'default'"
-                nz-button
-                nzSize="small">
-                <i nz-icon nzType="plus"></i>
-              </button>
-            </nz-button-group>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item>1st menu item length</li>
+                  <li nz-menu-item>2nd menu item length</li>
+                  <li nz-menu-item>3rd menu item length</li>
+                </ul>
+              </nz-dropdown-menu>
+            </nz-space-item>
           </nz-space-item>
         </nz-space>
-          <button nz-button
-            nzSize="small"
-            nz-dropdown
-            [nzDropdownMenu]="menu"
-            nzNoAnimation
-            style="border: none; padding: 0">
-            <i nz-icon
-              nzType="ellipsis"
-              nzTheme="outline"
-              style="font-size: 20px; vertical-align: top;"></i>
-          </button>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item>1st menu item length</li>
-            <li nz-menu-item>2nd menu item length</li>
-            <li nz-menu-item>3rd menu item length</li>
-          </ul>
-        </nz-dropdown-menu>
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <cvc-lifecycle-actions></cvc-lifecycle-actions>
+        <nz-row>
+          <nz-col nzSpan="24">
+            <ul nz-menu
+              nzMode="horizontal"
+              id="page-header-menu">
+              <li nz-menu-item
+                nzMatchRouter>
+                <i nz-icon
+                  nzType="civic-gene"></i>
+                <a routerLink="summary">
+                  Summary
+                </a>
+              </li>
+              <li nz-menu-item
+                nzMatchRouter>
+                <i nz-icon
+                  nzType="civic-comment"></i>
+                <a routerLink="comments">
+                  Comments
+                  <nz-badge *ngIf="gene.comments.totalCount > 0"
+                    [nzCount]="gene.comments.totalCount"
+                    [nzStyle]="{ backgroundColor: '#A0D8F5'}"
+                    nzStandalone></nz-badge>
+                </a>
+              </li>
+              <li nz-menu-item
+                nzMatchRouter>
+                <i nz-icon
+                  nzType="civic-revision"></i>
+                <a routerLink="revisions">
+                  Revisions
+                  <span *ngIf="gene.revisions.totalCount > 0"
+                    nz-typography nzType="secondary">({{ gene.revisions.totalCount }})</span>
+                </a>
+              </li>
+              <li nz-menu-item
+                nzMatchRouter>
+                <i nz-icon
+                  nzType="civic-flag"></i>
+                <a routerLink="flags">
+                  Flags
+                  <nz-badge *ngIf="gene.flags.totalCount > 0"
+                    [nzCount]="gene.flags.totalCount"
+                    [nzStyle]="{ backgroundColor: '#E297A0'}"
+                    nzStandalone></nz-badge>
+                </a>
+              </li>
+            </ul>
+          </nz-col>
+        </nz-row>
+        <!-- <cvc-lifecycle-actions></cvc-lifecycle-actions> -->
         <div class="content">
           <router-outlet></router-outlet>
         </div>
