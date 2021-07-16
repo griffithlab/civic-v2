@@ -49,6 +49,7 @@ import { GenesCommentsComponent } from './genes-comments/genes-comments.componen
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { VariantsModule } from '../variants/variants.module';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { VariantsModule } from '../variants/variants.module';
     NzAlertModule,
     NzBadgeModule,
     NzButtonModule,
+    NzBreadCrumbModule,
     NzCardModule,
     NzCommentModule,
     NzFormModule,

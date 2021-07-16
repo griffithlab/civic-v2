@@ -23,7 +23,13 @@ const routes: Routes = [
       { path: 'drugs', loadChildren: () => import('@app/views/drugs/drugs.module').then(m => m.DrugsModule) },
       { path: 'evidence', loadChildren: () => import('@app/views/evidence/evidence.module').then(m => m.EvidenceModule) },
       { path: 'flags', loadChildren: () => import('@app/views/flags/flags.module').then(m => m.FlagsModule) },
-      { path: 'genes', loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule) },
+      {
+        path: 'genes',
+        loadChildren: () => import('@app/views/genes/genes.module').then(m => m.GenesModule),
+        data: {
+          breadcrumb: 'Genes'
+        }
+      },
       { path: 'organizations', loadChildren: () => import('@app/views/organizations/organizations.module').then(m => m.OrganizationsModule)},
       { path: 'phenotypes', loadChildren: () => import('@app/views/phenotypes/phenotypes.module').then(m => m.PhenotypesModule) },
       { path: 'revisions', loadChildren: () => import('@app/views/revisions/revisions.module').then(m => m.RevisionsModule) },

@@ -1,3 +1,5 @@
+@import 'global-variables.less';
+
 :host {
   display: block;
 }
@@ -7,16 +9,31 @@ nz-page-header {
 }
 
 .card-list {
- nz-card {
-   width: 100%;
-   .card-grid-cell {
-     width: 50%;
-   }
- }
+  nz-card {
+    width: 100%;
+    .card-grid-cell {
+      width: 50%;
+    }
+  }
 }
 
 nz-page-header-title.flagged {
   padding-left: .75em;
+}
+
+.ant-page-header-content {
+  padding-top: 0;
+}
+.ant-menu-horizontal {
+  // background: #efefef;
+  margin-left: -@default-padding-md;
+  margin-right: -@default-padding-md;
+  margin-top: 0;
+  margin-bottom: @default-padding-sm;
+  line-height: 24px;
+  .anticon {
+    margin-right: 0; // TODO figure out why this is needed, example doesn't have a margin
+  }
 }
 
 .revision-list {
