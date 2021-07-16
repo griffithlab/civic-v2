@@ -18,6 +18,7 @@
       nzMode="inline"
       class="menu-group"
       [nzInlineCollapsed]="isCollapsed">
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Assertions' : ''"
@@ -27,24 +28,7 @@
           <a routerLink="/assertions">Assertions</a>
         </span>
       </li>
-      <li nz-menu-item nz-tooltip
-        nzTooltipPlacement="right"
-        [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
-        nzSelected nzMatchRouter>
-        <i nz-icon nzType="civic-gene"></i>
-        <span>
-          <a routerLink="/genes">Genes</a>
-        </span>
-      </li>
-      <li nz-menu-item nz-tooltip
-        nzTooltipPlacement="right"
-        [nzTooltipTitle]="isCollapsed ? 'Variants' : ''"
-        nzSelected nzMatchRouter>
-        <i nz-icon nzType="civic-variant"></i>
-        <span>
-          <a routerLink="/variants">Variants</a>
-        </span>
-      </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Evidence' : ''"
@@ -54,6 +38,27 @@
           <a routerLink="/evidence">Evidence</a>
         </span>
       </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="civic-gene"></i>
+        <span>
+          <a routerLink="/genes">Genes</a>
+        </span>
+      </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Variants' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="civic-variant"></i>
+        <span>
+          <a routerLink="/variants">Variants</a>
+        </span>
+      </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Groups' : ''"
@@ -63,6 +68,7 @@
           <a routerLink="/variant-groups">Variant Groups</a>
         </span>
       </li>
+
     </ul>
 
     <ul nz-menu
@@ -70,6 +76,7 @@
       nzMode="inline"
       class="menu-group"
       [nzInlineCollapsed]="isCollapsed">
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
@@ -79,6 +86,17 @@
           <a routerLink="/diseases">Diseases</a>
         </span>
       </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Drugs' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="civic-intervention"></i>
+        <span>
+          <a routerLink="/drugs">Drugs</a>
+        </span>
+      </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Phenotypes' : ''"
@@ -88,6 +106,7 @@
           <a routerLink="/phenotypes">Phenotypes</a>
         </span>
       </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Sources' : ''"
@@ -97,6 +116,17 @@
           <a routerLink="/sources">Sources</a>
         </span>
       </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="apartment"></i>
+        <span>
+          <a routerLink="/variant-types">Variant Types</a>
+        </span>
+      </li>
+
     </ul>
 
     <ul nz-menu
@@ -174,6 +204,34 @@
       </li>
 
     </ul>
+
+    <ul nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      class="menu-group"
+      [nzInlineCollapsed]="isCollapsed">
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Data Releases' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="download"></i>
+        <span>
+          <a routerLink="/releases" id="releases">Data Releases</a>
+        </span>
+      </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Statistics' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="bar-chart"></i>
+        <span>
+          <a routerLink="/statistics" id="statistics">Statistics</a>
+        </span>
+      </li>
+    </ul>
+
   </nz-sider>
   <nz-layout class="right-layout" [ngClass]="{ 'is-collapsed': isCollapsed }">
     <nz-header>
@@ -184,14 +242,24 @@
             <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" ></i>
           </span>
         </div>
-        <div nz-col nzFlex="auto">
+        <div nz-col nzFlex="300px" id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
-        <div nz-col nzFlex="auto">
-          <p>Menu</p>
+        <div nz-col nzFlex="300px" id="header-menu">
+          <ul nz-menu nzMode="horizontal" nzTheme="dark">
+            <li nz-menu-item nzSelected nzMatchRouter>
+              <a routerLink="/pages/about">About CIViC</a>
+            </li>
+            <li nz-menu-item nzSelected nzMatchRouter>
+              <a routerLink="/pages/help">Help</a>
+            </li>
+            <li nz-menu-item nzSelected nzMatchRouter>
+              <a routerLink="/pages/contact">Contact</a>
+            </li>
+          </ul>
         </div>
         <!-- header user -->
-        <div nz-col nzFlex="250px" class="header-viewer">
+        <div nz-col nzFlex="auto" id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
           <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>
         </div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
+import { VariantsBrowseComponent } from '@app/components/shared/variants-browse/variants-browse.component';
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';

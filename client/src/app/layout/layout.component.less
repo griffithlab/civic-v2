@@ -1,3 +1,4 @@
+@import "global-variables.less";
 @import "~ng-zorro-antd/style/color/colors.less";
 
 :host {
@@ -78,15 +79,17 @@ nz-sider {
   padding: 1em 1em 1em 0;
 }
 
-.header-menu {
+#header-menu {
+  text-align: right;
   height: @app-header-height;
 }
 
-.header-search{
+#header-search{
   height: @app-header-height;
+  padding-right: @default-padding-md;
 }
 
-.header-viewer {
+#header-viewer {
   text-align: right;
   padding-right: 1em;
 }

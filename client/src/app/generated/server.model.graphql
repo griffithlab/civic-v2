@@ -787,6 +787,63 @@ type BrowseVariantGroupEdge {
   node: BrowseVariantGroup
 }
 
+type BrowseVariantType {
+  id: Int!
+  name: String!
+  soid: String!
+  variantCount: Int!
+}
+
+"""
+The connection type for BrowseVariantType.
+"""
+type BrowseVariantTypeConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseVariantTypeEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseVariantType!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseVariantTypeEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseVariantType
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -2613,6 +2670,11 @@ type Query {
     clinicalSignificance: EvidenceClinicalSignificance
 
     """
+    Exact match filtering of the assertions based on the internal CIViC disease id
+    """
+    diseaseId: Int
+
+    """
     Substring filtering on disease name.
     """
     diseaseName: String
@@ -2653,7 +2715,7 @@ type Query {
     organizationId: Int
 
     """
-    Exact match filtering of the evidence items based on the internal CIViC phenotype id
+    Exact match filtering of the assertions based on the internal CIViC phenotype id
     """
     phenotypeId: Int
 
@@ -2811,6 +2873,7 @@ type Query {
     last: Int
     sortBy: VariantsSort
     variantName: String
+    variantTypeId: Int
   ): BrowseVariantConnection!
 
   """
@@ -2930,6 +2993,11 @@ type Query {
     Substring filtering on evidence item description.
     """
     description: String
+
+    """
+    Exact match filtering of the evidence items based on the internal CIViC disease id
+    """
+    diseaseId: Int
 
     """
     Substring filtering on disease name.
@@ -3114,7 +3182,7 @@ type Query {
   phenotype(id: Int!): Phenotype
 
   """
-  List and filter Phenotypes from the Sequence Ontology.
+  List and filter Phenotypes from the Human Phenotype Ontology.
   """
   phenotypes(
     """
@@ -3148,7 +3216,7 @@ type Query {
     name: String
 
     """
-    Sort order for the comments. Defaults to most recent.
+    Sort order for the phenotypes. Defaults to most recent.
     """
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!
@@ -3211,6 +3279,51 @@ type Query {
   Find a variant by CIViC ID
   """
   variant(id: Int!): Variant
+
+  """
+  Find a variant type by CIViC ID
+  """
+  variantType(id: Int!): VariantType
+
+  """
+  List and filter Variant Types from the Sequence Ontology.
+  """
+  variantTypes(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on variant type name
+    """
+    name: String
+
+    """
+    Limit to variant types  with a specific Sequence Ontology ID
+    """
+    soid: String
+
+    """
+    Sort order for the variant type. Defaults to most recent.
+    """
+    sortBy: VariantTypeSort
+  ): BrowseVariantTypeConnection!
 
   """
   List and filter variants.
@@ -4425,10 +4538,28 @@ enum VariantOrigin {
 
 type VariantType {
   description: String!
-  displayName: String!
   id: Int!
   name: String!
   soid: String!
+  url: String!
+}
+
+input VariantTypeSort {
+  """
+  Available columns for sorting
+  """
+  column: VariantTypeSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum VariantTypeSortColumns {
+  NAME
+  SOID
+  VARIANT_COUNT
 }
 
 input VariantsSort {

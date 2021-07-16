@@ -16,6 +16,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
+  @Input() diseaseId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
@@ -54,6 +55,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       organizationId: this.organizationId,
       userId: this.userId,
       phenotypeId: this.phenotypeId,
+      diseaseId: this.diseaseId,
       cardView: !this.tableView
     });
 

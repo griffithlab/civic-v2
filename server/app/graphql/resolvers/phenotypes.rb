@@ -6,7 +6,7 @@ class Resolvers::Phenotypes < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowsePhenotypeType.connection_type, null: false
 
-  description 'List and filter Phenotypes from the Sequence Ontology.'
+  description 'List and filter Phenotypes from the Human Phenotype Ontology.'
 
   scope do
     Phenotype.select('phenotypes.id, phenotypes.hpo_class, phenotypes.hpo_id, count(distinct(assertions.id)) as assertion_count, count(distinct(evidence_items.id)) as evidence_count')
@@ -30,7 +30,7 @@ class Resolvers::Phenotypes < GraphQL::Schema::Resolver
     scope.where('hpo_class ILIKE ?', "%#{value}%")
   end
 
-  option(:sort_by, type: Types::BrowseTables::PhenotypeSortType, description: 'Sort order for the comments. Defaults to most recent.') do |scope, value|
+  option(:sort_by, type: Types::BrowseTables::PhenotypeSortType, description: 'Sort order for the phenotypes. Defaults to most recent.') do |scope, value|
     scope.reorder("#{value.column} #{value.direction}")
   end
 end

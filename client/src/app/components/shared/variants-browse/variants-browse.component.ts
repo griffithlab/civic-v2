@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import {
   BrowseVariantsGQL,
@@ -30,6 +30,8 @@ export interface VariantTableRow {
   styleUrls: ['./variants-browse.component.less'],
 })
 export class VariantsBrowseComponent implements OnDestroy {
+  @Input() variantTypeId: Maybe<number>
+
   private initialQueryArgs: QueryBrowseVariantsArgs;
   private debouncedQuery = new Subject<void>();
 
@@ -50,8 +52,10 @@ export class VariantsBrowseComponent implements OnDestroy {
   sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
 
   constructor(private query: BrowseVariantsGQL) {
+    
     this.initialQueryArgs = {
       first: this.initialPageSize,
+      variantTypeId: this.variantTypeId
     };
 
     this.queryRef = this.query.watch(this.initialQueryArgs);

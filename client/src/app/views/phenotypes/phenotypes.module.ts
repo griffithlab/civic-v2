@@ -20,8 +20,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
   declarations: [PhenotypesComponent, PhenotypesBrowseComponent, PhenotypesDetailComponent, PhenotypesSummaryComponent],
   imports: [
     CommonModule,
-    IconsProviderModule,
     PhenotypesRoutingModule,
+    IconsProviderModule,
     NzTableModule,
     SharedComponentsModule,
     NzPageHeaderModule,

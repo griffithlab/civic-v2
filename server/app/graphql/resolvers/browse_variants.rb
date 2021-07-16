@@ -13,6 +13,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(array_query_for_column('disease_names'), "#{value}%") }
   option(:drug_name, type: String)     { |scope, value| scope.where(array_query_for_column('drug_names'), "#{value}%") }
+  option(:variant_type_id, type: Int)    { |scope, value| scope.where(int_array_query_for_column('variant_types'), value) }
 
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column
@@ -37,5 +38,10 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   def array_query_for_column(col)
     raise 'Must supply a column name' if col.nil?
     "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(name) where name ILIKE ?)"
+  end
+
+  def int_array_query_for_column(col)
+    raise 'Must supply a column name' if col.nil?
+    "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(id) where id = ?)"
   end
 end
