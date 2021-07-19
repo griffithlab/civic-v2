@@ -91,6 +91,7 @@ import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
 import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
+import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.component';
 
 @NgModule({
   declarations: [
@@ -137,7 +138,8 @@ import { VariantsBrowseComponent } from './variants-browse/variants-browse.compo
     TagListComponent,
     OrgPopoverComponent,
     GenePopoverComponent,
-    VariantsBrowseComponent
+    VariantsBrowseComponent,
+    EvidencePopoverComponent
   ],
   imports: [
     CommonModule,
@@ -228,7 +230,8 @@ import { VariantsBrowseComponent } from './variants-browse/variants-browse.compo
     TagListComponent,
     OrgPopoverComponent,
     GenePopoverComponent,
-    VariantsBrowseComponent
+    VariantsBrowseComponent,
+    EvidencePopoverComponent
   ]
 })
 

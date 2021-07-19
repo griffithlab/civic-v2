@@ -3079,6 +3079,52 @@ export type EvidenceGridFieldsFragment = (
   )> }
 );
 
+export type EvidencePopoverQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidencePopoverQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & EvidencePopoverFragment
+  )> }
+);
+
+export type EvidencePopoverFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & { drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'displayName'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -4532,6 +4578,54 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   variantOrigin
 }
     `;
+export const EvidencePopoverFragmentDoc = gql`
+    fragment evidencePopover on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    displayName
+  }
+  phenotypes {
+    id
+    name
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
 export const FlagListFragmentDoc = gql`
     fragment flagList on FlagConnection {
   pageInfo {
@@ -5333,6 +5427,24 @@ export const EvidenceBrowseDocument = gql`
   })
   export class EvidenceBrowseGQL extends Apollo.Query<EvidenceBrowseQuery, EvidenceBrowseQueryVariables> {
     document = EvidenceBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidencePopoverDocument = gql`
+    query EvidencePopover($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...evidencePopover
+  }
+}
+    ${EvidencePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
+    document = EvidencePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
