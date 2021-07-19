@@ -80,11 +80,10 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-row>
-          <nz-col nzSpan="24">
+        <nz-row id="page-header-menu-row">
+          <nz-col nzSpan="12">
             <ul nz-menu
-              nzMode="horizontal"
-              id="page-header-menu">
+              nzMode="horizontal">
               <li nz-menu-item
                 nzMatchRouter>
                 <i nz-icon
@@ -127,19 +126,52 @@
                     nzStandalone></nz-badge>
                 </a>
               </li>
-              <li id="contributors">
-                Curators:
-                <nz-avatar-group>
-                  <nz-avatar *ngFor="let u of curators" [nzSize]="16"
-                    nzIcon="user" [nzSrc]="u.profileImagePath" nzSize="small"></nz-avatar>
-                </nz-avatar-group>
-                Editors:
-                <nz-avatar-group>
-                  <nz-avatar *ngFor="let u of editors" [nzSize]="16"
-                    nzIcon="user" [nzSrc]="u.profileImagePath" nzSize="small"></nz-avatar>
-                </nz-avatar-group>
-              </li>
             </ul>
+          </nz-col>
+          <nz-col nzSpan="12"
+            id="contributor-groups">
+            <span class="role-group-label" nz-typography nzType="secondary">Contributors:</span>
+            <div class="role-group">
+              <i nz-icon
+                class="role-group-icon"
+                nzType="civic-curator"
+                nzTheme="twotone"
+                nz-tooltip
+                nzTooltipTitle="Curators"
+                nzTooltipPlacement="bottom"></i>
+              <a *ngFor="let u of curators"
+                routerLink="/users/{{u.id}}"
+                class="avatar">
+                <nz-avatar
+                  [nzSize]="14"
+                  nz-tooltip
+                  [nzTooltipTitle]="u.displayName"
+                  nzIcon="user"
+                  [nzSrc]="u.profileImagePath"
+                  nzSize="small"></nz-avatar>
+              </a>
+            </div>
+            <div class="role-group">
+              <i nz-icon
+                class="role-group-icon"
+                nzType="civic-editor"
+                nzTheme="twotone"
+                nz-tooltip
+                nzTooltipTitle="Editors"
+                nzTooltipPlacement="bottom"></i>
+              <a *ngFor="let u of editors"
+                routerLink="/users/{{u.id}}"
+                class="avatar">
+                <nz-avatar
+                  routerLink="/users/{{u.id}}"
+                  [nzSize]="14"
+                  nz-tooltip
+                  [nzTooltipTitle]="u.displayName"
+                  nzIcon="user"
+                  [nzSrc]="u.profileImagePath"
+                  nzSize="small"></nz-avatar>
+              </a>
+            </div>
           </nz-col>
         </nz-row>
         <!-- <cvc-lifecycle-actions></cvc-lifecycle-actions> -->
