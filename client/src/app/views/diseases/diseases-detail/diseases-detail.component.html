@@ -10,9 +10,9 @@
         </span>
       </nz-space>
     </nz-page-header-title>
-    <nz-page-header-subtitle>
+    <nz-page-header-subtitle *ngIf="disease.doid">
       <a [href]="disease.diseaseUrl" target="_blank">
-        {{ disease.name }}
+        DOID:{{ disease.doid }}
         <i nz-icon nzType="link"></i>
       </a>
     </nz-page-header-subtitle>

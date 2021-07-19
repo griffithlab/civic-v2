@@ -1,15 +1,25 @@
-<nz-page-header class="site-page-header">
-  <nz-page-header-title>
-    <nz-space nzDirection="horizontal">
-      <nz-space-item>
-        <i nz-icon nzType="civic:intervention"></i>
-      </nz-space-item>
-      DRUG NAME
-    </nz-space>
-  </nz-page-header-title>
-  <nz-page-header-content>
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
-  </nz-page-header-content>
-</nz-page-header>
+<ng-container *ngIf="drug$ | ngrxPush as drug" >
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal">
+        <nz-space-item>
+          <i nz-icon nzType="civic:intervention"></i>
+        </nz-space-item>
+        <span routerLink="/drugs/{{drug.id}}">
+          {{ drug.name }}
+        </span>
+      </nz-space>
+    </nz-page-header-title>
+    <nz-page-header-subtitle *ngIf="drug.ncitId">
+      <a [href]="drug.drugUrl" target="_blank">
+        {{ drug.ncitId }}
+        <i nz-icon nzType="link"></i>
+      </a>
+    </nz-page-header-subtitle>
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

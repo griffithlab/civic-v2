@@ -20,6 +20,7 @@ query EvidenceBrowse(
   $sortBy: EvidenceSort,
   $phenotypeId: Int,
   $diseaseId: Int,
+  $drugId: Int,
   $cardView: Boolean!
 ) {
   evidenceItems(
@@ -43,6 +44,7 @@ query EvidenceBrowse(
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
+    drugId: $drugId
     sortBy: $sortBy
   ) {
     totalCount

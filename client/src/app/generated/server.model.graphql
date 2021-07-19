@@ -485,6 +485,64 @@ type BrowseDiseaseEdge {
   node: BrowseDisease
 }
 
+type BrowseDrug {
+  assertionCount: Int!
+  evidenceCount: Int!
+  id: Int!
+  name: String!
+  ncitId: String
+}
+
+"""
+The connection type for BrowseDrug.
+"""
+type BrowseDrugConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseDrugEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseDrug!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseDrugEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseDrug
+}
+
 type BrowseGene {
   aliases: [GeneAlias!]
   assertionCount: Int!
@@ -1068,6 +1126,25 @@ enum DrugInteraction {
   COMBINATION
   SEQUENTIAL
   SUBSTITUTES
+}
+
+input DrugSort {
+  """
+  Available columns for sorting
+  """
+  column: DrugSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum DrugSortColumns {
+  ASSERTION_COUNT
+  EVIDENCE_ITEM_COUNT
+  NAME
+  NCIT_ID
 }
 
 type Event {
@@ -2680,6 +2757,11 @@ type Query {
     diseaseName: String
 
     """
+    Exact match filtering of the assertions based on the internal CIViC drug id
+    """
+    drugId: Int
+
+    """
     Substring filtering on drug name.
     """
     drugName: String
@@ -2927,6 +3009,46 @@ type Query {
   drug(id: Int!): Drug
 
   """
+  List and filter Drugs from the NCI Thesaurus.
+  """
+  drugs(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on drug name
+    """
+    name: String
+
+    """
+    Limit to drugs with a specific NCIT ID
+    """
+    ncitId: String
+
+    """
+    Sort order for the drugs. Defaults to the highest evidence item count.
+    """
+    sortBy: DrugSort
+  ): BrowseDrugConnection!
+
+  """
   List and filter events for an object
   """
   events(
@@ -3003,6 +3125,11 @@ type Query {
     Substring filtering on disease name.
     """
     diseaseName: String
+
+    """
+    Exact match filtering of the evidence items based on the internal CIViC drug id
+    """
+    drugId: Int
 
     """
     Substring filtering on drug name.
@@ -3216,7 +3343,7 @@ type Query {
     name: String
 
     """
-    Sort order for the phenotypes. Defaults to most recent.
+    Sort order for the phenotypes. Defaults to the highest evidence item count.
     """
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!

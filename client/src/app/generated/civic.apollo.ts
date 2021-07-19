@@ -298,6 +298,41 @@ export type BrowseDiseaseEdge = {
   node?: Maybe<BrowseDisease>;
 };
 
+export type BrowseDrug = {
+  __typename: 'BrowseDrug';
+  assertionCount: Scalars['Int'];
+  evidenceCount: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  ncitId?: Maybe<Scalars['String']>;
+};
+
+/** The connection type for BrowseDrug. */
+export type BrowseDrugConnection = {
+  __typename: 'BrowseDrugConnection';
+  /** A list of edges. */
+  edges: Array<BrowseDrugEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<BrowseDrug>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseDrugEdge = {
+  __typename: 'BrowseDrugEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseDrug>;
+};
+
 export type BrowseGene = {
   __typename: 'BrowseGene';
   aliases?: Maybe<Array<GeneAlias>>;
@@ -683,6 +718,20 @@ export enum DrugInteraction {
   Combination = 'COMBINATION',
   Sequential = 'SEQUENTIAL',
   Substitutes = 'SUBSTITUTES'
+}
+
+export type DrugSort = {
+  /** Available columns for sorting */
+  column: DrugSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum DrugSortColumns {
+  AssertionCount = 'ASSERTION_COUNT',
+  EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
+  Name = 'NAME',
+  NcitId = 'NCIT_ID'
 }
 
 export type Event = {
@@ -1639,6 +1688,8 @@ export type Query = {
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
   drug?: Maybe<Drug>;
+  /** List and filter Drugs from the NCI Thesaurus. */
+  drugs: BrowseDrugConnection;
   /** List and filter events for an object */
   events: EventConnection;
   /** Find an evidence item by CIViC ID */
@@ -1695,6 +1746,7 @@ export type QueryAssertionsArgs = {
   clinicalSignificance?: Maybe<EvidenceClinicalSignificance>;
   diseaseId?: Maybe<Scalars['Int']>;
   diseaseName?: Maybe<Scalars['String']>;
+  drugId?: Maybe<Scalars['Int']>;
   drugName?: Maybe<Scalars['String']>;
   evidenceId?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
@@ -1798,6 +1850,17 @@ export type QueryDrugArgs = {
 };
 
 
+export type QueryDrugsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  ncitId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DrugSort>;
+};
+
+
 export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1824,6 +1887,7 @@ export type QueryEvidenceItemsArgs = {
   description?: Maybe<Scalars['String']>;
   diseaseId?: Maybe<Scalars['Int']>;
   diseaseName?: Maybe<Scalars['String']>;
+  drugId?: Maybe<Scalars['Int']>;
   drugName?: Maybe<Scalars['String']>;
   evidenceDirection?: Maybe<EvidenceDirection>;
   evidenceLevel?: Maybe<EvidenceLevel>;
@@ -2792,6 +2856,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   userId?: Maybe<Scalars['Int']>;
   phenotypeId?: Maybe<Scalars['Int']>;
   diseaseId?: Maybe<Scalars['Int']>;
+  drugId?: Maybe<Scalars['Int']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -3025,6 +3090,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   sortBy?: Maybe<EvidenceSort>;
   phenotypeId?: Maybe<Scalars['Int']>;
   diseaseId?: Maybe<Scalars['Int']>;
+  drugId?: Maybe<Scalars['Int']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -3716,6 +3782,54 @@ export type DiseaseDetailQuery = (
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName'>
+  )> }
+);
+
+export type DrugsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  ncitId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DrugSort>;
+}>;
+
+
+export type DrugsBrowseQuery = (
+  { __typename: 'Query' }
+  & { drugs: (
+    { __typename: 'BrowseDrugConnection' }
+    & Pick<BrowseDrugConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseDrugEdge' }
+      & Pick<BrowseDrugEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseDrug' }
+        & DrugBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type DrugBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseDrug' }
+  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'assertionCount' | 'evidenceCount'>
+);
+
+export type DrugDetailQueryVariables = Exact<{
+  drugId: Scalars['Int'];
+}>;
+
+
+export type DrugDetailQuery = (
+  { __typename: 'Query' }
+  & { drug?: Maybe<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl'>
   )> }
 );
 
@@ -4778,6 +4892,15 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   variantCount
 }
     `;
+export const DrugBrowseTableRowFieldsFragmentDoc = gql`
+    fragment DrugBrowseTableRowFields on BrowseDrug {
+  id
+  name
+  ncitId
+  assertionCount
+  evidenceCount
+}
+    `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id
@@ -5144,7 +5267,7 @@ export const GeneHoverCardDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -5166,6 +5289,7 @@ export const AssertionsBrowseDocument = gql`
     organizationId: $organizationId
     userId: $userId
     phenotypeId: $phenotypeId
+    drugId: $drugId
     diseaseId: $diseaseId
   ) {
     totalCount
@@ -5287,7 +5411,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last
@@ -5309,6 +5433,7 @@ export const EvidenceBrowseDocument = gql`
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
+    drugId: $drugId
     sortBy: $sortBy
   ) {
     totalCount
@@ -5957,6 +6082,65 @@ export const DiseaseDetailDocument = gql`
   })
   export class DiseaseDetailGQL extends Apollo.Query<DiseaseDetailQuery, DiseaseDetailQueryVariables> {
     document = DiseaseDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugsBrowseDocument = gql`
+    query DrugsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $sortBy: DrugSort) {
+  drugs(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    ncitId: $ncitId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...DrugBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${DrugBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
+    document = DrugsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugDetailDocument = gql`
+    query DrugDetail($drugId: Int!) {
+  drug(id: $drugId) {
+    id
+    name
+    ncitId
+    drugUrl
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugDetailGQL extends Apollo.Query<DrugDetailQuery, DrugDetailQueryVariables> {
+    document = DrugDetailDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
