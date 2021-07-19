@@ -33,22 +33,22 @@
                   Description
                 </th>
                 <th nzWidth="5%" [nzColumnKey]="sortColumns.EvidenceLevel" [nzSortFn]="true">
-                  Evidence Level
+                 EL
                 </th>
                 <th nzWidth="10%" [nzColumnKey]="sortColumns.EvidenceType" [nzSortFn]="true">
-                  Evidence Type
+                  ET
                 </th>
                 <th nzWidth="10%" [nzColumnKey]="sortColumns.EvidenceDirection" [nzSortFn]="true">
-                  Evidence Direction
+                  ED
                 </th>
                 <th nzWidth="10%" [nzColumnKey]="sortColumns.ClinicalSignificance" [nzSortFn]="true">
-                  Clinical Significance
+                 CS
                 </th>
                 <th nzWidth="10%" [nzColumnKey]="sortColumns.VariantOrigin" [nzSortFn]="true">
-                  Variant Origin
+                  VO
                 </th>
                 <th nzWidth="5%" [nzColumnKey]="sortColumns.EvidenceRating" [nzSortFn]="true">
-                  Rating
+                  R
                 </th>
               </tr>
               <tr>
@@ -147,8 +147,15 @@
             </thead>
             <tbody>
               <tr *ngFor="let eid of evidenceTable.data">
+                <ng-template #evidenceTag let-linkableEvidence="eid">
+                  <a routerLink="/evidence/{{linkableEvidence.id}}">
+                    <cvc-evidence-tag [evidence]="linkableEvidence"></cvc-evidence-tag>
+                  </a>
+                </ng-template>
                 <td>
-                  <a routerLink="/evidence/{{eid.id}}">{{eid.name}}</a>
+                  <ng-container
+                    *ngTemplateOutlet="evidenceTag;context:{ eid: eid }">
+                  </ng-container>
                 </td>
                 <td>
                   <ng-container *ngIf="eid.disease; else diseaseElse">
