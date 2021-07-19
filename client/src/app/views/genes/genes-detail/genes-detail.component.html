@@ -128,37 +128,8 @@
               </li>
             </ul>
           </nz-col>
-          <nz-col nzSpan="12"
-            id="contributor-groups">
-            <span class="role-group-label" nz-typography nzType="secondary">Curators:</span>
-            <div class="role-group">
-              <a *ngFor="let u of curators"
-                routerLink="/users/{{u.id}}"
-                class="avatar">
-                <nz-avatar
-                  [nzSize]="14"
-                  nz-tooltip
-                  [nzTooltipTitle]="u.displayName"
-                  nzIcon="user"
-                  [nzSrc]="u.profileImagePath"
-                  nzSize="small"></nz-avatar>
-              </a>
-            </div>
-            <span class="role-group-label" nz-typography nzType="secondary">Editors:</span>
-            <div class="role-group">
-              <a *ngFor="let u of editors"
-                routerLink="/users/{{u.id}}"
-                class="avatar">
-                <nz-avatar
-                  routerLink="/users/{{u.id}}"
-                  [nzSize]="14"
-                  nz-tooltip
-                  [nzTooltipTitle]="u.displayName"
-                  nzIcon="user"
-                  [nzSrc]="u.profileImagePath"
-                  nzSize="small"></nz-avatar>
-              </a>
-            </div>
+          <nz-col nzSpan="12" id="contributor-groups">
+            <cvc-contributor-avatars></cvc-contributor-avatars>
           </nz-col>
         </nz-row>
         <!-- <cvc-lifecycle-actions></cvc-lifecycle-actions> -->
