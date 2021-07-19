@@ -127,6 +127,18 @@
                     nzStandalone></nz-badge>
                 </a>
               </li>
+              <li id="contributors">
+                Curators:
+                <nz-avatar-group>
+                  <nz-avatar *ngFor="let u of curators" [nzSize]="16"
+                    nzIcon="user" [nzSrc]="u.profileImagePath" nzSize="small"></nz-avatar>
+                </nz-avatar-group>
+                Editors:
+                <nz-avatar-group>
+                  <nz-avatar *ngFor="let u of editors" [nzSize]="16"
+                    nzIcon="user" [nzSrc]="u.profileImagePath" nzSize="small"></nz-avatar>
+                </nz-avatar-group>
+              </li>
             </ul>
           </nz-col>
         </nz-row>
