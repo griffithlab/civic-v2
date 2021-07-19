@@ -95,6 +95,7 @@ export const CvcTypePolicies: TypePolicies = {
         'state',
       ]),
       phenotypes: relayStylePagination(['hpoId', 'name']),
+      variantTypes: relayStylePagination(['soid', 'name']),
     },
   },
 };
