@@ -130,15 +130,8 @@
           </nz-col>
           <nz-col nzSpan="12"
             id="contributor-groups">
-            <span class="role-group-label" nz-typography nzType="secondary">Contributors:</span>
+            <span class="role-group-label" nz-typography nzType="secondary">Curators:</span>
             <div class="role-group">
-              <i nz-icon
-                class="role-group-icon"
-                nzType="civic-curator"
-                nzTheme="twotone"
-                nz-tooltip
-                nzTooltipTitle="Curators"
-                nzTooltipPlacement="bottom"></i>
               <a *ngFor="let u of curators"
                 routerLink="/users/{{u.id}}"
                 class="avatar">
@@ -151,14 +144,8 @@
                   nzSize="small"></nz-avatar>
               </a>
             </div>
+            <span class="role-group-label" nz-typography nzType="secondary">Editors:</span>
             <div class="role-group">
-              <i nz-icon
-                class="role-group-icon"
-                nzType="civic-editor"
-                nzTheme="twotone"
-                nz-tooltip
-                nzTooltipTitle="Editors"
-                nzTooltipPlacement="bottom"></i>
               <a *ngFor="let u of editors"
                 routerLink="/users/{{u.id}}"
                 class="avatar">
