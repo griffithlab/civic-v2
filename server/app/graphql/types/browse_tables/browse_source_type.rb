@@ -10,5 +10,10 @@ module Types::BrowseTables
     field :journal, String, null: true
     field :name, String, null: true
     field :evidence_item_count, Int, null: false
+    field :citation, String, null: false
+
+    def citation
+      object.description
+    end
   end
 end

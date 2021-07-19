@@ -411,6 +411,7 @@ export type BrowsePhenotypeEdge = {
 export type BrowseSource = {
   __typename: 'BrowseSource';
   authors: Array<Scalars['String']>;
+  citation: Scalars['String'];
   citationId: Scalars['Int'];
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
@@ -1899,6 +1900,7 @@ export type QueryEvidenceItemsArgs = {
   organizationId?: Maybe<Scalars['Int']>;
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
+  sourceId?: Maybe<Scalars['Int']>;
   status?: Maybe<EvidenceStatus>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
@@ -2198,22 +2200,28 @@ export enum SortDirection {
 
 export type Source = EventSubject & {
   __typename: 'Source';
+  abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
+  authorString?: Maybe<Scalars['String']>;
   citation: Scalars['String'];
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  displayType: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
-  fullJournalTitle: Scalars['String'];
+  fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   journal: Scalars['String'];
   name: Scalars['String'];
+  pmcId?: Maybe<Scalars['String']>;
+  publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
   publicationMonth: Scalars['Int'];
   publicationYear: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
   status: SourceStatus;
+  title?: Maybe<Scalars['String']>;
 };
 
 
@@ -3091,6 +3099,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   phenotypeId?: Maybe<Scalars['Int']>;
   diseaseId?: Maybe<Scalars['Int']>;
   drugId?: Maybe<Scalars['Int']>;
+  sourceId?: Maybe<Scalars['Int']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -4245,7 +4254,47 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation'>
+);
+
+export type SourceDetailQueryVariables = Exact<{
+  sourceId: Scalars['Int'];
+}>;
+
+
+export type SourceDetailQuery = (
+  { __typename: 'Query' }
+  & { source?: Maybe<(
+    { __typename: 'Source' }
+    & SourceDetailFieldsFragment
+  )> }
+);
+
+export type SourceDetailFieldsFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'id' | 'citation' | 'sourceUrl'>
+);
+
+export type SourceSummaryQueryVariables = Exact<{
+  sourceId: Scalars['Int'];
+}>;
+
+
+export type SourceSummaryQuery = (
+  { __typename: 'Query' }
+  & { source?: Maybe<(
+    { __typename: 'Source' }
+    & SourceSummaryFieldsFragment
+  )> }
+);
+
+export type SourceSummaryFieldsFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
+  & { clinicalTrials?: Maybe<Array<(
+    { __typename: 'ClinicalTrial' }
+    & Pick<ClinicalTrial, 'nctId'>
+  )>> }
 );
 
 export type UserDetailQueryVariables = Exact<{
@@ -5119,6 +5168,29 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   name
   publicationYear
   sourceType
+  citation
+}
+    `;
+export const SourceDetailFieldsFragmentDoc = gql`
+    fragment SourceDetailFields on Source {
+  id
+  citation
+  sourceUrl
+}
+    `;
+export const SourceSummaryFieldsFragmentDoc = gql`
+    fragment SourceSummaryFields on Source {
+  displayType
+  title
+  abstract
+  publicationDate
+  citationId
+  fullJournalTitle
+  pmcId
+  authorString
+  clinicalTrials {
+    nctId
+  }
 }
     `;
 export const UserDetailFieldsFragmentDoc = gql`
@@ -5411,7 +5483,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last
@@ -5434,6 +5506,7 @@ export const EvidenceBrowseDocument = gql`
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
     drugId: $drugId
+    sourceId: $sourceId
     sortBy: $sortBy
   ) {
     totalCount
@@ -6514,6 +6587,42 @@ export const BrowseSourcesDocument = gql`
   })
   export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
     document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceDetailDocument = gql`
+    query SourceDetail($sourceId: Int!) {
+  source(id: $sourceId) {
+    ...SourceDetailFields
+  }
+}
+    ${SourceDetailFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceDetailGQL extends Apollo.Query<SourceDetailQuery, SourceDetailQueryVariables> {
+    document = SourceDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceSummaryDocument = gql`
+    query SourceSummary($sourceId: Int!) {
+  source(id: $sourceId) {
+    ...SourceSummaryFields
+  }
+}
+    ${SourceSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceSummaryGQL extends Apollo.Query<SourceSummaryQuery, SourceSummaryQueryVariables> {
+    document = SourceSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

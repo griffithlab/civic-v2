@@ -44,7 +44,8 @@
             <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
             <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
             <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-              {{ t.nctId }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+              <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
+              <ng-container *ngIf="!last">,&nbsp;</ng-container>
             </ng-container>
         </nz-row>
         <nz-row><b>Evidence Rating:&nbsp;</b>{{ evidence.evidenceRating }}</nz-row>

@@ -666,6 +666,7 @@ type BrowsePhenotypeEdge {
 
 type BrowseSource {
   authors: [String!]!
+  citation: String!
   citationId: Int!
   evidenceItemCount: Int!
   id: Int!
@@ -3187,6 +3188,11 @@ type Query {
     sortBy: EvidenceSort
 
     """
+    Exact match filtering of the evidence items based on the interal CIViC source id
+    """
+    sourceId: Int
+
+    """
     Filtering on the evidence status.
     """
     status: EvidenceStatus
@@ -3741,10 +3747,13 @@ enum SortDirection {
 }
 
 type Source implements EventSubject {
+  abstract: String
   ascoAbstractId: Int
+  authorString: String
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
+  displayType: String!
 
   """
   List and filter events for an object
@@ -3778,16 +3787,19 @@ type Source implements EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
-  fullJournalTitle: String!
+  fullJournalTitle: String
   id: Int!
   journal: String!
   name: String!
+  pmcId: String
+  publicationDate: String
   publicationDay: Int
   publicationMonth: Int!
   publicationYear: Int!
   sourceType: SourceSource!
   sourceUrl: String!
   status: SourceStatus!
+  title: String
 }
 
 enum SourceSource {

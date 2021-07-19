@@ -63,6 +63,9 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:drug_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC drug id') do |scope, value|
     scope.joins(:drugs).where('drugs.id = ?', value)
   end
+  option(:source_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the interal CIViC source id') do |scope, value|
+    scope.joins(:source).where('sources.id = ?', value)
+  end
 
 
   option :sort_by, type: Types::BrowseTables::EvidenceSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|
