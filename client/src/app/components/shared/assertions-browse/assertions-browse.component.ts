@@ -88,8 +88,19 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    var aid: Maybe<number>
+    if (this.aidInput)
+      if (this.aidInput.toUpperCase().startsWith('AID')) {
+        aid = +(this.aidInput.toUpperCase().replace('AID', ''))
+      }
+      else {
+        aid = +this.aidInput
+      }
+    else {
+      aid = undefined
+    }
     this.queryRef.refetch({
-      id: this.aidInput ? +this.aidInput : undefined,
+      id: aid,
       diseaseName: this.diseaseNameInput,
       geneName: this.geneNameInput,
       variantName: this.variantNameInput,

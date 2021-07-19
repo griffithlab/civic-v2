@@ -88,8 +88,19 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    var eid: Maybe<number>
+    if (this.eidInput)
+      if (this.eidInput.toUpperCase().startsWith('EID')) {
+        eid = +(this.eidInput.toUpperCase().replace('EID', ''))
+      }
+      else {
+        eid = +this.eidInput
+      }
+    else {
+      eid = undefined
+    }
     this.queryRef.refetch({
-      id: this.eidInput ? +this.eidInput : undefined,
+      id: eid,
       diseaseName: this.diseaseNameInput,
       drugName: this.drugNameInput,
       description: this.descriptionInput,
