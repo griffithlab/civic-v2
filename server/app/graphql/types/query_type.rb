@@ -18,6 +18,8 @@ module Types
     field :events, resolver: Resolvers::TopLevelEvents
     field :phenotypes, resolver: Resolvers::Phenotypes
 
+    field :contributors, resolver: Resolvers::Contributors
+
     field :search, resolver: Resolvers::Quicksearch
 
     field :disease, Types::Entities::DiseaseType, null: true do

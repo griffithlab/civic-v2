@@ -19,7 +19,7 @@
           <cvc-user-tag [user]="event.originatingUser" *ngIf="tagDisplay != 'hideUser'"></cvc-user-tag>
 
           <!-- verb -->
-          <span nz-typography>{{ verbiageForEvent(event) }}&nbsp;</span>
+          <span nz-typography>{{ event.action | eventVerbiage:'feed' }}&nbsp;</span>
 
           <!-- originating object -->
           <ng-container *ngIf="event.originatingObject as object">

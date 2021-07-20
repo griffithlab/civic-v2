@@ -91,6 +91,9 @@ import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
 import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
+import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
+import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
+import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 
 @NgModule({
   declarations: [
@@ -137,7 +140,10 @@ import { VariantsBrowseComponent } from './variants-browse/variants-browse.compo
     TagListComponent,
     OrgPopoverComponent,
     GenePopoverComponent,
-    VariantsBrowseComponent
+    VariantsBrowseComponent,
+    ContributorAvatarsComponent,
+    EventVerbiagePipe,
+    ContributorStackComponent
   ],
   imports: [
     CommonModule,
@@ -228,7 +234,9 @@ import { VariantsBrowseComponent } from './variants-browse/variants-browse.compo
     TagListComponent,
     OrgPopoverComponent,
     GenePopoverComponent,
-    VariantsBrowseComponent
+    VariantsBrowseComponent,
+    ContributorAvatarsComponent,
+    ContributorStackComponent
   ]
 })
 

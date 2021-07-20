@@ -17,3 +17,4 @@ module Types::Events
     value 'REVERTED', value: 'reverted'
   end
 end
+

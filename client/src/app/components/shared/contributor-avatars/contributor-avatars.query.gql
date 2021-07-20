@@ -1,0 +1,20 @@
+query ContributorAvatars($subscribable: SubscribableInput!) {
+  contributors(subscribable: $subscribable) {
+    editors {
+      ...ContributorFields
+    }
+    curators {
+      ...ContributorFields
+    }
+  }
+}
+
+
+fragment ContributorFields on ContributingUser {
+      user {
+        id
+        profileImagePath(size: 12)
+      }
+      uniqueActions
+      lastActionDate
+}
