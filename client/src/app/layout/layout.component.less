@@ -32,6 +32,7 @@ nz-sider {
   width: 100%;
   position: relative;
   transition: all .2s,padding 0s;
+  background-color: @layout-header-background;
 
   &.is-collapsed {
     margin-left: @app-sidebar-collapsed-width;
@@ -103,6 +104,11 @@ nz-content {
   margin-top: @app-header-height;
   overflow: initial;
   z-index: 1;
-  background-color: @purple-1;
+  // background-color: #252e36;
+  // background-color: #072b4d;
+  background-color: #273340;
+  border-top: 1px solid #3e5166;
+  border-left: 1px solid #3e5166;
   padding: 12px;
+  border-top-left-radius: 16px;
 }
