@@ -5,36 +5,50 @@
   <nz-space-item>
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
-        <p nz-typography
-          nzEllipsis
-          nzExpandable
-          [nzEllipsisRows]="14">{{ evidence.description }}</p>
+        <nz-space nzDirection="vertical">
 
-        <nz-descriptions nzSize="small"
-          nzBordered="true"
-          [nzColumn]="1">
-          <!-- source -->
-          <nz-descriptions-item nzTitle="Source"
-            nzSpan="2">
-            {{ evidence.source.sourceType}}: {{ evidence.source.citation}}
-          </nz-descriptions-item>
+          <!-- evidence description -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true" id="description-container">
+              <nz-descriptions-item nzTitle="Description">
+                <p nz-typography
+                  nzEllipsis
+                  nzExpandable
+                  [nzEllipsisRows]="14">{{ evidence.description }}</p>
+              </nz-descriptions-item>
 
-          <!-- clinical trials -->
-          <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
-            <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
-              <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-                {{ t.nctId }}
-                <ng-container *ngIf="!last">,&nbsp;</ng-container>
-              </ng-container>
-            </ng-container>
-            <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
-              <span nz-typography
-                nzType="secondary">None Specified</span>
-            </ng-container>
-          </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
 
+         <!-- source & clinical trials -->
+          <nz-space-item>
+            <nz-descriptions nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+              <!-- source -->
+              <nz-descriptions-item nzTitle="Source"
+                nzSpan="2">
+                {{ evidence.source.sourceType}}: {{ evidence.source.citation}}
+              </nz-descriptions-item>
 
-        </nz-descriptions>
+              <!-- clinical trials -->
+              <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
+                <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
+                  <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
+                    {{ t.nctId }}
+                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
+                  <span nz-typography
+                    nzType="secondary">None Specified</span>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+        </nz-space>
 
       </nz-col>
       <nz-col [nzSpan]="12">
@@ -42,12 +56,27 @@
           [nzColumn]="2"
           nzBordered="true">
 
+          <!-- evidence type -->
+          <nz-descriptions-item nzTitle="Type">
+            {{ evidence.evidenceType }}
+          </nz-descriptions-item>
+
+          <!-- evidence direction -->
+          <nz-descriptions-item nzTitle="Direction">
+            {{ evidence.evidenceDirection }}
+          </nz-descriptions-item>
+
           <!-- disease -->
           <nz-descriptions-item nzTitle="Disease">
             <span *ngIf="evidence.disease.name">evidence.disease.name</span>
             <span *ngIf="!evidence.disease.name"
               nz-typography
               nzType="secondary">N/A</span>
+          </nz-descriptions-item>
+
+          <!-- clinical significance -->
+          <nz-descriptions-item nzTitle="Clinical Significance">
+            {{ evidence.clinicalSignificance }}
           </nz-descriptions-item>
 
           <!-- drugs -->
@@ -69,7 +98,7 @@
               </ng-template>
 
               <!-- multiple drugs, show interaction type -->
-              <ng-template ngPluralCase="interaction">
+              <ng-template ngPluralCase="other">
                 <ng-container *ngFor="let drug of evidence.drugs; last as isLast">
                   {{drug.name}}
                   <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
@@ -77,21 +106,6 @@
                 </ng-container>
               </ng-template>
             </ng-container>
-          </nz-descriptions-item>
-
-          <!-- evidence type -->
-          <nz-descriptions-item nzTitle="Type">
-            {{ evidence.evidenceType }}
-          </nz-descriptions-item>
-
-          <!-- evidence direction -->
-          <nz-descriptions-item nzTitle="Direction">
-            {{ evidence.evidenceDirection }}
-          </nz-descriptions-item>
-
-          <!-- clinical significance -->
-          <nz-descriptions-item nzTitle="Clinical Significance">
-            {{ evidence.clinicalSignificance }}
           </nz-descriptions-item>
 
           <!-- evidence level -->
