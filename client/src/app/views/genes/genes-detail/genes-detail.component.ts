@@ -6,6 +6,7 @@ import {
   GeneDetailFieldsFragment,
   GeneDetailGQL,
   Maybe,
+  User,
 } from '@app/generated/civic.apollo';
 import {
   Viewer,
@@ -24,7 +25,7 @@ export class GenesDetailComponent implements OnDestroy {
   commentsTotal$?: Observable<number>;
   revisionsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  getRouteLabel: (label:string) => string;
+  getRouteLabel: (label: string) => string;
   routeSub: Subscription;
   routeLabelSub?: Subscription;
 
@@ -58,10 +59,16 @@ export class GenesDetailComponent implements OnDestroy {
 
   }
 
+  filterCurators = (u: any): boolean => {
+    return u.role == 'curator';
+  }
+  filterEditors = (u: any): boolean => {
+    return u.role == 'editor' || u.role == 'admin';
+  }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
-    if(this.routeLabelSub) {
+    if (this.routeLabelSub) {
       this.routeLabelSub.unsubscribe();
     }
   }

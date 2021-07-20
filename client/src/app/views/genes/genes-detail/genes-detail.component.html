@@ -80,11 +80,10 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-row>
-          <nz-col nzSpan="24">
+        <nz-row id="page-header-menu-row">
+          <nz-col nzSpan="12">
             <ul nz-menu
-              nzMode="horizontal"
-              id="page-header-menu">
+              nzMode="horizontal">
               <li nz-menu-item
                 nzMatchRouter>
                 <i nz-icon
@@ -128,6 +127,9 @@
                 </a>
               </li>
             </ul>
+          </nz-col>
+          <nz-col nzSpan="12" id="contributor-groups">
+            <cvc-contributor-avatars></cvc-contributor-avatars>
           </nz-col>
         </nz-row>
         <!-- <cvc-lifecycle-actions></cvc-lifecycle-actions> -->
