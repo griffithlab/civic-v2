@@ -92,6 +92,8 @@ import { OrgPopoverComponent } from './org-popover/org-popover.component';
 import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
+import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
+import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 
 @NgModule({
   declarations: [
@@ -139,7 +141,9 @@ import { ContributorAvatarsComponent } from './contributor-avatars/contributor-a
     OrgPopoverComponent,
     GenePopoverComponent,
     VariantsBrowseComponent,
-    ContributorAvatarsComponent
+    ContributorAvatarsComponent,
+    EventVerbiagePipe,
+    ContributorStackComponent
   ],
   imports: [
     CommonModule,
@@ -231,7 +235,8 @@ import { ContributorAvatarsComponent } from './contributor-avatars/contributor-a
     OrgPopoverComponent,
     GenePopoverComponent,
     VariantsBrowseComponent,
-    ContributorAvatarsComponent
+    ContributorAvatarsComponent,
+    ContributorStackComponent
   ]
 })
 

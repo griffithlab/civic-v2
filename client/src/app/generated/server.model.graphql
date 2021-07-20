@@ -995,6 +995,20 @@ input CommentableInput {
   id: Int!
 }
 
+"""
+A user with all the unique kinds of actions they've performed on a given entity
+"""
+type ContributingUser {
+  lastActionDate: ISO8601DateTime!
+  uniqueActions: [EventAction!]!
+  user: User!
+}
+
+type ContributingUsersSummary {
+  curators: [ContributingUser!]!
+  editors: [ContributingUser!]!
+}
+
 type Coordinate {
   chromosome: String
   referenceBases: String
@@ -2915,6 +2929,12 @@ type Query {
     """
     subject: CommentableInput
   ): CommentConnection!
+  contributors(
+    """
+    The entity to to return contributors for
+    """
+    subscribable: SubscribableInput!
+  ): ContributingUsersSummary!
 
   """
   Find a disease by CIViC ID

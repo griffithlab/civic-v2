@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ContentChild, TemplateRef } from "@angular/core";
 import { HovercardUserFragment, UserHoverCardGQL, Maybe } from "@app/generated/civic.apollo";
 import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 })
 export class UserHovercardComponent implements OnInit {
     @Input() userId!: number;
+
+    @ContentChild('additionalMetadata') metadataTemplateRef?: TemplateRef<any>
 
     user$?: Observable<Maybe<HovercardUserFragment>>
 

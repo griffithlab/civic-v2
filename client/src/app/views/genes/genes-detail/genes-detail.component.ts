@@ -6,6 +6,8 @@ import {
   GeneDetailFieldsFragment,
   GeneDetailGQL,
   Maybe,
+  SubscribableEntities,
+  SubscribableInput,
   User,
 } from '@app/generated/civic.apollo';
 import {
@@ -28,6 +30,7 @@ export class GenesDetailComponent implements OnDestroy {
   getRouteLabel: (label: string) => string;
   routeSub: Subscription;
   routeLabelSub?: Subscription;
+  subscribable?: SubscribableInput
 
   constructor(
     private gql: GeneDetailGQL,
@@ -47,6 +50,11 @@ export class GenesDetailComponent implements OnDestroy {
       this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'));
 
       this.revisionsTotal$ = this.gene$.pipe(pluck('revisions', 'totalCount'));
+
+      this.subscribable = {
+        id: +params.geneId,
+        entityType: SubscribableEntities.Gene
+      }
 
       this.viewer$ = this.viewerService.viewer$;
       this.routeLabelSub = this.gene$.subscribe((gene) => {

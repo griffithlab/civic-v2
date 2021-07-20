@@ -37,6 +37,13 @@
         </nz-descriptions>
       </nz-col>
     </nz-row>
+    <nz-row>
+      <nz-divider *ngIf="metadataTemplateRef"></nz-divider>
+      <ng-container
+          [ngTemplateOutlet]="metadataTemplateRef|| null"
+          [ngTemplateOutletContext]="{ $implicit: user }">
+      </ng-container>
+    </nz-row>
   </ng-container>
 </div>
 <ng-template #noBio>
