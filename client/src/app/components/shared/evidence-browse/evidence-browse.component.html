@@ -317,6 +317,16 @@
                   {{ eid.evidenceRating}}
                 </td>
               </tr>
+              <!-- Load More button row -->
+              <ng-container *ngrxLet="pageInfo$ as pageInfo">
+                <tr *ngIf="pageInfo.hasNextPage">
+                  <td colspan="20">
+                    <button *ngIf="pageInfo.hasNextPage"
+                      nz-button nzBlock
+                      (click)="loadMore(pageInfo.endCursor)">Load More</button>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </nz-table>
         </div>

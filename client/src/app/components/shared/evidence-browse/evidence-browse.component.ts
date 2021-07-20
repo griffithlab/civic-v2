@@ -31,6 +31,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
 
   textInputCallback?: () => void
 
+  fetchMorePageSize = 25;
+
   //filters
   eidInput: Maybe<string>
   diseaseNameInput: Maybe<string>
@@ -83,8 +85,17 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh() );
-      
+
     this.textInputCallback = () => { this.debouncedQuery.next(); }
+  }
+
+  loadMore(afterCursor: Maybe<string>): void {
+    this.queryRef.fetchMore({
+      variables: {
+        first: this.fetchMorePageSize,
+        after: afterCursor
+      },
+    });
   }
 
   refresh() {
@@ -108,7 +119,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   onSortChanged(e: SortDirectionEvent) {
     this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
-  
+
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 
 }
