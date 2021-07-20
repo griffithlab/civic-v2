@@ -1,67 +1,60 @@
-
 query EvidenceSummary(
   $evidenceId: Int!
 ) {
   evidenceItem(id: $evidenceId) {
-      ...EvidenceSummaryFields
+    ...EvidenceSummaryFields
   }
 }
 
 fragment EvidenceSummaryFields on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
     id
     name
-    description
-    evidenceLevel
-    evidenceType
-    evidenceDirection
-    clinicalSignificance
-    variantOrigin
-    drugs {
-      id
-      name
+  }
+  drugInteractionType
+  disease {
+    id
+    displayName
+  }
+  phenotypes {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    sourceUrl
+    ascoAbstractId
+    clinicalTrials {
+      nctId
     }
-    drugInteractionType
-    disease {
-      id
-      displayName
-    }
-    phenotypes {
-      id
-      name
-    }
-    source {
-      id
-      citation
-      citationId
-      sourceType
-      sourceUrl
-      ascoAbstractId
-    }
-    evidenceRating
-    gene {
-      id
-      name
-    }
-    variant {
-      id
-      name
-    }
-    source {
-      id
-      citation
-      sourceUrl
-      sourceType
-      clinicalTrials {
-        nctId
-      }
-    }
-    flags(state: OPEN) {
-      totalCount
-    }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
-} 
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

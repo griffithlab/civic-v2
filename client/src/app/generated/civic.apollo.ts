@@ -4938,15 +4938,6 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     id
     name
   }
-  source {
-    id
-    citation
-    sourceUrl
-    sourceType
-    clinicalTrials {
-      nctId
-    }
-  }
   flags(state: OPEN) {
     totalCount
   }
