@@ -56,6 +56,11 @@
           {{ evidence.evidenceRating }}
         </nz-descriptions-item>
 
+        <!-- disease -->
+        <nz-descriptions-item nzTitle="Disease">
+          {{ evidence.disease ? evidence.disease : 'N/A' }}
+        </nz-descriptions-item>
+
         <!-- drugs -->
         <nz-descriptions-item nzTitle="Drugs"
           nzSpan="2"
