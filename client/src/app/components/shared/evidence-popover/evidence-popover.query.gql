@@ -1,12 +1,10 @@
-query EvidenceSummary(
-  $evidenceId: Int!
-) {
+query EvidencePopover($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
-    ...EvidenceSummaryFields
+    ...evidencePopover
   }
 }
 
-fragment EvidenceSummaryFields on EvidenceItem {
+fragment evidencePopover on EvidenceItem {
   id
   name
   description
@@ -28,17 +26,6 @@ fragment EvidenceSummaryFields on EvidenceItem {
     id
     name
   }
-  source {
-    id
-    citation
-    citationId
-    sourceType
-    sourceUrl
-    ascoAbstractId
-    clinicalTrials {
-      nctId
-    }
-  }
   evidenceRating
   gene {
     id
@@ -47,6 +34,11 @@ fragment EvidenceSummaryFields on EvidenceItem {
   variant {
     id
     name
+  }
+  source {
+    id
+    citation
+    sourceType
   }
   flags(state: OPEN) {
     totalCount

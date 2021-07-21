@@ -91,6 +91,7 @@ import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
 import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
+import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
@@ -141,6 +142,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     OrgPopoverComponent,
     GenePopoverComponent,
     VariantsBrowseComponent,
+    EvidencePopoverComponent
     ContributorAvatarsComponent,
     EventVerbiagePipe,
     ContributorStackComponent
@@ -235,6 +237,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     OrgPopoverComponent,
     GenePopoverComponent,
     VariantsBrowseComponent,
+    EvidencePopoverComponent
     ContributorAvatarsComponent,
     ContributorStackComponent
   ]

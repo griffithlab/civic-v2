@@ -1,4 +1,12 @@
-<nz-tag nzColor="gold">
+<nz-tag nzColor="gold"
+  nz-popover
+  [nzPopoverMouseEnterDelay]="0.5"
+  [nzPopoverContent]="evidencePopover"
+  nzPopoverPlacement="right"
+  nzPopoverTrigger="hover">
   <i nz-icon nzType="civic-evidence"></i>
   {{ evidence.name }}
 </nz-tag>
+<ng-template #evidencePopover>
+  <cvc-evidence-popover [evidenceId]="evidence.id"></cvc-evidence-popover>
+</ng-template>

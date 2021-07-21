@@ -1,7 +1,15 @@
 <nz-input-group [nzSuffix]="clearTmpl">
-  <input type="text" nz-input [placeholder]="placeholderText" [(ngModel)]="inputVal" (ngModelChange)="onModelUpdated()" />
+  <input type="text"
+    nz-input
+    [placeholder]="placeholderText ? placeholderText : ''"
+    [(ngModel)]="inputVal"
+    (ngModelChange)="onModelUpdated()" />
 </nz-input-group>
 <ng-template #clearTmpl>
-  <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="inputVal"
+  <i nz-icon
+    class="ant-input-clear-icon"
+    nzTheme="fill"
+    nzType="close-circle"
+    *ngIf="inputVal"
     (click)="inputVal = undefined; onModelUpdated()"></i>
 </ng-template>
