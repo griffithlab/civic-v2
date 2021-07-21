@@ -617,6 +617,20 @@ export type CommentableInput = {
   id: Scalars['Int'];
 };
 
+/** A user with all the unique kinds of actions they've performed on a given entity */
+export type ContributingUser = {
+  __typename: 'ContributingUser';
+  lastActionDate: Scalars['ISO8601DateTime'];
+  uniqueActions: Array<EventAction>;
+  user: User;
+};
+
+export type ContributingUsersSummary = {
+  __typename: 'ContributingUsersSummary';
+  curators: Array<ContributingUser>;
+  editors: Array<ContributingUser>;
+};
+
 export type Coordinate = {
   __typename: 'Coordinate';
   chromosome?: Maybe<Scalars['String']>;
@@ -1635,6 +1649,7 @@ export type Query = {
   browseVariants: BrowseVariantConnection;
   /** List and filter comments. */
   comments: CommentConnection;
+  contributors: ContributingUsersSummary;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
@@ -1785,6 +1800,11 @@ export type QueryCommentsArgs = {
   originatingUserId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<DateSort>;
   subject?: Maybe<CommentableInput>;
+};
+
+
+export type QueryContributorsArgs = {
+  subscribable: SubscribableInput;
 };
 
 
@@ -2899,6 +2919,34 @@ export type CommentListNodeFragment = (
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
     )> }
+  ) }
+);
+
+export type ContributorAvatarsQueryVariables = Exact<{
+  subscribable: SubscribableInput;
+}>;
+
+
+export type ContributorAvatarsQuery = (
+  { __typename: 'Query' }
+  & { contributors: (
+    { __typename: 'ContributingUsersSummary' }
+    & { editors: Array<(
+      { __typename: 'ContributingUser' }
+      & ContributorFieldsFragment
+    )>, curators: Array<(
+      { __typename: 'ContributingUser' }
+      & ContributorFieldsFragment
+    )> }
+  ) }
+);
+
+export type ContributorFieldsFragment = (
+  { __typename: 'ContributingUser' }
+  & Pick<ContributingUser, 'uniqueActions' | 'lastActionDate'>
+  & { user: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'profileImagePath'>
   ) }
 );
 
@@ -4448,6 +4496,16 @@ export const CommentListNodeFragmentDoc = gql`
   }
 }
     `;
+export const ContributorFieldsFragmentDoc = gql`
+    fragment ContributorFields on ContributingUser {
+  user {
+    id
+    profileImagePath(size: 12)
+  }
+  uniqueActions
+  lastActionDate
+}
+    `;
 export const EventFeedNodeFragmentDoc = gql`
     fragment eventFeedNode on Event {
   id
@@ -5339,6 +5397,29 @@ export const CommentListDocument = gql`
   })
   export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
     document = CommentListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ContributorAvatarsDocument = gql`
+    query ContributorAvatars($subscribable: SubscribableInput!) {
+  contributors(subscribable: $subscribable) {
+    editors {
+      ...ContributorFields
+    }
+    curators {
+      ...ContributorFields
+    }
+  }
+}
+    ${ContributorFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
+    document = ContributorAvatarsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
