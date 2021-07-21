@@ -142,7 +142,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     OrgPopoverComponent,
     GenePopoverComponent,
     VariantsBrowseComponent,
-    EvidencePopoverComponent
+    EvidencePopoverComponent,
     ContributorAvatarsComponent,
     EventVerbiagePipe,
     ContributorStackComponent
@@ -237,7 +237,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     OrgPopoverComponent,
     GenePopoverComponent,
     VariantsBrowseComponent,
-    EvidencePopoverComponent
+    EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent
   ]
