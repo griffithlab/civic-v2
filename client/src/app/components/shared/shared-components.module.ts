@@ -95,6 +95,8 @@ import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.co
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
+import { SectionNavigationComponent } from './section-navigation/section-navigation.component';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @NgModule({
   declarations: [
@@ -145,7 +147,8 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     EventVerbiagePipe,
-    ContributorStackComponent
+    ContributorStackComponent,
+    SectionNavigationComponent
   ],
   imports: [
     CommonModule,
@@ -157,6 +160,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
+    NzBreadCrumbModule,
     NzCardModule,
     NzCommentModule,
     NzInputModule,
@@ -239,7 +243,8 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     VariantsBrowseComponent,
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
-    ContributorStackComponent
+    ContributorStackComponent,
+    SectionNavigationComponent
   ]
 })
 
