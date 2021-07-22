@@ -2,14 +2,60 @@
   <nz-page-header-title>
     <i nz-icon nzType="civic:intervention"></i>
     Drugs
+    <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
   </nz-page-header-title>
 
   <nz-page-header-content>
     <div nz-row>
       <div nz-col [nzSpan]="24">
         <div class="content">
-          <h2>Drugs Browse table goes here.</h2>
-          <p><a routerLink="/drugs/1">Test drug detail link</a></p>
+          <nz-table #drugsTable
+            [nzData]="(drugs$ | ngrxPush)"
+            [nzLoading]="(isLoading$ | ngrxPush)"
+            [nzFrontPagination]="false"
+            [nzShowPagination]="false">
+
+            <thead (nzSortOrderChange)="onSortChanged($event)">
+              <tr>
+                <th nzWidth="40%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
+                  Name
+                </th>
+                <th nzWidth="40%" [nzColumnKey]="sortColumns.NcitId" [nzSortFn]="true">
+                  NCIt ID
+                </th>
+                <th nzWidth="10%" nzRight [nzColumnKey]="sortColumns.EvidenceItemCount" [nzSortFn]="true"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
+                <th nzWidth="10%" nzRight [nzColumnKey]="sortColumns.AssertionCount" [nzSortFn]="true"><i nz-icon nzType="civic:assertion" nz-tooltip nzTooltipTitle="Assertion count"></i></th>
+              </tr>
+              <tr>
+                <th>
+                  <cvc-clearable-text-filter [(inputModel)]="nameFilter" placeholderText="Search Name" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th>
+                  <cvc-clearable-text-filter [(inputModel)]="ncitIdFilter" placeholderText="Search NCIt ID" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of drugsTable.data">
+                <td>
+                  <a routerLink="/drugs/{{d.id}}">{{d.name}}</a>
+                </td>
+                <td>
+                  {{ d.ncitId}}
+                </td>
+                <td>
+                  {{ d.evidenceCount }}
+                </td>
+                <td>
+                  {{ d.assertionCount }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
         </div>
       </div>
     </div>

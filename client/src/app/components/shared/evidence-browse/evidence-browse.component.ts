@@ -17,6 +17,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
+  @Input() drugId: Maybe<number>
+  @Input() sourceId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -58,6 +60,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
+      drugId: this.drugId,
+      sourceId: this.sourceId,
       cardView: !this.tableView
     });
 
@@ -99,8 +103,19 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    var eid: Maybe<number>
+    if (this.eidInput)
+      if (this.eidInput.toUpperCase().startsWith('EID')) {
+        eid = +(this.eidInput.toUpperCase().replace('EID', ''))
+      }
+      else {
+        eid = +this.eidInput
+      }
+    else {
+      eid = undefined
+    }
     this.queryRef.refetch({
-      id: this.eidInput ? +this.eidInput : undefined,
+      id: eid,
       diseaseName: this.diseaseNameInput,
       drugName: this.drugNameInput,
       description: this.descriptionInput,

@@ -91,6 +91,8 @@ module Types
 
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
+    field :drugs, resolver: Resolvers::TopLevelDrugs
+
     def disease(id: )
       Disease.find(id)
     end

@@ -3,6 +3,8 @@ class Source < ActiveRecord::Base
 
   has_and_belongs_to_many :genes
   has_and_belongs_to_many :clinical_trials
+  has_many :authors_sources
+  has_many :authors, through: :authors_sources
 
   enum source_type: ['PubMed', 'ASCO']
 
@@ -28,5 +30,16 @@ class Source < ActiveRecord::Base
 
   def display_type
     "#{self.source_type}"
+  end
+
+  def author_string
+    if source_type == 'PubMed'
+      authors = authors_sources.reload.reject { |as| as.fore_name.blank? && as.last_name.blank? }.sort_by{ |as| as.author_position }.map do |as|
+        "#{as.fore_name} #{as.last_name}"
+      end
+      authors.join(', ')
+    elsif source_type == 'ASCO'
+      asco_presenter
+    end
   end
 end

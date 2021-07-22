@@ -16,7 +16,12 @@ export class ClearableTextComponentFilter {
   inputVal: Maybe<string>
 
   onModelUpdated() {
-    this.inputModelChange.emit(this.inputVal)
+    if (this.inputVal) {
+      this.inputModelChange.emit(this.inputVal)
+    }
+    else {
+      this.inputModelChange.emit(undefined)
+    }
     if (this.onInputChanged) {
       this.onInputChanged()
     }

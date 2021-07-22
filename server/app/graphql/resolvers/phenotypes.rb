@@ -30,7 +30,7 @@ class Resolvers::Phenotypes < GraphQL::Schema::Resolver
     scope.where('hpo_class ILIKE ?', "%#{value}%")
   end
 
-  option(:sort_by, type: Types::BrowseTables::PhenotypeSortType, description: 'Sort order for the phenotypes. Defaults to most recent.') do |scope, value|
+  option(:sort_by, type: Types::BrowseTables::PhenotypeSortType, description: 'Sort order for the phenotypes. Defaults to the highest evidence item count.') do |scope, value|
     scope.reorder("#{value.column} #{value.direction}")
   end
 end

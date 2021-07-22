@@ -17,6 +17,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
+  @Input() drugId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
@@ -56,6 +57,7 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
+      drugId: this.drugId,
       cardView: !this.tableView
     });
 
@@ -88,8 +90,19 @@ export class AssertionsBrowseComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    var aid: Maybe<number>
+    if (this.aidInput)
+      if (this.aidInput.toUpperCase().startsWith('AID')) {
+        aid = +(this.aidInput.toUpperCase().replace('AID', ''))
+      }
+      else {
+        aid = +this.aidInput
+      }
+    else {
+      aid = undefined
+    }
     this.queryRef.refetch({
-      id: this.aidInput ? +this.aidInput : undefined,
+      id: aid,
       diseaseName: this.diseaseNameInput,
       geneName: this.geneNameInput,
       variantName: this.variantNameInput,

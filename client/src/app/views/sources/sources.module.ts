@@ -34,12 +34,16 @@ import { EvidenceModule } from '../evidence/evidence.module';
 import { VariantsRoutingModule } from '../variants/variants-routing.module';
 import { SourcesBrowseComponent } from './sources-browse/sources-browse.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
+import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
 
 
 @NgModule({
   declarations: [
     SourcesComponent,
-    SourcesBrowseComponent
+    SourcesBrowseComponent,
+    SourcesDetailComponent,
+    SourcesSummaryComponent
   ],
   imports: [
     CommonModule,

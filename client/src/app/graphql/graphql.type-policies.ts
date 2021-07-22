@@ -67,7 +67,9 @@ export const CvcTypePolicies: TypePolicies = {
         'organizationId',
         'userId',
         'phenotypeId',
-        'diseaseId'
+        'diseaseId',
+        'drugId',
+        'sourceId'
       ]),
       assertions: relayStylePagination([
         'diseaseName',
@@ -85,7 +87,8 @@ export const CvcTypePolicies: TypePolicies = {
         'organizationId',
         'userId',
         'phenotypeId',
-        'diseaseId'
+        'diseaseId',
+        'drugId'
       ]),
       organizations: relayStylePagination(['name', 'id']),
       flags: relayStylePagination([
@@ -95,6 +98,8 @@ export const CvcTypePolicies: TypePolicies = {
         'state',
       ]),
       phenotypes: relayStylePagination(['hpoId', 'name']),
+      variantTypes: relayStylePagination(['soid', 'name']),
+      drugs: relayStylePagination(['ncitId', 'name']),
     },
   },
 };
