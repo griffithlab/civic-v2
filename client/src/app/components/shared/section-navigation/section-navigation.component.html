@@ -1,13 +1,19 @@
-<nz-row id="section-navigation">
+<nz-row id="nav-container" [ngClass]="{ 'has-relations': relationsTpl !== undefined }">
+
+  <!-- breadcrumbs -->
   <nz-col nzSpan="12" id="breadcrumbs">
-    <!-- breadcrumb -->
     <nz-breadcrumb [nzAutoGenerate]="true"
       [nzRouteLabelFn]="getRouteLabel"></nz-breadcrumb>
   </nz-col>
-  <nz-col nzSpan="12" id="relations">
+
+  <!-- relations summary -->
+  <nz-col nzSpan="12" id="relations-summary">
     <ng-template [ngTemplateOutlet]="relationsTpl || noRelations"></ng-template>
+
     <ng-template #noRelations>
       <!-- show nothing if no relations tpl provided -->
     </ng-template>
+
   </nz-col>
+
 </nz-row>

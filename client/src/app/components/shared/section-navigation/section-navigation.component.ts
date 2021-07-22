@@ -8,7 +8,6 @@ import {
 
 export interface LinkableEntity {
   id: number;
-  type: string;
   displayName: string;
 }
 
