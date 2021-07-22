@@ -7,7 +7,7 @@ import { Maybe } from "@app/generated/civic.apollo";
   styleUrls: ['./clearable-text-filter.component.less']
 })
 export class ClearableTextComponentFilter {
-  @Input() placeholderText?: string
+  @Input() placeholderText?: Maybe<string>
   @Input() onInputChanged?: () => void
 
   @Input() inputModel: Maybe<string>

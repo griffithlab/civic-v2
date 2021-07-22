@@ -653,6 +653,20 @@ export type CommentableInput = {
   id: Scalars['Int'];
 };
 
+/** A user with all the unique kinds of actions they've performed on a given entity */
+export type ContributingUser = {
+  __typename: 'ContributingUser';
+  lastActionDate: Scalars['ISO8601DateTime'];
+  uniqueActions: Array<EventAction>;
+  user: User;
+};
+
+export type ContributingUsersSummary = {
+  __typename: 'ContributingUsersSummary';
+  curators: Array<ContributingUser>;
+  editors: Array<ContributingUser>;
+};
+
 export type Coordinate = {
   __typename: 'Coordinate';
   chromosome?: Maybe<Scalars['String']>;
@@ -1685,6 +1699,7 @@ export type Query = {
   browseVariants: BrowseVariantConnection;
   /** List and filter comments. */
   comments: CommentConnection;
+  contributors: ContributingUsersSummary;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Find a drug by CIViC ID */
@@ -1838,6 +1853,11 @@ export type QueryCommentsArgs = {
   originatingUserId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<DateSort>;
   subject?: Maybe<CommentableInput>;
+};
+
+
+export type QueryContributorsArgs = {
+  subscribable: SubscribableInput;
 };
 
 
@@ -2975,6 +2995,34 @@ export type CommentListNodeFragment = (
   ) }
 );
 
+export type ContributorAvatarsQueryVariables = Exact<{
+  subscribable: SubscribableInput;
+}>;
+
+
+export type ContributorAvatarsQuery = (
+  { __typename: 'Query' }
+  & { contributors: (
+    { __typename: 'ContributingUsersSummary' }
+    & { editors: Array<(
+      { __typename: 'ContributingUser' }
+      & ContributorFieldsFragment
+    )>, curators: Array<(
+      { __typename: 'ContributingUser' }
+      & ContributorFieldsFragment
+    )> }
+  ) }
+);
+
+export type ContributorFieldsFragment = (
+  { __typename: 'ContributingUser' }
+  & Pick<ContributingUser, 'uniqueActions' | 'lastActionDate'>
+  & { user: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'profileImagePath'>
+  ) }
+);
+
 export type EventFeedQueryVariables = Exact<{
   subject?: Maybe<SubscribableQueryInput>;
   first?: Maybe<Scalars['Int']>;
@@ -3152,6 +3200,52 @@ export type EvidenceGridFieldsFragment = (
     { __typename: 'Assertion' }
     & Pick<Assertion, 'id' | 'name'>
   )> }
+);
+
+export type EvidencePopoverQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidencePopoverQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & EvidencePopoverFragment
+  )> }
+);
+
+export type EvidencePopoverFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & { drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'displayName'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
 );
 
 export type FlagEntityMutationVariables = Exact<{
@@ -4565,6 +4659,16 @@ export const CommentListNodeFragmentDoc = gql`
   }
 }
     `;
+export const ContributorFieldsFragmentDoc = gql`
+    fragment ContributorFields on ContributingUser {
+  user {
+    id
+    profileImagePath(size: 12)
+  }
+  uniqueActions
+  lastActionDate
+}
+    `;
 export const EventFeedNodeFragmentDoc = gql`
     fragment eventFeedNode on Event {
   id
@@ -4693,6 +4797,54 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   evidenceRating
   clinicalSignificance
   variantOrigin
+}
+    `;
+export const EvidencePopoverFragmentDoc = gql`
+    fragment evidencePopover on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    displayName
+  }
+  phenotypes {
+    id
+    name
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
 }
     `;
 export const FlagListFragmentDoc = gql`
@@ -5015,15 +5167,6 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   variant {
     id
     name
-  }
-  source {
-    id
-    citation
-    sourceUrl
-    sourceType
-    clinicalTrials {
-      nctId
-    }
   }
   flags(state: OPEN) {
     totalCount
@@ -5455,6 +5598,29 @@ export const CommentListDocument = gql`
       super(apollo);
     }
   }
+export const ContributorAvatarsDocument = gql`
+    query ContributorAvatars($subscribable: SubscribableInput!) {
+  contributors(subscribable: $subscribable) {
+    editors {
+      ...ContributorFields
+    }
+    curators {
+      ...ContributorFields
+    }
+  }
+}
+    ${ContributorFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
+    document = ContributorAvatarsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const EventFeedDocument = gql`
     query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction) {
   events(
@@ -5531,6 +5697,24 @@ export const EvidenceBrowseDocument = gql`
   })
   export class EvidenceBrowseGQL extends Apollo.Query<EvidenceBrowseQuery, EvidenceBrowseQueryVariables> {
     document = EvidenceBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidencePopoverDocument = gql`
+    query EvidencePopover($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...evidencePopover
+  }
+}
+    ${EvidencePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
+    document = EvidencePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

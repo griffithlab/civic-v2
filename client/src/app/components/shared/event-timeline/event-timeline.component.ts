@@ -56,39 +56,6 @@ export class EventTimelineComponent implements OnInit {
     }
   }
 
-  verbiageForEvent(e: EventFeedNodeFragment): string {
-    switch (e.action) {
-      case (EventAction.Commented):
-        return 'added comment'
-      case (EventAction.RevisionSuggested):
-        return 'suggested revision'
-      case (EventAction.RevisionAccepted):
-        return 'accepted revision'
-      case (EventAction.RevisionRejected):
-        return 'rejected revision'
-      case (EventAction.RevisionSuperseded):
-        return 'accepted superseding revision'
-      case (EventAction.Flagged):
-        return 'opened new flag'
-      case (EventAction.FlagResolved):
-        return 'resolved flag'
-      case (EventAction.AssertionSubmitted):
-        return 'submitted assertion'
-      case (EventAction.AssertionAccepted):
-        return 'accepted assertion'
-      case (EventAction.AssertionRejected):
-        return 'rejected assertion'
-      case (EventAction.Submitted):
-        return 'submitted evidence item'
-      case (EventAction.Accepted):
-        return 'accepted evidence item'
-      case (EventAction.Rejected):
-        return 'rejected evidence item'
-      default:
-        throw new Error('Not handling all event action types yet')
-    }
-  }
-
   prepositionForSubject(e: EventFeedNodeFragment): string {
     switch (e.action) {
       case (EventAction.Commented):

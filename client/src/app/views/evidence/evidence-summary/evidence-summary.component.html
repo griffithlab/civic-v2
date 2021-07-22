@@ -1,63 +1,186 @@
-<nz-space nzSize="middle" *ngIf="(evidence$ | ngrxPush) as evidence" nzDirection="vertical" class="space-align-block">
+<nz-space nzSize="middle"
+  *ngIf="(evidence$ | ngrxPush) as evidence"
+  nzDirection="vertical"
+  class="space-align-block">
   <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <div nz-col [nzSpan]="12">
-        <nz-row>
-          <nz-col [nzSpan]="24">
-            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="14">{{ evidence.description }}</p>
-          </nz-col>
-        </nz-row>
-      </div>
-      <div nz-col [nzSpan]="12">
-        <nz-row><b>Evidence Level:&nbsp;</b>{{ evidence.evidenceLevel }}</nz-row>
-        <nz-row><b>Evidence Type:&nbsp;</b>{{ evidence.evidenceType }}</nz-row>
-        <nz-row><b>Evidence Direction:&nbsp;</b>{{ evidence.evidenceDirection }}</nz-row>
-        <nz-row><b>Clinical Significance:&nbsp;</b>{{ evidence.clinicalSignificance }}</nz-row>
-        <nz-row><b>Variant Origin:&nbsp;</b>{{ evidence.variantOrigin }}</nz-row>
-        <nz-row [ngPlural]="evidence.drugs.length">
-            <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
-            <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
-            <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
-            <ng-container *ngFor="let drug of evidence.drugs; let last = last">
-              {{ drug.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
-            </ng-container>
-            <ng-container *ngIf="evidence.drugs.length > 1">{{ ' (' + evidence.drugInteractionType + ')' }}</ng-container>
-        </nz-row>
-        <nz-row *ngIf="evidence.disease"><b>Disease:&nbsp;</b>{{ evidence.disease.displayName }}</nz-row>
-        <nz-row *ngIf="!evidence.disease"><b>Disease:&nbsp;</b><i>Not Applicable</i></nz-row>
-        <nz-row [ngPlural]="evidence.phenotypes.length">
-            <ng-template ngPluralCase="=0"><b>Associated Phenotype:&nbsp;</b> <i>-</i></ng-template>
-            <ng-template ngPluralCase="=1"><b>Associated Phenotype:&nbsp;</b></ng-template>
-            <ng-template ngPluralCase="other"><b>Associated Phenotypes:&nbsp;</b></ng-template>
-            <ng-container *ngFor="let p of evidence.phenotypes; let last = last">
-              {{ p.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
-            </ng-container>
-        </nz-row>
-        <nz-row><b>Source:&nbsp;</b>{{ evidence.source.citation }}</nz-row>
-        <nz-row [ngPlural]="evidence.source.sourceType">
-          <ng-template ngPluralCase="=PUBMED"><b>PubMed ID:&nbsp;</b></ng-template>
-          <ng-template ngPluralCase="=ASCO"><b>ASCO ID:&nbsp;</b></ng-template>
-          {{ evidence.source.citationId }}
-        </nz-row>
-        <nz-row *ngIf="evidence.source.clinicalTrials" [ngPlural]="evidence.source.clinicalTrials.length">
-            <ng-template ngPluralCase="=0"><b>Clinical Trial:&nbsp;</b> <i>-</i></ng-template>
-            <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
-            <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
-            <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-              <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
-              <ng-container *ngIf="!last">,&nbsp;</ng-container>
-            </ng-container>
-        </nz-row>
-        <nz-row><b>Evidence Rating:&nbsp;</b>{{ evidence.evidenceRating }}</nz-row>
-      </div>
-    </div>
+    <nz-row [nzGutter]="16">
+      <!-- evidence description, source column -->
+      <nz-col [nzSpan]="12">
+        <nz-space nzDirection="vertical">
+
+          <!-- evidence description -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true">
+              <nz-descriptions-item nzTitle="Description">
+                <p nz-typography
+                  nzEllipsis
+                  nzExpandable
+                  [nzEllipsisRows]="14">{{ evidence.description }}</p>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- source & clinical trials -->
+          <nz-space-item>
+            <nz-descriptions nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+              <!-- source -->
+              <nz-descriptions-item nzTitle="Source"
+                nzSpan="2">
+                {{ evidence.source.sourceType}}: {{ evidence.source.citation}}
+              </nz-descriptions-item>
+
+              <!-- clinical trials -->
+              <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
+                <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
+                  <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
+                    <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
+                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
+                  <span nz-typography
+                    nzType="secondary">None Specified</span>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+        </nz-space>
+
+      </nz-col>
+
+      <!-- evidence details column -->
+      <nz-col [nzSpan]="12">
+        <nz-space nzDirection="vertical">
+          <!-- disease, phenotype -->
+          <nz-space-item>
+            <!-- if both drugs and phenotypes are set, display in 1 col so value cells are full width -->
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="(evidence.disease.displayName !== undefined && evidence.phenotypes.length > 0) ? 1 : 2">
+
+                  <!-- disease -->
+                  <nz-descriptions-item nzTitle="Disease">
+                    <ng-container *ngIf="evidence.disease.displayName">{{ evidence.disease.displayName }}</ng-container>
+                    <span *ngIf="!evidence.disease.displayName"
+                      nz-typography
+                      nzType="secondary">N/A</span>
+                  </nz-descriptions-item>
+
+                  <!-- phenotypes -->
+                  <nz-descriptions-item [nzTitle]="evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'">
+                    <ng-container *ngIf="evidence.phenotypes.length === 0">
+                      <span nz-typography
+                        nzType="secondary">None Specified</span>
+                    </ng-container>
+                    <ng-container *ngIf="evidence.phenotypes.length > 0">
+                      <ng-container *ngFor="let ph of evidence.phenotypes; last as isLast">
+                        {{ph.name}}
+                        <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                      </ng-container>
+                    </ng-container>
+                  </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- drugs -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true">
+              <nz-descriptions-item [nzTitle]="drugsTitle">
+                <ng-container [ngPlural]="evidence.drugs.length">
+                  <!-- no drug -->
+                  <ng-template ngPluralCase="=0">
+                    <span nz-typography
+                      nzType="secondary">N/A</span>
+                  </ng-template>
+
+                  <!-- one drug -->
+                  <ng-template ngPluralCase="=1">
+                    <ng-container *ngFor="let drug of evidence.drugs; last as isLast">
+                      {{drug.name}}
+                      <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                    </ng-container>
+                  </ng-template>
+
+                  <!-- multiple drugs, show interaction type -->
+                  <ng-template ngPluralCase="other">
+                    <ng-container *ngFor="let drug of evidence.drugs; last as isLast">{{drug.name}}<ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
+
+                <!-- drug description title template -->
+                <ng-template #drugsTitle>
+                  <ng-container [ngPlural]="evidence.drugs.length" >
+                    <ng-template ngPluralCase="=0">
+                      Drug
+                    </ng-template>
+                    <ng-template ngPluralCase="=1">
+                      Drug
+                    </ng-template>
+                    <ng-template ngPluralCase="other">
+                      Drugs ({{ evidence.drugInteractionType }})
+                    </ng-template>
+                  </ng-container>
+                </ng-template>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- type, direction, level, rating-->
+          <nz-space-item>
+            <nz-descriptions nzSize="small"
+              [nzColumn]="2"
+              nzBordered="true">
+
+              <!-- evidence type -->
+              <nz-descriptions-item nzTitle="Type">
+                {{ evidence.evidenceType }}
+              </nz-descriptions-item>
+
+              <!-- evidence direction -->
+              <nz-descriptions-item nzTitle="Direction">
+                {{ evidence.evidenceDirection }}
+              </nz-descriptions-item>
+
+              <!-- clinical significance -->
+              <nz-descriptions-item nzTitle="Clinical Significance" nzSpan="2">
+                {{ evidence.clinicalSignificance }}
+              </nz-descriptions-item>
+
+
+              <!-- evidence level -->
+              <nz-descriptions-item nzTitle="Level">
+                {{ evidence.evidenceLevel }}
+              </nz-descriptions-item>
+
+
+              <!-- evidence rating -->
+              <nz-descriptions-item nzTitle="Rating">
+                {{ evidence.evidenceRating }}
+              </nz-descriptions-item>
+
+
+            </nz-descriptions>
+          </nz-space-item>
+        </nz-space>
+      </nz-col>
+    </nz-row>
   </nz-space-item>
   <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="16">
-        <cvc-event-feed [subscribable]="subscribable" tagDisplay="hideSubject"></cvc-event-feed>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <cvc-event-feed [subscribable]="subscribable"
+          tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>
-    </div>
+    </nz-row>
   </nz-space-item>
   <nz-space-item>
     <cvc-assertions-browse [evidenceId]="evidence.id"></cvc-assertions-browse>

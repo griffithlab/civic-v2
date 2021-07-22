@@ -1,0 +1,121 @@
+<div id="popover-content">
+  <ng-container *ngIf="evidence$ | ngrxPush as evidence">
+    <nz-card [nzTitle]="cardTitle"
+      nzBordered="false"
+      id="card-content">
+      <ng-template #cardTitle>
+        <i nz-icon
+          nzType="civic:evidence"></i> {{ evidence.name }}
+      </ng-template>
+      <nz-row>
+        <nz-col nzSpan="24">
+          <div class="popover-text">
+            <p nz-typography>
+              <ng-container *ngIf="evidence.description as desc; else noDescription">
+                {{ desc }}
+              </ng-container>
+            </p>
+          </div>
+        </nz-col>
+      </nz-row>
+
+      <nz-descriptions nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+
+
+        <!-- source -->
+        <nz-descriptions-item nzTitle="Source"
+          nzSpan="2">
+          <strong>{{ evidence.source.sourceType }}: </strong> {{ evidence.source.citation }}
+        </nz-descriptions-item>
+
+        <!-- evidence level -->
+        <nz-descriptions-item nzTitle="Level">
+          {{ evidence.evidenceLevel }}
+        </nz-descriptions-item>
+
+        <!-- evidence type -->
+        <nz-descriptions-item nzTitle="Type">
+          {{ evidence.evidenceType }}
+        </nz-descriptions-item>
+
+        <!-- evidence direction -->
+        <nz-descriptions-item nzTitle="Direction">
+          {{ evidence.evidenceDirection }}
+        </nz-descriptions-item>
+
+        <!-- clinical significance -->
+        <nz-descriptions-item nzTitle="Clinical Significance"
+          nzSpan="2">
+          {{ evidence.clinicalSignificance }}
+        </nz-descriptions-item>
+
+        <!-- evidence rating -->
+        <nz-descriptions-item nzTitle="Rating">
+          {{ evidence.evidenceRating }}
+        </nz-descriptions-item>
+
+        <!-- disease -->
+        <nz-descriptions-item nzTitle="Disease">
+          {{ evidence.disease ? evidence.disease.displayName : 'N/A' }}
+        </nz-descriptions-item>
+
+        <!-- drugs -->
+        <nz-descriptions-item nzTitle="Drugs"
+          nzSpan="2"
+          *ngIf="evidence.drugs.length > 0">
+          <span *ngFor="let drug of evidence.drugs; last as isLast">
+            {{drug.name}}<span *ngIf="!isLast">,&nbsp;</span>
+          </span>
+        </nz-descriptions-item>
+
+        <!-- phenotypes -->
+        <nz-descriptions-item nzTitle="Phenotypes"
+          nzSpan="2"
+          *ngIf="evidence.phenotypes.length > 0">
+          <span *ngFor="let ph of evidence.phenotypes; last as isLast">
+            {{ph.name}}<span *ngIf="!isLast">,&nbsp;</span>
+          </span>
+        </nz-descriptions-item>
+
+      </nz-descriptions>
+
+      <!-- entity comment, flags, etc. tags -->
+      <nz-row id="entity-child-counts">
+        <nz-col nzSpan="24">
+          <nz-space nzSize="small">
+            <nz-space-item>
+              <a routerLink="/evidences/{{evidence.id}}/flags">
+                <nz-tag nzColor="red">
+                  <i nz-icon
+                    nzType="civic-flag"></i> Flags ({{ evidence.flags.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+            <nz-space-item>
+              <a routerLink="/evidences/{{evidence.id}}/revisions">
+                <nz-tag nzColor="orange">
+                  <i nz-icon
+                    nzType="civic-revision"></i> Revisions ({{ evidence.revisions.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+            <nz-space-item>
+              <a routerLink="/evidences/{{evidence.id}}/comments">
+                <nz-tag nzColor="blue">
+                  <i nz-icon
+                    nzType="civic-comment"></i> Comments ({{ evidence.comments.totalCount }})
+                </nz-tag>
+              </a>
+            </nz-space-item>
+          </nz-space>
+        </nz-col>
+      </nz-row>
+    </nz-card>
+  </ng-container>
+</div>
+
+<ng-template #noDescription>
+  Evidence item has not been provided a description.
+</ng-template>

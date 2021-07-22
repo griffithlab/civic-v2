@@ -309,6 +309,17 @@ export type CommentableFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ContributingUserKeySpecifier = ('lastActionDate' | 'uniqueActions' | 'user' | ContributingUserKeySpecifier)[];
+export type ContributingUserFieldPolicy = {
+	lastActionDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueActions?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ContributingUsersSummaryKeySpecifier = ('curators' | 'editors' | ContributingUsersSummaryKeySpecifier)[];
+export type ContributingUsersSummaryFieldPolicy = {
+	curators?: FieldPolicy<any> | FieldReadFunction<any>,
+	editors?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CoordinateKeySpecifier = ('chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | CoordinateKeySpecifier)[];
 export type CoordinateFieldPolicy = {
 	chromosome?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -596,7 +607,7 @@ export type PhenotypeFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'comments' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flags' | 'gene' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'users' | 'variant' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'comments' | 'contributors' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flags' | 'gene' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'users' | 'variant' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -606,6 +617,7 @@ export type QueryFieldPolicy = {
 	browseVariantGroups?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseVariants?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
+	contributors?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1012,6 +1024,14 @@ export type TypedTypePolicies = TypePolicies & {
 	Commentable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentableKeySpecifier | (() => undefined | CommentableKeySpecifier),
 		fields?: CommentableFieldPolicy,
+	},
+	ContributingUser?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ContributingUserKeySpecifier | (() => undefined | ContributingUserKeySpecifier),
+		fields?: ContributingUserFieldPolicy,
+	},
+	ContributingUsersSummary?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ContributingUsersSummaryKeySpecifier | (() => undefined | ContributingUsersSummaryKeySpecifier),
+		fields?: ContributingUsersSummaryFieldPolicy,
 	},
 	Coordinate?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CoordinateKeySpecifier | (() => undefined | CoordinateKeySpecifier),
