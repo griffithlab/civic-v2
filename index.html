@@ -57,6 +57,9 @@
                 <a href="#operation-drug-Queries"> drug </a>
               </li>
               <li>
+                <a href="#operation-drugs-Queries"> drugs </a>
+              </li>
+              <li>
                 <a href="#operation-events-Queries"> events </a>
               </li>
               <li>
@@ -186,6 +189,9 @@
           <a href="#definition-BrowseDisease"> BrowseDisease </a>
           <a href="#definition-BrowseDiseaseConnection"> BrowseDiseaseConnection </a>
           <a href="#definition-BrowseDiseaseEdge"> BrowseDiseaseEdge </a>
+          <a href="#definition-BrowseDrug"> BrowseDrug </a>
+          <a href="#definition-BrowseDrugConnection"> BrowseDrugConnection </a>
+          <a href="#definition-BrowseDrugEdge"> BrowseDrugEdge </a>
           <a href="#definition-BrowseGene"> BrowseGene </a>
           <a href="#definition-BrowseGeneConnection"> BrowseGeneConnection </a>
           <a href="#definition-BrowseGeneEdge"> BrowseGeneEdge </a>
@@ -223,6 +229,8 @@
           <a href="#definition-DiseasesSortColumns"> DiseasesSortColumns </a>
           <a href="#definition-Drug"> Drug </a>
           <a href="#definition-DrugInteraction"> DrugInteraction </a>
+          <a href="#definition-DrugSort"> DrugSort </a>
+          <a href="#definition-DrugSortColumns"> DrugSortColumns </a>
           <a href="#definition-Event"> Event </a>
           <a href="#definition-EventAction"> EventAction </a>
           <a href="#definition-EventConnection"> EventConnection </a>
@@ -486,7 +494,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -509,29 +517,29 @@ https://example.com/graphql
       <span class="hljs-attr">"assertionType"</span>: <span class="hljs-string">EvidenceType</span>,
       <span class="hljs-attr">"clinicalSignificance"</span>: <span class="hljs-string">EvidenceClinicalSignificance</span>,
       <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"disease"</span>: <span class="hljs-string">Disease</span>,
       <span class="hljs-attr">"drugInteractionType"</span>: <span class="hljs-string">DrugInteraction</span>,
       <span class="hljs-attr">"drugs"</span>: [<span class="hljs-string">Drug</span>],
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-      <span class="hljs-attr">"fdaCompanionTest"</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"fdaCompanionTest"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
       <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
       <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"nccnGuideline"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"phenotypes"</span>: [<span class="hljs-string">Phenotype</span>],
-      <span class="hljs-attr">"regulatoryApproval"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"regulatoryApproval"</span>: <span class="hljs-literal">false</span>,
       <span class="hljs-attr">"rejectionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"revisions"</span>: <span class="hljs-string">RevisionConnection</span>,
       <span class="hljs-attr">"source"</span>: <span class="hljs-string">Source</span>,
       <span class="hljs-attr">"status"</span>: <span class="hljs-string">EvidenceStatus</span>,
       <span class="hljs-attr">"submissionEvent"</span>: <span class="hljs-string">Event</span>,
-      <span class="hljs-attr">"summary"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"summary"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"variant"</span>: <span class="hljs-string">Variant</span>,
       <span class="hljs-attr">"variantOrigin"</span>: <span class="hljs-string">VariantOrigin</span>
     }
@@ -618,6 +626,12 @@ https://example.com/graphql
                         <a href="#definition-String"><code>String</code></a>
                       </td>
                       <td> Substring filtering on disease name </td>
+                    </tr>
+                    <tr>
+                      <td><code>drugId</code> -
+                        <a href="#definition-Int"><code>Int</code></a>
+                      </td>
+                      <td> Exact match filtering of the assertions based on the internal CIViC drug id </td>
                     </tr>
                     <tr>
                       <td><code>drugName</code> -
@@ -708,8 +722,8 @@ https://example.com/graphql
                     <h5>Query</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> assertions<span class="hljs-tag">(<span class="hljs-code">$after</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$ampLevel</span>:<span class="hljs-type"> AmpLevel,</span> <span class="hljs-code">$assertionDirection</span>:<span class="hljs-type"> EvidenceDirection,</span> <span class="hljs-code">$assertionType</span>:<span class="hljs-type"> EvidenceType,</span> <span class="hljs-code">$before</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$clinicalSignificance</span>:<span class="hljs-type"> EvidenceClinicalSignificance,</span> <span class="hljs-code">$diseaseId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$diseaseName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$drugName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$evidenceId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$first</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$geneName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$id</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$last</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$organizationId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$phenotypeId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$sortBy</span>:<span class="hljs-type"> AssertionSort,</span> <span class="hljs-code">$summary</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$userId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantName</span>:<span class="hljs-type"> String)</span> {
-  assertions(after: <span class="hljs-code">$after</span>, ampLevel: <span class="hljs-code">$ampLevel</span>, assertionDirection: <span class="hljs-code">$assertionDirection</span>, assertionType: <span class="hljs-code">$assertionType</span>, before: <span class="hljs-code">$before</span>, clinicalSignificance: <span class="hljs-code">$clinicalSignificance</span>, diseaseId: <span class="hljs-code">$diseaseId</span>, diseaseName: <span class="hljs-code">$diseaseName</span>, drugName: <span class="hljs-code">$drugName</span>, evidenceId: <span class="hljs-code">$evidenceId</span>, first: <span class="hljs-code">$first</span>, geneName: <span class="hljs-code">$geneName</span>, id: <span class="hljs-code">$id</span>, last: <span class="hljs-code">$last</span>, organizationId: <span class="hljs-code">$organizationId</span>, phenotypeId: <span class="hljs-code">$phenotypeId</span>, sortBy: <span class="hljs-code">$sortBy</span>, summary: <span class="hljs-code">$summary</span>, userId: <span class="hljs-code">$userId</span>, variantId: <span class="hljs-code">$variantId</span>, variantName: <span class="hljs-code">$variantName</span>)</span> <span class="hljs-tag">{
+                    <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> assertions<span class="hljs-tag">(<span class="hljs-code">$after</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$ampLevel</span>:<span class="hljs-type"> AmpLevel,</span> <span class="hljs-code">$assertionDirection</span>:<span class="hljs-type"> EvidenceDirection,</span> <span class="hljs-code">$assertionType</span>:<span class="hljs-type"> EvidenceType,</span> <span class="hljs-code">$before</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$clinicalSignificance</span>:<span class="hljs-type"> EvidenceClinicalSignificance,</span> <span class="hljs-code">$diseaseId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$diseaseName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$drugId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$drugName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$evidenceId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$first</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$geneName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$id</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$last</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$organizationId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$phenotypeId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$sortBy</span>:<span class="hljs-type"> AssertionSort,</span> <span class="hljs-code">$summary</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$userId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantName</span>:<span class="hljs-type"> String)</span> {
+  assertions(after: <span class="hljs-code">$after</span>, ampLevel: <span class="hljs-code">$ampLevel</span>, assertionDirection: <span class="hljs-code">$assertionDirection</span>, assertionType: <span class="hljs-code">$assertionType</span>, before: <span class="hljs-code">$before</span>, clinicalSignificance: <span class="hljs-code">$clinicalSignificance</span>, diseaseId: <span class="hljs-code">$diseaseId</span>, diseaseName: <span class="hljs-code">$diseaseName</span>, drugId: <span class="hljs-code">$drugId</span>, drugName: <span class="hljs-code">$drugName</span>, evidenceId: <span class="hljs-code">$evidenceId</span>, first: <span class="hljs-code">$first</span>, geneName: <span class="hljs-code">$geneName</span>, id: <span class="hljs-code">$id</span>, last: <span class="hljs-code">$last</span>, organizationId: <span class="hljs-code">$organizationId</span>, phenotypeId: <span class="hljs-code">$phenotypeId</span>, sortBy: <span class="hljs-code">$sortBy</span>, summary: <span class="hljs-code">$summary</span>, userId: <span class="hljs-code">$userId</span>, variantId: <span class="hljs-code">$variantId</span>, variantName: <span class="hljs-code">$variantName</span>)</span> <span class="hljs-tag">{
     <span class="hljs-symbol">edges <span class="hljs-tag">{
       <span class="hljs-type">...AssertionEdgeFragment</span>
     }</span></span>
@@ -729,26 +743,27 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"ampLevel"</span>: <span class="hljs-string">AmpLevel</span>,
   <span class="hljs-attr">"assertionDirection"</span>: <span class="hljs-string">EvidenceDirection</span>,
   <span class="hljs-attr">"assertionType"</span>: <span class="hljs-string">EvidenceType</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"clinicalSignificance"</span>: <span class="hljs-string">EvidenceClinicalSignificance</span>,
-  <span class="hljs-attr">"diseaseId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"diseaseId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"drugId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"evidenceId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"evidenceId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"geneName"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"phenotypeId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">AssertionSort</span>,
-  <span class="hljs-attr">"summary"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"summary"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"userId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"variantId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"variantId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"variantName"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
@@ -768,9 +783,9 @@ https://example.com/graphql
     <span class="hljs-attr">"assertions"</span>: {
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">AssertionEdge</span>],
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Assertion</span>],
-      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
     }
   }
 }
@@ -884,11 +899,11 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"doid"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"geneNames"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"geneNames"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">DiseasesSort</span>
@@ -913,7 +928,7 @@ https://example.com/graphql
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseDisease</span>],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
     }
   }
 }
@@ -1034,11 +1049,11 @@ https://example.com/graphql
                     <head></head>
                     <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"entrezSymbol"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"geneAlias"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">GenesSort</span>
@@ -1059,11 +1074,11 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"browseGenes"</span>: {
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseGeneEdge</span>],
-      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseGene</span>],
-      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
     }
   }
 }
@@ -1195,17 +1210,17 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"author"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">SourcesSort</span>,
   <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>,
-  <span class="hljs-attr">"year"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"year"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                     </html>
@@ -1223,11 +1238,11 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"browseSources"</span>: {
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseSourceEdge</span>],
-      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseSource</span>],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
     }
   }
 }
@@ -1342,11 +1357,11 @@ https://example.com/graphql
                     <head></head>
                     <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"geneNames"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"geneNames"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">VariantGroupsSort</span>,
   <span class="hljs-attr">"variantNames"</span>: <span class="hljs-string">"xyz789"</span>
 }
@@ -1370,7 +1385,7 @@ https://example.com/graphql
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseVariantGroup</span>],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
     }
   }
 }
@@ -1496,16 +1511,16 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"entrezSymbol"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">VariantsSort</span>,
   <span class="hljs-attr">"variantName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"variantTypeId"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"variantTypeId"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                     </html>
@@ -1525,9 +1540,9 @@ https://example.com/graphql
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseVariantEdge</span>],
       <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseVariant</span>],
-      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
     }
   }
 }
@@ -1642,11 +1657,11 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"originatingUserId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"originatingUserId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">DateSort</span>,
   <span class="hljs-attr">"subject"</span>: <span class="hljs-string">CommentableInput</span>
 }
@@ -1669,7 +1684,7 @@ https://example.com/graphql
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Comment</span>],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"uniqueCommenters"</span>: [<span class="hljs-string">User</span>]
     }
   }
@@ -1834,10 +1849,10 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"disease"</span>: {
       <span class="hljs-attr">"diseaseUrl"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"doid"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
 }
@@ -1919,10 +1934,151 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"drug"</span>: {
-      <span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"xyz789"</span>
+      <span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"abc123"</span>
+    }
+  }
+}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation-drugs-Queries" class="operation panel" data-traverse-target="operation-drugs-Queries">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Queries">Queries</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-name "> <code>drugs</code> </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description operation-description"> List and filter Drugs from the NCI Thesaurus </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body"> </section>
+                <section class="swagger-responses"> Returns a
+                  <a href="#definition-BrowseDrugConnection"><code>BrowseDrugConnection!</code></a>
+                </section>
+                <br>
+                <section class="swagger-request-params">
+                  <table>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td><code>after</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> Returns the elements in the list that come after the specified cursor </td>
+                    </tr>
+                    <tr>
+                      <td><code>before</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> Returns the elements in the list that come before the specified cursor </td>
+                    </tr>
+                    <tr>
+                      <td><code>first</code> -
+                        <a href="#definition-Int"><code>Int</code></a>
+                      </td>
+                      <td> Returns the first
+                        <em>n</em> elements from the list </td>
+                    </tr>
+                    <tr>
+                      <td><code>last</code> -
+                        <a href="#definition-Int"><code>Int</code></a>
+                      </td>
+                      <td> Returns the last
+                        <em>n</em> elements from the list </td>
+                    </tr>
+                    <tr>
+                      <td><code>name</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> Wildcard match on drug name </td>
+                    </tr>
+                    <tr>
+                      <td><code>ncitId</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> Limit to drugs with a specific NCIT ID </td>
+                    </tr>
+                    <tr>
+                      <td><code>sortBy</code> -
+                        <a href="#definition-DrugSort"><code>DrugSort</code></a>
+                      </td>
+                      <td> Sort order for the drugs. Defaults to the highest evidence item count </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h4>Example</h3>
+                    <h5>Query</h5>
+                    <html>
+                    <head></head>
+                    <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> drugs<span class="hljs-tag">(<span class="hljs-code">$after</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$before</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$first</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$last</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$name</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$ncitId</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$sortBy</span>:<span class="hljs-type"> DrugSort)</span> {
+  drugs(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>, name: <span class="hljs-code">$name</span>, ncitId: <span class="hljs-code">$ncitId</span>, sortBy: <span class="hljs-code">$sortBy</span>)</span> <span class="hljs-tag">{
+    <span class="hljs-symbol">edges <span class="hljs-tag">{
+      <span class="hljs-type">...BrowseDrugEdgeFragment</span>
+    }</span></span>
+    <span class="hljs-symbol">filteredCount</span>
+    <span class="hljs-symbol">nodes <span class="hljs-tag">{
+      <span class="hljs-type">...BrowseDrugFragment</span>
+    }</span></span>
+    <span class="hljs-symbol">pageCount</span>
+    <span class="hljs-symbol">pageInfo <span class="hljs-tag">{
+      <span class="hljs-type">...PageInfoFragment</span>
+    }</span></span>
+    <span class="hljs-symbol">totalCount</span>
+  }</span></span>
+}
+</code></pre> </body>
+                    </html>
+                    <h5>Variables</h5>
+                    <html>
+                    <head></head>
+                    <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">DrugSort</span>
+}
+</code></pre> </body>
+                    </html>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response </h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"data"</span>: {
+    <span class="hljs-attr">"drugs"</span>: {
+      <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseDrugEdge</span>],
+      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseDrug</span>],
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
     }
   }
 }
@@ -2053,7 +2209,7 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"eventType"</span>: <span class="hljs-string">EventAction</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
@@ -2231,7 +2387,7 @@ https://example.com/graphql
       <span class="hljs-attr">"assertions"</span>: [<span class="hljs-string">Assertion</span>],
       <span class="hljs-attr">"clinicalSignificance"</span>: <span class="hljs-string">EvidenceClinicalSignificance</span>,
       <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"disease"</span>: <span class="hljs-string">Disease</span>,
       <span class="hljs-attr">"drugInteractionType"</span>: <span class="hljs-string">DrugInteraction</span>,
       <span class="hljs-attr">"drugs"</span>: [<span class="hljs-string">Drug</span>],
@@ -2243,7 +2399,7 @@ https://example.com/graphql
       <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
       <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
       <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
@@ -2337,6 +2493,12 @@ https://example.com/graphql
                       <td> Substring filtering on disease name </td>
                     </tr>
                     <tr>
+                      <td><code>drugId</code> -
+                        <a href="#definition-Int"><code>Int</code></a>
+                      </td>
+                      <td> Exact match filtering of the evidence items based on the internal CIViC drug id </td>
+                    </tr>
+                    <tr>
                       <td><code>drugName</code> -
                         <a href="#definition-String"><code>String</code></a>
                       </td>
@@ -2405,6 +2567,12 @@ https://example.com/graphql
                       <td> Columm and direction to sort evidence on </td>
                     </tr>
                     <tr>
+                      <td><code>sourceId</code> -
+                        <a href="#definition-Int"><code>Int</code></a>
+                      </td>
+                      <td> Exact match filtering of the evidence items based on the interal CIViC source id </td>
+                    </tr>
+                    <tr>
                       <td><code>status</code> -
                         <a href="#definition-EvidenceStatus"><code>EvidenceStatus</code></a>
                       </td>
@@ -2437,8 +2605,8 @@ https://example.com/graphql
                     <h5>Query</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> evidenceItems<span class="hljs-tag">(<span class="hljs-code">$after</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$assertionId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$before</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$clinicalSignificance</span>:<span class="hljs-type"> EvidenceClinicalSignificance,</span> <span class="hljs-code">$description</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$diseaseId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$diseaseName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$drugName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$evidenceDirection</span>:<span class="hljs-type"> EvidenceDirection,</span> <span class="hljs-code">$evidenceLevel</span>:<span class="hljs-type"> EvidenceLevel,</span> <span class="hljs-code">$evidenceRating</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$evidenceType</span>:<span class="hljs-type"> EvidenceType,</span> <span class="hljs-code">$first</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$id</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$last</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$organizationId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$phenotypeId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$sortBy</span>:<span class="hljs-type"> EvidenceSort,</span> <span class="hljs-code">$status</span>:<span class="hljs-type"> EvidenceStatus,</span> <span class="hljs-code">$userId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantOrigin</span>:<span class="hljs-type"> VariantOrigin)</span> {
-  evidenceItems(after: <span class="hljs-code">$after</span>, assertionId: <span class="hljs-code">$assertionId</span>, before: <span class="hljs-code">$before</span>, clinicalSignificance: <span class="hljs-code">$clinicalSignificance</span>, description: <span class="hljs-code">$description</span>, diseaseId: <span class="hljs-code">$diseaseId</span>, diseaseName: <span class="hljs-code">$diseaseName</span>, drugName: <span class="hljs-code">$drugName</span>, evidenceDirection: <span class="hljs-code">$evidenceDirection</span>, evidenceLevel: <span class="hljs-code">$evidenceLevel</span>, evidenceRating: <span class="hljs-code">$evidenceRating</span>, evidenceType: <span class="hljs-code">$evidenceType</span>, first: <span class="hljs-code">$first</span>, id: <span class="hljs-code">$id</span>, last: <span class="hljs-code">$last</span>, organizationId: <span class="hljs-code">$organizationId</span>, phenotypeId: <span class="hljs-code">$phenotypeId</span>, sortBy: <span class="hljs-code">$sortBy</span>, status: <span class="hljs-code">$status</span>, userId: <span class="hljs-code">$userId</span>, variantId: <span class="hljs-code">$variantId</span>, variantOrigin: <span class="hljs-code">$variantOrigin</span>)</span> <span class="hljs-tag">{
+                    <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> evidenceItems<span class="hljs-tag">(<span class="hljs-code">$after</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$assertionId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$before</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$clinicalSignificance</span>:<span class="hljs-type"> EvidenceClinicalSignificance,</span> <span class="hljs-code">$description</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$diseaseId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$diseaseName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$drugId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$drugName</span>:<span class="hljs-type"> String,</span> <span class="hljs-code">$evidenceDirection</span>:<span class="hljs-type"> EvidenceDirection,</span> <span class="hljs-code">$evidenceLevel</span>:<span class="hljs-type"> EvidenceLevel,</span> <span class="hljs-code">$evidenceRating</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$evidenceType</span>:<span class="hljs-type"> EvidenceType,</span> <span class="hljs-code">$first</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$id</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$last</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$organizationId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$phenotypeId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$sortBy</span>:<span class="hljs-type"> EvidenceSort,</span> <span class="hljs-code">$sourceId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$status</span>:<span class="hljs-type"> EvidenceStatus,</span> <span class="hljs-code">$userId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantId</span>:<span class="hljs-type"> Int,</span> <span class="hljs-code">$variantOrigin</span>:<span class="hljs-type"> VariantOrigin)</span> {
+  evidenceItems(after: <span class="hljs-code">$after</span>, assertionId: <span class="hljs-code">$assertionId</span>, before: <span class="hljs-code">$before</span>, clinicalSignificance: <span class="hljs-code">$clinicalSignificance</span>, description: <span class="hljs-code">$description</span>, diseaseId: <span class="hljs-code">$diseaseId</span>, diseaseName: <span class="hljs-code">$diseaseName</span>, drugId: <span class="hljs-code">$drugId</span>, drugName: <span class="hljs-code">$drugName</span>, evidenceDirection: <span class="hljs-code">$evidenceDirection</span>, evidenceLevel: <span class="hljs-code">$evidenceLevel</span>, evidenceRating: <span class="hljs-code">$evidenceRating</span>, evidenceType: <span class="hljs-code">$evidenceType</span>, first: <span class="hljs-code">$first</span>, id: <span class="hljs-code">$id</span>, last: <span class="hljs-code">$last</span>, organizationId: <span class="hljs-code">$organizationId</span>, phenotypeId: <span class="hljs-code">$phenotypeId</span>, sortBy: <span class="hljs-code">$sortBy</span>, sourceId: <span class="hljs-code">$sourceId</span>, status: <span class="hljs-code">$status</span>, userId: <span class="hljs-code">$userId</span>, variantId: <span class="hljs-code">$variantId</span>, variantOrigin: <span class="hljs-code">$variantOrigin</span>)</span> <span class="hljs-tag">{
     <span class="hljs-symbol">edges <span class="hljs-tag">{
       <span class="hljs-type">...EvidenceItemEdgeFragment</span>
     }</span></span>
@@ -2458,24 +2626,26 @@ https://example.com/graphql
                     <html>
                     <head></head>
                     <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"assertionId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"assertionId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"clinicalSignificance"</span>: <span class="hljs-string">EvidenceClinicalSignificance</span>,
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"diseaseId"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"diseaseName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"drugId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"drugName"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"evidenceDirection"</span>: <span class="hljs-string">EvidenceDirection</span>,
   <span class="hljs-attr">"evidenceLevel"</span>: <span class="hljs-string">EvidenceLevel</span>,
   <span class="hljs-attr">"evidenceRating"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"evidenceType"</span>: <span class="hljs-string">EvidenceType</span>,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"phenotypeId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"phenotypeId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">EvidenceSort</span>,
+  <span class="hljs-attr">"sourceId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"status"</span>: <span class="hljs-string">EvidenceStatus</span>,
   <span class="hljs-attr">"userId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"variantId"</span>: <span class="hljs-number">123</span>,
@@ -2498,9 +2668,9 @@ https://example.com/graphql
     <span class="hljs-attr">"evidenceItems"</span>: {
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">EvidenceItemEdge</span>],
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">EvidenceItem</span>],
-      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+      <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
     }
   }
 }
@@ -2625,12 +2795,12 @@ https://example.com/graphql
                     <head></head>
                     <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"flaggable"</span>: <span class="hljs-string">FlaggableInput</span>,
   <span class="hljs-attr">"flaggingUserId"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"resolvingUserId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"resolvingUserId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">DateSort</span>,
   <span class="hljs-attr">"state"</span>: <span class="hljs-string">FlagState</span>
 }
@@ -2770,18 +2940,18 @@ https://example.com/graphql
     <span class="hljs-attr">"gene"</span>: {
       <span class="hljs-attr">"aliases"</span>: [<span class="hljs-string">GeneAlias</span>],
       <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
       <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"myGeneInfoDetails"</span>: <span class="hljs-string">{}</span>,
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"officialName"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"officialName"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"revisions"</span>: <span class="hljs-string">RevisionConnection</span>,
       <span class="hljs-attr">"sources"</span>: [<span class="hljs-string">Source</span>],
       <span class="hljs-attr">"variants"</span>: <span class="hljs-string">VariantConnection</span>
@@ -2871,7 +3041,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -2887,17 +3057,17 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"organization"</span>: {
-      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"eventCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
       <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-      <span class="hljs-attr">"memberCount"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"memberCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"members"</span>: <span class="hljs-string">UserConnection</span>,
       <span class="hljs-attr">"mostRecentEvent"</span>: <span class="hljs-string">Event</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"orgAndSuborgsStatsHash"</span>: <span class="hljs-string">Stats</span>,
       <span class="hljs-attr">"orgStatsHash"</span>: <span class="hljs-string">Stats</span>,
-      <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"subGroups"</span>: [<span class="hljs-string">Organization</span>],
       <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>
     }
@@ -3014,8 +3184,8 @@ https://example.com/graphql
   <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">OrganizationSort</span>
 }
@@ -3103,7 +3273,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -3193,7 +3363,7 @@ https://example.com/graphql
                       <td><code>sortBy</code> -
                         <a href="#definition-PhenotypeSort"><code>PhenotypeSort</code></a>
                       </td>
-                      <td> Sort order for the phenotypes. Defaults to most recent </td>
+                      <td> Sort order for the phenotypes. Defaults to the highest evidence item count </td>
                     </tr>
                   </table>
                 </section>
@@ -3228,7 +3398,7 @@ https://example.com/graphql
                     <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"after"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
@@ -3252,7 +3422,7 @@ https://example.com/graphql
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowsePhenotypeEdge</span>],
       <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowsePhenotype</span>],
-      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
       <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
     }
@@ -3321,7 +3491,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>, <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -3334,7 +3504,7 @@ https://example.com/graphql
                   <h5>Response </h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"data"</span>: {<span class="hljs-attr">"remoteCitation"</span>: <span class="hljs-string">"abc123"</span>}}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"data"</span>: {<span class="hljs-attr">"remoteCitation"</span>: <span class="hljs-string">"xyz789"</span>}}
 </code></pre> </body>
                   </html>
                 </section>
@@ -3392,7 +3562,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"query"</span>: <span class="hljs-string">"xyz789"</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"query"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -3409,8 +3579,8 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"search"</span>: [
       {
-        <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-        <span class="hljs-attr">"matchingText"</span>: <span class="hljs-string">"xyz789"</span>,
+        <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+        <span class="hljs-attr">"matchingText"</span>: <span class="hljs-string">"abc123"</span>,
         <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
         <span class="hljs-attr">"resultType"</span>: <span class="hljs-string">SearchableEntities</span>
       }
@@ -3473,7 +3643,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -3490,8 +3660,8 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"searchByPermalink"</span>: {
       <span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">123</span>],
-      <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"abc123"</span>
+      <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>],
+      <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"xyz789"</span>
     }
   }
 }
@@ -3575,7 +3745,7 @@ https://example.com/graphql
     <span class="hljs-attr">"searchGenes"</span>: {
       <span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>],
-      <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"xyz789"</span>
+      <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
 }
@@ -3630,12 +3800,15 @@ https://example.com/graphql
                     <head></head>
                     <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> source<span class="hljs-tag">(<span class="hljs-code">$id</span>:<span class="hljs-type"> Int!</span>)</span> <span class="hljs-tag">{
   <span class="hljs-symbol">source<span class="hljs-tag">(id: <span class="hljs-code">$id</span>)</span> <span class="hljs-tag">{
+    <span class="hljs-symbol">abstract</span>
     <span class="hljs-symbol">ascoAbstractId</span>
+    <span class="hljs-symbol">authorString</span>
     <span class="hljs-symbol">citation</span>
     <span class="hljs-symbol">citationId</span>
     <span class="hljs-symbol">clinicalTrials <span class="hljs-tag">{
       <span class="hljs-type">...ClinicalTrialFragment</span>
     }</span></span>
+    <span class="hljs-symbol">displayType</span>
     <span class="hljs-symbol">events<span class="hljs-tag">(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, eventType: <span class="hljs-code">$eventType</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>, organizationId: <span class="hljs-code">$organizationId</span>, originatingUserId: <span class="hljs-code">$originatingUserId</span>, sortBy: <span class="hljs-code">$sortBy</span>)</span> <span class="hljs-tag">{
       <span class="hljs-type">...EventConnectionFragment</span>
     }</span></span>
@@ -3643,12 +3816,15 @@ https://example.com/graphql
     <span class="hljs-symbol">id</span>
     <span class="hljs-symbol">journal</span>
     <span class="hljs-symbol">name</span>
+    <span class="hljs-symbol">pmcId</span>
+    <span class="hljs-symbol">publicationDate</span>
     <span class="hljs-symbol">publicationDay</span>
     <span class="hljs-symbol">publicationMonth</span>
     <span class="hljs-symbol">publicationYear</span>
     <span class="hljs-symbol">sourceType</span>
     <span class="hljs-symbol">sourceUrl</span>
     <span class="hljs-symbol">status</span>
+    <span class="hljs-symbol">title</span>
   }</span></span>
 }</span></span>
 </code></pre> </body>
@@ -3672,21 +3848,27 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"source"</span>: {
-      <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">987</span>,
-      <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"abstract"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"authorString"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"clinicalTrials"</span>: [<span class="hljs-string">ClinicalTrial</span>],
+      <span class="hljs-attr">"displayType"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-      <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"pmcId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"publicationDate"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">987</span>,
-      <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">123</span>,
-      <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>,
       <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"status"</span>: <span class="hljs-string">SourceStatus</span>
+      <span class="hljs-attr">"status"</span>: <span class="hljs-string">SourceStatus</span>,
+      <span class="hljs-attr">"title"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
 }
@@ -3747,12 +3929,15 @@ https://example.com/graphql
                     <head></head>
                     <body><pre><code class="hljs language-gql"><span class="hljs-symbol"><span class="hljs-keyword">query</span> sourceTypeahead<span class="hljs-tag">(<span class="hljs-code">$citationId</span>:<span class="hljs-type"> Int!</span>, <span class="hljs-code">$sourceType</span>:<span class="hljs-type"> SourceSource!</span>)</span> <span class="hljs-tag">{
   <span class="hljs-symbol">sourceTypeahead<span class="hljs-tag">(citationId: <span class="hljs-code">$citationId</span>, sourceType: <span class="hljs-code">$sourceType</span>)</span> <span class="hljs-tag">{
+    <span class="hljs-symbol">abstract</span>
     <span class="hljs-symbol">ascoAbstractId</span>
+    <span class="hljs-symbol">authorString</span>
     <span class="hljs-symbol">citation</span>
     <span class="hljs-symbol">citationId</span>
     <span class="hljs-symbol">clinicalTrials <span class="hljs-tag">{
       <span class="hljs-type">...ClinicalTrialFragment</span>
     }</span></span>
+    <span class="hljs-symbol">displayType</span>
     <span class="hljs-symbol">events<span class="hljs-tag">(after: <span class="hljs-code">$after</span>, before: <span class="hljs-code">$before</span>, eventType: <span class="hljs-code">$eventType</span>, first: <span class="hljs-code">$first</span>, last: <span class="hljs-code">$last</span>, organizationId: <span class="hljs-code">$organizationId</span>, originatingUserId: <span class="hljs-code">$originatingUserId</span>, sortBy: <span class="hljs-code">$sortBy</span>)</span> <span class="hljs-tag">{
       <span class="hljs-type">...EventConnectionFragment</span>
     }</span></span>
@@ -3760,12 +3945,15 @@ https://example.com/graphql
     <span class="hljs-symbol">id</span>
     <span class="hljs-symbol">journal</span>
     <span class="hljs-symbol">name</span>
+    <span class="hljs-symbol">pmcId</span>
+    <span class="hljs-symbol">publicationDate</span>
     <span class="hljs-symbol">publicationDay</span>
     <span class="hljs-symbol">publicationMonth</span>
     <span class="hljs-symbol">publicationYear</span>
     <span class="hljs-symbol">sourceType</span>
     <span class="hljs-symbol">sourceUrl</span>
     <span class="hljs-symbol">status</span>
+    <span class="hljs-symbol">title</span>
   }</span></span>
 }</span></span>
 </code></pre> </body>
@@ -3790,21 +3978,27 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"sourceTypeahead"</span>: [
       {
-        <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">123</span>,
-        <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"xyz789"</span>,
-        <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
+        <span class="hljs-attr">"abstract"</span>: <span class="hljs-string">"xyz789"</span>,
+        <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">987</span>,
+        <span class="hljs-attr">"authorString"</span>: <span class="hljs-string">"abc123"</span>,
+        <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"abc123"</span>,
+        <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
         <span class="hljs-attr">"clinicalTrials"</span>: [<span class="hljs-string">ClinicalTrial</span>],
+        <span class="hljs-attr">"displayType"</span>: <span class="hljs-string">"xyz789"</span>,
         <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-        <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"xyz789"</span>,
-        <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+        <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"abc123"</span>,
+        <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
         <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
-        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+        <span class="hljs-attr">"pmcId"</span>: <span class="hljs-string">"abc123"</span>,
+        <span class="hljs-attr">"publicationDate"</span>: <span class="hljs-string">"xyz789"</span>,
         <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">123</span>,
-        <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">123</span>,
-        <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">123</span>,
+        <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">987</span>,
+        <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">987</span>,
         <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>,
-        <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"abc123"</span>,
-        <span class="hljs-attr">"status"</span>: <span class="hljs-string">SourceStatus</span>
+        <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"xyz789"</span>,
+        <span class="hljs-attr">"status"</span>: <span class="hljs-string">SourceStatus</span>,
+        <span class="hljs-attr">"title"</span>: <span class="hljs-string">"abc123"</span>
       }
     ]
   }
@@ -3892,7 +4086,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -3908,26 +4102,26 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"user"</span>: {
-      <span class="hljs-attr">"areaOfExpertise"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"areaOfExpertise"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"country"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"country"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
       <span class="hljs-attr">"facebookProfile"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"linkedinProfile"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"mostRecentConflictOfInterestStatement"</span>: <span class="hljs-string">Coi</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"notifications"</span>: <span class="hljs-string">NotificationConnection</span>,
       <span class="hljs-attr">"orcid"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"organizations"</span>: [<span class="hljs-string">Organization</span>],
       <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"statsHash"</span>: <span class="hljs-string">Stats</span>,
       <span class="hljs-attr">"twitterHandle"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"abc123"</span>
+      <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"xyz789"</span>
     }
   }
 }
@@ -4164,7 +4358,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -4183,7 +4377,7 @@ https://example.com/graphql
       <span class="hljs-attr">"alleleRegistryId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"clinvarIds"</span>: [<span class="hljs-string">"abc123"</span>],
       <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"ensemblVersion"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
       <span class="hljs-attr">"evidenceItems"</span>: <span class="hljs-string">EvidenceItemConnection</span>,
@@ -4192,7 +4386,7 @@ https://example.com/graphql
       <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
       <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
       <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
-      <span class="hljs-attr">"hgvsDescriptions"</span>: [<span class="hljs-string">"xyz789"</span>],
+      <span class="hljs-attr">"hgvsDescriptions"</span>: [<span class="hljs-string">"abc123"</span>],
       <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
       <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
@@ -4320,8 +4514,8 @@ https://example.com/graphql
   <span class="hljs-attr">"evidenceStatusFilter"</span>: <span class="hljs-string">VariantDisplayFilter</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"geneId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
                     </html>
@@ -4340,7 +4534,7 @@ https://example.com/graphql
     <span class="hljs-attr">"variants"</span>: {
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">VariantEdge</span>],
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Variant</span>],
-      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
       <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
     }
@@ -4409,7 +4603,7 @@ https://example.com/graphql
                     <h5>Variables</h5>
                     <html>
                     <head></head>
-                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                    <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                     </html>
                 </section>
@@ -4426,9 +4620,9 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"variantType"</span>: {
       <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>
     }
   }
@@ -4543,9 +4737,9 @@ https://example.com/graphql
                     <head></head>
                     <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"after"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"before"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"first"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"last"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"last"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"sortBy"</span>: <span class="hljs-string">VariantTypeSort</span>
@@ -4566,7 +4760,7 @@ https://example.com/graphql
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"variantTypes"</span>: {
       <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseVariantTypeEdge</span>],
-      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseVariantType</span>],
       <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
       <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
@@ -4652,26 +4846,26 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"viewer"</span>: {
-      <span class="hljs-attr">"areaOfExpertise"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"areaOfExpertise"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"country"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"country"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"email"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
       <span class="hljs-attr">"facebookProfile"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-      <span class="hljs-attr">"linkedinProfile"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+      <span class="hljs-attr">"linkedinProfile"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"mostRecentConflictOfInterestStatement"</span>: <span class="hljs-string">Coi</span>,
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"notifications"</span>: <span class="hljs-string">NotificationConnection</span>,
       <span class="hljs-attr">"orcid"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"organizations"</span>: [<span class="hljs-string">Organization</span>],
       <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
-      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"role"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"statsHash"</span>: <span class="hljs-string">Stats</span>,
-      <span class="hljs-attr">"twitterHandle"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"twitterHandle"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>,
-      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"abc123"</span>
+      <span class="hljs-attr">"username"</span>: <span class="hljs-string">"xyz789"</span>
     }
   }
 }
@@ -4916,7 +5110,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"addRemoteCitation"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"newSource"</span>: <span class="hljs-string">SourceStub</span>
     }
   }
@@ -4999,7 +5193,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"flagEntity"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"flag"</span>: <span class="hljs-string">Flag</span>
     }
   }
@@ -5165,7 +5359,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"rejectRevision"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
       <span class="hljs-attr">"revision"</span>: <span class="hljs-string">Revision</span>
     }
   }
@@ -5504,7 +5698,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"data"</span>: {
     <span class="hljs-attr">"suggestGeneRevision"</span>: {
-      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+      <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
       <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
       <span class="hljs-attr">"results"</span>: [<span class="hljs-string">RevisionResult</span>]
     }
@@ -5802,7 +5996,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"revision"</span>: <span class="hljs-string">Revision</span>,
   <span class="hljs-attr">"supersededRevisions"</span>: [<span class="hljs-string">Revision</span>]
 }
@@ -5854,7 +6048,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"code"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"code"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -5930,8 +6124,8 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"body"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"subject"</span>: <span class="hljs-string">CommentableInput</span>,
   <span class="hljs-attr">"title"</span>: <span class="hljs-string">"xyz789"</span>
 }
@@ -5980,7 +6174,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"comment"</span>: <span class="hljs-string">Comment</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"comment"</span>: <span class="hljs-string">Comment</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -6039,7 +6233,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>
 }
@@ -6088,7 +6282,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"newSource"</span>: <span class="hljs-string">SourceStub</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"newSource"</span>: <span class="hljs-string">SourceStub</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -6137,7 +6331,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">987</span>], <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"abc123"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"permalinkId"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"resultIds"</span>: [<span class="hljs-number">123</span>], <span class="hljs-attr">"searchEndpoint"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -6706,21 +6900,21 @@ https://example.com/graphql
   <span class="hljs-attr">"assertionType"</span>: <span class="hljs-string">EvidenceType</span>,
   <span class="hljs-attr">"clinicalSignificance"</span>: <span class="hljs-string">EvidenceClinicalSignificance</span>,
   <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"disease"</span>: <span class="hljs-string">Disease</span>,
   <span class="hljs-attr">"drugInteractionType"</span>: <span class="hljs-string">DrugInteraction</span>,
   <span class="hljs-attr">"drugs"</span>: [<span class="hljs-string">Drug</span>],
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-  <span class="hljs-attr">"fdaCompanionTest"</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"fdaCompanionTest"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
   <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"nccnGuideline"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"nccnGuideline"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"phenotypes"</span>: [<span class="hljs-string">Phenotype</span>],
   <span class="hljs-attr">"regulatoryApproval"</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-attr">"rejectionEvent"</span>: <span class="hljs-string">Event</span>,
@@ -6800,7 +6994,7 @@ https://example.com/graphql
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Assertion</span>],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -6847,7 +7041,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Assertion</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Assertion</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7080,7 +7274,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"value"</span>: <span class="hljs-literal">false</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"value"</span>: <span class="hljs-literal">true</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7156,11 +7350,11 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"doid"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"geneNames"</span>: [<span class="hljs-string">"xyz789"</span>],
+  <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"geneNames"</span>: [<span class="hljs-string">"abc123"</span>],
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -7235,9 +7429,9 @@ https://example.com/graphql
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseDiseaseEdge</span>],
   <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseDisease</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -7284,7 +7478,197 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowseDisease</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowseDisease</span>}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-BrowseDrug" class="definition panel" data-traverse-target="definition-BrowseDrug">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/BrowseDrug"></a>
+              <p><code>BrowseDrug</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-properties-blank">
+                  <table>
+                    <tr>
+                      <th>Field Name</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td data-property-name="assertionCount"> <code>assertionCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="evidenceCount"> <code>evidenceCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="id"> <code>id</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="name"> <code>name</code> -
+                        <a href="#definition-String"><code>String!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="ncitId"> <code>ncitId</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"evidenceCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"xyz789"</span>
+}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-BrowseDrugConnection" class="definition panel" data-traverse-target="definition-BrowseDrugConnection">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/BrowseDrugConnection"></a>
+              <p><code>BrowseDrugConnection</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>The connection type for BrowseDrug.</p>
+                </section>
+                <section class="json-schema-properties-blank">
+                  <table>
+                    <tr>
+                      <th>Field Name</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td data-property-name="edges"> <code>edges</code> -
+                        <a href="#definition-BrowseDrugEdge"><code>[BrowseDrugEdge!]!</code></a>
+                      </td>
+                      <td> A list of edges. </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="filteredCount"> <code>filteredCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> The total number of records in this set. </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="nodes"> <code>nodes</code> -
+                        <a href="#definition-BrowseDrug"><code>[BrowseDrug!]!</code></a>
+                      </td>
+                      <td> A list of nodes. </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="pageCount"> <code>pageCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> Total number of pages, based on filtered count and pagesize. </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="pageInfo"> <code>pageInfo</code> -
+                        <a href="#definition-PageInfo"><code>PageInfo!</code></a>
+                      </td>
+                      <td> Information to aid in pagination. </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="totalCount"> <code>totalCount</code> -
+                        <a href="#definition-Int"><code>Int!</code></a>
+                      </td>
+                      <td> The total number of records of this type, regardless of any filtering. </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseDrugEdge</span>],
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseDrug</span>],
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-BrowseDrugEdge" class="definition panel" data-traverse-target="definition-BrowseDrugEdge">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/BrowseDrugEdge"></a>
+              <p><code>BrowseDrugEdge</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-description">
+                  <p>An edge in a connection.</p>
+                </section>
+                <section class="json-schema-properties-blank">
+                  <table>
+                    <tr>
+                      <th>Field Name</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td data-property-name="cursor"> <code>cursor</code> -
+                        <a href="#definition-String"><code>String!</code></a>
+                      </td>
+                      <td> A cursor for use in pagination. </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="node"> <code>node</code> -
+                        <a href="#definition-BrowseDrug"><code>BrowseDrug</code></a>
+                      </td>
+                      <td> The item at the end of the edge. </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowseDrug</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7377,14 +7761,14 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"aliases"</span>: [<span class="hljs-string">GeneAlias</span>],
-  <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"diseases"</span>: [<span class="hljs-string">Disease</span>],
   <span class="hljs-attr">"drugs"</span>: [<span class="hljs-string">Drug</span>],
-  <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
@@ -7458,11 +7842,11 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseGeneEdge</span>],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseGene</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -7571,10 +7955,10 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"evidenceCount"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"evidenceCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
@@ -7652,7 +8036,7 @@ https://example.com/graphql
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowsePhenotype</span>],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -7699,7 +8083,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowsePhenotype</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowsePhenotype</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7725,6 +8109,12 @@ https://example.com/graphql
                     <tr>
                       <td data-property-name="authors"> <code>authors</code> -
                         <a href="#definition-String"><code>[String!]!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="citation"> <code>citation</code> -
+                        <a href="#definition-String"><code>String!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -7780,7 +8170,8 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"authors"</span>: [<span class="hljs-string">"xyz789"</span>],
-  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
@@ -7859,7 +8250,7 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseSourceEdge</span>],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseSource</span>],
   <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
@@ -7910,7 +8301,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowseSource</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">BrowseSource</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -7993,7 +8384,7 @@ https://example.com/graphql
   <span class="hljs-attr">"assertionCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"diseases"</span>: [<span class="hljs-string">Disease</span>],
   <span class="hljs-attr">"drugs"</span>: [<span class="hljs-string">Drug</span>],
-  <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"evidenceScore"</span>: <span class="hljs-number">123.45</span>,
   <span class="hljs-attr">"geneName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
@@ -8072,7 +8463,7 @@ https://example.com/graphql
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseVariantEdge</span>],
   <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseVariant</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
   <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
@@ -8190,11 +8581,11 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"evidenceItemCount"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"geneNames"</span>: [<span class="hljs-string">"xyz789"</span>],
+  <span class="hljs-attr">"geneNames"</span>: [<span class="hljs-string">"abc123"</span>],
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"variantNames"</span>: [<span class="hljs-string">"abc123"</span>]
+  <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"variantNames"</span>: [<span class="hljs-string">"xyz789"</span>]
 }
 </code></pre> </body>
                   </html>
@@ -8267,11 +8658,11 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseVariantGroupEdge</span>],
-  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseVariantGroup</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -8373,7 +8764,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">123</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"variantCount"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -8447,9 +8838,9 @@ https://example.com/graphql
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">BrowseVariantTypeEdge</span>],
   <span class="hljs-attr">"filteredCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">BrowseVariantType</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -8551,7 +8942,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"nctId"</span>: <span class="hljs-string">"xyz789"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"nctId"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -8605,7 +8996,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"ids"</span>: [<span class="hljs-number">123</span>], <span class="hljs-attr">"noneFound"</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">"notApplicable"</span>: <span class="hljs-literal">true</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"ids"</span>: [<span class="hljs-number">987</span>], <span class="hljs-attr">"noneFound"</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">"notApplicable"</span>: <span class="hljs-literal">false</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -8669,7 +9060,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"coiPresent"</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">"coiStatement"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"coiStatus"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"coiStatus"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">ISO8601DateTime</span>,
   <span class="hljs-attr">"expiresAt"</span>: <span class="hljs-string">ISO8601DateTime</span>
 }
@@ -8746,13 +9137,13 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"commenter"</span>: <span class="hljs-string">User</span>,
   <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">ISO8601DateTime</span>,
   <span class="hljs-attr">"creationEvent"</span>: <span class="hljs-string">Event</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"title"</span>: <span class="hljs-string">"abc123"</span>
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"title"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
                   </html>
@@ -8826,9 +9217,9 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">CommentEdge</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Comment</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"uniqueCommenters"</span>: [<span class="hljs-string">User</span>]
 }
 </code></pre> </body>
@@ -8876,7 +9267,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Comment</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Comment</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -8971,7 +9362,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"entityType"</span>: <span class="hljs-string">CommentableEntities</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"entityType"</span>: <span class="hljs-string">CommentableEntities</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -9141,12 +9532,12 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"chromosome"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"chromosome"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"referenceBases"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"representativeTranscript"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"representativeTranscript"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"start"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"stop"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"variantBases"</span>: <span class="hljs-string">"xyz789"</span>
+  <span class="hljs-attr">"stop"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"variantBases"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
                   </html>
@@ -9206,7 +9597,7 @@ https://example.com/graphql
   <span class="hljs-attr">"chromosome"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"representativeTranscript"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"start"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"stop"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"stop"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -9354,8 +9745,8 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"diseaseUrl"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"doid"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"doid"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
@@ -9519,7 +9910,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"abc123"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"drugUrl"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"ncitId"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -9557,6 +9948,101 @@ https://example.com/graphql
                     <tr>
                       <td>
                         <p><code>SUBSTITUTES</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-DrugSort" class="definition panel" data-traverse-target="definition-DrugSort">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/DrugSort"></a>
+              <p><code>DrugSort</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-properties-blank">
+                  <table>
+                    <tr>
+                      <th>Input Field</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td><code>column</code> -
+                        <a href="#definition-DrugSortColumns"><code>DrugSortColumns!</code></a>
+                      </td>
+                      <td>
+                        <p>Available columns for sorting</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><code>direction</code> -
+                        <a href="#definition-SortDirection"><code>SortDirection!</code></a>
+                      </td>
+                      <td>
+                        <p>Sort direction</p>
+                      </td>
+                    </tr>
+                  </table>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Example</h5>
+                  <html>
+                  <head></head>
+                  <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"column"</span>: <span class="hljs-string">DrugSortColumns</span>,
+  <span class="hljs-attr">"direction"</span>: <span class="hljs-string">SortDirection</span>
+}
+</code></pre> </body>
+                  </html>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="definition-DrugSortColumns" class="definition panel" data-traverse-target="definition-DrugSortColumns">
+            <div class="definition-tags">
+              <a class="label" href="#tag-types">Types</a>
+            </div>
+            <h2 class="panel-title">
+              <a name="/definitions/DrugSortColumns"></a>
+              <p><code>DrugSortColumns</code></p>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="json-schema-properties-blank">
+                  <table>
+                    <tr>
+                      <th>Enum Value</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>ASSERTION_COUNT</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>EVIDENCE_ITEM_COUNT</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>NAME</code></p>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p><code>NCIT_ID</code></p>
                       </td>
                       <td> </td>
                     </tr>
@@ -9822,7 +10308,7 @@ https://example.com/graphql
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">EventEdge</span>],
   <span class="hljs-attr">"eventTypes"</span>: [<span class="hljs-string">EventAction</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Event</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
   <span class="hljs-attr">"participatingOrganizations"</span>: [<span class="hljs-string">Organization</span>],
   <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>,
@@ -9873,7 +10359,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Event</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Event</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -10544,19 +11030,19 @@ https://example.com/graphql
   <span class="hljs-attr">"assertions"</span>: [<span class="hljs-string">Assertion</span>],
   <span class="hljs-attr">"clinicalSignificance"</span>: <span class="hljs-string">EvidenceClinicalSignificance</span>,
   <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"disease"</span>: <span class="hljs-string">Disease</span>,
   <span class="hljs-attr">"drugInteractionType"</span>: <span class="hljs-string">DrugInteraction</span>,
   <span class="hljs-attr">"drugs"</span>: [<span class="hljs-string">Drug</span>],
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
   <span class="hljs-attr">"evidenceDirection"</span>: <span class="hljs-string">EvidenceDirection</span>,
   <span class="hljs-attr">"evidenceLevel"</span>: <span class="hljs-string">EvidenceLevel</span>,
-  <span class="hljs-attr">"evidenceRating"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"evidenceRating"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"evidenceType"</span>: <span class="hljs-string">EvidenceType</span>,
-  <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
   <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
@@ -10568,7 +11054,7 @@ https://example.com/graphql
   <span class="hljs-attr">"status"</span>: <span class="hljs-string">EvidenceStatus</span>,
   <span class="hljs-attr">"submissionEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"variant"</span>: <span class="hljs-string">Variant</span>,
-  <span class="hljs-attr">"variantHgvs"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"variantHgvs"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"variantOrigin"</span>: <span class="hljs-string">VariantOrigin</span>
 }
 </code></pre> </body>
@@ -10637,9 +11123,9 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">EvidenceItemEdge</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">EvidenceItem</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -10833,10 +11319,10 @@ https://example.com/graphql
   <span class="hljs-attr">"evidenceDirection"</span>: <span class="hljs-string">EvidenceDirection</span>,
   <span class="hljs-attr">"evidenceLevel"</span>: <span class="hljs-string">EvidenceLevel</span>,
   <span class="hljs-attr">"evidenceType"</span>: <span class="hljs-string">EvidenceType</span>,
-  <span class="hljs-attr">"phenotypeIds"</span>: [<span class="hljs-number">987</span>],
+  <span class="hljs-attr">"phenotypeIds"</span>: [<span class="hljs-number">123</span>],
   <span class="hljs-attr">"rating"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"sourceId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"variantId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"variantId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"variantOrigin"</span>: <span class="hljs-string">VariantOrigin</span>
 }
 </code></pre> </body>
@@ -11165,7 +11651,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -11323,9 +11809,9 @@ https://example.com/graphql
   <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
   <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">ISO8601DateTime</span>,
   <span class="hljs-attr">"flaggingUser"</span>: <span class="hljs-string">User</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"openComment"</span>: <span class="hljs-string">Comment</span>,
   <span class="hljs-attr">"resolutionComment"</span>: <span class="hljs-string">Comment</span>,
   <span class="hljs-attr">"resolvedAt"</span>: <span class="hljs-string">ISO8601DateTime</span>,
@@ -11398,7 +11884,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">FlagEdge</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Flag</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
   <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
 }
@@ -11515,8 +12001,8 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"subject"</span>: <span class="hljs-string">FlaggableInput</span>
 }
 </code></pre> </body>
@@ -11564,7 +12050,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"flag"</span>: <span class="hljs-string">Flag</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"flag"</span>: <span class="hljs-string">Flag</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -12190,7 +12676,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"aliases"</span>: [<span class="hljs-string">GeneAlias</span>],
   <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"entrezId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
   <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">true</span>,
@@ -12200,7 +12686,7 @@ https://example.com/graphql
   <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"myGeneInfoDetails"</span>: <span class="hljs-string">{}</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"officialName"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"revisions"</span>: <span class="hljs-string">RevisionConnection</span>,
   <span class="hljs-attr">"sources"</span>: [<span class="hljs-string">Source</span>],
@@ -12292,7 +12778,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"sourceIds"</span>: [<span class="hljs-number">987</span>]}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"sourceIds"</span>: [<span class="hljs-number">987</span>]}
 </code></pre> </body>
                   </html>
                 </section>
@@ -12552,7 +13038,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-gql"><span class="hljs-symbol">123</span>
+                  <body><pre><code class="hljs language-gql"><span class="hljs-symbol">987</span>
 </code></pre> </body>
                   </html>
                 </section>
@@ -12715,7 +13201,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -12812,7 +13298,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"notifications"</span>: [<span class="hljs-string">Notification</span>]
 }
 </code></pre> </body>
@@ -12944,9 +13430,9 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"displayType"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"entityType"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"entityType"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
@@ -13243,7 +13729,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"unset"</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">"value"</span>: <span class="hljs-string">DrugInteraction</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"unset"</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">"value"</span>: <span class="hljs-string">DrugInteraction</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -13294,7 +13780,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"unset"</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">"value"</span>: <span class="hljs-number">987</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"unset"</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">"value"</span>: <span class="hljs-number">123</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -13345,7 +13831,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"unset"</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">"value"</span>: <span class="hljs-string">ReferenceBuild</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"unset"</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">"value"</span>: <span class="hljs-string">ReferenceBuild</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -13690,18 +14176,18 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"eventCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"eventCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"memberCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"memberCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"members"</span>: <span class="hljs-string">UserConnection</span>,
   <span class="hljs-attr">"mostRecentEvent"</span>: <span class="hljs-string">Event</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"orgAndSuborgsStatsHash"</span>: <span class="hljs-string">Stats</span>,
   <span class="hljs-attr">"orgStatsHash"</span>: <span class="hljs-string">Stats</span>,
   <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"subGroups"</span>: [<span class="hljs-string">Organization</span>],
-  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>
+  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
                   </html>
@@ -13867,7 +14353,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"includeSubgroups"</span>: <span class="hljs-literal">false</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>, <span class="hljs-attr">"includeSubgroups"</span>: <span class="hljs-literal">false</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -14009,10 +14495,10 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"endCursor"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"endCursor"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"hasNextPage"</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-attr">"hasPreviousPage"</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">"startCursor"</span>: <span class="hljs-string">"xyz789"</span>
+  <span class="hljs-attr">"startCursor"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
                   </html>
@@ -14062,7 +14548,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"hpoId"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -14264,9 +14750,9 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -14618,8 +15104,8 @@ https://example.com/graphql
   <span class="hljs-attr">"fieldName"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"linkoutData"</span>: <span class="hljs-string">LinkoutData</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"revisor"</span>: <span class="hljs-string">User</span>,
   <span class="hljs-attr">"status"</span>: <span class="hljs-string">RevisionStatus</span>,
   <span class="hljs-attr">"suggestedValue"</span>: <span class="hljs-string">{}</span>,
@@ -14703,10 +15189,10 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">RevisionEdge</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Revision</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
   <span class="hljs-attr">"revisedFieldNames"</span>: [<span class="hljs-string">FieldName</span>],
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"uniqueRevisors"</span>: [<span class="hljs-string">User</span>]
 }
 </code></pre> </body>
@@ -14754,7 +15240,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Revision</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">Revision</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -14811,9 +15297,9 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"fieldName"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"newlyCreated"</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"xyz789"</span>
+  <span class="hljs-attr">"revisionsetId"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
                   </html>
@@ -14896,7 +15382,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"value"</span>: <span class="hljs-string">"abc123"</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"value"</span>: <span class="hljs-string">"xyz789"</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -14952,7 +15438,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"matchingText"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"resultType"</span>: <span class="hljs-string">SearchableEntities</span>
@@ -15070,8 +15556,20 @@ https://example.com/graphql
                       <th>Description</th>
                     </tr>
                     <tr>
+                      <td data-property-name="abstract"> <code>abstract</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
                       <td data-property-name="ascoAbstractId"> <code>ascoAbstractId</code> -
                         <a href="#definition-Int"><code>Int</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="authorString"> <code>authorString</code> -
+                        <a href="#definition-String"><code>String</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -15090,6 +15588,12 @@ https://example.com/graphql
                     <tr>
                       <td data-property-name="clinicalTrials"> <code>clinicalTrials</code> -
                         <a href="#definition-ClinicalTrial"><code>[ClinicalTrial!]</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="displayType"> <code>displayType</code> -
+                        <a href="#definition-String"><code>String!</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -15165,7 +15669,7 @@ https://example.com/graphql
                     </tr>
                     <tr>
                       <td data-property-name="fullJournalTitle"> <code>fullJournalTitle</code> -
-                        <a href="#definition-String"><code>String!</code></a>
+                        <a href="#definition-String"><code>String</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -15184,6 +15688,18 @@ https://example.com/graphql
                     <tr>
                       <td data-property-name="name"> <code>name</code> -
                         <a href="#definition-String"><code>String!</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="pmcId"> <code>pmcId</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td data-property-name="publicationDate"> <code>publicationDate</code> -
+                        <a href="#definition-String"><code>String</code></a>
                       </td>
                       <td> </td>
                     </tr>
@@ -15223,6 +15739,12 @@ https://example.com/graphql
                       </td>
                       <td> </td>
                     </tr>
+                    <tr>
+                      <td data-property-name="title"> <code>title</code> -
+                        <a href="#definition-String"><code>String</code></a>
+                      </td>
+                      <td> </td>
+                    </tr>
                   </table>
                 </section>
               </div>
@@ -15232,21 +15754,27 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
+  <span class="hljs-attr">"abstract"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"ascoAbstractId"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"authorString"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"citation"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"citationId"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"clinicalTrials"</span>: [<span class="hljs-string">ClinicalTrial</span>],
+  <span class="hljs-attr">"displayType"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
-  <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"fullJournalTitle"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"journal"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pmcId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"publicationDate"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"publicationDay"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"publicationMonth"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"publicationYear"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">SourceSource</span>,
-  <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"status"</span>: <span class="hljs-string">SourceStatus</span>
+  <span class="hljs-attr">"sourceUrl"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"status"</span>: <span class="hljs-string">SourceStatus</span>,
+  <span class="hljs-attr">"title"</span>: <span class="hljs-string">"xyz789"</span>
 }
 </code></pre> </body>
                   </html>
@@ -15561,12 +16089,12 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"acceptedAssertions"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"acceptedAssertions"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"acceptedEvidenceItems"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"appliedRevisions"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"appliedRevisions"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"comments"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"revisions"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"submittedAssertions"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"submittedAssertions"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"submittedEvidenceItems"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"suggestedSources"</span>: <span class="hljs-number">123</span>
 }
@@ -15725,7 +16253,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"entityType"</span>: <span class="hljs-string">SubscribableEntities</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"entityType"</span>: <span class="hljs-string">SubscribableEntities</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -15948,7 +16476,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"subscribables"</span>: [<span class="hljs-string">SubscribableInput</span>],
   <span class="hljs-attr">"subscribeToChildren"</span>: <span class="hljs-literal">false</span>
 }
@@ -15998,7 +16526,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"subscriptions"</span>: [<span class="hljs-string">Subscription</span>]
 }
 </code></pre> </body>
@@ -16037,7 +16565,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -16113,9 +16641,9 @@ https://example.com/graphql
                   <head></head>
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"fields"</span>: <span class="hljs-string">EvidenceItemFields</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
@@ -16170,7 +16698,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"evidenceItem"</span>: <span class="hljs-string">EvidenceItem</span>,
   <span class="hljs-attr">"results"</span>: [<span class="hljs-string">RevisionResult</span>]
 }
@@ -16248,11 +16776,11 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"fields"</span>: <span class="hljs-string">GeneFields</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -16306,7 +16834,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
   <span class="hljs-attr">"results"</span>: [<span class="hljs-string">RevisionResult</span>]
 }
@@ -16387,8 +16915,8 @@ https://example.com/graphql
   <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"comment"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"fields"</span>: <span class="hljs-string">VariantFields</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
-  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">987</span>
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"organizationId"</span>: <span class="hljs-number">123</span>
 }
 </code></pre> </body>
                   </html>
@@ -16442,7 +16970,7 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"clientMutationId"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"results"</span>: [<span class="hljs-string">RevisionResult</span>],
   <span class="hljs-attr">"variant"</span>: <span class="hljs-string">Variant</span>
 }
@@ -16831,25 +17359,25 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"areaOfExpertise"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"areaOfExpertise"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"bio"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"country"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"country"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"email"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
   <span class="hljs-attr">"facebookProfile"</span>: <span class="hljs-string">"xyz789"</span>,
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"linkedinProfile"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"mostRecentConflictOfInterestStatement"</span>: <span class="hljs-string">Coi</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"notifications"</span>: <span class="hljs-string">NotificationConnection</span>,
-  <span class="hljs-attr">"orcid"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"orcid"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"organizations"</span>: [<span class="hljs-string">Organization</span>],
-  <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"profileImagePath"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"role"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"statsHash"</span>: <span class="hljs-string">Stats</span>,
   <span class="hljs-attr">"twitterHandle"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"username"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
@@ -16918,9 +17446,9 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">UserEdge</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">User</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
-  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">123</span>
+  <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
 </code></pre> </body>
                   </html>
@@ -16967,7 +17495,7 @@ https://example.com/graphql
                   <h5>Example</h5>
                   <html>
                   <head></head>
-                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"abc123"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">User</span>}
+                  <body><pre><code class="hljs language-json">{<span class="hljs-attr">"cursor"</span>: <span class="hljs-string">"xyz789"</span>, <span class="hljs-attr">"node"</span>: <span class="hljs-string">User</span>}
 </code></pre> </body>
                   </html>
                 </section>
@@ -17459,10 +17987,10 @@ https://example.com/graphql
                   <html>
                   <head></head>
                   <body><pre><code class="hljs language-json">{
-  <span class="hljs-attr">"alleleRegistryId"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"alleleRegistryId"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"clinvarIds"</span>: [<span class="hljs-string">"abc123"</span>],
   <span class="hljs-attr">"comments"</span>: <span class="hljs-string">CommentConnection</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"ensemblVersion"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"events"</span>: <span class="hljs-string">EventConnection</span>,
   <span class="hljs-attr">"evidenceItems"</span>: <span class="hljs-string">EvidenceItemConnection</span>,
@@ -17471,17 +17999,17 @@ https://example.com/graphql
   <span class="hljs-attr">"flagged"</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-attr">"flags"</span>: <span class="hljs-string">FlagConnection</span>,
   <span class="hljs-attr">"gene"</span>: <span class="hljs-string">Gene</span>,
-  <span class="hljs-attr">"hgvsDescriptions"</span>: [<span class="hljs-string">"abc123"</span>],
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"hgvsDescriptions"</span>: [<span class="hljs-string">"xyz789"</span>],
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"lastAcceptedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastCommentEvent"</span>: <span class="hljs-string">Event</span>,
   <span class="hljs-attr">"lastSubmittedRevisionEvent"</span>: <span class="hljs-string">Event</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"referenceBuild"</span>: <span class="hljs-string">ReferenceBuild</span>,
   <span class="hljs-attr">"revisions"</span>: <span class="hljs-string">RevisionConnection</span>,
   <span class="hljs-attr">"sources"</span>: [<span class="hljs-string">Source</span>],
   <span class="hljs-attr">"threePrimeCoordinates"</span>: <span class="hljs-string">Coordinate</span>,
-  <span class="hljs-attr">"variantAliases"</span>: [<span class="hljs-string">"xyz789"</span>],
+  <span class="hljs-attr">"variantAliases"</span>: [<span class="hljs-string">"abc123"</span>],
   <span class="hljs-attr">"variantTypes"</span>: [<span class="hljs-string">VariantType</span>]
 }
 </code></pre> </body>
@@ -17550,7 +18078,7 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"edges"</span>: [<span class="hljs-string">VariantEdge</span>],
   <span class="hljs-attr">"nodes"</span>: [<span class="hljs-string">Variant</span>],
-  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">123</span>,
+  <span class="hljs-attr">"pageCount"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"pageInfo"</span>: <span class="hljs-string">PageInfo</span>,
   <span class="hljs-attr">"totalCount"</span>: <span class="hljs-number">987</span>
 }
@@ -17796,13 +18324,13 @@ https://example.com/graphql
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">NullableStringInput</span>,
   <span class="hljs-attr">"ensemblVersion"</span>: <span class="hljs-number">987</span>,
   <span class="hljs-attr">"geneId"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"hgvsDescriptions"</span>: [<span class="hljs-string">"abc123"</span>],
+  <span class="hljs-attr">"hgvsDescriptions"</span>: [<span class="hljs-string">"xyz789"</span>],
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">"primaryCoordinates"</span>: <span class="hljs-string">CoordinateInput</span>,
   <span class="hljs-attr">"referenceBases"</span>: <span class="hljs-string">NullableStringInput</span>,
   <span class="hljs-attr">"referenceBuild"</span>: <span class="hljs-string">NullableReferenceBuildTypeInput</span>,
   <span class="hljs-attr">"secondaryCoordinates"</span>: <span class="hljs-string">CoordinateInput</span>,
-  <span class="hljs-attr">"sourceIds"</span>: [<span class="hljs-number">987</span>],
+  <span class="hljs-attr">"sourceIds"</span>: [<span class="hljs-number">123</span>],
   <span class="hljs-attr">"variantBases"</span>: <span class="hljs-string">NullableStringInput</span>,
   <span class="hljs-attr">"variantTypeIds"</span>: [<span class="hljs-number">987</span>]
 }
@@ -18027,8 +18555,8 @@ https://example.com/graphql
                   <body><pre><code class="hljs language-json">{
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">123</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"abc123"</span>,
-  <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"xyz789"</span>,
+  <span class="hljs-attr">"soid"</span>: <span class="hljs-string">"xyz789"</span>,
   <span class="hljs-attr">"url"</span>: <span class="hljs-string">"abc123"</span>
 }
 </code></pre> </body>
