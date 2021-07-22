@@ -1464,6 +1464,71 @@ export type MutationUnsubscribeArgs = {
   input: UnsubscribeInput;
 };
 
+export type MyVariantInfo = {
+  __typename: 'MyVariantInfo';
+  caddConsequence: Array<Scalars['String']>;
+  caddDetail: Array<Scalars['String']>;
+  caddScore?: Maybe<Scalars['Float']>;
+  clinvarClinicalSignificance: Array<Scalars['String']>;
+  clinvarHgvsCoding: Array<Scalars['String']>;
+  clinvarHgvsGenomic: Array<Scalars['String']>;
+  clinvarHgvsNonCoding: Array<Scalars['String']>;
+  clinvarHgvsProtein: Array<Scalars['String']>;
+  clinvarId: Scalars['Int'];
+  clinvarOmim?: Maybe<Scalars['String']>;
+  cosmicId: Scalars['String'];
+  dbnsfpInterproDomain: Array<Scalars['String']>;
+  dbsnpRsid?: Maybe<Scalars['String']>;
+  eglClass?: Maybe<Scalars['String']>;
+  eglHgvs: Array<Scalars['String']>;
+  eglProtein?: Maybe<Scalars['String']>;
+  eglTranscript?: Maybe<Scalars['String']>;
+  exacAlleleCount?: Maybe<Scalars['Int']>;
+  exacAlleleFrequency?: Maybe<Scalars['Float']>;
+  exacAlleleNumber?: Maybe<Scalars['Int']>;
+  fathmmMklPrediction?: Maybe<Scalars['String']>;
+  fathmmMklScore?: Maybe<Scalars['Float']>;
+  fathmmPrediction: Array<Scalars['String']>;
+  fathmmScore: Array<Scalars['Float']>;
+  fitconsScore?: Maybe<Scalars['Float']>;
+  gerp?: Maybe<Scalars['Float']>;
+  gnomadExomeAlleleCount?: Maybe<Scalars['Int']>;
+  gnomadExomeAlleleFrequency?: Maybe<Scalars['Float']>;
+  gnomadExomeAlleleNumber?: Maybe<Scalars['Int']>;
+  gnomadExomeFilter?: Maybe<Scalars['String']>;
+  gnomadGenomeAlleleCount?: Maybe<Scalars['Int']>;
+  gnomadGenomeAlleleFrequency?: Maybe<Scalars['Float']>;
+  gnomadGenomeAlleleNumber?: Maybe<Scalars['Int']>;
+  gnomadGenomeFilter?: Maybe<Scalars['String']>;
+  lrtPrediction?: Maybe<Scalars['String']>;
+  lrtScore?: Maybe<Scalars['Float']>;
+  metalrPrediction?: Maybe<Scalars['String']>;
+  metalrScore?: Maybe<Scalars['Float']>;
+  metasvmPrediction: Scalars['String'];
+  metasvmScore?: Maybe<Scalars['Float']>;
+  mutationassessorPrediction: Array<Scalars['String']>;
+  mutationassessorScore: Array<Scalars['Float']>;
+  mutationtasterPrediction?: Maybe<Scalars['String']>;
+  mutationtasterScore?: Maybe<Scalars['Float']>;
+  myVariantInfoId: Scalars['String'];
+  phastcons100way?: Maybe<Scalars['Float']>;
+  phastcons30way?: Maybe<Scalars['Float']>;
+  phyloP100way?: Maybe<Scalars['Float']>;
+  phyloP30way?: Maybe<Scalars['Float']>;
+  polyphen2HdivPrediction: Array<Scalars['String']>;
+  polyphen2HdivScore: Array<Scalars['Float']>;
+  polyphen2HvarPrediction: Array<Scalars['String']>;
+  polyphen2HvarScore: Array<Scalars['Float']>;
+  proveanPrediction: Array<Scalars['String']>;
+  proveanScore: Array<Scalars['Float']>;
+  revelScore?: Maybe<Scalars['Float']>;
+  siftPrediction: Array<Scalars['String']>;
+  siftScore: Array<Scalars['Float']>;
+  siphy?: Maybe<Scalars['Float']>;
+  snpeffSnpEffect: Array<Scalars['String']>;
+  snpeffSnpImpact: Array<Scalars['String']>;
+};
+
 export type Notification = {
   __typename: 'Notification';
   createdAt: Scalars['ISO8601DateTime'];
@@ -2611,6 +2676,7 @@ export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
   referenceBuild?: Maybe<ReferenceBuild>;
   /** List and filter revisions. */
@@ -4574,7 +4640,15 @@ export type VariantSummaryFieldsFragment = (
   ), comments: (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
-  ) }
+  ), myVariantInfo?: Maybe<(
+    { __typename: 'MyVariantInfo' }
+    & MyVariantInfoFieldsFragment
+  )> }
+);
+
+export type MyVariantInfoFieldsFragment = (
+  { __typename: 'MyVariantInfo' }
+  & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
 export const HovercardGeneFragmentDoc = gql`
@@ -5412,6 +5486,71 @@ export const VariantDetailFieldsFragmentDoc = gql`
   }
 }
     `;
+export const MyVariantInfoFieldsFragmentDoc = gql`
+    fragment MyVariantInfoFields on MyVariantInfo {
+  myVariantInfoId
+  caddConsequence
+  caddDetail
+  caddScore
+  clinvarClinicalSignificance
+  clinvarHgvsCoding
+  clinvarHgvsGenomic
+  clinvarHgvsNonCoding
+  clinvarHgvsProtein
+  clinvarId
+  clinvarOmim
+  cosmicId
+  dbnsfpInterproDomain
+  dbsnpRsid
+  eglClass
+  eglHgvs
+  eglProtein
+  eglTranscript
+  exacAlleleCount
+  exacAlleleFrequency
+  exacAlleleNumber
+  fathmmMklPrediction
+  fathmmMklScore
+  fathmmPrediction
+  fathmmScore
+  fitconsScore
+  gerp
+  gnomadExomeAlleleCount
+  gnomadExomeAlleleFrequency
+  gnomadExomeAlleleNumber
+  gnomadExomeFilter
+  gnomadGenomeAlleleCount
+  gnomadGenomeAlleleFrequency
+  gnomadGenomeAlleleNumber
+  gnomadGenomeFilter
+  lrtPrediction
+  lrtScore
+  metalrPrediction
+  metalrScore
+  metasvmPrediction
+  metasvmScore
+  mutationassessorPrediction
+  mutationassessorScore
+  mutationtasterPrediction
+  mutationtasterScore
+  phastcons100way
+  phastcons30way
+  phyloP100way
+  phyloP30way
+  polyphen2HdivPrediction
+  polyphen2HdivScore
+  polyphen2HvarPrediction
+  polyphen2HvarScore
+  proveanPrediction
+  proveanScore
+  revelScore
+  siftPrediction
+  siftScore
+  siphy
+  snpeffSnpEffect
+  snpeffSnpImpact
+}
+    `;
 export const VariantSummaryFieldsFragmentDoc = gql`
     fragment VariantSummaryFields on Variant {
   id
@@ -5461,8 +5600,11 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+  myVariantInfo {
+    ...MyVariantInfoFields
+  }
 }
-    `;
+    ${MyVariantInfoFieldsFragmentDoc}`;
 export const GeneHoverCardDocument = gql`
     query GeneHoverCard($geneId: Int!) {
   gene(id: $geneId) {

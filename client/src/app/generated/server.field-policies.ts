@@ -530,6 +530,70 @@ export type MutationFieldPolicy = {
 	suggestVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type MyVariantInfoKeySpecifier = ('caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'myVariantInfoId' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact' | MyVariantInfoKeySpecifier)[];
+export type MyVariantInfoFieldPolicy = {
+	caddConsequence?: FieldPolicy<any> | FieldReadFunction<any>,
+	caddDetail?: FieldPolicy<any> | FieldReadFunction<any>,
+	caddScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarClinicalSignificance?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarHgvsCoding?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarHgvsGenomic?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarHgvsNonCoding?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarHgvsProtein?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarId?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinvarOmim?: FieldPolicy<any> | FieldReadFunction<any>,
+	cosmicId?: FieldPolicy<any> | FieldReadFunction<any>,
+	dbnsfpInterproDomain?: FieldPolicy<any> | FieldReadFunction<any>,
+	dbsnpRsid?: FieldPolicy<any> | FieldReadFunction<any>,
+	eglClass?: FieldPolicy<any> | FieldReadFunction<any>,
+	eglHgvs?: FieldPolicy<any> | FieldReadFunction<any>,
+	eglProtein?: FieldPolicy<any> | FieldReadFunction<any>,
+	eglTranscript?: FieldPolicy<any> | FieldReadFunction<any>,
+	exacAlleleCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	exacAlleleFrequency?: FieldPolicy<any> | FieldReadFunction<any>,
+	exacAlleleNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	fathmmMklPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	fathmmMklScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	fathmmPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	fathmmScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	fitconsScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	gerp?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadExomeAlleleCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadExomeAlleleFrequency?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadExomeAlleleNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadExomeFilter?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadGenomeAlleleCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadGenomeAlleleFrequency?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadGenomeAlleleNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	gnomadGenomeFilter?: FieldPolicy<any> | FieldReadFunction<any>,
+	lrtPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	lrtScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	metalrPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	metalrScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	metasvmPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	metasvmScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	mutationassessorPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	mutationassessorScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	mutationtasterPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	mutationtasterScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	myVariantInfoId?: FieldPolicy<any> | FieldReadFunction<any>,
+	phastcons100way?: FieldPolicy<any> | FieldReadFunction<any>,
+	phastcons30way?: FieldPolicy<any> | FieldReadFunction<any>,
+	phyloP100way?: FieldPolicy<any> | FieldReadFunction<any>,
+	phyloP30way?: FieldPolicy<any> | FieldReadFunction<any>,
+	polyphen2HdivPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	polyphen2HdivScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	polyphen2HvarPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	polyphen2HvarScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	proveanPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	proveanScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	revelScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	siftPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
+	siftScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	siphy?: FieldPolicy<any> | FieldReadFunction<any>,
+	snpeffSnpEffect?: FieldPolicy<any> | FieldReadFunction<any>,
+	snpeffSnpImpact?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type NotificationKeySpecifier = ('createdAt' | 'event' | 'id' | 'notifiedUser' | 'originatingUser' | 'seen' | 'subscription' | 'type' | 'updatedAt' | NotificationKeySpecifier)[];
 export type NotificationFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -818,7 +882,7 @@ export type UserEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'referenceBuild' | 'revisions' | 'sources' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
+export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'myVariantInfo' | 'name' | 'referenceBuild' | 'revisions' | 'sources' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
 	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -837,6 +901,7 @@ export type VariantFieldPolicy = {
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	myVariantInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1124,6 +1189,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,
+	},
+	MyVariantInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MyVariantInfoKeySpecifier | (() => undefined | MyVariantInfoKeySpecifier),
+		fields?: MyVariantInfoFieldPolicy,
 	},
 	Notification?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | NotificationKeySpecifier | (() => undefined | NotificationKeySpecifier),

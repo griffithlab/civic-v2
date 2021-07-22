@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { VariantSummaryGQL, Maybe, VariantSummaryQuery, VariantSummaryQueryVariables, VariantSummaryFieldsFragment, SubscribableInput, SubscribableEntities } from "@app/generated/civic.apollo";
+import { VariantSummaryGQL, Maybe, VariantSummaryQuery, VariantSummaryQueryVariables, VariantSummaryFieldsFragment, SubscribableInput, SubscribableEntities, MyVariantInfoFieldsFragment } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
 import { Observable } from "rxjs";
@@ -16,6 +16,7 @@ export class VariantSummaryComponent {
   queryRef: QueryRef<VariantSummaryQuery, VariantSummaryQueryVariables>
   loading$: Observable<boolean>
   variant$: Observable<Maybe<VariantSummaryFieldsFragment>>
+  variantInfo$: Observable<Maybe<MyVariantInfoFieldsFragment>>
 
   subscribable: SubscribableInput
 
@@ -45,6 +46,10 @@ export class VariantSummaryComponent {
 
     this.variant$ = observable.pipe(
       pluck('data', 'variant')
+    )
+
+    this.variantInfo$ = observable.pipe(
+      pluck('data', 'variant', 'myVariantInfo')
     )
     
     this.subscribable = {
