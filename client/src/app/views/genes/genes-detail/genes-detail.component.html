@@ -88,66 +88,50 @@
       <nz-page-header-content>
         <nz-row id="section-tabs">
           <nz-col nzSpan="24">
-            <nz-tabset nzType="card">
+            <nz-tabset nzType="card" nzSize="small">
+
+              <!-- summary tab -->
               <nz-tab>
-                <!-- summary tab label, link -->
+                <!-- tab label, link -->
                 <a *nzTabLink
-                  nz-tab-link routerLink="summary"
-                  [queryParams]="{ tab: 'summary' }"
-                  queryParamsHandling="merge">
+                  nz-tab-link routerLink="summary">
                   Summary
                 </a>
 
-                <!-- summary content template -->
-                <ng-template nz-tab>
-                  <p>lazy-loaded Summary content</p>
-                </ng-template>
               </nz-tab>
+
+              <!-- comments tab -->
               <nz-tab>
-                <!-- comment tab label, link -->
+                <!-- label, link -->
                 <a *nzTabLink
-                  nz-tab-link routerLink="comments"
-                  [queryParams]="{ tab: 'comments' }"
-                  queryParamsHandling="merge">
+                  nz-tab-link routerLink="comments">
                   Comments
                 </a>
 
-                <!-- summary comments template -->
-                <ng-template nz-tab>
-                  <p>lazy-loaded comment content</p>
-                </ng-template>
               </nz-tab>
+
+              <!-- revisions tab -->
               <nz-tab>
-                <!-- revisions tab label, link -->
+                <!-- tab label, link -->
                 <a *nzTabLink
                   nz-tab-link routerLink="revisions"
-                  [queryParams]="{ tab: 'revisions' }"
                   queryParamsHandling="merge">
                   Revisions
                 </a>
-
-                <!-- summary revisions template -->
-                <ng-template nz-tab>
-                  <p>lazy-loaded revisions content</p>
-                </ng-template>
               </nz-tab>
+
+              <!-- flag tab -->
               <nz-tab>
-                <!-- flag tab label, link -->
+                <!-- tab label, link -->
                 <a *nzTabLink
-                  nz-tab-link routerLink="flags"
-                  [queryParams]="{ tab: 'flags' }"
-                  queryParamsHandling="merge">
+                  nz-tab-link routerLink="flags">
                   Flags
                 </a>
-
-                <!-- summary flags template -->
-                <ng-template nz-tab>
-                  <p>lazy-loaded flags content</p>
-                </ng-template>
               </nz-tab>
             </nz-tabset>
           </nz-col>
         </nz-row>
+
         <div class="content">
           <router-outlet></router-outlet>
         </div>
