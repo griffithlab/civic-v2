@@ -98,6 +98,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
 import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
+import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 
 @NgModule({
   declarations: [
@@ -150,7 +151,8 @@ import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
     EventVerbiagePipe,
     ContributorStackComponent,
     MyVariantInfoComponent,
-    IfEmptyPipe
+    IfEmptyPipe,
+    EvidenceEnumDisplayPipe
   ],
   imports: [
     CommonModule,
