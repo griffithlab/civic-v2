@@ -97,6 +97,8 @@ import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { SectionNavigationComponent } from './section-navigation/section-navigation.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @NgModule({
   declarations: [
@@ -148,7 +150,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
     ContributorAvatarsComponent,
     EventVerbiagePipe,
     ContributorStackComponent,
-    SectionNavigationComponent
+    SectionNavigationComponent,
+    DetailsNavigationComponent
   ],
   imports: [
     CommonModule,
@@ -172,6 +175,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
     NzListModule,
     NzRadioModule,
     NzSpaceModule,
+    NzTabsModule,
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
@@ -244,7 +248,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
-    SectionNavigationComponent
+    SectionNavigationComponent,
+    DetailsNavigationComponent
   ]
 })
 

@@ -23,7 +23,7 @@
       </nz-page-header-subtitle>
 
       <nz-page-header-tags>
-        <nz-tag [nzColor]="'orange'"
+        <nz-tag [nzColor]="''"
           *ngIf="true">Submitted</nz-tag>
       </nz-page-header-tags>
 
@@ -87,65 +87,7 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-row id="section-tabs">
-          <nz-col nzSpan="24">
-            <nz-tabset nzType="card" nzSize="small"
-              [nzTabBarExtraContent]="actionsContributorsTpl">
-              <ng-template #actionsContributorsTpl>
-                <nz-col id="contributors-col">
-                  <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
-                </nz-col>
-              </ng-template>
-
-              <!-- summary tab -->
-              <nz-tab>
-                <!-- tab label, link -->
-                <a *nzTabLink
-                  nz-tab-link routerLink="summary">
-                  <i nz-icon
-                    nzType="civic-gene"></i>
-                  Summary
-                </a>
-
-              </nz-tab>
-
-              <!-- comments tab -->
-              <nz-tab>
-                <!-- label, link -->
-                <a *nzTabLink
-                  nz-tab-link routerLink="comments">
-                  <i nz-icon
-                    nzType="civic-comment"></i>
-                  Comments
-                </a>
-
-              </nz-tab>
-
-              <!-- revisions tab -->
-              <nz-tab>
-                <!-- tab label, link -->
-                <a *nzTabLink
-                  nz-tab-link routerLink="revisions">
-                  <i nz-icon
-                    nzType="civic-revision"></i>
-                  Revisions
-                </a>
-              </nz-tab>
-
-              <!-- flag tab -->
-              <nz-tab>
-                <!-- tab label, link -->
-                <a *nzTabLink
-                  nz-tab-link routerLink="flags">
-                  <i nz-icon
-                    nzType="civic-flag"></i>
-                  Flags
-                </a>
-              </nz-tab>
-            </nz-tabset>
-          </nz-col>
-        </nz-row>
-
+        <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
         <div class="content">
           <router-outlet></router-outlet>
         </div>
