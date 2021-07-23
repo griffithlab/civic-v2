@@ -1,10 +1,5 @@
-class ContributingUsersSummary < Types::BaseObject
-  field :curators, [Types::Entities::ContributingUser], null: false
-  field :editors, [Types::Entities::ContributingUser], null: false
-end
-
 class Resolvers::Contributors < GraphQL::Schema::Resolver
-  type ContributingUsersSummary, null: false
+  type Types::ContributingUsersSummary, null: false
 
   argument :subscribable, Types::Subscribable::SubscribableInput, required: true,
     description: 'The entity to to return contributors for'
