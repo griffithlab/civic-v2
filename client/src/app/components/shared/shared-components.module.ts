@@ -254,7 +254,8 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     ContributorStackComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
-    EvidenceEnumDisplayPipe
+    EvidenceEnumDisplayPipe,
+    AmpFormatPipe
   ]
 })
 

@@ -16,10 +16,10 @@
                             <nz-row><b>Summary:&nbsp;</b>{{assertion.summary}}</nz-row>
                         </nz-col>
                         <nz-col [nzSpan]="8">
-                            <nz-row><b>Assertion Type:&nbsp;</b>{{ assertion.assertionType }}</nz-row>
-                            <nz-row><b>Assertion Direction:&nbsp;</b>{{ assertion.assertionDirection }}</nz-row>
-                            <nz-row><b>Clinical Significance:&nbsp;</b>{{ assertion.clinicalSignificance }}</nz-row>
-                            <nz-row><b>Variant Origin:&nbsp;</b>{{ assertion.variantOrigin }}</nz-row>
+                            <nz-row><b>Assertion Type:&nbsp;</b>{{ assertion.assertionType | evidenceEnumDisplay }}</nz-row>
+                            <nz-row><b>Assertion Direction:&nbsp;</b>{{ assertion.assertionDirection | evidenceEnumDisplay }}</nz-row>
+                            <nz-row><b>Clinical Significance:&nbsp;</b>{{ assertion.clinicalSignificance | evidenceEnumDisplay }}</nz-row>
+                            <nz-row><b>Variant Origin:&nbsp;</b>{{ assertion.variantOrigin | evidenceEnumDisplay }}</nz-row>
                             <nz-row [ngPlural]="assertion.drugs.length">
                                 <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
                                 <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
@@ -41,7 +41,7 @@
                                   {{ p.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
                                 </ng-container>
                             </nz-row>
-                            <nz-row *ngIf="assertion.ampLevel"><b>AMP/ASCO/CAP Category:&nbsp;</b>{{ assertion.ampLevel }}</nz-row>
+                            <nz-row *ngIf="assertion.ampLevel"><b>AMP/ASCO/CAP Category:&nbsp;</b>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-row>
                             <nz-row *ngIf="assertion.acmgCodes.length > 0">
                             <span *ngIf="assertion.acmgCodes.length === 1; else acmgElse"><b>ACMG Code:&nbsp;</b></span>
                             <ng-template #acmgElse><b>ACMG Codes:&nbsp;</b></ng-template>
