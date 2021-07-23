@@ -21,6 +21,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() sourceId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
 
+  @Input() displayGeneAndVariant: boolean = true
+
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
@@ -47,6 +49,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
   variantOriginInput: Maybe<VariantOrigin>
   evidenceRatingInput: Maybe<number>
+  variantNameInput: Maybe<string>
+  geneSymbolInput: Maybe<string>
 
   sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
 
@@ -127,6 +131,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
       rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+      geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
+      variantName: this.variantNameInput ? this.variantNameInput : undefined,
       cardView: !this.tableView
     })
   }
