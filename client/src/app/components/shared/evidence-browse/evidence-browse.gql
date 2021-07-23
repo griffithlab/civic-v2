@@ -23,6 +23,8 @@ query EvidenceBrowse(
   $drugId: Int,
   $sourceId: Int,
   $clinicalTrialId: Int,
+  $geneSymbol: String,
+  $variantName: String
   $cardView: Boolean!
 ) {
   evidenceItems(
@@ -48,7 +50,9 @@ query EvidenceBrowse(
     diseaseId: $diseaseId
     drugId: $drugId
     sourceId: $sourceId
-    clinicalTrialId: $clinicalTrialId
+    clinicalTrialId: $clinicalTrialId,
+    geneSymbol: $geneSymbol,
+    variantName: $variantName,
     sortBy: $sortBy
   ) {
     totalCount

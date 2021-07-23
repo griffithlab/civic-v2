@@ -70,7 +70,9 @@ export const CvcTypePolicies: TypePolicies = {
         'phenotypeId',
         'diseaseId',
         'drugId',
-        'sourceId'
+        'sourceId',
+        'entrezSymbol',
+        'variantName'
       ]),
       assertions: relayStylePagination([
         'diseaseName',

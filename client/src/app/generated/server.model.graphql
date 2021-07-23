@@ -1744,8 +1744,10 @@ enum EvidenceSortColumns {
   EVIDENCE_LEVEL
   EVIDENCE_RATING
   EVIDENCE_TYPE
+  GENE_SYMBOL
   ID
   STATUS
+  VARIANT_NAME
   VARIANT_ORIGIN
 }
 
@@ -3381,6 +3383,11 @@ type Query {
     first: Int
 
     """
+    Left anchored filtering on Entrez gene symbol
+    """
+    geneSymbol: String
+
+    """
     Exact match filtering on the ID of the evidence item.
     """
     id: Int
@@ -3424,6 +3431,11 @@ type Query {
     Exact match filtering on the ID of the variant.
     """
     variantId: Int
+
+    """
+    Left anchored filtering on variant name
+    """
+    variantName: String
 
     """
     Filtering on the evidence variant origin.

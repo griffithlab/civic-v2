@@ -33,6 +33,20 @@
                   nzTooltipTitle="Evidence ID">
                   EID
                 </th>
+                <th *ngIf="displayGeneAndVariant" nzWidth="10%"
+                  [nzColumnKey]="sortColumns.GeneSymbol"
+                  [nzSortFn]="true"
+                  nz-tooltip
+                  nzTooltipTitle="Entrez Gene Symbol">
+                  Gene
+                </th>
+                <th *ngIf="displayGeneAndVariant" nzWidth="10%"
+                  [nzColumnKey]="sortColumns.VariantName"
+                  [nzSortFn]="true"
+                  nz-tooltip
+                  nzTooltipTitle="Variant Name">
+                  Variant
+                </th>
                 <th nzWidth="20%"
                   [nzColumnKey]="sortColumns.DiseaseName"
                   [nzSortFn]="true">
@@ -101,6 +115,14 @@
               <tr>
                 <th>
                   <cvc-clearable-text-filter [(inputModel)]="eidInput"
+                    [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th *ngIf="displayGeneAndVariant">
+                  <cvc-clearable-text-filter [(inputModel)]="geneSymbolInput"
+                    [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th *ngIf="displayGeneAndVariant">
+                  <cvc-clearable-text-filter [(inputModel)]="variantNameInput"
                     [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
                 </th>
                 <th>
@@ -266,15 +288,20 @@
             </thead>
             <tbody>
               <tr *ngFor="let eid of evidenceTable.data">
-                <ng-template #evidenceTag
-                  let-linkableEvidence="eid">
-                  <a routerLink="/evidence/{{linkableEvidence.id}}">
-                    <cvc-evidence-tag [evidence]="linkableEvidence"></cvc-evidence-tag>
-                  </a>
-                </ng-template>
                 <td>
-                  <ng-container *ngTemplateOutlet="evidenceTag;context:{ eid: eid }">
-                  </ng-container>
+                  <a routerLink="/evidence/{{eid.id}}">
+                    <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
+                  </a>
+                </td>
+                <td *ngIf="displayGeneAndVariant">
+                  <a routerLink="/genes/{{eid.gene.id}}">
+                    <cvc-gene-tag [gene]="eid.gene"></cvc-gene-tag>
+                  </a>
+                </td>
+                <td *ngIf="displayGeneAndVariant">
+                  <a routerLink="/variants/{{eid.variant.id}}">
+                    <cvc-variant-pill [variant]="eid.variant"></cvc-variant-pill>
+                  </a>
                 </td>
                 <td>
                   <ng-container *ngIf="eid.disease; else diseaseElse">

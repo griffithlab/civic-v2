@@ -1082,8 +1082,10 @@ export enum EvidenceSortColumns {
   EvidenceLevel = 'EVIDENCE_LEVEL',
   EvidenceRating = 'EVIDENCE_RATING',
   EvidenceType = 'EVIDENCE_TYPE',
+  GeneSymbol = 'GENE_SYMBOL',
   Id = 'ID',
   Status = 'STATUS',
+  VariantName = 'VARIANT_NAME',
   VariantOrigin = 'VARIANT_ORIGIN'
 }
 
@@ -2052,6 +2054,7 @@ export type QueryEvidenceItemsArgs = {
   evidenceRating?: Maybe<Scalars['Int']>;
   evidenceType?: Maybe<EvidenceType>;
   first?: Maybe<Scalars['Int']>;
+  geneSymbol?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
@@ -2061,6 +2064,7 @@ export type QueryEvidenceItemsArgs = {
   status?: Maybe<EvidenceStatus>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
+  variantName?: Maybe<Scalars['String']>;
   variantOrigin?: Maybe<VariantOrigin>;
 };
 
@@ -3287,6 +3291,8 @@ export type EvidenceBrowseQueryVariables = Exact<{
   drugId?: Maybe<Scalars['Int']>;
   sourceId?: Maybe<Scalars['Int']>;
   clinicalTrialId?: Maybe<Scalars['Int']>;
+  geneSymbol?: Maybe<Scalars['String']>;
+  variantName?: Maybe<Scalars['String']>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -5908,7 +5914,7 @@ export const EventFeedDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last
@@ -5933,6 +5939,8 @@ export const EvidenceBrowseDocument = gql`
     drugId: $drugId
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
+    geneSymbol: $geneSymbol
+    variantName: $variantName
     sortBy: $sortBy
   ) {
     totalCount

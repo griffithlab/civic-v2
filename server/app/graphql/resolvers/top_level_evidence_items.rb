@@ -69,31 +69,42 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:clinical_trial_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the CIViC clinical trial id linked to the evidence item\'s source') do |scope, value|
     scope.joins(source: [:clinical_trials]).where('clinical_trials.id = ?', value)
   end
+  option(:gene_symbol, type: GraphQL::Types::String, description: 'Left anchored filtering on Entrez gene symbol') do |scope, value|
+    scope.joins(variant: [:gene]).where('genes.name ILIKE ?', "#{value}%")
+  end
+  option(:variant_name, type: GraphQL::Types::String, description: 'Left anchored filtering on variant name') do |scope, value|
+    scope.joins(:variant).where('variants.name ILIKE ?', "#{value}%")
+  end
 
 
   option :sort_by, type: Types::BrowseTables::EvidenceSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|
     case value.column
     when 'ID'
-      scope.order("id #{value.direction}")
+      scope.reorder("id #{value.direction}")
     when 'DISEASE_NAME'
-      scope.joins(:disease).order("diseases.name #{value.direction}")
+      scope.joins(:disease).reorder("diseases.name #{value.direction}")
     when 'DRUG_NAME'
+      scope.joins(:drugs).reorder("drugs.name #{value.direction}")
     when 'DESCRIPTION'
-      scope.order("description #{value.direction}")
+      scope.reorder("description #{value.direction}")
     when 'EVIDENCE_LEVEL'
-      scope.order("evidence_level #{value.direction}")
+      scope.reorder("evidence_level #{value.direction}")
     when 'EVIDENCE_RATING'
-      scope.order("rating #{value.direction}")
+      scope.reorder("rating #{value.direction}")
     when 'STATUS'
-      scope.order("status #{value.direction}")
+      scope.reorder("status #{value.direction}")
     when 'EVIDENCE_TYPE'
-      scope.order("evidence_type #{value.direction}")
+      scope.reorder("evidence_type #{value.direction}")
     when 'EVIDENCE_DIRECTION'
-      scope.order("evidence_direction #{value.direction}")
+      scope.reorder("evidence_direction #{value.direction}")
     when 'CLINICAL_SIGNIFICANCE'
-      scope.order("clinical_significance #{value.direction}")
+      scope.reorder("clinical_significance #{value.direction}")
     when 'VARIANT_ORIGIN'
-      scope.order("variant_origin #{value.direction}")
+      scope.reorder("variant_origin #{value.direction}")
+    when 'VARIANT_NAME'
+      scope.joins(:variant).reorder("variants.name #{value.direction}")
+    when 'GENE_SYMBOL'
+      scope.joins(variant: [:gene]).reorder("genes.name #{value.direction}")
     end
   end
 end
