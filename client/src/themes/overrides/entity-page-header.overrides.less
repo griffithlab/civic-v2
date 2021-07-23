@@ -26,14 +26,19 @@
     padding-top: 0;
   }
 
-  #page-header-menu-row {
+  #section-tabs {
     margin-left: -@default-padding-md;
     margin-right: -@default-padding-md;
     margin-top: 0;
     margin-bottom: @default-padding-sm;
-    .ant-menu-horizontal {
+    .ant-tabs-nav-wrap {
       // background: #efefef;
+      padding-left: @default-padding-md;
+      padding-right: @default-padding-md;
       line-height: 24px;
+      .ant-tabs-tab {
+        padding: 0 8px;
+      }
       .anticon {
         margin-right: 0; // TODO figure out why this is needed, example doesn't have a margin
       }
