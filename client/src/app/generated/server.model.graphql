@@ -3162,6 +3162,11 @@ type Query {
   ): BrowseClinicalTrialConnection!
 
   """
+  Find a comment by CIViC ID
+  """
+  comment(id: Int!): Comment
+
+  """
   List and filter comments.
   """
   comments(
@@ -3427,6 +3432,11 @@ type Query {
   ): EvidenceItemConnection!
 
   """
+  Find a flag by CIViC ID
+  """
+  flag(id: Int!): Flag
+
+  """
   List and filter flags.
   """
   flags(
@@ -3571,6 +3581,11 @@ type Query {
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
   """
   remoteCitation(citationId: Int!, sourceType: SourceSource!): String
+
+  """
+  Find a revision by CIViC ID
+  """
+  revision(id: Int!): Revision
   search(
     """
     The term to query for
