@@ -2394,6 +2394,70 @@ type Mutation {
   ): UnsubscribePayload
 }
 
+type MyVariantInfo {
+  caddConsequence: [String!]!
+  caddDetail: [String!]!
+  caddScore: Float
+  clinvarClinicalSignificance: [String!]!
+  clinvarHgvsCoding: [String!]!
+  clinvarHgvsGenomic: [String!]!
+  clinvarHgvsNonCoding: [String!]!
+  clinvarHgvsProtein: [String!]!
+  clinvarId: Int
+  clinvarOmim: String
+  cosmicId: String
+  dbnsfpInterproDomain: [String!]!
+  dbsnpRsid: String
+  eglClass: String
+  eglHgvs: [String!]!
+  eglProtein: String
+  eglTranscript: String
+  exacAlleleCount: Int
+  exacAlleleFrequency: Float
+  exacAlleleNumber: Int
+  fathmmMklPrediction: String
+  fathmmMklScore: Float
+  fathmmPrediction: [String!]!
+  fathmmScore: [Float!]!
+  fitconsScore: Float
+  gerp: Float
+  gnomadExomeAlleleCount: Int
+  gnomadExomeAlleleFrequency: Float
+  gnomadExomeAlleleNumber: Int
+  gnomadExomeFilter: String
+  gnomadGenomeAlleleCount: Int
+  gnomadGenomeAlleleFrequency: Float
+  gnomadGenomeAlleleNumber: Int
+  gnomadGenomeFilter: String
+  lrtPrediction: String
+  lrtScore: Float
+  metalrPrediction: String
+  metalrScore: Float
+  metasvmPrediction: String
+  metasvmScore: Float
+  mutationassessorPrediction: [String!]!
+  mutationassessorScore: [Float!]!
+  mutationtasterPrediction: String
+  mutationtasterScore: Float
+  myVariantInfoId: String!
+  phastcons100way: Float
+  phastcons30way: Float
+  phyloP100way: Float
+  phyloP30way: Float
+  polyphen2HdivPrediction: [String!]!
+  polyphen2HdivScore: [Float!]!
+  polyphen2HvarPrediction: [String!]!
+  polyphen2HvarScore: [Float!]!
+  proveanPrediction: [String!]!
+  proveanScore: [Float!]!
+  revelScore: Float
+  siftPrediction: [String!]!
+  siftScore: [Float!]!
+  siphy: Float
+  snpeffSnpEffect: [String!]!
+  snpeffSnpImpact: [String!]!
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -4466,6 +4530,7 @@ type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  myVariantInfo: MyVariantInfo
   name: String!
   referenceBuild: ReferenceBuild
 

@@ -103,8 +103,7 @@
         </nz-row>
       </div>
       <div nz-col nzSpan="12">
-        My Variant Info
-        <!-- <cvc-my-gene-info [geneInfo]="myGeneInfo$ | async"></cvc-my-gene-info> -->
+        <cvc-my-variant-info [variantInfo]="variantInfo$ | ngrxPush"></cvc-my-variant-info>
       </div>
     </div>
   </nz-space-item>

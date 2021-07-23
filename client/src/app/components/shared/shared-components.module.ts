@@ -95,6 +95,9 @@ import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.co
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
+import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
 
 @NgModule({
   declarations: [
@@ -145,7 +148,9 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     EventVerbiagePipe,
-    ContributorStackComponent
+    ContributorStackComponent,
+    MyVariantInfoComponent,
+    IfEmptyPipe
   ],
   imports: [
     CommonModule,
@@ -192,6 +197,7 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     NzSwitchModule,
     NzStatisticModule,
     NzImageModule,
+    NzTabsModule,
   ],
   exports: [
     CommentAddComponent,
@@ -239,7 +245,8 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
     VariantsBrowseComponent,
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
-    ContributorStackComponent
+    ContributorStackComponent,
+    MyVariantInfoComponent
   ]
 })
 
