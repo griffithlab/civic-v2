@@ -425,6 +425,64 @@ input BooleanSearchInput {
   value: Boolean!
 }
 
+type BrowseClinicalTrial {
+  evidenceCount: Int!
+  id: Int!
+  name: String!
+  nctId: String
+  sourceCount: Int!
+}
+
+"""
+The connection type for BrowseClinicalTrial.
+"""
+type BrowseClinicalTrialConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseClinicalTrialEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseClinicalTrial!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseClinicalTrialEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseClinicalTrial
+}
+
 type BrowseDisease {
   assertionCount: Int!
   doid: String
@@ -908,6 +966,26 @@ type ClinicalTrial {
   id: Int!
   name: String!
   nctId: String!
+  url: String!
+}
+
+input ClinicalTrialSort {
+  """
+  Available columns for sorting
+  """
+  column: ClinicalTrialSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum ClinicalTrialSortColumns {
+  EVIDENCE_ITEM_COUNT
+  NAME
+  NCT_ID
+  SOURCE_COUNT
 }
 
 """
@@ -2904,6 +2982,7 @@ type Query {
     """
     before: String
     citationId: Int
+    clinicalTrialId: Int
 
     """
     Returns the first _n_ elements from the list.
@@ -2972,6 +3051,51 @@ type Query {
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
+
+  """
+  Find a clinical trial by CIViC ID
+  """
+  clinicalTrial(id: Int!): ClinicalTrial
+
+  """
+  List and filter Clinical Trials from ClinicalTrials.gov.
+  """
+  clinicalTrials(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on clinical trial title
+    """
+    name: String
+
+    """
+    Limit to clinical trials with a specific NCT ID
+    """
+    nctId: String
+
+    """
+    Sort order for the clinical trials. Defaults to the highest source count.
+    """
+    sortBy: ClinicalTrialSort
+  ): BrowseClinicalTrialConnection!
 
   """
   List and filter comments.
@@ -3131,6 +3255,11 @@ type Query {
     Filtering on the evidence clinical significance.
     """
     clinicalSignificance: EvidenceClinicalSignificance
+
+    """
+    Exact match filtering of the evidence items based on the CIViC clinical trial id linked to the evidence item's source
+    """
+    clinicalTrialId: Int
 
     """
     Substring filtering on evidence item description.

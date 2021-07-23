@@ -1,0 +1,63 @@
+<nz-page-header class="site-page-header">
+  <nz-page-header-title>
+    <i nz-icon nzType="audit"></i>
+    Clinical Trials
+    <span nz-typography nzType="secondary"  *ngIf="(isLoading$ | ngrxPush)">Loading...</span>
+  </nz-page-header-title>
+
+  <nz-page-header-content>
+    <div nz-row>
+      <div nz-col [nzSpan]="24">
+        <div class="content">
+          <nz-table #clinicalTrialsTable
+            [nzData]="(clinicalTrials$ | ngrxPush)"
+            [nzLoading]="(isLoading$ | ngrxPush)"
+            [nzFrontPagination]="false"
+            [nzShowPagination]="false">
+
+            <thead (nzSortOrderChange)="onSortChanged($event)">
+              <tr>
+                <th nzWidth="60%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
+                  Name
+                </th>
+                <th nzWidth="20%" [nzColumnKey]="sortColumns.NctId" [nzSortFn]="true">
+                  NCT ID
+                </th>
+                <th nzWidth="10%" nzRight [nzColumnKey]="sortColumns.SourceCount" [nzSortFn]="true"><i nz-icon nzType="civic:source" nz-tooltip nzTooltipTitle="Source count"></i></th>
+                <th nzWidth="10%" nzRight [nzColumnKey]="sortColumns.EvidenceItemCount" [nzSortFn]="true"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
+              </tr>
+              <tr>
+                <th>
+                  <cvc-clearable-text-filter [(inputModel)]="nameFilter" placeholderText="Search Name" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th>
+                  <cvc-clearable-text-filter [(inputModel)]="nctIdFilter" placeholderText="Search NCT ID" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of clinicalTrialsTable.data">
+                <td>
+                  <a routerLink="/clinical-trials/{{t.id}}">{{t.name}}</a>
+                </td>
+                <td>
+                  {{ t.nctId}}
+                </td>
+                <td>
+                  {{ t.sourceCount }}
+                </td>
+                <td>
+                  {{ t.evidenceCount }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>

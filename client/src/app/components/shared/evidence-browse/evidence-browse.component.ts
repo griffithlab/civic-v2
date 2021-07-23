@@ -19,6 +19,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() diseaseId: Maybe<number>
   @Input() drugId: Maybe<number>
   @Input() sourceId: Maybe<number>
+  @Input() clinicalTrialId: Maybe<number>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -62,6 +63,7 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       diseaseId: this.diseaseId,
       drugId: this.drugId,
       sourceId: this.sourceId,
+      clinicalTrialId: this.clinicalTrialId,
       cardView: !this.tableView
     });
 

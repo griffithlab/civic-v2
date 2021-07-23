@@ -1,0 +1,26 @@
+<ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <nz-space nzDirection="horizontal">
+        <nz-space-item>
+          <i nz-icon nzType="audit"></i>
+        </nz-space-item>
+        <span routerLink="/clinical-trials/{{t.id}}">
+          {{ t.name }}
+        </span>
+      </nz-space>
+    </nz-page-header-title>
+    <nz-page-header-subtitle>
+      <a [href]="t.url" target="_blank">
+        {{ t.nctId }}
+        <i nz-icon nzType="link"></i>
+      </a>
+    </nz-page-header-subtitle>
+    <nz-page-header-content>
+      <div class="content">
+        {{ t.description }}
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

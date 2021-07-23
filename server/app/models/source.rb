@@ -1,6 +1,7 @@
 class Source < ActiveRecord::Base
   include ModeratedField
 
+  has_many :evidence_items
   has_and_belongs_to_many :genes
   has_and_belongs_to_many :clinical_trials
   has_many :authors_sources
