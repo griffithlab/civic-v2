@@ -384,8 +384,20 @@
               </tr>
               <tr>
                 <td>MutationTaster</td>
-                <td>{{ variantInfo.mutationtasterPrediction | ifEmpty: '--' }}</td>
-                <td>{{ variantInfo.mutationtasterScore | ifEmpty: '--' }}</td>
+                <td>
+                  <ng-container *ngIf="variantInfo.mutationtasterPrediction.length > 0; else noValue">
+                    <ng-container *ngFor="let p of variantInfo.mutationtasterPrediction; last as isLast">
+                      {{p}}<ng-container *ngIf="!isLast">, </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="variantInfo.mutationtasterScore.length > 0; else noValue">
+                    <ng-container *ngFor="let s of variantInfo.mutationtasterScore; last as isLast">
+                      {{s}}<ng-container *ngIf="!isLast">, </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </td>
               </tr>
               <tr>
                 <td>MutationAssessor</td>
