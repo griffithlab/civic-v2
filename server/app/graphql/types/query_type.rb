@@ -67,6 +67,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :clinical_trial, Types::Entities::ClinicalTrialType, null: true do
+      description 'Find a clinical trial by CIViC ID'
+      argument :id, Int, required: true
+    end
+
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -92,6 +97,8 @@ module Types
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
     field :drugs, resolver: Resolvers::TopLevelDrugs
+
+    field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
     def disease(id: )
       Disease.find(id)
@@ -127,6 +134,10 @@ module Types
 
     def variant_type(id: )
       VariantType.find(id)
+    end
+
+    def clinical_trial(id: )
+      ClinicalTrial.find(id)
     end
 
     def search_genes(query:, create_permalink:)

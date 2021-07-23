@@ -79,6 +79,16 @@
 
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Clinical Trials' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="audit"></i>
+        <span>
+          <a routerLink="/clinical-trials">Clinical Trials</a>
+        </span>
+      </li>
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
         nzSelected nzMatchRouter>
         <i nz-icon nzType="civic-disease"></i>

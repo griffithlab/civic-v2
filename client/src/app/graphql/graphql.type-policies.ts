@@ -37,6 +37,7 @@ export const CvcTypePolicies: TypePolicies = {
         'citationId',
         'author',
         'journal',
+        'clinicalTrialId'
       ]),
       browseDiseases: relayStylePagination(['name', 'doid', 'geneNames']),
       events: relayStylePagination([
@@ -100,6 +101,7 @@ export const CvcTypePolicies: TypePolicies = {
       phenotypes: relayStylePagination(['hpoId', 'name']),
       variantTypes: relayStylePagination(['soid', 'name']),
       drugs: relayStylePagination(['ncitId', 'name']),
+      clinicalTrials: relayStylePagination(['nctId', 'name']),
     },
   },
 };
