@@ -1560,8 +1560,8 @@ export type MyVariantInfo = {
   metasvmScore?: Maybe<Scalars['Float']>;
   mutationassessorPrediction: Array<Scalars['String']>;
   mutationassessorScore: Array<Scalars['Float']>;
-  mutationtasterPrediction?: Maybe<Scalars['String']>;
-  mutationtasterScore?: Maybe<Scalars['Float']>;
+  mutationtasterPrediction: Array<Scalars['String']>;
+  mutationtasterScore: Array<Scalars['Float']>;
   myVariantInfoId: Scalars['String'];
   phastcons100way?: Maybe<Scalars['Float']>;
   phastcons30way?: Maybe<Scalars['Float']>;
@@ -1818,6 +1818,8 @@ export type Query = {
   clinicalTrial?: Maybe<ClinicalTrial>;
   /** List and filter Clinical Trials from ClinicalTrials.gov. */
   clinicalTrials: BrowseClinicalTrialConnection;
+  /** Find a comment by CIViC ID */
+  comment?: Maybe<Comment>;
   /** List and filter comments. */
   comments: CommentConnection;
   contributors: ContributingUsersSummary;
@@ -1833,6 +1835,8 @@ export type Query = {
   evidenceItem?: Maybe<EvidenceItem>;
   /** List and filter evidence items. */
   evidenceItems: EvidenceItemConnection;
+  /** Find a flag by CIViC ID */
+  flag?: Maybe<Flag>;
   /** List and filter flags. */
   flags: FlagConnection;
   /** Find a gene by CIViC ID */
@@ -1847,6 +1851,8 @@ export type Query = {
   phenotypes: BrowsePhenotypeConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
+  /** Find a revision by CIViC ID */
+  revision?: Maybe<Revision>;
   search: Array<SearchResult>;
   searchByPermalink: AdvancedSearchResult;
   searchGenes: AdvancedSearchResult;
@@ -1983,6 +1989,11 @@ export type QueryClinicalTrialsArgs = {
 };
 
 
+export type QueryCommentArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryCommentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2069,6 +2080,11 @@ export type QueryEvidenceItemsArgs = {
 };
 
 
+export type QueryFlagArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryFlagsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2122,6 +2138,11 @@ export type QueryPhenotypesArgs = {
 export type QueryRemoteCitationArgs = {
   citationId: Scalars['Int'];
   sourceType: SourceSource;
+};
+
+
+export type QueryRevisionArgs = {
+  id: Scalars['Int'];
 };
 
 

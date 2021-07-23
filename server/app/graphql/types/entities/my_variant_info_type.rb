@@ -40,8 +40,8 @@ module Types::Entities
     field :polyphen2_hvar_score, [Float], null: false
     field :lrt_prediction, String, null: true
     field :lrt_score, Float, null: true
-    field :mutationtaster_prediction, String, null: true
-    field :mutationtaster_score, Float, null: true
+    field :mutationtaster_prediction, [String], null: false
+    field :mutationtaster_score, [Float], null: false
     field :mutationassessor_prediction, [String], null: false
     field :mutationassessor_score, [Float], null: false
     field :fathmm_prediction, [String], null: false

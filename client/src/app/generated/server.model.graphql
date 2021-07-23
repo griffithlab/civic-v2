@@ -2517,8 +2517,8 @@ type MyVariantInfo {
   metasvmScore: Float
   mutationassessorPrediction: [String!]!
   mutationassessorScore: [Float!]!
-  mutationtasterPrediction: String
-  mutationtasterScore: Float
+  mutationtasterPrediction: [String!]!
+  mutationtasterScore: [Float!]!
   myVariantInfoId: String!
   phastcons100way: Float
   phastcons30way: Float
