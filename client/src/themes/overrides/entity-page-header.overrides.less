@@ -26,6 +26,12 @@
     padding-top: 0;
   }
 
+  .ant-page-header-heading-extra {
+    nz-space-item:last-child {
+      margin-right: 0 !important;
+    }
+  }
+
   #section-tabs {
     margin-left: -@default-padding-md;
     margin-right: -@default-padding-md;
@@ -37,16 +43,14 @@
       padding-right: @default-padding-md;
       line-height: 24px;
       .ant-tabs-tab {
-        padding: 0 8px;
-      }
-      .anticon {
-        margin-right: 0; // TODO figure out why this is needed, example doesn't have a margin
+        padding: 1px 8px;
+        .anticon {
+          margin-right: 0; // TODO figure out why this is needed, example doesn't have a margin
+        }
       }
     }
-    #contributor-groups {
-      text-align: right;
-      padding-right: @default-padding-md;
-      border-bottom: 1px solid @border-color-split;
+    .ant-tabs-extra-content {
+      margin-right: @default-padding-md;
     }
   }
 

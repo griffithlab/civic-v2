@@ -23,14 +23,15 @@
       </nz-page-header-subtitle>
 
       <nz-page-header-tags>
-        <nz-tag [nzColor]="'red'"
-          *ngIf="true">Flagged</nz-tag>
+        <nz-tag [nzColor]="'orange'"
+          *ngIf="true">Submitted</nz-tag>
       </nz-page-header-tags>
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
         <nz-space nzDirection="horizontal"
-          nzSize="small">
+          nzSize="small"
+          *ngrxLet="viewer$ as viewer">
 
           <!-- add revision btn -->
           <nz-space-item>
@@ -60,35 +61,41 @@
           </nz-space-item>
 
           <!-- actions menu -->
-          <nz-space-item>
-            <nz-space-item>
-              <button nz-button
-                nzSize="small"
-                nz-dropdown
-                [nzDropdownMenu]="menu"
-                nzNoAnimation
-                style="border: none; padding: 0">
-                <i nz-icon
-                  nzType="ellipsis"
-                  nzTheme="outline"
-                  style="font-size: 20px; vertical-align: top;"></i>
-              </button>
-              <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                  <li nz-menu-item>1st menu item length</li>
-                  <li nz-menu-item>2nd menu item length</li>
-                  <li nz-menu-item>3rd menu item length</li>
-                </ul>
-              </nz-dropdown-menu>
-            </nz-space-item>
-          </nz-space-item>
+          <!-- <nz-space-item>
+               <nz-space-item>
+               <button nz-button
+               nzSize="small"
+               nz-dropdown
+               [nzDropdownMenu]="menu"
+               nzNoAnimation
+               style="border: none; padding: 0">
+               <i nz-icon
+               nzType="ellipsis"
+               nzTheme="outline"
+               style="font-size: 20px; vertical-align: top;"></i>
+               </button>
+               <nz-dropdown-menu #menu="nzDropdownMenu">
+               <ul nz-menu>
+               <li nz-menu-item>Other actions</li>
+               <li nz-menu-item>That apply to entities</li>
+               <li nz-menu-item>May be placed here</li>
+               </ul>
+               </nz-dropdown-menu>
+               </nz-space-item>
+               </nz-space-item> -->
         </nz-space>
       </nz-page-header-extra>
 
       <nz-page-header-content>
         <nz-row id="section-tabs">
           <nz-col nzSpan="24">
-            <nz-tabset nzType="card" nzSize="small">
+            <nz-tabset nzType="card" nzSize="small"
+              [nzTabBarExtraContent]="actionsContributorsTpl">
+              <ng-template #actionsContributorsTpl>
+                <nz-col id="contributors-col">
+                  <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+                </nz-col>
+              </ng-template>
 
               <!-- summary tab -->
               <nz-tab>
