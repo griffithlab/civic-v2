@@ -1,6 +1,7 @@
 <nz-row id="section-tabs">
   <nz-col nzSpan="24">
     <nz-tabset nzType="card" nzSize="small"
+      [nzSelectedIndex]="selectedTabIndex"
       [nzTabBarExtraContent]="actionsContributorsTpl">
       <ng-template #actionsContributorsTpl>
         <nz-col id="contributors-col">
