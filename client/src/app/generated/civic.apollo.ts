@@ -1474,9 +1474,9 @@ export type MyVariantInfo = {
   clinvarHgvsGenomic: Array<Scalars['String']>;
   clinvarHgvsNonCoding: Array<Scalars['String']>;
   clinvarHgvsProtein: Array<Scalars['String']>;
-  clinvarId: Scalars['Int'];
+  clinvarId?: Maybe<Scalars['Int']>;
   clinvarOmim?: Maybe<Scalars['String']>;
-  cosmicId: Scalars['String'];
+  cosmicId?: Maybe<Scalars['String']>;
   dbnsfpInterproDomain: Array<Scalars['String']>;
   dbsnpRsid?: Maybe<Scalars['String']>;
   eglClass?: Maybe<Scalars['String']>;
@@ -1504,7 +1504,7 @@ export type MyVariantInfo = {
   lrtScore?: Maybe<Scalars['Float']>;
   metalrPrediction?: Maybe<Scalars['String']>;
   metalrScore?: Maybe<Scalars['Float']>;
-  metasvmPrediction: Scalars['String'];
+  metasvmPrediction?: Maybe<Scalars['String']>;
   metasvmScore?: Maybe<Scalars['Float']>;
   mutationassessorPrediction: Array<Scalars['String']>;
   mutationassessorScore: Array<Scalars['Float']>;

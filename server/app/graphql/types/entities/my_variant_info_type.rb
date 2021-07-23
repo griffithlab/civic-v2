@@ -1,7 +1,7 @@
 module Types::Entities
   class MyVariantInfoType < Types::BaseObject
     field :my_variant_info_id, String, null: false
-    field :clinvar_id, Int, null:false
+    field :clinvar_id, Int, null: true
     field :clinvar_clinical_significance, [String], null: false
     field :clinvar_hgvs_coding, [String], null: false
     field :clinvar_hgvs_genomic, [String], null: false
@@ -30,7 +30,7 @@ module Types::Entities
     field :egl_protein, String, null: true
     field :egl_transcript, String, null: true
     field :egl_hgvs, [String], null: false
-    field :cosmic_id, String, null: false
+    field :cosmic_id, String, null: true
     field :revel_score, Float, null: true
     field :sift_prediction, [String], null: false
     field :sift_score, [Float], null: false
@@ -48,7 +48,7 @@ module Types::Entities
     field :fathmm_score, [Float], null: false
     field :provean_prediction, [String], null: false
     field :provean_score, [Float], null: false
-    field :metasvm_prediction, String, null: false
+    field :metasvm_prediction, String, null: true
     field :metasvm_score, Float, null: true
     field :metalr_prediction, String, null: true
     field :metalr_score, Float, null: true

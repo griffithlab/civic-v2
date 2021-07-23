@@ -4,8 +4,8 @@
         <nz-tabset nzSize="small" (nzSelectChange)="tabChange($event)" [nzAnimated]="true">
           <nz-tab nzTitle="Overview"> </nz-tab>
           <nz-tab nzTitle="ClinVar"> </nz-tab>
-          <nz-tab nzTitle="gnomAD"></nz-tab>
-          <nz-tab nzTitle="EXAC"></nz-tab>
+          <nz-tab nzTitle="gnomAD (2.1.1)"></nz-tab>
+          <nz-tab nzTitle="EXAC (0.3.1)"></nz-tab>
           <nz-tab nzTitle="CADD"></nz-tab>
           <nz-tab nzTitle="EGL"></nz-tab>
           <nz-tab nzTitle="Effect Scores"></nz-tab>
@@ -22,7 +22,9 @@
               <div nz-col [nzSpan]="18">
                 {{ variantInfo.myVariantInfoId }}
                 <strong style="margin-left: 8px;">ClinVar ID:</strong>&nbsp;
-                <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" target="_blank">{{ variantInfo.clinvarId}}</a>
+                <ng-container *ngIf="variantInfo.clinvarId; else noValue">
+                    <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" target="_blank">{{ variantInfo.clinvarId}}</a>
+                </ng-container>
               </div>
             </div>
             <div nz-row [nzGutter]="8">
@@ -30,18 +32,12 @@
                 dbSNP RSID:
               </div>
               <div nz-col [nzSpan]="18">
-                {{ variantInfo.dbsnpRsid }}
+                <ng-container *ngIf="variantInfo.dbsnpRsid; else noValue">
+                  <a href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={{variantInfo.dbsnpRsid}}" target="_blank">{{ variantInfo.dbsnpRsid }}</a>
+                </ng-container>
                 <strong style="margin-left: 8px;">COSMIC ID (v68):</strong>&nbsp;
-                <a href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{variantInfo.cosmicId}}" target="_blank">{{ variantInfo.cosmicId}}</a>
-              </div>
-            </div>
-            <div nz-row [nzGutter]="8">
-              <div nz-col [nzSpan]="6" class="key-col">
-                ClinVar Clinical Significance:
-              </div>
-              <div nz-col [nzSpan]="18">
-                <ng-container *ngFor="let cs of variantInfo.clinvarClinicalSignificance; last as isLast">
-                  {{ cs }}<ng-container *ngIf="!isLast">, </ng-container>
+                <ng-container *ngIf="variantInfo.cosmicId; else noValue">
+                  <a href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{variantInfo.cosmicId}}" target="_blank">{{ variantInfo.cosmicId}}</a>
                 </ng-container>
               </div>
             </div>
@@ -50,8 +46,10 @@
                 SNPEff Effect:
               </div>
               <div nz-col [nzSpan]="18">
-                <ng-container *ngFor="let e of variantInfo.snpeffSnpEffect; last as isLast">
-                  {{e}}<ng-container *ngIf="!isLast">, </ng-container>
+                <ng-container *ngIf="variantInfo.snpeffSnpEffect.length > 0; else noValue">
+                  <ng-container *ngFor="let e of variantInfo.snpeffSnpEffect; last as isLast">
+                    {{e}}<ng-container *ngIf="!isLast">, </ng-container>
+                  </ng-container>
                 </ng-container>
               </div>
             </div>
@@ -60,8 +58,10 @@
                 SNPEff Impact:
               </div>
               <div nz-col [nzSpan]="18">
-                <ng-container *ngFor="let i of variantInfo.snpeffSnpImpact; last as isLast">
-                  {{i}}<ng-container *ngIf="!isLast">, </ng-container>
+                <ng-container *ngIf="variantInfo.snpeffSnpImpact.length > 0; else noValue">
+                  <ng-container *ngFor="let i of variantInfo.snpeffSnpImpact; last as isLast">
+                    {{i}}<ng-container *ngIf="!isLast">, </ng-container>
+                  </ng-container>
                 </ng-container>
               </div>
             </div>
@@ -75,7 +75,9 @@
                 ClinVar ID:
               </div>
               <div nz-col [nzSpan]="18">
-                <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" target="_blank">{{ variantInfo.clinvarId}}</a>
+                <ng-container *ngIf="variantInfo.clinvarId; else noValue">
+                    <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" target="_blank">{{ variantInfo.clinvarId}}</a>
+                </ng-container>
                 <strong style="margin-left: 8px;">Omim:</strong>&nbsp;
                 <ng-container *ngIf="variantInfo.clinvarOmim; else noValue">
                   <a href="https://omim.org/entry/{{variantInfo.clinvarOmim.split('.')[0]}}" target="_blank">{{ variantInfo.clinvarOmim}}</a>
@@ -87,8 +89,10 @@
                 ClinVar Clinical Significance:
               </div>
               <div nz-col [nzSpan]="18">
-                <ng-container *ngFor="let cs of variantInfo.clinvarClinicalSignificance; last as isLast">
-                  {{ cs }}<ng-container *ngIf="!isLast">, </ng-container>
+                <ng-container *ngIf="variantInfo.clinvarClinicalSignificance.length > 0; else noValue">
+                  <ng-container *ngFor="let cs of variantInfo.clinvarClinicalSignificance; last as isLast">
+                    {{ cs }}<ng-container *ngIf="!isLast">, </ng-container>
+                  </ng-container>
                 </ng-container>
               </div>
             </div>
@@ -144,6 +148,9 @@
         </ng-container>
         <!-- gnomAD tab -->
         <ng-container *ngSwitchCase="2">
+          <a *ngIf="variantInfo.dbsnpRsid" href="https://gnomad.broadinstitute.org/variant/{{variantInfo.dbsnpRsid}}?dataset=gnomad_r2_1" target="_blank">
+            View this variant in the gnomAD browser
+          </a>
           <nz-table #gnomadTable
             [nzData]="['.']"
             [nzFrontPagination]="false"
@@ -160,14 +167,14 @@
             </thead>
             <tbody>
               <tr>
-                <td>Exome</td>
+                <td>Total Exome</td>
                 <td>{{ variantInfo.gnomadExomeAlleleFrequency | ifEmpty: '--' }}</td>
                 <td>{{ variantInfo.gnomadExomeAlleleCount | ifEmpty: '--' }}</td>
                 <td>{{ variantInfo.gnomadExomeAlleleNumber | ifEmpty: '--' }}</td>
                 <td>{{ variantInfo.gnomadExomeFilter | ifEmpty: '--' }}</td>
               </tr>
               <tr>
-                <td>Genome</td>
+                <td>Total Genome</td>
                 <td>{{ variantInfo.gnomadGenomeAlleleFrequency | ifEmpty: '--' }}</td>
                 <td>{{ variantInfo.gnomadGenomeAlleleCount | ifEmpty: '--' }}</td>
                 <td>{{ variantInfo.gnomadGenomeAlleleNumber | ifEmpty: '--' }}</td>

@@ -2403,9 +2403,9 @@ type MyVariantInfo {
   clinvarHgvsGenomic: [String!]!
   clinvarHgvsNonCoding: [String!]!
   clinvarHgvsProtein: [String!]!
-  clinvarId: Int!
+  clinvarId: Int
   clinvarOmim: String
-  cosmicId: String!
+  cosmicId: String
   dbnsfpInterproDomain: [String!]!
   dbsnpRsid: String
   eglClass: String
@@ -2433,7 +2433,7 @@ type MyVariantInfo {
   lrtScore: Float
   metalrPrediction: String
   metalrScore: Float
-  metasvmPrediction: String!
+  metasvmPrediction: String
   metasvmScore: Float
   mutationassessorPrediction: [String!]!
   mutationassessorScore: [Float!]!
