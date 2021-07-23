@@ -37,23 +37,23 @@
 
         <!-- evidence type -->
         <nz-descriptions-item nzTitle="Type">
-          {{ evidence.evidenceType }}
+          {{ evidence.evidenceType | evidenceEnumDisplay }}
         </nz-descriptions-item>
 
         <!-- evidence direction -->
         <nz-descriptions-item nzTitle="Direction">
-          {{ evidence.evidenceDirection }}
+          {{ evidence.evidenceDirection | evidenceEnumDisplay }}
         </nz-descriptions-item>
 
         <!-- clinical significance -->
         <nz-descriptions-item nzTitle="Clinical Significance"
           nzSpan="2">
-          {{ evidence.clinicalSignificance }}
+          {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
         </nz-descriptions-item>
 
         <!-- evidence rating -->
         <nz-descriptions-item nzTitle="Rating">
-          {{ evidence.evidenceRating }}
+          {{ evidence.evidenceRating }}<i nz-icon nzType="star" nzTheme="fill"></i>
         </nz-descriptions-item>
 
         <!-- disease -->

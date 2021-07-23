@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { EventAction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, VariantOrigin } from '@app/generated/civic.apollo';
+import { Maybe, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, VariantOrigin } from '@app/generated/civic.apollo';
 
 export type EnumOutputStyle = 'display-string' | 'icon-name'
 
@@ -10,7 +10,8 @@ export type InputEnum = EvidenceClinicalSignificance | EvidenceDirection | Evide
   pure: true
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
-  transform(value: InputEnum, context: EnumOutputStyle = 'display-string') : string {
+  transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string') : string {
+    if(value === undefined) return ''
     if (context === 'display-string') {
       return this.formatString(value)
     } else {

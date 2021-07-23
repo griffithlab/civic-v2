@@ -100,6 +100,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
+import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
     MyVariantInfoComponent,
     IfEmptyPipe,
     EvidenceEnumDisplayPipe,
-    AmpFormatPipe
+    AmpFormatPipe,
+    EvidenceRatingComponent
   ],
   imports: [
     CommonModule,
@@ -250,7 +252,9 @@ import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
-    MyVariantInfoComponent
+    MyVariantInfoComponent,
+    EvidenceRatingComponent,
+    EvidenceEnumDisplayPipe
   ]
 })
 
