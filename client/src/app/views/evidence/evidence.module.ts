@@ -35,6 +35,7 @@ import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.compo
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
+import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.componen
     EvidenceDetailComponent,
     EvidenceSummaryComponent,
     EvidenceCommentsComponent,
-    EvidenceFlagsComponent
+    EvidenceFlagsComponent,
   ],
   imports: [
     CommonModule,
