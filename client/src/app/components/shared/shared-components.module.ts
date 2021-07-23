@@ -99,6 +99,7 @@ import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.compon
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
+import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
 
 @NgModule({
   declarations: [
@@ -152,7 +153,8 @@ import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
     ContributorStackComponent,
     MyVariantInfoComponent,
     IfEmptyPipe,
-    EvidenceEnumDisplayPipe
+    EvidenceEnumDisplayPipe,
+    AmpFormatPipe
   ],
   imports: [
     CommonModule,
