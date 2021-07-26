@@ -4728,7 +4728,7 @@ export type VariantDetailQuery = (
 
 export type VariantDetailFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
+  & Pick<Variant, 'id' | 'name' | 'variantAliases'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -5619,6 +5619,7 @@ export const VariantDetailFieldsFragmentDoc = gql`
     id
     name
   }
+  variantAliases
   flags(state: OPEN) {
     totalCount
   }
