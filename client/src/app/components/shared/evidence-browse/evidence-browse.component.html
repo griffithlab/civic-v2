@@ -321,7 +321,7 @@
                       </a>
                     </span>
                     <span *ngIf="eid.drugs.length > 1">
-                      ({{ eid.drugInteractionType }})
+                      ({{ eid.drugInteractionType | titlecase }})
                     </span>
                   </p>
                   <ng-template #drugsElse>
