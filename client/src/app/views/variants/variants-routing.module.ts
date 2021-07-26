@@ -9,38 +9,57 @@ import { VariantSummaryComponent } from './variants-summary/variants-summary.com
 import { VariantsComponent } from './variants.component';
 
 const routes: Routes = [
-  { 
+  {
     path: '',
     component: VariantsComponent,
+    data: {
+      breadcrumb: 'Variants'
+    },
     children: [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: VariantsBrowseComponent
+        component: VariantsBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':variantId',
         component: VariantsDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
+        },
         children: [
-          {path: '', redirectTo: 'summary', pathMatch: 'full'},
+          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: VariantSummaryComponent
+            component: VariantSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           },
           {
             path: 'comments',
             component: VariantsCommentsComponent,
+            data: {
+              breadcrumb: 'Comments'
+            }
           },
+          // TODO needs a revisions path/component placeholder
           {
             path: 'flags',
-            component: VariantsFlagsComponent
+            component: VariantsFlagsComponent,
+            data: {
+              breadcrumb: 'Flags'
+            }
           }
         ]
       }
     ]
   }
 ];
-    
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
