@@ -38,10 +38,17 @@
             <tbody>
               <tr *ngFor="let t of variantTypesTable.data">
                 <td>
-                  <a routerLink="/variant-types/{{t.id}}">{{t.name}}</a>
+                  <a routerLink="/variant-types/{{t.id}}">
+                    <cvc-variant-type-tag [variantType]="t"></cvc-variant-type-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ t.soid}}
+                  <a *ngIf="t.soid !== 'N/A'; else noSoid" href="http://www.sequenceontology.org/browser/current_release/term/{{t.soid}}" target="_blank">
+                    {{ t.soid }}
+                  </a>
+                  <ng-template #noSoid>
+                    --
+                  </ng-template>
                 </td>
                 <td>
                   {{ t.variantCount }}

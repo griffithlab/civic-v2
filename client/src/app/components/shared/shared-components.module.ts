@@ -61,7 +61,6 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
 import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
-import { VariantsComponentsModule } from '../variants/variants-components.module';
 import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-text-filter.component';
 import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse.component';
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
@@ -104,6 +103,17 @@ import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
 import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
+import { VariantTagComponent } from './variant-tag/variant-tag.component';
+import { VariantHovercardComponent } from './variant-hovercard/variant-hovercard.component';
+import { IconsProviderModule } from '@app/icons-provider.module';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { DiseaseTagComponent } from './disease-tag/disease-tag.component';
+import { DrugTagComponent } from './drug-tag/drug-tag.component';
+import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
+import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
+import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
 
 @NgModule({
   declarations: [
@@ -162,6 +172,13 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     EvidenceEnumDisplayPipe,
     AmpFormatPipe,
     EvidenceRatingComponent,
+    VariantTagComponent,
+    VariantHovercardComponent,
+    DiseaseTagComponent,
+    DrugTagComponent,
+    PhenotypeTagComponent,
+    ClinicalTrialTagComponent,
+    VariantTypeTagComponent
   ],
   imports: [
     CommonModule,
@@ -201,7 +218,6 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     FormlyModule.forChild(),
     NzSelectModule,
     NzModalModule,
-    VariantsComponentsModule,
     NzSelectModule,
     NzPageHeaderModule,
     NzTableModule,
@@ -211,6 +227,10 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     NzStatisticModule,
     NzImageModule,
     NzTabsModule,
+    IconsProviderModule,
+    NzBreadCrumbModule,
+    NzEmptyModule,
+    NzGridModule
   ],
   exports: [
     CommentAddComponent,
@@ -265,6 +285,13 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     EvidenceRatingComponent,
     EvidenceEnumDisplayPipe,
     AmpFormatPipe,
+    VariantTagComponent,
+    VariantHovercardComponent,
+    DiseaseTagComponent,
+    DrugTagComponent,
+    PhenotypeTagComponent,
+    ClinicalTrialTagComponent,
+    VariantTypeTagComponent
   ]
 })
 

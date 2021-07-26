@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_194629) do
+ActiveRecord::Schema.define(version: 2021_07_26_182504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -907,47 +907,6 @@ ActiveRecord::Schema.define(version: 2021_07_19_194629) do
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY variant_groups.id, variant_groups.name;
   SQL
-  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT diseases.id,
-      diseases.name,
-      diseases.doid,
-      array_agg(DISTINCT genes.name) AS gene_names,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT assertions.id) AS assertion_count
-     FROM (((((diseases
-       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
-       JOIN variants ON ((variants.id = evidence_items.variant_id)))
-       JOIN genes ON ((genes.id = variants.gene_id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY diseases.id, diseases.name, diseases.doid;
-  SQL
-  create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT variants.id,
-      variants.name,
-      variants.civic_actionability_score AS evidence_score,
-      genes.name AS gene_name,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      array_agg(DISTINCT diseases.name ORDER BY diseases.name) AS disease_names,
-      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
-      array_agg(DISTINCT variant_types.id) AS variant_types,
-      count(DISTINCT assertions.id) AS assertion_count
-     FROM ((((((((variants
-       JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
-       JOIN genes ON ((genes.id = variants.gene_id)))
-       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
-       LEFT JOIN assertions ON ((assertions.variant_id = variants.id)))
-       LEFT JOIN variant_types_variants ON ((variant_types_variants.variant_id = variants.id)))
-       LEFT JOIN variant_types ON ((variant_types_variants.variant_type_id = variant_types.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY variants.id, variants.name, variants.civic_actionability_score, genes.name;
-  SQL
-  add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
-
   create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT sources.id,
       sources.source_type,
@@ -964,5 +923,48 @@ ActiveRecord::Schema.define(version: 2021_07_19_194629) do
        LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variants.id,
+      variants.name,
+      variants.civic_actionability_score AS evidence_score,
+      genes.id AS gene_id,
+      genes.name AS gene_name,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      array_agg(DISTINCT diseases.name ORDER BY diseases.name) AS disease_names,
+      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
+      array_agg(DISTINCT variant_types.id) AS variant_types,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM ((((((((variants
+       JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN assertions ON ((assertions.variant_id = variants.id)))
+       LEFT JOIN variant_types_variants ON ((variant_types_variants.variant_id = variants.id)))
+       LEFT JOIN variant_types ON ((variant_types_variants.variant_type_id = variant_types.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variants.id, variants.name, variants.civic_actionability_score, genes.id, genes.name;
+  SQL
+  add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
+
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.display_name,
+      diseases.doid,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM (((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       JOIN variants ON ((variants.id = evidence_items.variant_id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY diseases.id, diseases.name, diseases.doid;
   SQL
 end

@@ -37,6 +37,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     ascoAbstractId
     clinicalTrials {
       nctId
+      id
     }
   }
   evidenceRating

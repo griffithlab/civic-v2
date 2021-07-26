@@ -126,17 +126,25 @@
             <tbody>
               <tr *ngFor="let aid of assertionsTable.data">
                 <td>
-                  <a routerLink="/assertions/{{aid.id}}">{{aid.name}}</a>
+                  <a routerLink="/assertions/{{aid.id}}">
+                    <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ aid.gene.name }}
+                  <a routerLink="/genes/{{aid.gene.id}}">
+                    <cvc-gene-tag [gene]="aid.gene"></cvc-gene-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ aid.variant.name }}
+                  <a routerLink="/variants/{{aid.variant.id}}">
+                    <cvc-variant-tag [variant]="aid.variant"></cvc-variant-tag>
+                  </a>
                 </td>
                 <td>
                   <ng-container *ngIf="aid.disease.displayName; else diseaseElse">
-                    {{ aid.disease.displayName }}
+                    <a routerLink="/diseases/{{aid.disease.id}}">
+                      <cvc-disease-tag [disease]="aid.disease"></cvc-disease-tag>
+                    </a>
                   </ng-container>
                   <ng-template #diseaseElse>
                     <i>N/A</i>
@@ -145,7 +153,12 @@
                 <td>
                   <p *ngIf="aid.drugs.length > 0; else drugsElse" nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="1">
                     <span *ngFor="let drug of aid.drugs; last as isLast" >
-                      {{ drug.name }}{{ isLast ? '' : ', ' }}{{isLast && aid.drugs.length > 1 ?  ' (' + aid.drugInteractionType + ')' : '' }}
+                      <a routerLink="/drugs/{{drug.id}}">
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                      </a>
+                    </span>
+                    <span *ngIf="aid.drugs.length > 1">
+                      ({{ aid.drugInteractionType }})
                     </span>
                   </p>
                   <ng-template #drugsElse>

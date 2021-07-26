@@ -299,11 +299,11 @@ export type BrowseClinicalTrialEdge = {
 export type BrowseDisease = {
   __typename: 'BrowseDisease';
   assertionCount: Scalars['Int'];
+  displayName: Scalars['String'];
   doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
-  name: Scalars['String'];
   variantCount: Scalars['Int'];
 };
 
@@ -489,6 +489,7 @@ export type BrowseVariant = {
   drugs: Array<Drug>;
   evidenceItemCount: Scalars['Int'];
   evidenceScore: Scalars['Float'];
+  geneId: Scalars['Int'];
   geneName: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -774,7 +775,7 @@ export enum DiseasesSortColumns {
 export type Drug = {
   __typename: 'Drug';
   drugUrl?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
 };
@@ -3360,7 +3361,7 @@ export type EvidenceGridFieldsFragment = (
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
-      & Pick<ClinicalTrial, 'nctId'>
+      & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), assertions: Array<(
     { __typename: 'Assertion' }
@@ -3659,6 +3660,40 @@ export type HovercardUserFragment = (
   )> }
 );
 
+export type VariantHovercardQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantHovercardQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & VariantHovercardFieldsFragment
+  )> }
+);
+
+export type VariantHovercardFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
+  & { evidenceItems: (
+    { __typename: 'EvidenceItemConnection' }
+    & Pick<EvidenceItemConnection, 'totalCount'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'name'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ) }
+);
+
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   entrezSymbol?: Maybe<Scalars['String']>;
@@ -3686,7 +3721,7 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneName' | 'assertionCount'>
+        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'assertionCount'>
         & { diseases: Array<(
           { __typename: 'Disease' }
           & Pick<Disease, 'name'>
@@ -3732,40 +3767,6 @@ export type VariantsMenuQuery = (
 export type MenuVariantFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
-);
-
-export type VariantHovercardQueryVariables = Exact<{
-  variantId: Scalars['Int'];
-}>;
-
-
-export type VariantHovercardQuery = (
-  { __typename: 'Query' }
-  & { variant?: Maybe<(
-    { __typename: 'Variant' }
-    & VariantHovercardFieldsFragment
-  )> }
-);
-
-export type VariantHovercardFieldsFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
-  & { evidenceItems: (
-    { __typename: 'EvidenceItemConnection' }
-    & Pick<EvidenceItemConnection, 'totalCount'>
-  ), gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'name'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ) }
 );
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
@@ -3977,7 +3978,7 @@ export type AssertionSummaryFieldsFragment = (
   & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'fdaCompanionTest'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'name' | 'doid'>
+    & Pick<Disease, 'id' | 'displayName'>
   )>, gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -4081,7 +4082,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & Pick<BrowseDisease, 'id' | 'displayName' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
 export type DiseaseDetailQueryVariables = Exact<{
@@ -4209,7 +4210,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
-      & Pick<ClinicalTrial, 'nctId'>
+      & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), gene: (
     { __typename: 'Gene' }
@@ -4597,7 +4598,7 @@ export type SourceSummaryFieldsFragment = (
   & Pick<Source, 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
   & { clinicalTrials?: Maybe<Array<(
     { __typename: 'ClinicalTrial' }
-    & Pick<ClinicalTrial, 'nctId'>
+    & Pick<ClinicalTrial, 'nctId' | 'id'>
   )>> }
 );
 
@@ -5000,6 +5001,7 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     sourceUrl
     clinicalTrials {
       nctId
+      id
     }
   }
   assertions @include(if: $cardView) {
@@ -5188,12 +5190,6 @@ export const HovercardUserFragmentDoc = gql`
   }
 }
     `;
-export const MenuVariantFragmentDoc = gql`
-    fragment menuVariant on Variant {
-  id
-  name
-}
-    `;
 export const VariantHovercardFieldsFragmentDoc = gql`
     fragment variantHovercardFields on Variant {
   id
@@ -5216,6 +5212,12 @@ export const VariantHovercardFieldsFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
+}
+    `;
+export const MenuVariantFragmentDoc = gql`
+    fragment menuVariant on Variant {
+  id
+  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -5258,8 +5260,8 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   description
   variantOrigin
   disease {
-    name
-    doid
+    id
+    displayName
   }
   gene {
     id
@@ -5303,7 +5305,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
 export const BrowseDiseaseRowFieldsFragmentDoc = gql`
     fragment BrowseDiseaseRowFields on BrowseDisease {
   id
-  name
+  displayName
   doid
   geneNames
   assertionCount
@@ -5375,6 +5377,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     ascoAbstractId
     clinicalTrials {
       nctId
+      id
     }
   }
   evidenceRating
@@ -5551,6 +5554,7 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   authorString
   clinicalTrials {
     nctId
+    id
   }
 }
     `;
@@ -6206,6 +6210,24 @@ export const UserHoverCardDocument = gql`
       super(apollo);
     }
   }
+export const VariantHovercardDocument = gql`
+    query VariantHovercard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...variantHovercardFields
+  }
+}
+    ${VariantHovercardFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantHovercardGQL extends Apollo.Query<VariantHovercardQuery, VariantHovercardQueryVariables> {
+    document = VariantHovercardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseVariantsDocument = gql`
     query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
@@ -6233,6 +6255,7 @@ export const BrowseVariantsDocument = gql`
         name
         evidenceScore
         evidenceItemCount
+        geneId
         geneName
         diseases {
           name
@@ -6293,24 +6316,6 @@ export const VariantsMenuDocument = gql`
   })
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantHovercardDocument = gql`
-    query VariantHovercard($variantId: Int!) {
-  variant(id: $variantId) {
-    ...variantHovercardFields
-  }
-}
-    ${VariantHovercardFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantHovercardGQL extends Apollo.Query<VariantHovercardQuery, VariantHovercardQueryVariables> {
-    document = VariantHovercardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

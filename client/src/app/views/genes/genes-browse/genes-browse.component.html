@@ -81,7 +81,9 @@
               <tbody>
                 <tr *ngFor="let gene of genesTable.data">
                   <td>
-                    <a routerLink="/genes/{{gene.id}}">{{gene.name}}</a>
+                    <a routerLink="/genes/{{gene.id}}">
+                      <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
+                    </a>
                   </td>
                   <td>
                     <span *ngFor="let alias of gene.aliases; last as isLast" >

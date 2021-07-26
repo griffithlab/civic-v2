@@ -58,24 +58,32 @@
 
         <!-- disease -->
         <nz-descriptions-item nzTitle="Disease">
-          {{ evidence.disease ? evidence.disease.displayName : 'N/A' }}
+          <ng-container *ngIf="evidence.disease; else noDisease">
+            <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
+          </ng-container>
+          <ng-template #noDisease>
+            N/A
+          </ng-template>
         </nz-descriptions-item>
 
         <!-- drugs -->
         <nz-descriptions-item nzTitle="Drugs"
           nzSpan="2"
           *ngIf="evidence.drugs.length > 0">
-          <span *ngFor="let drug of evidence.drugs; last as isLast">
-            {{drug.name}}<span *ngIf="!isLast">,&nbsp;</span>
+          <span *ngFor="let drug of evidence.drugs">
+            <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
           </span>
+          <ng-container *ngIf="evidence.drugs.length > 1">
+            {{evidence.drugInteractionType}}
+          </ng-container>
         </nz-descriptions-item>
 
         <!-- phenotypes -->
         <nz-descriptions-item nzTitle="Phenotypes"
           nzSpan="2"
           *ngIf="evidence.phenotypes.length > 0">
-          <span *ngFor="let ph of evidence.phenotypes; last as isLast">
-            {{ph.name}}<span *ngIf="!isLast">,&nbsp;</span>
+          <span *ngFor="let ph of evidence.phenotypes">
+            <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
           </span>
         </nz-descriptions-item>
 

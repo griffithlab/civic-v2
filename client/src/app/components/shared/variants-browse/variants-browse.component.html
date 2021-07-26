@@ -78,10 +78,14 @@
               <tbody>
                 <tr *ngFor="let variant of variantsTable.data">
                   <td>
-                    <a routerLink="/variants/{{variant.id}}">{{variant.name}}</a>
+                    <a routerLink="/variants/{{variant.id}}">
+                      <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
+                    </a>
                   </td>
                   <td>
-		     {{ variant.geneName }}
+                    <a routerLink="/genes/{{variant.geneId}}">
+                      <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>
+                    </a>
                   </td>
                   <td>
                     <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">

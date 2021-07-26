@@ -37,9 +37,10 @@
               <!-- clinical trials -->
               <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
                 <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
-                  <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-                    <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
-                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                  <ng-container *ngFor="let t of evidence.source.clinicalTrials">
+                    <a routerLink="/clinical-trials/{{t.id}}">
+                      <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                    </a>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
@@ -66,7 +67,11 @@
 
                   <!-- disease -->
                   <nz-descriptions-item nzTitle="Disease">
-                    <ng-container *ngIf="evidence.disease.displayName">{{ evidence.disease.displayName }}</ng-container>
+                    <ng-container *ngIf="evidence.disease.displayName">
+                      <a routerLink="/diseases/{{evidence.disease.id}}">
+                        <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
+                      </a>
+                    </ng-container>
                     <span *ngIf="!evidence.disease.displayName"
                       nz-typography
                       nzType="secondary">N/A</span>
@@ -79,9 +84,8 @@
                         nzType="secondary">None Specified</span>
                     </ng-container>
                     <ng-container *ngIf="evidence.phenotypes.length > 0">
-                      <ng-container *ngFor="let ph of evidence.phenotypes; last as isLast">
-                        {{ph.name}}
-                        <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                      <ng-container *ngFor="let ph of evidence.phenotypes">
+                        <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
                       </ng-container>
                     </ng-container>
                   </nz-descriptions-item>
@@ -101,17 +105,12 @@
                       nzType="secondary">N/A</span>
                   </ng-template>
 
-                  <!-- one drug -->
-                  <ng-template ngPluralCase="=1">
-                    <ng-container *ngFor="let drug of evidence.drugs; last as isLast">
-                      {{drug.name}}
-                      <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
-                    </ng-container>
-                  </ng-template>
-
-                  <!-- multiple drugs, show interaction type -->
+                  <!-- one or more drugs -->
                   <ng-template ngPluralCase="other">
-                    <ng-container *ngFor="let drug of evidence.drugs; last as isLast">{{drug.name}}<ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                    <ng-container *ngFor="let drug of evidence.drugs">
+                      <a routerLink="/drugs/{{drug.id}}">
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                      </a>
                     </ng-container>
                   </ng-template>
                 </ng-container>

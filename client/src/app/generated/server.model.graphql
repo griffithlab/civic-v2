@@ -485,11 +485,11 @@ type BrowseClinicalTrialEdge {
 
 type BrowseDisease {
   assertionCount: Int!
+  displayName: String!
   doid: String
   evidenceItemCount: Int!
   geneNames: [String!]!
   id: Int!
-  name: String!
   variantCount: Int!
 }
 
@@ -790,6 +790,7 @@ type BrowseVariant {
   drugs: [Drug!]!
   evidenceItemCount: Int!
   evidenceScore: Float!
+  geneId: Int!
   geneName: String!
   id: Int!
   name: String!
@@ -1210,7 +1211,7 @@ enum DiseasesSortColumns {
 
 type Drug {
   drugUrl: String
-  id: String!
+  id: Int!
   name: String!
   ncitId: String
 }

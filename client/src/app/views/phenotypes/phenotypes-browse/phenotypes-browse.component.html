@@ -42,10 +42,15 @@
             <tbody>
               <tr *ngFor="let p of phenotypesTable.data">
                 <td>
-                  <a routerLink="/phenotypes/{{p.id}}">{{p.name}}</a>
+                  <a routerLink="/phenotypes/{{p.id}}">
+                    <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ p.hpoId}}
+                  <a *ngIf="p.hpoId; else noHpo" href="https://hpo.jax.org/app/browse/term/{{p.hpoId}}">
+                    {{ p.hpoId }}
+                  </a>
+                  <ng-template #noHpo>--</ng-template>
                 </td>
                 <td>
                   {{ p.evidenceCount }}
