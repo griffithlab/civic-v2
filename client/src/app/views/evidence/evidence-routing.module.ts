@@ -16,24 +16,40 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: EvidenceBrowseComponent
+        component: EvidenceBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':evidenceId',
         component: EvidenceDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE'
+        },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
             path: 'summary',
-            component: EvidenceSummaryComponent
+            component: EvidenceSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           },
           {
             path: 'comments',
             component: EvidenceCommentsComponent,
+            data: {
+              breadcrumb: 'Comments'
+            }
           },
+          // TODO needs a Revisions placeholder
           {
             path: 'flags',
-            component: EvidenceFlagsComponent
+            component: EvidenceFlagsComponent,
+            data: {
+              breadcrumb: 'Flags'
+            }
           }
         ]
       }
