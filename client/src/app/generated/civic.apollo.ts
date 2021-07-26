@@ -4169,7 +4169,10 @@ export type EvidenceDetailFieldsFragment = (
   ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
-  ), flags: (
+  ), assertions: Array<(
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
   ), revisions: (
@@ -5332,6 +5335,10 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
     name
   }
   gene {
+    id
+    name
+  }
+  assertions {
     id
     name
   }

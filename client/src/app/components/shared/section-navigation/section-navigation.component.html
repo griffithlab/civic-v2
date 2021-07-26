@@ -1,13 +1,13 @@
 <nz-row id="nav-container" [ngClass]="{ 'has-relations': relationsTpl !== undefined }">
 
   <!-- breadcrumbs -->
-  <nz-col nzSpan="12" id="breadcrumbs">
+  <nz-col nzSpan="8" id="breadcrumbs">
     <nz-breadcrumb [nzAutoGenerate]="true"
       [nzRouteLabelFn]="getRouteLabel"></nz-breadcrumb>
   </nz-col>
 
   <!-- relations summary -->
-  <nz-col nzSpan="12" id="relations-summary">
+  <nz-col nzSpan="16" id="relations-summary">
     <ng-template [ngTemplateOutlet]="relationsTpl || noRelations"></ng-template>
 
     <ng-template #noRelations>

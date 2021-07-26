@@ -38,6 +38,7 @@ import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.componen
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisi
     CvcFormsModule,
     SharedComponentsModule,
     IconsProviderModule,
+    NgxJsonViewerModule,
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,

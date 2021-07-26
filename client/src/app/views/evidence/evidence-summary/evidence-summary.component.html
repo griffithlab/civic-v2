@@ -176,12 +176,13 @@
   <nz-space-item>
     <nz-row>
       <nz-col [nzSpan]="24">
-        <cvc-event-feed [subscribable]="subscribable"
-          tagDisplay="hideSubject"></cvc-event-feed>
+        <ngx-json-viewer [json]="evidence"></ngx-json-viewer>
+        <!-- <cvc-event-feed [subscribable]="subscribable"
+             tagDisplay="hideSubject"></cvc-event-feed> -->
       </nz-col>
     </nz-row>
   </nz-space-item>
   <nz-space-item>
-    <cvc-assertions-browse [evidenceId]="evidence.id"></cvc-assertions-browse>
+    <!-- <cvc-assertions-browse [evidenceId]="evidence.id"></cvc-assertions-browse> -->
   </nz-space-item>
 </nz-space>
