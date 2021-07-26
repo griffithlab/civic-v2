@@ -4,6 +4,7 @@ import { EvidenceBrowseComponent } from '@app/components/shared/evidence-browse/
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
+import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 
 import { EvidenceComponent } from './evidence.component';
@@ -43,7 +44,13 @@ const routes: Routes = [
               breadcrumb: 'Comments'
             }
           },
-          // TODO needs a Revisions placeholder
+          {
+            path: 'revisions',
+            component: EvidenceRevisionsComponent,
+            data: {
+              breadcrumb: 'Revisions'
+            }
+          },
           {
             path: 'flags',
             component: EvidenceFlagsComponent,

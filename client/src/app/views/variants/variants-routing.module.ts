@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VariantsBrowseComponent } from '@app/components/shared/variants-browse/variants-browse.component';
+import { VariantGroupsRevisionsComponent } from '../variant-groups/variant-groups-revisions/variant-groups-revisions.component';
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
@@ -46,7 +47,13 @@ const routes: Routes = [
               breadcrumb: 'Comments'
             }
           },
-          // TODO needs a revisions path/component placeholder
+          {
+            path: 'revisions',
+            component: VariantGroupsRevisionsComponent,
+            data: {
+              breadcrumb: 'Revisions'
+            }
+          },
           {
             path: 'flags',
             component: VariantsFlagsComponent,

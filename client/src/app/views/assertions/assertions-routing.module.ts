@@ -4,6 +4,7 @@ import { AssertionsBrowseComponent } from '@app/components/shared/assertions-bro
 import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
+import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
 import { AssertionsSummaryComponent } from './assertions-summary/assertions-summary.component';
 
 import { AssertionsComponent } from './assertions.component';
@@ -43,7 +44,13 @@ const routes: Routes = [
               breadcrumb: 'Comments'
             }
           },
-          // TODO needs revisions path/component
+          {
+            path: 'revisions',
+            component: AssertionsRevisionsComponent,
+            data: {
+              breadcrumb: 'Revisions'
+            }
+          },
           {
             path: 'flags',
             component: AssertionsFlagsComponent,
