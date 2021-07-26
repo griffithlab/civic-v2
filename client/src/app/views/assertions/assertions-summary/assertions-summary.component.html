@@ -39,7 +39,7 @@
                 <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
               </a>
             </ng-container>
-            <ng-container *ngIf="assertion.drugs.length > 1">{{ ' (' + assertion.drugInteractionType + ')' }}</ng-container>
+            <ng-container *ngIf="assertion.drugs.length > 1">({{ assertion.drugInteractionType | titlecase }})</ng-container>
         </nz-row>
         <nz-row [ngPlural]="assertion.phenotypes.length">
           <ng-template ngPluralCase="=0"><b>Associated Phenotype:&nbsp;</b> <i>-</i></ng-template>

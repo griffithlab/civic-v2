@@ -38,9 +38,11 @@ query BrowseVariants(
         geneId
         geneName
         diseases {
+          id
           name
         }
         drugs {
+          id
           name
         }
         assertionCount

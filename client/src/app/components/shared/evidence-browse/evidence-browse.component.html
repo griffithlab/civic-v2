@@ -314,18 +314,14 @@
                   </ng-template>
                 </td>
                 <td>
-                  <p *ngIf="eid.drugs.length > 0; else drugsElse"
-                    nz-typography
-                    nzEllipsis
-                    nzExpandable
-                    [nzEllipsisRows]="1">
+                  <p *ngIf="eid.drugs.length > 0; else drugsElse" nz-typography >
                     <span *ngFor="let drug of eid.drugs">
                       <a routerLink="/drugs/{{drug.id}}">
                         <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                       </a>
                     </span>
                     <span *ngIf="eid.drugs.length > 1">
-                      ({{ eid.drugInteractionType }})
+                      ({{ eid.drugInteractionType | titlecase }})
                     </span>
                   </p>
                   <ng-template #drugsElse>

@@ -88,16 +88,20 @@
                     </a>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                      <span *ngFor="let disease of variant.diseases; last as isLast" >
-                        {{ disease.name }}{{ isLast ? '' : ', ' }}
+                    <p nz-typography>
+                      <span *ngFor="let disease of variant.diseases" >
+                        <a routerLink="/diseases/{{disease.id}}">
+                          <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
+                        </a>
                       </span>
                     </p>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                      <span *ngFor="let drug of variant.drugs; last as isLast" >
-                        {{ drug.name }}{{ isLast ? '' : ', ' }}
+                    <p nz-typography>
+                      <span *ngFor="let drug of variant.drugs" >
+                        <a routerLink="/drugs/{{drug.id}}">
+                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                        </a>
                       </span>
                     </p>
                   </td>
@@ -115,6 +119,6 @@
   </nz-page-header-content>
 </nz-page-header>
 
-<!-- <ng-container *ngrxLet="pageInfo$ as pageInfo">
+<ng-container *ngrxLet="pageInfo$ as pageInfo">
   <button *ngIf="pageInfo.hasNextPage" nz-button (click)="loadMore(pageInfo.endCursor)">Load More</button>
-</ng-container> -->
+</ng-container>

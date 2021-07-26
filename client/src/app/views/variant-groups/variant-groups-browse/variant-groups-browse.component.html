@@ -60,14 +60,14 @@
                     {{ vg.name }}
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let variant of vg.variantNames; last as isLast" >
                         {{ variant }}{{ isLast ? '' : ', ' }}
                       </span>
                     </p>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let gene of vg.geneNames; last as isLast" >
                         {{ gene }}{{ isLast ? '' : ', ' }}
                       </span>

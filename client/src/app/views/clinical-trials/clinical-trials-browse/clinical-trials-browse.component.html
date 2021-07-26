@@ -63,3 +63,6 @@
     </div>
   </nz-page-header-content>
 </nz-page-header>
+<ng-container *ngrxLet="pageInfo$ as pageInfo">
+  <button *ngIf="pageInfo.hasNextPage" nz-button (click)="loadMore(pageInfo.endCursor)">Load More</button>
+</ng-container>

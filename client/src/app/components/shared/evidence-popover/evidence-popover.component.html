@@ -74,7 +74,7 @@
             <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="evidence.drugs.length > 1">
-            {{evidence.drugInteractionType}}
+            {{evidence.drugInteractionType | titlecase }}
           </ng-container>
         </nz-descriptions-item>
 

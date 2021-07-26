@@ -36,7 +36,7 @@
                                         <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                                     </a>
                                 </ng-container>
-                                <ng-container *ngIf="evidence.drugs.length > 1">({{ evidence.drugInteractionType }})</ng-container>
+                                <ng-container *ngIf="evidence.drugs.length > 1">({{ evidence.drugInteractionType | titlecase }})</ng-container>
                             </nz-row>
                         </nz-col>
                         <nz-col [nzSpan]="8">

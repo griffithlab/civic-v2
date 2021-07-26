@@ -74,7 +74,7 @@
                     </ng-template>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let gene of d.geneNames; last as isLast" >
                         {{ gene }}{{ isLast ? '' : ', ' }}
                       </span>
