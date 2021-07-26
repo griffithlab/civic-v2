@@ -1,5 +1,5 @@
 import { Component, ContentChild, Input, OnInit, AfterViewInit, ElementRef, Renderer2, OnChanges } from '@angular/core';
-import { Flag, FlaggableEntities } from '@app/generated/civic.apollo';
+import { FlaggableEntities, Maybe } from '@app/generated/civic.apollo';
 import { FlaggableOptionsDirective } from './flaggable-options.directive';
 
 export interface FlaggableSubject {
@@ -15,12 +15,8 @@ export interface FlaggableSubject {
   styleUrls: ['./flaggable.component.less']
 })
 export class FlaggableComponent implements AfterViewInit, OnChanges {
-  // TODO: figure out why null option required here for flags Input
-  // to avoid "Type 'number | null' is not assignable to type 'number'."
-  // error when provided Observable<number> returning of(flags { totalCount })
-  // in gene-details template
-  @Input() flags!: number | null;
-  @Input() entity!: FlaggableSubject;
+  @Input() flags?: Maybe<number>;
+  @Input() entity?: Maybe<FlaggableSubject>;
   @ContentChild(FlaggableOptionsDirective,
                 {static: false, read: ElementRef}) flaggedChild!: ElementRef;
 

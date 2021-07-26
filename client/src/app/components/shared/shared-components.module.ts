@@ -94,8 +94,11 @@ import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.co
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
-import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
+import { SectionNavigationComponent } from './section-navigation/section-navigation.component';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
 import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
@@ -162,6 +165,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     ContributorAvatarsComponent,
     EventVerbiagePipe,
     ContributorStackComponent,
+    SectionNavigationComponent,
+    DetailsNavigationComponent,
     MyVariantInfoComponent,
     IfEmptyPipe,
     EvidenceEnumDisplayPipe,
@@ -185,6 +190,7 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
+    NzBreadCrumbModule,
     NzCardModule,
     NzCommentModule,
     NzInputModule,
@@ -196,6 +202,7 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     NzListModule,
     NzRadioModule,
     NzSpaceModule,
+    NzTabsModule,
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
@@ -272,6 +279,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
+    SectionNavigationComponent,
+    DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
     EvidenceEnumDisplayPipe,

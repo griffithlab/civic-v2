@@ -27,9 +27,7 @@ export class GenesDetailComponent implements OnDestroy {
   commentsTotal$?: Observable<number>;
   revisionsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  getRouteLabel: (label: string) => string;
   routeSub: Subscription;
-  routeLabelSub?: Subscription;
   subscribable?: SubscribableInput
 
   constructor(
@@ -37,7 +35,6 @@ export class GenesDetailComponent implements OnDestroy {
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
-    this.getRouteLabel = (label) => label;
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({ geneId: +params.geneId }).valueChanges;
 
@@ -57,12 +54,6 @@ export class GenesDetailComponent implements OnDestroy {
       }
 
       this.viewer$ = this.viewerService.viewer$;
-      this.routeLabelSub = this.gene$.subscribe((gene) => {
-        this.getRouteLabel = (label: string): string => {
-          if (label !== 'GENERATE') { return label; }
-          return gene === undefined ? 'NAME UNDEFINED' : gene.officialName;
-        }
-      })
     });
 
   }
@@ -76,8 +67,5 @@ export class GenesDetailComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
-    if (this.routeLabelSub) {
-      this.routeLabelSub.unsubscribe();
-    }
   }
 }

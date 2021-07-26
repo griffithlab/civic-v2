@@ -27,7 +27,7 @@ const routes: Routes = [
         path: ':geneId',
         component: GenesDetailComponent,
         data: {
-          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in gene-details.component
+          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
@@ -36,13 +36,6 @@ const routes: Routes = [
             component: GenesSummaryComponent,
             data: {
               breadcrumb: 'Summary'
-            }
-          },
-          {
-            path: 'suggest-revision',
-            component: GenesSuggestRevisionComponent,
-            data: {
-              breadcrumb: 'Suggest Revision'
             }
           },
           {
@@ -63,9 +56,17 @@ const routes: Routes = [
             path: 'flags',
             component: GenesFlagsComponent,
             data: {
-              breadcrumb: 'Flags'
+              breadcrumb: 'Summary'
             }
-          }
+          },
+          {
+            path: 'suggest-revision',
+            component: GenesSuggestRevisionComponent,
+            data: {
+              breadcrumb: 'Suggest Revision'
+            }
+          },
+
         ]
       }
     ]

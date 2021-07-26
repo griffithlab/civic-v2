@@ -36,6 +36,7 @@ import { AssertionsSummaryComponent } from './assertions-summary/assertions-summ
 import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
+import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
     AssertionsSummaryComponent,
     AssertionsCommentsComponent,
     AssertionsFlagsComponent,
+    AssertionsRevisionsComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +87,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
     AssertionsSummaryComponent,
     AssertionsFlagsComponent,
     AssertionsCommentsComponent,
+    AssertionsRevisionsComponent,
   ]
 })
 export class AssertionsModule { }
