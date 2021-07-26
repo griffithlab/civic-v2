@@ -100,7 +100,6 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
