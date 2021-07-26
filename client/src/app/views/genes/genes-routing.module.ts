@@ -18,10 +18,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: GenesBrowseComponent,
-        data: {
-          breadcrumb: 'Browse'
-        }
+        component: GenesBrowseComponent
       },
       {
         path: ':geneId',
@@ -36,13 +33,6 @@ const routes: Routes = [
             component: GenesSummaryComponent,
             data: {
               breadcrumb: 'Summary'
-            }
-          },
-          {
-            path: 'suggest-revision',
-            component: GenesSuggestRevisionComponent,
-            data: {
-              breadcrumb: 'Suggest Revision'
             }
           },
           {
@@ -63,9 +53,17 @@ const routes: Routes = [
             path: 'flags',
             component: GenesFlagsComponent,
             data: {
-              breadcrumb: 'Flags'
+              breadcrumb: 'Summary'
             }
-          }
+          },
+          {
+            path: 'suggest-revision',
+            component: GenesSuggestRevisionComponent,
+            data: {
+              breadcrumb: 'Suggest Revision'
+            }
+          },
+
         ]
       }
     ]

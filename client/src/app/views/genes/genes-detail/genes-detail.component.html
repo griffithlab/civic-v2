@@ -1,10 +1,13 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <nz-breadcrumb [nzAutoGenerate]="true"
-    [nzRouteLabelFn]="getRouteLabel"
-    nz-page-header-breadcrumb> </nz-breadcrumb>
+  <cvc-section-navigation
+    [entity]="{ id: gene.id, displayName: gene.name }">
+  </cvc-section-navigation>
   <div cvcFlaggable
-    [flags]="flagsTotal$ | async">
+    [flags]="flagsTotal$ | ngrxPush">
+
     <nz-page-header class="site-page-header">
+
+      <!-- title -->
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
         <i nz-icon
@@ -13,18 +16,22 @@
           {{ gene.name }}
         </span>
       </nz-page-header-title>
+
+      <!-- subtitle -->
       <nz-page-header-subtitle>
         {{ gene.officialName }}
       </nz-page-header-subtitle>
+
       <nz-page-header-tags>
-        <nz-tag [nzColor]="'red'"
-          *ngIf="false">Flagged</nz-tag>
+        <nz-tag [nzColor]="''"
+          *ngIf="true">Submitted</nz-tag>
       </nz-page-header-tags>
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
         <nz-space nzDirection="horizontal"
-          nzSize="small">
+          nzSize="small"
+          *ngrxLet="viewer$ as viewer">
 
           <!-- add revision btn -->
           <nz-space-item>
@@ -54,85 +61,33 @@
           </nz-space-item>
 
           <!-- actions menu -->
-          <nz-space-item>
-            <nz-space-item>
-              <button nz-button
-                nzSize="small"
-                nz-dropdown
-                [nzDropdownMenu]="menu"
-                nzNoAnimation
-                style="border: none; padding: 0">
-                <i nz-icon
-                  nzType="ellipsis"
-                  nzTheme="outline"
-                  style="font-size: 20px; vertical-align: top;"></i>
-              </button>
-              <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                  <li nz-menu-item>1st menu item length</li>
-                  <li nz-menu-item>2nd menu item length</li>
-                  <li nz-menu-item>3rd menu item length</li>
-                </ul>
-              </nz-dropdown-menu>
-            </nz-space-item>
-          </nz-space-item>
+          <!-- <nz-space-item>
+               <nz-space-item>
+               <button nz-button
+               nzSize="small"
+               nz-dropdown
+               [nzDropdownMenu]="menu"
+               nzNoAnimation
+               style="border: none; padding: 0">
+               <i nz-icon
+               nzType="ellipsis"
+               nzTheme="outline"
+               style="font-size: 20px; vertical-align: top;"></i>
+               </button>
+               <nz-dropdown-menu #menu="nzDropdownMenu">
+               <ul nz-menu>
+               <li nz-menu-item>Other actions</li>
+               <li nz-menu-item>That apply to entities</li>
+               <li nz-menu-item>May be placed here</li>
+               </ul>
+               </nz-dropdown-menu>
+               </nz-space-item>
+               </nz-space-item> -->
         </nz-space>
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-row id="page-header-menu-row">
-          <nz-col nzSpan="12">
-            <ul nz-menu
-              nzMode="horizontal">
-              <li nz-menu-item
-                nzMatchRouter>
-                <i nz-icon
-                  nzType="civic-gene"></i>
-                <a routerLink="summary">
-                  Summary
-                </a>
-              </li>
-              <li nz-menu-item
-                nzMatchRouter>
-                <i nz-icon
-                  nzType="civic-comment"></i>
-                <a routerLink="comments">
-                  Comments
-                  <nz-badge *ngIf="gene.comments.totalCount > 0"
-                    [nzCount]="gene.comments.totalCount"
-                    [nzStyle]="{ backgroundColor: '#A0D8F5'}"
-                    nzStandalone></nz-badge>
-                </a>
-              </li>
-              <li nz-menu-item
-                nzMatchRouter>
-                <i nz-icon
-                  nzType="civic-revision"></i>
-                <a routerLink="revisions">
-                  Revisions
-                  <span *ngIf="gene.revisions.totalCount > 0"
-                    nz-typography nzType="secondary">({{ gene.revisions.totalCount }})</span>
-                </a>
-              </li>
-              <li nz-menu-item
-                nzMatchRouter>
-                <i nz-icon
-                  nzType="civic-flag"></i>
-                <a routerLink="flags">
-                  Flags
-                  <nz-badge *ngIf="gene.flags.totalCount > 0"
-                    [nzCount]="gene.flags.totalCount"
-                    [nzStyle]="{ backgroundColor: '#E297A0'}"
-                    nzStandalone></nz-badge>
-                </a>
-              </li>
-            </ul>
-          </nz-col>
-          <nz-col nzSpan="12" id="contributor-groups">
-            <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
-          </nz-col>
-        </nz-row>
-        <!-- <cvc-lifecycle-actions></cvc-lifecycle-actions> -->
+        <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
         <div class="content">
           <router-outlet></router-outlet>
         </div>

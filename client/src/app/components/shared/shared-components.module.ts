@@ -95,6 +95,10 @@ import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.co
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
+import { SectionNavigationComponent } from './section-navigation/section-navigation.component';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
@@ -152,11 +156,13 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     ContributorAvatarsComponent,
     EventVerbiagePipe,
     ContributorStackComponent,
+    SectionNavigationComponent,
+    DetailsNavigationComponent,
     MyVariantInfoComponent,
     IfEmptyPipe,
     EvidenceEnumDisplayPipe,
     AmpFormatPipe,
-    EvidenceRatingComponent
+    EvidenceRatingComponent,
   ],
   imports: [
     CommonModule,
@@ -168,6 +174,7 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
+    NzBreadCrumbModule,
     NzCardModule,
     NzCommentModule,
     NzInputModule,
@@ -179,6 +186,7 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     NzListModule,
     NzRadioModule,
     NzSpaceModule,
+    NzTabsModule,
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
@@ -252,10 +260,12 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
+    SectionNavigationComponent,
+    DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
     EvidenceEnumDisplayPipe,
-    AmpFormatPipe
+    AmpFormatPipe,
   ]
 })
 

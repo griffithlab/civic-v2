@@ -1,0 +1,59 @@
+<nz-row id="section-tabs">
+  <nz-col nzSpan="24">
+    <nz-tabset nzType="card" nzSize="small"
+      [nzSelectedIndex]="selectedTabIndex"
+      [nzTabBarExtraContent]="actionsContributorsTpl">
+      <ng-template #actionsContributorsTpl>
+        <nz-col id="contributors-col">
+          <cvc-contributor-avatars [subscribable]="entity"></cvc-contributor-avatars>
+        </nz-col>
+      </ng-template>
+
+      <!-- summary tab -->
+      <nz-tab>
+        <!-- tab label, link -->
+        <a *nzTabLink
+          nz-tab-link routerLink="summary">
+          <i nz-icon
+            nzType="civic-gene"></i>
+          Summary
+        </a>
+
+      </nz-tab>
+
+      <!-- comments tab -->
+      <nz-tab>
+        <!-- label, link -->
+        <a *nzTabLink
+          nz-tab-link routerLink="comments">
+          <i nz-icon
+            nzType="civic-comment"></i>
+          Comments
+        </a>
+
+      </nz-tab>
+
+      <!-- revisions tab -->
+      <nz-tab>
+        <!-- tab label, link -->
+        <a *nzTabLink
+          nz-tab-link routerLink="revisions">
+          <i nz-icon
+            nzType="civic-revision"></i>
+          Revisions
+        </a>
+      </nz-tab>
+
+      <!-- flag tab -->
+      <nz-tab>
+        <!-- tab label, link -->
+        <a *nzTabLink
+          nz-tab-link routerLink="flags">
+          <i nz-icon
+            nzType="civic-flag"></i>
+          Flags
+        </a>
+      </nz-tab>
+    </nz-tabset>
+  </nz-col>
+</nz-row>
