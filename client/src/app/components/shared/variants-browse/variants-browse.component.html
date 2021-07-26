@@ -88,14 +88,14 @@
                     </a>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let disease of variant.diseases; last as isLast" >
                         {{ disease.name }}{{ isLast ? '' : ', ' }}
                       </span>
                     </p>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let drug of variant.drugs; last as isLast" >
                         {{ drug.name }}{{ isLast ? '' : ', ' }}
                       </span>

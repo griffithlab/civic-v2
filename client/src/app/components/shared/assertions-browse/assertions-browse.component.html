@@ -151,7 +151,7 @@
                   </ng-template>
                 </td>
                 <td>
-                  <p *ngIf="aid.drugs.length > 0; else drugsElse" nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="1">
+                  <p *ngIf="aid.drugs.length > 0; else drugsElse" nz-typography>
                     <span *ngFor="let drug of aid.drugs; last as isLast" >
                       <a routerLink="/drugs/{{drug.id}}">
                         <cvc-drug-tag [drug]="drug"></cvc-drug-tag>

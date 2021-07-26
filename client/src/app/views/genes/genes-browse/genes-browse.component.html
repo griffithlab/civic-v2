@@ -91,7 +91,7 @@
                     </span>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let disease of gene.diseases" >
                         <a routerLink="/diseases/{{disease.id}}">
                           <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
@@ -100,7 +100,7 @@
                     </p>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let drug of gene.drugs" >
                         <a routerLink="/drugs/{{drug.id}}">
                           <cvc-drug-tag [drug]="drug"></cvc-drug-tag>

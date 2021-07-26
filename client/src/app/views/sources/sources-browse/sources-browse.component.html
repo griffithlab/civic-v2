@@ -82,7 +82,7 @@
                     {{ source.citationId}}
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let author of source.authors; last as isLast" >
                         {{ author }}{{ isLast ? '' : ', ' }}
                       </span>
