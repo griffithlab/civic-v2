@@ -14,7 +14,11 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
   end
 
   option(:doid, type: String) do |scope, value|
-    scope.where('doid ILIKE ?', "%#{value}")
+    if value.upcase.starts_with?('DOID:')
+      scope.where(doid: value.upcase.gsub('DOID:',''))
+    else
+      scope.where(doid: value)
+    end
   end
 
   option(:gene_names, type: String) do |scope, value|

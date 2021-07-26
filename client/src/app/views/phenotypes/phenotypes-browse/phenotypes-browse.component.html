@@ -47,7 +47,10 @@
                   </a>
                 </td>
                 <td>
-                  {{ p.hpoId}}
+                  <a *ngIf="p.hpoId; else noHpo" href="https://hpo.jax.org/app/browse/term/{{p.hpoId}}">
+                    {{ p.hpoId }}
+                  </a>
+                  <ng-template #noHpo>--</ng-template>
                 </td>
                 <td>
                   {{ p.evidenceCount }}

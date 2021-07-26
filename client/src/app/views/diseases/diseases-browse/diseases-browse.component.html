@@ -66,7 +66,12 @@
                     </a>
                   </td>
                   <td>
-                    {{ d.doid }}
+                    <a *ngIf="d.doid; else noDoid" href="https://disease-ontology.org/?id=DOID:{{d.doid}}" target="_blank">
+                      DOID:{{ d.doid }}
+                    </a>
+                    <ng-template #noDoid>
+                      --
+                    </ng-template>
                   </td>
                   <td>
                     <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">

@@ -47,7 +47,10 @@
                   </a>
                 </td>
                 <td>
-                  {{ d.ncitId}}
+                  <a *ngIf="d.ncitId; else noNcit" href="https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code={{d.ncitId}}" target="_blank">
+                    {{ d.ncitId}}
+                  </a>
+                  <ng-template #noNcit>--</ng-template>
                 </td>
                 <td>
                   {{ d.evidenceCount }}
