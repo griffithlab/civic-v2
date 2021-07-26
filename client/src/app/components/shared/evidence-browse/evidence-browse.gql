@@ -102,6 +102,7 @@ fragment EvidenceGridFields on EvidenceItem {
       sourceUrl
       clinicalTrials {
         nctId
+        id
       }
     }
     assertions @include(if: $cardView) {

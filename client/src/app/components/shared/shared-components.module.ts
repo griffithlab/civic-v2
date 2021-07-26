@@ -109,6 +109,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DiseaseTagComponent } from './disease-tag/disease-tag.component';
 import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
+import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 
 @NgModule({
   declarations: [
@@ -169,7 +170,8 @@ import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
     VariantHovercardComponent,
     DiseaseTagComponent,
     DrugTagComponent,
-    PhenotypeTagComponent
+    PhenotypeTagComponent,
+    ClinicalTrialTagComponent
   ],
   imports: [
     CommonModule,
@@ -276,7 +278,8 @@ import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
     VariantHovercardComponent,
     DiseaseTagComponent,
     DrugTagComponent,
-    PhenotypeTagComponent
+    PhenotypeTagComponent,
+    ClinicalTrialTagComponent
   ]
 })
 

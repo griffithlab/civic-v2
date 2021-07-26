@@ -37,9 +37,10 @@
               <!-- clinical trials -->
               <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
                 <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
-                  <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-                    <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
-                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                  <ng-container *ngFor="let t of evidence.source.clinicalTrials">
+                    <a routerLink="/clinical-trials/{{t.id}}">
+                      <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                    </a>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">

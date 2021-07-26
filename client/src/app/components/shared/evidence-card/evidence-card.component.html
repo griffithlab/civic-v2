@@ -64,9 +64,10 @@
                                 <ng-template ngPluralCase="=0"><b>Clinical Trial:&nbsp;</b> <i>-</i></ng-template>
                                 <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
-                                <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-                                    <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
-                                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                <ng-container *ngFor="let t of evidence.source.clinicalTrials">
+                                    <a routerLink="/clinical-trials/{{t.id}}">
+                                        <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                                    </a>
                                 </ng-container>
                             </nz-row>
                             <nz-row><b>Evidence Rating:&nbsp;</b><cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating></nz-row>

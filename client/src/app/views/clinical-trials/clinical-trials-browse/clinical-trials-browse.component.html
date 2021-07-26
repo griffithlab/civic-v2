@@ -17,11 +17,11 @@
 
             <thead (nzSortOrderChange)="onSortChanged($event)">
               <tr>
-                <th nzWidth="60%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
-                  Name
-                </th>
-                <th nzWidth="20%" [nzColumnKey]="sortColumns.NctId" [nzSortFn]="true">
+                <th nzWidth="15%" [nzColumnKey]="sortColumns.NctId" [nzSortFn]="true">
                   NCT ID
+                </th>
+                <th nzWidth="65%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
+                  Name
                 </th>
                 <th nzWidth="10%" nzRight [nzColumnKey]="sortColumns.SourceCount" [nzSortFn]="true"><i nz-icon nzType="civic:source" nz-tooltip nzTooltipTitle="Source count"></i></th>
                 <th nzWidth="10%" nzRight [nzColumnKey]="sortColumns.EvidenceItemCount" [nzSortFn]="true"><i nz-icon nzType="civic:evidence" nz-tooltip nzTooltipTitle="Evidence count"></i></th>
@@ -42,10 +42,12 @@
             <tbody>
               <tr *ngFor="let t of clinicalTrialsTable.data">
                 <td>
-                  <a routerLink="/clinical-trials/{{t.id}}">{{t.name}}</a>
+                  <a routerLink="/clinical-trials/{{t.id}}">
+                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ t.nctId}}
+                  {{ t.name }}
                 </td>
                 <td>
                   {{ t.sourceCount }}

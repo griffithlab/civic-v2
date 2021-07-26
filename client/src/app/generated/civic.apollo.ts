@@ -3361,7 +3361,7 @@ export type EvidenceGridFieldsFragment = (
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
-      & Pick<ClinicalTrial, 'nctId'>
+      & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), assertions: Array<(
     { __typename: 'Assertion' }
@@ -4210,7 +4210,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
-      & Pick<ClinicalTrial, 'nctId'>
+      & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), gene: (
     { __typename: 'Gene' }
@@ -4598,7 +4598,7 @@ export type SourceSummaryFieldsFragment = (
   & Pick<Source, 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
   & { clinicalTrials?: Maybe<Array<(
     { __typename: 'ClinicalTrial' }
-    & Pick<ClinicalTrial, 'nctId'>
+    & Pick<ClinicalTrial, 'nctId' | 'id'>
   )>> }
 );
 
@@ -5001,6 +5001,7 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     sourceUrl
     clinicalTrials {
       nctId
+      id
     }
   }
   assertions @include(if: $cardView) {
@@ -5376,6 +5377,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     ascoAbstractId
     clinicalTrials {
       nctId
+      id
     }
   }
   evidenceRating
@@ -5552,6 +5554,7 @@ export const SourceSummaryFieldsFragmentDoc = gql`
   authorString
   clinicalTrials {
     nctId
+    id
   }
 }
     `;
