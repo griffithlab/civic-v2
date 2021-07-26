@@ -82,8 +82,8 @@
         <nz-descriptions-item nzTitle="Phenotypes"
           nzSpan="2"
           *ngIf="evidence.phenotypes.length > 0">
-          <span *ngFor="let ph of evidence.phenotypes; last as isLast">
-            {{ph.name}}<span *ngIf="!isLast">,&nbsp;</span>
+          <span *ngFor="let ph of evidence.phenotypes">
+            <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
           </span>
         </nz-descriptions-item>
 

@@ -42,7 +42,9 @@
             <tbody>
               <tr *ngFor="let d of drugsTable.data">
                 <td>
-                  <a routerLink="/drugs/{{d.id}}">{{d.name}}</a>
+                  <a routerLink="/drugs/{{d.id}}">
+                    <cvc-drug-tag [drug]="d"></cvc-drug-tag>
+                  </a>
                 </td>
                 <td>
                   {{ d.ncitId}}

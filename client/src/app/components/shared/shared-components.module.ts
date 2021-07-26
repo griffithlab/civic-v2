@@ -108,6 +108,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DiseaseTagComponent } from './disease-tag/disease-tag.component';
 import { DrugTagComponent } from './drug-tag/drug-tag.component';
+import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 
 @NgModule({
   declarations: [
@@ -167,7 +168,8 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
     VariantTagComponent,
     VariantHovercardComponent,
     DiseaseTagComponent,
-    DrugTagComponent
+    DrugTagComponent,
+    PhenotypeTagComponent
   ],
   imports: [
     CommonModule,
@@ -273,7 +275,8 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
     VariantTagComponent,
     VariantHovercardComponent,
     DiseaseTagComponent,
-    DrugTagComponent
+    DrugTagComponent,
+    PhenotypeTagComponent
   ]
 })
 

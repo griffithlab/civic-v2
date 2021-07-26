@@ -50,8 +50,8 @@
                                 <ng-template ngPluralCase="=0"><b>Associated Phenotype:&nbsp;</b> <i>-</i></ng-template>
                                 <ng-template ngPluralCase="=1"><b>Associated Phenotype:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Associated Phenotypes:&nbsp;</b></ng-template>
-                                <ng-container *ngFor="let p of evidence.phenotypes; let last = last">
-                                  {{ p.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                <ng-container *ngFor="let p of evidence.phenotypes">
+                                    <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
                                 </ng-container>
                             </nz-row>
                             <nz-row><b>Source:&nbsp;</b>{{ evidence.source.citation }}</nz-row>

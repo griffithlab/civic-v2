@@ -83,9 +83,8 @@
                         nzType="secondary">None Specified</span>
                     </ng-container>
                     <ng-container *ngIf="evidence.phenotypes.length > 0">
-                      <ng-container *ngFor="let ph of evidence.phenotypes; last as isLast">
-                        {{ph.name}}
-                        <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                      <ng-container *ngFor="let ph of evidence.phenotypes">
+                        <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
                       </ng-container>
                     </ng-container>
                   </nz-descriptions-item>
