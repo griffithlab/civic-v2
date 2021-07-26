@@ -36,6 +36,7 @@ import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.co
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
 import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
+import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
     EvidenceSummaryComponent,
     EvidenceCommentsComponent,
     EvidenceFlagsComponent,
+    EvidenceRevisionsComponent,
   ],
   imports: [
     CommonModule,
@@ -84,7 +86,8 @@ import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
     EvidenceDetailComponent,
     EvidenceSummaryComponent,
     EvidenceFlagsComponent,
-    EvidenceCommentsComponent
+    EvidenceCommentsComponent,
+    EvidenceRevisionsComponent
   ]
 })
 export class EvidenceModule { }

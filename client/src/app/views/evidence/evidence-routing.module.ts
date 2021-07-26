@@ -4,6 +4,7 @@ import { EvidenceBrowseComponent } from '@app/components/shared/evidence-browse/
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
+import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 
 import { EvidenceComponent } from './evidence.component';
@@ -16,24 +17,46 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: EvidenceBrowseComponent
+        component: EvidenceBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':evidenceId',
         component: EvidenceDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE'
+        },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
             path: 'summary',
-            component: EvidenceSummaryComponent
+            component: EvidenceSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           },
           {
             path: 'comments',
             component: EvidenceCommentsComponent,
+            data: {
+              breadcrumb: 'Comments'
+            }
+          },
+          {
+            path: 'revisions',
+            component: EvidenceRevisionsComponent,
+            data: {
+              breadcrumb: 'Revisions'
+            }
           },
           {
             path: 'flags',
-            component: EvidenceFlagsComponent
+            component: EvidenceFlagsComponent,
+            data: {
+              breadcrumb: 'Flags'
+            }
           }
         ]
       }

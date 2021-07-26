@@ -18,13 +18,16 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: GenesBrowseComponent
+        component: GenesBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':geneId',
         component: GenesDetailComponent,
         data: {
-          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in gene-details.component
+          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },

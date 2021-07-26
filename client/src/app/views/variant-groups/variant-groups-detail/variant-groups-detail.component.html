@@ -1,16 +1,21 @@
-<ng-container *ngIf="assertion$ | ngrxPush as assertion">
-  <cvc-section-navigation [entity]="{ id: assertion.id, displayName: assertion.name }">
+<!-- <ng-container *ngIf="gene$ | async as gene"> -->
+<ng-container>
+  <cvc-section-navigation
+    [entity]="{ id: 0, displayName: '[Variant Group Name]' }">
   </cvc-section-navigation>
-  <div cvcFlaggable
-    [flags]="flagsTotal$ | ngrxPush">
+  <!-- <div cvcFlaggable
+       [flags]="flagsTotal$ | ngrxPush"> -->
+
     <nz-page-header class="site-page-header">
 
       <!-- title -->
-      <nz-page-header-title cvcFlaggableOptions
-        [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 }">
+      <nz-page-header-title cvcFlaggableOptions>
+        <!-- [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"> -->
         <i nz-icon
-          nzType="civic:assertion"></i> {{ assertion.name }}
+          nzType="civic:variantgroup"></i>
+        [VARIANT GROUP NAME]
       </nz-page-header-title>
+
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
@@ -55,5 +60,6 @@
         </div>
       </nz-page-header-content>
     </nz-page-header>
-  </div>
+    <!-- cvcFlaggable closing div: -->
+    <!-- </div> -->
 </ng-container>

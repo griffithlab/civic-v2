@@ -12,20 +12,13 @@
         [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
         <i nz-icon
           nzType="civic:gene"></i>
-        <span routerLink="/genes/{{gene.id}}">
-          {{ gene.name }}
-        </span>
+        {{ gene.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
       <nz-page-header-subtitle>
         {{ gene.officialName }}
       </nz-page-header-subtitle>
-
-      <nz-page-header-tags>
-        <nz-tag [nzColor]="''"
-          *ngIf="true">Submitted</nz-tag>
-      </nz-page-header-tags>
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
@@ -60,29 +53,6 @@
             </button>
           </nz-space-item>
 
-          <!-- actions menu -->
-          <!-- <nz-space-item>
-               <nz-space-item>
-               <button nz-button
-               nzSize="small"
-               nz-dropdown
-               [nzDropdownMenu]="menu"
-               nzNoAnimation
-               style="border: none; padding: 0">
-               <i nz-icon
-               nzType="ellipsis"
-               nzTheme="outline"
-               style="font-size: 20px; vertical-align: top;"></i>
-               </button>
-               <nz-dropdown-menu #menu="nzDropdownMenu">
-               <ul nz-menu>
-               <li nz-menu-item>Other actions</li>
-               <li nz-menu-item>That apply to entities</li>
-               <li nz-menu-item>May be placed here</li>
-               </ul>
-               </nz-dropdown-menu>
-               </nz-space-item>
-               </nz-space-item> -->
         </nz-space>
       </nz-page-header-extra>
 

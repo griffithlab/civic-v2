@@ -41,6 +41,7 @@ import { VariantSummaryComponent } from './variants-summary/variants-summary.com
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
+import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { EvidenceModule } from '../evidence/evidence.module';
     VariantsDetailComponent,
     VariantSummaryComponent,
     VariantsCommentsComponent,
-    VariantsFlagsComponent
+    VariantsFlagsComponent,
+    VariantsRevisionsComponent
   ],
   imports: [
     CvcFormsModule,
@@ -82,6 +84,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
     FormsModule,
     SharedComponentsModule,
     EvidenceModule
-  ]
+  ],
+  exports: [VariantsRevisionsComponent]
 })
 export class VariantsModule { }
