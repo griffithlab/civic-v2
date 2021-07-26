@@ -790,6 +790,7 @@ type BrowseVariant {
   drugs: [Drug!]!
   evidenceItemCount: Int!
   evidenceScore: Float!
+  geneId: Int!
   geneName: String!
   id: Int!
   name: String!

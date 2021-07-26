@@ -4,6 +4,7 @@ module Types::BrowseTables
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :gene_id, Int, null: false
     field :gene_name, String, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
     field :drugs, [Types::Entities::DrugType], null: false

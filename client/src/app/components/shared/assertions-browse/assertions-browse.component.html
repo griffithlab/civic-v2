@@ -126,13 +126,19 @@
             <tbody>
               <tr *ngFor="let aid of assertionsTable.data">
                 <td>
-                  <a routerLink="/assertions/{{aid.id}}">{{aid.name}}</a>
+                  <a routerLink="/assertions/{{aid.id}}">
+                    <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ aid.gene.name }}
+                  <a routerLink="/genes/{{aid.gene.id}}">
+                    <cvc-gene-tag [gene]="aid.gene"></cvc-gene-tag>
+                  </a>
                 </td>
                 <td>
-                  {{ aid.variant.name }}
+                  <a routerLink="/variants/{{aid.variant.id}}">
+                    <cvc-variant-tag [variant]="aid.variant"></cvc-variant-tag>
+                  </a>
                 </td>
                 <td>
                   <ng-container *ngIf="aid.disease.displayName; else diseaseElse">

@@ -489,6 +489,7 @@ export type BrowseVariant = {
   drugs: Array<Drug>;
   evidenceItemCount: Scalars['Int'];
   evidenceScore: Scalars['Float'];
+  geneId: Scalars['Int'];
   geneName: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -3659,6 +3660,40 @@ export type HovercardUserFragment = (
   )> }
 );
 
+export type VariantHovercardQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantHovercardQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & VariantHovercardFieldsFragment
+  )> }
+);
+
+export type VariantHovercardFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
+  & { evidenceItems: (
+    { __typename: 'EvidenceItemConnection' }
+    & Pick<EvidenceItemConnection, 'totalCount'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'name'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ) }
+);
+
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   entrezSymbol?: Maybe<Scalars['String']>;
@@ -3686,7 +3721,7 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneName' | 'assertionCount'>
+        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'assertionCount'>
         & { diseases: Array<(
           { __typename: 'Disease' }
           & Pick<Disease, 'name'>
@@ -3732,40 +3767,6 @@ export type VariantsMenuQuery = (
 export type MenuVariantFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
-);
-
-export type VariantHovercardQueryVariables = Exact<{
-  variantId: Scalars['Int'];
-}>;
-
-
-export type VariantHovercardQuery = (
-  { __typename: 'Query' }
-  & { variant?: Maybe<(
-    { __typename: 'Variant' }
-    & VariantHovercardFieldsFragment
-  )> }
-);
-
-export type VariantHovercardFieldsFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
-  & { evidenceItems: (
-    { __typename: 'EvidenceItemConnection' }
-    & Pick<EvidenceItemConnection, 'totalCount'>
-  ), gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'name'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ) }
 );
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
@@ -5188,12 +5189,6 @@ export const HovercardUserFragmentDoc = gql`
   }
 }
     `;
-export const MenuVariantFragmentDoc = gql`
-    fragment menuVariant on Variant {
-  id
-  name
-}
-    `;
 export const VariantHovercardFieldsFragmentDoc = gql`
     fragment variantHovercardFields on Variant {
   id
@@ -5216,6 +5211,12 @@ export const VariantHovercardFieldsFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
+}
+    `;
+export const MenuVariantFragmentDoc = gql`
+    fragment menuVariant on Variant {
+  id
+  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -6205,6 +6206,24 @@ export const UserHoverCardDocument = gql`
       super(apollo);
     }
   }
+export const VariantHovercardDocument = gql`
+    query VariantHovercard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...variantHovercardFields
+  }
+}
+    ${VariantHovercardFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantHovercardGQL extends Apollo.Query<VariantHovercardQuery, VariantHovercardQueryVariables> {
+    document = VariantHovercardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseVariantsDocument = gql`
     query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
@@ -6232,6 +6251,7 @@ export const BrowseVariantsDocument = gql`
         name
         evidenceScore
         evidenceItemCount
+        geneId
         geneName
         diseases {
           name
@@ -6292,24 +6312,6 @@ export const VariantsMenuDocument = gql`
   })
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantHovercardDocument = gql`
-    query VariantHovercard($variantId: Int!) {
-  variant(id: $variantId) {
-    ...variantHovercardFields
-  }
-}
-    ${VariantHovercardFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantHovercardGQL extends Apollo.Query<VariantHovercardQuery, VariantHovercardQueryVariables> {
-    document = VariantHovercardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

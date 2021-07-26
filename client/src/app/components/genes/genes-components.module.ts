@@ -33,7 +33,6 @@ import { GeneDescriptionComponent } from './gene-description/gene-description.co
 import { GeneDescriptionRevisionComponent } from './gene-description-revision/gene-description-revision.component';
 import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
 import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sources-revision.component';
-import { GenePillComponent } from './gene-pill/gene-pill.component';
 import { GeneHovercardComponent } from './gene-hovercard/gene-hovercard.component';
 
 @NgModule({
@@ -43,7 +42,6 @@ import { GeneHovercardComponent } from './gene-hovercard/gene-hovercard.componen
     MyGeneInfoComponent,
     GeneDescriptionRevisionComponent,
     GeneSourcesRevisionComponent,
-    GenePillComponent,
     GeneHovercardComponent
   ],
   imports: [
@@ -76,7 +74,6 @@ import { GeneHovercardComponent } from './gene-hovercard/gene-hovercard.componen
     GeneDescriptionRevisionComponent,
     GeneSourcesRevisionComponent,
     MyGeneInfoComponent,
-    GenePillComponent,
     GeneHovercardComponent
   ]
 })

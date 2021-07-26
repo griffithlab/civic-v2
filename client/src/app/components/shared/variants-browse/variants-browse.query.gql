@@ -35,6 +35,7 @@ query BrowseVariants(
         name
         evidenceScore
         evidenceItemCount
+        geneId
         geneName
         diseases {
           name
