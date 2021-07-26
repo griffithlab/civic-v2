@@ -89,15 +89,19 @@
                   </td>
                   <td>
                     <p nz-typography>
-                      <span *ngFor="let disease of variant.diseases; last as isLast" >
-                        {{ disease.name }}{{ isLast ? '' : ', ' }}
+                      <span *ngFor="let disease of variant.diseases" >
+                        <a routerLink="/diseases/{{disease.id}}">
+                          <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
+                        </a>
                       </span>
                     </p>
                   </td>
                   <td>
                     <p nz-typography>
-                      <span *ngFor="let drug of variant.drugs; last as isLast" >
-                        {{ drug.name }}{{ isLast ? '' : ', ' }}
+                      <span *ngFor="let drug of variant.drugs" >
+                        <a routerLink="/drugs/{{drug.id}}">
+                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                        </a>
                       </span>
                     </p>
                   </td>

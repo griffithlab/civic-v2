@@ -3725,10 +3725,10 @@ export type BrowseVariantsQuery = (
         & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'assertionCount'>
         & { diseases: Array<(
           { __typename: 'Disease' }
-          & Pick<Disease, 'name'>
+          & Pick<Disease, 'id' | 'name'>
         )>, drugs: Array<(
           { __typename: 'Drug' }
-          & Pick<Drug, 'name'>
+          & Pick<Drug, 'id' | 'name'>
         )> }
       )> }
     )> }
@@ -6259,9 +6259,11 @@ export const BrowseVariantsDocument = gql`
         geneId
         geneName
         diseases {
+          id
           name
         }
         drugs {
+          id
           name
         }
         assertionCount
