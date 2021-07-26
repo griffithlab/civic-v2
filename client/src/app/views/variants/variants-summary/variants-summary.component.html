@@ -29,12 +29,11 @@
         <nz-row>
           <nz-col [nzSpan]="12">
             <ng-container [ngPlural]="variant.variantTypes.length"> 
-              <ng-template  ngPluralCase="=0"><b>Variant Type:</b> None Specified</ng-template>
-              <ng-template  ngPluralCase="=1"><b>Variant Type:</b> </ng-template>
+              <ng-template  ngPluralCase="=0"><b>Variant Type: </b> None Specified</ng-template>
+              <ng-template  ngPluralCase="=1"><b>Variant Type: </b> </ng-template>
               <ng-template  ngPluralCase="other"><b>Variant Types: </b></ng-template>
-              <ng-container *ngFor="let vt of variant.variantTypes; let last = last">
-                  <a nz-button href="http://www.sequenceontology.org/browser/current_svn/term/{{vt.soid}}" target="_blank">{{ vt.name }}</a>
-                  <ng-container *ngIf="!last">, </ng-container>
+              <ng-container *ngFor="let vt of variant.variantTypes">
+                <cvc-variant-type-tag [variantType]="vt"></cvc-variant-type-tag>
               </ng-container>
             </ng-container>
           </nz-col>
