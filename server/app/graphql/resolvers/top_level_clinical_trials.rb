@@ -14,7 +14,7 @@ class Resolvers::TopLevelClinicalTrials < GraphQL::Schema::Resolver
       .where("evidence_items.status != 'rejected'")
       .group('clinical_trials.id, clinical_trials.name, clinical_trials.nct_id')
       .having('COUNT(evidence_items.id) > 0 or COUNT(sources.id) > 0')
-      .order('source_count DESC')
+      .order('source_count DESC', :id)
   end
 
   option(:nct_id, type: String, description: 'Limit to clinical trials with a specific NCT ID') do |scope, value|

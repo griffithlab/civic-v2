@@ -78,4 +78,10 @@ export class PhenotypesBrowseComponent implements OnDestroy {
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 
+  loadMore(cursor: Maybe<string>) {
+    this.queryRef.fetchMore({
+      variables: { after: cursor }
+    })
+  }
+
 }
