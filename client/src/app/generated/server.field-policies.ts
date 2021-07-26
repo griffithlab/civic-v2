@@ -97,7 +97,7 @@ export type BrowseClinicalTrialEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseDiseaseKeySpecifier = ('assertionCount' | 'displayName' | 'doid' | 'evidenceItemCount' | 'geneNames' | 'id' | 'variantCount' | BrowseDiseaseKeySpecifier)[];
+export type BrowseDiseaseKeySpecifier = ('assertionCount' | 'displayName' | 'doid' | 'evidenceItemCount' | 'geneNames' | 'id' | 'name' | 'variantCount' | BrowseDiseaseKeySpecifier)[];
 export type BrowseDiseaseFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -105,6 +105,7 @@ export type BrowseDiseaseFieldPolicy = {
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	geneNames?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseDiseaseConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseDiseaseConnectionKeySpecifier)[];

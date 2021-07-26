@@ -106,7 +106,6 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
 import { VariantTagComponent } from './variant-tag/variant-tag.component';
 import { VariantHovercardComponent } from './variant-hovercard/variant-hovercard.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DiseaseTagComponent } from './disease-tag/disease-tag.component';

@@ -38,7 +38,7 @@ query BrowseDiseases(
 
 fragment BrowseDiseaseRowFields on BrowseDisease {
   id
-  displayName
+  name
   doid
   geneNames
   assertionCount

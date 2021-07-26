@@ -76,7 +76,7 @@ fragment EvidenceGridFields on EvidenceItem {
     name
     disease {
       id
-      displayName
+      name
     }
     drugs {
       id

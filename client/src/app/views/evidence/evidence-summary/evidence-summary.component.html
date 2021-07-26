@@ -63,16 +63,16 @@
             <nz-descriptions nzLayout="vertical"
               nzSize="small"
               nzBordered="true"
-              [nzColumn]="(evidence.disease.displayName !== undefined && evidence.phenotypes.length > 0) ? 1 : 2">
+              [nzColumn]="(evidence.disease.name !== undefined && evidence.phenotypes.length > 0) ? 1 : 2">
 
                   <!-- disease -->
                   <nz-descriptions-item nzTitle="Disease">
-                    <ng-container *ngIf="evidence.disease.displayName">
+                    <ng-container *ngIf="evidence.disease.name">
                       <a routerLink="/diseases/{{evidence.disease.id}}">
                         <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
                       </a>
                     </ng-container>
-                    <span *ngIf="!evidence.disease.displayName"
+                    <span *ngIf="!evidence.disease.name"
                       nz-typography
                       nzType="secondary">N/A</span>
                   </nz-descriptions-item>

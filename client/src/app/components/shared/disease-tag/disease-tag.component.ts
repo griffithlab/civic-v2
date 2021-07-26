@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export interface LinkableDisease {
   id: number,
-  displayName: string,
+  name: string,
 }
 
 @Component({

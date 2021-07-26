@@ -15,7 +15,7 @@ fragment AssertionSummaryFields on Assertion {
     variantOrigin
     disease {
       id
-      displayName
+      name
     }
     gene {
       id

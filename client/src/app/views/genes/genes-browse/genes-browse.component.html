@@ -92,15 +92,19 @@
                   </td>
                   <td>
                     <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                      <span *ngFor="let disease of gene.diseases; last as isLast" >
-                        {{ disease.name }}{{ isLast ? '' : ', ' }}
+                      <span *ngFor="let disease of gene.diseases" >
+                        <a routerLink="/diseases/{{disease.id}}">
+                          <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
+                        </a>
                       </span>
                     </p>
                   </td>
                   <td>
                     <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                      <span *ngFor="let drug of gene.drugs; last as isLast" >
-                        {{ drug.name }}{{ isLast ? '' : ', ' }}
+                      <span *ngFor="let drug of gene.drugs" >
+                        <a routerLink="/drugs/{{drug.id}}">
+                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                        </a>
                       </span>
                     </p>
                   </td>

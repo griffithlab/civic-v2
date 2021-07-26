@@ -76,7 +76,7 @@ fragment AssertionBrowseTableRowFields on Assertion {
   }
   disease {
     id
-    displayName
+    name
   }
   drugs {
     id

@@ -4,6 +4,7 @@ module Types::BrowseTables
 
     field :id, Int, null: false
     field :display_name, String, null: false
+    field :name, String, null: false
     field :doid, String, null: true
     field :gene_names, [String], null: false
     field :variant_count, Int, null: false

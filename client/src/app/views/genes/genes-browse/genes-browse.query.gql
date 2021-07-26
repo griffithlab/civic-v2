@@ -32,9 +32,11 @@ query BrowseGenes(
         }
         diseases {
           name
+          id
         }
         drugs {
           name
+          id
         }
         variantCount
         evidenceItemCount

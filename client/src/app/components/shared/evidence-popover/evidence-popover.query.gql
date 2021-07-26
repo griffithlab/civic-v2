@@ -20,7 +20,7 @@ fragment evidencePopover on EvidenceItem {
   drugInteractionType
   disease {
     id
-    displayName
+    name
   }
   phenotypes {
     id

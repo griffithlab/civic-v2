@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_26_182504) do
+ActiveRecord::Schema.define(version: 2021_07_26_185110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -844,31 +844,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_182504) do
        JOIN evidence_items ei ON (((v.id = ei.variant_id) AND (ei.deleted = false))))
     GROUP BY v.id;
   SQL
-  create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT genes.id,
-      genes.name,
-      genes.entrez_id,
-      genes.flagged,
-      array_agg(DISTINCT gene_aliases.name ORDER BY gene_aliases.name) AS alias_names,
-      array_agg(DISTINCT diseases.name ORDER BY diseases.name) AS disease_names,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
-      count(DISTINCT assertions.id) AS assertion_count
-     FROM ((((((((genes
-       LEFT JOIN gene_aliases_genes ON ((gene_aliases_genes.gene_id = genes.id)))
-       LEFT JOIN gene_aliases ON ((gene_aliases.id = gene_aliases_genes.gene_alias_id)))
-       JOIN variants ON ((variants.gene_id = genes.id)))
-       JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
-       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
-       LEFT JOIN assertions ON ((assertions.gene_id = genes.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY genes.id, genes.name, genes.entrez_id;
-  SQL
-  add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
-
   create_view "evidence_browse_table_rows", sql_definition: <<-SQL
       SELECT evidence_items.id,
       genes.name AS gene_name,
@@ -967,4 +942,29 @@ ActiveRecord::Schema.define(version: 2021_07_26_182504) do
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY diseases.id, diseases.name, diseases.doid;
   SQL
+  create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT genes.id,
+      genes.name,
+      genes.entrez_id,
+      genes.flagged,
+      array_agg(DISTINCT gene_aliases.name ORDER BY gene_aliases.name) AS alias_names,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM ((((((((genes
+       LEFT JOIN gene_aliases_genes ON ((gene_aliases_genes.gene_id = genes.id)))
+       LEFT JOIN gene_aliases ON ((gene_aliases.id = gene_aliases_genes.gene_alias_id)))
+       JOIN variants ON ((variants.gene_id = genes.id)))
+       JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN assertions ON ((assertions.gene_id = genes.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY genes.id, genes.name, genes.entrez_id;
+  SQL
+  add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
+
 end

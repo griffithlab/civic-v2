@@ -304,6 +304,7 @@ export type BrowseDisease = {
   evidenceItemCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
+  name: Scalars['String'];
   variantCount: Scalars['Int'];
 };
 
@@ -3083,7 +3084,7 @@ export type AssertionBrowseTableRowFieldsFragment = (
     & Pick<Variant, 'id' | 'name'>
   ), disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'displayName'>
+    & Pick<Disease, 'id' | 'name'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
@@ -3343,7 +3344,7 @@ export type EvidenceGridFieldsFragment = (
   & Pick<EvidenceItem, 'id' | 'name' | 'status' | 'drugInteractionType' | 'description' | 'evidenceType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'clinicalSignificance' | 'variantOrigin'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'displayName'>
+    & Pick<Disease, 'id' | 'name'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
@@ -3390,7 +3391,7 @@ export type EvidencePopoverFragment = (
     & Pick<Drug, 'id' | 'name'>
   )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'displayName'>
+    & Pick<Disease, 'id' | 'name'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name'>
@@ -3978,7 +3979,7 @@ export type AssertionSummaryFieldsFragment = (
   & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'fdaCompanionTest'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'displayName'>
+    & Pick<Disease, 'id' | 'name'>
   )>, gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -4082,7 +4083,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'displayName' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
 export type DiseaseDetailQueryVariables = Exact<{
@@ -4201,7 +4202,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Drug, 'id' | 'name'>
   )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'displayName'>
+    & Pick<Disease, 'id' | 'name'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name'>
@@ -4259,10 +4260,10 @@ export type BrowseGenesQuery = (
           & Pick<GeneAlias, 'name'>
         )>>, diseases?: Maybe<Array<(
           { __typename: 'Disease' }
-          & Pick<Disease, 'name'>
+          & Pick<Disease, 'name' | 'id'>
         )>>, drugs?: Maybe<Array<(
           { __typename: 'Drug' }
-          & Pick<Drug, 'name'>
+          & Pick<Drug, 'name' | 'id'>
         )>> }
       )> }
     )>, pageInfo: (
@@ -4832,7 +4833,7 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   }
   disease {
     id
-    displayName
+    name
   }
   drugs {
     id
@@ -4975,7 +4976,7 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   name
   disease {
     id
-    displayName
+    name
   }
   drugs {
     id
@@ -5036,7 +5037,7 @@ export const EvidencePopoverFragmentDoc = gql`
   drugInteractionType
   disease {
     id
-    displayName
+    name
   }
   phenotypes {
     id
@@ -5261,7 +5262,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   variantOrigin
   disease {
     id
-    displayName
+    name
   }
   gene {
     id
@@ -5305,7 +5306,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
 export const BrowseDiseaseRowFieldsFragmentDoc = gql`
     fragment BrowseDiseaseRowFields on BrowseDisease {
   id
-  displayName
+  name
   doid
   geneNames
   assertionCount
@@ -5362,7 +5363,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   drugInteractionType
   disease {
     id
-    displayName
+    name
   }
   phenotypes {
     id
@@ -6822,9 +6823,11 @@ export const BrowseGenesDocument = gql`
         }
         diseases {
           name
+          id
         }
         drugs {
           name
+          id
         }
         variantCount
         evidenceItemCount

@@ -490,6 +490,7 @@ type BrowseDisease {
   evidenceItemCount: Int!
   geneNames: [String!]!
   id: Int!
+  name: String!
   variantCount: Int!
 }
 

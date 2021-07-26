@@ -20,15 +20,13 @@ module Types::BrowseTables
     end
 
     def diseases
-      object.disease_names
-        .compact
-        .map { |d| { name: d } }
+      Array(object.diseases)
+        .map { |d| { name: d['name'], id: d['id'] } }
     end
 
     def drugs
-      object.drug_names
-        .compact
-        .map { |d| { name: d } }
+      Array(object.drugs)
+        .map { |d| { name: d['name'], id: d['id'] } }
     end
   end
 end
