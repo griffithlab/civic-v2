@@ -16,24 +16,40 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: AssertionsBrowseComponent
+        component: AssertionsBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':assertionId',
         component: AssertionsDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
+        },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
             path: 'summary',
-            component: AssertionsSummaryComponent
+            component: AssertionsSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           },
           {
             path: 'comments',
             component: AssertionsCommentsComponent,
+            data: {
+              breadcrumb: 'Comments'
+            }
           },
+          // TODO needs revisions path/component
           {
             path: 'flags',
-            component: AssertionsFlagsComponent
+            component: AssertionsFlagsComponent,
+            data: {
+              breadcrumb: 'Flags'
+            }
           }
         ]
       }
