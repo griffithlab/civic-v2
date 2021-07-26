@@ -24,14 +24,20 @@
                                 <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
                                 <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
-                                <ng-container *ngFor="let drug of assertion.drugs; let last = last">
-                                  {{ drug.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                <ng-container *ngFor="let drug of assertion.drugs">
+                                    <a routerLink="/drugs/{{drug.id}}">
+                                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                                    </a>
                                 </ng-container>
                                 <ng-container *ngIf="assertion.drugs.length > 1">{{ ' (' + assertion.drugInteractionType + ')' }}</ng-container>
                             </nz-row>
                         </nz-col>
                         <nz-col [nzSpan]="8">
-                            <nz-row *ngIf="assertion.disease"><b>Disease:&nbsp;</b>{{ assertion.disease.displayName }}</nz-row>
+                            <nz-row *ngIf="assertion.disease"><b>Disease:&nbsp;</b>
+                                <a routerLink="/diseases/{{assertion.disease.id}}">
+                                    <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
+                                </a>
+                            </nz-row>
                             <nz-row *ngIf="!assertion.disease"><b>Disease:&nbsp;</b><i>Not Applicable</i></nz-row>
                             <nz-row [ngPlural]="assertion.phenotypes.length">
                                 <ng-template ngPluralCase="=0"><b>Associated Phenotype:&nbsp;</b> <i>-</i></ng-template>

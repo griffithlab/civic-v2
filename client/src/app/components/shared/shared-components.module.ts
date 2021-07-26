@@ -106,6 +106,8 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { DiseaseTagComponent } from './disease-tag/disease-tag.component';
+import { DrugTagComponent } from './drug-tag/drug-tag.component';
 
 @NgModule({
   declarations: [
@@ -163,7 +165,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     AmpFormatPipe,
     EvidenceRatingComponent,
     VariantTagComponent,
-    VariantHovercardComponent
+    VariantHovercardComponent,
+    DiseaseTagComponent,
+    DrugTagComponent
   ],
   imports: [
     CommonModule,
@@ -267,7 +271,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     EvidenceEnumDisplayPipe,
     AmpFormatPipe,
     VariantTagComponent,
-    VariantHovercardComponent
+    VariantHovercardComponent,
+    DiseaseTagComponent,
+    DrugTagComponent
   ]
 })
 

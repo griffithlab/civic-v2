@@ -305,7 +305,9 @@
                 </td>
                 <td>
                   <ng-container *ngIf="eid.disease; else diseaseElse">
-                    {{ eid.disease.displayName }}
+                    <a routerLink="/diseases/{{eid.disease.id}}">
+                      <cvc-disease-tag [disease]="eid.disease"></cvc-disease-tag>
+                    </a>
                   </ng-container>
                   <ng-template #diseaseElse>
                     <i>N/A</i>
@@ -317,8 +319,13 @@
                     nzEllipsis
                     nzExpandable
                     [nzEllipsisRows]="1">
-                    <span *ngFor="let drug of eid.drugs; last as isLast">
-                      {{ drug.name }}{{ isLast ? '' : ', ' }}{{isLast && eid.drugs.length > 1 ?  ' (' + eid.drugInteractionType + ')' : '' }}
+                    <span *ngFor="let drug of eid.drugs">
+                      <a routerLink="/drugs/{{drug.id}}">
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                      </a>
+                    </span>
+                    <span *ngIf="eid.drugs.length > 1">
+                      ({{ eid.drugInteractionType }})
                     </span>
                   </p>
                   <ng-template #drugsElse>

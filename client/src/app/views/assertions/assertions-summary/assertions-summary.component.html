@@ -7,7 +7,12 @@
             <p><b>Variant Origin: </b>{{ assertion.variantOrigin | evidenceEnumDisplay }}</p>
           </nz-col>
           <nz-col [nzSpan]="16">
-            <p><b>Disease: </b>{{ assertion.disease.name }}</p>
+            <p>
+              <b>Disease: </b>
+              <a routerLink="/diseases/{{assertion.disease.id}}">
+                <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
+              </a>
+            </p>
           </nz-col>
         </nz-row>
         <nz-row>
@@ -29,8 +34,10 @@
             <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
             <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
             <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
-            <ng-container *ngFor="let drug of assertion.drugs; let last = last">
-              {{ drug.name }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+            <ng-container *ngFor="let drug of assertion.drugs">
+              <a routerLink="/drugs/{{drug.id}}">
+                <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+              </a>
             </ng-container>
             <ng-container *ngIf="assertion.drugs.length > 1">{{ ' (' + assertion.drugInteractionType + ')' }}</ng-container>
         </nz-row>

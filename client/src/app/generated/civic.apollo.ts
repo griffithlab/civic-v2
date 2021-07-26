@@ -299,11 +299,11 @@ export type BrowseClinicalTrialEdge = {
 export type BrowseDisease = {
   __typename: 'BrowseDisease';
   assertionCount: Scalars['Int'];
+  displayName: Scalars['String'];
   doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
-  name: Scalars['String'];
   variantCount: Scalars['Int'];
 };
 
@@ -775,7 +775,7 @@ export enum DiseasesSortColumns {
 export type Drug = {
   __typename: 'Drug';
   drugUrl?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
 };
@@ -3978,7 +3978,7 @@ export type AssertionSummaryFieldsFragment = (
   & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'fdaCompanionTest'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'name' | 'doid'>
+    & Pick<Disease, 'id' | 'displayName'>
   )>, gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -4082,7 +4082,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & Pick<BrowseDisease, 'id' | 'displayName' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
 export type DiseaseDetailQueryVariables = Exact<{
@@ -5259,8 +5259,8 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   description
   variantOrigin
   disease {
-    name
-    doid
+    id
+    displayName
   }
   gene {
     id
@@ -5304,7 +5304,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
 export const BrowseDiseaseRowFieldsFragmentDoc = gql`
     fragment BrowseDiseaseRowFields on BrowseDisease {
   id
-  name
+  displayName
   doid
   geneNames
   assertionCount

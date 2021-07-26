@@ -61,7 +61,9 @@
               <tbody>
                 <tr *ngFor="let d of diseasesTable.data">
                   <td>
-                    <a routerLink="/diseases/{{d.id}}">{{ d.name }}</a>
+                    <a routerLink="/diseases/{{d.id}}">
+                      <cvc-disease-tag [disease]="d"></cvc-disease-tag>
+                    </a>
                   </td>
                   <td>
                     {{ d.doid }}

@@ -66,7 +66,11 @@
 
                   <!-- disease -->
                   <nz-descriptions-item nzTitle="Disease">
-                    <ng-container *ngIf="evidence.disease.displayName">{{ evidence.disease.displayName }}</ng-container>
+                    <ng-container *ngIf="evidence.disease.displayName">
+                      <a routerLink="/diseases/{{evidence.disease.id}}">
+                        <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
+                      </a>
+                    </ng-container>
                     <span *ngIf="!evidence.disease.displayName"
                       nz-typography
                       nzType="secondary">N/A</span>
@@ -101,17 +105,12 @@
                       nzType="secondary">N/A</span>
                   </ng-template>
 
-                  <!-- one drug -->
-                  <ng-template ngPluralCase="=1">
-                    <ng-container *ngFor="let drug of evidence.drugs; last as isLast">
-                      {{drug.name}}
-                      <ng-container *ngIf="!isLast">,&nbsp;</ng-container>
-                    </ng-container>
-                  </ng-template>
-
-                  <!-- multiple drugs, show interaction type -->
+                  <!-- one or more drugs -->
                   <ng-template ngPluralCase="other">
-                    <ng-container *ngFor="let drug of evidence.drugs; last as isLast">{{drug.name}}<ng-container *ngIf="!isLast">,&nbsp;</ng-container>
+                    <ng-container *ngFor="let drug of evidence.drugs">
+                      <a routerLink="/drugs/{{drug.id}}">
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                      </a>
                     </ng-container>
                   </ng-template>
                 </ng-container>
