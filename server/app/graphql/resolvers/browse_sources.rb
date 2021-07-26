@@ -33,6 +33,10 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     scope.where('name ILIKE ?', "%#{value}%")
   end
 
+  option(:clinical_trial_id, type: Int) do |scope, value|
+    scope.joins(:clinical_trials).where('clinical_trials.id = ?', value)
+  end
+
   option(:sort_by, type: Types::BrowseTables::SourcesSortType) do |scope, value|
     case value.column
     when "SOURCE_TYPE"

@@ -99,6 +99,12 @@ import { SectionNavigationComponent } from './section-navigation/section-navigat
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
+import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
+import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
+import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +157,12 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     EventVerbiagePipe,
     ContributorStackComponent,
     SectionNavigationComponent,
-    DetailsNavigationComponent
+    DetailsNavigationComponent,
+    MyVariantInfoComponent,
+    IfEmptyPipe,
+    EvidenceEnumDisplayPipe,
+    AmpFormatPipe,
+    EvidenceRatingComponent,
   ],
   imports: [
     CommonModule,
@@ -200,6 +211,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzSwitchModule,
     NzStatisticModule,
     NzImageModule,
+    NzTabsModule,
   ],
   exports: [
     CommentAddComponent,
@@ -249,7 +261,11 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     ContributorAvatarsComponent,
     ContributorStackComponent,
     SectionNavigationComponent,
-    DetailsNavigationComponent
+    DetailsNavigationComponent,
+    MyVariantInfoComponent,
+    EvidenceRatingComponent,
+    EvidenceEnumDisplayPipe,
+    AmpFormatPipe,
   ]
 })
 

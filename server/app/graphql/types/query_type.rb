@@ -67,6 +67,26 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :clinical_trial, Types::Entities::ClinicalTrialType, null: true do
+      description 'Find a clinical trial by CIViC ID'
+      argument :id, Int, required: true
+    end
+
+    field :flag, Types::Entities::FlagType, null: true do
+      description 'Find a flag by CIViC ID'
+      argument :id, Int, required: true
+    end
+
+    field :comment, Types::Entities::CommentType, null: true do
+      description 'Find a comment by CIViC ID'
+      argument :id, Int, required: true
+    end
+
+    field :revision, Types::Revisions::RevisionType, null: true do
+      description 'Find a revision by CIViC ID'
+      argument :id, Int, required: true
+    end
+
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true
       argument :create_permalink, Boolean, required: false, default_value: false
@@ -91,40 +111,60 @@ module Types
 
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
+    field :drugs, resolver: Resolvers::TopLevelDrugs
+
+    field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
+
     def disease(id: )
-      Disease.find(id)
+      Disease.find_by(id: id)
     end
 
     def drug(id: )
-      Drug.find(id)
+      Drug.find_by(id: id)
     end
 
     def gene(id: )
-      Gene.find(id)
+      Gene.find_by(id: id)
     end
 
     def variant(id: )
-      Variant.find(id)
+      Variant.find_by(id: id)
     end
 
     def assertion(id: )
-      Assertion.find(id)
+      Assertion.find_by(id: id)
     end
 
     def source(id: )
-      Source.find(id)
+      Source.find_by(id: id)
     end
 
     def organization(id: )
-      Organization.find(id)
+      Organization.find_by(id: id)
     end
 
     def phenotype(id: )
-      Phenotype.find(id)
+      Phenotype.find_by(id: id)
     end
 
     def variant_type(id: )
-      VariantType.find(id)
+      VariantType.find_by(id: id)
+    end
+
+    def clinical_trial(id: )
+      ClinicalTrial.find_by(id: id)
+    end
+
+    def flag(id: )
+      Flag.find_by(id: id)
+    end
+
+    def comment(id: )
+      Comment.find_by(id: id)
+    end
+
+    def revision(id: )
+      Revision.find_by(id: id)
     end
 
     def search_genes(query:, create_permalink:)

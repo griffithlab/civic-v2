@@ -10,6 +10,7 @@ query BrowseSources(
   $citationId: Int
   $author: String
   $journal: String
+  $clinicalTrialId: Int
 ) {
   browseSources(
     first: $first
@@ -23,6 +24,7 @@ query BrowseSources(
     citationId: $citationId
     author: $author
     journal: $journal
+    clinicalTrialId: $clinicalTrialId
   ) {
    pageInfo {
       endCursor
@@ -51,4 +53,5 @@ fragment BrowseSourceRowFields on BrowseSource {
     name
     publicationYear
     sourceType
+    citation
 }

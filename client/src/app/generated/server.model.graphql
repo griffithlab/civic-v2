@@ -425,6 +425,64 @@ input BooleanSearchInput {
   value: Boolean!
 }
 
+type BrowseClinicalTrial {
+  evidenceCount: Int!
+  id: Int!
+  name: String!
+  nctId: String
+  sourceCount: Int!
+}
+
+"""
+The connection type for BrowseClinicalTrial.
+"""
+type BrowseClinicalTrialConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseClinicalTrialEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseClinicalTrial!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseClinicalTrialEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseClinicalTrial
+}
+
 type BrowseDisease {
   assertionCount: Int!
   doid: String
@@ -483,6 +541,64 @@ type BrowseDiseaseEdge {
   The item at the end of the edge.
   """
   node: BrowseDisease
+}
+
+type BrowseDrug {
+  assertionCount: Int!
+  evidenceCount: Int!
+  id: Int!
+  name: String!
+  ncitId: String
+}
+
+"""
+The connection type for BrowseDrug.
+"""
+type BrowseDrugConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseDrugEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseDrug!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseDrugEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseDrug
 }
 
 type BrowseGene {
@@ -608,6 +724,7 @@ type BrowsePhenotypeEdge {
 
 type BrowseSource {
   authors: [String!]!
+  citation: String!
   citationId: Int!
   evidenceItemCount: Int!
   id: Int!
@@ -849,6 +966,26 @@ type ClinicalTrial {
   id: Int!
   name: String!
   nctId: String!
+  url: String!
+}
+
+input ClinicalTrialSort {
+  """
+  Available columns for sorting
+  """
+  column: ClinicalTrialSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum ClinicalTrialSortColumns {
+  EVIDENCE_ITEM_COUNT
+  NAME
+  NCT_ID
+  SOURCE_COUNT
 }
 
 """
@@ -1082,6 +1219,25 @@ enum DrugInteraction {
   COMBINATION
   SEQUENTIAL
   SUBSTITUTES
+}
+
+input DrugSort {
+  """
+  Available columns for sorting
+  """
+  column: DrugSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum DrugSortColumns {
+  ASSERTION_COUNT
+  EVIDENCE_ITEM_COUNT
+  NAME
+  NCIT_ID
 }
 
 type Event {
@@ -1588,8 +1744,10 @@ enum EvidenceSortColumns {
   EVIDENCE_LEVEL
   EVIDENCE_RATING
   EVIDENCE_TYPE
+  GENE_SYMBOL
   ID
   STATUS
+  VARIANT_NAME
   VARIANT_ORIGIN
 }
 
@@ -2316,6 +2474,70 @@ type Mutation {
   ): UnsubscribePayload
 }
 
+type MyVariantInfo {
+  caddConsequence: [String!]!
+  caddDetail: [String!]!
+  caddScore: Float
+  clinvarClinicalSignificance: [String!]!
+  clinvarHgvsCoding: [String!]!
+  clinvarHgvsGenomic: [String!]!
+  clinvarHgvsNonCoding: [String!]!
+  clinvarHgvsProtein: [String!]!
+  clinvarId: Int
+  clinvarOmim: String
+  cosmicId: String
+  dbnsfpInterproDomain: [String!]!
+  dbsnpRsid: String
+  eglClass: String
+  eglHgvs: [String!]!
+  eglProtein: String
+  eglTranscript: String
+  exacAlleleCount: Int
+  exacAlleleFrequency: Float
+  exacAlleleNumber: Int
+  fathmmMklPrediction: String
+  fathmmMklScore: Float
+  fathmmPrediction: [String!]!
+  fathmmScore: [Float!]!
+  fitconsScore: Float
+  gerp: Float
+  gnomadExomeAlleleCount: Int
+  gnomadExomeAlleleFrequency: Float
+  gnomadExomeAlleleNumber: Int
+  gnomadExomeFilter: String
+  gnomadGenomeAlleleCount: Int
+  gnomadGenomeAlleleFrequency: Float
+  gnomadGenomeAlleleNumber: Int
+  gnomadGenomeFilter: String
+  lrtPrediction: String
+  lrtScore: Float
+  metalrPrediction: String
+  metalrScore: Float
+  metasvmPrediction: String
+  metasvmScore: Float
+  mutationassessorPrediction: [String!]!
+  mutationassessorScore: [Float!]!
+  mutationtasterPrediction: [String!]!
+  mutationtasterScore: [Float!]!
+  myVariantInfoId: String!
+  phastcons100way: Float
+  phastcons30way: Float
+  phyloP100way: Float
+  phyloP30way: Float
+  polyphen2HdivPrediction: [String!]!
+  polyphen2HdivScore: [Float!]!
+  polyphen2HvarPrediction: [String!]!
+  polyphen2HvarScore: [Float!]!
+  proveanPrediction: [String!]!
+  proveanScore: [Float!]!
+  revelScore: Float
+  siftPrediction: [String!]!
+  siftScore: [Float!]!
+  siphy: Float
+  snpeffSnpEffect: [String!]!
+  snpeffSnpImpact: [String!]!
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -2694,6 +2916,11 @@ type Query {
     diseaseName: String
 
     """
+    Exact match filtering of the assertions based on the internal CIViC drug id
+    """
+    drugId: Int
+
+    """
     Substring filtering on drug name.
     """
     drugName: String
@@ -2821,6 +3048,7 @@ type Query {
     """
     before: String
     citationId: Int
+    clinicalTrialId: Int
 
     """
     Returns the first _n_ elements from the list.
@@ -2891,6 +3119,56 @@ type Query {
   ): BrowseVariantConnection!
 
   """
+  Find a clinical trial by CIViC ID
+  """
+  clinicalTrial(id: Int!): ClinicalTrial
+
+  """
+  List and filter Clinical Trials from ClinicalTrials.gov.
+  """
+  clinicalTrials(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on clinical trial title
+    """
+    name: String
+
+    """
+    Limit to clinical trials with a specific NCT ID
+    """
+    nctId: String
+
+    """
+    Sort order for the clinical trials. Defaults to the highest source count.
+    """
+    sortBy: ClinicalTrialSort
+  ): BrowseClinicalTrialConnection!
+
+  """
+  Find a comment by CIViC ID
+  """
+  comment(id: Int!): Comment
+
+  """
   List and filter comments.
   """
   comments(
@@ -2945,6 +3223,46 @@ type Query {
   Find a drug by CIViC ID
   """
   drug(id: Int!): Drug
+
+  """
+  List and filter Drugs from the NCI Thesaurus.
+  """
+  drugs(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Wildcard match on drug name
+    """
+    name: String
+
+    """
+    Limit to drugs with a specific NCIT ID
+    """
+    ncitId: String
+
+    """
+    Sort order for the drugs. Defaults to the highest evidence item count.
+    """
+    sortBy: DrugSort
+  ): BrowseDrugConnection!
 
   """
   List and filter events for an object
@@ -3010,6 +3328,11 @@ type Query {
     clinicalSignificance: EvidenceClinicalSignificance
 
     """
+    Exact match filtering of the evidence items based on the CIViC clinical trial id linked to the evidence item's source
+    """
+    clinicalTrialId: Int
+
+    """
     Substring filtering on evidence item description.
     """
     description: String
@@ -3023,6 +3346,11 @@ type Query {
     Substring filtering on disease name.
     """
     diseaseName: String
+
+    """
+    Exact match filtering of the evidence items based on the internal CIViC drug id
+    """
+    drugId: Int
 
     """
     Substring filtering on drug name.
@@ -3055,6 +3383,11 @@ type Query {
     first: Int
 
     """
+    Left anchored filtering on Entrez gene symbol
+    """
+    geneSymbol: String
+
+    """
     Exact match filtering on the ID of the evidence item.
     """
     id: Int
@@ -3080,6 +3413,11 @@ type Query {
     sortBy: EvidenceSort
 
     """
+    Exact match filtering of the evidence items based on the interal CIViC source id
+    """
+    sourceId: Int
+
+    """
     Filtering on the evidence status.
     """
     status: EvidenceStatus
@@ -3095,10 +3433,20 @@ type Query {
     variantId: Int
 
     """
+    Left anchored filtering on variant name
+    """
+    variantName: String
+
+    """
     Filtering on the evidence variant origin.
     """
     variantOrigin: VariantOrigin
   ): EvidenceItemConnection!
+
+  """
+  Find a flag by CIViC ID
+  """
+  flag(id: Int!): Flag
 
   """
   List and filter flags.
@@ -3236,7 +3584,7 @@ type Query {
     name: String
 
     """
-    Sort order for the phenotypes. Defaults to most recent.
+    Sort order for the phenotypes. Defaults to the highest evidence item count.
     """
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!
@@ -3245,6 +3593,11 @@ type Query {
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
   """
   remoteCitation(citationId: Int!, sourceType: SourceSource!): String
+
+  """
+  Find a revision by CIViC ID
+  """
+  revision(id: Int!): Revision
   search(
     """
     The term to query for
@@ -3634,10 +3987,13 @@ enum SortDirection {
 }
 
 type Source implements EventSubject {
+  abstract: String
   ascoAbstractId: Int
+  authorString: String
   citation: String!
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
+  displayType: String!
 
   """
   List and filter events for an object
@@ -3671,16 +4027,19 @@ type Source implements EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
-  fullJournalTitle: String!
+  fullJournalTitle: String
   id: Int!
   journal: String!
   name: String!
+  pmcId: String
+  publicationDate: String
   publicationDay: Int
   publicationMonth: Int!
   publicationYear: Int!
   sourceType: SourceSource!
   sourceUrl: String!
   status: SourceStatus!
+  title: String
 }
 
 enum SourceSource {
@@ -4327,6 +4686,7 @@ type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  myVariantInfo: MyVariantInfo
   name: String!
   referenceBuild: ReferenceBuild
 

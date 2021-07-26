@@ -17,6 +17,7 @@ const routes: Routes = [
     children: [
       // Primary Views
       { path: 'assertions', loadChildren: () => import('@app/views/assertions/assertions.module').then(m => m.AssertionsModule) },
+      { path: 'clinical-trials' , loadChildren: () => import('@app/views/clinical-trials/clinical-trials.module').then(m => m.ClinicalTrialsModule)},
       { path: 'comments', loadChildren: () => import('@app/views/comments/comments.module').then(m => m.CommentsModule) },
       { path: 'community', loadChildren: () => import('@app/views/community/community.module').then(m => m.CommunityModule) },
       { path: 'diseases', loadChildren: () => import('@app/views/diseases/diseases.module').then(m => m.DiseasesModule) },

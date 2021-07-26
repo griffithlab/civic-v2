@@ -1,0 +1,41 @@
+query DrugsBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $name: String
+  $ncitId: String
+  $sortBy: DrugSort
+){
+  drugs(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    ncitId: $ncitId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...DrugBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment DrugBrowseTableRowFields on BrowseDrug {
+  id
+  name
+  ncitId
+  assertionCount
+  evidenceCount
+}

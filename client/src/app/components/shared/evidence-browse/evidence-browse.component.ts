@@ -17,6 +17,11 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
+  @Input() drugId: Maybe<number>
+  @Input() sourceId: Maybe<number>
+  @Input() clinicalTrialId: Maybe<number>
+
+  @Input() displayGeneAndVariant: boolean = true
 
   private initialPageSize = 25
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -44,6 +49,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
   variantOriginInput: Maybe<VariantOrigin>
   evidenceRatingInput: Maybe<number>
+  variantNameInput: Maybe<string>
+  geneSymbolInput: Maybe<string>
 
   sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
 
@@ -58,6 +65,9 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       userId: this.userId,
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
+      drugId: this.drugId,
+      sourceId: this.sourceId,
+      clinicalTrialId: this.clinicalTrialId,
       cardView: !this.tableView
     });
 
@@ -99,8 +109,19 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    var eid: Maybe<number>
+    if (this.eidInput)
+      if (this.eidInput.toUpperCase().startsWith('EID')) {
+        eid = +(this.eidInput.toUpperCase().replace('EID', ''))
+      }
+      else {
+        eid = +this.eidInput
+      }
+    else {
+      eid = undefined
+    }
     this.queryRef.refetch({
-      id: this.eidInput ? +this.eidInput : undefined,
+      id: eid,
       diseaseName: this.diseaseNameInput,
       drugName: this.drugNameInput,
       description: this.descriptionInput,
@@ -110,6 +131,8 @@ export class EvidenceBrowseComponent implements OnInit, OnDestroy {
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
       rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+      geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
+      variantName: this.variantNameInput ? this.variantNameInput : undefined,
       cardView: !this.tableView
     })
   }

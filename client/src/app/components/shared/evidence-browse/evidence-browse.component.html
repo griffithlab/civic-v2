@@ -33,6 +33,20 @@
                   nzTooltipTitle="Evidence ID">
                   EID
                 </th>
+                <th *ngIf="displayGeneAndVariant" nzWidth="10%"
+                  [nzColumnKey]="sortColumns.GeneSymbol"
+                  [nzSortFn]="true"
+                  nz-tooltip
+                  nzTooltipTitle="Entrez Gene Symbol">
+                  Gene
+                </th>
+                <th *ngIf="displayGeneAndVariant" nzWidth="10%"
+                  [nzColumnKey]="sortColumns.VariantName"
+                  [nzSortFn]="true"
+                  nz-tooltip
+                  nzTooltipTitle="Variant Name">
+                  Variant
+                </th>
                 <th nzWidth="20%"
                   [nzColumnKey]="sortColumns.DiseaseName"
                   [nzSortFn]="true">
@@ -45,40 +59,46 @@
                 </th>
                 <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.Description"
+                  nzAlign="center"
                   [nzSortFn]="true">
                   Description
                 </th>
                 <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.EvidenceLevel"
                   [nzSortFn]="true"
+                  nzAlign="center"
                   nz-tooltip
                   nzTooltipTitle="Evidence Level">
                   EL
                 </th>
-                <th nzWidth="10%"
+                <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.EvidenceType"
                   [nzSortFn]="true"
+                  nzAlign="center"
                   nz-tooltip
                   nzTooltipTitle="Evidence Type">
                   ET
                 </th>
-                <th nzWidth="10%"
+                <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.EvidenceDirection"
                   [nzSortFn]="true"
+                  nzAlign="center"
                   nz-tooltip
                   nzTooltipTitle="Evidence Direction">
                   ED
                 </th>
-                <th nzWidth="10%"
+                <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.ClinicalSignificance"
                   [nzSortFn]="true"
+                  nzAlign="center"
                   nz-tooltip
                   nzTooltipTitle="Clinical Significance">
                   CS
                 </th>
-                <th nzWidth="10%"
+                <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.VariantOrigin"
                   [nzSortFn]="true"
+                  nzAlign="center"
                   nz-tooltip
                   nzTooltipTitle="Variant Origin">
                   VO
@@ -86,6 +106,7 @@
                 <th nzWidth="5%"
                   [nzColumnKey]="sortColumns.EvidenceRating"
                   [nzSortFn]="true"
+                  nzAlign="center"
                   nz-tooltip
                   nzTooltipTitle="Rating">
                   R
@@ -96,6 +117,14 @@
                   <cvc-clearable-text-filter [(inputModel)]="eidInput"
                     [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
                 </th>
+                <th *ngIf="displayGeneAndVariant">
+                  <cvc-clearable-text-filter [(inputModel)]="geneSymbolInput"
+                    [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
+                <th *ngIf="displayGeneAndVariant">
+                  <cvc-clearable-text-filter [(inputModel)]="variantNameInput"
+                    [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+                </th>
                 <th>
                   <cvc-clearable-text-filter [(inputModel)]="diseaseNameInput"
                     [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
@@ -104,11 +133,11 @@
                   <cvc-clearable-text-filter [(inputModel)]="drugNameInput"
                     [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
                 </th>
-                <th>
+                <th nzAlign="center">
                   <cvc-clearable-text-filter [(inputModel)]="descriptionInput"
                     [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
                 </th>
-                <th>
+                <th nzAlign="center">
                   <nz-select nzAllowClear
                     nzPlaceHolder="All"
                     [nzDropdownMatchSelectWidth]="false"
@@ -126,7 +155,7 @@
                       nzLabel="E"></nz-option>
                   </nz-select>
                 </th>
-                <th>
+                <th nzAlign="center">
                   <nz-select nzAllowClear
                     nzPlaceHolder="All"
                     [nzDropdownMatchSelectWidth]="false"
@@ -146,7 +175,7 @@
                       nzLabel="Functional"></nz-option>
                   </nz-select>
                 </th>
-                <th>
+                <th nzAlign="center">
                   <nz-select nzAllowClear
                     nzPlaceHolder="All"
                     [nzDropdownMatchSelectWidth]="false"
@@ -161,7 +190,7 @@
                       nzLabel="N/A"></nz-option>
                   </nz-select>
                 </th>
-                <th nzWidth="5%">
+                <th nzWidth="5%" nzAlign="center">
                   <nz-select nzAllowClear
                     nzPlaceHolder="All"
                     [nzDropdownMatchSelectWidth]="false"
@@ -217,7 +246,7 @@
                     </nz-option-group>
                   </nz-select>
                 </th>
-                <th>
+                <th nzWidth="5%" nzAlign="center">
                   <nz-select nzAllowClear
                     nzPlaceHolder="All"
                     [nzDropdownMatchSelectWidth]="false"
@@ -237,7 +266,7 @@
                       nzLabel="Germline or Somatic"></nz-option>
                   </nz-select>
                 </th>
-                <th>
+                <th nzWidth="5%" nzAlign="center">
                   <nz-select nzAllowClear
                     nzPlaceHolder="All"
                     [nzDropdownMatchSelectWidth]="false"
@@ -259,15 +288,20 @@
             </thead>
             <tbody>
               <tr *ngFor="let eid of evidenceTable.data">
-                <ng-template #evidenceTag
-                  let-linkableEvidence="eid">
-                  <a routerLink="/evidence/{{linkableEvidence.id}}">
-                    <cvc-evidence-tag [evidence]="linkableEvidence"></cvc-evidence-tag>
-                  </a>
-                </ng-template>
                 <td>
-                  <ng-container *ngTemplateOutlet="evidenceTag;context:{ eid: eid }">
-                  </ng-container>
+                  <a routerLink="/evidence/{{eid.id}}">
+                    <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
+                  </a>
+                </td>
+                <td *ngIf="displayGeneAndVariant">
+                  <a routerLink="/genes/{{eid.gene.id}}">
+                    <cvc-gene-tag [gene]="eid.gene"></cvc-gene-tag>
+                  </a>
+                </td>
+                <td *ngIf="displayGeneAndVariant">
+                  <a routerLink="/variants/{{eid.variant.id}}">
+                    <cvc-variant-pill [variant]="eid.variant"></cvc-variant-pill>
+                  </a>
                 </td>
                 <td>
                   <ng-container *ngIf="eid.disease; else diseaseElse">
@@ -291,30 +325,46 @@
                     <i>N/A</i>
                   </ng-template>
                 </td>
-                <td>
+                <td nzAlign="center">
                   <i nz-icon
                     nzType="align-left"
                     nz-tooltip
                     nzTooltipPlacement="top"
                     [nzTooltipTitle]="eid.description"></i>
                 </td>
-                <td>
-                  {{ eid.evidenceLevel }}
+                <td nzAlign="center">
+                  {{ eid.evidenceLevel | evidenceEnumDisplay }}
                 </td>
-                <td>
-                  {{ eid.evidenceType }}
+                <td nzAlign="center">
+                  <i nz-icon [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
+                    nz-tooltip
+                    nzTooltipPlacement="top"
+                    [nzTooltipTitle]="eid.evidenceType | evidenceEnumDisplay"></i>
                 </td>
-                <td>
-                  {{ eid.evidenceDirection }}
+                <td nzAlign="center">
+                  <i nz-icon [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
+                    nz-tooltip
+                    nzTooltipPlacement="top"
+                    [nzTooltipTitle]="eid.evidenceDirection | evidenceEnumDisplay"></i>
                 </td>
-                <td>
-                  {{ eid.clinicalSignificance }}
+                <td nzAlign="center">
+                  <i nz-icon [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
+                    nz-tooltip
+                    nzTooltipPlacement="top"
+                    [nzTooltipTitle]="eid.clinicalSignificance | evidenceEnumDisplay"></i>
                 </td>
-                <td>
-                  {{ eid.variantOrigin }}
+                <td nzAlign="center">
+                  <i nz-icon [nzType]="eid.variantOrigin| evidenceEnumDisplay: 'icon-name'"
+                    nz-tooltip
+                    nzTooltipPlacement="top"
+                    [nzTooltipTitle]="eid.variantOrigin | evidenceEnumDisplay"></i>
                 </td>
-                <td>
-                  {{ eid.evidenceRating}}
+                <td nzAlign="center">
+                  {{ eid.evidenceRating }}
+                  <i nz-icon nzType="star"
+                    nzTheme="fill"
+                    nz-tooltip
+                    nzTooltipPlacement="top"></i>
                 </td>
               </tr>
               <!-- Load More button row -->

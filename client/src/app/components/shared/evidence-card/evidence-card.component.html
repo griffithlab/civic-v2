@@ -23,10 +23,10 @@
                         </nz-col>
                         <nz-col [nzSpan]="8">
                             <nz-row><b>Evidence Level:&nbsp;</b>{{ evidence.evidenceLevel }}</nz-row>
-                            <nz-row><b>Evidence Type:&nbsp;</b>{{ evidence.evidenceType }}</nz-row>
-                            <nz-row><b>Evidence Direction:&nbsp;</b>{{ evidence.evidenceDirection }}</nz-row>
-                            <nz-row><b>Clinical Significance:&nbsp;</b>{{ evidence.clinicalSignificance }}</nz-row>
-                            <nz-row><b>Variant Origin:&nbsp;</b>{{ evidence.variantOrigin }}</nz-row>
+                            <nz-row><b>Evidence Type:&nbsp;</b>{{ evidence.evidenceType | evidenceEnumDisplay }}</nz-row>
+                            <nz-row><b>Evidence Direction:&nbsp;</b>{{ evidence.evidenceDirection | evidenceEnumDisplay }}</nz-row>
+                            <nz-row><b>Clinical Significance:&nbsp;</b>{{ evidence.clinicalSignificance | evidenceEnumDisplay }}</nz-row>
+                            <nz-row><b>Variant Origin:&nbsp;</b>{{ evidence.variantOrigin | evidenceEnumDisplay }}</nz-row>
                             <nz-row [ngPlural]="evidence.drugs.length">
                                 <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
                                 <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
@@ -59,10 +59,11 @@
                                 <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-                                  {{ t.nctId }} <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                                    <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
+                                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
                                 </ng-container>
                             </nz-row>
-                            <nz-row><b>Evidence Rating:&nbsp;</b>{{ evidence.evidenceRating }}</nz-row>
+                            <nz-row><b>Evidence Rating:&nbsp;</b><cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating></nz-row>
                         </nz-col>
                     </nz-row>
                 </nz-card>

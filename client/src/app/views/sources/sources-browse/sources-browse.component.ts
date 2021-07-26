@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseSourceRowFieldsFragment, BrowseSourcesGQL, BrowseSourcesQuery, Maybe, PageInfo, QueryBrowseSourcesArgs, SourceSource, SourcesSortColumns } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/shared/utilities/datatable-helpers";
@@ -11,15 +11,16 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
   templateUrl: './sources-browse.component.html',
   styleUrls: ['./sources-browse.component.less'],
 })
-export class SourcesBrowseComponent implements OnDestroy {
+export class SourcesBrowseComponent implements OnDestroy, OnInit {
+  @Input() clinicalTrialId: Maybe<number>
 
   private debouncedQuery = new Subject<void>();
 
-  queryRef: QueryRef<BrowseSourcesQuery, QueryBrowseSourcesArgs>;
-  data$: Observable<ApolloQueryResult<BrowseSourcesQuery>>;
-  isLoading$: Observable<boolean>;
-  sources$: Observable<Maybe<BrowseSourceRowFieldsFragment>[]>;
-  pageInfo$: Observable<PageInfo>;
+  queryRef?: QueryRef<BrowseSourcesQuery, QueryBrowseSourcesArgs>;
+  data$?: Observable<ApolloQueryResult<BrowseSourcesQuery>>;
+  isLoading$?: Observable<boolean>;
+  sources$?: Observable<Maybe<BrowseSourceRowFieldsFragment>[]>;
+  pageInfo$?: Observable<PageInfo>;
 
   textInputCallback?: () => void
 
@@ -35,8 +36,12 @@ export class SourcesBrowseComponent implements OnDestroy {
   pageSize = 25
   sortColumns: typeof SourcesSortColumns = SourcesSortColumns
 
-  constructor(private gql: BrowseSourcesGQL) {
-    this.queryRef = this.gql.watch({ first: this.pageSize })
+  constructor(private gql: BrowseSourcesGQL) {}
+  ngOnInit() {
+    this.queryRef = this.gql.watch({ 
+      first: this.pageSize,
+      clinicalTrialId: this.clinicalTrialId
+    })
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -69,7 +74,7 @@ export class SourcesBrowseComponent implements OnDestroy {
   }
 
   refresh() {
-    this.queryRef.refetch({
+    this.queryRef?.refetch({
       citationId: this.citationIdInput ? +this.citationIdInput : undefined, 
       author: this.authorInput,
       year: this.yearInput ? +this.yearInput : undefined,
@@ -80,7 +85,7 @@ export class SourcesBrowseComponent implements OnDestroy {
   }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({sortBy: buildSortParams(e)})
+    this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
   onModelChanged() {
@@ -92,7 +97,7 @@ export class SourcesBrowseComponent implements OnDestroy {
   }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({
+    this.queryRef?.fetchMore({
       variables: {
         first: this.pageSize,
         after: cursor

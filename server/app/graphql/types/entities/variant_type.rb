@@ -23,6 +23,7 @@ module Types::Entities
     field :variant_types, [Types::Entities::VariantTypeType], null: true
     field :clinvar_ids, [String], null: true
     field :hgvs_descriptions, [String], null: true
+    field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
@@ -68,6 +69,10 @@ module Types::Entities
 
     def hgvs_descriptions
       object.hgvs_expressions.map{|e| e.expression}
+    end
+
+    def my_variant_info
+      MyVariantInfo.new(object).response
     end
   end
 end

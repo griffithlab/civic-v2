@@ -38,7 +38,7 @@
               <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
                 <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
                   <ng-container *ngFor="let t of evidence.source.clinicalTrials; let last = last">
-                    {{ t.nctId }}
+                    <a href="https://clinicaltrials.gov/show/{{t.nctId}}" target="_blank">{{ t.nctId }}</a>
                     <ng-container *ngIf="!last">,&nbsp;</ng-container>
                   </ng-container>
                 </ng-container>
@@ -142,17 +142,17 @@
 
               <!-- evidence type -->
               <nz-descriptions-item nzTitle="Type">
-                {{ evidence.evidenceType }}
+                {{ evidence.evidenceType | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
               <!-- evidence direction -->
               <nz-descriptions-item nzTitle="Direction">
-                {{ evidence.evidenceDirection }}
+                {{ evidence.evidenceDirection | evidenceEnumDisplay}}
               </nz-descriptions-item>
 
               <!-- clinical significance -->
               <nz-descriptions-item nzTitle="Clinical Significance" nzSpan="2">
-                {{ evidence.clinicalSignificance }}
+                {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
 
@@ -164,7 +164,7 @@
 
               <!-- evidence rating -->
               <nz-descriptions-item nzTitle="Rating">
-                {{ evidence.evidenceRating }}
+                <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
               </nz-descriptions-item>
 
 
