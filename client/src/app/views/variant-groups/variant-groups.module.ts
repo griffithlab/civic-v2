@@ -34,12 +34,17 @@ import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { SourcesRoutingModule } from '../sources/sources-routing.module';
 import { VariantsRoutingModule } from '../variants/variants-routing.module';
+import { VariantGroupsDetailComponent } from './variant-groups-detail/variant-groups-detail.component';
+import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-groups-summary.component';
+import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
+import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
+import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
 
 
 @NgModule({
   declarations: [
     VariantGroupsComponent, 
-    VariantGroupsBrowseComponent
+    VariantGroupsBrowseComponent, VariantGroupsDetailComponent, VariantGroupsSummaryComponent, VariantGroupsCommentsComponent, VariantGroupsRevisionsComponent, VariantGroupsFlagsComponent
   ],
   imports: [
     CommonModule,
@@ -79,7 +84,12 @@ import { VariantsRoutingModule } from '../variants/variants-routing.module';
     NzSelectModule
   ],
   exports: [
-    VariantGroupsBrowseComponent
+    VariantGroupsBrowseComponent,
+    VariantGroupsDetailComponent,
+    VariantGroupsSummaryComponent,
+    VariantGroupsCommentsComponent,
+    VariantGroupsRevisionsComponent,
+    VariantGroupsFlagsComponent
   ]
 })
 export class VariantGroupsModule { }
