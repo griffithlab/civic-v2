@@ -1,0 +1,65 @@
+<!-- <ng-container *ngIf="gene$ | async as gene"> -->
+<ng-container>
+  <cvc-section-navigation
+    [entity]="{ id: 0, displayName: '[Variant Group Name]' }">
+  </cvc-section-navigation>
+  <!-- <div cvcFlaggable
+       [flags]="flagsTotal$ | ngrxPush"> -->
+
+    <nz-page-header class="site-page-header">
+
+      <!-- title -->
+      <nz-page-header-title cvcFlaggableOptions>
+        <!-- [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"> -->
+        <i nz-icon
+          nzType="civic:variantgroup"></i>
+        [VARIANT GROUP NAME]
+      </nz-page-header-title>
+
+
+      <!-- header action btns, actions menu -->
+      <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+        <nz-space nzDirection="horizontal"
+          nzSize="small"
+          *ngrxLet="viewer$ as viewer">
+
+          <!-- add revision btn -->
+          <nz-space-item>
+            <button routerLink="suggest-revision"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Revise
+            </button>
+          </nz-space-item>
+
+          <!-- add flag btn -->
+          <!-- TODO implement as flag form within popover window -->
+          <nz-space-item>
+            <button routerLink="flags"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
+          </nz-space-item>
+
+        </nz-space>
+      </nz-page-header-extra>
+
+      <nz-page-header-content>
+        <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+    <!-- cvcFlaggable closing div: -->
+    <!-- </div> -->
+</ng-container>
