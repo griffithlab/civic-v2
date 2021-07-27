@@ -5,9 +5,18 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag>
+  <nz-tag
+  nz-popover
+  [nzPopoverMouseEnterDelay]="0.5"
+  [nzPopoverContent]="assertionPopover"
+  nzPopoverPlacement="right"
+  nzPopoverTrigger="hover">
       <i nz-icon nzType="civic-assertion" nzTheme="twotone" nzTwotoneColor="#7243B5"></i> {{ assertion.name }}
   </nz-tag>
+
+  <ng-template #assertionPopover>
+    <cvc-assertion-popover [assertionId]="assertion.id"></cvc-assertion-popover>
+  </ng-template>
 </ng-template>
 
 <ng-template #unlinked>

@@ -110,6 +110,7 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
+import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 
 @NgModule({
   declarations: [
@@ -171,7 +172,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
-    VariantTypeTagComponent
+    VariantTypeTagComponent,
+    AssertionPopoverComponent
   ],
   imports: [
     CommonModule,
@@ -281,7 +283,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
-    VariantTypeTagComponent
+    VariantTypeTagComponent,
+    AssertionPopoverComponent
   ]
 })
 

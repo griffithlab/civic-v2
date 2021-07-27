@@ -3027,6 +3027,52 @@ export type HovercardGeneFragment = (
   ) }
 );
 
+export type AssertionPopoverQueryVariables = Exact<{
+  assertionId: Scalars['Int'];
+}>;
+
+
+export type AssertionPopoverQuery = (
+  { __typename: 'Query' }
+  & { assertion?: Maybe<(
+    { __typename: 'Assertion' }
+    & AssertionPopoverFragment
+  )> }
+);
+
+export type AssertionPopoverFragment = (
+  { __typename: 'Assertion' }
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
+  & { acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'code'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
 export type AssertionsBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -4787,6 +4833,54 @@ export const HovercardGeneFragmentDoc = gql`
   }
 }
     `;
+export const AssertionPopoverFragmentDoc = gql`
+    fragment assertionPopover on Assertion {
+  id
+  name
+  summary
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  variantOrigin
+  ampLevel
+  acmgCodes {
+    code
+  }
+  nccnGuideline
+  fdaCompanionTest
+  regulatoryApproval
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
 export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     fragment AssertionBrowseTableRowFields on Assertion {
   id
@@ -5712,6 +5806,24 @@ export const GeneHoverCardDocument = gql`
   })
   export class GeneHoverCardGQL extends Apollo.Query<GeneHoverCardQuery, GeneHoverCardQueryVariables> {
     document = GeneHoverCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AssertionPopoverDocument = gql`
+    query AssertionPopover($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...assertionPopover
+  }
+}
+    ${AssertionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionPopoverGQL extends Apollo.Query<AssertionPopoverQuery, AssertionPopoverQueryVariables> {
+    document = AssertionPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
