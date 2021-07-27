@@ -1,11 +1,11 @@
-<nz-tag nzColor="geekblue"
+<nz-tag
   nz-popover
   [nzPopoverMouseEnterDelay]="0.5"
   [nzPopoverContent]="userPopover"
   nzPopoverTrigger="hover"
   nzPopoverPlacement="topCenter">
   <i nz-icon
-    [nzType]="icon"></i> {{ user.displayName }}
+    [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{ user.displayName }}
 </nz-tag>
 <ng-template #userPopover>
   <cvc-user-hovercard [userId]="user.id"></cvc-user-hovercard>
