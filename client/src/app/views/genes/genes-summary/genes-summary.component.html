@@ -82,9 +82,34 @@
 
       </nz-col>
 
-      <!-- MyGene info column -->
+      <!-- aliases, mygeneinfo col -->
       <nz-col nzSpan="12">
-        <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
+        <nz-space nzDirection="vertical">
+          <!-- aliases -->
+          <nz-space-item>
+
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+
+              <nz-descriptions-item nzTitle="Aliases"
+                nzSpan="1"
+                *ngIf="gene.aliases.length > 0">
+                <ng-container *ngFor="let alias of gene.aliases; last as isLast">
+                  {{ alias.name }}<span *ngIf="!isLast">,&nbsp;</span>
+                </ng-container>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- mygeneinfo -->
+          <nz-space-item>
+            <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
+          </nz-space-item>
+
+        </nz-space>
       </nz-col>
     </nz-row>
   </nz-space-item>

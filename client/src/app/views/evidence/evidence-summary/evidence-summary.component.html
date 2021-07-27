@@ -116,17 +116,17 @@
 
               <!-- phenotypes -->
               <nz-descriptions-item [nzTitle]="evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'">
-                <ng-container *ngIf="evidence.phenotypes.length === 0">
-                  <span nz-typography
-                    nzType="secondary">None Specified</span>
-                </ng-container>
-                <ng-container *ngIf="evidence.phenotypes.length > 0">
+                <ng-container *ngIf="evidence.phenotypes.length > 0; else noPhenotypes">
                   <cvc-tag-list>
                     <ng-container *ngFor="let ph of evidence.phenotypes">
                       <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
                     </ng-container>
                   </cvc-tag-list>
                 </ng-container>
+                <ng-template #noPhenotypes>
+                  <span nz-typography
+                    nzType="secondary">None Specified</span>
+                </ng-template>
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-space-item>
