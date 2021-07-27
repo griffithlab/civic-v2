@@ -3985,7 +3985,7 @@ export type AssertionSummaryFieldsFragment = (
     & Pick<Gene, 'id' | 'name'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'alleleRegistryId'>
   ), drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'ncitId' | 'name'>
@@ -5292,6 +5292,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   variant {
     id
     name
+    alleleRegistryId
   }
   assertionType
   assertionDirection
