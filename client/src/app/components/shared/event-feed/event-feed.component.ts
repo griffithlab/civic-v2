@@ -15,8 +15,8 @@ import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LinkableUser } from "../user-pill/user-pill.component";
 import { TagLinkableOrganization } from "../org-tag/org-tag.component";
+import { TagLinkableUser } from "../user-tag/user-tag.component";
 
 interface SelectableAction { id: EventAction }
 
@@ -46,7 +46,7 @@ export class EventFeedComponent implements OnInit {
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
-  participants$?: Observable<LinkableUser[]>;
+  participants$?: Observable<TagLinkableUser[]>;
   organizations$?: Observable<TagLinkableOrganization[]>;
   actions$?: Observable<SelectableAction[]>
 

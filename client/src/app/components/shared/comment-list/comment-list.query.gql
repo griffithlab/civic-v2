@@ -26,6 +26,7 @@ query CommentList(
     uniqueCommenters {
       id
       displayName
+      role
       profileImagePath(size: 32)
     }
     edges {

@@ -3135,7 +3135,7 @@ export type CommentListQuery = (
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ), uniqueCommenters: Array<(
       { __typename: 'User' }
-      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     )>, edges: Array<(
       { __typename: 'CommentEdge' }
       & Pick<CommentEdge, 'cursor'>
@@ -3216,7 +3216,7 @@ export type EventFeedFragment = (
     & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
   ), uniqueParticipants: Array<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   )>, participatingOrganizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
@@ -3526,24 +3526,6 @@ export type OrgPopoverQuery = (
 );
 
 export type OrgPopoverFragment = (
-  { __typename: 'Organization' }
-  & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
-);
-
-export type OrgHoverCardQueryVariables = Exact<{
-  orgId: Scalars['Int'];
-}>;
-
-
-export type OrgHoverCardQuery = (
-  { __typename: 'Query' }
-  & { organization?: Maybe<(
-    { __typename: 'Organization' }
-    & HovercardOrgFragment
-  )> }
-);
-
-export type HovercardOrgFragment = (
   { __typename: 'Organization' }
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
 );
@@ -4925,6 +4907,7 @@ export const EventFeedFragmentDoc = gql`
   uniqueParticipants {
     id
     displayName
+    role
     profileImagePath(size: 32)
   }
   participatingOrganizations {
@@ -5100,15 +5083,6 @@ export const GenePopoverFragmentDoc = gql`
     `;
 export const OrgPopoverFragmentDoc = gql`
     fragment orgPopover on Organization {
-  id
-  profileImagePath(size: 64)
-  name
-  description
-  url
-}
-    `;
-export const HovercardOrgFragmentDoc = gql`
-    fragment hovercardOrg on Organization {
   id
   profileImagePath(size: 64)
   name
@@ -5838,6 +5812,7 @@ export const CommentListDocument = gql`
     uniqueCommenters {
       id
       displayName
+      role
       profileImagePath(size: 32)
     }
     edges {
@@ -6064,24 +6039,6 @@ export const OrgPopoverDocument = gql`
   })
   export class OrgPopoverGQL extends Apollo.Query<OrgPopoverQuery, OrgPopoverQueryVariables> {
     document = OrgPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const OrgHoverCardDocument = gql`
-    query OrgHoverCard($orgId: Int!) {
-  organization(id: $orgId) {
-    ...hovercardOrg
-  }
-}
-    ${HovercardOrgFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
-    document = OrgHoverCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

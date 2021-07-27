@@ -47,7 +47,6 @@ import { ParticipantListComponent } from './participant-list/participant-list.co
 import { EventFeedComponent } from './event-feed/event-feed.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserHovercardComponent } from './user-hovercard/user-hovercard.component';
-import { UserPillComponent } from './user-pill/user-pill.component'
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
 import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
@@ -127,7 +126,6 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     EventFeedComponent,
     UserAvatarComponent,
     UserHovercardComponent,
-    UserPillComponent,
     CommentDisplayComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
@@ -241,7 +239,6 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     EventFeedComponent,
     UserAvatarComponent,
     UserHovercardComponent,
-    UserPillComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
