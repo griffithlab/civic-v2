@@ -3262,30 +3262,16 @@ export type EventFeedNodeFragment = (
     & Pick<Assertion, 'id' | 'name'>
   ) | (
     { __typename: 'Comment' }
-    & Pick<Comment, 'id' | 'comment' | 'name'>
+    & Pick<Comment, 'id' | 'name'>
   ) | (
     { __typename: 'EvidenceItem' }
     & Pick<EvidenceItem, 'id' | 'name'>
   ) | (
     { __typename: 'Flag' }
     & Pick<Flag, 'id' | 'name'>
-    & { openComment: (
-      { __typename: 'Comment' }
-      & Pick<Comment, 'comment'>
-    ), resolutionComment?: Maybe<(
-      { __typename: 'Comment' }
-      & Pick<Comment, 'comment'>
-    )> }
   ) | (
     { __typename: 'Revision' }
-    & Pick<Revision, 'id' | 'revisionsetId' | 'name'>
-    & { revisor: (
-      { __typename: 'User' }
-      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-    ), linkoutData: (
-      { __typename: 'LinkoutData' }
-      & Pick<LinkoutData, 'name'>
-    ) }
+    & Pick<Revision, 'id' | 'name'>
   )> }
 );
 
@@ -4917,28 +4903,12 @@ export const EventFeedNodeFragmentDoc = gql`
     __typename
     ... on Revision {
       id
-      revisor {
-        id
-        displayName
-        profileImagePath(size: 32)
-      }
-      linkoutData {
-        name
-      }
-      revisionsetId
     }
     ... on Comment {
       id
-      comment
     }
     ... on Flag {
       id
-      openComment {
-        comment
-      }
-      resolutionComment {
-        comment
-      }
     }
   }
 }

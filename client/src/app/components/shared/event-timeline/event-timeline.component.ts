@@ -76,25 +76,4 @@ export class EventTimelineComponent implements OnInit {
         throw new Error('Not handling all event action types yet ' + e.action)
     }
   }
-
-  commentForFlagEvent(e: EventFeedNodeFragment): string {
-    switch (e.originatingObject?.__typename) {
-      case ('Flag'):
-        if (e.action === EventAction.FlagResolved) {
-          if (e.originatingObject.resolutionComment) {
-            return e.originatingObject.resolutionComment?.comment
-          }
-          else {
-            return ""
-          }
-        } else if (e.action === EventAction.Flagged) {
-          return e.originatingObject.openComment.comment
-        }
-        else {
-          throw new Error('Event action does not match originating object type')
-        }
-      default:
-        throw new Error('Not handling all event originating object type yet')
-    }
-  }
 }
