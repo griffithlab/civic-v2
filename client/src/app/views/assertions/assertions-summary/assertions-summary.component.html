@@ -7,7 +7,7 @@
       <!-- assertion summary, desciption, FDA -->
       <nz-col [nzSpan]="12">
 
-        <nz-space nzDirection="horizontal">
+        <nz-space nzDirection="vertical">
 
           <!-- summary, description -->
           <nz-space-item>
@@ -29,24 +29,120 @@
             </nz-descriptions>
           </nz-space-item>
 
+          <!-- FDA approval, test -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true">
+
+              <!-- regulatory approval -->
+              <nz-descriptions-item nzTitle="Regulatory Approval">
+                <i nz-icon *ngIf="assertion.regulatoryApproval" [nzType]="'check-circle'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon *ngIf="!assertion.regulatoryApproval" [nzType]="'close-square'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#d93026'"></i>
+              </nz-descriptions-item>
+
+              <!-- FDA companion test -->
+              <nz-descriptions-item nzTitle="FDA Companion Test">
+                <i nz-icon *ngIf="assertion.fdaCompanionTest" [nzType]="'check-circle'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon *ngIf="!assertion.fdaCompanionTest" [nzType]="'close-square'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#d93026'"></i>
+              </nz-descriptions-item>
+
+              <!-- NCCN guideline -->
+              <nz-descriptions-item nzTitle="NCCN Guideline">
+                <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline }}</ng-container>
+                <ng-container *ngIf="!assertion.nccnGuideline">
+                  <span nz-typography nzType="secondary">None Provided</span>
+                </ng-container>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- AMP/ASO/CAP category, ACMG codes-->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true">
+
+              <!-- AMP/ASO/CAP -->
+              <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
+                {{ assertion.ampLevel | formatAmp: 'verbose' }}
+              </nz-descriptions-item>
+
+              <!-- ACMG Codes -->
+              <nz-descriptions-item nzTitle="ACMG Codes">
+                <ng-container *ngIf="assertion.acmgCodes.length > 0">
+                  <ng-container *ngFor="let code of assertion.acmgCodes; let last = last">
+                    {{ code.code }}<ng-container *ngIf="!last">,&nbsp;</ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="assertion.acmgCodes.length == 0" >
+                  <span nz-typography nzType="secondary">None provided</span>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
         </nz-space>
+
       </nz-col>
+
       <!-- assertion details column -->
       <nz-col [nzSpan]="12">
-        <nz-space nzDirection="horizontal">
+        <nz-space nzDirection="vertical">
+
+          <!-- status, curation events -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              class="status-tags">
+
+              <!-- status -->
+              <nz-descriptions-item nzTitle="Status">
+                <cvc-status-tag [status]="assertion.status"></cvc-status-tag>
+              </nz-descriptions-item>
+
+              <!-- submit/accept/reject curation events -->
+              <nz-descriptions-item nzTitle="Submitted by">
+                <cvc-user-tag [user]="assertion.submissionEvent.originatingUser"></cvc-user-tag>
+              </nz-descriptions-item>
+
+              <!-- TODO logic below is incorrect see AID1 - must identify the latest accept/reject event, and display that -->
+              <!-- display accepted/rejected only if either exists -->
+              <ng-container *ngIf="assertion.rejectionEvent !== null || assertion.acceptanceEvent !== null">
+                <!-- show acceptance only if no rejection event exists -->
+                <ng-container [ngSwitch]="assertion.rejectionEvent === null">
+                  <nz-descriptions-item *ngSwitchCase="true"
+                    nzTitle="Accepted by">
+                    <cvc-user-tag [user]="assertion.acceptanceEvent.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                  <nz-descriptions-item *ngSwitchCase="false"
+                    nzTitle="Rejected by">
+                    <cvc-user-tag [user]="assertion.rejectionEvent.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                </ng-container>
+              </ng-container>
+
+            </nz-descriptions>
+          </nz-space-item>
 
           <!-- gene, variant info -->
           <nz-space-item>
             <nz-descriptions nzLayout="vertical"
               nzSize="small"
               nzBordered="true"
-              [nzColumn]="3">
+              [nzColumn]="4">
               <nz-descriptions-item nzTitle="Gene">
                 <cvc-gene-tag [gene]="assertion.gene"></cvc-gene-tag>
               </nz-descriptions-item>
 
               <nz-descriptions-item nzTitle="Variant">
                 <cvc-variant-tag [variant]="assertion.variant"></cvc-variant-tag>
+              </nz-descriptions-item>
+
+              <nz-descriptions-item nzTitle="Variant Origin">
+                <i nz-icon [nzType]="assertion.variantOrigin | evidenceEnumDisplay: 'icon-name'"></i>
+                {{ assertion.variantOrigin | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
               <nz-descriptions-item nzTitle="Allele Registry ID">
@@ -65,6 +161,108 @@
             </nz-descriptions>
           </nz-space-item>
 
+          <!-- disease, phenotype -->
+          <nz-space-item>
+
+            <!-- if both diseases and phenotypes are set, display in 1 col so value cells are full width -->
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="(assertion.disease.name !== undefined && assertion.phenotypes.length > 0) ? 1 : 2">
+
+              <!-- disease -->
+              <nz-descriptions-item nzTitle="Disease">
+                <ng-container *ngIf="assertion.disease.name">
+                  <a routerLink="/diseases/{{assertion.disease.id}}">
+                    <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
+                  </a>
+                </ng-container>
+                <span *ngIf="!assertion.disease.name"
+                  nz-typography
+                  nzType="secondary">N/A</span>
+              </nz-descriptions-item>
+
+              <!-- phenotypes -->
+              <nz-descriptions-item [nzTitle]="assertion.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'">
+                <ng-container *ngIf="assertion.phenotypes.length === 0">
+                  <span nz-typography
+                    nzType="secondary">None Specified</span>
+                </ng-container>
+                <ng-container *ngIf="assertion.phenotypes.length > 0">
+                  <ng-container *ngFor="let ph of assertion.phenotypes">
+                    <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
+                  </ng-container>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+
+          </nz-space-item>
+
+          <!-- drugs -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true">
+              <nz-descriptions-item [nzTitle]="drugsTitle">
+                <ng-container [ngPlural]="assertion.drugs.length">
+                  <!-- no drug -->
+                  <ng-template ngPluralCase="=0">
+                    <span nz-typography
+                      nzType="secondary">N/A</span>
+                  </ng-template>
+
+                  <!-- one or more drugs -->
+                  <ng-template ngPluralCase="other">
+                    <ng-container *ngFor="let drug of assertion.drugs">
+                      <a routerLink="/drugs/{{drug.id}}">
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                      </a>
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
+
+                <!-- drug description title template -->
+                <ng-template #drugsTitle>
+                  <ng-container [ngPlural]="assertion.drugs.length">
+                    <ng-template ngPluralCase="=0">
+                      Drug
+                    </ng-template>
+                    <ng-template ngPluralCase="=1">
+                      Drug
+                    </ng-template>
+                    <ng-template ngPluralCase="other">
+                      Drugs ({{ assertion.drugInteractionType }})
+                    </ng-template>
+                  </ng-container>
+                </ng-template>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- type, direction, level, rating-->
+          <nz-space-item>
+            <nz-descriptions nzSize="small"
+              [nzColumn]="2"
+              nzBordered="true">
+
+              <!-- assertion type -->
+              <nz-descriptions-item nzTitle="Type">
+                {{ assertion.assertionType | evidenceEnumDisplay }}
+              </nz-descriptions-item>
+
+              <!-- assertion direction -->
+              <nz-descriptions-item nzTitle="Direction">
+                {{ assertion.assertionDirection | evidenceEnumDisplay }}
+              </nz-descriptions-item>
+
+              <!-- clinical significance -->
+              <nz-descriptions-item nzTitle="Clinical Significance"
+                nzSpan="2">
+                {{ assertion.clinicalSignificance | evidenceEnumDisplay }}
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
         </nz-space>
 
       </nz-col>

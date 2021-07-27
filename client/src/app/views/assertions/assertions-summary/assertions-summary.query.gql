@@ -9,6 +9,7 @@ fragment AssertionSummaryFields on Assertion {
   name
   summary
   description
+  status
   variantOrigin
   disease {
     id
@@ -51,5 +52,29 @@ fragment AssertionSummaryFields on Assertion {
   }
   comments {
     totalCount
+  }
+  acceptanceEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  submissionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  rejectionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }

@@ -75,7 +75,8 @@
                 <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
               </nz-descriptions-item>
 
-              <!-- display accept/reject only if either exists -->
+              <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
+              <!-- display accepted/rejected only if either exists -->
               <ng-container *ngIf="evidence.rejectionEvent !== null || evidence.acceptanceEvent !== null">
                 <!-- show acceptance only if no rejection event exists -->
                 <ng-container [ngSwitch]="evidence.rejectionEvent === null">
@@ -95,7 +96,7 @@
 
           <!-- disease, phenotype -->
           <nz-space-item>
-            <!-- if both drugs and phenotypes are set, display in 1 col so value cells are full width -->
+            <!-- if both diseases and phenotypes are set, display in 1 col so value cells are full width -->
             <nz-descriptions nzLayout="vertical"
               nzSize="small"
               nzBordered="true"
