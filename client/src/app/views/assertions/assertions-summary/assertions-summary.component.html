@@ -179,7 +179,7 @@
                 </ng-container>
                 <span *ngIf="!assertion.disease.name"
                   nz-typography
-                  nzType="secondary">N/A</span>
+                  nzType="secondary">Not applicable</span>
               </nz-descriptions-item>
 
               <!-- phenotypes -->
@@ -189,9 +189,11 @@
                     nzType="secondary">None Specified</span>
                 </ng-container>
                 <ng-container *ngIf="assertion.phenotypes.length > 0">
-                  <ng-container *ngFor="let ph of assertion.phenotypes">
-                    <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
-                  </ng-container>
+                  <cvc-tag-list>
+                    <ng-container *ngFor="let ph of assertion.phenotypes">
+                      <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
+                    </ng-container>
+                  </cvc-tag-list>
                 </ng-container>
               </nz-descriptions-item>
             </nz-descriptions>
@@ -208,16 +210,18 @@
                   <!-- no drug -->
                   <ng-template ngPluralCase="=0">
                     <span nz-typography
-                      nzType="secondary">N/A</span>
+                      nzType="secondary">Not applicable</span>
                   </ng-template>
 
                   <!-- one or more drugs -->
                   <ng-template ngPluralCase="other">
-                    <ng-container *ngFor="let drug of assertion.drugs">
-                      <a routerLink="/drugs/{{drug.id}}">
-                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                      </a>
-                    </ng-container>
+                    <cvc-tag-list>
+                      <ng-container *ngFor="let drug of assertion.drugs">
+                        <a routerLink="/drugs/{{drug.id}}">
+                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                        </a>
+                      </ng-container>
+                    </cvc-tag-list>
                   </ng-template>
                 </ng-container>
 
