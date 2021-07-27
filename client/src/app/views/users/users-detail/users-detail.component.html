@@ -186,7 +186,7 @@
                     <nz-list *ngIf="user.organizations.length > 0" nzBordered nzSize="small">
                       <nz-list-header>Organizations: </nz-list-header>
                       <nz-list-item *ngFor="let org of user.organizations">
-                        <cvc-org-pill [org]="org"></cvc-org-pill>
+                        <cvc-org-tag [org]="org"></cvc-org-tag>
                       </nz-list-item>
                     </nz-list>
                   </nz-col>
