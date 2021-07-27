@@ -11,21 +11,13 @@
           class="label"><strong>{{ evidence.name }}</strong> Parents:</span>
       </nz-space-item>
       <nz-space-item class="tags">
-        <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
-        <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+        <a routerLink="/genes/{{ evidence.gene.id }}">
+          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
+        </a>
+        <a routerLink="/variants/{{ evidence.variant.id }}">
+          <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+        </a>
       </nz-space-item>
-
-      <!-- contained/involved relations -->
-      <!-- <ng-container *ngIf="evidence.assertions.length > 0">
-           <nz-space-item>
-           <span nz-typography
-           class="label">Supports:</span>
-           </nz-space-item>
-           <nz-space-item class="tags">
-           <cvc-assertion-tag *ngFor="let assertion of evidence.assertions"
-           [assertion]="assertion"></cvc-assertion-tag>
-           </nz-space-item>
-           </ng-container> -->
 
     </nz-space>
   </ng-template>
