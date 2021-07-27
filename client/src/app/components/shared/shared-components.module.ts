@@ -113,6 +113,7 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
+import { StatusTagComponent } from './status-tag/status-tag.component';
 
 @NgModule({
   declarations: [
@@ -177,7 +178,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
-    VariantTypeTagComponent
+    VariantTypeTagComponent,
+    StatusTagComponent
   ],
   imports: [
     CommonModule,
@@ -290,7 +292,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
-    VariantTypeTagComponent
+    VariantTypeTagComponent,
+    StatusTagComponent
   ]
 })
 
