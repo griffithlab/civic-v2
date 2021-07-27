@@ -32,18 +32,14 @@
                                 <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let drug of evidence.drugs">
-                                    <a routerLink="/drugs/{{drug.id}}">
-                                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                                    </a>
+                                    <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                                 </ng-container>
                                 <ng-container *ngIf="evidence.drugs.length > 1">({{ evidence.drugInteractionType | titlecase }})</ng-container>
                             </nz-row>
                         </nz-col>
                         <nz-col [nzSpan]="8">
                             <nz-row *ngIf="evidence.disease"><b>Disease:&nbsp;</b>
-                                <a routerLink="/diseases/{{evidence.disease.id}}">
-                                    <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
-                                </a>
+                                <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
                             </nz-row>
                             <nz-row *ngIf="!evidence.disease"><b>Disease:&nbsp;</b><i>Not Applicable</i></nz-row>
                             <nz-row [ngPlural]="evidence.phenotypes.length">
@@ -65,9 +61,7 @@
                                 <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let t of evidence.source.clinicalTrials">
-                                    <a routerLink="/clinical-trials/{{t.id}}">
-                                        <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-                                    </a>
+                                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
                                 </ng-container>
                             </nz-row>
                             <nz-row><b>Evidence Rating:&nbsp;</b><cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating></nz-row>

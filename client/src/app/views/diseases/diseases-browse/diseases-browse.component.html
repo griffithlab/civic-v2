@@ -61,9 +61,7 @@
               <tbody>
                 <tr *ngFor="let d of diseasesTable.data">
                   <td>
-                    <a routerLink="/diseases/{{d.id}}">
-                      <cvc-disease-tag [disease]="d"></cvc-disease-tag>
-                    </a>
+                    <cvc-disease-tag [disease]="d"></cvc-disease-tag>
                   </td>
                   <td>
                     <a *ngIf="d.doid; else noDoid" href="https://disease-ontology.org/?id=DOID:{{d.doid}}" target="_blank">

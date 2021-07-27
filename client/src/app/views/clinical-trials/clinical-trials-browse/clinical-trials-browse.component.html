@@ -42,9 +42,7 @@
             <tbody>
               <tr *ngFor="let t of clinicalTrialsTable.data">
                 <td>
-                  <a routerLink="/clinical-trials/{{t.id}}">
-                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-                  </a>
+                  <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
                 </td>
                 <td>
                   {{ t.name }}

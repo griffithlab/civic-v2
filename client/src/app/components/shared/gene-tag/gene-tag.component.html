@@ -1,11 +1,23 @@
-<nz-tag
-  nz-popover
-  [nzPopoverMouseEnterDelay]="0.5"
-  [nzPopoverContent]="genePopover"
-  nzPopoverTrigger="hover">
-  <i nz-icon
-    nzType="civic-gene" nzTheme="twotone" nzTwotoneColor="#07AFF0"></i> {{ gene.name }}
-</nz-tag>
-<ng-template #genePopover>
-  <cvc-gene-popover [geneId]="gene.id"></cvc-gene-popover>
+<ng-container *ngIf="linked; else unlinked">
+  <a routerLink="/genes/{{gene.id}}">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag
+    nz-popover
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="genePopover"
+    nzPopoverTrigger="hover">
+    <i nz-icon
+      nzType="civic-gene" nzTheme="twotone" nzTwotoneColor="#07AFF0"></i> {{ gene.name }}
+  </nz-tag>
+  <ng-template #genePopover>
+    <cvc-gene-popover [geneId]="gene.id"></cvc-gene-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>

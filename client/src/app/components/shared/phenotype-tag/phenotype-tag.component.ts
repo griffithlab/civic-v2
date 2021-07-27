@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkablePhenotype {
   id: number,
@@ -12,6 +13,7 @@ export interface LinkablePhenotype {
 })
 export class PhenotypeTagComponent implements OnInit {
   @Input() phenotype!: LinkablePhenotype
+  @Input() linked: Maybe<boolean> = true
 
   constructor() { }
 

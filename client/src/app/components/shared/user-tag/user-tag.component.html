@@ -1,12 +1,24 @@
-<nz-tag
-  nz-popover
-  [nzPopoverMouseEnterDelay]="0.5"
-  [nzPopoverContent]="userPopover"
-  nzPopoverTrigger="hover"
-  nzPopoverPlacement="topCenter">
-  <i nz-icon
-    [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{ user.displayName }}
-</nz-tag>
-<ng-template #userPopover>
-  <cvc-user-hovercard [userId]="user.id"></cvc-user-hovercard>
+<ng-container *ngIf="linked; else unlinked">
+  <a routerLink="/users/{{user.id}}">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag
+    nz-popover
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="userPopover"
+    nzPopoverTrigger="hover"
+    nzPopoverPlacement="topCenter">
+    <i nz-icon
+      [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{ user.displayName }}
+  </nz-tag>
+  <ng-template #userPopover>
+    <cvc-user-hovercard [userId]="user.id"></cvc-user-hovercard>
+  </ng-template>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>

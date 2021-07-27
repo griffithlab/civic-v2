@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableGene {
   id: number;
@@ -12,6 +13,7 @@ export interface LinkableGene {
 })
 export class GeneTagComponent implements OnInit {
   @Input() gene!: LinkableGene;
+  @Input() linked: Maybe<boolean> = true
 
   constructor() {}
 
