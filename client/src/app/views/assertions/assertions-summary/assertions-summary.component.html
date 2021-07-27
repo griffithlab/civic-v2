@@ -52,7 +52,7 @@
               <nz-descriptions-item nzTitle="Allele Registry ID">
                 <span nz-typography
                   *ngIf="assertion.variant.alleleRegistry">
-                  <a [href]="https://reg.genome.network/allele/{{ assertion.variant.alleleRegistryId }}.html"
+                  <a [href]="'https://reg.genome.network/allele/' + assertion.variant.alleleRegistryId + '.html'"
                     target="_blank">
                     {{ assertion.variant.alleleRegistryId }}
                   </a>
