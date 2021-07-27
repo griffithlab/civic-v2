@@ -37,21 +37,38 @@
 
               <!-- regulatory approval -->
               <nz-descriptions-item nzTitle="Regulatory Approval">
-                <i nz-icon *ngIf="assertion.regulatoryApproval" [nzType]="'check-circle'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i>
-                <i nz-icon *ngIf="!assertion.regulatoryApproval" [nzType]="'close-square'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#d93026'"></i>
+                <i nz-icon
+                  *ngIf="assertion.regulatoryApproval"
+                  [nzType]="'check-circle'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon
+                  *ngIf="!assertion.regulatoryApproval"
+                  [nzType]="'close-square'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#d93026'"></i>
               </nz-descriptions-item>
 
               <!-- FDA companion test -->
               <nz-descriptions-item nzTitle="FDA Companion Test">
-                <i nz-icon *ngIf="assertion.fdaCompanionTest" [nzType]="'check-circle'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i>
-                <i nz-icon *ngIf="!assertion.fdaCompanionTest" [nzType]="'close-square'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#d93026'"></i>
+                <i nz-icon
+                  *ngIf="assertion.fdaCompanionTest"
+                  [nzType]="'check-circle'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon
+                  *ngIf="!assertion.fdaCompanionTest"
+                  [nzType]="'close-square'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#d93026'"></i>
               </nz-descriptions-item>
 
               <!-- NCCN guideline -->
               <nz-descriptions-item nzTitle="NCCN Guideline">
                 <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline }}</ng-container>
                 <ng-container *ngIf="!assertion.nccnGuideline">
-                  <span nz-typography nzType="secondary">None Provided</span>
+                  <span nz-typography
+                    nzType="secondary">None Provided</span>
                 </ng-container>
               </nz-descriptions-item>
 
@@ -59,6 +76,10 @@
           </nz-space-item>
 
           <!-- AMP/ASO/CAP category, ACMG codes-->
+          <!-- TODO fix display logic for displaying AMP/.. categories & ACMG codes
+               ACMG codes are only applicable for predisposing assertions, should show 'Not Applicable' for all others, or None Provided if predictive type & null
+               ACMG codes are only applicable for non-predisposing assertions, should show Not Applicable otherwise, or None Provided if non-predictive type & null
+          -->
           <nz-space-item>
             <nz-descriptions nzLayout="horizontal"
               nzSize="small"
@@ -73,11 +94,13 @@
               <nz-descriptions-item nzTitle="ACMG Codes">
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <ng-container *ngFor="let code of assertion.acmgCodes; let last = last">
-                    {{ code.code }}<ng-container *ngIf="!last">,&nbsp;</ng-container>
+                    {{ code.code }}
+                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
                   </ng-container>
                 </ng-container>
-                <ng-container *ngIf="assertion.acmgCodes.length == 0" >
-                  <span nz-typography nzType="secondary">None provided</span>
+                <ng-container *ngIf="assertion.acmgCodes.length == 0">
+                  <span nz-typography
+                    nzType="secondary">None provided</span>
                 </ng-container>
               </nz-descriptions-item>
             </nz-descriptions>
@@ -141,18 +164,20 @@
               </nz-descriptions-item>
 
               <nz-descriptions-item nzTitle="Variant Origin">
-                <i nz-icon [nzType]="assertion.variantOrigin | evidenceEnumDisplay: 'icon-name'"></i>
-                {{ assertion.variantOrigin | evidenceEnumDisplay }}
+                <i nz-icon
+                  [nzType]="assertion.variantOrigin | evidenceEnumDisplay: 'icon-name'"></i> {{ assertion.variantOrigin | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
               <nz-descriptions-item nzTitle="Allele Registry ID">
-                <span nz-typography
-                  *ngIf="assertion.variant.alleleRegistry">
-                  <a [href]="'https://reg.genome.network/allele/' + assertion.variant.alleleRegistryId + '.html'"
-                    target="_blank">
-                    {{ assertion.variant.alleleRegistryId }}
-                  </a>
-                </span>
+                <a *ngIf="assertion.variant.alleleRegistry"
+                  target="_blank"
+                  [href]="'https://reg.genome.network/allele/' + assertion.variant.alleleRegistryId + '.html'">
+                  <nz-tag nzColor="default">
+                    <i nz-icon
+                      nzType='link'
+                      nzTheme='outline'></i> ClinGen: {{ assertion.variant.alleleRegistryId }}
+                  </nz-tag>
+                </a>
                 <span nz-typography
                   nzType="secondary"
                   *ngIf="!assertion.variant.alleleRegistry">None Provided</span>
