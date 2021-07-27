@@ -57,6 +57,30 @@
       <!-- evidence details column -->
       <nz-col [nzSpan]="12">
         <nz-space nzDirection="vertical">
+          <!-- status, key curation events -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal" nzSize="small" nzBordered="true" class="status-tags">
+
+              <!-- status -->
+              <nz-descriptions-item nzTitle="Status">
+                <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
+              </nz-descriptions-item>
+              <!-- key curation events -->
+              <nz-descriptions-item nzTitle="Submitted by">
+                <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
+              </nz-descriptions-item>
+              <!-- only show acceptance if no rejection event exists -->
+              <ng-container [ngSwitch]="evidence.rejectionEvent === null">
+                <nz-descriptions-item *ngSwitchCase="true" nzTitle="Accepted by">
+                  <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
+                </nz-descriptions-item>
+                <nz-descriptions-item *ngSwitchCase="false" nzTitle="Rejected by">
+                  <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
+                </nz-descriptions-item>
+              </ng-container>
+            </nz-descriptions>
+          </nz-space-item>
+
           <!-- disease, phenotype -->
           <nz-space-item>
             <!-- if both drugs and phenotypes are set, display in 1 col so value cells are full width -->
@@ -176,13 +200,13 @@
   <nz-space-item>
     <nz-row>
       <nz-col [nzSpan]="24">
-        <ngx-json-viewer [json]="evidence"></ngx-json-viewer>
-        <!-- <cvc-event-feed [subscribable]="subscribable"
-             tagDisplay="hideSubject"></cvc-event-feed> -->
+        <!-- <ngx-json-viewer [json]="evidence"></ngx-json-viewer> -->
+        <cvc-event-feed [subscribable]="subscribable"
+          tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>
     </nz-row>
   </nz-space-item>
   <nz-space-item>
-    <!-- <cvc-assertions-browse [evidenceId]="evidence.id"></cvc-assertions-browse> -->
+    <cvc-assertions-browse [evidenceId]="evidence.id"></cvc-assertions-browse>
   </nz-space-item>
 </nz-space>

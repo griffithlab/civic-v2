@@ -4199,7 +4199,7 @@ export type EvidenceSummaryQuery = (
 
 export type EvidenceSummaryFieldsFragment = (
   { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'status' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
   & { drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
@@ -4231,7 +4231,25 @@ export type EvidenceSummaryFieldsFragment = (
   ), comments: (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
-  ) }
+  ), acceptanceEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  ), rejectionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )> }
 );
 
 export type BrowseGenesQueryVariables = Exact<{
@@ -5358,6 +5376,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   id
   name
   description
+  status
   evidenceLevel
   evidenceType
   evidenceDirection
@@ -5405,6 +5424,30 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   }
   comments {
     totalCount
+  }
+  acceptanceEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  submissionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  rejectionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }
     `;

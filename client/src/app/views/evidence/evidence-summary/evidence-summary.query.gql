@@ -10,6 +10,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
   id
   name
   description
+  status
   evidenceLevel
   evidenceType
   evidenceDirection
@@ -57,5 +58,29 @@ fragment EvidenceSummaryFields on EvidenceItem {
   }
   comments {
     totalCount
+  }
+  acceptanceEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  submissionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  rejectionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }
