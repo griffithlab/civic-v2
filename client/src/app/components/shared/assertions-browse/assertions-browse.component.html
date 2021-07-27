@@ -141,7 +141,7 @@
                   </a>
                 </td>
                 <td>
-                  <ng-container *ngIf="aid.disease.displayName; else diseaseElse">
+                  <ng-container *ngIf="aid.disease.name; else diseaseElse">
                     <a routerLink="/diseases/{{aid.disease.id}}">
                       <cvc-disease-tag [disease]="aid.disease"></cvc-disease-tag>
                     </a>
