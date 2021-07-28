@@ -6,13 +6,15 @@
     nzBreakpoint="md"
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
-    <div class="sidebar-logo"
-      [ngClass]="{ 'is-collapsed': isCollapsed }">
-      <img src="assets/images/civic-logo_sidebar-expanded.png" *ngIf="!isCollapsed"
-        alt="CIViC - Clinical Interpretations of Variants in Cancer" >
-      <img src="assets/images/civic-logo_sidebar-collapsed.png" *ngIf="isCollapsed"
-        alt="CIViC - Clinical Interpretations of Variants in Cancer" >
-    </div>
+    <a routerLink="/">
+      <div class="sidebar-logo"
+        [ngClass]="{ 'is-collapsed': isCollapsed }">
+        <img src="assets/images/civic-logo_sidebar-expanded.png" *ngIf="!isCollapsed"
+          alt="CIViC - Clinical Interpretations of Variants in Cancer" >
+        <img src="assets/images/civic-logo_sidebar-collapsed.png" *ngIf="isCollapsed"
+          alt="CIViC - Clinical Interpretations of Variants in Cancer" >
+      </div>
+    </a>
     <ul nz-menu
       nzTheme="dark"
       nzMode="inline"
