@@ -45,9 +45,7 @@
                   <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
                 </td>
                 <td>
-                  <a *ngIf="p.hpoId; else noHpo" href="https://hpo.jax.org/app/browse/term/{{p.hpoId}}">
-                    {{ p.hpoId }}
-                  </a>
+                  <cvc-link-tag *ngIf="p.hpoId; else noHpo" [link]="{url: p.url, label: p.hpoId, tooltip: 'View in the HPO'}"></cvc-link-tag>
                   <ng-template #noHpo>--</ng-template>
                 </td>
                 <td>

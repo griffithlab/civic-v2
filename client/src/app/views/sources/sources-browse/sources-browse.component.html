@@ -73,10 +73,10 @@
               <tbody>
                 <tr *ngFor="let source of sourcesTable.data">
                   <td>
-                    <a routerLink="/sources/{{source.id}}">{{source.citation}}</a>
+                    <cvc-source-tag [source]="source"></cvc-source-tag>
                   </td>
                   <td>
-                    {{ source.sourceType }}
+                    {{ source.displayType }}
                   </td>
                   <td>
                     {{ source.citationId}}

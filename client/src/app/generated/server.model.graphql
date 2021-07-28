@@ -485,6 +485,7 @@ type BrowseClinicalTrialEdge {
 
 type BrowseDisease {
   assertionCount: Int!
+  diseaseUrl: String
   displayName: String!
   doid: String
   evidenceItemCount: Int!
@@ -546,6 +547,7 @@ type BrowseDiseaseEdge {
 
 type BrowseDrug {
   assertionCount: Int!
+  drugUrl: String
   evidenceCount: Int!
   id: Int!
   name: String!
@@ -671,6 +673,7 @@ type BrowsePhenotype {
   hpoId: String!
   id: Int!
   name: String!
+  url: String!
 }
 
 """
@@ -727,6 +730,7 @@ type BrowseSource {
   authors: [String!]!
   citation: String!
   citationId: Int!
+  displayType: String!
   evidenceItemCount: Int!
   id: Int!
   journal: String
@@ -910,6 +914,7 @@ type BrowseVariantType {
   id: Int!
   name: String!
   soid: String!
+  url: String
   variantCount: Int!
 }
 

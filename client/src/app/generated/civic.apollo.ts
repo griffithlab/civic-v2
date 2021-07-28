@@ -299,6 +299,7 @@ export type BrowseClinicalTrialEdge = {
 export type BrowseDisease = {
   __typename: 'BrowseDisease';
   assertionCount: Scalars['Int'];
+  diseaseUrl?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
@@ -337,6 +338,7 @@ export type BrowseDiseaseEdge = {
 export type BrowseDrug = {
   __typename: 'BrowseDrug';
   assertionCount: Scalars['Int'];
+  drugUrl?: Maybe<Scalars['String']>;
   evidenceCount: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -416,6 +418,7 @@ export type BrowsePhenotype = {
   hpoId: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  url: Scalars['String'];
 };
 
 /** The connection type for BrowsePhenotype. */
@@ -449,6 +452,7 @@ export type BrowseSource = {
   authors: Array<Scalars['String']>;
   citation: Scalars['String'];
   citationId: Scalars['Int'];
+  displayType: Scalars['String'];
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
   journal?: Maybe<Scalars['String']>;
@@ -563,6 +567,7 @@ export type BrowseVariantType = {
   id: Scalars['Int'];
   name: Scalars['String'];
   soid: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
   variantCount: Scalars['Int'];
 };
 
@@ -4100,7 +4105,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
 export type DiseaseDetailQueryVariables = Exact<{
@@ -4148,7 +4153,7 @@ export type DrugsBrowseQuery = (
 
 export type DrugBrowseTableRowFieldsFragment = (
   { __typename: 'BrowseDrug' }
-  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'assertionCount' | 'evidenceCount'>
+  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
 );
 
 export type DrugDetailQueryVariables = Exact<{
@@ -4545,7 +4550,7 @@ export type PhenotypesBrowseQuery = (
 
 export type PhenotypeBrowseTableRowFieldsFragment = (
   { __typename: 'BrowsePhenotype' }
-  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'assertionCount' | 'evidenceCount'>
+  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
 );
 
 export type PhenotypeDetailQueryVariables = Exact<{
@@ -4598,7 +4603,7 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
 );
 
 export type SourceDetailQueryVariables = Exact<{
@@ -4737,7 +4742,7 @@ export type VariantTypesBrowseQuery = (
 
 export type VariantTypeBrowseTableRowFieldsFragment = (
   { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'variantCount'>
+  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount'>
 );
 
 export type VariantTypeDetailQueryVariables = Exact<{
@@ -5382,6 +5387,7 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   id
   name
   doid
+  diseaseUrl
   geneNames
   assertionCount
   evidenceItemCount
@@ -5393,6 +5399,7 @@ export const DrugBrowseTableRowFieldsFragmentDoc = gql`
   id
   name
   ncitId
+  drugUrl
   assertionCount
   evidenceCount
 }
@@ -5622,6 +5629,7 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   id
   name
   hpoId
+  url
   assertionCount
   evidenceCount
 }
@@ -5637,6 +5645,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   publicationYear
   sourceType
   citation
+  displayType
 }
     `;
 export const SourceDetailFieldsFragmentDoc = gql`
@@ -5718,6 +5727,7 @@ export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
   id
   name
   soid
+  url
   variantCount
 }
     `;

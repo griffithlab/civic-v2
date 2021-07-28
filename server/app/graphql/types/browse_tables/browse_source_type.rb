@@ -11,9 +11,18 @@ module Types::BrowseTables
     field :name, String, null: true
     field :evidence_item_count, Int, null: false
     field :citation, String, null: false
+    field :display_type, String, null: false
 
     def citation
       object.description
+    end
+
+    def display_type
+      if object.source_type == 'PUBMED'
+        'PubMed'
+      else
+        object.source_type
+      end
     end
   end
 end

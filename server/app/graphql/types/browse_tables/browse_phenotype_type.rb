@@ -12,9 +12,5 @@ module Types::BrowseTables
     def name
       object.hpo_class
     end
-
-    def url
-      "https://hpo.jax.org/app/browse/term/#{object.hpo_id}"
-    end
   end
 end

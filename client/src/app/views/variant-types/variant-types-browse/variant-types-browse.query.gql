@@ -36,5 +36,6 @@ fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
   id
   name
   soid
+  url
   variantCount
 }

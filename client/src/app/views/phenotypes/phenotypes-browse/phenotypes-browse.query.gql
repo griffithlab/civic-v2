@@ -36,6 +36,7 @@ fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
   id
   name
   hpoId
+  url
   assertionCount
   evidenceCount
 }

@@ -97,9 +97,10 @@ export type BrowseClinicalTrialEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseDiseaseKeySpecifier = ('assertionCount' | 'displayName' | 'doid' | 'evidenceItemCount' | 'geneNames' | 'id' | 'name' | 'variantCount' | BrowseDiseaseKeySpecifier)[];
+export type BrowseDiseaseKeySpecifier = ('assertionCount' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'geneNames' | 'id' | 'name' | 'variantCount' | BrowseDiseaseKeySpecifier)[];
 export type BrowseDiseaseFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	doid?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -122,9 +123,10 @@ export type BrowseDiseaseEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseDrugKeySpecifier = ('assertionCount' | 'evidenceCount' | 'id' | 'name' | 'ncitId' | BrowseDrugKeySpecifier)[];
+export type BrowseDrugKeySpecifier = ('assertionCount' | 'drugUrl' | 'evidenceCount' | 'id' | 'name' | 'ncitId' | BrowseDrugKeySpecifier)[];
 export type BrowseDrugFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	drugUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -171,13 +173,14 @@ export type BrowseGeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowsePhenotypeKeySpecifier = ('assertionCount' | 'evidenceCount' | 'hpoId' | 'id' | 'name' | BrowsePhenotypeKeySpecifier)[];
+export type BrowsePhenotypeKeySpecifier = ('assertionCount' | 'evidenceCount' | 'hpoId' | 'id' | 'name' | 'url' | BrowsePhenotypeKeySpecifier)[];
 export type BrowsePhenotypeFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowsePhenotypeConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowsePhenotypeConnectionKeySpecifier)[];
 export type BrowsePhenotypeConnectionFieldPolicy = {
@@ -193,11 +196,12 @@ export type BrowsePhenotypeEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseSourceKeySpecifier = ('authors' | 'citation' | 'citationId' | 'evidenceItemCount' | 'id' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | BrowseSourceKeySpecifier)[];
+export type BrowseSourceKeySpecifier = ('authors' | 'citation' | 'citationId' | 'displayType' | 'evidenceItemCount' | 'id' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | BrowseSourceKeySpecifier)[];
 export type BrowseSourceFieldPolicy = {
 	authors?: FieldPolicy<any> | FieldReadFunction<any>,
 	citation?: FieldPolicy<any> | FieldReadFunction<any>,
 	citationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayType?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -268,11 +272,12 @@ export type BrowseVariantGroupEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseVariantTypeKeySpecifier = ('id' | 'name' | 'soid' | 'variantCount' | BrowseVariantTypeKeySpecifier)[];
+export type BrowseVariantTypeKeySpecifier = ('id' | 'name' | 'soid' | 'url' | 'variantCount' | BrowseVariantTypeKeySpecifier)[];
 export type BrowseVariantTypeFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	soid?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseVariantTypeConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseVariantTypeConnectionKeySpecifier)[];
