@@ -11,13 +11,14 @@
       <nz-col nzSpan="12">
         <nz-space nzDirection="vertical">
 
-          <!-- description -->
+          <!-- description, sources -->
           <nz-space-item>
             <nz-descriptions nzLayout="vertical"
               nzSize="small"
               nzBordered="true"
               [nzColumn]="1">
 
+              <!-- description -->
               <nz-descriptions-item nzTitle="Description">
                 <p nz-typography
                   nzEllipsis
@@ -25,6 +26,32 @@
                   [nzEllipsisRows]="14">{{ gene.description }}</p>
               </nz-descriptions-item>
 
+              <!-- sources -->
+              <nz-descriptions-item nzTitle="Sources" >
+                <ng-container *ngIf="gene.sources.length > 0; else noSources" >
+                  <cvc-source-tag *ngFor="let source of gene.sources" [source]="source"></cvc-source-tag>
+                </ng-container>
+                <ng-template #noSources>
+                  <span nz-typography nzType="secondary">None specified</span>
+                </ng-template>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- aliases -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+
+              <nz-descriptions-item nzTitle="Aliases"
+                nzSpan="1"
+                *ngIf="gene.aliases.length > 0">
+                <ng-container *ngFor="let alias of gene.aliases; last as isLast">
+                  {{ alias.name }}<span *ngIf="!isLast">,&nbsp;</span>
+                </ng-container>
+              </nz-descriptions-item>
             </nz-descriptions>
           </nz-space-item>
 
@@ -82,27 +109,9 @@
 
       </nz-col>
 
-      <!-- aliases, mygeneinfo col -->
+      <!-- mygeneinfo col -->
       <nz-col nzSpan="12">
         <nz-space nzDirection="vertical">
-          <!-- aliases -->
-          <nz-space-item>
-
-            <nz-descriptions nzLayout="horizontal"
-              nzSize="small"
-              nzBordered="true"
-              [nzColumn]="1">
-
-              <nz-descriptions-item nzTitle="Aliases"
-                nzSpan="1"
-                *ngIf="gene.aliases.length > 0">
-                <ng-container *ngFor="let alias of gene.aliases; last as isLast">
-                  {{ alias.name }}<span *ngIf="!isLast">,&nbsp;</span>
-                </ng-container>
-              </nz-descriptions-item>
-
-            </nz-descriptions>
-          </nz-space-item>
 
           <!-- mygeneinfo -->
           <nz-space-item>
