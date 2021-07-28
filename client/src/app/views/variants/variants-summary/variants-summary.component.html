@@ -91,7 +91,7 @@
         </nz-space>
       </nz-col>
 
-      <!-- coordinates, myvariantinfo col -->
+      <!-- allele/clinvar ids, coordinates, myvariantinfo col -->
       <nz-col nzSpan="12">
         <!-- myvariantinfo -->
         <nz-space nzDirection="vertical">
@@ -124,14 +124,17 @@
                 nzSpan="2">
                 <ng-container *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
                   <ng-container *ngFor="let c of variant.clinvarIds; let last = last">
-                    <a *ngIf="c !== 'N/A', else clinvarNA"
+                    <a *ngIf="c !== 'N/A', else clinvarNotApplicable"
                       href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{c}}"
                       target="_blank">{{ c }}</a>
-                    <ng-template #clinvarNA>{{ c }}</ng-template>
                     <ng-container *ngIf="!last">, </ng-container>
                   </ng-container>
                 </ng-container>
 
+                <ng-template #clinvarNotApplicable>
+                  <span nz-typography
+                    nzType="secondary">N/A</span>
+                </ng-template>
                 <ng-template #noClinvarIds>
                   <span nz-typography
                     nzType="secondary">None provided</span>
@@ -144,6 +147,33 @@
             <cvc-my-variant-info [variantInfo]="variantInfo$ | ngrxPush"></cvc-my-variant-info>
           </nz-space-item>
         </nz-space>
+
+        <!-- coordinates -->
+        <nz-space-item>
+          <nz-card nzTitle="Representative Variant Coordinates">
+
+           <!-- ref build, ensembl version -->
+            <nz-descriptions nzLayout="horizontal"
+              [nzColumn]="2"
+              nzBordered="true" nzSize="small">
+              <nz-descriptions-item nzTitle="Ref. Build">
+                {{ variant.referenceBuild }}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Ensembl Version">
+                {{ variant.ensemblVersion}}
+              </nz-descriptions-item>
+            </nz-descriptions>
+
+            <nz-descriptions nzTitle="5' Coordinates" nzLayout="horizontal">
+
+            </nz-descriptions>
+
+            <nz-descriptions nzTitle="5' Coordinates" nzLayout="horizontal">
+
+            </nz-descriptions>
+          </nz-card>
+        </nz-space-item>
+
       </nz-col>
 
     </nz-row>

@@ -4814,7 +4814,7 @@ export type VariantSummaryQuery = (
 
 export type VariantSummaryFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore' | 'referenceBuild' | 'ensemblVersion'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -5857,6 +5857,8 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   hgvsDescriptions
   clinvarIds
   evidenceScore
+  referenceBuild
+  ensemblVersion
   fivePrimeCoordinates {
     representativeTranscript
     chromosome
