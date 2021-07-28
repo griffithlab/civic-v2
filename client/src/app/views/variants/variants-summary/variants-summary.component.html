@@ -104,10 +104,11 @@
 
               <!-- allele reg. id -->
               <nz-descriptions-item nzTitle="Allele Registry ID">
-                <ng-container *ngIf="alleleRegistryLink$ | ngrxPush as link; else noAlleleRegistry">
-                  <cvc-link-tag [link]="link">
-                  </cvc-link-tag>
-                </ng-container>
+                <cvc-link-tag *ngIf="variant.alleleRegistryId; else noAlleleRegistry"
+                  [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'"
+                  tooltip="View on ClinGen Allele Registry">
+                  {{ variant.alleleRegistryId }}
+                </cvc-link-tag>
                 <ng-template #noAlleleRegistry>
                   <span nz-typography
                     nzType="secondary">None provided</span>
@@ -123,10 +124,13 @@
               <nz-descriptions-item [nzTitle]="variant.clinvarIds.length > 1 ? 'Clinvar IDs' : 'Clinvar ID'"
                 nzSpan="2">
                 <ng-container *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
-                  <ng-container *ngFor="let c of variant.clinvarIds; let last = last">
-                    <a *ngIf="c !== 'N/A', else clinvarNotApplicable"
-                      href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{c}}"
-                      target="_blank">{{ c }}</a>
+                  <ng-container *ngFor="let id of variant.clinvarIds; let last = last">
+                    <cvc-tag-list *ngIf="id !== 'N/A', else clinvarNotApplicable">
+                      <cvc-link-tag [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id">
+                        {{ id }}
+                      </cvc-link-tag>
+
+                    </cvc-tag-list>
                     <ng-container *ngIf="!last">, </ng-container>
                   </ng-container>
                 </ng-container>
@@ -152,10 +156,11 @@
         <nz-space-item>
           <nz-card nzTitle="Representative Variant Coordinates">
 
-           <!-- ref build, ensembl version -->
+            <!-- ref build, ensembl version -->
             <nz-descriptions nzLayout="horizontal"
               [nzColumn]="2"
-              nzBordered="true" nzSize="small">
+              nzBordered="true"
+              nzSize="small">
               <nz-descriptions-item nzTitle="Ref. Build">
                 {{ variant.referenceBuild }}
               </nz-descriptions-item>
@@ -164,11 +169,13 @@
               </nz-descriptions-item>
             </nz-descriptions>
 
-            <nz-descriptions nzTitle="5' Coordinates" nzLayout="horizontal">
+            <nz-descriptions nzTitle="5' Coordinates"
+              nzLayout="horizontal">
 
             </nz-descriptions>
 
-            <nz-descriptions nzTitle="5' Coordinates" nzLayout="horizontal">
+            <nz-descriptions nzTitle="5' Coordinates"
+              nzLayout="horizontal">
 
             </nz-descriptions>
           </nz-card>

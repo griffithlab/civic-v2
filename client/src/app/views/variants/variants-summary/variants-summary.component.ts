@@ -4,7 +4,6 @@ import { VariantSummaryGQL, Maybe, VariantSummaryQuery, VariantSummaryQueryVaria
 import { QueryRef } from "apollo-angular";
 import { map, pluck, startWith } from "rxjs/operators";
 import { Observable, Subscription } from "rxjs";
-import { ExternalLink } from "@app/components/shared/link-tag/link-tag.component";
 
 @Component({
   selector: 'cvc-variant-summary',
@@ -18,8 +17,6 @@ export class VariantSummaryComponent {
   loading$: Observable<boolean>
   variant$: Observable<Maybe<VariantSummaryFieldsFragment>>
   variantInfo$: Observable<Maybe<MyVariantInfoFieldsFragment>>
-
-  alleleRegistryLink$: Observable<Maybe<ExternalLink>>;
 
   subscribable: SubscribableInput
 
@@ -50,22 +47,6 @@ export class VariantSummaryComponent {
     this.variant$ = observable.pipe(
       pluck('data', 'variant')
     )
-
-    this.alleleRegistryLink$ = this.variant$
-      .pipe(
-        pluck('alleleRegistryId'),
-        map((id) => {
-          if (id) {
-            return {
-              id: id,
-              url: 'https://reg.genome.network/allele/' + id + '.html',
-              label: id,
-              tooltip: 'View on ClinGen Allele Registry'
-            } as ExternalLink;
-          } else {
-            return undefined;
-          }
-        }));
 
     this.variantInfo$ = observable.pipe(
       pluck('data', 'variant', 'myVariantInfo')

@@ -1,10 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-
-export interface ExternalLink {
-  url: string;
-  label: string;
-  tooltip?: string;
-}
+import { Maybe } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-link-tag',
@@ -12,14 +7,15 @@ export interface ExternalLink {
   styleUrls: ['./link-tag.component.less']
 })
 export class LinkTagComponent implements OnInit {
-  @Input() link!: ExternalLink;
+  @Input() href!: string;
+  @Input() tooltip: Maybe<string>;
 
   constructor() { }
 
   ngOnInit() {
-    if (this.link === undefined) {
+    if (this.href === undefined) {
       throw new Error(
-        'cvc-link-tag requires ExternalLink input, none supplied.'
+        'cvc-link-tag requires href string input, none supplied.'
       );
     }
   }

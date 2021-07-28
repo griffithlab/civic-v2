@@ -70,8 +70,16 @@
               nzBordered="true"
               [nzColumn]="1">
               <nz-descriptions-item nzTitle="Resources">
-                <cvc-link-tag [link]="{ url: 'http://dgidb.org/genes/' + gene.name, label: 'DGIdb', tooltip: 'View ' + gene.name + ' on DGIdb' }"></cvc-link-tag>
-                <cvc-link-tag [link]="{ url: 'https://pecan.stjude.cloud/proteinpaint/' + gene.name + '/hg19/civic', label: 'ProteinPaint', tooltip: 'View ' + gene.name + ' on ProteinPaint' }"></cvc-link-tag>
+                <cvc-tag-list>
+                  <cvc-link-tag [href]="'http://dgidb.org/genes/' + gene.name"
+                    [tooltip]="'View ' + gene.name + ' on DGIdb'">
+                    DGIdb
+                  </cvc-link-tag>
+                  <cvc-link-tag [href]="'https://pecan.stjude.cloud/proteinpaint/' + gene.name + '/hg19/civic'"
+                    [tooltip]="'View ' + gene.name + ' on ProteinPaint'">
+                    ProteinPaint
+                  </cvc-link-tag>
+                </cvc-tag-list>
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-space-item>

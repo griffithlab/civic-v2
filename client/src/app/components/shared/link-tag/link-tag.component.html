@@ -1,10 +1,11 @@
-<a href="link.url" target="_blank">
+<a [href]="href" target="_blank">
   <nz-tag nzColor="default"
     nz-tooltip
-    [nzTooltipTitle]="link.tooltip"
-    [nzTooltipTrigger]="link.tooltip ? 'hover' : null">
+    [nzTooltipTitle]="tooltip"
+    [nzTooltipTrigger]="tooltip ? 'hover' : null">
     <i nz-icon
       nzType='link'
-      nzTheme='outline'></i> {{ link.label }}
+      nzTheme='outline'></i>
+    <ng-content></ng-content>
   </nz-tag>
 </a>
