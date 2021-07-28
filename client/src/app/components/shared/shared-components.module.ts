@@ -113,6 +113,7 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
 import { StatusTagComponent } from './status-tag/status-tag.component';
 import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
+import { LinkTagComponent } from './link-tag/link-tag.component';
 
 @NgModule({
   declarations: [
@@ -178,6 +179,7 @@ import { SourceTagComponent } from './source-tag/source-tag.component';
     VariantTypeTagComponent,
     StatusTagComponent,
     AssertionPopoverComponent,
+    LinkTagComponent,
   ],
   imports: [
     CommonModule,
@@ -291,6 +293,7 @@ import { SourceTagComponent } from './source-tag/source-tag.component';
     StatusTagComponent,
     AssertionPopoverComponent,
     SourceTagComponent,
+    LinkTagComponent,
   ]
 })
 

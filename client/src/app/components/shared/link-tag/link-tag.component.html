@@ -1,0 +1,10 @@
+<a href="link.url" target="_blank">
+  <nz-tag nzColor="default"
+    nz-tooltip
+    [nzTooltipTitle]="link.tooltip"
+    [nzTooltipTrigger]="link.tooltip ? 'hover' : null">
+    <i nz-icon
+      nzType='link'
+      nzTheme='outline'></i> {{ link.label }}
+  </nz-tag>
+</a>
