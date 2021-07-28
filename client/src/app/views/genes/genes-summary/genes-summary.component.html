@@ -27,12 +27,16 @@
               </nz-descriptions-item>
 
               <!-- sources -->
-              <nz-descriptions-item nzTitle="Sources" >
-                <ng-container *ngIf="gene.sources.length > 0; else noSources" >
-                  <cvc-source-tag *ngFor="let source of gene.sources" [source]="source"></cvc-source-tag>
+              <nz-descriptions-item nzTitle="Sources">
+                <ng-container *ngIf="gene.sources.length > 0; else noSources">
+                  <cvc-tag-list>
+                    <cvc-source-tag *ngFor="let source of gene.sources"
+                      [source]="source"></cvc-source-tag>
+                  </cvc-tag-list>
                 </ng-container>
                 <ng-template #noSources>
-                  <span nz-typography nzType="secondary">None specified</span>
+                  <span nz-typography
+                    nzType="secondary">None specified</span>
                 </ng-template>
               </nz-descriptions-item>
             </nz-descriptions>
@@ -47,63 +51,29 @@
 
               <nz-descriptions-item nzTitle="Aliases"
                 nzSpan="1"
-                *ngIf="gene.aliases.length > 0">
+                *ngIf="gene.aliases.length > 0; else noAliases">
                 <ng-container *ngFor="let alias of gene.aliases; last as isLast">
                   {{ alias.name }}<span *ngIf="!isLast">,&nbsp;</span>
                 </ng-container>
               </nz-descriptions-item>
+              <ng-template #noAliases>
+                <span nz-typography
+                  nzType="secondary">None specified</span>
+              </ng-template>
             </nz-descriptions>
           </nz-space-item>
 
-          <!-- sources, external resources -->
+          <!-- dgidb, proteinpaint links -->
           <nz-space-item>
-            <nz-row [nzGutter]="12">
-              <!-- source list -->
-              <nz-col nzSpan="18">
-                <nz-list *ngIf="gene.sources"
-                  nzHeader="Sources"
-                  nzBordered
-                  nzSize="small">
-                  <nz-list-item *ngFor="let source of gene.sources">
-                    <ul nz-list-item-actions>
-                      <nz-list-item-action>
-                        <a href="source.sourceUrl">{{ source.sourceType}}</a>
-                      </nz-list-item-action>
-                    </ul>
-                    {{ source.citation }}
-                  </nz-list-item>
-                </nz-list>
-              </nz-col>
-
-              <!-- external links -->
-              <nz-col [nzSpan]="6">
-                <nz-space nzDirection="vertical"
-                  class="space-align-block">
-                  <nz-space-item>
-                    <a nz-button
-                      href="http://dgidb.org/genes/{{ gene.name }}"
-                      target="_blank"
-                      nzType="default"
-                      nzSize="small"
-                      nzBlock
-                      class="space-align-block">
-                      DGIdb
-                    </a>
-                  </nz-space-item>
-                  <nz-space-item>
-                    <a nz-button
-                      href="https://pecan.stjude.cloud/proteinpaint/{{ gene.name }}/hg19/civic"
-                      target="_blank"
-                      nzType="default"
-                      nzSize="small"
-                      nzBlock
-                      class="space-align-block">
-                      ProteinPaint
-                    </a>
-                  </nz-space-item>
-                </nz-space>
-              </nz-col>
-            </nz-row>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Resources">
+                <cvc-link-tag [link]="{ url: 'http://dgidb.org/genes/' + gene.name, label: 'DGIdb', tooltip: 'View ' + gene.name + ' on DGIdb' }"></cvc-link-tag>
+                <cvc-link-tag [link]="{ url: 'https://pecan.stjude.cloud/proteinpaint/' + gene.name + '/hg19/civic', label: 'ProteinPaint', tooltip: 'View ' + gene.name + ' on ProteinPaint' }"></cvc-link-tag>
+              </nz-descriptions-item>
+            </nz-descriptions>
           </nz-space-item>
         </nz-space>
 
@@ -111,14 +81,10 @@
 
       <!-- mygeneinfo col -->
       <nz-col nzSpan="12">
-        <nz-space nzDirection="vertical">
 
-          <!-- mygeneinfo -->
-          <nz-space-item>
-            <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
-          </nz-space-item>
+        <!-- mygeneinfo -->
+        <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
 
-        </nz-space>
       </nz-col>
     </nz-row>
   </nz-space-item>
