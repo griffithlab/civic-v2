@@ -59,7 +59,7 @@
         <!-- disease -->
         <nz-descriptions-item nzTitle="Disease">
           <ng-container *ngIf="evidence.disease; else noDisease">
-            <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
+            <cvc-disease-tag [linked]="false" [disease]="evidence.disease"></cvc-disease-tag>
           </ng-container>
           <ng-template #noDisease>
             N/A
@@ -71,10 +71,10 @@
           nzSpan="2"
           *ngIf="evidence.drugs.length > 0">
           <span *ngFor="let drug of evidence.drugs">
-            <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+            <cvc-drug-tag [linked]="false" [drug]="drug"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="evidence.drugs.length > 1">
-            {{evidence.drugInteractionType}}
+            {{evidence.drugInteractionType | titlecase }}
           </ng-container>
         </nz-descriptions-item>
 
@@ -83,7 +83,7 @@
           nzSpan="2"
           *ngIf="evidence.phenotypes.length > 0">
           <span *ngFor="let ph of evidence.phenotypes">
-            <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
+            <cvc-phenotype-tag [linked]="false" [phenotype]="ph"></cvc-phenotype-tag>
           </span>
         </nz-descriptions-item>
 

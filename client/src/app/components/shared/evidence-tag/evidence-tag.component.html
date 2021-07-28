@@ -1,12 +1,24 @@
-<nz-tag nzColor="gold"
-  nz-popover
-  [nzPopoverMouseEnterDelay]="0.5"
-  [nzPopoverContent]="evidencePopover"
-  nzPopoverPlacement="right"
-  nzPopoverTrigger="hover">
-  <i nz-icon nzType="civic-evidence"></i>
-  {{ evidence.name }}
-</nz-tag>
-<ng-template #evidencePopover>
-  <cvc-evidence-popover [evidenceId]="evidence.id"></cvc-evidence-popover>
+<ng-container *ngIf="linked; else unlinked">
+  <a routerLink="/evidence/{{evidence.id}}">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag
+    nz-popover
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="evidencePopover"
+    nzPopoverPlacement="right"
+    nzPopoverTrigger="hover">
+    <i nz-icon nzType="civic-evidence" nzTheme="twotone" nzTwotoneColor="#F68F37"></i>
+    {{ evidence.name }}
+  </nz-tag>
+  <ng-template #evidencePopover>
+    <cvc-evidence-popover [evidenceId]="evidence.id"></cvc-evidence-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>

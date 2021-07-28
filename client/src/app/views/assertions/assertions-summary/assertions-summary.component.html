@@ -203,9 +203,7 @@
               <!-- disease -->
               <nz-descriptions-item nzTitle="Disease">
                 <ng-container *ngIf="assertion.disease.name">
-                  <a routerLink="/diseases/{{assertion.disease.id}}">
-                    <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
-                  </a>
+                  <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
                 </ng-container>
                 <span *ngIf="!assertion.disease.name"
                   nz-typography
@@ -247,9 +245,7 @@
                   <ng-template ngPluralCase="other">
                     <cvc-tag-list>
                       <ng-container *ngFor="let drug of assertion.drugs">
-                        <a routerLink="/drugs/{{drug.id}}">
-                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                        </a>
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                       </ng-container>
                     </cvc-tag-list>
                   </ng-template>

@@ -25,18 +25,14 @@
                                 <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let drug of assertion.drugs">
-                                    <a routerLink="/drugs/{{drug.id}}">
-                                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                                    </a>
+                                    <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                                 </ng-container>
-                                <ng-container *ngIf="assertion.drugs.length > 1">{{ ' (' + assertion.drugInteractionType + ')' }}</ng-container>
+                                <ng-container *ngIf="assertion.drugs.length > 1">({{ assertion.drugInteractionType | titlecase }})</ng-container>
                             </nz-row>
                         </nz-col>
                         <nz-col [nzSpan]="8">
                             <nz-row *ngIf="assertion.disease"><b>Disease:&nbsp;</b>
-                                <a routerLink="/diseases/{{assertion.disease.id}}">
-                                    <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
-                                </a>
+                                <cvc-disease-tag [disease]="assertion.disease"></cvc-disease-tag>
                             </nz-row>
                             <nz-row *ngIf="!assertion.disease"><b>Disease:&nbsp;</b><i>Not Applicable</i></nz-row>
                             <nz-row [ngPlural]="assertion.phenotypes.length">
@@ -44,9 +40,7 @@
                                 <ng-template ngPluralCase="=1"><b>Associated Phenotype:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Associated Phenotypes:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let p of assertion.phenotypes">
-                                    <a routerLink="/phenotypes/{{p.id}}">
-                                        <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
-                                    </a>
+                                    <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
                                 </ng-container>
                             </nz-row>
                             <nz-row *ngIf="assertion.ampLevel"><b>AMP/ASCO/CAP Category:&nbsp;</b>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-row>

@@ -10,7 +10,7 @@ import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
 import { pluck, map } from 'rxjs/operators';
-import { LinkableUser } from '../user-pill/user-pill.component';
+import { TagLinkableUser } from '../user-tag/user-tag.component';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class CommentListComponent implements OnInit {
   loading$?: Observable<boolean>;
   pageInfo$?: Observable<PageInfo>;
   comments$?: Observable<Maybe<CommentListNodeFragment>[]>;
-  participants$?: Observable<LinkableUser[]>
+  participants$?: Observable<TagLinkableUser[]>
 
   private queryRef$!: QueryRef<CommentListQuery, CommentListQueryVariables>;
 
@@ -72,7 +72,7 @@ export class CommentListComponent implements OnInit {
     });
   }
 
-  onParticipantSelected(u: Maybe<LinkableUser>): void {
+  onParticipantSelected(u: Maybe<TagLinkableUser>): void {
     this.queryRef$.refetch({
       first: this.pageSize,
       originatingUserId: u?.id

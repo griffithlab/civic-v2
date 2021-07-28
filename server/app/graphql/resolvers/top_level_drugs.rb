@@ -15,7 +15,7 @@ class Resolvers::TopLevelDrugs < GraphQL::Schema::Resolver
       .where("evidence_items.status != 'rejected' OR assertions.status != 'rejected'")
       .group('drugs.id, drugs.name, drugs.ncit_id')
       .having('COUNT(evidence_items.id) > 0 OR COUNT(assertions.id) > 0')
-      .order('evidence_count DESC')
+      .order('evidence_count DESC', :id)
   end
 
   option(:ncit_id, type: String, description: 'Limit to drugs with a specific NCIT ID') do |scope, value|

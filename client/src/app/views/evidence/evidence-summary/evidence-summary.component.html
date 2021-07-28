@@ -39,9 +39,7 @@
               <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
                 <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
                   <ng-container *ngFor="let t of evidence.source.clinicalTrials">
-                    <a routerLink="/clinical-trials/{{t.id}}">
-                      <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-                    </a>
+                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
@@ -148,9 +146,7 @@
                   <ng-template ngPluralCase="other">
                     <cvc-tag-list>
                       <ng-container *ngFor="let drug of evidence.drugs">
-                        <a routerLink="/drugs/{{drug.id}}">
-                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                        </a>
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                       </ng-container>
                     </cvc-tag-list>
                   </ng-template>
@@ -166,7 +162,7 @@
                       Drug
                     </ng-template>
                     <ng-template ngPluralCase="other">
-                      Drugs ({{ evidence.drugInteractionType }})
+                      Drugs ({{ evidence.drugInteractionType | titlecase }})
                     </ng-template>
                   </ng-container>
                 </ng-template>

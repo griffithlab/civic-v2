@@ -68,10 +68,10 @@
     <nz-row>
       <nz-col nzSpan="24">
         <cvc-tag-list>
-          <a routerLink="/variants/{{v.id}}"
+          <ng-container
             *ngFor="let v of variants">
             <cvc-variant-tag [variant]="v"></cvc-variant-tag>
-          </a>
+          </ng-container>
         </cvc-tag-list>
       </nz-col>
     </nz-row>

@@ -13,7 +13,7 @@ class Resolvers::TopLevelVariantTypes < GraphQL::Schema::Resolver
       .left_outer_joins(:variants)
       .group('variant_types.id, variant_types.display_name, variant_types.soid')
       .having('COUNT(variants.id) > 0')
-      .order('variant_count DESC')
+      .order('variant_count DESC', :id)
   end
 
   option(:soid, type: String, description: 'Limit to variant types  with a specific Sequence Ontology ID') do |scope, value|

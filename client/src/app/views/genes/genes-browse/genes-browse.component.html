@@ -81,9 +81,7 @@
               <tbody>
                 <tr *ngFor="let gene of genesTable.data">
                   <td>
-                    <a routerLink="/genes/{{gene.id}}">
-                      <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
-                    </a>
+                    <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
                   </td>
                   <td>
                     <span *ngFor="let alias of gene.aliases; last as isLast" >
@@ -91,20 +89,16 @@
                     </span>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let disease of gene.diseases" >
-                        <a routerLink="/diseases/{{disease.id}}">
-                          <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
-                        </a>
+                        <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
                       </span>
                     </p>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
+                    <p nz-typography>
                       <span *ngFor="let drug of gene.drugs" >
-                        <a routerLink="/drugs/{{drug.id}}">
-                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                        </a>
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                       </span>
                     </p>
                   </td>

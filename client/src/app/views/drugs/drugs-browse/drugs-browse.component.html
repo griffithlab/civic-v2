@@ -42,9 +42,7 @@
             <tbody>
               <tr *ngFor="let d of drugsTable.data">
                 <td>
-                  <a routerLink="/drugs/{{d.id}}">
-                    <cvc-drug-tag [drug]="d"></cvc-drug-tag>
-                  </a>
+                  <cvc-drug-tag [drug]="d"></cvc-drug-tag>
                 </td>
                 <td>
                   <a *ngIf="d.ncitId; else noNcit" href="https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code={{d.ncitId}}" target="_blank">
@@ -66,3 +64,6 @@
     </div>
   </nz-page-header-content>
 </nz-page-header>
+<ng-container *ngrxLet="pageInfo$ as pageInfo">
+  <button *ngIf="pageInfo.hasNextPage" nz-button (click)="loadMore(pageInfo.endCursor)">Load More</button>
+</ng-container>

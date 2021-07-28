@@ -46,11 +46,11 @@ export class VariantTypesBrowseComponent implements OnDestroy {
     );
 
     this.totalCount$ = observable.pipe(
-      pluck('data', 'phenotypes', 'totalCount')
+      pluck('data', 'variantTypes', 'totalCount')
     )
 
     this.pageInfo$ = observable.pipe(
-      pluck('data', 'phenotypes', 'pageInfo')
+      pluck('data', 'variantTypes', 'pageInfo')
     );
 
     this.debouncedQuery
@@ -76,4 +76,10 @@ export class VariantTypesBrowseComponent implements OnDestroy {
    }
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
+
+  loadMore(cursor: Maybe<string>) {
+    this.queryRef.fetchMore({
+      variables: { after: cursor }
+    })
+  }
 }

@@ -9,20 +9,25 @@ export type AmpDisplayFormat = 'verbose' | 'compact'
 })
 export class AmpFormatPipe implements PipeTransform {
   transform(level: AmpLevel, format: AmpDisplayFormat) : string {
-    if(format == 'verbose') {
-      if(level === 'TIER_I_LEVEL_A') return 'Tier I - Level A'
-      if(level === 'TIER_I_LEVEL_B') return 'Tier I - Level B'
-      if(level === 'TIER_II_LEVEL_C') return 'Tier II - Level C'
-      if(level === 'TIER_II_LEVEL_D') return 'Tier II - Level D'
-      if(level === 'TIER_III') return 'Tier III'
-      if(level === 'TIER_IV') return 'Tier IV'
-      return 'Not Applicable'
-    } else {
-      return level.toUpperCase()
-      .replace('TIER', '')
-      .replace('LEVEL', '')
-      .replace(/ /g, '')
-      .replace(/_/g, '')
+    if (level) {
+      if(format == 'verbose') {
+        if(level === 'TIER_I_LEVEL_A') return 'Tier I - Level A'
+        if(level === 'TIER_I_LEVEL_B') return 'Tier I - Level B'
+        if(level === 'TIER_II_LEVEL_C') return 'Tier II - Level C'
+        if(level === 'TIER_II_LEVEL_D') return 'Tier II - Level D'
+        if(level === 'TIER_III') return 'Tier III'
+        if(level === 'TIER_IV') return 'Tier IV'
+        return 'Not Applicable'
+      } else {
+        return level.toUpperCase()
+        .replace('TIER', '')
+        .replace('LEVEL', '')
+        .replace(/ /g, '')
+        .replace(/_/g, '')
+      }
+    }
+    else {
+     return ""
     }
   }
 }

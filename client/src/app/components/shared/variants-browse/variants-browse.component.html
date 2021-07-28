@@ -78,26 +78,22 @@
               <tbody>
                 <tr *ngFor="let variant of variantsTable.data">
                   <td>
-                    <a routerLink="/variants/{{variant.id}}">
-                      <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
-                    </a>
+                    <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
                   </td>
                   <td>
-                    <a routerLink="/genes/{{variant.geneId}}">
-                      <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>
-                    </a>
+                    <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                      <span *ngFor="let disease of variant.diseases; last as isLast" >
-                        {{ disease.name }}{{ isLast ? '' : ', ' }}
+                    <p nz-typography>
+                      <span *ngFor="let disease of variant.diseases" >
+                        <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
                       </span>
                     </p>
                   </td>
                   <td>
-                    <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="3">
-                      <span *ngFor="let drug of variant.drugs; last as isLast" >
-                        {{ drug.name }}{{ isLast ? '' : ', ' }}
+                    <p nz-typography>
+                      <span *ngFor="let drug of variant.drugs" >
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                       </span>
                     </p>
                   </td>
@@ -115,6 +111,6 @@
   </nz-page-header-content>
 </nz-page-header>
 
-<!-- <ng-container *ngrxLet="pageInfo$ as pageInfo">
+<ng-container *ngrxLet="pageInfo$ as pageInfo">
   <button *ngIf="pageInfo.hasNextPage" nz-button (click)="loadMore(pageInfo.endCursor)">Load More</button>
-</ng-container> -->
+</ng-container>
