@@ -3675,20 +3675,20 @@ export type HovercardUserFragment = (
   )> }
 );
 
-export type VariantHovercardQueryVariables = Exact<{
+export type VariantPopoverQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
 
 
-export type VariantHovercardQuery = (
+export type VariantPopoverQuery = (
   { __typename: 'Query' }
   & { variant?: Maybe<(
     { __typename: 'Variant' }
-    & VariantHovercardFieldsFragment
+    & VariantPopoverFieldsFragment
   )> }
 );
 
-export type VariantHovercardFieldsFragment = (
+export type VariantPopoverFieldsFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
   & { evidenceItems: (
@@ -5268,8 +5268,8 @@ export const HovercardUserFragmentDoc = gql`
   }
 }
     `;
-export const VariantHovercardFieldsFragmentDoc = gql`
-    fragment variantHovercardFields on Variant {
+export const VariantPopoverFieldsFragmentDoc = gql`
+    fragment variantPopoverFields on Variant {
   id
   name
   description
@@ -6344,19 +6344,19 @@ export const UserHoverCardDocument = gql`
       super(apollo);
     }
   }
-export const VariantHovercardDocument = gql`
-    query VariantHovercard($variantId: Int!) {
+export const VariantPopoverDocument = gql`
+    query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
-    ...variantHovercardFields
+    ...variantPopoverFields
   }
 }
-    ${VariantHovercardFieldsFragmentDoc}`;
+    ${VariantPopoverFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class VariantHovercardGQL extends Apollo.Query<VariantHovercardQuery, VariantHovercardQueryVariables> {
-    document = VariantHovercardDocument;
+  export class VariantPopoverGQL extends Apollo.Query<VariantPopoverQuery, VariantPopoverQueryVariables> {
+    document = VariantPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

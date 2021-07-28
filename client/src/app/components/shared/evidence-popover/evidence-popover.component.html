@@ -2,10 +2,15 @@
   <ng-container *ngIf="evidence$ | ngrxPush as evidence">
     <nz-card [nzTitle]="cardTitle"
       nzBordered="false"
-      id="card-content">
+      id="card-content"
+      [nzExtra]="geneAndVariant">
       <ng-template #cardTitle>
         <i nz-icon
           nzType="civic:evidence"></i> {{ evidence.name }}
+      </ng-template>
+      <ng-template #geneAndVariant>
+        <cvc-gene-tag [linked]="false" [gene]="evidence.gene"></cvc-gene-tag>
+        <cvc-variant-tag [linked]="false" [variant]="evidence.variant"></cvc-variant-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">

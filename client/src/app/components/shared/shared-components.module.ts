@@ -101,7 +101,7 @@ import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
 import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 import { VariantTagComponent } from './variant-tag/variant-tag.component';
-import { VariantHovercardComponent } from './variant-hovercard/variant-hovercard.component';
+import { VariantPopoverComponent } from './variant-popover/variant-popover.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -171,7 +171,7 @@ import { LinkTagComponent } from './link-tag/link-tag.component';
     AmpFormatPipe,
     EvidenceRatingComponent,
     VariantTagComponent,
-    VariantHovercardComponent,
+    VariantPopoverComponent,
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
@@ -284,7 +284,7 @@ import { LinkTagComponent } from './link-tag/link-tag.component';
     EvidenceEnumDisplayPipe,
     AmpFormatPipe,
     VariantTagComponent,
-    VariantHovercardComponent,
+    VariantPopoverComponent,
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,

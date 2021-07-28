@@ -1,10 +1,15 @@
 <div id="popover-content">
   <ng-container *ngIf="variant$ | ngrxPush as variant">
     <nz-card [nzTitle]="cardTitle" nzBordered="false"
-      id="card-content">
+      id="card-content"
+      [nzExtra]="gene">
       <ng-template #cardTitle>
         <i nz-icon
-          nzType="civic:variant"></i> {{ variant.name }}
+          nzType="civic:variant"
+          ></i> {{ variant.name }}
+      </ng-template>
+      <ng-template #gene>
+        <cvc-gene-tag [linked]="false" [gene]="variant.gene"></cvc-gene-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"
@@ -22,15 +27,16 @@
 
         <!-- allele registry-->
         <nz-descriptions-item nzTitle="Allele Registry ID"
+          nzSpan="2"
           *ngIf="variant.alleleRegistryId">
           <a href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html"
             target="_blank">{{variant.alleleRegistryId}}</a>
         </nz-descriptions-item>
 
-        <!-- gene -->
-        <nz-descriptions-item nzTitle="Gene">
-          <i nz-icon
-            nzType="civic:gene"></i> {{ variant.gene.name }}
+        <!-- evidence item count -->
+        <nz-descriptions-item nzTitle="Evidence Items"
+          nzSpan="2">
+          {{ variant.evidenceItems.totalCount }}
         </nz-descriptions-item>
       </nz-descriptions>
 
@@ -38,14 +44,6 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <nz-space-item>
-              <a routerLink="/variants/{{variant.id}}/evidence">
-                <nz-tag nzColor="gold" >
-                  <i nz-icon nzType="civic-evidence"></i>
-                  Evidence ({{ variant.evidenceItems.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
             <nz-space-item>
               <a routerLink="/variants/{{variant.id}}/flags">
                 <nz-tag nzColor="red" >
