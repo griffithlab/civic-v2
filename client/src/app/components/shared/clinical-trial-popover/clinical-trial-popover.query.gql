@@ -1,0 +1,12 @@
+query ClinicalTrialPopover($clinicalTrialId: Int!) {
+  clinicalTrial(id: $clinicalTrialId) {
+    ...clinicalTrialPopover
+  }
+}
+
+fragment clinicalTrialPopover on ClinicalTrial {
+  id
+  name
+  nctId
+  url
+}
