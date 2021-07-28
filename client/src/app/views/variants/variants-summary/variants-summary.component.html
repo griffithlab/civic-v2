@@ -25,11 +25,26 @@
                   [nzEllipsisRows]="14">{{ variant.description }}</p>
               </nz-descriptions-item>
 
+              <!-- sources -->
+              <nz-descriptions-item nzTitle="Sources">
+                <ng-container *ngIf="variant.sources.length > 0; else noSources">
+                  <cvc-tag-list>
+                    <cvc-source-tag *ngFor="let source of variant.sources"
+                      [source]="source"></cvc-source-tag>
+                  </cvc-tag-list>
+                </ng-container>
+                <ng-template #noSources>
+                  <span nz-typography
+                    nzType="secondary">None specified</span>
+                </ng-template>
+              </nz-descriptions-item>
+
             </nz-descriptions>
           </nz-space-item>
 
           <!-- aliases -->
           <nz-space-item>
+            <!-- show in vertical layout if more than 4 aliases -->
             <nz-descriptions [nzLayout]="variant.variantAliases.length > 4 ? 'vertical' : 'horizontal'"
               nzSize="small"
               nzBordered="true">
@@ -51,6 +66,7 @@
 
           <!-- variant type-->
           <nz-space-item>
+            <!-- show with vertical layout if more than 3 variant types -->
             <nz-descriptions [nzLayout]="variant.variantTypes.length > 2 ? 'vertical' : 'horizontal'"
               nzSize="small"
               nzBordered="true">
@@ -71,6 +87,14 @@
             </nz-descriptions>
           </nz-space-item>
 
+
+        </nz-space>
+      </nz-col>
+
+      <!-- coordinates, myvariantinfo col -->
+      <nz-col nzSpan="12">
+        <!-- myvariantinfo -->
+        <nz-space nzDirection="vertical">
           <!-- allele registry id, clinvar IDs -->
           <nz-space-item>
             <nz-descriptions nzLayout="horizontal"
@@ -116,14 +140,6 @@
 
             </nz-descriptions>
           </nz-space-item>
-
-        </nz-space>
-      </nz-col>
-
-      <!-- coordinates, myvariantinfo col -->
-      <nz-col nzSpan="12">
-        <!-- myvariantinfo -->
-        <nz-space nzDirection="vertical">
           <nz-space-item>
             <cvc-my-variant-info [variantInfo]="variantInfo$ | ngrxPush"></cvc-my-variant-info>
           </nz-space-item>
