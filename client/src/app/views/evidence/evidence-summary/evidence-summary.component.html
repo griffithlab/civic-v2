@@ -4,7 +4,8 @@
   class="space-align-block">
   <nz-space-item>
     <nz-row [nzGutter]="16">
-      <!-- evidence description, source column -->
+
+      <!-- evidence description, source, clinical trials column -->
       <nz-col [nzSpan]="12">
         <nz-space nzDirection="vertical">
 
@@ -55,38 +56,76 @@
       <!-- evidence details column -->
       <nz-col [nzSpan]="12">
         <nz-space nzDirection="vertical">
+          <!-- status, curation events -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              class="status-tags">
+
+              <!-- status -->
+              <nz-descriptions-item nzTitle="Status">
+                <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
+              </nz-descriptions-item>
+
+              <!-- submit/accept/reject curation events -->
+              <nz-descriptions-item nzTitle="Submitted by">
+                <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
+              </nz-descriptions-item>
+
+              <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
+              <!-- display accepted/rejected only if either exists -->
+              <ng-container *ngIf="evidence.rejectionEvent !== null || evidence.acceptanceEvent !== null">
+                <!-- show acceptance only if no rejection event exists -->
+                <ng-container [ngSwitch]="evidence.rejectionEvent === null">
+                  <nz-descriptions-item *ngSwitchCase="true"
+                    nzTitle="Accepted by">
+                    <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                  <nz-descriptions-item *ngSwitchCase="false"
+                    nzTitle="Rejected by">
+                    <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                </ng-container>
+              </ng-container>
+
+            </nz-descriptions>
+          </nz-space-item>
+
           <!-- disease, phenotype -->
           <nz-space-item>
-            <!-- if both drugs and phenotypes are set, display in 1 col so value cells are full width -->
+            <!-- if both diseases and phenotypes are set, display in 1 col so value cells are full width -->
             <nz-descriptions nzLayout="vertical"
               nzSize="small"
               nzBordered="true"
               [nzColumn]="(evidence.disease.name !== undefined && evidence.phenotypes.length > 0) ? 1 : 2">
 
-                  <!-- disease -->
-                  <nz-descriptions-item nzTitle="Disease">
-                    <ng-container *ngIf="evidence.disease.name">
-                      <a routerLink="/diseases/{{evidence.disease.id}}">
-                        <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
-                      </a>
-                    </ng-container>
-                    <span *ngIf="!evidence.disease.name"
-                      nz-typography
-                      nzType="secondary">N/A</span>
-                  </nz-descriptions-item>
+              <!-- disease -->
+              <nz-descriptions-item nzTitle="Disease">
+                <ng-container *ngIf="evidence.disease.name">
+                  <a routerLink="/diseases/{{evidence.disease.id}}">
+                    <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
+                  </a>
+                </ng-container>
+                <span *ngIf="!evidence.disease.name"
+                  nz-typography
+                  nzType="secondary">N/A</span>
+              </nz-descriptions-item>
 
-                  <!-- phenotypes -->
-                  <nz-descriptions-item [nzTitle]="evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'">
-                    <ng-container *ngIf="evidence.phenotypes.length === 0">
-                      <span nz-typography
-                        nzType="secondary">None Specified</span>
+              <!-- phenotypes -->
+              <nz-descriptions-item [nzTitle]="evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'">
+                <ng-container *ngIf="evidence.phenotypes.length > 0; else noPhenotypes">
+                  <cvc-tag-list>
+                    <ng-container *ngFor="let ph of evidence.phenotypes">
+                      <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
                     </ng-container>
-                    <ng-container *ngIf="evidence.phenotypes.length > 0">
-                      <ng-container *ngFor="let ph of evidence.phenotypes">
-                        <cvc-phenotype-tag [phenotype]="ph"></cvc-phenotype-tag>
-                      </ng-container>
-                    </ng-container>
-                  </nz-descriptions-item>
+                  </cvc-tag-list>
+                </ng-container>
+                <ng-template #noPhenotypes>
+                  <span nz-typography
+                    nzType="secondary">None Specified</span>
+                </ng-template>
+              </nz-descriptions-item>
             </nz-descriptions>
           </nz-space-item>
 
@@ -105,15 +144,17 @@
 
                   <!-- one or more drugs -->
                   <ng-template ngPluralCase="other">
-                    <ng-container *ngFor="let drug of evidence.drugs">
-                      <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                    </ng-container>
+                    <cvc-tag-list>
+                      <ng-container *ngFor="let drug of evidence.drugs">
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                      </ng-container>
+                    </cvc-tag-list>
                   </ng-template>
                 </ng-container>
 
                 <!-- drug description title template -->
                 <ng-template #drugsTitle>
-                  <ng-container [ngPlural]="evidence.drugs.length" >
+                  <ng-container [ngPlural]="evidence.drugs.length">
                     <ng-template ngPluralCase="=0">
                       Drug
                     </ng-template>
@@ -146,7 +187,8 @@
               </nz-descriptions-item>
 
               <!-- clinical significance -->
-              <nz-descriptions-item nzTitle="Clinical Significance" nzSpan="2">
+              <nz-descriptions-item nzTitle="Clinical Significance"
+                nzSpan="2">
                 {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
@@ -172,6 +214,7 @@
   <nz-space-item>
     <nz-row>
       <nz-col [nzSpan]="24">
+        <!-- <ngx-json-viewer [json]="evidence"></ngx-json-viewer> -->
         <cvc-event-feed [subscribable]="subscribable"
           tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>

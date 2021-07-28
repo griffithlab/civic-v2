@@ -31,4 +31,21 @@
 
 #relations-summary {
   text-align: right;
+  & ::ng-deep {
+    .label {
+      color: @text-color-secondary-dark;
+    }
+    nz-space {
+      // remove margin from last tag in list
+      .tags > *:last-child {
+        nz-tag {
+          margin-right: 0;
+        }
+      }
+      // remove right margin from last space-item
+      .ant-space-item:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  }
 }

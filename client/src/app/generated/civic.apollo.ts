@@ -3990,7 +3990,7 @@ export type AssertionSummaryQuery = (
 
 export type AssertionSummaryFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'fdaCompanionTest'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'fdaCompanionTest'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name'>
@@ -3999,7 +3999,7 @@ export type AssertionSummaryFieldsFragment = (
     & Pick<Gene, 'id' | 'name'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'alleleRegistryId'>
   ), drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'ncitId' | 'name'>
@@ -4018,7 +4018,25 @@ export type AssertionSummaryFieldsFragment = (
   ), comments: (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
-  ) }
+  ), acceptanceEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  ), rejectionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )> }
 );
 
 export type ClinicalTrialsBrowseQueryVariables = Exact<{
@@ -4183,7 +4201,10 @@ export type EvidenceDetailFieldsFragment = (
   ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
-  ), flags: (
+  ), assertions: Array<(
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
   ), revisions: (
@@ -4210,7 +4231,7 @@ export type EvidenceSummaryQuery = (
 
 export type EvidenceSummaryFieldsFragment = (
   { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'status' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
   & { drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
@@ -4242,7 +4263,25 @@ export type EvidenceSummaryFieldsFragment = (
   ), comments: (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
-  ) }
+  ), acceptanceEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  ), rejectionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )> }
 );
 
 export type BrowseGenesQueryVariables = Exact<{
@@ -5297,6 +5336,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   name
   summary
   description
+  status
   variantOrigin
   disease {
     id
@@ -5309,6 +5349,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   variant {
     id
     name
+    alleleRegistryId
   }
   assertionType
   assertionDirection
@@ -5338,6 +5379,30 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
   comments {
     totalCount
+  }
+  acceptanceEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  submissionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  rejectionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }
     `;
@@ -5373,6 +5438,10 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
     id
     name
   }
+  assertions {
+    id
+    name
+  }
   flags(state: OPEN) {
     totalCount
   }
@@ -5389,6 +5458,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   id
   name
   description
+  status
   evidenceLevel
   evidenceType
   evidenceDirection
@@ -5436,6 +5506,30 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   }
   comments {
     totalCount
+  }
+  acceptanceEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  submissionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  rejectionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }
     `;

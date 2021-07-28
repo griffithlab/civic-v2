@@ -1,120 +1,153 @@
-<nz-space nzSize="middle" *ngIf="(variant$ | ngrxPush) as variant" nzDirection="vertical" class="space-align-block">
+<nz-space nzSize="middle"
+  *ngIf="(variant$ | ngrxPush) as variant"
+  nzDirection="vertical"
+  class="space-align-block">
+
+  <!-- variant description, details, myvariantinfo row -->
   <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <div nz-col [nzSpan]="12">
-        <nz-row [nzGutter]="16">
-          <nz-col [nzSpan]="12">
-            <ng-container [ngPlural]="variant.variantAliases.length"> 
-              <ng-template  ngPluralCase="=0"><b>No Aliases</b></ng-template>
-              <ng-template  ngPluralCase="=1"><b>Alias: </b></ng-template>
-              <ng-template  ngPluralCase="other"><b>Aliases: </b></ng-template>
-              <ng-container *ngFor="let alias of variant.variantAliases; let last = last">
-                {{ alias }} <ng-container *ngIf="!last">, </ng-container>
-              </ng-container>
-            </ng-container>
-          </nz-col>
-          <nz-col [nzSpan]="12">
-            <ng-container *ngIf="variant.alleleRegistryId as registryId; else alleleElse">
-            <b>Allele Registry ID: </b>
-              <a nz-button href="https://reg.genome.network/allele/{{registryId}}.html" target="_blank">{{registryId}}</a>
-            </ng-container>
-            <ng-template #alleleElse><b>No Allele Registry ID Found</b></ng-template>
-          </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="24">
-            <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="14">{{ variant.description }}</p>
-          </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="12">
-            <ng-container [ngPlural]="variant.variantTypes.length"> 
-              <ng-template  ngPluralCase="=0"><b>Variant Type: </b> None Specified</ng-template>
-              <ng-template  ngPluralCase="=1"><b>Variant Type: </b> </ng-template>
-              <ng-template  ngPluralCase="other"><b>Variant Types: </b></ng-template>
-              <ng-container *ngFor="let vt of variant.variantTypes">
-                <cvc-variant-type-tag [variantType]="vt"></cvc-variant-type-tag>
-              </ng-container>
-            </ng-container>
-          </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="12">
-            <ng-container [ngPlural]="variant.hgvsDescriptions.length"> 
-              <ng-template  ngPluralCase="=0"><b>HGVS Descriptions:</b> None Specified</ng-template>
-              <ng-template  ngPluralCase="=1"><b>HGVS Description:</b> </ng-template>
-              <ng-template  ngPluralCase="other"><b>HGVS Descriptions: </b></ng-template>
-              <ng-container *ngFor="let hgvs of variant.hgvsDescriptions; let last = last">
-                  {{ hgvs }}
-                   <ng-container *ngIf="!last">, </ng-container>
-              </ng-container>
-            </ng-container>
-          </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="12">
-            <ng-container [ngPlural]="variant.clinvarIds.length"> 
-              <ng-template  ngPluralCase="=0"><b>ClinVar IDs:</b> None Specified</ng-template>
-              <ng-template  ngPluralCase="=1"><b>ClinVar ID: </b> </ng-template>
-              <ng-template  ngPluralCase="other"><b>ClinVar IDs: </b></ng-template>
-              <ng-container *ngFor="let c of variant.clinvarIds; let last = last">
-                <a *ngIf="c !== 'N/A', else clinvarNA" href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{c}}" target="_blank">{{ c }}</a>
-                <ng-template #clinvarNA>{{ c }}</ng-template>
-                <ng-container *ngIf="!last">, </ng-container>
-              </ng-container>
-            </ng-container>
-          </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="12">
-            <b>CIViC Variant Evidence Score: </b> {{ variant.evidenceScore }}
-          </nz-col>
-        </nz-row>
-        <nz-row [nzGutter]="12">
-          <nz-col [nzSpan]="18">
-            <nz-list *ngIf="variant.sources" nzHeader="Sources" nzBordered nzSize="small">
-              <nz-list-item *ngFor="let source of variant.sources">
-                <ul nz-list-item-actions>
-                  <nz-list-item-action>
-                    <a href="source.sourceUrl">{{ source.sourceType}}</a>
-                  </nz-list-item-action>
-                </ul>
-                {{ source.citation }}
-              </nz-list-item>
-            </nz-list>
-          </nz-col>
-          <nz-col [nzSpan]="6">
-            <nz-space nzDirection="vertical" class="space-align-block">
-              <nz-space-item>
-                <!-- <a nz-button href="http://dgidb.org/genes/{{ name }}" target="_blank" nzType="default" nzSize="small"
-                  nzBlock class="space-align-block">
-                  DGIdb
-                </a> -->
-              </nz-space-item>
-              <nz-space-item>
-                <!-- <a nz-button href="https://pecan.stjude.cloud/proteinpaint/{{ name }}/hg19/civic" target="_blank"
-                  nzType="default" nzSize="small" nzBlock class="space-align-block">
-                  ProteinPaint
-                </a> -->
-              </nz-space-item>
-            </nz-space>
-          </nz-col>
-        </nz-row>
-      </div>
-      <div nz-col nzSpan="12">
-        <cvc-my-variant-info [variantInfo]="variantInfo$ | ngrxPush"></cvc-my-variant-info>
-      </div>
-    </div>
+    <nz-row [nzGutter]="16">
+
+      <!-- description, details col -->
+      <nz-col [nzSpan]="12">
+        <nz-space nzDirection="vertical">
+
+          <!-- description -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+
+              <nz-descriptions-item nzTitle="Description">
+                <p nz-typography
+                  nzEllipsis
+                  nzExpandable
+                  [nzEllipsisRows]="14">{{ variant.description }}</p>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- aliases -->
+          <nz-space-item>
+            <nz-descriptions [nzLayout]="variant.variantAliases.length > 4 ? 'vertical' : 'horizontal'"
+              nzSize="small"
+              nzBordered="true">
+
+              <nz-descriptions-item nzTitle="Aliases">
+                <ng-container *ngIf="variant.variantAliases.length > 0; else noAliases">
+                  <ng-container *ngFor="let alias of variant.variantAliases; last as isLast">
+                    {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
+                  </ng-container>
+                </ng-container>
+                <ng-template #noAliases>
+                  <span nz-typography
+                    nzType="secondary">None specified</span>
+                </ng-template>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- variant type-->
+          <nz-space-item>
+            <nz-descriptions [nzLayout]="variant.variantTypes.length > 2 ? 'vertical' : 'horizontal'"
+              nzSize="small"
+              nzBordered="true">
+
+              <nz-descriptions-item [nzTitle]="variant.variantTypes.length > 1 ? 'Variant Types' : 'Variant Type'">
+                <ng-container *ngIf="variant.variantTypes.length > 0; else noTypes">
+                  <cvc-tag-list>
+                    <ng-container *ngFor="let type of variant.variantTypes">
+                      <cvc-variant-type-tag [variantType]="type"></cvc-variant-type-tag>
+                    </ng-container>
+                  </cvc-tag-list>
+                </ng-container>
+                <ng-template #noTypes>
+                  <span nz-typography
+                    nzType="secondary">None specified</span>
+                </ng-template>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- allele registry id, clinvar IDs -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              [nzColumn]="2"
+              nzBordered="true">
+
+              <!-- allele reg. id -->
+              <nz-descriptions-item nzTitle="Allele Registry ID">
+                <ng-container *ngIf="alleleRegistryLink$ | ngrxPush as link; else noAlleleRegistry">
+                  <cvc-link-tag [link]="link">
+                  </cvc-link-tag>
+                </ng-container>
+                <ng-template #noAlleleRegistry>
+                  <span nz-typography
+                    nzType="secondary">None provided</span>
+                </ng-template>
+              </nz-descriptions-item>
+
+              <!-- CIViC Score-->
+              <nz-descriptions-item nzTitle="CIViC Variant Evidence Score">
+                <span nz-typography>{{ variant.evidenceScore }}</span>
+              </nz-descriptions-item>
+
+              <!-- clinvar ids-->
+              <nz-descriptions-item [nzTitle]="variant.clinvarIds.length > 1 ? 'Clinvar IDs' : 'Clinvar ID'"
+                nzSpan="2">
+                <ng-container *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
+                  <ng-container *ngFor="let c of variant.clinvarIds; let last = last">
+                    <a *ngIf="c !== 'N/A', else clinvarNA"
+                      href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{c}}"
+                      target="_blank">{{ c }}</a>
+                    <ng-template #clinvarNA>{{ c }}</ng-template>
+                    <ng-container *ngIf="!last">, </ng-container>
+                  </ng-container>
+                </ng-container>
+
+                <ng-template #noClinvarIds>
+                  <span nz-typography
+                    nzType="secondary">None provided</span>
+                </ng-template>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
+
+        </nz-space>
+      </nz-col>
+
+      <!-- coordinates, myvariantinfo col -->
+      <nz-col nzSpan="12">
+        <!-- myvariantinfo -->
+        <nz-space nzDirection="vertical">
+          <nz-space-item>
+            <cvc-my-variant-info [variantInfo]="variantInfo$ | ngrxPush"></cvc-my-variant-info>
+          </nz-space-item>
+        </nz-space>
+      </nz-col>
+
+    </nz-row>
   </nz-space-item>
+
+  <!-- event feed row -->
   <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="16">
-        <cvc-event-feed [subscribable]="subscribable" tagDisplay="hideSubject"></cvc-event-feed>
+    <div nz-row
+      [nzGutter]="16">
+      <nz-col [nzSpan]="24">
+        <cvc-event-feed [subscribable]="subscribable"
+          tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>
     </div>
   </nz-space-item>
+
+  <!-- evidence table row -->
   <nz-space-item>
-    <cvc-evidence-browse [displayGeneAndVariant]="false" [variantId]="variant.id"></cvc-evidence-browse>
+    <cvc-evidence-browse [displayGeneAndVariant]="false"
+      [variantId]="variant.id"></cvc-evidence-browse>
   </nz-space-item>
   <nz-space-item>
     <cvc-assertions-browse [variantId]="variant.id"></cvc-assertions-browse>

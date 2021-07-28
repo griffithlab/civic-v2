@@ -110,7 +110,10 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
+import { StatusTagComponent } from './status-tag/status-tag.component';
 import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
+import { SourceTagComponent } from './source-tag/source-tag.component';
+import { LinkTagComponent } from './link-tag/link-tag.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +160,7 @@ import { AssertionPopoverComponent } from './assertion-popover/assertion-popover
     VariantsBrowseComponent,
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
+    SourceTagComponent,
     EventVerbiagePipe,
     ContributorStackComponent,
     SectionNavigationComponent,
@@ -173,7 +177,9 @@ import { AssertionPopoverComponent } from './assertion-popover/assertion-popover
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
     VariantTypeTagComponent,
-    AssertionPopoverComponent
+    StatusTagComponent,
+    AssertionPopoverComponent,
+    LinkTagComponent,
   ],
   imports: [
     CommonModule,
@@ -284,7 +290,10 @@ import { AssertionPopoverComponent } from './assertion-popover/assertion-popover
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
     VariantTypeTagComponent,
-    AssertionPopoverComponent
+    StatusTagComponent,
+    AssertionPopoverComponent,
+    SourceTagComponent,
+    LinkTagComponent,
   ]
 })
 

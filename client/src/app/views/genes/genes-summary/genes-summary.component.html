@@ -2,38 +2,146 @@
   *ngIf=" (gene$ | ngrxPush) as gene"
   nzDirection="vertical"
   class="space-align-block">
+
+  <!-- gene description, details row -->
   <nz-space-item>
-    <div nz-row
-      [nzGutter]="16">
-      <div nz-col
-        nzSpan="12">
-        <cvc-gene-description [name]="gene.name"
-          [description]="gene.description"
-          [sources]="gene.sources">
-        </cvc-gene-description>
-      </div>
-      <div nz-col
-        nzSpan="12">
-        <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
-      </div>
-    </div>
+    <nz-row [nzGutter]="16">
+
+      <!-- gene description, sources col -->
+      <nz-col nzSpan="12">
+        <nz-space nzDirection="vertical">
+
+          <!-- description, sources -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+
+              <!-- description -->
+              <nz-descriptions-item nzTitle="Description">
+                <p nz-typography
+                  nzEllipsis
+                  nzExpandable
+                  [nzEllipsisRows]="14">{{ gene.description }}</p>
+              </nz-descriptions-item>
+
+              <!-- sources -->
+              <nz-descriptions-item nzTitle="Sources" >
+                <ng-container *ngIf="gene.sources.length > 0; else noSources" >
+                  <cvc-source-tag *ngFor="let source of gene.sources" [source]="source"></cvc-source-tag>
+                </ng-container>
+                <ng-template #noSources>
+                  <span nz-typography nzType="secondary">None specified</span>
+                </ng-template>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- aliases -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+
+              <nz-descriptions-item nzTitle="Aliases"
+                nzSpan="1"
+                *ngIf="gene.aliases.length > 0">
+                <ng-container *ngFor="let alias of gene.aliases; last as isLast">
+                  {{ alias.name }}<span *ngIf="!isLast">,&nbsp;</span>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- sources, external resources -->
+          <nz-space-item>
+            <nz-row [nzGutter]="12">
+              <!-- source list -->
+              <nz-col nzSpan="18">
+                <nz-list *ngIf="gene.sources"
+                  nzHeader="Sources"
+                  nzBordered
+                  nzSize="small">
+                  <nz-list-item *ngFor="let source of gene.sources">
+                    <ul nz-list-item-actions>
+                      <nz-list-item-action>
+                        <a href="source.sourceUrl">{{ source.sourceType}}</a>
+                      </nz-list-item-action>
+                    </ul>
+                    {{ source.citation }}
+                  </nz-list-item>
+                </nz-list>
+              </nz-col>
+
+              <!-- external links -->
+              <nz-col [nzSpan]="6">
+                <nz-space nzDirection="vertical"
+                  class="space-align-block">
+                  <nz-space-item>
+                    <a nz-button
+                      href="http://dgidb.org/genes/{{ gene.name }}"
+                      target="_blank"
+                      nzType="default"
+                      nzSize="small"
+                      nzBlock
+                      class="space-align-block">
+                      DGIdb
+                    </a>
+                  </nz-space-item>
+                  <nz-space-item>
+                    <a nz-button
+                      href="https://pecan.stjude.cloud/proteinpaint/{{ gene.name }}/hg19/civic"
+                      target="_blank"
+                      nzType="default"
+                      nzSize="small"
+                      nzBlock
+                      class="space-align-block">
+                      ProteinPaint
+                    </a>
+                  </nz-space-item>
+                </nz-space>
+              </nz-col>
+            </nz-row>
+          </nz-space-item>
+        </nz-space>
+
+      </nz-col>
+
+      <!-- mygeneinfo col -->
+      <nz-col nzSpan="12">
+        <nz-space nzDirection="vertical">
+
+          <!-- mygeneinfo -->
+          <nz-space-item>
+            <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
+          </nz-space-item>
+
+        </nz-space>
+      </nz-col>
+    </nz-row>
   </nz-space-item>
+
+  <!-- variant menu row -->
   <nz-space-item>
-    <div nz-row
-      [nzGutter]="16">
+    <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="24">
         <cvc-variant-menu [geneId]="gene.id"
           [geneName]="gene.name"></cvc-variant-menu>
       </nz-col>
-    </div>
+    </nz-row>
   </nz-space-item>
+
+  <!-- event feed row -->
   <nz-space-item>
-    <div nz-row
-      [nzGutter]="24">
+    <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="24">
         <cvc-event-feed [subscribable]="subscribableEntity"
-          [subscribableName]="gene.name" tagDisplay="hideSubject"></cvc-event-feed>
+          [subscribableName]="gene.name"
+          tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>
-    </div>
+    </nz-row>
   </nz-space-item>
+
 </nz-space>

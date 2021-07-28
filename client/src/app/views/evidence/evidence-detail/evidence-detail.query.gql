@@ -1,29 +1,31 @@
-query EvidenceDetail(
-  $evidenceId: Int!
-) {
+query EvidenceDetail($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
-      ...EvidenceDetailFields
+    ...EvidenceDetailFields
   }
 }
 
 fragment EvidenceDetailFields on EvidenceItem {
+  id
+  name
+  variant {
     id
     name
-    variant {
-        id
-        name
-    }
-    gene {
-        id
-        name
-    }
-    flags(state: OPEN) {
-      totalCount
-    }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
-} 
+  }
+  gene {
+    id
+    name
+  }
+  assertions {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

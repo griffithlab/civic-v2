@@ -1,57 +1,80 @@
-
-query AssertionSummary(
-  $assertionId: Int!
-) {
+query AssertionSummary($assertionId: Int!) {
   assertion(id: $assertionId) {
-      ...AssertionSummaryFields
+    ...AssertionSummaryFields
   }
 }
 
 fragment AssertionSummaryFields on Assertion {
+  id
+  name
+  summary
+  description
+  status
+  variantOrigin
+  disease {
     id
     name
-    summary
+  }
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+    alleleRegistryId
+  }
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  drugs {
+    ncitId
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  drugInteractionType
+  ampLevel
+  acmgCodes {
+    code
     description
-    variantOrigin
-    disease {
+  }
+  nccnGuideline
+  regulatoryApproval
+  fdaCompanionTest
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  acceptanceEvent {
+    originatingUser {
       id
-      name
+      displayName
+      role
+      profileImagePath(size: 32)
     }
-    gene {
+  }
+  submissionEvent {
+    originatingUser {
       id
-      name
+      displayName
+      role
+      profileImagePath(size: 32)
     }
-    variant {
+  }
+  rejectionEvent {
+    originatingUser {
       id
-      name
+      displayName
+      role
+      profileImagePath(size: 32)
     }
-    assertionType
-    assertionDirection
-    clinicalSignificance
-    drugs {
-      ncitId
-      name
-    }
-    phenotypes {
-      id
-      name
-    }
-    drugInteractionType
-    ampLevel
-    acmgCodes {
-      code
-      description
-    }
-    nccnGuideline
-    regulatoryApproval
-    fdaCompanionTest
-    flags(state: OPEN) {
-      totalCount
-    }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
-} 
+  }
+}

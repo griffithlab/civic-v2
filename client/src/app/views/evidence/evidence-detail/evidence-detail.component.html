@@ -1,6 +1,27 @@
 <ng-container *ngIf="evidence$ | ngrxPush as evidence">
-  <cvc-section-navigation [entity]="{ id: evidence.id, displayName: evidence.name }">
+  <cvc-section-navigation [entity]="{ id: evidence.id, displayName: evidence.name }"
+    [relationsTpl]="evidenceRelations">
   </cvc-section-navigation>
+  <ng-template #evidenceRelations>
+    <nz-space nzDirection="horizontal">
+
+      <!-- parent relations -->
+      <nz-space-item>
+        <span nz-typography
+          class="label"><strong>{{ evidence.name }}</strong> Parents:</span>
+      </nz-space-item>
+      <nz-space-item class="tags">
+        <a routerLink="/genes/{{ evidence.gene.id }}">
+          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
+        </a>
+        <a routerLink="/variants/{{ evidence.variant.id }}">
+          <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+        </a>
+      </nz-space-item>
+
+    </nz-space>
+  </ng-template>
+
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
@@ -10,8 +31,7 @@
         [ngClass]="{ 'flagged': evidence.flags.totalCount > 0 }">
 
         <i nz-icon
-          nzType="civic:evidence"></i>
-        {{ evidence.name }}
+          nzType="civic:evidence"></i> {{ evidence.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
