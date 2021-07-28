@@ -114,6 +114,7 @@ import { StatusTagComponent } from './status-tag/status-tag.component';
 import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
 import { LinkTagComponent } from './link-tag/link-tag.component';
+import { ClinicalTrialPopoverComponent } from './clinical-trial-popover/clinical-trial-popover.component';
 
 @NgModule({
   declarations: [
@@ -178,8 +179,9 @@ import { LinkTagComponent } from './link-tag/link-tag.component';
     ClinicalTrialTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
-    AssertionPopoverComponent,
     LinkTagComponent,
+    AssertionPopoverComponent,
+    ClinicalTrialPopoverComponent
   ],
   imports: [
     CommonModule,
@@ -294,6 +296,7 @@ import { LinkTagComponent } from './link-tag/link-tag.component';
     AssertionPopoverComponent,
     SourceTagComponent,
     LinkTagComponent,
+    ClinicalTrialPopoverComponent
   ]
 })
 

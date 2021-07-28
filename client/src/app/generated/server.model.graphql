@@ -2846,6 +2846,7 @@ type Phenotype {
   hpoId: String!
   id: Int!
   name: String!
+  url: String!
 }
 
 input PhenotypeSort {

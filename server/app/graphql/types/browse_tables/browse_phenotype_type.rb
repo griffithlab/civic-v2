@@ -5,11 +5,16 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :hpo_id, String, null: false
     field :name, String, null: false
+    field :url, String, null: false
     field :evidence_count, Int, null: false
     field :assertion_count, Int, null: false
 
     def name
       object.hpo_class
+    end
+
+    def url
+      "https://hpo.jax.org/app/browse/term/#{object.hpo_id}"
     end
   end
 end

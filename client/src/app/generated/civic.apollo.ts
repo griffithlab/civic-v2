@@ -1789,6 +1789,7 @@ export type Phenotype = {
   hpoId: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type PhenotypeSort = {
@@ -2993,40 +2994,6 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
-export type GeneHoverCardQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GeneHoverCardQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & HovercardGeneFragment
-  )> }
-);
-
-export type HovercardGeneFragment = (
-  { __typename: 'Gene' }
-  & Pick<Gene, 'id' | 'name' | 'officialName'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, variants: (
-    { __typename: 'VariantConnection' }
-    & Pick<VariantConnection, 'totalCount'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ) }
-);
-
 export type AssertionPopoverQueryVariables = Exact<{
   assertionId: Scalars['Int'];
 }>;
@@ -3141,6 +3108,24 @@ export type AssertionBrowseTableRowFieldsFragment = (
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
   )> }
+);
+
+export type ClinicalTrialPopoverQueryVariables = Exact<{
+  clinicalTrialId: Scalars['Int'];
+}>;
+
+
+export type ClinicalTrialPopoverQuery = (
+  { __typename: 'Query' }
+  & { clinicalTrial?: Maybe<(
+    { __typename: 'ClinicalTrial' }
+    & ClinicalTrialPopoverFragment
+  )> }
+);
+
+export type ClinicalTrialPopoverFragment = (
+  { __typename: 'ClinicalTrial' }
+  & Pick<ClinicalTrial, 'id' | 'name' | 'nctId' | 'url'>
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -4572,7 +4557,7 @@ export type PhenotypeDetailQuery = (
   { __typename: 'Query' }
   & { phenotype?: Maybe<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name' | 'hpoId'>
+    & Pick<Phenotype, 'id' | 'name' | 'hpoId' | 'url'>
   )> }
 );
 
@@ -4631,7 +4616,7 @@ export type SourceDetailQuery = (
 
 export type SourceDetailFieldsFragment = (
   { __typename: 'Source' }
-  & Pick<Source, 'id' | 'citation' | 'sourceUrl'>
+  & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'citationId'>
 );
 
 export type SourceSummaryQueryVariables = Exact<{
@@ -4850,28 +4835,6 @@ export type MyVariantInfoFieldsFragment = (
   & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
-export const HovercardGeneFragmentDoc = gql`
-    fragment hovercardGene on Gene {
-  id
-  name
-  officialName
-  aliases {
-    name
-  }
-  variants {
-    totalCount
-  }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
-  flags(state: OPEN) {
-    totalCount
-  }
-}
-    `;
 export const AssertionPopoverFragmentDoc = gql`
     fragment assertionPopover on Assertion {
   id
@@ -4957,6 +4920,14 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   regulatoryApproval @include(if: $cardView)
   nccnGuideline @include(if: $cardView)
   variantOrigin @include(if: $cardView)
+}
+    `;
+export const ClinicalTrialPopoverFragmentDoc = gql`
+    fragment clinicalTrialPopover on ClinicalTrial {
+  id
+  name
+  nctId
+  url
 }
     `;
 export const CommentListNodeFragmentDoc = gql`
@@ -5673,6 +5644,8 @@ export const SourceDetailFieldsFragmentDoc = gql`
   id
   citation
   sourceUrl
+  displayType
+  citationId
 }
     `;
 export const SourceSummaryFieldsFragmentDoc = gql`
@@ -5887,24 +5860,6 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
-export const GeneHoverCardDocument = gql`
-    query GeneHoverCard($geneId: Int!) {
-  gene(id: $geneId) {
-    ...hovercardGene
-  }
-}
-    ${HovercardGeneFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneHoverCardGQL extends Apollo.Query<GeneHoverCardQuery, GeneHoverCardQueryVariables> {
-    document = GeneHoverCardDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const AssertionPopoverDocument = gql`
     query AssertionPopover($assertionId: Int!) {
   assertion(id: $assertionId) {
@@ -5971,6 +5926,24 @@ export const AssertionsBrowseDocument = gql`
   })
   export class AssertionsBrowseGQL extends Apollo.Query<AssertionsBrowseQuery, AssertionsBrowseQueryVariables> {
     document = AssertionsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ClinicalTrialPopoverDocument = gql`
+    query ClinicalTrialPopover($clinicalTrialId: Int!) {
+  clinicalTrial(id: $clinicalTrialId) {
+    ...clinicalTrialPopover
+  }
+}
+    ${ClinicalTrialPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClinicalTrialPopoverGQL extends Apollo.Query<ClinicalTrialPopoverQuery, ClinicalTrialPopoverQueryVariables> {
+    document = ClinicalTrialPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7215,6 +7188,7 @@ export const PhenotypeDetailDocument = gql`
     id
     name
     hpoId
+    url
   }
 }
     `;
