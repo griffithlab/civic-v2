@@ -80,15 +80,10 @@
 
               <!-- allele reg. id -->
               <nz-descriptions-item nzTitle="Allele Registry ID">
-                <a *ngIf="variant.alleleRegistry; else noAlleleRegistry"
-                  target="_blank"
-                  [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'">
-                  <nz-tag nzColor="default">
-                    <i nz-icon
-                      nzType='link'
-                      nzTheme='outline'></i>{{ variant.alleleRegistryId }}
-                  </nz-tag>
-                </a>
+                <ng-container *ngIf="alleleRegistryLink$ | ngrxPush as link; else noAlleleRegistry">
+                  <cvc-link-tag [link]="link">
+                  </cvc-link-tag>
+                </ng-container>
                 <ng-template #noAlleleRegistry>
                   <span nz-typography
                     nzType="secondary">None provided</span>
@@ -125,7 +120,7 @@
         </nz-space>
       </nz-col>
 
-      <!-- myvariantinfo col -->
+      <!-- coordinates, myvariantinfo col -->
       <nz-col nzSpan="12">
         <!-- myvariantinfo -->
         <nz-space nzDirection="vertical">
