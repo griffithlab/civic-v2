@@ -24,6 +24,10 @@ class Resolvers::TopLevelVariantTypes < GraphQL::Schema::Resolver
     end
   end
 
+  option(:id, type: Int, description: 'Filter variant types by internal CIViC id') do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: String, description: 'Wildcard match on variant type name') do |scope, value|
     scope.where('display_name ILIKE ?', "%#{value}%")
   end

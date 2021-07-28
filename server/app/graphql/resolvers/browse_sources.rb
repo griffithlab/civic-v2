@@ -37,6 +37,10 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     scope.joins(:clinical_trials).where('clinical_trials.id = ?', value)
   end
 
+  option(:id, type: Int) do |scope, value|
+    scope.where(id: id)
+  end
+
   option(:sort_by, type: Types::BrowseTables::SourcesSortType) do |scope, value|
     case value.column
     when "SOURCE_TYPE"

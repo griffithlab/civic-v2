@@ -5,17 +5,12 @@
         <nz-space-item>
           <i nz-icon nzType="apartment"></i>
         </nz-space-item>
-          <span routerLink="/variant-types/{{variantType.id}}">
-            {{ variantType.name }}
-          </span>
+        {{ variantType.name }}
       </nz-space>
     </nz-page-header-title>
-    <nz-page-header-subtitle>
-      <a [href]="variantType.url" target="_blank">
-        {{ variantType.soid }}
-        <i nz-icon nzType="link"></i>
-      </a>
-    </nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <cvc-link-tag [link]="{url: variantType.url, label: variantType.soid, tooltip: 'View on sequenceontology.org'}"></cvc-link-tag>
+    </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">
         {{ variantType.description }}

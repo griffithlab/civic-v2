@@ -8,4 +8,8 @@ class DiseaseBrowseTableRow < ApplicationRecord
   def readonly?
     true
   end
+
+  def disease_url
+    Disease.url_for_doid(self.doid)
+  end
 end

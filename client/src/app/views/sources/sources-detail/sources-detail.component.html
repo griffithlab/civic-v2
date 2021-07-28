@@ -5,17 +5,12 @@
         <nz-space-item>
           <i nz-icon nzType="civic:source"></i>
         </nz-space-item>
-        <span routerLink="/sources/{{source.id}}">
-          SID{{ source.id }}
-        </span>
+        {{ source.citation }}
       </nz-space>
     </nz-page-header-title>
-    <nz-page-header-subtitle>
-      <a [href]="source.sourceUrl" target="_blank">
-        {{ source.citation }}
-        <i nz-icon nzType="link"></i>
-      </a>
-    </nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <cvc-link-tag [link]="{url: source.sourceUrl, label: source.displayType + ': ' + source.citationId, tooltip: 'View on ' + source.displayType}"></cvc-link-tag>
+    </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">
         <router-outlet></router-outlet>

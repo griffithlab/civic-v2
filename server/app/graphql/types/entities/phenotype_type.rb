@@ -3,6 +3,7 @@ module Types::Entities
     field :id, Int, null: false
     field :hpo_id, String, null: false
     field :name, String, null: false
+    field :url, String, null: false
 
     def name
       object.hpo_class

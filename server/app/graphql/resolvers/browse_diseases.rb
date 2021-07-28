@@ -9,6 +9,10 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
 
   scope { DiseaseBrowseTableRow.all }
 
+  option(:id, type: Int) do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: String) do |scope, value|
     scope.where('name ILIKE ?', "%#{value}%")
   end

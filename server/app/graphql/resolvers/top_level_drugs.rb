@@ -26,6 +26,10 @@ class Resolvers::TopLevelDrugs < GraphQL::Schema::Resolver
     end
   end
 
+  option(:id, type: Int, description: "Filter on a Drug's internal CIViC id") do |scope, value|
+    scope.where(id: id)
+  end
+
   option(:name, type: String, description: 'Wildcard match on drug name') do |scope, value|
     scope.where('name ILIKE ?', "%#{value}%")
   end

@@ -431,6 +431,7 @@ type BrowseClinicalTrial {
   name: String!
   nctId: String
   sourceCount: Int!
+  url: String
 }
 
 """
@@ -485,6 +486,7 @@ type BrowseClinicalTrialEdge {
 
 type BrowseDisease {
   assertionCount: Int!
+  diseaseUrl: String
   displayName: String!
   doid: String
   evidenceItemCount: Int!
@@ -546,6 +548,7 @@ type BrowseDiseaseEdge {
 
 type BrowseDrug {
   assertionCount: Int!
+  drugUrl: String
   evidenceCount: Int!
   id: Int!
   name: String!
@@ -671,6 +674,7 @@ type BrowsePhenotype {
   hpoId: String!
   id: Int!
   name: String!
+  url: String!
 }
 
 """
@@ -727,12 +731,15 @@ type BrowseSource {
   authors: [String!]!
   citation: String!
   citationId: Int!
+  clinicalTrials: [ClinicalTrial!]!
+  displayType: String!
   evidenceItemCount: Int!
   id: Int!
   journal: String
   name: String
   publicationYear: Int
   sourceType: SourceSource!
+  sourceUrl: String!
 }
 
 """
@@ -910,6 +917,7 @@ type BrowseVariantType {
   id: Int!
   name: String!
   soid: String!
+  url: String
   variantCount: Int!
 }
 
@@ -968,7 +976,7 @@ type ClinicalTrial {
   id: Int!
   name: String!
   nctId: String!
-  url: String!
+  url: String
 }
 
 input ClinicalTrialSort {
@@ -2846,6 +2854,7 @@ type Phenotype {
   hpoId: String!
   id: Int!
   name: String!
+  url: String!
 }
 
 input PhenotypeSort {
@@ -3004,6 +3013,7 @@ type Query {
     """
     first: Int
     geneNames: String
+    id: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -3056,6 +3066,7 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+    id: Int
     journal: String
 
     """
@@ -3143,6 +3154,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter to a Clinical Trial based on its internal CIViC id
+    """
+    id: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -3244,6 +3260,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter on a Drug's internal CIViC id
+    """
+    id: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -3576,6 +3597,11 @@ type Query {
     hpoId: String
 
     """
+    Filter Phenotype on internal CIViC id
+    """
+    id: Int
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -3678,6 +3704,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter variant types by internal CIViC id
+    """
+    id: Int
 
     """
     Returns the last _n_ elements from the list.

@@ -15,6 +15,7 @@ export interface LinkableSource {
 export class SourceTagComponent implements OnInit {
   @Input() source!: any;
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

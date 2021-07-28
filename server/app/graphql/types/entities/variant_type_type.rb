@@ -9,9 +9,5 @@ module Types::Entities
     def name
       object.display_name
     end
-
-    def url
-      "http://www.sequenceontology.org/browser/current_svn/term/#{object.soid}"
-    end
   end
 end

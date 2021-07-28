@@ -8,14 +8,24 @@
   <nz-tag
     nz-popover
     [nzPopoverContent]="orgPopover">
-    <i nz-icon
-      nzType="civic-organization" nzTheme="twotone" nzTwotoneColor="#58A0C4"></i> {{ org.name }}
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #orgPopover>
-    <cvc-org-popover [orgId]="org.id"></cvc-org-popover>
+    <cvc-org-popover *ngIf="enablePopover" [orgId]="org.id"></cvc-org-popover>
   </ng-template>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag>
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon
+    nzType="civic-organization" nzTheme="twotone" nzTwotoneColor="#58A0C4"></i> {{ org.name }}
 </ng-template>

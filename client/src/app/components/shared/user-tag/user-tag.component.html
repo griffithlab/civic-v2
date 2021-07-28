@@ -11,14 +11,24 @@
     [nzPopoverContent]="userPopover"
     nzPopoverTrigger="hover"
     nzPopoverPlacement="topCenter">
-    <i nz-icon
-      [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{ user.displayName }}
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #userPopover>
-    <cvc-user-hovercard [userId]="user.id"></cvc-user-hovercard>
+    <cvc-user-hovercard *ngIf="enablePopover" [userId]="user.id"></cvc-user-hovercard>
   </ng-template>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag>
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon
+    [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{ user.displayName }}
 </ng-template>

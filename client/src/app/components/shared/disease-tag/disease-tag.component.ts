@@ -14,6 +14,7 @@ export interface LinkableDisease {
 export class DiseaseTagComponent implements OnInit {
   @Input() disease!: LinkableDisease
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

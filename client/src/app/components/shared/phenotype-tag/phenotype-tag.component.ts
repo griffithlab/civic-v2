@@ -14,6 +14,7 @@ export interface LinkablePhenotype {
 export class PhenotypeTagComponent implements OnInit {
   @Input() phenotype!: LinkablePhenotype
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

@@ -14,6 +14,7 @@ export interface LinkableEvidence {
 export class EvidenceTagComponent implements OnInit {
   @Input() evidence!: LinkableEvidence
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

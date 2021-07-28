@@ -14,6 +14,7 @@ export interface LinkableGene {
 export class GeneTagComponent implements OnInit {
   @Input() gene!: LinkableGene;
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() {}
 

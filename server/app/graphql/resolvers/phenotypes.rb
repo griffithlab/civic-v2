@@ -26,6 +26,10 @@ class Resolvers::Phenotypes < GraphQL::Schema::Resolver
     end
   end
 
+  option(:id, type: Int, description: 'Filter Phenotype on internal CIViC id') do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: String, description: 'Wildcard match on phenotype name (class)') do |scope, value|
     scope.where('hpo_class ILIKE ?', "%#{value}%")
   end

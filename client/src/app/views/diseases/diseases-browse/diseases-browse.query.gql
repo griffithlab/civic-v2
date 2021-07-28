@@ -40,6 +40,7 @@ fragment BrowseDiseaseRowFields on BrowseDisease {
   id
   name
   doid
+  diseaseUrl
   geneNames
   assertionCount
   evidenceItemCount

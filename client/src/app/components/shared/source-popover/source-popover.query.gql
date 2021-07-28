@@ -1,0 +1,23 @@
+query SourcePopover($sourceId: Int!) {
+  browseSources(id: $sourceId) {
+    edges {
+      node {
+        ...sourcePopover
+      }
+    }
+  }
+}
+
+fragment sourcePopover on BrowseSource {
+  id
+  name
+  evidenceItemCount
+  citation
+  citationId
+  displayType
+  sourceUrl
+  clinicalTrials {
+    id
+    nctId
+  }
+}

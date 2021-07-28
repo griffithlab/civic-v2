@@ -9,8 +9,8 @@
           nzType="civic:assertion"></i> {{ assertion.name }}
       </ng-template>
       <ng-template #geneAndVariant>
-        <cvc-gene-tag [linked]="false" [gene]="assertion.gene"></cvc-gene-tag>
-        <cvc-variant-tag [linked]="false" [variant]="assertion.variant"></cvc-variant-tag>
+        <cvc-gene-tag [enablePopover]="false" [gene]="assertion.gene"></cvc-gene-tag>
+        <cvc-variant-tag [enablePopover]="false" [variant]="assertion.variant"></cvc-variant-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
@@ -82,7 +82,7 @@
 
         <nz-descriptions-item nzTitle="Disease" nzSpan="2">
           <ng-container *ngIf="assertion.disease; else noDisease">
-            <cvc-disease-tag [linked]="false" [disease]="assertion.disease"></cvc-disease-tag>
+            <cvc-disease-tag [enablePopover]="false" [disease]="assertion.disease"></cvc-disease-tag>
           </ng-container>
           <ng-template #noDisease>
             N/A
@@ -93,7 +93,7 @@
           nzSpan="2"
           *ngIf="assertion.drugs.length > 0">
           <span *ngFor="let drug of assertion.drugs">
-            <cvc-drug-tag [linked]="false" [drug]="drug"></cvc-drug-tag>
+            <cvc-drug-tag [enablePopover]="false" [drug]="drug"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="assertion.drugs.length > 1">
             {{ assertion.drugInteractionType | titlecase }}
@@ -105,7 +105,7 @@
           nzSpan="2"
           *ngIf="assertion.phenotypes.length > 0">
           <span *ngFor="let ph of assertion.phenotypes">
-            <cvc-phenotype-tag [linked]="false" [phenotype]="ph"></cvc-phenotype-tag>
+            <cvc-phenotype-tag [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag>
           </span>
         </nz-descriptions-item>
 

@@ -5,4 +5,8 @@ class Phenotype < ActiveRecord::Base
   def display_name
     self.hpo_class
   end
+
+  def url
+    "https://hpo.jax.org/app/browse/term/#{self.hpo_id}"
+  end
 end

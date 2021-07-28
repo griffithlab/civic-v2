@@ -1,10 +1,10 @@
-query VariantHovercard($variantId: Int!){ 
+query VariantPopover($variantId: Int!){ 
   variant(id: $variantId) {
-    ... variantHovercardFields
+    ... variantPopoverFields
   }
 }
 
-fragment variantHovercardFields on Variant {
+fragment variantPopoverFields on Variant {
     id
     name
     description
