@@ -31,6 +31,7 @@ fragment eventFeed on EventConnection {
     uniqueParticipants {
         id
         displayName
+        role
         profileImagePath(size: 32)
     }
     participatingOrganizations {
@@ -73,29 +74,12 @@ fragment eventFeedNode on Event {
         __typename
         ... on Revision {
             id
-            revisor {
-                id
-                displayName
-                profileImagePath(size: 32)
-            }
-            linkoutData {
-                name
-            }
-            revisionsetId
-
         }
         ... on Comment {
             id
-            comment
         }
         ... on Flag {
             id
-            openComment {
-                comment
-            }
-            resolutionComment {
-                comment
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Maybe } from "@app/generated/civic.apollo";
 
 export interface LinkableVariant {
   id: number,
@@ -12,6 +13,7 @@ export interface LinkableVariant {
 })
 export class VariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant
+  @Input() linked: Maybe<boolean> = true
 
   ngOnInit() {
     if(this.variant === undefined) {

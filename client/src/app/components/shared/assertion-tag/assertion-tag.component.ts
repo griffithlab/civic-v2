@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableAssertion {
   id: number,
@@ -12,6 +13,7 @@ export interface LinkableAssertion {
 })
 export class AssertionTagComponent implements OnInit {
   @Input() assertion!: LinkableAssertion
+  @Input() linked: Maybe<boolean> = true
 
   constructor() { }
 

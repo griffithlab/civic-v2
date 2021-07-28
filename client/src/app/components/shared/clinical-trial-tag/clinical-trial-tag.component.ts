@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableClinicalTrial {
   id: number,
@@ -12,6 +13,7 @@ export interface LinkableClinicalTrial {
 })
 export class ClinicalTrialTagComponent implements OnInit {
   @Input() clinicalTrial!: LinkableClinicalTrial
+  @Input() linked: Maybe<boolean> = true
 
   constructor() { }
 

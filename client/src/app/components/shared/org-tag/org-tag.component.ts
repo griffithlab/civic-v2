@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface TagLinkableOrganization {
   id: number,
@@ -12,6 +13,8 @@ export interface TagLinkableOrganization {
 })
 export class OrgTagComponent implements OnInit {
   @Input() org!: TagLinkableOrganization
+  @Input() linked: Maybe<boolean> = true
+  
   constructor() { }
 
   ngOnInit() {

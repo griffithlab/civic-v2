@@ -1,4 +1,16 @@
-<nz-tag nzColor="blue">
-  <i nz-icon nzType="audit"></i>
-  {{ clinicalTrial.nctId }}
-</nz-tag>
+<ng-container *ngIf="linked; else unlinked">
+  <a routerLink="/clinical-trials/{{clinicalTrial.id}}">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag>
+    <i nz-icon nzType="audit" class="clinical-trial-tag-icon"></i>
+    {{ clinicalTrial.nctId }}
+  </nz-tag>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>

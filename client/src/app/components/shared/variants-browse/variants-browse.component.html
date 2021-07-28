@@ -78,30 +78,22 @@
               <tbody>
                 <tr *ngFor="let variant of variantsTable.data">
                   <td>
-                    <a routerLink="/variants/{{variant.id}}">
-                      <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
-                    </a>
+                    <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
                   </td>
                   <td>
-                    <a routerLink="/genes/{{variant.geneId}}">
-                      <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>
-                    </a>
+                    <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>
                   </td>
                   <td>
                     <p nz-typography>
                       <span *ngFor="let disease of variant.diseases" >
-                        <a routerLink="/diseases/{{disease.id}}">
-                          <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
-                        </a>
+                        <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
                       </span>
                     </p>
                   </td>
                   <td>
                     <p nz-typography>
                       <span *ngFor="let drug of variant.drugs" >
-                        <a routerLink="/drugs/{{drug.id}}">
-                          <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                        </a>
+                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                       </span>
                     </p>
                   </td>

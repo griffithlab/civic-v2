@@ -3027,6 +3027,52 @@ export type HovercardGeneFragment = (
   ) }
 );
 
+export type AssertionPopoverQueryVariables = Exact<{
+  assertionId: Scalars['Int'];
+}>;
+
+
+export type AssertionPopoverQuery = (
+  { __typename: 'Query' }
+  & { assertion?: Maybe<(
+    { __typename: 'Assertion' }
+    & AssertionPopoverFragment
+  )> }
+);
+
+export type AssertionPopoverFragment = (
+  { __typename: 'Assertion' }
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
+  & { acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'code'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
 export type AssertionsBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3135,7 +3181,7 @@ export type CommentListQuery = (
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ), uniqueCommenters: Array<(
       { __typename: 'User' }
-      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     )>, edges: Array<(
       { __typename: 'CommentEdge' }
       & Pick<CommentEdge, 'cursor'>
@@ -3216,7 +3262,7 @@ export type EventFeedFragment = (
     & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
   ), uniqueParticipants: Array<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   )>, participatingOrganizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
@@ -3262,30 +3308,16 @@ export type EventFeedNodeFragment = (
     & Pick<Assertion, 'id' | 'name'>
   ) | (
     { __typename: 'Comment' }
-    & Pick<Comment, 'id' | 'comment' | 'name'>
+    & Pick<Comment, 'id' | 'name'>
   ) | (
     { __typename: 'EvidenceItem' }
     & Pick<EvidenceItem, 'id' | 'name'>
   ) | (
     { __typename: 'Flag' }
     & Pick<Flag, 'id' | 'name'>
-    & { openComment: (
-      { __typename: 'Comment' }
-      & Pick<Comment, 'comment'>
-    ), resolutionComment?: Maybe<(
-      { __typename: 'Comment' }
-      & Pick<Comment, 'comment'>
-    )> }
   ) | (
     { __typename: 'Revision' }
-    & Pick<Revision, 'id' | 'revisionsetId' | 'name'>
-    & { revisor: (
-      { __typename: 'User' }
-      & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
-    ), linkoutData: (
-      { __typename: 'LinkoutData' }
-      & Pick<LinkoutData, 'name'>
-    ) }
+    & Pick<Revision, 'id' | 'name'>
   )> }
 );
 
@@ -3540,24 +3572,6 @@ export type OrgPopoverQuery = (
 );
 
 export type OrgPopoverFragment = (
-  { __typename: 'Organization' }
-  & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
-);
-
-export type OrgHoverCardQueryVariables = Exact<{
-  orgId: Scalars['Int'];
-}>;
-
-
-export type OrgHoverCardQuery = (
-  { __typename: 'Query' }
-  & { organization?: Maybe<(
-    { __typename: 'Organization' }
-    & HovercardOrgFragment
-  )> }
-);
-
-export type HovercardOrgFragment = (
   { __typename: 'Organization' }
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
 );
@@ -4819,6 +4833,54 @@ export const HovercardGeneFragmentDoc = gql`
   }
 }
     `;
+export const AssertionPopoverFragmentDoc = gql`
+    fragment assertionPopover on Assertion {
+  id
+  name
+  summary
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  variantOrigin
+  ampLevel
+  acmgCodes {
+    code
+  }
+  nccnGuideline
+  fdaCompanionTest
+  regulatoryApproval
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
 export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     fragment AssertionBrowseTableRowFields on Assertion {
   id
@@ -4917,28 +4979,12 @@ export const EventFeedNodeFragmentDoc = gql`
     __typename
     ... on Revision {
       id
-      revisor {
-        id
-        displayName
-        profileImagePath(size: 32)
-      }
-      linkoutData {
-        name
-      }
-      revisionsetId
     }
     ... on Comment {
       id
-      comment
     }
     ... on Flag {
       id
-      openComment {
-        comment
-      }
-      resolutionComment {
-        comment
-      }
     }
   }
 }
@@ -4955,6 +5001,7 @@ export const EventFeedFragmentDoc = gql`
   uniqueParticipants {
     id
     displayName
+    role
     profileImagePath(size: 32)
   }
   participatingOrganizations {
@@ -5130,15 +5177,6 @@ export const GenePopoverFragmentDoc = gql`
     `;
 export const OrgPopoverFragmentDoc = gql`
     fragment orgPopover on Organization {
-  id
-  profileImagePath(size: 64)
-  name
-  description
-  url
-}
-    `;
-export const HovercardOrgFragmentDoc = gql`
-    fragment hovercardOrg on Organization {
   id
   profileImagePath(size: 64)
   name
@@ -5773,6 +5811,24 @@ export const GeneHoverCardDocument = gql`
       super(apollo);
     }
   }
+export const AssertionPopoverDocument = gql`
+    query AssertionPopover($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...assertionPopover
+  }
+}
+    ${AssertionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionPopoverGQL extends Apollo.Query<AssertionPopoverQuery, AssertionPopoverQueryVariables> {
+    document = AssertionPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AssertionsBrowseDocument = gql`
     query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
   assertions(
@@ -5868,6 +5924,7 @@ export const CommentListDocument = gql`
     uniqueCommenters {
       id
       displayName
+      role
       profileImagePath(size: 32)
     }
     edges {
@@ -6094,24 +6151,6 @@ export const OrgPopoverDocument = gql`
   })
   export class OrgPopoverGQL extends Apollo.Query<OrgPopoverQuery, OrgPopoverQueryVariables> {
     document = OrgPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const OrgHoverCardDocument = gql`
-    query OrgHoverCard($orgId: Int!) {
-  organization(id: $orgId) {
-    ...hovercardOrg
-  }
-}
-    ${HovercardOrgFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class OrgHoverCardGQL extends Apollo.Query<OrgHoverCardQuery, OrgHoverCardQueryVariables> {
-    document = OrgHoverCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

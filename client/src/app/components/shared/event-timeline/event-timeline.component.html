@@ -74,15 +74,6 @@
       <ng-template #noOriginating>
         Event database entry is malformed and cannot be displayed
       </ng-template>
-      <!-- <ng-container *ngIf="event.originatingObject"
-           [ngSwitch]="event.originatingObject.__typename">
-           <nz-card *ngSwitchCase="'Comment'"> {{ event.originatingObject.comment }} </nz-card>
-           <nz-card *ngSwitchCase="'Flag'"> {{ commentForFlagEvent(e) }} </nz-card>
-           <nz-card *ngSwitchCase="'Revision'">
-           <cvc-user-pill [user]="event.originatingObject.revisor"></cvc-user-pill>
-           {{ event.originatingObject.name }} to {{ event.originatingObject.linkoutData.name }}
-           </nz-card>
-           </ng-container> -->
     </nz-timeline-item>
   </ng-container>
 </nz-timeline>

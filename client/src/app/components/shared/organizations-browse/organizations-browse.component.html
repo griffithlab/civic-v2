@@ -20,9 +20,6 @@
 
             <thead (nzSortOrderChange)="onSortChanged($event)">
               <tr>
-                <th nzWidth="10%" [nzColumnKey]="sortColumns.Id" [nzSortFn]="true">
-                  ID
-                </th>
                 <th nzWidth="40%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
                   Name
                 </th>
@@ -38,9 +35,6 @@
               </tr>
               <tr>
                 <th>
-                  <cvc-clearable-text-filter [(inputModel)]="idInput" placeholderText="Search ID" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
-                </th>
-                <th>
                   <cvc-clearable-text-filter [(inputModel)]="orgNameInput" placeholderText="Search Name" [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
                 </th>
                 <th>
@@ -54,10 +48,7 @@
             <tbody>
               <tr *ngFor="let organization of organizationsTable.data">
                 <td>
-                  <a routerLink="/organizations/{{organization.id}}">{{organization.id}}</a>
-                </td>
-                <td>
-                  <a href="{{organization.url}}" target="_blank">{{organization.name}}</a>
+                  <cvc-org-tag [org]="organization"></cvc-org-tag>
                 </td>
                 <td>
                   {{ organization.memberCount }}

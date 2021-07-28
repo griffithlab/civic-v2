@@ -47,9 +47,6 @@ import { ParticipantListComponent } from './participant-list/participant-list.co
 import { EventFeedComponent } from './event-feed/event-feed.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserHovercardComponent } from './user-hovercard/user-hovercard.component';
-import { UserPillComponent } from './user-pill/user-pill.component'
-import { OrganizationPillComponent } from './organization-pill/organization-pill.component'
-import { OrganizationHovercardComponent } from './organization-hovercard/organization-hovercard.component'
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
 import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
@@ -113,6 +110,7 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
+import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 
 @NgModule({
   declarations: [
@@ -129,9 +127,6 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     EventFeedComponent,
     UserAvatarComponent,
     UserHovercardComponent,
-    UserPillComponent,
-    OrganizationPillComponent,
-    OrganizationHovercardComponent,
     CommentDisplayComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
@@ -177,7 +172,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
-    VariantTypeTagComponent
+    VariantTypeTagComponent,
+    AssertionPopoverComponent
   ],
   imports: [
     CommonModule,
@@ -245,9 +241,6 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     EventFeedComponent,
     UserAvatarComponent,
     UserHovercardComponent,
-    UserPillComponent,
-    OrganizationPillComponent,
-    OrganizationHovercardComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
@@ -290,7 +283,8 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
-    VariantTypeTagComponent
+    VariantTypeTagComponent,
+    AssertionPopoverComponent
   ]
 })
 

@@ -216,7 +216,7 @@
                     <nz-list *ngIf="organization.subGroups.length > 0" nzBordered nzSize="small">
                       <nz-list-header>Child Organizations: </nz-list-header>
                       <nz-list-item *ngFor="let suborg of organization.subGroups">
-                        <cvc-org-pill [org]="suborg"></cvc-org-pill>
+                        <cvc-org-tag [org]="suborg"></cvc-org-tag>
                       </nz-list-item>
                     </nz-list>
                   </nz-col>
