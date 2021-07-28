@@ -9,7 +9,7 @@
           ></i> {{ variant.name }}
       </ng-template>
       <ng-template #gene>
-        <cvc-gene-tag [linked]="false" [gene]="variant.gene"></cvc-gene-tag>
+        <cvc-gene-tag [enablePopover]="false" [gene]="variant.gene"></cvc-gene-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

@@ -5,19 +5,29 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
+  <nz-tag *ngIf="enablePopover; else noPopover" 
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="popoverContent"
     nzPopoverTrigger="hover">
-    <i nz-icon
-      nzType="civic-variant" nzTheme="twotone" nzTwotoneColor="#33B358"></i> {{ variant.name }}
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
-    <cvc-variant-popover [variantId]="variant.id"></cvc-variant-popover>
+    <cvc-variant-popover *ngIf="enablePopover" [variantId]="variant.id"></cvc-variant-popover>
   </ng-template>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag>
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon
+    nzType="civic-variant" nzTheme="twotone" nzTwotoneColor="#33B358"></i> {{ variant.name }}
 </ng-template>

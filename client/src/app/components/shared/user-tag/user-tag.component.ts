@@ -15,6 +15,7 @@ export interface TagLinkableUser {
 export class UserTagComponent implements OnInit {
   @Input() user!: TagLinkableUser
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   icon!: string;
 

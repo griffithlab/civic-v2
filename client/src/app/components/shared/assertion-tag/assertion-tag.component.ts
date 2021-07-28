@@ -14,6 +14,7 @@ export interface LinkableAssertion {
 export class AssertionTagComponent implements OnInit {
   @Input() assertion!: LinkableAssertion
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

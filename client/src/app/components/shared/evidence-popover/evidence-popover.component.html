@@ -9,8 +9,8 @@
           nzType="civic:evidence"></i> {{ evidence.name }}
       </ng-template>
       <ng-template #geneAndVariant>
-        <cvc-gene-tag [linked]="false" [gene]="evidence.gene"></cvc-gene-tag>
-        <cvc-variant-tag [linked]="false" [variant]="evidence.variant"></cvc-variant-tag>
+        <cvc-gene-tag [enablePopover]="false" [gene]="evidence.gene"></cvc-gene-tag>
+        <cvc-variant-tag [enablePopover]="false" [variant]="evidence.variant"></cvc-variant-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
@@ -64,7 +64,7 @@
         <!-- disease -->
         <nz-descriptions-item nzTitle="Disease">
           <ng-container *ngIf="evidence.disease; else noDisease">
-            <cvc-disease-tag [linked]="false" [disease]="evidence.disease"></cvc-disease-tag>
+            <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease"></cvc-disease-tag>
           </ng-container>
           <ng-template #noDisease>
             N/A
@@ -76,7 +76,7 @@
           nzSpan="2"
           *ngIf="evidence.drugs.length > 0">
           <span *ngFor="let drug of evidence.drugs">
-            <cvc-drug-tag [linked]="false" [drug]="drug"></cvc-drug-tag>
+            <cvc-drug-tag [enablePopover]="false" [drug]="drug"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="evidence.drugs.length > 1">
             {{evidence.drugInteractionType | titlecase }}
@@ -88,7 +88,7 @@
           nzSpan="2"
           *ngIf="evidence.phenotypes.length > 0">
           <span *ngFor="let ph of evidence.phenotypes">
-            <cvc-phenotype-tag [linked]="false" [phenotype]="ph"></cvc-phenotype-tag>
+            <cvc-phenotype-tag [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag>
           </span>
         </nz-descriptions-item>
 

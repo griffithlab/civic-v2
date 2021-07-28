@@ -5,13 +5,13 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
+  <nz-tag *ngIf="enablePopover; else noPopover" 
   nz-popover
   [nzPopoverMouseEnterDelay]="0.5"
   [nzPopoverContent]="assertionPopover"
   nzPopoverPlacement="right"
   nzPopoverTrigger="hover">
-      <i nz-icon nzType="civic-assertion" nzTheme="twotone" nzTwotoneColor="#7243B5"></i> {{ assertion.name }}
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #assertionPopover>
@@ -19,6 +19,16 @@
   </ng-template>
 </ng-template>
 
+<ng-template #noPopover>
+  <nz-tag>
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+</ng-template>
+
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon nzType="civic-assertion" nzTheme="twotone" nzTwotoneColor="#7243B5"></i> {{ assertion.name }}
 </ng-template>
