@@ -2,7 +2,7 @@ class Drug < ActiveRecord::Base
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :assertions
 
-  def drug_url
+  def self.url_for(ncit_id:)
     if ncit_id.nil?
       nil
     else

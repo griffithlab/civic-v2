@@ -1,32 +1,27 @@
 <div id="popover-content">
-  <ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
+  <ng-container *ngIf="drug$ | ngrxPush as d" >
     <nz-card [nzTitle]="cardTitle" nzBordered="false"
       id="card-content"
       [nzExtra]="linkout">
       <ng-template #cardTitle>
-        <i nz-icon
-          nzType="audit"></i> {{ t.nctId }}
+        <i nz-icon nzType="civic-intervention" nzTheme="twotone" nzTwotoneColor="#AC3996"></i>
+          {{ d.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [link]="{url: t.url, label: 'View on clinicaltrials.gov'}"></cvc-link-tag>
+        <cvc-link-tag [link]="{url: d.drugUrl, label: d.ncitId, tooltip: 'View on NCI Thesaurus'}"></cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
 
-        <!-- name -->
-        <nz-descriptions-item nzTitle="Name"
+        <nz-descriptions-item nzTitle="Assertions"
           nzSpan="2">
-          {{t.name}}
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Sources"
-          nzSpan="2">
-          {{t.sourceCount}}
+          {{d.assertionCount}}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Evidence"
           nzSpan="2">
-          {{t.evidenceCount}}
+          {{d.evidenceCount}}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>

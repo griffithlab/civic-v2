@@ -75,13 +75,14 @@ export type AssertionEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseClinicalTrialKeySpecifier = ('evidenceCount' | 'id' | 'name' | 'nctId' | 'sourceCount' | BrowseClinicalTrialKeySpecifier)[];
+export type BrowseClinicalTrialKeySpecifier = ('evidenceCount' | 'id' | 'name' | 'nctId' | 'sourceCount' | 'url' | BrowseClinicalTrialKeySpecifier)[];
 export type BrowseClinicalTrialFieldPolicy = {
 	evidenceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	nctId?: FieldPolicy<any> | FieldReadFunction<any>,
-	sourceCount?: FieldPolicy<any> | FieldReadFunction<any>
+	sourceCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseClinicalTrialConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseClinicalTrialConnectionKeySpecifier)[];
 export type BrowseClinicalTrialConnectionFieldPolicy = {
@@ -196,18 +197,20 @@ export type BrowsePhenotypeEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseSourceKeySpecifier = ('authors' | 'citation' | 'citationId' | 'displayType' | 'evidenceItemCount' | 'id' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | BrowseSourceKeySpecifier)[];
+export type BrowseSourceKeySpecifier = ('authors' | 'citation' | 'citationId' | 'clinicalTrials' | 'displayType' | 'evidenceItemCount' | 'id' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'sourceUrl' | BrowseSourceKeySpecifier)[];
 export type BrowseSourceFieldPolicy = {
 	authors?: FieldPolicy<any> | FieldReadFunction<any>,
 	citation?: FieldPolicy<any> | FieldReadFunction<any>,
 	citationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinicalTrials?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayType?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	publicationYear?: FieldPolicy<any> | FieldReadFunction<any>,
-	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
+	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BrowseSourceConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | BrowseSourceConnectionKeySpecifier)[];
 export type BrowseSourceConnectionFieldPolicy = {

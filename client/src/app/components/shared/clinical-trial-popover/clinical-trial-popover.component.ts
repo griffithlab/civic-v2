@@ -21,6 +21,6 @@ export class ClinicalTrialPopoverComponent implements OnInit {
     }
     this.clinicalTrial$ = this.gql.watch({ clinicalTrialId: this.clinicalTrialId })
       .valueChanges
-      .pipe(map(({ data }) => data.clinicalTrial))
+      .pipe(map(({ data }) => data.clinicalTrials.edges[0]?.node))
   }
 }

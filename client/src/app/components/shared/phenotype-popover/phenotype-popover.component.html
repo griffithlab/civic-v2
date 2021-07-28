@@ -1,32 +1,27 @@
 <div id="popover-content">
-  <ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
+  <ng-container *ngIf="phenotype$ | ngrxPush as p" >
     <nz-card [nzTitle]="cardTitle" nzBordered="false"
       id="card-content"
       [nzExtra]="linkout">
       <ng-template #cardTitle>
-        <i nz-icon
-          nzType="audit"></i> {{ t.nctId }}
+        <i nz-icon nzType="civic-phenotype" nzTheme="twotone" nzTwotoneColor="#2A63B6"></i>
+        {{ p.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [link]="{url: t.url, label: 'View on clinicaltrials.gov'}"></cvc-link-tag>
+        <cvc-link-tag [link]="{url: p.url, label: p.hpoId, tooltip: 'View in the Human Phenotype Ontology'}"></cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
 
-        <!-- name -->
-        <nz-descriptions-item nzTitle="Name"
+        <nz-descriptions-item nzTitle="Assertions"
           nzSpan="2">
-          {{t.name}}
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Sources"
-          nzSpan="2">
-          {{t.sourceCount}}
+          {{p.assertionCount}}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Evidence"
           nzSpan="2">
-          {{t.evidenceCount}}
+          {{p.evidenceCount}}
         </nz-descriptions-item>
       </nz-descriptions>
     </nz-card>
