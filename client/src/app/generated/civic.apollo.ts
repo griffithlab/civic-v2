@@ -814,7 +814,7 @@ export type Event = {
   action: EventAction;
   createdAt: Scalars['ISO8601DateTime'];
   id: Scalars['Int'];
-  organization: Organization;
+  organization?: Maybe<Organization>;
   originatingObject?: Maybe<EventOriginObject>;
   originatingUser: User;
   subject: EventSubject;
@@ -3332,10 +3332,10 @@ export type EventFeedFragment = (
 export type EventFeedNodeFragment = (
   { __typename: 'Event' }
   & Pick<Event, 'id' | 'action' | 'createdAt'>
-  & { organization: (
+  & { organization?: Maybe<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-  ), originatingUser: (
+  )>, originatingUser: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
   ), subject: (
@@ -4046,10 +4046,10 @@ export type ViewerBaseQuery = (
       & { nodes: Array<(
         { __typename: 'Event' }
         & Pick<Event, 'id' | 'createdAt'>
-        & { organization: (
+        & { organization?: Maybe<(
           { __typename: 'Organization' }
           & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        ) }
+        )> }
       )> }
     ) }
   )> }

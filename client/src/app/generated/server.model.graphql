@@ -1254,7 +1254,7 @@ type Event {
   action: EventAction!
   createdAt: ISO8601DateTime!
   id: Int!
-  organization: Organization!
+  organization: Organization
   originatingObject: EventOriginObject
   originatingUser: User!
   subject: EventSubject!
