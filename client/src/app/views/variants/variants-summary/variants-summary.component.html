@@ -151,15 +151,14 @@
               <nz-descriptions-item [nzTitle]="variant.clinvarIds.length > 1 ? 'ClinVar IDs' : 'ClinVar ID'"
                 nzSpan="2">
                 <ng-container *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
-                  <ng-container *ngFor="let id of variant.clinvarIds; let last = last">
-                    <cvc-tag-list *ngIf="id !== 'N/A', else clinvarNotApplicable">
+                  <cvc-tag-list *ngIf="variant.clinvarIds[0] !== 'N/A' else clinvarNotApplicable">
+                    <ng-container *ngFor="let id of variant.clinvarIds">
                       <cvc-link-tag [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id"
                         tooltip="View on ClinVar">
                         {{ id }}
                       </cvc-link-tag>
-                    </cvc-tag-list>
-                    <ng-container *ngIf="!last">, </ng-container>
-                  </ng-container>
+                    </ng-container>
+                  </cvc-tag-list>
                 </ng-container>
 
                 <ng-template #clinvarNotApplicable>
