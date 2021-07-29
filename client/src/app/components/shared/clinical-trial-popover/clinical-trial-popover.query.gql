@@ -1,0 +1,18 @@
+query ClinicalTrialPopover($clinicalTrialId: Int!) {
+  clinicalTrials(id: $clinicalTrialId) {
+    edges {
+      node {
+        ...clinicalTrialPopover
+      }
+    }
+  }
+}
+
+fragment clinicalTrialPopover on BrowseClinicalTrial {
+  id
+  name
+  nctId
+  url
+  sourceCount
+  evidenceCount
+}

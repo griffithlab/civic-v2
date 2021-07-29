@@ -64,9 +64,7 @@
                     <cvc-disease-tag [disease]="d"></cvc-disease-tag>
                   </td>
                   <td>
-                    <a *ngIf="d.doid; else noDoid" href="https://disease-ontology.org/?id=DOID:{{d.doid}}" target="_blank">
-                      DOID:{{ d.doid }}
-                    </a>
+                    <cvc-link-tag *ngIf="d.doid; else noDoid" [link]="{url: d.diseaseUrl, label: 'DOID:' + d.doid, tooltip: 'View on disease-ontology.org'}"></cvc-link-tag>
                     <ng-template #noDoid>
                       --
                     </ng-template>

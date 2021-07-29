@@ -14,6 +14,7 @@ export interface TagLinkableOrganization {
 export class OrgTagComponent implements OnInit {
   @Input() org!: TagLinkableOrganization
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
   
   constructor() { }
 

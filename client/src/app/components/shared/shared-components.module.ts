@@ -101,7 +101,7 @@ import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
 import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 import { VariantTagComponent } from './variant-tag/variant-tag.component';
-import { VariantHovercardComponent } from './variant-hovercard/variant-hovercard.component';
+import { VariantPopoverComponent } from './variant-popover/variant-popover.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -114,7 +114,15 @@ import { StatusTagComponent } from './status-tag/status-tag.component';
 import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
 import { LinkTagComponent } from './link-tag/link-tag.component';
+
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
+import { ClinicalTrialPopoverComponent } from './clinical-trial-popover/clinical-trial-popover.component';
+import { DiseasePopoverComponent } from './disease-popover/disease-popover.component';
+import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
+import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover.component';
+import { SourcePopoverComponent } from './source-popover/source-popover.component';
+import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
+
 
 @NgModule({
   declarations: [
@@ -172,16 +180,22 @@ import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.compo
     AmpFormatPipe,
     EvidenceRatingComponent,
     VariantTagComponent,
-    VariantHovercardComponent,
+    VariantPopoverComponent,
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
     ClinicalTrialTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
-    AssertionPopoverComponent,
     LinkTagComponent,
     EmptyRevisableComponent,
+    AssertionPopoverComponent,
+    ClinicalTrialPopoverComponent,
+    DiseasePopoverComponent,
+    DrugPopoverComponent,
+    PhenotypePopoverComponent,
+    SourcePopoverComponent,
+    VariantTypePopoverComponent,
   ],
   imports: [
     CommonModule,
@@ -286,7 +300,7 @@ import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.compo
     EvidenceEnumDisplayPipe,
     AmpFormatPipe,
     VariantTagComponent,
-    VariantHovercardComponent,
+    VariantPopoverComponent,
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
@@ -295,9 +309,14 @@ import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.compo
     StatusTagComponent,
     AssertionPopoverComponent,
     SourceTagComponent,
-    LinkTagComponent,
     EmptyRevisableComponent,
     IfEmptyPipe,
+    ClinicalTrialPopoverComponent,
+    DiseasePopoverComponent,
+    DrugPopoverComponent,
+    PhenotypePopoverComponent,
+    SourcePopoverComponent,
+    VariantTypePopoverComponent,
   ]
 })
 

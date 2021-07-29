@@ -54,4 +54,5 @@ fragment BrowseSourceRowFields on BrowseSource {
     publicationYear
     sourceType
     citation
+    displayType
 }

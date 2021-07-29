@@ -5,17 +5,12 @@
         <nz-space-item>
           <i nz-icon nzType="civic:intervention"></i>
         </nz-space-item>
-        <span routerLink="/drugs/{{drug.id}}">
-          {{ drug.name }}
-        </span>
+        {{ drug.name }}
       </nz-space>
     </nz-page-header-title>
-    <nz-page-header-subtitle *ngIf="drug.ncitId">
-      <a [href]="drug.drugUrl" target="_blank">
-        {{ drug.ncitId }}
-        <i nz-icon nzType="link"></i>
-      </a>
-    </nz-page-header-subtitle>
+    <nz-page-header-extra *ngIf="drug.ncitId">
+      <cvc-link-tag [link]="{url: drug.drugUrl, label: drug.ncitId, tooltip: 'View in the NCIthesaurus'}"></cvc-link-tag>
+    </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">
         <router-outlet></router-outlet>

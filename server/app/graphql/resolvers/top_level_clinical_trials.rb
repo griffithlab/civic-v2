@@ -25,6 +25,10 @@ class Resolvers::TopLevelClinicalTrials < GraphQL::Schema::Resolver
     end
   end
 
+  option(:id, type: Int, description: 'Filter to a Clinical Trial based on its internal CIViC id') do |scope, value|
+    scope.where(id: value)
+  end
+
   option(:name, type: String, description: 'Wildcard match on clinical trial title') do |scope, value|
     scope.where('name ILIKE ?', "%#{value}%")
   end

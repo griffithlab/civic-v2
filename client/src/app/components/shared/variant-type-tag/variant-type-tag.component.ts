@@ -14,6 +14,7 @@ export interface LinkableVariantType {
 export class VariantTypeTagComponent implements OnInit {
   @Input() variantType!: LinkableVariantType
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

@@ -5,6 +5,7 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :soid, String, null: false
     field :name, String, null: false
+    field :url, String, null: true
     field :variant_count, Int, null: false
 
     def name

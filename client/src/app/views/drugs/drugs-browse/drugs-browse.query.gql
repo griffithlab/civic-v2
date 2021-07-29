@@ -36,6 +36,7 @@ fragment DrugBrowseTableRowFields on BrowseDrug {
   id
   name
   ncitId
+  drugUrl
   assertionCount
   evidenceCount
 }

@@ -14,6 +14,7 @@ export interface LinkableClinicalTrial {
 export class ClinicalTrialTagComponent implements OnInit {
   @Input() clinicalTrial!: LinkableClinicalTrial
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
 

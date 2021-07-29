@@ -5,6 +5,7 @@ module Types::BrowseTables
     field :id, Int, null: false
     field :hpo_id, String, null: false
     field :name, String, null: false
+    field :url, String, null: false
     field :evidence_count, Int, null: false
     field :assertion_count, Int, null: false
 

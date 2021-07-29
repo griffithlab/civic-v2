@@ -5,17 +5,12 @@
         <nz-space-item>
           <i nz-icon nzType="civic:disease"></i>
         </nz-space-item>
-        <span routerLink="/diseases/{{disease.id}}">
-          {{ disease.name }}
-        </span>
+        {{ disease.name }}
       </nz-space>
     </nz-page-header-title>
-    <nz-page-header-subtitle *ngIf="disease.doid">
-      <a [href]="disease.diseaseUrl" target="_blank">
-        DOID:{{ disease.doid }}
-        <i nz-icon nzType="link"></i>
-      </a>
-    </nz-page-header-subtitle>
+    <nz-page-header-extra *ngIf="disease.doid">
+      <cvc-link-tag [link]="{url: disease.diseaseUrl, label: 'DOID:' + disease.doid, tooltip: 'View on disease-ontology.org'}"></cvc-link-tag>
+    </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">
         <router-outlet></router-outlet>

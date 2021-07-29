@@ -14,6 +14,7 @@ export interface LinkableVariant {
 export class VariantTagComponent implements OnInit {
   @Input() variant!: LinkableVariant
   @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
 
   ngOnInit() {
     if(this.variant === undefined) {

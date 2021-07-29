@@ -18,11 +18,7 @@ class Source < ActiveRecord::Base
   end
 
   def source_url
-    if source_type == 'PubMed'
-      "http://www.ncbi.nlm.nih.gov/pubmed/#{citation_id}"
-    elsif source_type == 'ASCO'
-      "https://meetinglibrary.asco.org/record/#{citation_id}/abstract"
-    end
+    Source.url_for(source: self)
   end
 
   def display_name
@@ -41,6 +37,14 @@ class Source < ActiveRecord::Base
       authors.join(', ')
     elsif source_type == 'ASCO'
       asco_presenter
+    end
+  end
+
+  def self.url_for(source:)
+    if source.source_type == 'PubMed'
+      "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
+    elsif source.source_type == 'ASCO'
+      "https://meetinglibrary.asco.org/record/#{source.citation_id}/abstract"
     end
   end
 end
