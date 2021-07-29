@@ -114,6 +114,7 @@ import { StatusTagComponent } from './status-tag/status-tag.component';
 import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
 import { LinkTagComponent } from './link-tag/link-tag.component';
+import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
 
 @NgModule({
   declarations: [
@@ -180,6 +181,7 @@ import { LinkTagComponent } from './link-tag/link-tag.component';
     StatusTagComponent,
     AssertionPopoverComponent,
     LinkTagComponent,
+    EmptyRevisableComponent,
   ],
   imports: [
     CommonModule,
@@ -294,6 +296,8 @@ import { LinkTagComponent } from './link-tag/link-tag.component';
     AssertionPopoverComponent,
     SourceTagComponent,
     LinkTagComponent,
+    EmptyRevisableComponent,
+    IfEmptyPipe,
   ]
 })
 

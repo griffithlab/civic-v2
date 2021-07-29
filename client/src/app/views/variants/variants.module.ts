@@ -42,6 +42,7 @@ import { VariantsCommentsComponent } from './variants-comments/variants-comments
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
+import { NzEmptyComponent, NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { VariantsRevisionsComponent } from '../evidence/variants-revisions/varia
     NzDescriptionsModule,
     NzDropDownModule,
     NzGridModule,
+    NzEmptyModule,
     NzListModule,
     NzPageHeaderModule,
     NzPopoverModule,
