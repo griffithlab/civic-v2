@@ -3841,7 +3841,7 @@ export type VariantPopoverFieldsFragment = (
     & Pick<EvidenceItemConnection, 'totalCount'>
   ), gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'name'>
+    & Pick<Gene, 'id' | 'name'>
   ), revisions: (
     { __typename: 'RevisionConnection' }
     & Pick<RevisionConnection, 'totalCount'>
@@ -5502,6 +5502,7 @@ export const VariantPopoverFieldsFragmentDoc = gql`
     totalCount
   }
   gene {
+    id
     name
   }
   revisions(status: NEW) {
