@@ -29,14 +29,12 @@ import { TimeagoModule } from 'ngx-timeago';
 import { IconsProviderModule } from '@app/icons-provider.module';
 
 // gene components
-import { GeneDescriptionComponent } from './gene-description/gene-description.component';
 import { GeneDescriptionRevisionComponent } from './gene-description-revision/gene-description-revision.component';
 import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
 import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sources-revision.component';
 
 @NgModule({
   declarations: [
-    GeneDescriptionComponent,
     GeneDescriptionRevisionComponent,
     MyGeneInfoComponent,
     GeneDescriptionRevisionComponent,
@@ -68,7 +66,6 @@ import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sourc
     TimeagoModule.forChild()
   ],
   exports: [
-    GeneDescriptionComponent,
     GeneDescriptionRevisionComponent,
     GeneSourcesRevisionComponent,
     MyGeneInfoComponent,
