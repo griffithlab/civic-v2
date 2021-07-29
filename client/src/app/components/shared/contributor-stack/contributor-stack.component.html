@@ -4,7 +4,7 @@
       nzPopoverTrigger="hover" nzPopoverPlacement="bottomRight" nzIcon="user" [nzSrc]="u.user.profileImagePath"
       nzSize="small"></nz-avatar>
     <ng-template #curatorPopover>
-      <cvc-user-hovercard [userId]="u.user.id">
+      <cvc-user-popover [userId]="u.user.id">
         <ng-template #additionalMetadata>
           <nz-list nzHeader="Activity">
             <nz-list-item>
@@ -19,7 +19,7 @@
             </nz-list-item>
           </nz-list>
         </ng-template>
-      </cvc-user-hovercard>
+      </cvc-user-popover>
     </ng-template>
   </a>
 </ng-container>

@@ -46,7 +46,7 @@ import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selec
 import { ParticipantListComponent } from './participant-list/participant-list.component';
 import { EventFeedComponent } from './event-feed/event-feed.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
-import { UserHovercardComponent } from './user-hovercard/user-hovercard.component';
+import { UserPopoverComponent } from './user-popover/user-popover.component';
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
 import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
@@ -139,7 +139,7 @@ import { CommentPopoverComponent } from './comment-popover/comment-popover.compo
     ParticipantListComponent,
     EventFeedComponent,
     UserAvatarComponent,
-    UserHovercardComponent,
+    UserPopoverComponent,
     CommentDisplayComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
@@ -264,7 +264,7 @@ import { CommentPopoverComponent } from './comment-popover/comment-popover.compo
     ParticipantListComponent,
     EventFeedComponent,
     UserAvatarComponent,
-    UserHovercardComponent,
+    UserPopoverComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,

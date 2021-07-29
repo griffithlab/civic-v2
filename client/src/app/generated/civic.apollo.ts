@@ -3798,20 +3798,20 @@ export type SourcePopoverFragment = (
   )> }
 );
 
-export type UserHoverCardQueryVariables = Exact<{
+export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
 
 
-export type UserHoverCardQuery = (
+export type UserPopoverQuery = (
   { __typename: 'Query' }
   & { user?: Maybe<(
     { __typename: 'User' }
-    & HovercardUserFragment
+    & PopoverUserFragment
   )> }
 );
 
-export type HovercardUserFragment = (
+export type PopoverUserFragment = (
   { __typename: 'User' }
   & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio' | 'role'>
   & { organizations: Array<(
@@ -5478,8 +5478,8 @@ export const SourcePopoverFragmentDoc = gql`
   }
 }
     `;
-export const HovercardUserFragmentDoc = gql`
-    fragment hovercardUser on User {
+export const PopoverUserFragmentDoc = gql`
+    fragment popoverUser on User {
   id
   profileImagePath(size: 64)
   displayName
@@ -6677,19 +6677,19 @@ export const SourcePopoverDocument = gql`
       super(apollo);
     }
   }
-export const UserHoverCardDocument = gql`
-    query UserHoverCard($userId: Int!) {
+export const UserPopoverDocument = gql`
+    query UserPopover($userId: Int!) {
   user(id: $userId) {
-    ...hovercardUser
+    ...popoverUser
   }
 }
-    ${HovercardUserFragmentDoc}`;
+    ${PopoverUserFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class UserHoverCardGQL extends Apollo.Query<UserHoverCardQuery, UserHoverCardQueryVariables> {
-    document = UserHoverCardDocument;
+  export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
+    document = UserPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -14,7 +14,7 @@
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #userPopover>
-    <cvc-user-hovercard *ngIf="enablePopover" [userId]="user.id"></cvc-user-hovercard>
+    <cvc-user-popover *ngIf="enablePopover" [userId]="user.id"></cvc-user-popover>
   </ng-template>
 </ng-template>
 
