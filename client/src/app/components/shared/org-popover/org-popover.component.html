@@ -30,13 +30,9 @@
         <!-- homepage -->
         <nz-descriptions-item nzTitle="Homepage">
           <ng-container *ngIf="org.url; else noHomepage">
-            <a [href]="org.url"
-              target="_blank">
-              <nz-tag>
-                <i nz-icon nzType="link"></i>
-                {{org.name}}
-              </nz-tag>
-            </a>
+            <cvc-link-tag [href]="org.url">
+              {{org.name}}
+            </cvc-link-tag>
           </ng-container>
         </nz-descriptions-item>
       </nz-descriptions>
