@@ -32,7 +32,7 @@
               <!-- source -->
               <nz-descriptions-item nzTitle="Source"
                 nzSpan="2">
-                {{ evidence.source.sourceType}}: {{ evidence.source.citation}}
+                <cvc-source-tag [source]="evidence.source"> </cvc-source-tag>
               </nz-descriptions-item>
 
               <!-- clinical trials -->

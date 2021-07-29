@@ -19,6 +19,7 @@ fragment VariantSummaryFields on Variant {
       id
       citation
       sourceUrl
+    displayType
       sourceType
   }
   variantAliases

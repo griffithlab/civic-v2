@@ -4372,7 +4372,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Phenotype, 'id' | 'name'>
   )>, source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
       & Pick<ClinicalTrial, 'nctId' | 'id'>
@@ -4563,7 +4563,7 @@ export type GeneSummaryFieldsFragment = (
     & Pick<GeneAlias, 'name'>
   )>, sources: Array<(
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variants: (
     { __typename: 'VariantConnection' }
     & { edges: Array<(
@@ -4949,7 +4949,7 @@ export type VariantSummaryFieldsFragment = (
     & Pick<Gene, 'id' | 'name'>
   ), sources: Array<(
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variantTypes?: Maybe<Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'soid' | 'name'>
@@ -5656,6 +5656,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     citation
     citationId
     sourceType
+    displayType
     sourceUrl
     ascoAbstractId
     clinicalTrials {
@@ -5738,6 +5739,7 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     id
     citation
     sourceUrl
+    displayType
     sourceType
   }
   variants {
@@ -6025,6 +6027,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
     id
     citation
     sourceUrl
+    displayType
     sourceType
   }
   variantAliases
