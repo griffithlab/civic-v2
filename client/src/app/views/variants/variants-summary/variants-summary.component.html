@@ -93,6 +93,27 @@
             </nz-descriptions>
           </nz-space-item>
 
+          <!-- HGVS descriptions -->
+          <nz-space-item>
+            <!-- show in vertical layout if more than 1 expression -->
+            <nz-descriptions [nzLayout]="variant.hgvsDescriptions.length > 1 ? 'vertical' : 'horizontal'"
+              nzSize="small"
+              nzBordered="true">
+
+              <nz-descriptions-item [nzTitle]="variant.hgvsDescriptions.length > 1 ? 'HGVS Descriptions' : 'HGVS Description'">
+                <ng-container *ngIf="variant.hgvsDescriptions.length > 0; else noDescriptions">
+                  <ng-container *ngFor="let desc of variant.hgvsDescriptions; last as isLast">
+                    {{ desc }}<span *ngIf="!isLast">,&nbsp;</span>
+                  </ng-container>
+                </ng-container>
+                <ng-template #noDescriptions>
+                  <span nz-typography
+                    nzType="secondary">None specified</span>
+                </ng-template>
+              </nz-descriptions-item>
+
+            </nz-descriptions>
+          </nz-space-item>
 
         </nz-space>
       </nz-col>
