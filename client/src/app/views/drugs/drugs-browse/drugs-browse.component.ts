@@ -10,10 +10,10 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
   templateUrl: './drugs-browse.component.html',
   styleUrls: ['./drugs-browse.component.less']
 })
-export class DrugsBrowseComponent implements OnDestroy {
+export class DrugsBrowseComponent implements OnDestroy, OnInit {
 
   private initialPageSize = 25
-  private queryRef: QueryRef<DrugsBrowseQuery, DrugsBrowseQueryVariables>
+  private queryRef?: QueryRef<DrugsBrowseQuery, DrugsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
@@ -28,7 +28,9 @@ export class DrugsBrowseComponent implements OnDestroy {
 
   sortColumns: typeof DrugSortColumns = DrugSortColumns
 
-  constructor(private gql: DrugsBrowseGQL) {
+  constructor(private gql: DrugsBrowseGQL) {}
+  
+  ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize
     })
@@ -64,13 +66,13 @@ export class DrugsBrowseComponent implements OnDestroy {
    onModelChanged() { this.debouncedQuery.next() }
 
    onSortChanged(e: SortDirectionEvent) {
-     this.queryRef.refetch({
+     this.queryRef?.refetch({
        sortBy: buildSortParams(e)
      })
    }
 
    refresh() {
-     this.queryRef.refetch({
+     this.queryRef?.refetch({
        name: this.nameFilter,
        ncitId: this.ncitIdFilter
      })
@@ -79,7 +81,7 @@ export class DrugsBrowseComponent implements OnDestroy {
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({variables: {
+    this.queryRef?.fetchMore({variables: {
       after: cursor
     }})
   }

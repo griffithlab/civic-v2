@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseDiseaseRowFieldsFragment, BrowseDiseasesGQL, BrowseDiseasesQuery, BrowseVariantGroupsGQL, DiseasesSortColumns, Maybe, PageInfo, QueryBrowseDiseasesArgs } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/shared/utilities/datatable-helpers";
@@ -11,15 +11,15 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
   templateUrl: './diseases-browse.component.html',
   styleUrls: ['./diseases-browse.component.less'],
 })
-export class DiseasesBrowseComponent implements OnDestroy {
+export class DiseasesBrowseComponent implements OnDestroy, OnInit {
 
   private debouncedQuery = new Subject<void>();
 
-  queryRef: QueryRef<BrowseDiseasesQuery, QueryBrowseDiseasesArgs>;
-  data$: Observable<ApolloQueryResult<BrowseDiseasesQuery>>;
-  isLoading$: Observable<boolean>;
-  diseases$: Observable<Maybe<BrowseDiseaseRowFieldsFragment>[]>;
-  pageInfo$: Observable<PageInfo>;
+  queryRef?: QueryRef<BrowseDiseasesQuery, QueryBrowseDiseasesArgs>;
+  data$?: Observable<ApolloQueryResult<BrowseDiseasesQuery>>;
+  isLoading$?: Observable<boolean>;
+  diseases$?: Observable<Maybe<BrowseDiseaseRowFieldsFragment>[]>;
+  pageInfo$?: Observable<PageInfo>;
 
   textInputCallback?: () => void
 
@@ -31,7 +31,9 @@ export class DiseasesBrowseComponent implements OnDestroy {
   pageSize = 25
   sortColumns: typeof DiseasesSortColumns = DiseasesSortColumns
 
-  constructor(private gql: BrowseDiseasesGQL) {
+  constructor(private gql: BrowseDiseasesGQL) {}
+
+  ngOnInit() {
     this.queryRef = this.gql.watch({ first: this.pageSize })
 
     this.data$ = this.queryRef.valueChanges.pipe(
@@ -65,7 +67,7 @@ export class DiseasesBrowseComponent implements OnDestroy {
   }
 
   refresh() {
-    this.queryRef.refetch({
+    this.queryRef?.refetch({
       name: this.nameInput,
       geneNames: this.geneNameInput,
       doid: this.doidInput
@@ -73,7 +75,7 @@ export class DiseasesBrowseComponent implements OnDestroy {
   }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({sortBy: buildSortParams(e)})
+    this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
   onModelChanged() {
@@ -85,7 +87,7 @@ export class DiseasesBrowseComponent implements OnDestroy {
   }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({
+    this.queryRef?.fetchMore({
       variables: {
         first: this.pageSize,
         after: cursor

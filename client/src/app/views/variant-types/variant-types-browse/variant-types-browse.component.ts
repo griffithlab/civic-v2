@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy  } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit  } from '@angular/core';
 import { Maybe, PageInfo, VariantTypeBrowseTableRowFieldsFragment, VariantTypesBrowseGQL, VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables, VariantTypeSortColumns } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/shared/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
@@ -10,9 +10,9 @@ import { debounceTime, map, pluck, startWith } from 'rxjs/operators';
   templateUrl: './variant-types-browse.component.html',
   styleUrls: ['./variant-types-browse.component.less']
 })
-export class VariantTypesBrowseComponent implements OnDestroy {
+export class VariantTypesBrowseComponent implements OnDestroy, OnInit {
   private initialPageSize = 25
-  private queryRef: QueryRef<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables>
+  private queryRef?: QueryRef<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
@@ -27,7 +27,9 @@ export class VariantTypesBrowseComponent implements OnDestroy {
 
   sortColumns: typeof VariantTypeSortColumns = VariantTypeSortColumns
 
-  constructor(private gql: VariantTypesBrowseGQL) {
+  constructor(private gql: VariantTypesBrowseGQL) {}
+
+  ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize
     })
@@ -63,13 +65,13 @@ export class VariantTypesBrowseComponent implements OnDestroy {
    onModelChanged() { this.debouncedQuery.next() }
 
    onSortChanged(e: SortDirectionEvent) {
-     this.queryRef.refetch({
+     this.queryRef?.refetch({
        sortBy: buildSortParams(e)
      })
    }
 
    refresh() {
-     this.queryRef.refetch({
+     this.queryRef?.refetch({
        name: this.nameFilter,
        soid: this.soidFilter
      })
@@ -78,7 +80,7 @@ export class VariantTypesBrowseComponent implements OnDestroy {
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({
+    this.queryRef?.fetchMore({
       variables: { after: cursor }
     })
   }

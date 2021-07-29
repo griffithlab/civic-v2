@@ -1,4 +1,4 @@
-import { Component, } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
@@ -38,17 +38,17 @@ export interface GeneTableRow {
   templateUrl: './genes-browse.component.html',
   styleUrls: ['./genes-browse.component.less'],
 })
-export class GenesBrowseComponent {
-  private initialQueryArgs: QueryBrowseGenesArgs
+export class GenesBrowseComponent implements OnInit {
+  private initialQueryArgs?: QueryBrowseGenesArgs
   private debouncedQuery = new Subject<void>();
 
-  queryRef: QueryRef<BrowseGenesQuery,QueryBrowseGenesArgs>;
-  data$: Observable<ApolloQueryResult<BrowseGenesQuery>>;
-  genes$: Observable<Maybe<GeneTableRow>[]>;
-  isLoading$: Observable<boolean>;
-  totalCount$: Observable<number>;
-  pageCount$: Observable<number>;
-  pageInfo$: Observable<PageInfo>;
+  queryRef?: QueryRef<BrowseGenesQuery,QueryBrowseGenesArgs>;
+  data$?: Observable<ApolloQueryResult<BrowseGenesQuery>>;
+  genes$?: Observable<Maybe<GeneTableRow>[]>;
+  isLoading$?: Observable<boolean>;
+  totalCount$?: Observable<number>;
+  pageCount$?: Observable<number>;
+  pageInfo$?: Observable<PageInfo>;
 
   diseaseInput: Maybe<string>
   drugInput: Maybe<string>
@@ -60,8 +60,9 @@ export class GenesBrowseComponent {
   initialPageSize = 25;
   fetchMorePageSize = 25;
 
-  constructor(private query: BrowseGenesGQL) {
+  constructor(private query: BrowseGenesGQL) { }
 
+  ngOnInit() {
     this.initialQueryArgs = {
       first: this.initialPageSize
     }
@@ -112,7 +113,7 @@ export class GenesBrowseComponent {
     this.debouncedQuery
     .pipe(debounceTime(500))
     .subscribe((_) => {
-      this.queryRef.refetch({
+      this.queryRef?.refetch({
         entrezSymbol: this.nameInput,
         geneAlias: this.aliasInput,
         diseaseName: this.diseaseInput,
@@ -122,7 +123,7 @@ export class GenesBrowseComponent {
   }
 
   loadMore(afterCursor: Maybe<string>):void {
-    this.queryRef.fetchMore({
+    this.queryRef?.fetchMore({
       variables: {
         first: this.fetchMorePageSize,
         after: afterCursor
@@ -131,7 +132,7 @@ export class GenesBrowseComponent {
   }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({
+    this.queryRef?.refetch({
       ...this.initialQueryArgs,
       sortBy: buildSortParams(e),
     });

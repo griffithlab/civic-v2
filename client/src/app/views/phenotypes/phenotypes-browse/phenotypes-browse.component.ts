@@ -10,10 +10,10 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
   templateUrl: './phenotypes-browse.component.html',
   styleUrls: ['./phenotypes-browse.component.less']
 })
-export class PhenotypesBrowseComponent implements OnDestroy {
+export class PhenotypesBrowseComponent implements OnDestroy, OnInit {
 
   private initialPageSize = 25
-  private queryRef: QueryRef<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables>
+  private queryRef?: QueryRef<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
@@ -28,7 +28,9 @@ export class PhenotypesBrowseComponent implements OnDestroy {
 
   sortColumns: typeof PhenotypeSortColumns = PhenotypeSortColumns
 
-  constructor(private gql: PhenotypesBrowseGQL) {
+  constructor(private gql: PhenotypesBrowseGQL) {}
+
+  ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize
     })
@@ -64,13 +66,13 @@ export class PhenotypesBrowseComponent implements OnDestroy {
    onModelChanged() { this.debouncedQuery.next() }
 
    onSortChanged(e: SortDirectionEvent) {
-     this.queryRef.refetch({
+     this.queryRef?.refetch({
        sortBy: buildSortParams(e)
      })
    }
 
    refresh() {
-     this.queryRef.refetch({
+     this.queryRef?.refetch({
        name: this.hpoNameFilter,
        hpoId: this.hpoIdFilter
      })
@@ -79,7 +81,7 @@ export class PhenotypesBrowseComponent implements OnDestroy {
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({
+    this.queryRef?.fetchMore({
       variables: { after: cursor }
     })
   }

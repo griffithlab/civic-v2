@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseVariantGroupRowFieldsFragment, BrowseVariantGroupsGQL, BrowseVariantGroupsQuery, Maybe, PageInfo, QueryBrowseVariantGroupsArgs, VariantGroupsSortColumns } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/shared/utilities/datatable-helpers";
@@ -11,15 +11,15 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
   templateUrl: './variant-groups-browse.component.html',
   styleUrls: ['./variant-groups-browse.component.less'],
 })
-export class VariantGroupsBrowseComponent implements OnDestroy {
+export class VariantGroupsBrowseComponent implements OnDestroy, OnInit {
 
   private debouncedQuery = new Subject<void>();
 
-  queryRef: QueryRef<BrowseVariantGroupsQuery, QueryBrowseVariantGroupsArgs>;
-  data$: Observable<ApolloQueryResult<BrowseVariantGroupsQuery>>;
-  isLoading$: Observable<boolean>;
-  variantGroups$: Observable<Maybe<BrowseVariantGroupRowFieldsFragment>[]>;
-  pageInfo$: Observable<PageInfo>;
+  queryRef?: QueryRef<BrowseVariantGroupsQuery, QueryBrowseVariantGroupsArgs>;
+  data$?: Observable<ApolloQueryResult<BrowseVariantGroupsQuery>>;
+  isLoading$?: Observable<boolean>;
+  variantGroups$?: Observable<Maybe<BrowseVariantGroupRowFieldsFragment>[]>;
+  pageInfo$?: Observable<PageInfo>;
 
   textInputCallback?: () => void
 
@@ -31,7 +31,9 @@ export class VariantGroupsBrowseComponent implements OnDestroy {
   pageSize = 25
   sortColumns: typeof VariantGroupsSortColumns = VariantGroupsSortColumns
 
-  constructor(private gql: BrowseVariantGroupsGQL) {
+  constructor(private gql: BrowseVariantGroupsGQL) {}
+
+  ngOnInit() {
     this.queryRef = this.gql.watch({ first: this.pageSize })
 
     this.data$ = this.queryRef.valueChanges.pipe(
@@ -65,7 +67,7 @@ export class VariantGroupsBrowseComponent implements OnDestroy {
   }
 
   refresh() {
-    this.queryRef.refetch({
+    this.queryRef?.refetch({
       name: this.nameInput,
       geneNames: this.geneNameInput,
       variantNames: this.variantNameInput
@@ -73,7 +75,7 @@ export class VariantGroupsBrowseComponent implements OnDestroy {
   }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({sortBy: buildSortParams(e)})
+    this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
   onModelChanged() {
@@ -85,7 +87,7 @@ export class VariantGroupsBrowseComponent implements OnDestroy {
   }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({
+    this.queryRef?.fetchMore({
       variables: {
         first: this.pageSize,
         after: cursor
