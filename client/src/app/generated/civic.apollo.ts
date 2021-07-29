@@ -4563,7 +4563,7 @@ export type GeneSummaryFieldsFragment = (
     & Pick<GeneAlias, 'name'>
   )>, sources: Array<(
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variants: (
     { __typename: 'VariantConnection' }
     & { edges: Array<(
@@ -4949,7 +4949,7 @@ export type VariantSummaryFieldsFragment = (
     & Pick<Gene, 'id' | 'name'>
   ), sources: Array<(
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'sourceType'>
+    & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variantTypes?: Maybe<Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'soid' | 'name'>
@@ -5739,6 +5739,7 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     id
     citation
     sourceUrl
+    displayType
     sourceType
   }
   variants {
@@ -6026,6 +6027,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
     id
     citation
     sourceUrl
+    displayType
     sourceType
   }
   variantAliases

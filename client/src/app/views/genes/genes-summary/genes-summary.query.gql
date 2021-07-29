@@ -17,6 +17,7 @@ fragment GeneSummaryFields on Gene {
     id
     citation
     sourceUrl
+    displayType
     sourceType
   }
   variants {
