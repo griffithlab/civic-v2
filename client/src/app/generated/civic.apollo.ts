@@ -4372,7 +4372,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Phenotype, 'id' | 'name'>
   )>, source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'ascoAbstractId'>
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
       & Pick<ClinicalTrial, 'nctId' | 'id'>
@@ -5656,6 +5656,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     citation
     citationId
     sourceType
+    displayType
     sourceUrl
     ascoAbstractId
     clinicalTrials {

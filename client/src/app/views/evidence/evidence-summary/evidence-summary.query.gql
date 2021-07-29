@@ -34,6 +34,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     citation
     citationId
     sourceType
+    displayType
     sourceUrl
     ascoAbstractId
     clinicalTrials {
