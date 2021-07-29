@@ -280,6 +280,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,
+    LinkTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,

@@ -8,7 +8,9 @@
           nzType="audit"></i> {{ t.nctId }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [link]="{url: t.url, label: 'View on clinicaltrials.gov'}"></cvc-link-tag>
+        <cvc-link-tag [href]="t.url">
+          View on clinicaltrials.gov
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

@@ -18,7 +18,7 @@
               [nzLoading]="(isLoading$ | ngrxPush)"
               [nzFrontPagination]="false"
               [nzShowPagination]="false"
-              >
+            >
               <thead (nzSortOrderChange)="onSortChanged($event)" >
                 <tr>
                   <th nzWidth="20%" [nzColumnKey]="sortColumns.Name" [nzSortFn]="true">
@@ -64,7 +64,10 @@
                     <cvc-disease-tag [disease]="d"></cvc-disease-tag>
                   </td>
                   <td>
-                    <cvc-link-tag *ngIf="d.doid; else noDoid" [link]="{url: d.diseaseUrl, label: 'DOID:' + d.doid, tooltip: 'View on disease-ontology.org'}"></cvc-link-tag>
+                    <cvc-link-tag *ngIf="d.doid; else noDoid" [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
+                      {{ 'DOID:' + d.doid }}
+                    </cvc-link-tag>
+
                     <ng-template #noDoid>
                       --
                     </ng-template>
