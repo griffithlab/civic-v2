@@ -21,11 +21,13 @@ module Types::BrowseTables
 
     def diseases
       Array(object.diseases)
+        .sort_by { |d| -d['total'] }
         .map { |d| { name: d['name'], id: d['id'] } }
     end
 
     def drugs
       Array(object.drugs)
+        .sort_by { |d| -d['total'] }
         .map { |d| { name: d['name'], id: d['id'] } }
     end
   end
