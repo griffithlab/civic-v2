@@ -1,4 +1,23 @@
-<nz-tag>
+<nz-tag *ngIf="enablePopover; else noPopover" 
+  nz-popover
+  [nzPopoverMouseEnterDelay]="0.5"
+  [nzPopoverContent]="commentPopover"
+  nzPopoverPlacement="right"
+  nzPopoverTrigger="hover">
+  <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+</nz-tag>
+
+<ng-template #commentPopover>
+  <cvc-comment-popover [commentId]="comment.id"></cvc-comment-popover>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag>
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+</ng-template>
+
+<ng-template #tagContent>
   <i nz-icon nzType="civic-comment" nzTheme="twotone" nzTwotoneColor="#44D8EF"></i>
   {{ comment.name }}
-</nz-tag>
+</ng-template>

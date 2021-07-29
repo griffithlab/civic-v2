@@ -646,6 +646,7 @@ export type Coi = {
 export type Comment = EventOriginObject & {
   __typename: 'Comment';
   comment: Scalars['String'];
+  commentable: Commentable;
   commenter: User;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
@@ -684,7 +685,9 @@ export type CommentEdge = {
 export type Commentable = {
   /** List and filter comments. */
   comments: CommentConnection;
+  id: Scalars['Int'];
   lastCommentEvent?: Maybe<Event>;
+  name: Scalars['String'];
 };
 
 
@@ -3211,6 +3214,43 @@ export type CommentListNodeFragment = (
   ) }
 );
 
+export type CommentPopoverQueryVariables = Exact<{
+  commentId: Scalars['Int'];
+}>;
+
+
+export type CommentPopoverQuery = (
+  { __typename: 'Query' }
+  & { comment?: Maybe<(
+    { __typename: 'Comment' }
+    & CommentPopoverFragment
+  )> }
+);
+
+export type CommentPopoverFragment = (
+  { __typename: 'Comment' }
+  & Pick<Comment, 'id' | 'name' | 'createdAt' | 'title' | 'comment'>
+  & { commenter: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+  ), commentable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
+  ) | (
+    { __typename: 'Flag' }
+    & Pick<Flag, 'id' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) }
+);
+
 export type ContributorAvatarsQueryVariables = Exact<{
   subscribable: SubscribableInput;
 }>;
@@ -5097,6 +5137,26 @@ export const CommentListNodeFragmentDoc = gql`
   }
 }
     `;
+export const CommentPopoverFragmentDoc = gql`
+    fragment commentPopover on Comment {
+  id
+  name
+  createdAt
+  title
+  comment
+  commenter {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  commentable {
+    id
+    name
+    __typename
+  }
+}
+    `;
 export const ContributorFieldsFragmentDoc = gql`
     fragment ContributorFields on ContributingUser {
   user {
@@ -6221,6 +6281,24 @@ export const CommentListDocument = gql`
   })
   export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
     document = CommentListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CommentPopoverDocument = gql`
+    query CommentPopover($commentId: Int!) {
+  comment(id: $commentId) {
+    ...commentPopover
+  }
+}
+    ${CommentPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentPopoverGQL extends Apollo.Query<CommentPopoverQuery, CommentPopoverQueryVariables> {
+    document = CommentPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

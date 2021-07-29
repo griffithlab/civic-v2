@@ -122,6 +122,7 @@ import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
 import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover.component';
 import { SourcePopoverComponent } from './source-popover/source-popover.component';
 import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
+import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 
 
 @NgModule({
@@ -196,6 +197,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     PhenotypePopoverComponent,
     SourcePopoverComponent,
     VariantTypePopoverComponent,
+    CommentPopoverComponent
   ],
   imports: [
     CommonModule,
@@ -318,6 +320,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     PhenotypePopoverComponent,
     SourcePopoverComponent,
     VariantTypePopoverComponent,
+    CommentPopoverComponent
   ]
 })
 

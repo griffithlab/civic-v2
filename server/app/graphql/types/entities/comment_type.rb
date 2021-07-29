@@ -10,6 +10,7 @@ module Types::Entities
     field :comment, String, null: false
     field :commenter, Types::Entities::UserType, null: false
     field :creation_event, Types::Entities::EventType, null: true
+    field :commentable, Types::Interfaces::Commentable, null: false
 
     def commenter
       Loaders::AssociationLoader.for(Comment, :user).load(object)
