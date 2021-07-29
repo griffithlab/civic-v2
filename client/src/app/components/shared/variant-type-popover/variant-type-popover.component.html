@@ -8,7 +8,9 @@
         {{ vt.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [link]="{url: vt.url, label: vt.soid, tooltip: 'View on SequenceOntology.org'}"></cvc-link-tag>
+        <cvc-link-tag [href]="vt.url" tooltip="View on SequenceOntology.org">
+         {{ vt.soid }}
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

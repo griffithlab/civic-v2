@@ -9,7 +9,9 @@
       </nz-space>
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="drug.ncitId">
-      <cvc-link-tag [link]="{url: drug.drugUrl, label: drug.ncitId, tooltip: 'View in the NCIthesaurus'}"></cvc-link-tag>
+      <cvc-link-tag [href]="drug.drugUrl" tooltip="View in the NCIthesaurus">
+        {{ drug.ncitId }}
+      </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">

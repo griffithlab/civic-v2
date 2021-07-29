@@ -9,7 +9,9 @@
       </nz-space>
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [link]="{url: source.sourceUrl, label: source.displayType + ': ' + source.citationId, tooltip: 'View on ' + source.displayType}"></cvc-link-tag>
+      <cvc-link-tag [href]="source.sourceUrl" [tooltip]="'View on ' + source.displayType">
+        {{ source.displayType + ': ' + source.citationId }}
+      </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">

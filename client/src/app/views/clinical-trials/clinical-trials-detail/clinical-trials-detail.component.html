@@ -9,7 +9,9 @@
       </nz-space>
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [link]="{url: t.url, label: t.nctId, tooltip: 'View on clinicaltrials.gov'}"></cvc-link-tag>
+      <cvc-link-tag [href]="t.url" tooltip="View on clinicaltrials.gov">
+        {{ t.nctId }}
+      </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
       <div class="content">

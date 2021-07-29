@@ -4,11 +4,13 @@
       id="card-content"
       [nzExtra]="linkout">
       <ng-template #cardTitle>
-        <i nz-icon nzType="civic-source" nzTheme="twotone" nzTwotoneColor="#F9BA45"></i> 
+        <i nz-icon nzType="civic-source" nzTheme="twotone" nzTwotoneColor="#F9BA45"></i>
         {{ s.displayType }}:&nbsp;{{ s.citation }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [link]="{url: s.sourceUrl, label: s.displayType + ':' + s.citationId, tooltip: 'View on ' + s.displayType}"></cvc-link-tag>
+        <cvc-link-tag [href]="s.sourceUrl" [tooltip]="'View on ' + s.displayType">
+          {{ s.displayType + ':' + s.citationId }}
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

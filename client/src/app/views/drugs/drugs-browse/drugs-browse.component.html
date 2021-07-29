@@ -45,7 +45,10 @@
                   <cvc-drug-tag [drug]="d"></cvc-drug-tag>
                 </td>
                 <td>
-                  <cvc-link-tag *ngIf="d.ncitId; else noNcit" [link]="{url: d.drugUrl, label: d.ncitId, tooltip: 'View in the NCIthesaurus'}"></cvc-link-tag>
+                  <cvc-link-tag *ngIf="d.ncitId; else noNcit" [href]="d.drugUrl" tooltip="View in the NCIthesaurus">
+                    {{ d.ncitId }}
+                  </cvc-link-tag>
+
                   <ng-template #noNcit>--</ng-template>
                 </td>
                 <td>

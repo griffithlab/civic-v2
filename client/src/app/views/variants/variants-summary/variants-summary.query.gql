@@ -30,6 +30,8 @@ fragment VariantSummaryFields on Variant {
   hgvsDescriptions
   clinvarIds
   evidenceScore
+  referenceBuild
+  ensemblVersion
   fivePrimeCoordinates {
       representativeTranscript
       chromosome
@@ -58,7 +60,7 @@ fragment VariantSummaryFields on Variant {
   myVariantInfo {
     ...MyVariantInfoFields
   }
-} 
+}
 
 fragment MyVariantInfoFields on MyVariantInfo {
   myVariantInfoId

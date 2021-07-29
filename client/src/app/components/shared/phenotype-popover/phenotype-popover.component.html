@@ -8,7 +8,9 @@
         {{ p.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [link]="{url: p.url, label: p.hpoId, tooltip: 'View in the Human Phenotype Ontology'}"></cvc-link-tag>
+        <cvc-link-tag [href]="p.url" tooltip="View in the Human Phenotype Ontology">
+          {{ p.hpoId }}
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

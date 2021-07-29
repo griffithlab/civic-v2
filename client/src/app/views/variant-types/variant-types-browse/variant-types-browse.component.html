@@ -41,7 +41,10 @@
                   <cvc-variant-type-tag [variantType]="t"></cvc-variant-type-tag>
                 </td>
                 <td>
-                  <cvc-link-tag *ngIf="t.soid !== 'N/A'; else noSoid" [link]="{url: t.url, label: t.soid, tooltip: 'View on sequenceontology.org'}"></cvc-link-tag>
+                  <cvc-link-tag [href]="t.url" tooltip="View on sequenceontology.org">
+                    {{ t.soid }}
+                  </cvc-link-tag>
+
                   <ng-template #noSoid>
                     --
                   </ng-template>
