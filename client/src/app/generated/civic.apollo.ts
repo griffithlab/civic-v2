@@ -2517,7 +2517,8 @@ export enum SubscribableEntities {
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
   Revision = 'REVISION',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Entity to subscribe to. */
