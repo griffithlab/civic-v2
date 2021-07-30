@@ -1,21 +1,21 @@
 import { Component, Input, OnInit, ContentChild, TemplateRef } from "@angular/core";
-import { HovercardUserFragment, UserHoverCardGQL, Maybe } from "@app/generated/civic.apollo";
+import { PopoverUserFragment, UserPopoverGQL, Maybe } from "@app/generated/civic.apollo";
 import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'cvc-user-hovercard',
-    templateUrl: './user-hovercard.component.html',
-    styleUrls: ['./user-hovercard.component.less']
+    selector: 'cvc-user-popover',
+    templateUrl: './user-popover.component.html',
+    styleUrls: ['./user-popover.component.less']
 })
-export class UserHovercardComponent implements OnInit {
+export class UserPopoverComponent implements OnInit {
     @Input() userId!: number;
 
     @ContentChild('additionalMetadata') metadataTemplateRef?: TemplateRef<any>
 
-    user$?: Observable<Maybe<HovercardUserFragment>>
+    user$?: Observable<Maybe<PopoverUserFragment>>
 
-    constructor(private gql: UserHoverCardGQL) { }
+    constructor(private gql: UserPopoverGQL) { }
 
     ngOnInit(){
         if(this.userId == undefined) {

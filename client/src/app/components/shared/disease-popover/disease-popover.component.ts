@@ -17,7 +17,7 @@ export class DiseasePopoverComponent implements OnInit {
 
   ngOnInit() {
     if (this.diseaseId == undefined) {
-      throw new Error("cvc-disease-popover requires valid clinicalTrialId input.");
+      throw new Error("cvc-disease-popover requires valid diseaseId input.");
     }
     this.disease$ = this.gql.watch({ diseaseId: this.diseaseId })
       .valueChanges

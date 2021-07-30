@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import {
   BrowseVariantsGQL,
@@ -29,19 +29,19 @@ export interface VariantTableRow {
   templateUrl: './variants-browse.component.html',
   styleUrls: ['./variants-browse.component.less'],
 })
-export class VariantsBrowseComponent implements OnDestroy {
+export class VariantsBrowseComponent implements OnDestroy, OnInit {
   @Input() variantTypeId: Maybe<number>
 
-  private initialQueryArgs: QueryBrowseVariantsArgs;
+  private initialQueryArgs?: QueryBrowseVariantsArgs;
   private debouncedQuery = new Subject<void>();
 
-  queryRef: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
-  data$: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
-  isLoading$: Observable<boolean>;
-  variants$: Observable<Maybe<VariantTableRow>[]>;
-  totalCount$: Observable<number>;
-  pageCount$: Observable<number>;
-  pageInfo$: Observable<PageInfo>;
+  queryRef?: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
+  data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
+  isLoading$?: Observable<boolean>;
+  variants$?: Observable<Maybe<VariantTableRow>[]>;
+  totalCount$?: Observable<number>;
+  pageCount$?: Observable<number>;
+  pageInfo$?: Observable<PageInfo>;
 
   variantNameInput: Maybe<string>;
   geneSymbolInput: Maybe<string>;
@@ -51,8 +51,9 @@ export class VariantsBrowseComponent implements OnDestroy {
   initialPageSize = 25;
   sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
 
-  constructor(private query: BrowseVariantsGQL) {
-    
+  constructor(private query: BrowseVariantsGQL) {}
+  
+  ngOnInit () {
     this.initialQueryArgs = {
       first: this.initialPageSize,
       variantTypeId: this.variantTypeId
@@ -96,7 +97,7 @@ export class VariantsBrowseComponent implements OnDestroy {
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => {
-        this.queryRef.refetch({
+        this.queryRef?.refetch({
           variantName: this.variantNameInput,
           entrezSymbol: this.geneSymbolInput,
           diseaseName: this.diseaseNameInput,
@@ -106,7 +107,7 @@ export class VariantsBrowseComponent implements OnDestroy {
   }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.queryRef.refetch({
+    this.queryRef?.refetch({
       ...this.initialQueryArgs,
       sortBy: buildSortParams(e),
     });
@@ -121,7 +122,7 @@ export class VariantsBrowseComponent implements OnDestroy {
   }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef.fetchMore({variables: {
+    this.queryRef?.fetchMore({variables: {
       after: cursor
     }})
   }

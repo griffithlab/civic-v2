@@ -1,10 +1,10 @@
-query UserHoverCard($userId: Int!) {
+query UserPopover($userId: Int!) {
   user(id: $userId) {
-    ...hovercardUser
+    ...popoverUser
   }
 }
 
-fragment hovercardUser on User {
+fragment popoverUser on User {
   id
   profileImagePath(size: 64)
   displayName

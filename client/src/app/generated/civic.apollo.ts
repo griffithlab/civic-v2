@@ -646,6 +646,7 @@ export type Coi = {
 export type Comment = EventOriginObject & {
   __typename: 'Comment';
   comment: Scalars['String'];
+  commentable: Commentable;
   commenter: User;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
@@ -684,7 +685,9 @@ export type CommentEdge = {
 export type Commentable = {
   /** List and filter comments. */
   comments: CommentConnection;
+  id: Scalars['Int'];
   lastCommentEvent?: Maybe<Event>;
+  name: Scalars['String'];
 };
 
 
@@ -814,7 +817,7 @@ export type Event = {
   action: EventAction;
   createdAt: Scalars['ISO8601DateTime'];
   id: Scalars['Int'];
-  organization: Organization;
+  organization?: Maybe<Organization>;
   originatingObject?: Maybe<EventOriginObject>;
   originatingUser: User;
   subject: EventSubject;
@@ -3211,6 +3214,43 @@ export type CommentListNodeFragment = (
   ) }
 );
 
+export type CommentPopoverQueryVariables = Exact<{
+  commentId: Scalars['Int'];
+}>;
+
+
+export type CommentPopoverQuery = (
+  { __typename: 'Query' }
+  & { comment?: Maybe<(
+    { __typename: 'Comment' }
+    & CommentPopoverFragment
+  )> }
+);
+
+export type CommentPopoverFragment = (
+  { __typename: 'Comment' }
+  & Pick<Comment, 'id' | 'name' | 'createdAt' | 'title' | 'comment'>
+  & { commenter: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+  ), commentable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
+  ) | (
+    { __typename: 'Flag' }
+    & Pick<Flag, 'id' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) }
+);
+
 export type ContributorAvatarsQueryVariables = Exact<{
   subscribable: SubscribableInput;
 }>;
@@ -3332,10 +3372,10 @@ export type EventFeedFragment = (
 export type EventFeedNodeFragment = (
   { __typename: 'Event' }
   & Pick<Event, 'id' | 'action' | 'createdAt'>
-  & { organization: (
+  & { organization?: Maybe<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-  ), originatingUser: (
+  )>, originatingUser: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
   ), subject: (
@@ -3758,20 +3798,20 @@ export type SourcePopoverFragment = (
   )> }
 );
 
-export type UserHoverCardQueryVariables = Exact<{
+export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
 
 
-export type UserHoverCardQuery = (
+export type UserPopoverQuery = (
   { __typename: 'Query' }
   & { user?: Maybe<(
     { __typename: 'User' }
-    & HovercardUserFragment
+    & PopoverUserFragment
   )> }
 );
 
-export type HovercardUserFragment = (
+export type PopoverUserFragment = (
   { __typename: 'User' }
   & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio' | 'role'>
   & { organizations: Array<(
@@ -3801,7 +3841,7 @@ export type VariantPopoverFieldsFragment = (
     & Pick<EvidenceItemConnection, 'totalCount'>
   ), gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'name'>
+    & Pick<Gene, 'id' | 'name'>
   ), revisions: (
     { __typename: 'RevisionConnection' }
     & Pick<RevisionConnection, 'totalCount'>
@@ -4046,10 +4086,10 @@ export type ViewerBaseQuery = (
       & { nodes: Array<(
         { __typename: 'Event' }
         & Pick<Event, 'id' | 'createdAt'>
-        & { organization: (
+        & { organization?: Maybe<(
           { __typename: 'Organization' }
           & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        ) }
+        )> }
       )> }
     ) }
   )> }
@@ -5097,6 +5137,26 @@ export const CommentListNodeFragmentDoc = gql`
   }
 }
     `;
+export const CommentPopoverFragmentDoc = gql`
+    fragment commentPopover on Comment {
+  id
+  name
+  createdAt
+  title
+  comment
+  commenter {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  commentable {
+    id
+    name
+    __typename
+  }
+}
+    `;
 export const ContributorFieldsFragmentDoc = gql`
     fragment ContributorFields on ContributingUser {
   user {
@@ -5418,8 +5478,8 @@ export const SourcePopoverFragmentDoc = gql`
   }
 }
     `;
-export const HovercardUserFragmentDoc = gql`
-    fragment hovercardUser on User {
+export const PopoverUserFragmentDoc = gql`
+    fragment popoverUser on User {
   id
   profileImagePath(size: 64)
   displayName
@@ -5442,6 +5502,7 @@ export const VariantPopoverFieldsFragmentDoc = gql`
     totalCount
   }
   gene {
+    id
     name
   }
   revisions(status: NEW) {
@@ -6229,6 +6290,24 @@ export const CommentListDocument = gql`
       super(apollo);
     }
   }
+export const CommentPopoverDocument = gql`
+    query CommentPopover($commentId: Int!) {
+  comment(id: $commentId) {
+    ...commentPopover
+  }
+}
+    ${CommentPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentPopoverGQL extends Apollo.Query<CommentPopoverQuery, CommentPopoverQueryVariables> {
+    document = CommentPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ContributorAvatarsDocument = gql`
     query ContributorAvatars($subscribable: SubscribableInput!) {
   contributors(subscribable: $subscribable) {
@@ -6602,19 +6681,19 @@ export const SourcePopoverDocument = gql`
       super(apollo);
     }
   }
-export const UserHoverCardDocument = gql`
-    query UserHoverCard($userId: Int!) {
+export const UserPopoverDocument = gql`
+    query UserPopover($userId: Int!) {
   user(id: $userId) {
-    ...hovercardUser
+    ...popoverUser
   }
 }
-    ${HovercardUserFragmentDoc}`;
+    ${PopoverUserFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class UserHoverCardGQL extends Apollo.Query<UserHoverCardQuery, UserHoverCardQueryVariables> {
-    document = UserHoverCardDocument;
+  export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
+    document = UserPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -12,6 +12,8 @@ export interface LinkableComment {
 })
 export class CommentTagComponent implements OnInit {
   @Input() comment!: LinkableComment;
+  @Input() enablePopover: Boolean = true
+  
   constructor() { }
 
   ngOnInit(): void {

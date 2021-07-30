@@ -46,7 +46,7 @@ import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selec
 import { ParticipantListComponent } from './participant-list/participant-list.component';
 import { EventFeedComponent } from './event-feed/event-feed.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
-import { UserHovercardComponent } from './user-hovercard/user-hovercard.component';
+import { UserPopoverComponent } from './user-popover/user-popover.component';
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
 import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
@@ -122,6 +122,7 @@ import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
 import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover.component';
 import { SourcePopoverComponent } from './source-popover/source-popover.component';
 import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
+import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 
 
 @NgModule({
@@ -138,7 +139,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     ParticipantListComponent,
     EventFeedComponent,
     UserAvatarComponent,
-    UserHovercardComponent,
+    UserPopoverComponent,
     CommentDisplayComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
@@ -196,6 +197,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     PhenotypePopoverComponent,
     SourcePopoverComponent,
     VariantTypePopoverComponent,
+    CommentPopoverComponent
   ],
   imports: [
     CommonModule,
@@ -262,7 +264,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     ParticipantListComponent,
     EventFeedComponent,
     UserAvatarComponent,
-    UserHovercardComponent,
+    UserPopoverComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
@@ -318,6 +320,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
     PhenotypePopoverComponent,
     SourcePopoverComponent,
     VariantTypePopoverComponent,
+    CommentPopoverComponent
   ]
 })
 

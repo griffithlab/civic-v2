@@ -1021,6 +1021,7 @@ type Coi {
 
 type Comment implements EventOriginObject {
   comment: String!
+  commentable: Commentable!
   commenter: User!
   createdAt: ISO8601DateTime!
   creationEvent: Event
@@ -1117,7 +1118,9 @@ interface Commentable {
     """
     sortBy: DateSort
   ): CommentConnection!
+  id: Int!
   lastCommentEvent: Event
+  name: String!
 }
 
 enum CommentableEntities {
@@ -1254,7 +1257,7 @@ type Event {
   action: EventAction!
   createdAt: ISO8601DateTime!
   id: Int!
-  organization: Organization!
+  organization: Organization
   originatingObject: EventOriginObject
   originatingUser: User!
   subject: EventSubject!

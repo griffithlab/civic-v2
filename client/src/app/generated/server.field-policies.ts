@@ -313,9 +313,10 @@ export type CoiFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentKeySpecifier = ('comment' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'title' | CommentKeySpecifier)[];
+export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
+	commentable?: FieldPolicy<any> | FieldReadFunction<any>,
 	commenter?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -337,10 +338,12 @@ export type CommentEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentableKeySpecifier = ('comments' | 'lastCommentEvent' | CommentableKeySpecifier)[];
+export type CommentableKeySpecifier = ('comments' | 'id' | 'lastCommentEvent' | 'name' | CommentableKeySpecifier)[];
 export type CommentableFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
-	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ContributingUserKeySpecifier = ('lastActionDate' | 'uniqueActions' | 'user' | ContributingUserKeySpecifier)[];
 export type ContributingUserFieldPolicy = {

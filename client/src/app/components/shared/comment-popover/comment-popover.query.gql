@@ -1,0 +1,25 @@
+query CommentPopover($commentId: Int!) {
+  comment(id: $commentId) {
+    ...commentPopover
+  }
+}
+
+
+fragment commentPopover on Comment {
+  id
+  name
+  createdAt
+  title
+  comment
+  commenter {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  commentable {
+    id
+    name
+    __typename
+  }
+}
