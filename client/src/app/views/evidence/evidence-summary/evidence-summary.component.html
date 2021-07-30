@@ -24,6 +24,87 @@
             </nz-descriptions>
           </nz-space-item>
 
+          <!-- type, direction, level, rating-->
+          <nz-space-item>
+            <nz-descriptions nzSize="small"
+              [nzColumn]="2"
+              nzBordered="true">
+
+              <!-- evidence type -->
+              <nz-descriptions-item nzTitle="Type">
+                {{ evidence.evidenceType | evidenceEnumDisplay }}
+              </nz-descriptions-item>
+
+              <!-- evidence direction -->
+              <nz-descriptions-item nzTitle="Direction">
+                {{ evidence.evidenceDirection | evidenceEnumDisplay}}
+              </nz-descriptions-item>
+
+              <!-- clinical significance -->
+              <nz-descriptions-item nzTitle="Clinical Significance"
+                nzSpan="2">
+                {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
+              </nz-descriptions-item>
+
+
+              <!-- evidence level -->
+              <nz-descriptions-item nzTitle="Level">
+                {{ evidence.evidenceLevel }}
+              </nz-descriptions-item>
+
+
+              <!-- evidence rating -->
+              <nz-descriptions-item nzTitle="Rating">
+                <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
+              </nz-descriptions-item>
+
+
+            </nz-descriptions>
+          </nz-space-item>
+
+        </nz-space>
+
+      </nz-col>
+
+      <!-- evidence details column -->
+      <nz-col [nzSpan]="12">
+        <nz-space nzDirection="vertical">
+          <!-- status, curation events -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              class="status-tags">
+
+              <!-- status -->
+              <nz-descriptions-item nzTitle="Status">
+                <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
+              </nz-descriptions-item>
+
+              <!-- submit/accept/reject curation events -->
+              <nz-descriptions-item nzTitle="Submitted">
+                <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
+              </nz-descriptions-item>
+
+              <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
+              <!-- display accepted/rejected only if either exists -->
+              <ng-container *ngIf="evidence.rejectionEvent !== null || evidence.acceptanceEvent !== null">
+                <!-- show acceptance only if no rejection event exists -->
+                <ng-container [ngSwitch]="evidence.rejectionEvent === null">
+                  <nz-descriptions-item *ngSwitchCase="true"
+                    nzTitle="Accepted">
+                    <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                  <nz-descriptions-item *ngSwitchCase="false"
+                    nzTitle="Rejected">
+                    <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
+                  </nz-descriptions-item>
+                </ng-container>
+              </ng-container>
+
+            </nz-descriptions>
+          </nz-space-item>
+
           <!-- source & clinical trials -->
           <nz-space-item>
             <nz-descriptions nzSize="small"
@@ -47,48 +128,6 @@
                     nzType="secondary">None Specified</span>
                 </ng-container>
               </nz-descriptions-item>
-            </nz-descriptions>
-          </nz-space-item>
-        </nz-space>
-
-      </nz-col>
-
-      <!-- evidence details column -->
-      <nz-col [nzSpan]="12">
-        <nz-space nzDirection="vertical">
-          <!-- status, curation events -->
-          <nz-space-item>
-            <nz-descriptions nzLayout="horizontal"
-              nzSize="small"
-              nzBordered="true"
-              class="status-tags">
-
-              <!-- status -->
-              <nz-descriptions-item nzTitle="Status">
-                <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
-              </nz-descriptions-item>
-
-              <!-- submit/accept/reject curation events -->
-              <nz-descriptions-item nzTitle="Submitted by">
-                <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
-              </nz-descriptions-item>
-
-              <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
-              <!-- display accepted/rejected only if either exists -->
-              <ng-container *ngIf="evidence.rejectionEvent !== null || evidence.acceptanceEvent !== null">
-                <!-- show acceptance only if no rejection event exists -->
-                <ng-container [ngSwitch]="evidence.rejectionEvent === null">
-                  <nz-descriptions-item *ngSwitchCase="true"
-                    nzTitle="Accepted by">
-                    <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
-                  </nz-descriptions-item>
-                  <nz-descriptions-item *ngSwitchCase="false"
-                    nzTitle="Rejected by">
-                    <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
-                  </nz-descriptions-item>
-                </ng-container>
-              </ng-container>
-
             </nz-descriptions>
           </nz-space-item>
 
@@ -170,43 +209,6 @@
             </nz-descriptions>
           </nz-space-item>
 
-          <!-- type, direction, level, rating-->
-          <nz-space-item>
-            <nz-descriptions nzSize="small"
-              [nzColumn]="2"
-              nzBordered="true">
-
-              <!-- evidence type -->
-              <nz-descriptions-item nzTitle="Type">
-                {{ evidence.evidenceType | evidenceEnumDisplay }}
-              </nz-descriptions-item>
-
-              <!-- evidence direction -->
-              <nz-descriptions-item nzTitle="Direction">
-                {{ evidence.evidenceDirection | evidenceEnumDisplay}}
-              </nz-descriptions-item>
-
-              <!-- clinical significance -->
-              <nz-descriptions-item nzTitle="Clinical Significance"
-                nzSpan="2">
-                {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
-              </nz-descriptions-item>
-
-
-              <!-- evidence level -->
-              <nz-descriptions-item nzTitle="Level">
-                {{ evidence.evidenceLevel }}
-              </nz-descriptions-item>
-
-
-              <!-- evidence rating -->
-              <nz-descriptions-item nzTitle="Rating">
-                <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
-              </nz-descriptions-item>
-
-
-            </nz-descriptions>
-          </nz-space-item>
         </nz-space>
       </nz-col>
     </nz-row>

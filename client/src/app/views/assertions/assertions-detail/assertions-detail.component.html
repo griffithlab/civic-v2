@@ -1,6 +1,26 @@
 <ng-container *ngIf="assertion$ | ngrxPush as assertion">
-  <cvc-section-navigation [entity]="{ id: assertion.id, displayName: assertion.name }">
+  <cvc-section-navigation [entity]="{ id: assertion.id, displayName: assertion.name }"
+    [relationsTpl]="assertionRelations">
   </cvc-section-navigation>
+  <ng-template #assertionRelations>
+    <nz-space nzDirection="horizontal">
+
+      <!-- parent relations -->
+      <nz-space-item>
+        <span nz-typography
+          class="label">Related to <strong>{{ assertion.name }}</strong>:</span>
+      </nz-space-item>
+      <nz-space-item class="tags">
+        <a routerLink="/genes/{{ assertion.gene.id }}">
+          <cvc-gene-tag [gene]="assertion.gene"></cvc-gene-tag>
+        </a>
+        <a routerLink="/variants/{{ assertion.variant.id }}">
+          <cvc-variant-tag [variant]="assertion.variant"></cvc-variant-tag>
+        </a>
+      </nz-space-item>
+
+    </nz-space>
+  </ng-template>
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
