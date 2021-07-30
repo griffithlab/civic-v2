@@ -69,7 +69,7 @@
               </nz-descriptions-item>
 
               <!-- submit/accept/reject curation events -->
-              <nz-descriptions-item nzTitle="Submitted by">
+              <nz-descriptions-item nzTitle="Submitted">
                 <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
               </nz-descriptions-item>
 
@@ -79,11 +79,11 @@
                 <!-- show acceptance only if no rejection event exists -->
                 <ng-container [ngSwitch]="evidence.rejectionEvent === null">
                   <nz-descriptions-item *ngSwitchCase="true"
-                    nzTitle="Accepted by">
+                    nzTitle="Accepted">
                     <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
                   </nz-descriptions-item>
                   <nz-descriptions-item *ngSwitchCase="false"
-                    nzTitle="Rejected by">
+                    nzTitle="Rejected">
                     <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
                   </nz-descriptions-item>
                 </ng-container>
