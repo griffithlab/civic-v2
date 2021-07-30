@@ -29,47 +29,26 @@
             </nz-descriptions>
           </nz-space-item>
 
-          <!-- FDA approval, test -->
+          <!-- type, direction, level, rating-->
           <nz-space-item>
-            <nz-descriptions nzLayout="horizontal"
-              nzSize="small"
+            <nz-descriptions nzSize="small"
+              [nzColumn]="2"
               nzBordered="true">
 
-              <!-- regulatory approval -->
-              <nz-descriptions-item nzTitle="Regulatory Approval">
-                <i nz-icon
-                  *ngIf="assertion.regulatoryApproval"
-                  [nzType]="'check-circle'"
-                  [nzTheme]="'twotone'"
-                  [nzTwotoneColor]="'#52c41a'"></i>
-                <i nz-icon
-                  *ngIf="!assertion.regulatoryApproval"
-                  [nzType]="'close-square'"
-                  [nzTheme]="'twotone'"
-                  [nzTwotoneColor]="'#d93026'"></i>
+              <!-- assertion type -->
+              <nz-descriptions-item nzTitle="Type">
+                {{ assertion.assertionType | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
-              <!-- FDA companion test -->
-              <nz-descriptions-item nzTitle="FDA Companion Test">
-                <i nz-icon
-                  *ngIf="assertion.fdaCompanionTest"
-                  [nzType]="'check-circle'"
-                  [nzTheme]="'twotone'"
-                  [nzTwotoneColor]="'#52c41a'"></i>
-                <i nz-icon
-                  *ngIf="!assertion.fdaCompanionTest"
-                  [nzType]="'close-square'"
-                  [nzTheme]="'twotone'"
-                  [nzTwotoneColor]="'#d93026'"></i>
+              <!-- assertion direction -->
+              <nz-descriptions-item nzTitle="Direction">
+                {{ assertion.assertionDirection | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
-              <!-- NCCN guideline -->
-              <nz-descriptions-item nzTitle="NCCN Guideline">
-                <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline }}</ng-container>
-                <ng-container *ngIf="!assertion.nccnGuideline">
-                  <span nz-typography
-                    nzType="secondary">None Provided</span>
-                </ng-container>
+              <!-- clinical significance -->
+              <nz-descriptions-item nzTitle="Clinical Significance"
+                nzSpan="2">
+                {{ assertion.clinicalSignificance | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
             </nz-descriptions>
@@ -269,26 +248,47 @@
             </nz-descriptions>
           </nz-space-item>
 
-          <!-- type, direction, level, rating-->
+          <!-- FDA approval, test -->
           <nz-space-item>
-            <nz-descriptions nzSize="small"
-              [nzColumn]="2"
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
               nzBordered="true">
 
-              <!-- assertion type -->
-              <nz-descriptions-item nzTitle="Type">
-                {{ assertion.assertionType | evidenceEnumDisplay }}
+              <!-- regulatory approval -->
+              <nz-descriptions-item nzTitle="Regulatory Approval">
+                <i nz-icon
+                  *ngIf="assertion.regulatoryApproval"
+                  [nzType]="'check-circle'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon
+                  *ngIf="!assertion.regulatoryApproval"
+                  [nzType]="'close-square'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#d93026'"></i>
               </nz-descriptions-item>
 
-              <!-- assertion direction -->
-              <nz-descriptions-item nzTitle="Direction">
-                {{ assertion.assertionDirection | evidenceEnumDisplay }}
+              <!-- FDA companion test -->
+              <nz-descriptions-item nzTitle="FDA Companion Test">
+                <i nz-icon
+                  *ngIf="assertion.fdaCompanionTest"
+                  [nzType]="'check-circle'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon
+                  *ngIf="!assertion.fdaCompanionTest"
+                  [nzType]="'close-square'"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#d93026'"></i>
               </nz-descriptions-item>
 
-              <!-- clinical significance -->
-              <nz-descriptions-item nzTitle="Clinical Significance"
-                nzSpan="2">
-                {{ assertion.clinicalSignificance | evidenceEnumDisplay }}
+              <!-- NCCN guideline -->
+              <nz-descriptions-item nzTitle="NCCN Guideline">
+                <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline }}</ng-container>
+                <ng-container *ngIf="!assertion.nccnGuideline">
+                  <span nz-typography
+                    nzType="secondary">None Provided</span>
+                </ng-container>
               </nz-descriptions-item>
 
             </nz-descriptions>
