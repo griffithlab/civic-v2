@@ -24,31 +24,44 @@
             </nz-descriptions>
           </nz-space-item>
 
-          <!-- source & clinical trials -->
+          <!-- type, direction, level, rating-->
           <nz-space-item>
             <nz-descriptions nzSize="small"
-              nzBordered="true"
-              [nzColumn]="1">
-              <!-- source -->
-              <nz-descriptions-item nzTitle="Source"
-                nzSpan="2">
-                <cvc-source-tag [source]="evidence.source"> </cvc-source-tag>
+              [nzColumn]="2"
+              nzBordered="true">
+
+              <!-- evidence type -->
+              <nz-descriptions-item nzTitle="Type">
+                {{ evidence.evidenceType | evidenceEnumDisplay }}
               </nz-descriptions-item>
 
-              <!-- clinical trials -->
-              <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
-                <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
-                  <ng-container *ngFor="let t of evidence.source.clinicalTrials">
-                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-                  </ng-container>
-                </ng-container>
-                <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
-                  <span nz-typography
-                    nzType="secondary">None Specified</span>
-                </ng-container>
+              <!-- evidence direction -->
+              <nz-descriptions-item nzTitle="Direction">
+                {{ evidence.evidenceDirection | evidenceEnumDisplay}}
               </nz-descriptions-item>
+
+              <!-- clinical significance -->
+              <nz-descriptions-item nzTitle="Clinical Significance"
+                nzSpan="2">
+                {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
+              </nz-descriptions-item>
+
+
+              <!-- evidence level -->
+              <nz-descriptions-item nzTitle="Level">
+                {{ evidence.evidenceLevel }}
+              </nz-descriptions-item>
+
+
+              <!-- evidence rating -->
+              <nz-descriptions-item nzTitle="Rating">
+                <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
+              </nz-descriptions-item>
+
+
             </nz-descriptions>
           </nz-space-item>
+
         </nz-space>
 
       </nz-col>
@@ -89,6 +102,32 @@
                 </ng-container>
               </ng-container>
 
+            </nz-descriptions>
+          </nz-space-item>
+
+          <!-- source & clinical trials -->
+          <nz-space-item>
+            <nz-descriptions nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+              <!-- source -->
+              <nz-descriptions-item nzTitle="Source"
+                nzSpan="2">
+                <cvc-source-tag [source]="evidence.source"> </cvc-source-tag>
+              </nz-descriptions-item>
+
+              <!-- clinical trials -->
+              <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
+                <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
+                  <ng-container *ngFor="let t of evidence.source.clinicalTrials">
+                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
+                  <span nz-typography
+                    nzType="secondary">None Specified</span>
+                </ng-container>
+              </nz-descriptions-item>
             </nz-descriptions>
           </nz-space-item>
 
@@ -170,43 +209,6 @@
             </nz-descriptions>
           </nz-space-item>
 
-          <!-- type, direction, level, rating-->
-          <nz-space-item>
-            <nz-descriptions nzSize="small"
-              [nzColumn]="2"
-              nzBordered="true">
-
-              <!-- evidence type -->
-              <nz-descriptions-item nzTitle="Type">
-                {{ evidence.evidenceType | evidenceEnumDisplay }}
-              </nz-descriptions-item>
-
-              <!-- evidence direction -->
-              <nz-descriptions-item nzTitle="Direction">
-                {{ evidence.evidenceDirection | evidenceEnumDisplay}}
-              </nz-descriptions-item>
-
-              <!-- clinical significance -->
-              <nz-descriptions-item nzTitle="Clinical Significance"
-                nzSpan="2">
-                {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
-              </nz-descriptions-item>
-
-
-              <!-- evidence level -->
-              <nz-descriptions-item nzTitle="Level">
-                {{ evidence.evidenceLevel }}
-              </nz-descriptions-item>
-
-
-              <!-- evidence rating -->
-              <nz-descriptions-item nzTitle="Rating">
-                <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
-              </nz-descriptions-item>
-
-
-            </nz-descriptions>
-          </nz-space-item>
         </nz-space>
       </nz-col>
     </nz-row>
