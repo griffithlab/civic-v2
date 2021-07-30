@@ -6,5 +6,6 @@ module Types::Subscribable
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
     value 'REVISION'
+    value 'VARIANT_GROUP'
   end
 end
