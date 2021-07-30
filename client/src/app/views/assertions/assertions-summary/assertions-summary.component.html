@@ -174,7 +174,7 @@
 
               <!-- allele registriy id -->
               <nz-descriptions-item nzTitle="Allele Registry ID">
-                <a *ngIf="assertion.variant.alleleRegistry; else noAlleleRegistry"
+                <a *ngIf="assertion.variant.alleleRegistryId; else noAlleleRegistry"
                   target="_blank"
                   [href]="'https://reg.genome.network/allele/' + assertion.variant.alleleRegistryId + '.html'">
                   <nz-tag nzColor="default">
