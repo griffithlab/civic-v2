@@ -22,7 +22,7 @@ export class TagPileupComponent implements OnInit  {
   displayedTags?: TagInfo[]
   hiddenTags?: TagInfo[]
   hiddenCount?: number
-  matchedHidden: boolean = false
+  matchedHiddenCount: number = 0
 
   ngOnInit() {
     this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
@@ -34,7 +34,7 @@ export class TagPileupComponent implements OnInit  {
       let text = this.matchingText
       this.hiddenTags.forEach(t => {
         if(t.name.toLowerCase().includes(text)) {
-          this.matchedHidden = true
+          this.matchedHiddenCount +=1
         }
       });
     }
