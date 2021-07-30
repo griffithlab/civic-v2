@@ -42,6 +42,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :variant_group, Types::Entities::VariantGroupType, null: true do
+      description "Find a variant group by CIViC ID"
+      argument :id, Int, required: true
+    end
+    
     field :assertion, Types::Entities::AssertionType, null: true do
       description "Find an assertion by CIViC ID"
       argument :id, Int, required: true
@@ -129,6 +134,10 @@ module Types
 
     def variant(id: )
       Variant.find_by(id: id)
+    end
+
+    def variant_group(id: )
+      VariantGroup.find_by(id: id)
     end
 
     def assertion(id: )
