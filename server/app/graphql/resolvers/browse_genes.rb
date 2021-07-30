@@ -11,8 +11,8 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
 
   option(:entrez_symbol, type: String) { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
   option(:gene_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
-  option(:disease_name, type: String)  { |scope, value| scope.where(array_query_for_column('disease_names'), "#{value}%") }
-  option(:drug_name, type: String)     { |scope, value| scope.where(array_query_for_column('drug_names'), "#{value}%") }
+  option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "#{value}%") }
+  option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "#{value}%") }
 
   option :sort_by, type: Types::BrowseTables::GenesSortType do |scope, value|
     case value.column
@@ -37,5 +37,10 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
   def array_query_for_column(col)
     raise 'Must supply a column name' if col.nil?
     "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(name) where name ILIKE ?)"
+  end
+
+  def json_name_query_for_column(col)
+    raise 'Must supply a column name' if col.nil?
+    "gene_browse_table_rows.id IN (select gb.id FROM gene_browse_table_rows gb, json_array_elements(gb.#{col}) d where d->>'name' ILIKE ?)"
   end
 end
