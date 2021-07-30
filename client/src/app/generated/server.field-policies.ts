@@ -345,9 +345,10 @@ export type CommentableFieldPolicy = {
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ContributingUserKeySpecifier = ('lastActionDate' | 'uniqueActions' | 'user' | ContributingUserKeySpecifier)[];
+export type ContributingUserKeySpecifier = ('lastActionDate' | 'totalActionCount' | 'uniqueActions' | 'user' | ContributingUserKeySpecifier)[];
 export type ContributingUserFieldPolicy = {
 	lastActionDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalActionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	uniqueActions?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -355,6 +356,11 @@ export type ContributingUsersSummaryKeySpecifier = ('curators' | 'editors' | Con
 export type ContributingUsersSummaryFieldPolicy = {
 	curators?: FieldPolicy<any> | FieldReadFunction<any>,
 	editors?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ContributionKeySpecifier = ('action' | 'count' | ContributionKeySpecifier)[];
+export type ContributionFieldPolicy = {
+	action?: FieldPolicy<any> | FieldReadFunction<any>,
+	count?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CoordinateKeySpecifier = ('chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases' | CoordinateKeySpecifier)[];
 export type CoordinateFieldPolicy = {
@@ -1151,6 +1157,10 @@ export type TypedTypePolicies = TypePolicies & {
 	ContributingUsersSummary?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ContributingUsersSummaryKeySpecifier | (() => undefined | ContributingUsersSummaryKeySpecifier),
 		fields?: ContributingUsersSummaryFieldPolicy,
+	},
+	Contribution?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ContributionKeySpecifier | (() => undefined | ContributionKeySpecifier),
+		fields?: ContributionFieldPolicy,
 	},
 	Coordinate?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CoordinateKeySpecifier | (() => undefined | CoordinateKeySpecifier),

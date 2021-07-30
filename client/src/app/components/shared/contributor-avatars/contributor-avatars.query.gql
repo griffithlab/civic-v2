@@ -15,6 +15,10 @@ fragment ContributorFields on ContributingUser {
         id
         profileImagePath(size: 12)
       }
-      uniqueActions
+      uniqueActions {
+        action
+        count
+      }
       lastActionDate
+      totalActionCount
 }
