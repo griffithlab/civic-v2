@@ -8,7 +8,6 @@ import {
   Maybe,
   SubscribableEntities,
   SubscribableInput,
-  User,
 } from '@app/generated/civic.apollo';
 import {
   Viewer,

@@ -1,5 +1,4 @@
-<!-- <ng-container *ngIf="gene$ | async as gene"> -->
-<ng-container>
+<ng-container *ngIf="variantGroup$ | async as variantGroup">
   <cvc-section-navigation
     [entity]="{ id: 0, displayName: '[Variant Group Name]' }">
   </cvc-section-navigation>
@@ -13,7 +12,7 @@
         <!-- [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"> -->
         <i nz-icon
           nzType="civic:variantgroup"></i>
-        [VARIANT GROUP NAME]
+        {{ variantGroup.name }}
       </nz-page-header-title>
 
 
