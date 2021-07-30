@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { EventAction } from '@app/generated/civic.apollo';
+import { EventAction, Maybe } from '@app/generated/civic.apollo';
 
 export type EventVerbiageContext = 'feed' | 'contributor-card'
 
@@ -8,9 +8,9 @@ export type EventVerbiageContext = 'feed' | 'contributor-card'
   pure: true
 })
 export class EventVerbiagePipe implements PipeTransform {
-  transform(value: EventAction, context: EventVerbiageContext = 'contributor-card') : string {
+  transform(value: EventAction, context: EventVerbiageContext = 'contributor-card', count: number = 0) : string {
     if (context === 'contributor-card') {
-      return this.contributorVerbiage(value);
+      return this.contributorVerbiage(value, count);
     } else {
       return this.eventFeedVerbiage(value)
     }
@@ -50,22 +50,22 @@ export class EventVerbiagePipe implements PipeTransform {
 
   }
 
-  private contributorVerbiage(a: EventAction): string {
+  private contributorVerbiage(a: EventAction, count: Maybe<number>): string {
     switch (a) {
       case (EventAction.Commented):
-        return 'commented on this entity'
+        return (count == 1) ? 'left a comment on this entity' : `left ${count} comments on this entity`
       case (EventAction.RevisionSuggested):
-        return 'suggested a revision to this entity'
+        return (count == 1) ? 'suggested a revision to this entity' : `suggested ${count} revisions on this entity`
       case (EventAction.RevisionAccepted):
-        return 'accepted a revision on this entity'
+        return (count == 1) ? 'accepted a revision to this entity' : `accepted ${count} revisions on this entity`
       case (EventAction.RevisionRejected):
-        return 'rejected a revision to this entity'
+        return (count == 1) ? 'rejected a revision to this entity' : `rejected ${count} revisions on this entity`
       case (EventAction.RevisionSuperseded):
-        return 'accepted a superseding revision on this entity'
+        return (count == 1) ? 'accepted a superseding revision to this entity' : `accepted ${count} superseding revisions on this entity`
       case (EventAction.Flagged):
-        return 'opened new flag on this entity'
+        return (count == 1) ? 'opened new flag on this entity' : `opened ${count} new flags on this entity`
       case (EventAction.FlagResolved):
-        return 'resolved a flag on this entity'
+        return (count == 1) ? 'resolved a flag on this entity' : `resolved ${count} flags on this entity`
       case (EventAction.AssertionSubmitted):
         return 'submitted this assertion'
       case (EventAction.AssertionAccepted):
