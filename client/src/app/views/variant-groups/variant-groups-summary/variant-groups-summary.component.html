@@ -1,1 +1,54 @@
-<p>variant-groups-summary works!</p>
+<nz-space nzSize="middle"
+  *ngIf=" (variantGroup$ | ngrxPush) as variantGroup"
+  nzDirection="vertical"
+  class="space-align-block">
+
+  <!-- variantGroup description, details row -->
+  <nz-space-item>
+    <nz-row [nzGutter]="16">
+
+      <!-- variantGroup description, sources col -->
+      <nz-col nzSpan="12">
+        <nz-space nzDirection="vertical">
+
+          <!-- description, sources -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="vertical"
+              nzSize="small"
+              nzBordered="true"
+              [nzColumn]="1">
+
+              <!-- description -->
+              <nz-descriptions-item nzTitle="Description">
+                <p *ngIf="variantGroup.description; else noDescription" nz-typography
+                  nzEllipsis
+                  nzExpandable
+                  [nzEllipsisRows]="14">{{ variantGroup.description }}</p>
+
+                <!-- noDescription Tpl -->
+                <ng-template #noDescription>
+                  <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
+                </ng-template>
+
+              </nz-descriptions-item>
+
+              <!-- sources -->
+              <!-- <nz-descriptions-item nzTitle="Sources">
+                   <ng-container *ngIf="variantGroup.sources.length > 0; else noSources">
+                   <cvc-tag-list>
+                   <cvc-source-tag *ngFor="let source of variantGroup.sources"
+                   [source]="source"></cvc-source-tag>
+                   </cvc-tag-list>
+                   </ng-container>
+                   <ng-template #noSources>
+                   <span nz-typography
+                   nzType="secondary">None specified</span>
+                   </ng-template>
+                   </nz-descriptions-item> -->
+            </nz-descriptions>
+          </nz-space-item>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+  </nz-space-item>
+</nz-space>

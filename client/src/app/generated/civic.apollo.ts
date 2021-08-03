@@ -5015,6 +5015,24 @@ export type VariantGroupDetailFieldsFragment = (
   ) }
 );
 
+export type VariantGroupsSummaryQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupsSummaryQuery = (
+  { __typename: 'Query' }
+  & { variantGroup?: Maybe<(
+    { __typename: 'VariantGroup' }
+    & VariantGroupSummaryFieldsFragment
+  )> }
+);
+
+export type VariantGroupSummaryFieldsFragment = (
+  { __typename: 'VariantGroup' }
+  & Pick<VariantGroup, 'id' | 'name' | 'description'>
+);
+
 export type VariantTypesBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -6123,6 +6141,13 @@ export const VariantGroupDetailFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+}
+    `;
+export const VariantGroupSummaryFieldsFragmentDoc = gql`
+    fragment VariantGroupSummaryFields on VariantGroup {
+  id
+  name
+  description
 }
     `;
 export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
@@ -7904,6 +7929,24 @@ export const VariantGroupDetailDocument = gql`
   })
   export class VariantGroupDetailGQL extends Apollo.Query<VariantGroupDetailQuery, VariantGroupDetailQueryVariables> {
     document = VariantGroupDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupsSummaryDocument = gql`
+    query VariantGroupsSummary($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupSummaryFields
+  }
+}
+    ${VariantGroupSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupsSummaryGQL extends Apollo.Query<VariantGroupsSummaryQuery, VariantGroupsSummaryQueryVariables> {
+    document = VariantGroupsSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
