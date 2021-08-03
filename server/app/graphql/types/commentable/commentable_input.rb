@@ -17,6 +17,8 @@ module Types::Commentable
         EvidenceItem
       when 'ASSERTION'
         Assertion
+      when 'VARIANT_GROUP'
+        VariantGroup
       else
         raise 'Unknown Enum Value'
       end

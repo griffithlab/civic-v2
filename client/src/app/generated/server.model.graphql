@@ -1128,6 +1128,7 @@ enum CommentableEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
@@ -1994,6 +1995,7 @@ enum FlaggableEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
