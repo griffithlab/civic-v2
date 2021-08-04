@@ -5017,6 +5017,65 @@ export type VariantGroupDetailFieldsFragment = (
   ) }
 );
 
+export type VariantGroupRevisionsQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type VariantGroupRevisionsQuery = (
+  { __typename: 'Query' }
+  & { variantGroup?: Maybe<(
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id'>
+    & { revisions: (
+      { __typename: 'RevisionConnection' }
+      & Pick<RevisionConnection, 'totalCount'>
+      & { uniqueRevisors: Array<(
+        { __typename: 'User' }
+        & Pick<User, 'username' | 'id' | 'profileImagePath'>
+      )>, revisedFieldNames: Array<(
+        { __typename: 'FieldName' }
+        & Pick<FieldName, 'name' | 'displayName'>
+      )>, edges: Array<(
+        { __typename: 'RevisionEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Revision' }
+          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+          & { linkoutData: (
+            { __typename: 'LinkoutData' }
+            & Pick<LinkoutData, 'name'>
+            & { diffValue: (
+              { __typename: 'ObjectFieldDiff' }
+              & { addedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, removedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, keptObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )> }
+            ) | (
+              { __typename: 'ScalarField' }
+              & Pick<ScalarField, 'value'>
+            ) }
+          ), revisor: (
+            { __typename: 'User' }
+            & Pick<User, 'id' | 'name'>
+          ) }
+        )> }
+      )> }
+    ) }
+  )> }
+);
+
 export type VariantGroupsSummaryQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
 }>;
@@ -7931,6 +7990,86 @@ export const VariantGroupDetailDocument = gql`
   })
   export class VariantGroupDetailGQL extends Apollo.Query<VariantGroupDetailQuery, VariantGroupDetailQueryVariables> {
     document = VariantGroupDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupRevisionsDocument = gql`
+    query VariantGroupRevisions($variantGroupId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
+  variantGroup(id: $variantGroupId) {
+    id
+    revisions(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      fieldName: $fieldName
+      originatingUserId: $originatingUserId
+    ) {
+      totalCount
+      uniqueRevisors {
+        username
+        id
+        profileImagePath(size: 32)
+      }
+      revisedFieldNames {
+        name
+        displayName
+      }
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
+            }
+          }
+          revisor {
+            id
+            name
+          }
+          status
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupRevisionsGQL extends Apollo.Query<VariantGroupRevisionsQuery, VariantGroupRevisionsQueryVariables> {
+    document = VariantGroupRevisionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
