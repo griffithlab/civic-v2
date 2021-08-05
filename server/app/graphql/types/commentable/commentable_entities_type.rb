@@ -4,5 +4,6 @@ module Types::Commentable
     value 'VARIANT'
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
+    value 'VARIANT_GROUP'
   end
 end

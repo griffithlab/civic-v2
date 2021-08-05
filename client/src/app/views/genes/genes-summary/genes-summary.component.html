@@ -20,10 +20,16 @@
 
               <!-- description -->
               <nz-descriptions-item nzTitle="Description">
-                <p nz-typography
+                <p *ngIf="gene.description; else noDescription" nz-typography
                   nzEllipsis
                   nzExpandable
                   [nzEllipsisRows]="14">{{ gene.description }}</p>
+
+                <!-- noDescription Tpl -->
+                <ng-template #noDescription>
+                  <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
+                </ng-template>
+
               </nz-descriptions-item>
 
               <!-- sources -->

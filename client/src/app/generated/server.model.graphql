@@ -1128,6 +1128,7 @@ enum CommentableEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
@@ -2000,6 +2001,7 @@ enum FlaggableEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
@@ -3691,6 +3693,11 @@ type Query {
   variant(id: Int!): Variant
 
   """
+  Find a variant group by CIViC ID
+  """
+  variantGroup(id: Int!): VariantGroup
+
+  """
   Find a variant type by CIViC ID
   """
   variantType(id: Int!): VariantType
@@ -4161,6 +4168,7 @@ enum SubscribableEntities {
   GENE
   REVISION
   VARIANT
+  VARIANT_GROUP
 }
 
 """
@@ -4927,6 +4935,213 @@ input VariantFields {
   List of IDs for the variant types for this Variant
   """
   variantTypeIds: [Int!]!
+}
+
+type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisions {
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
+  description: String!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  id: Int!
+  lastAcceptedRevisionEvent: Event
+  lastCommentEvent: Event
+  lastSubmittedRevisionEvent: Event
+  name: String!
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionsetId: String
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
+
+  """
+  List and filter variants.
+  """
+  variants(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit variants by the status of attached evidence.
+    """
+    evidenceStatusFilter: VariantDisplayFilter
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Left anchored filtering for variant name and aliases.
+    """
+    name: String
+  ): VariantConnection!
 }
 
 input VariantGroupsSort {

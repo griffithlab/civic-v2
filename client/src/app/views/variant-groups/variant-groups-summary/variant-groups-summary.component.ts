@@ -1,15 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { pluck, map } from 'rxjs/operators';
+
+import {
+  SubscribableEntities,
+  SubscribableInput,
+  VariantGroupsSummaryGQL,
+  VariantGroupSummaryFieldsFragment,
+  Maybe,
+} from '@app/generated/civic.apollo';
+
+import {
+  Viewer,
+  ViewerService,
+} from '@app/shared/services/viewer/viewer.service';
 
 @Component({
   selector: 'cvc-variant-groups-summary',
   templateUrl: './variant-groups-summary.component.html',
   styleUrls: ['./variant-groups-summary.component.less']
 })
-export class VariantGroupsSummaryComponent implements OnInit {
+export class VariantGroupsSummaryComponent implements OnDestroy {
+  variantGroup$?: Observable<Maybe<VariantGroupSummaryFieldsFragment>>;
+  loading$?: Observable<boolean>;
+  myVariantGroupInfo$?: Observable<any>;
+  viewer$?: Observable<Viewer>;
 
-  constructor() { }
+  subscribableEntity?: SubscribableInput;
 
-  ngOnInit(): void {
+  routeSub: Subscription
+
+  constructor(
+    private gql: VariantGroupsSummaryGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.viewer$ = this.viewerService.viewer$;
+
+      let queryRef = this.gql.watch({ variantGroupId: +params.variantGroupId });
+      let observable = queryRef.valueChanges;
+
+      this.subscribableEntity = {
+        id: +params.variantGroupId,
+        entityType: SubscribableEntities.VariantGroup,
+      };
+
+      this.variantGroup$ = observable.pipe(pluck('data', 'variantGroup'));
+      this.loading$ = observable.pipe(pluck('loading'));
+
+      this.myVariantGroupInfo$ = this.variantGroup$.pipe(
+        pluck('myVariantGroupInfoDetails'),
+        map((info) => JSON.parse(String(info)))
+      );
+    });
   }
 
+  ngOnDestroy() {
+    this.routeSub.unsubscribe()
+  }
 }

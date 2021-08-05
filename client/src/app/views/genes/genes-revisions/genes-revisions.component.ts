@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
-import { GenesRevisionsService, SelectableFieldName, UniqueRevisor } from './genes-revisions.service';
+import {
+  GenesRevisionsService,
+  SelectableFieldName,
+  UniqueRevisor
+} from './genes-revisions.service';
 
 @Component({
   selector: 'cvc-genes-revisions',

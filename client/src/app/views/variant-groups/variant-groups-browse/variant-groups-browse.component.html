@@ -57,7 +57,7 @@
               <tbody>
                 <tr *ngFor="let vg of variantGroupsTable.data">
                   <td>
-                    {{ vg.name }}
+                    <cvc-variantgroup-tag [variantgroup]="vg"></cvc-variantgroup-tag>
                   </td>
                   <td>
                     <p nz-typography>

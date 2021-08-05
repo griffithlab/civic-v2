@@ -1,10 +1,9 @@
-<!-- <ng-container *ngIf="gene$ | async as gene"> -->
-<ng-container>
+<ng-container *ngIf="variantGroup$ | async as variantGroup">
   <cvc-section-navigation
-    [entity]="{ id: 0, displayName: '[Variant Group Name]' }">
+    [entity]="{ id: variantGroup.id, displayName: variantGroup.name}">
   </cvc-section-navigation>
-  <!-- <div cvcFlaggable
-       [flags]="flagsTotal$ | ngrxPush"> -->
+  <div cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
 
     <nz-page-header class="site-page-header">
 
@@ -13,7 +12,7 @@
         <!-- [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"> -->
         <i nz-icon
           nzType="civic:variantgroup"></i>
-        [VARIANT GROUP NAME]
+        {{ variantGroup.name }}
       </nz-page-header-title>
 
 
@@ -60,6 +59,5 @@
         </div>
       </nz-page-header-content>
     </nz-page-header>
-    <!-- cvcFlaggable closing div: -->
-    <!-- </div> -->
+  </div>
 </ng-container>

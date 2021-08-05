@@ -31,6 +31,9 @@
           },
           {
             "name": "Variant"
+          },
+          {
+            "name": "VariantGroup"
           }
         ]
       },
@@ -76,6 +79,9 @@
           },
           {
             "name": "Variant"
+          },
+          {
+            "name": "VariantGroup"
           }
         ]
       },
@@ -94,6 +100,9 @@
           },
           {
             "name": "Variant"
+          },
+          {
+            "name": "VariantGroup"
           }
         ]
       },
@@ -136,6 +145,9 @@
           },
           {
             "name": "Variant"
+          },
+          {
+            "name": "VariantGroup"
           }
         ]
       }

@@ -5,5 +5,6 @@ module Types::Flaggable
     value 'VARIANT'
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
+    value 'VARIANT_GROUP'
   end
 end

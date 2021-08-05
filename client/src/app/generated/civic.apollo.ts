@@ -705,7 +705,8 @@ export enum CommentableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Entity to comment on */
@@ -1241,7 +1242,8 @@ export enum FlaggableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Entity to flag */
@@ -1886,6 +1888,8 @@ export type Query = {
   users: UserConnection;
   /** Find a variant by CIViC ID */
   variant?: Maybe<Variant>;
+  /** Find a variant group by CIViC ID */
+  variantGroup?: Maybe<VariantGroup>;
   /** Find a variant type by CIViC ID */
   variantType?: Maybe<VariantType>;
   /** List and filter Variant Types from the Sequence Ontology. */
@@ -2218,6 +2222,11 @@ export type QueryVariantArgs = {
 };
 
 
+export type QueryVariantGroupArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryVariantTypeArgs = {
   id: Scalars['Int'];
 };
@@ -2517,7 +2526,8 @@ export enum SubscribableEntities {
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
   Revision = 'REVISION',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Entity to subscribe to. */
@@ -2933,6 +2943,84 @@ export type VariantFields = {
   variantTypeIds: Array<Scalars['Int']>;
 };
 
+export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevisions & {
+  __typename: 'VariantGroup';
+  /** List and filter comments. */
+  comments: CommentConnection;
+  description: Scalars['String'];
+  /** List and filter events for an object */
+  events: EventConnection;
+  flagged: Scalars['Boolean'];
+  /** List and filter flags. */
+  flags: FlagConnection;
+  id: Scalars['Int'];
+  lastAcceptedRevisionEvent?: Maybe<Event>;
+  lastCommentEvent?: Maybe<Event>;
+  lastSubmittedRevisionEvent?: Maybe<Event>;
+  name: Scalars['String'];
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
+  /** List and filter variants. */
+  variants: VariantConnection;
+};
+
+
+export type VariantGroupCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+};
+
+
+export type VariantGroupEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+};
+
+
+export type VariantGroupFlagsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  flaggingUserId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+  state?: Maybe<FlagState>;
+};
+
+
+export type VariantGroupRevisionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
+};
+
+
+export type VariantGroupVariantsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type VariantGroupsSort = {
   /** Available columns for sorting */
   column: VariantGroupsSortColumns;
@@ -3255,6 +3343,9 @@ export type CommentPopoverFragment = (
   ) | (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'name'>
   ) }
 );
 
@@ -3406,6 +3497,9 @@ export type EventFeedNodeFragment = (
   ) | (
     { __typename: 'Variant' }
     & Pick<Variant, 'name' | 'id'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'name' | 'id'>
   ), originatingObject?: Maybe<(
     { __typename: 'Assertion' }
     & Pick<Assertion, 'id' | 'name'>
@@ -3610,6 +3704,9 @@ export type FlagListFragment = (
       ) | (
         { __typename: 'Variant' }
         & Pick<Variant, 'id' | 'name'>
+      ) | (
+        { __typename: 'VariantGroup' }
+        & Pick<VariantGroup, 'id' | 'name'>
       ), flaggingUser: (
         { __typename: 'User' }
         & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
@@ -4899,6 +4996,114 @@ export type BrowseVariantGroupRowFieldsFragment = (
   & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
 );
 
+export type VariantGroupDetailQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupDetailQuery = (
+  { __typename: 'Query' }
+  & { variantGroup?: Maybe<(
+    { __typename: 'VariantGroup' }
+    & VariantGroupDetailFieldsFragment
+  )> }
+);
+
+export type VariantGroupDetailFieldsFragment = (
+  { __typename: 'VariantGroup' }
+  & Pick<VariantGroup, 'id' | 'name'>
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
+export type VariantGroupRevisionsQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type VariantGroupRevisionsQuery = (
+  { __typename: 'Query' }
+  & { variantGroup?: Maybe<(
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id'>
+    & { revisions: (
+      { __typename: 'RevisionConnection' }
+      & Pick<RevisionConnection, 'totalCount'>
+      & { uniqueRevisors: Array<(
+        { __typename: 'User' }
+        & Pick<User, 'username' | 'id' | 'profileImagePath'>
+      )>, revisedFieldNames: Array<(
+        { __typename: 'FieldName' }
+        & Pick<FieldName, 'name' | 'displayName'>
+      )>, edges: Array<(
+        { __typename: 'RevisionEdge' }
+        & { node?: Maybe<(
+          { __typename: 'Revision' }
+          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+          & { linkoutData: (
+            { __typename: 'LinkoutData' }
+            & Pick<LinkoutData, 'name'>
+            & { diffValue: (
+              { __typename: 'ObjectFieldDiff' }
+              & { addedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, removedObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, keptObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )> }
+            ) | (
+              { __typename: 'ScalarField' }
+              & Pick<ScalarField, 'value'>
+            ) }
+          ), revisor: (
+            { __typename: 'User' }
+            & Pick<User, 'id' | 'name'>
+          ) }
+        )> }
+      )> }
+    ) }
+  )> }
+);
+
+export type VariantGroupsSummaryQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupsSummaryQuery = (
+  { __typename: 'Query' }
+  & { variantGroup?: Maybe<(
+    { __typename: 'VariantGroup' }
+    & VariantGroupSummaryFieldsFragment
+  )> }
+);
+
+export type VariantGroupSummaryFieldsFragment = (
+  { __typename: 'VariantGroup' }
+  & Pick<VariantGroup, 'id' | 'name' | 'description'>
+);
+
 export type VariantTypesBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -5993,6 +6198,31 @@ export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
   variantNames
   variantCount
   evidenceItemCount
+}
+    `;
+export const VariantGroupDetailFieldsFragmentDoc = gql`
+    fragment VariantGroupDetailFields on VariantGroup {
+  id
+  name
+  variants {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
+export const VariantGroupSummaryFieldsFragmentDoc = gql`
+    fragment VariantGroupSummaryFields on VariantGroup {
+  id
+  name
+  description
 }
     `;
 export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
@@ -7756,6 +7986,122 @@ export const BrowseVariantGroupsDocument = gql`
   })
   export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
     document = BrowseVariantGroupsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupDetailDocument = gql`
+    query VariantGroupDetail($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupDetailFields
+  }
+}
+    ${VariantGroupDetailFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupDetailGQL extends Apollo.Query<VariantGroupDetailQuery, VariantGroupDetailQueryVariables> {
+    document = VariantGroupDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupRevisionsDocument = gql`
+    query VariantGroupRevisions($variantGroupId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
+  variantGroup(id: $variantGroupId) {
+    id
+    revisions(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      fieldName: $fieldName
+      originatingUserId: $originatingUserId
+    ) {
+      totalCount
+      uniqueRevisors {
+        username
+        id
+        profileImagePath(size: 32)
+      }
+      revisedFieldNames {
+        name
+        displayName
+      }
+      edges {
+        node {
+          id
+          revisionsetId
+          createdAt
+          fieldName
+          currentValue
+          suggestedValue
+          linkoutData {
+            name
+            diffValue {
+              ... on ObjectFieldDiff {
+                addedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                removedObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+              }
+              ... on ScalarField {
+                value
+              }
+            }
+          }
+          revisor {
+            id
+            name
+          }
+          status
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupRevisionsGQL extends Apollo.Query<VariantGroupRevisionsQuery, VariantGroupRevisionsQueryVariables> {
+    document = VariantGroupRevisionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupsSummaryDocument = gql`
+    query VariantGroupsSummary($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupSummaryFields
+  }
+}
+    ${VariantGroupSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupsSummaryGQL extends Apollo.Query<VariantGroupsSummaryQuery, VariantGroupsSummaryQueryVariables> {
+    document = VariantGroupsSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

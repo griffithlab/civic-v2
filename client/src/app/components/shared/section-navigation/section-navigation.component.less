@@ -10,7 +10,7 @@
   padding: @default-padding-xss @default-padding-xs;
 
   // override the above default padding
-  // and provide more padding if we're showing the relations container
+  // and provide more vertical padding if we're showing the relations container
   &.has-relations {
     padding: @default-padding-xs @default-padding-xs;
   }
@@ -31,6 +31,7 @@
 
 #relations-summary {
   text-align: right;
+
   & ::ng-deep {
     .label {
       color: @text-color-secondary-dark;

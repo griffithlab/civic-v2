@@ -123,6 +123,7 @@ import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover
 import { SourcePopoverComponent } from './source-popover/source-popover.component';
 import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
 import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
+import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 
 
@@ -199,7 +200,8 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     SourcePopoverComponent,
     VariantTypePopoverComponent,
     CommentPopoverComponent,
-    TagPileupComponent
+    VariantgroupTagComponent,
+    TagPileupComponent,
   ],
   imports: [
     CommonModule,
@@ -322,8 +324,8 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     PhenotypePopoverComponent,
     SourcePopoverComponent,
     VariantTypePopoverComponent,
-    CommentPopoverComponent,
-    TagPileupComponent
+    VariantgroupTagComponent,
+    TagPileupComponent,
   ]
 })
 

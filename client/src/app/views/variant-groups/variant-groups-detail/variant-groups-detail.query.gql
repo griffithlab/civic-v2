@@ -1,0 +1,25 @@
+query VariantGroupDetail(
+  $variantGroupId: Int!
+) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupDetailFields
+  }
+}
+
+
+fragment VariantGroupDetailFields on VariantGroup {
+  id
+  name
+  variants {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
