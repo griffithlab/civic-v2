@@ -1,5 +1,5 @@
-<ng-container *ngIf="contributors">
-  <a *ngFor="let u of contributors" routerLink="/users/{{u.user.id}}" class="avatar">
+<ng-container *ngIf="sortedContributors">
+  <a *ngFor="let u of sortedContributors" routerLink="/users/{{u.user.id}}" class="avatar">
     <nz-avatar [nzSize]="14" nz-popover [nzPopoverMouseEnterDelay]="0.5" [nzPopoverContent]="curatorPopover"
       nzPopoverTrigger="hover" nzPopoverPlacement="bottomRight" nzIcon="user" [nzSrc]="u.user.profileImagePath"
       nzSize="small"></nz-avatar>
@@ -8,9 +8,9 @@
         <ng-template #additionalMetadata>
           <nz-list nzHeader="Activity">
             <nz-list-item>
-              Contribution Types:
+              Contributions:
               <ng-container *ngFor="let a of u.uniqueActions; last as isLast">
-                {{a | eventVerbiage:'contributor-card' }}<ng-container *ngIf="! isLast">, </ng-container>
+                {{a.action | eventVerbiage: 'contributor-card' : a.count }}<ng-container *ngIf="! isLast">, </ng-container>
               </ng-container>
             </nz-list-item>
             <nz-list-item>

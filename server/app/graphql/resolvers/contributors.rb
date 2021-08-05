@@ -34,8 +34,9 @@ class Resolvers::Contributors < GraphQL::Schema::Resolver
     users.map do |user, events|
       {
         user: user,
-        unique_actions: events.map(&:action).uniq,
-        last_action_date: events.map(&:created_at).max
+        unique_actions: events.map(&:action).tally.map{|action, count| {'action': action, 'count': count} },
+        last_action_date: events.map(&:created_at).max,
+        total_action_count: events.count
       }
     end
   end

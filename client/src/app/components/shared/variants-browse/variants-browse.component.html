@@ -85,16 +85,12 @@
                   </td>
                   <td>
                     <p nz-typography>
-                      <span *ngFor="let disease of variant.diseases" >
-                        <cvc-disease-tag [disease]="disease"></cvc-disease-tag>
-                      </span>
+                      <cvc-tag-pileup tagType="disease" [tags]="variant.diseases" [matchingText]="diseaseNameInput"> </cvc-tag-pileup>
                     </p>
                   </td>
                   <td>
                     <p nz-typography>
-                      <span *ngFor="let drug of variant.drugs" >
-                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                      </span>
+                      <cvc-tag-pileup tagType="drug" [tags]="variant.drugs" [matchingText]="drugNameInput"> </cvc-tag-pileup>
                     </p>
                   </td>
                   <td nzRight>{{variant.evidenceScore}}</td>

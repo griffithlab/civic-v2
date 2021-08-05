@@ -8,9 +8,7 @@ class Resolvers::TopLevelOrganizations < GraphQL::Schema::Resolver
 
   description 'List and filter organizations.'
 
-  scope {
-    Organization.all
-  }
+  scope { Organization.all.order(:name) }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the id of the organization.') do |scope, value |
     scope.where("organizations.id = ?", value)

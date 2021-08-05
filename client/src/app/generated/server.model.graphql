@@ -1151,13 +1151,19 @@ A user with all the unique kinds of actions they've performed on a given entity
 """
 type ContributingUser {
   lastActionDate: ISO8601DateTime!
-  uniqueActions: [EventAction!]!
+  totalActionCount: Int!
+  uniqueActions: [Contribution!]!
   user: User!
 }
 
 type ContributingUsersSummary {
   curators: [ContributingUser!]!
   editors: [ContributingUser!]!
+}
+
+type Contribution {
+  action: EventAction!
+  count: Int!
 }
 
 type Coordinate {

@@ -7,7 +7,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
 
   description 'List and filter assertions.'
 
-  scope { Assertion.all.order(:id) }
+  scope { Assertion.all.order(:id).where.not(status: 'rejected') }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the assertion.') do |scope, value|
     scope.where("assertions.id = ?", value)

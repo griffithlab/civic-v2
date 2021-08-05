@@ -721,7 +721,8 @@ export type CommentableInput = {
 export type ContributingUser = {
   __typename: 'ContributingUser';
   lastActionDate: Scalars['ISO8601DateTime'];
-  uniqueActions: Array<EventAction>;
+  totalActionCount: Scalars['Int'];
+  uniqueActions: Array<Contribution>;
   user: User;
 };
 
@@ -729,6 +730,12 @@ export type ContributingUsersSummary = {
   __typename: 'ContributingUsersSummary';
   curators: Array<ContributingUser>;
   editors: Array<ContributingUser>;
+};
+
+export type Contribution = {
+  __typename: 'Contribution';
+  action: EventAction;
+  count: Scalars['Int'];
 };
 
 export type Coordinate = {
@@ -3363,11 +3370,14 @@ export type ContributorAvatarsQuery = (
 
 export type ContributorFieldsFragment = (
   { __typename: 'ContributingUser' }
-  & Pick<ContributingUser, 'uniqueActions' | 'lastActionDate'>
+  & Pick<ContributingUser, 'lastActionDate' | 'totalActionCount'>
   & { user: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'profileImagePath'>
-  ) }
+  ), uniqueActions: Array<(
+    { __typename: 'Contribution' }
+    & Pick<Contribution, 'action' | 'count'>
+  )> }
 );
 
 export type DiseasePopoverQueryVariables = Exact<{
@@ -5368,8 +5378,12 @@ export const ContributorFieldsFragmentDoc = gql`
     id
     profileImagePath(size: 12)
   }
-  uniqueActions
+  uniqueActions {
+    action
+    count
+  }
   lastActionDate
+  totalActionCount
 }
     `;
 export const DiseasePopoverFragmentDoc = gql`

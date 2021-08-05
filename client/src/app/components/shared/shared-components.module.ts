@@ -124,6 +124,7 @@ import { SourcePopoverComponent } from './source-popover/source-popover.componen
 import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
 import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
+import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 
 
 @NgModule({
@@ -199,7 +200,8 @@ import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.co
     SourcePopoverComponent,
     VariantTypePopoverComponent,
     CommentPopoverComponent,
-    VariantgroupTagComponent
+    VariantgroupTagComponent,
+    TagPileupComponent,
   ],
   imports: [
     CommonModule,
@@ -322,8 +324,8 @@ import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.co
     PhenotypePopoverComponent,
     SourcePopoverComponent,
     VariantTypePopoverComponent,
-    CommentPopoverComponent,
-    VariantgroupTagComponent
+    VariantgroupTagComponent,
+    TagPileupComponent,
   ]
 })
 
