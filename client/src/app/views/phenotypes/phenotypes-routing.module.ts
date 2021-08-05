@@ -13,16 +13,25 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: PhenotypesBrowseComponent
+        component: PhenotypesBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':phenotypeId',
         component: PhenotypesDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE'
+        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: PhenotypesSummaryComponent
+            component: PhenotypesSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           }
         ]
       }

@@ -13,16 +13,25 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: DrugsBrowseComponent
+        component: DrugsBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':drugId',
         component: DrugsDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE'
+        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: DrugsSummaryComponent
+            component: DrugsSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           }
         ]
       }

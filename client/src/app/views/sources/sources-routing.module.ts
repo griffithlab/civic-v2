@@ -7,7 +7,7 @@ import { SourcesSummaryComponent } from './sources-summary/sources-summary.compo
 import { SourcesComponent } from './sources.component';
 
 const routes: Routes = [
-  { 
+  {
     path: '',
     component: SourcesComponent,
     children: [
@@ -18,16 +18,25 @@ const routes: Routes = [
       },
       {
         path: 'browse',
-        component: SourcesBrowseComponent
+        component: SourcesBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':sourceId',
         component: SourcesDetailComponent,
+        data: {
+          breadcrumb: 'GENERATE'
+        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: SourcesSummaryComponent
+            component: SourcesSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            },
           }
         ]
       }
