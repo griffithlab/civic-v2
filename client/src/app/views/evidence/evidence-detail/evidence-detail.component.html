@@ -1,5 +1,5 @@
 <ng-container *ngIf="evidence$ | ngrxPush as evidence">
-  <cvc-section-navigation [entity]="{ id: evidence.id, displayName: evidence.name }"
+  <cvc-section-navigation [displayName]="evidence.name"
     [relationsTpl]="evidenceRelations">
   </cvc-section-navigation>
   <ng-template #evidenceRelations>

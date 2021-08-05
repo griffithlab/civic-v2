@@ -1,7 +1,5 @@
 <ng-container *ngIf="gene$ | async as gene">
-  <cvc-section-navigation
-    [entity]="{ id: gene.id, displayName: gene.name }">
-  </cvc-section-navigation>
+  <cvc-section-navigation [displayName]="gene.name"> </cvc-section-navigation>
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
 

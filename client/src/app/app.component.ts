@@ -15,6 +15,8 @@ export class AppComponent {
     this.addIcons(fullColorIcons);
   }
 
+  // TODO: switch to twotone civic custom icons ('civic-[entity]') exclusively.
+  // Registering 'civic:[entity]' full color icons here for backwards compatibility
   private addIcons(icons: CivicIconLiteral[]): void {
     icons.forEach((icon: CivicIconLiteral) => {
       const regex = /Fullcolor/i;
