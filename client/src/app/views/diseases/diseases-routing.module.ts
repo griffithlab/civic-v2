@@ -27,7 +27,7 @@ const routes: Routes = [
         path: ':diseaseId',
         component: DiseasesDetailComponent,
         data: {
-          breadcrumb: 'GENERATE'
+          breadcrumb: 'DISPLAYNAME'
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },

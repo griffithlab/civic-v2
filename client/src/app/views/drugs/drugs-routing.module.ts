@@ -22,7 +22,7 @@ const routes: Routes = [
         path: ':drugId',
         component: DrugsDetailComponent,
         data: {
-          breadcrumb: 'GENERATE'
+          breadcrumb: 'DISPLAYNAME'
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },

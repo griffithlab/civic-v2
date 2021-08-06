@@ -22,7 +22,7 @@ const routes: Routes = [
         path: ':clinicalTrialId',
         component: ClinicalTrialsDetailComponent,
         data: {
-          breadcrumb: 'GENERATE'
+          breadcrumb: 'DISPLAYNAME'
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },

@@ -22,7 +22,7 @@ const routes: Routes = [
         path: ':phenotypeId',
         component: PhenotypesDetailComponent,
         data: {
-          breadcrumb: 'GENERATE'
+          breadcrumb: 'DISPLAYNAME'
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },

@@ -26,7 +26,7 @@ const routes: Routes = [
         path: ':assertionId',
         component: AssertionsDetailComponent,
         data: {
-          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
+          breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},

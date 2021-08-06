@@ -48,10 +48,13 @@ export class SectionNavigationComponent implements OnInit {
     this.registerRouterChange();
   }
 
-  // used by breadcrumbs and title creation below to provide entity displayName
+  // passed to nz-breadcrumbs & used by title creation below
+  // to generate breadcrumbs & titles from route data parameter or provided display name
   private _getRouteLabel = (label: string): string => {
-    if (label !== 'GENERATE') { return label; }
-    return this.displayName === undefined ? 'DISPLAYNAME UNDEFINED' : this.displayName;
+    if (label !== 'DISPLAYNAME') { return label; }
+    else {
+      return this.displayName === undefined ? '[?DISPLAY NAME?]' : this.displayName;
+    }
   }
 
   private registerRouterChange(): void {
@@ -68,10 +71,10 @@ export class SectionNavigationComponent implements OnInit {
           this.breadcrumbs = this.getBreadcrumbs(activatedRoute.root);
           // construct titles string
           let title: string = '';
-          let l = this.breadcrumbs.length, i = 1;
+          let len = this.breadcrumbs.length, i = 1;
           this.breadcrumbs.forEach((bc: BreadcrumbOption) => {
             title += this._getRouteLabel(bc.label);
-            if(i < l) { title += ' '; }
+            if(i < len) { title += ' '; }
             i++;
           });
           this.titleService.updateTitle(title);
