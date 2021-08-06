@@ -18,16 +18,25 @@ const routes: Routes = [
       },
       {
         path: 'browse',
-        component: VariantTypesBrowseComponent
+        component: VariantTypesBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':variantTypeId',
         component: VariantTypesDetailComponent,
+        data: {
+          breadcrumb: 'DISPLAYNAME'
+        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: VariantTypesSummaryComponent
+            component: VariantTypesSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           }
         ]
       }

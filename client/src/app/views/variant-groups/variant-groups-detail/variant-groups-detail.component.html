@@ -1,6 +1,5 @@
 <ng-container *ngIf="variantGroup$ | async as variantGroup">
-  <cvc-section-navigation
-    [entity]="{ id: variantGroup.id, displayName: variantGroup.name}">
+  <cvc-section-navigation [displayName]="variantGroup.name">
   </cvc-section-navigation>
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">

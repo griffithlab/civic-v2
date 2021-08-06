@@ -26,7 +26,7 @@ const routes: Routes = [
         path: ':evidenceId',
         component: EvidenceDetailComponent,
         data: {
-          breadcrumb: 'GENERATE'
+          breadcrumb: 'DISPLAYNAME'
         },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},

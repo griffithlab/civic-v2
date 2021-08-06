@@ -26,9 +26,9 @@ const routes: Routes = [
       {
         path: ':geneId',
         component: GenesDetailComponent,
-        data: {
-          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
-        },
+        // setting 'DISPLAYNAME' here will cause breadcrumb & title generation logic
+        // to use a provided displayName instead of breadcrumb string
+        data: { breadcrumb: 'DISPLAYNAME' },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {

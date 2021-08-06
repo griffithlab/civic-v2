@@ -10,7 +10,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'browse', pathMatch: 'full' },
       {
         path: 'browse',
-        component: RevisionsBrowseComponent
+        component: RevisionsBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
     ]
   }

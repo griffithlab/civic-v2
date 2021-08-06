@@ -7,9 +7,9 @@ import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.co
 import { DiseasesComponent } from './diseases.component';
 
 const routes: Routes = [
-  { 
+  {
     path: '',
-    component: DiseasesComponent ,
+    component: DiseasesComponent,
     children: [
       {
         path: '',
@@ -18,16 +18,25 @@ const routes: Routes = [
       },
       {
         path: 'browse',
-        component: DiseasesBrowseComponent
+        component: DiseasesBrowseComponent,
+        data: {
+          breadcrumb: 'Browse'
+        }
       },
       {
         path: ':diseaseId',
         component: DiseasesDetailComponent,
+        data: {
+          breadcrumb: 'DISPLAYNAME'
+        },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: DiseasesSummaryComponent
+            component: DiseasesSummaryComponent,
+            data: {
+              breadcrumb: 'Summary'
+            }
           }
         ]
       }

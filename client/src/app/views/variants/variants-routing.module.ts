@@ -29,7 +29,7 @@ const routes: Routes = [
         path: ':variantId',
         component: VariantsDetailComponent,
         data: {
-          breadcrumb: 'GENERATE' // triggers label generation by getRouteLabel in section-navigation
+          breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
