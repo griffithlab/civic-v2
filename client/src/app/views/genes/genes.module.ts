@@ -34,7 +34,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { IconsProviderModule } from '@app/icons-provider.module'
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
-import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesRoutingModule } from './genes-routing.module';
@@ -55,7 +54,6 @@ import { GenesHomeModule } from './genes-home/genes-home.module';
 @NgModule({
   declarations: [
     GenesComponent,
-    GenesBrowseComponent,
     GenesDetailComponent,
     GenesSuggestRevisionComponent,
     GenesSummaryComponent,
