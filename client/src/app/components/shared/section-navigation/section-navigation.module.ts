@@ -4,8 +4,6 @@ import { SectionNavigationComponent } from './section-navigation.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
-
-
 @NgModule({
   declarations: [SectionNavigationComponent],
   imports: [

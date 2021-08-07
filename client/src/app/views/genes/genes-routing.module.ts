@@ -9,7 +9,6 @@ import { GenesCommentsComponent } from './genes-comments/genes-comments.componen
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
 import { GenesHomeComponent } from './genes-home/genes-home.component';
-import { GenesHomeModule } from './genes-home/genes-home.module';
 
 const routes: Routes = [
   {
@@ -76,7 +75,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    GenesHomeModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule]

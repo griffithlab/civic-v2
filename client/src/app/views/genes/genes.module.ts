@@ -50,6 +50,7 @@ import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.compo
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { VariantsModule } from '../variants/variants.module';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { GenesHomeModule } from './genes-home/genes-home.module';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
   ],
   imports: [
     CvcFormsModule,
+    GenesHomeModule,
     SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,
