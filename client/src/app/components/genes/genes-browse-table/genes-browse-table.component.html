@@ -64,7 +64,8 @@
     <tbody>
       <tr *ngFor="let gene of genesTable.data">
         <td>
-          <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
+          {{ gene.name}}
+          <!-- <cvc-gene-tag [gene]="gene"></cvc-gene-tag> -->
         </td>
         <td>
           <span *ngFor="let alias of gene.aliases; last as isLast" >
@@ -74,14 +75,20 @@
         <td>
           <p nz-typography>
             <span>
-              <cvc-tag-pileup tagType='disease' [tags]="gene.diseases" [matchingText]="diseaseInput"> </cvc-tag-pileup>
+              <span *ngFor="let disease of gene.diseases; last as isLast" >
+                {{ disease.name }}{{ isLast ? '' : ', ' }}
+              </span>
+              <!-- <cvc-tag-pileup tagType='disease' [tags]="gene.diseases" [matchingText]="diseaseInput"> </cvc-tag-pileup> -->
             </span>
           </p>
         </td>
         <td>
           <p nz-typography>
             <span>
-              <cvc-tag-pileup tagType='drug' [tags]="gene.drugs" [matchingText]="drugInput"> </cvc-tag-pileup>
+              <span *ngFor="let drug of gene.drugs; last as isLast" >
+                {{ drug.name }}{{ isLast ? '' : ', ' }}
+              </span>
+              <!-- <cvc-tag-pileup tagType='drug' [tags]="gene.drugs" [matchingText]="drugInput"> </cvc-tag-pileup> -->
             </span>
           </p>
         </td>
