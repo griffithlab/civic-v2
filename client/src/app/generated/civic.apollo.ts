@@ -3106,6 +3106,48 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type BrowseGenesQueryVariables = Exact<{
+  entrezSymbol?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  geneAlias?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<GenesSort>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseGenesQuery = (
+  { __typename: 'Query' }
+  & { browseGenes: (
+    { __typename: 'BrowseGeneConnection' }
+    & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { edges: Array<(
+      { __typename: 'BrowseGeneEdge' }
+      & Pick<BrowseGeneEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseGene' }
+        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+        & { aliases?: Maybe<Array<(
+          { __typename: 'GeneAlias' }
+          & Pick<GeneAlias, 'name'>
+        )>>, diseases?: Maybe<Array<(
+          { __typename: 'Disease' }
+          & Pick<Disease, 'name' | 'id'>
+        )>>, drugs?: Maybe<Array<(
+          { __typename: 'Drug' }
+          & Pick<Drug, 'name' | 'id'>
+        )>> }
+      )> }
+    )>, pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ) }
+  ) }
+);
+
 export type AssertionPopoverQueryVariables = Exact<{
   assertionId: Scalars['Int'];
 }>;
@@ -4558,48 +4600,6 @@ export type EvidenceSummaryFieldsFragment = (
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   )> }
-);
-
-export type BrowseGenesQueryVariables = Exact<{
-  entrezSymbol?: Maybe<Scalars['String']>;
-  drugName?: Maybe<Scalars['String']>;
-  geneAlias?: Maybe<Scalars['String']>;
-  diseaseName?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<GenesSort>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-}>;
-
-
-export type BrowseGenesQuery = (
-  { __typename: 'Query' }
-  & { browseGenes: (
-    { __typename: 'BrowseGeneConnection' }
-    & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { edges: Array<(
-      { __typename: 'BrowseGeneEdge' }
-      & Pick<BrowseGeneEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { aliases?: Maybe<Array<(
-          { __typename: 'GeneAlias' }
-          & Pick<GeneAlias, 'name'>
-        )>>, diseases?: Maybe<Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id'>
-        )>>, drugs?: Maybe<Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id'>
-        )>> }
-      )> }
-    )>, pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ) }
-  ) }
 );
 
 export type GeneDetailQueryVariables = Exact<{
@@ -6376,6 +6376,64 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
+export const BrowseGenesDocument = gql`
+    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseGenes(
+    entrezSymbol: $entrezSymbol
+    drugName: $drugName
+    geneAlias: $geneAlias
+    diseaseName: $diseaseName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        entrezId
+        name
+        aliases {
+          name
+        }
+        diseases {
+          name
+          id
+        }
+        drugs {
+          name
+          id
+        }
+        variantCount
+        evidenceItemCount
+        assertionCount
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
+    document = BrowseGenesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AssertionPopoverDocument = gql`
     query AssertionPopover($assertionId: Int!) {
   assertion(id: $assertionId) {
@@ -7550,64 +7608,6 @@ export const EvidenceSummaryDocument = gql`
   })
   export class EvidenceSummaryGQL extends Apollo.Query<EvidenceSummaryQuery, EvidenceSummaryQueryVariables> {
     document = EvidenceSummaryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseGenesDocument = gql`
-    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
-  browseGenes(
-    entrezSymbol: $entrezSymbol
-    drugName: $drugName
-    geneAlias: $geneAlias
-    diseaseName: $diseaseName
-    sortBy: $sortBy
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    edges {
-      cursor
-      node {
-        id
-        entrezId
-        name
-        aliases {
-          name
-        }
-        diseases {
-          name
-          id
-        }
-        drugs {
-          name
-          id
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
-      }
-    }
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    totalCount
-    filteredCount
-    pageCount
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
-    document = BrowseGenesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
