@@ -1,1 +1,23 @@
-<p>genes-home works!</p>
+<cvc-section-navigation> </cvc-section-navigation>
+<nz-page-header class="site-page-header">
+
+  <!--avatar-->
+  <!-- <nz-avatar nz-page-header-avatar nzIcon="civic:gene"> </nz-avatar> -->
+
+  <!--title-->
+  <nz-page-header-title>
+    <i nz-icon nzType="civic:gene"></i>
+    Genes
+  </nz-page-header-title>
+
+  <!--content-->
+  <nz-page-header-content>
+    <div nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="content">
+          <cvc-genes-browse-table></cvc-genes-browse-table>
+        </div>
+      </nz-col>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>

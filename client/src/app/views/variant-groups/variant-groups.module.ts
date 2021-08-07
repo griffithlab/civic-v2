@@ -39,15 +39,16 @@ import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-
 import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
 import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
 import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
-
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [
-    VariantGroupsComponent, 
+    VariantGroupsComponent,
     VariantGroupsBrowseComponent, VariantGroupsDetailComponent, VariantGroupsSummaryComponent, VariantGroupsCommentsComponent, VariantGroupsRevisionsComponent, VariantGroupsFlagsComponent
   ],
   imports: [
     CommonModule,
+    SectionNavigationModule,
     VariantGroupsRoutingModule,
     CommonModule,
     SourcesRoutingModule,

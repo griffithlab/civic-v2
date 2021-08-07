@@ -39,6 +39,7 @@ import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
   ],
   imports: [
     CommonModule,
+    SectionNavigationModule,
     EvidenceRoutingModule,
     CvcFormsModule,
     SharedComponentsModule,

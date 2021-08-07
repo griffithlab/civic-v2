@@ -15,11 +15,13 @@ import { DrugsComponent } from './drugs.component';
 import { DrugsBrowseComponent } from './drugs-browse/drugs-browse.component';
 import { DrugsDetailComponent } from './drugs-detail/drugs-detail.component';
 import { DrugsSummaryComponent } from './drugs-summary/drugs-summary.component';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 
 @NgModule({
   declarations: [DrugsComponent, DrugsBrowseComponent, DrugsDetailComponent, DrugsSummaryComponent],
   imports: [
+    SectionNavigationModule,
     CommonModule,
     DrugsRoutingModule,
     IconsProviderModule,

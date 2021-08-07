@@ -49,6 +49,7 @@ import { GenesCommentsComponent } from './genes-comments/genes-comments.componen
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { VariantsModule } from '../variants/variants.module';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { VariantsModule } from '../variants/variants.module';
   ],
   imports: [
     CvcFormsModule,
+    SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,
     CommonModule,

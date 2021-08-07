@@ -37,6 +37,7 @@ import { AssertionsCommentsComponent } from './assertions-comments/assertions-co
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-
     CommonModule,
     AssertionsRoutingModule,
     CvcFormsModule,
+    SectionNavigationModule,
     SharedComponentsModule,
     IconsProviderModule,
     NzAvatarModule,

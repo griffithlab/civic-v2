@@ -2,25 +2,26 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { GenesComponent } from './genes.component';
-import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
 import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
+import { GenesHomeComponent } from './genes-home/genes-home.component';
+import { GenesHomeModule } from './genes-home/genes-home.module';
 
 const routes: Routes = [
   {
     path: '',
     component: GenesComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: GenesBrowseComponent,
+        path: 'home',
+        component: GenesHomeComponent,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {
@@ -74,7 +75,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    GenesHomeModule,
+    RouterModule.forChild(routes)
+  ],
   exports: [RouterModule]
 })
 export class GenesRoutingModule { }

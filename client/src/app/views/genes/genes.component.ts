@@ -1,21 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { NGXLogger } from "ngx-logger";
-
-import { NzIconService } from 'ng-zorro-antd/icon';
-
-// TODO: import and add icons at app root so available everywhere
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-genes',
   templateUrl: './genes.component.html',
   styleUrls: ['./genes.component.less']
 })
-export class GenesComponent implements OnInit {
+export class GenesComponent {
 
-  constructor(private logger: NGXLogger) {
-  }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.logger.trace("GenesComponent initialized.");
-  }
 }

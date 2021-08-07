@@ -15,11 +15,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [VariantTypesComponent, VariantTypesDetailComponent, VariantTypesSummaryComponent, VariantTypesBrowseComponent],
   imports: [
     CommonModule,
+    SectionNavigationModule,
     VariantTypesRoutingModule,
     IconsProviderModule,
     NzTableModule,

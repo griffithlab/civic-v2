@@ -91,7 +91,6 @@ import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.co
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
-import { SectionNavigationComponent } from './section-navigation/section-navigation.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
@@ -175,7 +174,6 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     SourceTagComponent,
     EventVerbiagePipe,
     ContributorStackComponent,
-    SectionNavigationComponent,
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     IfEmptyPipe,
@@ -300,7 +298,6 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
-    SectionNavigationComponent,
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,

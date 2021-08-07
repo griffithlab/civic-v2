@@ -43,6 +43,7 @@ import { VariantsFlagsComponent } from './variants-flags/variants-flags.componen
 import { EvidenceModule } from '../evidence/evidence.module';
 import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
 import { NzEmptyComponent, NzEmptyModule } from 'ng-zorro-antd/empty';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { NzEmptyComponent, NzEmptyModule } from 'ng-zorro-antd/empty';
   ],
   imports: [
     CvcFormsModule,
+    SectionNavigationModule,
     SharedComponentsModule,
     CommonModule,
     VariantsRoutingModule,

@@ -36,6 +36,7 @@ import { SourcesBrowseComponent } from './sources-browse/sources-browse.componen
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { SourcesSummaryComponent } from './sources-summary/sources-summary.compo
   ],
   imports: [
     CommonModule,
+    SectionNavigationModule,
     SourcesRoutingModule,
     SharedComponentsModule,
     VariantsRoutingModule,
