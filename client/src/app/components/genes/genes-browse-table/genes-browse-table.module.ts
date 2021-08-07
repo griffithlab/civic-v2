@@ -8,8 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
-
-
+import { CvcGeneTagModule } from '../cvc-gene-tag/cvc-gene-tag.module';
 
 @NgModule({
   declarations: [GenesBrowseTableComponent],
@@ -22,6 +21,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzInputModule,
     NzIconModule,
     NzTypographyModule,
+
+    CvcGeneTagModule
   ],
   exports: [GenesBrowseTableComponent]
 })
