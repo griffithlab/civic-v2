@@ -33,7 +33,7 @@ export interface GeneTableRow {
 }
 
 @Component({
-  selector: 'cvc-genes-browse-table',
+  selector: 'cvc-genes-table',
   templateUrl: './genes-browse-table.component.html',
   styleUrls: ['./genes-browse-table.component.less']
 })
