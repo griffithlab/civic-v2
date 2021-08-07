@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GenesHomeComponent } from './genes-home.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { GenesBrowseTableModule } from '@app/components/genes/genes-browse-table/genes-browse-table.module';
+import { CvcGenesTableModule } from '@app/components/genes/genes-browse-table/genes-browse-table.module';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 
@@ -13,7 +13,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
     CommonModule,
     IconsProviderModule,
     SectionNavigationModule,
-    GenesBrowseTableModule,
+    CvcGenesTableModule,
     NzPageHeaderModule,
     NzGridModule
   ],

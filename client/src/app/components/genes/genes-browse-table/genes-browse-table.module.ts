@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenesBrowseTableComponent } from './genes-browse-table.component';
+import { CvcGenesTableComponent } from './genes-browse-table.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -11,7 +11,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcGeneTagModule } from '../cvc-gene-tag/cvc-gene-tag.module';
 
 @NgModule({
-  declarations: [GenesBrowseTableComponent],
+  declarations: [CvcGenesTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -24,6 +24,6 @@ import { CvcGeneTagModule } from '../cvc-gene-tag/cvc-gene-tag.module';
 
     CvcGeneTagModule
   ],
-  exports: [GenesBrowseTableComponent]
+  exports: [CvcGenesTableComponent]
 })
-export class GenesBrowseTableModule { }
+export class CvcGenesTableModule { }

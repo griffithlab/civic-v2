@@ -37,7 +37,7 @@ export interface GeneTableRow {
   templateUrl: './genes-browse-table.component.html',
   styleUrls: ['./genes-browse-table.component.less']
 })
-export class GenesBrowseTableComponent implements OnInit {
+export class CvcGenesTableComponent implements OnInit {
   private initialQueryArgs?: QueryBrowseGenesArgs
   private debouncedQuery = new Subject<void>();
 
