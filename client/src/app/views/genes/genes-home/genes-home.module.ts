@@ -6,14 +6,15 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcGenesTableModule } from '@app/components/genes/cvc-genes-table/cvc-genes-table.module';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [GenesHomeComponent],
   imports: [
     CommonModule,
-    IconsProviderModule,
     SectionNavigationModule,
     CvcGenesTableModule,
+    NzIconModule,
     NzPageHeaderModule,
     NzGridModule
   ],

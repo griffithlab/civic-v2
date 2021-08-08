@@ -4027,6 +4027,41 @@ export type VariantTypePopoverFragment = (
   & Pick<BrowseVariantType, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
 );
 
+export type VariantsMenuQueryVariables = Exact<{
+  geneId?: Maybe<Scalars['Int']>;
+  variantName?: Maybe<Scalars['String']>;
+  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type VariantsMenuQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ), edges: Array<(
+      { __typename: 'VariantEdge' }
+      & Pick<VariantEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Variant' }
+        & MenuVariantFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type MenuVariantFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
+);
+
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   entrezSymbol?: Maybe<Scalars['String']>;
@@ -4065,41 +4100,6 @@ export type BrowseVariantsQuery = (
       )> }
     )> }
   ) }
-);
-
-export type VariantsMenuQueryVariables = Exact<{
-  geneId?: Maybe<Scalars['Int']>;
-  variantName?: Maybe<Scalars['String']>;
-  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-}>;
-
-
-export type VariantsMenuQuery = (
-  { __typename: 'Query' }
-  & { variants: (
-    { __typename: 'VariantConnection' }
-    & Pick<VariantConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ), edges: Array<(
-      { __typename: 'VariantEdge' }
-      & Pick<VariantEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'Variant' }
-        & MenuVariantFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type MenuVariantFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
 );
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
@@ -7041,6 +7041,44 @@ export const VariantTypePopoverDocument = gql`
       super(apollo);
     }
   }
+export const VariantsMenuDocument = gql`
+    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
+  variants(
+    geneId: $geneId
+    name: $variantName
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...menuVariant
+      }
+    }
+  }
+}
+    ${MenuVariantFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
+    document = VariantsMenuDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseVariantsDocument = gql`
     query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
@@ -7093,44 +7131,6 @@ export const BrowseVariantsDocument = gql`
   })
   export class BrowseVariantsGQL extends Apollo.Query<BrowseVariantsQuery, BrowseVariantsQueryVariables> {
     document = BrowseVariantsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
-  variants(
-    geneId: $geneId
-    name: $variantName
-    evidenceStatusFilter: $evidenceStatusFilter
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    totalCount
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    edges {
-      cursor
-      node {
-        ...menuVariant
-      }
-    }
-  }
-}
-    ${MenuVariantFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
-    document = VariantsMenuDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

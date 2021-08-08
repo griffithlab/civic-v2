@@ -42,8 +42,9 @@ import { VariantsCommentsComponent } from './variants-comments/variants-comments
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
-import { NzEmptyComponent, NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { VariantsHomeModule } from './variants-home/variants-home.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
     VariantsRevisionsComponent
   ],
   imports: [
+    VariantsHomeModule,
     CvcFormsModule,
     SectionNavigationModule,
     SharedComponentsModule,
