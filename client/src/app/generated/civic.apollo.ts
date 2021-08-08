@@ -3969,40 +3969,6 @@ export type PopoverUserFragment = (
   )> }
 );
 
-export type VariantPopoverQueryVariables = Exact<{
-  variantId: Scalars['Int'];
-}>;
-
-
-export type VariantPopoverQuery = (
-  { __typename: 'Query' }
-  & { variant?: Maybe<(
-    { __typename: 'Variant' }
-    & VariantPopoverFieldsFragment
-  )> }
-);
-
-export type VariantPopoverFieldsFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
-  & { evidenceItems: (
-    { __typename: 'EvidenceItemConnection' }
-    & Pick<EvidenceItemConnection, 'totalCount'>
-  ), gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ) }
-);
-
 export type VariantTypePopoverQueryVariables = Exact<{
   variantTypeId: Scalars['Int'];
 }>;
@@ -4060,6 +4026,40 @@ export type VariantsMenuQuery = (
 export type MenuVariantFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
+);
+
+export type VariantPopoverQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantPopoverQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & VariantPopoverFieldsFragment
+  )> }
+);
+
+export type VariantPopoverFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId'>
+  & { evidenceItems: (
+    { __typename: 'EvidenceItemConnection' }
+    & Pick<EvidenceItemConnection, 'totalCount'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ) }
 );
 
 export type BrowseVariantsQueryVariables = Exact<{
@@ -5710,6 +5710,21 @@ export const PopoverUserFragmentDoc = gql`
   }
 }
     `;
+export const VariantTypePopoverFragmentDoc = gql`
+    fragment variantTypePopover on BrowseVariantType {
+  id
+  name
+  url
+  soid
+  variantCount
+}
+    `;
+export const MenuVariantFragmentDoc = gql`
+    fragment menuVariant on Variant {
+  id
+  name
+}
+    `;
 export const VariantPopoverFieldsFragmentDoc = gql`
     fragment variantPopoverFields on Variant {
   id
@@ -5733,21 +5748,6 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
-}
-    `;
-export const VariantTypePopoverFragmentDoc = gql`
-    fragment variantTypePopover on BrowseVariantType {
-  id
-  name
-  url
-  soid
-  variantCount
-}
-    `;
-export const MenuVariantFragmentDoc = gql`
-    fragment menuVariant on Variant {
-  id
-  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -7001,24 +7001,6 @@ export const UserPopoverDocument = gql`
       super(apollo);
     }
   }
-export const VariantPopoverDocument = gql`
-    query VariantPopover($variantId: Int!) {
-  variant(id: $variantId) {
-    ...variantPopoverFields
-  }
-}
-    ${VariantPopoverFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantPopoverGQL extends Apollo.Query<VariantPopoverQuery, VariantPopoverQueryVariables> {
-    document = VariantPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const VariantTypePopoverDocument = gql`
     query VariantTypePopover($variantTypeId: Int!) {
   variantTypes(id: $variantTypeId) {
@@ -7074,6 +7056,24 @@ export const VariantsMenuDocument = gql`
   })
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantPopoverDocument = gql`
+    query VariantPopover($variantId: Int!) {
+  variant(id: $variantId) {
+    ...variantPopoverFields
+  }
+}
+    ${VariantPopoverFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantPopoverGQL extends Apollo.Query<VariantPopoverQuery, VariantPopoverQueryVariables> {
+    document = VariantPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

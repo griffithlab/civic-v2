@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-// import { CvcVariantPopoverModule } from '../cvc-variant-popover/cvc-variant-popover.module';
+import { CvcVariantPopoverModule } from '@app/components/variants/variant-popover/variant-popover.module';
 
 @NgModule({
   declarations: [CvcVariantTagComponent],
@@ -16,7 +16,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzPopoverModule,
     NzIconModule,
 
-    // CvcVariantPopoverModule,
+    CvcVariantPopoverModule
   ],
   exports: [CvcVariantTagComponent]
 })
