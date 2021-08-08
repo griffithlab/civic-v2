@@ -5,6 +5,7 @@ import { CvcTagListModule } from '../cvc-tag-list/cvc-tag-list.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
+import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 
 @NgModule({
   declarations: [CvcTagOverflowComponent],
@@ -15,6 +16,7 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
 
     CvcTagListModule,
     CvcDrugTagModule,
+    CvcDiseaseTagModule,
   ],
   exports: [CvcTagOverflowComponent]
 })

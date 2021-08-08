@@ -3106,6 +3106,30 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type DiseasePopoverQueryVariables = Exact<{
+  diseaseId: Scalars['Int'];
+}>;
+
+
+export type DiseasePopoverQuery = (
+  { __typename: 'Query' }
+  & { browseDiseases: (
+    { __typename: 'BrowseDiseaseConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseDiseaseEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseDisease' }
+        & DiseasePopoverFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type DiseasePopoverFragment = (
+  { __typename: 'BrowseDisease' }
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+);
+
 export type DrugPopoverQueryVariables = Exact<{
   drugId: Scalars['Int'];
 }>;
@@ -3478,30 +3502,6 @@ export type ContributorFieldsFragment = (
     { __typename: 'Contribution' }
     & Pick<Contribution, 'action' | 'count'>
   )> }
-);
-
-export type DiseasePopoverQueryVariables = Exact<{
-  diseaseId: Scalars['Int'];
-}>;
-
-
-export type DiseasePopoverQuery = (
-  { __typename: 'Query' }
-  & { browseDiseases: (
-    { __typename: 'BrowseDiseaseConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseDiseaseEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseDisease' }
-        & DiseasePopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type DiseasePopoverFragment = (
-  { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
 export type EventFeedQueryVariables = Exact<{
@@ -5234,6 +5234,17 @@ export type MyVariantInfoFieldsFragment = (
   & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
+export const DiseasePopoverFragmentDoc = gql`
+    fragment diseasePopover on BrowseDisease {
+  id
+  name
+  doid
+  diseaseUrl
+  assertionCount
+  evidenceItemCount
+  variantCount
+}
+    `;
 export const DrugPopoverFragmentDoc = gql`
     fragment drugPopover on BrowseDrug {
   id
@@ -5416,17 +5427,6 @@ export const ContributorFieldsFragmentDoc = gql`
   }
   lastActionDate
   totalActionCount
-}
-    `;
-export const DiseasePopoverFragmentDoc = gql`
-    fragment diseasePopover on BrowseDisease {
-  id
-  name
-  doid
-  diseaseUrl
-  assertionCount
-  evidenceItemCount
-  variantCount
 }
     `;
 export const EventFeedNodeFragmentDoc = gql`
@@ -6376,6 +6376,28 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
+export const DiseasePopoverDocument = gql`
+    query DiseasePopover($diseaseId: Int!) {
+  browseDiseases(id: $diseaseId) {
+    edges {
+      node {
+        ...diseasePopover
+      }
+    }
+  }
+}
+    ${DiseasePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseasePopoverGQL extends Apollo.Query<DiseasePopoverQuery, DiseasePopoverQueryVariables> {
+    document = DiseasePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DrugPopoverDocument = gql`
     query DrugPopover($drugId: Int!) {
   drugs(id: $drugId) {
@@ -6668,28 +6690,6 @@ export const ContributorAvatarsDocument = gql`
   })
   export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
     document = ContributorAvatarsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DiseasePopoverDocument = gql`
-    query DiseasePopover($diseaseId: Int!) {
-  browseDiseases(id: $diseaseId) {
-    edges {
-      node {
-        ...diseasePopover
-      }
-    }
-  }
-}
-    ${DiseasePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DiseasePopoverGQL extends Apollo.Query<DiseasePopoverQuery, DiseasePopoverQueryVariables> {
-    document = DiseasePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
