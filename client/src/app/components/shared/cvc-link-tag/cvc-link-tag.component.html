@@ -1,0 +1,11 @@
+<a [href]="href" target="_blank">
+  <nz-tag nzColor="default"
+    nz-tooltip
+    [nzTooltipTitle]="tooltip"
+    [nzTooltipTrigger]="tooltip ? 'hover' : null">
+    <i nz-icon
+      nzType='link'
+      nzTheme='outline'></i>
+    <ng-content></ng-content>
+  </nz-tag>
+</a>
