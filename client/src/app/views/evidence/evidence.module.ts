@@ -35,11 +35,11 @@ import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.compo
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
-import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +51,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
     EvidenceRevisionsComponent,
   ],
   imports: [
+    EvidenceHomeModule,
     CommonModule,
     SectionNavigationModule,
     EvidenceRoutingModule,

@@ -6,7 +6,7 @@ import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.compo
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
-
+import { EvidenceHomePage } from './evidence-home/evidence-home.page';
 import { EvidenceComponent } from './evidence.component';
 
 const routes: Routes = [
@@ -14,12 +14,12 @@ const routes: Routes = [
     path: '',
     component: EvidenceComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: EvidenceBrowseComponent,
+        path: 'home',
+        component: EvidenceHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {
