@@ -9,6 +9,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcGeneTagModule } from '../cvc-gene-tag/cvc-gene-tag.module';
+import { CvcTagOverflowModule } from '@app/components/shared/cvc-tag-overflow/cvc-tag-overflow.module';
 
 @NgModule({
   declarations: [CvcGenesTableComponent],
@@ -22,7 +23,8 @@ import { CvcGeneTagModule } from '../cvc-gene-tag/cvc-gene-tag.module';
     NzIconModule,
     NzTypographyModule,
 
-    CvcGeneTagModule
+    CvcGeneTagModule,
+    CvcTagOverflowModule
   ],
   exports: [CvcGenesTableComponent]
 })

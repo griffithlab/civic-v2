@@ -1,0 +1,37 @@
+@import 'global-variables.less';
+
+:host {
+  display: block;
+  // > * selects all direct children and no deeper
+  .cvc-tag-list ::ng-deep > * {
+    // direct child element might be inline (span or anchor),
+    // need to set to inline-block to ensure margin will be applied
+    display: inline-block;
+  }
+
+  // remove right margin from last tag to prevent extra gap between it
+  // and parent container
+  .cvc-tag-list ::ng-deep > *:last-child {
+    margin-right: -@margin-sm;
+  }
+}
+
+:host.xs {
+  // pull up the bottom margin of the list container by the same height as the tag
+  // margins we apply below, otherwise the bottom padding will be too large
+  margin-bottom: -@margin-xs;
+
+  // add xs margin to bottom of all tags
+  .cvc-tag-list ::ng-deep > * { // xs margin 4px
+    margin-bottom: @margin-xs;
+  }
+}
+
+:host.sm {
+  // same as above, slightly larger margin
+  margin-bottom: -@margin-sm;
+
+  .cvc-tag-list ::ng-deep > * { // xs margin 8px
+    margin-bottom: @margin-sm;
+  }
+}

@@ -74,20 +74,14 @@
         <td>
           <p nz-typography>
             <span>
-              <span *ngFor="let disease of gene.diseases; last as isLast" >
-                {{ disease.name }}{{ isLast ? '' : ', ' }}
-              </span>
-              <!-- <cvc-tag-pileup tagType='disease' [tags]="gene.diseases" [matchingText]="diseaseInput"> </cvc-tag-pileup> -->
+              <cvc-tag-overflow tagType='disease' [tags]="gene.diseases" [matchingText]="diseaseInput"> </cvc-tag-overflow>
             </span>
           </p>
         </td>
         <td>
           <p nz-typography>
             <span>
-              <span *ngFor="let drug of gene.drugs; last as isLast" >
-                {{ drug.name }}{{ isLast ? '' : ', ' }}
-              </span>
-              <!-- <cvc-tag-pileup tagType='drug' [tags]="gene.drugs" [matchingText]="drugInput"> </cvc-tag-pileup> -->
+              <cvc-tag-overflow tagType='drug' [tags]="gene.drugs" [matchingText]="drugInput"> </cvc-tag-overflow>
             </span>
           </p>
         </td>
