@@ -7,11 +7,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
-// import { CvcVariantTagModule } from '../cvc-variant-tag/cvc-variant-tag.module';
 import { CvcTagOverflowModule } from '@app/components/shared/cvc-tag-overflow/cvc-tag-overflow.module';
 
 import { CvcVariantsTableComponent } from './variants-table.component';
 import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -26,7 +26,7 @@ import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-ta
     NzTypographyModule,
 
     CvcGeneTagModule,
-    // CvcVariantTagModule,
+    CvcVariantTagModule,
     CvcTagOverflowModule
   ],
   exports: [CvcVariantsTableComponent]

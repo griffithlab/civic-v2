@@ -44,7 +44,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   pageInfo$?: Observable<PageInfo>;
 
   variantNameInput: Maybe<string>;
-  variantSymbolInput: Maybe<string>;
+  geneSymbolInput: Maybe<string>;
   diseaseNameInput: Maybe<string>;
   drugNameInput: Maybe<string>;
 
@@ -99,7 +99,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
       .subscribe((_) => {
         this.queryRef?.refetch({
           variantName: this.variantNameInput,
-          entrezSymbol: this.variantSymbolInput,
+          entrezSymbol: this.geneSymbolInput,
           diseaseName: this.diseaseNameInput,
           drugName: this.drugNameInput,
         });
