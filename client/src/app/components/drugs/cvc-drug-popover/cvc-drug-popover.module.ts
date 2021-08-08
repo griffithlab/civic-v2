@@ -6,6 +6,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { IconsProviderModule } from '@app/icons-provider.module';
 
 @NgModule({
   declarations: [CvcDrugPopoverComponent],
@@ -15,7 +17,7 @@ import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-t
     ReactiveComponentModule,
     NzCardModule,
     NzDescriptionsModule,
-
+    NzIconModule,
     CvcLinkTagModule
   ],
   exports: [CvcDrugPopoverComponent]
