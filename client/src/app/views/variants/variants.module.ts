@@ -45,6 +45,7 @@ import { VariantsRevisionsComponent } from '../evidence/variants-revisions/varia
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantsHomeModule } from './variants-home/variants-home.module';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { VariantsHomeModule } from './variants-home/variants-home.module';
   imports: [
     VariantsHomeModule,
     CvcFormsModule,
+    CvcPipesModule,
     SectionNavigationModule,
     SharedComponentsModule,
     CommonModule,

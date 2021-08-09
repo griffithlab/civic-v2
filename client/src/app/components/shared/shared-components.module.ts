@@ -89,15 +89,11 @@ import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 import { VariantsBrowseComponent } from './variants-browse/variants-browse.component';
 import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
-import { EventVerbiagePipe } from '@app/pipes/event-verbiage-pipe';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
-import { IfEmptyPipe } from '@app/pipes/if-empty-pipe';
-import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
-import { AmpFormatPipe } from '@app/pipes/amp-format-pipe';
 import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 import { VariantTagComponent } from './variant-tag/variant-tag.component';
 import { VariantPopoverComponent } from './variant-popover/variant-popover.component';
@@ -124,6 +120,7 @@ import { VariantTypePopoverComponent } from './variant-type-popover/variant-type
 import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
 
 
 @NgModule({
@@ -172,13 +169,9 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     SourceTagComponent,
-    EventVerbiagePipe,
     ContributorStackComponent,
     DetailsNavigationComponent,
     MyVariantInfoComponent,
-    IfEmptyPipe,
-    EvidenceEnumDisplayPipe,
-    AmpFormatPipe,
     EvidenceRatingComponent,
     VariantTagComponent,
     VariantPopoverComponent,
@@ -203,6 +196,7 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
   ],
   imports: [
     CommonModule,
+    CvcPipesModule,
     FormsModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
@@ -301,8 +295,6 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
-    EvidenceEnumDisplayPipe,
-    AmpFormatPipe,
     VariantTagComponent,
     VariantPopoverComponent,
     DiseaseTagComponent,
@@ -314,7 +306,6 @@ import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
     AssertionPopoverComponent,
     SourceTagComponent,
     EmptyRevisableComponent,
-    IfEmptyPipe,
     ClinicalTrialPopoverComponent,
     DiseasePopoverComponent,
     DrugPopoverComponent,

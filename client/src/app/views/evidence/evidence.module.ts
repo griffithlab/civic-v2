@@ -40,6 +40,7 @@ import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisi
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
     SectionNavigationModule,
     EvidenceRoutingModule,
     CvcFormsModule,
+    CvcPipesModule,
     SharedComponentsModule,
     IconsProviderModule,
     NgxJsonViewerModule,

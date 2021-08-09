@@ -14,6 +14,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -27,6 +28,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzDescriptionsModule,
     NzTagModule,
     NzSpaceModule,
+    CvcPipesModule,
     CvcDrugTagModule,
     CvcDiseaseTagModule,
     CvcGeneTagModule,
