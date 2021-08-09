@@ -91,7 +91,6 @@
           nzSpan="2"
           *ngIf="evidence.phenotypes.length > 0">
           <span *ngFor="let ph of evidence.phenotypes">
-            {{ ph.name }}
             <cvc-phenotype-tag-r [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag-r>
           </span>
         </nz-descriptions-item>
