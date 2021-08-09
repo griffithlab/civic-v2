@@ -3106,6 +3106,30 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type ClinicalTrialPopoverQueryVariables = Exact<{
+  clinicalTrialId: Scalars['Int'];
+}>;
+
+
+export type ClinicalTrialPopoverQuery = (
+  { __typename: 'Query' }
+  & { clinicalTrials: (
+    { __typename: 'BrowseClinicalTrialConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseClinicalTrialEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseClinicalTrial' }
+        & ClinicalTrialPopoverFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type ClinicalTrialPopoverFragment = (
+  { __typename: 'BrowseClinicalTrial' }
+  & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'url' | 'sourceCount' | 'evidenceCount'>
+);
+
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -3187,7 +3211,7 @@ export type EvidencePopoverFragment = (
     & Pick<Variant, 'id' | 'name'>
   ), source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceType'>
+    & Pick<Source, 'id' | 'citation' | 'sourceType' | 'displayType'>
   ), flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -3390,30 +3414,6 @@ export type AssertionBrowseTableRowFieldsFragment = (
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
   )> }
-);
-
-export type ClinicalTrialPopoverQueryVariables = Exact<{
-  clinicalTrialId: Scalars['Int'];
-}>;
-
-
-export type ClinicalTrialPopoverQuery = (
-  { __typename: 'Query' }
-  & { clinicalTrials: (
-    { __typename: 'BrowseClinicalTrialConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseClinicalTrialEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseClinicalTrial' }
-        & ClinicalTrialPopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type ClinicalTrialPopoverFragment = (
-  { __typename: 'BrowseClinicalTrial' }
-  & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'url' | 'sourceCount' | 'evidenceCount'>
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -5234,6 +5234,16 @@ export type MyVariantInfoFieldsFragment = (
   & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
+export const ClinicalTrialPopoverFragmentDoc = gql`
+    fragment clinicalTrialPopover on BrowseClinicalTrial {
+  id
+  name
+  nctId
+  url
+  sourceCount
+  evidenceCount
+}
+    `;
 export const DiseasePopoverFragmentDoc = gql`
     fragment diseasePopover on BrowseDisease {
   id
@@ -5291,6 +5301,7 @@ export const EvidencePopoverFragmentDoc = gql`
     id
     citation
     sourceType
+    displayType
   }
   flags(state: OPEN) {
     totalCount
@@ -5410,16 +5421,6 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   regulatoryApproval @include(if: $cardView)
   nccnGuideline @include(if: $cardView)
   variantOrigin @include(if: $cardView)
-}
-    `;
-export const ClinicalTrialPopoverFragmentDoc = gql`
-    fragment clinicalTrialPopover on BrowseClinicalTrial {
-  id
-  name
-  nctId
-  url
-  sourceCount
-  evidenceCount
 }
     `;
 export const CommentListNodeFragmentDoc = gql`
@@ -6376,6 +6377,28 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
+export const ClinicalTrialPopoverDocument = gql`
+    query ClinicalTrialPopover($clinicalTrialId: Int!) {
+  clinicalTrials(id: $clinicalTrialId) {
+    edges {
+      node {
+        ...clinicalTrialPopover
+      }
+    }
+  }
+}
+    ${ClinicalTrialPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClinicalTrialPopoverGQL extends Apollo.Query<ClinicalTrialPopoverQuery, ClinicalTrialPopoverQueryVariables> {
+    document = ClinicalTrialPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DiseasePopoverDocument = gql`
     query DiseasePopover($diseaseId: Int!) {
   browseDiseases(id: $diseaseId) {
@@ -6580,28 +6603,6 @@ export const AssertionsBrowseDocument = gql`
   })
   export class AssertionsBrowseGQL extends Apollo.Query<AssertionsBrowseQuery, AssertionsBrowseQueryVariables> {
     document = AssertionsBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ClinicalTrialPopoverDocument = gql`
-    query ClinicalTrialPopover($clinicalTrialId: Int!) {
-  clinicalTrials(id: $clinicalTrialId) {
-    edges {
-      node {
-        ...clinicalTrialPopover
-      }
-    }
-  }
-}
-    ${ClinicalTrialPopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ClinicalTrialPopoverGQL extends Apollo.Query<ClinicalTrialPopoverQuery, ClinicalTrialPopoverQueryVariables> {
-    document = ClinicalTrialPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

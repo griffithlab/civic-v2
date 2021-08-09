@@ -39,6 +39,7 @@ fragment evidencePopover on EvidenceItem {
     id
     citation
     sourceType
+    displayType
   }
   flags(state: OPEN) {
     totalCount

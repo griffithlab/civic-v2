@@ -32,7 +32,7 @@
         <!-- source -->
         <nz-descriptions-item nzTitle="Source"
           nzSpan="2">
-          <strong>{{ evidence.source.sourceType }}: </strong> {{ evidence.source.citation }}
+          <cvc-source-tag-r [source]="evidence.source"></cvc-source-tag-r>
         </nz-descriptions-item>
 
         <!-- evidence level -->

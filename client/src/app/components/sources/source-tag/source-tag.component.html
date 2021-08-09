@@ -1,20 +1,21 @@
 <ng-container *ngIf="linked; else unlinked">
-  <a routerLink="/evidence/{{evidence.id}}">
+  <a routerLink="/sources/{{source.id}}">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag nz-popover
+  <nz-tag *ngIf="enablePopover; else noPopover"
+    nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
-    [nzPopoverContent]="evidencePopover"
+    [nzPopoverContent]="sourcePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="click">
+    nzPopoverTrigger="hover">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
-  <ng-template #evidencePopover>
-    <cvc-evidence-popover-r *ngIf="enablePopover"
-      [evidenceId]="evidence.id"></cvc-evidence-popover-r>
+
+  <ng-template #sourcePopover>
+    <cvc-source-popover-r [sourceId]="source.id"></cvc-source-popover-r>
   </ng-template>
 </ng-template>
 
@@ -30,7 +31,7 @@
 
 <ng-template #tagContent>
   <i nz-icon
-    nzType="civic-evidence"
+    nzType="civic-source"
     nzTheme="twotone"
-    nzTwotoneColor="#F68F37"></i> {{ evidence.name }}
+    nzTwotoneColor="#F9BA45"></i> {{ source.displayType }}:&nbsp;{{ source.citation}}
 </ng-template>

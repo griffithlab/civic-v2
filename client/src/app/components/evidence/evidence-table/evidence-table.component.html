@@ -274,7 +274,7 @@
   <tbody>
     <tr *ngFor="let eid of evidenceTable.data">
       <td>
-        <cvc-evidence-tag-r [evidence]="eid"></cvc-evidence-tag-r>
+        <cvc-evidence-tag-r [linked]="false" [evidence]="eid"></cvc-evidence-tag-r>
       </td>
       <td *ngIf="displayGeneAndVariant">
         <cvc-gene-tag-r [gene]="eid.gene"></cvc-gene-tag-r>

@@ -15,6 +15,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -34,6 +35,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcPhenotypeTagModule,
+    CvcSourceTagModule,
   ],
   exports: [CvcEvidencePopoverComponent]
 })
