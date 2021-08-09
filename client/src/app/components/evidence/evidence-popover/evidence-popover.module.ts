@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -30,6 +31,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     CvcDiseaseTagModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
+    CvcPhenotypeTagModule,
   ],
   exports: [CvcEvidencePopoverComponent]
 })
