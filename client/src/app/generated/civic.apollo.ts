@@ -3154,6 +3154,52 @@ export type DrugPopoverFragment = (
   & Pick<BrowseDrug, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'assertionCount' | 'evidenceCount'>
 );
 
+export type EvidencePopoverQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidencePopoverQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & EvidencePopoverFragment
+  )> }
+);
+
+export type EvidencePopoverFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & { drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -3673,52 +3719,6 @@ export type EvidenceGridFieldsFragment = (
     { __typename: 'Assertion' }
     & Pick<Assertion, 'id' | 'name'>
   )> }
-);
-
-export type EvidencePopoverQueryVariables = Exact<{
-  evidenceId: Scalars['Int'];
-}>;
-
-
-export type EvidencePopoverQuery = (
-  { __typename: 'Query' }
-  & { evidenceItem?: Maybe<(
-    { __typename: 'EvidenceItem' }
-    & EvidencePopoverFragment
-  )> }
-);
-
-export type EvidencePopoverFragment = (
-  { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
-  & { drugs: Array<(
-    { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
-  )>, disease?: Maybe<(
-    { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
-  )>, phenotypes: Array<(
-    { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
-  )>, gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
-  ), variant: (
-    { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
-  ), source: (
-    { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceType'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ) }
 );
 
 export type FlagEntityMutationVariables = Exact<{
@@ -5255,6 +5255,54 @@ export const DrugPopoverFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const EvidencePopoverFragmentDoc = gql`
+    fragment evidencePopover on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
 export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
@@ -5543,54 +5591,6 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   evidenceRating
   clinicalSignificance
   variantOrigin
-}
-    `;
-export const EvidencePopoverFragmentDoc = gql`
-    fragment evidencePopover on EvidenceItem {
-  id
-  name
-  description
-  evidenceLevel
-  evidenceType
-  evidenceDirection
-  clinicalSignificance
-  variantOrigin
-  drugs {
-    id
-    name
-  }
-  drugInteractionType
-  disease {
-    id
-    name
-  }
-  phenotypes {
-    id
-    name
-  }
-  evidenceRating
-  gene {
-    id
-    name
-  }
-  variant {
-    id
-    name
-  }
-  source {
-    id
-    citation
-    sourceType
-  }
-  flags(state: OPEN) {
-    totalCount
-  }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
 }
     `;
 export const FlagListFragmentDoc = gql`
@@ -6420,6 +6420,24 @@ export const DrugPopoverDocument = gql`
       super(apollo);
     }
   }
+export const EvidencePopoverDocument = gql`
+    query EvidencePopover($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...evidencePopover
+  }
+}
+    ${EvidencePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
+    document = EvidencePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GenePopoverDocument = gql`
     query GenePopover($geneId: Int!) {
   gene(id: $geneId) {
@@ -6774,24 +6792,6 @@ export const EvidenceBrowseDocument = gql`
   })
   export class EvidenceBrowseGQL extends Apollo.Query<EvidenceBrowseQuery, EvidenceBrowseQueryVariables> {
     document = EvidenceBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidencePopoverDocument = gql`
-    query EvidencePopover($evidenceId: Int!) {
-  evidenceItem(id: $evidenceId) {
-    ...evidencePopover
-  }
-}
-    ${EvidencePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
-    document = EvidencePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

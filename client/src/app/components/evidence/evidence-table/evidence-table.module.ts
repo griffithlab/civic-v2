@@ -15,6 +15,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
+import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module';
 // import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
 
 @NgModule({
@@ -33,8 +34,8 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
     CvcVariantTagModule,
     CvcDiseaseTagModule,
     CvcDrugTagModule,
-    // CvcVariantTagModule,
-    CvcTagOverflowModule
+    CvcEvidenceTagModule,
+    CvcTagOverflowModule,
   ],
   exports: [CvcEvidenceTableComponent]
 })
