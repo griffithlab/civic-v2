@@ -19,6 +19,8 @@ import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CvcTagListModule } from '@app/components/shared/cvc-tag-list/cvc-tag-list.module';
 // import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
 
 @NgModule({
@@ -27,6 +29,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     CommonModule,
     FormsModule,
     ReactiveComponentModule,
+    NzButtonModule,
     NzTableModule,
     NzFormModule,
     NzInputModule,
@@ -40,6 +43,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     CvcDiseaseTagModule,
     CvcDrugTagModule,
     CvcEvidenceTagModule,
+    CvcTagListModule,
     CvcTagOverflowModule,
     CvcClearableInputFilterModule,
   ],

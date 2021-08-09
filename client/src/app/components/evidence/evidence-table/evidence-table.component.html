@@ -274,7 +274,7 @@
   <tbody>
     <tr *ngFor="let eid of evidenceTable.data">
       <td>
-        <cvc-evidence-tag-r [linked]="false" [evidence]="eid"></cvc-evidence-tag-r>
+        <cvc-evidence-tag-r [evidence]="eid"></cvc-evidence-tag-r>
       </td>
       <td *ngIf="displayGeneAndVariant">
         <cvc-gene-tag-r [gene]="eid.gene"></cvc-gene-tag-r>
@@ -293,9 +293,11 @@
       <td>
         <p *ngIf="eid.drugs.length > 0; else drugsElse"
           nz-typography>
-          <span *ngFor="let drug of eid.drugs">
-            <cvc-drug-tag-r [drug]="drug"></cvc-drug-tag-r>
-          </span>
+          <cvc-tag-list-r>
+            <span *ngFor="let drug of eid.drugs">
+              <cvc-drug-tag-r [drug]="drug"></cvc-drug-tag-r>
+            </span>
+          </cvc-tag-list-r>
           <span *ngIf="eid.drugs.length > 1">
             ({{ eid.drugInteractionType | titlecase }})
           </span>
@@ -356,9 +358,9 @@
       <tr *ngIf="pageInfo.hasNextPage">
         <td colspan="20">
           <button *ngIf="pageInfo.hasNextPage"
+            (click)="loadMore(pageInfo.endCursor)"
             nz-button
-            nzBlock
-            (click)="loadMore(pageInfo.endCursor)">Load More</button>
+            nzBlock>Load More</button>
         </td>
       </tr>
     </ng-container>
