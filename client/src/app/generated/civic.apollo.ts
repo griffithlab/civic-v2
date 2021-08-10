@@ -3106,6 +3106,76 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type AssertionsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  summary?: Maybe<Scalars['String']>;
+  assertionDirection?: Maybe<EvidenceDirection>;
+  clinicalSignificance?: Maybe<EvidenceClinicalSignificance>;
+  assertionType?: Maybe<EvidenceType>;
+  variantId?: Maybe<Scalars['Int']>;
+  evidenceId?: Maybe<Scalars['Int']>;
+  geneName?: Maybe<Scalars['String']>;
+  variantName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<AssertionSort>;
+  ampLevel?: Maybe<AmpLevel>;
+  organizationId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
+  phenotypeId?: Maybe<Scalars['Int']>;
+  diseaseId?: Maybe<Scalars['Int']>;
+  drugId?: Maybe<Scalars['Int']>;
+  cardView: Scalars['Boolean'];
+}>;
+
+
+export type AssertionsBrowseQuery = (
+  { __typename: 'Query' }
+  & { assertions: (
+    { __typename: 'AssertionConnection' }
+    & Pick<AssertionConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'AssertionEdge' }
+      & Pick<AssertionEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Assertion' }
+        & AssertionBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type AssertionBrowseTableRowFieldsFragment = (
+  { __typename: 'Assertion' }
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'code'>
+  )> }
+);
+
 export type ClinicalTrialPopoverQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int'];
 }>;
@@ -3344,76 +3414,6 @@ export type AssertionPopoverFragment = (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
   ) }
-);
-
-export type AssertionsBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  diseaseName?: Maybe<Scalars['String']>;
-  drugName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  summary?: Maybe<Scalars['String']>;
-  assertionDirection?: Maybe<EvidenceDirection>;
-  clinicalSignificance?: Maybe<EvidenceClinicalSignificance>;
-  assertionType?: Maybe<EvidenceType>;
-  variantId?: Maybe<Scalars['Int']>;
-  evidenceId?: Maybe<Scalars['Int']>;
-  geneName?: Maybe<Scalars['String']>;
-  variantName?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<AssertionSort>;
-  ampLevel?: Maybe<AmpLevel>;
-  organizationId?: Maybe<Scalars['Int']>;
-  userId?: Maybe<Scalars['Int']>;
-  phenotypeId?: Maybe<Scalars['Int']>;
-  diseaseId?: Maybe<Scalars['Int']>;
-  drugId?: Maybe<Scalars['Int']>;
-  cardView: Scalars['Boolean'];
-}>;
-
-
-export type AssertionsBrowseQuery = (
-  { __typename: 'Query' }
-  & { assertions: (
-    { __typename: 'AssertionConnection' }
-    & Pick<AssertionConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'AssertionEdge' }
-      & Pick<AssertionEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'Assertion' }
-        & AssertionBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type AssertionBrowseTableRowFieldsFragment = (
-  { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
-  & { gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
-  ), variant: (
-    { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
-  ), disease?: Maybe<(
-    { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
-  )>, drugs: Array<(
-    { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
-  )>, phenotypes: Array<(
-    { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
-  )>, acmgCodes: Array<(
-    { __typename: 'AcmgCode' }
-    & Pick<AcmgCode, 'code'>
-  )> }
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -5234,6 +5234,45 @@ export type MyVariantInfoFieldsFragment = (
   & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
+export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
+    fragment AssertionBrowseTableRowFields on Assertion {
+  id
+  name
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  disease {
+    id
+    name
+  }
+  drugs {
+    id
+    name
+  }
+  phenotypes @include(if: $cardView) {
+    id
+    name
+  }
+  drugInteractionType
+  summary
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  ampLevel
+  acmgCodes @include(if: $cardView) {
+    code
+  }
+  fdaCompanionTest @include(if: $cardView)
+  regulatoryApproval @include(if: $cardView)
+  nccnGuideline @include(if: $cardView)
+  variantOrigin @include(if: $cardView)
+}
+    `;
 export const ClinicalTrialPopoverFragmentDoc = gql`
     fragment clinicalTrialPopover on BrowseClinicalTrial {
   id
@@ -5382,45 +5421,6 @@ export const AssertionPopoverFragmentDoc = gql`
   comments {
     totalCount
   }
-}
-    `;
-export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
-    fragment AssertionBrowseTableRowFields on Assertion {
-  id
-  name
-  gene {
-    id
-    name
-  }
-  variant {
-    id
-    name
-  }
-  disease {
-    id
-    name
-  }
-  drugs {
-    id
-    name
-  }
-  phenotypes @include(if: $cardView) {
-    id
-    name
-  }
-  drugInteractionType
-  summary
-  assertionType
-  assertionDirection
-  clinicalSignificance
-  ampLevel
-  acmgCodes @include(if: $cardView) {
-    code
-  }
-  fdaCompanionTest @include(if: $cardView)
-  regulatoryApproval @include(if: $cardView)
-  nccnGuideline @include(if: $cardView)
-  variantOrigin @include(if: $cardView)
 }
     `;
 export const CommentListNodeFragmentDoc = gql`
@@ -6377,6 +6377,59 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
+export const AssertionsBrowseDocument = gql`
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
+  assertions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    diseaseName: $diseaseName
+    drugName: $drugName
+    id: $id
+    summary: $summary
+    assertionDirection: $assertionDirection
+    clinicalSignificance: $clinicalSignificance
+    assertionType: $assertionType
+    variantId: $variantId
+    sortBy: $sortBy
+    ampLevel: $ampLevel
+    geneName: $geneName
+    variantName: $variantName
+    evidenceId: $evidenceId
+    organizationId: $organizationId
+    userId: $userId
+    phenotypeId: $phenotypeId
+    drugId: $drugId
+    diseaseId: $diseaseId
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...AssertionBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${AssertionBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionsBrowseGQL extends Apollo.Query<AssertionsBrowseQuery, AssertionsBrowseQueryVariables> {
+    document = AssertionsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ClinicalTrialPopoverDocument = gql`
     query ClinicalTrialPopover($clinicalTrialId: Int!) {
   clinicalTrials(id: $clinicalTrialId) {
@@ -6550,59 +6603,6 @@ export const AssertionPopoverDocument = gql`
   })
   export class AssertionPopoverGQL extends Apollo.Query<AssertionPopoverQuery, AssertionPopoverQueryVariables> {
     document = AssertionPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
-  assertions(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    diseaseName: $diseaseName
-    drugName: $drugName
-    id: $id
-    summary: $summary
-    assertionDirection: $assertionDirection
-    clinicalSignificance: $clinicalSignificance
-    assertionType: $assertionType
-    variantId: $variantId
-    sortBy: $sortBy
-    ampLevel: $ampLevel
-    geneName: $geneName
-    variantName: $variantName
-    evidenceId: $evidenceId
-    organizationId: $organizationId
-    userId: $userId
-    phenotypeId: $phenotypeId
-    drugId: $drugId
-    diseaseId: $diseaseId
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...AssertionBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${AssertionBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AssertionsBrowseGQL extends Apollo.Query<AssertionsBrowseQuery, AssertionsBrowseQueryVariables> {
-    document = AssertionsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

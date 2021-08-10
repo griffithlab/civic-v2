@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AssertionsBrowseComponent } from '@app/components/shared/assertions-browse/assertions-browse.component';
 import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
+import { AssertionsHomePage } from './assertions-home/assertions-home.page';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
 import { AssertionsSummaryComponent } from './assertions-summary/assertions-summary.component';
 
@@ -14,12 +14,12 @@ const routes: Routes = [
     path: '',
     component: AssertionsComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: AssertionsBrowseComponent,
+        path: 'home',
+        component: AssertionsHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

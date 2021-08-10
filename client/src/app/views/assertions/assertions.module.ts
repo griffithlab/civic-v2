@@ -39,6 +39,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
   imports: [
     CommonModule,
     AssertionsRoutingModule,
+    AssertionsHomeModule,
     CvcFormsModule,
     CvcPipesModule,
     SectionNavigationModule,

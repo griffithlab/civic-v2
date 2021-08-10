@@ -9,21 +9,22 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTagOverflowModule } from '@app/components/shared/cvc-tag-overflow/cvc-tag-overflow.module';
 
-import { CvcEvidenceTableComponent } from './evidence-table.component';
 import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
-import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcTagListModule } from '@app/components/shared/cvc-tag-list/cvc-tag-list.module';
+import { CvcAssertionsTableComponent } from './assertions-table.component';
+import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
+import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module';
 
 @NgModule({
-  declarations: [CvcEvidenceTableComponent],
+  declarations: [CvcAssertionsTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,16 +37,18 @@ import { CvcTagListModule } from '@app/components/shared/cvc-tag-list/cvc-tag-li
     NzTypographyModule,
     NzToolTipModule,
     NzSelectModule,
+    CvcClearableInputFilterModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcDiseaseTagModule,
     CvcDrugTagModule,
+    CvcAssertionsTagModule,
     CvcEvidenceTagModule,
     CvcTagListModule,
     CvcTagOverflowModule,
     CvcClearableInputFilterModule,
   ],
-  exports: [CvcEvidenceTableComponent]
+  exports: [CvcAssertionsTableComponent]
 })
-export class CvcEvidenceTableModule { }
+export class CvcAssertionsTableModule { }
