@@ -16,6 +16,7 @@ import { ClinicalTrialsBrowseComponent } from './clinical-trials-browse/clinical
 import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component';
 import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary/clinical-trials-summary.component';
 import { SourcesModule } from '../sources/sources.module';
+import { ClinicalTrialsHomeModule } from './clinical-trials-home/clinical-trials-home.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { SourcesModule } from '../sources/sources.module';
   imports: [
     CommonModule,
     ClinicalTrialsRoutingModule,
+    ClinicalTrialsHomeModule,
     IconsProviderModule,
     NzTableModule,
     SharedComponentsModule,

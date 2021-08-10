@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClinicalTrialsBrowseComponent } from './clinical-trials-browse/clinical-trials-browse.component';
 import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component';
+import { ClinicalTrialsHomePage } from './clinical-trials-home/clinical-trials-home.page';
 import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary/clinical-trials-summary.component';
 import { ClinicalTrialsComponent } from './clinical-trials.component';
 
@@ -10,12 +11,12 @@ const routes: Routes = [
     path: '',
     component: ClinicalTrialsComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: ClinicalTrialsBrowseComponent,
+        path: 'home',
+        component: ClinicalTrialsHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {
