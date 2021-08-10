@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommentsBrowseComponent } from './comments-browse/comments-browse.component';
+import { CommentsHomePage } from './comments-home/comments-home.page';
 import { CommentsComponent } from './comments.component';
 
 const routes: Routes = [
@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     component: CommentsComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: CommentsBrowseComponent
+        path: 'home',
+        component: CommentsHomePage
       },
     ]
   }

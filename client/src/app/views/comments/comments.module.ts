@@ -5,6 +5,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { CommentsRoutingModule } from './comments-routing.module';
 import { CommentsComponent } from './comments.component';
 import { CommentsBrowseComponent } from './comments-browse/comments-browse.component';
+import { CommentsHomeModule } from './comments-home/comments-home.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { CommentsBrowseComponent } from './comments-browse/comments-browse.compo
   imports: [
     CommonModule,
     CommentsRoutingModule,
-    IconsProviderModule
+    IconsProviderModule,
+    CommentsHomeModule,
   ],
   exports: [
     CommentsBrowseComponent

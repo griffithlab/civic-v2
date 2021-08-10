@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RevisionsBrowseComponent } from './revisions-browse/revisions-browse.component';
+import { RevisionsHomePage } from './revisions-home/revisions-home.page';
 import { RevisionsComponent } from './revisions.component';
 
 const routes: Routes = [
   {
     path: '', component: RevisionsComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: RevisionsBrowseComponent,
+        path: 'home',
+        component: RevisionsHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
     ]

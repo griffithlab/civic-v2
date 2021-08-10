@@ -5,6 +5,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { FlagsRoutingModule } from './flags-routing.module';
 import { FlagsComponent } from './flags.component';
 import { FlagsBrowseComponent } from './flags-browse/flags-browse.component';
+import { FlagsHomeModule } from './flags-home/flags-home.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { FlagsBrowseComponent } from './flags-browse/flags-browse.component';
   imports: [
     CommonModule,
     FlagsRoutingModule,
-    IconsProviderModule
+    FlagsHomeModule,
   ],
   exports: [
     FlagsBrowseComponent,
