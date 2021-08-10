@@ -26,7 +26,7 @@ query BrowseSources(
     journal: $journal
     clinicalTrialId: $clinicalTrialId
   ) {
-   pageInfo {
+    pageInfo {
       endCursor
       hasNextPage
       startCursor
@@ -45,14 +45,14 @@ query BrowseSources(
 }
 
 fragment BrowseSourceRowFields on BrowseSource {
-    id
-    authors
-    citationId
-    evidenceItemCount
-    journal
-    name
-    publicationYear
-    sourceType
-    citation
-    displayType
+  id
+  authors
+  citationId
+  evidenceItemCount
+  journal
+  name
+  publicationYear
+  sourceType
+  citation
+  displayType
 }

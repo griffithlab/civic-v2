@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SourcesBrowseComponent } from './sources-browse/sources-browse.component';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
+import { SourcesHomePage } from './sources-home/sources-home.page';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
 
 import { SourcesComponent } from './sources.component';
@@ -13,14 +14,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'browse',
+        redirectTo: 'home',
         pathMatch: 'full'
       },
       {
-        path: 'browse',
-        component: SourcesBrowseComponent,
+        path: 'home',
+        component: SourcesHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

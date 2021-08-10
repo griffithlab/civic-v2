@@ -3284,6 +3284,41 @@ export type DrugPopoverFragment = (
   & Pick<BrowseDrug, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'assertionCount' | 'evidenceCount'>
 );
 
+export type DrugsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  ncitId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DrugSort>;
+}>;
+
+
+export type DrugsBrowseQuery = (
+  { __typename: 'Query' }
+  & { drugs: (
+    { __typename: 'BrowseDrugConnection' }
+    & Pick<BrowseDrugConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseDrugEdge' }
+      & Pick<BrowseDrugEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseDrug' }
+        & DrugBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type DrugBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseDrug' }
+  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
+);
+
 export type EvidencePopoverQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
@@ -4099,6 +4134,46 @@ export type MenuVariantFragment = (
   & Pick<Variant, 'id' | 'name'>
 );
 
+export type BrowseSourcesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<SourcesSort>;
+  name?: Maybe<Scalars['String']>;
+  year?: Maybe<Scalars['Int']>;
+  sourceType?: Maybe<SourceSource>;
+  citationId?: Maybe<Scalars['Int']>;
+  author?: Maybe<Scalars['String']>;
+  journal?: Maybe<Scalars['String']>;
+  clinicalTrialId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type BrowseSourcesQuery = (
+  { __typename: 'Query' }
+  & { browseSources: (
+    { __typename: 'BrowseSourceConnection' }
+    & Pick<BrowseSourceConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseSourceEdge' }
+      & Pick<BrowseSourceEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseSource' }
+        & BrowseSourceRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseSourceRowFieldsFragment = (
+  { __typename: 'BrowseSource' }
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
+);
+
 export type VariantPopoverQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -4484,41 +4559,6 @@ export type DiseaseDetailQuery = (
   )> }
 );
 
-export type DrugsBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  ncitId?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<DrugSort>;
-}>;
-
-
-export type DrugsBrowseQuery = (
-  { __typename: 'Query' }
-  & { drugs: (
-    { __typename: 'BrowseDrugConnection' }
-    & Pick<BrowseDrugConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseDrugEdge' }
-      & Pick<BrowseDrugEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseDrug' }
-        & DrugBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type DrugBrowseTableRowFieldsFragment = (
-  { __typename: 'BrowseDrug' }
-  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
-);
-
 export type DrugDetailQueryVariables = Exact<{
   drugId: Scalars['Int'];
 }>;
@@ -4850,46 +4890,6 @@ export type PhenotypeDetailQuery = (
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name' | 'hpoId' | 'url'>
   )> }
-);
-
-export type BrowseSourcesQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<SourcesSort>;
-  name?: Maybe<Scalars['String']>;
-  year?: Maybe<Scalars['Int']>;
-  sourceType?: Maybe<SourceSource>;
-  citationId?: Maybe<Scalars['Int']>;
-  author?: Maybe<Scalars['String']>;
-  journal?: Maybe<Scalars['String']>;
-  clinicalTrialId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type BrowseSourcesQuery = (
-  { __typename: 'Query' }
-  & { browseSources: (
-    { __typename: 'BrowseSourceConnection' }
-    & Pick<BrowseSourceConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
-    ), edges: Array<(
-      { __typename: 'BrowseSourceEdge' }
-      & Pick<BrowseSourceEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseSource' }
-        & BrowseSourceRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type BrowseSourceRowFieldsFragment = (
-  { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
 );
 
 export type SourceDetailQueryVariables = Exact<{
@@ -5312,6 +5312,16 @@ export const DrugPopoverFragmentDoc = gql`
   name
   drugUrl
   ncitId
+  assertionCount
+  evidenceCount
+}
+    `;
+export const DrugBrowseTableRowFieldsFragmentDoc = gql`
+    fragment DrugBrowseTableRowFields on BrowseDrug {
+  id
+  name
+  ncitId
+  drugUrl
   assertionCount
   evidenceCount
 }
@@ -5748,6 +5758,20 @@ export const MenuVariantFragmentDoc = gql`
   name
 }
     `;
+export const BrowseSourceRowFieldsFragmentDoc = gql`
+    fragment BrowseSourceRowFields on BrowseSource {
+  id
+  authors
+  citationId
+  evidenceItemCount
+  journal
+  name
+  publicationYear
+  sourceType
+  citation
+  displayType
+}
+    `;
 export const VariantPopoverFieldsFragmentDoc = gql`
     fragment variantPopoverFields on Variant {
   id
@@ -5879,16 +5903,6 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
-}
-    `;
-export const DrugBrowseTableRowFieldsFragmentDoc = gql`
-    fragment DrugBrowseTableRowFields on BrowseDrug {
-  id
-  name
-  ncitId
-  drugUrl
-  assertionCount
-  evidenceCount
 }
     `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
@@ -6111,20 +6125,6 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   twitterHandle
   facebookProfile
   linkedinProfile
-}
-    `;
-export const BrowseSourceRowFieldsFragmentDoc = gql`
-    fragment BrowseSourceRowFields on BrowseSource {
-  id
-  authors
-  citationId
-  evidenceItemCount
-  journal
-  name
-  publicationYear
-  sourceType
-  citation
-  displayType
 }
     `;
 export const SourceDetailFieldsFragmentDoc = gql`
@@ -6532,6 +6532,44 @@ export const DrugPopoverDocument = gql`
   })
   export class DrugPopoverGQL extends Apollo.Query<DrugPopoverQuery, DrugPopoverQueryVariables> {
     document = DrugPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugsBrowseDocument = gql`
+    query DrugsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $sortBy: DrugSort) {
+  drugs(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    ncitId: $ncitId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...DrugBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${DrugBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
+    document = DrugsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7141,6 +7179,51 @@ export const VariantsMenuDocument = gql`
       super(apollo);
     }
   }
+export const BrowseSourcesDocument = gql`
+    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int) {
+  browseSources(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    year: $year
+    sourceType: $sourceType
+    citationId: $citationId
+    author: $author
+    journal: $journal
+    clinicalTrialId: $clinicalTrialId
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseSourceRowFields
+      }
+    }
+  }
+}
+    ${BrowseSourceRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
+    document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantPopoverDocument = gql`
     query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
@@ -7557,44 +7640,6 @@ export const DiseaseDetailDocument = gql`
       super(apollo);
     }
   }
-export const DrugsBrowseDocument = gql`
-    query DrugsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $sortBy: DrugSort) {
-  drugs(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    ncitId: $ncitId
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...DrugBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${DrugBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
-    document = DrugsBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const DrugDetailDocument = gql`
     query DrugDetail($drugId: Int!) {
   drug(id: $drugId) {
@@ -7847,51 +7892,6 @@ export const PhenotypeDetailDocument = gql`
   })
   export class PhenotypeDetailGQL extends Apollo.Query<PhenotypeDetailQuery, PhenotypeDetailQueryVariables> {
     document = PhenotypeDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseSourcesDocument = gql`
-    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int) {
-  browseSources(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    sortBy: $sortBy
-    name: $name
-    year: $year
-    sourceType: $sourceType
-    citationId: $citationId
-    author: $author
-    journal: $journal
-    clinicalTrialId: $clinicalTrialId
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      startCursor
-      hasPreviousPage
-    }
-    totalCount
-    filteredCount
-    pageCount
-    edges {
-      cursor
-      node {
-        ...BrowseSourceRowFields
-      }
-    }
-  }
-}
-    ${BrowseSourceRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
-    document = BrowseSourcesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

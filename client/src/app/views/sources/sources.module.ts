@@ -6,7 +6,6 @@ import { SourcesComponent } from './sources.component';
 import { FormsModule } from '@angular/forms';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { CvcFormsModule } from '@app/forms/forms.module';
-import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -37,6 +36,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SourcesHomeModule } from './sources-home/sources-home.module';
 
 
 @NgModule({
@@ -48,15 +49,15 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
   ],
   imports: [
     CommonModule,
+    SourcesHomeModule,
     SectionNavigationModule,
     SourcesRoutingModule,
     SharedComponentsModule,
-    VariantsRoutingModule,
-    IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
     NzCardModule,
+    NzIconModule,
     NzCommentModule,
     NzFormModule,
     NzDescriptionsModule,
