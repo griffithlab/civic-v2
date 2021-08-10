@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PhenotypesBrowseComponent } from './phenotypes-browse/phenotypes-browse.component';
 import { PhenotypesDetailComponent } from './phenotypes-detail/phenotypes-detail.component';
+import { PhenotypesHomePage } from './phenotypes-home/phenotypes-home.page';
 import { PhenotypesSummaryComponent } from './phenotypes-summary/phenotypes-summary.component';
 import { PhenotypesComponent } from './phenotypes.component';
 
@@ -10,12 +10,12 @@ const routes: Routes = [
     path: '',
     component: PhenotypesComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: PhenotypesBrowseComponent,
+        path: 'home',
+        component: PhenotypesHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

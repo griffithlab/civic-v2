@@ -3406,6 +3406,41 @@ export type BrowseGenesQuery = (
   ) }
 );
 
+export type PhenotypesBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  hpoId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<PhenotypeSort>;
+}>;
+
+
+export type PhenotypesBrowseQuery = (
+  { __typename: 'Query' }
+  & { phenotypes: (
+    { __typename: 'BrowsePhenotypeConnection' }
+    & Pick<BrowsePhenotypeConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowsePhenotypeEdge' }
+      & Pick<BrowsePhenotypeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowsePhenotype' }
+        & PhenotypeBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type PhenotypeBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowsePhenotype' }
+  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
+);
+
 export type AssertionPopoverQueryVariables = Exact<{
   assertionId: Scalars['Int'];
 }>;
@@ -4804,41 +4839,6 @@ export type OrganizationMembersFieldsFragment = (
   & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
 );
 
-export type PhenotypesBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  hpoId?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<PhenotypeSort>;
-}>;
-
-
-export type PhenotypesBrowseQuery = (
-  { __typename: 'Query' }
-  & { phenotypes: (
-    { __typename: 'BrowsePhenotypeConnection' }
-    & Pick<BrowsePhenotypeConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowsePhenotypeEdge' }
-      & Pick<BrowsePhenotypeEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowsePhenotype' }
-        & PhenotypeBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type PhenotypeBrowseTableRowFieldsFragment = (
-  { __typename: 'BrowsePhenotype' }
-  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
-);
-
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
 }>;
@@ -5385,6 +5385,16 @@ export const GenePopoverFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
+}
+    `;
+export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
+    fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
+  id
+  name
+  hpoId
+  url
+  assertionCount
+  evidenceCount
 }
     `;
 export const AssertionPopoverFragmentDoc = gql`
@@ -6103,16 +6113,6 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   linkedinProfile
 }
     `;
-export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
-    fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
-  id
-  name
-  hpoId
-  url
-  assertionCount
-  evidenceCount
-}
-    `;
 export const BrowseSourceRowFieldsFragmentDoc = gql`
     fragment BrowseSourceRowFields on BrowseSource {
   id
@@ -6626,6 +6626,44 @@ export const BrowseGenesDocument = gql`
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PhenotypesBrowseDocument = gql`
+    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
+  phenotypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    hpoId: $hpoId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...PhenotypeBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${PhenotypeBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
+    document = PhenotypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7788,44 +7826,6 @@ export const OrganizationMembersDocument = gql`
   })
   export class OrganizationMembersGQL extends Apollo.Query<OrganizationMembersQuery, OrganizationMembersQueryVariables> {
     document = OrganizationMembersDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const PhenotypesBrowseDocument = gql`
-    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
-  phenotypes(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    hpoId: $hpoId
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...PhenotypeBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${PhenotypeBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
-    document = PhenotypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
