@@ -40,6 +40,7 @@ import { VariantGroupsCommentsComponent } from './variant-groups-comments/varian
 import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
 import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
   ],
   imports: [
     CommonModule,
+    VariantGroupsHomeModule,
     SectionNavigationModule,
     VariantGroupsRoutingModule,
     CommonModule,
