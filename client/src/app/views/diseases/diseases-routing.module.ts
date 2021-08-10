@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.component';
 import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
+import { DiseasesHomePage } from './diseases-home/diseases-home.page';
 import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.component';
 
 import { DiseasesComponent } from './diseases.component';
@@ -13,14 +13,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'browse',
+        redirectTo: 'home',
         pathMatch: 'full'
       },
       {
-        path: 'browse',
-        component: DiseasesBrowseComponent,
+        path: 'home',
+        component: DiseasesHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

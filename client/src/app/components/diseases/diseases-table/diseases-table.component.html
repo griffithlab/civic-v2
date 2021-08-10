@@ -1,0 +1,106 @@
+<nz-table #diseasesTable
+  [nzData]="(diseases$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="20%"
+        [nzColumnKey]="sortColumns.Name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <th nzWidth="20%"
+        [nzColumnKey]="sortColumns.Doid"
+        [nzSortFn]="true">
+        DOID
+      </th>
+      <th nzWidth="30%"
+        [nzColumnKey]="sortColumns.GeneNames"
+        [nzSortFn]="true">
+        Genes
+      </th>
+      <th nzWidth="10%"
+        [nzColumnKey]="sortColumns.VariantCount"
+        [nzSortFn]="true">
+        <i nz-icon
+          nzType="civic:variant"
+          nz-tooltip
+          nzTooltipTitle="Variant Count"></i>
+      </th>
+      <th nzWidth="10%"
+        [nzColumnKey]="sortColumns.EvidenceItemCount"
+        [nzSortFn]="true">
+        <i nz-icon
+          nzType="civic:evidence"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count"></i>
+      </th>
+      <th nzWidth="10%"
+        [nzColumnKey]="sortColumns.AssertionCount"
+        [nzSortFn]="true">
+        <i nz-icon
+          nzType="civic:assertion"
+          nz-tooltip
+          nzTooltipTitle="Assertion Count"></i>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="nameInput"
+          placeholderText="Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="doidInput"
+          placeholderText="DOID"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
+          placeholderText="Gene Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let d of diseasesTable.data">
+      <td>
+        <cvc-disease-tag-r [disease]="d"></cvc-disease-tag-r>
+      </td>
+      <td>
+        <cvc-link-tag-r *ngIf="d.doid; else noDoid"
+          [href]="d.diseaseUrl"
+          tooltip="View on disease-ontology.org">
+          {{ 'DOID:' + d.doid }}
+        </cvc-link-tag-r>
+
+        <ng-template #noDoid>
+          --
+        </ng-template>
+      </td>
+      <td>
+        <p nz-typography>
+          <span *ngFor="let gene of d.geneNames; last as isLast">
+                        {{ gene }}{{ isLast ? '' : ', ' }}
+                      </span>
+        </p>
+      </td>
+      <td>
+        {{ d.variantCount }}
+      </td>
+      <td>
+        {{ d.evidenceItemCount }}
+      </td>
+      <td>
+        {{ d.assertionCount }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

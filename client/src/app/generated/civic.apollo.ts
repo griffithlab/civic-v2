@@ -3224,6 +3224,42 @@ export type DiseasePopoverFragment = (
   & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
+export type BrowseDiseasesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DiseasesSort>;
+  name?: Maybe<Scalars['String']>;
+  doid?: Maybe<Scalars['String']>;
+  geneNames?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseDiseasesQuery = (
+  { __typename: 'Query' }
+  & { browseDiseases: (
+    { __typename: 'BrowseDiseaseConnection' }
+    & Pick<BrowseDiseaseConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseDiseaseEdge' }
+      & Pick<BrowseDiseaseEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseDisease' }
+        & BrowseDiseaseRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseDiseaseRowFieldsFragment = (
+  { __typename: 'BrowseDisease' }
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+);
+
 export type DrugPopoverQueryVariables = Exact<{
   drugId: Scalars['Int'];
 }>;
@@ -4400,42 +4436,6 @@ export type ClinicalTrialDetailQuery = (
   )> }
 );
 
-export type BrowseDiseasesQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<DiseasesSort>;
-  name?: Maybe<Scalars['String']>;
-  doid?: Maybe<Scalars['String']>;
-  geneNames?: Maybe<Scalars['String']>;
-}>;
-
-
-export type BrowseDiseasesQuery = (
-  { __typename: 'Query' }
-  & { browseDiseases: (
-    { __typename: 'BrowseDiseaseConnection' }
-    & Pick<BrowseDiseaseConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseDiseaseEdge' }
-      & Pick<BrowseDiseaseEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseDisease' }
-        & BrowseDiseaseRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type BrowseDiseaseRowFieldsFragment = (
-  { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
-);
-
 export type DiseaseDetailQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -5294,6 +5294,18 @@ export const DiseasePopoverFragmentDoc = gql`
   variantCount
 }
     `;
+export const BrowseDiseaseRowFieldsFragmentDoc = gql`
+    fragment BrowseDiseaseRowFields on BrowseDisease {
+  id
+  name
+  doid
+  diseaseUrl
+  geneNames
+  assertionCount
+  evidenceItemCount
+  variantCount
+}
+    `;
 export const DrugPopoverFragmentDoc = gql`
     fragment drugPopover on BrowseDrug {
   id
@@ -5857,18 +5869,6 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
-}
-    `;
-export const BrowseDiseaseRowFieldsFragmentDoc = gql`
-    fragment BrowseDiseaseRowFields on BrowseDisease {
-  id
-  name
-  doid
-  diseaseUrl
-  geneNames
-  assertionCount
-  evidenceItemCount
-  variantCount
 }
     `;
 export const DrugBrowseTableRowFieldsFragmentDoc = gql`
@@ -6469,6 +6469,47 @@ export const DiseasePopoverDocument = gql`
   })
   export class DiseasePopoverGQL extends Apollo.Query<DiseasePopoverQuery, DiseasePopoverQueryVariables> {
     document = DiseasePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseDiseasesDocument = gql`
+    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $geneNames: String) {
+  browseDiseases(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    doid: $doid
+    geneNames: $geneNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseDiseaseRowFields
+      }
+    }
+  }
+}
+    ${BrowseDiseaseRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
+    document = BrowseDiseasesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7451,47 +7492,6 @@ export const ClinicalTrialDetailDocument = gql`
   })
   export class ClinicalTrialDetailGQL extends Apollo.Query<ClinicalTrialDetailQuery, ClinicalTrialDetailQueryVariables> {
     document = ClinicalTrialDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseDiseasesDocument = gql`
-    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $geneNames: String) {
-  browseDiseases(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    sortBy: $sortBy
-    name: $name
-    doid: $doid
-    geneNames: $geneNames
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    totalCount
-    filteredCount
-    pageCount
-    edges {
-      cursor
-      node {
-        ...BrowseDiseaseRowFields
-      }
-    }
-  }
-}
-    ${BrowseDiseaseRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
-    document = BrowseDiseasesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

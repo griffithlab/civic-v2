@@ -36,6 +36,7 @@ import { VariantsRoutingModule } from '../variants/variants-routing.module';
 import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.component';
 import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.component';
 import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
+import { DiseasesHomeModule } from './diseases-home/diseases-home.module';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.compo
   ],
   imports: [
     DiseasesRoutingModule,
+    DiseasesHomeModule,
     CommonModule,
     SourcesRoutingModule,
     SharedComponentsModule,
