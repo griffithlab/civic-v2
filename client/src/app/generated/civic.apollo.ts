@@ -4174,6 +4174,41 @@ export type BrowseSourceRowFieldsFragment = (
   & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
 );
 
+export type VariantTypesBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  soid?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantTypeSort>;
+}>;
+
+
+export type VariantTypesBrowseQuery = (
+  { __typename: 'Query' }
+  & { variantTypes: (
+    { __typename: 'BrowseVariantTypeConnection' }
+    & Pick<BrowseVariantTypeConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantTypeEdge' }
+      & Pick<BrowseVariantTypeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantType' }
+        & VariantTypeBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type VariantTypeBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseVariantType' }
+  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount'>
+);
+
 export type VariantPopoverQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -5104,41 +5139,6 @@ export type VariantGroupSummaryFieldsFragment = (
   & Pick<VariantGroup, 'id' | 'name' | 'description'>
 );
 
-export type VariantTypesBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  soid?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<VariantTypeSort>;
-}>;
-
-
-export type VariantTypesBrowseQuery = (
-  { __typename: 'Query' }
-  & { variantTypes: (
-    { __typename: 'BrowseVariantTypeConnection' }
-    & Pick<BrowseVariantTypeConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseVariantTypeEdge' }
-      & Pick<BrowseVariantTypeEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantType' }
-        & VariantTypeBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type VariantTypeBrowseTableRowFieldsFragment = (
-  { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount'>
-);
-
 export type VariantTypeDetailQueryVariables = Exact<{
   variantTypeId: Scalars['Int'];
 }>;
@@ -5772,6 +5772,15 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   displayType
 }
     `;
+export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
+    fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
+  id
+  name
+  soid
+  url
+  variantCount
+}
+    `;
 export const VariantPopoverFieldsFragmentDoc = gql`
     fragment variantPopoverFields on Variant {
   id
@@ -6224,15 +6233,6 @@ export const VariantGroupSummaryFieldsFragmentDoc = gql`
   id
   name
   description
-}
-    `;
-export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
-    fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
-  id
-  name
-  soid
-  url
-  variantCount
 }
     `;
 export const VariantDetailFieldsFragmentDoc = gql`
@@ -7224,6 +7224,44 @@ export const BrowseSourcesDocument = gql`
       super(apollo);
     }
   }
+export const VariantTypesBrowseDocument = gql`
+    query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
+  variantTypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    soid: $soid
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...VariantTypeBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${VariantTypeBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypesBrowseGQL extends Apollo.Query<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables> {
+    document = VariantTypesBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantPopoverDocument = gql`
     query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
@@ -8103,44 +8141,6 @@ export const VariantGroupsSummaryDocument = gql`
   })
   export class VariantGroupsSummaryGQL extends Apollo.Query<VariantGroupsSummaryQuery, VariantGroupsSummaryQueryVariables> {
     document = VariantGroupsSummaryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantTypesBrowseDocument = gql`
-    query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
-  variantTypes(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    soid: $soid
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...VariantTypeBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${VariantTypeBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantTypesBrowseGQL extends Apollo.Query<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables> {
-    document = VariantTypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

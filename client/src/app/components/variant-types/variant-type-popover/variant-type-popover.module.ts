@@ -1,23 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CvcPhenotypePopoverComponent } from './phenotype-popover.component';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcVariantTypePopoverComponent } from './variant-type-popover.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
-  declarations: [CvcPhenotypePopoverComponent],
+  declarations: [CvcVariantTypePopoverComponent],
   imports: [
     CommonModule,
     ReactiveComponentModule,
     NzIconModule,
     NzCardModule,
-    CvcLinkTagModule,
     NzDescriptionsModule,
-
+    CvcLinkTagModule,
   ],
-  exports: [CvcPhenotypePopoverComponent]
+  exports: [CvcVariantTypePopoverComponent]
 })
-export class CvcPhenotypePopoverModule { }
+export class CvcVariantTypePopoverModule { }
