@@ -89,7 +89,6 @@ import { DetailsNavigationComponent } from './details-navigation/details-navigat
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
 import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
-import { VariantPopoverComponent } from './variant-popover/variant-popover.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -162,7 +161,6 @@ import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module'
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
-    VariantPopoverComponent,
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
@@ -278,7 +276,6 @@ import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module'
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
-    VariantPopoverComponent,
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
