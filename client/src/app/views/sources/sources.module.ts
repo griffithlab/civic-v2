@@ -5,7 +5,6 @@ import { SourcesRoutingModule } from './sources-routing.module';
 import { SourcesComponent } from './sources.component';
 import { FormsModule } from '@angular/forms';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
-import { CvcFormsModule } from '@app/forms/forms.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -30,7 +29,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantsRoutingModule } from '../variants/variants-routing.module';
 import { SourcesBrowseComponent } from './sources-browse/sources-browse.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
@@ -38,6 +36,8 @@ import { SourcesSummaryComponent } from './sources-summary/sources-summary.compo
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SourcesHomeModule } from './sources-home/sources-home.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
 
 @NgModule({
@@ -50,6 +50,8 @@ import { SourcesHomeModule } from './sources-home/sources-home.module';
   imports: [
     CommonModule,
     SourcesHomeModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
     SectionNavigationModule,
     SourcesRoutingModule,
     SharedComponentsModule,

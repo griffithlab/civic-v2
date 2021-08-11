@@ -17,12 +17,18 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantTypesHomeModule } from './variant-types-home/variant-types-home.module';
+import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [VariantTypesComponent, VariantTypesDetailComponent, VariantTypesSummaryComponent, VariantTypesBrowseComponent],
   imports: [
     CommonModule,
     VariantTypesHomeModule,
+    CvcVariantsTableModule,
+    CvcEntityTableCardModule,
+    NzIconModule,
     SectionNavigationModule,
     VariantTypesRoutingModule,
     IconsProviderModule,

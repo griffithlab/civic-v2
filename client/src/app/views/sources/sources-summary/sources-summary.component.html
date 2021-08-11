@@ -43,7 +43,14 @@
       </div>
     </div>
   </nz-space-item>
+  <!-- evidence table card -->
   <nz-space-item>
-    <cvc-evidence-browse [sourceId]="sourceId"></cvc-evidence-browse>
+    <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
+      <cvc-evidence-table [sourceId]="sourceId"></cvc-evidence-table>
+    </cvc-entity-table-card>
+    <ng-template #evidenceCardTitle>
+      <i nz-icon nzType="civic:source"></i>
+      Evidence Items with <i>{{ source.title}}</i>
+    </ng-template>
   </nz-space-item>
 </nz-space>

@@ -16,6 +16,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { PhenotypesHomeModule } from './phenotypes-home/phenotypes-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
 
 @NgModule({
@@ -23,6 +26,9 @@ import { PhenotypesHomeModule } from './phenotypes-home/phenotypes-home.module';
   imports: [
     CommonModule,
     PhenotypesHomeModule,
+    CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
     SectionNavigationModule,
     PhenotypesRoutingModule,
     IconsProviderModule,
