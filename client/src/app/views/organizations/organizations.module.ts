@@ -41,6 +41,8 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { OrganizationsGroupsComponent } from './organizations-groups/organizations-groups.component';
 import { OrganizationsHomeModule } from './organizations-home/organizations-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
 
 @NgModule({
@@ -56,6 +58,8 @@ import { OrganizationsHomeModule } from './organizations-home/organizations-home
   imports: [
     CommonModule,
     OrganizationsHomeModule,
+    CvcAssertionsTableModule,
+    CvcEntityTableCardModule,
     OrganizationsRoutingModule,
     CvcFormsModule,
     SharedComponentsModule,

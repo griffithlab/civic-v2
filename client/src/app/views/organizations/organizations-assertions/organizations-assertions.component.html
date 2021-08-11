@@ -1,1 +1,7 @@
-  <cvc-assertions-browse [organizationId]="organizationId"></cvc-assertions-browse>
+<cvc-entity-table-card [cvcTitle]="assertionsCardTitle">
+  <cvc-assertions-table [organizationId]="organizationId"></cvc-assertions-table>
+</cvc-entity-table-card>
+<ng-template #assertionsCardTitle>
+  <i nz-icon nzType="civic:assertion"></i>
+  Organization Assertions
+</ng-template>

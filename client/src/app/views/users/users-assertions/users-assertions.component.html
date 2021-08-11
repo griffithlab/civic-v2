@@ -1,1 +1,7 @@
-  <cvc-assertions-browse [userId]="userId"></cvc-assertions-browse>
+<cvc-entity-table-card [cvcTitle]="assertionsCardTitle">
+  <cvc-assertions-table [userId]="userId"></cvc-assertions-table>
+</cvc-entity-table-card>
+<ng-template #assertionsCardTitle>
+  <i nz-icon nzType="civic:assertion"></i>
+  User Assertions
+</ng-template>

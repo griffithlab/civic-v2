@@ -59,7 +59,6 @@ import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
 import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-text-filter.component';
-import { AssertionsBrowseComponent } from './assertions-browse/assertions-browse.component';
 import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -143,7 +142,6 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     FlagListComponent,
     ResolveFlagComponent,
     ClearableTextComponentFilter,
-    AssertionsBrowseComponent,
     EvidenceBrowseComponent,
     QuicksearchComponent,
     UserCardComponent,
@@ -264,7 +262,6 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     FlagListComponent,
     ResolveFlagComponent,
     ClearableTextComponentFilter,
-    AssertionsBrowseComponent,
     EvidenceBrowseComponent,
     QuicksearchComponent,
     UserCardComponent,
