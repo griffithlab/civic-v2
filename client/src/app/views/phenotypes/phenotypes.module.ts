@@ -18,6 +18,7 @@ import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     CvcAssertionsTableModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
+    CvcLinkTagModule,
     SectionNavigationModule,
     PhenotypesRoutingModule,
     NzIconModule,

@@ -23,9 +23,9 @@
                 {{ variantInfo.myVariantInfoId }}
                 <strong style="margin-left: 8px;">ClinVar ID:</strong>&nbsp;
                 <ng-container *ngIf="variantInfo.clinvarId; else noValue">
-                  <cvc-link-tag href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" tooltip="View on ClinVar">
+                  <cvc-link-tag-r href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" tooltip="View on ClinVar">
                     {{variantInfo.clinvarId}}
-                  </cvc-link-tag>
+                  </cvc-link-tag-r>
                 </ng-container>
               </div>
             </div>
@@ -35,15 +35,15 @@
               </div>
               <div nz-col [nzSpan]="18">
                 <ng-container *ngIf="variantInfo.dbsnpRsid; else noValue">
-                  <cvc-link-tag href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={{variantInfo.dbsnpRsid}}" tooltip="View on dbSNP">
+                  <cvc-link-tag-r href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs={{variantInfo.dbsnpRsid}}" tooltip="View on dbSNP">
                     {{variantInfo.dbsnpRsid}}
-                  </cvc-link-tag>
+                  </cvc-link-tag-r>
                 </ng-container>
                 <strong style="margin-left: 8px;">COSMIC ID (v68):</strong>&nbsp;
                 <ng-container *ngIf="variantInfo.cosmicId; else noValue">
-                  <cvc-link-tag href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{variantInfo.cosmicId}}" tooltip="View on COSMIC">
+                  <cvc-link-tag-r href="http://cancer.sanger.ac.uk/cosmic/mutation/overview?id={{variantInfo.cosmicId}}" tooltip="View on COSMIC">
                     {{variantInfo.cosmicId}}
-                  </cvc-link-tag>
+                  </cvc-link-tag-r>
                 </ng-container>
               </div>
             </div>
@@ -82,15 +82,15 @@
               </div>
               <div nz-col [nzSpan]="18">
                 <ng-container *ngIf="variantInfo.clinvarId; else noValue">
-                  <cvc-link-tag href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" tooltip="View on ClinVar">
+                  <cvc-link-tag-r href="https://www.ncbi.nlm.nih.gov/clinvar/variation/{{variantInfo.clinvarId}}/" tooltip="View on ClinVar">
                     {{variantInfo.clinvarId}}
-                  </cvc-link-tag>
+                  </cvc-link-tag-r>
                 </ng-container>
                 <strong style="margin-left: 8px;">OMIM:</strong>&nbsp;
                 <ng-container *ngIf="variantInfo.clinvarOmim; else noValue">
-                  <cvc-link-tag href="https://omim.org/entry/{{ variantInfo.clinvarOmim.split('.')[0] }}" tooltip="View on OMIM">
+                  <cvc-link-tag-r href="https://omim.org/entry/{{ variantInfo.clinvarOmim.split('.')[0] }}" tooltip="View on OMIM">
                     {{variantInfo.clinvarOmim}}
-                  </cvc-link-tag>
+                  </cvc-link-tag-r>
                 </ng-container>
               </div>
             </div>
@@ -158,9 +158,9 @@
         </ng-container>
         <!-- gnomAD tab -->
         <ng-container *ngSwitchCase="2">
-          <cvc-link-tag *ngIf="variantInfo.dbsnpRsid" href="https://gnomad.broadinstitute.org/variant/{{variantInfo.dbsnpRsid}}?dataset=gnomad_r2_1">
+          <cvc-link-tag-r *ngIf="variantInfo.dbsnpRsid" href="https://gnomad.broadinstitute.org/variant/{{variantInfo.dbsnpRsid}}?dataset=gnomad_r2_1">
             View this variant in the gnomAD browser
-          </cvc-link-tag>
+          </cvc-link-tag-r>
           <nz-table #gnomadTable
             [nzData]="['.']"
             [nzFrontPagination]="false"

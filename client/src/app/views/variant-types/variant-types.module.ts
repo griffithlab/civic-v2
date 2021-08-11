@@ -18,6 +18,7 @@ import { VariantTypesHomeModule } from './variant-types-home/variant-types-home.
 import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
 
 @NgModule({
   declarations: [VariantTypesComponent, VariantTypesDetailComponent, VariantTypesSummaryComponent],
@@ -26,6 +27,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     VariantTypesHomeModule,
     CvcVariantsTableModule,
     CvcEntityTableCardModule,
+    CvcLinkTagModule,
     NzIconModule,
     SectionNavigationModule,
     VariantTypesRoutingModule,

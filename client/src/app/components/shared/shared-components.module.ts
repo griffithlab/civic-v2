@@ -117,6 +117,7 @@ import { CommentPopoverComponent } from './comment-popover/comment-popover.compo
 import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcLinkTagModule } from './cvc-link-tag/cvc-link-tag.module';
 
 
 @NgModule({
@@ -193,6 +194,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     ReactiveFormsModule,
     ReactiveComponentModule,
     RouterModule,
+    CvcLinkTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,

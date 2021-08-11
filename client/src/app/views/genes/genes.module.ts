@@ -50,6 +50,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { VariantsModule } from '../variants/variants.module';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { GenesHomeModule } from './genes-home/genes-home.module';
+import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { GenesHomeModule } from './genes-home/genes-home.module';
   imports: [
     CvcFormsModule,
     GenesHomeModule,
+    CvcLinkTagModule,
     SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,

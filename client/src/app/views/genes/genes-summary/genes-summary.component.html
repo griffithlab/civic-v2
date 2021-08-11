@@ -77,14 +77,14 @@
               [nzColumn]="1">
               <nz-descriptions-item nzTitle="Resources">
                 <cvc-tag-list>
-                  <cvc-link-tag [href]="'http://dgidb.org/genes/' + gene.name"
+                  <cvc-link-tag-r [href]="'http://dgidb.org/genes/' + gene.name"
                     [tooltip]="'View ' + gene.name + ' on DGIdb'">
                     DGIdb
-                  </cvc-link-tag>
-                  <cvc-link-tag [href]="'https://pecan.stjude.cloud/proteinpaint/' + gene.name + '/hg19/civic'"
+                  </cvc-link-tag-r>
+                  <cvc-link-tag-r [href]="'https://pecan.stjude.cloud/proteinpaint/' + gene.name + '/hg19/civic'"
                     [tooltip]="'View ' + gene.name + ' on ProteinPaint'">
                     ProteinPaint
-                  </cvc-link-tag>
+                  </cvc-link-tag-r>
                 </cvc-tag-list>
               </nz-descriptions-item>
             </nz-descriptions>

@@ -131,11 +131,11 @@
 
               <!-- allele reg. id -->
               <nz-descriptions-item nzTitle="Allele Registry ID">
-                <cvc-link-tag *ngIf="variant.alleleRegistryId; else noAlleleRegistry"
+                <cvc-link-tag-r *ngIf="variant.alleleRegistryId; else noAlleleRegistry"
                   [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'"
                   tooltip="View on ClinGen Allele Registry">
                   {{ variant.alleleRegistryId }}
-                </cvc-link-tag>
+                </cvc-link-tag-r>
                 <ng-template #noAlleleRegistry>
                   <span nz-typography
                     nzType="secondary">None provided</span>
@@ -153,10 +153,10 @@
                 <ng-container *ngIf="variant.clinvarIds.length > 0 else noClinvarIds">
                   <cvc-tag-list *ngIf="variant.clinvarIds[0] !== 'N/A' else clinvarNotApplicable">
                     <ng-container *ngFor="let id of variant.clinvarIds">
-                      <cvc-link-tag [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id"
+                      <cvc-link-tag-r [href]="'https://www.ncbi.nlm.nih.gov/clinvar/variation/' + id"
                         tooltip="View on ClinVar">
                         {{ id }}
-                      </cvc-link-tag>
+                      </cvc-link-tag-r>
                     </ng-container>
                   </cvc-tag-list>
                 </ng-container>
@@ -231,10 +231,10 @@
 
                     <!-- representative transcript -->
                     <nz-descriptions-item nzTitle="Transcript" nzColumn="5">
-                      <cvc-link-tag tooltip="View on Esembl"
+                      <cvc-link-tag-r tooltip="View on Esembl"
                         [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
                         {{ coords.representativeTranscript }}
-                      </cvc-link-tag>
+                      </cvc-link-tag-r>
                     </nz-descriptions-item>
 
                   </nz-descriptions>
@@ -272,10 +272,10 @@
 
                     <!-- representative transcript -->
                     <nz-descriptions-item nzTitle="Transcript" nzColumn="5">
-                      <cvc-link-tag tooltip="View on Esembl"
+                      <cvc-link-tag-r tooltip="View on Esembl"
                         [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
                         {{ coords.representativeTranscript }}
-                      </cvc-link-tag>
+                      </cvc-link-tag-r>
                     </nz-descriptions-item>
 
                   </nz-descriptions>

@@ -37,6 +37,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SourcesHomeModule } from './sources-home/sources-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
     SourcesHomeModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
+    CvcLinkTagModule,
     SectionNavigationModule,
     SourcesRoutingModule,
     SharedComponentsModule,
