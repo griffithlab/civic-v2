@@ -72,11 +72,11 @@
         <cvc-disease-tag-r [disease]="d"></cvc-disease-tag-r>
       </td>
       <td>
-        <cvc-link-tag-r *ngIf="d.doid; else noDoid"
+        <cvc-link-tag *ngIf="d.doid; else noDoid"
           [href]="d.diseaseUrl"
           tooltip="View on disease-ontology.org">
           {{ 'DOID:' + d.doid }}
-        </cvc-link-tag-r>
+        </cvc-link-tag>
 
         <ng-template #noDoid>
           --

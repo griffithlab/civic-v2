@@ -8,9 +8,9 @@
          {{ d.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag-r [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
+        <cvc-link-tag [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
           DOID: {{ d.doid }}
-        </cvc-link-tag-r>
+        </cvc-link-tag>
       </ng-template>
       <nz-descriptions nzSize="small"
         [nzColumn]="1"

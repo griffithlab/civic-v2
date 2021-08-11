@@ -11,10 +11,10 @@
           nzTwotoneColor="#F9BA45"></i> {{ s.displayType }}:&nbsp;{{ s.citation }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag-r [href]="s.sourceUrl"
+        <cvc-link-tag [href]="s.sourceUrl"
           [tooltip]="'View on ' + s.displayType">
           {{ s.displayType + ':' + s.citationId }}
-        </cvc-link-tag-r>
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

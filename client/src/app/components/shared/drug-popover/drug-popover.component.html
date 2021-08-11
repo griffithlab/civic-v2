@@ -8,9 +8,9 @@
           {{ d.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag-r [href]="d.drugUrl" tooltip="View on NCI Thesaurus">
+        <cvc-link-tag [href]="d.drugUrl" tooltip="View on NCI Thesaurus">
           {{ d.ncitId }}
-        </cvc-link-tag-r>
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

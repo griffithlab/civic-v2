@@ -54,11 +54,11 @@
         <cvc-phenotype-tag-r [phenotype]="p"></cvc-phenotype-tag-r>
       </td>
       <td>
-        <cvc-link-tag-r *ngIf="p.hpoId; else noHpo"
+        <cvc-link-tag *ngIf="p.hpoId; else noHpo"
           [href]="p.url"
           tooltip="View in the HPO">
           {{ p.hpoId }}
-        </cvc-link-tag-r>
+        </cvc-link-tag>
         <ng-template #noHpo>--</ng-template>
       </td>
       <td>

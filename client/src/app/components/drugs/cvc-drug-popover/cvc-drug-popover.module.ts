@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { IconsProviderModule } from '@app/icons-provider.module';
 

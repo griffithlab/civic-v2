@@ -8,9 +8,9 @@
         {{ s.displayType }}:&nbsp;{{ s.citation }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag-r [href]="s.sourceUrl" [tooltip]="'View on ' + s.displayType">
+        <cvc-link-tag [href]="s.sourceUrl" [tooltip]="'View on ' + s.displayType">
           {{ s.displayType + ':' + s.citationId }}
-        </cvc-link-tag-r>
+        </cvc-link-tag>
       </ng-template>
 
       <nz-descriptions nzSize="small"

@@ -9,9 +9,9 @@
       </nz-space>
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="disease.doid">
-      <cvc-link-tag-r [href]="disease.diseaseUrl" tooltip="View on disease-ontology.org">
+      <cvc-link-tag [href]="disease.diseaseUrl" tooltip="View on disease-ontology.org">
         {{ 'DOID:' + disease.doid }}
-      </cvc-link-tag-r>
+      </cvc-link-tag>
 
     </nz-page-header-extra>
     <nz-page-header-content>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CvcPhenotypePopoverComponent } from './phenotype-popover.component';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 

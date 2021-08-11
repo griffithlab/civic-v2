@@ -4,7 +4,7 @@ import { CvcVariantTypesTableComponent } from './variant-types-table.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { CvcLinkTagModule } from '@app/components/shared/cvc-link-tag/cvc-link-tag.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcVariantTypeTagModule } from '../variant-type-tag/variant-type-tag.module';

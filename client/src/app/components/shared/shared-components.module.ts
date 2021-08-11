@@ -104,7 +104,6 @@ import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.com
 import { StatusTagComponent } from './status-tag/status-tag.component';
 import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
-import { LinkTagComponent } from './link-tag/link-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
 import { ClinicalTrialPopoverComponent } from './clinical-trial-popover/clinical-trial-popover.component';
@@ -117,7 +116,7 @@ import { CommentPopoverComponent } from './comment-popover/comment-popover.compo
 import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
-import { CvcLinkTagModule } from './cvc-link-tag/cvc-link-tag.module';
+import { CvcLinkTagModule } from './link-tag/link-tag.module';
 
 
 @NgModule({
@@ -174,7 +173,6 @@ import { CvcLinkTagModule } from './cvc-link-tag/cvc-link-tag.module';
     ClinicalTrialTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
-    LinkTagComponent,
     EmptyRevisableComponent,
     AssertionPopoverComponent,
     ClinicalTrialPopoverComponent,
@@ -269,7 +267,6 @@ import { CvcLinkTagModule } from './cvc-link-tag/cvc-link-tag.module';
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,
-    LinkTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
