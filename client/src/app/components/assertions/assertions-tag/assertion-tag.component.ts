@@ -7,7 +7,7 @@ export interface LinkableAssertion {
 }
 
 @Component({
-  selector: 'cvc-assertion-tag-r',
+  selector: 'cvc-assertion-tag',
   templateUrl: './assertion-tag.component.html',
   styleUrls: ['./assertion-tag.component.less']
 })

@@ -45,8 +45,8 @@
             [ngSwitch]="subject.__typename">
             <cvc-gene-tag *ngSwitchCase="'Gene'"
               [gene]="subject"></cvc-gene-tag>
-            <cvc-assertion-tag-r *ngSwitchCase="'Assertion'"
-              [assertion]="subject"></cvc-assertion-tag-r>
+            <cvc-assertion-tag *ngSwitchCase="'Assertion'"
+              [assertion]="subject"></cvc-assertion-tag>
             <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'"
               [evidence]="subject"></cvc-evidence-tag>
             <cvc-variant-tag *ngSwitchCase="'Variant'"
