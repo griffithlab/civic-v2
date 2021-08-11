@@ -43,6 +43,7 @@ import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     CvcFormsModule,
     CvcPipesModule,
     CvcGeneTagModule,
+    CvcVariantTagModule,
     SectionNavigationModule,
     SharedComponentsModule,
     IconsProviderModule,
