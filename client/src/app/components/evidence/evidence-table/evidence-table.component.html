@@ -280,7 +280,7 @@
         <cvc-gene-tag [gene]="eid.gene"></cvc-gene-tag>
       </td>
       <td *ngIf="displayGeneAndVariant">
-        <cvc-variant-tag-r [variant]="eid.variant"></cvc-variant-tag-r>
+        <cvc-variant-tag [variant]="eid.variant"></cvc-variant-tag>
       </td>
       <td>
         <ng-container *ngIf="eid.disease; else diseaseElse">

@@ -13,7 +13,7 @@
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
-    <cvc-variant-popover-r *ngIf="enablePopover" [variantId]="variant.id"></cvc-variant-popover-r>
+    <cvc-variant-popover *ngIf="enablePopover" [variantId]="variant.id"></cvc-variant-popover>
   </ng-template>
 </ng-template>
 

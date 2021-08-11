@@ -122,7 +122,7 @@
     <tbody>
       <tr *ngFor="let variant of variantsTable.data">
         <td>
-          <cvc-variant-tag-r [variant]="variant"></cvc-variant-tag-r>
+          <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
         </td>
         <td>
           <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>

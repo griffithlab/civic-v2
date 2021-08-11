@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Maybe, VariantPopoverFieldsFragment, VariantPopoverGQL } from "@app/generated/civic.apollo";
 
 @Component({
-  selector: 'cvc-variant-popover-r',
+  selector: 'cvc-variant-popover',
   templateUrl: './variant-popover.component.html',
   styleUrls: ['./variant-popover.component.less']
 })

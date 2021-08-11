@@ -7,7 +7,7 @@ export interface LinkableVariant {
 }
 
 @Component({
-  selector: 'cvc-variant-tag-r',
+  selector: 'cvc-variant-tag',
   templateUrl: './variant-tag.component.html',
   styleUrls: ['./variant-tag.component.less']
 })
