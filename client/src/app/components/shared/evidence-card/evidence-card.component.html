@@ -61,7 +61,7 @@
                                 <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
                                 <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
                                 <ng-container *ngFor="let t of evidence.source.clinicalTrials">
-                                    <cvc-clinical-trial-tag-r [clinicalTrial]="t"></cvc-clinical-trial-tag-r>
+                                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
                                 </ng-container>
                             </nz-row>
                             <nz-row><b>Evidence Rating:&nbsp;</b><cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating></nz-row>

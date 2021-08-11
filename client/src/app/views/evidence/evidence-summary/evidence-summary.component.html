@@ -120,7 +120,7 @@
               <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
                 <ng-container *ngIf="evidence.source.clinicalTrials.length > 0">
                   <ng-container *ngFor="let t of evidence.source.clinicalTrials">
-                    <cvc-clinical-trial-tag-r [clinicalTrial]="t"></cvc-clinical-trial-tag-r>
+                    <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngIf="evidence.source.clinicalTrials.length === 0">
