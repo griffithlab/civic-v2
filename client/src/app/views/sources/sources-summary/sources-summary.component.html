@@ -34,7 +34,7 @@
           <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
           <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
           <ng-container *ngFor="let t of source.clinicalTrials">
-            <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+            <cvc-clinical-trial-tag-r [clinicalTrial]="t"></cvc-clinical-trial-tag-r>
           </ng-container>
         </nz-row>
       </div>

@@ -7,7 +7,7 @@ export interface LinkableClinicalTrial {
 }
 
 @Component({
-  selector: 'cvc-clinical-trial-tag',
+  selector: 'cvc-clinical-trial-tag-r',
   templateUrl: './clinical-trial-tag.component.html',
   styleUrls: ['./clinical-trial-tag.component.less']
 })

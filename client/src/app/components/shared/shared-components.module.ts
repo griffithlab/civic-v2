@@ -92,13 +92,11 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DiseaseTagComponent } from './disease-tag/disease-tag.component';
 import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
-import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
 import { StatusTagComponent } from './status-tag/status-tag.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
-import { ClinicalTrialPopoverComponent } from './clinical-trial-popover/clinical-trial-popover.component';
 import { DiseasePopoverComponent } from './disease-popover/disease-popover.component';
 import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
 import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover.component';
@@ -113,6 +111,7 @@ import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module';
 import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.module';
 import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-tag.module';
+import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 
 
 @NgModule({
@@ -159,11 +158,9 @@ import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
-    ClinicalTrialTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
-    ClinicalTrialPopoverComponent,
     DiseasePopoverComponent,
     DrugPopoverComponent,
     PhenotypePopoverComponent,
@@ -185,6 +182,7 @@ import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-
     CvcVariantTagModule,
     CvcEvidenceTagModule,
     CvcAssertionsTagModule,
+    CvcClinicalTrialTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -272,12 +270,10 @@ import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-
     DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
-    ClinicalTrialTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
     SourceTagComponent,
     EmptyRevisableComponent,
-    ClinicalTrialPopoverComponent,
     DiseasePopoverComponent,
     DrugPopoverComponent,
     PhenotypePopoverComponent,

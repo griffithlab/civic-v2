@@ -45,6 +45,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
+    CvcClinicalTrialTagModule,
     SharedComponentsModule,
     IconsProviderModule,
     NgxJsonViewerModule,

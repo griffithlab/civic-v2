@@ -31,7 +31,7 @@
           nzSpan="2">
           <ng-container *ngIf="s.clinicalTrials.length > 0; else noTrials">
             <cvc-tag-list>
-              <cvc-clinical-trial-tag *ngFor="let t of s.clinicalTrials" [clinicalTrial]="t" [enablePopover]="false"></cvc-clinical-trial-tag>
+              <cvc-clinical-trial-tag-r *ngFor="let t of s.clinicalTrials" [clinicalTrial]="t" [enablePopover]="false"></cvc-clinical-trial-tag-r>
             </cvc-tag-list>
           </ng-container>
           <ng-template #noTrials>
