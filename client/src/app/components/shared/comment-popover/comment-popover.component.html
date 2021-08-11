@@ -7,7 +7,7 @@
         <cvc-user-tag [enablePopover]="false" [user]="c.commenter"></cvc-user-tag>commented on
         <ng-container [ngSwitch]="c.commentable.__typename">
           <cvc-gene-tag *ngSwitchCase="'Gene'" [enablePopover]="false" [gene]="c.commentable"></cvc-gene-tag>
-          <cvc-assertion-tag *ngSwitchCase="'Assertion'" [enablePopover]="false" [assertion]="c.commentable"></cvc-assertion-tag>
+          <cvc-assertion-tag-r *ngSwitchCase="'Assertion'" [enablePopover]="false" [assertion]="c.commentable"></cvc-assertion-tag-r>
           <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [enablePopover]="false" [evidence]="c.commentable"></cvc-evidence-tag>
           <cvc-variant-tag *ngSwitchCase="'Variant'" [enablePopover]="false" [variant]="c.commentable"></cvc-variant-tag>
           <span *ngSwitchDefault>{{ c.commentable.name }}</span>

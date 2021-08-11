@@ -76,7 +76,6 @@ import { OrgTagComponent } from './org-tag/org-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
 import { CommentTagComponent } from './comment-tag/comment-tag.component';
-import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
@@ -114,6 +113,7 @@ import { CvcLinkTagModule } from './link-tag/link-tag.module';
 import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module';
 import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.module';
+import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-tag.module';
 
 
 @NgModule({
@@ -148,7 +148,6 @@ import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.modu
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
-    AssertionTagComponent,
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
@@ -187,6 +186,7 @@ import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.modu
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcEvidenceTagModule,
+    CvcAssertionsTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -263,7 +263,6 @@ import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.modu
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
-    AssertionTagComponent,
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
