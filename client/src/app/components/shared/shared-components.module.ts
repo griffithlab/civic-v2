@@ -72,7 +72,6 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
 import { UserTagComponent } from './user-tag/user-tag.component';
-import { GeneTagComponent } from './gene-tag/gene-tag.component';
 import { OrgTagComponent } from './org-tag/org-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
@@ -117,6 +116,7 @@ import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.co
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcLinkTagModule } from './link-tag/link-tag.module';
+import { CvcGeneTagModule } from '../genes/cvc-gene-tag/cvc-gene-tag.module';
 
 
 @NgModule({
@@ -147,7 +147,6 @@ import { CvcLinkTagModule } from './link-tag/link-tag.module';
     OrganizationCardComponent,
     OrganizationAvatarComponent,
     UserTagComponent,
-    GeneTagComponent,
     OrgTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
@@ -193,6 +192,7 @@ import { CvcLinkTagModule } from './link-tag/link-tag.module';
     ReactiveComponentModule,
     RouterModule,
     CvcLinkTagModule,
+    CvcGeneTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -265,7 +265,6 @@ import { CvcLinkTagModule } from './link-tag/link-tag.module';
     OrganizationCardComponent,
     OrganizationAvatarComponent,
     UserTagComponent,
-    GeneTagComponent,
     OrgTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,

@@ -25,7 +25,7 @@
           <ng-container *ngIf="event.originatingObject as object">
             <ng-container
               [ngSwitch]="object.__typename">
-              <span *ngSwitchCase="'Revision'"> 
+              <span *ngSwitchCase="'Revision'">
                 <cvc-revision-tag [revision]="object"></cvc-revision-tag>
                 <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
               </span>
@@ -43,8 +43,8 @@
           <!-- subject -->
           <ng-container *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
             [ngSwitch]="subject.__typename">
-            <cvc-gene-tag *ngSwitchCase="'Gene'"
-              [gene]="subject"></cvc-gene-tag>
+            <cvc-gene-tag-r *ngSwitchCase="'Gene'"
+              [gene]="subject"></cvc-gene-tag-r>
             <cvc-assertion-tag *ngSwitchCase="'Assertion'"
               [assertion]="subject"></cvc-assertion-tag>
             <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'"
