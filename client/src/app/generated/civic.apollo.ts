@@ -3200,6 +3200,36 @@ export type ClinicalTrialPopoverFragment = (
   & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'url' | 'sourceCount' | 'evidenceCount'>
 );
 
+export type ClinicalTrialsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  nctId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<ClinicalTrialSort>;
+}>;
+
+
+export type ClinicalTrialsBrowseQuery = (
+  { __typename: 'Query' }
+  & { clinicalTrials: (
+    { __typename: 'BrowseClinicalTrialConnection' }
+    & Pick<BrowseClinicalTrialConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseClinicalTrialEdge' }
+      & Pick<BrowseClinicalTrialEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseClinicalTrial' }
+        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount'>
+      )> }
+    )> }
+  ) }
+);
+
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -4174,6 +4204,42 @@ export type BrowseSourceRowFieldsFragment = (
   & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
 );
 
+export type BrowseVariantGroupsQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantGroupsSort>;
+  name?: Maybe<Scalars['String']>;
+  geneNames?: Maybe<Scalars['String']>;
+  variantNames?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseVariantGroupsQuery = (
+  { __typename: 'Query' }
+  & { browseVariantGroups: (
+    { __typename: 'BrowseVariantGroupConnection' }
+    & Pick<BrowseVariantGroupConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantGroupEdge' }
+      & Pick<BrowseVariantGroupEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantGroup' }
+        & BrowseVariantGroupRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseVariantGroupRowFieldsFragment = (
+  { __typename: 'BrowseVariantGroup' }
+  & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
+);
+
 export type VariantTypesBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -4536,36 +4602,6 @@ export type AssertionSummaryFieldsFragment = (
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   )> }
-);
-
-export type ClinicalTrialsBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nctId?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<ClinicalTrialSort>;
-}>;
-
-
-export type ClinicalTrialsBrowseQuery = (
-  { __typename: 'Query' }
-  & { clinicalTrials: (
-    { __typename: 'BrowseClinicalTrialConnection' }
-    & Pick<BrowseClinicalTrialConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseClinicalTrialEdge' }
-      & Pick<BrowseClinicalTrialEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseClinicalTrial' }
-        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount'>
-      )> }
-    )> }
-  ) }
 );
 
 export type ClinicalTrialDetailQueryVariables = Exact<{
@@ -4993,42 +5029,6 @@ export type UserDetailFieldsFragment = (
     { __typename: 'Coi' }
     & Pick<Coi, 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
   )> }
-);
-
-export type BrowseVariantGroupsQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<VariantGroupsSort>;
-  name?: Maybe<Scalars['String']>;
-  geneNames?: Maybe<Scalars['String']>;
-  variantNames?: Maybe<Scalars['String']>;
-}>;
-
-
-export type BrowseVariantGroupsQuery = (
-  { __typename: 'Query' }
-  & { browseVariantGroups: (
-    { __typename: 'BrowseVariantGroupConnection' }
-    & Pick<BrowseVariantGroupConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
-    ), edges: Array<(
-      { __typename: 'BrowseVariantGroupEdge' }
-      & Pick<BrowseVariantGroupEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantGroup' }
-        & BrowseVariantGroupRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type BrowseVariantGroupRowFieldsFragment = (
-  { __typename: 'BrowseVariantGroup' }
-  & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
 );
 
 export type VariantGroupDetailQueryVariables = Exact<{
@@ -5772,6 +5772,16 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   displayType
 }
     `;
+export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
+    fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
+  id
+  name
+  geneNames
+  variantNames
+  variantCount
+  evidenceItemCount
+}
+    `;
 export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
     fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
   id
@@ -6200,16 +6210,6 @@ export const UserDetailFieldsFragmentDoc = gql`
   }
 }
     `;
-export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
-    fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
-  id
-  name
-  geneNames
-  variantNames
-  variantCount
-  evidenceItemCount
-}
-    `;
 export const VariantGroupDetailFieldsFragmentDoc = gql`
     fragment VariantGroupDetailFields on VariantGroup {
   id
@@ -6447,6 +6447,48 @@ export const ClinicalTrialPopoverDocument = gql`
   })
   export class ClinicalTrialPopoverGQL extends Apollo.Query<ClinicalTrialPopoverQuery, ClinicalTrialPopoverQueryVariables> {
     document = ClinicalTrialPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ClinicalTrialsBrowseDocument = gql`
+    query ClinicalTrialsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $nctId: String, $sortBy: ClinicalTrialSort) {
+  clinicalTrials(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    nctId: $nctId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        nctId
+        evidenceCount
+        sourceCount
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClinicalTrialsBrowseGQL extends Apollo.Query<ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables> {
+    document = ClinicalTrialsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7224,6 +7266,47 @@ export const BrowseSourcesDocument = gql`
       super(apollo);
     }
   }
+export const BrowseVariantGroupsDocument = gql`
+    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $geneNames: String, $variantNames: String) {
+  browseVariantGroups(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    geneNames: $geneNames
+    variantNames: $variantNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseVariantGroupRowFields
+      }
+    }
+  }
+}
+    ${BrowseVariantGroupRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
+    document = BrowseVariantGroupsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantTypesBrowseDocument = gql`
     query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
   variantTypes(
@@ -7592,48 +7675,6 @@ export const AssertionSummaryDocument = gql`
       super(apollo);
     }
   }
-export const ClinicalTrialsBrowseDocument = gql`
-    query ClinicalTrialsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $nctId: String, $sortBy: ClinicalTrialSort) {
-  clinicalTrials(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    nctId: $nctId
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        id
-        name
-        nctId
-        evidenceCount
-        sourceCount
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ClinicalTrialsBrowseGQL extends Apollo.Query<ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables> {
-    document = ClinicalTrialsBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const ClinicalTrialDetailDocument = gql`
     query ClinicalTrialDetail($clinicalTrialId: Int!) {
   clinicalTrial(id: $clinicalTrialId) {
@@ -7984,47 +8025,6 @@ export const UserDetailDocument = gql`
   })
   export class UserDetailGQL extends Apollo.Query<UserDetailQuery, UserDetailQueryVariables> {
     document = UserDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseVariantGroupsDocument = gql`
-    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $geneNames: String, $variantNames: String) {
-  browseVariantGroups(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    sortBy: $sortBy
-    name: $name
-    geneNames: $geneNames
-    variantNames: $variantNames
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      startCursor
-      hasPreviousPage
-    }
-    totalCount
-    filteredCount
-    pageCount
-    edges {
-      cursor
-      node {
-        ...BrowseVariantGroupRowFields
-      }
-    }
-  }
-}
-    ${BrowseVariantGroupRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
-    document = BrowseVariantGroupsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
