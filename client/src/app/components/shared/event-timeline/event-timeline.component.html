@@ -43,8 +43,8 @@
           <!-- subject -->
           <ng-container *ngIf="tagDisplay != 'hideSubject' && event.subject as subject"
             [ngSwitch]="subject.__typename">
-            <cvc-gene-tag-r *ngSwitchCase="'Gene'"
-              [gene]="subject"></cvc-gene-tag-r>
+            <cvc-gene-tag *ngSwitchCase="'Gene'"
+              [gene]="subject"></cvc-gene-tag>
             <cvc-assertion-tag *ngSwitchCase="'Assertion'"
               [assertion]="subject"></cvc-assertion-tag>
             <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'"

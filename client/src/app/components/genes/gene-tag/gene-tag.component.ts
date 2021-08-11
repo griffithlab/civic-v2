@@ -7,7 +7,7 @@ export interface LinkableGene {
 }
 
 @Component({
-  selector: 'cvc-gene-tag-r',
+  selector: 'cvc-gene-tag',
   templateUrl: './gene-tag.component.html',
   styleUrls: ['./gene-tag.component.less']
 })

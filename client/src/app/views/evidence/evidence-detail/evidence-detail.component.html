@@ -12,7 +12,7 @@
       </nz-space-item>
       <nz-space-item class="tags">
         <a routerLink="/genes/{{ evidence.gene.id }}">
-          <cvc-gene-tag-r [gene]="evidence.gene"></cvc-gene-tag-r>
+          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
         </a>
         <a routerLink="/variants/{{ evidence.variant.id }}">
           <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>

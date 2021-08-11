@@ -125,7 +125,7 @@
     <tbody>
       <tr *ngFor="let gene of genesTable.data">
         <td>
-          <cvc-gene-tag-r [gene]="gene"></cvc-gene-tag-r>
+          <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
         </td>
         <td>
           <span *ngFor="let alias of gene.aliases; last as isLast">

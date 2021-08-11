@@ -8,7 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { CvcGeneTagModule } from '../gene-tag/gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcTagOverflowModule } from '@app/components/shared/cvc-tag-overflow/cvc-tag-overflow.module';
 
 @NgModule({
