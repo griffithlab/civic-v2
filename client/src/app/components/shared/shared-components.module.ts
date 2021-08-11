@@ -59,7 +59,6 @@ import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
 import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-text-filter.component';
-import { EvidenceBrowseComponent } from './evidence-browse/evidence-browse.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
@@ -72,7 +71,6 @@ import { OrganizationCardComponent } from './organization-card/organization-card
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
-import { OrganizationsBrowseComponent } from './organizations-browse/organizations-browse.component';
 import { UserTagComponent } from './user-tag/user-tag.component';
 import { GeneTagComponent } from './gene-tag/gene-tag.component';
 import { OrgTagComponent } from './org-tag/org-tag.component';
@@ -142,14 +140,12 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     FlagListComponent,
     ResolveFlagComponent,
     ClearableTextComponentFilter,
-    EvidenceBrowseComponent,
     QuicksearchComponent,
     UserCardComponent,
     EvidenceCardComponent,
     AssertionCardComponent,
     OrganizationCardComponent,
     OrganizationAvatarComponent,
-    OrganizationsBrowseComponent,
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,
@@ -262,14 +258,12 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     FlagListComponent,
     ResolveFlagComponent,
     ClearableTextComponentFilter,
-    EvidenceBrowseComponent,
     QuicksearchComponent,
     UserCardComponent,
     EvidenceCardComponent,
     AssertionCardComponent,
     OrganizationCardComponent,
     OrganizationAvatarComponent,
-    OrganizationsBrowseComponent,
     UserTagComponent,
     GeneTagComponent,
     OrgTagComponent,

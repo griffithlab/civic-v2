@@ -41,6 +41,7 @@ import { UsersEventsComponent } from './users-events/users-events.component';
 import { UsersHomeModule } from './users-home/users-home.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
     CommonModule,
     UsersHomeModule,
     CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
     CvcEntityTableCardModule,
     UsersRoutingModule,
     CvcFormsModule,
