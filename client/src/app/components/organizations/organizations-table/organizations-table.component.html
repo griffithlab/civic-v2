@@ -1,0 +1,54 @@
+<nz-table #organizationsTable
+  [nzData]="(organizations$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="40%"
+        [nzColumnKey]="sortColumns.Name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <th>
+        Members
+      </th>
+      <th>
+        Actions
+      </th>
+      <th>
+        Last Action
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <cvc-clearable-text-filter [(inputModel)]="orgNameInput"
+          placeholderText="Search Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-text-filter>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let organization of organizationsTable.data">
+      <td>
+        <cvc-org-tag [org]="organization"></cvc-org-tag>
+      </td>
+      <td>
+        {{ organization.memberCount }}
+      </td>
+      <td>
+        {{ organization.eventCount }}
+      </td>
+      <td>
+        {{ organization.mostRecentEvent.createdAt}}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

@@ -4,6 +4,7 @@ import { UsersAssertionsComponent } from './users-assertions/users-assertions.co
 import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEventsComponent } from './users-events/users-events.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
+import { UsersHomePage } from './users-home/users-home.page';
 
 import { UsersComponent } from './users.component';
 
@@ -12,11 +13,11 @@ const routes: Routes = [
     path: '',
     component: UsersComponent,
     children: [
-      //{ path: '', redirectTo: 'browse', pathMatch: 'full' },
-      //{
-      //  path: 'browse',
-      //  component: OrganizationsBrowseComponent
-      //},
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+       path: 'home',
+       component: UsersHomePage
+      },
       {
         path: ':userId',
         component: UsersDetailComponent,

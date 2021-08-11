@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommunityMainComponent } from './community-main/community-main.component';
+import { CommunityHomePage } from './community-home/community-home.page';
 import { CommunityComponent } from './community.component';
 
 const routes: Routes = [
@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     component: CommunityComponent,
     children: [
-      { path: '', redirectTo: 'main', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'main',
-        component: CommunityMainComponent
+        path: 'home',
+        component: CommunityHomePage
       }
     ]
   }

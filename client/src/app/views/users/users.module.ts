@@ -38,6 +38,7 @@ import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 import { UsersAssertionsComponent } from './users-assertions/users-assertions.component';
 import { UsersEventsComponent } from './users-events/users-events.component';
+import { UsersHomeModule } from './users-home/users-home.module';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { UsersEventsComponent } from './users-events/users-events.component';
   ],
   imports: [
     CommonModule,
+    UsersHomeModule,
     UsersRoutingModule,
     CvcFormsModule,
     SharedComponentsModule,

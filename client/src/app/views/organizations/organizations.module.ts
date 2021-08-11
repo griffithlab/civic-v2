@@ -40,6 +40,7 @@ import { OrganizationsEventsComponent } from './organizations-events/organizatio
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { OrganizationsGroupsComponent } from './organizations-groups/organizations-groups.component';
+import { OrganizationsHomeModule } from './organizations-home/organizations-home.module';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { OrganizationsGroupsComponent } from './organizations-groups/organizatio
   ],
   imports: [
     CommonModule,
+    OrganizationsHomeModule,
     OrganizationsRoutingModule,
     CvcFormsModule,
     SharedComponentsModule,
