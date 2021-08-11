@@ -37,6 +37,9 @@ import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.compo
 import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.component';
 import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
 import { DiseasesHomeModule } from './diseases-home/diseases-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
 
 @NgModule({
@@ -49,6 +52,9 @@ import { DiseasesHomeModule } from './diseases-home/diseases-home.module';
   imports: [
     DiseasesRoutingModule,
     DiseasesHomeModule,
+    CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
     CommonModule,
     SourcesRoutingModule,
     SharedComponentsModule,
