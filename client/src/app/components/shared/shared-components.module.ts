@@ -81,7 +81,6 @@ import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
-import { GenePopoverComponent } from './gene-popover/gene-popover.component';
 import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
@@ -156,7 +155,6 @@ import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
-    GenePopoverComponent,
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     SourceTagComponent,
@@ -274,7 +272,6 @@ import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
-    GenePopoverComponent,
     EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
