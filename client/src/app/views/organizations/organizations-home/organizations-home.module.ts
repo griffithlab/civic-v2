@@ -5,6 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
 import { OrganizationsHomePage } from './organizations-home.page';
+import { CvcOrganizationsTableModule } from '@app/components/organizations/organizations-table/organizations-table.module';
 
 @NgModule({
   declarations: [OrganizationsHomePage],
@@ -13,6 +14,7 @@ import { OrganizationsHomePage } from './organizations-home.page';
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
+    CvcOrganizationsTableModule
   ],
   exports: [OrganizationsHomePage]
 })
