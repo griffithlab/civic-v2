@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcEvidencePopoverComponent } from './evidence-popover.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';

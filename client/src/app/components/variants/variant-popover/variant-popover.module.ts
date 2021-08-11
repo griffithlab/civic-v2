@@ -9,7 +9,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 
 @NgModule({

@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTagOverflowModule } from '@app/components/shared/cvc-tag-overflow/cvc-tag-overflow.module';
 
 import { CvcVariantsTableComponent } from './variants-table.component';
-import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
 
 @NgModule({

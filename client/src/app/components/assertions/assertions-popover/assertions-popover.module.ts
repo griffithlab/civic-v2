@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CvcAssertionPopoverComponent } from './assertion-popover.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterModule } from '@angular/router';

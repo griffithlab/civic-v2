@@ -6,7 +6,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
-import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 

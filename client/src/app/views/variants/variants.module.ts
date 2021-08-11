@@ -50,7 +50,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
-import { CvcGeneTagModule } from '@app/components/genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 
 @NgModule({
   declarations: [

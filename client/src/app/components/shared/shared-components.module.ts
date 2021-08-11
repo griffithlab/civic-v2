@@ -116,7 +116,7 @@ import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.co
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcLinkTagModule } from './link-tag/link-tag.module';
-import { CvcGeneTagModule } from '../genes/cvc-gene-tag/cvc-gene-tag.module';
+import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
 
 
 @NgModule({

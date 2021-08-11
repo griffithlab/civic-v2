@@ -8,8 +8,8 @@ export interface LinkableGene {
 
 @Component({
   selector: 'cvc-gene-tag-r',
-  templateUrl: './cvc-gene-tag.component.html',
-  styleUrls: ['./cvc-gene-tag.component.less']
+  templateUrl: './gene-tag.component.html',
+  styleUrls: ['./gene-tag.component.less']
 })
 export class CvcGeneTagComponent implements OnInit {
   @Input() gene!: LinkableGene;
