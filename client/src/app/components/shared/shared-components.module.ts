@@ -89,14 +89,12 @@ import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.compo
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { DiseaseTagComponent } from './disease-tag/disease-tag.component';
 import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
 import { StatusTagComponent } from './status-tag/status-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
-import { DiseasePopoverComponent } from './disease-popover/disease-popover.component';
 import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
 import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover.component';
 import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
@@ -111,6 +109,7 @@ import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.modu
 import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-tag.module';
 import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
+import { CvcDiseaseTagModule } from '../diseases/cvc-disease-tag/cvc-disease-tag.module';
 
 
 @NgModule({
@@ -153,13 +152,11 @@ import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
-    DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
-    DiseasePopoverComponent,
     DrugPopoverComponent,
     PhenotypePopoverComponent,
     VariantTypePopoverComponent,
@@ -181,6 +178,7 @@ import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
     CvcAssertionsTagModule,
     CvcClinicalTrialTagModule,
     CvcSourceTagModule,
+    CvcDiseaseTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -265,13 +263,11 @@ import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
     DetailsNavigationComponent,
     MyVariantInfoComponent,
     EvidenceRatingComponent,
-    DiseaseTagComponent,
     DrugTagComponent,
     PhenotypeTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
-    DiseasePopoverComponent,
     DrugPopoverComponent,
     PhenotypePopoverComponent,
     VariantTypePopoverComponent,

@@ -7,7 +7,7 @@ export interface LinkableDisease {
 }
 
 @Component({
-  selector: 'cvc-disease-tag-r',
+  selector: 'cvc-disease-tag',
   templateUrl: './cvc-disease-tag.component.html',
   styleUrls: ['./cvc-disease-tag.component.less']
 })

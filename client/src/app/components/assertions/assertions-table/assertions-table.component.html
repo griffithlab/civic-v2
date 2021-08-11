@@ -209,7 +209,7 @@
       </td>
       <td>
         <ng-container *ngIf="aid.disease.name; else diseaseElse">
-          <cvc-disease-tag-r [disease]="aid.disease"></cvc-disease-tag-r>
+          <cvc-disease-tag [disease]="aid.disease"></cvc-disease-tag>
         </ng-container>
         <ng-template #diseaseElse>
           <i>N/A</i>

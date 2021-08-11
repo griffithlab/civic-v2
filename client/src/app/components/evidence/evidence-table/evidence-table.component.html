@@ -284,7 +284,7 @@
       </td>
       <td>
         <ng-container *ngIf="eid.disease; else diseaseElse">
-          <cvc-disease-tag-r [disease]="eid.disease"></cvc-disease-tag-r>
+          <cvc-disease-tag [disease]="eid.disease"></cvc-disease-tag>
         </ng-container>
         <ng-template #diseaseElse>
           <i>N/A</i>

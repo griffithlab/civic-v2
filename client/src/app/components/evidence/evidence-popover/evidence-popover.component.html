@@ -64,7 +64,7 @@
         <!-- disease -->
         <nz-descriptions-item nzTitle="Disease">
           <ng-container *ngIf="evidence.disease; else noDisease">
-            <cvc-disease-tag-r [enablePopover]="false" [disease]="evidence.disease"></cvc-disease-tag-r>
+            <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease"></cvc-disease-tag>
           </ng-container>
           <ng-template #noDisease>
             N/A
