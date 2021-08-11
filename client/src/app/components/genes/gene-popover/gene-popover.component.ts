@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cvc-gene-popover',
-  templateUrl: './cvc-gene-popover.component.html',
-  styleUrls: ['./cvc-gene-popover.component.less']
+  templateUrl: './gene-popover.component.html',
+  styleUrls: ['./gene-popover.component.less']
 })
 export class CvcGenePopoverComponent implements OnInit {
   @Input() geneId!: number;
