@@ -7,7 +7,7 @@ export interface LinkableEvidence {
 }
 
 @Component({
-  selector: 'cvc-evidence-tag-r',
+  selector: 'cvc-evidence-tag',
   templateUrl: './evidence-tag.component.html',
   styleUrls: ['./evidence-tag.component.less']
 })

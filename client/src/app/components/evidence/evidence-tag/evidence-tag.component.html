@@ -13,8 +13,8 @@
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
-    <cvc-evidence-popover-r *ngIf="enablePopover"
-      [evidenceId]="evidence.id"></cvc-evidence-popover-r>
+    <cvc-evidence-popover *ngIf="enablePopover"
+      [evidenceId]="evidence.id"></cvc-evidence-popover>
   </ng-template>
 </ng-template>
 

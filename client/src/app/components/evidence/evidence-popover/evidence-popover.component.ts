@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 
 @Component({
-  selector: 'cvc-evidence-popover-r',
+  selector: 'cvc-evidence-popover',
   templateUrl: './evidence-popover.component.html',
   styleUrls: ['./evidence-popover.component.less']
 })

@@ -76,12 +76,10 @@ import { OrgTagComponent } from './org-tag/org-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
 import { CommentTagComponent } from './comment-tag/comment-tag.component';
-import { EvidenceTagComponent } from './evidence-tag/evidence-tag.component';
 import { AssertionTagComponent } from './assertion-tag/assertion-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
 import { OrgPopoverComponent } from './org-popover/org-popover.component';
-import { EvidencePopoverComponent } from './evidence-popover/evidence-popover.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -115,6 +113,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcLinkTagModule } from './link-tag/link-tag.module';
 import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module';
+import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.module';
 
 
 @NgModule({
@@ -149,12 +148,10 @@ import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module'
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
-    EvidenceTagComponent,
     AssertionTagComponent,
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
-    EvidencePopoverComponent,
     ContributorAvatarsComponent,
     SourceTagComponent,
     ContributorStackComponent,
@@ -189,6 +186,7 @@ import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module'
     CvcLinkTagModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
+    CvcEvidenceTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -265,12 +263,10 @@ import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module'
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
-    EvidenceTagComponent,
     AssertionTagComponent,
     FlagTagComponent,
     TagListComponent,
     OrgPopoverComponent,
-    EvidencePopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
