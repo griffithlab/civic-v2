@@ -46,6 +46,9 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantsHomeModule } from './variants-home/variants-home.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
   ],
   imports: [
     VariantsHomeModule,
+    CvcEvidenceTableModule,
+    CvcAssertionsTableModule,
+    CvcEntityTableCardModule,
     CvcFormsModule,
     CvcPipesModule,
     SectionNavigationModule,

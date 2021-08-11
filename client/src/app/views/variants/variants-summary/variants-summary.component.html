@@ -308,7 +308,29 @@
     </nz-row>
   </nz-space-item>
 
-  <!-- event feed row -->
+  <!-- evidence table -->
+  <nz-space-item>
+    <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
+      <cvc-evidence-table [variantId]="variant.id" [displayGeneAndVariant]="false"></cvc-evidence-table>
+    </cvc-entity-table-card>
+    <ng-template #evidenceCardTitle>
+      <i nz-icon nzType="civic:variant"></i>
+      {{ variant.name }} Evidence
+    </ng-template>
+  </nz-space-item>
+
+  <!-- assertions table -->
+  <nz-space-item>
+    <cvc-entity-table-card [cvcTitle]="assertionsCardTitle">
+      <cvc-assertions-table [variantId]="variant.id"></cvc-assertions-table>
+    </cvc-entity-table-card>
+    <ng-template #assertionsCardTitle>
+      <i nz-icon nzType="civic:variant"></i>
+      {{ variant.name }} Assertions
+    </ng-template>
+  </nz-space-item>
+
+  <!-- event feed -->
   <nz-space-item>
     <div nz-row
       [nzGutter]="16">
@@ -317,14 +339,5 @@
           tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>
     </div>
-  </nz-space-item>
-
-  <!-- evidence table row -->
-  <nz-space-item>
-    <cvc-evidence-browse [displayGeneAndVariant]="false"
-      [variantId]="variant.id"></cvc-evidence-browse>
-  </nz-space-item>
-  <nz-space-item>
-    <cvc-assertions-browse [variantId]="variant.id"></cvc-assertions-browse>
   </nz-space-item>
 </nz-space>

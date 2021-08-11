@@ -17,6 +17,9 @@ import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical
 import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary/clinical-trials-summary.component';
 import { SourcesModule } from '../sources/sources.module';
 import { ClinicalTrialsHomeModule } from './clinical-trials-home/clinical-trials-home.module';
+import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
 
 @NgModule({
@@ -25,6 +28,9 @@ import { ClinicalTrialsHomeModule } from './clinical-trials-home/clinical-trials
     CommonModule,
     ClinicalTrialsRoutingModule,
     ClinicalTrialsHomeModule,
+    CvcSourcesTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
     IconsProviderModule,
     NzTableModule,
     SharedComponentsModule,
