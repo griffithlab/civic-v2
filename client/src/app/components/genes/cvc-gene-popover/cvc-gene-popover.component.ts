@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cvc-gene-popover-r',
+  selector: 'cvc-gene-popover',
   templateUrl: './cvc-gene-popover.component.html',
   styleUrls: ['./cvc-gene-popover.component.less']
 })
