@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { RevisionsRoutingModule } from './revisions-routing.module';
 import { RevisionsComponent } from './revisions.component';
-import { RevisionsBrowseComponent } from './revisions-browse/revisions-browse.component';
 import { RevisionsHomeModule } from './revisions-home/revisions-home.module';
 
 @NgModule({
   declarations: [
     RevisionsComponent,
-    RevisionsBrowseComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +15,6 @@ import { RevisionsHomeModule } from './revisions-home/revisions-home.module';
     RevisionsHomeModule,
   ],
   exports: [
-    RevisionsBrowseComponent
   ]
 })
 export class RevisionsModule { }

@@ -5,9 +5,7 @@ import { VariantTypesRoutingModule } from './variant-types-routing.module';
 import { VariantTypesComponent } from './variant-types.component';
 import { VariantTypesDetailComponent } from './variant-types-detail/variant-types-detail.component';
 import { VariantTypesSummaryComponent } from './variant-types-summary/variant-types-summary.component';
-import { VariantTypesBrowseComponent } from './variant-types-browse/variant-types-browse.component';
 
-import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -22,7 +20,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
-  declarations: [VariantTypesComponent, VariantTypesDetailComponent, VariantTypesSummaryComponent, VariantTypesBrowseComponent],
+  declarations: [VariantTypesComponent, VariantTypesDetailComponent, VariantTypesSummaryComponent],
   imports: [
     CommonModule,
     VariantTypesHomeModule,
@@ -31,7 +29,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzIconModule,
     SectionNavigationModule,
     VariantTypesRoutingModule,
-    IconsProviderModule,
     NzTableModule,
     SharedComponentsModule,
     NzPageHeaderModule,

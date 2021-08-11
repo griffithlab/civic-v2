@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { VariantGroupsRoutingModule } from './variant-groups-routing.module';
 import { VariantGroupsComponent } from './variant-groups.component';
-import { VariantGroupsBrowseComponent } from './variant-groups-browse/variant-groups-browse.component';
 import { FormsModule } from '@angular/forms';
 import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
@@ -45,7 +44,11 @@ import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-ho
 @NgModule({
   declarations: [
     VariantGroupsComponent,
-    VariantGroupsBrowseComponent, VariantGroupsDetailComponent, VariantGroupsSummaryComponent, VariantGroupsCommentsComponent, VariantGroupsRevisionsComponent, VariantGroupsFlagsComponent
+    VariantGroupsDetailComponent,
+    VariantGroupsSummaryComponent,
+    VariantGroupsCommentsComponent,
+    VariantGroupsRevisionsComponent,
+    VariantGroupsFlagsComponent,
   ],
   imports: [
     CommonModule,
@@ -84,15 +87,14 @@ import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-ho
     SharedComponentsModule,
     EvidenceModule,
     SharedComponentsModule,
-    NzSelectModule
+    NzSelectModule,
   ],
   exports: [
-    VariantGroupsBrowseComponent,
     VariantGroupsDetailComponent,
     VariantGroupsSummaryComponent,
     VariantGroupsCommentsComponent,
     VariantGroupsRevisionsComponent,
-    VariantGroupsFlagsComponent
-  ]
+    VariantGroupsFlagsComponent,
+  ],
 })
-export class VariantGroupsModule { }
+export class VariantGroupsModule {}

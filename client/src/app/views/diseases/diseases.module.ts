@@ -33,7 +33,6 @@ import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { SourcesRoutingModule } from '../sources/sources-routing.module';
 import { VariantsRoutingModule } from '../variants/variants-routing.module';
-import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.component';
 import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.component';
 import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
 import { DiseasesHomeModule } from './diseases-home/diseases-home.module';
@@ -41,13 +40,11 @@ import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
-
 @NgModule({
   declarations: [
     DiseasesComponent,
-    DiseasesBrowseComponent,
     DiseasesSummaryComponent,
-    DiseasesDetailComponent
+    DiseasesDetailComponent,
   ],
   imports: [
     DiseasesRoutingModule,
@@ -87,12 +84,11 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
     SharedComponentsModule,
     EvidenceModule,
     SharedComponentsModule,
-    NzSelectModule
+    NzSelectModule,
   ],
   exports: [
-    DiseasesBrowseComponent,
     DiseasesSummaryComponent,
-    DiseasesDetailComponent
-  ]
+    DiseasesDetailComponent,
+  ],
 })
-export class DiseasesModule { }
+export class DiseasesModule {}

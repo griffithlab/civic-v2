@@ -12,7 +12,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 import { ClinicalTrialsRoutingModule } from './clinical-trials-routing.module';
 import { ClinicalTrialsComponent } from './clinical-trials.component';
-import { ClinicalTrialsBrowseComponent } from './clinical-trials-browse/clinical-trials-browse.component';
 import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component';
 import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary/clinical-trials-summary.component';
 import { SourcesModule } from '../sources/sources.module';
@@ -21,9 +20,12 @@ import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sou
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 
-
 @NgModule({
-  declarations: [ClinicalTrialsComponent, ClinicalTrialsBrowseComponent, ClinicalTrialsDetailComponent, ClinicalTrialsSummaryComponent],
+  declarations: [
+    ClinicalTrialsComponent,
+    ClinicalTrialsDetailComponent,
+    ClinicalTrialsSummaryComponent,
+  ],
   imports: [
     CommonModule,
     ClinicalTrialsRoutingModule,
@@ -39,7 +41,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
     NzGridModule,
     NzToolTipModule,
     NzSpaceModule,
-    SourcesModule
-  ]
+    SourcesModule,
+  ],
 })
-export class ClinicalTrialsModule { }
+export class ClinicalTrialsModule {}

@@ -29,7 +29,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { SourcesBrowseComponent } from './sources-browse/sources-browse.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
@@ -43,7 +42,6 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 @NgModule({
   declarations: [
     SourcesComponent,
-    SourcesBrowseComponent,
     SourcesDetailComponent,
     SourcesSummaryComponent
   ],
@@ -86,7 +84,6 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
     NzSelectModule
   ],
   exports: [
-    SourcesBrowseComponent
   ]
 })
 export class SourcesModule { }
