@@ -95,7 +95,6 @@ import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { ClinicalTrialTagComponent } from './clinical-trial-tag/clinical-trial-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
 import { StatusTagComponent } from './status-tag/status-tag.component';
-import { AssertionPopoverComponent } from './assertion-popover/assertion-popover.component';
 import { SourceTagComponent } from './source-tag/source-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
@@ -164,7 +163,6 @@ import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-
     VariantTypeTagComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
-    AssertionPopoverComponent,
     ClinicalTrialPopoverComponent,
     DiseasePopoverComponent,
     DrugPopoverComponent,
@@ -277,7 +275,6 @@ import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-
     ClinicalTrialTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
-    AssertionPopoverComponent,
     SourceTagComponent,
     EmptyRevisableComponent,
     ClinicalTrialPopoverComponent,

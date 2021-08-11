@@ -3106,6 +3106,52 @@ export type WithRevisionsRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type AssertionPopoverQueryVariables = Exact<{
+  assertionId: Scalars['Int'];
+}>;
+
+
+export type AssertionPopoverQuery = (
+  { __typename: 'Query' }
+  & { assertion?: Maybe<(
+    { __typename: 'Assertion' }
+    & AssertionPopoverFragment
+  )> }
+);
+
+export type AssertionPopoverFragment = (
+  { __typename: 'Assertion' }
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
+  & { acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'code'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
 export type AssertionsBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3628,52 +3674,6 @@ export type PhenotypesBrowseQuery = (
 export type PhenotypeBrowseTableRowFieldsFragment = (
   { __typename: 'BrowsePhenotype' }
   & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
-);
-
-export type AssertionPopoverQueryVariables = Exact<{
-  assertionId: Scalars['Int'];
-}>;
-
-
-export type AssertionPopoverQuery = (
-  { __typename: 'Query' }
-  & { assertion?: Maybe<(
-    { __typename: 'Assertion' }
-    & AssertionPopoverFragment
-  )> }
-);
-
-export type AssertionPopoverFragment = (
-  { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
-  & { acmgCodes: Array<(
-    { __typename: 'AcmgCode' }
-    & Pick<AcmgCode, 'code'>
-  )>, drugs: Array<(
-    { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
-  )>, disease?: Maybe<(
-    { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
-  )>, phenotypes: Array<(
-    { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
-  )>, gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
-  ), variant: (
-    { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ) }
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -5234,6 +5234,54 @@ export type MyVariantInfoFieldsFragment = (
   & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
+export const AssertionPopoverFragmentDoc = gql`
+    fragment assertionPopover on Assertion {
+  id
+  name
+  summary
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  variantOrigin
+  ampLevel
+  acmgCodes {
+    code
+  }
+  nccnGuideline
+  fdaCompanionTest
+  regulatoryApproval
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
 export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     fragment AssertionBrowseTableRowFields on Assertion {
   id
@@ -5479,54 +5527,6 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   url
   assertionCount
   evidenceCount
-}
-    `;
-export const AssertionPopoverFragmentDoc = gql`
-    fragment assertionPopover on Assertion {
-  id
-  name
-  summary
-  assertionType
-  assertionDirection
-  clinicalSignificance
-  variantOrigin
-  ampLevel
-  acmgCodes {
-    code
-  }
-  nccnGuideline
-  fdaCompanionTest
-  regulatoryApproval
-  drugs {
-    id
-    name
-  }
-  drugInteractionType
-  disease {
-    id
-    name
-  }
-  phenotypes {
-    id
-    name
-  }
-  gene {
-    id
-    name
-  }
-  variant {
-    id
-    name
-  }
-  flags(state: OPEN) {
-    totalCount
-  }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
 }
     `;
 export const CommentListNodeFragmentDoc = gql`
@@ -6377,6 +6377,24 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
+export const AssertionPopoverDocument = gql`
+    query AssertionPopover($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...assertionPopover
+  }
+}
+    ${AssertionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionPopoverGQL extends Apollo.Query<AssertionPopoverQuery, AssertionPopoverQueryVariables> {
+    document = AssertionPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AssertionsBrowseDocument = gql`
     query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $cardView: Boolean!) {
   assertions(
@@ -6839,24 +6857,6 @@ export const PhenotypesBrowseDocument = gql`
   })
   export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
     document = PhenotypesBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AssertionPopoverDocument = gql`
-    query AssertionPopover($assertionId: Int!) {
-  assertion(id: $assertionId) {
-    ...assertionPopover
-  }
-}
-    ${AssertionPopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AssertionPopoverGQL extends Apollo.Query<AssertionPopoverQuery, AssertionPopoverQueryVariables> {
-    document = AssertionPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
