@@ -39,6 +39,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clini
     CvcEntityTableCardModule,
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,
+    CvcSourceTagModule,
     SectionNavigationModule,
     SourcesRoutingModule,
     SharedComponentsModule,

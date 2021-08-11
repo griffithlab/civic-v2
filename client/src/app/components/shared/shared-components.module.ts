@@ -94,13 +94,11 @@ import { DrugTagComponent } from './drug-tag/drug-tag.component';
 import { PhenotypeTagComponent } from './phenotype-tag/phenotype-tag.component';
 import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
 import { StatusTagComponent } from './status-tag/status-tag.component';
-import { SourceTagComponent } from './source-tag/source-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
 import { DiseasePopoverComponent } from './disease-popover/disease-popover.component';
 import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
 import { PhenotypePopoverComponent } from './phenotype-popover/phenotype-popover.component';
-import { SourcePopoverComponent } from './source-popover/source-popover.component';
 import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
 import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
@@ -112,6 +110,7 @@ import { CvcVariantTagModule } from '../variants/variant-tag/variant-tag.module'
 import { CvcEvidenceTagModule } from '../evidence/evidence-tag/evidence-tag.module';
 import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-tag.module';
 import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
+import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
 
 
 @NgModule({
@@ -150,7 +149,6 @@ import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag
     TagListComponent,
     OrgPopoverComponent,
     ContributorAvatarsComponent,
-    SourceTagComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
     MyVariantInfoComponent,
@@ -164,7 +162,6 @@ import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag
     DiseasePopoverComponent,
     DrugPopoverComponent,
     PhenotypePopoverComponent,
-    SourcePopoverComponent,
     VariantTypePopoverComponent,
     CommentPopoverComponent,
     VariantgroupTagComponent,
@@ -183,6 +180,7 @@ import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag
     CvcEvidenceTagModule,
     CvcAssertionsTagModule,
     CvcClinicalTrialTagModule,
+    CvcSourceTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -272,12 +270,10 @@ import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag
     PhenotypeTagComponent,
     VariantTypeTagComponent,
     StatusTagComponent,
-    SourceTagComponent,
     EmptyRevisableComponent,
     DiseasePopoverComponent,
     DrugPopoverComponent,
     PhenotypePopoverComponent,
-    SourcePopoverComponent,
     VariantTypePopoverComponent,
     VariantgroupTagComponent,
     TagPileupComponent,

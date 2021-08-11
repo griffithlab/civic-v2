@@ -51,6 +51,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     CvcPipesModule,
     CvcLinkTagModule,
     CvcGeneTagModule,
+    CvcSourceTagModule,
     SectionNavigationModule,
     SharedComponentsModule,
     CommonModule,

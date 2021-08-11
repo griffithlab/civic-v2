@@ -4,6 +4,7 @@ import { SourceListItemComponent } from './source-list-item/source-list-item.com
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SharedComponentsModule } from '../shared/shared-components.module';
+import { CvcSourceTagModule } from './source-tag/source-tag.module';
 
 @NgModule({
   declarations: [SourceListItemComponent],
@@ -11,7 +12,8 @@ import { SharedComponentsModule } from '../shared/shared-components.module';
     SharedComponentsModule,
     CommonModule,
     NzTagModule,
-    NzTypographyModule
+    NzTypographyModule,
+    CvcSourceTagModule,
   ],
   exports: [SourceListItemComponent]
 })

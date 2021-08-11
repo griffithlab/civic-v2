@@ -4055,34 +4055,6 @@ export type ResolveFlagMutation = (
   )> }
 );
 
-export type SourcePopoverQueryVariables = Exact<{
-  sourceId: Scalars['Int'];
-}>;
-
-
-export type SourcePopoverQuery = (
-  { __typename: 'Query' }
-  & { browseSources: (
-    { __typename: 'BrowseSourceConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseSourceEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseSource' }
-        & SourcePopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type SourcePopoverFragment = (
-  { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'name' | 'evidenceItemCount' | 'citation' | 'citationId' | 'displayType' | 'sourceUrl'>
-  & { clinicalTrials: Array<(
-    { __typename: 'ClinicalTrial' }
-    & Pick<ClinicalTrial, 'id' | 'nctId'>
-  )> }
-);
-
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -4162,6 +4134,34 @@ export type VariantsMenuQuery = (
 export type MenuVariantFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
+);
+
+export type SourcePopoverQueryVariables = Exact<{
+  sourceId: Scalars['Int'];
+}>;
+
+
+export type SourcePopoverQuery = (
+  { __typename: 'Query' }
+  & { browseSources: (
+    { __typename: 'BrowseSourceConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseSourceEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseSource' }
+        & SourcePopoverFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type SourcePopoverFragment = (
+  { __typename: 'BrowseSource' }
+  & Pick<BrowseSource, 'id' | 'name' | 'evidenceItemCount' | 'citation' | 'citationId' | 'displayType' | 'sourceUrl'>
+  & { clinicalTrials: Array<(
+    { __typename: 'ClinicalTrial' }
+    & Pick<ClinicalTrial, 'id' | 'nctId'>
+  )> }
 );
 
 export type BrowseSourcesQueryVariables = Exact<{
@@ -5715,21 +5715,6 @@ export const QuicksearchResultFragmentDoc = gql`
   matchingText
 }
     `;
-export const SourcePopoverFragmentDoc = gql`
-    fragment sourcePopover on BrowseSource {
-  id
-  name
-  evidenceItemCount
-  citation
-  citationId
-  displayType
-  sourceUrl
-  clinicalTrials {
-    id
-    nctId
-  }
-}
-    `;
 export const PopoverUserFragmentDoc = gql`
     fragment popoverUser on User {
   id
@@ -5756,6 +5741,21 @@ export const MenuVariantFragmentDoc = gql`
     fragment menuVariant on Variant {
   id
   name
+}
+    `;
+export const SourcePopoverFragmentDoc = gql`
+    fragment sourcePopover on BrowseSource {
+  id
+  name
+  evidenceItemCount
+  citation
+  citationId
+  displayType
+  sourceUrl
+  clinicalTrials {
+    id
+    nctId
+  }
 }
     `;
 export const BrowseSourceRowFieldsFragmentDoc = gql`
@@ -7121,28 +7121,6 @@ export const ResolveFlagDocument = gql`
       super(apollo);
     }
   }
-export const SourcePopoverDocument = gql`
-    query SourcePopover($sourceId: Int!) {
-  browseSources(id: $sourceId) {
-    edges {
-      node {
-        ...sourcePopover
-      }
-    }
-  }
-}
-    ${SourcePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SourcePopoverGQL extends Apollo.Query<SourcePopoverQuery, SourcePopoverQueryVariables> {
-    document = SourcePopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const UserPopoverDocument = gql`
     query UserPopover($userId: Int!) {
   user(id: $userId) {
@@ -7216,6 +7194,28 @@ export const VariantsMenuDocument = gql`
   })
   export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
     document = VariantsMenuDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourcePopoverDocument = gql`
+    query SourcePopover($sourceId: Int!) {
+  browseSources(id: $sourceId) {
+    edges {
+      node {
+        ...sourcePopover
+      }
+    }
+  }
+}
+    ${SourcePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourcePopoverGQL extends Apollo.Query<SourcePopoverQuery, SourcePopoverQueryVariables> {
+    document = SourcePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

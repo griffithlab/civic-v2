@@ -8,7 +8,7 @@ export interface LinkableSource {
 }
 
 @Component({
-  selector: 'cvc-source-tag-r',
+  selector: 'cvc-source-tag',
   templateUrl: './source-tag.component.html',
   styleUrls: ['./source-tag.component.less']
 })
