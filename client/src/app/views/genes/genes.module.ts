@@ -56,6 +56,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/variants-menu.module';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
     CvcOrgSelectorBtnGroupModule,
     CvcParticipantListModule,
     CvcCommentListModule,
+    CvcVariantsMenuModule,
     SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,

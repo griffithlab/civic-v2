@@ -3276,6 +3276,92 @@ export type ClinicalTrialsBrowseQuery = (
   ) }
 );
 
+export type CommentListQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  subject?: Maybe<CommentableInput>;
+  sortBy?: Maybe<DateSort>;
+}>;
+
+
+export type CommentListQuery = (
+  { __typename: 'Query' }
+  & { comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ), uniqueCommenters: Array<(
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    )>, edges: Array<(
+      { __typename: 'CommentEdge' }
+      & Pick<CommentEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Comment' }
+        & CommentListNodeFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type CommentListNodeFragment = (
+  { __typename: 'Comment' }
+  & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
+  & { commenter: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'displayName' | 'name' | 'role' | 'profileImagePath'>
+    & { organizations: Array<(
+      { __typename: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )> }
+  ) }
+);
+
+export type CommentPopoverQueryVariables = Exact<{
+  commentId: Scalars['Int'];
+}>;
+
+
+export type CommentPopoverQuery = (
+  { __typename: 'Query' }
+  & { comment?: Maybe<(
+    { __typename: 'Comment' }
+    & CommentPopoverFragment
+  )> }
+);
+
+export type CommentPopoverFragment = (
+  { __typename: 'Comment' }
+  & Pick<Comment, 'id' | 'name' | 'createdAt' | 'title' | 'comment'>
+  & { commenter: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+  ), commentable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
+  ) | (
+    { __typename: 'Flag' }
+    & Pick<Flag, 'id' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'name'>
+  ) }
+);
+
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -3718,109 +3804,6 @@ export type PhenotypeBrowseTableRowFieldsFragment = (
   & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
 );
 
-export type AddCommentMutationVariables = Exact<{
-  input: AddCommentInput;
-}>;
-
-
-export type AddCommentMutation = (
-  { __typename: 'Mutation' }
-  & { addComment?: Maybe<(
-    { __typename: 'AddCommentPayload' }
-    & Pick<AddCommentPayload, 'clientMutationId'>
-    & { comment?: Maybe<(
-      { __typename: 'Comment' }
-      & CommentListNodeFragment
-    )> }
-  )> }
-);
-
-export type CommentListQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  originatingUserId?: Maybe<Scalars['Int']>;
-  subject?: Maybe<CommentableInput>;
-  sortBy?: Maybe<DateSort>;
-}>;
-
-
-export type CommentListQuery = (
-  { __typename: 'Query' }
-  & { comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ), uniqueCommenters: Array<(
-      { __typename: 'User' }
-      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
-    )>, edges: Array<(
-      { __typename: 'CommentEdge' }
-      & Pick<CommentEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'Comment' }
-        & CommentListNodeFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type CommentListNodeFragment = (
-  { __typename: 'Comment' }
-  & Pick<Comment, 'id' | 'title' | 'comment' | 'createdAt'>
-  & { commenter: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'displayName' | 'name' | 'role' | 'profileImagePath'>
-    & { organizations: Array<(
-      { __typename: 'Organization' }
-      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )> }
-  ) }
-);
-
-export type CommentPopoverQueryVariables = Exact<{
-  commentId: Scalars['Int'];
-}>;
-
-
-export type CommentPopoverQuery = (
-  { __typename: 'Query' }
-  & { comment?: Maybe<(
-    { __typename: 'Comment' }
-    & CommentPopoverFragment
-  )> }
-);
-
-export type CommentPopoverFragment = (
-  { __typename: 'Comment' }
-  & Pick<Comment, 'id' | 'name' | 'createdAt' | 'title' | 'comment'>
-  & { commenter: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
-  ), commentable: (
-    { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
-  ) | (
-    { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'id' | 'name'>
-  ) | (
-    { __typename: 'Flag' }
-    & Pick<Flag, 'id' | 'name'>
-  ) | (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
-  ) | (
-    { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
-  ) | (
-    { __typename: 'VariantGroup' }
-    & Pick<VariantGroup, 'id' | 'name'>
-  ) }
-);
-
 export type ContributorAvatarsQueryVariables = Exact<{
   subscribable: SubscribableInput;
 }>;
@@ -4055,63 +4038,6 @@ export type ResolveFlagMutation = (
   )> }
 );
 
-export type UserPopoverQueryVariables = Exact<{
-  userId: Scalars['Int'];
-}>;
-
-
-export type UserPopoverQuery = (
-  { __typename: 'Query' }
-  & { user?: Maybe<(
-    { __typename: 'User' }
-    & PopoverUserFragment
-  )> }
-);
-
-export type PopoverUserFragment = (
-  { __typename: 'User' }
-  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio' | 'role'>
-  & { organizations: Array<(
-    { __typename: 'Organization' }
-    & Pick<Organization, 'id' | 'name'>
-  )> }
-);
-
-export type VariantsMenuQueryVariables = Exact<{
-  geneId?: Maybe<Scalars['Int']>;
-  variantName?: Maybe<Scalars['String']>;
-  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-}>;
-
-
-export type VariantsMenuQuery = (
-  { __typename: 'Query' }
-  & { variants: (
-    { __typename: 'VariantConnection' }
-    & Pick<VariantConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ), edges: Array<(
-      { __typename: 'VariantEdge' }
-      & Pick<VariantEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'Variant' }
-        & MenuVariantFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type MenuVariantFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
-);
-
 export type SourcePopoverQueryVariables = Exact<{
   sourceId: Scalars['Int'];
 }>;
@@ -4178,6 +4104,28 @@ export type BrowseSourcesQuery = (
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
   & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
+);
+
+export type UserPopoverQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type UserPopoverQuery = (
+  { __typename: 'Query' }
+  & { user?: Maybe<(
+    { __typename: 'User' }
+    & PopoverUserFragment
+  )> }
+);
+
+export type PopoverUserFragment = (
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'profileImagePath' | 'displayName' | 'bio' | 'role'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )> }
 );
 
 export type BrowseVariantGroupsQueryVariables = Exact<{
@@ -4309,6 +4257,41 @@ export type VariantPopoverFieldsFragment = (
   ) }
 );
 
+export type VariantsMenuQueryVariables = Exact<{
+  geneId?: Maybe<Scalars['Int']>;
+  variantName?: Maybe<Scalars['String']>;
+  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type VariantsMenuQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ), edges: Array<(
+      { __typename: 'VariantEdge' }
+      & Pick<VariantEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'Variant' }
+        & MenuVariantFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type MenuVariantFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
+);
+
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: Maybe<Scalars['String']>;
   entrezSymbol?: Maybe<Scalars['String']>;
@@ -4347,6 +4330,23 @@ export type BrowseVariantsQuery = (
       )> }
     )> }
   ) }
+);
+
+export type AddCommentMutationVariables = Exact<{
+  input: AddCommentInput;
+}>;
+
+
+export type AddCommentMutation = (
+  { __typename: 'Mutation' }
+  & { addComment?: Maybe<(
+    { __typename: 'AddCommentPayload' }
+    & Pick<AddCommentPayload, 'clientMutationId'>
+    & { comment?: Maybe<(
+      { __typename: 'Comment' }
+      & CommentListNodeFragment
+    )> }
+  )> }
 );
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
@@ -5331,6 +5331,47 @@ export const ClinicalTrialPopoverFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const CommentListNodeFragmentDoc = gql`
+    fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commenter {
+    id
+    username
+    displayName
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+    `;
+export const CommentPopoverFragmentDoc = gql`
+    fragment commentPopover on Comment {
+  id
+  name
+  createdAt
+  title
+  comment
+  commenter {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  commentable {
+    id
+    name
+    __typename
+  }
+}
+    `;
 export const DiseasePopoverFragmentDoc = gql`
     fragment diseasePopover on BrowseDisease {
   id
@@ -5548,47 +5589,6 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   evidenceCount
 }
     `;
-export const CommentListNodeFragmentDoc = gql`
-    fragment commentListNode on Comment {
-  id
-  title
-  comment
-  createdAt
-  commenter {
-    id
-    username
-    displayName
-    name
-    role
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
-  }
-}
-    `;
-export const CommentPopoverFragmentDoc = gql`
-    fragment commentPopover on Comment {
-  id
-  name
-  createdAt
-  title
-  comment
-  commenter {
-    id
-    displayName
-    role
-    profileImagePath(size: 32)
-  }
-  commentable {
-    id
-    name
-    __typename
-  }
-}
-    `;
 export const ContributorFieldsFragmentDoc = gql`
     fragment ContributorFields on ContributingUser {
   user {
@@ -5715,25 +5715,6 @@ export const QuicksearchResultFragmentDoc = gql`
   matchingText
 }
     `;
-export const PopoverUserFragmentDoc = gql`
-    fragment popoverUser on User {
-  id
-  profileImagePath(size: 64)
-  displayName
-  bio
-  role
-  organizations {
-    id
-    name
-  }
-}
-    `;
-export const MenuVariantFragmentDoc = gql`
-    fragment menuVariant on Variant {
-  id
-  name
-}
-    `;
 export const SourcePopoverFragmentDoc = gql`
     fragment sourcePopover on BrowseSource {
   id
@@ -5761,6 +5742,19 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   sourceType
   citation
   displayType
+}
+    `;
+export const PopoverUserFragmentDoc = gql`
+    fragment popoverUser on User {
+  id
+  profileImagePath(size: 64)
+  displayName
+  bio
+  role
+  organizations {
+    id
+    name
+  }
 }
     `;
 export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
@@ -5814,6 +5808,12 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
+}
+    `;
+export const MenuVariantFragmentDoc = gql`
+    fragment menuVariant on Variant {
+  id
+  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -6512,6 +6512,68 @@ export const ClinicalTrialsBrowseDocument = gql`
       super(apollo);
     }
   }
+export const CommentListDocument = gql`
+    query CommentList($first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $subject: CommentableInput, $sortBy: DateSort) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    subject: $subject
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    uniqueCommenters {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    edges {
+      cursor
+      node {
+        ...commentListNode
+      }
+    }
+  }
+}
+    ${CommentListNodeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
+    document = CommentListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CommentPopoverDocument = gql`
+    query CommentPopover($commentId: Int!) {
+  comment(id: $commentId) {
+    ...commentPopover
+  }
+}
+    ${CommentPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentPopoverGQL extends Apollo.Query<CommentPopoverQuery, CommentPopoverQueryVariables> {
+    document = CommentPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DiseasePopoverDocument = gql`
     query DiseasePopover($diseaseId: Int!) {
   browseDiseases(id: $diseaseId) {
@@ -6902,89 +6964,6 @@ export const PhenotypesBrowseDocument = gql`
       super(apollo);
     }
   }
-export const AddCommentDocument = gql`
-    mutation AddComment($input: AddCommentInput!) {
-  addComment(input: $input) {
-    clientMutationId
-    comment {
-      ...commentListNode
-    }
-  }
-}
-    ${CommentListNodeFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
-    document = AddCommentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CommentListDocument = gql`
-    query CommentList($first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $subject: CommentableInput, $sortBy: DateSort) {
-  comments(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    originatingUserId: $originatingUserId
-    subject: $subject
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    uniqueCommenters {
-      id
-      displayName
-      role
-      profileImagePath(size: 32)
-    }
-    edges {
-      cursor
-      node {
-        ...commentListNode
-      }
-    }
-  }
-}
-    ${CommentListNodeFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CommentListGQL extends Apollo.Query<CommentListQuery, CommentListQueryVariables> {
-    document = CommentListDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CommentPopoverDocument = gql`
-    query CommentPopover($commentId: Int!) {
-  comment(id: $commentId) {
-    ...commentPopover
-  }
-}
-    ${CommentPopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CommentPopoverGQL extends Apollo.Query<CommentPopoverQuery, CommentPopoverQueryVariables> {
-    document = CommentPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const ContributorAvatarsDocument = gql`
     query ContributorAvatars($subscribable: SubscribableInput!) {
   contributors(subscribable: $subscribable) {
@@ -7121,62 +7100,6 @@ export const ResolveFlagDocument = gql`
       super(apollo);
     }
   }
-export const UserPopoverDocument = gql`
-    query UserPopover($userId: Int!) {
-  user(id: $userId) {
-    ...popoverUser
-  }
-}
-    ${PopoverUserFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
-    document = UserPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
-  variants(
-    geneId: $geneId
-    name: $variantName
-    evidenceStatusFilter: $evidenceStatusFilter
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    totalCount
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    edges {
-      cursor
-      node {
-        ...menuVariant
-      }
-    }
-  }
-}
-    ${MenuVariantFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
-    document = VariantsMenuDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const SourcePopoverDocument = gql`
     query SourcePopover($sourceId: Int!) {
   browseSources(id: $sourceId) {
@@ -7239,6 +7162,24 @@ export const BrowseSourcesDocument = gql`
   })
   export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
     document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserPopoverDocument = gql`
+    query UserPopover($userId: Int!) {
+  user(id: $userId) {
+    ...popoverUser
+  }
+}
+    ${PopoverUserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
+    document = UserPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7363,6 +7304,44 @@ export const VariantPopoverDocument = gql`
       super(apollo);
     }
   }
+export const VariantsMenuDocument = gql`
+    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
+  variants(
+    geneId: $geneId
+    name: $variantName
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...menuVariant
+      }
+    }
+  }
+}
+    ${MenuVariantFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
+    document = VariantsMenuDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseVariantsDocument = gql`
     query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
@@ -7415,6 +7394,27 @@ export const BrowseVariantsDocument = gql`
   })
   export class BrowseVariantsGQL extends Apollo.Query<BrowseVariantsQuery, BrowseVariantsQueryVariables> {
     document = BrowseVariantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddCommentDocument = gql`
+    mutation AddComment($input: AddCommentInput!) {
+  addComment(input: $input) {
+    clientMutationId
+    comment {
+      ...commentListNode
+    }
+  }
+}
+    ${CommentListNodeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
+    document = AddCommentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

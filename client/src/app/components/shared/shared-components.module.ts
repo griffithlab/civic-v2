@@ -43,7 +43,6 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
 import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
@@ -93,7 +92,6 @@ import { CvcUserPopoverModule } from '../users/user-popover/user-popover.module'
     FlaggableComponent,
     FlaggableOptionsDirective,
     EventFeedComponent,
-    VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
@@ -182,7 +180,6 @@ import { CvcUserPopoverModule } from '../users/user-popover/user-popover.module'
     FlaggableComponent,
     FlaggableOptionsDirective,
     EventFeedComponent,
-    VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,

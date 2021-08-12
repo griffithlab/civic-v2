@@ -20,7 +20,7 @@ import { ApolloQueryResult } from "@apollo/client/core";
   templateUrl: './variants-menu.component.html',
   styleUrls: ['./variants-menu.component.less'],
 })
-export class VariantsMenuComponent implements OnInit {
+export class CvcVariantsMenuComponent implements OnInit {
   @Input() geneId?: number;
   @Input() geneName?: string;
 
