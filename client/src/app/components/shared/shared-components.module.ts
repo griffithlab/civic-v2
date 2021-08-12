@@ -34,18 +34,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { TimeagoModule } from 'ngx-timeago';
 
-import { CommentAddComponent } from './comment-add/comment-add.component';
-import { CommentListComponent } from './comment-list/comment-list.component';
 import { FlaggableComponent } from './flaggable/flaggable.component';
 import { FlaggableOptionsDirective } from './flaggable/flaggable-options.directive';
-import { FormButtonsComponent } from './form-buttons/form-buttons.component';
-import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
-import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
-import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
-import { ParticipantListComponent } from './participant-list/participant-list.component';
 import { EventFeedComponent } from './event-feed/event-feed.component';
-import { UserPopoverComponent } from './user-popover/user-popover.component';
-import { CommentDisplayComponent } from './comment-display/comment-display.component';
 import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
@@ -60,30 +51,23 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { QuicksearchComponent } from './quicksearch/quicksearch-component';
-import { UserCardComponent } from './user-card/user-card.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { OrganizationCardComponent } from './organization-card/organization-card.component';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
-import { UserTagComponent } from './user-tag/user-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
-import { CommentTagComponent } from './comment-tag/comment-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { StatusTagComponent } from './status-tag/status-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
-import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcLinkTagModule } from './link-tag/link-tag.module';
 import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
@@ -97,43 +81,31 @@ import { CvcDrugTagModule } from '../drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcOrganizationTagModule } from '../organizations/organization-tag/organization-tag.module';
 import { CvcTagListModule } from './tag-list/tag-list.module';
-import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
 import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-info.module';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
+import { CvcUserTagModule } from '../users/user-tag/user-tag.module';
+import { CvcCommentTagModule } from '../comments/comment-tag/comment-tag.module';
+import { CvcUserPopoverModule } from '../users/user-popover/user-popover.module';
 
 @NgModule({
   declarations: [
-    CommentListComponent,
-    CommentAddComponent,
-    OrgSelectorBtnGroupComponent,
-    OrgSelectorBtnDirective,
-    FormErrorsAlertComponent,
-    FormButtonsComponent,
     FlaggableComponent,
     FlaggableOptionsDirective,
-    ParticipantListComponent,
     EventFeedComponent,
-    UserPopoverComponent,
-    CommentDisplayComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
     QuicksearchComponent,
-    UserCardComponent,
-    OrganizationCardComponent,
-    OrganizationAvatarComponent,
-    UserTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
-    CommentTagComponent,
     FlagTagComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
-    EvidenceRatingComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
-    CommentPopoverComponent,
   ],
   imports: [
     CommonModule,
@@ -154,8 +126,12 @@ import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-i
     CvcPhenotypeTagModule,
     CvcOrganizationTagModule,
     CvcTagListModule,
-    CvcUserAvatarModule,
     CvcMyVariantInfoModule,
+    CvcOrgSelectorBtnGroupModule,
+    CvcFormButtonsModule,
+    CvcUserTagModule,
+    CvcCommentTagModule,
+    CvcUserPopoverModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -203,34 +179,20 @@ import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-i
     NzGridModule
   ],
   exports: [
-    CommentAddComponent,
-    CommentListComponent,
     FlaggableComponent,
     FlaggableOptionsDirective,
-    FormButtonsComponent,
-    FormErrorsAlertComponent,
-    OrgSelectorBtnDirective,
-    OrgSelectorBtnGroupComponent,
-    ParticipantListComponent,
     EventFeedComponent,
-    UserPopoverComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
     QuicksearchComponent,
-    UserCardComponent,
-    OrganizationCardComponent,
-    OrganizationAvatarComponent,
-    UserTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
-    CommentTagComponent,
     FlagTagComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
-    EvidenceRatingComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
   ]

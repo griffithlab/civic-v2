@@ -48,6 +48,8 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     CvcDrugTagModule,
     CvcPhenotypeTagModule,
     CvcTagListModule,
+    CvcUserTagModule,
+    CvcCommentListModule,
     SectionNavigationModule,
     SharedComponentsModule,
     IconsProviderModule,

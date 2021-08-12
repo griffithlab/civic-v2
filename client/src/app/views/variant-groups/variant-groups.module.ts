@@ -31,8 +31,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { SourcesRoutingModule } from '../sources/sources-routing.module';
-import { VariantsRoutingModule } from '../variants/variants-routing.module';
 import { VariantGroupsDetailComponent } from './variant-groups-detail/variant-groups-detail.component';
 import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-groups-summary.component';
 import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
@@ -40,6 +38,10 @@ import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/vari
 import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
+import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 
 @NgModule({
   declarations: [
@@ -52,14 +54,15 @@ import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-ho
   ],
   imports: [
     CommonModule,
+    ReactiveComponentModule,
+    VariantGroupsRoutingModule,
     VariantGroupsHomeModule,
     SectionNavigationModule,
-    VariantGroupsRoutingModule,
-    CommonModule,
-    SourcesRoutingModule,
     SharedComponentsModule,
-    VariantsRoutingModule,
-    IconsProviderModule,
+    CvcOrgSelectorBtnGroupModule,
+    CvcParticipantListModule,
+    CvcCommentListModule,
+    NzIconModule,
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
@@ -80,7 +83,6 @@ import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-ho
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
-    ReactiveComponentModule,
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,

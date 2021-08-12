@@ -43,6 +43,7 @@ import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
+import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 
 
 @NgModule({
@@ -55,12 +56,13 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
   ],
   imports: [
     CommonModule,
+    UsersRoutingModule,
     UsersHomeModule,
     CvcAssertionsTableModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
     CvcOrganizationTagModule,
-    UsersRoutingModule,
+    CvcUserCardModule,
     CvcFormsModule,
     SharedComponentsModule,
     IconsProviderModule,

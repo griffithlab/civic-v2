@@ -1,24 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CvcOrganizationPopoverComponent } from './organization-popover.component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcUserPopoverComponent } from './user-popover.component';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
-  declarations: [CvcOrganizationPopoverComponent],
+  declarations: [CvcUserPopoverComponent],
   imports: [
     CommonModule,
     ReactiveComponentModule,
-    NzCardModule,
     NzGridModule,
+    NzCardModule,
     NzDescriptionsModule,
+    NzDividerModule,
     CvcLinkTagModule,
+    CvcTagListModule,
+    CvcOrganizationTagModule,
     CvcUserAvatarModule,
   ],
-  exports: [CvcOrganizationPopoverComponent]
+  exports: [CvcUserPopoverComponent]
 })
-export class CvcOrganizationPopoverModule { }
+export class CvcUserPopoverModule { }

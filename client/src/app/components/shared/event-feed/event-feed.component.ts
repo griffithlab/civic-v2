@@ -16,7 +16,7 @@ import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TagLinkableOrganization } from "@app/components/organizations/organization-tag/organization-tag.component";
-import { TagLinkableUser } from "../user-tag/user-tag.component";
+import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.component";
 
 interface SelectableAction { id: EventAction }
 

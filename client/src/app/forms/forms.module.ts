@@ -35,6 +35,10 @@ import { SourceSelectorComponent } from './components/source-selector/source-sel
 import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
 import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.component';
 import { SourceLoaderComponent } from './components/source-loader/source-loader.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/form-errors-alert.module';
+import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
 
 
 @NgModule({
@@ -49,12 +53,15 @@ import { SourceLoaderComponent } from './components/source-loader/source-loader.
     SourceLoaderComponent,
   ],
   imports: [
+    CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     SharedComponentsModule,
     SourcesComponentsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    IconsProviderModule,
+    CvcOrgSelectorBtnGroupModule,
+    CvcFormErrorsAlertModule,
+    CvcFormButtonsModule,
+    NzIconModule,
     NzButtonModule,
     NzAlertModule,
     NzFormModule,

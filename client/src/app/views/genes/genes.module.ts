@@ -53,6 +53,9 @@ import { GenesHomeModule } from './genes-home/genes-home.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
+import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,9 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     CvcLinkTagModule,
     CvcSourceTagModule,
     CvcTagListModule,
+    CvcOrgSelectorBtnGroupModule,
+    CvcParticipantListModule,
+    CvcCommentListModule,
     SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,
