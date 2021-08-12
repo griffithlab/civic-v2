@@ -54,6 +54,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcMyVariantInfoModule } from '@app/components/variants/my-variant-info/my-variant-info.module';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     CvcSourceTagModule,
     CvcVariantTypeTagModule,
     CvcTagListModule,
+    CvcMyVariantInfoModule,
     SectionNavigationModule,
     SharedComponentsModule,
     CommonModule,

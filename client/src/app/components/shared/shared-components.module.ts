@@ -79,7 +79,6 @@ import { ContributorStackComponent } from './contributor-stack/contributor-stack
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { MyVariantInfoComponent } from './my-variant-info/my-variant-info.component';
 import { EvidenceRatingComponent } from './evidence-rating/evidence-rating.component';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
@@ -102,6 +101,7 @@ import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag
 import { CvcOrganizationTagModule } from '../organizations/organization-tag/organization-tag.module';
 import { CvcTagListModule } from './tag-list/tag-list.module';
 import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
+import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-info.module';
 
 @NgModule({
   declarations: [
@@ -136,7 +136,6 @@ import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
-    MyVariantInfoComponent,
     EvidenceRatingComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
@@ -162,6 +161,7 @@ import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
     CvcOrganizationTagModule,
     CvcTagListModule,
     CvcUserAvatarModule,
+    CvcMyVariantInfoModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -239,7 +239,6 @@ import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
-    MyVariantInfoComponent,
     EvidenceRatingComponent,
     StatusTagComponent,
     EmptyRevisableComponent,

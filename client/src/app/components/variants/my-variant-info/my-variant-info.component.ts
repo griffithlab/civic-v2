@@ -8,7 +8,7 @@ import { MyVariantInfoFieldsFragment } from "@app/generated/civic.apollo";
     templateUrl: './my-variant-info.component.html',
     styleUrls: ['./my-variant-info.component.less']
 })
-export class MyVariantInfoComponent implements OnInit {
+export class CvcMyVariantInfoComponent implements OnInit {
   @Input() variantInfo: Maybe<MyVariantInfoFieldsFragment>;
 
   tabIndex: Maybe<number>;
@@ -20,7 +20,7 @@ export class MyVariantInfoComponent implements OnInit {
   ngOnInit(): void {
     this.tabChange({ index: 0, tab: null });
   }
-    
+
   tabChange(args: NzTabChangeEvent): void {
     this.tabIndex = args.index;
   }
