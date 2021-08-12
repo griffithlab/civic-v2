@@ -7,8 +7,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
   declarations: [CvcUserAvatarComponent],
   imports: [
     CommonModule,
-    NzAvatarModule,
+    NzAvatarModule
   ],
-  exports: [CvcUserAvatarComponent]
+  exports: [CvcUserAvatarComponent],
 })
 export class CvcUserAvatarModule { }

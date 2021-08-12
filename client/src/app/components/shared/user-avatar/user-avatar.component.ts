@@ -10,7 +10,7 @@ export interface WithProfileImageAndDisplayName {
   templateUrl: './user-avatar.component.html',
   styleUrls: ['./user-avatar.component.less']
 })
-export class UserAvatarComponent implements OnInit {
+export class CvcUserAvatarComponent implements OnInit {
   @Input() user!: WithProfileImageAndDisplayName;
   @Input() size!: number | "large" | "default" | "small";
 

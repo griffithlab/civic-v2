@@ -45,7 +45,6 @@ import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-b
 import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
 import { ParticipantListComponent } from './participant-list/participant-list.component';
 import { EventFeedComponent } from './event-feed/event-feed.component';
-import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { UserPopoverComponent } from './user-popover/user-popover.component';
 import { CommentDisplayComponent } from './comment-display/comment-display.component';
 import { FlagEntityComponent } from './flag-add/flag-entity.component';
@@ -105,7 +104,7 @@ import { CvcDrugTagModule } from '../drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcOrganizationTagModule } from '../organizations/organization-tag/organization-tag.module';
 import { CvcTagListModule } from './tag-list/tag-list.module';
-
+import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
 
 @NgModule({
   declarations: [
@@ -120,7 +119,6 @@ import { CvcTagListModule } from './tag-list/tag-list.module';
     FlaggableOptionsDirective,
     ParticipantListComponent,
     EventFeedComponent,
-    UserAvatarComponent,
     UserPopoverComponent,
     CommentDisplayComponent,
     VariantsMenuComponent,
@@ -169,6 +167,7 @@ import { CvcTagListModule } from './tag-list/tag-list.module';
     CvcPhenotypeTagModule,
     CvcOrganizationTagModule,
     CvcTagListModule,
+    CvcUserAvatarModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -227,7 +226,6 @@ import { CvcTagListModule } from './tag-list/tag-list.module';
     OrgSelectorBtnGroupComponent,
     ParticipantListComponent,
     EventFeedComponent,
-    UserAvatarComponent,
     UserPopoverComponent,
     VariantsMenuComponent,
     FlagEntityComponent,
