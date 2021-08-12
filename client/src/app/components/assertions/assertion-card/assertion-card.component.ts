@@ -6,7 +6,7 @@ import { AssertionBrowseTableRowFieldsFragment } from "@app/generated/civic.apol
     templateUrl: './assertion-card.component.html',
     styleUrls: ['./assertion-card.component.less']
 })
-export class AssertionCardComponent implements OnInit {
+export class CvcAssertionCardComponent implements OnInit {
     @Input() assertion!: AssertionBrowseTableRowFieldsFragment;
 
     ngOnInit(){
