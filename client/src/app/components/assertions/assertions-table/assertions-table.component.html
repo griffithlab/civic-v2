@@ -219,7 +219,7 @@
         <p *ngIf="aid.drugs.length > 0; else drugsElse"
           nz-typography>
           <span *ngFor="let drug of aid.drugs; last as isLast">
-                      <cvc-drug-tag-r [drug]="drug"></cvc-drug-tag-r>
+                      <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
                     </span>
           <span *ngIf="aid.drugs.length > 1">
                       ({{ aid.drugInteractionType | titlecase }})

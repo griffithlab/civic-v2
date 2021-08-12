@@ -7,7 +7,7 @@ export interface LinkableDrug {
 }
 
 @Component({
-  selector: 'cvc-drug-tag-r',
+  selector: 'cvc-drug-tag',
   templateUrl: './cvc-drug-tag.component.html',
   styleUrls: ['./cvc-drug-tag.component.less']
 })

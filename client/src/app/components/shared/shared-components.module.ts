@@ -110,6 +110,7 @@ import { CvcAssertionsTagModule } from '../assertions/assertions-tag/assertions-
 import { CvcClinicalTrialTagModule } from '../clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
 import { CvcDiseaseTagModule } from '../diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { CvcDrugTagModule } from '../drugs/cvc-drug-tag/cvc-drug-tag.module';
 
 
 @NgModule({
@@ -179,6 +180,7 @@ import { CvcDiseaseTagModule } from '../diseases/cvc-disease-tag/cvc-disease-tag
     CvcClinicalTrialTagModule,
     CvcSourceTagModule,
     CvcDiseaseTagModule,
+    CvcDrugTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,

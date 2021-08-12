@@ -51,7 +51,7 @@
   <tbody>
     <tr *ngFor="let d of drugsTable.data">
       <td>
-        <cvc-drug-tag-r [drug]="d"></cvc-drug-tag-r>
+        <cvc-drug-tag [drug]="d"></cvc-drug-tag>
       </td>
       <td>
         <cvc-link-tag *ngIf="d.ncitId; else noNcit"

@@ -93,7 +93,7 @@
           nzSpan="2"
           *ngIf="assertion.drugs.length > 0">
           <span *ngFor="let drug of assertion.drugs">
-            <cvc-drug-tag-r [enablePopover]="false" [drug]="drug"></cvc-drug-tag-r>
+            <cvc-drug-tag [enablePopover]="false" [drug]="drug"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="assertion.drugs.length > 1">
             {{ assertion.drugInteractionType | titlecase }}

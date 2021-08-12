@@ -76,7 +76,7 @@
           nzSpan="2"
           *ngIf="evidence.drugs.length > 0">
           <span *ngFor="let drug of evidence.drugs">
-            <cvc-drug-tag-r [enablePopover]="false" [drug]="drug"></cvc-drug-tag-r>
+            <cvc-drug-tag [enablePopover]="false" [drug]="drug"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="evidence.drugs.length > 1">
             {{evidence.drugInteractionType | titlecase }}

@@ -3,7 +3,7 @@
     [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
     <ng-container [ngSwitch]="tagType">
       <ng-container *ngSwitchCase="'drug'">
-        <cvc-drug-tag-r [drug]="tag"></cvc-drug-tag-r>
+        <cvc-drug-tag [drug]="tag"></cvc-drug-tag>
       </ng-container>
       <ng-container *ngSwitchCase="'disease'">
         <cvc-disease-tag [disease]="tag"></cvc-disease-tag>
@@ -22,7 +22,7 @@
         [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
         <ng-container [ngSwitch]="tagType">
           <ng-container *ngSwitchCase="'drug'">
-            <cvc-drug-tag-r [drug]="tag"></cvc-drug-tag-r>
+            <cvc-drug-tag [drug]="tag"></cvc-drug-tag>
           </ng-container>
           <ng-container *ngSwitchCase="'disease'">
             <cvc-disease-tag [disease]="tag"></cvc-disease-tag>

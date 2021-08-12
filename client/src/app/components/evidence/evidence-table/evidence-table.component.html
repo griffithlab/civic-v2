@@ -295,7 +295,7 @@
           nz-typography>
           <cvc-tag-list-r>
             <span *ngFor="let drug of eid.drugs">
-              <cvc-drug-tag-r [drug]="drug"></cvc-drug-tag-r>
+              <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
             </span>
           </cvc-tag-list-r>
           <span *ngIf="eid.drugs.length > 1">
