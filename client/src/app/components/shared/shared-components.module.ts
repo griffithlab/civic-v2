@@ -62,7 +62,6 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { QuicksearchComponent } from './quicksearch/quicksearch-component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { EvidenceCardComponent } from './evidence-card/evidence-card.component';
 import { OrganizationCardComponent } from './organization-card/organization-card.component';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
@@ -121,7 +120,6 @@ import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-i
     ResolveFlagComponent,
     QuicksearchComponent,
     UserCardComponent,
-    EvidenceCardComponent,
     OrganizationCardComponent,
     OrganizationAvatarComponent,
     UserTagComponent,
@@ -222,7 +220,6 @@ import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-i
     ResolveFlagComponent,
     QuicksearchComponent,
     UserCardComponent,
-    EvidenceCardComponent,
     OrganizationCardComponent,
     OrganizationAvatarComponent,
     UserTagComponent,

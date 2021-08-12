@@ -6,7 +6,7 @@ import { EvidenceGridFieldsFragment } from "@app/generated/civic.apollo";
     templateUrl: './evidence-card.component.html',
     styleUrls: ['./evidence-card.component.less']
 })
-export class EvidenceCardComponent implements OnInit {
+export class CvcEvidenceCardComponent implements OnInit {
     @Input() evidence!: EvidenceGridFieldsFragment;
 
     ngOnInit(){
