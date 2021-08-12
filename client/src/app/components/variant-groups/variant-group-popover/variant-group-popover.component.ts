@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'cvc-variant-group-popover-r',
+  selector: 'cvc-variant-group-popover',
   templateUrl: './variant-group-popover.component.html',
   styleUrls: ['./variant-group-popover.component.less']
 })

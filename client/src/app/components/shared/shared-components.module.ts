@@ -93,7 +93,6 @@ import { StatusTagComponent } from './status-tag/status-tag.component';
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
 import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
 import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
-import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcLinkTagModule } from './link-tag/link-tag.module';
@@ -152,7 +151,6 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     EmptyRevisableComponent,
     DrugPopoverComponent,
     CommentPopoverComponent,
-    VariantgroupTagComponent,
     TagPileupComponent,
   ],
   imports: [
@@ -259,7 +257,6 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     StatusTagComponent,
     EmptyRevisableComponent,
     DrugPopoverComponent,
-    VariantgroupTagComponent,
     TagPileupComponent,
   ]
 })
