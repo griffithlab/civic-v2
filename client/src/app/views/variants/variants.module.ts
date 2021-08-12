@@ -52,6 +52,7 @@ import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     CvcLinkTagModule,
     CvcGeneTagModule,
     CvcSourceTagModule,
+    CvcVariantTypeTagModule,
     SectionNavigationModule,
     SharedComponentsModule,
     CommonModule,

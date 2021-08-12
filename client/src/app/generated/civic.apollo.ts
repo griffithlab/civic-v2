@@ -4077,30 +4077,6 @@ export type PopoverUserFragment = (
   )> }
 );
 
-export type VariantTypePopoverQueryVariables = Exact<{
-  variantTypeId: Scalars['Int'];
-}>;
-
-
-export type VariantTypePopoverQuery = (
-  { __typename: 'Query' }
-  & { variantTypes: (
-    { __typename: 'BrowseVariantTypeConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseVariantTypeEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantType' }
-        & VariantTypePopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type VariantTypePopoverFragment = (
-  { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
-);
-
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
@@ -4238,6 +4214,30 @@ export type BrowseVariantGroupsQuery = (
 export type BrowseVariantGroupRowFieldsFragment = (
   { __typename: 'BrowseVariantGroup' }
   & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
+);
+
+export type VariantTypePopoverQueryVariables = Exact<{
+  variantTypeId: Scalars['Int'];
+}>;
+
+
+export type VariantTypePopoverQuery = (
+  { __typename: 'Query' }
+  & { variantTypes: (
+    { __typename: 'BrowseVariantTypeConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseVariantTypeEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantType' }
+        & VariantTypePopoverFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type VariantTypePopoverFragment = (
+  { __typename: 'BrowseVariantType' }
+  & Pick<BrowseVariantType, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
 );
 
 export type VariantTypesBrowseQueryVariables = Exact<{
@@ -5728,15 +5728,6 @@ export const PopoverUserFragmentDoc = gql`
   }
 }
     `;
-export const VariantTypePopoverFragmentDoc = gql`
-    fragment variantTypePopover on BrowseVariantType {
-  id
-  name
-  url
-  soid
-  variantCount
-}
-    `;
 export const MenuVariantFragmentDoc = gql`
     fragment menuVariant on Variant {
   id
@@ -5780,6 +5771,15 @@ export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
   variantNames
   variantCount
   evidenceItemCount
+}
+    `;
+export const VariantTypePopoverFragmentDoc = gql`
+    fragment variantTypePopover on BrowseVariantType {
+  id
+  name
+  url
+  soid
+  variantCount
 }
     `;
 export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
@@ -7139,28 +7139,6 @@ export const UserPopoverDocument = gql`
       super(apollo);
     }
   }
-export const VariantTypePopoverDocument = gql`
-    query VariantTypePopover($variantTypeId: Int!) {
-  variantTypes(id: $variantTypeId) {
-    edges {
-      node {
-        ...variantTypePopover
-      }
-    }
-  }
-}
-    ${VariantTypePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantTypePopoverGQL extends Apollo.Query<VariantTypePopoverQuery, VariantTypePopoverQueryVariables> {
-    document = VariantTypePopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const VariantsMenuDocument = gql`
     query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
   variants(
@@ -7302,6 +7280,28 @@ export const BrowseVariantGroupsDocument = gql`
   })
   export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
     document = BrowseVariantGroupsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypePopoverDocument = gql`
+    query VariantTypePopover($variantTypeId: Int!) {
+  variantTypes(id: $variantTypeId) {
+    edges {
+      node {
+        ...variantTypePopover
+      }
+    }
+  }
+}
+    ${VariantTypePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypePopoverGQL extends Apollo.Query<VariantTypePopoverQuery, VariantTypePopoverQueryVariables> {
+    document = VariantTypePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

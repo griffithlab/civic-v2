@@ -88,12 +88,10 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DrugTagComponent } from './drug-tag/drug-tag.component';
-import { VariantTypeTagComponent } from './variant-type-tag/variant-type-tag.component';
 import { StatusTagComponent } from './status-tag/status-tag.component';
 
 import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
 import { DrugPopoverComponent } from './drug-popover/drug-popover.component';
-import { VariantTypePopoverComponent } from './variant-type-popover/variant-type-popover.component';
 import { CommentPopoverComponent } from './comment-popover/comment-popover.component';
 import { VariantgroupTagComponent } from './variantgroup-tag/variantgroup-tag.component';
 import { TagPileupComponent } from './tag-pileup/tag-pileup.component';
@@ -150,11 +148,9 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     MyVariantInfoComponent,
     EvidenceRatingComponent,
     DrugTagComponent,
-    VariantTypeTagComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
     DrugPopoverComponent,
-    VariantTypePopoverComponent,
     CommentPopoverComponent,
     VariantgroupTagComponent,
     TagPileupComponent,
@@ -260,11 +256,9 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     MyVariantInfoComponent,
     EvidenceRatingComponent,
     DrugTagComponent,
-    VariantTypeTagComponent,
     StatusTagComponent,
     EmptyRevisableComponent,
     DrugPopoverComponent,
-    VariantTypePopoverComponent,
     VariantgroupTagComponent,
     TagPileupComponent,
   ]
