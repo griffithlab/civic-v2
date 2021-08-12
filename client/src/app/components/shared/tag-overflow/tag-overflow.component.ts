@@ -10,8 +10,8 @@ export type TagInfo = {
 
 @Component({
   selector: 'cvc-tag-overflow',
-  templateUrl: './cvc-tag-overflow.component.html',
-  styleUrls: ['./cvc-tag-overflow.component.less']
+  templateUrl: './tag-overflow.component.html',
+  styleUrls: ['./tag-overflow.component.less']
 })
 export class CvcTagOverflowComponent implements OnInit {
   @Input() matchingText?: string

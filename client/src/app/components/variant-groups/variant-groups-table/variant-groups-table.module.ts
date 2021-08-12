@@ -20,7 +20,7 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
-import { CvcTagOverflowModule } from '@app/components/shared/cvc-tag-overflow/cvc-tag-overflow.module';
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcVariantGroupTagModule } from '../variant-group-tag/variant-group-tag.module';
 
 
