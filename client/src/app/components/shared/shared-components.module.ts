@@ -40,7 +40,6 @@ import { FlaggableComponent } from './flaggable/flaggable.component';
 import { FlaggableOptionsDirective } from './flaggable/flaggable-options.directive';
 import { FormButtonsComponent } from './form-buttons/form-buttons.component';
 import { FormErrorsAlertComponent } from './form-errors-alert/form-errors-alert.component';
-import { LifecycleActionsComponent } from './lifecycle-actions/lifecycle-actions.component';
 import { OrgSelectorBtnDirective } from './org-selector-btn-group/org-selector-btn.directive';
 import { OrgSelectorBtnGroupComponent } from './org-selector-btn-group/org-selector-btn-group.component';
 import { ParticipantListComponent } from './participant-list/participant-list.component';
@@ -113,7 +112,6 @@ import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
     FormErrorsAlertComponent,
     FormButtonsComponent,
     FlaggableComponent,
-    LifecycleActionsComponent,
     FlaggableOptionsDirective,
     ParticipantListComponent,
     EventFeedComponent,
@@ -217,7 +215,6 @@ import { CvcUserAvatarModule } from './user-avatar/user-avatar.module';
     FlaggableOptionsDirective,
     FormButtonsComponent,
     FormErrorsAlertComponent,
-    LifecycleActionsComponent,
     OrgSelectorBtnDirective,
     OrgSelectorBtnGroupComponent,
     ParticipantListComponent,
