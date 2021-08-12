@@ -56,7 +56,6 @@ import { VariantsMenuComponent } from './variants-menu/variants-menu.component';
 import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
-import { ClearableTextComponentFilter } from './clearable-text-filter/clearable-text-filter.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
@@ -120,7 +119,6 @@ import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-i
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
-    ClearableTextComponentFilter,
     QuicksearchComponent,
     UserCardComponent,
     EvidenceCardComponent,
@@ -222,7 +220,6 @@ import { CvcMyVariantInfoModule } from '../variants/my-variant-info/my-variant-i
     FlagEntityComponent,
     FlagListComponent,
     ResolveFlagComponent,
-    ClearableTextComponentFilter,
     QuicksearchComponent,
     UserCardComponent,
     EvidenceCardComponent,
