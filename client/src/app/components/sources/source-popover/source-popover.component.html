@@ -34,11 +34,11 @@
         <nz-descriptions-item nzTitle="Clinical Trials:"
           nzSpan="2">
           <ng-container *ngIf="s.clinicalTrials.length > 0; else noTrials">
-            <cvc-tag-list-r>
+            <cvc-tag-list>
               <cvc-clinical-trial-tag *ngFor="let t of s.clinicalTrials"
                 [clinicalTrial]="t"
                 [enablePopover]="false"></cvc-clinical-trial-tag>
-            </cvc-tag-list-r>
+            </cvc-tag-list>
           </ng-container>
           <ng-template #noTrials>
             --

@@ -53,6 +53,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
     CvcGeneTagModule,
     CvcSourceTagModule,
     CvcVariantTypeTagModule,
+    CvcTagListModule,
     SectionNavigationModule,
     SharedComponentsModule,
     CommonModule,

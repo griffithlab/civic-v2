@@ -293,11 +293,11 @@
       <td>
         <p *ngIf="eid.drugs.length > 0; else drugsElse"
           nz-typography>
-          <cvc-tag-list-r>
+          <cvc-tag-list>
             <span *ngFor="let drug of eid.drugs">
               <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
             </span>
-          </cvc-tag-list-r>
+          </cvc-tag-list>
           <span *ngIf="eid.drugs.length > 1">
             ({{ eid.drugInteractionType | titlecase }})
           </span>

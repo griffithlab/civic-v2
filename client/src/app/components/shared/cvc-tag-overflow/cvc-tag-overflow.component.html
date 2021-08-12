@@ -1,4 +1,4 @@
-<cvc-tag-list-r size="xs">
+<cvc-tag-list size="xs">
   <div *ngFor="let tag of displayedTags"
     [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
     <ng-container [ngSwitch]="tagType">
@@ -17,7 +17,7 @@
     </nz-tag>
   </div>
   <ng-template #additionalTagPopover>
-    <cvc-tag-list-r size="xs">
+    <cvc-tag-list size="xs">
       <div *ngFor="let tag of hiddenTags"
         [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
         <ng-container [ngSwitch]="tagType">
@@ -29,6 +29,6 @@
           </ng-container>
         </ng-container>
       </div>
-    </cvc-tag-list-r>
+    </cvc-tag-list>
   </ng-template>
-</cvc-tag-list-r>
+</cvc-tag-list>

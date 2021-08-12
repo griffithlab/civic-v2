@@ -76,7 +76,6 @@ import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
 import { CommentTagComponent } from './comment-tag/comment-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
-import { TagListComponent } from './tag-list/tag-list.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -106,6 +105,7 @@ import { CvcDiseaseTagModule } from '../diseases/cvc-disease-tag/cvc-disease-tag
 import { CvcDrugTagModule } from '../drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcOrganizationTagModule } from '../organizations/organization-tag/organization-tag.module';
+import { CvcTagListModule } from './tag-list/tag-list.module';
 
 
 @NgModule({
@@ -140,7 +140,6 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     EventTimelineComponent,
     CommentTagComponent,
     FlagTagComponent,
-    TagListComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
@@ -171,6 +170,7 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     CvcDrugTagModule,
     CvcPhenotypeTagModule,
     CvcOrganizationTagModule,
+    CvcTagListModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -247,7 +247,6 @@ import { CvcOrganizationTagModule } from '../organizations/organization-tag/orga
     EventTimelineComponent,
     CommentTagComponent,
     FlagTagComponent,
-    TagListComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,

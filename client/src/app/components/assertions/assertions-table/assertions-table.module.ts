@@ -18,7 +18,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { CvcTagListModule } from '@app/components/shared/cvc-tag-list/cvc-tag-list.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcAssertionsTableComponent } from './assertions-table.component';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module';

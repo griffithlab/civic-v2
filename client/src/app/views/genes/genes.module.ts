@@ -52,6 +52,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
 import { GenesHomeModule } from './genes-home/genes-home.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     GenesHomeModule,
     CvcLinkTagModule,
     CvcSourceTagModule,
+    CvcTagListModule,
     SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,

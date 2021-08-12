@@ -10,7 +10,7 @@ import { Maybe } from '@app/generated/civic.apollo';
   styleUrls: ['./tag-list.component.less'],
   host: { '[class.xs]': 'size === "xs" || !size', '[class.sm]': 'size === "sm"'}
 })
-export class TagListComponent implements OnInit {
+export class CvcTagListComponent implements OnInit {
   @Input() size!: Maybe<'xs' | 'sm'>;
   constructor() { }
 

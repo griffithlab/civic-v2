@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CvcTagListComponent } from './cvc-tag-list.component';
-
-
+import { CvcTagListComponent } from './tag-list.component';
 
 @NgModule({
   declarations: [CvcTagListComponent],
   imports: [
     CommonModule
   ],
-  exports: [CvcTagListComponent]
+  exports: [CvcTagListComponent],
 })
 export class CvcTagListModule { }
