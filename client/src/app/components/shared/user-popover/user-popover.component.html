@@ -31,7 +31,7 @@
           nzBordered="true">
           <nz-descriptions-item nzTitle="Organizations">
             <cvc-tag-list *ngIf="user.organizations.length > 0; else noOrganizations">
-              <cvc-org-tag [enablePopover]="false" *ngFor="let o of user.organizations" [org]="o"></cvc-org-tag>
+              <cvc-organization-tag [enablePopover]="false" *ngFor="let o of user.organizations" [org]="o"></cvc-organization-tag>
             </cvc-tag-list>
           </nz-descriptions-item>
         </nz-descriptions>

@@ -7,7 +7,7 @@ export interface TagLinkableOrganization {
 }
 
 @Component({
-  selector: 'cvc-organization-tag-r',
+  selector: 'cvc-organization-tag',
   templateUrl: './organization-tag.component.html',
   styleUrls: ['./organization-tag.component.less']
 })

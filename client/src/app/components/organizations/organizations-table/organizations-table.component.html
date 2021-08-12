@@ -38,7 +38,7 @@
   <tbody>
     <tr *ngFor="let organization of organizationsTable.data">
       <td>
-        <cvc-organization-tag-r [org]="organization"></cvc-organization-tag-r>
+        <cvc-organization-tag [org]="organization"></cvc-organization-tag>
       </td>
       <td>
         {{ organization.memberCount }}

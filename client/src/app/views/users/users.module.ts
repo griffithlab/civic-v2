@@ -42,6 +42,7 @@ import { UsersHomeModule } from './users-home/users-home.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
     CvcAssertionsTableModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
+    CvcOrganizationTagModule,
     UsersRoutingModule,
     CvcFormsModule,
     SharedComponentsModule,

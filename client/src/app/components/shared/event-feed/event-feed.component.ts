@@ -15,7 +15,7 @@ import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TagLinkableOrganization } from "../org-tag/org-tag.component";
+import { TagLinkableOrganization } from "@app/components/organizations/organization-tag/organization-tag.component";
 import { TagLinkableUser } from "../user-tag/user-tag.component";
 
 interface SelectableAction { id: EventAction }

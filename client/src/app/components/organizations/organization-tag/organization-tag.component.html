@@ -11,7 +11,7 @@
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #orgPopover>
-    <cvc-organization-popover-r *ngIf="enablePopover" [orgId]="org.id"></cvc-organization-popover-r>
+    <cvc-organization-popover *ngIf="enablePopover" [orgId]="org.id"></cvc-organization-popover>
   </ng-template>
 </ng-template>
 

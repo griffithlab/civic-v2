@@ -72,13 +72,11 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { OrganizationAvatarComponent } from './organization-avatar/organization-avatar.component';
 import { UserTagComponent } from './user-tag/user-tag.component';
-import { OrgTagComponent } from './org-tag/org-tag.component';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
 import { CommentTagComponent } from './comment-tag/comment-tag.component';
 import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { TagListComponent } from './tag-list/tag-list.component';
-import { OrgPopoverComponent } from './org-popover/org-popover.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -110,6 +108,7 @@ import { CvcSourceTagModule } from '../sources/source-tag/source-tag.module';
 import { CvcDiseaseTagModule } from '../diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcDrugTagModule } from '../drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag.module';
+import { CvcOrganizationTagModule } from '../organizations/organization-tag/organization-tag.module';
 
 
 @NgModule({
@@ -140,13 +139,11 @@ import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag
     OrganizationCardComponent,
     OrganizationAvatarComponent,
     UserTagComponent,
-    OrgTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
     FlagTagComponent,
     TagListComponent,
-    OrgPopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
@@ -179,6 +176,7 @@ import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag
     CvcDiseaseTagModule,
     CvcDrugTagModule,
     CvcPhenotypeTagModule,
+    CvcOrganizationTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -251,13 +249,11 @@ import { CvcPhenotypeTagModule } from '../phenotypes/phenotype-tag/phenotype-tag
     OrganizationCardComponent,
     OrganizationAvatarComponent,
     UserTagComponent,
-    OrgTagComponent,
     RevisionTagComponent,
     EventTimelineComponent,
     CommentTagComponent,
     FlagTagComponent,
     TagListComponent,
-    OrgPopoverComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,

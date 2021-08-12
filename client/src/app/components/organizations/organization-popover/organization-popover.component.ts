@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cvc-organization-popover-r',
+  selector: 'cvc-organization-popover',
   templateUrl: './organization-popover.component.html',
   styleUrls: ['./organization-popover.component.less']
 })
