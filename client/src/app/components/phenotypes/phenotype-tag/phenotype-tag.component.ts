@@ -7,7 +7,7 @@ export interface LinkablePhenotype {
 }
 
 @Component({
-  selector: 'cvc-phenotype-tag-r',
+  selector: 'cvc-phenotype-tag',
   templateUrl: './phenotype-tag.component.html',
   styleUrls: ['./phenotype-tag.component.less']
 })

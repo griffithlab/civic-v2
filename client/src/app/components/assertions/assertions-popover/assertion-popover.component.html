@@ -105,7 +105,7 @@
           nzSpan="2"
           *ngIf="assertion.phenotypes.length > 0">
           <span *ngFor="let ph of assertion.phenotypes">
-            <cvc-phenotype-tag-r [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag-r>
+            <cvc-phenotype-tag [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag>
           </span>
         </nz-descriptions-item>
 

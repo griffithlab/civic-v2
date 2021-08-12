@@ -51,7 +51,7 @@
   <tbody>
     <tr *ngFor="let p of phenotypesTable.data">
       <td>
-        <cvc-phenotype-tag-r [phenotype]="p"></cvc-phenotype-tag-r>
+        <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
       </td>
       <td>
         <cvc-link-tag *ngIf="p.hpoId; else noHpo"

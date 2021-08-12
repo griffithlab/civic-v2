@@ -3641,6 +3641,30 @@ export type OrganizationBrowseTableRowFieldsFragment = (
   ) }
 );
 
+export type PhenotypePopoverQueryVariables = Exact<{
+  phenotypeId: Scalars['Int'];
+}>;
+
+
+export type PhenotypePopoverQuery = (
+  { __typename: 'Query' }
+  & { phenotypes: (
+    { __typename: 'BrowsePhenotypeConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowsePhenotypeEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowsePhenotype' }
+        & PhenotypePopoverFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type PhenotypePopoverFragment = (
+  { __typename: 'BrowsePhenotype' }
+  & Pick<BrowsePhenotype, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceCount'>
+);
+
 export type PhenotypesBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3995,30 +4019,6 @@ export type OrgPopoverQuery = (
 export type OrgPopoverFragment = (
   { __typename: 'Organization' }
   & Pick<Organization, 'id' | 'profileImagePath' | 'name' | 'description' | 'url'>
-);
-
-export type PhenotypePopoverQueryVariables = Exact<{
-  phenotypeId: Scalars['Int'];
-}>;
-
-
-export type PhenotypePopoverQuery = (
-  { __typename: 'Query' }
-  & { phenotypes: (
-    { __typename: 'BrowsePhenotypeConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowsePhenotypeEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowsePhenotype' }
-        & PhenotypePopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type PhenotypePopoverFragment = (
-  { __typename: 'BrowsePhenotype' }
-  & Pick<BrowsePhenotype, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceCount'>
 );
 
 export type QuicksearchQueryVariables = Exact<{
@@ -5519,6 +5519,16 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
   }
 }
     `;
+export const PhenotypePopoverFragmentDoc = gql`
+    fragment phenotypePopover on BrowsePhenotype {
+  id
+  name
+  url
+  hpoId
+  assertionCount
+  evidenceCount
+}
+    `;
 export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
     fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
   id
@@ -5695,16 +5705,6 @@ export const OrgPopoverFragmentDoc = gql`
   name
   description
   url
-}
-    `;
-export const PhenotypePopoverFragmentDoc = gql`
-    fragment phenotypePopover on BrowsePhenotype {
-  id
-  name
-  url
-  hpoId
-  assertionCount
-  evidenceCount
 }
     `;
 export const QuicksearchResultFragmentDoc = gql`
@@ -6824,6 +6824,28 @@ export const OrganizationsBrowseDocument = gql`
       super(apollo);
     }
   }
+export const PhenotypePopoverDocument = gql`
+    query PhenotypePopover($phenotypeId: Int!) {
+  phenotypes(id: $phenotypeId) {
+    edges {
+      node {
+        ...phenotypePopover
+      }
+    }
+  }
+}
+    ${PhenotypePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypePopoverGQL extends Apollo.Query<PhenotypePopoverQuery, PhenotypePopoverQueryVariables> {
+    document = PhenotypePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const PhenotypesBrowseDocument = gql`
     query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
   phenotypes(
@@ -7056,28 +7078,6 @@ export const OrgPopoverDocument = gql`
   })
   export class OrgPopoverGQL extends Apollo.Query<OrgPopoverQuery, OrgPopoverQueryVariables> {
     document = OrgPopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const PhenotypePopoverDocument = gql`
-    query PhenotypePopover($phenotypeId: Int!) {
-  phenotypes(id: $phenotypeId) {
-    edges {
-      node {
-        ...phenotypePopover
-      }
-    }
-  }
-}
-    ${PhenotypePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PhenotypePopoverGQL extends Apollo.Query<PhenotypePopoverQuery, PhenotypePopoverQueryVariables> {
-    document = PhenotypePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

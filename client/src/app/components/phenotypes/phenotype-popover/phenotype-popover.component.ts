@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 
 @Component({
-  selector: 'cvc-phenotype-popover-r',
+  selector: 'cvc-phenotype-popover',
   templateUrl: './phenotype-popover.component.html',
   styleUrls: ['./phenotype-popover.component.less']
 })
