@@ -45,17 +45,12 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
-import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { DetailsNavigationComponent } from './details-navigation/details-navigation.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { StatusTagComponent } from './status-tag/status-tag.component';
 
-import { EmptyRevisableComponent } from './empty-revisable/empty-revisable.component';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcLinkTagModule } from './link-tag/link-tag.module';
 import { CvcGeneTagModule } from '../genes/gene-tag/gene-tag.module';
@@ -79,11 +74,6 @@ import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
 
 @NgModule({
   declarations: [
-    ContributorAvatarsComponent,
-    ContributorStackComponent,
-    DetailsNavigationComponent,
-    StatusTagComponent,
-    EmptyRevisableComponent,
   ],
   imports: [
     CommonModule,
@@ -158,11 +148,6 @@ import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
     NzGridModule
   ],
   exports: [
-    ContributorAvatarsComponent,
-    ContributorStackComponent,
-    DetailsNavigationComponent,
-    StatusTagComponent,
-    EmptyRevisableComponent,
   ]
 })
 

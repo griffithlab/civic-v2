@@ -6,9 +6,9 @@ import { ContributorFieldsFragment, Maybe } from "@app/generated/civic.apollo";
   templateUrl: './contributor-stack.component.html',
   styleUrls: ['./contributor-stack.component.less'],
 })
-export class ContributorStackComponent implements OnInit {
+export class CvcContributorStackComponent implements OnInit {
   @Input() contributors: Maybe<ContributorFieldsFragment[]>
-  
+
   sortedContributors: Maybe<ContributorFieldsFragment[]>
 
   ngOnInit() {
