@@ -10,7 +10,7 @@ export interface LinkableRevision {
   templateUrl: './revision-tag.component.html',
   styleUrls: ['./revision-tag.component.less']
 })
-export class RevisionTagComponent implements OnInit {
+export class CvcRevisionTagComponent implements OnInit {
   @Input() revision!: LinkableRevision
 
   constructor() { }

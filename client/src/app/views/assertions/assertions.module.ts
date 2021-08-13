@@ -52,6 +52,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.mod
     CvcCommentListModule,
     CvcFlagListModule,
     CvcFlaggableModule,
+    CvcEventFeedModule,
     SectionNavigationModule,
     SharedComponentsModule,
     IconsProviderModule,

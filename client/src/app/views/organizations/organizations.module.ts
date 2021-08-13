@@ -48,6 +48,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module';
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { CvcUserCardModule } from '@app/components/users/user-card/user-card.mod
     CvcOrganizationTagModule,
     CvcOrganizationCardModule,
     CvcUserCardModule,
+    CvcEventFeedModule,
     SharedComponentsModule,
     IconsProviderModule,
     NzAvatarModule,

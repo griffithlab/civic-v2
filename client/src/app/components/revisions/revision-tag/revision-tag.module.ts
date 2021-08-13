@@ -1,0 +1,16 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CvcRevisionTagComponent } from './revision-tag.component';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+
+@NgModule({
+  declarations: [CvcRevisionTagComponent],
+  imports: [
+    CommonModule,
+    NzTagModule,
+    NzIconModule,
+  ],
+  exports: [CvcRevisionTagComponent]
+})
+export class CvcRevisionTagModule { }

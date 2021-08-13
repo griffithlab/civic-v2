@@ -3481,6 +3481,96 @@ export type DrugBrowseTableRowFieldsFragment = (
   & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
 );
 
+export type EventFeedQueryVariables = Exact<{
+  subject?: Maybe<SubscribableQueryInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  eventType?: Maybe<EventAction>;
+}>;
+
+
+export type EventFeedQuery = (
+  { __typename: 'Query' }
+  & { events: (
+    { __typename: 'EventConnection' }
+    & EventFeedFragment
+  ) }
+);
+
+export type EventFeedFragment = (
+  { __typename: 'EventConnection' }
+  & Pick<EventConnection, 'eventTypes'>
+  & { pageInfo: (
+    { __typename: 'PageInfo' }
+    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
+  ), uniqueParticipants: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+  )>, participatingOrganizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+  )>, edges: Array<(
+    { __typename: 'EventEdge' }
+    & Pick<EventEdge, 'cursor'>
+    & { node?: Maybe<(
+      { __typename: 'Event' }
+      & EventFeedNodeFragment
+    )> }
+  )> }
+);
+
+export type EventFeedNodeFragment = (
+  { __typename: 'Event' }
+  & Pick<Event, 'id' | 'action' | 'createdAt'>
+  & { organization?: Maybe<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+  )>, originatingUser: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
+  ), subject: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'name' | 'id'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'name' | 'id'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'name' | 'id'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'name' | 'id'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'name' | 'id'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'name' | 'id'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'name' | 'id'>
+  ), originatingObject?: Maybe<(
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  ) | (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'id' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
+  ) | (
+    { __typename: 'Flag' }
+    & Pick<Flag, 'id' | 'name'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'name'>
+  )> }
+);
+
 export type EvidencePopoverQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
@@ -3895,96 +3985,6 @@ export type ContributorFieldsFragment = (
   ), uniqueActions: Array<(
     { __typename: 'Contribution' }
     & Pick<Contribution, 'action' | 'count'>
-  )> }
-);
-
-export type EventFeedQueryVariables = Exact<{
-  subject?: Maybe<SubscribableQueryInput>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  originatingUserId?: Maybe<Scalars['Int']>;
-  organizationId?: Maybe<Scalars['Int']>;
-  eventType?: Maybe<EventAction>;
-}>;
-
-
-export type EventFeedQuery = (
-  { __typename: 'Query' }
-  & { events: (
-    { __typename: 'EventConnection' }
-    & EventFeedFragment
-  ) }
-);
-
-export type EventFeedFragment = (
-  { __typename: 'EventConnection' }
-  & Pick<EventConnection, 'eventTypes'>
-  & { pageInfo: (
-    { __typename: 'PageInfo' }
-    & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
-  ), uniqueParticipants: Array<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
-  )>, participatingOrganizations: Array<(
-    { __typename: 'Organization' }
-    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-  )>, edges: Array<(
-    { __typename: 'EventEdge' }
-    & Pick<EventEdge, 'cursor'>
-    & { node?: Maybe<(
-      { __typename: 'Event' }
-      & EventFeedNodeFragment
-    )> }
-  )> }
-);
-
-export type EventFeedNodeFragment = (
-  { __typename: 'Event' }
-  & Pick<Event, 'id' | 'action' | 'createdAt'>
-  & { organization?: Maybe<(
-    { __typename: 'Organization' }
-    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-  )>, originatingUser: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
-  ), subject: (
-    { __typename: 'Assertion' }
-    & Pick<Assertion, 'name' | 'id'>
-  ) | (
-    { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'name' | 'id'>
-  ) | (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'name' | 'id'>
-  ) | (
-    { __typename: 'Revision' }
-    & Pick<Revision, 'name' | 'id'>
-  ) | (
-    { __typename: 'Source' }
-    & Pick<Source, 'name' | 'id'>
-  ) | (
-    { __typename: 'Variant' }
-    & Pick<Variant, 'name' | 'id'>
-  ) | (
-    { __typename: 'VariantGroup' }
-    & Pick<VariantGroup, 'name' | 'id'>
-  ), originatingObject?: Maybe<(
-    { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
-  ) | (
-    { __typename: 'Comment' }
-    & Pick<Comment, 'id' | 'name'>
-  ) | (
-    { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'id' | 'name'>
-  ) | (
-    { __typename: 'Flag' }
-    & Pick<Flag, 'id' | 'name'>
-  ) | (
-    { __typename: 'Revision' }
-    & Pick<Revision, 'id' | 'name'>
   )> }
 );
 
@@ -5415,6 +5415,72 @@ export const DrugBrowseTableRowFieldsFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const EventFeedNodeFragmentDoc = gql`
+    fragment eventFeedNode on Event {
+  id
+  action
+  createdAt
+  organization {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  originatingUser {
+    id
+    username
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  subject {
+    name
+    id
+    __typename
+  }
+  originatingObject {
+    id
+    name
+    __typename
+    ... on Revision {
+      id
+    }
+    ... on Comment {
+      id
+    }
+    ... on Flag {
+      id
+    }
+  }
+}
+    `;
+export const EventFeedFragmentDoc = gql`
+    fragment eventFeed on EventConnection {
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  eventTypes
+  uniqueParticipants {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  participatingOrganizations {
+    id
+    name
+    profileImagePath(size: 32)
+  }
+  edges {
+    cursor
+    node {
+      ...eventFeedNode
+    }
+  }
+}
+    ${EventFeedNodeFragmentDoc}`;
 export const EvidencePopoverFragmentDoc = gql`
     fragment evidencePopover on EvidenceItem {
   id
@@ -5641,72 +5707,6 @@ export const ContributorFieldsFragmentDoc = gql`
   totalActionCount
 }
     `;
-export const EventFeedNodeFragmentDoc = gql`
-    fragment eventFeedNode on Event {
-  id
-  action
-  createdAt
-  organization {
-    id
-    name
-    profileImagePath(size: 32)
-  }
-  originatingUser {
-    id
-    username
-    displayName
-    role
-    profileImagePath(size: 32)
-  }
-  subject {
-    name
-    id
-    __typename
-  }
-  originatingObject {
-    id
-    name
-    __typename
-    ... on Revision {
-      id
-    }
-    ... on Comment {
-      id
-    }
-    ... on Flag {
-      id
-    }
-  }
-}
-    `;
-export const EventFeedFragmentDoc = gql`
-    fragment eventFeed on EventConnection {
-  pageInfo {
-    startCursor
-    endCursor
-    hasNextPage
-    hasPreviousPage
-  }
-  eventTypes
-  uniqueParticipants {
-    id
-    displayName
-    role
-    profileImagePath(size: 32)
-  }
-  participatingOrganizations {
-    id
-    name
-    profileImagePath(size: 32)
-  }
-  edges {
-    cursor
-    node {
-      ...eventFeedNode
-    }
-  }
-}
-    ${EventFeedNodeFragmentDoc}`;
 export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
@@ -6697,6 +6697,33 @@ export const DrugsBrowseDocument = gql`
       super(apollo);
     }
   }
+export const EventFeedDocument = gql`
+    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
+  ) {
+    ...eventFeed
+  }
+}
+    ${EventFeedFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
+    document = EventFeedDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const EvidencePopoverDocument = gql`
     query EvidencePopover($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
@@ -7010,33 +7037,6 @@ export const ContributorAvatarsDocument = gql`
   })
   export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
     document = ContributorAvatarsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction) {
-  events(
-    subject: $subject
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    originatingUserId: $originatingUserId
-    organizationId: $organizationId
-    eventType: $eventType
-  ) {
-    ...eventFeed
-  }
-}
-    ${EventFeedFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
-    document = EventFeedDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

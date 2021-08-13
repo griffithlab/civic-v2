@@ -34,8 +34,6 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { TimeagoModule } from 'ngx-timeago';
 
-import { EventFeedComponent } from './event-feed/event-feed.component';
-
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
@@ -48,8 +46,6 @@ import { QuicksearchComponent } from './quicksearch/quicksearch-component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { RevisionTagComponent } from './revision-tag/revision-tag.component';
-import { EventTimelineComponent } from './event-timeline/event-timeline.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -84,10 +80,7 @@ import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
 
 @NgModule({
   declarations: [
-    EventFeedComponent,
     QuicksearchComponent,
-    RevisionTagComponent,
-    EventTimelineComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
@@ -167,10 +160,7 @@ import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
     NzGridModule
   ],
   exports: [
-    EventFeedComponent,
     QuicksearchComponent,
-    RevisionTagComponent,
-    EventTimelineComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,

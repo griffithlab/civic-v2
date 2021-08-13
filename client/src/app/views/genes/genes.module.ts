@@ -59,6 +59,7 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/variants-menu.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     CvcCommentListModule,
     CvcVariantsMenuModule,
     CvcFlagListModule,
+    CvcEventFeedModule,
     CvcFlaggableModule,
     SectionNavigationModule,
     SharedComponentsModule,
