@@ -11,7 +11,7 @@ import { EventDisplayOption } from '../event-feed/event-feed.component';
   templateUrl: './event-timeline.component.html',
   styleUrls: ['./event-timeline.component.less']
 })
-export class EventTimelineComponent implements OnInit {
+export class CvcEventTimelineComponent implements OnInit {
   @Input() events?: EventFeedNodeFragment[];
   @Input() tagDisplay: EventDisplayOption = "displayAll"
   constructor() { }

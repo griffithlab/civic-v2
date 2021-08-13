@@ -75,8 +75,6 @@
         <ng-container *ngIf="events.length">
           <cvc-event-timeline [events]="events" [tagDisplay]=tagDisplay></cvc-event-timeline>
         </ng-container>
-        <nz-timeline *ngIf="events.length">
-        </nz-timeline>
         <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
           <div nz-list-load-more
             *ngIf="pageInfo.hasNextPage">

@@ -27,7 +27,7 @@ export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displ
   templateUrl: './event-feed.component.html',
   styleUrls: ['./event-feed.component.less'],
 })
-export class EventFeedComponent implements OnInit {
+export class CvcEventFeedComponent implements OnInit {
   @Input() subscribable?: SubscribableQueryInput;
   @Input() subscribableName?: string;
   @Input() organizationId: Maybe<number>
