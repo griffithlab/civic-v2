@@ -34,18 +34,13 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { TimeagoModule } from 'ngx-timeago';
 
-import { FlaggableComponent } from './flaggable/flaggable.component';
-import { FlaggableOptionsDirective } from './flaggable/flaggable-options.directive';
 import { EventFeedComponent } from './event-feed/event-feed.component';
-import { FlagEntityComponent } from './flag-add/flag-entity.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesComponentsModule } from '../genes/genes-components.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-import { FlagListComponent } from './flag-list/flag-list.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { ResolveFlagComponent } from './resolve-flag/resolve-flag.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
@@ -55,7 +50,6 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { RevisionTagComponent } from './revision-tag/revision-tag.component';
 import { EventTimelineComponent } from './event-timeline/event-timeline.component';
-import { FlagTagComponent } from './flag-tag/flag-tag.component';
 import { ContributorAvatarsComponent } from './contributor-avatars/contributor-avatars.component';
 import { ContributorStackComponent } from './contributor-stack/contributor-stack.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -86,19 +80,14 @@ import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/
 import { CvcUserTagModule } from '../users/user-tag/user-tag.module';
 import { CvcCommentTagModule } from '../comments/comment-tag/comment-tag.module';
 import { CvcUserPopoverModule } from '../users/user-popover/user-popover.module';
+import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
 
 @NgModule({
   declarations: [
-    FlaggableComponent,
-    FlaggableOptionsDirective,
     EventFeedComponent,
-    FlagEntityComponent,
-    FlagListComponent,
-    ResolveFlagComponent,
     QuicksearchComponent,
     RevisionTagComponent,
     EventTimelineComponent,
-    FlagTagComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
@@ -130,6 +119,7 @@ import { CvcUserPopoverModule } from '../users/user-popover/user-popover.module'
     CvcUserTagModule,
     CvcCommentTagModule,
     CvcUserPopoverModule,
+    CvcFlagTagModule,
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -177,16 +167,10 @@ import { CvcUserPopoverModule } from '../users/user-popover/user-popover.module'
     NzGridModule
   ],
   exports: [
-    FlaggableComponent,
-    FlaggableOptionsDirective,
     EventFeedComponent,
-    FlagEntityComponent,
-    FlagListComponent,
-    ResolveFlagComponent,
     QuicksearchComponent,
     RevisionTagComponent,
     EventTimelineComponent,
-    FlagTagComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,

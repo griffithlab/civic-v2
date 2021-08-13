@@ -1,6 +1,6 @@
 import { Component, ContentChild, Input, OnInit, AfterViewInit, ElementRef, Renderer2, OnChanges } from '@angular/core';
 import { FlaggableEntities, Maybe } from '@app/generated/civic.apollo';
-import { FlaggableOptionsDirective } from './flaggable-options.directive';
+import { CvcFlaggableOptionsDirective } from './flaggable-options.directive';
 
 export interface FlaggableSubject {
   id: number,
@@ -14,10 +14,10 @@ export interface FlaggableSubject {
   templateUrl: './flaggable.component.html',
   styleUrls: ['./flaggable.component.less']
 })
-export class FlaggableComponent implements AfterViewInit, OnChanges {
+export class CvcFlaggableComponent implements AfterViewInit, OnChanges {
   @Input() flags?: Maybe<number>;
   @Input() entity?: Maybe<FlaggableSubject>;
-  @ContentChild(FlaggableOptionsDirective,
+  @ContentChild(CvcFlaggableOptionsDirective,
                 {static: false, read: ElementRef}) flaggedChild!: ElementRef;
 
   constructor(private renderer: Renderer2) { }

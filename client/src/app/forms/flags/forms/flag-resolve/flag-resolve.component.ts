@@ -10,11 +10,11 @@ import {
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
-  selector: 'cvc-resolve-flag',
-  templateUrl: './resolve-flag.component.html',
-  styleUrls: ['./resolve-flag.component.less'],
+  selector: 'cvc-flag-resolve',
+  templateUrl: './flag-resolve.component.html',
+  styleUrls: ['./flag-resolve.component.less'],
 })
-export class ResolveFlagComponent implements OnInit {
+export class CvcFlagResolveComponent implements OnInit {
   @Input() flagId!: number;
   @Input() flagResolvedCallback?: () => void;
 

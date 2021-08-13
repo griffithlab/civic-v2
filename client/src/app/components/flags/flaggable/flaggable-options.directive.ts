@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
 
 export type FlaggableOptions = {
   showCount?: boolean
@@ -8,7 +8,7 @@ export type FlaggableOptions = {
 @Directive({
   selector: '[cvcFlaggableOptions]'
 })
-export class FlaggableOptionsDirective {
+export class CvcFlaggableOptionsDirective {
 
   constructor() { }
 

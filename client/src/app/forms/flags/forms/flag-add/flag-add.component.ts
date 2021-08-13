@@ -4,11 +4,11 @@ import { FlagEntityGQL, FlagEntityInput, FlaggableInput, Maybe, Organization } f
 import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
 
 @Component({
-    selector: 'cvc-flag-entity',
-    templateUrl: './flag-entity.component.html',
-    styleUrls: ['./flag-entity.component.less']
+    selector: 'cvc-flag-add',
+    templateUrl: './flag-add.component.html',
+    styleUrls: ['./flag-add.component.less']
 })
-export class FlagEntityComponent implements OnInit {
+export class CvcFlagAddComponent implements OnInit {
     @Input() flaggable!: FlaggableInput
     @Input() flagAddedCallback?: () => void
 
@@ -46,11 +46,11 @@ export class FlagEntityComponent implements OnInit {
 
     submitFlag(input: FlagEntityInput) {
         this.gql.mutate({input: input}).subscribe(
-            ({data}) => { 
+            ({data}) => {
                 if (this.flagAddedCallback) {
                     this.flagAddedCallback()
                 }
-                console.log(data?.flagEntity?.flag?.id) 
+                console.log(data?.flagEntity?.flag?.id)
             },
             (error) => {
                 console.log(error)

@@ -55,6 +55,8 @@ import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-ratin
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,8 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
     CvcEvidenceRatingModule,
     CvcUserTagModule,
     CvcCommentListModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
     SharedComponentsModule,
     IconsProviderModule,
     NgxJsonViewerModule,

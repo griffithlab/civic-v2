@@ -10,7 +10,7 @@ export interface LinkableFlag {
   templateUrl: './flag-tag.component.html',
   styleUrls: ['./flag-tag.component.less']
 })
-export class FlagTagComponent implements OnInit {
+export class CvcFlagTagComponent implements OnInit {
   @Input() flag!: LinkableFlag
 
   constructor() { }

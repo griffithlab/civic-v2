@@ -50,6 +50,8 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
     CvcTagListModule,
     CvcUserTagModule,
     CvcCommentListModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
     SectionNavigationModule,
     SharedComponentsModule,
     IconsProviderModule,

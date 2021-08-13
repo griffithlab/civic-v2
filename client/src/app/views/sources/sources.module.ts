@@ -40,6 +40,8 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 
 
 @NgModule({
@@ -56,6 +58,8 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,
     CvcSourceTagModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
     SectionNavigationModule,
     SourcesRoutingModule,
     SharedComponentsModule,

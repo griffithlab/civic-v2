@@ -42,6 +42,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
     CvcOrgSelectorBtnGroupModule,
     CvcParticipantListModule,
     CvcCommentListModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
     NzIconModule,
     NzAvatarModule,
     NzBadgeModule,

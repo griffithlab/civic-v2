@@ -57,6 +57,8 @@ import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-s
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/variants-menu.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/va
     CvcParticipantListModule,
     CvcCommentListModule,
     CvcVariantsMenuModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
     SectionNavigationModule,
     SharedComponentsModule,
     GenesComponentsModule,
