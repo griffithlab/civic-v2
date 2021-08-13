@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -22,7 +22,6 @@ import { StatisticsMainComponent } from './statistics-main/statistics-main.compo
     StatisticsRoutingModule,
     IconsProviderModule,
     NzTableModule,
-    SharedComponentsModule,
     NzPageHeaderModule,
     ReactiveComponentModule,
     NzGridModule,

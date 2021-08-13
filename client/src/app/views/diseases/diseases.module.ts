@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DiseasesRoutingModule } from './diseases-routing.module';
 import { DiseasesComponent } from './diseases.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -56,7 +56,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     CvcLinkTagModule,
     CommonModule,
     SourcesRoutingModule,
-    SharedComponentsModule,
+
     VariantsRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
@@ -83,9 +83,9 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     EvidenceModule,
-    SharedComponentsModule,
+
     NzSelectModule,
   ],
   exports: [

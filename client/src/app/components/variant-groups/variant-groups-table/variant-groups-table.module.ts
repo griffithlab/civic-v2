@@ -22,6 +22,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcVariantGroupTagModule } from '../variant-group-tag/variant-group-tag.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 
 
 
@@ -39,6 +40,7 @@ import { CvcVariantGroupTagModule } from '../variant-group-tag/variant-group-tag
     NzTypographyModule,
     NzToolTipModule,
     NzSelectModule,
+    CvcDetailsNavigationModule,
     CvcClearableInputFilterModule,
     CvcPipesModule,
     CvcGeneTagModule,

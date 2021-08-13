@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { VariantGroupsRoutingModule } from './variant-groups-routing.module';
 import { VariantGroupsComponent } from './variant-groups.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
-import { IconsProviderModule } from '@app/icons-provider.module';
+
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -44,6 +43,8 @@ import { CvcParticipantListModule } from '@app/components/shared/participant-lis
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
+import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     VariantGroupsRoutingModule,
     VariantGroupsHomeModule,
     SectionNavigationModule,
-    SharedComponentsModule,
+    CvcEmptyRevisableModule,
+    CvcDetailsNavigationModule,
     CvcOrgSelectorBtnGroupModule,
     CvcParticipantListModule,
     CvcCommentListModule,
@@ -90,9 +92,9 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     EvidenceModule,
-    SharedComponentsModule,
+
     NzSelectModule,
   ],
   exports: [

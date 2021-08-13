@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AssertionsRoutingModule } from './assertions-routing.module';
 import { AssertionsComponent } from './assertions.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -53,6 +53,8 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,8 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     CvcFlaggableModule,
     CvcEventFeedModule,
     SectionNavigationModule,
-    SharedComponentsModule,
+    CvcDetailsNavigationModule,
+    CvcStatusTagModule,
     IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -109,7 +112,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule,
     EvidenceModule
   ],

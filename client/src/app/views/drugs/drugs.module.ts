@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -38,7 +38,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     DrugsRoutingModule,
     NzIconModule,
     NzTableModule,
-    SharedComponentsModule,
+
     NzPageHeaderModule,
     ReactiveComponentModule,
     NzGridModule,

@@ -4,9 +4,8 @@ import { CommonModule } from '@angular/common';
 import { EvidenceRoutingModule } from './evidence-routing.module';
 import { EvidenceComponent } from './evidence.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
-import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -52,12 +51,14 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-rating/evidence-rating.module';
-import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 
 @NgModule({
   declarations: [
@@ -91,9 +92,10 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     CvcFlagListModule,
     CvcFlaggableModule,
     CvcEventFeedModule,
-    SharedComponentsModule,
-    IconsProviderModule,
+    CvcDetailsNavigationModule,
+    CvcStatusTagModule,
     NgxJsonViewerModule,
+    NzIconModule,
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
@@ -118,7 +120,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule
   ],
   exports: [

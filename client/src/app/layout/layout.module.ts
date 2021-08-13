@@ -13,7 +13,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { LayoutComponentsModule } from '@app/components/layout/layout-components.module';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
@@ -34,7 +34,7 @@ import { CvcQuicksearchModule } from '@app/components/layout/quicksearch/quickse
     NgxJsonViewerModule,
     IconsProviderModule,
     LayoutComponentsModule,
-    SharedComponentsModule,
+
     CvcQuicksearchModule,
   ]
 })

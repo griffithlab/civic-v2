@@ -31,9 +31,9 @@ import { TimeagoModule } from 'ngx-timeago';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 // civic imports
-import { IconsProviderModule } from '@app/icons-provider.module'
+import { IconsProviderModule } from '@app/icons-provider.module';
 import { CvcFormsModule } from '@app/forms/forms.module';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
@@ -59,6 +59,8 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 
 @NgModule({
   declarations: [
@@ -67,9 +69,10 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     VariantSummaryComponent,
     VariantsCommentsComponent,
     VariantsFlagsComponent,
-    VariantsRevisionsComponent
+    VariantsRevisionsComponent,
   ],
   imports: [
+    CommonModule,
     VariantsHomeModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
@@ -86,9 +89,9 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     CvcFlagListModule,
     CvcFlaggableModule,
     CvcEventFeedModule,
+    CvcEmptyRevisableModule,
+    CvcDetailsNavigationModule,
     SectionNavigationModule,
-    SharedComponentsModule,
-    CommonModule,
     VariantsRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
@@ -116,9 +119,9 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
-    EvidenceModule
+
+    EvidenceModule,
   ],
-  exports: [VariantsRevisionsComponent]
+  exports: [VariantsRevisionsComponent],
 })
-export class VariantsModule { }
+export class VariantsModule {}

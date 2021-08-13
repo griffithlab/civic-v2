@@ -9,7 +9,6 @@ import {
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { GeneSuggestRevisionFormComponent } from './components/gene-suggest-revision-form/gene-suggest-revision-form.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -22,8 +21,6 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
-
-import { IconsProviderModule } from '@app/icons-provider.module';
 
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
 import { MultiFieldComponent } from './types/multi-field/multi-field.component';
@@ -56,7 +53,7 @@ import { CvcFormButtonsModule } from './shared/components/form-buttons/form-butt
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedComponentsModule,
+
     SourcesComponentsModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,

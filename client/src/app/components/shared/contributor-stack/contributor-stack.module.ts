@@ -15,7 +15,7 @@ import { CvcUserPopoverModule } from '@app/components/users/user-popover/user-po
     RouterModule,
     NzAvatarModule,
     NzPopoverModule,
-    NzListModule
+    NzListModule,
     CvcPipesModule,
     CvcUserPopoverModule
   ],

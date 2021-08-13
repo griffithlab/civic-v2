@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SourcesRoutingModule } from './sources-routing.module';
 import { SourcesComponent } from './sources.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -62,7 +62,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     CvcFlaggableModule,
     SectionNavigationModule,
     SourcesRoutingModule,
-    SharedComponentsModule,
+
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
@@ -88,9 +88,9 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     EvidenceModule,
-    SharedComponentsModule,
+
     NzSelectModule
   ],
   exports: [

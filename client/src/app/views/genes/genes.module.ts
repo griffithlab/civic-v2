@@ -33,7 +33,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 // civic imports
 import { IconsProviderModule } from '@app/icons-provider.module'
 import { CvcFormsModule } from '@app/forms/forms.module';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesRoutingModule } from './genes-routing.module';
@@ -60,6 +60,8 @@ import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/va
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     CvcEventFeedModule,
     CvcFlaggableModule,
     SectionNavigationModule,
-    SharedComponentsModule,
+    CvcEmptyRevisableModule,
+    CvcDetailsNavigationModule,
     GenesComponentsModule,
     CommonModule,
     GenesRoutingModule,

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -66,7 +66,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     CvcUserCardModule,
     CvcFormsModule,
     CvcEventFeedModule,
-    SharedComponentsModule,
+
     IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -92,7 +92,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule,
     EvidenceModule,
     NzImageModule,
