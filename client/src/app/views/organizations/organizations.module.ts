@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { OrganizationsRoutingModule } from './organizations-routing.module';
 import { OrganizationsComponent } from './organizations.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -40,6 +40,15 @@ import { OrganizationsEventsComponent } from './organizations-events/organizatio
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { OrganizationsGroupsComponent } from './organizations-groups/organizations-groups.component';
+import { OrganizationsHomeModule } from './organizations-home/organizations-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
+import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module';
+import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 
 @NgModule({
@@ -54,9 +63,18 @@ import { OrganizationsGroupsComponent } from './organizations-groups/organizatio
   ],
   imports: [
     CommonModule,
+    OrganizationsHomeModule,
+    CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
     OrganizationsRoutingModule,
+    CvcLinkTagModule,
     CvcFormsModule,
-    SharedComponentsModule,
+    CvcOrganizationTagModule,
+    CvcOrganizationCardModule,
+    CvcUserCardModule,
+    CvcEventFeedModule,
+
     IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -82,7 +100,7 @@ import { OrganizationsGroupsComponent } from './organizations-groups/organizatio
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule,
     EvidenceModule,
     NzImageModule,

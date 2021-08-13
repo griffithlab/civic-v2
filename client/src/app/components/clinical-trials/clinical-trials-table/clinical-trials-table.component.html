@@ -1,0 +1,67 @@
+<nz-table #clinicalTrialsTable
+  [nzData]="(clinicalTrials$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="15%"
+        [nzColumnKey]="sortColumns.NctId"
+        [nzSortFn]="true">
+        NCT ID
+      </th>
+      <th nzWidth="65%"
+        [nzColumnKey]="sortColumns.Name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <th nzWidth="10%"
+        nzRight
+        [nzColumnKey]="sortColumns.SourceCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:source"
+          nz-tooltip
+          nzTooltipTitle="Source count"></i></th>
+      <th nzWidth="10%"
+        nzRight
+        [nzColumnKey]="sortColumns.EvidenceItemCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:evidence"
+          nz-tooltip
+          nzTooltipTitle="Evidence count"></i></th>
+    </tr>
+    <tr>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="nameFilter"
+          placeholderText="Search Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="nctIdFilter"
+          placeholderText="Search NCT ID"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of clinicalTrialsTable.data">
+      <td>
+        <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+      </td>
+      <td>
+        {{ t.name }}
+      </td>
+      <td>
+        {{ t.sourceCount }}
+      </td>
+      <td>
+        {{ t.evidenceCount }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

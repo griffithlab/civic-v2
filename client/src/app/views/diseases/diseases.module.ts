@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DiseasesRoutingModule } from './diseases-routing.module';
 import { DiseasesComponent } from './diseases.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -33,23 +33,30 @@ import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { SourcesRoutingModule } from '../sources/sources-routing.module';
 import { VariantsRoutingModule } from '../variants/variants-routing.module';
-import { DiseasesBrowseComponent } from './diseases-browse/diseases-browse.component';
 import { DiseasesSummaryComponent } from './diseases-summary/diseases-summary.component';
 import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.component';
-
+import { DiseasesHomeModule } from './diseases-home/diseases-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 
 @NgModule({
   declarations: [
     DiseasesComponent,
-    DiseasesBrowseComponent,
     DiseasesSummaryComponent,
-    DiseasesDetailComponent
+    DiseasesDetailComponent,
   ],
   imports: [
     DiseasesRoutingModule,
+    DiseasesHomeModule,
+    CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
+    CvcLinkTagModule,
     CommonModule,
     SourcesRoutingModule,
-    SharedComponentsModule,
+
     VariantsRoutingModule,
     IconsProviderModule,
     NzAvatarModule,
@@ -76,15 +83,14 @@ import { DiseasesDetailComponent } from './diseases-detail/diseases-detail.compo
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     EvidenceModule,
-    SharedComponentsModule,
-    NzSelectModule
+
+    NzSelectModule,
   ],
   exports: [
-    DiseasesBrowseComponent,
     DiseasesSummaryComponent,
-    DiseasesDetailComponent
-  ]
+    DiseasesDetailComponent,
+  ],
 })
-export class DiseasesModule { }
+export class DiseasesModule {}

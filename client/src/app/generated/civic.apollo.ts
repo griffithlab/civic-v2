@@ -3246,21 +3246,34 @@ export type ClinicalTrialPopoverFragment = (
   & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'url' | 'sourceCount' | 'evidenceCount'>
 );
 
-export type AddCommentMutationVariables = Exact<{
-  input: AddCommentInput;
+export type ClinicalTrialsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  nctId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<ClinicalTrialSort>;
 }>;
 
 
-export type AddCommentMutation = (
-  { __typename: 'Mutation' }
-  & { addComment?: Maybe<(
-    { __typename: 'AddCommentPayload' }
-    & Pick<AddCommentPayload, 'clientMutationId'>
-    & { comment?: Maybe<(
-      { __typename: 'Comment' }
-      & CommentListNodeFragment
+export type ClinicalTrialsBrowseQuery = (
+  { __typename: 'Query' }
+  & { clinicalTrials: (
+    { __typename: 'BrowseClinicalTrialConnection' }
+    & Pick<BrowseClinicalTrialConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseClinicalTrialEdge' }
+      & Pick<BrowseClinicalTrialEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseClinicalTrial' }
+        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount'>
+      )> }
     )> }
-  )> }
+  ) }
 );
 
 export type CommentListQueryVariables = Exact<{
@@ -3349,37 +3362,6 @@ export type CommentPopoverFragment = (
   ) }
 );
 
-export type ContributorAvatarsQueryVariables = Exact<{
-  subscribable: SubscribableInput;
-}>;
-
-
-export type ContributorAvatarsQuery = (
-  { __typename: 'Query' }
-  & { contributors: (
-    { __typename: 'ContributingUsersSummary' }
-    & { editors: Array<(
-      { __typename: 'ContributingUser' }
-      & ContributorFieldsFragment
-    )>, curators: Array<(
-      { __typename: 'ContributingUser' }
-      & ContributorFieldsFragment
-    )> }
-  ) }
-);
-
-export type ContributorFieldsFragment = (
-  { __typename: 'ContributingUser' }
-  & Pick<ContributingUser, 'lastActionDate' | 'totalActionCount'>
-  & { user: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'profileImagePath'>
-  ), uniqueActions: Array<(
-    { __typename: 'Contribution' }
-    & Pick<Contribution, 'action' | 'count'>
-  )> }
-);
-
 export type DiseasePopoverQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -3404,6 +3386,42 @@ export type DiseasePopoverFragment = (
   & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
 );
 
+export type BrowseDiseasesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DiseasesSort>;
+  name?: Maybe<Scalars['String']>;
+  doid?: Maybe<Scalars['String']>;
+  geneNames?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseDiseasesQuery = (
+  { __typename: 'Query' }
+  & { browseDiseases: (
+    { __typename: 'BrowseDiseaseConnection' }
+    & Pick<BrowseDiseaseConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseDiseaseEdge' }
+      & Pick<BrowseDiseaseEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseDisease' }
+        & BrowseDiseaseRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseDiseaseRowFieldsFragment = (
+  { __typename: 'BrowseDisease' }
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+);
+
 export type DrugPopoverQueryVariables = Exact<{
   drugId: Scalars['Int'];
 }>;
@@ -3426,6 +3444,41 @@ export type DrugPopoverQuery = (
 export type DrugPopoverFragment = (
   { __typename: 'BrowseDrug' }
   & Pick<BrowseDrug, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'assertionCount' | 'evidenceCount'>
+);
+
+export type DrugsBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  ncitId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DrugSort>;
+}>;
+
+
+export type DrugsBrowseQuery = (
+  { __typename: 'Query' }
+  & { drugs: (
+    { __typename: 'BrowseDrugConnection' }
+    & Pick<BrowseDrugConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseDrugEdge' }
+      & Pick<BrowseDrugEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseDrug' }
+        & DrugBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type DrugBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseDrug' }
+  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
 );
 
 export type EventFeedQueryVariables = Exact<{
@@ -3518,6 +3571,52 @@ export type EventFeedNodeFragment = (
   )> }
 );
 
+export type EvidencePopoverQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidencePopoverQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & EvidencePopoverFragment
+  )> }
+);
+
+export type EvidencePopoverFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & { drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType' | 'displayType'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ) }
+);
+
 export type EvidenceBrowseQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -3599,68 +3698,6 @@ export type EvidenceGridFieldsFragment = (
   )> }
 );
 
-export type EvidencePopoverQueryVariables = Exact<{
-  evidenceId: Scalars['Int'];
-}>;
-
-
-export type EvidencePopoverQuery = (
-  { __typename: 'Query' }
-  & { evidenceItem?: Maybe<(
-    { __typename: 'EvidenceItem' }
-    & EvidencePopoverFragment
-  )> }
-);
-
-export type EvidencePopoverFragment = (
-  { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
-  & { drugs: Array<(
-    { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
-  )>, disease?: Maybe<(
-    { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
-  )>, phenotypes: Array<(
-    { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
-  )>, gene: (
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
-  ), variant: (
-    { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
-  ), source: (
-    { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceType'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ) }
-);
-
-export type FlagEntityMutationVariables = Exact<{
-  input: FlagEntityInput;
-}>;
-
-
-export type FlagEntityMutation = (
-  { __typename: 'Mutation' }
-  & { flagEntity?: Maybe<(
-    { __typename: 'FlagEntityPayload' }
-    & { flag?: Maybe<(
-      { __typename: 'Flag' }
-      & Pick<Flag, 'id'>
-    )> }
-  )> }
-);
-
 export type FlagListQueryVariables = Exact<{
   flaggable?: Maybe<FlaggableInput>;
   flaggingUserId?: Maybe<Scalars['Int']>;
@@ -3724,6 +3761,48 @@ export type FlagListFragment = (
   )> }
 );
 
+export type BrowseGenesQueryVariables = Exact<{
+  entrezSymbol?: Maybe<Scalars['String']>;
+  drugName?: Maybe<Scalars['String']>;
+  geneAlias?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<GenesSort>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseGenesQuery = (
+  { __typename: 'Query' }
+  & { browseGenes: (
+    { __typename: 'BrowseGeneConnection' }
+    & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { edges: Array<(
+      { __typename: 'BrowseGeneEdge' }
+      & Pick<BrowseGeneEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseGene' }
+        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+        & { aliases?: Maybe<Array<(
+          { __typename: 'GeneAlias' }
+          & Pick<GeneAlias, 'name'>
+        )>>, diseases?: Maybe<Array<(
+          { __typename: 'Disease' }
+          & Pick<Disease, 'name' | 'id'>
+        )>>, drugs?: Maybe<Array<(
+          { __typename: 'Drug' }
+          & Pick<Drug, 'name' | 'id'>
+        )>> }
+      )> }
+    )>, pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ) }
+  ) }
+);
+
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -3756,6 +3835,24 @@ export type GenePopoverFragment = (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
   ) }
+);
+
+export type QuicksearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type QuicksearchQuery = (
+  { __typename: 'Query' }
+  & { search: Array<(
+    { __typename: 'SearchResult' }
+    & QuicksearchResultFragment
+  )> }
+);
+
+export type QuicksearchResultFragment = (
+  { __typename: 'SearchResult' }
+  & Pick<SearchResult, 'id' | 'resultType' | 'name' | 'matchingText'>
 );
 
 export type OrgPopoverQueryVariables = Exact<{
@@ -3843,37 +3940,69 @@ export type PhenotypePopoverFragment = (
   & Pick<BrowsePhenotype, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceCount'>
 );
 
-export type QuicksearchQueryVariables = Exact<{
-  query: Scalars['String'];
+export type PhenotypesBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  hpoId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<PhenotypeSort>;
 }>;
 
 
-export type QuicksearchQuery = (
+export type PhenotypesBrowseQuery = (
   { __typename: 'Query' }
-  & { search: Array<(
-    { __typename: 'SearchResult' }
-    & QuicksearchResultFragment
-  )> }
+  & { phenotypes: (
+    { __typename: 'BrowsePhenotypeConnection' }
+    & Pick<BrowsePhenotypeConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowsePhenotypeEdge' }
+      & Pick<BrowsePhenotypeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowsePhenotype' }
+        & PhenotypeBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
 );
 
-export type QuicksearchResultFragment = (
-  { __typename: 'SearchResult' }
-  & Pick<SearchResult, 'id' | 'resultType' | 'name' | 'matchingText'>
+export type PhenotypeBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowsePhenotype' }
+  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
 );
 
-export type ResolveFlagMutationVariables = Exact<{
-  input: ResolveFlagInput;
+export type ContributorAvatarsQueryVariables = Exact<{
+  subscribable: SubscribableInput;
 }>;
 
 
-export type ResolveFlagMutation = (
-  { __typename: 'Mutation' }
-  & { resolveFlag?: Maybe<(
-    { __typename: 'ResolveFlagPayload' }
-    & { flag?: Maybe<(
-      { __typename: 'Flag' }
-      & Pick<Flag, 'id'>
+export type ContributorAvatarsQuery = (
+  { __typename: 'Query' }
+  & { contributors: (
+    { __typename: 'ContributingUsersSummary' }
+    & { editors: Array<(
+      { __typename: 'ContributingUser' }
+      & ContributorFieldsFragment
+    )>, curators: Array<(
+      { __typename: 'ContributingUser' }
+      & ContributorFieldsFragment
     )> }
+  ) }
+);
+
+export type ContributorFieldsFragment = (
+  { __typename: 'ContributingUser' }
+  & Pick<ContributingUser, 'lastActionDate' | 'totalActionCount'>
+  & { user: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'profileImagePath'>
+  ), uniqueActions: Array<(
+    { __typename: 'Contribution' }
+    & Pick<Contribution, 'action' | 'count'>
   )> }
 );
 
@@ -3905,6 +4034,46 @@ export type SourcePopoverFragment = (
   )> }
 );
 
+export type BrowseSourcesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<SourcesSort>;
+  name?: Maybe<Scalars['String']>;
+  year?: Maybe<Scalars['Int']>;
+  sourceType?: Maybe<SourceSource>;
+  citationId?: Maybe<Scalars['Int']>;
+  author?: Maybe<Scalars['String']>;
+  journal?: Maybe<Scalars['String']>;
+  clinicalTrialId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type BrowseSourcesQuery = (
+  { __typename: 'Query' }
+  & { browseSources: (
+    { __typename: 'BrowseSourceConnection' }
+    & Pick<BrowseSourceConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseSourceEdge' }
+      & Pick<BrowseSourceEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseSource' }
+        & BrowseSourceRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseSourceRowFieldsFragment = (
+  { __typename: 'BrowseSource' }
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
+);
+
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
@@ -3925,6 +4094,101 @@ export type PopoverUserFragment = (
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
   )> }
+);
+
+export type BrowseVariantGroupsQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantGroupsSort>;
+  name?: Maybe<Scalars['String']>;
+  geneNames?: Maybe<Scalars['String']>;
+  variantNames?: Maybe<Scalars['String']>;
+}>;
+
+
+export type BrowseVariantGroupsQuery = (
+  { __typename: 'Query' }
+  & { browseVariantGroups: (
+    { __typename: 'BrowseVariantGroupConnection' }
+    & Pick<BrowseVariantGroupConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantGroupEdge' }
+      & Pick<BrowseVariantGroupEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantGroup' }
+        & BrowseVariantGroupRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseVariantGroupRowFieldsFragment = (
+  { __typename: 'BrowseVariantGroup' }
+  & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
+);
+
+export type VariantTypePopoverQueryVariables = Exact<{
+  variantTypeId: Scalars['Int'];
+}>;
+
+
+export type VariantTypePopoverQuery = (
+  { __typename: 'Query' }
+  & { variantTypes: (
+    { __typename: 'BrowseVariantTypeConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseVariantTypeEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantType' }
+        & VariantTypePopoverFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type VariantTypePopoverFragment = (
+  { __typename: 'BrowseVariantType' }
+  & Pick<BrowseVariantType, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
+);
+
+export type VariantTypesBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  soid?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<VariantTypeSort>;
+}>;
+
+
+export type VariantTypesBrowseQuery = (
+  { __typename: 'Query' }
+  & { variantTypes: (
+    { __typename: 'BrowseVariantTypeConnection' }
+    & Pick<BrowseVariantTypeConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'BrowseVariantTypeEdge' }
+      & Pick<BrowseVariantTypeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantType' }
+        & VariantTypeBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type VariantTypeBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseVariantType' }
+  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount'>
 );
 
 export type VariantPopoverQueryVariables = Exact<{
@@ -3961,28 +4225,39 @@ export type VariantPopoverFieldsFragment = (
   ) }
 );
 
-export type VariantTypePopoverQueryVariables = Exact<{
-  variantTypeId: Scalars['Int'];
+export type VariantsMenuQueryVariables = Exact<{
+  geneId?: Maybe<Scalars['Int']>;
+  variantName?: Maybe<Scalars['String']>;
+  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
 }>;
 
 
-export type VariantTypePopoverQuery = (
+export type VariantsMenuQuery = (
   { __typename: 'Query' }
-  & { variantTypes: (
-    { __typename: 'BrowseVariantTypeConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseVariantTypeEdge' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
+    ), edges: Array<(
+      { __typename: 'VariantEdge' }
+      & Pick<VariantEdge, 'cursor'>
       & { node?: Maybe<(
-        { __typename: 'BrowseVariantType' }
-        & VariantTypePopoverFragment
+        { __typename: 'Variant' }
+        & MenuVariantFragment
       )> }
     )> }
   ) }
 );
 
-export type VariantTypePopoverFragment = (
-  { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
+export type MenuVariantFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
 );
 
 export type BrowseVariantsQueryVariables = Exact<{
@@ -4025,39 +4300,21 @@ export type BrowseVariantsQuery = (
   ) }
 );
 
-export type VariantsMenuQueryVariables = Exact<{
-  geneId?: Maybe<Scalars['Int']>;
-  variantName?: Maybe<Scalars['String']>;
-  evidenceStatusFilter?: Maybe<VariantDisplayFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
+export type AddCommentMutationVariables = Exact<{
+  input: AddCommentInput;
 }>;
 
 
-export type VariantsMenuQuery = (
-  { __typename: 'Query' }
-  & { variants: (
-    { __typename: 'VariantConnection' }
-    & Pick<VariantConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ), edges: Array<(
-      { __typename: 'VariantEdge' }
-      & Pick<VariantEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'Variant' }
-        & MenuVariantFragment
-      )> }
+export type AddCommentMutation = (
+  { __typename: 'Mutation' }
+  & { addComment?: Maybe<(
+    { __typename: 'AddCommentPayload' }
+    & Pick<AddCommentPayload, 'clientMutationId'>
+    & { comment?: Maybe<(
+      { __typename: 'Comment' }
+      & CommentListNodeFragment
     )> }
-  ) }
-);
-
-export type MenuVariantFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
+  )> }
 );
 
 export type GeneRevisableFieldsQueryVariables = Exact<{
@@ -4175,6 +4432,38 @@ export type CitationTypeaheadQuery = (
 export type SourceTypeaheadResultFragment = (
   { __typename: 'Source' }
   & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
+);
+
+export type FlagEntityMutationVariables = Exact<{
+  input: FlagEntityInput;
+}>;
+
+
+export type FlagEntityMutation = (
+  { __typename: 'Mutation' }
+  & { flagEntity?: Maybe<(
+    { __typename: 'FlagEntityPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
+export type ResolveFlagMutationVariables = Exact<{
+  input: ResolveFlagInput;
+}>;
+
+
+export type ResolveFlagMutation = (
+  { __typename: 'Mutation' }
+  & { resolveFlag?: Maybe<(
+    { __typename: 'ResolveFlagPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
 );
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
@@ -4315,36 +4604,6 @@ export type AssertionSummaryFieldsFragment = (
   )> }
 );
 
-export type ClinicalTrialsBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nctId?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<ClinicalTrialSort>;
-}>;
-
-
-export type ClinicalTrialsBrowseQuery = (
-  { __typename: 'Query' }
-  & { clinicalTrials: (
-    { __typename: 'BrowseClinicalTrialConnection' }
-    & Pick<BrowseClinicalTrialConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseClinicalTrialEdge' }
-      & Pick<BrowseClinicalTrialEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseClinicalTrial' }
-        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount'>
-      )> }
-    )> }
-  ) }
-);
-
 export type ClinicalTrialDetailQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int'];
 }>;
@@ -4358,42 +4617,6 @@ export type ClinicalTrialDetailQuery = (
   )> }
 );
 
-export type BrowseDiseasesQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<DiseasesSort>;
-  name?: Maybe<Scalars['String']>;
-  doid?: Maybe<Scalars['String']>;
-  geneNames?: Maybe<Scalars['String']>;
-}>;
-
-
-export type BrowseDiseasesQuery = (
-  { __typename: 'Query' }
-  & { browseDiseases: (
-    { __typename: 'BrowseDiseaseConnection' }
-    & Pick<BrowseDiseaseConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseDiseaseEdge' }
-      & Pick<BrowseDiseaseEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseDisease' }
-        & BrowseDiseaseRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type BrowseDiseaseRowFieldsFragment = (
-  { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
-);
-
 export type DiseaseDetailQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -4405,41 +4628,6 @@ export type DiseaseDetailQuery = (
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName'>
   )> }
-);
-
-export type DrugsBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  ncitId?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<DrugSort>;
-}>;
-
-
-export type DrugsBrowseQuery = (
-  { __typename: 'Query' }
-  & { drugs: (
-    { __typename: 'BrowseDrugConnection' }
-    & Pick<BrowseDrugConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseDrugEdge' }
-      & Pick<BrowseDrugEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseDrug' }
-        & DrugBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type DrugBrowseTableRowFieldsFragment = (
-  { __typename: 'BrowseDrug' }
-  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
 );
 
 export type DrugDetailQueryVariables = Exact<{
@@ -4558,48 +4746,6 @@ export type EvidenceSummaryFieldsFragment = (
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   )> }
-);
-
-export type BrowseGenesQueryVariables = Exact<{
-  entrezSymbol?: Maybe<Scalars['String']>;
-  drugName?: Maybe<Scalars['String']>;
-  geneAlias?: Maybe<Scalars['String']>;
-  diseaseName?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<GenesSort>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-}>;
-
-
-export type BrowseGenesQuery = (
-  { __typename: 'Query' }
-  & { browseGenes: (
-    { __typename: 'BrowseGeneConnection' }
-    & Pick<BrowseGeneConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { edges: Array<(
-      { __typename: 'BrowseGeneEdge' }
-      & Pick<BrowseGeneEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { aliases?: Maybe<Array<(
-          { __typename: 'GeneAlias' }
-          & Pick<GeneAlias, 'name'>
-        )>>, diseases?: Maybe<Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id'>
-        )>>, drugs?: Maybe<Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id'>
-        )>> }
-      )> }
-    )>, pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
-    ) }
-  ) }
 );
 
 export type GeneDetailQueryVariables = Exact<{
@@ -4804,41 +4950,6 @@ export type OrganizationMembersFieldsFragment = (
   & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
 );
 
-export type PhenotypesBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  hpoId?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<PhenotypeSort>;
-}>;
-
-
-export type PhenotypesBrowseQuery = (
-  { __typename: 'Query' }
-  & { phenotypes: (
-    { __typename: 'BrowsePhenotypeConnection' }
-    & Pick<BrowsePhenotypeConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowsePhenotypeEdge' }
-      & Pick<BrowsePhenotypeEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowsePhenotype' }
-        & PhenotypeBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type PhenotypeBrowseTableRowFieldsFragment = (
-  { __typename: 'BrowsePhenotype' }
-  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
-);
-
 export type PhenotypeDetailQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
 }>;
@@ -4850,46 +4961,6 @@ export type PhenotypeDetailQuery = (
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name' | 'hpoId' | 'url'>
   )> }
-);
-
-export type BrowseSourcesQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<SourcesSort>;
-  name?: Maybe<Scalars['String']>;
-  year?: Maybe<Scalars['Int']>;
-  sourceType?: Maybe<SourceSource>;
-  citationId?: Maybe<Scalars['Int']>;
-  author?: Maybe<Scalars['String']>;
-  journal?: Maybe<Scalars['String']>;
-  clinicalTrialId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type BrowseSourcesQuery = (
-  { __typename: 'Query' }
-  & { browseSources: (
-    { __typename: 'BrowseSourceConnection' }
-    & Pick<BrowseSourceConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
-    ), edges: Array<(
-      { __typename: 'BrowseSourceEdge' }
-      & Pick<BrowseSourceEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseSource' }
-        & BrowseSourceRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type BrowseSourceRowFieldsFragment = (
-  { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
 );
 
 export type SourceDetailQueryVariables = Exact<{
@@ -4958,42 +5029,6 @@ export type UserDetailFieldsFragment = (
     { __typename: 'Coi' }
     & Pick<Coi, 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
   )> }
-);
-
-export type BrowseVariantGroupsQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<VariantGroupsSort>;
-  name?: Maybe<Scalars['String']>;
-  geneNames?: Maybe<Scalars['String']>;
-  variantNames?: Maybe<Scalars['String']>;
-}>;
-
-
-export type BrowseVariantGroupsQuery = (
-  { __typename: 'Query' }
-  & { browseVariantGroups: (
-    { __typename: 'BrowseVariantGroupConnection' }
-    & Pick<BrowseVariantGroupConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
-    ), edges: Array<(
-      { __typename: 'BrowseVariantGroupEdge' }
-      & Pick<BrowseVariantGroupEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantGroup' }
-        & BrowseVariantGroupRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type BrowseVariantGroupRowFieldsFragment = (
-  { __typename: 'BrowseVariantGroup' }
-  & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
 );
 
 export type VariantGroupDetailQueryVariables = Exact<{
@@ -5102,41 +5137,6 @@ export type VariantGroupsSummaryQuery = (
 export type VariantGroupSummaryFieldsFragment = (
   { __typename: 'VariantGroup' }
   & Pick<VariantGroup, 'id' | 'name' | 'description'>
-);
-
-export type VariantTypesBrowseQueryVariables = Exact<{
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  soid?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<VariantTypeSort>;
-}>;
-
-
-export type VariantTypesBrowseQuery = (
-  { __typename: 'Query' }
-  & { variantTypes: (
-    { __typename: 'BrowseVariantTypeConnection' }
-    & Pick<BrowseVariantTypeConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'BrowseVariantTypeEdge' }
-      & Pick<BrowseVariantTypeEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantType' }
-        & VariantTypeBrowseTableRowFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type VariantTypeBrowseTableRowFieldsFragment = (
-  { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount'>
 );
 
 export type VariantTypeDetailQueryVariables = Exact<{
@@ -5372,20 +5372,6 @@ export const CommentPopoverFragmentDoc = gql`
   }
 }
     `;
-export const ContributorFieldsFragmentDoc = gql`
-    fragment ContributorFields on ContributingUser {
-  user {
-    id
-    profileImagePath(size: 12)
-  }
-  uniqueActions {
-    action
-    count
-  }
-  lastActionDate
-  totalActionCount
-}
-    `;
 export const DiseasePopoverFragmentDoc = gql`
     fragment diseasePopover on BrowseDisease {
   id
@@ -5397,12 +5383,34 @@ export const DiseasePopoverFragmentDoc = gql`
   variantCount
 }
     `;
+export const BrowseDiseaseRowFieldsFragmentDoc = gql`
+    fragment BrowseDiseaseRowFields on BrowseDisease {
+  id
+  name
+  doid
+  diseaseUrl
+  geneNames
+  assertionCount
+  evidenceItemCount
+  variantCount
+}
+    `;
 export const DrugPopoverFragmentDoc = gql`
     fragment drugPopover on BrowseDrug {
   id
   name
   drugUrl
   ncitId
+  assertionCount
+  evidenceCount
+}
+    `;
+export const DrugBrowseTableRowFieldsFragmentDoc = gql`
+    fragment DrugBrowseTableRowFields on BrowseDrug {
+  id
+  name
+  ncitId
+  drugUrl
   assertionCount
   evidenceCount
 }
@@ -5473,6 +5481,55 @@ export const EventFeedFragmentDoc = gql`
   }
 }
     ${EventFeedNodeFragmentDoc}`;
+export const EvidencePopoverFragmentDoc = gql`
+    fragment evidencePopover on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+    displayType
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}
+    `;
 export const EvidenceGridFieldsFragmentDoc = gql`
     fragment EvidenceGridFields on EvidenceItem {
   id
@@ -5521,54 +5578,6 @@ export const EvidenceGridFieldsFragmentDoc = gql`
   evidenceRating
   clinicalSignificance
   variantOrigin
-}
-    `;
-export const EvidencePopoverFragmentDoc = gql`
-    fragment evidencePopover on EvidenceItem {
-  id
-  name
-  description
-  evidenceLevel
-  evidenceType
-  evidenceDirection
-  clinicalSignificance
-  variantOrigin
-  drugs {
-    id
-    name
-  }
-  drugInteractionType
-  disease {
-    id
-    name
-  }
-  phenotypes {
-    id
-    name
-  }
-  evidenceRating
-  gene {
-    id
-    name
-  }
-  variant {
-    id
-    name
-  }
-  source {
-    id
-    citation
-    sourceType
-  }
-  flags(state: OPEN) {
-    totalCount
-  }
-  revisions(status: NEW) {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
 }
     `;
 export const FlagListFragmentDoc = gql`
@@ -5631,6 +5640,14 @@ export const GenePopoverFragmentDoc = gql`
   }
 }
     `;
+export const QuicksearchResultFragmentDoc = gql`
+    fragment QuicksearchResult on SearchResult {
+  id
+  resultType
+  name
+  matchingText
+}
+    `;
 export const OrgPopoverFragmentDoc = gql`
     fragment orgPopover on Organization {
   id
@@ -5674,12 +5691,28 @@ export const PhenotypePopoverFragmentDoc = gql`
   evidenceCount
 }
     `;
-export const QuicksearchResultFragmentDoc = gql`
-    fragment QuicksearchResult on SearchResult {
+export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
+    fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
   id
-  resultType
   name
-  matchingText
+  hpoId
+  url
+  assertionCount
+  evidenceCount
+}
+    `;
+export const ContributorFieldsFragmentDoc = gql`
+    fragment ContributorFields on ContributingUser {
+  user {
+    id
+    profileImagePath(size: 12)
+  }
+  uniqueActions {
+    action
+    count
+  }
+  lastActionDate
+  totalActionCount
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
@@ -5697,6 +5730,20 @@ export const SourcePopoverFragmentDoc = gql`
   }
 }
     `;
+export const BrowseSourceRowFieldsFragmentDoc = gql`
+    fragment BrowseSourceRowFields on BrowseSource {
+  id
+  authors
+  citationId
+  evidenceItemCount
+  journal
+  name
+  publicationYear
+  sourceType
+  citation
+  displayType
+}
+    `;
 export const PopoverUserFragmentDoc = gql`
     fragment popoverUser on User {
   id
@@ -5708,6 +5755,34 @@ export const PopoverUserFragmentDoc = gql`
     id
     name
   }
+}
+    `;
+export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
+    fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
+  id
+  name
+  geneNames
+  variantNames
+  variantCount
+  evidenceItemCount
+}
+    `;
+export const VariantTypePopoverFragmentDoc = gql`
+    fragment variantTypePopover on BrowseVariantType {
+  id
+  name
+  url
+  soid
+  variantCount
+}
+    `;
+export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
+    fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
+  id
+  name
+  soid
+  url
+  variantCount
 }
     `;
 export const VariantPopoverFieldsFragmentDoc = gql`
@@ -5733,15 +5808,6 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   flags(state: OPEN) {
     totalCount
   }
-}
-    `;
-export const VariantTypePopoverFragmentDoc = gql`
-    fragment variantTypePopover on BrowseVariantType {
-  id
-  name
-  url
-  soid
-  variantCount
 }
     `;
 export const MenuVariantFragmentDoc = gql`
@@ -5856,28 +5922,6 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
-}
-    `;
-export const BrowseDiseaseRowFieldsFragmentDoc = gql`
-    fragment BrowseDiseaseRowFields on BrowseDisease {
-  id
-  name
-  doid
-  diseaseUrl
-  geneNames
-  assertionCount
-  evidenceItemCount
-  variantCount
-}
-    `;
-export const DrugBrowseTableRowFieldsFragmentDoc = gql`
-    fragment DrugBrowseTableRowFields on BrowseDrug {
-  id
-  name
-  ncitId
-  drugUrl
-  assertionCount
-  evidenceCount
 }
     `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
@@ -6102,30 +6146,6 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   linkedinProfile
 }
     `;
-export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
-    fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
-  id
-  name
-  hpoId
-  url
-  assertionCount
-  evidenceCount
-}
-    `;
-export const BrowseSourceRowFieldsFragmentDoc = gql`
-    fragment BrowseSourceRowFields on BrowseSource {
-  id
-  authors
-  citationId
-  evidenceItemCount
-  journal
-  name
-  publicationYear
-  sourceType
-  citation
-  displayType
-}
-    `;
 export const SourceDetailFieldsFragmentDoc = gql`
     fragment SourceDetailFields on Source {
   id
@@ -6190,16 +6210,6 @@ export const UserDetailFieldsFragmentDoc = gql`
   }
 }
     `;
-export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
-    fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
-  id
-  name
-  geneNames
-  variantNames
-  variantCount
-  evidenceItemCount
-}
-    `;
 export const VariantGroupDetailFieldsFragmentDoc = gql`
     fragment VariantGroupDetailFields on VariantGroup {
   id
@@ -6223,15 +6233,6 @@ export const VariantGroupSummaryFieldsFragmentDoc = gql`
   id
   name
   description
-}
-    `;
-export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
-    fragment VariantTypeBrowseTableRowFields on BrowseVariantType {
-  id
-  name
-  soid
-  url
-  variantCount
 }
     `;
 export const VariantDetailFieldsFragmentDoc = gql`
@@ -6469,22 +6470,43 @@ export const ClinicalTrialPopoverDocument = gql`
       super(apollo);
     }
   }
-export const AddCommentDocument = gql`
-    mutation AddComment($input: AddCommentInput!) {
-  addComment(input: $input) {
-    clientMutationId
-    comment {
-      ...commentListNode
+export const ClinicalTrialsBrowseDocument = gql`
+    query ClinicalTrialsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $nctId: String, $sortBy: ClinicalTrialSort) {
+  clinicalTrials(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    nctId: $nctId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        nctId
+        evidenceCount
+        sourceCount
+      }
     }
   }
 }
-    ${CommentListNodeFragmentDoc}`;
+    `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
-    document = AddCommentDocument;
+  export class ClinicalTrialsBrowseGQL extends Apollo.Query<ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables> {
+    document = ClinicalTrialsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6552,29 +6574,6 @@ export const CommentPopoverDocument = gql`
       super(apollo);
     }
   }
-export const ContributorAvatarsDocument = gql`
-    query ContributorAvatars($subscribable: SubscribableInput!) {
-  contributors(subscribable: $subscribable) {
-    editors {
-      ...ContributorFields
-    }
-    curators {
-      ...ContributorFields
-    }
-  }
-}
-    ${ContributorFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
-    document = ContributorAvatarsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const DiseasePopoverDocument = gql`
     query DiseasePopover($diseaseId: Int!) {
   browseDiseases(id: $diseaseId) {
@@ -6592,6 +6591,47 @@ export const DiseasePopoverDocument = gql`
   })
   export class DiseasePopoverGQL extends Apollo.Query<DiseasePopoverQuery, DiseasePopoverQueryVariables> {
     document = DiseasePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseDiseasesDocument = gql`
+    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $geneNames: String) {
+  browseDiseases(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    doid: $doid
+    geneNames: $geneNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseDiseaseRowFields
+      }
+    }
+  }
+}
+    ${BrowseDiseaseRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
+    document = BrowseDiseasesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6619,6 +6659,44 @@ export const DrugPopoverDocument = gql`
       super(apollo);
     }
   }
+export const DrugsBrowseDocument = gql`
+    query DrugsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $sortBy: DrugSort) {
+  drugs(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    ncitId: $ncitId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...DrugBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${DrugBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
+    document = DrugsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const EventFeedDocument = gql`
     query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction) {
   events(
@@ -6641,6 +6719,24 @@ export const EventFeedDocument = gql`
   })
   export class EventFeedGQL extends Apollo.Query<EventFeedQuery, EventFeedQueryVariables> {
     document = EventFeedDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidencePopoverDocument = gql`
+    query EvidencePopover($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...evidencePopover
+  }
+}
+    ${EvidencePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
+    document = EvidencePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6703,44 +6799,6 @@ export const EvidenceBrowseDocument = gql`
       super(apollo);
     }
   }
-export const EvidencePopoverDocument = gql`
-    query EvidencePopover($evidenceId: Int!) {
-  evidenceItem(id: $evidenceId) {
-    ...evidencePopover
-  }
-}
-    ${EvidencePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidencePopoverGQL extends Apollo.Query<EvidencePopoverQuery, EvidencePopoverQueryVariables> {
-    document = EvidencePopoverDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const FlagEntityDocument = gql`
-    mutation FlagEntity($input: FlagEntityInput!) {
-  flagEntity(input: $input) {
-    flag {
-      id
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
-    document = FlagEntityDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const FlagListDocument = gql`
     query FlagList($flaggable: FlaggableInput, $flaggingUserId: Int, $resolvingUserId: Int, $state: FlagState, $sortBy: DateSort, $first: Int, $last: Int, $before: String, $after: String) {
   flags(
@@ -6769,6 +6827,64 @@ export const FlagListDocument = gql`
       super(apollo);
     }
   }
+export const BrowseGenesDocument = gql`
+    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseGenes(
+    entrezSymbol: $entrezSymbol
+    drugName: $drugName
+    geneAlias: $geneAlias
+    diseaseName: $diseaseName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        entrezId
+        name
+        aliases {
+          name
+        }
+        diseases {
+          name
+          id
+        }
+        drugs {
+          name
+          id
+        }
+        variantCount
+        evidenceItemCount
+        assertionCount
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
+    document = BrowseGenesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GenePopoverDocument = gql`
     query GenePopover($geneId: Int!) {
   gene(id: $geneId) {
@@ -6782,6 +6898,24 @@ export const GenePopoverDocument = gql`
   })
   export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
     document = GenePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const QuicksearchDocument = gql`
+    query Quicksearch($query: String!) {
+  search(query: $query) {
+    ...QuicksearchResult
+  }
+}
+    ${QuicksearchResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
+    document = QuicksearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6865,39 +6999,62 @@ export const PhenotypePopoverDocument = gql`
       super(apollo);
     }
   }
-export const QuicksearchDocument = gql`
-    query Quicksearch($query: String!) {
-  search(query: $query) {
-    ...QuicksearchResult
+export const PhenotypesBrowseDocument = gql`
+    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
+  phenotypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    hpoId: $hpoId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...PhenotypeBrowseTableRowFields
+      }
+    }
   }
 }
-    ${QuicksearchResultFragmentDoc}`;
+    ${PhenotypeBrowseTableRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
-    document = QuicksearchDocument;
+  export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
+    document = PhenotypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const ResolveFlagDocument = gql`
-    mutation ResolveFlag($input: ResolveFlagInput!) {
-  resolveFlag(input: $input) {
-    flag {
-      id
+export const ContributorAvatarsDocument = gql`
+    query ContributorAvatars($subscribable: SubscribableInput!) {
+  contributors(subscribable: $subscribable) {
+    editors {
+      ...ContributorFields
+    }
+    curators {
+      ...ContributorFields
     }
   }
 }
-    `;
+    ${ContributorFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
-    document = ResolveFlagDocument;
+  export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
+    document = ContributorAvatarsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6925,6 +7082,51 @@ export const SourcePopoverDocument = gql`
       super(apollo);
     }
   }
+export const BrowseSourcesDocument = gql`
+    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int) {
+  browseSources(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    year: $year
+    sourceType: $sourceType
+    citationId: $citationId
+    author: $author
+    journal: $journal
+    clinicalTrialId: $clinicalTrialId
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseSourceRowFields
+      }
+    }
+  }
+}
+    ${BrowseSourceRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
+    document = BrowseSourcesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UserPopoverDocument = gql`
     query UserPopover($userId: Int!) {
   user(id: $userId) {
@@ -6938,6 +7140,107 @@ export const UserPopoverDocument = gql`
   })
   export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
     document = UserPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseVariantGroupsDocument = gql`
+    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $geneNames: String, $variantNames: String) {
+  browseVariantGroups(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    geneNames: $geneNames
+    variantNames: $variantNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseVariantGroupRowFields
+      }
+    }
+  }
+}
+    ${BrowseVariantGroupRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
+    document = BrowseVariantGroupsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypePopoverDocument = gql`
+    query VariantTypePopover($variantTypeId: Int!) {
+  variantTypes(id: $variantTypeId) {
+    edges {
+      node {
+        ...variantTypePopover
+      }
+    }
+  }
+}
+    ${VariantTypePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypePopoverGQL extends Apollo.Query<VariantTypePopoverQuery, VariantTypePopoverQueryVariables> {
+    document = VariantTypePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypesBrowseDocument = gql`
+    query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
+  variantTypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    soid: $soid
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...VariantTypeBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${VariantTypeBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypesBrowseGQL extends Apollo.Query<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables> {
+    document = VariantTypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -6961,23 +7264,39 @@ export const VariantPopoverDocument = gql`
       super(apollo);
     }
   }
-export const VariantTypePopoverDocument = gql`
-    query VariantTypePopover($variantTypeId: Int!) {
-  variantTypes(id: $variantTypeId) {
+export const VariantsMenuDocument = gql`
+    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
+  variants(
+    geneId: $geneId
+    name: $variantName
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
     edges {
+      cursor
       node {
-        ...variantTypePopover
+        ...menuVariant
       }
     }
   }
 }
-    ${VariantTypePopoverFragmentDoc}`;
+    ${MenuVariantFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class VariantTypePopoverGQL extends Apollo.Query<VariantTypePopoverQuery, VariantTypePopoverQueryVariables> {
-    document = VariantTypePopoverDocument;
+  export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
+    document = VariantsMenuDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7040,39 +7359,22 @@ export const BrowseVariantsDocument = gql`
       super(apollo);
     }
   }
-export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String) {
-  variants(
-    geneId: $geneId
-    name: $variantName
-    evidenceStatusFilter: $evidenceStatusFilter
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    totalCount
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    edges {
-      cursor
-      node {
-        ...menuVariant
-      }
+export const AddCommentDocument = gql`
+    mutation AddComment($input: AddCommentInput!) {
+  addComment(input: $input) {
+    clientMutationId
+    comment {
+      ...commentListNode
     }
   }
 }
-    ${MenuVariantFragmentDoc}`;
+    ${CommentListNodeFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class VariantsMenuGQL extends Apollo.Query<VariantsMenuQuery, VariantsMenuQueryVariables> {
-    document = VariantsMenuDocument;
+  export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
+    document = AddCommentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7230,6 +7532,46 @@ export const CitationTypeaheadDocument = gql`
       super(apollo);
     }
   }
+export const FlagEntityDocument = gql`
+    mutation FlagEntity($input: FlagEntityInput!) {
+  flagEntity(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
+    document = FlagEntityDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResolveFlagDocument = gql`
+    mutation ResolveFlag($input: ResolveFlagInput!) {
+  resolveFlag(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
+    document = ResolveFlagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ViewerBaseDocument = gql`
     query ViewerBase {
   viewer {
@@ -7333,48 +7675,6 @@ export const AssertionSummaryDocument = gql`
       super(apollo);
     }
   }
-export const ClinicalTrialsBrowseDocument = gql`
-    query ClinicalTrialsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $nctId: String, $sortBy: ClinicalTrialSort) {
-  clinicalTrials(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    nctId: $nctId
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        id
-        name
-        nctId
-        evidenceCount
-        sourceCount
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ClinicalTrialsBrowseGQL extends Apollo.Query<ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables> {
-    document = ClinicalTrialsBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const ClinicalTrialDetailDocument = gql`
     query ClinicalTrialDetail($clinicalTrialId: Int!) {
   clinicalTrial(id: $clinicalTrialId) {
@@ -7397,47 +7697,6 @@ export const ClinicalTrialDetailDocument = gql`
       super(apollo);
     }
   }
-export const BrowseDiseasesDocument = gql`
-    query BrowseDiseases($first: Int, $last: Int, $before: String, $after: String, $sortBy: DiseasesSort, $name: String, $doid: String, $geneNames: String) {
-  browseDiseases(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    sortBy: $sortBy
-    name: $name
-    doid: $doid
-    geneNames: $geneNames
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-    totalCount
-    filteredCount
-    pageCount
-    edges {
-      cursor
-      node {
-        ...BrowseDiseaseRowFields
-      }
-    }
-  }
-}
-    ${BrowseDiseaseRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseDiseasesGQL extends Apollo.Query<BrowseDiseasesQuery, BrowseDiseasesQueryVariables> {
-    document = BrowseDiseasesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const DiseaseDetailDocument = gql`
     query DiseaseDetail($diseaseId: Int!) {
   disease(id: $diseaseId) {
@@ -7455,44 +7714,6 @@ export const DiseaseDetailDocument = gql`
   })
   export class DiseaseDetailGQL extends Apollo.Query<DiseaseDetailQuery, DiseaseDetailQueryVariables> {
     document = DiseaseDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DrugsBrowseDocument = gql`
-    query DrugsBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $ncitId: String, $sortBy: DrugSort) {
-  drugs(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    ncitId: $ncitId
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...DrugBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${DrugBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
-    document = DrugsBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7550,64 +7771,6 @@ export const EvidenceSummaryDocument = gql`
   })
   export class EvidenceSummaryGQL extends Apollo.Query<EvidenceSummaryQuery, EvidenceSummaryQueryVariables> {
     document = EvidenceSummaryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseGenesDocument = gql`
-    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
-  browseGenes(
-    entrezSymbol: $entrezSymbol
-    drugName: $drugName
-    geneAlias: $geneAlias
-    diseaseName: $diseaseName
-    sortBy: $sortBy
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-  ) {
-    edges {
-      cursor
-      node {
-        id
-        entrezId
-        name
-        aliases {
-          name
-        }
-        diseases {
-          name
-          id
-        }
-        drugs {
-          name
-          id
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
-      }
-    }
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    totalCount
-    filteredCount
-    pageCount
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
-    document = BrowseGenesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7792,44 +7955,6 @@ export const OrganizationMembersDocument = gql`
       super(apollo);
     }
   }
-export const PhenotypesBrowseDocument = gql`
-    query PhenotypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $hpoId: String, $sortBy: PhenotypeSort) {
-  phenotypes(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    hpoId: $hpoId
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...PhenotypeBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${PhenotypeBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
-    document = PhenotypesBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const PhenotypeDetailDocument = gql`
     query PhenotypeDetail($phenotypeId: Int!) {
   phenotype(id: $phenotypeId) {
@@ -7846,51 +7971,6 @@ export const PhenotypeDetailDocument = gql`
   })
   export class PhenotypeDetailGQL extends Apollo.Query<PhenotypeDetailQuery, PhenotypeDetailQueryVariables> {
     document = PhenotypeDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseSourcesDocument = gql`
-    query BrowseSources($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourcesSort, $name: String, $year: Int, $sourceType: SourceSource, $citationId: Int, $author: String, $journal: String, $clinicalTrialId: Int) {
-  browseSources(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    sortBy: $sortBy
-    name: $name
-    year: $year
-    sourceType: $sourceType
-    citationId: $citationId
-    author: $author
-    journal: $journal
-    clinicalTrialId: $clinicalTrialId
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      startCursor
-      hasPreviousPage
-    }
-    totalCount
-    filteredCount
-    pageCount
-    edges {
-      cursor
-      node {
-        ...BrowseSourceRowFields
-      }
-    }
-  }
-}
-    ${BrowseSourceRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseSourcesGQL extends Apollo.Query<BrowseSourcesQuery, BrowseSourcesQueryVariables> {
-    document = BrowseSourcesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7945,47 +8025,6 @@ export const UserDetailDocument = gql`
   })
   export class UserDetailGQL extends Apollo.Query<UserDetailQuery, UserDetailQueryVariables> {
     document = UserDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const BrowseVariantGroupsDocument = gql`
-    query BrowseVariantGroups($first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantGroupsSort, $name: String, $geneNames: String, $variantNames: String) {
-  browseVariantGroups(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    sortBy: $sortBy
-    name: $name
-    geneNames: $geneNames
-    variantNames: $variantNames
-  ) {
-    pageInfo {
-      endCursor
-      hasNextPage
-      startCursor
-      hasPreviousPage
-    }
-    totalCount
-    filteredCount
-    pageCount
-    edges {
-      cursor
-      node {
-        ...BrowseVariantGroupRowFields
-      }
-    }
-  }
-}
-    ${BrowseVariantGroupRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BrowseVariantGroupsGQL extends Apollo.Query<BrowseVariantGroupsQuery, BrowseVariantGroupsQueryVariables> {
-    document = BrowseVariantGroupsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -8102,44 +8141,6 @@ export const VariantGroupsSummaryDocument = gql`
   })
   export class VariantGroupsSummaryGQL extends Apollo.Query<VariantGroupsSummaryQuery, VariantGroupsSummaryQueryVariables> {
     document = VariantGroupsSummaryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const VariantTypesBrowseDocument = gql`
-    query VariantTypesBrowse($first: Int, $last: Int, $before: String, $after: String, $name: String, $soid: String, $sortBy: VariantTypeSort) {
-  variantTypes(
-    first: $first
-    last: $last
-    before: $before
-    after: $after
-    name: $name
-    soid: $soid
-    sortBy: $sortBy
-  ) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...VariantTypeBrowseTableRowFields
-      }
-    }
-  }
-}
-    ${VariantTypeBrowseTableRowFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class VariantTypesBrowseGQL extends Apollo.Query<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables> {
-    document = VariantTypesBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

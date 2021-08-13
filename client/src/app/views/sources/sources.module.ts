@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SourcesRoutingModule } from './sources-routing.module';
 import { SourcesComponent } from './sources.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
-import { CvcFormsModule } from '@app/forms/forms.module';
-import { IconsProviderModule } from '@app/icons-provider.module';
+
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -31,30 +29,45 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantsRoutingModule } from '../variants/variants-routing.module';
-import { SourcesBrowseComponent } from './sources-browse/sources-browse.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SourcesHomeModule } from './sources-home/sources-home.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 
 
 @NgModule({
   declarations: [
     SourcesComponent,
-    SourcesBrowseComponent,
     SourcesDetailComponent,
     SourcesSummaryComponent
   ],
   imports: [
     CommonModule,
+    SourcesHomeModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
+    CvcLinkTagModule,
+    CvcClinicalTrialTagModule,
+    CvcSourceTagModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
+    SectionNavigationModule,
     SourcesRoutingModule,
-    SharedComponentsModule,
-    VariantsRoutingModule,
-    IconsProviderModule,
+
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
     NzCardModule,
+    NzIconModule,
     NzCommentModule,
     NzFormModule,
     NzDescriptionsModule,
@@ -75,13 +88,12 @@ import { SourcesSummaryComponent } from './sources-summary/sources-summary.compo
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     EvidenceModule,
-    SharedComponentsModule,
+
     NzSelectModule
   ],
   exports: [
-    SourcesBrowseComponent
   ]
 })
 export class SourcesModule { }

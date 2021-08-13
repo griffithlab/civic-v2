@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DrugsBrowseComponent } from './drugs-browse/drugs-browse.component';
 import { DrugsDetailComponent } from './drugs-detail/drugs-detail.component';
+import { DrugsHomePage } from './drugs-home/drugs-home.page';
 import { DrugsSummaryComponent } from './drugs-summary/drugs-summary.component';
 import { DrugsComponent } from './drugs.component';
 
@@ -10,12 +10,12 @@ const routes: Routes = [
     path: '',
     component: DrugsComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: DrugsBrowseComponent,
+        path: 'home',
+        component: DrugsHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

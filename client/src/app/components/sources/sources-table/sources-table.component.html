@@ -1,0 +1,113 @@
+<nz-table #sourcesTable
+  [nzData]="(sources$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="15%">
+        Citation
+      </th>
+      <th [nzColumnKey]="sortColumns.SourceType"
+        [nzSortFn]="true">
+        Source Type
+      </th>
+      <th [nzColumnKey]="sortColumns.CitationId"
+        [nzSortFn]="true">
+        ID
+      </th>
+      <th nzWidth="25%" [nzColumnKey]="sortColumns.Name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <th [nzColumnKey]="sortColumns.Authors"
+        [nzSortFn]="true">
+        Authors
+      </th>
+      <th [nzColumnKey]="sortColumns.Year"
+        [nzSortFn]="true">
+        Year
+      </th>
+      <th [nzColumnKey]="sortColumns.Journal"
+        [nzSortFn]="true">
+        Journal
+      </th>
+      <th nzRight
+        [nzColumnKey]="sortColumns.EvidenceCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:evidence"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count"></i></th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>
+        <nz-select nzAllowClear
+          nzPlaceHolder="Choose"
+          (ngModelChange)="onModelChanged()"
+          [(ngModel)]="sourceTypeInput">
+          <nz-option nzValue="PUBMED"
+            nzLabel="PubMed"></nz-option>
+          <nz-option nzValue="ASCO"
+            nzLabel="ASCO"></nz-option>
+        </nz-select>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="citationIdInput"
+          placeholderText="ID"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="nameInput"
+          placeholderText="Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="authorInput"
+          placeholderText="Authors"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="yearInput"
+          placeholderText="Year"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="journalInput"
+          placeholderText="Journal"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let source of sourcesTable.data">
+      <td>
+        <cvc-source-tag [source]="source"></cvc-source-tag>
+      </td>
+      <td>
+        {{ source.displayType }}
+      </td>
+      <td>
+        {{ source.citationId}}
+      </td>
+      <td>
+        {{ source.name }}
+      </td>
+      <td>
+        <p nz-typography>
+          <span *ngFor="let author of source.authors; last as isLast">
+                        {{ author }}{{ isLast ? '' : ', ' }}
+                      </span>
+        </p>
+      </td>
+      <td>
+        {{ source.publicationYear }}
+      </td>
+      <td>
+        {{ source.journal }}
+      </td>
+      <td nzRight>{{source.evidenceItemCount}}</td>
+    </tr>
+  </tbody>
+</nz-table>

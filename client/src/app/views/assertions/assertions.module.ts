@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AssertionsRoutingModule } from './assertions-routing.module';
 import { AssertionsComponent } from './assertions.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -37,6 +37,24 @@ import { AssertionsCommentsComponent } from './assertions-comments/assertions-co
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
+import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 
 @NgModule({
   declarations: [
@@ -50,8 +68,25 @@ import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-
   imports: [
     CommonModule,
     AssertionsRoutingModule,
+    AssertionsHomeModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
     CvcFormsModule,
-    SharedComponentsModule,
+    CvcPipesModule,
+    CvcGeneTagModule,
+    CvcVariantTagModule,
+    CvcDiseaseTagModule,
+    CvcDrugTagModule,
+    CvcPhenotypeTagModule,
+    CvcTagListModule,
+    CvcUserTagModule,
+    CvcCommentListModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
+    CvcEventFeedModule,
+    SectionNavigationModule,
+    CvcDetailsNavigationModule,
+    CvcStatusTagModule,
     IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -77,7 +112,7 @@ import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule,
     EvidenceModule
   ],

@@ -1,0 +1,73 @@
+<nz-table #drugsTable
+  [nzData]="(drugs$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="40%"
+        [nzColumnKey]="sortColumns.Name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <th nzWidth="40%"
+        [nzColumnKey]="sortColumns.NcitId"
+        [nzSortFn]="true">
+        NCIt ID
+      </th>
+      <th nzWidth="10%"
+        nzRight
+        [nzColumnKey]="sortColumns.EvidenceItemCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:evidence"
+          nz-tooltip
+          nzTooltipTitle="Evidence count"></i></th>
+      <th nzWidth="10%"
+        nzRight
+        [nzColumnKey]="sortColumns.AssertionCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:assertion"
+          nz-tooltip
+          nzTooltipTitle="Assertion count"></i></th>
+    </tr>
+    <tr>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="nameFilter"
+          placeholderText="Search Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="ncitIdFilter"
+          placeholderText="Search NCIt ID"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let d of drugsTable.data">
+      <td>
+        <cvc-drug-tag [drug]="d"></cvc-drug-tag>
+      </td>
+      <td>
+        <cvc-link-tag *ngIf="d.ncitId; else noNcit"
+          [href]="d.drugUrl"
+          tooltip="View in the NCIthesaurus">
+          {{ d.ncitId }}
+        </cvc-link-tag>
+
+        <ng-template #noNcit>--</ng-template>
+      </td>
+      <td>
+        {{ d.evidenceCount }}
+      </td>
+      <td>
+        {{ d.assertionCount }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

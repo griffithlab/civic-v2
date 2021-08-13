@@ -3,32 +3,46 @@ import { CommonModule } from '@angular/common';
 
 import { PhenotypesRoutingModule } from './phenotypes-routing.module';
 import { PhenotypesComponent } from './phenotypes.component';
-import { PhenotypesBrowseComponent } from './phenotypes-browse/phenotypes-browse.component';
 import { PhenotypesDetailComponent } from './phenotypes-detail/phenotypes-detail.component';
 import { PhenotypesSummaryComponent } from './phenotypes-summary/phenotypes-summary.component';
-import { IconsProviderModule } from '@app/icons-provider.module';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { PhenotypesHomeModule } from './phenotypes-home/phenotypes-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 
 @NgModule({
-  declarations: [PhenotypesComponent, PhenotypesBrowseComponent, PhenotypesDetailComponent, PhenotypesSummaryComponent],
+  declarations: [
+    PhenotypesComponent,
+    PhenotypesDetailComponent,
+    PhenotypesSummaryComponent,
+  ],
   imports: [
     CommonModule,
+    PhenotypesHomeModule,
+    CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
+    CvcLinkTagModule,
+    SectionNavigationModule,
     PhenotypesRoutingModule,
-    IconsProviderModule,
+    NzIconModule,
     NzTableModule,
-    SharedComponentsModule,
+
     NzPageHeaderModule,
     ReactiveComponentModule,
     NzGridModule,
     NzToolTipModule,
-    NzSpaceModule
-  ]
+    NzSpaceModule,
+  ],
 })
-export class PhenotypesModule { }
+export class PhenotypesModule {}

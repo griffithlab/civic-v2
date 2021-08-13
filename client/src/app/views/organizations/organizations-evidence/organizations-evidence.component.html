@@ -1,1 +1,7 @@
-  <cvc-evidence-browse [organizationId]="organizationId"></cvc-evidence-browse>
+<cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
+  <cvc-evidence-table [organizationId]="organizationId"></cvc-evidence-table>
+</cvc-entity-table-card>
+<ng-template #evidenceCardTitle>
+  <i nz-icon nzType="civic:evidence"></i>
+  Organization Evidence
+</ng-template>

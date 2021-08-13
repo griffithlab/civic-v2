@@ -4,9 +4,8 @@ import { CommonModule } from '@angular/common';
 import { EvidenceRoutingModule } from './evidence-routing.module';
 import { EvidenceComponent } from './evidence.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
-import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -35,10 +34,31 @@ import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.compo
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
-import { EvidenceEnumDisplayPipe } from '@app/pipes/evidence-enum-display-type';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
+import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-rating/evidence-rating.module';
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 
 @NgModule({
   declarations: [
@@ -52,10 +72,30 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
   imports: [
     CommonModule,
     EvidenceRoutingModule,
+    EvidenceHomeModule,
+    CvcEntityTableCardModule,
+    CvcAssertionsTableModule,
+    SectionNavigationModule,
     CvcFormsModule,
-    SharedComponentsModule,
-    IconsProviderModule,
+    CvcPipesModule,
+    CvcGeneTagModule,
+    CvcVariantTagModule,
+    CvcClinicalTrialTagModule,
+    CvcSourceTagModule,
+    CvcDiseaseTagModule,
+    CvcDrugTagModule,
+    CvcPhenotypeTagModule,
+    CvcTagListModule,
+    CvcEvidenceRatingModule,
+    CvcUserTagModule,
+    CvcCommentListModule,
+    CvcFlagListModule,
+    CvcFlaggableModule,
+    CvcEventFeedModule,
+    CvcDetailsNavigationModule,
+    CvcStatusTagModule,
     NgxJsonViewerModule,
+    NzIconModule,
     NzAvatarModule,
     NzBadgeModule,
     NzButtonModule,
@@ -80,7 +120,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule
   ],
   exports: [

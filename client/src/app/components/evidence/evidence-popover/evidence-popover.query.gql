@@ -1,0 +1,53 @@
+query EvidencePopover($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...evidencePopover
+  }
+}
+
+fragment evidencePopover on EvidenceItem {
+  id
+  name
+  description
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+  }
+  phenotypes {
+    id
+    name
+  }
+  evidenceRating
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+    displayType
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

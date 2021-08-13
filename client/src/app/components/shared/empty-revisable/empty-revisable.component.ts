@@ -6,7 +6,7 @@ import { Maybe } from '@app/generated/civic.apollo';
   templateUrl: './empty-revisable.component.html',
   styleUrls: ['./empty-revisable.component.less']
 })
-export class EmptyRevisableComponent implements OnInit {
+export class CvcEmptyRevisableComponent implements OnInit {
   @Input() notification: Maybe<string>;
 
   constructor() { }

@@ -275,12 +275,17 @@
     </nz-row>
   </nz-space-item>
   <nz-space-item>
-    <cvc-evidence-browse [assertionId]="assertion.id"></cvc-evidence-browse>
+    <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
+      <cvc-evidence-table [assertionId]="assertion.id"></cvc-evidence-table>
+    </cvc-entity-table-card>
+    <ng-template #evidenceCardTitle>
+      <i nz-icon nzType="civic:evidence"></i>
+      {{ assertion.name }} Evidence
+    </ng-template>
   </nz-space-item>
   <nz-space-item>
-    <div nz-row
-      [nzGutter]="16">
-      <nz-col [nzSpan]="16">
+    <div nz-row>
+      <nz-col [nzSpan]="24">
         <cvc-event-feed [subscribable]="subscribable"
           tagDisplay="hideSubject"></cvc-event-feed>
       </nz-col>

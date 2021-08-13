@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EvidenceBrowseComponent } from '@app/components/shared/evidence-browse/evidence-browse.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
-
+import { EvidenceHomePage } from './evidence-home/evidence-home.page';
 import { EvidenceComponent } from './evidence.component';
 
 const routes: Routes = [
@@ -14,12 +13,12 @@ const routes: Routes = [
     path: '',
     component: EvidenceComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: EvidenceBrowseComponent,
+        path: 'home',
+        component: EvidenceHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

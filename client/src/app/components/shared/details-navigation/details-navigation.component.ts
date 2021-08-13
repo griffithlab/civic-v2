@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './details-navigation.component.html',
   styleUrls: ['./details-navigation.component.less']
 })
-export class DetailsNavigationComponent implements OnInit {
+export class CvcDetailsNavigationComponent implements OnInit {
   @Input() entity: Maybe<SubscribableInput>;
   selectedTabIndex: number;
 

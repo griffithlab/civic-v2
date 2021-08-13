@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CommunityRoutingModule } from './community-routing.module';
 import { CommunityComponent } from './community.component';
 import { CommunityMainComponent } from './community-main/community-main.component';
-import { IconsProviderModule } from '@app/icons-provider.module';
+import { CommunityHomeModule } from './community-home/community-home.module';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
   imports: [
     CommonModule,
     CommunityRoutingModule,
-    IconsProviderModule
+    CommunityHomeModule,
   ]
 })
 export class CommunityModule { }

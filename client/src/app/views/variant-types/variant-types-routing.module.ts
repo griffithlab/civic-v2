@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantTypesBrowseComponent } from './variant-types-browse/variant-types-browse.component';
 import { VariantTypesDetailComponent } from './variant-types-detail/variant-types-detail.component';
+import { VariantTypesHomePage } from './variant-types-home/variant-types-home.page';
 import { VariantTypesSummaryComponent } from './variant-types-summary/variant-types-summary.component';
 
 import { VariantTypesComponent } from './variant-types.component';
@@ -13,14 +13,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'browse',
+        redirectTo: 'home',
         pathMatch: 'full'
       },
       {
-        path: 'browse',
-        component: VariantTypesBrowseComponent,
+        path: 'home',
+        component: VariantTypesHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

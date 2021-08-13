@@ -1,0 +1,72 @@
+<nz-table #phenotypesTable
+  [nzData]="(phenotypes$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="40%"
+        [nzColumnKey]="sortColumns.Name"
+        [nzSortFn]="true">
+        Name
+      </th>
+      <th nzWidth="40%"
+        [nzColumnKey]="sortColumns.HpoId"
+        [nzSortFn]="true">
+        HPO ID
+      </th>
+      <th nzWidth="10%"
+        nzRight
+        [nzColumnKey]="sortColumns.EvidenceItemCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:evidence"
+          nz-tooltip
+          nzTooltipTitle="Evidence count"></i></th>
+      <th nzWidth="10%"
+        nzRight
+        [nzColumnKey]="sortColumns.AssertionCount"
+        [nzSortFn]="true"><i nz-icon
+          nzType="civic:assertion"
+          nz-tooltip
+          nzTooltipTitle="Assertion count"></i></th>
+    </tr>
+    <tr>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="hpoNameFilter"
+          placeholderText="Search Name"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="hpoIdFilter"
+          placeholderText="Search HPO ID"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of phenotypesTable.data">
+      <td>
+        <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
+      </td>
+      <td>
+        <cvc-link-tag *ngIf="p.hpoId; else noHpo"
+          [href]="p.url"
+          tooltip="View in the HPO">
+          {{ p.hpoId }}
+        </cvc-link-tag>
+        <ng-template #noHpo>--</ng-template>
+      </td>
+      <td>
+        {{ p.evidenceCount }}
+      </td>
+      <td>
+        {{ p.assertionCount }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

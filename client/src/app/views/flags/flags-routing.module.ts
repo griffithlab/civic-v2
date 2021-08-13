@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FlagsBrowseComponent } from './flags-browse/flags-browse.component';
+import { FlagsHomePage } from './flags-home/flags-home.page';
 import { FlagsComponent } from './flags.component';
 
 const routes: Routes = [
   {
     path: '', component: FlagsComponent,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: FlagsBrowseComponent
+        path: 'home',
+        component: FlagsHomePage
       },
     ]
   }

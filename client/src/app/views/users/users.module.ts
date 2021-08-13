@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
 import { FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
+
 import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -38,6 +38,13 @@ import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 import { UsersAssertionsComponent } from './users-assertions/users-assertions.component';
 import { UsersEventsComponent } from './users-events/users-events.component';
+import { UsersHomeModule } from './users-home/users-home.module';
+import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
+import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
+import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
+import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 
 @NgModule({
@@ -51,8 +58,15 @@ import { UsersEventsComponent } from './users-events/users-events.component';
   imports: [
     CommonModule,
     UsersRoutingModule,
+    UsersHomeModule,
+    CvcAssertionsTableModule,
+    CvcEvidenceTableModule,
+    CvcEntityTableCardModule,
+    CvcOrganizationTagModule,
+    CvcUserCardModule,
     CvcFormsModule,
-    SharedComponentsModule,
+    CvcEventFeedModule,
+
     IconsProviderModule,
     NzAvatarModule,
     NzBadgeModule,
@@ -78,7 +92,7 @@ import { UsersEventsComponent } from './users-events/users-events.component';
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-    SharedComponentsModule,
+
     NzSelectModule,
     EvidenceModule,
     NzImageModule,

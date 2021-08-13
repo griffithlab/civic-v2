@@ -10,7 +10,7 @@ export interface WithId {
   templateUrl: './participant-list.component.html',
   styleUrls: ['./participant-list.component.less']
 })
-export class ParticipantListComponent<T extends WithId> {
+export class CvcParticipantListComponent<T extends WithId> {
     @Input() participantList!: T[]
     @Input() listTitle!: string
 

@@ -1,0 +1,58 @@
+query BrowseSources(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $sortBy: SourcesSort
+  $name: String
+  $year: Int
+  $sourceType: SourceSource
+  $citationId: Int
+  $author: String
+  $journal: String
+  $clinicalTrialId: Int
+) {
+  browseSources(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    year: $year
+    sourceType: $sourceType
+    citationId: $citationId
+    author: $author
+    journal: $journal
+    clinicalTrialId: $clinicalTrialId
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseSourceRowFields
+      }
+    }
+  }
+}
+
+fragment BrowseSourceRowFields on BrowseSource {
+  id
+  authors
+  citationId
+  evidenceItemCount
+  journal
+  name
+  publicationYear
+  sourceType
+  citation
+  displayType
+}

@@ -6,7 +6,7 @@ import { EvidenceStatus } from '@app/generated/civic.apollo';
   templateUrl: './status-tag.component.html',
   styleUrls: ['./status-tag.component.less']
 })
-export class StatusTagComponent implements OnInit {
+export class CvcStatusTagComponent implements OnInit {
   @Input() status?: EvidenceStatus; // TODO update to accept AssertionStatus when available
 
   tagStatus?: string;

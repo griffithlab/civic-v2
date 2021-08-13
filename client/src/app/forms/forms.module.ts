@@ -9,7 +9,6 @@ import {
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
-import { SharedComponentsModule } from '@app/components/shared/shared-components.module';
 import { GeneSuggestRevisionFormComponent } from './components/gene-suggest-revision-form/gene-suggest-revision-form.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -23,8 +22,6 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { IconsProviderModule } from '@app/icons-provider.module';
-
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
 import { MultiFieldComponent } from './types/multi-field/multi-field.component';
 import { SourceIdInputComponent } from './types/source-id-input/source-id-input.component';
@@ -35,6 +32,10 @@ import { SourceSelectorComponent } from './components/source-selector/source-sel
 import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
 import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.component';
 import { SourceLoaderComponent } from './components/source-loader/source-loader.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/form-errors-alert.module';
+import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
 
 
 @NgModule({
@@ -49,12 +50,15 @@ import { SourceLoaderComponent } from './components/source-loader/source-loader.
     SourceLoaderComponent,
   ],
   imports: [
-    FormsModule,
-    SharedComponentsModule,
-    SourcesComponentsModule,
-    ReactiveFormsModule,
     CommonModule,
-    IconsProviderModule,
+    ReactiveFormsModule,
+    FormsModule,
+
+    SourcesComponentsModule,
+    CvcOrgSelectorBtnGroupModule,
+    CvcFormErrorsAlertModule,
+    CvcFormButtonsModule,
+    NzIconModule,
     NzButtonModule,
     NzAlertModule,
     NzFormModule,

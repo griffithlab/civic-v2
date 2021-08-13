@@ -3,10 +3,11 @@ import {
   Component,
   Injector,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
 
 import { Maybe } from '@app/generated/civic.apollo';
 import { Subject } from 'rxjs';
@@ -14,9 +15,8 @@ import { filter, startWith, takeUntil } from 'rxjs/operators';
 
 import { TitleService } from '@app/shared/services/title/title.service';
 
-export interface BreadcrumbOption {
+export interface TitleSegment {
   label: string;
-  params: Params;
   url: string;
 }
 
@@ -25,14 +25,14 @@ export interface BreadcrumbOption {
   templateUrl: './section-navigation.component.html',
   styleUrls: ['./section-navigation.component.less'],
 })
-export class SectionNavigationComponent implements OnInit {
+export class SectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>;
   @Input() relationsTpl?: TemplateRef<any>;
 
   getRouteLabel: (label: string) => string;
 
   private destroy$ = new Subject<void>();
-  breadcrumbs: BreadcrumbOption[] = [];
+  segments: TitleSegment[] = [];
 
   constructor(
     private titleService: TitleService,
@@ -43,13 +43,13 @@ export class SectionNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // set up custom label function for nz-breadcrumbs
+    // set up custom label function for nz-segments
     this.getRouteLabel = this._getRouteLabel;
     this.registerRouterChange();
   }
 
-  // passed to nz-breadcrumbs & used by title creation below
-  // to generate breadcrumbs & titles from route data parameter or provided display name
+  // passed to nz-segments & used by title creation below
+  // to generate segments & titles from route data parameter or provided display name
   private _getRouteLabel = (label: string): string => {
     if (label !== 'DISPLAYNAME') { return label; }
     else {
@@ -68,11 +68,11 @@ export class SectionNavigationComponent implements OnInit {
           startWith(true) // trigger initial render
         )
         .subscribe(() => {
-          this.breadcrumbs = this.getBreadcrumbs(activatedRoute.root);
+          this.segments = this.getTitleSegments(activatedRoute.root);
           // construct titles string
           let title: string = '';
-          let len = this.breadcrumbs.length, i = 1;
-          this.breadcrumbs.forEach((bc: BreadcrumbOption) => {
+          let len = this.segments.length, i = 1;
+          this.segments.forEach((bc: TitleSegment) => {
             title += this._getRouteLabel(bc.label);
             if(i < len) { title += ' '; }
             i++;
@@ -85,46 +85,47 @@ export class SectionNavigationComponent implements OnInit {
     }
   }
 
-  private getBreadcrumbs(
+  private getTitleSegments(
     route: ActivatedRoute,
     url: string = '',
-    breadcrumbs: BreadcrumbOption[] = []
-  ): BreadcrumbOption[] {
+    segments: TitleSegment[] = []
+  ): TitleSegment[] {
     const children: ActivatedRoute[] = route.children;
 
-    // If there's no sub root, then stop the recurse and returns the generated breadcrumbs.
+    // If there's no sub root, then stop the recurse and generated title segments
     if (children.length === 0) {
-      return breadcrumbs;
+      return segments;
     }
 
     for (const child of children) {
       if (child.outlet === PRIMARY_OUTLET) {
-        // Only parse components in primary router-outlet (in another word, router-outlet without a specific name).
-        // Parse this layer and generate a breadcrumb item.
+        // Only parse components in primary router-outlet
+        // (router-outlet without a specific name).
+        // Parse this route and generate a title segment.
         const routeUrl: string = child.snapshot.url
           .map(segment => segment.path)
           .filter(path => path)
           .join('/');
 
-        // Do not change nextUrl if routeUrl is falsy. This happens when it's a route lazy loading other modules.
+        // Do not change nextUrl if routeUrl is falsy.
+        // This happens when it's a route lazy loading other modules.
         const nextUrl = !!routeUrl ? url + `/${routeUrl}` : url;
-        const breadcrumbLabel = child.snapshot.data['breadcrumb'];
+        const segmentLabel = child.snapshot.data['breadcrumb'];
 
-        // If have data, go to generate a breadcrumb for it.
-        if (routeUrl && breadcrumbLabel) {
-          const breadcrumb: BreadcrumbOption = {
-            label: breadcrumbLabel,
-            params: child.snapshot.params,
+        // if data, generate a segment for it.
+        if (routeUrl && segmentLabel) {
+          const breadcrumb: TitleSegment = {
+            label: segmentLabel,
             url: nextUrl
           };
-          breadcrumbs.push(breadcrumb);
+          segments.push(breadcrumb);
         }
 
-        return this.getBreadcrumbs(child, nextUrl, breadcrumbs);
+        return this.getTitleSegments(child, nextUrl, segments);
       }
     }
 
-    return breadcrumbs;
+    return segments;
   }
 
   ngOnDestroy(): void {

@@ -6,7 +6,7 @@ import { Maybe } from '@app/generated/civic.apollo';
   templateUrl: './link-tag.component.html',
   styleUrls: ['./link-tag.component.less']
 })
-export class LinkTagComponent implements OnInit {
+export class CvcLinkTagComponent implements OnInit {
   @Input() href!: string;
   @Input() tooltip: Maybe<string>;
 

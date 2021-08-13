@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsBrowseComponent } from './variant-groups-browse/variant-groups-browse.component';
 import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
 import { VariantGroupsDetailComponent } from './variant-groups-detail/variant-groups-detail.component';
 import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
+import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
 import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
 import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-groups-summary.component';
 
@@ -16,14 +16,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'browse',
+        redirectTo: 'home',
         pathMatch: 'full'
       },
       {
-        path: 'browse',
-        component: VariantGroupsBrowseComponent,
+        path: 'home',
+        component: VariantGroupsHomePage,
         data: {
-          breadcrumb: 'Browse'
+          breadcrumb: 'Home'
         }
       },
       {

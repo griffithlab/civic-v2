@@ -13,7 +13,7 @@ import { pluck } from 'rxjs/operators';
   templateUrl: './contributor-avatars.component.html',
   styleUrls: ['./contributor-avatars.component.less'],
 })
-export class ContributorAvatarsComponent implements OnInit {
+export class CvcContributorAvatarsComponent implements OnInit {
   @Input() subscribable: Maybe<SubscribableInput>;
 
   curators$?: Observable<Maybe<ContributorFieldsFragment[]>>;
