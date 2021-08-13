@@ -10,7 +10,7 @@ import { debounceTime, pluck } from "rxjs/operators";
   styleUrls: ['./quicksearch-component.less'],
   templateUrl: './quicksearch-component.html'
 })
-export class QuicksearchComponent implements OnInit {
+export class CvcQuicksearchComponent implements OnInit {
 
   searchQuery: string = ""
   searchResults$: Maybe<Observable<Maybe<QuicksearchResultFragment>[]>>
