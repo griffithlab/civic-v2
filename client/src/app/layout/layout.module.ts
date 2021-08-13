@@ -17,6 +17,7 @@ import { SharedComponentsModule } from '@app/components/shared/shared-components
 import { LayoutComponentsModule } from '@app/components/layout/layout-components.module';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { CvcQuicksearchModule } from '@app/components/layout/quicksearch/quicksearch.module';
 
 @NgModule({
   declarations: [LayoutComponent],
@@ -34,6 +35,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     IconsProviderModule,
     LayoutComponentsModule,
     SharedComponentsModule,
+    CvcQuicksearchModule,
   ]
 })
 

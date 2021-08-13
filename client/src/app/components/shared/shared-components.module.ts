@@ -42,7 +42,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { QuicksearchComponent } from './quicksearch/quicksearch-component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzImageModule } from 'ng-zorro-antd/image';
@@ -80,7 +79,6 @@ import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
 
 @NgModule({
   declarations: [
-    QuicksearchComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
@@ -160,7 +158,6 @@ import { CvcFlagTagModule } from '../flags/flag-tag/flag-tag.module';
     NzGridModule
   ],
   exports: [
-    QuicksearchComponent,
     ContributorAvatarsComponent,
     ContributorStackComponent,
     DetailsNavigationComponent,
