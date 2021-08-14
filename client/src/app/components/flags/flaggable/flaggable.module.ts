@@ -5,11 +5,13 @@ import { CvcFlaggableComponent } from './flaggable.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcFlaggableComponent, CvcFlaggableOptionsDirective],
   imports: [
     CommonModule,
+    NzIconModule,
     NzBadgeModule,
     NzToolTipModule,
     NzTypographyModule,

@@ -42,7 +42,6 @@ import { GenesComponentsModule } from '@app/components/genes/genes-components.mo
 // debugging imports
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
-import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { VariantsModule } from '../variants/variants.module';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
@@ -64,7 +63,6 @@ import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/
     GenesComponent,
     GenesDetailComponent,
     GenesSuggestRevisionComponent,
-    GenesFlagsComponent,
   ],
   imports: [
     GenesRoutingModule,

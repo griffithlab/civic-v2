@@ -4,25 +4,24 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-genes-flags',
-  templateUrl: './genes-flags.component.html',
-  styleUrls: ['./genes-flags.component.less']
+  templateUrl: './genes-flags.page.html',
+  styleUrls: ['./genes-flags.page.less']
 })
 
-
-export class GenesFlagsComponent implements OnInit {
+export class GenesFlagsPage implements OnInit {
 
   flaggable: FlaggableInput
 
   constructor(
       private route: ActivatedRoute
     ) {
-    const geneId: number = +this.route.snapshot.params['geneId']; 
-    
+    const geneId: number = +this.route.snapshot.params['geneId'];
+
     this.flaggable = {
       entityType: FlaggableEntities.Gene,
       id: geneId
     }
-    
+
   }
 
   ngOnInit(): void {

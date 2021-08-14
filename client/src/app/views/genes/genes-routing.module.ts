@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
-import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page';
-import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
 
 import { GenesHomeModule } from './genes-home/genes-home.module';
 import { GenesHomePage } from './genes-home/genes-home.page';
@@ -13,6 +11,9 @@ import { GenesSummaryPage } from './genes-summary/genes-summary.page';
 import { GenesCommentsModule } from './genes-comments/genes-comments.module';
 import { GenesCommentsPage } from './genes-comments/genes-comments.page';
 import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module';
+import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page';
+import { GenesFlagsModule } from './genes-flags/genes-flags.module';
+import { GenesFlagsPage } from './genes-flags/genes-flags.page';
 
 const routes: Routes = [
   {
@@ -58,7 +59,7 @@ const routes: Routes = [
           },
           {
             path: 'flags',
-            component: GenesFlagsComponent,
+            component: GenesFlagsPage,
             data: {
               breadcrumb: 'Summary'
             }
@@ -84,7 +85,7 @@ const routes: Routes = [
     GenesSummaryModule,
     GenesCommentsModule,
     GenesRevisionsModule,
-
+    GenesFlagsModule,
   ],
   exports: [RouterModule]
 })
