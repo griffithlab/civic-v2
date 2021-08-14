@@ -8,7 +8,7 @@ import { GenesSummaryPage } from './genes-summary/genes-summary.page';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
-import { GenesHomeComponent } from './genes-home/genes-home.component';
+import { GenesHomePage } from './genes-home/genes-home.page';
 
 const routes: Routes = [
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
-        component: GenesHomeComponent,
+        component: GenesHomePage,
         data: {
           breadcrumb: 'Home'
         }

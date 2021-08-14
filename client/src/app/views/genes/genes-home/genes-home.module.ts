@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenesHomeComponent } from './genes-home.component';
+import { GenesHomePage } from './genes-home.page';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcGenesTableModule } from '@app/components/genes/genes-table/genes-table.module';
@@ -8,7 +8,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
-  declarations: [GenesHomeComponent],
+  declarations: [GenesHomePage],
   imports: [
     CommonModule,
     SectionNavigationModule,
@@ -17,6 +17,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzPageHeaderModule,
     NzGridModule
   ],
-  exports: [GenesHomeComponent]
+  exports: [GenesHomePage]
 })
 export class GenesHomeModule { }
