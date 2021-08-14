@@ -34,8 +34,8 @@ export interface GeneTableRow {
 
 @Component({
   selector: 'cvc-genes-table',
-  templateUrl: './cvc-genes-table.component.html',
-  styleUrls: ['./cvc-genes-table.component.less']
+  templateUrl: './genes-table.component.html',
+  styleUrls: ['./genes-table.component.less']
 })
 export class CvcGenesTableComponent implements OnInit {
   private initialQueryArgs?: QueryBrowseGenesArgs
