@@ -30,10 +30,10 @@ import { sourceInputInitialModel } from '@app/forms/types/source-input/source-in
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',
-  templateUrl: './gene-suggest-revision-form.component.html',
-  styleUrls: ['./gene-suggest-revision-form.component.less']
+  templateUrl: './gene-suggest-revision.form.html',
+  styleUrls: ['./gene-suggest-revision.form.less']
 })
-export class GeneSuggestRevisionFormComponent implements OnInit, OnDestroy {
+export class GeneSuggestRevisionForm implements OnInit, OnDestroy {
   @Input() geneId!: number;
   private destroy$ = new Subject();
   organizations!: Array<Organization>;

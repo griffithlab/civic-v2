@@ -9,7 +9,6 @@ import {
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
-import { GeneSuggestRevisionFormComponent } from './components/gene-suggest-revision-form/gene-suggest-revision-form.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -40,7 +39,6 @@ import { CvcFormButtonsModule } from './shared/components/form-buttons/form-butt
 
 @NgModule({
   declarations: [
-    GeneSuggestRevisionFormComponent,
     CommentTextareaComponent,
     MultiFieldComponent,
     SourceIdInputComponent,
@@ -77,7 +75,6 @@ import { CvcFormButtonsModule } from './shared/components/form-buttons/form-butt
     FormlySelectModule
   ],
   exports: [
-    GeneSuggestRevisionFormComponent,
     CommentTextareaComponent,
     MultiFieldComponent,
     SourceIdInputComponent,

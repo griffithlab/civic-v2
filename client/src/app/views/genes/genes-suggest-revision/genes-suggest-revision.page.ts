@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, } from '@angular/router';
-import { Observable } from 'rxjs';
-import { pluck, startWith } from 'rxjs/operators';
-import { NGXLogger } from "ngx-logger";
 
 @Component({
   selector: 'cvc-genes-suggest-revision',
-  templateUrl: './genes-suggest-revision.component.html',
-  styleUrls: ['./genes-suggest-revision.component.less']
+  templateUrl: './genes-suggest-revision.page.html',
+  styleUrls: ['./genes-suggest-revision.page.less']
 })
-export class GenesSuggestRevisionComponent implements OnInit {
+export class GenesSuggestRevisionPage implements OnInit {
   geneId: number;
 
   constructor(private route: ActivatedRoute) {
