@@ -18,10 +18,10 @@ import {
 
 @Component({
   selector: 'cvc-genes-summary',
-  templateUrl: './genes-summary.component.html',
-  styleUrls: ['./genes-summary.component.less'],
+  templateUrl: './genes-summary.page.html',
+  styleUrls: ['./genes-summary.page.less'],
 })
-export class GenesSummaryComponent implements OnDestroy {
+export class GenesSummaryPage implements OnDestroy {
   gene$?: Observable<Maybe<GeneSummaryFieldsFragment>>;
   loading$?: Observable<boolean>;
   myGeneInfo$?: Observable<any>;

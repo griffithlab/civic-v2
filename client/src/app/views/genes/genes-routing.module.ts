@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
-import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
+import { GenesSummaryPage } from './genes-summary/genes-summary.page';
 import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: GenesSummaryComponent,
+            component: GenesSummaryPage,
             data: {
               breadcrumb: 'Summary'
             }
