@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
-import { GenesSummaryPage } from './genes-summary/genes-summary.page';
-import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
+
+import { GenesHomeModule } from './genes-home/genes-home.module';
 import { GenesHomePage } from './genes-home/genes-home.page';
+import { GenesSummaryModule } from './genes-summary/genes-summary.module';
+import { GenesSummaryPage } from './genes-summary/genes-summary.page';
+import { GenesCommentsModule } from './genes-comments/genes-comments.module';
+import { GenesCommentsPage } from './genes-comments/genes-comments.page';
 
 const routes: Routes = [
   {
@@ -40,7 +43,7 @@ const routes: Routes = [
           },
           {
             path: 'comments',
-            component: GenesCommentsComponent,
+            component: GenesCommentsPage,
             data: {
               breadcrumb: 'Comments'
             }
@@ -75,7 +78,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    GenesHomeModule,
+    GenesSummaryModule,
+    GenesCommentsModule,
   ],
   exports: [RouterModule]
 })

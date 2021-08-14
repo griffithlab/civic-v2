@@ -4,10 +4,10 @@ import { CommentableEntities, CommentableInput } from '@app/generated/civic.apol
 
 @Component({
   selector: 'cvc-genes-comments',
-  templateUrl: './genes-comments.component.html',
-  styleUrls: ['./genes-comments.component.less'],
+  templateUrl: './genes-comments.page.html',
+  styleUrls: ['./genes-comments.page.less'],
 })
-export class GenesCommentsComponent {
+export class GenesCommentsPage {
   commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {

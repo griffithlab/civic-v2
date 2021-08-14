@@ -43,12 +43,10 @@ import { GenesComponentsModule } from '@app/components/genes/genes-components.mo
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
-import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
 import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { VariantsModule } from '../variants/variants.module';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { GenesHomeModule } from './genes-home/genes-home.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
@@ -61,7 +59,6 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
-import { GenesSummaryModule } from './genes-summary/genes-summary.module';
 
 @NgModule({
   declarations: [
@@ -69,13 +66,10 @@ import { GenesSummaryModule } from './genes-summary/genes-summary.module';
     GenesDetailComponent,
     GenesSuggestRevisionComponent,
     GenesFlagsComponent,
-    GenesCommentsComponent,
     GenesRevisionsComponent,
   ],
   imports: [
     GenesRoutingModule,
-    GenesHomeModule,
-    GenesSummaryModule,
     CvcFormsModule,
     CvcLinkTagModule,
     CvcSourceTagModule,
