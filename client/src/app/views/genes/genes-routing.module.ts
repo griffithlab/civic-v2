@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { GenesComponent } from './genes.component';
 import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
-import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
+import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page';
 import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
 
 import { GenesHomeModule } from './genes-home/genes-home.module';
@@ -12,6 +12,7 @@ import { GenesSummaryModule } from './genes-summary/genes-summary.module';
 import { GenesSummaryPage } from './genes-summary/genes-summary.page';
 import { GenesCommentsModule } from './genes-comments/genes-comments.module';
 import { GenesCommentsPage } from './genes-comments/genes-comments.page';
+import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module';
 
 const routes: Routes = [
   {
@@ -50,7 +51,7 @@ const routes: Routes = [
           },
           {
             path: 'revisions',
-            component: GenesRevisionsComponent,
+            component: GenesRevisionsPage,
             data: {
               breadcrumb: 'Revisions'
             }
@@ -82,6 +83,8 @@ const routes: Routes = [
     GenesHomeModule,
     GenesSummaryModule,
     GenesCommentsModule,
+    GenesRevisionsModule,
+
   ],
   exports: [RouterModule]
 })

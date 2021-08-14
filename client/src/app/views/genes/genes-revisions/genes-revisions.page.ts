@@ -9,11 +9,11 @@ import {
 
 @Component({
   selector: 'cvc-genes-revisions',
-  templateUrl: './genes-revisions.component.html',
-  styleUrls: ['./genes-revisions.component.less'],
+  templateUrl: './genes-revisions.page.html',
+  styleUrls: ['./genes-revisions.page.less'],
   providers: [GenesRevisionsService]
 })
-export class GenesRevisionsComponent implements OnInit {
+export class GenesRevisionsPage implements OnInit {
   service: GenesRevisionsService;
   mostRecentOrg: Maybe<Organization>;
   geneId: number

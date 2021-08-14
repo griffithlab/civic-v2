@@ -28,15 +28,8 @@ import { TimeagoModule } from 'ngx-timeago';
 // cvc imports
 import { IconsProviderModule } from '@app/icons-provider.module';
 
-// gene components
-import { GeneDescriptionRevisionComponent } from './gene-description-revision/gene-description-revision.component';
-import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sources-revision.component';
-
 @NgModule({
   declarations: [
-    GeneDescriptionRevisionComponent,
-    GeneDescriptionRevisionComponent,
-    GeneSourcesRevisionComponent,
   ],
   imports: [
     CommonModule,
@@ -64,8 +57,6 @@ import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sourc
     TimeagoModule.forChild()
   ],
   exports: [
-    GeneDescriptionRevisionComponent,
-    GeneSourcesRevisionComponent,
   ]
 })
 

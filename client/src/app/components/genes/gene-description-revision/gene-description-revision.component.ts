@@ -1,15 +1,9 @@
 import {
   Component,
-  ElementRef,
   Input,
   OnChanges,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
-import { Revision } from '@app/generated/civic.apollo';
-
-import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'cvc-gene-description-revision',
@@ -18,12 +12,12 @@ import { NGXLogger } from 'ngx-logger';
   encapsulation: ViewEncapsulation.None // no encapsulation b/c diff html provided by server
 })
 
-export class GeneDescriptionRevisionComponent implements OnChanges {
+export class CvcGeneDescriptionRevisionComponent implements OnChanges {
   @Input() revision!: any;
   insertionsHtml!: string;
   deletionsHtml!: string;
 
-  constructor(private logger: NGXLogger) { }
+  constructor() { }
 
   ngOnChanges(): void {
    // extract insertions, deletions HTML from linkoutData diff
