@@ -56,6 +56,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/
     GenesDetailComponent,
   ],
   imports: [
+    RouterModule,
     GenesRoutingModule,
     CvcFormsModule,
     CvcLinkTagModule,

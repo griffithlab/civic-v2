@@ -13,8 +13,8 @@ import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module';
 import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page';
 import { GenesFlagsModule } from './genes-flags/genes-flags.module';
 import { GenesFlagsPage } from './genes-flags/genes-flags.page';
-import { GenesSuggestRevisionPage } from './genes-suggest-revision/genes-suggest-revision.page';
 import { GenesSuggestRevisionModule } from './genes-suggest-revision/genes-suggest-revision.module';
+import { GenesSuggestRevisionPage } from './genes-suggest-revision/genes-suggest-revision.page';
 
 const routes: Routes = [
   {
@@ -65,15 +65,16 @@ const routes: Routes = [
               breadcrumb: 'Summary'
             }
           },
+          {
+            path: 'suggest-revision',
+            component: GenesSuggestRevisionPage,
+            data: {
+              breadcrumb: 'Suggest Revision'
+            }
+          },
+
         ]
-      },
-      {
-        path: ':geneId/suggest-revision',
-        component: GenesSuggestRevisionPage,
-        data: {
-          breadcrumb: 'DISPLAYNAME'
-        }
-      },
+      }
     ]
   }
 ];
