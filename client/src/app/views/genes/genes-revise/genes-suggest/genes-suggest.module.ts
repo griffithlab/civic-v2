@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenesSuggestRevisionPage } from './genes-suggest-revision.page';
+import { GenesSuggestPage } from './genes-suggest.page';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -11,7 +11,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
-  declarations: [GenesSuggestRevisionPage],
+  declarations: [GenesSuggestPage],
   imports: [
     CommonModule,
     ReactiveComponentModule,
@@ -24,4 +24,4 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
     SectionNavigationModule,
   ]
 })
-export class GenesSuggestRevisionModule { }
+export class GenesSuggestModule { }

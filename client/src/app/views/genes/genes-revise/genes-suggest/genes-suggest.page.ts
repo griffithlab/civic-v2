@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, } from '@angular/router';
 
 @Component({
-  selector: 'cvc-genes-suggest-revision',
-  templateUrl: './genes-suggest-revision.page.html',
-  styleUrls: ['./genes-suggest-revision.page.less']
+  selector: 'cvc-genes-suggest',
+  templateUrl: './genes-suggest.page.html',
+  styleUrls: ['./genes-suggest.page.less']
 })
-export class GenesSuggestRevisionPage implements OnInit {
+export class GenesSuggestPage implements OnInit {
   geneId: number;
 
   constructor(private route: ActivatedRoute) {
