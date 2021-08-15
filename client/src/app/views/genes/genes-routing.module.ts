@@ -15,6 +15,8 @@ import { GenesFlagsModule } from './genes-flags/genes-flags.module';
 import { GenesFlagsPage } from './genes-flags/genes-flags.page';
 import { GenesSuggestRevisionModule } from './genes-suggest-revision/genes-suggest-revision.module';
 import { GenesSuggestRevisionPage } from './genes-suggest-revision/genes-suggest-revision.page';
+import { GenesReviseModule } from './genes-revise/genes-revise.module';
+import { GenesReviseView } from './genes-revise/genes-revise.view';
 
 const routes: Routes = [
   {
@@ -65,14 +67,20 @@ const routes: Routes = [
               breadcrumb: 'Summary'
             }
           },
+        ]
+      },
+      {
+        path: ':geneId',
+        component: GenesReviseView,
+        data: { breadcrumb: 'DISPLAYNAME'},
+        children: [
           {
-            path: 'suggest-revision',
+            path: 'revise',
             component: GenesSuggestRevisionPage,
             data: {
               breadcrumb: 'Suggest Revision'
             }
-          },
-
+          }
         ]
       }
     ]
@@ -87,6 +95,7 @@ const routes: Routes = [
     GenesCommentsModule,
     GenesRevisionsModule,
     GenesFlagsModule,
+    GenesReviseModule,
     GenesSuggestRevisionModule,
   ],
   exports: [RouterModule]
