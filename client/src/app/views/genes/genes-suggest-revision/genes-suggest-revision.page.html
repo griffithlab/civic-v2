@@ -1,27 +1,53 @@
-<nz-row [nzGutter]="16">
-  <nz-col nzSpan="16" >
-    <cvc-gene-suggest-revision-form [geneId]="geneId"></cvc-gene-suggest-revision-form>
-  </nz-col>
-  <nz-col nzSpan="8" >
-    <nz-card nzTitle="Instructions" nz-type="inner">
-      <nz-space nzDirection="vertical" style="width: 100%">
-        <nz-space-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 1 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 3 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 4 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton
-            [nzParagraph]="{ rows: 5 }"></nz-skeleton>
-        </nz-space-item>
-      </nz-space>
-    </nz-card>
-  </nz-col>
-</nz-row>
+<ng-container  *ngIf="gene$ | ngrxPush as gene; else loadingGene">
+  <cvc-section-navigation [displayName]="gene.name"> </cvc-section-navigation>
+
+  <nz-page-header class="site-page-header">
+
+    <!-- title -->
+    <nz-page-header-title cvcFlaggableOptions
+      [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
+      <i nz-icon
+        nzType="civic:gene"></i>
+      {{ gene.name }}
+    </nz-page-header-title>
+
+    <!-- subtitle -->
+    <nz-page-header-subtitle>
+      {{ gene.officialName }}
+    </nz-page-header-subtitle>
+
+    <nz-page-header-content>
+      <div class="content">
+        <nz-row [nzGutter]="16">
+          <nz-col nzSpan="16">
+            <cvc-gene-suggest-revision-form      [geneId]="gene.id">
+            </cvc-gene-suggest-revision-form>
+          </nz-col>
+          <nz-col nzSpan="8">
+            <nz-card nzTitle="Instructions"
+              nz-type="inner">
+              <nz-space nzDirection="vertical"
+                style="width: 100%">
+                <nz-space-item>
+                  <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+                </nz-space-item>
+                <nz-space-item>
+                  <nz-skeleton [nzParagraph]="{ rows: 3 }"></nz-skeleton>
+                </nz-space-item>
+                <nz-space-item>
+                  <nz-skeleton [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+                </nz-space-item>
+                <nz-space-item>
+                  <nz-skeleton [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+                </nz-space-item>
+              </nz-space>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+
+</ng-container>
+
+<ng-template #loadingGene>Loading gene...</ng-template>

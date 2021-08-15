@@ -6,16 +6,22 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { GeneSuggestRevisionFormModule } from '@app/forms/genes/forms/gene-suggest-revision-form/gene-suggest-revision-form.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [GenesSuggestRevisionPage],
   imports: [
     CommonModule,
+    ReactiveComponentModule,
+    NzCardModule,
     NzGridModule,
     NzSpaceModule,
     NzSkeletonModule,
-    NzCardModule,
+    NzPageHeaderModule,
     GeneSuggestRevisionFormModule,
+    SectionNavigationModule,
   ]
 })
 export class GenesSuggestRevisionModule { }

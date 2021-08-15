@@ -65,16 +65,15 @@ const routes: Routes = [
               breadcrumb: 'Summary'
             }
           },
-          {
-            path: 'suggest-revision',
-            component: GenesSuggestRevisionPage,
-            data: {
-              breadcrumb: 'Suggest Revision'
-            }
-          },
-
         ]
-      }
+      },
+      {
+        path: ':geneId/suggest-revision',
+        component: GenesSuggestRevisionPage,
+        data: {
+          breadcrumb: 'DISPLAYNAME'
+        }
+      },
     ]
   }
 ];
