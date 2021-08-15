@@ -3761,6 +3761,40 @@ export type FlagListFragment = (
   )> }
 );
 
+export type GenePopoverQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GenePopoverQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & GenePopoverFragment
+  )> }
+);
+
+export type GenePopoverFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'officialName'>
+  & { aliases: Array<(
+    { __typename: 'GeneAlias' }
+    & Pick<GeneAlias, 'name'>
+  )>, variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ) }
+);
+
 export type BrowseGenesQueryVariables = Exact<{
   entrezSymbol?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
@@ -3800,40 +3834,6 @@ export type BrowseGenesQuery = (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
-  ) }
-);
-
-export type GenePopoverQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GenePopoverQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & GenePopoverFragment
-  )> }
-);
-
-export type GenePopoverFragment = (
-  { __typename: 'Gene' }
-  & Pick<Gene, 'id' | 'name' | 'officialName'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, variants: (
-    { __typename: 'VariantConnection' }
-    & Pick<VariantConnection, 'totalCount'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
   ) }
 );
 
@@ -4317,77 +4317,6 @@ export type AddCommentMutation = (
   )> }
 );
 
-export type GeneRevisableFieldsQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GeneRevisableFieldsQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'description'>
-    & { sources: Array<(
-      { __typename: 'Source' }
-      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
-    )> }
-  )> }
-);
-
-export type SuggestGeneRevisionMutationVariables = Exact<{
-  input: SuggestGeneRevisionInput;
-}>;
-
-
-export type SuggestGeneRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { suggestGeneRevision?: Maybe<(
-    { __typename: 'SuggestGeneRevisionPayload' }
-    & Pick<SuggestGeneRevisionPayload, 'clientMutationId'>
-    & { gene: (
-      { __typename: 'Gene' }
-      & Pick<Gene, 'id'>
-      & { revisions: (
-        { __typename: 'RevisionConnection' }
-        & Pick<RevisionConnection, 'totalCount'>
-        & { edges: Array<(
-          { __typename: 'RevisionEdge' }
-          & { node?: Maybe<(
-            { __typename: 'Revision' }
-            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-            & { linkoutData: (
-              { __typename: 'LinkoutData' }
-              & Pick<LinkoutData, 'name'>
-              & { diffValue: (
-                { __typename: 'ObjectFieldDiff' }
-                & { addedObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )>, removedObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )>, keptObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )> }
-              ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
-              ) }
-            ), revisor: (
-              { __typename: 'User' }
-              & Pick<User, 'id' | 'name'>
-            ) }
-          )> }
-        )> }
-      ) }
-    ), results: Array<(
-      { __typename: 'RevisionResult' }
-      & Pick<RevisionResult, 'id' | 'fieldName'>
-    )> }
-  )> }
-);
-
 export type CitationExistenceCheckQueryVariables = Exact<{
   sourceType: SourceSource;
   citationId: Scalars['Int'];
@@ -4462,6 +4391,77 @@ export type ResolveFlagMutation = (
     & { flag?: Maybe<(
       { __typename: 'Flag' }
       & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
+export type GeneRevisableFieldsQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GeneRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'description'>
+    & { sources: Array<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
+    )> }
+  )> }
+);
+
+export type SuggestGeneRevisionMutationVariables = Exact<{
+  input: SuggestGeneRevisionInput;
+}>;
+
+
+export type SuggestGeneRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestGeneRevision?: Maybe<(
+    { __typename: 'SuggestGeneRevisionPayload' }
+    & Pick<SuggestGeneRevisionPayload, 'clientMutationId'>
+    & { gene: (
+      { __typename: 'Gene' }
+      & Pick<Gene, 'id'>
+      & { revisions: (
+        { __typename: 'RevisionConnection' }
+        & Pick<RevisionConnection, 'totalCount'>
+        & { edges: Array<(
+          { __typename: 'RevisionEdge' }
+          & { node?: Maybe<(
+            { __typename: 'Revision' }
+            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+            & { linkoutData: (
+              { __typename: 'LinkoutData' }
+              & Pick<LinkoutData, 'name'>
+              & { diffValue: (
+                { __typename: 'ObjectFieldDiff' }
+                & { addedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, removedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, keptObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )> }
+              ) | (
+                { __typename: 'ScalarField' }
+                & Pick<ScalarField, 'value'>
+              ) }
+            ), revisor: (
+              { __typename: 'User' }
+              & Pick<User, 'id' | 'name'>
+            ) }
+          )> }
+        )> }
+      ) }
+    ), results: Array<(
+      { __typename: 'RevisionResult' }
+      & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
   )> }
 );
@@ -6827,6 +6827,24 @@ export const FlagListDocument = gql`
       super(apollo);
     }
   }
+export const GenePopoverDocument = gql`
+    query GenePopover($geneId: Int!) {
+  gene(id: $geneId) {
+    ...genePopover
+  }
+}
+    ${GenePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
+    document = GenePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseGenesDocument = gql`
     query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseGenes(
@@ -6880,24 +6898,6 @@ export const BrowseGenesDocument = gql`
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GenePopoverDocument = gql`
-    query GenePopover($geneId: Int!) {
-  gene(id: $geneId) {
-    ...genePopover
-  }
-}
-    ${GenePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
-    document = GenePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7380,102 +7380,6 @@ export const AddCommentDocument = gql`
       super(apollo);
     }
   }
-export const GeneRevisableFieldsDocument = gql`
-    query GeneRevisableFields($geneId: Int!) {
-  gene(id: $geneId) {
-    id
-    description
-    sources {
-      id
-      sourceType
-      citation
-      citationId
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
-    document = GeneRevisableFieldsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const SuggestGeneRevisionDocument = gql`
-    mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
-  suggestGeneRevision(input: $input) {
-    clientMutationId
-    gene {
-      id
-      revisions {
-        totalCount
-        edges {
-          node {
-            id
-            revisionsetId
-            createdAt
-            fieldName
-            currentValue
-            suggestedValue
-            linkoutData {
-              name
-              diffValue {
-                ... on ObjectFieldDiff {
-                  addedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  removedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  keptObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                }
-                ... on ScalarField {
-                  value
-                }
-              }
-            }
-            revisor {
-              id
-              name
-            }
-            status
-          }
-        }
-      }
-    }
-    results {
-      id
-      fieldName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
-    document = SuggestGeneRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const CitationExistenceCheckDocument = gql`
     query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
@@ -7567,6 +7471,102 @@ export const ResolveFlagDocument = gql`
   })
   export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
     document = ResolveFlagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneRevisableFieldsDocument = gql`
+    query GeneRevisableFields($geneId: Int!) {
+  gene(id: $geneId) {
+    id
+    description
+    sources {
+      id
+      sourceType
+      citation
+      citationId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneRevisableFieldsGQL extends Apollo.Query<GeneRevisableFieldsQuery, GeneRevisableFieldsQueryVariables> {
+    document = GeneRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestGeneRevisionDocument = gql`
+    mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
+  suggestGeneRevision(input: $input) {
+    clientMutationId
+    gene {
+      id
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
+    document = SuggestGeneRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
