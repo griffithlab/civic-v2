@@ -10,12 +10,14 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { GenesDetailRoutingModule } from './genes-detail-routing.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 
 @NgModule({
   declarations: [GenesDetailView],
   imports: [
     CommonModule,
+    GenesDetailRoutingModule,
     ReactiveComponentModule,
     RouterModule,
     NzPageHeaderModule,
@@ -23,8 +25,8 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     NzSpaceModule,
     NzTypographyModule,
     NzButtonModule,
-    CvcFlaggableModule,
     SectionNavigationModule,
+    CvcFlaggableModule,
     CvcDetailsNavigationModule,
   ]
 })

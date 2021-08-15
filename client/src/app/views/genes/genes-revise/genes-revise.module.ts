@@ -5,11 +5,13 @@ import { RouterModule } from '@angular/router';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { GenesReviseRoutingModule } from './genes-revise-routing.module';
 
 @NgModule({
   declarations: [GenesReviseView],
   imports: [
     CommonModule,
+    GenesReviseRoutingModule,
     RouterModule,
     SectionNavigationModule,
     NzPageHeaderModule,
