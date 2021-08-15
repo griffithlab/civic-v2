@@ -10,7 +10,7 @@ const routes: Routes = [
     component: GenesReviseView,
     data: { breadcrumb: 'DISPLAYNAME' },
     children: [
-      { path: '', redirectTo: 'summary', pathMatch: 'full' },
+      { path: '', redirectTo: 'suggest', pathMatch: 'full' },
       {
         path: 'suggest',
         component: GenesSuggestPage,

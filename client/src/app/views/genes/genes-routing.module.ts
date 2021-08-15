@@ -23,7 +23,7 @@ const routes: Routes = [
         data: { breadcrumb: 'DISPLAYNAME' }
       },
       {
-        path: ':geneId',
+        path: 'revise',
         loadChildren: () => import('@app/views/genes/genes-revise/genes-revise.module').then(m => m.GenesReviseModule),
         data: { breadcrumb: 'Revise' }
       },
