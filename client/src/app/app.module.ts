@@ -13,7 +13,6 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { civicIcons } from '@app/icons-provider.module';
 
-
 import { TimeagoModule } from 'ngx-timeago';
 
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";

@@ -18,13 +18,14 @@ import { LayoutComponentsModule } from '@app/components/layout/layout-components
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcQuicksearchModule } from '@app/components/layout/quicksearch/quicksearch.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
     CommonModule,
     LayoutRoutingModule,
-    IconsProviderModule,
+    NzIconModule,
     NzGridModule,
     NzLayoutModule,
     NzMenuModule,
