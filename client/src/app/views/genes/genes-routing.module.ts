@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GenesComponent } from './genes.component';
-import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 
 import { GenesHomeModule } from './genes-home/genes-home.module';
 import { GenesHomePage } from './genes-home/genes-home.page';
@@ -17,6 +16,8 @@ import { GenesSuggestRevisionModule } from './genes-suggest-revision/genes-sugge
 import { GenesSuggestRevisionPage } from './genes-suggest-revision/genes-suggest-revision.page';
 import { GenesReviseModule } from './genes-revise/genes-revise.module';
 import { GenesReviseView } from './genes-revise/genes-revise.view';
+import { GenesDetailView } from './genes-detail/genes-detail.view';
+import { GenesDetailModule } from './genes-detail/genes-detail.module';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: ':geneId',
-        component: GenesDetailComponent,
+        component: GenesDetailView,
         // setting 'DISPLAYNAME' here will cause breadcrumb & title generation logic
         // to use a provided displayName instead of breadcrumb string
         data: { breadcrumb: 'DISPLAYNAME' },
@@ -91,6 +92,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     GenesHomeModule,
+    GenesDetailModule,
     GenesSummaryModule,
     GenesCommentsModule,
     GenesRevisionsModule,

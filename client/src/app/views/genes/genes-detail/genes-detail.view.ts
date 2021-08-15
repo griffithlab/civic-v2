@@ -16,10 +16,10 @@ import {
 
 @Component({
   selector: 'genes-detail',
-  templateUrl: './genes-detail.component.html',
-  styleUrls: ['./genes-detail.component.less'],
+  templateUrl: './genes-detail.view.html',
+  styleUrls: ['./genes-detail.view.less'],
 })
-export class GenesDetailComponent implements OnDestroy {
+export class GenesDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   gene$?: Observable<Maybe<GeneDetailFieldsFragment>>;
   viewer$?: Observable<Viewer>;

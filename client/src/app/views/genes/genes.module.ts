@@ -35,7 +35,6 @@ import { IconsProviderModule } from '@app/icons-provider.module'
 import { CvcFormsModule } from '@app/forms/forms.module';
 
 import { GenesComponent } from './genes.component';
-import { GenesDetailComponent } from './genes-detail/genes-detail.component';
 import { GenesRoutingModule } from './genes-routing.module';
 import { GenesComponentsModule } from '@app/components/genes/genes-components.module';
 
@@ -61,7 +60,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     GenesComponent,
-    GenesDetailComponent,
   ],
   imports: [
     RouterModule,
