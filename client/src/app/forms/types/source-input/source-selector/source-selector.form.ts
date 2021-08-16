@@ -15,12 +15,12 @@ export interface SelectorModel {
 
 @Component({
   selector: 'cvc-source-selector',
-  templateUrl: './source-selector.component.html',
-  styleUrls: ['./source-selector.component.less'],
+  templateUrl: './source-selector.form.html',
+  styleUrls: ['./source-selector.form.less'],
   // view encapsulation off, so that 'className' styles will be applied
   encapsulation: ViewEncapsulation.None,
 })
-export class SourceSelectorComponent implements OnInit, OnDestroy {
+export class SourceSelectorForm implements OnInit, OnDestroy {
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
   model: SelectorModel = { sourceType: undefined, citationId: undefined };
   form = new FormGroup({});
