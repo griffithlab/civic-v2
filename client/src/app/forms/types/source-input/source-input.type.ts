@@ -18,8 +18,8 @@ export interface SourceInputModel {
 
 @Component({
   selector: 'cvc-source-input',
-  templateUrl: './source-input.component.html',
-  styleUrls: ['./source-input.component.less'],
+  templateUrl: './source-input.type.html',
+  styleUrls: ['./source-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceInputComponent extends FieldType implements OnInit {

@@ -14,8 +14,8 @@ import {
 
 @Component({
   selector: 'cvc-typeahead-selector',
-  templateUrl: './typeahead-selector.component.html',
-  styleUrls: ['./typeahead-selector.component.less'],
+  templateUrl: './typeahead-selector.type.html',
+  styleUrls: ['./typeahead-selector.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TypeaheadSelectorComponent extends FieldType implements AfterViewInit {

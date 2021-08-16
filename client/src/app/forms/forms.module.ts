@@ -22,20 +22,19 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
 import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.type';
-import { MultiFieldComponent } from './types/multi-field/multi-field.component';
-import { SourceIdInputComponent } from './types/source-id-input/source-id-input.component';
+import { MultiFieldComponent } from './types/multi-field/multi-field.type';
+import { SourceIdInputComponent } from './types/source-id-input/source-id-input.type';
+import { SourceInputComponent } from './types/source-input/source-input.type';
+import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.type';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxMaskModule } from 'ngx-mask';
-import { SourceInputComponent } from './types/source-input/source-input.component';
 import { SourceSelectorComponent } from './components/source-selector/source-selector.component';
 import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
-import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.component';
 import { SourceLoaderComponent } from './components/source-loader/source-loader.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
-
 
 @NgModule({
   declarations: [

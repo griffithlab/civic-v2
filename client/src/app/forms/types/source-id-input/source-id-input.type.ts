@@ -7,8 +7,8 @@ import { distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-source-id-input',
-  templateUrl: './source-id-input.component.html',
-  styleUrls: ['./source-id-input.component.less'],
+  templateUrl: './source-id-input.type.html',
+  styleUrls: ['./source-id-input.type.less'],
 })
 export class SourceIdInputComponent extends FieldType {
   formControl!: FormControl;

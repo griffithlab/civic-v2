@@ -26,7 +26,7 @@ import {
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.component';
+import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.type';
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',

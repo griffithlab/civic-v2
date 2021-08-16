@@ -20,8 +20,8 @@ import { FieldArrayType, FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'cvc-multi-field',
-  templateUrl: './multi-field.component.html',
-  styleUrls: ['./multi-field.component.less'],
+  templateUrl: './multi-field.type.html',
+  styleUrls: ['./multi-field.type.less'],
 })
 export class MultiFieldComponent extends FieldArrayType {
   constructor() {
