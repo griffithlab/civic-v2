@@ -9,7 +9,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { CvcFormsModule } from '@app/forms/forms.module';
 
 @NgModule({
   declarations: [GenesSuggestPage],
@@ -22,7 +21,6 @@ import { CvcFormsModule } from '@app/forms/forms.module';
     NzSkeletonModule,
     NzPageHeaderModule,
     GeneSuggestRevisionFormModule,
-    CvcFormsModule,
     SectionNavigationModule,
   ]
 })

@@ -5,7 +5,6 @@ import { EvidenceRoutingModule } from './evidence-routing.module';
 import { EvidenceComponent } from './evidence.component';
 import { FormsModule } from '@angular/forms';
 
-import { CvcFormsModule } from '@app/forms/forms.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -76,7 +75,6 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     CvcEntityTableCardModule,
     CvcAssertionsTableModule,
     SectionNavigationModule,
-    CvcFormsModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,

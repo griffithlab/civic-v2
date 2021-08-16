@@ -32,7 +32,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 // civic imports
 import { IconsProviderModule } from '@app/icons-provider.module';
-import { CvcFormsModule } from '@app/forms/forms.module';
 
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
@@ -77,7 +76,6 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
     CvcEntityTableCardModule,
-    CvcFormsModule,
     CvcPipesModule,
     CvcLinkTagModule,
     CvcGeneTagModule,

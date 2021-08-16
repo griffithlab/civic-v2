@@ -5,7 +5,6 @@ import { OrganizationsRoutingModule } from './organizations-routing.module';
 import { OrganizationsComponent } from './organizations.component';
 import { FormsModule } from '@angular/forms';
 
-import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -69,7 +68,6 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     CvcEntityTableCardModule,
     OrganizationsRoutingModule,
     CvcLinkTagModule,
-    CvcFormsModule,
     CvcOrganizationTagModule,
     CvcOrganizationCardModule,
     CvcUserCardModule,

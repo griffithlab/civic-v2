@@ -70,7 +70,6 @@ export class CvcCommentAddComponent implements OnDestroy {
         if(e) { this.resetForm(); }
       });
 
-
     this.formFields = [
       {
         key: 'body',

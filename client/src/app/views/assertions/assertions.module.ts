@@ -5,7 +5,6 @@ import { AssertionsRoutingModule } from './assertions-routing.module';
 import { AssertionsComponent } from './assertions.component';
 import { FormsModule } from '@angular/forms';
 
-import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -71,7 +70,6 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     AssertionsHomeModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
-    CvcFormsModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
