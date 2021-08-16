@@ -10,7 +10,7 @@ import { $enum } from 'ts-enum-util';
   templateUrl: './source-selector-loader.component.html',
   styleUrls: ['./source-selector-loader.component.less']
 })
-export class SourceLoaderComponent implements AfterContentInit {
+export class SourceSelectorLoaderComponent implements AfterContentInit {
   @Input() model!: any;
   @Output() modelUpdate = new EventEmitter<any>();
 

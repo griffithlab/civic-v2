@@ -30,7 +30,7 @@ import { CvcFormButtonsModule } from './shared/components/form-buttons/form-butt
 import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
 import { MultiFieldModule } from './types/multi-field/multi-field.module';
 import { SourceInputModule } from './types/source-input/source-input.module';
-import { SourceLoaderModule } from './types/source-input/source-selector-loader/source-selector-loader.module';
+import { SourceSelectorLoaderModule } from './types/source-input/source-selector-loader/source-selector-loader.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { SourceLoaderModule } from './types/source-input/source-selector-loader/
     MultiFieldModule,
     CommentTextareaModule,
     SourceInputModule,
-    SourceLoaderModule,
+    SourceSelectorLoaderModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,

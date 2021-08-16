@@ -5,10 +5,10 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-errors-alert/form-errors-alert.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { SourceLoaderComponent } from './source-selector-loader.component';
+import { SourceSelectorLoaderComponent } from './source-selector-loader.component';
 
 @NgModule({
-  declarations: [SourceLoaderComponent],
+  declarations: [SourceSelectorLoaderComponent],
   imports: [
     CommonModule,
     NzSpaceModule,
@@ -17,6 +17,6 @@ import { SourceLoaderComponent } from './source-selector-loader.component';
     CvcFormErrorsAlertModule,
     NzButtonModule,
   ],
-  exports: [SourceLoaderComponent]
+  exports: [SourceSelectorLoaderComponent]
 })
-export class SourceLoaderModule { }
+export class SourceSelectorLoaderModule { }
