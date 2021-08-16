@@ -21,4 +21,4 @@ const formlyConfig = {
   ],
   exports: [TypeaheadSelectorComponent]
 })
-export class TypeaheadSelectorModule { }
+export class SourceSelectorTypeaheadModule { }
