@@ -5,10 +5,10 @@ import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
 
 @Component({
     selector: 'cvc-flag-add',
-    templateUrl: './flag-add.component.html',
-    styleUrls: ['./flag-add.component.less']
+    templateUrl: './flag-add.form.html',
+    styleUrls: ['./flag-add.form.less']
 })
-export class CvcFlagAddComponent implements OnInit {
+export class CvcFlagAddForm implements OnInit {
     @Input() flaggable!: FlaggableInput
     @Input() flagAddedCallback?: () => void
 
