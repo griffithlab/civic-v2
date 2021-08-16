@@ -4,7 +4,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { SourceListItemModule } from './source-list-item/source-list-item.module';
 import { SourceInputComponent, SourceInputType } from './source-input.type';
 import { SourceSelectorModule } from './source-selector/source-selector.module';
-import { TypeaheadSelectorModule } from './typeahead-selector/typeahead-selector.module';
+import { TypeaheadSelectorModule } from './source-selector-typeahead/source-selector-typeahead.module';
 
 const formlyConfig = {
   types: [SourceInputType]
