@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { SourceSelectorTypeaheadModule } from './source-selector-typeahead/source-selector-typeahead.module';
+import { SourceSelectorLoaderModule } from './source-selector-loader/source-selector-loader.module';
 
 @NgModule({
   declarations: [SourceSelectorForm],
@@ -14,6 +16,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     FormlyModule.forChild(),
     FormlyNgZorroAntdModule,
     NzButtonModule,
+    SourceSelectorLoaderModule,
+    SourceSelectorTypeaheadModule,
   ],
   exports: [SourceSelectorForm]
 })

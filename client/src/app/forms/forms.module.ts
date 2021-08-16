@@ -28,9 +28,6 @@ import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-b
 import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
 import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
-import { MultiFieldModule } from './types/multi-field/multi-field.module';
-import { SourceInputModule } from './types/source-input/source-input.module';
-import { SourceSelectorLoaderModule } from './types/source-input/source-selector-loader/source-selector-loader.module';
 
 @NgModule({
   declarations: [
@@ -39,11 +36,7 @@ import { SourceSelectorLoaderModule } from './types/source-input/source-selector
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    SourceInputModule,
-    MultiFieldModule,
     CommentTextareaModule,
-    SourceInputModule,
-    SourceSelectorLoaderModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
