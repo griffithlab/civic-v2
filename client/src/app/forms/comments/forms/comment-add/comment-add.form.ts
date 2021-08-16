@@ -30,10 +30,10 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
   selector: 'cvc-comment-add',
-  templateUrl: './comment-add.component.html',
-  styleUrls: ['./comment-add.component.less']
+  templateUrl: './comment-add.form.html',
+  styleUrls: ['./comment-add.form.less']
 })
-export class CvcCommentAddComponent implements OnDestroy {
+export class CvcCommentAddForm implements OnDestroy {
   @Input() subject!: CommentableInput;
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
