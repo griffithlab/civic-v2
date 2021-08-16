@@ -21,7 +21,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.component';
+import { CommentTextareaComponent } from './types/comment-textarea/comment-textarea.type';
 import { MultiFieldComponent } from './types/multi-field/multi-field.component';
 import { SourceIdInputComponent } from './types/source-id-input/source-id-input.component';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
