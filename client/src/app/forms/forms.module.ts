@@ -24,14 +24,13 @@ import { FormlySelectModule } from '@ngx-formly/core/select';
 import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.type';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxMaskModule } from 'ngx-mask';
-import { SourceLoaderComponent } from './components/source-loader/source-loader.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
 import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
 import { MultiFieldModule } from './types/multi-field/multi-field.module';
-import { SourceIdInputModule } from './types/source-id-input/source-id-input.module';
+import { SourceLoaderComponent } from './types/source-input/source-loader/source-loader.component';
 import { SourceInputModule } from './types/source-input/source-input.module';
 
 @NgModule({
@@ -43,7 +42,7 @@ import { SourceInputModule } from './types/source-input/source-input.module';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    SourceIdInputModule,
+    SourceInputModule,
     MultiFieldModule,
     CommentTextareaModule,
     SourceInputModule,

@@ -4317,52 +4317,6 @@ export type AddCommentMutation = (
   )> }
 );
 
-export type CitationExistenceCheckQueryVariables = Exact<{
-  sourceType: SourceSource;
-  citationId: Scalars['Int'];
-}>;
-
-
-export type CitationExistenceCheckQuery = (
-  { __typename: 'Query' }
-  & Pick<Query, 'remoteCitation'>
-);
-
-export type CreateSourceStubMutationVariables = Exact<{
-  input: AddRemoteCitationInput;
-}>;
-
-
-export type CreateSourceStubMutation = (
-  { __typename: 'Mutation' }
-  & { addRemoteCitation?: Maybe<(
-    { __typename: 'AddRemoteCitationPayload' }
-    & { newSource: (
-      { __typename: 'SourceStub' }
-      & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
-    ) }
-  )> }
-);
-
-export type CitationTypeaheadQueryVariables = Exact<{
-  partialCitationId: Scalars['Int'];
-  sourceType: SourceSource;
-}>;
-
-
-export type CitationTypeaheadQuery = (
-  { __typename: 'Query' }
-  & { sourceTypeahead: Array<(
-    { __typename: 'Source' }
-    & SourceTypeaheadResultFragment
-  )> }
-);
-
-export type SourceTypeaheadResultFragment = (
-  { __typename: 'Source' }
-  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
-);
-
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -4463,6 +4417,52 @@ export type SuggestGeneRevisionMutation = (
       { __typename: 'RevisionResult' }
       & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
+  )> }
+);
+
+export type CitationTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['Int'];
+  sourceType: SourceSource;
+}>;
+
+
+export type CitationTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { sourceTypeahead: Array<(
+    { __typename: 'Source' }
+    & SourceTypeaheadResultFragment
+  )> }
+);
+
+export type SourceTypeaheadResultFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
+);
+
+export type CitationExistenceCheckQueryVariables = Exact<{
+  sourceType: SourceSource;
+  citationId: Scalars['Int'];
+}>;
+
+
+export type CitationExistenceCheckQuery = (
+  { __typename: 'Query' }
+  & Pick<Query, 'remoteCitation'>
+);
+
+export type CreateSourceStubMutationVariables = Exact<{
+  input: AddRemoteCitationInput;
+}>;
+
+
+export type CreateSourceStubMutation = (
+  { __typename: 'Mutation' }
+  & { addRemoteCitation?: Maybe<(
+    { __typename: 'AddRemoteCitationPayload' }
+    & { newSource: (
+      { __typename: 'SourceStub' }
+      & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
+    ) }
   )> }
 );
 
@@ -7380,62 +7380,6 @@ export const AddCommentDocument = gql`
       super(apollo);
     }
   }
-export const CitationExistenceCheckDocument = gql`
-    query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
-  remoteCitation(sourceType: $sourceType, citationId: $citationId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CitationExistenceCheckGQL extends Apollo.Query<CitationExistenceCheckQuery, CitationExistenceCheckQueryVariables> {
-    document = CitationExistenceCheckDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CreateSourceStubDocument = gql`
-    mutation CreateSourceStub($input: AddRemoteCitationInput!) {
-  addRemoteCitation(input: $input) {
-    newSource {
-      id
-      citationId
-      sourceType
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
-    document = CreateSourceStubDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CitationTypeaheadDocument = gql`
-    query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
-  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
-    ...SourceTypeaheadResult
-  }
-}
-    ${SourceTypeaheadResultFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
-    document = CitationTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const FlagEntityDocument = gql`
     mutation FlagEntity($input: FlagEntityInput!) {
   flagEntity(input: $input) {
@@ -7567,6 +7511,62 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CitationTypeaheadDocument = gql`
+    query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+    ${SourceTypeaheadResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
+    document = CitationTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CitationExistenceCheckDocument = gql`
+    query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CitationExistenceCheckGQL extends Apollo.Query<CitationExistenceCheckQuery, CitationExistenceCheckQueryVariables> {
+    document = CitationExistenceCheckDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateSourceStubDocument = gql`
+    mutation CreateSourceStub($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      id
+      citationId
+      sourceType
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
+    document = CreateSourceStubDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

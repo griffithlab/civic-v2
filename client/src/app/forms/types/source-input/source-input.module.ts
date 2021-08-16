@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
-import { SourceListItemModule } from '@app/components/sources/source-list-item/source-list-item.module';
+import { SourceListItemModule } from './source-list-item/source-list-item.module';
 import { SourceInputComponent, SourceInputType } from './source-input.type';
-import { SourceSelectorModule } from '@app/forms/components/source-selector/source-selector.module';
+import { SourceSelectorModule } from './source-selector/source-selector.module';
 
 const formlyConfig = {
   types: [SourceInputType]
