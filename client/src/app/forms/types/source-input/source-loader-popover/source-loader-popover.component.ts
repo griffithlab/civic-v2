@@ -7,8 +7,8 @@ import { $enum } from 'ts-enum-util';
 
 @Component({
   selector: 'cvc-source-loader',
-  templateUrl: './source-loader.component.html',
-  styleUrls: ['./source-loader.component.less']
+  templateUrl: './source-loader-popover.component.html',
+  styleUrls: ['./source-loader-popover.component.less']
 })
 export class SourceLoaderComponent implements AfterContentInit {
   @Input() model!: any;

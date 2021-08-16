@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SourceLoaderComponent } from './source-loader.component';
+import { SourceLoaderComponent } from './source-loader-popover.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzFormModule } from 'ng-zorro-antd/form';
