@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './login-button.component.html',
   styleUrls: ['./login-button.component.less']
 })
-export class LoginButtonComponent implements OnInit {
+export class CvcLoginButtonComponent implements OnInit {
   authVisible: boolean;
 
   constructor() {

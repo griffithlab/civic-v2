@@ -20,7 +20,7 @@ import { ViewerService } from '@app/shared/services/viewer/viewer.service';
   templateUrl: './viewer-button.component.html',
   styleUrls: ['./viewer-button.component.less']
 })
-export class ViewerButtonComponent implements OnInit {
+export class CvcViewerButtonComponent implements OnInit {
   viewer$: Observable<User>;
   username$: Observable<string>;
   role$: Observable<string>;
