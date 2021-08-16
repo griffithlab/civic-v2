@@ -24,14 +24,14 @@ import {
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
-import { GeneSuggestRevisionService } from './gene-suggest-revision.service';
+import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { sourceInputInitialModel } from '@app/forms/types/source-input/source-input.type';
 
 @Component({
   selector: 'cvc-gene-suggest-revision-form',
-  templateUrl: './gene-suggest-revision.form.html',
-  styleUrls: ['./gene-suggest-revision.form.less']
+  templateUrl: './gene-revise.form.html',
+  styleUrls: ['./gene-revise.form.less']
 })
 export class GeneSuggestRevisionForm implements OnInit, OnDestroy {
   @Input() geneId!: number;
