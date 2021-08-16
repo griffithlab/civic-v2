@@ -29,14 +29,11 @@ import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/
 import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
 import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
 import { MultiFieldModule } from './types/multi-field/multi-field.module';
-import { SourceLoaderComponent } from './types/source-input/source-loader/source-loader.component';
 import { SourceInputModule } from './types/source-input/source-input.module';
-import { TypeaheadSelectorComponent } from './types/source-input/typeahead-selector/typeahead-selector.type';
+import { SourceLoaderModule } from './types/source-input/source-loader/source-loader.module';
 
 @NgModule({
   declarations: [
-    TypeaheadSelectorComponent,
-    SourceLoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +43,7 @@ import { TypeaheadSelectorComponent } from './types/source-input/typeahead-selec
     MultiFieldModule,
     CommentTextareaModule,
     SourceInputModule,
+    SourceLoaderModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
@@ -68,8 +66,6 @@ import { TypeaheadSelectorComponent } from './types/source-input/typeahead-selec
     FormlySelectModule
   ],
   exports: [
-    TypeaheadSelectorComponent,
-    SourceLoaderComponent,
   ]
 })
 export class CvcFormsModule { }
