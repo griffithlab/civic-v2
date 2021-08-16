@@ -21,7 +21,6 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.type';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxMaskModule } from 'ngx-mask';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -32,6 +31,7 @@ import { CommentTextareaModule } from './types/comment-textarea/comment-textarea
 import { MultiFieldModule } from './types/multi-field/multi-field.module';
 import { SourceLoaderComponent } from './types/source-input/source-loader/source-loader.component';
 import { SourceInputModule } from './types/source-input/source-input.module';
+import { TypeaheadSelectorComponent } from './types/source-input/typeahead-selector/typeahead-selector.type';
 
 @NgModule({
   declarations: [
