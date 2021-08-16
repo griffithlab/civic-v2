@@ -27,7 +27,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
-import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
+import { CommentTextareaModule } from '@app/forms/comments/types/comment-textarea/comment-textarea.module';
 
 @NgModule({
   declarations: [
