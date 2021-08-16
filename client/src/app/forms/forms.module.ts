@@ -21,12 +21,9 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { SourceInputComponent } from './types/source-input/source-input.type';
 import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.type';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxMaskModule } from 'ngx-mask';
-import { SourceSelectorComponent } from './components/source-selector/source-selector.component';
-import { SourcesComponentsModule } from '@app/components/sources/sources-components.module';
 import { SourceLoaderComponent } from './components/source-loader/source-loader.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from './shared/components/org-selector-btn-group/org-selector-btn-group.module';
@@ -35,11 +32,10 @@ import { CvcFormButtonsModule } from './shared/components/form-buttons/form-butt
 import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
 import { MultiFieldModule } from './types/multi-field/multi-field.module';
 import { SourceIdInputModule } from './types/source-id-input/source-id-input.module';
+import { SourceInputModule } from './types/source-input/source-input.module';
 
 @NgModule({
   declarations: [
-    SourceInputComponent,
-    SourceSelectorComponent,
     TypeaheadSelectorComponent,
     SourceLoaderComponent,
   ],
@@ -50,7 +46,7 @@ import { SourceIdInputModule } from './types/source-id-input/source-id-input.mod
     SourceIdInputModule,
     MultiFieldModule,
     CommentTextareaModule,
-    SourcesComponentsModule,
+    SourceInputModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
@@ -73,8 +69,6 @@ import { SourceIdInputModule } from './types/source-id-input/source-id-input.mod
     FormlySelectModule
   ],
   exports: [
-    SourceInputComponent,
-    SourceSelectorComponent,
     TypeaheadSelectorComponent,
     SourceLoaderComponent,
   ]

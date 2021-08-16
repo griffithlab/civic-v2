@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SourceIdInputComponent, SourceIdInputType } from '../source-id-input/source-id-input.type';
 import { FormlyModule } from '@ngx-formly/core';
 import { SourceListItemModule } from '@app/components/sources/source-list-item/source-list-item.module';
+import { SourceInputComponent, SourceInputType } from './source-input.type';
+import { SourceSelectorModule } from '@app/forms/components/source-selector/source-selector.module';
 
 const formlyConfig = {
-  types: [SourceIdInputType]
+  types: [SourceInputType]
 }
 
 @NgModule({
-  declarations: [SourceIdInputComponent],
+  declarations: [SourceInputComponent],
   imports: [
     CommonModule,
     FormlyModule.forChild(formlyConfig),
     SourceListItemModule,
-
+    SourceSelectorModule,
   ],
-  exports: [SourceIdInputComponent],
+  exports: [SourceInputComponent],
 })
 export class SourceInputModule { }
