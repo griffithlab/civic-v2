@@ -12,7 +12,7 @@ import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-erro
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MultiFieldModule } from '@app/forms/types/multi-field/multi-field.module';
-import { SourceInputModule } from '@app/forms/types/source-input/source-input.module';
+import { SourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
 
 @NgModule({
   declarations: [GeneSuggestRevisionForm],
