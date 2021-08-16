@@ -21,7 +21,6 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { SourceIdInputComponent } from './types/source-id-input/source-id-input.type';
 import { SourceInputComponent } from './types/source-input/source-input.type';
 import { TypeaheadSelectorComponent } from './types/typeahead-selector/typeahead-selector.type';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
@@ -35,10 +34,10 @@ import { CvcFormErrorsAlertModule } from './shared/components/form-errors-alert/
 import { CvcFormButtonsModule } from './shared/components/form-buttons/form-buttons.module';
 import { CommentTextareaModule } from './types/comment-textarea/comment-textarea.module';
 import { MultiFieldModule } from './types/multi-field/multi-field.module';
+import { SourceIdInputModule } from './types/source-id-input/source-id-input.module';
 
 @NgModule({
   declarations: [
-    SourceIdInputComponent,
     SourceInputComponent,
     SourceSelectorComponent,
     TypeaheadSelectorComponent,
@@ -48,6 +47,7 @@ import { MultiFieldModule } from './types/multi-field/multi-field.module';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    SourceIdInputModule,
     MultiFieldModule,
     CommentTextareaModule,
     SourcesComponentsModule,
@@ -73,7 +73,6 @@ import { MultiFieldModule } from './types/multi-field/multi-field.module';
     FormlySelectModule
   ],
   exports: [
-    SourceIdInputComponent,
     SourceInputComponent,
     SourceSelectorComponent,
     TypeaheadSelectorComponent,
