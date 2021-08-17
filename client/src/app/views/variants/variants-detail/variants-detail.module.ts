@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantsDetailPage } from './variants-detail.component';
+import { VariantsDetailView } from './variants-detail.component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -13,20 +13,20 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
-  declarations: [VariantsDetailPage],
+  declarations: [VariantsDetailView],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveComponentModule,
-    CvcSectionNavigationModule,
     NzSpaceModule,
     NzPageHeaderModule,
     NzButtonModule,
     NzIconModule,
+    CvcSectionNavigationModule,
     CvcFlaggableModule,
     CvcGeneTagModule,
     CvcDetailsNavigationModule,
   ],
-  exports: [VariantsDetailPage],
+  exports: [VariantsDetailView],
 })
 export class VariantsDetailModule { }
