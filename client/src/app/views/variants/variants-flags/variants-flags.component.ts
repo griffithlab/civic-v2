@@ -9,17 +9,17 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
 })
 
 
-export class VariantsFlagsComponent {
+export class VariantsFlagsPage {
 
   flaggable: FlaggableInput
 
   constructor( private route: ActivatedRoute) {
-    const variantId: number = +this.route.snapshot.params['variantId']; 
-    
+    const variantId: number = +this.route.snapshot.params['variantId'];
+
     this.flaggable = {
       entityType: FlaggableEntities.Variant,
       id: variantId
     }
-    
+
   }
 }

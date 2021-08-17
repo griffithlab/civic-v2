@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
+import { VariantsRevisionsPage } from '../evidence/variants-revisions/variants-revisions.component';
 import { VariantsCommentsPage } from './variants-comments/variants-comments.component';
 import { VariantsDetailPage } from './variants-detail/variants-detail.component';
-import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
+import { VariantsFlagsPage } from './variants-flags/variants-flags.component';
 import { VariantsHomePage } from './variants-home/variants-home.page';
 import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
 
@@ -49,14 +49,14 @@ const routes: Routes = [
           },
           {
             path: 'revisions',
-            component: VariantsRevisionsComponent,
+            component: VariantsRevisionsPage,
             data: {
               breadcrumb: 'Revisions'
             }
           },
           {
             path: 'flags',
-            component: VariantsFlagsComponent,
+            component: VariantsFlagsPage,
             data: {
               breadcrumb: 'Flags'
             }

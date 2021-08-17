@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './variants-revisions.component.html',
   styleUrls: ['./variants-revisions.component.less']
 })
-export class VariantsRevisionsComponent implements OnInit {
+export class VariantsRevisionsPage implements OnInit {
 
   constructor() { }
 

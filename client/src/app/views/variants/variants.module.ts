@@ -35,9 +35,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
-import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantsHomeModule } from './variants-home/variants-home.module';
@@ -60,12 +58,12 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
 import { VariantsDetailModule } from './variants-detail/variants-detail.module';
 import { VariantsSummaryModule } from './variants-summary/variants-summary.module';
 import { VariantsCommentsModule } from './variants-comments/variants-comments.module';
+import { VariantsRevisionsModule } from './variants-revisions/variants-revisions.module';
+import { VariantsFlagsModule } from './variants-flags/variants-flags.module';
 
 @NgModule({
   declarations: [
     VariantsComponent,
-    VariantsFlagsComponent,
-    VariantsRevisionsComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +71,8 @@ import { VariantsCommentsModule } from './variants-comments/variants-comments.mo
     VariantsDetailModule,
     VariantsSummaryModule,
     VariantsCommentsModule,
+    VariantsFlagsModule,
+    VariantsRevisionsModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
     CvcEntityTableCardModule,
@@ -120,6 +120,5 @@ import { VariantsCommentsModule } from './variants-comments/variants-comments.mo
 
     EvidenceModule,
   ],
-  exports: [VariantsRevisionsComponent],
 })
 export class VariantsModule {}
