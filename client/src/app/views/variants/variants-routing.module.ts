@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
-import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
+import { VariantsDetailPage } from './variants-detail/variants-detail.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { VariantsHomePage } from './variants-home/variants-home.page';
 import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: ':variantId',
-        component: VariantsDetailComponent,
+        component: VariantsDetailPage,
         data: {
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },

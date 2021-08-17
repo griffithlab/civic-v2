@@ -18,6 +18,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -29,6 +30,7 @@ import { CvcPipesModule } from '@app/pipes/pipes.module';
     NzDescriptionsModule,
     NzCardModule,
     NzTypographyModule,
+    NzIconModule,
     CvcPipesModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,

@@ -22,7 +22,7 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './variants-detail.component.html',
   styleUrls: ['./variants-detail.component.less'],
 })
-export class VariantsDetailComponent implements OnDestroy {
+export class VariantsDetailPage implements OnDestroy {
   queryRef?: QueryRef<VariantDetailQuery, VariantDetailQueryVariables>;
 
   variant$?: Observable<Maybe<VariantDetailFieldsFragment>>;
