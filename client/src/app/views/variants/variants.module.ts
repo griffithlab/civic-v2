@@ -1,7 +1,7 @@
 // framework imports
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { VariantsDetailRoutingModule } from './variants-detail/variants-detail-routing.module';
+import { VariantsRoutingModule } from './variants-routing.module';
 import { VariantsComponent } from './variants.component';
 
 @NgModule({
@@ -10,7 +10,7 @@ import { VariantsComponent } from './variants.component';
   ],
   imports: [
     CommonModule,
-    VariantsDetailRoutingModule
+    VariantsRoutingModule
   ],
 })
 export class VariantsModule {}
