@@ -12,7 +12,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { PhenotypesHomeModule } from './phenotypes-home/phenotypes-home.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -33,7 +33,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
     CvcLinkTagModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     PhenotypesRoutingModule,
     NzIconModule,
     NzTableModule,

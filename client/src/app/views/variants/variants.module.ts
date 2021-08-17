@@ -42,7 +42,7 @@ import { VariantsFlagsComponent } from './variants-flags/variants-flags.componen
 import { EvidenceModule } from '../evidence/evidence.module';
 import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantsHomeModule } from './variants-home/variants-home.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -89,7 +89,7 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
     CvcEventFeedModule,
     CvcEmptyRevisableModule,
     CvcDetailsNavigationModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     VariantsRoutingModule,
     IconsProviderModule,
     NzAvatarModule,

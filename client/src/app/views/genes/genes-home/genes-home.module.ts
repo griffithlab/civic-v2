@@ -4,14 +4,14 @@ import { GenesHomePage } from './genes-home.page';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcGenesTableModule } from '@app/components/genes/genes-table/genes-table.module';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [GenesHomePage],
   imports: [
     CommonModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     CvcGenesTableModule,
     NzIconModule,
     NzPageHeaderModule,

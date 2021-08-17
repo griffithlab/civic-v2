@@ -8,7 +8,7 @@ import { GeneSuggestRevisionFormModule } from '@app/forms/genes/forms/gene-revis
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [GenesSuggestPage],
@@ -21,7 +21,7 @@ import { SectionNavigationModule } from '@app/components/shared/section-navigati
     NzSkeletonModule,
     NzPageHeaderModule,
     GeneSuggestRevisionFormModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
   ]
 })
 export class GenesSuggestModule { }

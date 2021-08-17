@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenesReviseView } from './genes-revise.view';
 import { RouterModule } from '@angular/router';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GenesReviseRoutingModule } from './genes-revise-routing.module';
@@ -13,7 +13,7 @@ import { GenesReviseRoutingModule } from './genes-revise-routing.module';
     CommonModule,
     GenesReviseRoutingModule,
     RouterModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     NzPageHeaderModule,
     NzIconModule,
   ]

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceHomePage } from './evidence-home.page';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -19,7 +19,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzPageHeaderModule,
     NzGridModule,
     NzIconModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcEvidenceTableModule,
   ],

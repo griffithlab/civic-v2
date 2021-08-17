@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GenesDetailView } from './genes-detail.view';
@@ -25,7 +25,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     NzSpaceModule,
     NzTypographyModule,
     NzButtonModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     CvcFlaggableModule,
     CvcDetailsNavigationModule,
   ]

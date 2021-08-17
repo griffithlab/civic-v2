@@ -36,7 +36,7 @@ import { AssertionsCommentsComponent } from './assertions-comments/assertions-co
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -82,7 +82,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     CvcFlagListModule,
     CvcFlaggableModule,
     CvcEventFeedModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     CvcDetailsNavigationModule,
     CvcStatusTagModule,
     IconsProviderModule,

@@ -32,7 +32,7 @@ import { EvidenceModule } from '../evidence/evidence.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SourcesHomeModule } from './sources-home/sources-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -60,7 +60,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     CvcSourceTagModule,
     CvcFlagListModule,
     CvcFlaggableModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     SourcesRoutingModule,
 
     NzAvatarModule,
