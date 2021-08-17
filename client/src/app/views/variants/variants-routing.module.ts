@@ -5,7 +5,7 @@ import { VariantsCommentsComponent } from './variants-comments/variants-comments
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { VariantsHomePage } from './variants-home/variants-home.page';
-import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
+import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
 
 import { VariantsComponent } from './variants.component';
 
@@ -35,7 +35,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: VariantSummaryComponent,
+            component: VariantsSummaryPage,
             data: {
               breadcrumb: 'Summary'
             }
