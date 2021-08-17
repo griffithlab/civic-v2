@@ -22,11 +22,6 @@ const routes: Routes = [
         loadChildren: () => import('@app/views/genes/genes-detail/genes-detail.module').then(m => m.GenesDetailModule),
         data: { breadcrumb: 'DISPLAYNAME' }
       },
-      {
-        path: 'revise',
-        loadChildren: () => import('@app/views/genes/genes-revise/genes-revise.module').then(m => m.GenesReviseModule),
-        data: { breadcrumb: 'Revise' }
-      },
     ]
   }
 ];

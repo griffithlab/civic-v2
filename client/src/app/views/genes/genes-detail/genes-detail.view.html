@@ -26,7 +26,7 @@
 
           <!-- add revision btn -->
           <nz-space-item>
-            <button [routerLink]="['/genes/revise', gene.id, 'suggest']"
+            <button [routerLink]="['/genes', gene.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

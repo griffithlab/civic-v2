@@ -6,9 +6,9 @@ import { GenesSuggestPage } from './genes-suggest/genes-suggest.page';
 
 const routes: Routes = [
   {
-    path: ':geneId',
+    path: '',
     component: GenesReviseView,
-    data: { breadcrumb: 'DISPLAYNAME' },
+    data: { breadcrumb: 'Revise' },
     children: [
       { path: '', redirectTo: 'suggest', pathMatch: 'full' },
       {
