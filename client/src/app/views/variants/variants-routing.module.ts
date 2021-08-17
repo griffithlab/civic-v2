@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
-import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
+import { VariantsCommentsPage } from './variants-comments/variants-comments.component';
 import { VariantsDetailPage } from './variants-detail/variants-detail.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
 import { VariantsHomePage } from './variants-home/variants-home.page';
@@ -42,7 +42,7 @@ const routes: Routes = [
           },
           {
             path: 'comments',
-            component: VariantsCommentsComponent,
+            component: VariantsCommentsPage,
             data: {
               breadcrumb: 'Comments'
             }

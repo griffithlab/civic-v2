@@ -7,7 +7,7 @@ import { CommentableEntities, CommentableInput } from '@app/generated/civic.apol
   templateUrl: './variants-comments.component.html',
   styleUrls: ['./variants-comments.component.less'],
 })
-export class VariantsCommentsComponent {
+export class VariantsCommentsPage {
   commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {
