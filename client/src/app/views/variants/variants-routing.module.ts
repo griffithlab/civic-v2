@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsRevisionsComponent } from '../variant-groups/variant-groups-revisions/variant-groups-revisions.component';
+import { VariantsRevisionsComponent } from '../evidence/variants-revisions/variants-revisions.component';
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
@@ -49,7 +49,7 @@ const routes: Routes = [
           },
           {
             path: 'revisions',
-            component: VariantGroupsRevisionsComponent,
+            component: VariantsRevisionsComponent,
             data: {
               breadcrumb: 'Revisions'
             }

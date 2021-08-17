@@ -35,7 +35,6 @@ import { IconsProviderModule } from '@app/icons-provider.module';
 
 import { VariantsComponent } from './variants.component';
 import { VariantsRoutingModule } from './variants-routing.module';
-import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
 import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
 import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
 import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
@@ -60,11 +59,11 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
 import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { VariantsDetailModule } from './variants-detail/variants-detail.module';
 
 @NgModule({
   declarations: [
     VariantsComponent,
-    VariantsDetailComponent,
     VariantSummaryComponent,
     VariantsCommentsComponent,
     VariantsFlagsComponent,
@@ -73,6 +72,7 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
   imports: [
     CommonModule,
     VariantsHomeModule,
+    VariantsDetailModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
     CvcEntityTableCardModule,
