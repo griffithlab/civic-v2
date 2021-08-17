@@ -10,6 +10,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcVariantsMenuComponent],
@@ -17,6 +18,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CommonModule,
     FormsModule,
     ReactiveComponentModule,
+    NzButtonModule,
     NzGridModule,
     NzCardModule,
     NzFormModule,
