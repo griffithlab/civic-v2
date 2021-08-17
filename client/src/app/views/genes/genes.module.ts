@@ -1,7 +1,6 @@
 // framework imports
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { GenesRoutingModule } from './genes-routing.module';
 import { GenesComponent } from './genes.component';
 
@@ -11,7 +10,6 @@ import { GenesComponent } from './genes.component';
   ],
   imports: [
     CommonModule,
-    RouterModule,
     GenesRoutingModule,
   ]
 })

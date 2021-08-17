@@ -14,22 +14,23 @@ const routes: Routes = [
         path: 'home',
         component: GenesHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':geneId',
-        loadChildren: () => import('@app/views/genes/genes-detail/genes-detail.module').then(m => m.GenesDetailModule),
-        data: { breadcrumb: 'DISPLAYNAME' }
+        loadChildren: () =>
+          import('@app/views/genes/genes-detail/genes-detail.module').then(
+            (m) => m.GenesDetailModule
+          ),
+        data: { breadcrumb: 'DISPLAYNAME' },
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    GenesHomeModule,
-  ],
+  imports: [RouterModule.forChild(routes), GenesHomeModule],
+  exports: [RouterModule]
 })
-export class GenesRoutingModule { }
+export class GenesRoutingModule {}

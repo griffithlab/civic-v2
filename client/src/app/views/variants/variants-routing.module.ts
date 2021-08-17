@@ -1,74 +1,36 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantsRevisionsPage } from '../evidence/variants-revisions/variants-revisions.component';
-import { VariantsCommentsPage } from './variants-comments/variants-comments.component';
-import { VariantsDetailView } from './variants-detail/variants-detail.component';
-import { VariantsFlagsPage } from './variants-flags/variants-flags.component';
-import { VariantsHomePage } from './variants-home/variants-home.page';
-import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
-
 import { VariantsComponent } from './variants.component';
+import { VariantsHomeModule } from './variants-home/variants-home.module';
+import { VariantsHomePage } from './variants-home/variants-home.page';
 
 const routes: Routes = [
   {
     path: '',
     component: VariantsComponent,
-    data: {
-      breadcrumb: 'Variants'
-    },
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: VariantsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':variantId',
-        component: VariantsDetailView,
-        data: {
-          breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
-        },
-        children: [
-          { path: '', redirectTo: 'summary', pathMatch: 'full' },
-          {
-            path: 'summary',
-            component: VariantsSummaryPage,
-            data: {
-              breadcrumb: 'Summary'
-            }
-          },
-          {
-            path: 'comments',
-            component: VariantsCommentsPage,
-            data: {
-              breadcrumb: 'Comments'
-            }
-          },
-          {
-            path: 'revisions',
-            component: VariantsRevisionsPage,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: VariantsFlagsPage,
-            data: {
-              breadcrumb: 'Flags'
-            }
-          }
-        ]
-      }
-    ]
-  }
+        loadChildren: () =>
+          import('@app/views/variants/variants-detail/variants-detail.module').then(
+            (m) => m.VariantsDetailModule
+          ),
+        data: { breadcrumb: 'DISPLAYNAME' },
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes), VariantsHomeModule],
+  exports: [RouterModule],
 })
-export class VariantsRoutingModule { }
+export class VariantsRoutingModule {}

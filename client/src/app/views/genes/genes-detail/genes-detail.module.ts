@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -19,15 +18,14 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     CommonModule,
     GenesDetailRoutingModule,
     ReactiveComponentModule,
-    RouterModule,
-    NzPageHeaderModule,
+    NzButtonModule,
     NzIconModule,
+    NzPageHeaderModule,
     NzSpaceModule,
     NzTypographyModule,
-    NzButtonModule,
-    CvcSectionNavigationModule,
-    CvcFlaggableModule,
     CvcDetailsNavigationModule,
+    CvcFlaggableModule,
+    CvcSectionNavigationModule,
   ]
 })
 export class GenesDetailModule { }

@@ -5,28 +5,27 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
-import { RouterModule } from '@angular/router';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { VariantsDetailRoutingModule } from './variants-detail-routing.module';
 
 @NgModule({
   declarations: [VariantsDetailView],
   imports: [
     CommonModule,
-    RouterModule,
+    VariantsDetailRoutingModule,
     ReactiveComponentModule,
-    NzSpaceModule,
-    NzPageHeaderModule,
     NzButtonModule,
     NzIconModule,
-    CvcSectionNavigationModule,
+    NzPageHeaderModule,
+    NzSpaceModule,
+    CvcDetailsNavigationModule,
     CvcFlaggableModule,
     CvcGeneTagModule,
-    CvcDetailsNavigationModule,
+    CvcSectionNavigationModule,
   ],
-  exports: [VariantsDetailView],
 })
 export class VariantsDetailModule { }

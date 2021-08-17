@@ -64,5 +64,6 @@ const routes: Routes = [
     GenesRevisionsModule,
     GenesFlagsModule,
   ],
+  exports: [RouterModule]
 })
 export class GenesDetailRoutingModule {}

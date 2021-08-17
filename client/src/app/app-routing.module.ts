@@ -14,7 +14,8 @@ export const routingConfiguration: ExtraOptions = {
   anchorScrolling: 'enabled',
   scrollOffset: [0, 64],
   onSameUrlNavigation: 'reload',
-  scrollPositionRestoration: 'enabled'
+  scrollPositionRestoration: 'enabled',
+  enableTracing: true
 };
 
 @NgModule({
