@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantsCommentsModule } from '../variants-comments/variants-comments.module';
-import { VariantsCommentsPage } from '../variants-comments/variants-comments.component';
 import { VariantsDetailView } from './variants-detail.component';
-import { VariantsFlagsModule } from '../variants-flags/variants-flags.module';
-import { VariantsFlagsPage } from '../variants-flags/variants-flags.component';
-import { VariantsRevisionsModule } from '../variants-revisions/variants-revisions.module';
-import { VariantsRevisionsPage } from '@app/views/evidence/variants-revisions/variants-revisions.component';
-import { VariantsSummaryModule } from '../variants-summary/variants-summary.module';
-import { VariantsSummaryPage } from '../variants-summary/variants-summary.component';
+import { VariantsCommentsModule } from './variants-comments/variants-comments.module';
+import { VariantsCommentsPage } from './variants-comments/variants-comments.component';
+import { VariantsFlagsModule } from './variants-flags/variants-flags.module';
+import { VariantsFlagsPage } from './variants-flags/variants-flags.component';
+import { VariantsRevisionsModule } from './variants-revisions/variants-revisions.module';
+import { VariantsRevisionsPage } from './variants-revisions/variants-revisions.component';
+import { VariantsSummaryModule } from './variants-summary/variants-summary.module';
+import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
 
 const routes: Routes = [
   {
