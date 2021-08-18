@@ -17,6 +17,15 @@
   }
 }
 
+// reduce bottom margin on last timeline row
+nz-timeline ::ng-deep ul li:last-child {
+  padding-bottom: 0;
+  .ant-timeline-item-content {
+    min-height: 0;
+    padding-bottom: @padding-sm;
+  }
+}
+
 .timestamp {
   text-align: right;
 }

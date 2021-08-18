@@ -10,6 +10,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcEventTimelineModule } from '../event-timeline/event-timeline.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcEventFeedComponent],
@@ -17,6 +18,7 @@ import { CvcEventTimelineModule } from '../event-timeline/event-timeline.module'
     CommonModule,
     FormsModule,
     ReactiveComponentModule,
+    NzButtonModule,
     NzCardModule,
     NzIconModule,
     NzFormModule,
