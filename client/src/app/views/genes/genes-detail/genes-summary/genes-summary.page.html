@@ -97,36 +97,11 @@
       <!-- last revision submitted/accepted, mygeneinfo col -->
       <nz-col nzSpan="12">
 
-        <nz-space nzDirection="vertical">
-          <!-- status, curation events -->
-          <!-- <nz-space-item *ngIf="gene.lastSubmittedRevisionEvent !== null || gene.lastAcceptedRevisionEvent !== null"> -->
-          <nz-space-item>
-            <nz-descriptions nzLayout="horizontal"
-              nzSize="small"
-              nzBordered="true"
-              class="status-tags">
 
-              <!-- last revised by -->
-              <nz-descriptions-item nzTitle="Last Revised by">
-                <cvc-user-tag *ngIf="gene.lastSubmittedRevisionEvent !== null; else noEvent"
-                  [user]="gene.lastSubmittedRevisionEvent.originatingUser"></cvc-user-tag>
-              </nz-descriptions-item>
-
-              <!-- last revision accepted -->
-              <nz-descriptions-item nzTitle="Last Revision Accepted by">
-                <cvc-user-tag *ngIf="gene.lastAcceptedRevisionEvent !== null; else noEvent"
-                  [user]="gene.lastAcceptedRevisionEvent.originatingUser"></cvc-user-tag>
-              </nz-descriptions-item>
-
-              <ng-template #noEvent>No revisions</ng-template>
-            </nz-descriptions>
-          </nz-space-item>
-
-          <!-- mygeneinfo -->
-          <nz-space-item>
-            <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
-          </nz-space-item>
-        </nz-space>
+        <!-- mygeneinfo -->
+        <nz-space-item>
+          <cvc-my-gene-info [geneInfo]="myGeneInfo$ | ngrxPush"></cvc-my-gene-info>
+        </nz-space-item>
 
       </nz-col>
     </nz-row>
