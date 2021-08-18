@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantsComponent } from './variants.component';
+import { VariantsView } from './variants.view';
 import { VariantsHomeModule } from './variants-home/variants-home.module';
 import { VariantsHomePage } from './variants-home/variants-home.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: VariantsComponent,
+    component: VariantsView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {

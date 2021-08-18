@@ -2,11 +2,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { VariantsRoutingModule } from './variants-routing.module';
-import { VariantsComponent } from './variants.component';
+import { VariantsView } from './variants.view';
 
 @NgModule({
   declarations: [
-    VariantsComponent,
+    VariantsView,
   ],
   imports: [
     CommonModule,

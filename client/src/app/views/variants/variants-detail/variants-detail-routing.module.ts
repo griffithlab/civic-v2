@@ -12,9 +12,16 @@ import { VariantsSummaryPage } from '../variants-summary/variants-summary.compon
 
 const routes: Routes = [
   {
+    path: 'revise',
+    loadChildren: () =>
+      import('@app/views/variants/variants-revise/variants-revise.module').then(
+        (m) => m.VariantsReviseModule
+      ),
+  },
+  {
     path: '',
     component: VariantsDetailView,
-    data: {breadcrumb: 'DISPLAYNAME' },
+    data: { breadcrumb: 'DISPLAYNAME' },
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
       {

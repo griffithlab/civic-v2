@@ -13,8 +13,11 @@ import { GenesSummaryPage } from './genes-summary/genes-summary.page';
 const routes: Routes = [
   {
     path: 'revise',
-    loadChildren: () => import('@app/views/genes/genes-revise/genes-revise.module').then(m => m.GenesReviseModule),
-    data: { breadcrumb: 'Revise' }
+    loadChildren: () =>
+      import('@app/views/genes/genes-revise/genes-revise.module').then(
+        (m) => m.GenesReviseModule
+      ),
+    data: { breadcrumb: 'Revise' },
   },
   {
     path: '',
@@ -64,6 +67,6 @@ const routes: Routes = [
     GenesRevisionsModule,
     GenesFlagsModule,
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class GenesDetailRoutingModule {}
