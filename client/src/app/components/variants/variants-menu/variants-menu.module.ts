@@ -11,6 +11,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [CvcVariantsMenuComponent],
@@ -24,6 +25,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzFormModule,
     NzInputModule,
     NzSelectModule,
+    NzTypographyModule,
     CvcVariantTagModule,
     CvcTagListModule,
   ],

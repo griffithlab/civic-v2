@@ -61,6 +61,22 @@ fragment VariantSummaryFields on Variant {
   myVariantInfo {
     ...MyVariantInfoFields
   }
+  lastSubmittedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  lastAcceptedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
 }
 
 fragment MyVariantInfoFields on MyVariantInfo {

@@ -122,6 +122,29 @@
       <nz-col nzSpan="12">
         <nz-space nzDirection="vertical">
 
+          <!-- curation events -->
+          <nz-space-item>
+            <nz-descriptions nzLayout="horizontal"
+              nzSize="small"
+              nzBordered="true"
+              class="status-tags">
+
+              <!-- last revised by -->
+              <nz-descriptions-item nzTitle="Last Revised by">
+                <cvc-user-tag *ngIf="variant.lastSubmittedRevisionEvent !== null; else noEvent"
+                  [user]="variant.lastSubmittedRevisionEvent.originatingUser"></cvc-user-tag>
+              </nz-descriptions-item>
+
+              <!-- last revision accepted -->
+              <nz-descriptions-item nzTitle="Last Revision Accepted by">
+                <cvc-user-tag *ngIf="variant.lastAcceptedRevisionEvent !== null; else noEvent"
+                  [user]="variant.lastAcceptedRevisionEvent.originatingUser"></cvc-user-tag>
+              </nz-descriptions-item>
+
+              <ng-template #noEvent>No revisions</ng-template>
+            </nz-descriptions>
+          </nz-space-item>
+
           <!-- allele registry id, clinvar IDs -->
           <nz-space-item>
             <nz-descriptions nzLayout="horizontal"

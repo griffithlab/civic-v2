@@ -4866,7 +4866,19 @@ export type GeneSummaryFieldsFragment = (
         & Pick<Variant, 'id' | 'name' | 'description'>
       )> }
     )> }
-  ) }
+  ), lastSubmittedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, lastAcceptedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )> }
 );
 
 export type OrganizationDetailQueryVariables = Exact<{
@@ -5226,6 +5238,18 @@ export type VariantSummaryFieldsFragment = (
   ), myVariantInfo?: Maybe<(
     { __typename: 'MyVariantInfo' }
     & MyVariantInfoFieldsFragment
+  )>, lastSubmittedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, lastAcceptedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
   )> }
 );
 
@@ -6076,6 +6100,22 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     }
   }
   myGeneInfoDetails
+  lastSubmittedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  lastAcceptedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
 }
     `;
 export const OrganizationDetailFieldsFragmentDoc = gql`
@@ -6374,6 +6414,22 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
   myVariantInfo {
     ...MyVariantInfoFields
+  }
+  lastSubmittedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  lastAcceptedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;

@@ -13,6 +13,8 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/variants-menu.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcMyGeneInfoModule } from '@app/components/genes/my-gene-info/my-gene-info.module';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 
 @NgModule({
   declarations: [GenesSummaryPage],
@@ -27,6 +29,8 @@ import { CvcMyGeneInfoModule } from '@app/components/genes/my-gene-info/my-gene-
     CvcTagListModule,
     CvcLinkTagModule,
     CvcSourceTagModule,
+    CvcStatusTagModule,
+    CvcUserTagModule,
     CvcVariantsMenuModule,
     CvcEventFeedModule,
     CvcMyGeneInfoModule,
