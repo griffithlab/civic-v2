@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantsDetailView } from './variants-detail.page';
+import { VariantsDetailView } from './variants-detail.view';
 import { VariantsCommentsModule } from './variants-comments/variants-comments.module';
 import { VariantsCommentsPage } from './variants-comments/variants-comments.page';
 import { VariantsFlagsModule } from './variants-flags/variants-flags.module';
@@ -17,6 +17,7 @@ const routes: Routes = [
       import('@app/views/variants/variants-revise/variants-revise.module').then(
         (m) => m.VariantsReviseModule
       ),
+    data: { breadcrumb: 'Revise' }
   },
   {
     path: '',

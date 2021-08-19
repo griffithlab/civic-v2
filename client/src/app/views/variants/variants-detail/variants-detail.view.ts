@@ -19,8 +19,8 @@ import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'variants-detail',
-  templateUrl: './variants-detail.page.html',
-  styleUrls: ['./variants-detail.page.less'],
+  templateUrl: './variants-detail.view.html',
+  styleUrls: ['./variants-detail.view.less'],
 })
 export class VariantsDetailView implements OnDestroy {
   queryRef?: QueryRef<VariantDetailQuery, VariantDetailQueryVariables>;
