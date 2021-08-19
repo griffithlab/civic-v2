@@ -3907,7 +3907,10 @@ export type OrganizationsBrowseQuery = (
 export type OrganizationBrowseTableRowFieldsFragment = (
   { __typename: 'Organization' }
   & MakeOptional<Pick<Organization, 'id' | 'name' | 'description' | 'profileImagePath' | 'url' | 'memberCount' | 'eventCount'>, 'description' | 'profileImagePath'>
-  & { mostRecentEvent?: Maybe<(
+  & { subGroups: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'name' | 'id'>
+  )>, mostRecentEvent?: Maybe<(
     { __typename: 'Event' }
     & Pick<Event, 'createdAt'>
   )>, orgStatsHash: (
@@ -5690,6 +5693,10 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
   url
   memberCount
   eventCount
+  subGroups {
+    name
+    id
+  }
   mostRecentEvent {
     createdAt
   }

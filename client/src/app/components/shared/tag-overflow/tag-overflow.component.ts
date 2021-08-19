@@ -1,7 +1,7 @@
-import { Component, ContentChildren, Input, OnInit, QueryList, TemplateRef } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Maybe } from "@app/generated/civic.apollo";
 
-export type SupportedPileupTags = 'drug' | 'disease'
+export type SupportedPileupTags = 'drug' | 'disease' | 'organization'
 
 export type TagInfo = {
   id: number
