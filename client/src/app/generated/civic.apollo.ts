@@ -492,6 +492,7 @@ export type BrowseSourceEdge = {
 
 export type BrowseVariant = {
   __typename: 'BrowseVariant';
+  aliases: Array<VariantAlias>;
   assertionCount: Scalars['Int'];
   diseases: Array<Disease>;
   drugs: Array<Drug>;
@@ -1995,6 +1996,7 @@ export type QueryBrowseVariantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
+  variantAlias?: Maybe<Scalars['String']>;
   variantName?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
 };
@@ -2874,6 +2876,11 @@ export type VariantRevisionsArgs = {
   revisionsetId?: Maybe<Scalars['String']>;
   sortBy?: Maybe<DateSort>;
   status?: Maybe<RevisionStatus>;
+};
+
+export type VariantAlias = {
+  __typename: 'VariantAlias';
+  name: Scalars['String'];
 };
 
 /** The connection type for Variant. */
@@ -4268,6 +4275,7 @@ export type BrowseVariantsQueryVariables = Exact<{
   entrezSymbol?: Maybe<Scalars['String']>;
   diseaseName?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
+  variantAlias?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
   first?: Maybe<Scalars['Int']>;
@@ -4297,6 +4305,9 @@ export type BrowseVariantsQuery = (
         )>, drugs: Array<(
           { __typename: 'Drug' }
           & Pick<Drug, 'id' | 'name'>
+        )>, aliases: Array<(
+          { __typename: 'VariantAlias' }
+          & Pick<VariantAlias, 'name'>
         )> }
       )> }
     )> }
@@ -7366,12 +7377,13 @@ export const VariantsMenuDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantAlias: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
     drugName: $drugName
+    variantAlias: $variantAlias
     variantTypeId: $variantTypeId
     sortBy: $sortBy
     first: $first
@@ -7400,6 +7412,9 @@ export const BrowseVariantsDocument = gql`
         }
         drugs {
           id
+          name
+        }
+        aliases {
           name
         }
         assertionCount

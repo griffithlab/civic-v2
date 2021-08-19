@@ -22,6 +22,7 @@ export interface VariantTableRow {
   assertionCount: number;
   diseases: WithName[];
   drugs: WithName[];
+  aliases: WithName[];
 }
 
 @Component({
@@ -47,6 +48,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   geneSymbolInput: Maybe<string>;
   diseaseNameInput: Maybe<string>;
   drugNameInput: Maybe<string>;
+  variantAliasInput: Maybe<string>;
 
   initialPageSize = 25;
   sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
@@ -102,6 +104,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
           entrezSymbol: this.geneSymbolInput,
           diseaseName: this.diseaseNameInput,
           drugName: this.drugNameInput,
+          variantAlias: this.variantAliasInput
         });
       });
   }

@@ -3,6 +3,7 @@ query BrowseVariants(
   $entrezSymbol: String
   $diseaseName: String
   $drugName: String
+  $variantAlias: String
   $variantTypeId: Int
   $sortBy: VariantsSort
   $first: Int
@@ -15,6 +16,7 @@ query BrowseVariants(
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
     drugName: $drugName
+    variantAlias: $variantAlias
     variantTypeId: $variantTypeId
     sortBy: $sortBy
     first: $first
@@ -43,6 +45,9 @@ query BrowseVariants(
         }
         drugs {
           id
+          name
+        }
+        aliases {
           name
         }
         assertionCount

@@ -793,6 +793,7 @@ type BrowseSourceEdge {
 }
 
 type BrowseVariant {
+  aliases: [VariantAlias!]!
   assertionCount: Int!
   diseases: [Disease!]!
   drugs: [Drug!]!
@@ -3138,6 +3139,7 @@ type Query {
     """
     last: Int
     sortBy: VariantsSort
+    variantAlias: String
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
@@ -4793,6 +4795,10 @@ type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
   threePrimeCoordinates: Coordinate
   variantAliases: [String!]
   variantTypes: [VariantType!]
+}
+
+type VariantAlias {
+  name: String!
 }
 
 """

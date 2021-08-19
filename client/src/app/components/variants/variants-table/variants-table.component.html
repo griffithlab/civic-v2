@@ -11,7 +11,10 @@
           [nzSortFn]="true">
           Name
         </th>
-        <th nzWidth="20%"
+        <th nzWidth="10%">
+          Aliases
+        </th>
+        <th nzWidth="10%"
           [nzColumnKey]="sortColumns.EntrezSymbol"
           [nzSortFn]="true">
           Gene Symbol
@@ -60,14 +63,31 @@
           </ng-template>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="aliasInputClearTpl">
+          <nz-input-group [nzSuffix]="variantAliasInputClearTpl">
+            <input type="text"
+              nz-input
+              placeholder="Search aliases"
+              [(ngModel)]="variantAliasInput"
+              (ngModelChange)="onModelUpdated($event)" />
+          </nz-input-group>
+          <ng-template #variantAliasInputClearTpl>
+            <i nz-icon
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="variantAliasInput"
+              (click)="variantAliasInput = undefined; onModelUpdated(undefined)"></i>
+          </ng-template>
+        </th>
+        <th>
+          <nz-input-group [nzSuffix]="geneSymbolInputClearTpl">
             <input type="text"
               nz-input
               placeholder="Search gene"
               [(ngModel)]="geneSymbolInput"
               (ngModelChange)="onModelUpdated($event)" />
           </nz-input-group>
-          <ng-template #aliasInputClearTpl>
+          <ng-template #geneSymbolInputClearTpl>
             <i nz-icon
               class="ant-input-clear-icon"
               nzTheme="fill"
@@ -119,6 +139,11 @@
       <tr *ngFor="let variant of variantsTable.data">
         <td>
           <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
+        </td>
+        <td>
+          <span *ngFor="let alias of variant.aliases; last as isLast">
+            {{ alias.name }}{{ isLast ? '' : ', ' }}
+          </span>
         </td>
         <td>
           <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName}"></cvc-gene-tag>
