@@ -25,6 +25,10 @@ export class CvcTagOverflowComponent implements OnInit {
   matchedHiddenCount: number = 0
 
   ngOnInit() {
+    this.calculateDisplayedTags()
+  }
+
+  calculateDisplayedTags() {
     this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
     this.hiddenTags = this.tags?.slice(this.maxDisplayCount)
     this.hiddenCount = this.hiddenTags?.length
@@ -38,5 +42,10 @@ export class CvcTagOverflowComponent implements OnInit {
         }
       });
     }
+  }
+
+  onOverflowClicked() { 
+    this.maxDisplayCount = this.tags?.length || 0
+    this.calculateDisplayedTags()
   }
 }
