@@ -12,14 +12,6 @@ import { GenesSummaryPage } from './genes-summary/genes-summary.page';
 
 const routes: Routes = [
   {
-    path: 'revise',
-    loadChildren: () =>
-      import('@app/views/genes/genes-revise/genes-revise.module').then(
-        (m) => m.GenesReviseModule
-      ),
-    data: { breadcrumb: 'Revise' },
-  },
-  {
     path: '',
     component: GenesDetailView,
     // setting 'DISPLAYNAME' here will cause breadcrumb & title generation logic

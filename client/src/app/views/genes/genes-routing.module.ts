@@ -19,11 +19,25 @@ const routes: Routes = [
       },
       {
         path: ':geneId',
-        loadChildren: () =>
-          import('@app/views/genes/genes-detail/genes-detail.module').then(
-            (m) => m.GenesDetailModule
-          ),
         data: { breadcrumb: 'DISPLAYNAME' },
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('@app/views/genes/genes-detail/genes-detail.module').then(
+                (m) => m.GenesDetailModule
+              ),
+          },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/genes/genes-revise/genes-revise.module').then(
+                (m) => m.GenesReviseModule
+              ),
+            data: { breadcrumb: 'Revise' },
+          },
+
+        ]
       },
     ],
   },

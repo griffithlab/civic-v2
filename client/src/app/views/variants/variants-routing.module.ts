@@ -27,7 +27,6 @@ const routes: Routes = [
               import('@app/views/variants/variants-detail/variants-detail.module').then(
                 (m) => m.VariantsDetailModule
               ),
-            data: { breadcrumb: 'DISPLAYNAME' },
           },
           {
             path: 'revise',
