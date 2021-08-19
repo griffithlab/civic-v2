@@ -28,7 +28,7 @@ import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
-  selector: 'cvc-gene-suggest-revision-form',
+  selector: 'cvc-gene-revise-form',
   templateUrl: './gene-revise.form.html',
   styleUrls: ['./gene-revise.form.less']
 })

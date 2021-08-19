@@ -1,8 +1,8 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="16">
     <ng-container *ngIf="geneId; else loadingGene">
-      <cvc-gene-suggest-revision-form [geneId]="geneId">
-      </cvc-gene-suggest-revision-form>
+      <cvc-gene-revise-form [geneId]="geneId">
+      </cvc-gene-revise-form>
     </ng-container>
     <ng-template #loadingGene>Loading Gene...</ng-template>
   </nz-col>
