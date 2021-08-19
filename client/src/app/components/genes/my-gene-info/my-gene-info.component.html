@@ -24,6 +24,32 @@
           </div>
           <div nz-row [nzGutter]="8">
             <div nz-col [nzSpan]="6" class="key-col">
+              Chromosome:
+            </div>
+            <div nz-col [nzSpan]="1">
+              {{ info.genomic_pos_hg19.chr }} 
+            </div>
+            <div nz-col [nzSpan]="2" class="key-col">
+              Strand:
+            </div>
+            <div nz-col [nzSpan]="1">
+              {{ info.genomic_pos_hg19.strand }}
+            </div>
+            <div nz-col [nzSpan]="2" class="key-col">
+              Start:
+            </div>
+            <div nz-col [nzSpan]="2">
+              {{ info.genomic_pos_hg19.start }}
+            </div>
+            <div nz-col [nzSpan]="2" class="key-col">
+              Stop:
+            </div>
+            <div nz-col [nzSpan]="2">
+              {{ info.genomic_pos_hg19.end }}
+            </div>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6" class="key-col">
               Aliases:
             </div>
             <div nz-col [nzSpan]="18">
