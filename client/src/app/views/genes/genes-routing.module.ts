@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GenesComponent } from './genes.component';
+import { GenesView } from './genes.view';
 import { GenesHomeModule } from './genes-home/genes-home.module';
 import { GenesHomePage } from './genes-home/genes-home.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: GenesComponent,
+    component: GenesView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {

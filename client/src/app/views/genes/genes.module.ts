@@ -2,11 +2,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { GenesRoutingModule } from './genes-routing.module';
-import { GenesComponent } from './genes.component';
+import { GenesView } from './genes.view';
 
 @NgModule({
   declarations: [
-    GenesComponent
+    GenesView
   ],
   imports: [
     CommonModule,
