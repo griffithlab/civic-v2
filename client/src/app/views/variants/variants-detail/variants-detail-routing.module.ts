@@ -8,7 +8,7 @@ import { VariantsFlagsPage } from './variants-flags/variants-flags.page';
 import { VariantsRevisionsModule } from './variants-revisions/variants-revisions.module';
 import { VariantsRevisionsPage } from './variants-revisions/variants-revisions.page';
 import { VariantsSummaryModule } from './variants-summary/variants-summary.module';
-import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
+import { VariantsSummaryPage } from './variants-summary/variants-summary.page';
 
 const routes: Routes = [
   {

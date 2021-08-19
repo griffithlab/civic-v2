@@ -1,7 +1,10 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="16">
-    <cvc-gene-suggest-revision-form [geneId]="geneId">
-    </cvc-gene-suggest-revision-form>
+    <ng-container *ngIf="geneId; else loadingGene">
+      <cvc-gene-suggest-revision-form [geneId]="geneId">
+      </cvc-gene-suggest-revision-form>
+    </ng-container>
+    <ng-template #loadingGene>Loading Gene...</ng-template>
   </nz-col>
   <nz-col nzSpan="8">
     <nz-card nzTitle="Instructions"

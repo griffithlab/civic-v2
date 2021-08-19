@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy}  from '@angular/core';
 import { ActivatedRoute, } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-genes-suggest',
   templateUrl: './genes-suggest.page.html',
   styleUrls: ['./genes-suggest.page.less']
 })
-export class GenesSuggestPage implements OnInit {
-  geneId: number;
+export class GenesSuggestPage implements OnDestroy {
+  geneId?: number;
+  routeParams$: Subscription;
 
   constructor(private route: ActivatedRoute) {
-    this.geneId = +this.route.snapshot.params['geneId'];
+    this.routeParams$ = this.route.params.subscribe((params) => {
+      this.geneId = +params.geneId;
+    });
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.routeParams$.unsubscribe();
   }
 
 }

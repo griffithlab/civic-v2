@@ -16,8 +16,8 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cvc-variants-summary',
-  templateUrl: './variants-summary.component.html',
-  styleUrls: ['./variants-summary.component.less'],
+  templateUrl: './variants-summary.page.html',
+  styleUrls: ['./variants-summary.page.less'],
 })
 export class VariantsSummaryPage {
   @Input() variantId: Maybe<number>;
