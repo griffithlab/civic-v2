@@ -490,6 +490,7 @@ type BrowseDisease {
   displayName: String!
   doid: String
   evidenceItemCount: Int!
+  geneCount: Int!
   geneNames: [String!]!
   id: Int!
   name: String!
@@ -793,6 +794,7 @@ type BrowseSourceEdge {
 }
 
 type BrowseVariant {
+  aliases: [VariantAlias!]!
   assertionCount: Int!
   diseases: [Disease!]!
   drugs: [Drug!]!
@@ -1223,7 +1225,7 @@ enum DiseasesSortColumns {
   ASSERTION_COUNT
   DOID
   EVIDENCE_ITEM_COUNT
-  GENE_NAMES
+  GENE_COUNT
   NAME
   VARIANT_COUNT
 }
@@ -2243,7 +2245,7 @@ input GeneFields {
   """
   The Gene's description/summary text.
   """
-  description: String!
+  description: NullableStringInput!
 
   """
   Source IDs cited by the Gene's summary.
@@ -3138,6 +3140,7 @@ type Query {
     """
     last: Int
     sortBy: VariantsSort
+    variantAlias: String
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
@@ -3881,7 +3884,7 @@ type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
   creationEvent: Event
-  currentValue: JSON!
+  currentValue: JSON
 
   """
   List and filter events for an object
@@ -3922,7 +3925,7 @@ type Revision implements EventOriginObject & EventSubject {
   revisionsetId: String!
   revisor: User!
   status: RevisionStatus!
-  suggestedValue: JSON!
+  suggestedValue: JSON
   updatedAt: ISO8601DateTime!
 }
 
@@ -4793,6 +4796,10 @@ type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
   threePrimeCoordinates: Coordinate
   variantAliases: [String!]
   variantTypes: [VariantType!]
+}
+
+type VariantAlias {
+  name: String!
 }
 
 """

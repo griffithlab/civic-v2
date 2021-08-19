@@ -8,10 +8,13 @@
       <ng-container *ngSwitchCase="'disease'">
         <cvc-disease-tag [disease]="tag"></cvc-disease-tag>
       </ng-container>
+      <ng-container *ngSwitchCase="'organization'">
+        <cvc-organization-tag [org]="tag"></cvc-organization-tag>
+      </ng-container>
     </ng-container>
   </div>
   <div [ngClass]="{'matched-tag': matchedHiddenCount > 0}">
-    <nz-tag *ngIf="hiddenCount && hiddenCount > 0" nz-popover [nzPopoverMouseEnterDelay]="0.5"
+    <nz-tag class="overflow-tag" *ngIf="hiddenCount && hiddenCount > 0" nz-popover [nzPopoverMouseEnterDelay]="0.5" (click)="onOverflowClicked()"
       [nzPopoverContent]="additionalTagPopover" nzPopoverPlacement="top" nzPopoverTrigger="hover">
       +<span *ngIf="matchedHiddenCount > 0">{{matchedHiddenCount}} of </span>{{this.hiddenCount}} more
     </nz-tag>
@@ -26,6 +29,9 @@
           </ng-container>
           <ng-container *ngSwitchCase="'disease'">
             <cvc-disease-tag [disease]="tag"></cvc-disease-tag>
+          </ng-container>
+          <ng-container *ngSwitchCase="'organization'">
+            <cvc-organization-tag [org]="tag"></cvc-organization-tag>
           </ng-container>
         </ng-container>
       </div>

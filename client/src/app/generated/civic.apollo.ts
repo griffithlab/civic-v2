@@ -304,6 +304,7 @@ export type BrowseDisease = {
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
+  geneCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -492,6 +493,7 @@ export type BrowseSourceEdge = {
 
 export type BrowseVariant = {
   __typename: 'BrowseVariant';
+  aliases: Array<VariantAlias>;
   assertionCount: Scalars['Int'];
   diseases: Array<Disease>;
   drugs: Array<Drug>;
@@ -787,7 +789,7 @@ export enum DiseasesSortColumns {
   AssertionCount = 'ASSERTION_COUNT',
   Doid = 'DOID',
   EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
-  GeneNames = 'GENE_NAMES',
+  GeneCount = 'GENE_COUNT',
   Name = 'NAME',
   VariantCount = 'VARIANT_COUNT'
 }
@@ -1345,7 +1347,7 @@ export type GeneAlias = {
 /** Fields on a Gene that curators may propose revisions to. */
 export type GeneFields = {
   /** The Gene's description/summary text. */
-  description: Scalars['String'];
+  description: NullableStringInput;
   /** Source IDs cited by the Gene's summary. */
   sourceIds: Array<Scalars['Int']>;
 };
@@ -1995,6 +1997,7 @@ export type QueryBrowseVariantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
+  variantAlias?: Maybe<Scalars['String']>;
   variantName?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
 };
@@ -2316,7 +2319,7 @@ export type Revision = EventOriginObject & EventSubject & {
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
-  currentValue: Scalars['JSON'];
+  currentValue?: Maybe<Scalars['JSON']>;
   /** List and filter events for an object */
   events: EventConnection;
   fieldName: Scalars['String'];
@@ -2326,7 +2329,7 @@ export type Revision = EventOriginObject & EventSubject & {
   revisionsetId: Scalars['String'];
   revisor: User;
   status: RevisionStatus;
-  suggestedValue: Scalars['JSON'];
+  suggestedValue?: Maybe<Scalars['JSON']>;
   updatedAt: Scalars['ISO8601DateTime'];
 };
 
@@ -2876,6 +2879,11 @@ export type VariantRevisionsArgs = {
   status?: Maybe<RevisionStatus>;
 };
 
+export type VariantAlias = {
+  __typename: 'VariantAlias';
+  name: Scalars['String'];
+};
+
 /** The connection type for Variant. */
 export type VariantConnection = {
   __typename: 'VariantConnection';
@@ -3419,7 +3427,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount' | 'geneCount'>
 );
 
 export type DrugPopoverQueryVariables = Exact<{
@@ -3907,7 +3915,10 @@ export type OrganizationsBrowseQuery = (
 export type OrganizationBrowseTableRowFieldsFragment = (
   { __typename: 'Organization' }
   & MakeOptional<Pick<Organization, 'id' | 'name' | 'description' | 'profileImagePath' | 'url' | 'memberCount' | 'eventCount'>, 'description' | 'profileImagePath'>
-  & { mostRecentEvent?: Maybe<(
+  & { subGroups: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'name' | 'id'>
+  )>, mostRecentEvent?: Maybe<(
     { __typename: 'Event' }
     & Pick<Event, 'createdAt'>
   )>, orgStatsHash: (
@@ -4265,6 +4276,7 @@ export type BrowseVariantsQueryVariables = Exact<{
   entrezSymbol?: Maybe<Scalars['String']>;
   diseaseName?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
+  variantAlias?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
   first?: Maybe<Scalars['Int']>;
@@ -4294,6 +4306,9 @@ export type BrowseVariantsQuery = (
         )>, drugs: Array<(
           { __typename: 'Drug' }
           & Pick<Drug, 'id' | 'name'>
+        )>, aliases: Array<(
+          { __typename: 'VariantAlias' }
+          & Pick<VariantAlias, 'name'>
         )> }
       )> }
     )> }
@@ -5417,6 +5432,7 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   assertionCount
   evidenceItemCount
   variantCount
+  geneCount
 }
     `;
 export const DrugPopoverFragmentDoc = gql`
@@ -5690,6 +5706,10 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
   url
   memberCount
   eventCount
+  subGroups {
+    name
+    id
+  }
   mostRecentEvent {
     createdAt
   }
@@ -7359,12 +7379,13 @@ export const VariantsMenuDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantAlias: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
     drugName: $drugName
+    variantAlias: $variantAlias
     variantTypeId: $variantTypeId
     sortBy: $sortBy
     first: $first
@@ -7393,6 +7414,9 @@ export const BrowseVariantsDocument = gql`
         }
         drugs {
           id
+          name
+        }
+        aliases {
           name
         }
         assertionCount

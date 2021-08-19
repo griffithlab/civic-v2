@@ -75,6 +75,9 @@ class Actions::SuggestRevision
       organization_id: organization_id
     )
     cmd.perform
+    if !cmd.succeeded?
+      raise StandardError.new(cmd.errors.join(', '))
+    end
   end
 
   def revision_created?

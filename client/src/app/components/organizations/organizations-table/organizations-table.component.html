@@ -6,13 +6,16 @@
 
   <thead (nzSortOrderChange)="onSortChanged($event)">
     <tr>
-      <th nzWidth="40%"
+      <th nzWidth="25%"
         [nzColumnKey]="sortColumns.Name"
         [nzSortFn]="true">
         Name
       </th>
       <th>
         Members
+      </th>
+      <th>
+        Sub Organizations
       </th>
       <th>
         Actions
@@ -33,6 +36,8 @@
       </th>
       <th>
       </th>
+      <th>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -42,6 +47,9 @@
       </td>
       <td>
         {{ organization.memberCount }}
+      </td>
+      <td>
+        <cvc-tag-overflow [maxDisplayCount]="3" tagType='organization' [tags]="organization.subGroups"> </cvc-tag-overflow>
       </td>
       <td>
         {{ organization.eventCount }}

@@ -1,4 +1,4 @@
-<ng-container *ngIf="sortedContributors">
+<ng-container *ngIf="sortedContributors && sortedContributors.length > 0; else noContributors">
   <a *ngFor="let u of sortedContributors" routerLink="/users/{{u.user.id}}" class="avatar">
     <nz-avatar [nzSize]="14" nz-popover [nzPopoverMouseEnterDelay]="0.5" [nzPopoverContent]="curatorPopover"
       nzPopoverTrigger="hover" nzPopoverPlacement="bottomRight" nzIcon="user" [nzSrc]="u.user.profileImagePath"
@@ -23,3 +23,6 @@
     </ng-template>
   </a>
 </ng-container>
+<ng-template #noContributors>
+  None
+</ng-template>

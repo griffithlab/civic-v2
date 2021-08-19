@@ -6,6 +6,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
 import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 
 
 
@@ -18,6 +19,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzTableModule,
     CvcClearableInputFilterModule,
     CvcOrganizationTagModule,
+    CvcTagOverflowModule
   ],
   exports: [CvcOrganizationsTableComponent]
 })

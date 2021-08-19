@@ -98,13 +98,14 @@ export type BrowseClinicalTrialEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseDiseaseKeySpecifier = ('assertionCount' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'geneNames' | 'id' | 'name' | 'variantCount' | BrowseDiseaseKeySpecifier)[];
+export type BrowseDiseaseKeySpecifier = ('assertionCount' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'geneCount' | 'geneNames' | 'id' | 'name' | 'variantCount' | BrowseDiseaseKeySpecifier)[];
 export type BrowseDiseaseFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	doid?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	geneCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	geneNames?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -226,8 +227,9 @@ export type BrowseSourceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseVariantKeySpecifier = ('assertionCount' | 'diseases' | 'drugs' | 'evidenceItemCount' | 'evidenceScore' | 'geneId' | 'geneName' | 'id' | 'name' | BrowseVariantKeySpecifier)[];
+export type BrowseVariantKeySpecifier = ('aliases' | 'assertionCount' | 'diseases' | 'drugs' | 'evidenceItemCount' | 'evidenceScore' | 'geneId' | 'geneName' | 'id' | 'name' | BrowseVariantKeySpecifier)[];
 export type BrowseVariantFieldPolicy = {
+	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -959,6 +961,10 @@ export type VariantFieldPolicy = {
 	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type VariantAliasKeySpecifier = ('name' | VariantAliasKeySpecifier)[];
+export type VariantAliasFieldPolicy = {
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type VariantConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | VariantConnectionKeySpecifier)[];
 export type VariantConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1405,6 +1411,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Variant?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantKeySpecifier | (() => undefined | VariantKeySpecifier),
 		fields?: VariantFieldPolicy,
+	},
+	VariantAlias?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantAliasKeySpecifier | (() => undefined | VariantAliasKeySpecifier),
+		fields?: VariantAliasFieldPolicy,
 	},
 	VariantConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantConnectionKeySpecifier | (() => undefined | VariantConnectionKeySpecifier),
