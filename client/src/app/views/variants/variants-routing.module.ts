@@ -19,11 +19,25 @@ const routes: Routes = [
       },
       {
         path: ':variantId',
-        loadChildren: () =>
-          import('@app/views/variants/variants-detail/variants-detail.module').then(
-            (m) => m.VariantsDetailModule
-          ),
         data: { breadcrumb: 'DISPLAYNAME' },
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('@app/views/variants/variants-detail/variants-detail.module').then(
+                (m) => m.VariantsDetailModule
+              ),
+            data: { breadcrumb: 'DISPLAYNAME' },
+          },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/variants/variants-revise/variants-revise.module').then(
+                (m) => m.VariantsReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
+          },
+        ]
       },
     ],
   },

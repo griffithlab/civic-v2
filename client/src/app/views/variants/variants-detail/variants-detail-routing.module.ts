@@ -12,14 +12,6 @@ import { VariantsSummaryPage } from './variants-summary/variants-summary.compone
 
 const routes: Routes = [
   {
-    path: 'revise',
-    loadChildren: () =>
-      import('@app/views/variants/variants-revise/variants-revise.module').then(
-        (m) => m.VariantsReviseModule
-      ),
-    data: { breadcrumb: 'Revise' }
-  },
-  {
     path: '',
     component: VariantsDetailView,
     data: { breadcrumb: 'DISPLAYNAME' },
