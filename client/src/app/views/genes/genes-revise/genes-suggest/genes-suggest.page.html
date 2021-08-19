@@ -1,0 +1,31 @@
+<nz-row [nzGutter]="16">
+  <nz-col nzSpan="16">
+    <ng-container *ngIf="geneId; else loadingGene">
+      <cvc-gene-suggest-revision-form [geneId]="geneId">
+      </cvc-gene-suggest-revision-form>
+    </ng-container>
+    <ng-template #loadingGene>Loading Gene...</ng-template>
+  </nz-col>
+  <nz-col nzSpan="8">
+    <nz-card nzTitle="Instructions"
+      nz-type="inner">
+      <nz-space nzDirection="vertical"
+        style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 3 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+  </nz-col>
+</nz-row>
+
+<ng-template #loadingGene>Loading gene...</ng-template>

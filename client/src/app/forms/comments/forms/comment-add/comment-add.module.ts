@@ -7,14 +7,15 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 
-import { CvcCommentAddComponent } from './comment-add.component';
+import { CvcCommentAddForm } from './comment-add.form';
 import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-errors-alert/form-errors-alert.module';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CommentTextareaModule } from '../../types/comment-textarea/comment-textarea.module';
 
 @NgModule({
-  declarations: [CvcCommentAddComponent],
+  declarations: [CvcCommentAddForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -25,7 +26,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
+    CommentTextareaModule,
   ],
-  exports: [CvcCommentAddComponent]
+  exports: [CvcCommentAddForm]
 })
 export class CvcCommentAddModule { }

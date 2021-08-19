@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CvcFlagAddComponent } from './flag-add.component';
+import { CvcFlagAddForm } from './flag-add.form';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -10,7 +10,7 @@ import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/
 import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
-  declarations: [CvcFlagAddComponent],
+  declarations: [CvcFlagAddForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -21,6 +21,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     NzButtonModule,
     CvcFormButtonsModule,
   ],
-  exports: [CvcFlagAddComponent]
+  exports: [CvcFlagAddForm]
 })
 export class CvcFlagAddModule { }

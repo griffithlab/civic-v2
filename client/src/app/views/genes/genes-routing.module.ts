@@ -1,82 +1,50 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { GenesComponent } from './genes.component';
-import { GenesDetailComponent } from './genes-detail/genes-detail.component';
-import { GenesSuggestRevisionComponent } from './genes-suggest-revision/genes-suggest-revision.component';
-import { GenesSummaryComponent } from './genes-summary/genes-summary.component';
-import { GenesCommentsComponent } from './genes-comments/genes-comments.component';
-import { GenesRevisionsComponent } from './genes-revisions/genes-revisions.component';
-import { GenesFlagsComponent } from './genes-flags/genes-flags.component';
-import { GenesHomeComponent } from './genes-home/genes-home.component';
+import { GenesView } from './genes.view';
+import { GenesHomeModule } from './genes-home/genes-home.module';
+import { GenesHomePage } from './genes-home/genes-home.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: GenesComponent,
+    component: GenesView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
-        component: GenesHomeComponent,
+        component: GenesHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':geneId',
-        component: GenesDetailComponent,
-        // setting 'DISPLAYNAME' here will cause breadcrumb & title generation logic
-        // to use a provided displayName instead of breadcrumb string
         data: { breadcrumb: 'DISPLAYNAME' },
         children: [
-          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
-            path: 'summary',
-            component: GenesSummaryComponent,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/genes/genes-detail/genes-detail.module').then(
+                (m) => m.GenesDetailModule
+              ),
           },
           {
-            path: 'comments',
-            component: GenesCommentsComponent,
-            data: {
-              breadcrumb: 'Comments'
-            }
-          },
-          {
-            path: 'revisions',
-            component: GenesRevisionsComponent,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: GenesFlagsComponent,
-            data: {
-              breadcrumb: 'Summary'
-            }
-          },
-          {
-            path: 'suggest-revision',
-            component: GenesSuggestRevisionComponent,
-            data: {
-              breadcrumb: 'Suggest Revision'
-            }
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/genes/genes-revise/genes-revise.module').then(
+                (m) => m.GenesReviseModule
+              ),
+            data: { breadcrumb: 'Revise' },
           },
 
         ]
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
+  imports: [RouterModule.forChild(routes), GenesHomeModule],
   exports: [RouterModule]
 })
-export class GenesRoutingModule { }
+export class GenesRoutingModule {}

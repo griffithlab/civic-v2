@@ -5,7 +5,6 @@ import { EvidenceRoutingModule } from './evidence-routing.module';
 import { EvidenceComponent } from './evidence.component';
 import { FormsModule } from '@angular/forms';
 
-import { CvcFormsModule } from '@app/forms/forms.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -37,7 +36,7 @@ import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.componen
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
@@ -75,8 +74,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     EvidenceHomeModule,
     CvcEntityTableCardModule,
     CvcAssertionsTableModule,
-    SectionNavigationModule,
-    CvcFormsModule,
+    CvcSectionNavigationModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,

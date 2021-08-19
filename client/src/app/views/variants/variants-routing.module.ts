@@ -1,74 +1,49 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsRevisionsComponent } from '../variant-groups/variant-groups-revisions/variant-groups-revisions.component';
-import { VariantsCommentsComponent } from './variants-comments/variants-comments.component';
-import { VariantsDetailComponent } from './variants-detail/variants-detail.component';
-import { VariantsFlagsComponent } from './variants-flags/variants-flags.component';
+import { VariantsView } from './variants.view';
+import { VariantsHomeModule } from './variants-home/variants-home.module';
 import { VariantsHomePage } from './variants-home/variants-home.page';
-import { VariantSummaryComponent } from './variants-summary/variants-summary.component';
-
-import { VariantsComponent } from './variants.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: VariantsComponent,
-    data: {
-      breadcrumb: 'Variants'
-    },
+    component: VariantsView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: VariantsHomePage,
         data: {
-          breadcrumb: 'Home'
-        }
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':variantId',
-        component: VariantsDetailComponent,
-        data: {
-          breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
-        },
+        data: { breadcrumb: 'DISPLAYNAME' },
         children: [
-          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
-            path: 'summary',
-            component: VariantSummaryComponent,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/variants/variants-detail/variants-detail.module').then(
+                (m) => m.VariantsDetailModule
+              ),
           },
           {
-            path: 'comments',
-            component: VariantsCommentsComponent,
-            data: {
-              breadcrumb: 'Comments'
-            }
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/variants/variants-revise/variants-revise.module').then(
+                (m) => m.VariantsReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
           },
-          {
-            path: 'revisions',
-            component: VariantGroupsRevisionsComponent,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: VariantsFlagsComponent,
-            data: {
-              breadcrumb: 'Flags'
-            }
-          }
         ]
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes), VariantsHomeModule],
+  exports: [RouterModule],
 })
-export class VariantsRoutingModule { }
+export class VariantsRoutingModule {}

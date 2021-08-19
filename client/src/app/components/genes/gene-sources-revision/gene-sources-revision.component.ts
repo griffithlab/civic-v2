@@ -10,7 +10,7 @@ import {
   templateUrl: './gene-sources-revision.component.html',
   styleUrls: ['./gene-sources-revision.component.less']
 })
-export class GeneSourcesRevisionComponent implements OnChanges {
+export class CvcGeneSourcesRevisionComponent implements OnChanges {
   @Input() revision!: any;
   removedSources!: DiffSource[];
   addedSources!: DiffSource[];

@@ -5,7 +5,6 @@ import { AssertionsRoutingModule } from './assertions-routing.module';
 import { AssertionsComponent } from './assertions.component';
 import { FormsModule } from '@angular/forms';
 
-import { CvcFormsModule } from '@app/forms/forms.module';
 import { IconsProviderModule } from '@app/icons-provider.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -37,7 +36,7 @@ import { AssertionsCommentsComponent } from './assertions-comments/assertions-co
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/pipes/pipes.module';
 import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -71,7 +70,6 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     AssertionsHomeModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
-    CvcFormsModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
@@ -84,7 +82,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     CvcFlagListModule,
     CvcFlaggableModule,
     CvcEventFeedModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     CvcDetailsNavigationModule,
     CvcStatusTagModule,
     IconsProviderModule,

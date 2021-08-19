@@ -1,0 +1,24 @@
+<ng-container *ngIf="variant$ | async as variant">
+  <cvc-section-navigation [displayName]="variant.name"> </cvc-section-navigation>
+
+  <nz-page-header class="site-page-header">
+
+    <!-- title -->
+    <nz-page-header-title cvcFlaggableOptions>
+      REVISE
+      <i nz-icon
+        nzType="civic:variant"></i> {{ variant.name }}
+    </nz-page-header-title>
+
+    <!-- subtitle -->
+    <nz-page-header-subtitle>
+      {{ variant.name}}
+    </nz-page-header-subtitle>
+
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>
