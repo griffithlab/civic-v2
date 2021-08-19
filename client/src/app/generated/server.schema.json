@@ -2242,6 +2242,24 @@
               "deprecationReason": null
             },
             {
+              "name": "geneCount",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "geneNames",
               "description": null,
               "args": [
@@ -6451,7 +6469,7 @@
               "deprecationReason": null
             },
             {
-              "name": "GENE_NAMES",
+              "name": "GENE_COUNT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

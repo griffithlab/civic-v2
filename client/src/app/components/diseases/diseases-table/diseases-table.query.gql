@@ -45,4 +45,5 @@ fragment BrowseDiseaseRowFields on BrowseDisease {
   assertionCount
   evidenceItemCount
   variantCount
+  geneCount
 }

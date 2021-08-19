@@ -490,6 +490,7 @@ type BrowseDisease {
   displayName: String!
   doid: String
   evidenceItemCount: Int!
+  geneCount: Int!
   geneNames: [String!]!
   id: Int!
   name: String!
@@ -1224,7 +1225,7 @@ enum DiseasesSortColumns {
   ASSERTION_COUNT
   DOID
   EVIDENCE_ITEM_COUNT
-  GENE_NAMES
+  GENE_COUNT
   NAME
   VARIANT_COUNT
 }

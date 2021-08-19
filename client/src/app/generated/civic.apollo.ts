@@ -304,6 +304,7 @@ export type BrowseDisease = {
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
+  geneCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -788,7 +789,7 @@ export enum DiseasesSortColumns {
   AssertionCount = 'ASSERTION_COUNT',
   Doid = 'DOID',
   EvidenceItemCount = 'EVIDENCE_ITEM_COUNT',
-  GeneNames = 'GENE_NAMES',
+  GeneCount = 'GENE_COUNT',
   Name = 'NAME',
   VariantCount = 'VARIANT_COUNT'
 }
@@ -3426,7 +3427,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount' | 'geneCount'>
 );
 
 export type DrugPopoverQueryVariables = Exact<{
@@ -5431,6 +5432,7 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   assertionCount
   evidenceItemCount
   variantCount
+  geneCount
 }
     `;
 export const DrugPopoverFragmentDoc = gql`
