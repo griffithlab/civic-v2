@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VariantsReviseComponent } from './variants-revise.component';
+import { VariantsReviseComponent } from './variants-revise.view';
 
 const routes: Routes = [{ path: '', component: VariantsReviseComponent }];
 

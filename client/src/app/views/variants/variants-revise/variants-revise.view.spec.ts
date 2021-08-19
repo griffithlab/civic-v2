@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VariantsReviseComponent } from './variants-revise.component';
+import { VariantsReviseComponent } from './variants-revise.view';
 
 describe('VariantsReviseComponent', () => {
   let component: VariantsReviseComponent;

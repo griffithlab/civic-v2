@@ -4,8 +4,8 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-variants-flags',
-  templateUrl: './variants-flags.component.html',
-  styleUrls: ['./variants-flags.component.less']
+  templateUrl: './variants-flags.page.html',
+  styleUrls: ['./variants-flags.page.less']
 })
 
 

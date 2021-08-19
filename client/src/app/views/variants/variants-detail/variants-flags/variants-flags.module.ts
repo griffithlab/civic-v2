@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantsFlagsPage } from './variants-flags.component';
+import { VariantsFlagsPage } from './variants-flags.page';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';

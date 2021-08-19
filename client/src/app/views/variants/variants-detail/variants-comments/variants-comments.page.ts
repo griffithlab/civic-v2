@@ -4,8 +4,8 @@ import { CommentableEntities, CommentableInput } from '@app/generated/civic.apol
 
 @Component({
   selector: 'cvc-variants-comments',
-  templateUrl: './variants-comments.component.html',
-  styleUrls: ['./variants-comments.component.less'],
+  templateUrl: './variants-comments.page.html',
+  styleUrls: ['./variants-comments.page.less'],
 })
 export class VariantsCommentsPage {
   commentable: CommentableInput
