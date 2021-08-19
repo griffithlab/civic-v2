@@ -5727,6 +5727,11 @@
               "kind": "OBJECT",
               "name": "Variant",
               "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "VariantGroup",
+              "ofType": null
             }
           ]
         },
@@ -5758,6 +5763,12 @@
             },
             {
               "name": "ASSERTION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_GROUP",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -7340,6 +7351,11 @@
             {
               "kind": "OBJECT",
               "name": "Variant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "VariantGroup",
               "ofType": null
             }
           ]
@@ -9918,6 +9934,11 @@
               "kind": "OBJECT",
               "name": "Variant",
               "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "VariantGroup",
+              "ofType": null
             }
           ]
         },
@@ -9949,6 +9970,12 @@
             },
             {
               "name": "ASSERTION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_GROUP",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -10830,8 +10857,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "INPUT_OBJECT",
+                  "name": "NullableStringInput",
                   "ofType": null
                 }
               },
@@ -17373,6 +17400,35 @@
               "deprecationReason": null
             },
             {
+              "name": "variantGroup",
+              "description": "Find a variant group by CIViC ID",
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "VariantGroup",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "variantType",
               "description": "Find a variant type by CIViC ID",
               "args": [
@@ -17956,13 +18012,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -18213,13 +18265,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -19788,6 +19836,12 @@
             },
             {
               "name": "REVISION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_GROUP",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -22612,6 +22666,681 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "VariantGroup",
+          "description": null,
+          "fields": [
+            {
+              "name": "comments",
+              "description": "List and filter comments.",
+              "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to comments by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CommentConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "events",
+              "description": "List and filter events for an object",
+              "args": [
+                {
+                  "name": "eventType",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EventAction",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "originatingUserId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "organizationId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the events. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "EventConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "flagged",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "flags",
+              "description": "List and filter flags.",
+              "args": [
+                {
+                  "name": "flaggingUserId",
+                  "description": "Limit to flags added by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "resolvingUserId",
+                  "description": "Limit to flags resolved by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "state",
+                  "description": "Limit to flags in a particular state",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "FlagState",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the flags. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FlagConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastAcceptedRevisionEvent",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastCommentEvent",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastSubmittedRevisionEvent",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revisions",
+              "description": "List and filter revisions.",
+              "args": [
+                {
+                  "name": "originatingUserId",
+                  "description": "Limit to revisions by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "status",
+                  "description": "Limit to revisions with a certain status",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "RevisionStatus",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "sortBy",
+                  "description": "Sort order for the comments. Defaults to most recent.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "fieldName",
+                  "description": "Limit to revisions on a particular field.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "revisionsetId",
+                  "description": "Limit to revisions suggested as part of a single Revision Set.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "RevisionConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "variants",
+              "description": "List and filter variants.",
+              "args": [
+                {
+                  "name": "evidenceStatusFilter",
+                  "description": "Limit variants by the status of attached evidence.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "VariantDisplayFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "name",
+                  "description": "Left anchored filtering for variant name and aliases.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "VariantConnection",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Commentable",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Flaggable",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "WithRevisions",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "EventSubject",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
           "name": "VariantGroupsSort",
           "description": null,
@@ -23194,6 +23923,11 @@
             {
               "kind": "OBJECT",
               "name": "Variant",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "VariantGroup",
               "ofType": null
             }
           ]

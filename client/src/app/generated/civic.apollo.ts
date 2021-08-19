@@ -1345,7 +1345,7 @@ export type GeneAlias = {
 /** Fields on a Gene that curators may propose revisions to. */
 export type GeneFields = {
   /** The Gene's description/summary text. */
-  description: Scalars['String'];
+  description: NullableStringInput;
   /** Source IDs cited by the Gene's summary. */
   sourceIds: Array<Scalars['Int']>;
 };
@@ -2316,7 +2316,7 @@ export type Revision = EventOriginObject & EventSubject & {
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
-  currentValue: Scalars['JSON'];
+  currentValue?: Maybe<Scalars['JSON']>;
   /** List and filter events for an object */
   events: EventConnection;
   fieldName: Scalars['String'];
@@ -2326,7 +2326,7 @@ export type Revision = EventOriginObject & EventSubject & {
   revisionsetId: Scalars['String'];
   revisor: User;
   status: RevisionStatus;
-  suggestedValue: Scalars['JSON'];
+  suggestedValue?: Maybe<Scalars['JSON']>;
   updatedAt: Scalars['ISO8601DateTime'];
 };
 

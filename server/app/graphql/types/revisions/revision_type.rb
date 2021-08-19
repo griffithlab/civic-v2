@@ -7,8 +7,8 @@ module Types::Revisions
 
     field :id, Int, null: false
     field :status, Types::Revisions::RevisionStatus, null: false
-    field :current_value, GraphQL::Types::JSON, null: false
-    field :suggested_value, GraphQL::Types::JSON, null: false
+    field :current_value, GraphQL::Types::JSON, null: true
+    field :suggested_value, GraphQL::Types::JSON, null: true
     field :field_name, String, null: false
     field :comments, [Types::Entities::CommentType], null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false

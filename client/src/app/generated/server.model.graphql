@@ -2243,7 +2243,7 @@ input GeneFields {
   """
   The Gene's description/summary text.
   """
-  description: String!
+  description: NullableStringInput!
 
   """
   Source IDs cited by the Gene's summary.
@@ -3881,7 +3881,7 @@ type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
   creationEvent: Event
-  currentValue: JSON!
+  currentValue: JSON
 
   """
   List and filter events for an object
@@ -3922,7 +3922,7 @@ type Revision implements EventOriginObject & EventSubject {
   revisionsetId: String!
   revisor: User!
   status: RevisionStatus!
-  suggestedValue: JSON!
+  suggestedValue: JSON
   updatedAt: ISO8601DateTime!
 }
 
