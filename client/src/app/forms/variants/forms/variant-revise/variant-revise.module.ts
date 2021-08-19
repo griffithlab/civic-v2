@@ -13,6 +13,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
+    NgxJsonViewerModule,
     NzFormModule,
     NzAlertModule,
     NzGridModule,

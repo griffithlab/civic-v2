@@ -1,18 +1,8 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import {
-  FormGroup,
-} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  Subject,
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,14 +13,33 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
+import {
+  ViewerService,
+  Viewer,
+} from '@app/shared/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+
+export interface FormSource {
+  id: number;
+  displayType: string;
+  citationId: number;
+  citation: string;
+}
+
+export interface GeneRevisionFormModel {
+  id: number;
+  comment: string;
+  fields: {
+    description: string;
+    sources: FormSource[];
+  };
+}
 
 @Component({
   selector: 'cvc-gene-revise-form',
   templateUrl: './gene-revise.form.html',
-  styleUrls: ['./gene-revise.form.less']
+  styleUrls: ['./gene-revise.form.less'],
 })
 export class GeneReviseForm implements OnInit, OnDestroy {
   @Input() geneId!: number;
@@ -44,15 +53,16 @@ export class GeneReviseForm implements OnInit, OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: any;
+  formModel!: GeneRevisionFormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
-  constructor(private viewerService: ViewerService,
+  constructor(
+    private viewerService: ViewerService,
     private geneRevisableFieldsGQL: GeneRevisableFieldsGQL,
-    private geneSuggestRevisionService: GeneSuggestRevisionService) {
-
+    private geneSuggestRevisionService: GeneSuggestRevisionService
+  ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -78,8 +88,8 @@ export class GeneReviseForm implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Description',
           placeholder: 'Enter a description for this gene.',
-          required: false
-        }
+          required: false,
+        },
       },
       {
         key: 'fields.sources',
@@ -91,9 +101,9 @@ export class GeneReviseForm implements OnInit, OnDestroy {
         fieldArray: {
           type: 'source-input',
           templateOptions: {
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       },
       {
         key: 'comment',
@@ -102,38 +112,37 @@ export class GeneReviseForm implements OnInit, OnDestroy {
           label: 'Comment',
           placeholder: 'Please enter a comment describing your revision.',
           required: true,
-          minLength: 10
+          minLength: 10,
         },
-      }
-    ]
+      },
+    ];
 
     // reset form upon successful submit
-    this.submitSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(s => {
-        if (s && this.formOptions.resetModel) {
-          this.formOptions.resetModel();
-        }
-      })
+    this.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((s) => {
+      if (s && this.formOptions.resetModel) {
+        this.formOptions.resetModel();
+      }
+    });
   }
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
-    this.geneRevisableFieldsGQL.fetch({ geneId: this.geneId })
+    this.geneRevisableFieldsGQL
+      .fetch({ geneId: this.geneId })
       .subscribe(({ data: { gene } }) => {
         if (gene) {
           this.formModel = {
             id: gene.id,
             fields: {
               description: gene.description,
-              sources: [...gene.sources]
+              sources: [...gene.sources],
             },
-            comment: ''
-          }
+            comment: '',
+          };
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve gene.');
-        };
+        }
         if (this.formOptions.updateInitialValue) {
           this.formOptions.updateInitialValue();
         }
@@ -154,10 +163,13 @@ export class GeneReviseForm implements OnInit, OnDestroy {
       ...value,
       fields: {
         description: value.fields.description,
-        sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
+        sourceIds: value.fields.sources.map((s: any) => {
+          return +s.id;
+        }),
       },
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
-    }
+      organizationId:
+        this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
+    };
 
     this.geneSuggestRevisionService.suggestRevision(newRevisionInput);
   }

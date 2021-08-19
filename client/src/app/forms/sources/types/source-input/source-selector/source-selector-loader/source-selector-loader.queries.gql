@@ -6,8 +6,9 @@ mutation CreateSourceStub($input: AddRemoteCitationInput!) {
   addRemoteCitation(input: $input) {
     newSource {
       id
+      displayType
       citationId
-      sourceType
+      citation
     }
   }
 }
