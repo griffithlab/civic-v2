@@ -4466,6 +4466,77 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type VariantRevisableFieldsQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'description'>
+    & { sources: Array<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
+    )> }
+  )> }
+);
+
+export type SuggestVariantRevisionMutationVariables = Exact<{
+  input: SuggestVariantRevisionInput;
+}>;
+
+
+export type SuggestVariantRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestVariantRevision?: Maybe<(
+    { __typename: 'SuggestVariantRevisionPayload' }
+    & Pick<SuggestVariantRevisionPayload, 'clientMutationId'>
+    & { variant: (
+      { __typename: 'Variant' }
+      & Pick<Variant, 'id'>
+      & { revisions: (
+        { __typename: 'RevisionConnection' }
+        & Pick<RevisionConnection, 'totalCount'>
+        & { edges: Array<(
+          { __typename: 'RevisionEdge' }
+          & { node?: Maybe<(
+            { __typename: 'Revision' }
+            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+            & { linkoutData: (
+              { __typename: 'LinkoutData' }
+              & Pick<LinkoutData, 'name'>
+              & { diffValue: (
+                { __typename: 'ObjectFieldDiff' }
+                & { addedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, removedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, keptObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )> }
+              ) | (
+                { __typename: 'ScalarField' }
+                & Pick<ScalarField, 'value'>
+              ) }
+            ), revisor: (
+              { __typename: 'User' }
+              & Pick<User, 'id' | 'name'>
+            ) }
+          )> }
+        )> }
+      ) }
+    ), results: Array<(
+      { __typename: 'RevisionResult' }
+      & Pick<RevisionResult, 'id' | 'fieldName'>
+    )> }
+  )> }
+);
+
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -7623,6 +7694,102 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantRevisableFieldsDocument = gql`
+    query VariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    description
+    sources {
+      id
+      sourceType
+      citation
+      citationId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantRevisableFieldsGQL extends Apollo.Query<VariantRevisableFieldsQuery, VariantRevisableFieldsQueryVariables> {
+    document = VariantRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestVariantRevisionDocument = gql`
+    mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
+  suggestVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
+    document = SuggestVariantRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
