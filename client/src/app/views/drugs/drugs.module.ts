@@ -13,7 +13,7 @@ import { DrugsRoutingModule } from './drugs-routing.module';
 import { DrugsComponent } from './drugs.component';
 import { DrugsDetailComponent } from './drugs-detail/drugs-detail.component';
 import { DrugsSummaryComponent } from './drugs-summary/drugs-summary.component';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { DrugsHomeModule } from './drugs-home/drugs-home.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -28,7 +28,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     DrugsSummaryComponent,
   ],
   imports: [
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     DrugsHomeModule,
     CvcEntityTableCardModule,
     CvcEvidenceTableModule,

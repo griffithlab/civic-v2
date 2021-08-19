@@ -35,7 +35,7 @@ import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-
 import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
 import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
 import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
-import { SectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
@@ -60,7 +60,7 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
     ReactiveComponentModule,
     VariantGroupsRoutingModule,
     VariantGroupsHomeModule,
-    SectionNavigationModule,
+    CvcSectionNavigationModule,
     CvcEmptyRevisableModule,
     CvcDetailsNavigationModule,
     CvcOrgSelectorBtnGroupModule,

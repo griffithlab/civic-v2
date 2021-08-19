@@ -25,7 +25,7 @@ export interface TitleSegment {
   templateUrl: './section-navigation.component.html',
   styleUrls: ['./section-navigation.component.less'],
 })
-export class SectionNavigationComponent implements OnInit, OnDestroy {
+export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>;
   @Input() relationsTpl?: TemplateRef<any>;
 

@@ -17,11 +17,13 @@ import { TimeagoModule } from 'ngx-timeago';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcEventTimelineComponent],
   imports: [
     CommonModule,
+    NzButtonModule,
     NzIconModule,
     NzToolTipModule,
     NzTypographyModule,

@@ -9,7 +9,7 @@ import { encodeUriString } from '@app/shared/utilities/encode-uri-string';
   templateUrl: './auth-options-list.component.html',
   styleUrls: ['./auth-options-list.component.less']
 })
-export class AuthOptionsListComponent implements OnInit {
+export class CvcAuthOptionsListComponent implements OnInit {
   location: string;
   xsrfToken: string;
 

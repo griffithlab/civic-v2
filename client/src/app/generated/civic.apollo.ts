@@ -3761,6 +3761,40 @@ export type FlagListFragment = (
   )> }
 );
 
+export type GenePopoverQueryVariables = Exact<{
+  geneId: Scalars['Int'];
+}>;
+
+
+export type GenePopoverQuery = (
+  { __typename: 'Query' }
+  & { gene?: Maybe<(
+    { __typename: 'Gene' }
+    & GenePopoverFragment
+  )> }
+);
+
+export type GenePopoverFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'officialName'>
+  & { aliases: Array<(
+    { __typename: 'GeneAlias' }
+    & Pick<GeneAlias, 'name'>
+  )>, variants: (
+    { __typename: 'VariantConnection' }
+    & Pick<VariantConnection, 'totalCount'>
+  ), revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount'>
+  ), comments: (
+    { __typename: 'CommentConnection' }
+    & Pick<CommentConnection, 'totalCount'>
+  ), flags: (
+    { __typename: 'FlagConnection' }
+    & Pick<FlagConnection, 'totalCount'>
+  ) }
+);
+
 export type BrowseGenesQueryVariables = Exact<{
   entrezSymbol?: Maybe<Scalars['String']>;
   drugName?: Maybe<Scalars['String']>;
@@ -3800,40 +3834,6 @@ export type BrowseGenesQuery = (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
-  ) }
-);
-
-export type GenePopoverQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-}>;
-
-
-export type GenePopoverQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & GenePopoverFragment
-  )> }
-);
-
-export type GenePopoverFragment = (
-  { __typename: 'Gene' }
-  & Pick<Gene, 'id' | 'name' | 'officialName'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, variants: (
-    { __typename: 'VariantConnection' }
-    & Pick<VariantConnection, 'totalCount'>
-  ), revisions: (
-    { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
-  ), comments: (
-    { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
-  ), flags: (
-    { __typename: 'FlagConnection' }
-    & Pick<FlagConnection, 'totalCount'>
   ) }
 );
 
@@ -4317,6 +4317,38 @@ export type AddCommentMutation = (
   )> }
 );
 
+export type FlagEntityMutationVariables = Exact<{
+  input: FlagEntityInput;
+}>;
+
+
+export type FlagEntityMutation = (
+  { __typename: 'Mutation' }
+  & { flagEntity?: Maybe<(
+    { __typename: 'FlagEntityPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
+export type ResolveFlagMutationVariables = Exact<{
+  input: ResolveFlagInput;
+}>;
+
+
+export type ResolveFlagMutation = (
+  { __typename: 'Mutation' }
+  & { resolveFlag?: Maybe<(
+    { __typename: 'ResolveFlagPayload' }
+    & { flag?: Maybe<(
+      { __typename: 'Flag' }
+      & Pick<Flag, 'id'>
+    )> }
+  )> }
+);
+
 export type GeneRevisableFieldsQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -4388,6 +4420,25 @@ export type SuggestGeneRevisionMutation = (
   )> }
 );
 
+export type CitationTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['Int'];
+  sourceType: SourceSource;
+}>;
+
+
+export type CitationTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { sourceTypeahead: Array<(
+    { __typename: 'Source' }
+    & SourceTypeaheadResultFragment
+  )> }
+);
+
+export type SourceTypeaheadResultFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
+);
+
 export type CitationExistenceCheckQueryVariables = Exact<{
   sourceType: SourceSource;
   citationId: Scalars['Int'];
@@ -4412,57 +4463,6 @@ export type CreateSourceStubMutation = (
       { __typename: 'SourceStub' }
       & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
     ) }
-  )> }
-);
-
-export type CitationTypeaheadQueryVariables = Exact<{
-  partialCitationId: Scalars['Int'];
-  sourceType: SourceSource;
-}>;
-
-
-export type CitationTypeaheadQuery = (
-  { __typename: 'Query' }
-  & { sourceTypeahead: Array<(
-    { __typename: 'Source' }
-    & SourceTypeaheadResultFragment
-  )> }
-);
-
-export type SourceTypeaheadResultFragment = (
-  { __typename: 'Source' }
-  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
-);
-
-export type FlagEntityMutationVariables = Exact<{
-  input: FlagEntityInput;
-}>;
-
-
-export type FlagEntityMutation = (
-  { __typename: 'Mutation' }
-  & { flagEntity?: Maybe<(
-    { __typename: 'FlagEntityPayload' }
-    & { flag?: Maybe<(
-      { __typename: 'Flag' }
-      & Pick<Flag, 'id'>
-    )> }
-  )> }
-);
-
-export type ResolveFlagMutationVariables = Exact<{
-  input: ResolveFlagInput;
-}>;
-
-
-export type ResolveFlagMutation = (
-  { __typename: 'Mutation' }
-  & { resolveFlag?: Maybe<(
-    { __typename: 'ResolveFlagPayload' }
-    & { flag?: Maybe<(
-      { __typename: 'Flag' }
-      & Pick<Flag, 'id'>
-    )> }
   )> }
 );
 
@@ -4866,7 +4866,19 @@ export type GeneSummaryFieldsFragment = (
         & Pick<Variant, 'id' | 'name' | 'description'>
       )> }
     )> }
-  ) }
+  ), lastSubmittedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, lastAcceptedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )> }
 );
 
 export type OrganizationDetailQueryVariables = Exact<{
@@ -5226,6 +5238,18 @@ export type VariantSummaryFieldsFragment = (
   ), myVariantInfo?: Maybe<(
     { __typename: 'MyVariantInfo' }
     & MyVariantInfoFieldsFragment
+  )>, lastSubmittedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
+  )>, lastAcceptedRevisionEvent?: Maybe<(
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+    ) }
   )> }
 );
 
@@ -6076,6 +6100,22 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     }
   }
   myGeneInfoDetails
+  lastSubmittedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  lastAcceptedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
 }
     `;
 export const OrganizationDetailFieldsFragmentDoc = gql`
@@ -6374,6 +6414,22 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
   myVariantInfo {
     ...MyVariantInfoFields
+  }
+  lastSubmittedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  lastAcceptedRevisionEvent {
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
@@ -6827,6 +6883,24 @@ export const FlagListDocument = gql`
       super(apollo);
     }
   }
+export const GenePopoverDocument = gql`
+    query GenePopover($geneId: Int!) {
+  gene(id: $geneId) {
+    ...genePopover
+  }
+}
+    ${GenePopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
+    document = GenePopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const BrowseGenesDocument = gql`
     query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseGenes(
@@ -6880,24 +6954,6 @@ export const BrowseGenesDocument = gql`
   })
   export class BrowseGenesGQL extends Apollo.Query<BrowseGenesQuery, BrowseGenesQueryVariables> {
     document = BrowseGenesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GenePopoverDocument = gql`
-    query GenePopover($geneId: Int!) {
-  gene(id: $geneId) {
-    ...genePopover
-  }
-}
-    ${GenePopoverFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GenePopoverGQL extends Apollo.Query<GenePopoverQuery, GenePopoverQueryVariables> {
-    document = GenePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -7380,6 +7436,46 @@ export const AddCommentDocument = gql`
       super(apollo);
     }
   }
+export const FlagEntityDocument = gql`
+    mutation FlagEntity($input: FlagEntityInput!) {
+  flagEntity(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
+    document = FlagEntityDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResolveFlagDocument = gql`
+    mutation ResolveFlag($input: ResolveFlagInput!) {
+  resolveFlag(input: $input) {
+    flag {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
+    document = ResolveFlagDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GeneRevisableFieldsDocument = gql`
     query GeneRevisableFields($geneId: Int!) {
   gene(id: $geneId) {
@@ -7476,6 +7572,24 @@ export const SuggestGeneRevisionDocument = gql`
       super(apollo);
     }
   }
+export const CitationTypeaheadDocument = gql`
+    query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+    ${SourceTypeaheadResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
+    document = CitationTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CitationExistenceCheckDocument = gql`
     query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
@@ -7509,64 +7623,6 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CitationTypeaheadDocument = gql`
-    query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
-  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
-    ...SourceTypeaheadResult
-  }
-}
-    ${SourceTypeaheadResultFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
-    document = CitationTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const FlagEntityDocument = gql`
-    mutation FlagEntity($input: FlagEntityInput!) {
-  flagEntity(input: $input) {
-    flag {
-      id
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class FlagEntityGQL extends Apollo.Mutation<FlagEntityMutation, FlagEntityMutationVariables> {
-    document = FlagEntityDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ResolveFlagDocument = gql`
-    mutation ResolveFlag($input: ResolveFlagInput!) {
-  resolveFlag(input: $input) {
-    flag {
-      id
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ResolveFlagGQL extends Apollo.Mutation<ResolveFlagMutation, ResolveFlagMutationVariables> {
-    document = ResolveFlagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
