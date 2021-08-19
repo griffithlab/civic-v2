@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GeneSuggestRevisionForm } from './gene-revise.form';
+import { GeneReviseForm } from './gene-revise.form';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -15,7 +15,7 @@ import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-fiel
 import { SourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
 
 @NgModule({
-  declarations: [GeneSuggestRevisionForm],
+  declarations: [GeneReviseForm],
   imports: [
     CommonModule,
     RouterModule,
@@ -31,6 +31,6 @@ import { SourceInputModule } from '@app/forms/sources/types/source-input/source-
     MultiFieldModule,
     SourceInputModule,
   ],
-  exports: [GeneSuggestRevisionForm]
+  exports: [GeneReviseForm]
 })
 export class GeneSuggestRevisionFormModule { }

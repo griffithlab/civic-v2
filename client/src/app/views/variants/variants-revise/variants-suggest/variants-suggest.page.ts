@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-variants-suggest',
   templateUrl: './variants-suggest.page.html',
   styleUrls: ['./variants-suggest.page.less']
 })
-export class VariantsSuggestPage implements OnInit {
+export class VariantsSuggestPage implements OnDestroy {
+  variantId?: number;
+  routeParams$: Subscription;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+    this.routeParams$ = this.route.params.subscribe((params) => {
+      this.variantId = +params.variantId;
+    });
+  }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.routeParams$.unsubscribe();
   }
 
 }

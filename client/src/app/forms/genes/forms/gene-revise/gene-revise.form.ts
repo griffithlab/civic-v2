@@ -32,7 +32,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
   templateUrl: './gene-revise.form.html',
   styleUrls: ['./gene-revise.form.less']
 })
-export class GeneSuggestRevisionForm implements OnInit, OnDestroy {
+export class GeneReviseForm implements OnInit, OnDestroy {
   @Input() geneId!: number;
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
