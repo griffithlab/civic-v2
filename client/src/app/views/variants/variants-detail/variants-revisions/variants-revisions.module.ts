@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantsRevisionsPage } from './variants-revisions.component';
+import { VariantsRevisionsPage } from './variants-revisions.page';
 
 @NgModule({
   declarations: [VariantsRevisionsPage],

@@ -6,7 +6,7 @@ import { VariantsCommentsPage } from './variants-comments/variants-comments.comp
 import { VariantsFlagsModule } from './variants-flags/variants-flags.module';
 import { VariantsFlagsPage } from './variants-flags/variants-flags.component';
 import { VariantsRevisionsModule } from './variants-revisions/variants-revisions.module';
-import { VariantsRevisionsPage } from './variants-revisions/variants-revisions.component';
+import { VariantsRevisionsPage } from './variants-revisions/variants-revisions.page';
 import { VariantsSummaryModule } from './variants-summary/variants-summary.module';
 import { VariantsSummaryPage } from './variants-summary/variants-summary.component';
 
