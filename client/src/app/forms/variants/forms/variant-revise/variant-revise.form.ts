@@ -20,11 +20,36 @@ import {
   Organization,
   SuggestVariantRevisionInput,
   Maybe,
+  ClinvarInput,
+  VariantType,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
 import { VariantSuggestRevisionService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+
+export interface FormSource {
+  id: number;
+  displayType: string;
+  citationId: number;
+  citation: string;
+}
+
+export interface VariantRevisionFormModel {
+  id: number;
+  comment: string;
+  fields: {
+    name?: string;
+    variantAliases?: string[];
+    description: string;
+    sources: FormSource[];
+    clinvarIds?: ClinvarInput;
+    gene?: { id: number; name: string }
+    ensemblVersion?: number;
+    hgvsDescriptions?: Maybe<string[]>;
+    variantTypes?: VariantType[];
+  }
+}
 
 @Component({
   selector: 'cvc-variant-revise-form',
@@ -43,14 +68,16 @@ export class VariantReviseForm implements OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: any;
+  formModel!: VariantRevisionFormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
-  constructor(private viewerService: ViewerService,
+  constructor(
+    private variantSuggestRevisionService: VariantSuggestRevisionService,
+    private viewerService: ViewerService,
     private variantRevisableFieldsGQL: VariantRevisableFieldsGQL,
-    private variantSuggestRevisionService: VariantSuggestRevisionService) {
+  ) {
 
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
@@ -95,6 +122,20 @@ export class VariantReviseForm implements OnDestroy {
         }
       },
       {
+        key: 'fields.variantAliases',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Variant Aliases',
+          addText: 'Add an Alias',
+        },
+        fieldArray: {
+          type: 'input',
+          templateOptions: {
+            required: true
+          }
+        }
+      },
+      {
         key: 'comment',
         type: 'comment-textarea',
         templateOptions: {
@@ -125,7 +166,7 @@ export class VariantReviseForm implements OnDestroy {
             id: variant.id,
             fields: {
               description: variant.description,
-              sources: [...variant.sources]
+              sources: [...variant.sources],
             },
             comment: ''
           }

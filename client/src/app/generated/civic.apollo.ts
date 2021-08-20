@@ -4475,7 +4475,7 @@ export type VariantRevisableFieldsQuery = (
   { __typename: 'Query' }
   & { variant?: Maybe<(
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'description'>
+    & Pick<Variant, 'id' | 'description' | 'variantAliases'>
     & { sources: Array<(
       { __typename: 'Source' }
       & Pick<Source, 'id' | 'displayType' | 'citation' | 'citationId'>
@@ -7710,6 +7710,7 @@ export const VariantRevisableFieldsDocument = gql`
       citation
       citationId
     }
+    variantAliases
   }
 }
     `;

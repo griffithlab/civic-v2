@@ -8,6 +8,7 @@ query VariantRevisableFields($variantId: Int!) {
       citation
       citationId
     }
+    variantAliases
   }
 }
 

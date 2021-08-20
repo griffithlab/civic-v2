@@ -8,14 +8,11 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import {
   SuggestVariantRevisionInput,
   SuggestVariantRevisionGQL,
-  SuggestVariantRevisionPayload,
   SuggestVariantRevisionMutation
 } from '@app/generated/civic.apollo';
 
-import { NGXLogger } from 'ngx-logger';
-
 import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
-import { catchError, finalize, pluck, startWith, takeUntil, tap } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +27,7 @@ export class VariantSuggestRevisionService implements OnDestroy {
   private destroy$ = new Subject();
 
   constructor(
-    private suggestVariantRevisionGQL: SuggestVariantRevisionGQL, private logger: NGXLogger) {
+    private suggestVariantRevisionGQL: SuggestVariantRevisionGQL) {
     this.isSubmitting$ = new BehaviorSubject<boolean>(false);
     this.submitSuccess$ = new BehaviorSubject<boolean>(false);
     this.submitError$ = new BehaviorSubject<string[]>([]);
