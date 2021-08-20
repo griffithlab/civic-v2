@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcOrganizationCardComponent } from './organization-card.component';
-import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-rating/evidence-rating.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';

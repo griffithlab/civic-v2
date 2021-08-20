@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { CommentableInput, CommentListGQL, CommentListNodeFragment, CommentListQuery, CommentListQueryVariables, DateSort, DateSortColumns, Maybe, PageInfo, SortDirection } from '@app/generated/civic.apollo';
 
-import { Viewer, ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';

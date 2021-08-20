@@ -12,7 +12,7 @@ import {
 import {
   Viewer,
   ViewerService,
-} from '@app/shared/services/viewer/viewer.service';
+} from '@app/core/services/viewer/viewer.service';
 import { ActivatedRoute } from '@angular/router';
 import { pluck, startWith } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';

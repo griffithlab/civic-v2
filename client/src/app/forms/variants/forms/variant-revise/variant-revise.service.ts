@@ -11,7 +11,7 @@ import {
   SuggestVariantRevisionMutation
 } from '@app/generated/civic.apollo';
 
-import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
+import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename';
 import { finalize, takeUntil } from 'rxjs/operators';
 
 @Injectable({

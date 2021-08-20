@@ -18,7 +18,7 @@ import {
   GenesSortColumns,
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { buildSortParams, SortDirectionEvent, WithName } from '@app/shared/utilities/datatable-helpers';
+import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 
 export interface GeneTableRow {
   id: number

@@ -18,9 +18,10 @@ import {
 import {
   ViewerService,
   Viewer,
-} from '@app/shared/services/viewer/viewer.service';
+} from '@app/core/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { toNullableString } from '@app/forms/shared/input-helpers';
 
 export interface FormSource {
   id: number;
@@ -161,19 +162,10 @@ export class GeneReviseForm implements OnInit, OnDestroy {
     //   this.formGroup.controls[key].updateValueAndValidity();
     // }
 
-    let newDesc = value.fields.description
-    let nullableDesc: NullableStringInput = {}
-
-    if (newDesc && newDesc.trim().length > 0) {
-      nullableDesc.value = newDesc
-    } else {
-      nullableDesc.unset = true
-    }
-
     const newRevisionInput = <SuggestGeneRevisionInput>{
       ...value,
       fields: {
-        description: nullableDesc,
+        description: toNullableString(value.fields.description),
         sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
       },
       organizationId:

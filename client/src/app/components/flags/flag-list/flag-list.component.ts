@@ -9,7 +9,7 @@ import {
   Maybe,
   FlagState,
 } from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable } from 'rxjs';

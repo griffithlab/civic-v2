@@ -2,7 +2,7 @@ import { InjectionToken, NgModule } from '@angular/core';
 import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 import { IconDefinition, ThemeType } from '@ant-design/icons-angular';
 
-import { camelToKebab } from '@app/shared/utilities/camel-to-kebab';
+import { camelToKebab } from '@app/core/utilities/camel-to-kebab';
 
 import {
   MenuFoldOutline,

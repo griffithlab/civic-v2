@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 import { map, pluck, takeUntil, tap } from 'rxjs/operators';
 
-import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
 import { CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 

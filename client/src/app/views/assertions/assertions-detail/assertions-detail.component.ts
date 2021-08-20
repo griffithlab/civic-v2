@@ -11,7 +11,7 @@ import {
 import {
   Viewer,
   ViewerService,
-} from '@app/shared/services/viewer/viewer.service';
+} from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 import { AssertionDetailQuery } from '@app/generated/civic.apollo';
 import { pluck, startWith } from 'rxjs/operators';

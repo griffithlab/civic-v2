@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { User } from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService } from '@app/core/services/viewer/viewer.service';
 
 @Component({
   selector: 'cvc-layout',

@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseSourceRowFieldsFragment, BrowseSourcesGQL, BrowseSourcesQuery, Maybe, PageInfo, QueryBrowseSourcesArgs, SourceSource, SourcesSortColumns } from "@app/generated/civic.apollo";
-import { buildSortParams, SortDirectionEvent } from "@app/shared/utilities/datatable-helpers";
+import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
 import { map, pluck, startWith, debounceTime } from 'rxjs/operators';

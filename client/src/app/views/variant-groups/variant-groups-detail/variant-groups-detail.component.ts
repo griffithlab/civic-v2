@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import {
   Viewer,
   ViewerService,
-} from '@app/shared/services/viewer/viewer.service';
+} from '@app/core/services/viewer/viewer.service';
 import {
   Maybe,
   VariantGroupDetailFieldsFragment,

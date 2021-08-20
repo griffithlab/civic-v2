@@ -25,18 +25,19 @@ import {
   SourceSource,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { VariantSuggestRevisionService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { toNullableString } from '@app/forms/shared/input-helpers';
 
-export interface FormSource {
+interface FormSource {
   id: number;
   sourceType: SourceSource;
   citationId: number;
   citation: string;
 }
 
-export interface VariantRevisionFormModel {
+interface FormModel {
   id: number;
   comment: string;
   fields: {
@@ -69,7 +70,7 @@ export class VariantReviseForm implements OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: VariantRevisionFormModel;
+  formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
@@ -185,26 +186,30 @@ export class VariantReviseForm implements OnDestroy {
     this.mostRecentOrg = org;
   }
 
-  submitRevision(value: any): void {
+  submitRevision(formModel: FormModel): void {
     // for (const key in this.formGroup.controls) {
     //   this.formGroup.controls[key].markAsDirty();
     //   this.formGroup.controls[key].updateValueAndValidity();
     // }
 
-    const newRevisionInput = <SuggestVariantRevisionInput>{
-      ...value,
+    this.variantSuggestRevisionService
+      .suggestRevision(this.toRevisionInput(formModel));
+  }
+
+  toRevisionInput(model: FormModel): SuggestVariantRevisionInput {
+    return <SuggestVariantRevisionInput>{
+      ...model,
       fields: {
-        description: value.fields.description,
-        sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
+        description: toNullableString(model.fields.description),
+        sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
       },
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     }
-
-    this.variantSuggestRevisionService.suggestRevision(newRevisionInput);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 }

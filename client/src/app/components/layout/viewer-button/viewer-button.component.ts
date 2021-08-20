@@ -13,7 +13,7 @@ import {
 
 import { User, Maybe } from '@app/generated/civic.apollo';
 
-import { ViewerService } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService } from '@app/core/services/viewer/viewer.service';
 
 @Component({
   selector: 'cvc-viewer-button',

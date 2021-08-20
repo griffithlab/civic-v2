@@ -5,7 +5,7 @@ import {
   Maybe,
   SourceSource,
 } from '@app/generated/civic.apollo';
-import { formatSourceTypeEnum } from '@app/shared/utilities/enum-formatters/format-source-type-enum';
+import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { $enum } from 'ts-enum-util';
 

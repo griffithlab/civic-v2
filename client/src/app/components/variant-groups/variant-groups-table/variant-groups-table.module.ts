@@ -12,7 +12,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
-import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';

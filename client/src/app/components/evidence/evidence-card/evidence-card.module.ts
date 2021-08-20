@@ -10,7 +10,7 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
 import { CvcEvidenceCardComponent } from './evidence-card.component';
 import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-rating/evidence-rating.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcEvidenceCardComponent],

@@ -37,7 +37,7 @@ import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.co
 import { EvidenceModule } from '../evidence/evidence.module';
 import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';

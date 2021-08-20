@@ -14,7 +14,7 @@ import {
 import {
   Viewer,
   ViewerService,
-} from '@app/shared/services/viewer/viewer.service';
+} from '@app/core/services/viewer/viewer.service';
 
 @Component({
   selector: 'cvc-variant-groups-summary',
