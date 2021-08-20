@@ -37,10 +37,14 @@ module Types::Entities
     end
 
     def profile_image_path(size: )
-      if object.profile_image.attached?
-        object.profile_image.variant(resize_to_limit: [size, size]).processed.url
-      else
-        nil
+      Loaders::ActiveStorageLoader.for(:Organization, :profile_image).load(object.id).then do |image|
+        if image
+          Rails.application.routes.url_helpers.url_for(
+            image.variant(resize_to_limit: [size, size]).processed.url
+          )
+        else
+          nil
+        end
       end
     end
 

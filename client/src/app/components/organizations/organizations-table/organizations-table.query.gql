@@ -41,6 +41,10 @@ fragment OrganizationBrowseTableRowFields on Organization {
   url
   memberCount
   eventCount
+  subGroups {
+    name
+    id
+  }
   mostRecentEvent {
     createdAt
   }

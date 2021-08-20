@@ -1,7 +1,7 @@
-import { Component, ContentChildren, Input, OnInit, QueryList, TemplateRef } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Maybe } from "@app/generated/civic.apollo";
 
-export type SupportedPileupTags = 'drug' | 'disease'
+export type SupportedPileupTags = 'drug' | 'disease' | 'organization'
 
 export type TagInfo = {
   id: number
@@ -25,6 +25,10 @@ export class CvcTagOverflowComponent implements OnInit {
   matchedHiddenCount: number = 0
 
   ngOnInit() {
+    this.calculateDisplayedTags()
+  }
+
+  calculateDisplayedTags() {
     this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
     this.hiddenTags = this.tags?.slice(this.maxDisplayCount)
     this.hiddenCount = this.hiddenTags?.length
@@ -38,5 +42,10 @@ export class CvcTagOverflowComponent implements OnInit {
         }
       });
     }
+  }
+
+  onOverflowClicked() { 
+    this.maxDisplayCount = this.tags?.length || 0
+    this.calculateDisplayedTags()
   }
 }

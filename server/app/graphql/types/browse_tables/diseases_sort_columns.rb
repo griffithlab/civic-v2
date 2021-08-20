@@ -5,6 +5,6 @@ module Types::BrowseTables
     value "VARIANT_COUNT"
     value "EVIDENCE_ITEM_COUNT"
     value "ASSERTION_COUNT"
-    value "GENE_NAMES"
+    value "GENE_COUNT"
   end
 end

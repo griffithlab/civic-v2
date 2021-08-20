@@ -11,6 +11,13 @@ module Types::BrowseTables
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
     field :evidence_score, Float, null: false
+    field :aliases, [Types::Entities::VariantAliasType], null: false
+
+    def aliases
+      object.alias_names
+        .compact
+        .map { |d| { name: d } }
+    end
 
     def diseases
       Array(object.diseases)

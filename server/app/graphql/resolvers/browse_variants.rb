@@ -14,6 +14,8 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   option(:variant_type_id, type: Int)    { |scope, value| scope.where(int_array_query_for_column('variant_types'), value) }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "#{value}%") }
   option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "#{value}%") }
+  option(:variant_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
+
 
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column

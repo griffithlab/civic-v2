@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_194735) do
+ActiveRecord::Schema.define(version: 2021_08_19_201211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -903,26 +903,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_194735) do
   SQL
   add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
-  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT diseases.id,
-      diseases.name,
-      diseases.display_name,
-      diseases.doid,
-      array_agg(DISTINCT genes.name) AS gene_names,
-      count(DISTINCT evidence_items.id) AS evidence_item_count,
-      count(DISTINCT variants.id) AS variant_count,
-      count(DISTINCT assertions.id) AS assertion_count
-     FROM (((((diseases
-       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
-       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
-       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
-       JOIN variants ON ((variants.id = evidence_items.variant_id)))
-       JOIN genes ON ((genes.id = variants.gene_id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY diseases.id, diseases.name, diseases.doid;
-  SQL
-  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
-
   create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_genes.id,
       outer_genes.name,
@@ -969,12 +949,15 @@ ActiveRecord::Schema.define(version: 2021_07_30_194735) do
       outer_variants.civic_actionability_score AS evidence_score,
       genes.id AS gene_id,
       genes.name AS gene_name,
+      array_agg(DISTINCT variant_aliases.name ORDER BY variant_aliases.name) AS alias_names,
       count(DISTINCT evidence_items.id) AS evidence_item_count,
       array_agg(DISTINCT variant_types.id) AS variant_types,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
       json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
       count(DISTINCT assertions.id) AS assertion_count
-     FROM ((((((((((variants outer_variants
+     FROM ((((((((((((variants outer_variants
+       LEFT JOIN variant_aliases_variants ON ((variant_aliases_variants.variant_id = outer_variants.id)))
+       LEFT JOIN variant_aliases ON ((variant_aliases.id = variant_aliases_variants.variant_alias_id)))
        JOIN evidence_items ON ((evidence_items.variant_id = outer_variants.id)))
        JOIN genes ON ((genes.id = outer_variants.gene_id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
@@ -1000,5 +983,26 @@ ActiveRecord::Schema.define(version: 2021_07_30_194735) do
     GROUP BY outer_variants.id, outer_variants.name, outer_variants.civic_actionability_score, genes.id, genes.name;
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
+
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.display_name,
+      diseases.doid,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT genes.id) AS gene_count
+     FROM (((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       JOIN variants ON ((variants.id = evidence_items.variant_id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY diseases.id, diseases.name, diseases.doid;
+  SQL
+  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
 
 end

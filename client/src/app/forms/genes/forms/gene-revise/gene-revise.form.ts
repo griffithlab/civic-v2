@@ -11,6 +11,7 @@ import {
   Organization,
   SuggestGeneRevisionInput,
   Maybe,
+  NullableStringInput,
 } from '@app/generated/civic.apollo';
 
 import {
@@ -159,13 +160,20 @@ export class GeneReviseForm implements OnInit, OnDestroy {
     //   this.formGroup.controls[key].updateValueAndValidity();
     // }
 
+    let newDesc = value.fields.description
+    let nullableDesc: NullableStringInput = {}
+
+    if (newDesc && newDesc.trim().length > 0) {
+      nullableDesc.value = newDesc
+    } else {
+      nullableDesc.unset = true
+    }
+
     const newRevisionInput = <SuggestGeneRevisionInput>{
       ...value,
       fields: {
-        description: value.fields.description,
-        sourceIds: value.fields.sources.map((s: any) => {
-          return +s.id;
-        }),
+        description: nullableDesc,
+        sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
       },
       organizationId:
         this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
