@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+import { Maybe, SourceSource } from '@app/generated/civic.apollo';
 
 export interface LinkableSource {
   id: number;
   citation: string;
-  sourceType: string;
+  sourceType: SourceSource;
 }
 
 @Component({
@@ -13,7 +13,7 @@ export interface LinkableSource {
   styleUrls: ['./source-tag.component.less']
 })
 export class CvcSourceTagComponent implements OnInit {
-  @Input() source!: any;
+  @Input() source!: LinkableSource;
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 

@@ -22,6 +22,7 @@ import {
   Maybe,
   ClinvarInput,
   VariantType,
+  SourceSource,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
@@ -30,7 +31,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 export interface FormSource {
   id: number;
-  displayType: string;
+  sourceType: SourceSource;
   citationId: number;
   citation: string;
 }

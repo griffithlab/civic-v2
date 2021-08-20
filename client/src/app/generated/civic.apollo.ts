@@ -4376,7 +4376,7 @@ export type GeneRevisableFieldsQuery = (
     & Pick<Gene, 'id' | 'description'>
     & { sources: Array<(
       { __typename: 'Source' }
-      & Pick<Source, 'id' | 'displayType' | 'citation' | 'citationId'>
+      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
     )> }
   )> }
 );
@@ -4493,7 +4493,7 @@ export type VariantRevisableFieldsQuery = (
     & Pick<Variant, 'id' | 'description' | 'variantAliases'>
     & { sources: Array<(
       { __typename: 'Source' }
-      & Pick<Source, 'id' | 'displayType' | 'citation' | 'citationId'>
+      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
     )> }
   )> }
 );
@@ -7578,7 +7578,7 @@ export const GeneRevisableFieldsDocument = gql`
     description
     sources {
       id
-      displayType
+      sourceType
       citation
       citationId
     }
@@ -7730,7 +7730,7 @@ export const VariantRevisableFieldsDocument = gql`
     description
     sources {
       id
-      displayType
+      sourceType
       citation
       citationId
     }

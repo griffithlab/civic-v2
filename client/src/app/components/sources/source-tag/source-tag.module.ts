@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CvcSourcePopoverModule } from '../source-popover/source-popover.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcPipesModule } from '@app/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcSourceTagComponent],
@@ -16,6 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzPopoverModule,
     NzTagModule,
     CvcSourcePopoverModule,
+    CvcPipesModule,
   ],
   exports: [CvcSourceTagComponent]
 })

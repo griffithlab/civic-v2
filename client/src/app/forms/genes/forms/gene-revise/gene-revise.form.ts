@@ -12,6 +12,7 @@ import {
   SuggestGeneRevisionInput,
   Maybe,
   NullableStringInput,
+  SourceSource,
 } from '@app/generated/civic.apollo';
 
 import {
@@ -23,7 +24,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 export interface FormSource {
   id: number;
-  displayType: string;
+  sourceType: SourceSource,
   citationId: number;
   citation: string;
 }

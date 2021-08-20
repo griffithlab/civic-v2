@@ -3,7 +3,7 @@ import { SourceSource } from '@app/generated/civic.apollo';
 import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Pipe({
-  name: 'sourceTypeEnumDisplay',
+  name: 'sourceTypeDisplay',
   pure: true
 })
 export class SourceTypeDisplayPipe implements PipeTransform {

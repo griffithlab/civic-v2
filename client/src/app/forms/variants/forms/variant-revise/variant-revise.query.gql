@@ -4,7 +4,7 @@ query VariantRevisableFields($variantId: Int!) {
     description
     sources {
       id
-      displayType
+      sourceType
       citation
       citationId
     }
