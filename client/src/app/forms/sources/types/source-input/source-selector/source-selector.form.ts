@@ -5,6 +5,7 @@ import {
   Maybe,
   SourceSource,
 } from '@app/generated/civic.apollo';
+import { formatSourceTypeEnum } from '@app/shared/utilities/enum-formatters/format-source-type-enum';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { $enum } from 'ts-enum-util';
 
@@ -44,7 +45,7 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
           placeholder: 'Select Type',
           options: $enum(SourceSource)
             .map((value, key) => {
-              return { value: value, label: key };
+              return { value: value, label: formatSourceTypeEnum(value)};
             })
         }
       },
