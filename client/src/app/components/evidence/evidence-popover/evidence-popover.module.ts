@@ -14,7 +14,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({

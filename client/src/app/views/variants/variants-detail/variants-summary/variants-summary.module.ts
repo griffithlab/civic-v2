@@ -17,7 +17,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 

@@ -18,7 +18,7 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
 import { CvcEvidenceTagModule } from '../evidence-tag/evidence-tag.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 

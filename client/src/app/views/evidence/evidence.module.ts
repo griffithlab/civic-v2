@@ -38,7 +38,7 @@ import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisi
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';

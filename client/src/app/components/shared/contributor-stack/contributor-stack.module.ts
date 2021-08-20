@@ -4,7 +4,7 @@ import { CvcContributorStackComponent } from './contributor-stack.component';
 import { RouterModule } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/shared/pipes/pipes.module';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { CvcUserPopoverModule } from '@app/components/users/user-popover/user-popover.module';
 
