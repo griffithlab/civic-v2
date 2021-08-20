@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SourceSource } from '@app/generated/civic.apollo';
+import { formatSourceTypeEnum } from '@app/shared/utilities/enum-formatters/format-source-type-enum';
 import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Pipe({
@@ -8,13 +9,7 @@ import { Maybe } from 'graphql/jsutils/Maybe';
 })
 export class SourceTypeDisplayPipe implements PipeTransform {
   transform(value: Maybe<SourceSource>): string {
-    switch (value) {
-      case 'ASCO':
-        return 'Asco';
-      case 'PUBMED':
-        return 'PubMed';
-      default:
-        return '';
-    }
+    if(!value) return '';
+    return formatSourceTypeEnum(value);
   }
 }
