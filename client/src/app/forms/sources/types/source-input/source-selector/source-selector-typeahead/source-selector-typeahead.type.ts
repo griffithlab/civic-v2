@@ -1,15 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
 import {
-  Maybe,
-  Source,
-  SourceSource,
-  CitationExistenceCheckGQL,
   CitationTypeaheadGQL,
-  SourceTypeaheadResultFragment
 } from '@app/generated/civic.apollo';
 
 @Component({
@@ -24,7 +18,6 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
   nzFilterOption = () => true;
 
   constructor(
-    private httpClient: HttpClient,
     private sourceTypeaheadQuery: CitationTypeaheadGQL,
     private changeDetectorRef: ChangeDetectorRef
   ) {
@@ -91,7 +84,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
 }
 
 export const TypeaheadSelectorType = {
-  name: 'typeahead-selector',
+  name: 'source-selector-typeahead',
   component: TypeaheadSelectorComponent,
   wrappers: ['form-field'],
 }

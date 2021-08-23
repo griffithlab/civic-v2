@@ -213,6 +213,7 @@ export class VariantReviseForm implements OnDestroy {
         variantBases: variant.fivePrimeCoordinates?.variantBases,
       },
       comment: '',
+      organizationId: undefined
     }
   }
 

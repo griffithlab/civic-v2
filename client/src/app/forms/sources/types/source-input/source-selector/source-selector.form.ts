@@ -52,7 +52,7 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
       {
         key: 'citationId',
         className: 'citation-id-field',
-        type: 'typeahead-selector',
+        type: 'source-selector-typeahead',
         templateOptions: {
           maxLength: 10,
           required: true,
