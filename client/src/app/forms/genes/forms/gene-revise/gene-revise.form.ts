@@ -13,6 +13,7 @@ import {
   Maybe,
   NullableStringInput,
   SourceSource,
+  SuggestEvidenceItemRevisionInput,
 } from '@app/generated/civic.apollo';
 
 import {
@@ -30,7 +31,7 @@ export interface FormSource {
   citation: string;
 }
 
-export interface GeneRevisionFormModel {
+export interface FormModel {
   id: number;
   comment: string;
   fields: {
@@ -56,15 +57,15 @@ export class GeneReviseForm implements OnInit, OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: GeneRevisionFormModel;
+  formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
   constructor(
     private viewerService: ViewerService,
-    private geneRevisableFieldsGQL: GeneRevisableFieldsGQL,
-    private geneSuggestRevisionService: GeneSuggestRevisionService
+    private revisionService: GeneSuggestRevisionService,
+    private revisableFieldsGQL: GeneRevisableFieldsGQL
   ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
@@ -75,9 +76,9 @@ export class GeneReviseForm implements OnInit, OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-    this.submitError$ = this.geneSuggestRevisionService.submitError$;
-    this.isSubmitting$ = this.geneSuggestRevisionService.isSubmitting$;
-    this.submitSuccess$ = this.geneSuggestRevisionService.submitSuccess$;
+    this.submitError$ = this.revisionService.submitError$;
+    this.isSubmitting$ = this.revisionService.isSubmitting$;
+    this.submitSuccess$ = this.revisionService.submitSuccess$;
 
     this.formFields = [
       {
@@ -130,7 +131,7 @@ export class GeneReviseForm implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
-    this.geneRevisableFieldsGQL
+    this.revisableFieldsGQL
       .fetch({ geneId: this.geneId })
       .subscribe(({ data: { gene } }) => {
         if (gene) {
@@ -156,23 +157,22 @@ export class GeneReviseForm implements OnInit, OnDestroy {
     this.mostRecentOrg = org;
   }
 
-  submitRevision(value: any): void {
-    // for (const key in this.formGroup.controls) {
-    //   this.formGroup.controls[key].markAsDirty();
-    //   this.formGroup.controls[key].updateValueAndValidity();
-    // }
+  submitRevision(model: any): void {
+    this.revisionService
+      .suggest(this.toRevisionInput(model));
+  }
 
-    const newRevisionInput = <SuggestGeneRevisionInput>{
-      ...value,
+  toRevisionInput(model: FormModel): SuggestGeneRevisionInput {
+    return <SuggestGeneRevisionInput>{
+      ...model,
       fields: {
-        description: toNullableString(value.fields.description),
-        sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
+        description: toNullableString(model.fields.description),
+        sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
       },
       organizationId:
         this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
     };
 
-    this.geneSuggestRevisionService.suggestRevision(newRevisionInput);
   }
 
   ngOnDestroy(): void {

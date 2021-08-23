@@ -76,9 +76,9 @@ export class VariantReviseForm implements OnDestroy {
   formOptions: FormlyFormOptions = {};
 
   constructor(
-    private variantSuggestRevisionService: VariantSuggestRevisionService,
+    private revisionService: VariantSuggestRevisionService,
     private viewerService: ViewerService,
-    private variantRevisableFieldsGQL: VariantRevisableFieldsGQL,
+    private revisableFieldsGQL: VariantRevisableFieldsGQL,
   ) {
 
     // subscribing to viewer$ and setting local org, mostRecentOrg
@@ -90,9 +90,9 @@ export class VariantReviseForm implements OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-    this.submitError$ = this.variantSuggestRevisionService.submitError$;
-    this.isSubmitting$ = this.variantSuggestRevisionService.isSubmitting$;
-    this.submitSuccess$ = this.variantSuggestRevisionService.submitSuccess$;
+    this.submitError$ = this.revisionService.submitError$;
+    this.isSubmitting$ = this.revisionService.isSubmitting$;
+    this.submitSuccess$ = this.revisionService.submitSuccess$;
 
     this.formFields = [
       {
@@ -161,14 +161,15 @@ export class VariantReviseForm implements OnDestroy {
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
-    this.variantRevisableFieldsGQL.fetch({ variantId: this.variantId })
+    this.revisableFieldsGQL.fetch({ variantId: this.variantId })
       .subscribe(({ data: { variant } }) => {
         if (variant) {
           this.formModel = {
             id: variant.id,
             fields: {
-              description: variant.description,
-              sources: [...variant.sources],
+              ...variant
+              // description: variant.description,
+              // sources: [...variant.sources],
             },
             comment: ''
           }
@@ -187,13 +188,8 @@ export class VariantReviseForm implements OnDestroy {
   }
 
   submitRevision(formModel: FormModel): void {
-    // for (const key in this.formGroup.controls) {
-    //   this.formGroup.controls[key].markAsDirty();
-    //   this.formGroup.controls[key].updateValueAndValidity();
-    // }
-
-    this.variantSuggestRevisionService
-      .suggestRevision(this.toRevisionInput(formModel));
+    this.revisionService
+      .suggest(this.toRevisionInput(formModel));
   }
 
   toRevisionInput(model: FormModel): SuggestVariantRevisionInput {

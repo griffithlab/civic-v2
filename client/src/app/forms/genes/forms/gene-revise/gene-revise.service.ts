@@ -36,7 +36,7 @@ export class GeneSuggestRevisionService implements OnDestroy {
     this.submitError$ = new BehaviorSubject<string[]>([]);
   }
 
-  suggestRevision(suggestGeneRevisionInput: SuggestGeneRevisionInput): void {
+  suggest(suggestGeneRevisionInput: SuggestGeneRevisionInput): void {
     this.storeObj = {
       id: suggestGeneRevisionInput.id,
       __typename: entityTypeToTypename('Gene')

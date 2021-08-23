@@ -33,7 +33,7 @@ export class VariantSuggestRevisionService implements OnDestroy {
     this.submitError$ = new BehaviorSubject<string[]>([]);
   }
 
-  suggestRevision(suggestVariantRevisionInput: SuggestVariantRevisionInput): void {
+  suggest(suggestVariantRevisionInput: SuggestVariantRevisionInput): void {
     this.storeObj = {
       id: suggestVariantRevisionInput.id,
       __typename: entityTypeToTypename('Variant')
