@@ -21,7 +21,8 @@
   <formly-form [form]="formGroup"
     [fields]="formFields"
     [model]="formModel"
-    [options]="formOptions"></formly-form>
+    [options]="formOptions"
+    (modelChange)="formModel = $event"></formly-form>
   <nz-form-item *ngIf="!(submitSuccess$ | async)">
     <nz-form-control>
       <cvc-form-buttons>
@@ -45,6 +46,8 @@
       [json]="formGroup.value"></ngx-json-viewer>
   </div>
   <div nz-col nzSpan="12">
+    <h4>formModel</h4>
+    <p>To speed up form updates, comment or remove formModel debug.</p>
     <ngx-json-viewer *ngIf="formModel"
       [json]="formModel"></ngx-json-viewer>
   </div>
