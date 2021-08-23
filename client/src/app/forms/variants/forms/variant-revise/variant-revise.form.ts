@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+
   OnDestroy,
 } from '@angular/core';
 
@@ -23,18 +24,19 @@ import {
   SourceSource,
   RevisableVariantFieldsFragment,
   ReferenceBuild,
+  CoordinateFieldsFragment,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { VariantSuggestRevisionService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { toNullableString } from '@app/forms/shared/input-helpers';
+import * as fmt from '@app/forms/shared/input-formatters';
 
 interface FormSource {
-  id: number;
-  sourceType: SourceSource;
-  citationId: number;
-  citation: string;
+  id?: number;
+  sourceType?: SourceSource;
+  citationId?: number;
+  citation?: string;
 }
 
 interface FormGene {
@@ -62,6 +64,10 @@ interface FormModel {
     ensemblVersion: number;
     hgvsDescriptions: Maybe<string[]>;
     variantTypes: FormVariantType[];
+    fivePrimeCoordinates: CoordinateFieldsFragment;
+    threePrimeCoordinates: CoordinateFieldsFragment;
+    referenceBases: Maybe<string>;
+    variantBases: Maybe<string>;
   }
 }
 
@@ -200,18 +206,35 @@ export class VariantReviseForm implements OnDestroy {
     return <FormModel>{
       id: variant.id,
       fields: {
-        ...variant
+        ...variant,
+        // TODO: probably incorrect - assuming root ref/var bases can be plucked from
+        // fivePrimeCoordinates
+        referenceBases: variant.fivePrimeCoordinates?.referenceBases,
+        variantBases: variant.fivePrimeCoordinates?.variantBases,
       },
       comment: '',
     }
   }
 
   toRevisionInput(model: FormModel): SuggestVariantRevisionInput {
+    const fields = model.fields;
     return <SuggestVariantRevisionInput>{
       ...model,
       fields: {
-        description: toNullableString(model.fields.description),
+        name: fields.name,
+        geneId: fields.gene.id,
+        ensemblVersion: fields.ensemblVersion,
+        description: fmt.toNullableString(fields.description),
+        clinvarIds: fmt.toClinvarInput(fields.clinvarIds),
+        primaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
+        secondaryCoordinates: fmt.toCoordinateInput(fields.threePrimeCoordinates),
+        referenceBases: fmt.toNullableString(fields.referenceBases),
+        variantBases: fmt.toNullableString(fields.variantBases),
+        referenceBuild: fmt.toNullableReferenceBuildInput(fields.referenceBuild),
+        hgvsDescriptions: fields.hgvsDescriptions,
         sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
+        variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
+        aliases: model.fields.variantAliases,
       },
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     }

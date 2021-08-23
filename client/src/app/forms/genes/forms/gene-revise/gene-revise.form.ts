@@ -11,9 +11,7 @@ import {
   Organization,
   SuggestGeneRevisionInput,
   Maybe,
-  NullableStringInput,
   SourceSource,
-  SuggestEvidenceItemRevisionInput,
   RevisableGeneFieldsFragment,
 } from '@app/generated/civic.apollo';
 
@@ -23,7 +21,7 @@ import {
 } from '@app/core/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { toNullableString } from '@app/forms/shared/input-helpers';
+import { toNullableString } from '@app/forms/shared/input-formatters';
 
 export interface FormSource {
   id: number;

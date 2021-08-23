@@ -9,13 +9,21 @@ import {
 
 export function toClinvarInput(
   ids?: string[],
-  noneFound?: boolean,
-  notApplicable?: boolean
 ): ClinvarInput {
+  let na, nf;
+  if (ids && ids.includes('N/A')) {
+    ids = undefined;
+    nf = undefined;
+    na = true;
+  } else if (!ids) {
+    ids = undefined;
+    na= undefined;
+    nf = true;
+  }
   return <ClinvarInput>{
     ids: ids,
-    noneFound: noneFound,
-    notApplicable: notApplicable,
+    noneFound: nf,
+    notApplicable: na
   };
 }
 

@@ -4551,10 +4551,10 @@ export type RevisableVariantFieldsFragment = (
   ), variantTypes?: Maybe<Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'name' | 'soid'>
-  )>>, threePrimeCoordinates?: Maybe<(
+  )>>, fivePrimeCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
-  )>, fivePrimeCoordinates?: Maybe<(
+  )>, threePrimeCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
   )> }
@@ -6015,10 +6015,10 @@ export const RevisableVariantFieldsFragmentDoc = gql`
     name
     soid
   }
-  threePrimeCoordinates {
+  fivePrimeCoordinates {
     ...CoordinateFields
   }
-  fivePrimeCoordinates {
+  threePrimeCoordinates {
     ...CoordinateFields
   }
 }
