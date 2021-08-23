@@ -46,5 +46,6 @@ export const formlyConfig = {
     CommentTextareaType,
     MultiFieldType,
   ],
+  extras: { immutable: true },
   validationMessages: defaultValidationMessages,
 }
