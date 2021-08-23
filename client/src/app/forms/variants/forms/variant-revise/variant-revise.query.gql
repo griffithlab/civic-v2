@@ -1,15 +1,19 @@
 query VariantRevisableFields($variantId: Int!) {
   variant(id: $variantId) {
-    id
-    description
-    sources {
-      id
-      sourceType
-      citation
-      citationId
-    }
-    variantAliases
+    ... RevisableVariantFields
   }
+}
+
+fragment RevisableVariantFields on Variant {
+  id
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  variantAliases
 }
 
 mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {

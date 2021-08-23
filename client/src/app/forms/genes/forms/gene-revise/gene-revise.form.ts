@@ -14,6 +14,7 @@ import {
   NullableStringInput,
   SourceSource,
   SuggestEvidenceItemRevisionInput,
+  RevisableGeneFieldsFragment,
 } from '@app/generated/civic.apollo';
 
 import {
@@ -135,14 +136,7 @@ export class GeneReviseForm implements OnInit, OnDestroy {
       .fetch({ geneId: this.geneId })
       .subscribe(({ data: { gene } }) => {
         if (gene) {
-          this.formModel = {
-            id: gene.id,
-            fields: {
-              description: gene.description,
-              sources: [...gene.sources],
-            },
-            comment: '',
-          };
+          this.formModel = this.toFormModel(gene);
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve gene.');
@@ -151,6 +145,16 @@ export class GeneReviseForm implements OnInit, OnDestroy {
           this.formOptions.updateInitialValue();
         }
       });
+  }
+
+  toFormModel(gene: RevisableGeneFieldsFragment): FormModel {
+    return <FormModel>{
+        id: gene.id,
+        fields: {
+          ...gene
+        },
+        comment: '',
+    }
   }
 
   selectOrg(org: Organization): void {

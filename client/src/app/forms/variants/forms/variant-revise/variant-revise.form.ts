@@ -23,6 +23,7 @@ import {
   ClinvarInput,
   VariantType,
   SourceSource,
+  RevisableVariantFieldsFragment,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
@@ -164,15 +165,7 @@ export class VariantReviseForm implements OnDestroy {
     this.revisableFieldsGQL.fetch({ variantId: this.variantId })
       .subscribe(({ data: { variant } }) => {
         if (variant) {
-          this.formModel = {
-            id: variant.id,
-            fields: {
-              ...variant
-              // description: variant.description,
-              // sources: [...variant.sources],
-            },
-            comment: ''
-          }
+          this.formModel = this.toFormModel(variant);
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve variant.');
@@ -190,6 +183,16 @@ export class VariantReviseForm implements OnDestroy {
   submitRevision(formModel: FormModel): void {
     this.revisionService
       .suggest(this.toRevisionInput(formModel));
+  }
+
+  toFormModel(variant: RevisableVariantFieldsFragment): FormModel {
+    return <FormModel>{
+      id: variant.id,
+      fields: {
+        ...variant
+      },
+      comment: '',
+    }
   }
 
   toRevisionInput(model: FormModel): SuggestVariantRevisionInput {

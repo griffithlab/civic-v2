@@ -1,13 +1,17 @@
 query GeneRevisableFields($geneId: Int!) {
   gene(id: $geneId) {
+    ... RevisableGeneFields
+  }
+}
+
+fragment RevisableGeneFields on Gene {
+  id
+  description
+  sources {
     id
-    description
-    sources {
-      id
-      sourceType
-      citation
-      citationId
-    }
+    sourceType
+    citation
+    citationId
   }
 }
 
