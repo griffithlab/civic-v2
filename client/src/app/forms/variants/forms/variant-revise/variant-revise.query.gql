@@ -6,6 +6,7 @@ query VariantRevisableFields($variantId: Int!) {
 
 fragment RevisableVariantFields on Variant {
   id
+  name
   description
   sources {
     id
@@ -13,7 +14,36 @@ fragment RevisableVariantFields on Variant {
     citation
     citationId
   }
+  gene {
+    id
+    name
+  }
   variantAliases
+  alleleRegistryId
+  clinvarIds
+  ensemblVersion
+  hgvsDescriptions
+  referenceBuild
+  variantTypes {
+    id
+    name
+    soid
+  }
+  threePrimeCoordinates {
+    ... CoordinateFields
+  }
+  fivePrimeCoordinates {
+    ... CoordinateFields
+  }
+}
+
+fragment CoordinateFields on Coordinate {
+  chromosome
+  referenceBases
+  representativeTranscript
+  start
+  stop
+  variantBases
 }
 
 mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {

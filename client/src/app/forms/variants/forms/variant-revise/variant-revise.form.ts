@@ -20,10 +20,9 @@ import {
   Organization,
   SuggestVariantRevisionInput,
   Maybe,
-  ClinvarInput,
-  VariantType,
   SourceSource,
   RevisableVariantFieldsFragment,
+  ReferenceBuild,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
@@ -38,19 +37,31 @@ interface FormSource {
   citation: string;
 }
 
+interface FormGene {
+  id: number
+  name: string
+}
+
+interface FormVariantType {
+  id: number
+  name: string
+  soid: string
+}
+
 interface FormModel {
   id: number;
   comment: string;
   fields: {
-    name?: string;
-    variantAliases?: string[];
+    name: string;
+    variantAliases: string[];
     description: string;
     sources: FormSource[];
-    clinvarIds?: ClinvarInput;
-    gene?: { id: number; name: string }
-    ensemblVersion?: number;
-    hgvsDescriptions?: Maybe<string[]>;
-    variantTypes?: VariantType[];
+    clinvarIds: string[];
+    gene: FormGene;
+    referenceBuild: ReferenceBuild;
+    ensemblVersion: number;
+    hgvsDescriptions: Maybe<string[]>;
+    variantTypes: FormVariantType[];
   }
 }
 

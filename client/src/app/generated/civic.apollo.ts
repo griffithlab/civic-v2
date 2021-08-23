@@ -4541,11 +4541,28 @@ export type VariantRevisableFieldsQuery = (
 
 export type RevisableVariantFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'description' | 'variantAliases'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'clinvarIds' | 'ensemblVersion' | 'hgvsDescriptions' | 'referenceBuild'>
   & { sources: Array<(
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variantTypes?: Maybe<Array<(
+    { __typename: 'VariantType' }
+    & Pick<VariantType, 'id' | 'name' | 'soid'>
+  )>>, threePrimeCoordinates?: Maybe<(
+    { __typename: 'Coordinate' }
+    & CoordinateFieldsFragment
+  )>, fivePrimeCoordinates?: Maybe<(
+    { __typename: 'Coordinate' }
+    & CoordinateFieldsFragment
   )> }
+);
+
+export type CoordinateFieldsFragment = (
+  { __typename: 'Coordinate' }
+  & Pick<Coordinate, 'chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases'>
 );
 
 export type SuggestVariantRevisionMutationVariables = Exact<{
@@ -5962,9 +5979,20 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   sourceType
 }
     `;
+export const CoordinateFieldsFragmentDoc = gql`
+    fragment CoordinateFields on Coordinate {
+  chromosome
+  referenceBases
+  representativeTranscript
+  start
+  stop
+  variantBases
+}
+    `;
 export const RevisableVariantFieldsFragmentDoc = gql`
     fragment RevisableVariantFields on Variant {
   id
+  name
   description
   sources {
     id
@@ -5972,9 +6000,29 @@ export const RevisableVariantFieldsFragmentDoc = gql`
     citation
     citationId
   }
+  gene {
+    id
+    name
+  }
   variantAliases
+  alleleRegistryId
+  clinvarIds
+  ensemblVersion
+  hgvsDescriptions
+  referenceBuild
+  variantTypes {
+    id
+    name
+    soid
+  }
+  threePrimeCoordinates {
+    ...CoordinateFields
+  }
+  fivePrimeCoordinates {
+    ...CoordinateFields
+  }
 }
-    `;
+    ${CoordinateFieldsFragmentDoc}`;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
