@@ -34,7 +34,7 @@ export class SourceInputComponent extends FieldType implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.field.model);
+    // console.log(this.field.model);
   }
 }
 

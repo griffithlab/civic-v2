@@ -31,6 +31,8 @@ import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service'
 import { VariantReviseService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/shared/input-formatters';
+import { $enum } from 'ts-enum-util';
+import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
 
 interface FormSource {
   id?: number;
@@ -154,6 +156,127 @@ export class VariantReviseForm implements OnDestroy {
             required: true
           }
         }
+      },
+      {
+        key: 'fields.hgvsDescriptions',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'HGVS Descriptions',
+          addText: 'Add an HGVS Description'
+        },
+        fieldArray: {
+          type: 'input',
+          templateOptions: {
+            required: true
+          }
+        }
+      },
+      {
+        key:'fields.clinvarIds',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'ClinVar IDs',
+          addText: 'Add a ClinVar ID'
+        },
+        fieldArray: {
+          type: 'input',
+          templateOptions: {
+            required: true
+          }
+        }
+      },
+      {
+        key: 'fields.variantTypes',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Variant Types (needs a vt-input type)',
+          addText: 'Add a Variant Type'
+        },
+        fieldArray: {
+          type: 'input',
+        }
+      },
+      {
+        template: '<h3>Primary Coordinates</h3>',
+      },
+      {
+        key: 'fields.referenceBuild',
+        type: 'select',
+        defaultValue: ReferenceBuild.Grch37,
+        templateOptions: {
+          label: 'Reference Build',
+          required: false,
+          options: $enum(ReferenceBuild)
+            .map((value, key) => {
+              return { value: value, label: formatReferenceBuildEnum(value)}
+            })
+        }
+      },
+      {
+        key: 'fields.ensemblVersion',
+        type: 'input',
+        templateOptions: {
+          label: 'Ensembl Version',
+        },
+      },
+      {
+        key: 'fields.primaryCoordinates.chromosome',
+        type: 'input',
+        templateOptions: {
+          label: 'Chromosome',
+        },
+      },
+      {
+        key: 'fields.primaryCoordinates.start',
+        type: 'input',
+        templateOptions: {
+          label: 'Start',
+        },
+      },
+      {
+        key: 'fields.primaryCoordinates.stop',
+        type: 'input',
+        templateOptions: {
+          label: 'Stop',
+        },
+      },
+      {
+        key: 'fields.primaryCoordinates.representativeTranscript',
+        type: 'input',
+        templateOptions: {
+          label: 'Representative Transcript',
+        },
+      },
+      {
+        template: '<h3>Secondary Coordinates</h3>',
+      },
+      {
+        key: 'fields.secondaryCoordinates.chromosome',
+        type: 'input',
+        templateOptions: {
+          label: 'Chromosome',
+        },
+      },
+      {
+        key: 'fields.secondaryCoordinates.start',
+        type: 'input',
+        templateOptions: {
+          label: 'Start',
+        },
+      },
+      {
+        key: 'fields.secondaryCoordinates.stop',
+        type: 'input',
+        templateOptions: {
+          label: 'Stop',
+        },
+      },
+      {
+        key: 'fields.secondaryCoordinates.representativeTranscript',
+        type: 'input',
+        templateOptions: {
+          label: 'Representative Transcript',
+        },
       },
       {
         key: 'comment',
