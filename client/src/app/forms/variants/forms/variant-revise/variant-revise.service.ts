@@ -14,10 +14,8 @@ import {
 import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename';
 import { finalize, takeUntil } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class VariantSuggestRevisionService implements OnDestroy {
+@Injectable()
+export class VariantReviseService implements OnDestroy {
   private storeObj!: StoreObject;
   result$!: Observable<FetchResult<SuggestVariantRevisionMutation>>;
   submitError$: BehaviorSubject<string[]>;
@@ -81,6 +79,12 @@ export class VariantSuggestRevisionService implements OnDestroy {
           this.submitSuccess$.next(true);
         }
       });
+  }
+
+  cleanup(): void {
+    this.submitError$.next([]);
+    this.submitSuccess$.next(false);
+    this.isSubmitting$.next(false);
   }
 
   ngOnDestroy(): void {

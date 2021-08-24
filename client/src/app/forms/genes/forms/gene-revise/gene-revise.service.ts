@@ -86,6 +86,12 @@ export class GeneSuggestRevisionService implements OnDestroy {
       });
   }
 
+  cleanup(): void {
+    this.submitError$.next([]);
+    this.submitSuccess$.next(false);
+    this.isSubmitting$.next(false);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

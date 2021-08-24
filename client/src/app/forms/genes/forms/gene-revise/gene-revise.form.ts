@@ -180,5 +180,6 @@ export class GeneReviseForm implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.revisionService.cleanup();
   }
 }

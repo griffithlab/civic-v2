@@ -14,9 +14,11 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { VariantReviseService } from './variant-revise.service';
 
 @NgModule({
   declarations: [VariantReviseForm],
+  providers: [VariantReviseService],
   imports: [
     CommonModule,
     RouterModule,

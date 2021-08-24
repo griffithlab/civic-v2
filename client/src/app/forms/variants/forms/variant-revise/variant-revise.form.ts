@@ -28,7 +28,7 @@ import {
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
-import { VariantSuggestRevisionService } from './variant-revise.service';
+import { VariantReviseService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/shared/input-formatters';
 
@@ -94,7 +94,7 @@ export class VariantReviseForm implements OnDestroy {
   formOptions: FormlyFormOptions = {};
 
   constructor(
-    private revisionService: VariantSuggestRevisionService,
+    private revisionService: VariantReviseService,
     private viewerService: ViewerService,
     private revisableFieldsGQL: VariantRevisableFieldsGQL,
   ) {
@@ -244,6 +244,7 @@ export class VariantReviseForm implements OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.revisionService.cleanup();
   }
 
 }
