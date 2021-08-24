@@ -1,0 +1,20 @@
+<ng-container *ngIf="errors.networkError$ | ngrxPush as error">
+  <nz-alert nzBanner
+    nzType="error"
+    [nzMessage]="alertMessage"
+    [nzDescription]="alertDescription"
+    nzCloseable></nz-alert>
+  <ng-template #alertMessage>
+    {{ error.name }} {{ error.status }} {{ error.statusText }}
+  </ng-template>
+  <ng-template #alertDescription>
+    <ng-container *ngIf="error.error.errors.length === 1">
+      {{ error.error.errors[0].message }}
+    </ng-container>
+    <ng-container *ngIf="error.error.errors.length > 1">
+      <ul class="error-list">
+        <li *ngFor="let e of error.error.errors">{{ e.message }}</li>
+      </ul>
+    </ng-container>
+  </ng-template>
+</ng-container>

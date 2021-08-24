@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { ApolloCache, StoreObject } from '@apollo/client/cache';
 import { ApolloError, FetchResult } from '@apollo/client/core';
 
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import {
   SuggestVariantRevisionInput,
@@ -13,6 +13,7 @@ import {
 
 import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 @Injectable()
 export class VariantReviseService implements OnDestroy {
@@ -25,7 +26,8 @@ export class VariantReviseService implements OnDestroy {
   private destroy$ = new Subject();
 
   constructor(
-    private suggestVariantRevisionGQL: SuggestVariantRevisionGQL) {
+    private suggestVariantRevisionGQL: SuggestVariantRevisionGQL,
+    private networkError: NetworkErrorsService) {
     this.isSubmitting$ = new BehaviorSubject<boolean>(false);
     this.submitSuccess$ = new BehaviorSubject<boolean>(false);
     this.submitError$ = new BehaviorSubject<string[]>([]);
@@ -72,7 +74,11 @@ export class VariantReviseService implements OnDestroy {
         finalize(() => { this.isSubmitting$.next(false); }))
       .subscribe({
         error: (error: ApolloError): void => {
-          this.submitError$.next(error.graphQLErrors.map(e => e.message));
+          if(error.graphQLErrors.length > 0) {
+            this.submitError$.next(error.graphQLErrors.map(e => e.message));
+          } else if (error.networkError) {
+            this.networkError.networkError$.next(error.networkError);
+          }
         },
         complete: (): void => {
           this.submitError$.next([]);

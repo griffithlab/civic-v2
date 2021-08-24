@@ -3,8 +3,7 @@ import { HttpLink } from 'apollo-angular/http';
 
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { relayStylePagination, concatPagination } from '@apollo/client/utilities';
-import { PossibleTypesMap, TypePolicies, TypePolicy } from '@apollo/client/cache';
+import { PossibleTypesMap, TypePolicies } from '@apollo/client/cache';
 import { CvcTypePolicies } from  './graphql.type-policies';
 
 import {
