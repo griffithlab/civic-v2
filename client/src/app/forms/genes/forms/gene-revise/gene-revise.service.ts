@@ -29,7 +29,7 @@ export class GeneSuggestRevisionService implements OnDestroy {
 
   constructor(
     private suggestGeneRevisionGQL: SuggestGeneRevisionGQL,
-    private networkError: NetworkErrorsService,
+    private networkErrorService: NetworkErrorsService,
   ) {
     this.isSubmitting$ = new BehaviorSubject<boolean>(false);
     this.submitSuccess$ = new BehaviorSubject<boolean>(false);
@@ -80,7 +80,7 @@ export class GeneSuggestRevisionService implements OnDestroy {
           if (error.graphQLErrors.length > 0) {
             this.submitError$.next(error.graphQLErrors.map(e => e.message));
           } else if (error.networkError) {
-            this.networkError.networkError$.next(error.networkError);
+            this.networkErrorService.networkError$.next(error.networkError);
           }
         },
         complete: (): void => {

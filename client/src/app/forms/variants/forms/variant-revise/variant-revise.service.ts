@@ -27,7 +27,7 @@ export class VariantReviseService implements OnDestroy {
 
   constructor(
     private suggestVariantRevisionGQL: SuggestVariantRevisionGQL,
-    private networkError: NetworkErrorsService) {
+    private networkErrorService: NetworkErrorsService) {
     this.isSubmitting$ = new BehaviorSubject<boolean>(false);
     this.submitSuccess$ = new BehaviorSubject<boolean>(false);
     this.submitError$ = new BehaviorSubject<string[]>([]);
@@ -77,7 +77,7 @@ export class VariantReviseService implements OnDestroy {
           if(error.graphQLErrors.length > 0) {
             this.submitError$.next(error.graphQLErrors.map(e => e.message));
           } else if (error.networkError) {
-            this.networkError.networkError$.next(error.networkError);
+            this.networkErrorService.networkError$.next(error.networkError);
           }
         },
         complete: (): void => {
