@@ -2,20 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 
-export const sourceInputInitialModel: SourceInputModel = {
-  id: undefined,
-  citation: undefined,
-  citationId: undefined,
-  sourceType: undefined
-}
-
-export interface SourceInputModel {
-  id: Maybe<number>,
-  citation: Maybe<string>,
-  citationId: Maybe<number>,
-  sourceType: Maybe<string>
-}
-
 @Component({
   selector: 'cvc-source-input',
   templateUrl: './source-input.type.html',
@@ -23,7 +9,6 @@ export interface SourceInputModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceInputComponent extends FieldType implements OnInit {
-  selectorModel!: any;
   constructor() {
     super();
   }

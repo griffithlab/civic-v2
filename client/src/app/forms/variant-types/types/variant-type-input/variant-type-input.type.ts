@@ -1,13 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import { TypeInputModel } from './variant-type-selector/variant-type-selector.form';
-
-export const typeInputInitialModel: TypeInputModel = {
-  id: undefined,
-  soid: undefined,
-  name: undefined,
-}
 
 @Component({
   selector: 'cvc-variant-type-input',

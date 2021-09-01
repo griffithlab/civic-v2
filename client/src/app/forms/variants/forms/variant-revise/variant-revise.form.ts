@@ -194,6 +194,9 @@ export class VariantReviseForm implements OnDestroy {
         },
         fieldArray: {
           type: 'variant-type-input',
+          templateOptions: {
+            required: true
+          }
         }
       },
       {

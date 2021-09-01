@@ -1,1 +1,11 @@
-<p>variant-type-selector works!</p>
+<form nz-form
+  [formGroup]="form"
+  nzLayout="horizontal"
+  (ngSubmit)="onSubmit()">
+
+  <formly-form [model]="formModel"
+    [fields]="fields"
+    [options]="options"
+    [form]="form"
+    class="formly-form"></formly-form>
+</form>

@@ -3,17 +3,15 @@ import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
 import {
+  BrowseVariantType,
   VariantTypeTypeaheadGQL,
 } from '@app/generated/civic.apollo';
-
-export interface typeaheadOptionList {
-
-}
 
 @Component({
   selector: 'cvc-variant-type-typeahead',
   templateUrl: './variant-type-typeahead.type.html',
-  styleUrls: ['./variant-type-typeahead.type.less']
+  styleUrls: ['./variant-type-typeahead.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantTypeTypeaheadComponent extends FieldType implements AfterViewInit {
   formControl!: FormControl;
@@ -39,7 +37,7 @@ export class VariantTypeTypeaheadComponent extends FieldType implements AfterVie
         // storing its value and length (for various UI conditionals) here
         fieldLength: 0,
         fieldValue: '',
-        optionList: [] as Array<{ value: string; label: string; type: any }>
+        optionList: [] as Array<{ value: string; label: string; vType: any }>
       },
     };
 
@@ -49,13 +47,13 @@ export class VariantTypeTypeaheadComponent extends FieldType implements AfterVie
     // super.ngAfterViewInit(); NOTE: will be required with v6
     this.to.filterOption = () => true;
     this.to.modelChange = (e: any): void => {
-      // this gets called both when avariant type is selected,
+      // this gets called both when a variant type is selected,
       // and when onModelUpdated() patches the form
       if (this.to.optionList.length > 0) {
         // update form model with selected type't id, name, soid
-        const { type } = this.to.optionList.find((opt: any) => opt.value === +e);
-        if (type) {
-          this.form.patchValue({ name: type.name, soid: type.soid, id: type.id });
+        const { vType }= this.to.optionList.find((opt: any) => opt.value === +e);
+        if (vType) {
+          this.form.patchValue({ soid: vType.soid, id: vType.id });
         } else {
           console.error('Could not find selected type in list?');
         }
@@ -78,13 +76,6 @@ export class VariantTypeTypeaheadComponent extends FieldType implements AfterVie
         })
     }
   }
-  onModelUpdated(e: any): void {
-    this.form.patchValue(e);
-    // TODO determine if detecteChanges() is really required here
-    this.changeDetectorRef.detectChanges();
-    this.to.triggerParentSubmit();
-  }
-
 }
 
 export const VariantTypeTypeaheadType = {

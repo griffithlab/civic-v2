@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, OnInit, Output, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import {
@@ -12,7 +12,6 @@ export interface TypeInputModel {
   name: Maybe<string>,
 }
 
-
 @Component({
   selector: 'cvc-variant-type-selector',
   templateUrl: './variant-type-selector.form.html',
@@ -25,22 +24,28 @@ export class VariantTypeSelectorForm implements OnInit, OnDestroy {
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
 
-
   constructor() {
     this.fields = [
       { key: 'id' },
       {
-        key: 'name',
+        key: 'soid',
         defaultValue: '',
       },
       {
-        key: 'soid',
-        className: 'soid-field',
+        key: 'name',
+        className: 'name-field',
         type: 'variant-type-typeahead',
         templateOptions: {
           required: true,
           triggerParentSubmit: () => { this.onSubmit(); },
           placeholder: 'Search variant types'
+        }
+      },
+      {
+        template: '<button type="submit" nz-button nzType="primary" nzSize="small">+</button>',
+        className: 'submit-button',
+        templateOptions: {
+          safeHtml: true
         }
       }
     ]
@@ -48,7 +53,7 @@ export class VariantTypeSelectorForm implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    console.log('source-select form submitted.');
+    console.log('variant-type-select form submitted.');
     this.typeSelected.emit(this.formModel);
   }
 
