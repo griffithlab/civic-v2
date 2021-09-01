@@ -23,3 +23,9 @@
     </div>
   </div>
 </nz-form-item>
+<nz-form-item *ngIf="field.fieldGroup && field.fieldGroup.length == 0">
+  <nz-form-label nzSpan="24" >
+    {{ to.label }}
+  </nz-form-label>
+  <button nz-button (click)="addField($event)">Add {{ to.label }}</button>
+</nz-form-item>

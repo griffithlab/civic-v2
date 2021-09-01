@@ -153,7 +153,8 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'input',
           templateOptions: {
-            required: true
+            required: true,
+            placeholder: 'Search Variant Types'
           }
         }
       },
@@ -167,7 +168,8 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'input',
           templateOptions: {
-            required: true
+            required: true,
+            placeholder: 'Enter an HGVS string'
           }
         }
       },
@@ -181,7 +183,8 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'input',
           templateOptions: {
-            required: true
+            required: true,
+            placeholder: 'Enter a ClinVar ID'
           }
         }
       },
@@ -189,7 +192,7 @@ export class VariantReviseForm implements OnDestroy {
         key: 'fields.variantTypes',
         type: 'multi-field',
         templateOptions: {
-          label: 'Variant Types (needs a vt-input type)',
+          label: 'Variant Types',
           addText: 'Add a Variant Type'
         },
         fieldArray: {
