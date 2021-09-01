@@ -43,6 +43,9 @@ export class CvcNetworkErrorAlertComponent {
     ref.destroy();
   }
 
+  onClose(): void {
+    this.errors.clearErrors();
+  }
 
   copyToClipboard(): void {
     this.clipboard.copy(this.modalContent);

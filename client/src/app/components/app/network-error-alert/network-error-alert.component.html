@@ -3,7 +3,8 @@
     nzType="error"
     [nzMessage]="alertMessage"
     [nzDescription]="alertDescription"
-    nzCloseable></nz-alert>
+    nzCloseable
+    (nzOnClose)="onClose()"></nz-alert>
 
   <!-- alert message title -->
   <ng-template #alertMessage>
