@@ -1,4 +1,4 @@
-<ng-container *ngIf="errors.networkError$ | ngrxPush as error">
+<div class="alert-container" *ngIf="errors.networkError$ | ngrxPush as error">
   <nz-alert nzBanner
     nzType="error"
     [nzMessage]="alertMessage"
@@ -51,4 +51,4 @@
     <button nz-button nzType="default" (click)="copyToClipboard()">Copy to Clipboard</button>
     <button nz-button nzType="primary" (click)="hideModal(ref)">OK</button>
   </ng-template>
-</ng-container>
+</div>

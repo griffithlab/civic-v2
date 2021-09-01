@@ -83,6 +83,7 @@ export class VariantReviseService implements OnDestroy {
         complete: (): void => {
           this.submitError$.next([]);
           this.submitSuccess$.next(true);
+          this.networkErrorService.networkError$.next(undefined);
         }
       });
   }
@@ -91,6 +92,7 @@ export class VariantReviseService implements OnDestroy {
     this.submitError$.next([]);
     this.submitSuccess$.next(false);
     this.isSubmitting$.next(false);
+    this.networkErrorService.networkError$.next(undefined);
   }
 
   ngOnDestroy(): void {
