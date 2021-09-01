@@ -4526,6 +4526,30 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type VariantTypeTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type VariantTypeTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { variantTypes: (
+    { __typename: 'BrowseVariantTypeConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseVariantTypeEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantType' }
+        & VariantTypeTypeaheadFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type VariantTypeTypeaheadFragment = (
+  { __typename: 'BrowseVariantType' }
+  & Pick<BrowseVariantType, 'id' | 'name' | 'soid'>
+);
+
 export type VariantRevisableFieldsQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -5977,6 +6001,13 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   citation
   citationId
   sourceType
+}
+    `;
+export const VariantTypeTypeaheadFragmentDoc = gql`
+    fragment variantTypeTypeahead on BrowseVariantType {
+  id
+  name
+  soid
 }
     `;
 export const CoordinateFieldsFragmentDoc = gql`
@@ -7861,6 +7892,28 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypeTypeaheadDocument = gql`
+    query VariantTypeTypeahead($name: String!) {
+  variantTypes(name: $name, first: 20) {
+    edges {
+      node {
+        ...variantTypeTypeahead
+      }
+    }
+  }
+}
+    ${VariantTypeTypeaheadFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypeTypeaheadGQL extends Apollo.Query<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables> {
+    document = VariantTypeTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

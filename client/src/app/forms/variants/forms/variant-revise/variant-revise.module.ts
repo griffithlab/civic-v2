@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { VariantReviseService } from './variant-revise.service';
+import { VariantTypeInputModule } from '@app/forms/variant-types/types/variant-type-input/variant-type-input.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -34,6 +35,7 @@ import { VariantReviseService } from './variant-revise.service';
     CvcFormButtonsModule,
     MultiFieldModule,
     SourceInputModule,
+    VariantTypeInputModule,
   ],
   exports: [VariantReviseForm],
 })

@@ -193,7 +193,7 @@ export class VariantReviseForm implements OnDestroy {
           addText: 'Add a Variant Type'
         },
         fieldArray: {
-          type: 'input',
+          type: 'variant-type-input',
         }
       },
       {

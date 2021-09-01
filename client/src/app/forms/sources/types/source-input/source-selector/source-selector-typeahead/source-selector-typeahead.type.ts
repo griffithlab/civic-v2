@@ -7,12 +7,12 @@ import {
 } from '@app/generated/civic.apollo';
 
 @Component({
-  selector: 'cvc-typeahead-selector',
+  selector: 'cvc-source-selector-typeahead',
   templateUrl: './source-selector-typeahead.type.html',
   styleUrls: ['./source-selector-typeahead.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TypeaheadSelectorComponent extends FieldType implements AfterViewInit {
+export class SourceSelectorTypeaheadComponent extends FieldType implements AfterViewInit {
   formControl!: FormControl;
   selectedValue = null;
   nzFilterOption = () => true;
@@ -75,6 +75,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         })
     }
   }
+
   onModelUpdated(e: any) {
     this.form.patchValue(e);
     // TODO determine if detecteChanges() required here
@@ -85,6 +86,6 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
 
 export const TypeaheadSelectorType = {
   name: 'source-selector-typeahead',
-  component: TypeaheadSelectorComponent,
+  component: SourceSelectorTypeaheadComponent,
   wrappers: ['form-field'],
 }

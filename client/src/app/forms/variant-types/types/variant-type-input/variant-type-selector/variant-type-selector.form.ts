@@ -39,7 +39,8 @@ export class VariantTypeSelectorForm implements OnInit, OnDestroy {
         type: 'variant-type-typeahead',
         templateOptions: {
           required: true,
-          triggerParentSubmit: () => { this.onSubmit(); }
+          triggerParentSubmit: () => { this.onSubmit(); },
+          placeholder: 'Search variant types'
         }
       }
     ]

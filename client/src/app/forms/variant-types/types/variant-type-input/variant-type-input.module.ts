@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { VariantTypeInputComponent, VariantTypeInputType } from './variant-type-input.type';
 import { VariantTypeSelectorModule } from './variant-type-selector/variant-type-selector.module';
 import { FormlyModule } from '@ngx-formly/core';
+import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 
 const formlyConfig = {
   types: [VariantTypeInputType]
@@ -13,7 +14,8 @@ const formlyConfig = {
   imports: [
     CommonModule,
     FormlyModule.forChild(formlyConfig),
-    VariantTypeSelectorModule
+    VariantTypeSelectorModule,
+    CvcVariantTypeTagModule,
   ],
   exports: [VariantTypeInputComponent]
 })
