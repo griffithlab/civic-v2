@@ -17,7 +17,7 @@
         <th nzWidth="10%"
           [nzColumnKey]="sortColumns.EntrezSymbol"
           [nzSortFn]="true">
-          Gene Symbol
+          Gene
         </th>
         <th nzWidth="25%">
           Diseases
@@ -28,18 +28,26 @@
         <th nzWidth="3%"
           nzRight
           [nzSortFn]="true"
-          [nzColumnKey]="sortColumns.EvidenceScore">Evidence Score</th>
+          [nzColumnKey]="sortColumns.EvidenceScore"
+          nz-tooltip
+          nzTooltipTitle="Evidence Score"><div style="min-width: 60px; text-align: right;">
+          <i nz-icon nzType="civic:evidence"></i>&nbsp;Score
+          </div></th>
         <th nzWidth="3%"
           nzRight
           [nzColumnKey]="sortColumns.EvidenceItemCount"
-          [nzSortFn]="true"><i nz-icon
-                              nzType="civic:evidence"
-                              nz-tooltip
-                              nzTooltipTitle="Evidence count"></i></th>
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count"><i nz-icon
+                                            nzType="civic:evidence"
+                                            nz-tooltip
+                                            nzTooltipTitle="Evidence count"></i></th>
         <th nzWidth="3%"
           nzRight
           [nzColumnKey]="sortColumns.AssertionCount"
-          [nzSortFn]="true"><i nz-icon
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Assertion Count"><i nz-icon
                               nzType="civic:assertion"
                               nz-tooltip
                               nzTooltipTitle="Assertion count"></i></th>
