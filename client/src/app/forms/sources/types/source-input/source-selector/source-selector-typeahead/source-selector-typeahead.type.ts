@@ -46,7 +46,7 @@ export class SourceSelectorTypeaheadComponent extends FieldType implements After
     this.to.filterOption = () => true; // TODO: look up what this does
     this.to.modelChange = (e: any): void => {
       // this gets called both when an existing source is selected,
-      // and when onModelUpdated() patches the form
+      // and when source-loader triggers onModelUpdated() & patches the form
       if(this.to.optionList.length > 0) {
         // update form model with selected source's id & citation
         const { source } = this.to.optionList.find((opt: any) => opt.value === +e);

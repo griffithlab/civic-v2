@@ -46,17 +46,14 @@ export class VariantTypeTypeaheadComponent extends FieldType implements AfterVie
   ngAfterViewInit(): void {
     // super.ngAfterViewInit(); NOTE: will be required with v6
     this.to.filterOption = () => true;
+    // modelChange gets called a variant type is selected
     this.to.modelChange = (e: any): void => {
-      // this gets called both when a variant type is selected,
-      // and when onModelUpdated() patches the form
-      if (this.to.optionList.length > 0) {
-        // update form model with selected type't id, name, soid
-        const { vType }= this.to.optionList.find((opt: any) => opt.value === +e);
-        if (vType) {
-          this.form.patchValue({ soid: vType.soid, id: vType.id });
-        } else {
-          console.error('Could not find selected type in list?');
-        }
+      // update form model with selected type's id, name, soid
+      const { vType } = this.to.optionList.find((opt: any) => opt.value === e);
+      if (vType) {
+        this.form.patchValue({ soid: vType.soid, id: vType.id });
+      } else {
+        console.error('Could not find selected type in list?');
       }
     }
     this.to.onSearch = (value: string): void => {
@@ -69,7 +66,7 @@ export class VariantTypeTypeaheadComponent extends FieldType implements AfterVie
         })
         .subscribe(({ data: { variantTypes } }) => {
           this.to.optionList = variantTypes.edges.map(({ node }) => {
-            return { value: node?.id, label: node?.name, vType: node }
+            return { value: node?.name, label: node?.name, vType: node }
           })
           // TODO implement this search as an observable to avoid detectChanges
           this.changeDetectorRef.detectChanges();

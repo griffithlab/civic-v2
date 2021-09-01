@@ -6,11 +6,17 @@ import {
 } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-export interface TypeInputModel {
+export interface VariantTypeSelectorModel {
   id: Maybe<number>,
   soid: Maybe<string>,
   name: Maybe<string>,
 }
+
+export const variantTypeSelectorInitialValue = {
+  id: undefined,
+  soid: undefined,
+  name: undefined
+};
 
 @Component({
   selector: 'cvc-variant-type-selector',
@@ -19,7 +25,7 @@ export interface TypeInputModel {
 })
 export class VariantTypeSelectorForm implements OnInit, OnDestroy {
   @Output() typeSelected = new EventEmitter<Maybe<any>>();
-  formModel: TypeInputModel = { id: undefined, soid: undefined, name: undefined };
+  formModel: VariantTypeSelectorModel = variantTypeSelectorInitialValue;
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
