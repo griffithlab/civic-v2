@@ -1,15 +1,16 @@
 import { Injectable } from "@angular/core";
-import { ReplaySubject } from "rxjs";
+import { BehaviorSubject, ReplaySubject } from "rxjs";
 import { ServerError, ServerParseError } from "@apollo/client/core";
+import { Maybe } from "@app/generated/civic.apollo";
 
 @Injectable({ providedIn: 'root' })
 export class NetworkErrorsService {
-  public networkError$: ReplaySubject<Error | ServerError | ServerParseError | null>;
+  public networkError$: BehaviorSubject<Error | ServerError | ServerParseError | undefined>;
   constructor() {
-    this.networkError$ = new ReplaySubject(1);
+    this.networkError$ = new BehaviorSubject<Error | ServerError | ServerParseError | undefined>(undefined);
   }
 
   clearErrors(): void {
-    this.networkError$.next(null);
+    this.networkError$.next(undefined);
   }
 }

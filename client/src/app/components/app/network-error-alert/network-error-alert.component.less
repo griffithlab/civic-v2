@@ -1,6 +1,27 @@
+@import 'global-variables.less';
+
 :host {
   display: block;
-  transition: 0.3s;
+}
+
+:host ::ng-deep nz-alert {
+  margin: @default-padding-sm @default-padding-lg;
+  .ant-alert-banner {
+    border-radius: @border-radius-md;
+  }
+  .ant-alert-banner::before {
+    border: 2px solid #ff4d4f;
+    border-radius: @border-radius-md;
+    box-shadow: 0 0 20px #333;
+    mix-blend-mode: darken;
+    content: "";
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
 }
 
 .error-list {
