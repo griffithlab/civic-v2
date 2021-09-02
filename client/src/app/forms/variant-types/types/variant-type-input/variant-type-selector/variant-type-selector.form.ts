@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import {
@@ -21,7 +21,8 @@ export const variantTypeSelectorInitialValue = {
 @Component({
   selector: 'cvc-variant-type-selector',
   templateUrl: './variant-type-selector.form.html',
-  styleUrls: ['./variant-type-selector.form.less']
+  styleUrls: ['./variant-type-selector.form.less'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class VariantTypeSelectorForm implements OnInit, OnDestroy {
   @Output() typeSelected = new EventEmitter<Maybe<any>>();
@@ -48,10 +49,10 @@ export class VariantTypeSelectorForm implements OnInit, OnDestroy {
         }
       },
       {
-        template: '<button type="submit" nz-button nzType="primary" nzSize="small">+</button>',
-        className: 'submit-button',
+        type: 'multi-field-add-btn',
+        className: 'add-button',
         templateOptions: {
-          safeHtml: true
+          label: 'Add Type'
         }
       }
     ]

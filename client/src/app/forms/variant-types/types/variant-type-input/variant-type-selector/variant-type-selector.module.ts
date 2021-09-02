@@ -6,6 +6,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { VariantTypeTypeaheadModule } from './variant-type-typeahead/variant-type-typeahead.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { MultiFieldAddBtnModule } from '@app/forms/shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.module';
 
 @NgModule({
   declarations: [VariantTypeSelectorForm],
@@ -16,6 +17,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     FormlyNgZorroAntdModule,
     NzButtonModule,
     VariantTypeTypeaheadModule,
+    MultiFieldAddBtnModule,
   ],
   exports: [VariantTypeSelectorForm]
 })
