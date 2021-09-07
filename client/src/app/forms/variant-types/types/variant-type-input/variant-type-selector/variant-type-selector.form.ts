@@ -52,7 +52,10 @@ export class VariantTypeSelectorForm implements OnInit, OnDestroy {
         type: 'multi-field-add-btn',
         className: 'add-button',
         templateOptions: {
-          label: 'Add Type'
+          label: 'Add Type',
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.name',
         }
       }
     ]
