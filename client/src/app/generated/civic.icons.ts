@@ -377,6 +377,13 @@ export const civicVariantgroupFullcolor: {
   name: 'variantgroupFullcolor',
   data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#E0F4E6"/><path fill="#33B358" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM256 787.4V236.6c36-33.5 78.9-60.5 128-78.3v707.3c-46.1-16.6-89.6-42.5-128-78.2zm320 95.2V141.4c44.3 7.6 87.7 23.2 128 47.2v646.7c-38.8 23.2-82 39.4-128 47.3z"/></svg>`
 };
+export const civicVarianttypeFullcolor: {
+  name: 'varianttypeFullcolor';
+  data: string;
+} = {
+  name: 'varianttypeFullcolor',
+  data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#E0F4E6"/><path fill="#33B358" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm288 640H608V512h60V356h-60v60h-96v472c-207.7 0-376-168.3-376-376s168.3-376 376-376v88h96v60h96c19.9 0 36 16.1 36 36v192h60v192zM512 224v192h-96v-60h-60v156h60v192H224V512h60V320c0-19.9 16.1-36 36-36h96v-60h96z"/></svg>`
+};
 export const civicAdminOutline: {
   name: 'adminOutline';
   data: string;
@@ -538,6 +545,13 @@ export const civicVariantgroupOutline: {
   name: 'variantgroupOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM256 787.4V236.6c36-33.5 78.9-60.5 128-78.3v707.3c-46.1-16.6-89.6-42.5-128-78.2zm320 95.2V141.4c44.3 7.6 87.7 23.2 128 47.2v646.7c-38.8 23.2-82 39.4-128 47.3z"/></svg>`
 };
+export const civicVarianttypeOutline: {
+  name: 'varianttypeOutline';
+  data: string;
+} = {
+  name: 'varianttypeOutline',
+  data: `<svg viewBox="64 64 896 896"><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm288 640H608V512h60V356h-60v60h-96v472c-207.7 0-376-168.3-376-376s168.3-376 376-376v88h96v60h96c19.9 0 36 16.1 36 36v192h60v192zM512 224v192h-96v-60h-60v156h60v192H224V512h60V320c0-19.9 16.1-36 36-36h96v-60h96z"/></svg>`
+};
 export const civicAdminTwotone: {
   name: 'adminTwotone';
   data: string;
@@ -692,6 +706,13 @@ export const civicVariantgroupTwotone: {
   name: 'variantgroupTwotone',
   data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#E6E6E6"/><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM256 787.4V236.6c36-33.5 78.9-60.5 128-78.3v707.3c-46.1-16.6-89.6-42.5-128-78.2zm320 95.2V141.4c44.3 7.6 87.7 23.2 128 47.2v646.7c-38.8 23.2-82 39.4-128 47.3z"/></svg>`
 };
+export const civicVarianttypeTwotone: {
+  name: 'varianttypeTwotone';
+  data: string;
+} = {
+  name: 'varianttypeTwotone',
+  data: `<svg viewBox="64 64 896 896"><circle cx="512" cy="512" r="448" fill="#E6E6E6"/><path fill="#333" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm288 640H608V512h60V356h-60v60h-96v472c-207.7 0-376-168.3-376-376s168.3-376 376-376v88h96v60h96c19.9 0 36 16.1 36 36v192h60v192zM512 224v192h-96v-60h-60v156h60v192H224V512h60V320c0-19.9 16.1-36 36-36h96v-60h96z"/></svg>`
+};
 export const CivicIcon = {
   adverseresponseOutline: 'adverseresponseOutline',
   benignOutline: 'benignOutline',
@@ -747,6 +768,7 @@ export const CivicIcon = {
   userFullcolor: 'userFullcolor',
   variant: 'variant',
   variantgroupFullcolor: 'variantgroupFullcolor',
+  varianttypeFullcolor: 'varianttypeFullcolor',
   adminOutline: 'adminOutline',
   assertionOutline: 'assertionOutline',
   commentOutline: 'commentOutline',
@@ -770,6 +792,7 @@ export const CivicIcon = {
   variantGroupOutline: 'variantGroupOutline',
   variantOutline: 'variantOutline',
   variantgroupOutline: 'variantgroupOutline',
+  varianttypeOutline: 'varianttypeOutline',
   adminTwotone: 'adminTwotone',
   assertionTwotone: 'assertionTwotone',
   commentTwotone: 'commentTwotone',
@@ -791,7 +814,8 @@ export const CivicIcon = {
   sourceTwotone: 'sourceTwotone',
   userTwotone: 'userTwotone',
   variantTwotone: 'variantTwotone',
-  variantgroupTwotone: 'variantgroupTwotone'
+  variantgroupTwotone: 'variantgroupTwotone',
+  varianttypeTwotone: 'varianttypeTwotone'
 };
 export interface CivicIconLiteral {
   name: string;

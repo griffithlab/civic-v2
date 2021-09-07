@@ -1,30 +1,23 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
 import {
-  Maybe,
-  Source,
-  SourceSource,
-  CitationExistenceCheckGQL,
   CitationTypeaheadGQL,
-  SourceTypeaheadResultFragment
 } from '@app/generated/civic.apollo';
 
 @Component({
-  selector: 'cvc-typeahead-selector',
+  selector: 'cvc-source-selector-typeahead',
   templateUrl: './source-selector-typeahead.type.html',
   styleUrls: ['./source-selector-typeahead.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TypeaheadSelectorComponent extends FieldType implements AfterViewInit {
+export class SourceSelectorTypeaheadComponent extends FieldType implements AfterViewInit {
   formControl!: FormControl;
   selectedValue = null;
   nzFilterOption = () => true;
 
   constructor(
-    private httpClient: HttpClient,
     private sourceTypeaheadQuery: CitationTypeaheadGQL,
     private changeDetectorRef: ChangeDetectorRef
   ) {
@@ -53,7 +46,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
     this.to.filterOption = () => true; // TODO: look up what this does
     this.to.modelChange = (e: any): void => {
       // this gets called both when an existing source is selected,
-      // and when onModelUpdated() patches the form
+      // and when source-loader triggers onModelUpdated() & patches the form
       if(this.to.optionList.length > 0) {
         // update form model with selected source's id & citation
         const { source } = this.to.optionList.find((opt: any) => opt.value === +e);
@@ -82,6 +75,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
         })
     }
   }
+
   onModelUpdated(e: any) {
     this.form.patchValue(e);
     // TODO determine if detecteChanges() required here
@@ -91,7 +85,7 @@ export class TypeaheadSelectorComponent extends FieldType implements AfterViewIn
 }
 
 export const TypeaheadSelectorType = {
-  name: 'typeahead-selector',
-  component: TypeaheadSelectorComponent,
+  name: 'source-selector-typeahead',
+  component: SourceSelectorTypeaheadComponent,
   wrappers: ['form-field'],
 }

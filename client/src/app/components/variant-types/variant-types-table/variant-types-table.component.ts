@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Maybe, PageInfo, VariantTypeBrowseTableRowFieldsFragment, VariantTypesBrowseGQL, VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables, VariantTypeSortColumns } from '@app/generated/civic.apollo';
-import { buildSortParams, SortDirectionEvent } from '@app/shared/utilities/datatable-helpers';
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, map, pluck, startWith } from 'rxjs/operators';

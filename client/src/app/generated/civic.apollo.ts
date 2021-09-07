@@ -4315,6 +4315,46 @@ export type BrowseVariantsQuery = (
   ) }
 );
 
+export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ViewerBaseQuery = (
+  { __typename: 'Query' }
+  & { viewer?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath'>
+    & { organizations: Array<(
+      { __typename: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )>, events: (
+      { __typename: 'EventConnection' }
+      & { nodes: Array<(
+        { __typename: 'Event' }
+        & Pick<Event, 'id' | 'createdAt'>
+        & { organization?: Maybe<(
+          { __typename: 'Organization' }
+          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+        )> }
+      )> }
+    ) }
+  )> }
+);
+
+export type ViewerFullQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ViewerFullQuery = (
+  { __typename: 'Query' }
+  & { viewer?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'username' | 'name' | 'email' | 'bio' | 'url' | 'role' | 'profileImagePath'>
+    & { organizations: Array<(
+      { __typename: 'Organization' }
+      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )> }
+  )> }
+);
+
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -4373,11 +4413,16 @@ export type GeneRevisableFieldsQuery = (
   { __typename: 'Query' }
   & { gene?: Maybe<(
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'description'>
-    & { sources: Array<(
-      { __typename: 'Source' }
-      & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
-    )> }
+    & RevisableGeneFieldsFragment
+  )> }
+);
+
+export type RevisableGeneFieldsFragment = (
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'description'>
+  & { sources: Array<(
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
   )> }
 );
 
@@ -4481,42 +4526,119 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
-export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
+export type VariantTypeTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
 
 
-export type ViewerBaseQuery = (
+export type VariantTypeTypeaheadQuery = (
   { __typename: 'Query' }
-  & { viewer?: Maybe<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath'>
-    & { organizations: Array<(
-      { __typename: 'Organization' }
-      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )>, events: (
-      { __typename: 'EventConnection' }
-      & { nodes: Array<(
-        { __typename: 'Event' }
-        & Pick<Event, 'id' | 'createdAt'>
-        & { organization?: Maybe<(
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        )> }
+  & { variantTypes: (
+    { __typename: 'BrowseVariantTypeConnection' }
+    & { edges: Array<(
+      { __typename: 'BrowseVariantTypeEdge' }
+      & { node?: Maybe<(
+        { __typename: 'BrowseVariantType' }
+        & VariantTypeTypeaheadFragment
       )> }
-    ) }
+    )> }
+  ) }
+);
+
+export type VariantTypeTypeaheadFragment = (
+  { __typename: 'BrowseVariantType' }
+  & Pick<BrowseVariantType, 'id' | 'name' | 'soid'>
+);
+
+export type VariantRevisableFieldsQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type VariantRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { variant?: Maybe<(
+    { __typename: 'Variant' }
+    & RevisableVariantFieldsFragment
   )> }
 );
 
-export type ViewerFullQueryVariables = Exact<{ [key: string]: never; }>;
+export type RevisableVariantFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'clinvarIds' | 'ensemblVersion' | 'hgvsDescriptions' | 'referenceBuild'>
+  & { sources: Array<(
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
+  )>, gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variantTypes?: Maybe<Array<(
+    { __typename: 'VariantType' }
+    & Pick<VariantType, 'id' | 'name' | 'soid'>
+  )>>, fivePrimeCoordinates?: Maybe<(
+    { __typename: 'Coordinate' }
+    & CoordinateFieldsFragment
+  )>, threePrimeCoordinates?: Maybe<(
+    { __typename: 'Coordinate' }
+    & CoordinateFieldsFragment
+  )> }
+);
+
+export type CoordinateFieldsFragment = (
+  { __typename: 'Coordinate' }
+  & Pick<Coordinate, 'chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases'>
+);
+
+export type SuggestVariantRevisionMutationVariables = Exact<{
+  input: SuggestVariantRevisionInput;
+}>;
 
 
-export type ViewerFullQuery = (
-  { __typename: 'Query' }
-  & { viewer?: Maybe<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'name' | 'email' | 'bio' | 'url' | 'role' | 'profileImagePath'>
-    & { organizations: Array<(
-      { __typename: 'Organization' }
-      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+export type SuggestVariantRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestVariantRevision?: Maybe<(
+    { __typename: 'SuggestVariantRevisionPayload' }
+    & Pick<SuggestVariantRevisionPayload, 'clientMutationId'>
+    & { variant: (
+      { __typename: 'Variant' }
+      & Pick<Variant, 'id'>
+      & { revisions: (
+        { __typename: 'RevisionConnection' }
+        & Pick<RevisionConnection, 'totalCount'>
+        & { edges: Array<(
+          { __typename: 'RevisionEdge' }
+          & { node?: Maybe<(
+            { __typename: 'Revision' }
+            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+            & { linkoutData: (
+              { __typename: 'LinkoutData' }
+              & Pick<LinkoutData, 'name'>
+              & { diffValue: (
+                { __typename: 'ObjectFieldDiff' }
+                & { addedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, removedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, keptObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )> }
+              ) | (
+                { __typename: 'ScalarField' }
+                & Pick<ScalarField, 'value'>
+              ) }
+            ), revisor: (
+              { __typename: 'User' }
+              & Pick<User, 'id' | 'name'>
+            ) }
+          )> }
+        )> }
+      ) }
+    ), results: Array<(
+      { __typename: 'RevisionResult' }
+      & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
   )> }
 );
@@ -5860,6 +5982,18 @@ export const MenuVariantFragmentDoc = gql`
   name
 }
     `;
+export const RevisableGeneFieldsFragmentDoc = gql`
+    fragment RevisableGeneFields on Gene {
+  id
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+}
+    `;
 export const SourceTypeaheadResultFragmentDoc = gql`
     fragment SourceTypeaheadResult on Source {
   id
@@ -5869,6 +6003,57 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   sourceType
 }
     `;
+export const VariantTypeTypeaheadFragmentDoc = gql`
+    fragment variantTypeTypeahead on BrowseVariantType {
+  id
+  name
+  soid
+}
+    `;
+export const CoordinateFieldsFragmentDoc = gql`
+    fragment CoordinateFields on Coordinate {
+  chromosome
+  referenceBases
+  representativeTranscript
+  start
+  stop
+  variantBases
+}
+    `;
+export const RevisableVariantFieldsFragmentDoc = gql`
+    fragment RevisableVariantFields on Variant {
+  id
+  name
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  gene {
+    id
+    name
+  }
+  variantAliases
+  alleleRegistryId
+  clinvarIds
+  ensemblVersion
+  hgvsDescriptions
+  referenceBuild
+  variantTypes {
+    id
+    name
+    soid
+  }
+  fivePrimeCoordinates {
+    ...CoordinateFields
+  }
+  threePrimeCoordinates {
+    ...CoordinateFields
+  }
+}
+    ${CoordinateFieldsFragmentDoc}`;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
@@ -7439,6 +7624,73 @@ export const BrowseVariantsDocument = gql`
       super(apollo);
     }
   }
+export const ViewerBaseDocument = gql`
+    query ViewerBase {
+  viewer {
+    id
+    username
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+    events(first: 1) {
+      nodes {
+        id
+        createdAt
+        organization {
+          id
+          name
+          profileImagePath(size: 32)
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
+    document = ViewerBaseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ViewerFullDocument = gql`
+    query ViewerFull {
+  viewer {
+    id
+    username
+    name
+    email
+    bio
+    url
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
+    document = ViewerFullDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -7503,17 +7755,10 @@ export const ResolveFlagDocument = gql`
 export const GeneRevisableFieldsDocument = gql`
     query GeneRevisableFields($geneId: Int!) {
   gene(id: $geneId) {
-    id
-    description
-    sources {
-      id
-      sourceType
-      citation
-      citationId
-    }
+    ...RevisableGeneFields
   }
 }
-    `;
+    ${RevisableGeneFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -7652,58 +7897,102 @@ export const CreateSourceStubDocument = gql`
       super(apollo);
     }
   }
-export const ViewerBaseDocument = gql`
-    query ViewerBase {
-  viewer {
-    id
-    username
-    role
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
-    events(first: 1) {
-      nodes {
-        id
-        createdAt
-        organization {
-          id
-          name
-          profileImagePath(size: 32)
-        }
+export const VariantTypeTypeaheadDocument = gql`
+    query VariantTypeTypeahead($name: String!) {
+  variantTypes(name: $name, first: 20) {
+    edges {
+      node {
+        ...variantTypeTypeahead
       }
     }
   }
 }
-    `;
+    ${VariantTypeTypeaheadFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
-    document = ViewerBaseDocument;
+  export class VariantTypeTypeaheadGQL extends Apollo.Query<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables> {
+    document = VariantTypeTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const ViewerFullDocument = gql`
-    query ViewerFull {
-  viewer {
-    id
-    username
-    name
-    email
-    bio
-    url
-    role
-    profileImagePath(size: 32)
-    organizations {
+export const VariantRevisableFieldsDocument = gql`
+    query VariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    ...RevisableVariantFields
+  }
+}
+    ${RevisableVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantRevisableFieldsGQL extends Apollo.Query<VariantRevisableFieldsQuery, VariantRevisableFieldsQueryVariables> {
+    document = VariantRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestVariantRevisionDocument = gql`
+    mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
+  suggestVariantRevision(input: $input) {
+    clientMutationId
+    variant {
       id
-      name
-      profileImagePath(size: 32)
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
+    }
+    results {
+      id
+      fieldName
     }
   }
 }
@@ -7712,8 +8001,8 @@ export const ViewerFullDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
-    document = ViewerFullDocument;
+  export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
+    document = SuggestVariantRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

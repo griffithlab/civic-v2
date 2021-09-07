@@ -2366,9 +2366,9 @@
     webpack-sources "2.2.0"
 
 "@ngx-formly/core@^5.0.0":
-  version "5.10.10"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.10.tgz#5bc50b6862b9bbc72fab106551861c5441df5e3f"
-  integrity sha512-9v9ctSkbqSUjKoxPF3ygeaj6I5ZQs4eJ24yR8oiOvDk8wc2V0lB5lOfehYqfOm+AwPonDclVdSAqyYzw7lyr8A==
+  version "5.10.22"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.22.tgz#e8723b932bb6f056b1b0d899179ac73dabf4f4ed"
+  integrity sha512-HTgVN2xNf3TdPS10ayV4G7dvX1olHvggquhTUY/dzej1x03NVofDQulnPTxKEU1ObN92IQZNq3VL9pm3sBCR7A==
   dependencies:
     tslib "^1.7.1"
 

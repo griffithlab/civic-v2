@@ -21,7 +21,8 @@
   <formly-form [form]="formGroup"
     [fields]="formFields"
     [model]="formModel"
-    [options]="formOptions"></formly-form>
+    [options]="formOptions"
+    (modelChange)="formModel = $event"></formly-form>
   <nz-form-item *ngIf="!(submitSuccess$ | async)">
     <nz-form-control>
       <cvc-form-buttons>

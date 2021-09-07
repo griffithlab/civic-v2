@@ -1,0 +1,24 @@
+@import 'global-variables.less';
+
+:host {
+  display: block;
+}
+
+.alert-container {
+  display: block;
+  width: 100%;
+  padding: @default-padding-sm @default-padding-lg;
+}
+
+:host ::ng-deep nz-alert {
+  .ant-alert-banner {
+    border-radius: @border-radius-md;
+    border: 2px solid #cf1322;
+  }
+}
+
+
+.error-list {
+  margin: 0;
+  padding: 0 0 0 2em;
+}

@@ -1,0 +1,12 @@
+<form nz-form
+  [formGroup]="form"
+  nzLayout="horizontal"
+  (ngSubmit)="onSubmit()">
+
+  <formly-form [model]="formModel"
+    [fields]="fields"
+    [options]="options"
+    [form]="form"
+    (modelChange)="formModel = $event"
+    class="formly-form"></formly-form>
+</form>

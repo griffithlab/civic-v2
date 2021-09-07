@@ -13,7 +13,7 @@ import {
 
 import { NGXLogger } from 'ngx-logger';
 
-import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
+import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename';
 import { catchError, finalize, pluck, startWith, takeUntil, tap } from 'rxjs/operators';
 import { GraphQLError } from 'graphql';
 

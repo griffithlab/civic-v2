@@ -1,18 +1,8 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import {
-  FormGroup,
-} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  Subject,
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -21,17 +11,38 @@ import {
   Organization,
   SuggestGeneRevisionInput,
   Maybe,
-  NullableStringInput,
+  SourceSource,
+  RevisableGeneFieldsFragment,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
+import {
+  ViewerService,
+  Viewer,
+} from '@app/core/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { toNullableString } from '@app/forms/shared/input-formatters';
+
+export interface FormSource {
+  id: number;
+  sourceType: SourceSource,
+  citationId: number;
+  citation: string;
+}
+
+export interface FormModel {
+  id: number;
+  comment: string;
+  fields: {
+    description: string;
+    sources: FormSource[];
+  };
+}
 
 @Component({
-  selector: 'cvc-gene-suggest-revision-form',
+  selector: 'cvc-gene-revise-form',
   templateUrl: './gene-revise.form.html',
-  styleUrls: ['./gene-revise.form.less']
+  styleUrls: ['./gene-revise.form.less'],
 })
 export class GeneReviseForm implements OnInit, OnDestroy {
   @Input() geneId!: number;
@@ -45,15 +56,16 @@ export class GeneReviseForm implements OnInit, OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: any;
+  formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
-  constructor(private viewerService: ViewerService,
-    private geneRevisableFieldsGQL: GeneRevisableFieldsGQL,
-    private geneSuggestRevisionService: GeneSuggestRevisionService) {
-
+  constructor(
+    private viewerService: ViewerService,
+    private revisionService: GeneSuggestRevisionService,
+    private revisableFieldsGQL: GeneRevisableFieldsGQL
+  ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -63,9 +75,9 @@ export class GeneReviseForm implements OnInit, OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-    this.submitError$ = this.geneSuggestRevisionService.submitError$;
-    this.isSubmitting$ = this.geneSuggestRevisionService.isSubmitting$;
-    this.submitSuccess$ = this.geneSuggestRevisionService.submitSuccess$;
+    this.submitError$ = this.revisionService.submitError$;
+    this.isSubmitting$ = this.revisionService.isSubmitting$;
+    this.submitSuccess$ = this.revisionService.submitSuccess$;
 
     this.formFields = [
       {
@@ -79,8 +91,8 @@ export class GeneReviseForm implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Description',
           placeholder: 'Enter a description for this gene.',
-          required: false
-        }
+          required: false,
+        },
       },
       {
         key: 'fields.sources',
@@ -92,9 +104,9 @@ export class GeneReviseForm implements OnInit, OnDestroy {
         fieldArray: {
           type: 'source-input',
           templateOptions: {
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       },
       {
         key: 'comment',
@@ -103,78 +115,71 @@ export class GeneReviseForm implements OnInit, OnDestroy {
           label: 'Comment',
           placeholder: 'Please enter a comment describing your revision.',
           required: true,
-          minLength: 10
+          minLength: 10,
         },
-      }
-    ]
+      },
+    ];
 
     // reset form upon successful submit
-    this.submitSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(s => {
-        if (s && this.formOptions.resetModel) {
-          this.formOptions.resetModel();
-        }
-      })
+    this.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((s) => {
+      if (s && this.formOptions.resetModel) {
+        this.formOptions.resetModel();
+      }
+    });
   }
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
-    this.geneRevisableFieldsGQL.fetch({ geneId: this.geneId })
+    this.revisableFieldsGQL
+      .fetch({ geneId: this.geneId })
       .subscribe(({ data: { gene } }) => {
         if (gene) {
-          this.formModel = {
-            id: gene.id,
-            fields: {
-              description: gene.description,
-              sources: [...gene.sources]
-            },
-            comment: ''
-          }
+          this.formModel = this.toFormModel(gene);
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve gene.');
-        };
+        }
         if (this.formOptions.updateInitialValue) {
           this.formOptions.updateInitialValue();
         }
       });
   }
 
+  toFormModel(gene: RevisableGeneFieldsFragment): FormModel {
+    return <FormModel>{
+        id: gene.id,
+        fields: {
+          ...gene
+        },
+        comment: '',
+    }
+  }
+
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
   }
 
-  submitRevision(value: any): void {
-    // for (const key in this.formGroup.controls) {
-    //   this.formGroup.controls[key].markAsDirty();
-    //   this.formGroup.controls[key].updateValueAndValidity();
-    // }
+  submitRevision(model: any): void {
+    this.revisionService
+      .suggest(this.toRevisionInput(model));
+  }
 
-
-    let newDesc = value.fields.description
-    let nullableDesc: NullableStringInput = {}
-
-    if (newDesc && newDesc.trim().length > 0) {
-      nullableDesc.value = newDesc
-    } else {
-      nullableDesc.unset = true
-    }
-
-    const newRevisionInput = <SuggestGeneRevisionInput>{
-      ...value,
+  toRevisionInput(model: FormModel): SuggestGeneRevisionInput {
+    return <SuggestGeneRevisionInput>{
+      ...model,
       fields: {
-        description: nullableDesc,
-        sourceIds: value.fields.sources.map((s: any) => { return +s.id }),
+        description: toNullableString(model.fields.description),
+        sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
       },
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
-    }
+      organizationId:
+        this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
+    };
 
-    this.geneSuggestRevisionService.suggestRevision(newRevisionInput);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.revisionService.cleanup();
   }
 }

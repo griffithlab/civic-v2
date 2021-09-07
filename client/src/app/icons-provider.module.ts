@@ -2,7 +2,7 @@ import { InjectionToken, NgModule } from '@angular/core';
 import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 import { IconDefinition, ThemeType } from '@ant-design/icons-angular';
 
-import { camelToKebab } from '@app/shared/utilities/camel-to-kebab';
+import { camelToKebab } from '@app/core/utilities/camel-to-kebab';
 
 import {
   MenuFoldOutline,
@@ -76,6 +76,7 @@ import {
   civicUserFullcolor,
   civicVariant,
   civicVariantgroupFullcolor,
+  civicVarianttypeFullcolor,
 
   // entity & artifact 1 color icons
   civicAdminOutline,
@@ -96,8 +97,9 @@ import {
   civicRevisionOutline,
   civicSourceOutline,
   civicUserOutline,
-  civicVariantgroupOutline,
   civicVariantOutline,
+  civicVariantgroupOutline,
+  civicVarianttypeOutline,
 
   // entity & artifact two-tone icons
   civicAdminTwotone,
@@ -120,6 +122,7 @@ import {
   civicUserTwotone,
   civicVariantTwotone,
   civicVariantgroupTwotone,
+  civicVarianttypeTwotone,
   CivicIconLiteral
 } from '@app/generated/civic.icons';
 
@@ -175,6 +178,7 @@ const iconLiterals = [
   civicSourceOutline,
   civicUserOutline,
   civicVariantgroupOutline,
+  civicVarianttypeOutline,
   civicVariantOutline,
   civicAdminTwotone,
   civicAssertionTwotone,
@@ -196,6 +200,7 @@ const iconLiterals = [
   civicUserTwotone,
   civicVariantTwotone,
   civicVariantgroupTwotone,
+  civicVarianttypeTwotone,
 ];
 
 export const fullColorIcons: CivicIconLiteral[] = [
@@ -219,6 +224,7 @@ export const fullColorIcons: CivicIconLiteral[] = [
   civicUserFullcolor,
   civicVariant,
   civicVariantgroupFullcolor,
+  civicVarianttypeFullcolor,
 ];
 
 export const civicIcons: IconDefinition[] = toIconDefs(iconLiterals);

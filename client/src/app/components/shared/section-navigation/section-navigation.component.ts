@@ -13,7 +13,7 @@ import { Maybe } from '@app/generated/civic.apollo';
 import { Subject } from 'rxjs';
 import { filter, startWith, takeUntil } from 'rxjs/operators';
 
-import { TitleService } from '@app/shared/services/title/title.service';
+import { TitleService } from '@app/core/services/title/title.service';
 
 export interface TitleSegment {
   label: string;

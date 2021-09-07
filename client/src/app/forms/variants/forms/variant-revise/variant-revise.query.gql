@@ -1,0 +1,106 @@
+query VariantRevisableFields($variantId: Int!) {
+  variant(id: $variantId) {
+    ... RevisableVariantFields
+  }
+}
+
+fragment RevisableVariantFields on Variant {
+  id
+  name
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+  gene {
+    id
+    name
+  }
+  variantAliases
+  alleleRegistryId
+  clinvarIds
+  ensemblVersion
+  hgvsDescriptions
+  referenceBuild
+  variantTypes {
+    id
+    name
+    soid
+  }
+  fivePrimeCoordinates {
+    ... CoordinateFields
+  }
+  threePrimeCoordinates {
+    ... CoordinateFields
+  }
+}
+
+fragment CoordinateFields on Coordinate {
+  chromosome
+  referenceBases
+  representativeTranscript
+  start
+  stop
+  variantBases
+}
+
+mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
+  suggestVariantRevision(input: $input) {
+    clientMutationId
+    variant {
+      id
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}

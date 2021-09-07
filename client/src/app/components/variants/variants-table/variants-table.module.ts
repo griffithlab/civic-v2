@@ -12,6 +12,7 @@ import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-ov
 import { CvcVariantsTableComponent } from './variants-table.component';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -24,7 +25,7 @@ import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
     NzInputModule,
     NzIconModule,
     NzTypographyModule,
-
+    NzToolTipModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcTagOverflowModule

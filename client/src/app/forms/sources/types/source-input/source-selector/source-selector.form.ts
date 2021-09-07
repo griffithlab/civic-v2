@@ -5,12 +5,18 @@ import {
   Maybe,
   SourceSource,
 } from '@app/generated/civic.apollo';
+import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { $enum } from 'ts-enum-util';
 
-export interface SelectorModel {
+export interface SourceSelectorModel {
   sourceType: Maybe<SourceSource>,
   citationId: Maybe<string>
+}
+
+export const sourceSelectorInitialValue: SourceSelectorModel = {
+  sourceType: undefined,
+  citationId: undefined
 }
 
 @Component({
@@ -22,7 +28,7 @@ export interface SelectorModel {
 })
 export class SourceSelectorForm implements OnInit, OnDestroy {
   @Output() sourceSelected = new EventEmitter<Maybe<any>>();
-  model: SelectorModel = { sourceType: undefined, citationId: undefined };
+  model: SourceSelectorModel = sourceSelectorInitialValue;
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
@@ -44,14 +50,14 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
           placeholder: 'Select Type',
           options: $enum(SourceSource)
             .map((value, key) => {
-              return { value: value, label: key };
+              return { value: value, label: formatSourceTypeEnum(value)};
             })
         }
       },
       {
         key: 'citationId',
         className: 'citation-id-field',
-        type: 'typeahead-selector',
+        type: 'source-selector-typeahead',
         templateOptions: {
           maxLength: 10,
           required: true,
@@ -61,7 +67,7 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
           'templateOptions.disabled': '!model.sourceType',
           'templateOptions.placeholder': '!model.sourceType ? "Select source type before searching" : "Search " + model.sourceType + " sources"',
           'templateOptions.sourceType': 'model.sourceType',
-          'templateOptions.sourceTypeKey': (model: SelectorModel): Maybe<string> => {
+          'templateOptions.sourceTypeKey': (model: SourceSelectorModel): Maybe<string> => {
             if(!model.sourceType) { return }
             return $enum(SourceSource).getKeyOrThrow(model.sourceType);
           }
@@ -69,10 +75,13 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
         }
       },
       {
-        template: '<button type="submit" nz-button nzType="primary" nzSize="small">+</button>',
-        className: 'submit-button',
+        type: 'multi-field-add-btn',
+        className: 'add-button',
         templateOptions: {
-          safeHtml: true
+          label: 'Add Source',
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.citationId',
         }
       }
     ];

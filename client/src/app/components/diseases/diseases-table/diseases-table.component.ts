@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseDiseaseRowFieldsFragment, BrowseDiseasesGQL, BrowseDiseasesQuery, BrowseVariantGroupsGQL, DiseasesSortColumns, Maybe, PageInfo, QueryBrowseDiseasesArgs } from "@app/generated/civic.apollo";
-import { buildSortParams, SortDirectionEvent } from "@app/shared/utilities/datatable-helpers";
+import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
 import { map, pluck, startWith, debounceTime } from 'rxjs/operators';

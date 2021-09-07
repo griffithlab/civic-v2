@@ -24,7 +24,7 @@ import {
   Maybe,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/shared/services/viewer/viewer.service';
+import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 

@@ -3,19 +3,17 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { ApolloCache, StoreObject } from '@apollo/client/cache';
 import { ApolloError, FetchResult } from '@apollo/client/core';
 
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import {
   SuggestGeneRevisionInput,
   SuggestGeneRevisionGQL,
-  SuggestGeneRevisionPayload,
   SuggestGeneRevisionMutation
 } from '@app/generated/civic.apollo';
 
-import { NGXLogger } from 'ngx-logger';
-
-import { entityTypeToTypename } from '@app/shared/utilities/entitytype-to-typename';
-import { catchError, finalize, pluck, startWith, takeUntil, tap } from 'rxjs/operators';
+import { entityTypeToTypename } from '@app/core/utilities/entitytype-to-typename';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +28,15 @@ export class GeneSuggestRevisionService implements OnDestroy {
   private destroy$ = new Subject();
 
   constructor(
-    private suggestGeneRevisionGQL: SuggestGeneRevisionGQL, private logger: NGXLogger) {
+    private suggestGeneRevisionGQL: SuggestGeneRevisionGQL,
+    private networkErrorService: NetworkErrorsService,
+  ) {
     this.isSubmitting$ = new BehaviorSubject<boolean>(false);
     this.submitSuccess$ = new BehaviorSubject<boolean>(false);
     this.submitError$ = new BehaviorSubject<string[]>([]);
   }
 
-  suggestRevision(suggestGeneRevisionInput: SuggestGeneRevisionInput): void {
+  suggest(suggestGeneRevisionInput: SuggestGeneRevisionInput): void {
     this.storeObj = {
       id: suggestGeneRevisionInput.id,
       __typename: entityTypeToTypename('Gene')
@@ -77,13 +77,25 @@ export class GeneSuggestRevisionService implements OnDestroy {
         finalize(() => { this.isSubmitting$.next(false); }))
       .subscribe({
         error: (error: ApolloError): void => {
-          this.submitError$.next(error.graphQLErrors.map(e => e.message));
+          if (error.graphQLErrors.length > 0) {
+            this.submitError$.next(error.graphQLErrors.map(e => e.message));
+          } else if (error.networkError) {
+            this.networkErrorService.networkError$.next(error.networkError);
+          }
         },
         complete: (): void => {
           this.submitError$.next([]);
           this.submitSuccess$.next(true);
+          this.networkErrorService.networkError$.next(undefined);
         }
       });
+  }
+
+  cleanup(): void {
+    this.submitError$.next([]);
+    this.submitSuccess$.next(false);
+    this.isSubmitting$.next(false);
+    this.networkErrorService.networkError$.next(undefined);
   }
 
   ngOnDestroy(): void {

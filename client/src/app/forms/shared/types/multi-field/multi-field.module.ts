@@ -6,6 +6,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MultiFieldComponent, MultiFieldType } from './multi-field.type';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 const formlyConfig = {
   types: [MultiFieldType]
@@ -21,6 +22,7 @@ const formlyConfig = {
     NzFormModule,
     NzInputModule,
     NzIconModule,
+    NzButtonModule,
   ],
   exports: [MultiFieldComponent]
 })

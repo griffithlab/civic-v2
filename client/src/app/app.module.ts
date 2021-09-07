@@ -21,6 +21,7 @@ import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module';
 
 registerLocaleData(en);
 const maskConfig: Partial<IConfig> = {
@@ -52,6 +53,7 @@ const maskConfig: Partial<IConfig> = {
     ReactiveComponentModule,
     TimeagoModule.forRoot(),
     FormlyModule.forRoot(formlyConfig),
+    CvcNetworkErrorAlertModule,
   ],
   providers: [
     CookieService,

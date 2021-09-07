@@ -1,0 +1,8 @@
+<ng-container *ngIf="!formControl.value?.id; else typeListItem">
+  <cvc-variant-type-selector (typeSelected)="onTypeSelected($event)"></cvc-variant-type-selector>
+</ng-container>
+<ng-template #typeListItem>
+  <cvc-variant-type-tag [variantType]="formControl.value"
+    [enablePopover]="false"
+    [linked]="false"></cvc-variant-type-tag>
+</ng-template>

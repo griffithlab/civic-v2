@@ -3,30 +3,43 @@
   margin-bottom: 1em;
 }
 
-@delete-btn-width: 24px;
-@delete-btn-margin: 1em;
+@btn-width: 24px;
+@btn-margin: 1em;
 
 .ant-form-item {
   margin-bottom: .25em;
 }
 
+// class applied to row if field input displayed
+.field-display {
+  // provide a little margin between entity list & field input
+  margin-top: 0.5em;
+}
+
+// class applied to row if entity displayed
+.entity-display {}
+
+// container for field input
 .field-col {
   display: inline-block;
-  width: calc(~'100% - 2*(@{delete-btn-width} + @{delete-btn-margin})');
+  width: calc(~'100% - 2*(@{btn-width} + @{btn-margin})');
 }
+// containers for add/remove buttons
 .field-delete-btn, .field-add-btn {
   display: inline-block;
-  margin-left: @delete-btn-margin;
+  margin-left: @btn-margin;
   i {
     top: 5px;
     position: relative;
     cursor: pointer;
-    font-size: @delete-btn-width;
+    font-size: @btn-width;
     color: #999;
     transition: all 0.3s;
   }
 }
-
-.dynamic-delete-button:hover {
-  color: #777;
+// container for cancel button
+.field-cancel-btn {
+  display: inline-block;
+  margin-left: @btn-margin;
+  width: calc(~'(2*@{btn-width}) + @{btn-margin}');
 }

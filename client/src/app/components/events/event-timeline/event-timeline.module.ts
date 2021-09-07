@@ -4,7 +4,7 @@ import { CvcEventTimelineComponent } from './event-timeline.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcCommentTagModule } from '@app/components/comments/comment-tag/comment-tag.module';
 import { CvcFlagTagModule } from '@app/components/flags/flag-tag/flag-tag.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';

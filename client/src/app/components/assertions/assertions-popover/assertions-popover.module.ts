@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { CvcPipesModule } from '@app/pipes/pipes.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzSpaceModule } from 'ng-zorro-antd/space';

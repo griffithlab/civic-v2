@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Maybe, OrganizationMembersQuery, OrganizationMembersFieldsFragment, OrganizationMembersGQL, OrganizationMembersQueryVariables } from "@app/generated/civic.apollo";
-import { Viewer, ViewerService } from "@app/shared/services/viewer/viewer.service";
+import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
 import { Observable } from 'rxjs';
@@ -29,10 +29,10 @@ export class OrganizationsMembersComponent {
       this.loading$ = observable.pipe(
           pluck('loading'),
           startWith(true));
-    
+
       this.members$ = observable.pipe(
       pluck('data', 'organization', 'members', 'edges'));
-  
+
       this.viewer$ = this.viewerService.viewer$;
   }
 }

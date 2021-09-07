@@ -4,7 +4,7 @@
 
 @source-selector-width: 10em;
 @input-spacer: 0.5em;
-@submit-button-width: 2em;
+@add-button-width: 8em;
 
 // viewEncapsulation off for this type, so styles scoped to its element:
 cvc-source-input {
@@ -20,11 +20,12 @@ cvc-source-input {
   .citation-id-field {
     display: inline-block;
     margin-left: @input-spacer;
-    width: calc(~'100% - @{source-selector-width} - 2*@{input-spacer} - @{submit-button-width}')
+    width: calc(~'100% - @{source-selector-width} - 2*@{input-spacer} - @{add-button-width}')
   }
-  .submit-button {
-    margin-left: @input-spacer;
+
+  .add-button {
     display: inline-block;
-    width: @submit-button-width
+    margin-left: @input-spacer;
+    width: @add-button-width;
   }
 }

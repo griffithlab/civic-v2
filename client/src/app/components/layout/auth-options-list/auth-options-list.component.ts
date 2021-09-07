@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { CookieService } from 'ngx-cookie-service';
 
-import { encodeUriString } from '@app/shared/utilities/encode-uri-string';
+import { encodeUriString } from '@app/core/utilities/encode-uri-string';
 
 @Component({
   selector: 'cvc-auth-options-list',

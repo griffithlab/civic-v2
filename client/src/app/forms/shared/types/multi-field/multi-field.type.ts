@@ -1,22 +1,5 @@
 import { Component } from '@angular/core';
-import { FieldArrayType, FormlyFieldConfig } from '@ngx-formly/core';
-
-// export class MultiFieldArray {
-//   name!: string;
-//   templateOptions!: { label?: string };
-//   fieldArray!: FormlyFieldConfig;
-// }
-
-// export class MultiFieldGroup {
-//   name!: string;
-//   templateOptions!: { label?: string };
-//   fieldGroup!: FormlyFieldConfig[];
-// }
-
-// export interface MultiFieldConfig extends FormlyFieldConfig {
-//   types: MultiFieldArray | MultiFieldGroup[];
-//   defaultTypes: string[];
-// }
+import { FieldArrayType } from '@ngx-formly/core';
 
 @Component({
   selector: 'cvc-multi-field',

@@ -15,7 +15,8 @@
     {{ opt.source.citation }} ({{ opt.source.citationId }})
   </nz-option>
 </nz-select>
-<div class="ant-form-item-explain" *ngIf="model.citation.length > 0">
+<div class="ant-form-item-explain"
+  *ngIf="model.citation.length > 0">
   Citation:
   <span class="source-citation">
     {{ model.citation }}
@@ -23,10 +24,14 @@
 </div>
 <ng-template #sourceLoader>
   <ng-container [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
-    <div *ngSwitchCase="false" class="ant-form-item-explain">
+    <div *ngSwitchCase="false"
+      class="ant-form-item-explain">
       Enter a {{ to.sourceTypeKey }} citation ID to search CIViC sources
     </div>
-    <cvc-source-loader *ngSwitchCase="true" [model]="model" (modelUpdate)="onModelUpdated($event)"
-    [(sourceType)]="model.sourceType" [(citationId)]="to.fieldValue"></cvc-source-loader>
+    <cvc-source-loader *ngSwitchCase="true"
+      [model]="model"
+      (modelUpdate)="onModelUpdated($event)"
+      [(sourceType)]="model.sourceType"
+      [(citationId)]="to.fieldValue"></cvc-source-loader>
   </ng-container>
 </ng-template>

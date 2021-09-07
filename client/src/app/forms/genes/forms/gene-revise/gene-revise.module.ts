@@ -13,6 +13,7 @@ import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
 import { SourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [GeneReviseForm],
@@ -20,6 +21,7 @@ import { SourceInputModule } from '@app/forms/sources/types/source-input/source-
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
+    NgxJsonViewerModule,
     NzFormModule,
     NzAlertModule,
     NzGridModule,

@@ -8,7 +8,7 @@ import {
   QueryBrowseVariantsArgs,
   VariantsSortColumns,
 } from '@app/generated/civic.apollo';
-import { buildSortParams, SortDirectionEvent, WithName } from '@app/shared/utilities/datatable-helpers';
+import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
