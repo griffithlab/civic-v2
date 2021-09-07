@@ -75,10 +75,13 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
         }
       },
       {
-        template: '<button type="submit" nz-button nzType="primary" nzSize="small">+</button>',
-        className: 'submit-button',
+        type: 'multi-field-add-btn',
+        className: 'add-button',
         templateOptions: {
-          safeHtml: true
+          label: 'Add Source',
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.citationId',
         }
       }
     ];

@@ -1,4 +1,4 @@
-<nz-form-item *ngFor="let field of field.fieldGroup; let i = index; let last = last">
+<nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
   <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
     <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
       nzSpan="24"
@@ -6,26 +6,37 @@
       {{ to.label }}
     </nz-form-label>
   </ng-container>
-  <div>
+  <div [ngClass]="{'field-display': !f.model[i], 'entity-display': f.model[i] }">
+    <!-- display field type -->
     <div class="field-col">
-      <formly-field [field]="field"></formly-field>
+      <formly-field [field]="f"></formly-field>
     </div>
-    <div class="field-delete-btn">
-      <i nz-icon
-        nzType="minus-circle-o"
-        (click)="remove(i)"></i>
-    </div>
-    <div class="field-add-btn"
-      *ngIf="last">
-      <i nz-icon
-        nzType="plus-circle-o"
-        (click)="addField($event)"></i>
-    </div>
+
+    <!-- display remove/add buttons if entity displayed -->
+    <ng-container *ngIf="f.model[i]">
+      <div class="field-delete-btn">
+        <i nz-icon
+          nzType="minus-circle-o"
+          (click)="remove(i)"></i>
+      </div>
+      <div class="field-add-btn"
+        *ngIf="last">
+        <i nz-icon
+          nzType="plus-circle-o"
+          (click)="addField($event)"></i>
+      </div>
+    </ng-container>
+
+    <!-- else display a cancel button (initial model will be null) -->
+    <ng-container *ngIf="!f.model[i]">
+      <div class="field-cancel-btn">
+        <button nz-button
+          nzBlock
+          nzType="default"
+          nzSize="small"
+          nzDanger
+          (click)="remove(i)">Cancel</button>
+      </div>
+    </ng-container>
   </div>
-</nz-form-item>
-<nz-form-item *ngIf="field.fieldGroup && field.fieldGroup.length == 0">
-  <nz-form-label nzSpan="24" >
-    {{ to.label }}
-  </nz-form-label>
-  <button nz-button (click)="addField($event)">Add {{ to.label }}</button>
 </nz-form-item>
