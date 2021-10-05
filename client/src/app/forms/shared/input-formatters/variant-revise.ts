@@ -17,11 +17,12 @@ export function toClinvarInput(
     na = true;
   } else if (!ids) {
     ids = undefined;
-    na= undefined;
+    na = undefined;
     nf = true;
-  }
+  } 
+
   return <ClinvarInput>{
-    ids: ids,
+    ids: ids ? ids.map(id => +id) : undefined,
     noneFound: nf,
     notApplicable: na
   };
@@ -29,10 +30,10 @@ export function toClinvarInput(
 
 export function toCoordinateInput(coord: Coordinate): CoordinateInput {
   return <CoordinateInput>{
-    chromosome: coord.chromosome,
-    representativeTranscript: coord.representativeTranscript,
-    start: coord.start,
-    stop: coord.stop,
+    chromosome: undefinedIfEmpty(coord.chromosome),
+    representativeTranscript: undefinedIfEmpty(coord.representativeTranscript),
+    start: coord.start ? +coord.start: undefined,
+    stop: coord.stop ? +coord.stop: undefined,
   };
 }
 
@@ -43,4 +44,14 @@ export function toNullableReferenceBuildInput(
   if(build) { nRefBuild.value = build }
   else { nRefBuild.unset = true }
   return nRefBuild;
+}
+
+export function undefinedIfEmpty(inVal: Maybe<string>) : Maybe<string> {
+  let outVal: Maybe<string>
+  if(inVal && inVal.length > 0) {
+    outVal = inVal
+  } else {
+    outVal = undefined
+  }
+  return outVal;
 }

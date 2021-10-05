@@ -2363,7 +2363,7 @@ union ModeratedFieldDiff = ObjectFieldDiff | ScalarField
 
 type ModeratedObjectField {
   displayName: String!
-  displayType: String!
+  displayType: String
   entityType: String!
   id: Int!
 }

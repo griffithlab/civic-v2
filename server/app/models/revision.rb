@@ -1,5 +1,6 @@
 class Revision < ApplicationRecord
   include Commentable
+  include Subscribable
 
   belongs_to :subject, polymorphic: true
   #TODO: will we want a mixin someday?

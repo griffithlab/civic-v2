@@ -154,7 +154,7 @@ export class VariantReviseForm implements OnDestroy {
           type: 'input',
           templateOptions: {
             required: true,
-            placeholder: 'Search Variant Types'
+            placeholder: 'Add Alias'
           }
         }
       },
@@ -226,28 +226,28 @@ export class VariantReviseForm implements OnDestroy {
         },
       },
       {
-        key: 'fields.primaryCoordinates.chromosome',
+        key: 'fields.fivePrimeCoordinates.chromosome',
         type: 'input',
         templateOptions: {
           label: 'Chromosome',
         },
       },
       {
-        key: 'fields.primaryCoordinates.start',
+        key: 'fields.fivePrimeCoordinates.start',
         type: 'input',
         templateOptions: {
           label: 'Start',
         },
       },
       {
-        key: 'fields.primaryCoordinates.stop',
+        key: 'fields.fivePrimeCoordinates.stop',
         type: 'input',
         templateOptions: {
           label: 'Stop',
         },
       },
       {
-        key: 'fields.primaryCoordinates.representativeTranscript',
+        key: 'fields.fivePrimeCoordinates.representativeTranscript',
         type: 'input',
         templateOptions: {
           label: 'Representative Transcript',
@@ -257,28 +257,28 @@ export class VariantReviseForm implements OnDestroy {
         template: '<h3>Secondary Coordinates</h3>',
       },
       {
-        key: 'fields.secondaryCoordinates.chromosome',
+        key: 'fields.threePrimeCoordinates.chromosome',
         type: 'input',
         templateOptions: {
           label: 'Chromosome',
         },
       },
       {
-        key: 'fields.secondaryCoordinates.start',
+        key: 'fields.threePrimeCoordinates.start',
         type: 'input',
         templateOptions: {
           label: 'Start',
         },
       },
       {
-        key: 'fields.secondaryCoordinates.stop',
+        key: 'fields.threePrimeCoordinates.stop',
         type: 'input',
         templateOptions: {
           label: 'Stop',
         },
       },
       {
-        key: 'fields.secondaryCoordinates.representativeTranscript',
+        key: 'fields.threePrimeCoordinates.representativeTranscript',
         type: 'input',
         templateOptions: {
           label: 'Representative Transcript',
@@ -353,7 +353,7 @@ export class VariantReviseForm implements OnDestroy {
       fields: {
         name: fields.name,
         geneId: fields.gene.id,
-        ensemblVersion: fields.ensemblVersion,
+        ensemblVersion: +fields.ensemblVersion,
         description: fmt.toNullableString(fields.description),
         clinvarIds: fmt.toClinvarInput(fields.clinvarIds),
         primaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
