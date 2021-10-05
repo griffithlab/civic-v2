@@ -225,6 +225,9 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Ensembl Version',
         },
+        validators: {
+          validation: ['ensembl']
+        }
       },
       {
         key: 'fields.fivePrimeCoordinates.chromosome',
@@ -242,6 +245,9 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Start',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
         key: 'fields.fivePrimeCoordinates.stop',
@@ -249,6 +255,9 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Stop',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
         key: 'fields.fivePrimeCoordinates.representativeTranscript',
@@ -276,6 +285,9 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Start',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
         key: 'fields.threePrimeCoordinates.stop',
@@ -283,6 +295,9 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Stop',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
         key: 'fields.threePrimeCoordinates.representativeTranscript',
