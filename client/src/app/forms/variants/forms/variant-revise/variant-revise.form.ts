@@ -33,6 +33,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/shared/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
+import { Chromosomes } from '@app/forms/shared/input-formatters';
 
 interface FormSource {
   id?: number;
@@ -227,9 +228,12 @@ export class VariantReviseForm implements OnDestroy {
       },
       {
         key: 'fields.fivePrimeCoordinates.chromosome',
-        type: 'input',
+        type: 'select',
+        defaultValue: undefined,
         templateOptions: {
           label: 'Chromosome',
+          required: false,
+          options: Chromosomes
         },
       },
       {
@@ -258,9 +262,12 @@ export class VariantReviseForm implements OnDestroy {
       },
       {
         key: 'fields.threePrimeCoordinates.chromosome',
-        type: 'input',
+        type: 'select',
+        defaultValue: undefined,
         templateOptions: {
           label: 'Chromosome',
+          required: false,
+          options: Chromosomes
         },
       },
       {
