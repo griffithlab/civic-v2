@@ -29,8 +29,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
-import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
 import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
@@ -59,17 +57,18 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { EvidenceDetailModule } from './evidence-detail/evidence-detail.module';
+import { EvidenceSummaryModule } from './evidence-summary/evidence-summary.module';
 
 @NgModule({
   declarations: [
     EvidenceComponent,
-    EvidenceSummaryComponent,
     EvidenceCommentsComponent,
     EvidenceFlagsComponent,
     EvidenceRevisionsComponent,
   ],
   imports: [
     CommonModule,
+    EvidenceSummaryModule,
     EvidenceDetailModule,
     EvidenceRoutingModule,
     EvidenceHomeModule,
@@ -124,7 +123,6 @@ import { EvidenceDetailModule } from './evidence-detail/evidence-detail.module';
   ],
   exports: [
     EvidenceComponent,
-    EvidenceSummaryComponent,
     EvidenceFlagsComponent,
     EvidenceCommentsComponent,
     EvidenceRevisionsComponent
