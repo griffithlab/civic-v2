@@ -29,9 +29,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
-import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
-import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
@@ -58,16 +55,19 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { EvidenceDetailModule } from './evidence-detail/evidence-detail.module';
 import { EvidenceSummaryModule } from './evidence-summary/evidence-summary.module';
+import { EvidenceCommentsModule } from './evidence-comments/evidence-comments.module';
+import { EvidenceRevisionsModule } from './evidence-revisions/evidence-revisions.module';
+import { EvidenceFlagsModule } from './evidence-flags/evidence-flags.module';
 
 @NgModule({
   declarations: [
     EvidenceComponent,
-    EvidenceCommentsComponent,
-    EvidenceFlagsComponent,
-    EvidenceRevisionsComponent,
   ],
   imports: [
     CommonModule,
+    EvidenceFlagsModule,
+    EvidenceRevisionsModule,
+    EvidenceCommentsModule,
     EvidenceSummaryModule,
     EvidenceDetailModule,
     EvidenceRoutingModule,
@@ -118,14 +118,10 @@ import { EvidenceSummaryModule } from './evidence-summary/evidence-summary.modul
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
     NzSelectModule
   ],
   exports: [
     EvidenceComponent,
-    EvidenceFlagsComponent,
-    EvidenceCommentsComponent,
-    EvidenceRevisionsComponent
   ]
 })
 export class EvidenceModule { }
