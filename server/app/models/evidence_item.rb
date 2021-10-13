@@ -1,5 +1,5 @@
 class EvidenceItem < ActiveRecord::Base
-  validates_with Validators::EvidenceItemValidator
+  validates_with EvidenceItemValidator
 
   include Subscribable
   include Commentable
@@ -7,7 +7,7 @@ class EvidenceItem < ActiveRecord::Base
   include Moderated
 
   belongs_to :variant
-  belongs_to :disease
+  belongs_to :disease, optional: true
   belongs_to :source
   has_and_belongs_to_many :drugs
   has_and_belongs_to_many :phenotypes

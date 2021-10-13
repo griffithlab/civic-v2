@@ -11,16 +11,15 @@ module Types::Entities
     field :name, String, null: false
     field :variant, Types::Entities::VariantType, null: false
     field :gene, Types::Entities::GeneType, null: false
-    field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
+    field :clinical_significance, Types::AssertionClinicalSignificanceType, null: false
     field :summary, String, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :drugs, [Types::Entities::DrugType], null: false
     field :drug_interaction_type, Types::DrugInteractionType, null: true
-    field :assertion_direction, Types::EvidenceDirectionType, null: false
-    field :assertion_type, Types::EvidenceTypeType, null: false
+    field :assertion_direction, Types::AssertionDirectionType, null: false
+    field :assertion_type, Types::AssertionTypeType, null: false
     field :phenotypes, [Types::Entities::PhenotypeType], null: false
-    field :source, Types::Entities::SourceType, null: false
     field :status, Types::EvidenceStatusType, null: false
     field :variant_origin, Types::VariantOriginType, null: false
     field :regulatory_approval, GraphQL::Types::Boolean, null: true
@@ -31,6 +30,7 @@ module Types::Entities
     field :submission_event, Types::Entities::EventType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
+    field :evidence_items, [Types::Entities::EvidenceItemType], null: false
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
@@ -48,16 +48,16 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :acmg_codes).load(object)
     end
 
-    def source
-      Loaders::RecordLoader.for(Source).load(object.source_id)
-    end
-
     def variant
       Loaders::RecordLoader.for(Variant).load(object.variant_id)
     end
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
+    end
+
+    def acmg_codes
+      Loaders::AssociationLoader.for(Assertion, :evidence_items).load(object)
     end
 
     def assertion_direction

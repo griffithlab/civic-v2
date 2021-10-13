@@ -1,9 +1,9 @@
-class EvidenceItemValidator < ActiveModel::Validator
+class AssertionValidator < ActiveModel::Validator
   def validate(record)
     validator = valid_types[record.evidence_type]
 
     if validator.blank?
-      record.errors.add :evidence_type, "Invalid evidence type: #{record.evidence_type}"
+      record.errors.add :evidence_type, "Invalid assertion type: #{record.assertion_type}"
       return
     end
 
@@ -34,6 +34,19 @@ class EvidenceItemValidator < ActiveModel::Validator
     if record.drug_ids.size < 2 && record.drug_interaction_type
       record.errors.add :drug_interaction_type, "Drug interaction type cannot be set unless multiple drugs are specified."
     end
+
+    if !validator[:acmg_codes] && record.acmg_code_ids.size > 0
+      record.errors.add :acmg_code_ids, "Assertions of type #{record.evidence_type} may not have ACMG codes attached."
+    end
+
+    if !validator[:amp_level] && record.amp_level.present?
+      record.errors.add :amp_level, "Assertions of type #{record.evidence_type} may not have an AMP/ASCO/CAP level attached."
+    end
+
+    if !validator[:drug] && record.fda_regulatory_approval
+      record.errors.add :fda_regulatory_approval, "Assertions without a drug cannot specify FDA regulatory approval."
+    end
+
   end
 
   def valid_types
@@ -43,36 +56,32 @@ class EvidenceItemValidator < ActiveModel::Validator
         evidence_direction: ['Supports', 'Does not support'],
         disease: true,
         drug: true,
+        acmg_codes: false,
+        amp_level: true
       },
      'Diagnostic' => {
         clinical_significance: ['Positive', 'Negative'],
         evidence_direction: ['Supports', 'Does not support'],
         disease: true,
-        drug: false
+        drug: false,
+        acmg_codes: false,
+        amp_level: true
       },
      'Prognostic' => {
         clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
         evidence_direction: ['Supports', 'Does not support'],
         disease: true,
-        drug: false
+        drug: false,
+        acmg_codes: false,
+        amp_level: true
       },
      'Predisposing' => {
-        clinical_significance: ['N/A'],
-        evidence_direction: ['N/A'],
-        disease: true,
-        drug: false
-      },
-     'Oncogenic' => {
-        clinical_significance: ['N/A'],
-        evidence_direction: ['N/A'],
-        disease: true,
-        drug: false
-      },
-     'Functional' => {
-        clinical_significance: ['Gain of Function', 'Loss of Function', 'Unaltered Function', 'Neomorphic', 'Dominant Negative', 'Unknown'],
+       clinical_significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
         evidence_direction: ['Supports', 'Does not support'],
-        disease: false,
-        drug: false
+        disease: true,
+        drug: false,
+        acmg_codes: true,
+        amp_level: false
       },
     }
   end

@@ -62,10 +62,10 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
   end
 
   def resolve(fields:, id:, organization_id: nil, comment:)
-    variant_fields = InputAdaptors::VariantInputAdaptor.new(variant_input_object: fields).perform
+    updated_variant = InputAdaptors::VariantInputAdaptor.new(variant_input_object: fields).perform
     cmd = Actions::SuggestVariantRevision.new(
       existing_obj: variant,
-      fields: variant_fields,
+      updated_obj: updated_variant,
       originating_user: context[:current_user],
       organization_id: organization_id,
       comment: comment
