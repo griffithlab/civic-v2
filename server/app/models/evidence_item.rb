@@ -1,4 +1,6 @@
 class EvidenceItem < ActiveRecord::Base
+  validates_with Validators::EvidenceItemValidator
+
   include Subscribable
   include Commentable
   include Flaggable
