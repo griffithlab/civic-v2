@@ -58,11 +58,11 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
 import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { EvidenceDetailModule } from './evidence-detail/evidence-detail.module';
 
 @NgModule({
   declarations: [
     EvidenceComponent,
-    EvidenceDetailComponent,
     EvidenceSummaryComponent,
     EvidenceCommentsComponent,
     EvidenceFlagsComponent,
@@ -70,6 +70,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
   ],
   imports: [
     CommonModule,
+    EvidenceDetailModule,
     EvidenceRoutingModule,
     EvidenceHomeModule,
     CvcEntityTableCardModule,
@@ -123,7 +124,6 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
   ],
   exports: [
     EvidenceComponent,
-    EvidenceDetailComponent,
     EvidenceSummaryComponent,
     EvidenceFlagsComponent,
     EvidenceCommentsComponent,

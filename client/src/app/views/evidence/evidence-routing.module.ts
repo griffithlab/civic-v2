@@ -24,9 +24,7 @@ const routes: Routes = [
       {
         path: ':evidenceId',
         component: EvidenceDetailComponent,
-        data: {
-          breadcrumb: 'DISPLAYNAME'
-        },
+        data: { breadcrumb: 'DISPLAYNAME' },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
