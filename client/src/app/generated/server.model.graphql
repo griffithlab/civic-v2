@@ -155,9 +155,9 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   acceptanceEvent: Event
   acmgCodes: [AcmgCode!]!
   ampLevel: AmpLevel
-  assertionDirection: EvidenceDirection!
-  assertionType: EvidenceType!
-  clinicalSignificance: EvidenceClinicalSignificance!
+  assertionDirection: AssertionDirection!
+  assertionType: AssertionType!
+  clinicalSignificance: AssertionClinicalSignificance!
 
   """
   List and filter comments.
@@ -230,6 +230,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     """
     sortBy: DateSort
   ): EventConnection!
+  evidenceItems: [EvidenceItem!]!
   fdaCompanionTest: Boolean
   flagged: Boolean!
 
@@ -337,12 +338,28 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     """
     status: RevisionStatus
   ): RevisionConnection!
-  source: Source!
   status: EvidenceStatus!
   submissionEvent: Event!
   summary: String!
   variant: Variant!
   variantOrigin: VariantOrigin!
+}
+
+enum AssertionClinicalSignificance {
+  ADVERSE_RESPONSE
+  BENIGN
+  BETTER_OUTCOME
+  LIKELY_BENIGN
+  LIKELY_PATHOGENIC
+  NA
+  NEGATIVE
+  PATHOGENIC
+  POOR_OUTCOME
+  POSITIVE
+  REDUCED_SENSITIVITY
+  RESISTANCE
+  SENSITIVITYRESPONSE
+  UNCERTAIN_SIGNIFICANCE
 }
 
 """
@@ -375,6 +392,11 @@ type AssertionConnection {
   totalCount: Int!
 }
 
+enum AssertionDirection {
+  DOES_NOT_SUPPORT
+  SUPPORTS
+}
+
 """
 An edge in a connection.
 """
@@ -388,6 +410,101 @@ type AssertionEdge {
   The item at the end of the edge.
   """
   node: Assertion
+}
+
+"""
+Fields on an Assertion that curators may propose revisions to.
+"""
+input AssertionFields {
+  """
+  List of CIViC IDs for the ACMG/AMP codes associated with this Assertion
+  """
+  acmgCodeIds: [Int!]!
+
+  """
+  The AMP/ASCO/CAP Category for this assertion.
+  """
+  ampLevel: NullableAmpLevelTypeInput!
+
+  """
+  The Clinical Significance of the Assertion
+  """
+  clinicalSignificance: AssertionClinicalSignificance!
+
+  """
+  A detailed description of the Assertion including practice guidelines and approved tests.
+  """
+  description: NullableStringInput!
+
+  """
+  The ID of the disease (if applicable) for this Assertion
+  """
+  diseaseId: NullableIntInput!
+
+  """
+  List of IDs of CIViC Drug entries for this Assertion. An empty list indicates none.
+  """
+  drugIds: [Int!]!
+
+  """
+  Drug interaction type for cases where more than one drug ID is provided.
+  """
+  drugInteractionType: NullableDrugInteractionTypeInput!
+
+  """
+  The evidence direction for this Assertion.
+  """
+  evidenceDirection: AssertionDirection!
+
+  """
+  IDs of evidence items that are included in this Assertion.
+  """
+  evidenceItemIds: [Int!]!
+
+  """
+  The Type of the Assertion
+  """
+  evidenceType: AssertionType!
+
+  """
+  Is an FDA companion test available that pertains to this Assertion.
+  """
+  fdaCompanionTest: Boolean!
+
+  """
+  Does the Assertion have FDA regulatory approval.
+  """
+  fdaRegulatoryApproval: Boolean!
+
+  """
+  The ID of the Gene to which this Assertion belongs
+  """
+  geneId: Int!
+
+  """
+  The internal CIViC ID of the NCCN guideline associated with this Assertion
+  """
+  nccnGuidelineId: NullableIntInput!
+
+  """
+  List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none.
+  """
+  phenotypeIds: [Int!]!
+
+  """
+  A brief single sentence statement summarizing the clinical significance of this Assertion.
+  """
+  summary: NullableStringInput!
+
+  """
+  The ID of the Variant to which this Assertion belongs
+  """
+  variantId: Int!
+
+  """
+  The Variant Origin for this Assertion.
+  """
+  variantOrigin: VariantOrigin!
 }
 
 input AssertionSort {
@@ -414,6 +531,13 @@ enum AssertionSortColumns {
   STATUS
   SUMMARY
   VARIANT_NAME
+}
+
+enum AssertionType {
+  DIAGNOSTIC
+  PREDICTIVE
+  PREDISPOSING
+  PROGNOSTIC
 }
 
 enum BooleanOperator {
@@ -2457,6 +2581,16 @@ type Mutation {
   ): SubscribePayload
 
   """
+  Suggest a Revision to an Assertion entity.
+  """
+  suggestAssertionRevision(
+    """
+    Parameters for SuggestAssertionRevision
+    """
+    input: SuggestAssertionRevisionInput!
+  ): SuggestAssertionRevisionPayload
+
+  """
   Suggest a Revision to an EvidenceItem entity.
   """
   suggestEvidenceItemRevision(
@@ -2621,6 +2755,24 @@ type NotificationEdge {
 enum NotificationReason {
   MENTION
   SUBSCRIPTION
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
+input NullableAmpLevelTypeInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: AmpLevel
 }
 
 """
@@ -4247,6 +4399,64 @@ type SubscribePayload {
 
 type Subscription {
   id: Int!
+}
+
+"""
+Autogenerated input type of SuggestAssertionRevision
+"""
+input SuggestAssertionRevisionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Text describing the reason for the change. Will be attached to the Revision as a comment.
+  """
+  comment: String!
+
+  """
+  The desired state of the Assertion's editable fields if the change were applied.
+  If no change is desired for a particular field, pass in the current value of that field.
+  """
+  fields: AssertionFields!
+
+  """
+  The ID of the Assertion to suggest a Revision to.
+  """
+  id: Int!
+
+  """
+  The ID of the organization to credit the user's contributions to.
+  If the user belongs to a single organization or no organizations, this field is not required.
+  This field is required if the user belongs to more than one organization.
+  The user must belong to the organization provided.
+  """
+  organizationId: Int
+}
+
+"""
+Autogenerated return type of SuggestAssertionRevision
+"""
+type SuggestAssertionRevisionPayload {
+  """
+  The Assertion the user has proposed a Revision to.
+  """
+  assertion: Assertion!
+
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  A list of Revisions generated as a result of this suggestion.
+  If an existing Revision exactly matches the proposed one, it will be returned instead.
+  This is indicated via the 'newlyCreated' Boolean.
+  Revisions are stored on a per-field basis.
+  The changesetId can be used to group Revisions proposed at the same time.
+  """
+  results: [RevisionResult!]!
 }
 
 """
