@@ -6,12 +6,12 @@ import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.componen
 import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
 import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
 import { EvidenceHomePage } from './evidence-home/evidence-home.page';
-import { EvidenceComponent } from './evidence.component';
+import { EvidenceView } from './evidence.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: EvidenceComponent,
+    component: EvidenceView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
