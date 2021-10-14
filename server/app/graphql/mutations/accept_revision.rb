@@ -37,7 +37,7 @@ class Mutations::AcceptRevision < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, 'User must be an editor in order to reject this revision.'
     elsif !current_user.has_valid_coi_statement?
       raise GraphQL::ExecutionError, 'User must have a valid conflict of interest statement on file.'
-    elsif revision.suggesting_user == current_user
+    elsif revision.revisor == current_user
       raise GraphQL::ExecutionError, 'User may not accept their own suggested revision.'
     else
       return true
