@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EvidenceCommentsPage } from './evidence-comments/evidence-comments.page';
-import { EvidenceDetailView } from './evidence-detail/evidence-detail.view';
-import { EvidenceFlagsPage } from './evidence-flags/evidence-flags.page';
-import { EvidenceRevisionsPage } from './evidence-revisions/evidence-revisions.page';
-import { EvidenceSummaryPage } from './evidence-summary/evidence-summary.page';
+import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
 import { EvidenceHomePage } from './evidence-home/evidence-home.page';
 import { EvidenceView } from './evidence.view';
 
@@ -23,46 +19,35 @@ const routes: Routes = [
       },
       {
         path: ':evidenceId',
-        component: EvidenceDetailView,
         data: { breadcrumb: 'DISPLAYNAME' },
         children: [
-          {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
-            path: 'summary',
-            component: EvidenceSummaryPage,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-detail/evidence-detail.module').then(
+                (m) => m.EvidenceDetailModule
+              ),
           },
-          {
-            path: 'comments',
-            component: EvidenceCommentsPage,
-            data: {
-              breadcrumb: 'Comments'
-            }
-          },
-          {
-            path: 'revisions',
-            component: EvidenceRevisionsPage,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: EvidenceFlagsPage,
-            data: {
-              breadcrumb: 'Flags'
-            }
-          }
+          // {
+          //   path: 'revise',
+          //   loadChildren: () =>
+          //     import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
+          //       (m) => m.EvidenceReviseModule
+          //     ),
+          //   data: { breadcrumb: 'Revise' }
+          // },
         ]
-      }
+      },
+
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    EvidenceHomeModule
+  ],
   exports: [RouterModule]
 })
 export class EvidenceRoutingModule { }

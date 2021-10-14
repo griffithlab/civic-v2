@@ -43,7 +43,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), VariantsHomeModule],
+  imports: [
+    RouterModule.forChild(routes),
+    VariantsHomeModule
+  ],
   exports: [RouterModule],
 })
 export class VariantsRoutingModule {}

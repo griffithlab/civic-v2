@@ -14,11 +14,13 @@ import { RouterModule } from '@angular/router';
 import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { EvidenceDetailRoutingModule } from './evidence-detail-routing.module';
 
 @NgModule({
   declarations: [EvidenceDetailView],
   imports: [
     CommonModule,
+    EvidenceDetailRoutingModule,
     RouterModule,
     ReactiveComponentModule,
     NzSpaceModule,
