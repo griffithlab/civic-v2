@@ -4,22 +4,22 @@ import { FlaggableEntities, FlaggableInput } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-evidence-flags',
-  templateUrl: './evidence-flags.component.html',
-  styleUrls: ['./evidence-flags.component.less']
+  templateUrl: './evidence-flags.page.html',
+  styleUrls: ['./evidence-flags.page.less']
 })
 
 
-export class EvidenceFlagsComponent {
+export class EvidenceFlagsPage {
 
   flaggable: FlaggableInput
 
   constructor( private route: ActivatedRoute) {
-    const evidenceId: number = +this.route.snapshot.params['evidenceId']; 
-    
+    const evidenceId: number = +this.route.snapshot.params['evidenceId'];
+
     this.flaggable = {
       entityType: FlaggableEntities.EvidenceItem,
       id: evidenceId
     }
-    
+
   }
 }

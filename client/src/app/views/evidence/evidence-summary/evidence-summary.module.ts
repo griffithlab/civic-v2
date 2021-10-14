@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EvidenceSummaryComponent } from './evidence-summary.component';
+import { EvidenceSummaryPage } from './evidence-summary.page';
 import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -25,7 +25,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 
 @NgModule({
-  declarations: [EvidenceSummaryComponent],
+  declarations: [EvidenceSummaryPage],
   imports: [
     CommonModule,
     RouterModule,

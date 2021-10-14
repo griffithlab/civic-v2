@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
-import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
-import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
-import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
-import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
+import { EvidenceCommentsPage } from './evidence-comments/evidence-comments.page';
+import { EvidenceDetailView } from './evidence-detail/evidence-detail.view';
+import { EvidenceFlagsPage } from './evidence-flags/evidence-flags.page';
+import { EvidenceRevisionsPage } from './evidence-revisions/evidence-revisions.page';
+import { EvidenceSummaryPage } from './evidence-summary/evidence-summary.page';
 import { EvidenceHomePage } from './evidence-home/evidence-home.page';
 import { EvidenceView } from './evidence.view';
 
@@ -23,34 +23,34 @@ const routes: Routes = [
       },
       {
         path: ':evidenceId',
-        component: EvidenceDetailComponent,
+        component: EvidenceDetailView,
         data: { breadcrumb: 'DISPLAYNAME' },
         children: [
           {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
             path: 'summary',
-            component: EvidenceSummaryComponent,
+            component: EvidenceSummaryPage,
             data: {
               breadcrumb: 'Summary'
             }
           },
           {
             path: 'comments',
-            component: EvidenceCommentsComponent,
+            component: EvidenceCommentsPage,
             data: {
               breadcrumb: 'Comments'
             }
           },
           {
             path: 'revisions',
-            component: EvidenceRevisionsComponent,
+            component: EvidenceRevisionsPage,
             data: {
               breadcrumb: 'Revisions'
             }
           },
           {
             path: 'flags',
-            component: EvidenceFlagsComponent,
+            component: EvidenceFlagsPage,
             data: {
               breadcrumb: 'Flags'
             }

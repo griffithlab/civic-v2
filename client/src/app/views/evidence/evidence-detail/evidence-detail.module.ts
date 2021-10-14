@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EvidenceDetailComponent } from './evidence-detail.component';
+import { EvidenceDetailView } from './evidence-detail.view';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -16,7 +16,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
-  declarations: [EvidenceDetailComponent],
+  declarations: [EvidenceDetailView],
   imports: [
     CommonModule,
     RouterModule,

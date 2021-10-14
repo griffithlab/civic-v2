@@ -4,10 +4,10 @@ import { CommentableEntities, CommentableInput } from '@app/generated/civic.apol
 
 @Component({
   selector: 'cvc-evidence-comments',
-  templateUrl: './evidence-comments.component.html',
-  styleUrls: ['./evidence-comments.component.less'],
+  templateUrl: './evidence-comments.page.html',
+  styleUrls: ['./evidence-comments.page.less'],
 })
-export class EvidenceCommentsComponent {
+export class EvidenceCommentsPage {
   commentable: CommentableInput
 
   constructor(private route: ActivatedRoute) {

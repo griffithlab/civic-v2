@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EvidenceRevisionsComponent } from './evidence-revisions.component';
+import { EvidenceRevisionsPage } from './evidence-revisions.page';
 
 @NgModule({
-  declarations: [EvidenceRevisionsComponent],
+  declarations: [EvidenceRevisionsPage],
   imports: [
     CommonModule
   ]

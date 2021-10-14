@@ -7,10 +7,10 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: 'cvc-evidence-summary',
-  templateUrl: './evidence-summary.component.html',
-  styleUrls: ['./evidence-summary.component.less']
+  templateUrl: './evidence-summary.page.html',
+  styleUrls: ['./evidence-summary.page.less']
 })
-export class EvidenceSummaryComponent {
+export class EvidenceSummaryPage {
   @Input() evidenceId: Maybe<number>
 
   queryRef: QueryRef<EvidenceSummaryQuery, EvidenceSummaryQueryVariables>
@@ -46,7 +46,7 @@ export class EvidenceSummaryComponent {
     this.evidence$ = observable.pipe(
       pluck('data', 'evidenceItem')
     )
-    
+
     this.subscribable = {
       entityType: SubscribableEntities.EvidenceItem,
       id: queryEvidenceId

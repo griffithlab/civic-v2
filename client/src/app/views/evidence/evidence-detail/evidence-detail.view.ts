@@ -19,10 +19,10 @@ import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'evidence-detail',
-  templateUrl: './evidence-detail.component.html',
-  styleUrls: ['./evidence-detail.component.less'],
+  templateUrl: './evidence-detail.view.html',
+  styleUrls: ['./evidence-detail.view.less'],
 })
-export class EvidenceDetailComponent implements OnDestroy {
+export class EvidenceDetailView implements OnDestroy {
   queryRef?: QueryRef<EvidenceDetailQuery, EvidenceDetailQueryVariables>;
 
   evidence$?: Observable<Maybe<EvidenceDetailFieldsFragment>>;
