@@ -1,4 +1,4 @@
-class Actions::BulkAcceptRevisions
+class Actions::AcceptRevisions
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 

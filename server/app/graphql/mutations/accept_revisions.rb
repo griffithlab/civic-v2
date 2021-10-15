@@ -1,4 +1,4 @@
-class Mutations::BulkAcceptRevisions < Mutations::MutationWithOrg
+class Mutations::AcceptRevisions < Mutations::MutationWithOrg
   description 'Accept multiple revisions by ID. The accepting user must be an editor with a valid conflict of interest statement on file and the revisions must not be their own. The revisions must be for the same subject. The revisions may not conflict, i.e. be for the same field.'
 
   argument :ids, [Int], required: false,
@@ -84,7 +84,7 @@ class Mutations::BulkAcceptRevisions < Mutations::MutationWithOrg
   end
 
   def resolve(organization_id: nil, comment: nil, **_)
-    cmd = Actions::BulkAcceptRevisions.new(
+    cmd = Actions::AcceptRevisions.new(
       revisions: revisions,
       accepting_user: context[:current_user],
       organization_id: organization_id,
