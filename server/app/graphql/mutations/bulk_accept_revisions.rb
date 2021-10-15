@@ -1,8 +1,16 @@
 class Mutations::BulkAcceptRevisions < Mutations::MutationWithOrg
   description 'Accept multiple revisions by ID. The accepting user must be an editor with a valid conflict of interest statement on file and the revisions must not be their own. The revisions must be for the same subject. The revisions may not conflict, i.e. be for the same field.'
 
-  argument :ids, [Int], required: true,
+  argument :ids, [Int], required: false,
     description: 'A list of IDs of the Revisions to accept.'
+
+  argument :revision_set_id, ID, required: false,
+    description: 'The ID of a revision set.'
+
+  validates required: {
+    one_of: [:ids, :revision_set_id],
+    message: "Must specify either a list of revision ids or a revisions_set_id, but not both."
+  }
 
   argument :comment, String, required: false,
     validates: {length: { minimum: 10 } },
@@ -16,18 +24,31 @@ class Mutations::BulkAcceptRevisions < Mutations::MutationWithOrg
 
   attr_reader :revisions
 
-  def ready?(organization_id: nil, ids:, **_)
+  def ready?(organization_id: nil, ids: nil, revision_set_id: nil, **_)
     validate_user_logged_in
     validate_user_org(organization_id)
 
-    @revisions = ids.map do |id|
-      revision = Revision.find_by(id: id)
-      if revision.nil?
-        raise GraphQL::ExecutionError, "Revision with id #{id} doesn't exist."
-      elsif revision.status != 'new'
-        raise GraphQL::ExecutionError, "Revision with id #{id} is already #{revision.status}."
+    if !ids.nil?
+      @revisions = ids.map do |id|
+        revision = Revision.find_by(id: id)
+        if revision.nil?
+          raise GraphQL::ExecutionError, "Revision with id #{id} doesn't exist."
+        elsif revision.status != 'new'
+          raise GraphQL::ExecutionError, "Revision with id #{id} is already #{revision.status}."
+        end
+        revision
       end
-      revision
+    elsif !revision_set_id.nil?
+      @revisions = Revision.where(revisionset_id: revision_set_id)
+      if revisions.count == 0
+        raise GraphQL::ExecutionError, "Revisions with revision_set_id #{revision_set_id} don't exist."
+      else
+        revisions.each do |revision|
+          if revision.status != 'new'
+            raise GraphQL::ExecutionError, "Revision with id #{revision.id} from revision set #{revision_set_id} is already #{revision.status}."
+          end
+        end
+      end
     end
 
     subjects = revisions.map(&:subject).uniq
@@ -40,11 +61,10 @@ class Mutations::BulkAcceptRevisions < Mutations::MutationWithOrg
         raise GraphQL::ExecutionError, "Multiple revisions with the same field_name #{field_name}: #{rs.map(&:id).join(', ')}"
       end
     end
-
     return true
   end
 
-  def authorized?(organization_id: nil, ids:, **_)
+  def authorized?(organization_id: nil, **_)
     current_user = context[:current_user]
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
