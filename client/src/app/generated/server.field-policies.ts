@@ -1,8 +1,8 @@
 import type { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type AcceptRevisionPayloadKeySpecifier = ('clientMutationId' | 'revision' | 'supersededRevisions' | AcceptRevisionPayloadKeySpecifier)[];
-export type AcceptRevisionPayloadFieldPolicy = {
+export type AcceptRevisionsPayloadKeySpecifier = ('clientMutationId' | 'revisions' | 'supersededRevisions' | AcceptRevisionsPayloadKeySpecifier)[];
+export type AcceptRevisionsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
-	revision?: FieldPolicy<any> | FieldReadFunction<any>,
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	supersededRevisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type AcmgCodeKeySpecifier = ('code' | 'description' | 'id' | AcmgCodeKeySpecifier)[];
@@ -27,7 +27,7 @@ export type AdvancedSearchResultFieldPolicy = {
 	resultIds?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchEndpoint?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'assertionDirection' | 'assertionType' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'fdaCompanionTest' | 'flagged' | 'flags' | 'gene' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'nccnGuideline' | 'phenotypes' | 'regulatoryApproval' | 'rejectionEvent' | 'revisions' | 'source' | 'status' | 'submissionEvent' | 'summary' | 'variant' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'assertionDirection' | 'assertionType' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceItems' | 'fdaCompanionTest' | 'flagged' | 'flags' | 'gene' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'nccnGuideline' | 'phenotypes' | 'regulatoryApproval' | 'rejectionEvent' | 'revisions' | 'status' | 'submissionEvent' | 'summary' | 'variant' | 'variantOrigin' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -41,6 +41,7 @@ export type AssertionFieldPolicy = {
 	drugInteractionType?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	fdaCompanionTest?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -55,7 +56,6 @@ export type AssertionFieldPolicy = {
 	regulatoryApproval?: FieldPolicy<any> | FieldReadFunction<any>,
 	rejectionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
-	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	submissionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	summary?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -559,9 +559,9 @@ export type ModeratedObjectFieldFieldPolicy = {
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevision' | 'addComment' | 'addRemoteCitation' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevision' | 'resolveFlag' | 'subscribe' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestVariantRevision' | 'unsubscribe' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevision' | 'resolveFlag' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestVariantRevision' | 'unsubscribe' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
-	acceptRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	addRemoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -569,6 +569,7 @@ export type MutationFieldPolicy = {
 	rejectRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscribe?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestAssertionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -874,6 +875,12 @@ export type SubscriptionKeySpecifier = ('id' | SubscriptionKeySpecifier)[];
 export type SubscriptionFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SuggestAssertionRevisionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | 'results' | SuggestAssertionRevisionPayloadKeySpecifier)[];
+export type SuggestAssertionRevisionPayloadFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SuggestEvidenceItemRevisionPayloadKeySpecifier = ('clientMutationId' | 'evidenceItem' | 'results' | SuggestEvidenceItemRevisionPayloadKeySpecifier)[];
 export type SuggestEvidenceItemRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1008,9 +1015,9 @@ export type WithRevisionsFieldPolicy = {
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TypedTypePolicies = TypePolicies & {
-	AcceptRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | AcceptRevisionPayloadKeySpecifier | (() => undefined | AcceptRevisionPayloadKeySpecifier),
-		fields?: AcceptRevisionPayloadFieldPolicy,
+	AcceptRevisionsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AcceptRevisionsPayloadKeySpecifier | (() => undefined | AcceptRevisionsPayloadKeySpecifier),
+		fields?: AcceptRevisionsPayloadFieldPolicy,
 	},
 	AcmgCode?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AcmgCodeKeySpecifier | (() => undefined | AcmgCodeKeySpecifier),
@@ -1379,6 +1386,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Subscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscriptionKeySpecifier | (() => undefined | SubscriptionKeySpecifier),
 		fields?: SubscriptionFieldPolicy,
+	},
+	SuggestAssertionRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestAssertionRevisionPayloadKeySpecifier | (() => undefined | SuggestAssertionRevisionPayloadKeySpecifier),
+		fields?: SuggestAssertionRevisionPayloadFieldPolicy,
 	},
 	SuggestEvidenceItemRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestEvidenceItemRevisionPayloadKeySpecifier | (() => undefined | SuggestEvidenceItemRevisionPayloadKeySpecifier),

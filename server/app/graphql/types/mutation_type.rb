@@ -9,7 +9,7 @@ module Types
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
     field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision
     field :reject_revision, mutation: Mutations::RejectRevision
-    field :accept_revision, mutation: Mutations::AcceptRevision
+    field :accept_revisions, mutation: Mutations::AcceptRevisions
 
     #subscriptions
     field :subscribe, mutation: Mutations::Subscribe
