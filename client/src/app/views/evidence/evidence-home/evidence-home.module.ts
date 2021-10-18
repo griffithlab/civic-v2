@@ -9,12 +9,16 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { RouterModule } from '@angular/router';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [EvidenceHomePage],
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveComponentModule,
+    NzButtonModule,
     NzSwitchModule,
     NzPageHeaderModule,
     NzGridModule,

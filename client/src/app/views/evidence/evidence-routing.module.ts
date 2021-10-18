@@ -29,6 +29,14 @@ const routes: Routes = [
               ),
           },
           {
+            path: 'add',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-add/evidence-add.module').then(
+                (m) => m.EvidenceAddModule
+              ),
+            data: { breadcrumb: 'Add' }
+          },
+          {
             path: 'revise',
             loadChildren: () =>
               import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
