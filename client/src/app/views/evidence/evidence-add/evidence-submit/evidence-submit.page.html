@@ -1,1 +1,27 @@
-<p>evidence-submit works!</p>
+<nz-row [nzGutter]="16">
+  <nz-col nzSpan="16">
+    <p>evidence-submit form goes here.</p>
+    <!-- <cvc-variant-revise-form [variantId]="variantId">
+         </cvc-variant-revise-form> -->
+  </nz-col>
+  <nz-col nzSpan="8">
+    <nz-card nzTitle="Instructions"
+      nz-type="inner">
+      <nz-space nzDirection="vertical"
+        style="width: 100%">
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 3 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-skeleton [nzParagraph]="{ rows: 5 }"></nz-skeleton>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+  </nz-col>
+</nz-row>

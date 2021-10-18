@@ -5,6 +5,7 @@ import { EvidenceAddRoutingModule } from './evidence-add-routing.module';
 import { EvidenceAddView } from './evidence-add.view';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
     CommonModule,
     EvidenceAddRoutingModule,
     NzPageHeaderModule,
+    NzIconModule,
     CvcSectionNavigationModule,
   ]
 })
