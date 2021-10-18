@@ -23,12 +23,12 @@ module Scrapers
         author_obj = Author.where(
           last_name: author[:last_name],
           fore_name: author[:fore_name]
-        ).first_or_create
+        ).first_or_create!
         AuthorsSource.where(
           source: source,
           author: author_obj,
           author_position: author[:author_position]
-        ).first_or_create
+        ).first_or_create!
       end
       if pmc_id = resp.pmc_id
         source.pmc_id = pmc_id
@@ -44,7 +44,7 @@ module Scrapers
       source.abstract = resp.abstract
       source.is_review = resp.is_review?
       clinical_trials = resp.clinical_trial_ids.uniq.map do |nct_id|
-        ::ClinicalTrial.where(nct_id: nct_id).first_or_create
+        ::ClinicalTrial.where(nct_id: nct_id).first_or_create!
       end
       source.clinical_trials = clinical_trials
       source.save
