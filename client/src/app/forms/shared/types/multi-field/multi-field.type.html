@@ -1,3 +1,21 @@
+<nz-form-item *ngIf="field.fieldGroup?.length === 0">
+  <ng-container *ngIf="to.label && to.hideLabel !== true">
+    <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
+      nzSpan="24"
+      [nzFor]="id">
+      {{ to.label }}
+    </nz-form-label>
+  </ng-container>
+      <div class="field-add-btn">
+        <button nz-button
+          nzBlock
+          nzType="default"
+          nzSize="small"
+          nzSearch
+          (click)="addField($event)">Add {{ to.label }}</button>
+      </div>
+</nz-form-item>
+
 <nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
   <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
     <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"

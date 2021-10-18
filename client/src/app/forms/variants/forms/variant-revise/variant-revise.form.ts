@@ -33,6 +33,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/shared/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
+import { Chromosomes } from '@app/forms/shared/input-formatters';
 
 interface FormSource {
   id?: number;
@@ -154,7 +155,7 @@ export class VariantReviseForm implements OnDestroy {
           type: 'input',
           templateOptions: {
             required: true,
-            placeholder: 'Search Variant Types'
+            placeholder: 'Add Alias'
           }
         }
       },
@@ -224,30 +225,42 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Ensembl Version',
         },
+        validators: {
+          validation: ['ensembl']
+        }
       },
       {
-        key: 'fields.primaryCoordinates.chromosome',
-        type: 'input',
+        key: 'fields.fivePrimeCoordinates.chromosome',
+        type: 'select',
+        defaultValue: undefined,
         templateOptions: {
           label: 'Chromosome',
+          required: false,
+          options: Chromosomes
         },
       },
       {
-        key: 'fields.primaryCoordinates.start',
+        key: 'fields.fivePrimeCoordinates.start',
         type: 'input',
         templateOptions: {
           label: 'Start',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
-        key: 'fields.primaryCoordinates.stop',
+        key: 'fields.fivePrimeCoordinates.stop',
         type: 'input',
         templateOptions: {
           label: 'Stop',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
-        key: 'fields.primaryCoordinates.representativeTranscript',
+        key: 'fields.fivePrimeCoordinates.representativeTranscript',
         type: 'input',
         templateOptions: {
           label: 'Representative Transcript',
@@ -257,28 +270,37 @@ export class VariantReviseForm implements OnDestroy {
         template: '<h3>Secondary Coordinates</h3>',
       },
       {
-        key: 'fields.secondaryCoordinates.chromosome',
-        type: 'input',
+        key: 'fields.threePrimeCoordinates.chromosome',
+        type: 'select',
+        defaultValue: undefined,
         templateOptions: {
           label: 'Chromosome',
+          required: false,
+          options: Chromosomes
         },
       },
       {
-        key: 'fields.secondaryCoordinates.start',
+        key: 'fields.threePrimeCoordinates.start',
         type: 'input',
         templateOptions: {
           label: 'Start',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
-        key: 'fields.secondaryCoordinates.stop',
+        key: 'fields.threePrimeCoordinates.stop',
         type: 'input',
         templateOptions: {
           label: 'Stop',
         },
+        validators: {
+          validation: ['integer']
+        }
       },
       {
-        key: 'fields.secondaryCoordinates.representativeTranscript',
+        key: 'fields.threePrimeCoordinates.representativeTranscript',
         type: 'input',
         templateOptions: {
           label: 'Representative Transcript',
@@ -353,7 +375,7 @@ export class VariantReviseForm implements OnDestroy {
       fields: {
         name: fields.name,
         geneId: fields.gene.id,
-        ensemblVersion: fields.ensemblVersion,
+        ensemblVersion: +fields.ensemblVersion,
         description: fmt.toNullableString(fields.description),
         clinvarIds: fmt.toClinvarInput(fields.clinvarIds),
         primaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),

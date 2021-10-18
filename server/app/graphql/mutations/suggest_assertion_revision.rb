@@ -1,12 +1,12 @@
-class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
-  description 'Suggest a Revision to an EvidenceItem entity.'
+class Mutations::SuggestAssertionRevision < Mutations::MutationWithOrg
+  description 'Suggest a Revision to an Assertion entity.'
 
   argument :id, Int, required: true,
-    description: 'The ID of the EvidenceItem to suggest a Revision to.'
+    description: 'The ID of the Assertion to suggest a Revision to.'
 
-  argument :fields, Types::Revisions::EvidenceItemFields, required: true,
+  argument :fields, Types::Revisions::AssertionFields, required: true,
     description: <<~DOC.strip
-      The desired state of the EvidenceItems's editable fields if the change were applied.
+      The desired state of the Assertion's editable fields if the change were applied.
       If no change is desired for a particular field, pass in the current value of that field.
     DOC
 
@@ -14,8 +14,8 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 
-  field :evidence_item, Types::Entities::EvidenceItemType, null: false,
-    description: 'The EvidenceItem the user has proposed a Revision to.'
+  field :assertion, Types::Entities::AssertionType, null: false,
+    description: 'The Assertion the user has proposed a Revision to.'
 
   field :results, [Types::Revisions::RevisionResult], null: false,
     description: <<~DOC.strip
@@ -26,18 +26,18 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
       The changesetId can be used to group Revisions proposed at the same time.
     DOC
 
-  attr_reader :evidence_item
+  attr_reader :assertion
 
   def ready?(organization_id: nil, id:, fields:, **kwargs)
     validate_user_logged_in
     validate_user_org(organization_id)
 
-    evidence_item = EvidenceItem.find_by(id: id)
-    if evidence_item.nil?
-      raise GraphQL::ExecutionError, "EvidenceItem with id #{id} doesn't exist."
+    assertion = Assertion.find_by(id: id)
+    if assertion.nil?
+      raise GraphQL::ExecutionError, "Assertion with id #{id} doesn't exist."
     end
 
-    @evidence_item = evidence_item
+    @assertion = assertion
 
     existing_phenotype_ids = Phenotype.where(id: fields.phenotype_ids).pluck(:id)
     if existing_phenotype_ids.size != fields.phenotype_ids.size
@@ -49,16 +49,30 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
       raise GraphQL::ExecutionError, "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
     end
 
-    if !Source.find(fields.source_id)
-      raise GraphQL::ExecutionError, "Provided source id: #{fields.source_id} is not found."
+    existing_eids = EvidenceItem.where(id: fields.evidence_item_ids).pluck(:id)
+    if existing_eids.size != fields.evidence_item_ids.size
+      raise GraphQL::ExecutionError, "Provided evidence item ids: #{fields.evidence_item_ids.join(', ')} but only #{existing_eids.join(', ')} exist."
     end
 
     if fields.disease_id && !Disease.find(fields.disease_id)
       raise GraphQL::ExecutionError, "Provided disease id: #{fields.disease_id} is not found."
     end
 
+    if fields.nccn_guideline_id && !NccnGuideline.find(fields.nccn_guideline_id)
+      raise GraphQL::ExecutionError, "Provided NCCN Guideline id: #{fields.nccn_guideline_id} is not found."
+    end
+
+    existing_acmg_ids = AcmgCode.where(id: fields.acmg_code_ids).pluck(:id)
+    if existing_acmg_ids.size != fields.acmg_code_ids.size
+      raise GraphQL::ExecutionError, "Provided ACMG code ids: #{fields.acmg_code_ids.join(', ')} but only #{existing_acmg_ids.join(', ')} exist."
+    end
+
     if !Variant.find(fields.variant_id)
       raise GraphQL::ExecutionError, "Provided variant id: #{fields.variant_id} is not found."
+    end
+
+    if !Gene.find(fields.gene_id)
+      raise GraphQL::ExecutionError, "Provided gene id: #{fields.gene_id} is not found."
     end
 
     return true
@@ -70,10 +84,10 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
   end
 
   def resolve(fields:, id:, organization_id: nil, comment:)
-    updated_evidence = InputAdaptors::EvidenceItemInputAdaptor.new(evidence_input_object: fields).perform
-    cmd = Actions::SuggestEvidenceItemRevision.new(
-      existing_obj: evidence_item,
-      updated_obj: updated_evidence,
+    updated_assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
+    cmd = Actions::SuggestAssertionRevision.new(
+      existing_obj: assertion,
+      updated_obj: updated_assertion,
       originating_user: context[:current_user],
       organization_id: organization_id,
       comment: comment
@@ -82,7 +96,7 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
 
     if res.succeeded?
       {
-        evidence_item: evidence_item,
+        assertion: assertion,
         results: res.revisions
       }
     else
