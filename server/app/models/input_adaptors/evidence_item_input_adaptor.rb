@@ -13,7 +13,7 @@ class InputAdaptors::EvidenceItemInputAdaptor
       source_id: input.source_id,
       evidence_type: input.evidence_type,
       clinical_significance: input.clinical_significance,
-      disease_id: disease_id,
+      disease_id: input.disease_id,
       description: input.description,
       evidence_level: input.evidence_level,
       evidence_direction: input.evidence_direction,

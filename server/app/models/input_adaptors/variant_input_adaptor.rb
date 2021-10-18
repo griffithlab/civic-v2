@@ -34,13 +34,23 @@ class InputAdaptors::VariantInputAdaptor
   private
   def get_alias_ids
     input.aliases.map do |a|
-      VariantAlias.where('name ILIKE ?', a).first_or_create!.id
+      existing = VariantAlias.where('name ILIKE ?', a).first
+      if existing
+        existing.id
+      else
+        VariantAlias.create(name: a).id
+      end
     end
   end
 
   def get_hgvs_ids
     input.hgvs_descriptions.map do |hgvs|
-      HgvsExpression.where('expression ILIKE ?', hgvs).first_or_create!.id
+      existing = HgvsExpression.where('expression ILIKE ?', hgvs).first
+      if existing
+        existing.id
+      else
+        HgvsExpression.create(expression: hgvs).id
+      end
     end
   end
 

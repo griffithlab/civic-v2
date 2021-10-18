@@ -1,4 +1,6 @@
 class Assertion < ActiveRecord::Base
+  validates_with AssertionValidator
+
   include Commentable
   include Subscribable
   include Flaggable
@@ -9,7 +11,7 @@ class Assertion < ActiveRecord::Base
   has_and_belongs_to_many :evidence_items
   has_and_belongs_to_many :drugs
   belongs_to :disease
-  belongs_to :nccn_guideline
+  belongs_to :nccn_guideline, optional: true
   has_and_belongs_to_many :acmg_codes
   has_and_belongs_to_many :phenotypes
 

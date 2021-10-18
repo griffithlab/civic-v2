@@ -1432,7 +1432,7 @@ export type ModeratedFieldDiff = ObjectFieldDiff | ScalarField;
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
   displayName: Scalars['String'];
-  displayType: Scalars['String'];
+  displayType?: Maybe<Scalars['String']>;
   entityType: Scalars['String'];
   id: Scalars['Int'];
 };

@@ -67,13 +67,16 @@ module Types::Revisions
     end
 
     def self.value_for_set(r, set:)
-      field_class = revision_display_name(r).singularize.constantize
+      field_class = revision_display_name(r)
+        .singularize
+        .gsub(' ', '')
+        .constantize
       field_class.find(set).map do |obj|
         {
           id: obj.id,
           entity_type: obj.class.to_s,
           display_name: obj.display_name,
-          display_type: obj.display_type
+          display_type: obj.respond_to?(:display_type) ? obj.display_type : nil
         }
       end
     end
