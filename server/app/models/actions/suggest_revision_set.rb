@@ -14,7 +14,6 @@ class Actions::SuggestRevisionSet
   end
 
   def execute
-    binding.pry
     updated_obj.validate!
 
     any_changes = false
