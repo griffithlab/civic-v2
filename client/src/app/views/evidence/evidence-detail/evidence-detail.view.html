@@ -48,7 +48,7 @@
 
           <!-- add revision btn -->
           <nz-space-item>
-            <button routerLink="suggest-revision"
+            <button [routerLink]="['/evidence', evidence.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

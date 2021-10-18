@@ -28,14 +28,14 @@ const routes: Routes = [
                 (m) => m.EvidenceDetailModule
               ),
           },
-          // {
-          //   path: 'revise',
-          //   loadChildren: () =>
-          //     import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
-          //       (m) => m.EvidenceReviseModule
-          //     ),
-          //   data: { breadcrumb: 'Revise' }
-          // },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
+                (m) => m.EvidenceReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
+          },
         ]
       },
 

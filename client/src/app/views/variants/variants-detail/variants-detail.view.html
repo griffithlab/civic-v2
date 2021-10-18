@@ -1,5 +1,6 @@
 <ng-container *ngIf="variant$ | ngrxPush as variant">
-  <cvc-section-navigation [displayName]="variant.gene.name + ' \: ' + variant.name" [relationsTpl]="variantRelations">
+  <cvc-section-navigation [displayName]="variant.gene.name + ' \: ' + variant.name"
+    [relationsTpl]="variantRelations">
   </cvc-section-navigation>
   <ng-template #variantRelations>
     <nz-space nzDirection="horizontal">
@@ -25,8 +26,7 @@
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': variant.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:variant"></i>
-        {{ variant.name }}
+          nzType="civic:variant"></i> {{ variant.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
