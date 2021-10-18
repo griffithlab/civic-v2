@@ -8,9 +8,16 @@
       [nzRouteLabelFn]="getRouteLabel"></nz-breadcrumb>
   </nz-col>
 
+  <!-- entity action buttons -->
+  <nz-col *ngIf="actionsTpl"
+    [nzSpan]="relationsTpl ? 5 : 14"
+    id="action-btns">
+    <ng-template [ngTemplateOutlet]="actionsTpl"></ng-template>
+  </nz-col>
+
   <!-- relations summary -->
   <nz-col *ngIf="relationsTpl"
-    [nzSpan]="14"
+    [nzSpan]="actionsTpl ? 9 : 14"
     id="relations-summary">
     <ng-template [ngTemplateOutlet]="relationsTpl"></ng-template>
   </nz-col>
