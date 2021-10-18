@@ -34,12 +34,7 @@ class InputAdaptors::VariantInputAdaptor
   private
   def get_alias_ids
     input.aliases.map do |a|
-      existing = VariantAlias.where('name ILIKE ?', a).first
-      if existing
-        existing.id
-      else
-        VariantAlias.create(name: a).id
-      end
+      VariantAlias.get_or_create_by_name(a).id
     end
   end
 
@@ -49,7 +44,7 @@ class InputAdaptors::VariantInputAdaptor
       if existing
         existing.id
       else
-        HgvsExpression.create(expression: hgvs).id
+        HgvsExpression.create!(expression: hgvs).id
       end
     end
   end
@@ -66,7 +61,7 @@ class InputAdaptors::VariantInputAdaptor
       ]
     else
       return clinvar.ids.map do |id|
-        ClinvarEntry.where(clinvar_id: id).first_or_create!.id
+        ClinvarEntry.get_or_create_by_id(id).id
       end
     end
   end
