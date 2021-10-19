@@ -8,14 +8,13 @@ const routes: Routes = [
   {
     path: '',
     component: EvidenceAddView,
-    data: { breadcrumb: 'Revise' },
     children: [
-      { path: '', redirectTo: 'suggest', pathMatch: 'full' },
+      { path: '', redirectTo: 'submit', pathMatch: 'full' },
       {
-        path: 'suggest',
+        path: 'submit',
         component: EvidenceSubmitPage,
         data: {
-          breadcrumb: 'Suggest Evidence'
+          breadcrumb: 'Submit New Evidence'
         }
       }
     ]

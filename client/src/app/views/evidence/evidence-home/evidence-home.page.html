@@ -1,12 +1,12 @@
 <cvc-section-navigation [actionsTpl]="evidenceActions"> </cvc-section-navigation>
 <ng-template #evidenceActions>
   <ng-container *ngrxLet="viewer$ as viewer">
-    <button routerLink="add"
+    <button routerLink="/evidence/add/submit"
       *ngIf="viewer.signedIn"
       nz-button
       nzSize="small">
       <i nz-icon nzType="plus-circle"></i>
-      Add Evidence
+      Submit New Evidence
     </button>
   </ng-container>
 </ng-template>

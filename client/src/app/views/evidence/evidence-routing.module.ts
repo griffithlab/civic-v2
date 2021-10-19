@@ -18,6 +18,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'add',
+        loadChildren: () =>
+          import('@app/views/evidence/evidence-add/evidence-add.module').then(
+            (m) => m.EvidenceAddModule
+          ),
+        data: { breadcrumb: 'Add' }
+      },
+      {
         path: ':evidenceId',
         data: { breadcrumb: 'DISPLAYNAME' },
         children: [
@@ -27,14 +35,6 @@ const routes: Routes = [
               import('@app/views/evidence/evidence-detail/evidence-detail.module').then(
                 (m) => m.EvidenceDetailModule
               ),
-          },
-          {
-            path: 'add',
-            loadChildren: () =>
-              import('@app/views/evidence/evidence-add/evidence-add.module').then(
-                (m) => m.EvidenceAddModule
-              ),
-            data: { breadcrumb: 'Add' }
           },
           {
             path: 'revise',
