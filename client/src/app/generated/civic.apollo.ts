@@ -4372,6 +4372,37 @@ export type AddCommentMutation = (
   )> }
 );
 
+export type EvidenceRevisableFieldsQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidenceRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & RevisableEvidenceFieldsFragment
+  )> }
+);
+
+export type RevisableEvidenceFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'variantOrigin' | 'description' | 'clinicalSignificance' | 'drugInteractionType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceType' | 'evidenceRating'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'doid' | 'displayName'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoId' | 'name'>
+  )>, source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'sourceType' | 'citationId' | 'citation'>
+  ) }
+);
+
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -5980,6 +6011,39 @@ export const MenuVariantFragmentDoc = gql`
     fragment menuVariant on Variant {
   id
   name
+}
+    `;
+export const RevisableEvidenceFieldsFragmentDoc = gql`
+    fragment RevisableEvidenceFields on EvidenceItem {
+  id
+  variant {
+    id
+    name
+  }
+  variantOrigin
+  description
+  clinicalSignificance
+  disease {
+    id
+    doid
+    displayName
+  }
+  drugInteractionType
+  evidenceDirection
+  evidenceLevel
+  evidenceType
+  phenotypes {
+    id
+    hpoId
+    name
+  }
+  evidenceRating
+  source {
+    id
+    sourceType
+    citationId
+    citation
+  }
 }
     `;
 export const RevisableGeneFieldsFragmentDoc = gql`
@@ -7707,6 +7771,24 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceRevisableFieldsDocument = gql`
+    query EvidenceRevisableFields($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...RevisableEvidenceFields
+  }
+}
+    ${RevisableEvidenceFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceRevisableFieldsGQL extends Apollo.Query<EvidenceRevisableFieldsQuery, EvidenceRevisableFieldsQueryVariables> {
+    document = EvidenceRevisableFieldsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

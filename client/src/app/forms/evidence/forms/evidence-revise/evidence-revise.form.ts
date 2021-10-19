@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceLevel, EvidenceType, SourceSource, VariantOrigin } from '@app/generated/civic.apollo';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceLevel, EvidenceType, Maybe, Organization, SourceSource, SuggestEvidenceItemRevisionInput, VariantOrigin } from '@app/generated/civic.apollo';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 interface FormSource {
   id?: number;
@@ -24,6 +27,11 @@ interface FormPhenotype {
   id?: number;
   hpoId?: string;
   name?: string;
+}
+
+interface FormVariant {
+  id?: number;
+  name: string;
 }
 
 /* SuggestEvidenceItemRevisionInput
@@ -74,7 +82,7 @@ interface FormModel {
   comment: string;
   fields: {
     description: string;
-    variantId: number;
+    variant: FormVariant;
     variantOrigin: VariantOrigin;
     source: FormSource;
     evidenceType: EvidenceType;
@@ -90,12 +98,30 @@ interface FormModel {
 }
 
 @Component({
-  selector: 'cvc-evidence-revise',
+  selector: 'cvc-evidence-revise-form',
   templateUrl: './evidence-revise.form.html',
   styleUrls: ['./evidence-revise.form.less'],
 })
-export class EvidenceReviseForm implements OnInit {
-  constructor() {}
+export class EvidenceReviseForm implements OnDestroy {
+  @Input() evidenceId!: number;
+  private destroy$ = new Subject();
+  organizations!: Array<Organization>;
+  mostRecentOrg!: Maybe<Organization>;
 
-  ngOnInit(): void {}
+  evidenceRevisionInput!: SuggestEvidenceItemRevisionInput;
+
+  submitError$: BehaviorSubject<string[]>;
+  submitSuccess$: BehaviorSubject<boolean>;
+  isSubmitting$: BehaviorSubject<boolean>;
+
+  formModel!: FormModel;
+  formGroup: FormGroup = new FormGroup({});
+  formFields: FormlyFieldConfig[];
+  formOptions: FormlyFormOptions = {};
+
+  constructor() {
+
+  }
+
+  ngOnDestroy(): void {}
 }
