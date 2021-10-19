@@ -12,6 +12,7 @@ export type InputEnum =
   | VariantOrigin;
 
 export function formatEvidenceEnum(value: InputEnum): string {
+  console.log(`formatEvidenceEnum: ${value}`);
   let str: string[]
   if (value === 'NA') {
     str = ['N/A']

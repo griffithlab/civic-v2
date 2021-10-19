@@ -201,6 +201,30 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         },
       },
       {
+        key: 'fields.evidenceType',
+        type: 'select',
+        templateOptions: {
+          label: 'Evidence Type',
+          required: true,
+          options: $enum(EvidenceType)
+            .map((value, key) => {
+              return { value: value, label: formatEvidenceEnum(value) }
+            })
+        }
+      },
+      {
+        key: 'fields.clinicalSignificance',
+        type: 'select',
+        templateOptions: {
+          label: 'Clinical Signficance',
+          required: true,
+          options: $enum(EvidenceClinicalSignificance)
+            .map((value, key) => {
+              return { value: value, label: formatEvidenceEnum(value) }
+            })
+        }
+      },
+      {
         key: 'comment',
         type: 'comment-textarea',
         templateOptions: {
