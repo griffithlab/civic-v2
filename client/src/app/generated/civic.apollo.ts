@@ -4403,6 +4403,60 @@ export type RevisableEvidenceFieldsFragment = (
   ) }
 );
 
+export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
+  input: SuggestEvidenceItemRevisionInput;
+}>;
+
+
+export type SuggestEvidenceItemRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestEvidenceItemRevision?: Maybe<(
+    { __typename: 'SuggestEvidenceItemRevisionPayload' }
+    & Pick<SuggestEvidenceItemRevisionPayload, 'clientMutationId'>
+    & { evidenceItem: (
+      { __typename: 'EvidenceItem' }
+      & Pick<EvidenceItem, 'id'>
+      & { revisions: (
+        { __typename: 'RevisionConnection' }
+        & Pick<RevisionConnection, 'totalCount'>
+        & { edges: Array<(
+          { __typename: 'RevisionEdge' }
+          & { node?: Maybe<(
+            { __typename: 'Revision' }
+            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+            & { linkoutData: (
+              { __typename: 'LinkoutData' }
+              & Pick<LinkoutData, 'name'>
+              & { diffValue: (
+                { __typename: 'ObjectFieldDiff' }
+                & { addedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, removedObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )>, keptObjects: Array<(
+                  { __typename: 'ModeratedObjectField' }
+                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+                )> }
+              ) | (
+                { __typename: 'ScalarField' }
+                & Pick<ScalarField, 'value'>
+              ) }
+            ), revisor: (
+              { __typename: 'User' }
+              & Pick<User, 'id' | 'name'>
+            ) }
+          )> }
+        )> }
+      ) }
+    ), results: Array<(
+      { __typename: 'RevisionResult' }
+      & Pick<RevisionResult, 'id' | 'fieldName'>
+    )> }
+  )> }
+);
+
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -7789,6 +7843,77 @@ export const EvidenceRevisableFieldsDocument = gql`
   })
   export class EvidenceRevisableFieldsGQL extends Apollo.Query<EvidenceRevisableFieldsQuery, EvidenceRevisableFieldsQueryVariables> {
     document = EvidenceRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestEvidenceItemRevisionDocument = gql`
+    mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) {
+  suggestEvidenceItemRevision(input: $input) {
+    clientMutationId
+    evidenceItem {
+      id
+      revisions {
+        totalCount
+        edges {
+          node {
+            id
+            revisionsetId
+            createdAt
+            fieldName
+            currentValue
+            suggestedValue
+            linkoutData {
+              name
+              diffValue {
+                ... on ObjectFieldDiff {
+                  addedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  removedObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                  keptObjects {
+                    id
+                    displayName
+                    displayType
+                    entityType
+                  }
+                }
+                ... on ScalarField {
+                  value
+                }
+              }
+            }
+            revisor {
+              id
+              name
+            }
+            status
+          }
+        }
+      }
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
+    document = SuggestEvidenceItemRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
