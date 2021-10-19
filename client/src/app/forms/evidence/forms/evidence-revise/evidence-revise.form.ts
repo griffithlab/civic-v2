@@ -1,8 +1,27 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceLevel, EvidenceType, Maybe, Organization, SourceSource, SuggestEvidenceItemRevisionInput, VariantOrigin } from '@app/generated/civic.apollo';
+import {
+  Viewer,
+  ViewerService,
+} from '@app/core/services/viewer/viewer.service';
+import {
+  DrugInteraction,
+  EvidenceClinicalSignificance,
+  EvidenceDirection,
+  EvidenceLevel,
+  EvidenceType,
+  Maybe,
+  Organization,
+  SourceSource,
+  SuggestEvidenceItemRevisionInput,
+  VariantOrigin,
+  EvidenceItemRevisableFieldsGQL,
+  RevisableEvidenceFieldsFragment,
+} from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { EvidenceItemReviseService } from './evidence-revise.service';
 
 interface FormSource {
   id?: number;
@@ -80,21 +99,22 @@ interface FormVariant {
 interface FormModel {
   id: number;
   comment: string;
+  organizationId: Maybe<Organization>,
   fields: {
+    clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
+    disease: Maybe<FormDisease>;
+    drugInteractionType: Maybe<DrugInteraction>;
+    drugs: Maybe<FormDrug[]>;
+    evidenceDirection: EvidenceDirection;
+    evidenceLevel: EvidenceLevel;
+    evidenceType: EvidenceType;
+    phenotypes: FormPhenotype[];
+    evidenceRating: number;
+    source: FormSource;
     variant: FormVariant;
     variantOrigin: VariantOrigin;
-    source: FormSource;
-    evidenceType: EvidenceType;
-    clinicalSignificance: EvidenceClinicalSignificance;
-    disease: FormDisease;
-    evidenceLevel: EvidenceLevel;
-    evidenceDirection: EvidenceDirection;
-    phenotypes: FormPhenotype[];
-    rating: number;
-    drugs: FormDrug[];
-    drugInteractionType: DrugInteraction;
-  }
+  };
 }
 
 @Component({
@@ -102,7 +122,7 @@ interface FormModel {
   templateUrl: './evidence-revise.form.html',
   styleUrls: ['./evidence-revise.form.less'],
 })
-export class EvidenceReviseForm implements OnDestroy {
+export class EvidenceReviseForm implements OnInit, OnDestroy {
   @Input() evidenceId!: number;
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
@@ -119,9 +139,79 @@ export class EvidenceReviseForm implements OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
-  constructor() {
+  constructor(
+    private revisionService: EvidenceItemReviseService,
+    private viewerService: ViewerService,
+    private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL
+  ) {
+    // subscribing to viewer$ and setting local org, mostRecentOrg
+    // so that mostRecentOrg can be updated by org-selector's selectOrg events
+    this.viewerService.viewer$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((v: Viewer) => {
+        this.organizations = v.organizations;
+        this.mostRecentOrg = v.mostRecentOrg;
+      });
 
+    this.submitError$ = this.revisionService.submitError$;
+    this.isSubmitting$ = this.revisionService.isSubmitting$;
+    this.submitSuccess$ = this.revisionService.submitSuccess$;
+
+    this.formFields = [
+      {
+        key: 'id',
+        type: 'input',
+        hide: true
+      },
+      {
+        key: 'fields.description',
+        type: 'textarea',
+        templateOptions: {
+          label: 'Description',
+          placeholder: 'Enter a description for this variant.',
+          required: false
+        }
+      },
+    ];
   }
+
+  ngOnInit(): void {
+    // fetch latest revisable field values, update form fields
+    this.revisableFieldsGQL.fetch({ evidenceId: this.evidenceId })
+      .subscribe(({ data: { evidenceItem } }) => {
+        if (evidenceItem) {
+          this.formModel = this.toFormModel(evidenceItem);
+        } else {
+          // TODO: handle errors with subscribe({complete, error})
+          console.error('Evidence Revise form could not retrieve evidence item.');
+        }
+        if (this.formOptions.updateInitialValue) {
+          this.formOptions.updateInitialValue();
+        }
+      });
+  }
+
+  toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
+    return <FormModel>{
+      id: evidence.id,
+      fields: {
+        ...evidence,
+      },
+      comment: '',
+      organizationId: undefined
+    }
+  }
+
+  selectOrg(org: Organization): void {
+    this.mostRecentOrg = org;
+  }
+
+  submitRevision(formModel: FormModel): void {
+    // this.revisionService
+    //   .suggest(this.toRevisionInput(formModel));
+  }
+
+  // toRevisionInput(model: FormModel): SuggestEvidenceItemRevisionInput { }
 
   ngOnDestroy(): void {}
 }

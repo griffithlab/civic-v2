@@ -4372,12 +4372,12 @@ export type AddCommentMutation = (
   )> }
 );
 
-export type EvidenceRevisableFieldsQueryVariables = Exact<{
+export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
 
 
-export type EvidenceRevisableFieldsQuery = (
+export type EvidenceItemRevisableFieldsQuery = (
   { __typename: 'Query' }
   & { evidenceItem?: Maybe<(
     { __typename: 'EvidenceItem' }
@@ -4394,6 +4394,9 @@ export type RevisableEvidenceFieldsFragment = (
   ), disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'doid' | 'displayName'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'ncitId' | 'name'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'hpoId' | 'name'>
@@ -6081,6 +6084,11 @@ export const RevisableEvidenceFieldsFragmentDoc = gql`
     id
     doid
     displayName
+  }
+  drugs {
+    id
+    ncitId
+    name
   }
   drugInteractionType
   evidenceDirection
@@ -7830,8 +7838,8 @@ export const AddCommentDocument = gql`
       super(apollo);
     }
   }
-export const EvidenceRevisableFieldsDocument = gql`
-    query EvidenceRevisableFields($evidenceId: Int!) {
+export const EvidenceItemRevisableFieldsDocument = gql`
+    query EvidenceItemRevisableFields($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
     ...RevisableEvidenceFields
   }
@@ -7841,8 +7849,8 @@ export const EvidenceRevisableFieldsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class EvidenceRevisableFieldsGQL extends Apollo.Query<EvidenceRevisableFieldsQuery, EvidenceRevisableFieldsQueryVariables> {
-    document = EvidenceRevisableFieldsDocument;
+  export class EvidenceItemRevisableFieldsGQL extends Apollo.Query<EvidenceItemRevisableFieldsQuery, EvidenceItemRevisableFieldsQueryVariables> {
+    document = EvidenceItemRevisableFieldsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

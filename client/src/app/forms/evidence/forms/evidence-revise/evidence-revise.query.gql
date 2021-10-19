@@ -1,4 +1,4 @@
-query EvidenceRevisableFields($evidenceId: Int!) {
+query EvidenceItemRevisableFields($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
     ... RevisableEvidenceFields
   }
@@ -17,6 +17,11 @@ fragment RevisableEvidenceFields on EvidenceItem {
     id
     doid
     displayName
+  }
+  drugs {
+    id
+    ncitId
+    name
   }
   drugInteractionType
   evidenceDirection
