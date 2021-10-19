@@ -1,17 +1,15 @@
-<button
-  nz-button
-  nzType="primary"
-  nzValue="small"
-  nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight" >
+<a routerLink="/users/{{userId$ | ngrxPush}}">
+  <button nz-button nzType="primary" nzValue="small" nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
 
     <!-- <nz-avatar [nzSrc]="avatarUrl$ | async" [nzSize]="16"
          [nzShape]="'square'"
          style="background-color:#f0f5ff;"
          *ngIf="(avatarUrl$ | async)"></nz-avatar> -->
-  <!-- <i nz-icon nzType="civic:editor"></i> -->
-    {{ username$ | async }}
+    <!-- <i nz-icon nzType="civic:editor"></i> -->
+    {{ username$ | ngrxPush }}
 
-</button>
+  </button>
+</a>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
     <li nz-menu-item (click)="signOut()">Sign Out</li>
