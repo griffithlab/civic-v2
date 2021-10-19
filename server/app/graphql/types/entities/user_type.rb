@@ -82,9 +82,7 @@ module Types::Entities
     end
 
     def country
-      Loaders::AssociationLoader.for(User, :country).load(object).then do |country|
-        country&.name
-      end
+      Loaders::AssociationLoader.for(User, :country).load(object)
     end
 
     def profile_image_path(size: )

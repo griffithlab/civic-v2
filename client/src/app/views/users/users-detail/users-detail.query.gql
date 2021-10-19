@@ -24,7 +24,10 @@ fragment UserDetailFields on User {
     id
     name
   }
-  country
+  country {
+    id
+    name
+  }
   statsHash {
     comments
     revisions

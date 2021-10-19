@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Maybe, UserDetailFieldsFragment, UserDetailGQL, UserDetailQuery, UserDetailQueryVariables } from "@app/generated/civic.apollo";
 import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'users-detail',
@@ -12,28 +12,31 @@ import { Observable } from 'rxjs';
     styleUrls: ['./users-detail.component.less']
 })
 
-export class UsersDetailComponent {
-    queryRef: QueryRef<UserDetailQuery, UserDetailQueryVariables>;
+export class UsersDetailComponent implements OnDestroy {
+    queryRef?: QueryRef<UserDetailQuery, UserDetailQueryVariables>;
+    user$?: Observable<Maybe<UserDetailFieldsFragment>>;
+    loading$?: Observable<boolean>;
+    viewer$?: Observable<Viewer>;
 
-    user$: Observable<Maybe<UserDetailFieldsFragment>>;
-    loading$: Observable<boolean>;
-    viewer$: Observable<Viewer>;
+    routeSub: Subscription;
 
     constructor(private gql: UserDetailGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
 
-        const userId: number = +this.route.snapshot.params['userId'];
+        this.routeSub = this.route.params.subscribe((params) => {
+            this.queryRef = this.gql.watch({userId: +params.userId});
+            let observable = this.queryRef.valueChanges
+            this.loading$ = observable.pipe(
+                pluck('loading'),
+                startWith(true));
 
-        this.queryRef = this.gql.watch({userId: userId});
+            this.user$ = observable.pipe(
+            pluck('data', 'user'));
 
-        let observable = this.queryRef.valueChanges
+            this.viewer$ = this.viewerService.viewer$;
+        })
+    }
 
-        this.loading$ = observable.pipe(
-            pluck('loading'),
-            startWith(true));
-
-        this.user$ = observable.pipe(
-        pluck('data', 'user'));
-
-        this.viewer$ = this.viewerService.viewer$;
+    ngOnDestroy() {
+        this.routeSub.unsubscribe();
     }
 }
