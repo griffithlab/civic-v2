@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Maybe, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, VariantOrigin } from '@app/generated/civic.apollo';
+import { formatEvidenceEnum } from '../utilities/enum-formatters/format-evidence-enum';
 
 export type EnumOutputStyle = 'display-string' | 'icon-name'
 
@@ -13,26 +14,11 @@ export class EvidenceEnumDisplayPipe implements PipeTransform {
   transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string') : string {
     if(value === undefined) return ''
     if (context === 'display-string') {
-      return this.formatString(value)
+      return formatEvidenceEnum(value);
+      // return this.formatString(value)
     } else {
       return `civic-${value.replace(/_/g, '').toLowerCase()}`
     }
   }
 
-  formatString(enumValue: string): string {
-    let str: string[]
-    if(enumValue === 'NA') {
-      str = ['N/A']
-    } else if (enumValue === 'SENSITIVITYRESPONSE') {
-      str = ['Sensitivity', '/', 'Response']
-    } else {
-      str = enumValue.toLowerCase()
-        .replace(/_/g, ' ')
-        .split(' ');
-      for (var i = 0; i < str.length; i++) {
-        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-      }
-    }
-    return str.join(' ');
-  }
 }

@@ -4,6 +4,7 @@ import {
   Viewer,
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
+import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
@@ -21,6 +22,7 @@ import {
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { $enum } from 'ts-enum-util';
 import { EvidenceItemReviseService } from './evidence-revise.service';
 
 interface FormSource {
@@ -164,14 +166,37 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         hide: true
       },
       {
+        key: 'fields.variantOrigin',
+        type: 'select',
+        templateOptions: {
+          label: 'Variant Origin',
+          required: true,
+          options: $enum(VariantOrigin)
+            .map((value, key) => {
+              return { value: value, label: formatEvidenceEnum(value) }
+            })
+        }
+      },
+      {
         key: 'fields.description',
         type: 'textarea',
         templateOptions: {
           label: 'Description',
-          placeholder: 'Enter a description for this variant.',
+          placeholder: 'Enter a description for this evidence item.',
           required: false
         }
       },
+      {
+        key: 'comment',
+        type: 'comment-textarea',
+        templateOptions: {
+          label: 'Comment',
+          placeholder: 'Please enter a comment describing your revision.',
+          required: true,
+          minLength: 10
+        },
+      }
+
     ];
   }
 
