@@ -17,6 +17,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     CommonModule,
     EvidenceReviseRoutingModule,
     NzPageHeaderModule,
+    NzSpaceModule,
     NzIconModule,
     NzTypographyModule,
     NzSpaceModule,

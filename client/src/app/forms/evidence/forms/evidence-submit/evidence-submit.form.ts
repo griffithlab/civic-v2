@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'cvc-evidence-add-form',
+  selector: 'cvc-evidence-submit-form',
   templateUrl: './evidence-submit.form.html',
   styleUrls: ['./evidence-submit.form.less']
 })

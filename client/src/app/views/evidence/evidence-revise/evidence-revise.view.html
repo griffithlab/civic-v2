@@ -1,5 +1,7 @@
 <ng-container *ngIf="evidence$ | async as evidence">
-  <cvc-section-navigation [displayName]="evidence.name"> </cvc-section-navigation>
+  <cvc-section-navigation
+    [displayName]="evidence.name"
+    [relationsTpl]="evidenceRelations"> </cvc-section-navigation>
   <ng-template #evidenceRelations>
     <nz-space nzDirection="horizontal">
 
@@ -27,11 +29,6 @@
       <i nz-icon
         nzType="civic:evidence"></i> {{ evidence.name }}
     </nz-page-header-title>
-
-    <!-- subtitle -->
-    <nz-page-header-subtitle>
-      {{ evidence.name}}
-    </nz-page-header-subtitle>
 
     <nz-page-header-content>
       <div class="content">

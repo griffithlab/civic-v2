@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-evidence-suggest',
   templateUrl: './evidence-suggest.page.html',
   styleUrls: ['./evidence-suggest.page.less']
 })
-export class EvidenceSuggestPage implements OnInit {
+export class EvidenceSuggestPage implements OnDestroy {
+  evidenceId?: number;
+  routeParams$: Subscription;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+    this.routeParams$ = this.route.params.subscribe((params) => {
+      this.evidenceId = +params.evidenceId;
+    })
+  }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.routeParams$.unsubscribe();
   }
 
 }
