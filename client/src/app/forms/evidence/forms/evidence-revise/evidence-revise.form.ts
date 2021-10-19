@@ -187,6 +187,20 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         }
       },
       {
+        key: 'fields.source',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Source (using multi-field until single source-input type is built)',
+          addText: 'Add another Source',
+        },
+        fieldArray: {
+          type: 'source-input',
+          templateOptions: {
+            required: true,
+          },
+        },
+      },
+      {
         key: 'comment',
         type: 'comment-textarea',
         templateOptions: {
@@ -221,6 +235,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
       id: evidence.id,
       fields: {
         ...evidence,
+        source: [evidence.source]
       },
       comment: '',
       organizationId: undefined
