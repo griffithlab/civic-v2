@@ -22,5 +22,8 @@ module Types
 
     #sources
     field :add_remote_citation, mutation: Mutations::AddRemoteCitation
+
+    #users
+    field :edit_user, mutation: Mutations::EditUser
   end
 end

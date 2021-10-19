@@ -6,11 +6,11 @@ module Types::Entities
     field :username, String, null: false
     field :role, String, null: false #TODO this needs to be an enum
     field :bio, String, null: true
-    field :country, String, null: true
+    field :country, Types::Entities::CountryType, null: true
     field :organizations, [Types::Entities::OrganizationType], null: false
     field :events, Types::Entities::EventType.connection_type, null: false
     field :display_name, String, null: false
-    field :area_of_expertise, String, null: true
+    field :area_of_expertise, Types::AreaOfExpertiseType, null: true
     field :orcid, String, null: true
     field :twitter_handle, String, null: true
     field :facebook_profile, String, null: true
