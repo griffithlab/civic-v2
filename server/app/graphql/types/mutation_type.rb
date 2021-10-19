@@ -25,5 +25,6 @@ module Types
 
     #users
     field :edit_user, mutation: Mutations::EditUser
+    field :update_coi, mutation: Mutations::UpdateCoi
   end
 end
