@@ -56,10 +56,6 @@ module Types::Entities
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
     end
 
-    def acmg_codes
-      Loaders::AssociationLoader.for(Assertion, :evidence_items).load(object)
-    end
-
     def assertion_direction
       object.evidence_direction
     end

@@ -373,6 +373,12 @@ export type CoordinateFieldPolicy = {
 	stop?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantBases?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CountryKeySpecifier = ('id' | 'iso' | 'name' | CountryKeySpecifier)[];
+export type CountryFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	iso?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DiseaseKeySpecifier = ('diseaseUrl' | 'displayName' | 'doid' | 'id' | 'name' | DiseaseKeySpecifier)[];
 export type DiseaseFieldPolicy = {
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -387,6 +393,11 @@ export type DrugFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EditUserPayloadKeySpecifier = ('clientMutationId' | 'user' | EditUserPayloadKeySpecifier)[];
+export type EditUserPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EventKeySpecifier = ('action' | 'createdAt' | 'id' | 'organization' | 'originatingObject' | 'originatingUser' | 'subject' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
@@ -559,14 +570,15 @@ export type ModeratedObjectFieldFieldPolicy = {
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevision' | 'resolveFlag' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestVariantRevision' | 'unsubscribe' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'editUser' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevisions' | 'resolveFlag' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestVariantRevision' | 'unsubscribe' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	addRemoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
+	editUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	markNotificationsAsRead?: FieldPolicy<any> | FieldReadFunction<any>,
-	rejectRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	rejectRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscribe?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestAssertionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -760,10 +772,10 @@ export type QueryFieldPolicy = {
 	variants?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RejectRevisionPayloadKeySpecifier = ('clientMutationId' | 'revision' | RejectRevisionPayloadKeySpecifier)[];
-export type RejectRevisionPayloadFieldPolicy = {
+export type RejectRevisionsPayloadKeySpecifier = ('clientMutationId' | 'revisions' | RejectRevisionsPayloadKeySpecifier)[];
+export type RejectRevisionsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
-	revision?: FieldPolicy<any> | FieldReadFunction<any>
+	revisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResolveFlagPayloadKeySpecifier = ('clientMutationId' | 'flag' | ResolveFlagPayloadKeySpecifier)[];
 export type ResolveFlagPayloadFieldPolicy = {
@@ -1195,6 +1207,10 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | CoordinateKeySpecifier | (() => undefined | CoordinateKeySpecifier),
 		fields?: CoordinateFieldPolicy,
 	},
+	Country?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CountryKeySpecifier | (() => undefined | CountryKeySpecifier),
+		fields?: CountryFieldPolicy,
+	},
 	Disease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DiseaseKeySpecifier | (() => undefined | DiseaseKeySpecifier),
 		fields?: DiseaseFieldPolicy,
@@ -1202,6 +1218,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Drug?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DrugKeySpecifier | (() => undefined | DrugKeySpecifier),
 		fields?: DrugFieldPolicy,
+	},
+	EditUserPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EditUserPayloadKeySpecifier | (() => undefined | EditUserPayloadKeySpecifier),
+		fields?: EditUserPayloadFieldPolicy,
 	},
 	Event?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventKeySpecifier | (() => undefined | EventKeySpecifier),
@@ -1331,9 +1351,9 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
 	},
-	RejectRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | RejectRevisionPayloadKeySpecifier | (() => undefined | RejectRevisionPayloadKeySpecifier),
-		fields?: RejectRevisionPayloadFieldPolicy,
+	RejectRevisionsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RejectRevisionsPayloadKeySpecifier | (() => undefined | RejectRevisionsPayloadKeySpecifier),
+		fields?: RejectRevisionsPayloadFieldPolicy,
 	},
 	ResolveFlagPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResolveFlagPayloadKeySpecifier | (() => undefined | ResolveFlagPayloadKeySpecifier),
