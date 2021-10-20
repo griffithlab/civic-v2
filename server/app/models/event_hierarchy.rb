@@ -59,11 +59,11 @@ class EventHierarchy
           direct_relations: [
             :revisions,
           ]
-        }
+        },
       }
       hierarchy.default = {
-        children: [
-        ],
+        direct_relations: []
+        children: [],
       }
       @hierarchy = hierarchy
     end
