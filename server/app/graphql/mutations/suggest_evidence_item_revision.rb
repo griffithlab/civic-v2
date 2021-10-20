@@ -39,26 +39,10 @@ class Mutations::SuggestEvidenceItemRevision < Mutations::MutationWithOrg
 
     @evidence_item = evidence_item
 
-    existing_phenotype_ids = Phenotype.where(id: fields.phenotype_ids).pluck(:id)
-    if existing_phenotype_ids.size != fields.phenotype_ids.size
-      raise GraphQL::ExecutionError, "Provided phenotype ids: #{fields.phenotype_ids.join(', ')} but only #{existing_phenotype_ids.join(', ')} exist."
-    end
+    input_errors = InputAdaptors::EvidenceItemInputAdaptor.check_input_for_errors(evidence_input_object: fields)
 
-    existing_drug_ids = Drug.where(id: fields.drug_ids).pluck(:id)
-    if existing_drug_ids.size != fields.drug_ids.size
-      raise GraphQL::ExecutionError, "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
-    end
-
-    if !Source.find(fields.source_id)
-      raise GraphQL::ExecutionError, "Provided source id: #{fields.source_id} is not found."
-    end
-
-    if fields.disease_id && !Disease.find(fields.disease_id)
-      raise GraphQL::ExecutionError, "Provided disease id: #{fields.disease_id} is not found."
-    end
-
-    if !Variant.find(fields.variant_id)
-      raise GraphQL::ExecutionError, "Provided variant id: #{fields.variant_id} is not found."
+    if input_errors.any?
+      raise GraphQL::ExecutionError, input_errors.join(', ')
     end
 
     return true
