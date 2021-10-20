@@ -1,7 +1,6 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="16">
     <ng-container *ngIf="evidenceId; else loadingEvidence">
-      <p>evidenceId: {{ evidenceId }}</p>
       <cvc-evidence-revise-form [evidenceId]="evidenceId">
       </cvc-evidence-revise-form>
     </ng-container>

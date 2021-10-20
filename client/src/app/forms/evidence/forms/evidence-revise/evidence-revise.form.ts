@@ -19,6 +19,7 @@ import {
   EvidenceItemRevisableFieldsGQL,
   RevisableEvidenceFieldsFragment,
 } from '@app/generated/civic.apollo';
+import * as fmt from '@app/forms/shared/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -107,13 +108,13 @@ interface FormModel {
     description: string;
     disease: Maybe<FormDisease>;
     drugInteractionType: Maybe<DrugInteraction>;
-    drugs: Maybe<FormDrug[]>;
+    drugs: FormDrug[];
     evidenceDirection: EvidenceDirection;
     evidenceLevel: EvidenceLevel;
     evidenceType: EvidenceType;
     phenotypes: FormPhenotype[];
     evidenceRating: number;
-    source: FormSource;
+    source: FormSource[];
     variant: FormVariant;
     variantOrigin: VariantOrigin;
   };
@@ -190,7 +191,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         key: 'fields.source',
         type: 'multi-field',
         templateOptions: {
-          label: 'Source (using multi-field until single source-input type is built)',
+          label: 'Source (using multi-field until single source-input type is written)',
           addText: 'Add another Source',
         },
         fieldArray: {
@@ -223,6 +224,91 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               return { value: value, label: formatEvidenceEnum(value) }
             })
         }
+      },
+      {
+        key: 'fields.disease.displayName',
+        type: 'input',
+        templateOptions: {
+          label: 'Disease (disabled until disease-selector is written)',
+          required: true,
+          disabled: true
+        }
+      },
+      {
+        key: 'fields.description',
+        type: 'textarea',
+        templateOptions: {
+          label: 'Evidence Statement',
+          placeholder: 'Please enter statement describing this evidence item.',
+          required: false
+        }
+      },
+      {
+        key: 'fields.evidenceLevel',
+        type: 'select',
+        templateOptions: {
+          label: 'Evidence Level',
+          required: true,
+          options: $enum(EvidenceLevel)
+            .map((value, key) => {
+              return { value: value, label: key }
+            })
+        }
+      },
+      {
+        key: 'fields.evidenceDirection',
+        type: 'select',
+        templateOptions: {
+          label: 'Evidence Direction',
+          required: true,
+          options: $enum(EvidenceDirection)
+            .map((value, key) => {
+              return { value: value, label: formatEvidenceEnum(value) }
+            })
+        }
+      },
+      {
+        key: 'fields.drugs',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Drug Names',
+          addText: 'Add another Drug',
+        },
+        fieldArray: {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+          },
+        },
+      },
+      {
+        key: 'fields.drugInteractionType',
+        type: 'input',
+        templateOptions: {
+          label: 'Drug Interaction Type',
+          required: false,
+        }
+      },
+      {
+        key: 'fields.phenotypes',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Associated Phenotypes',
+          addText: 'Add a Phenoype'
+        },
+        fieldArray: {
+          type: 'input',
+          key: 'name',
+          templateOptions: {
+          }
+        }
+      },
+      {
+        key: 'fields.evidenceRating',
+        type: 'input',
+        templateOptions: {
+          label: 'Rating',
+        },
       },
       {
         key: 'comment',
@@ -259,7 +345,8 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
       id: evidence.id,
       fields: {
         ...evidence,
-        source: [evidence.source]
+        source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
+        drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
       },
       comment: '',
       organizationId: undefined
@@ -271,11 +358,37 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   }
 
   submitRevision(formModel: FormModel): void {
-    // this.revisionService
-    //   .suggest(this.toRevisionInput(formModel));
+    this.revisionService
+      .suggest(this.toRevisionInput(formModel));
   }
 
-  // toRevisionInput(model: FormModel): SuggestEvidenceItemRevisionInput { }
+  toRevisionInput(model: FormModel): SuggestEvidenceItemRevisionInput {
+    const fields = model.fields;
+    return <SuggestEvidenceItemRevisionInput>{
+      ...model,
+      fields: {
+        variantOrigin: fields.variantOrigin,
+        description: fmt.toNullableString(fields.description),
+        variantId: fields.variant.id,
+        sourceId: fields.source[0].id,
+        evidenceType: fields.evidenceType,
+        evidenceDirection: fields.evidenceDirection,
+        clinicalSignificance: fields.clinicalSignificance,
+        diseaseId: fmt.toNullableInt(fields.disease?.id),
+        evidenceLevel: fields.evidenceLevel,
+        phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
+        rating: +fields.evidenceRating,
+        drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
+        drugInteractionType: fmt.toNullableDrugInteractionTypeInput(fields.drugInteractionType)
+      },
+      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
 
-  ngOnDestroy(): void {}
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revisionService.cleanup();
+  }
 }
