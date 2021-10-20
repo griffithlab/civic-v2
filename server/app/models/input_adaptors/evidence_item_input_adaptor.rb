@@ -23,4 +23,33 @@ class InputAdaptors::EvidenceItemInputAdaptor
       drug_interaction_type: input.drug_interaction_type
     )
   end
+
+  def self.check_input_for_errors(evidence_input_object: )
+    errors = []
+    fields = evidence_input_object
+
+    existing_phenotype_ids = Phenotype.where(id: fields.phenotype_ids).pluck(:id)
+    if existing_phenotype_ids.size != fields.phenotype_ids.size
+      errors << "Provided phenotype ids: #{fields.phenotype_ids.join(', ')} but only #{existing_phenotype_ids.join(', ')} exist."
+    end
+
+    existing_drug_ids = Drug.where(id: fields.drug_ids).pluck(:id)
+    if existing_drug_ids.size != fields.drug_ids.size
+      errors << "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
+    end
+
+    if !Source.where(id: fields.source_id).exists?
+      errors << "Provided source id: #{fields.source_id} is not found."
+    end
+
+    if fields.disease_id && !Disease.find(fields.disease_id)
+      errors << "Provided disease id: #{fields.disease_id} is not found."
+    end
+
+    if !Variant.find(fields.variant_id)
+      errors << "Provided variant id: #{fields.variant_id} is not found."
+    end
+
+    return errors
+  end 
 end
