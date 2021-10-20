@@ -29,5 +29,6 @@ module Types
 
     #submission
     field :submit_evidence, mutation: Mutations::SubmitEvidenceItem
+    field :submit_assertion, mutation: Mutations::SubmitAssertion
   end
 end
