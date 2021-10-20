@@ -18,7 +18,7 @@ module Types::BrowseTables
     def citation
       object.description
     end
-    
+
     def source_url
       Source.url_for(source: object)
     end

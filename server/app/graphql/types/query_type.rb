@@ -17,6 +17,7 @@ module Types
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
     field :events, resolver: Resolvers::TopLevelEvents
     field :phenotypes, resolver: Resolvers::Phenotypes
+    field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
 
     field :contributors, resolver: Resolvers::Contributors
 

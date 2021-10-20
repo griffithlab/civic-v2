@@ -6,6 +6,7 @@ module Types::Entities
     field :gene_name, String, null: true
     field :disease_name, String, null: true
     field :variant_name, String, null: true
+    field :initial_comment, String, null: false
 
     def source
       Loaders::AssociationLoader.for(SourceSuggestion, :source).load(object)
