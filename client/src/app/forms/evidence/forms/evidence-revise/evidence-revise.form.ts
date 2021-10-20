@@ -283,10 +283,15 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.drugInteractionType',
-        type: 'input',
+        type: 'select',
         templateOptions: {
-          label: 'Drug Interaction Type',
+          label: 'Drug InteractionType',
           required: false,
+          placeholder: 'Please select a drug interaction type',
+          options: $enum(DrugInteraction)
+            .map((value, key) => {
+              return { value: value, label: key }
+            })
         }
       },
       {
