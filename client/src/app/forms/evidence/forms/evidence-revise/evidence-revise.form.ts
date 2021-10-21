@@ -191,8 +191,9 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         key: 'fields.source',
         type: 'multi-field',
         templateOptions: {
-          label: 'Source (using multi-field until single source-input type is written)',
+          label: 'Source',
           addText: 'Add another Source',
+           maxLength: 2,
         },
         fieldArray: {
           type: 'source-input',
@@ -260,6 +261,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         type: 'select',
         templateOptions: {
           label: 'Evidence Direction',
+          placeholder: 'Please select an Evidence Direction',
           required: true,
           options: $enum(EvidenceDirection)
             .map((value, key) => {
@@ -287,7 +289,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Drug InteractionType',
           required: false,
-          placeholder: 'Please select a drug interaction type',
+          placeholder: 'Please select a Drug Interaction Type',
           options: $enum(DrugInteraction)
             .map((value, key) => {
               return { value: value, label: key }
