@@ -1,5 +1,8 @@
 module Types::Entities
   class SourceSuggestionType < Types::BaseObject
+    implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::EventOriginObject
+
     connection_type_class(Types::Connections::BrowseTableConnection)
 
     field :id, Int, null: false
@@ -19,6 +22,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(SourceSuggestion, :user).load(object)
     end
 
-    #TODO status enum once we decide on new lifecycle
+    def name
+      "SSID#{object.id}"
+    end
   end
 end

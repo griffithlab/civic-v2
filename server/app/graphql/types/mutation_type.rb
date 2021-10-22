@@ -23,6 +23,9 @@ module Types
     #sources
     field :add_remote_citation, mutation: Mutations::AddRemoteCitation
 
+    #source suggestions
+    field :update_source_suggestion_status, mutation: Mutations::UpdateSourceSuggestionStatus
+
     #users
     field :edit_user, mutation: Mutations::EditUser
     field :update_coi, mutation: Mutations::UpdateCoi

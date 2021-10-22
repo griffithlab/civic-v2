@@ -1,4 +1,6 @@
 class SourceSuggestion < ActiveRecord::Base
+  include Subscribable
+
   belongs_to :source
   belongs_to :user
 

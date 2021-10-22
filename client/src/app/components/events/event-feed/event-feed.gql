@@ -66,6 +66,10 @@ fragment eventFeedNode on Event {
     subject {
         name
         id
+        ... on Source {
+            citation
+            sourceType
+        }
         __typename
     }
     originatingObject {

@@ -50,6 +50,14 @@ export class CvcEventTimelineComponent implements OnInit {
         return 'civic-evidence'
       case (EventAction.Rejected):
         return 'civic-evidence'
+      case (EventAction.PublicationSuggested):
+        return 'file-add'
+      case (EventAction.CuratedSourceSuggestion):
+        return 'file-add'
+      case (EventAction.RejectedSourceSuggestion):
+        return 'file-add'
+      case (EventAction.RequeuedSourceSuggestion):
+        return 'file-add'
       default:
         throw new Error('Not handling all event action types yet')
 
@@ -72,6 +80,14 @@ export class CvcEventTimelineComponent implements OnInit {
         return 'on'
       case (EventAction.FlagResolved):
         return 'on'
+      case (EventAction.PublicationSuggested):
+        return ''
+      case (EventAction.CuratedSourceSuggestion):
+        return ''
+      case (EventAction.RejectedSourceSuggestion):
+        return ''
+      case (EventAction.RequeuedSourceSuggestion):
+        return ''
       default:
         throw new Error('Not handling all event action types yet ' + e.action)
     }
