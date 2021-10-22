@@ -4038,6 +4038,7 @@ type Query {
     sourceType: SourceSource
     status: SourceSuggestionStatus
     submitter: String
+    submitterId: Int
     variantName: String
   ): SourceSuggestionConnection!
 

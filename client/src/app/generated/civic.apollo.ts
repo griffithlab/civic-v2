@@ -2440,6 +2440,7 @@ export type QuerySourceSuggestionsArgs = {
   sourceType?: Maybe<SourceSource>;
   status?: Maybe<SourceSuggestionStatus>;
   submitter?: Maybe<Scalars['String']>;
+  submitterId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
 };
 
@@ -4520,6 +4521,7 @@ export type BrowseSourceSuggestionsQueryVariables = Exact<{
   comment?: Maybe<Scalars['String']>;
   submitter?: Maybe<Scalars['String']>;
   citation?: Maybe<Scalars['String']>;
+  submitterId?: Maybe<Scalars['Int']>;
   status?: Maybe<SourceSuggestionStatus>;
 }>;
 
@@ -7910,7 +7912,7 @@ export const ContributorAvatarsDocument = gql`
     }
   }
 export const BrowseSourceSuggestionsDocument = gql`
-    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $geneName: String, $variantName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String, $status: SourceSuggestionStatus) {
+    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $geneName: String, $variantName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String, $submitterId: Int, $status: SourceSuggestionStatus) {
   sourceSuggestions(
     first: $first
     last: $last
@@ -7926,6 +7928,7 @@ export const BrowseSourceSuggestionsDocument = gql`
     comment: $comment
     submitter: $submitter
     citation: $citation
+    submitterId: $submitterId
     status: $status
   ) {
     pageInfo {

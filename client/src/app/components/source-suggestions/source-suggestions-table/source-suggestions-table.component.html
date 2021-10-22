@@ -55,7 +55,7 @@
         </nz-select>
       </th>
       <th>
-        <cvc-clearable-input-filter [(inputModel)]="submitterInput"
+        <cvc-clearable-input-filter *ngIf="!this.submitterId" [(inputModel)]="submitterInput"
           placeholderText="Submitter"
           [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
       </th>

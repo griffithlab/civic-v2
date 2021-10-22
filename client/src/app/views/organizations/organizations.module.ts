@@ -48,6 +48,10 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
 import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module';
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { OrganizationsSourceSuggestionsComponent } from './organizations-source-suggestions/organizations-source-suggestions.component';
+import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 
 
 @NgModule({
@@ -58,7 +62,8 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     OrganizationsEvidenceComponent,
     OrganizationsAssertionsComponent,
     OrganizationsEventsComponent,
-    OrganizationsGroupsComponent
+    OrganizationsGroupsComponent,
+    OrganizationsSourceSuggestionsComponent
   ],
   imports: [
     CommonModule,
@@ -98,11 +103,13 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
+    CvcTabNavigationModule,
     NzSelectModule,
     EvidenceModule,
     NzImageModule,
-    NzStatisticModule
+    NzStatisticModule,
+    CvcSectionNavigationModule,
+    CvcSourceSuggestionsTableModule
   ],
   exports: [
     OrganizationsComponent,
@@ -111,7 +118,8 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     OrganizationsEvidenceComponent,
     OrganizationsAssertionsComponent,
     OrganizationsEventsComponent,
-    OrganizationsGroupsComponent
+    OrganizationsGroupsComponent,
+    OrganizationsSourceSuggestionsComponent
   ]
 })
 export class OrganizationsModule { }
