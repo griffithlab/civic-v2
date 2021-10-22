@@ -1,0 +1,113 @@
+<nz-table #sourceSuggestionsTable
+  [nzData]="(sourceSuggestions$ | ngrxPush)"
+  [nzLoading]="(isLoading$ | ngrxPush)"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false">
+  <thead (nzSortOrderChange)="onSortChanged($event)">
+    <tr>
+      <th nzWidth="15%" [nzColumnKey]="sortColumns.Submitter"
+        [nzSortFn]="true">
+        Submitter
+      </th>
+      <th [nzColumnKey]="sortColumns.SourceType"
+        [nzSortFn]="true">
+        Source Type
+      </th>
+      <th [nzColumnKey]="sortColumns.CitationId"
+        [nzSortFn]="true">
+        Citation ID
+      </th>
+      <th nzWidth="25%" [nzColumnKey]="sortColumns.Citation"
+        [nzSortFn]="true">
+        Citation
+      </th>
+      <th [nzColumnKey]="sortColumns.GeneName"
+        [nzSortFn]="true">
+        Gene
+      </th>
+      <th [nzColumnKey]="sortColumns.VariantName"
+        [nzSortFn]="true">
+        Variant
+      </th>
+      <th [nzColumnKey]="sortColumns.DiseaseName"
+        [nzSortFn]="true">
+        Disease
+      </th>
+      <th>
+        Comment
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="submitterInput"
+          placeholderText="Submitter"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <nz-select nzAllowClear
+          nzPlaceHolder="Choose"
+          (ngModelChange)="onModelChanged()"
+          [(ngModel)]="sourceTypeInput">
+          <nz-option nzValue="PUBMED"
+            nzLabel="PubMed"></nz-option>
+          <nz-option nzValue="ASCO"
+            nzLabel="ASCO"></nz-option>
+        </nz-select>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="citationIdInput"
+          placeholderText="ID"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="citationInput"
+          placeholderText="Citation"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
+          placeholderText="Gene"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+          placeholderText="Variant"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th>
+        <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
+          placeholderText="Disease"
+          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let suggestion of sourceSuggestionsTable.data">
+      <td>
+        <cvc-user-tag [user]="suggestion.user"></cvc-user-tag>
+      </td>
+      <td>
+        {{ suggestion.source.displayType }}
+      </td>
+      <td>
+        {{ suggestion.source.citationId}}
+      </td>
+      <td>
+        <cvc-source-tag [source]="suggestion.source"></cvc-source-tag>
+      </td>
+      <td>
+        {{ suggestion.geneName }}
+      </td>
+      <td>
+        {{ suggestion.variantName }}
+      </td>
+      <td>
+        {{ suggestion.diseaseName }}
+      </td>
+      <td>
+        {{ suggestion.initialComment }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

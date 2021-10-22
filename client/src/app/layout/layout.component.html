@@ -129,6 +129,16 @@
         </span>
       </li>
 
+    <li nz-menu-item nz-tooltip
+      nzTooltipPlacement="right"
+      [nzTooltipTitle]="isCollapsed ? 'Source Suggestions' : ''"
+      nzSelected nzMatchRouter>
+      <i nz-icon nzType="file-add"></i>
+      <span>
+        <a routerLink="/source-suggestions">Source Suggestions</a>
+      </span>
+    </li>
+
       <li nz-menu-item nz-tooltip
         nzTooltipPlacement="right"
         [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"

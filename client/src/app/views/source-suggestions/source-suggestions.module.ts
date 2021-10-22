@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SourcesRoutingModule } from './sources-routing.module';
-import { SourcesComponent } from './sources.component';
+import { SourceSuggestionsComponent } from './source-suggestions.component';
 import { FormsModule } from '@angular/forms';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -30,11 +29,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
-import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { SourcesHomeModule } from './sources-home/sources-home.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
@@ -42,20 +38,18 @@ import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clini
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
-import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
+import { SourceSuggestionsHomeModule } from './source-suggestions-home/source-suggestions-home.module';
+import { SourceSuggestionsRoutingModule } from './source-suggestions-routing.module';
 
 
 @NgModule({
   declarations: [
-    SourcesComponent,
-    SourcesDetailComponent,
-    SourcesSummaryComponent
+    SourceSuggestionsComponent,
   ],
   imports: [
     CommonModule,
-    SourcesHomeModule,
+    SourceSuggestionsHomeModule,
     CvcEvidenceTableModule,
-    CvcSourceSuggestionsTableModule,
     CvcEntityTableCardModule,
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,
@@ -63,7 +57,7 @@ import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggesti
     CvcFlagListModule,
     CvcFlaggableModule,
     CvcSectionNavigationModule,
-    SourcesRoutingModule,
+    SourceSuggestionsRoutingModule,
 
     NzAvatarModule,
     NzBadgeModule,
@@ -98,4 +92,4 @@ import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggesti
   exports: [
   ]
 })
-export class SourcesModule { }
+export class SourceSuggestionsModule { }

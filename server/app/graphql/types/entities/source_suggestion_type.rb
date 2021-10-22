@@ -1,5 +1,7 @@
 module Types::Entities
   class SourceSuggestionType < Types::BaseObject
+    connection_type_class(Types::Connections::BrowseTableConnection)
+
     field :id, Int, null: false
     field :source, Types::Entities::SourceType, null: false
     field :user, Types::Entities::UserType, null: false

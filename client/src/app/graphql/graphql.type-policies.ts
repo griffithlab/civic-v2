@@ -40,6 +40,17 @@ export const CvcTypePolicies: TypePolicies = {
         'clinicalTrialId',
         'id'
       ]),
+      sourceSuggestions: relayStylePagination([
+        'sourceType',
+        'citationId',
+        'sourceId',
+        'geneName',
+        'variantName',
+        'diseaseName',
+        'comment',
+        'submitter',
+        'citation',
+      ]), 
       browseDiseases: relayStylePagination(['name', 'doid', 'geneNames', 'id']),
       events: relayStylePagination([
         'subject',

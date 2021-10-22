@@ -4509,6 +4509,11 @@ type SourceSuggestionConnection {
   edges: [SourceSuggestionEdge!]!
 
   """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
   A list of nodes.
   """
   nodes: [SourceSuggestion!]!
@@ -4524,7 +4529,7 @@ type SourceSuggestionConnection {
   pageInfo: PageInfo!
 
   """
-  The total number of records in this filtered collection.
+  The total number of records of this type, regardless of any filtering.
   """
   totalCount: Int!
 }
