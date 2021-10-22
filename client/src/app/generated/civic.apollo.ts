@@ -2428,6 +2428,7 @@ export type QuerySourceSuggestionsArgs = {
   sortBy?: Maybe<SourceSuggestionsSort>;
   sourceId?: Maybe<Scalars['Int']>;
   sourceType?: Maybe<SourceSource>;
+  status?: Maybe<SourceSuggestionStatus>;
   submitter?: Maybe<Scalars['String']>;
   variantName?: Maybe<Scalars['String']>;
 };
@@ -2676,7 +2677,6 @@ export type Source = EventSubject & {
   publicationYear: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
-  status: SourceStatus;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -2697,12 +2697,6 @@ export enum SourceSource {
   Pubmed = 'PUBMED'
 }
 
-export enum SourceStatus {
-  FullyCurated = 'FullyCurated',
-  PartiallyCurated = 'PartiallyCurated',
-  Submitted = 'Submitted'
-}
-
 export type SourceStub = {
   __typename: 'SourceStub';
   citationId: Scalars['Int'];
@@ -2717,6 +2711,7 @@ export type SourceSuggestion = {
   id: Scalars['Int'];
   initialComment: Scalars['String'];
   source: Source;
+  status: SourceSuggestionStatus;
   user: User;
   variantName?: Maybe<Scalars['String']>;
 };
@@ -2746,6 +2741,12 @@ export type SourceSuggestionEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<SourceSuggestion>;
 };
+
+export enum SourceSuggestionStatus {
+  Curated = 'CURATED',
+  New = 'NEW',
+  Rejected = 'REJECTED'
+}
 
 export type SourceSuggestionsSort = {
   /** Available columns for sorting */
@@ -4462,6 +4463,7 @@ export type BrowseSourceSuggestionsQueryVariables = Exact<{
   comment?: Maybe<Scalars['String']>;
   submitter?: Maybe<Scalars['String']>;
   citation?: Maybe<Scalars['String']>;
+  status?: Maybe<SourceSuggestionStatus>;
 }>;
 
 
@@ -4486,7 +4488,7 @@ export type BrowseSourceSuggestionsQuery = (
 
 export type BrowseSourceSuggestionRowFieldsFragment = (
   { __typename: 'SourceSuggestion' }
-  & Pick<SourceSuggestion, 'id' | 'geneName' | 'variantName' | 'diseaseName' | 'initialComment'>
+  & Pick<SourceSuggestion, 'id' | 'geneName' | 'variantName' | 'diseaseName' | 'initialComment' | 'status'>
   & { source: (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'displayType'>
@@ -6384,6 +6386,7 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
     profileImagePath(size: 32)
   }
   initialComment
+  status
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
@@ -7830,7 +7833,7 @@ export const ContributorAvatarsDocument = gql`
     }
   }
 export const BrowseSourceSuggestionsDocument = gql`
-    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $geneName: String, $variantName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String) {
+    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $geneName: String, $variantName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String, $status: SourceSuggestionStatus) {
   sourceSuggestions(
     first: $first
     last: $last
@@ -7846,6 +7849,7 @@ export const BrowseSourceSuggestionsDocument = gql`
     comment: $comment
     submitter: $submitter
     citation: $citation
+    status: $status
   ) {
     pageInfo {
       endCursor

@@ -13,6 +13,7 @@ query BrowseSourceSuggestions(
   $comment: String
   $submitter: String
   $citation: String
+  $status: SourceSuggestionStatus
 ) {
   sourceSuggestions(
     first: $first
@@ -29,6 +30,7 @@ query BrowseSourceSuggestions(
     comment: $comment
     submitter: $submitter
     citation: $citation
+    status: $status
   ) {
     pageInfo {
       endCursor
@@ -68,4 +70,5 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     profileImagePath(size: 32)
   }
   initialComment
+  status
 }

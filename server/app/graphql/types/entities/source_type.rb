@@ -15,7 +15,6 @@ module Types::Entities
     field :publication_day, Int, null: true
     field :journal, String, null: false
     field :full_journal_title, String, null: true
-    field :status, Types::SourceStatusType, null: false
     field :clinical_trials, [Types::Entities::ClinicalTrialType], null: true
     field :abstract, String, null: true
     field :publication_date, String, null: true

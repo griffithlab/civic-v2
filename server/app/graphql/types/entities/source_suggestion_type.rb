@@ -9,6 +9,7 @@ module Types::Entities
     field :disease_name, String, null: true
     field :variant_name, String, null: true
     field :initial_comment, String, null: false
+    field :status, Types::SourceSuggestionStatusType, null: false
 
     def source
       Loaders::AssociationLoader.for(SourceSuggestion, :source).load(object)

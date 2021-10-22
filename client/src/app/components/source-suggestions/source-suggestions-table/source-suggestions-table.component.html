@@ -5,6 +5,9 @@
   [nzShowPagination]="false">
   <thead (nzSortOrderChange)="onSortChanged($event)">
     <tr>
+      <th>
+        Status
+      </th>
       <th nzWidth="15%" [nzColumnKey]="sortColumns.Submitter"
         [nzSortFn]="true">
         Submitter
@@ -38,6 +41,19 @@
       </th>
     </tr>
     <tr>
+      <th>
+        <nz-select nzAllowClear
+          nzPlaceHolder="Choose"
+          (ngModelChange)="onModelChanged()"
+          [(ngModel)]="statusInput">
+          <nz-option nzValue="NEW"
+            nzLabel="new"></nz-option>
+          <nz-option nzValue="CURATED"
+            nzLabel="curated"></nz-option>
+          <nz-option nzValue="REJECTED"
+            nzLabel="rejected"></nz-option>
+        </nz-select>
+      </th>
       <th>
         <cvc-clearable-input-filter [(inputModel)]="submitterInput"
           placeholderText="Submitter"
@@ -84,6 +100,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let suggestion of sourceSuggestionsTable.data">
+      <td>
+        {{ suggestion.status | lowercase }}
+      </td>
       <td>
         <cvc-user-tag [user]="suggestion.user"></cvc-user-tag>
       </td>

@@ -4023,6 +4023,7 @@ type Query {
     sortBy: SourceSuggestionsSort
     sourceId: Int
     sourceType: SourceSource
+    status: SourceSuggestionStatus
     submitter: String
     variantName: String
   ): SourceSuggestionConnection!
@@ -4468,19 +4469,12 @@ type Source implements EventSubject {
   publicationYear: Int!
   sourceType: SourceSource!
   sourceUrl: String!
-  status: SourceStatus!
   title: String
 }
 
 enum SourceSource {
   ASCO
   PUBMED
-}
-
-enum SourceStatus {
-  FullyCurated
-  PartiallyCurated
-  Submitted
 }
 
 type SourceStub {
@@ -4495,6 +4489,7 @@ type SourceSuggestion {
   id: Int!
   initialComment: String!
   source: Source!
+  status: SourceSuggestionStatus!
   user: User!
   variantName: String
 }
@@ -4547,6 +4542,12 @@ type SourceSuggestionEdge {
   The item at the end of the edge.
   """
   node: SourceSuggestion
+}
+
+enum SourceSuggestionStatus {
+  CURATED
+  NEW
+  REJECTED
 }
 
 input SourceSuggestionsSort {

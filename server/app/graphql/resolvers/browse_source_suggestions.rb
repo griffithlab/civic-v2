@@ -45,6 +45,10 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
     scope.eager_load(:source).where('sources.description ILIKE ?', "%#{value}%")
   end
 
+  option(:status, type: Types::SourceSuggestionStatusType) do |scope, value|
+    scope.where(status: value)
+  end
+
   option(:sort_by, type: Types::BrowseTables::SourceSuggestionsSortType) do |scope, value|
     case value.column
     when "SUBMITTER"

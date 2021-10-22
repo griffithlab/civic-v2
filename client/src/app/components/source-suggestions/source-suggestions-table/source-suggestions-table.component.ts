@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
-import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns } from "@app/generated/civic.apollo";
+import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
@@ -34,15 +34,18 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   commentInput: Maybe<string>
   submitterInput: Maybe<string>
   citationInput: Maybe<string>
+  statusInput = SourceSuggestionStatus.New
 
   pageSize = 25
   sortColumns: typeof SourceSuggestionsSortColumns = SourceSuggestionsSortColumns
+  status: typeof SourceSuggestionStatus = SourceSuggestionStatus
 
   constructor(private gql: BrowseSourceSuggestionsGQL) {}
   ngOnInit() {
     this.queryRef = this.gql.watch({
       first: this.pageSize,
-      sourceId: this.sourceId
+      sourceId: this.sourceId,
+      status: this.status.New
     })
 
     this.data$ = this.queryRef.valueChanges.pipe(
@@ -85,7 +88,8 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
       diseaseName: this.diseaseNameInput,
       comment: this.commentInput,
       submitter: this.submitterInput,
-      citation: this.citationInput
+      citation: this.citationInput,
+      status: this.statusInput? this.statusInput : undefined
     })
   }
 

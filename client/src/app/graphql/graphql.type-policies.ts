@@ -50,6 +50,7 @@ export const CvcTypePolicies: TypePolicies = {
         'comment',
         'submitter',
         'citation',
+        'status'
       ]), 
       browseDiseases: relayStylePagination(['name', 'doid', 'geneNames', 'id']),
       events: relayStylePagination([
