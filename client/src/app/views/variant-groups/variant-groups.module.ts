@@ -44,7 +44,8 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
-import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,6 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
     VariantGroupsHomeModule,
     CvcSectionNavigationModule,
     CvcEmptyRevisableModule,
-    CvcDetailsNavigationModule,
     CvcOrgSelectorBtnGroupModule,
     CvcParticipantListModule,
     CvcCommentListModule,
@@ -92,9 +92,9 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
+    CvcTabNavigationModule,
+    CvcContributorAvatarsModule,
     EvidenceModule,
-
     NzSelectModule,
   ],
   exports: [

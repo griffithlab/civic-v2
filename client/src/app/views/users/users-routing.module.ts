@@ -21,6 +21,9 @@ const routes: Routes = [
       {
         path: ':userId',
         component: UsersDetailComponent,
+        data: {
+          breadcrumb: 'DISPLAYNAME'
+        },
         children: [
         //  {path: '', redirectTo: 'badges', pathMatch: 'full'},
         //  {
@@ -30,14 +33,23 @@ const routes: Routes = [
           {
             path: 'evidence',
             component: UsersEvidenceComponent,
+            data: {
+              breadcrumb: 'Evidence'
+            }
           },
           {
             path: 'assertions',
             component: UsersAssertionsComponent,
+            data: {
+              breadcrumb: 'Assertions'
+            }
           },
           {
             path: 'activity',
             component: UsersEventsComponent,
+            data: {
+              breadcrumb: 'Activity'
+            }
           }
         ]
       }

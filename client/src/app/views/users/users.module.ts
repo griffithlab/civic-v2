@@ -44,6 +44,8 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 
 
 @NgModule({
@@ -90,11 +92,12 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
+    CvcSectionNavigationModule,
     NzSelectModule,
     EvidenceModule,
     NzImageModule,
-    NzStatisticModule
+    NzStatisticModule,
+    CvcTabNavigationModule,
   ],
   exports: [
     UsersComponent,

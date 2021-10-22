@@ -1,94 +1,20 @@
 <ng-container *ngIf="user$ | ngrxPush as user">
+  <cvc-section-navigation [displayName]="user.displayName">
+  </cvc-section-navigation>
+
   <nz-page-header class="site-page-header">
+
+    <!-- title -->
     <nz-page-header-title>
-      <nz-space nzDirection="horizontal"
-        nzSize="small">
-        <nz-space-item>
-          <i nz-icon
-            nzType="civic:user"></i>
-        </nz-space-item>
+        <i nz-icon nzType="civic:user"></i>
         <span routerLink="/user/{{user.id}}">
           {{ user.name }}
         </span>
-      </nz-space>
     </nz-page-header-title>
 
     <!--extra-->
-    <nz-page-header-extra *ngrxLet="viewer$ as viewer">
-      <nz-space nzDirection="horizontal" nzSize="small">
-        <nz-space-item>
-          <nz-button-group>
-            <button routerLink="badges"
-              routerLinkActive
-              #rlaBadges="routerLinkActive"
-              [nzType]="rlaBadges.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              <i nz-icon
-                nzType="civic:user"></i>Badges
-            </button>
-          </nz-button-group>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-button-group>
-            <button routerLink="evidence"
-              routerLinkActive
-              #rlaEvidence="routerLinkActive"
-              [nzType]="rlaEvidence.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              <i nz-icon
-                nzType="civic:evidence"></i>Evidence Items
-            </button>
-          </nz-button-group>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-button-group>
-            <button routerLink="assertions"
-              routerLinkActive
-              #rlaAssertions="routerLinkActive"
-              [nzType]="rlaAssertions.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              <i nz-icon
-                nzType="civic:assertion"></i>Assertions
-            </button>
-          </nz-button-group>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-button-group>
-            <button routerLink="activity"
-              routerLinkActive
-              #rlaActivity="routerLinkActive"
-              [nzType]="rlaActivity.isActive ? 'primary' : 'default'"
-              nz-button
-              nzSize="small">
-              <i nz-icon
-                nzType="civic:event"></i>Activity
-            </button>
-          </nz-button-group>
-        </nz-space-item>
-      </nz-space>
-        <button nz-button
-          nzSize="small"
-          nz-dropdown
-          [nzDropdownMenu]="menu"
-          nzNoAnimation
-          style="border: none; padding: 0">
-          <i nz-icon
-            nzType="ellipsis"
-            nzTheme="outline"
-            style="font-size: 20px; vertical-align: top;"></i>
-        </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>1st menu item length</li>
-          <li nz-menu-item>2nd menu item length</li>
-          <li nz-menu-item>3rd menu item length</li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-page-header-extra>
     <nz-page-header-content>
+      <cvc-tab-navigation [tabs]="tabs"> </cvc-tab-navigation>
       <div class="content">
         <nz-space>
           <nz-space-item>

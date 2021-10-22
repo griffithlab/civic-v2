@@ -52,8 +52,9 @@ import { CvcCommentListModule } from '@app/components/comments/comment-list/comm
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
-import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,6 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     CvcFlaggableModule,
     CvcEventFeedModule,
     CvcSectionNavigationModule,
-    CvcDetailsNavigationModule,
     CvcStatusTagModule,
     IconsProviderModule,
     NzAvatarModule,
@@ -110,9 +110,10 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
+    CvcTabNavigationModule,
     NzSelectModule,
-    EvidenceModule
+    EvidenceModule,
+    CvcContributorAvatarsModule
   ],
   exports: [
     AssertionsComponent,

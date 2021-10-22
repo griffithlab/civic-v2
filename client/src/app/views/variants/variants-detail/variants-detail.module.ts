@@ -8,9 +8,11 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { VariantsDetailRoutingModule } from './variants-detail-routing.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 
 @NgModule({
   declarations: [VariantsDetailView],
@@ -22,7 +24,9 @@ import { VariantsDetailRoutingModule } from './variants-detail-routing.module';
     NzIconModule,
     NzPageHeaderModule,
     NzSpaceModule,
-    CvcDetailsNavigationModule,
+    NzGridModule,
+    CvcContributorAvatarsModule,
+    CvcTabNavigationModule,
     CvcFlaggableModule,
     CvcGeneTagModule,
     CvcSectionNavigationModule,
