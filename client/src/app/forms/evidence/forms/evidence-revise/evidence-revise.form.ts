@@ -101,7 +101,7 @@ interface FormVariant {
 
 interface FormModel {
   id: number;
-  comment: string;
+  // comment: string;
   organizationId: Maybe<Organization>,
   fields: {
     clinicalSignificance: EvidenceClinicalSignificance;
@@ -310,9 +310,16 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           }
         }
       },
+      // {
+      //   key: 'fields.evidenceRating',
+      //   type: 'input',
+      //   templateOptions: {
+      //     label: 'Rating',
+      //   },
+      // },
       {
         key: 'fields.evidenceRating',
-        type: 'input',
+        type: 'rating-input',
         templateOptions: {
           label: 'Rating',
         },
@@ -350,13 +357,13 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
     return <FormModel>{
       id: evidence.id,
+      // comment: '',
+      organizationId: undefined,
       fields: {
         ...evidence,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
       },
-      comment: '',
-      organizationId: undefined
     }
   }
 

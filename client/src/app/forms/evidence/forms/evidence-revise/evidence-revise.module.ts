@@ -15,6 +15,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EvidenceItemReviseService } from './evidence-revise.service';
+import { RatingInputModule } from '../../types/rating-input/rating-input.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -34,6 +35,7 @@ import { EvidenceItemReviseService } from './evidence-revise.service';
     CvcFormButtonsModule,
     MultiFieldModule,
     SourceInputModule,
+    RatingInputModule,
   ],
   exports: [EvidenceReviseForm]
 })
