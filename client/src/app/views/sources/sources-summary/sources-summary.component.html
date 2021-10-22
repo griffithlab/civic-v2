@@ -53,4 +53,14 @@
       Evidence Items with <i>{{ source.title}}</i>
     </ng-template>
   </nz-space-item>
+  <!-- source suggestion table card -->
+  <nz-space-item>
+    <cvc-entity-table-card [cvcTitle]="sourceSuggestionCardTitle">
+      <cvc-source-suggestions-table [sourceId]="sourceId"></cvc-source-suggestions-table>
+    </cvc-entity-table-card>
+    <ng-template #sourceSuggestionCardTitle>
+      <i nz-icon nzType="flag-add"></i>
+      Source suggestions for <i>{{ source.title}}</i>
+    </ng-template>
+  </nz-space-item>
 </nz-space>

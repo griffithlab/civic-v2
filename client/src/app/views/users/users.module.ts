@@ -44,6 +44,10 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
+import { UsersSourceSuggestionsComponent } from './users-source-suggestions/users-source-suggestions.component';
 
 
 @NgModule({
@@ -53,6 +57,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     UsersEvidenceComponent,
     UsersAssertionsComponent,
     UsersEventsComponent,
+    UsersSourceSuggestionsComponent
   ],
   imports: [
     CommonModule,
@@ -90,11 +95,13 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
+    CvcSectionNavigationModule,
     NzSelectModule,
     EvidenceModule,
     NzImageModule,
-    NzStatisticModule
+    NzStatisticModule,
+    CvcTabNavigationModule,
+    CvcSourceSuggestionsTableModule
   ],
   exports: [
     UsersComponent,
@@ -102,6 +109,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     UsersEvidenceComponent,
     UsersAssertionsComponent,
     UsersEventsComponent,
+    UsersSourceSuggestionsComponent
   ]
 })
 export class UsersModule { }

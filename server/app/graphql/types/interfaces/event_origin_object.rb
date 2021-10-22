@@ -29,6 +29,8 @@ module Types::Interfaces
           Types::Entities::AssertionType
         when EvidenceItem
           Types::Entities::EvidenceItemType
+        when SourceSuggestion
+          Types::Entities::SourceSuggestionType
         else
           raise "Unexpected EventOriginObject type: #{object.class}"
         end

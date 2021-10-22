@@ -13,6 +13,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { ActivatedRoute } from '@angular/router';
 import { pluck, startWith } from 'rxjs/operators';
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
   selector: 'cvc-variant-groups-detail',
@@ -28,6 +29,8 @@ export class VariantGroupsDetailComponent implements OnInit {
   flagsTotal$?: Observable<number>;
   routeSub: Subscription;
   subscribable?: SubscribableInput
+
+  tabs: RouteableTab[]
 
   constructor(
     private gql: VariantGroupDetailGQL,
@@ -55,6 +58,29 @@ export class VariantGroupsDetailComponent implements OnInit {
       }
 
     });
+
+    this.tabs = [
+      {
+        routeName: 'summary',
+        iconName: 'pic-left',
+        tabLabel: 'Summary'
+      },
+      {
+        routeName: 'comments',
+        iconName: 'civic:comment',
+        tabLabel: 'Comments'
+      },
+      {
+        routeName: 'revisions',
+        iconName: 'civic:revision',
+        tabLabel: 'Revisions'
+      },
+      {
+        routeName: 'flags',
+        iconName: 'civic:flag',
+        tabLabel: 'Flags'
+      }
+    ]
   }
 
   ngOnInit(): void {

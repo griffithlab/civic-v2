@@ -44,6 +44,14 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'accepted evidence item'
       case (EventAction.Rejected):
         return 'rejected evidence item'
+      case (EventAction.PublicationSuggested):
+        return 'created source suggestion'
+      case (EventAction.CuratedSourceSuggestion):
+        return 'finished curating source suggestion'
+      case (EventAction.RejectedSourceSuggestion):
+        return 'rejected source suggestion'
+      case (EventAction.RequeuedSourceSuggestion):
+        return 'requeued source suggestion'
       default:
         throw new Error('Not handling all event action types yet')
     }
@@ -78,6 +86,14 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'accepted this evidence item'
       case (EventAction.Rejected):
         return 'rejected this evidence item'
+      case (EventAction.PublicationSuggested):
+        return ''
+      case (EventAction.CuratedSourceSuggestion):
+        return 'finished curating this source suggestion'
+      case (EventAction.RejectedSourceSuggestion):
+        return 'rejected this source suggestion'
+      case (EventAction.RequeuedSourceSuggestion):
+        return 'requeued this source suggestion'
       default:
         throw new Error('Not handling all event action types yet')
     }

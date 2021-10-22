@@ -5,6 +5,7 @@ import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEventsComponent } from './users-events/users-events.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 import { UsersHomePage } from './users-home/users-home.page';
+import { UsersSourceSuggestionsComponent } from './users-source-suggestions/users-source-suggestions.component';
 
 import { UsersComponent } from './users.component';
 
@@ -21,6 +22,9 @@ const routes: Routes = [
       {
         path: ':userId',
         component: UsersDetailComponent,
+        data: {
+          breadcrumb: 'DISPLAYNAME'
+        },
         children: [
         //  {path: '', redirectTo: 'badges', pathMatch: 'full'},
         //  {
@@ -30,14 +34,30 @@ const routes: Routes = [
           {
             path: 'evidence',
             component: UsersEvidenceComponent,
+            data: {
+              breadcrumb: 'Evidence'
+            }
           },
           {
             path: 'assertions',
             component: UsersAssertionsComponent,
+            data: {
+              breadcrumb: 'Assertions'
+            }
           },
           {
             path: 'activity',
             component: UsersEventsComponent,
+            data: {
+              breadcrumb: 'Activity'
+            }
+          },
+          {
+            path: 'source-suggestions',
+            component: UsersSourceSuggestionsComponent,
+            data: {
+              breadcrumb: 'Source Suggestions'
+            }
           }
         ]
       }

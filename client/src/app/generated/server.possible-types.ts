@@ -55,6 +55,9 @@
           },
           {
             "name": "Revision"
+          },
+          {
+            "name": "SourceSuggestion"
           }
         ]
       },
@@ -76,6 +79,9 @@
           },
           {
             "name": "Source"
+          },
+          {
+            "name": "SourceSuggestion"
           },
           {
             "name": "Variant"

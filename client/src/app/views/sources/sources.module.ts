@@ -42,6 +42,7 @@ import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clini
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
+import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
     CommonModule,
     SourcesHomeModule,
     CvcEvidenceTableModule,
+    CvcSourceSuggestionsTableModule,
     CvcEntityTableCardModule,
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,

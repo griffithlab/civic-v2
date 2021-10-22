@@ -5,6 +5,7 @@ import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service"
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
 import { Observable, Subscription } from 'rxjs';
+import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigation.component";
 
 @Component({
     selector: 'users-detail',
@@ -20,6 +21,8 @@ export class UsersDetailComponent implements OnDestroy {
 
     routeSub: Subscription;
 
+    tabs: RouteableTab[]
+
     constructor(private gql: UserDetailGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
 
         this.routeSub = this.route.params.subscribe((params) => {
@@ -34,6 +37,34 @@ export class UsersDetailComponent implements OnDestroy {
 
             this.viewer$ = this.viewerService.viewer$;
         })
+
+        this.tabs = [
+            {
+                routeName: 'activity',
+                tabLabel: 'Activity',
+                iconName: 'civic:event'
+            },
+            {
+                routeName: 'evidence',
+                tabLabel: 'Evidence Items',
+                iconName: 'civic:evidence'
+            },
+            {
+                routeName: 'assertions',
+                tabLabel: 'Assertions',
+                iconName: 'civic:assertion'
+            },
+            {
+                routeName: 'source-suggestions',
+                tabLabel: 'Source Suggestions',
+                iconName: 'file-add'
+            },
+            {
+                routeName: 'badges',
+                tabLabel: 'Badges',
+                iconName: 'safety-certificate'
+            },
+        ]
     }
 
     ngOnDestroy() {

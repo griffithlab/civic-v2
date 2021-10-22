@@ -72,7 +72,13 @@
         </nz-space>
       </nz-page-header-extra>
       <nz-page-header-content>
-        <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
+        <cvc-tab-navigation [tabs]="this.tabs">
+          <ng-template #tabBarExtraContent>
+            <nz-col id="contributors-col">
+              <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+            </nz-col>
+          </ng-template>
+        </cvc-tab-navigation>
         <div class="content">
           <router-outlet></router-outlet>
         </div>

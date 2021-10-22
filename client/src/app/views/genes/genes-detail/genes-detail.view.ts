@@ -13,6 +13,7 @@ import {
   Viewer,
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
   selector: 'genes-detail',
@@ -28,6 +29,8 @@ export class GenesDetailView implements OnDestroy {
   flagsTotal$?: Observable<number>;
   routeSub: Subscription;
   subscribable?: SubscribableInput
+
+  tabs: RouteableTab[]
 
   constructor(
     private gql: GeneDetailGQL,
@@ -54,6 +57,29 @@ export class GenesDetailView implements OnDestroy {
 
       this.viewer$ = this.viewerService.viewer$;
     });
+
+    this.tabs = [
+      {
+        routeName: 'summary',
+        iconName: 'pic-left',
+        tabLabel: 'Summary'
+      },
+      {
+        routeName: 'comments',
+        iconName: 'civic:comment',
+        tabLabel: 'Comments'
+      },
+      {
+        routeName: 'revisions',
+        iconName: 'civic:revision',
+        tabLabel: 'Revisions'
+      },
+      {
+        routeName: 'flags',
+        iconName: 'civic:flag',
+        tabLabel: 'Flags'
+      }
+    ]
 
   }
 

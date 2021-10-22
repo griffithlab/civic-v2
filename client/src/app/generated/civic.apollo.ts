@@ -717,10 +717,17 @@ export type Coi = {
   __typename: 'Coi';
   coiPresent: Scalars['Boolean'];
   coiStatement?: Maybe<Scalars['String']>;
-  coiStatus: Scalars['String'];
+  coiStatus: CoiStatus;
   createdAt?: Maybe<Scalars['ISO8601DateTime']>;
   expiresAt: Scalars['ISO8601DateTime'];
 };
+
+export enum CoiStatus {
+  Conflict = 'CONFLICT',
+  Expired = 'EXPIRED',
+  Missing = 'MISSING',
+  Valid = 'VALID'
+}
 
 export type Comment = EventOriginObject & {
   __typename: 'Comment';
@@ -963,10 +970,13 @@ export enum EventAction {
   AssertionRejected = 'ASSERTION_REJECTED',
   AssertionSubmitted = 'ASSERTION_SUBMITTED',
   Commented = 'COMMENTED',
+  CuratedSourceSuggestion = 'CURATED_SOURCE_SUGGESTION',
   Flagged = 'FLAGGED',
   FlagResolved = 'FLAG_RESOLVED',
   PublicationSuggested = 'PUBLICATION_SUGGESTED',
   Rejected = 'REJECTED',
+  RejectedSourceSuggestion = 'REJECTED_SOURCE_SUGGESTION',
+  RequeuedSourceSuggestion = 'REQUEUED_SOURCE_SUGGESTION',
   Reverted = 'REVERTED',
   RevisionAccepted = 'REVISION_ACCEPTED',
   RevisionRejected = 'REVISION_REJECTED',
@@ -1596,6 +1606,10 @@ export type Mutation = {
    * of interest statements can resolve other flags.
    */
   resolveFlag?: Maybe<ResolveFlagPayload>;
+  /** Propose adding a new Assertion to the CIViC database. */
+  submitAssertion?: Maybe<SubmitAssertionPayload>;
+  /** Propose adding a new EvidenceItem to the CIViC database. */
+  submitEvidence?: Maybe<SubmitEvidenceItemPayload>;
   /** Subscribe to a CIViC entity in order to receive notifications about it. */
   subscribe?: Maybe<SubscribePayload>;
   /** Suggest a Revision to an Assertion entity. */
@@ -1604,10 +1618,16 @@ export type Mutation = {
   suggestEvidenceItemRevision?: Maybe<SuggestEvidenceItemRevisionPayload>;
   /** Suggest a Revision to a Gene entity. */
   suggestGeneRevision?: Maybe<SuggestGeneRevisionPayload>;
+  /** Suggest a source for curation in CIViC. */
+  suggestSource?: Maybe<SuggestSourcePayload>;
   /** Suggest a Revision to a Variant entity. */
   suggestVariantRevision?: Maybe<SuggestVariantRevisionPayload>;
   /** Unsubscribe from a CIViC entity to stop receiving notifications about it. */
   unsubscribe?: Maybe<UnsubscribePayload>;
+  /** Update the currentlly logged in User's Conflict of Interest statement */
+  updateCoi?: Maybe<UpdateCoiPayload>;
+  /** Update the status of a SourceSuggestion by ID. The user updating the SourceSuggestion must be signed in. */
+  updateSourceSuggestionStatus?: Maybe<UpdateSourceSuggestionStatusPayload>;
 };
 
 
@@ -1651,6 +1671,16 @@ export type MutationResolveFlagArgs = {
 };
 
 
+export type MutationSubmitAssertionArgs = {
+  input: SubmitAssertionInput;
+};
+
+
+export type MutationSubmitEvidenceArgs = {
+  input: SubmitEvidenceItemInput;
+};
+
+
 export type MutationSubscribeArgs = {
   input: SubscribeInput;
 };
@@ -1671,6 +1701,11 @@ export type MutationSuggestGeneRevisionArgs = {
 };
 
 
+export type MutationSuggestSourceArgs = {
+  input: SuggestSourceInput;
+};
+
+
 export type MutationSuggestVariantRevisionArgs = {
   input: SuggestVariantRevisionInput;
 };
@@ -1678,6 +1713,16 @@ export type MutationSuggestVariantRevisionArgs = {
 
 export type MutationUnsubscribeArgs = {
   input: UnsubscribeInput;
+};
+
+
+export type MutationUpdateCoiArgs = {
+  input: UpdateCoiInput;
+};
+
+
+export type MutationUpdateSourceSuggestionStatusArgs = {
+  input: UpdateSourceSuggestionStatusInput;
 };
 
 export type MyVariantInfo = {
@@ -2062,6 +2107,7 @@ export type Query = {
   searchGenes: AdvancedSearchResult;
   /** Find a source by CIViC ID */
   source?: Maybe<Source>;
+  sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
   user?: Maybe<User>;
@@ -2379,6 +2425,26 @@ export type QuerySourceArgs = {
 };
 
 
+export type QuerySourceSuggestionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  citation?: Maybe<Scalars['String']>;
+  citationId?: Maybe<Scalars['Int']>;
+  comment?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  geneName?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<SourceSuggestionsSort>;
+  sourceId?: Maybe<Scalars['Int']>;
+  sourceType?: Maybe<SourceSource>;
+  status?: Maybe<SourceSuggestionStatus>;
+  submitter?: Maybe<Scalars['String']>;
+  submitterId?: Maybe<Scalars['Int']>;
+  variantName?: Maybe<Scalars['String']>;
+};
+
+
 export type QuerySourceTypeaheadArgs = {
   citationId: Scalars['Int'];
   sourceType: SourceSource;
@@ -2622,7 +2688,6 @@ export type Source = EventSubject & {
   publicationYear: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
-  status: SourceStatus;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -2643,18 +2708,88 @@ export enum SourceSource {
   Pubmed = 'PUBMED'
 }
 
-export enum SourceStatus {
-  FullyCurated = 'FullyCurated',
-  PartiallyCurated = 'PartiallyCurated',
-  Submitted = 'Submitted'
-}
-
 export type SourceStub = {
   __typename: 'SourceStub';
   citationId: Scalars['Int'];
   id: Scalars['Int'];
   sourceType: SourceSource;
 };
+
+export type SourceSuggestion = EventOriginObject & EventSubject & {
+  __typename: 'SourceSuggestion';
+  diseaseName?: Maybe<Scalars['String']>;
+  /** List and filter events for an object */
+  events: EventConnection;
+  geneName?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  initialComment: Scalars['String'];
+  name: Scalars['String'];
+  source: Source;
+  status: SourceSuggestionStatus;
+  user: User;
+  variantName?: Maybe<Scalars['String']>;
+};
+
+
+export type SourceSuggestionEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+};
+
+/** The connection type for SourceSuggestion. */
+export type SourceSuggestionConnection = {
+  __typename: 'SourceSuggestionConnection';
+  /** A list of edges. */
+  edges: Array<SourceSuggestionEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<SourceSuggestion>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type SourceSuggestionEdge = {
+  __typename: 'SourceSuggestionEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<SourceSuggestion>;
+};
+
+export enum SourceSuggestionStatus {
+  Curated = 'CURATED',
+  New = 'NEW',
+  Rejected = 'REJECTED'
+}
+
+export type SourceSuggestionsSort = {
+  /** Available columns for sorting */
+  column: SourceSuggestionsSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum SourceSuggestionsSortColumns {
+  Citation = 'CITATION',
+  CitationId = 'CITATION_ID',
+  DiseaseName = 'DISEASE_NAME',
+  GeneName = 'GENE_NAME',
+  SourceType = 'SOURCE_TYPE',
+  Submitter = 'SUBMITTER',
+  VariantName = 'VARIANT_NAME'
+}
 
 export type SourcesSort = {
   /** Available columns for sorting */
@@ -2697,6 +2832,58 @@ export enum StringSearchOperator {
   Ne = 'NE',
   StartsWith = 'STARTS_WITH'
 }
+
+/** Autogenerated input type of SubmitAssertion */
+export type SubmitAssertionInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Text describing any further context or details about your proposed Assertion. Will be attached as a comment. */
+  comment?: Maybe<Scalars['String']>;
+  /** The desired state of the Assertion's editable fields. */
+  fields: AssertionFields;
+  /**
+   * The ID of the organization to credit the user's contributions to.
+   * If the user belongs to a single organization or no organizations, this field is not required.
+   * This field is required if the user belongs to more than one organization.
+   * The user must belong to the organization provided.
+   */
+  organizationId?: Maybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of SubmitAssertion */
+export type SubmitAssertionPayload = {
+  __typename: 'SubmitAssertionPayload';
+  /** The newly created Assertion */
+  assertion: Assertion;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated input type of SubmitEvidenceItem */
+export type SubmitEvidenceItemInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Text describing any further context or details about your proposed EvidenceItem. Will be attached as a comment. */
+  comment?: Maybe<Scalars['String']>;
+  /** The desired state of the EvidenceItems's editable fields. */
+  fields: EvidenceItemFields;
+  /**
+   * The ID of the organization to credit the user's contributions to.
+   * If the user belongs to a single organization or no organizations, this field is not required.
+   * This field is required if the user belongs to more than one organization.
+   * The user must belong to the organization provided.
+   */
+  organizationId?: Maybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of SubmitEvidenceItem */
+export type SubmitEvidenceItemPayload = {
+  __typename: 'SubmitEvidenceItemPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The newly created EvidenceItem */
+  evidenceItem: EvidenceItem;
+};
 
 export type Subscribable = {
   __typename: 'Subscribable';
@@ -2876,6 +3063,38 @@ export type SuggestGeneRevisionPayload = {
   results: Array<RevisionResult>;
 };
 
+/** Autogenerated input type of SuggestSource */
+export type SuggestSourceInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Text explaining why this source should be curated for CIViC evidence. */
+  comment: Scalars['String'];
+  /** Internal CIViC ID for the applicable disease, if any. */
+  diseaseId?: Maybe<Scalars['Int']>;
+  /** Internal CIViC ID for the applicable gene, if any. */
+  geneId?: Maybe<Scalars['Int']>;
+  /**
+   * The ID of the organization to credit the user's contributions to.
+   * If the user belongs to a single organization or no organizations, this field is not required.
+   * This field is required if the user belongs to more than one organization.
+   * The user must belong to the organization provided.
+   */
+  organizationId?: Maybe<Scalars['Int']>;
+  /** Internal CIViC ID for the source to suggest. Use the AddRemoteCitation mutation to populate this if needed. */
+  sourceId: Scalars['Int'];
+  /** Name of the variant discussed in this source. */
+  variantName?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of SuggestSource */
+export type SuggestSourcePayload = {
+  __typename: 'SuggestSourcePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The newly created Source Suggestion */
+  sourceSuggestion: SourceSuggestion;
+};
+
 /** Autogenerated input type of SuggestVariantRevision */
 export type SuggestVariantRevisionInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -2935,6 +3154,50 @@ export type UnsubscribePayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The entities that were unsubscribed from. */
   unsubscribedEntities: Array<Subscribable>;
+};
+
+/** Autogenerated input type of UpdateCoi */
+export type UpdateCoiInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Does the user report having a conflict of interest? Mark true if so. */
+  coiPresent: Scalars['Boolean'];
+  /** If the user reports a potential conflict of interest please provide a brief summary of it. */
+  statement?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of UpdateCoi */
+export type UpdateCoiPayload = {
+  __typename: 'UpdateCoiPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  coiStatement: Coi;
+};
+
+/** Autogenerated input type of UpdateSourceSuggestionStatus */
+export type UpdateSourceSuggestionStatusInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The ID of the SourceSuggestion to update. */
+  id: Scalars['Int'];
+  /** The desired status of the SourceSuggestion. */
+  newStatus: SourceSuggestionStatus;
+  /**
+   * The ID of the organization to credit the user's contributions to.
+   * If the user belongs to a single organization or no organizations, this field is not required.
+   * This field is required if the user belongs to more than one organization.
+   * The user must belong to the organization provided.
+   */
+  organizationId?: Maybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of UpdateSourceSuggestionStatus */
+export type UpdateSourceSuggestionStatusPayload = {
+  __typename: 'UpdateSourceSuggestionStatusPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The updated SourceSuggestion. */
+  sourceSuggestion: SourceSuggestion;
 };
 
 export type User = {
@@ -3774,7 +4037,10 @@ export type EventFeedNodeFragment = (
     & Pick<Revision, 'name' | 'id'>
   ) | (
     { __typename: 'Source' }
-    & Pick<Source, 'name' | 'id'>
+    & Pick<Source, 'citation' | 'sourceType' | 'name' | 'id'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'name' | 'id'>
   ) | (
     { __typename: 'Variant' }
     & Pick<Variant, 'name' | 'id'>
@@ -3796,6 +4062,9 @@ export type EventFeedNodeFragment = (
   ) | (
     { __typename: 'Revision' }
     & Pick<Revision, 'id' | 'name'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'id' | 'name'>
   )> }
 );
 
@@ -4234,6 +4503,73 @@ export type ContributorFieldsFragment = (
   ), uniqueActions: Array<(
     { __typename: 'Contribution' }
     & Pick<Contribution, 'action' | 'count'>
+  )> }
+);
+
+export type BrowseSourceSuggestionsQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<SourceSuggestionsSort>;
+  sourceType?: Maybe<SourceSource>;
+  citationId?: Maybe<Scalars['Int']>;
+  sourceId?: Maybe<Scalars['Int']>;
+  geneName?: Maybe<Scalars['String']>;
+  variantName?: Maybe<Scalars['String']>;
+  diseaseName?: Maybe<Scalars['String']>;
+  comment?: Maybe<Scalars['String']>;
+  submitter?: Maybe<Scalars['String']>;
+  citation?: Maybe<Scalars['String']>;
+  submitterId?: Maybe<Scalars['Int']>;
+  status?: Maybe<SourceSuggestionStatus>;
+}>;
+
+
+export type BrowseSourceSuggestionsQuery = (
+  { __typename: 'Query' }
+  & { sourceSuggestions: (
+    { __typename: 'SourceSuggestionConnection' }
+    & Pick<SourceSuggestionConnection, 'totalCount' | 'filteredCount' | 'pageCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'startCursor' | 'hasPreviousPage'>
+    ), edges: Array<(
+      { __typename: 'SourceSuggestionEdge' }
+      & Pick<SourceSuggestionEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'SourceSuggestion' }
+        & BrowseSourceSuggestionRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type BrowseSourceSuggestionRowFieldsFragment = (
+  { __typename: 'SourceSuggestion' }
+  & Pick<SourceSuggestion, 'id' | 'geneName' | 'variantName' | 'diseaseName' | 'initialComment' | 'status'>
+  & { source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'displayType'>
+  ), user: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
+  ) }
+);
+
+export type UpdateSourceSuggestionStatusMutationVariables = Exact<{
+  input: UpdateSourceSuggestionStatusInput;
+}>;
+
+
+export type UpdateSourceSuggestionStatusMutation = (
+  { __typename: 'Mutation' }
+  & { updateSourceSuggestionStatus?: Maybe<(
+    { __typename: 'UpdateSourceSuggestionStatusPayload' }
+    & { sourceSuggestion: (
+      { __typename: 'SourceSuggestion' }
+      & Pick<SourceSuggestion, 'id' | 'status'>
+    ) }
   )> }
 );
 
@@ -5820,6 +6156,10 @@ export const EventFeedNodeFragmentDoc = gql`
   subject {
     name
     id
+    ... on Source {
+      citation
+      sourceType
+    }
     __typename
   }
   originatingObject {
@@ -6102,6 +6442,30 @@ export const ContributorFieldsFragmentDoc = gql`
   }
   lastActionDate
   totalActionCount
+}
+    `;
+export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
+    fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
+  id
+  geneName
+  variantName
+  diseaseName
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    sourceUrl
+    displayType
+  }
+  user {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  initialComment
+  status
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
@@ -7542,6 +7906,76 @@ export const ContributorAvatarsDocument = gql`
   })
   export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
     document = ContributorAvatarsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseSourceSuggestionsDocument = gql`
+    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $geneName: String, $variantName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String, $submitterId: Int, $status: SourceSuggestionStatus) {
+  sourceSuggestions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    sourceType: $sourceType
+    citationId: $citationId
+    sourceId: $sourceId
+    geneName: $geneName
+    variantName: $variantName
+    diseaseName: $diseaseName
+    comment: $comment
+    submitter: $submitter
+    citation: $citation
+    submitterId: $submitterId
+    status: $status
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseSourceSuggestionRowFields
+      }
+    }
+  }
+}
+    ${BrowseSourceSuggestionRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseSourceSuggestionsGQL extends Apollo.Query<BrowseSourceSuggestionsQuery, BrowseSourceSuggestionsQueryVariables> {
+    document = BrowseSourceSuggestionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateSourceSuggestionStatusDocument = gql`
+    mutation UpdateSourceSuggestionStatus($input: UpdateSourceSuggestionStatusInput!) {
+  updateSourceSuggestionStatus(input: $input) {
+    sourceSuggestion {
+      id
+      status
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateSourceSuggestionStatusGQL extends Apollo.Mutation<UpdateSourceSuggestionStatusMutation, UpdateSourceSuggestionStatusMutationVariables> {
+    document = UpdateSourceSuggestionStatusDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

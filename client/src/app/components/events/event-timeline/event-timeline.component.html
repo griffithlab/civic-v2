@@ -37,6 +37,10 @@
                 <cvc-flag-tag [flag]="object"></cvc-flag-tag>
                 <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
               </span>
+              <span *ngSwitchCase="'SourceSuggestion'">
+                {{ object.name }}
+                <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ prepositionForSubject(event) }}&nbsp;</span>
+              </span>
             </ng-container>
           </ng-container>
 
@@ -51,6 +55,7 @@
               [evidence]="subject"></cvc-evidence-tag>
             <cvc-variant-tag *ngSwitchCase="'Variant'"
               [variant]="subject"></cvc-variant-tag>
+            <span *ngSwitchCase="'Source'"></span>
             <span *ngSwitchDefault>{{ subject.name }}</span>
           </ng-container>
 

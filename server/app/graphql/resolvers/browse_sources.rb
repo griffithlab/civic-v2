@@ -38,7 +38,7 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   end
 
   option(:id, type: Int) do |scope, value|
-    scope.where(id: id)
+    scope.where(id: value)
   end
 
   option(:sort_by, type: Types::BrowseTables::SourcesSortType) do |scope, value|

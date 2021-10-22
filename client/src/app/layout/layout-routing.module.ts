@@ -94,6 +94,12 @@ const routes: Routes = [
           breadcrumb: 'Sources'
         }
       },
+      { path: 'source-suggestions',
+        loadChildren: () => import('@app/views/source-suggestions/source-suggestions.module').then(m => m.SourceSuggestionsModule),
+        data: {
+          breadcrumb: 'SourceSuggestions'
+        }
+      },
       { path: 'users',
         loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule),
         data: {

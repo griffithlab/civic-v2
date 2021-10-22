@@ -23,6 +23,9 @@ module Types
     #sources
     field :add_remote_citation, mutation: Mutations::AddRemoteCitation
 
+    #source suggestions
+    field :update_source_suggestion_status, mutation: Mutations::UpdateSourceSuggestionStatus
+
     #users
     field :edit_user, mutation: Mutations::EditUser
     field :update_coi, mutation: Mutations::UpdateCoi
@@ -30,5 +33,6 @@ module Types
     #submission
     field :submit_evidence, mutation: Mutations::SubmitEvidenceItem
     field :submit_assertion, mutation: Mutations::SubmitAssertion
+    field :suggest_source, mutation: Mutations::SuggestSource
   end
 end

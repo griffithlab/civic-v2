@@ -24,6 +24,8 @@ module Types::Interfaces
           Types::Revisions::RevisionType
         when Source
           Types::Entities::SourceType
+        when SourceSuggestion
+          Types::Entities::SourceSuggestionType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end

@@ -570,7 +570,7 @@ export type ModeratedObjectFieldFieldPolicy = {
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'editUser' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevisions' | 'resolveFlag' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestVariantRevision' | 'unsubscribe' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'editUser' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -580,12 +580,17 @@ export type MutationFieldPolicy = {
 	markNotificationsAsRead?: FieldPolicy<any> | FieldReadFunction<any>,
 	rejectRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
+	submitAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	submitEvidence?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscribe?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestAssertionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestSource?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
-	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>
+	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateCoi?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateSourceSuggestionStatus?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MyVariantInfoKeySpecifier = ('caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'myVariantInfoId' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact' | MyVariantInfoKeySpecifier)[];
 export type MyVariantInfoFieldPolicy = {
@@ -729,7 +734,7 @@ export type PhenotypeFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'revision' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceTypeahead' | 'user' | 'users' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'revision' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceSuggestions' | 'sourceTypeahead' | 'user' | 'users' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -762,6 +767,7 @@ export type QueryFieldPolicy = {
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceSuggestions?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -832,7 +838,7 @@ export type SearchResultFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'displayType' | 'events' | 'fullJournalTitle' | 'id' | 'journal' | 'name' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'status' | 'title' | SourceKeySpecifier)[];
+export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'displayType' | 'events' | 'fullJournalTitle' | 'id' | 'journal' | 'name' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourceKeySpecifier)[];
 export type SourceFieldPolicy = {
 	abstract?: FieldPolicy<any> | FieldReadFunction<any>,
 	ascoAbstractId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -853,7 +859,6 @@ export type SourceFieldPolicy = {
 	publicationYear?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>,
-	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SourceStubKeySpecifier = ('citationId' | 'id' | 'sourceType' | SourceStubKeySpecifier)[];
@@ -861,6 +866,33 @@ export type SourceStubFieldPolicy = {
 	citationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SourceSuggestionKeySpecifier = ('diseaseName' | 'events' | 'geneName' | 'id' | 'initialComment' | 'name' | 'source' | 'status' | 'user' | 'variantName' | SourceSuggestionKeySpecifier)[];
+export type SourceSuggestionFieldPolicy = {
+	diseaseName?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	geneName?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	initialComment?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<any> | FieldReadFunction<any>,
+	status?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantName?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SourceSuggestionConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | SourceSuggestionConnectionKeySpecifier)[];
+export type SourceSuggestionConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	filteredCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SourceSuggestionEdgeKeySpecifier = ('cursor' | 'node' | SourceSuggestionEdgeKeySpecifier)[];
+export type SourceSuggestionEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StatsKeySpecifier = ('acceptedAssertions' | 'acceptedEvidenceItems' | 'appliedRevisions' | 'comments' | 'revisions' | 'submittedAssertions' | 'submittedEvidenceItems' | 'suggestedSources' | StatsKeySpecifier)[];
 export type StatsFieldPolicy = {
@@ -872,6 +904,16 @@ export type StatsFieldPolicy = {
 	submittedAssertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	submittedEvidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedSources?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SubmitAssertionPayloadKeySpecifier = ('assertion' | 'clientMutationId' | SubmitAssertionPayloadKeySpecifier)[];
+export type SubmitAssertionPayloadFieldPolicy = {
+	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SubmitEvidenceItemPayloadKeySpecifier = ('clientMutationId' | 'evidenceItem' | SubmitEvidenceItemPayloadKeySpecifier)[];
+export type SubmitEvidenceItemPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SubscribableKeySpecifier = ('entityType' | 'id' | SubscribableKeySpecifier)[];
 export type SubscribableFieldPolicy = {
@@ -905,6 +947,11 @@ export type SuggestGeneRevisionPayloadFieldPolicy = {
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	results?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SuggestSourcePayloadKeySpecifier = ('clientMutationId' | 'sourceSuggestion' | SuggestSourcePayloadKeySpecifier)[];
+export type SuggestSourcePayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SuggestVariantRevisionPayloadKeySpecifier = ('clientMutationId' | 'results' | 'variant' | SuggestVariantRevisionPayloadKeySpecifier)[];
 export type SuggestVariantRevisionPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -915,6 +962,16 @@ export type UnsubscribePayloadKeySpecifier = ('clientMutationId' | 'unsubscribed
 export type UnsubscribePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribedEntities?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UpdateCoiPayloadKeySpecifier = ('clientMutationId' | 'coiStatement' | UpdateCoiPayloadKeySpecifier)[];
+export type UpdateCoiPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	coiStatement?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UpdateSourceSuggestionStatusPayloadKeySpecifier = ('clientMutationId' | 'sourceSuggestion' | UpdateSourceSuggestionStatusPayloadKeySpecifier)[];
+export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentConflictOfInterestStatement' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
@@ -1391,9 +1448,29 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | SourceStubKeySpecifier | (() => undefined | SourceStubKeySpecifier),
 		fields?: SourceStubFieldPolicy,
 	},
+	SourceSuggestion?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SourceSuggestionKeySpecifier | (() => undefined | SourceSuggestionKeySpecifier),
+		fields?: SourceSuggestionFieldPolicy,
+	},
+	SourceSuggestionConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SourceSuggestionConnectionKeySpecifier | (() => undefined | SourceSuggestionConnectionKeySpecifier),
+		fields?: SourceSuggestionConnectionFieldPolicy,
+	},
+	SourceSuggestionEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SourceSuggestionEdgeKeySpecifier | (() => undefined | SourceSuggestionEdgeKeySpecifier),
+		fields?: SourceSuggestionEdgeFieldPolicy,
+	},
 	Stats?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | StatsKeySpecifier | (() => undefined | StatsKeySpecifier),
 		fields?: StatsFieldPolicy,
+	},
+	SubmitAssertionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubmitAssertionPayloadKeySpecifier | (() => undefined | SubmitAssertionPayloadKeySpecifier),
+		fields?: SubmitAssertionPayloadFieldPolicy,
+	},
+	SubmitEvidenceItemPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubmitEvidenceItemPayloadKeySpecifier | (() => undefined | SubmitEvidenceItemPayloadKeySpecifier),
+		fields?: SubmitEvidenceItemPayloadFieldPolicy,
 	},
 	Subscribable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscribableKeySpecifier | (() => undefined | SubscribableKeySpecifier),
@@ -1419,6 +1496,10 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | SuggestGeneRevisionPayloadKeySpecifier | (() => undefined | SuggestGeneRevisionPayloadKeySpecifier),
 		fields?: SuggestGeneRevisionPayloadFieldPolicy,
 	},
+	SuggestSourcePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestSourcePayloadKeySpecifier | (() => undefined | SuggestSourcePayloadKeySpecifier),
+		fields?: SuggestSourcePayloadFieldPolicy,
+	},
 	SuggestVariantRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestVariantRevisionPayloadKeySpecifier | (() => undefined | SuggestVariantRevisionPayloadKeySpecifier),
 		fields?: SuggestVariantRevisionPayloadFieldPolicy,
@@ -1426,6 +1507,14 @@ export type TypedTypePolicies = TypePolicies & {
 	UnsubscribePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UnsubscribePayloadKeySpecifier | (() => undefined | UnsubscribePayloadKeySpecifier),
 		fields?: UnsubscribePayloadFieldPolicy,
+	},
+	UpdateCoiPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UpdateCoiPayloadKeySpecifier | (() => undefined | UpdateCoiPayloadKeySpecifier),
+		fields?: UpdateCoiPayloadFieldPolicy,
+	},
+	UpdateSourceSuggestionStatusPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UpdateSourceSuggestionStatusPayloadKeySpecifier | (() => undefined | UpdateSourceSuggestionStatusPayloadKeySpecifier),
+		fields?: UpdateSourceSuggestionStatusPayloadFieldPolicy,
 	},
 	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),
