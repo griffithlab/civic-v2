@@ -23,27 +23,45 @@ const routes: Routes = [
       {
         path: ':organizationId',
         component: OrganizationsDetailComponent,
+        data: {
+          breadcrumb: 'DISPLAYNAME'
+        },
         children: [
           {path: '', redirectTo: 'members', pathMatch: 'full'},
           {
             path: 'members',
-            component: OrganizationsMembersComponent
+            component: OrganizationsMembersComponent,
+            data: {
+              breadcrumb: 'Members'
+            }
           },
           {
             path: 'groups',
-            component: OrganizationsGroupsComponent
+            component: OrganizationsGroupsComponent,
+            data: {
+              breadcrumb: 'Child Organizations'
+            }
           },
           {
             path: 'evidence',
             component: OrganizationsEvidenceComponent,
+            data: {
+              breadcrumb: 'Evidence'
+            }
           },
           {
             path: 'assertions',
             component: OrganizationsAssertionsComponent,
+            data: {
+              breadcrumb: 'Assertions'
+            }
           },
           {
             path: 'activity',
             component: OrganizationsEventsComponent,
+            data: {
+              breadcrumb: 'Activity'
+            }
           }
         ]
       }

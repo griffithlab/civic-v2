@@ -8,6 +8,7 @@ import {
   } from '@app/generated/civic.apollo'
 import { pluck, startWith } from "rxjs/operators";
 import { Observable } from 'rxjs';
+import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigation.component";
 
 @Component({
     selector: 'organizations-detail',
@@ -21,6 +22,8 @@ export class OrganizationsDetailComponent {
     organization$: Observable<Maybe<OrganizationDetailFieldsFragment>>;
     loading$: Observable<boolean>;
     viewer$: Observable<Viewer>;
+
+    tabs: RouteableTab[]
 
     constructor(private gql: OrganizationDetailGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
 
@@ -38,5 +41,38 @@ export class OrganizationsDetailComponent {
         pluck('data', 'organization'));
 
         this.viewer$ = this.viewerService.viewer$;
+
+        this.tabs = [
+            {
+                routeName: 'members',
+                tabLabel: 'Members',
+                iconName: 'pic-right'
+            },
+            {
+                routeName: 'groups',
+                tabLabel: 'Child Organizations',
+                iconName: 'civic:organization'
+            },
+            {
+                routeName: 'activity',
+                tabLabel: 'Activity',
+                iconName: 'civic:event'
+            },
+            {
+                routeName: 'evidence',
+                tabLabel: 'Evidence Items',
+                iconName: 'civic:evidence'
+            },
+            {
+                routeName: 'assertions',
+                tabLabel: 'Assertions',
+                iconName: 'civic:assertion'
+            },
+            {
+                routeName: 'source-suggestions',
+                tabLabel: 'Source Suggestions',
+                iconName: 'file-add'
+            },
+        ]
     }
 }

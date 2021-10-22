@@ -48,6 +48,8 @@ import { CvcOrganizationTagModule } from '@app/components/organizations/organiza
 import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module';
 import { CvcUserCardModule } from '@app/components/users/user-card/user-card.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 
 @NgModule({
@@ -98,11 +100,12 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     TimeagoModule.forChild(),
     NzInputModule,
     FormsModule,
-
+    CvcTabNavigationModule,
     NzSelectModule,
     EvidenceModule,
     NzImageModule,
-    NzStatisticModule
+    NzStatisticModule,
+    CvcSectionNavigationModule
   ],
   exports: [
     OrganizationsComponent,
