@@ -41,6 +41,10 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
     scope.eager_load(:user).where('users.username ILIKE ?', "#{value}%")
   end
 
+  option(:submitter_id, type: Int) do |scope, value|
+    scope.joins(:user).where('users.id = ?', value)
+  end
+
   option(:citation, type: String) do |scope, value|
     scope.eager_load(:source).where('sources.description ILIKE ?', "%#{value}%")
   end

@@ -13,6 +13,7 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
 })
 export class CvcSourceSuggestionsTableComponent implements OnInit {
   @Input() sourceId: Maybe<number>
+  @Input() submitterId: Maybe<number>
 
   private debouncedQuery = new Subject<void>();
 
@@ -45,6 +46,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
     this.queryRef = this.gql.watch({
       first: this.pageSize,
       sourceId: this.sourceId,
+      submitterId: this.submitterId,
       status: this.status.New
     })
 

@@ -5,6 +5,7 @@ import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEventsComponent } from './users-events/users-events.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 import { UsersHomePage } from './users-home/users-home.page';
+import { UsersSourceSuggestionsComponent } from './users-source-suggestions/users-source-suggestions.component';
 
 import { UsersComponent } from './users.component';
 
@@ -49,6 +50,13 @@ const routes: Routes = [
             component: UsersEventsComponent,
             data: {
               breadcrumb: 'Activity'
+            }
+          },
+          {
+            path: 'source-suggestions',
+            component: UsersSourceSuggestionsComponent,
+            data: {
+              breadcrumb: 'Source Suggestions'
             }
           }
         ]

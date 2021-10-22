@@ -7,6 +7,7 @@ import { OrganizationsEvidenceComponent } from './organizations-evidence/organiz
 import { OrganizationsGroupsComponent } from './organizations-groups/organizations-groups.component';
 import { OrganizationsHomePage } from './organizations-home/organizations-home.page';
 import { OrganizationsMembersComponent } from './organizations-members/organizations-members.component';
+import { OrganizationsSourceSuggestionsComponent } from './organizations-source-suggestions/organizations-source-suggestions.component';
 
 import { OrganizationsComponent } from './organizations.component';
 
@@ -61,6 +62,13 @@ const routes: Routes = [
             component: OrganizationsEventsComponent,
             data: {
               breadcrumb: 'Activity'
+            }
+          },
+          {
+            path: 'source-suggestions',
+            component: OrganizationsSourceSuggestionsComponent,
+            data: {
+              breadcrumb: 'Source Suggestions'
             }
           }
         ]

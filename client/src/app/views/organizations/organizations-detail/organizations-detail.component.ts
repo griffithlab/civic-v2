@@ -68,11 +68,6 @@ export class OrganizationsDetailComponent {
                 tabLabel: 'Assertions',
                 iconName: 'civic:assertion'
             },
-            {
-                routeName: 'source-suggestions',
-                tabLabel: 'Source Suggestions',
-                iconName: 'file-add'
-            },
         ]
     }
 }

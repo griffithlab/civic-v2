@@ -50,6 +50,8 @@ import { CvcUserCardModule } from '@app/components/users/user-card/user-card.mod
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { OrganizationsSourceSuggestionsComponent } from './organizations-source-suggestions/organizations-source-suggestions.component';
+import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 
 
 @NgModule({
@@ -60,7 +62,8 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     OrganizationsEvidenceComponent,
     OrganizationsAssertionsComponent,
     OrganizationsEventsComponent,
-    OrganizationsGroupsComponent
+    OrganizationsGroupsComponent,
+    OrganizationsSourceSuggestionsComponent
   ],
   imports: [
     CommonModule,
@@ -105,7 +108,8 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     EvidenceModule,
     NzImageModule,
     NzStatisticModule,
-    CvcSectionNavigationModule
+    CvcSectionNavigationModule,
+    CvcSourceSuggestionsTableModule
   ],
   exports: [
     OrganizationsComponent,
@@ -114,7 +118,8 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     OrganizationsEvidenceComponent,
     OrganizationsAssertionsComponent,
     OrganizationsEventsComponent,
-    OrganizationsGroupsComponent
+    OrganizationsGroupsComponent,
+    OrganizationsSourceSuggestionsComponent
   ]
 })
 export class OrganizationsModule { }
