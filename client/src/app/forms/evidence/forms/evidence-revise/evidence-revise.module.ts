@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { EvidenceItemReviseService } from './evidence-revise.service';
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
 import { DrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
+import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -38,6 +39,7 @@ import { DrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.mo
     SourceInputModule,
     DrugInputModule,
     RatingInputModule,
+    PhenotypeInputModule,
   ],
   exports: [EvidenceReviseForm]
 })

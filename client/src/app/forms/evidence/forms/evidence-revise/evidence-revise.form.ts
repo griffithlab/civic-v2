@@ -303,8 +303,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           addText: 'Add a Phenoype'
         },
         fieldArray: {
-          type: 'input',
-          key: 'name',
+          type: 'phenotype-input',
           templateOptions: {
           }
         }

@@ -4584,6 +4584,22 @@ export type SuggestGeneRevisionMutation = (
   )> }
 );
 
+export type PhenotypeTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type PhenotypeTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { phenotypes: (
+    { __typename: 'BrowsePhenotypeConnection' }
+    & { nodes: Array<(
+      { __typename: 'BrowsePhenotype' }
+      & Pick<BrowsePhenotype, 'id' | 'name'>
+    )> }
+  ) }
+);
+
 export type CitationTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['Int'];
   sourceType: SourceSource;
@@ -8089,6 +8105,27 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PhenotypeTypeaheadDocument = gql`
+    query PhenotypeTypeahead($name: String!) {
+  phenotypes(name: $name) {
+    nodes {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypeTypeaheadGQL extends Apollo.Query<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables> {
+    document = PhenotypeTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

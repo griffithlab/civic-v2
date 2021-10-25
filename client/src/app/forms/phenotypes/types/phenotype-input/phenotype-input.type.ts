@@ -5,21 +5,21 @@ import {
   Component,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DrugTypeaheadGQL } from '@app/generated/civic.apollo';
+import { PhenotypeTypeaheadGQL } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'cvc-drug-input',
-  templateUrl: './drug-input.type.html',
-  styleUrls: ['./drug-input.type.less'],
+  selector: 'cvc-phenotype-input',
+  templateUrl: './phenotype-input.type.html',
+  styleUrls: ['./phenotype-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DrugInputComponent extends FieldType implements AfterViewInit {
+export class PhenotypeInputComponent extends FieldType implements AfterViewInit {
   formControl!: FormControl;
 
   defaultOptions = {
     templateOptions: {
-      placeholder: 'Search Drugs',
+      placeholder: 'Search Phenotypes',
       showArrow: false,
       onSearch: () => {},
       minLengthSearch: 1,
@@ -28,7 +28,7 @@ export class DrugInputComponent extends FieldType implements AfterViewInit {
   };
 
   constructor(
-    private drugTypeaheadQuery: DrugTypeaheadGQL,
+    private phenotypeTypeaheadQuery: PhenotypeTypeaheadGQL,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
@@ -44,14 +44,14 @@ export class DrugInputComponent extends FieldType implements AfterViewInit {
       ) {
         return;
       }
-      this.drugTypeaheadQuery
+      this.phenotypeTypeaheadQuery
         .fetch({ name: value })
-        .subscribe(({ data: { drugs } }) => {
-          this.to.optionList = drugs.nodes.map((d) => {
+        .subscribe(({ data: { phenotypes } }) => {
+          this.to.optionList = phenotypes.nodes.map((p) => {
             return {
-              value: d.id,
-              label: `${d.name} (${d.ncitId})`,
-              drug: d
+              value: p.id,
+              label: p.name,
+              phenotype: p
             };
           });
           // TODO implement this search as an observable to avoid detectChanges
@@ -61,7 +61,7 @@ export class DrugInputComponent extends FieldType implements AfterViewInit {
   }
 }
 
-export const DrugInputType = {
-  name: 'drug-input',
-  component: DrugInputComponent,
+export const PhenotypeInputType = {
+  name: 'phenotype-input',
+  component: PhenotypeInputComponent,
 };
