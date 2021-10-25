@@ -9,7 +9,7 @@ import { FieldArrayType } from '@ngx-formly/core';
 export class MultiFieldComponent extends FieldArrayType {
   defaultOptions = {
     templateOptions: {
-      maxLength: 0, // zero maxLength indicates no maxLength
+      maxCount: 0, // zero maxCount indicates no maxCount
     }
   }
 

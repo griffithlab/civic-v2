@@ -193,7 +193,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Source',
           addText: 'Add another Source',
-           maxLength: 2,
+          maxCount: 1,
         },
         fieldArray: {
           type: 'source-input',
@@ -308,13 +308,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           }
         }
       },
-      // {
-      //   key: 'fields.evidenceRating',
-      //   type: 'input',
-      //   templateOptions: {
-      //     label: 'Rating',
-      //   },
-      // },
       {
         key: 'fields.evidenceRating',
         type: 'rating-input',

@@ -39,7 +39,7 @@
       </div>
       <div class="field-add-btn"
         *ngIf="last">
-        <i nz-icon *ngIf="to.maxLength == 0 || to.maxLength! > f.model.length"
+        <i nz-icon *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
           nzType="plus-circle-o"
           (click)="addField($event)"></i>
       </div>
