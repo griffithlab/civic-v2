@@ -273,12 +273,11 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         key: 'fields.drugs',
         type: 'multi-field',
         templateOptions: {
-          label: 'Drug Names',
-          addText: 'Add another Drug',
+          label: 'Drug(s)',
+          addText: 'Add a Drug',
         },
         fieldArray: {
-          key: 'name',
-          type: 'input',
+          type: 'drug-input',
           templateOptions: {
           },
         },
