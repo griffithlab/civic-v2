@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 
@@ -8,7 +8,7 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ['./source-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SourceInputComponent extends FieldType implements OnInit {
+export class SourceInputComponent extends FieldType {
   constructor() {
     super();
   }
@@ -18,9 +18,6 @@ export class SourceInputComponent extends FieldType implements OnInit {
     this.formControl.setValue(s);
   }
 
-  ngOnInit(): void {
-    // console.log(this.field.model);
-  }
 }
 
 export const SourceInputType = {

@@ -4372,6 +4372,22 @@ export type AddCommentMutation = (
   )> }
 );
 
+export type DrugTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type DrugTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { drugs: (
+    { __typename: 'BrowseDrugConnection' }
+    & { nodes: Array<(
+      { __typename: 'BrowseDrug' }
+      & Pick<BrowseDrug, 'id' | 'name' | 'ncitId'>
+    )> }
+  ) }
+);
+
 export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
@@ -7833,6 +7849,28 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugTypeaheadDocument = gql`
+    query DrugTypeahead($name: String!) {
+  drugs(name: $name) {
+    nodes {
+      id
+      name
+      ncitId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugTypeaheadGQL extends Apollo.Query<DrugTypeaheadQuery, DrugTypeaheadQueryVariables> {
+    document = DrugTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

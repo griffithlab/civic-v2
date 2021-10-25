@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EvidenceItemReviseService } from './evidence-revise.service';
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
+import { DrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -35,6 +36,7 @@ import { RatingInputModule } from '../../types/rating-input/rating-input.module'
     CvcFormButtonsModule,
     MultiFieldModule,
     SourceInputModule,
+    DrugInputModule,
     RatingInputModule,
   ],
   exports: [EvidenceReviseForm]
