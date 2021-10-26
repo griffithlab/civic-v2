@@ -18,6 +18,7 @@ import { EvidenceItemReviseService } from './evidence-revise.service';
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
 import { DrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
+import { DiseaseInputModule } from '@app/forms/diseases/types/disease-input/disease-input.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -40,6 +41,7 @@ import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-inpu
     DrugInputModule,
     RatingInputModule,
     PhenotypeInputModule,
+    DiseaseInputModule,
   ],
   exports: [EvidenceReviseForm]
 })

@@ -4928,6 +4928,22 @@ export type AddCommentMutation = (
   )> }
 );
 
+export type DiseaseTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type DiseaseTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { browseDiseases: (
+    { __typename: 'BrowseDiseaseConnection' }
+    & { nodes: Array<(
+      { __typename: 'BrowseDisease' }
+      & Pick<BrowseDisease, 'id' | 'name' | 'doid'>
+    )> }
+  ) }
+);
+
 export type DrugTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -4965,7 +4981,7 @@ export type RevisableEvidenceFieldsFragment = (
     & Pick<Variant, 'id' | 'name'>
   ), disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'doid' | 'displayName'>
+    & Pick<Disease, 'id' | 'doid' | 'name'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'ncitId' | 'name'>
@@ -6702,7 +6718,7 @@ export const RevisableEvidenceFieldsFragmentDoc = gql`
   disease {
     id
     doid
-    displayName
+    name
   }
   drugs {
     id
@@ -8525,6 +8541,28 @@ export const AddCommentDocument = gql`
   })
   export class AddCommentGQL extends Apollo.Mutation<AddCommentMutation, AddCommentMutationVariables> {
     document = AddCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiseaseTypeaheadDocument = gql`
+    query DiseaseTypeahead($name: String!) {
+  browseDiseases(name: $name) {
+    nodes {
+      id
+      name
+      doid
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseaseTypeaheadGQL extends Apollo.Query<DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables> {
+    document = DiseaseTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
