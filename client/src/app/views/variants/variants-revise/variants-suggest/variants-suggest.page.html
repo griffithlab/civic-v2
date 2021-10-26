@@ -1,10 +1,10 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="16">
-    <ng-container *ngIf="variantId; else loadingGene">
+    <ng-container *ngIf="variantId; else loadingVariant">
       <cvc-variant-revise-form [variantId]="variantId">
       </cvc-variant-revise-form>
     </ng-container>
-    <ng-template #loadingGene>Loading Gene...</ng-template>
+    <ng-template #loadingVariant>Loading Variant...</ng-template>
   </nz-col>
   <nz-col nzSpan="8">
     <nz-card nzTitle="Instructions"
@@ -27,5 +27,3 @@
     </nz-card>
   </nz-col>
 </nz-row>
-
-<ng-template #loadingGene>Loading gene...</ng-template>

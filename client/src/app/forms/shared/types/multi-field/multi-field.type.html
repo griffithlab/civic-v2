@@ -12,7 +12,7 @@
           nzType="default"
           nzSize="small"
           nzSearch
-          (click)="addField($event)">Add {{ to.label }}</button>
+          (click)="addField($event)">{{ to.addText }}</button>
       </div>
 </nz-form-item>
 
@@ -39,7 +39,7 @@
       </div>
       <div class="field-add-btn"
         *ngIf="last">
-        <i nz-icon
+        <i nz-icon *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
           nzType="plus-circle-o"
           (click)="addField($event)"></i>
       </div>

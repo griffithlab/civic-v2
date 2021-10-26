@@ -7,6 +7,12 @@ import { FieldArrayType } from '@ngx-formly/core';
   styleUrls: ['./multi-field.type.less'],
 })
 export class MultiFieldComponent extends FieldArrayType {
+  defaultOptions = {
+    templateOptions: {
+      maxCount: 0, // zero maxCount indicates no maxCount
+    }
+  }
+
   constructor() {
     super();
   }

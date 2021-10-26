@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EvidenceCommentsComponent } from './evidence-comments/evidence-comments.component';
-import { EvidenceDetailComponent } from './evidence-detail/evidence-detail.component';
-import { EvidenceFlagsComponent } from './evidence-flags/evidence-flags.component';
-import { EvidenceRevisionsComponent } from './evidence-revisions/evidence-revisions.component';
-import { EvidenceSummaryComponent } from './evidence-summary/evidence-summary.component';
+import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
 import { EvidenceHomePage } from './evidence-home/evidence-home.page';
-import { EvidenceComponent } from './evidence.component';
+import { EvidenceView } from './evidence.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: EvidenceComponent,
+    component: EvidenceView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
@@ -22,49 +18,44 @@ const routes: Routes = [
         }
       },
       {
+        path: 'add',
+        loadChildren: () =>
+          import('@app/views/evidence/evidence-add/evidence-add.module').then(
+            (m) => m.EvidenceAddModule
+          ),
+        data: { breadcrumb: 'Add' }
+      },
+      {
         path: ':evidenceId',
-        component: EvidenceDetailComponent,
-        data: {
-          breadcrumb: 'DISPLAYNAME'
-        },
+        data: { breadcrumb: 'DISPLAYNAME' },
         children: [
-          {path: '', redirectTo: 'summary', pathMatch: 'full'},
           {
-            path: 'summary',
-            component: EvidenceSummaryComponent,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-detail/evidence-detail.module').then(
+                (m) => m.EvidenceDetailModule
+              ),
           },
           {
-            path: 'comments',
-            component: EvidenceCommentsComponent,
-            data: {
-              breadcrumb: 'Comments'
-            }
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
+                (m) => m.EvidenceReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
           },
-          {
-            path: 'revisions',
-            component: EvidenceRevisionsComponent,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: EvidenceFlagsComponent,
-            data: {
-              breadcrumb: 'Flags'
-            }
-          }
         ]
-      }
+      },
+
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    EvidenceHomeModule
+  ],
   exports: [RouterModule]
 })
 export class EvidenceRoutingModule { }

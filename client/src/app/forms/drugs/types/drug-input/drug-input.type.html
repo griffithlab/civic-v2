@@ -1,0 +1,24 @@
+<ng-container *ngIf="!formControl.value?.id; else drugListItem">
+  <nz-select nzShowSearch
+    nzServerSearch
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzNotFoundContent]="sourceLoader"
+    [nzShowArrow]="to.showArrow"
+    [nzFilterOption]="to.filterOption"
+    (nzOnSearch)="to.onSearch($event)">
+    <nz-option *ngFor="let opt of to.optionList"
+      nzCustomContent
+      [nzLabel]="opt.label"
+      [nzValue]="opt.drug">
+      {{ opt.drug.name}} ({{ opt.drug.ncitId }})
+    </nz-option>
+  </nz-select>
+  <ng-template #sourceLoader>
+    No drug found in CIViC that matches the string provided.
+  </ng-template>
+</ng-container>
+<ng-template #drugListItem>
+  <cvc-drug-tag [drug]="formControl.value"></cvc-drug-tag>
+</ng-template>

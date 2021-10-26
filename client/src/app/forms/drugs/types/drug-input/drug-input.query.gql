@@ -1,0 +1,9 @@
+query DrugTypeahead($name: String!) {
+  drugs(name:$name){
+    nodes {
+      id
+      name
+      ncitId
+    }
+  }
+}

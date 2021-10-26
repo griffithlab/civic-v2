@@ -28,6 +28,7 @@ export interface TitleSegment {
 export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>;
   @Input() relationsTpl?: TemplateRef<any>;
+  @Input() actionsTpl?: TemplateRef<any>;
 
   getRouteLabel: (label: string) => string;
 

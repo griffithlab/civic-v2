@@ -1,0 +1,8 @@
+query PhenotypeTypeahead($name: String!) {
+  phenotypes(name:$name){
+    nodes {
+      id
+      name
+    }
+  }
+}
