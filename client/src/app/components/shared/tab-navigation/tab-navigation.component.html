@@ -1,22 +1,17 @@
-<nz-row id="section-tabs"  *ngrxLet="viewer$ as viewer">
+<nz-row id="section-tabs">
   <nz-col nzSpan="24">
-    <nz-tabset nzLinkRouter nzType="card" nzSize="small"
-      [nzSelectedIndex]="selectedTabIndex"
+    <nz-tabset nzLinkRouter nzType="card" nzSize="small" [nzSelectedIndex]="selectedTabIndex"
       [nzTabBarExtraContent]="extraTpl">
       <ng-template #extraTpl>
-          <ng-container [ngTemplateOutlet]="tabBarExtraContent || null" >
-          </ng-container>
+        <ng-container [ngTemplateOutlet]="tabBarExtraContent || null">
+        </ng-container>
       </ng-template>
-      <ng-component *ngFor="let tab of this.tabs">
-      <nz-tab *ngIf="tab.shouldDisplay === undefined || tab.shouldDisplay(viewer)">
-        <a *nzTabLink
-        nz-tab-link [routerLink]="tab.routeName">
-        <i nz-icon
-          [nzType]="tab.iconName"></i>
+      <nz-tab *ngFor="let tab of tabs">
+        <a *nzTabLink nz-tab-link [routerLink]="tab.routeName">
+          <i nz-icon [nzType]="tab.iconName"></i>
           {{tab.tabLabel}}
-      </a>
+        </a>
       </nz-tab>
-    </ng-component>
     </nz-tabset>
   </nz-col>
 </nz-row>
