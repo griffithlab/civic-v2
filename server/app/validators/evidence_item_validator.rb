@@ -40,19 +40,19 @@ class EvidenceItemValidator < ActiveModel::Validator
     @valid_types ||= {
       'Predictive' => {
         clinical_significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: true,
       },
      'Diagnostic' => {
         clinical_significance: ['Positive', 'Negative'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
      'Prognostic' => {
         clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
@@ -70,7 +70,7 @@ class EvidenceItemValidator < ActiveModel::Validator
       },
      'Functional' => {
         clinical_significance: ['Gain of Function', 'Loss of Function', 'Unaltered Function', 'Neomorphic', 'Dominant Negative', 'Unknown'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: false,
         drug: false
       },

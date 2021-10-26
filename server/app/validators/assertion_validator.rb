@@ -53,7 +53,7 @@ class AssertionValidator < ActiveModel::Validator
     @valid_types ||= {
       'Predictive' => {
         clinical_significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: true,
         acmg_codes: false,
@@ -61,7 +61,7 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Diagnostic' => {
         clinical_significance: ['Positive', 'Negative'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false,
         acmg_codes: false,
@@ -69,7 +69,7 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Prognostic' => {
         clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false,
         acmg_codes: false,
@@ -77,7 +77,7 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Predisposing' => {
        clinical_significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
-        evidence_direction: ['Supports', 'Does not support'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false,
         acmg_codes: true,
