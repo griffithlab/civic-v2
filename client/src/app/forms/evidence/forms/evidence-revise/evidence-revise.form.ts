@@ -106,7 +106,7 @@ interface FormModel {
   fields: {
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
-    disease: Maybe<FormDisease>;
+    disease: FormDisease[];
     drugInteractionType: Maybe<DrugInteraction>;
     drugs: FormDrug[];
     evidenceDirection: EvidenceDirection;
@@ -227,12 +227,17 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         }
       },
       {
-        key: 'fields.disease.displayName',
-        type: 'input',
+        key: 'fields.disease',
+        type: 'multi-field',
         templateOptions: {
-          label: 'Disease (disabled until disease-selector is written)',
-          required: true,
-          disabled: true
+          label: 'Disease',
+          addText: 'Add a Disease',
+          minLength: 1,
+          maxCount: 1,
+        },
+        fieldArray: {
+          type: 'disease-input',
+          templateOptions: {}
         }
       },
       {
@@ -354,6 +359,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         ...evidence,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
+        disease: [evidence.disease],
       },
     }
   }
@@ -379,7 +385,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         evidenceType: fields.evidenceType,
         evidenceDirection: fields.evidenceDirection,
         clinicalSignificance: fields.clinicalSignificance,
-        diseaseId: fmt.toNullableInt(fields.disease?.id),
+        diseaseId: fmt.toNullableInt(fields.disease[0].id),
         evidenceLevel: fields.evidenceLevel,
         phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
         rating: +fields.evidenceRating,

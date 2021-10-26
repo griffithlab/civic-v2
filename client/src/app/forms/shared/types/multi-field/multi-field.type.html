@@ -6,14 +6,14 @@
       {{ to.label }}
     </nz-form-label>
   </ng-container>
-      <div class="field-add-btn">
-        <button nz-button
-          nzBlock
-          nzType="default"
-          nzSize="small"
-          nzSearch
-          (click)="addField($event)">{{ to.addText }}</button>
-      </div>
+  <div class="field-add-btn">
+    <button nz-button
+      nzBlock
+      nzType="default"
+      nzSize="small"
+      nzSearch
+      (click)="addField($event)">{{ to.addText }}</button>
+  </div>
 </nz-form-item>
 
 <nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
@@ -39,7 +39,8 @@
       </div>
       <div class="field-add-btn"
         *ngIf="last">
-        <i nz-icon *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
+        <i nz-icon
+          *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
           nzType="plus-circle-o"
           (click)="addField($event)"></i>
       </div>
