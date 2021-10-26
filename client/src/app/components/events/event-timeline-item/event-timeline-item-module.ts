@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CvcEventTimelineComponent } from './event-timeline.component';
+import { CvcEventTimelineItemComponent } from './event-timeline-item.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -14,22 +14,19 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { TimeagoModule } from 'ngx-timeago';
-import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
-import { CvcEventTimelineItemModule } from '../event-timeline-item/event-timeline-item-module';
 
 @NgModule({
-  declarations: [CvcEventTimelineComponent],
+  declarations: [CvcEventTimelineItemComponent],
   imports: [
     CommonModule,
     NzButtonModule,
     NzIconModule,
     NzToolTipModule,
     NzTypographyModule,
-    NzTimelineModule,
     NzGridModule,
     TimeagoModule.forChild(),
     CvcRevisionTagModule,
@@ -42,9 +39,8 @@ import { CvcEventTimelineItemModule } from '../event-timeline-item/event-timelin
     CvcEvidenceTagModule,
     CvcVariantTagModule,
     CvcOrganizationTagModule,
-    CvcSourceTagModule,
-    CvcEventTimelineItemModule
+    CvcSourceTagModule
   ],
-  exports: [CvcEventTimelineComponent]
+  exports: [CvcEventTimelineItemComponent]
 })
-export class CvcEventTimelineModule { }
+export class CvcEventTimelineItemModule { }

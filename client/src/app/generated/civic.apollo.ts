@@ -2090,6 +2090,8 @@ export type Query = {
   flags: FlagConnection;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
+  /** List and filter notifications for the logged in user. */
+  notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
   organization?: Maybe<Organization>;
   /** List and filter organizations. */
@@ -2357,6 +2359,21 @@ export type QueryFlagsArgs = {
 
 export type QueryGeneArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryNotificationsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  includeRead?: Maybe<Scalars['Boolean']>;
+  last?: Maybe<Scalars['Int']>;
+  notificationReason?: Maybe<NotificationReason>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingObject?: Maybe<SubscribableInput>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  subscriptionId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -2897,6 +2914,7 @@ export enum SubscribableEntities {
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
   Revision = 'REVISION',
+  SourceSuggestion = 'SOURCE_SUGGESTION',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }

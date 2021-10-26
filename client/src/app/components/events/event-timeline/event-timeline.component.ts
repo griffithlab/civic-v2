@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import {
   EventAction,
   EventFeedNodeFragment,
-  SubscribableEntities
 } from '@app/generated/civic.apollo';
 import { EventDisplayOption } from '../event-feed/event-feed.component';
 
@@ -61,35 +60,6 @@ export class CvcEventTimelineComponent implements OnInit {
       default:
         throw new Error('Not handling all event action types yet')
 
-    }
-  }
-
-  prepositionForSubject(e: EventFeedNodeFragment): string {
-    switch (e.action) {
-      case (EventAction.Commented):
-        return 'to'
-      case (EventAction.RevisionSuggested):
-        return 'to'
-      case (EventAction.RevisionAccepted):
-        return 'to'
-      case (EventAction.RevisionRejected):
-        return 'to'
-      case (EventAction.RevisionSuperseded):
-        return 'to'
-      case (EventAction.Flagged):
-        return 'on'
-      case (EventAction.FlagResolved):
-        return 'on'
-      case (EventAction.PublicationSuggested):
-        return ''
-      case (EventAction.CuratedSourceSuggestion):
-        return ''
-      case (EventAction.RejectedSourceSuggestion):
-        return ''
-      case (EventAction.RequeuedSourceSuggestion):
-        return ''
-      default:
-        throw new Error('Not handling all event action types yet ' + e.action)
     }
   }
 }

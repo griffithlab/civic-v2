@@ -5,6 +5,7 @@ import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersEventsComponent } from './users-events/users-events.component';
 import { UsersEvidenceComponent } from './users-evidence/users-evidence.component';
 import { UsersHomePage } from './users-home/users-home.page';
+import { UsersNotificationsComponent } from './users-notifications/users-notifications.component';
 import { UsersSourceSuggestionsComponent } from './users-source-suggestions/users-source-suggestions.component';
 
 import { UsersComponent } from './users.component';
@@ -58,7 +59,14 @@ const routes: Routes = [
             data: {
               breadcrumb: 'Source Suggestions'
             }
-          }
+          },
+          // {
+          //   path: 'notifications',
+          //   component: UsersNotificationsComponent,
+          //   data: {
+          //     breadcrumb: 'Notifications'
+          //   }
+          // },
         ]
       }
     ]

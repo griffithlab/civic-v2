@@ -18,6 +18,11 @@ module Types
     field :events, resolver: Resolvers::TopLevelEvents
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
+    field :notifications, resolver: Resolvers::Notifications do
+      def authorized?(object, args, context)
+        context[:current_user].present?
+      end
+    end
 
     field :contributors, resolver: Resolvers::Contributors
 

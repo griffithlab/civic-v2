@@ -3892,6 +3892,38 @@ type Query {
   gene(id: Int!): Gene
 
   """
+  List and filter notifications for the logged in user.
+  """
+  notifications(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+    includeRead: Boolean = false
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    notificationReason: NotificationReason
+    organizationId: Int
+    originatingObject: SubscribableInput
+    originatingUserId: Int
+    subscriptionId: Int
+  ): NotificationConnection!
+
+  """
   Find an organization by CIViC ID
   """
   organization(id: Int!): Organization
@@ -4765,6 +4797,7 @@ enum SubscribableEntities {
   EVIDENCE_ITEM
   GENE
   REVISION
+  SOURCE_SUGGESTION
   VARIANT
   VARIANT_GROUP
 }

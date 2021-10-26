@@ -6,6 +6,7 @@ import { EvidenceEnumDisplayPipe } from './evidence-enum-display-type';
 import { IfEmptyPipe } from './if-empty-pipe';
 import { SourceTypeDisplayPipe } from './source-type-display.pipe';
 import { ReferenceBuildDisplayPipe } from './reference-build-display.pipe';
+import { PrepositionForSubjectPipe } from './preposition-for-subject-pipe';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ReferenceBuildDisplayPipe } from './reference-build-display.pipe';
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
+    PrepositionForSubjectPipe
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { ReferenceBuildDisplayPipe } from './reference-build-display.pipe';
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
+    PrepositionForSubjectPipe
   ]
 })
 export class CvcPipesModule { }

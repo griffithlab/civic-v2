@@ -48,6 +48,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 import { UsersSourceSuggestionsComponent } from './users-source-suggestions/users-source-suggestions.component';
+import { UsersNotificationsComponent } from './users-notifications/users-notifications.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { UsersSourceSuggestionsComponent } from './users-source-suggestions/user
     UsersEvidenceComponent,
     UsersAssertionsComponent,
     UsersEventsComponent,
-    UsersSourceSuggestionsComponent
+    UsersSourceSuggestionsComponent,
+    UsersNotificationsComponent
   ],
   imports: [
     CommonModule,
@@ -109,7 +111,8 @@ import { UsersSourceSuggestionsComponent } from './users-source-suggestions/user
     UsersEvidenceComponent,
     UsersAssertionsComponent,
     UsersEventsComponent,
-    UsersSourceSuggestionsComponent
+    UsersSourceSuggestionsComponent,
+    UsersNotificationsComponent
   ]
 })
 export class UsersModule { }

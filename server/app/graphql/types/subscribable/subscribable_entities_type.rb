@@ -7,5 +7,6 @@ module Types::Subscribable
     value 'ASSERTION'
     value 'REVISION'
     value 'VARIANT_GROUP'
+    value 'SOURCE_SUGGESTION'
   end
 end
