@@ -1,4 +1,4 @@
-class Disease < ActiveRecord::Base
+class Disease < ApplicationRecord
   has_many :evidence_items
 
   def disease_url

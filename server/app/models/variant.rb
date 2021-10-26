@@ -1,4 +1,4 @@
-class Variant < ActiveRecord::Base
+class Variant < ApplicationRecord
   include Moderated
   include Subscribable
   include Flaggable
