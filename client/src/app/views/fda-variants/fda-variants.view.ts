@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   NzTableFilterFn,
   NzTableFilterList,
@@ -30,7 +31,7 @@ interface AssertionResponse {
 
 interface ColumnItem {
   name: string;
-  width: string,
+  width: string;
   sortOrder: NzTableSortOrder | null;
   sortFn: NzTableSortFn | null;
   listOfFilter: NzTableFilterList;
@@ -45,11 +46,18 @@ interface ColumnItem {
   styleUrls: ['./fda-variants.view.less'],
 })
 export class FdaVariantsView {
-  @HostListener("window:beforeunload")
+  @HostListener('window:beforeunload')
   canDeactivate() {
-    return confirm('You have unsaved changes. Discard and leave?');
+    const modalRef = this.modal.confirm({
+      nzTitle: 'You are now leaving the FDA-recognized section of the knowledgebase.',
+      nzIconType: 'exclamation-circle',
+      nzClosable: false,
+      nzOnOk: () => true,
+    });
+
+    return modalRef.afterClose;
   }
-  constructor() {}
+  constructor(private modal: NzModalService) {}
 
   assertionResponse: AssertionResponse = {
     assertion1: {
@@ -322,7 +330,8 @@ export class FdaVariantsView {
         a.gene.name.localeCompare(b.gene.name),
       sortDirections: ['descend', null],
       listOfFilter: [],
-      filterFn: (list: string[], item: AssertionItem) => list.some(name => item.gene.name.indexOf(name) !== -1),
+      filterFn: (list: string[], item: AssertionItem) =>
+        list.some((name) => item.gene.name.indexOf(name) !== -1),
       filterMultiple: true,
     },
     {

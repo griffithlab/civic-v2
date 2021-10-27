@@ -13,6 +13,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { FdaVariantsGuard } from './fda-variants.guard';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { FdaVariantsGuard } from './fda-variants.guard';
     NzIconModule,
     NzGridModule,
     NzTableModule,
+    NzModalModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcDiseaseTagModule
