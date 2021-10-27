@@ -1,1 +1,46 @@
-<p>fda-variants works!</p>
+<nz-page-header class="site-page-header">
+
+  <!--title-->
+  <nz-page-header-title>
+    <i nz-icon
+      nzType="audit"></i> FDA Approved Variants
+  </nz-page-header-title>
+
+  <!--content-->
+  <nz-page-header-content>
+    <div nz-row>
+      <div nz-col
+        [nzSpan]="24">
+        <div class="content">
+          <nz-table #filterTable
+            [nzData]="assertionList"
+            [nzPageSize]="25"
+            nzTableLayout="fixed">
+            <thead>
+              <tr>
+                <th *ngFor="let column of listOfColumns"
+                  [nzWidth]="column.width"
+                  [nzSortOrder]="column.sortOrder"
+                  [nzSortFn]="column.sortFn"
+                  [nzSortDirections]="column.sortDirections"
+                  [nzFilterMultiple]="column.filterMultiple"
+                  [nzFilters]="column.listOfFilter"
+                  [nzFilterFn]="column.filterFn">
+                  {{ column.name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of filterTable.data">
+                <td>{{ data.fdaLevel }}</td>
+                <td><cvc-gene-tag [gene]="data.gene"></cvc-gene-tag></td>
+                <td><cvc-variant-tag [variant]="data.variant"></cvc-variant-tag></td>
+                <td><cvc-disease-tag [disease]="data.disease"></cvc-disease-tag></td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>
