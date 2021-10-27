@@ -41,7 +41,7 @@ export class UsersDetailComponent implements OnDestroy {
                     let notificationTab: RouteableTab = {
                         routeName: 'notifications',
                         tabLabel: 'Notifications',
-                        iconName: 'safety-certificate'
+                        iconName: 'bell'
 
                     }
                     this.tabs.push(notificationTab)
