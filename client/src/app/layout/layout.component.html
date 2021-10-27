@@ -85,6 +85,23 @@
         nzSelected nzMatchRouter>
         <i nz-icon nzType="audit"></i>
         <span>
+          <a routerLink="/fda-variants">FDA Variants</a>
+        </span>
+      </li>
+    </ul>
+
+    <ul nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      class="menu-group"
+      [nzInlineCollapsed]="isCollapsed">
+
+      <li nz-menu-item nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Clinical Trials' : ''"
+        nzSelected nzMatchRouter>
+        <i nz-icon nzType="audit"></i>
+        <span>
           <a routerLink="/clinical-trials">Clinical Trials</a>
         </span>
       </li>

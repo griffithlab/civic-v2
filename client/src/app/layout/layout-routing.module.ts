@@ -57,6 +57,13 @@ const routes: Routes = [
           breadcrumb: 'Evidence'
         }
       },
+      {
+        path: 'fda-variants',
+        loadChildren: () => import('@app/views/fda-variants/fda-variants.module').then(m => m.FdaVariantsModule),
+        data: {
+          breadcrumb: 'FDA Approved Variants'
+        }
+      },
       { path: 'flags',
         loadChildren: () => import('@app/views/flags/flags.module').then(m => m.FlagsModule),
         data: {
