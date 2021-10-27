@@ -1,16 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import {
   NzTableFilterFn,
   NzTableFilterList,
   NzTableSortFn,
   NzTableSortOrder,
 } from 'ng-zorro-antd/table';
-
-interface DataItem {
-  name: string;
-  age: number;
-  address: string;
-}
 
 interface AssertionItem {
   id: number;
@@ -51,6 +45,10 @@ interface ColumnItem {
   styleUrls: ['./fda-variants.view.less'],
 })
 export class FdaVariantsView {
+  @HostListener("window:beforeunload")
+  canDeactivate() {
+    return confirm('You have unsaved changes. Discard and leave?');
+  }
   constructor() {}
 
   assertionResponse: AssertionResponse = {
@@ -324,7 +322,7 @@ export class FdaVariantsView {
         a.gene.name.localeCompare(b.gene.name),
       sortDirections: ['descend', null],
       listOfFilter: [],
-      filterFn: null,
+      filterFn: (list: string[], item: AssertionItem) => list.some(name => item.gene.name.indexOf(name) !== -1),
       filterMultiple: true,
     },
     {

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { FdaVariantsGuard } from './fda-variants.guard';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
     CvcVariantTagModule,
     CvcDiseaseTagModule
   ],
+  providers: [FdaVariantsGuard],
   exports: [FdaVariantsView]
 })
 export class FdaVariantsModule { }
