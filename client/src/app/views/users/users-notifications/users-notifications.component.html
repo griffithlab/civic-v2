@@ -1,4 +1,11 @@
 <ng-container *ngIf="notifications$ | ngrxPush as notifications">
+  <nz-row>
+
+    <nz-button-group nzSize="small">
+      <button nz-button [nzType]="includeReadInput ? 'default'  : 'primary'" nzShape="round" (click)="setIncludeRead(false)">Unread</button>
+      <button nz-button [nzType]="includeReadInput ? 'primary'  : 'default'" nzShape="round" (click)="setIncludeRead(true)">All</button>
+    </nz-button-group>
+  </nz-row>
     <nz-card 
       id="card-content">
       <nz-row [nzGutter]="16">
@@ -6,10 +13,10 @@
           class="timeline">
           <nz-timeline *ngIf="notifications.length > 0">
             <ng-container *ngFor="let notification of notifications">
-              <nz-timeline-item [nzDot]="timelineDotTemplate">
+              <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="notification.seen ? 'gray' : 'blue'">
                 <ng-template #timelineDotTemplate>
                   <i nz-icon [nzType]="notification.event.action | iconNameForEventAction"
-                    nzTheme="twotone"
+                    [nzTheme]="notification.seen ? 'outline' : 'twotone'"
                     class="item-icon"></i>
                 </ng-template>
                 <nz-row>
@@ -17,37 +24,27 @@
                     <cvc-event-timeline-item [event]="notification.event"></cvc-event-timeline-item>
                   </nz-col>
                   <nz-col nzFlex="50px">
-                    <i nz-icon nzType="question-circle" nzTheme="twotone"
-                      nz-popover
-                      [nzPopoverMouseEnterDelay]="0.5"
-                      [nzPopoverContent]="subscriptionPopover"
-                      nzPopoverPlacement="right"
-                      nzPopoverTrigger="hover">
-                    </i>
-
-                    <ng-template #subscriptionPopover>
-                      <ng-container *ngIf="notification.subscription; else noSubscription">
-                        You received this notification because you are subscribed to 
-                        <ng-container [ngSwitch]="notification.subscription.subscribable.__typename">
-                            <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="notification.subscription.subscribable" [enablePopover]="false"></cvc-gene-tag>
-                            <cvc-assertion-tag *ngSwitchCase="'Assertion'" [assertion]="notification.subscription.subscribable" [enablePopover]="false"></cvc-assertion-tag>
-                            <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [evidence]="notification.subscription.subscribable" [enablePopover]="false"></cvc-evidence-tag>
-                            <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="notification.subscription.subscribable" [enablePopover]="false"></cvc-variant-tag>
-                            <span *ngSwitchCase="'Source'"></span>
-                            <span *ngSwitchDefault>{{ notification.subscription.subscribable.name }}</span>
-                        </ng-container>
-                        <button *ngIf="notification.subscription"
-                            type="unsubscribe"
-                            nz-button
-                            cvcOrgSelectorBtn
-                            nzType="primary"
-                            nzSize="small">
-                            Unsubscribe
-                        </button>
-                      </ng-container>
-                    <ng-template #noSubscription>
-                        You are no longer subscribed to the entity that triggered this notification.
+                    <ng-container *ngIf="notification.seen; else unread">
+                      <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle">
+                          <i nz-icon nzType="undo"></i>
+                      </button>
+                    </ng-container>
+                    <ng-template #unread>
+                      <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle">
+                          <i nz-icon nzType="check"></i>
+                      </button>
                     </ng-template>
+                  </nz-col>
+                  <nz-col nzFlex="50px">
+                    <ng-container *ngIf="notification.subscription; else noSubscriptionButton">
+                      <button nz-tooltip nzTooltipTitle= "You received this notification because you are subscribed to {{ notification.subscription.subscribable.name }}. Click to unsubscribe."nz-button nzType="default" nzShape="circle">
+                        <i nz-icon nzType="bell"></i>
+                      </button>
+                    </ng-container>
+                    <ng-template #noSubscriptionButton>
+                      <button nz-tooltip nzTooltipTitle="You are no longer subscribed to the entity that triggered this notification." nz-button nzType="default" nzShape="circle" disabled>
+                        <i nz-icon nzType="bell"></i> 
+                      </button>
                     </ng-template>
                   </nz-col>
                 </nz-row>

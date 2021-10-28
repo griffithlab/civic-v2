@@ -40,9 +40,9 @@ class Resolvers::Notifications < GraphQL::Schema::Resolver
 
   option(:include_read, type: Boolean, default: false) do |scope, value|
     if !value
-      scope
-    else
       scope.where(seen: false)
+    else
+      scope
     end
   end
 end

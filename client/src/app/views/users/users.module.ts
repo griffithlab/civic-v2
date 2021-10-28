@@ -117,7 +117,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
     CvcGeneTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
-    CvcVariantTagModule
+    CvcVariantTagModule,
   ],
   exports: [
     UsersComponent,

@@ -22,12 +22,15 @@ export class UsersNotificationsComponent {
   notifications$?: Observable<Maybe<NotificationNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
 
+  includeReadInput: boolean = false
+
   constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL) {
     this.userId = +this.route.snapshot.params['userId'];
   }
 
   ngOnInit() {
     this.initialQueryVars = {
+      includeRead: this.includeReadInput
     }
 
     this.queryRef = this.gql.watch(this.initialQueryVars, {});
@@ -48,6 +51,13 @@ export class UsersNotificationsComponent {
       variables: {
         after: endCursor,
       }
+    })
+  }
+
+  setIncludeRead(includeRead: boolean) {
+    this.includeReadInput = includeRead
+    this.queryRef.refetch({
+      includeRead: this.includeReadInput
     })
   }
 }

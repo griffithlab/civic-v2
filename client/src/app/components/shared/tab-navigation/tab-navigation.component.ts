@@ -1,8 +1,6 @@
 import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 import { Maybe, SubscribableInput } from '@app/generated/civic.apollo';
 import { Router } from '@angular/router';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
-import { Observable } from 'rxjs';
 
 export interface RouteableTab {
   routeName: string,
