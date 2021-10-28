@@ -1,1 +1,74 @@
-Notifications Go Here
+<ng-container *ngIf="notifications$ | ngrxPush as notifications">
+    <nz-card 
+      id="card-content">
+      <nz-row [nzGutter]="16">
+        <nz-col nzSpan="24"
+          class="timeline">
+          <nz-timeline *ngIf="notifications.length > 0">
+            <ng-container *ngFor="let notification of notifications">
+              <nz-timeline-item [nzDot]="timelineDotTemplate">
+                <ng-template #timelineDotTemplate>
+                  <i nz-icon [nzType]="notification.event.action | iconNameForEventAction"
+                    nzTheme="twotone"
+                    class="item-icon"></i>
+                </ng-template>
+                <nz-row>
+                  <nz-col nzFlex="auto">
+                    <cvc-event-timeline-item [event]="notification.event"></cvc-event-timeline-item>
+                  </nz-col>
+                  <nz-col nzFlex="50px">
+                    <i nz-icon nzType="question-circle" nzTheme="twotone"
+                      nz-popover
+                      [nzPopoverMouseEnterDelay]="0.5"
+                      [nzPopoverContent]="subscriptionPopover"
+                      nzPopoverPlacement="right"
+                      nzPopoverTrigger="hover">
+                    </i>
+
+                    <ng-template #subscriptionPopover>
+                      You received this notification because you
+                      <ng-container *ngIf="notification.subscription; else noSubscription">
+                        are
+                      </ng-container>
+                      <ng-template #noSubscription>
+                        were
+                      </ng-template>
+                      subscribed to 
+                      <ng-container [ngSwitch]="notification.event.subject.__typename">
+                        <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="notification.event.subject" [enablePopover]="false"></cvc-gene-tag>
+                        <cvc-assertion-tag *ngSwitchCase="'Assertion'" [assertion]="notification.event.subject" [enablePopover]="false"></cvc-assertion-tag>
+                        <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [evidence]="notification.event.subject" [enablePopover]="false"></cvc-evidence-tag>
+                        <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="notification.event.subject" [enablePopover]="false"></cvc-variant-tag>
+                        <span *ngSwitchCase="'Source'"></span>
+                        <span *ngSwitchDefault>{{ notification.event.subject.name }}</span>
+                      </ng-container>
+                      <button *ngIf="notification.subscription"
+                        type="unsubscribe"
+                        nz-button
+                        cvcOrgSelectorBtn
+                        nzType="primary"
+                        nzSize="small">
+                        Unsubscribe
+                      </button>
+                    </ng-template>
+                  </nz-col>
+                </nz-row>
+              </nz-timeline-item>
+            </ng-container>
+          </nz-timeline>
+          <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+            <div nz-list-load-more
+              *ngIf="pageInfo.hasNextPage">
+              <button nz-button
+                nzType="default"
+                nzSize="small"
+                nzBlock
+                (click)="fetchMore(pageInfo.endCursor)">Load More
+              </button>
+            </div>
+          </ng-container>
+        </nz-col>
+      </nz-row>
+    </nz-card>
+  </ng-container>
+  

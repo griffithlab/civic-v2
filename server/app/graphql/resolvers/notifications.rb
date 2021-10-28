@@ -9,7 +9,8 @@ class Resolvers::Notifications < GraphQL::Schema::Resolver
   description 'List and filter notifications for the logged in user.'
 
   scope do
-    Notification.where(notified_user: context[:current_user])
+    Notification.joins(:event).where(notified_user: context[:current_user]).order("events.created_at DESC")
+    #Notification.where(notified_user: context[:current_user])
   end
 
   option(:notification_reason, type: Types::NotificationReasonType) do |scope, value|

@@ -43,7 +43,7 @@ import { CvcEventTimelineItemModule } from '../event-timeline-item/event-timelin
     CvcVariantTagModule,
     CvcOrganizationTagModule,
     CvcSourceTagModule,
-    CvcEventTimelineItemModule
+    CvcEventTimelineItemModule,
   ],
   exports: [CvcEventTimelineComponent]
 })

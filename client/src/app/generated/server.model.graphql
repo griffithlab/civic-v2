@@ -1495,7 +1495,7 @@ type Event {
   organization: Organization
   originatingObject: EventOriginObject
   originatingUser: User!
-  subject: EventSubject!
+  subject: EventSubject
 }
 
 enum EventAction {
@@ -4900,6 +4900,7 @@ type SubscribePayload {
 
 type Subscription {
   id: Int!
+  subscribable: Subscribable!
 }
 
 """

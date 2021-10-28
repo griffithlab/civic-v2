@@ -1,0 +1,55 @@
+query UserNotifications(
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String,
+    $notificationReason: NotificationReason
+    $subscriptionId: Int
+    $originatingObject: SubscribableInput
+    $eventType: EventAction
+    $originatingUserId: Int
+    $organizationId: Int
+    $includeRead: Boolean   
+){
+  notifications(
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after
+    notificationReason: $notificationReason
+    subscriptionId: $subscriptionId
+    originatingObject: $originatingObject
+    eventType: $eventType
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    includeRead: $includeRead  
+  ){
+    pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+    }
+    edges {
+        node {
+            ...notificationNode
+        }
+    }
+  }
+}
+
+fragment notificationNode on Notification {
+    id
+    type
+    event {
+        ...eventFeedNode
+    }
+    seen
+    subscription {
+        id
+        subscribable {
+            id
+            entityType
+        }
+    }
+}

@@ -60,13 +60,13 @@ const routes: Routes = [
               breadcrumb: 'Source Suggestions'
             }
           },
-          // {
-          //   path: 'notifications',
-          //   component: UsersNotificationsComponent,
-          //   data: {
-          //     breadcrumb: 'Notifications'
-          //   }
-          // },
+          {
+            path: 'notifications',
+            component: UsersNotificationsComponent,
+            data: {
+              breadcrumb: 'Notifications'
+            }
+          },
         ]
       }
     ]

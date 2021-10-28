@@ -118,6 +118,7 @@ export const CvcTypePolicies: TypePolicies = {
       variantTypes: relayStylePagination(['soid', 'name', 'id']),
       drugs: relayStylePagination(['ncitId', 'name', 'id']),
       clinicalTrials: relayStylePagination(['nctId', 'name', 'id']),
+      notifications: relayStylePagination()
     },
   },
 };

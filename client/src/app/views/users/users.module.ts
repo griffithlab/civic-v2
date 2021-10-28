@@ -49,6 +49,13 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 import { UsersSourceSuggestionsComponent } from './users-source-suggestions/users-source-suggestions.component';
 import { UsersNotificationsComponent } from './users-notifications/users-notifications.component';
+import { CvcEventTimelineItemModule } from '@app/components/events/event-timeline-item/event-timeline-item-module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module';
+import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 
 
 @NgModule({
@@ -103,7 +110,14 @@ import { UsersNotificationsComponent } from './users-notifications/users-notific
     NzImageModule,
     NzStatisticModule,
     CvcTabNavigationModule,
-    CvcSourceSuggestionsTableModule
+    CvcSourceSuggestionsTableModule,
+    CvcEventTimelineItemModule,
+    CvcPipesModule,
+    NzTimelineModule,
+    CvcGeneTagModule,
+    CvcAssertionsTagModule,
+    CvcEvidenceTagModule,
+    CvcVariantTagModule
   ],
   exports: [
     UsersComponent,
