@@ -1,5 +1,7 @@
 module Types::Entities
   class NotificationType < Types::BaseObject
+    connection_type_class Types::Connections::NotificationsConnection
+
     field :id, Int, null: false
     field :notified_user, Types::Entities::UserType, null: false
     field :originating_user, Types::Entities::UserType, null: false

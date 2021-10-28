@@ -2884,9 +2884,34 @@ type NotificationConnection {
   edges: [NotificationEdge!]!
 
   """
+  List of event types that have occured on this entity.
+  """
+  eventTypes: [EventAction!]!
+
+  """
+  Users who have mentioned you.
+  """
+  mentioningUsers: [User!]!
+
+  """
   A list of nodes.
   """
   nodes: [Notification!]!
+
+  """
+  List of subjects of the notifications in the stream
+  """
+  notificationSubjects: [EventSubject!]!
+
+  """
+  List of all organizations who are involved in this notification stream.
+  """
+  organizations: [Organization!]!
+
+  """
+  Users who have performed an action (other than a mention) that created a notification.
+  """
+  originatingUsers: [User!]!
 
   """
   Total number of pages, based on filtered count and pagesize.
