@@ -14,6 +14,11 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { FdaVariantsGuard } from './fda-variants.guard';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 
 @NgModule({
@@ -23,14 +28,19 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     FormsModule,
     FdaVariantsRoutingModule,
     NzFormModule,
+    NzInputModule,
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
     NzTableModule,
     NzModalModule,
+    NzMenuModule,
+    NzDropDownModule,
+    NzTagModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
-    CvcDiseaseTagModule
+    CvcDiseaseTagModule,
+    CvcAssertionsTagModule,
   ],
   providers: [FdaVariantsGuard],
   exports: [FdaVariantsView]

@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   NzTableFilterFn,
@@ -9,6 +10,7 @@ import {
 
 interface AssertionItem {
   id: number;
+  name: string;
   fdaLevel: number;
   gene: {
     id: number;
@@ -29,6 +31,13 @@ interface AssertionResponse {
   [index: string]: AssertionItem;
 }
 
+interface SearchValues {
+  [index: string]: {
+    visible: boolean;
+    value: string | null;
+  };
+}
+
 interface ColumnItem {
   name: string;
   width: string;
@@ -47,9 +56,11 @@ interface ColumnItem {
 })
 export class FdaVariantsView {
   @HostListener('window:beforeunload')
+  // display notice when leaving this page
   canDeactivate() {
     const modalRef = this.modal.confirm({
-      nzTitle: 'You are now leaving the FDA-recognized section of the knowledgebase.',
+      nzTitle:
+        'You are now leaving the FDA-recognized section of the knowledgebase.',
       nzIconType: 'exclamation-circle',
       nzClosable: false,
       nzOnOk: () => true,
@@ -57,11 +68,34 @@ export class FdaVariantsView {
 
     return modalRef.afterClose;
   }
-  constructor(private modal: NzModalService) {}
+  searchValues: SearchValues;
+  pageSize: number;
+  constructor(private modal: NzModalService) {
+    this.pageSize = 0;
+    this.searchValues = {
+      aid: {
+        visible: false,
+        value: null,
+      },
+      gene: {
+        visible: false,
+        value: null,
+      },
+      variant: {
+        visible: false,
+        value: null,
+      },
+      disease: {
+        visible: false,
+        value: null,
+      },
+    };
+  }
 
   assertionResponse: AssertionResponse = {
     assertion1: {
       id: 2,
+      name: 'AID2',
       fdaLevel: 2,
       gene: {
         id: 20,
@@ -79,6 +113,7 @@ export class FdaVariantsView {
     },
     assertion5: {
       id: 5,
+      name: 'AID5',
       fdaLevel: 2,
       gene: {
         id: 19,
@@ -96,6 +131,7 @@ export class FdaVariantsView {
     },
     assertion6: {
       id: 6,
+      name: 'AID6',
       fdaLevel: 2,
       gene: {
         id: 19,
@@ -113,6 +149,7 @@ export class FdaVariantsView {
     },
     assertion7: {
       id: 7,
+      name: 'AID7',
       fdaLevel: 2,
       gene: {
         id: 5,
@@ -130,6 +167,7 @@ export class FdaVariantsView {
     },
     assertion8: {
       id: 8,
+      name: 'AID8',
       fdaLevel: 2,
       gene: {
         id: 3983,
@@ -147,6 +185,7 @@ export class FdaVariantsView {
     },
     assertion10: {
       id: 10,
+      name: 'AID10',
       fdaLevel: 2,
       gene: {
         id: 5,
@@ -164,6 +203,7 @@ export class FdaVariantsView {
     },
     assertion11: {
       id: 11,
+      name: 'AID11',
       fdaLevel: 2,
       gene: {
         id: 5,
@@ -181,6 +221,7 @@ export class FdaVariantsView {
     },
     assertion13: {
       id: 13,
+      name: 'AID13',
       fdaLevel: 2,
       gene: {
         id: 5,
@@ -198,6 +239,7 @@ export class FdaVariantsView {
     },
     assertion20: {
       id: 20,
+      name: 'AID20',
       fdaLevel: 2,
       gene: {
         id: 5,
@@ -215,6 +257,7 @@ export class FdaVariantsView {
     },
     assertion9: {
       id: 9,
+      name: 'AID9',
       fdaLevel: 3,
       gene: {
         id: 154,
@@ -232,6 +275,7 @@ export class FdaVariantsView {
     },
     assertion34: {
       id: 34,
+      name: 'AID34',
       fdaLevel: 3,
       gene: {
         id: 1,
@@ -249,6 +293,7 @@ export class FdaVariantsView {
     },
     assertion38: {
       id: 38,
+      name: 'AID38',
       fdaLevel: 3,
       gene: {
         id: 24,
@@ -266,6 +311,7 @@ export class FdaVariantsView {
     },
     assertion39: {
       id: 39,
+      name: 'AID38',
       fdaLevel: 3,
       gene: {
         id: 3985,
@@ -283,6 +329,7 @@ export class FdaVariantsView {
     },
     assertion43: {
       id: 43,
+      name: 'AID43',
       fdaLevel: 3,
       gene: {
         id: 4,
@@ -323,12 +370,23 @@ export class FdaVariantsView {
       },
     },
     {
+      name: 'Assertion',
+      width: '15%',
+      sortOrder: 'ascend',
+      sortFn: (a: AssertionItem, b: AssertionItem) => a.id - b.id,
+      sortDirections: ['descend', null],
+      listOfFilter: [],
+      filterFn: (list: string[], item: AssertionItem) =>
+        list.some((name) => item.name.indexOf(name) !== -1),
+      filterMultiple: true,
+    },
+    {
       name: 'Gene',
-      width: '25%',
-      sortOrder: 'descend',
+      width: '15%',
+      sortOrder: null,
       sortFn: (a: AssertionItem, b: AssertionItem) =>
         a.gene.name.localeCompare(b.gene.name),
-      sortDirections: ['descend', null],
+      sortDirections: ['descend', 'descend', null],
       listOfFilter: [],
       filterFn: (list: string[], item: AssertionItem) =>
         list.some((name) => item.gene.name.indexOf(name) !== -1),
@@ -336,11 +394,11 @@ export class FdaVariantsView {
     },
     {
       name: 'Variant',
-      width: '35%',
-      sortOrder: 'descend',
+      width: '30%',
+      sortDirections: ['descend', 'descend', null],
+      sortOrder: null,
       sortFn: (a: AssertionItem, b: AssertionItem) =>
         a.variant.name.localeCompare(b.variant.name),
-      sortDirections: ['descend', null],
       listOfFilter: [],
       filterFn: null,
       filterMultiple: true,
@@ -348,10 +406,10 @@ export class FdaVariantsView {
     {
       name: 'Disease',
       width: '45%',
-      sortOrder: 'descend',
+      sortDirections: ['descend', 'descend', null],
+      sortOrder: null,
       sortFn: (a: AssertionItem, b: AssertionItem) =>
         a.disease.name.localeCompare(b.disease.name),
-      sortDirections: ['descend', null],
       listOfFilter: [],
       filterFn: null,
       filterMultiple: true,

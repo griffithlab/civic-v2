@@ -3,8 +3,15 @@
   <!--title-->
   <nz-page-header-title>
     <i nz-icon
-      nzType="audit"></i> FDA Approved Variants
+      nzType="audit"></i> FDA Recognized Content
   </nz-page-header-title>
+
+  <nz-page-header-subtitle>
+    {{ assertionList.length }} Assertions
+    <ng-container *ngIf="assertionList.length !== pageSize" >
+      ({{ pageSize }} displayed)
+    </ng-container>
+  </nz-page-header-subtitle>
 
   <!--content-->
   <nz-page-header-content>
@@ -15,6 +22,7 @@
           <nz-table #filterTable
             [nzData]="assertionList"
             [nzPageSize]="25"
+            (nzCurrentPageDataChange)="pageSize = $event.length"
             nzTableLayout="fixed">
             <thead>
               <tr>
@@ -32,7 +40,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let data of filterTable.data">
-                <td>{{ data.fdaLevel }}</td>
+                <td><nz-tag [nzColor]="data.fdaLevel == 2 ? 'processing' : 'success'">{{ data.fdaLevel }}</nz-tag></td>
+                <td><cvc-assertion-tag [assertion]="data"></cvc-assertion-tag></td>
                 <td><cvc-gene-tag [gene]="data.gene"></cvc-gene-tag></td>
                 <td><cvc-variant-tag [variant]="data.variant"></cvc-variant-tag></td>
                 <td><cvc-disease-tag [disease]="data.disease"></cvc-disease-tag></td>
