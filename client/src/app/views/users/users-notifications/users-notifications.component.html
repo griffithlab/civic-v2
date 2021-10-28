@@ -26,30 +26,28 @@
                     </i>
 
                     <ng-template #subscriptionPopover>
-                      You received this notification because you
                       <ng-container *ngIf="notification.subscription; else noSubscription">
-                        are
+                        You received this notification because you are subscribed to 
+                        <ng-container [ngSwitch]="notification.subscription.subscribable.__typename">
+                            <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="notification.subscription.subscribable" [enablePopover]="false"></cvc-gene-tag>
+                            <cvc-assertion-tag *ngSwitchCase="'Assertion'" [assertion]="notification.subscription.subscribable" [enablePopover]="false"></cvc-assertion-tag>
+                            <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [evidence]="notification.subscription.subscribable" [enablePopover]="false"></cvc-evidence-tag>
+                            <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="notification.subscription.subscribable" [enablePopover]="false"></cvc-variant-tag>
+                            <span *ngSwitchCase="'Source'"></span>
+                            <span *ngSwitchDefault>{{ notification.subscription.subscribable.name }}</span>
+                        </ng-container>
+                        <button *ngIf="notification.subscription"
+                            type="unsubscribe"
+                            nz-button
+                            cvcOrgSelectorBtn
+                            nzType="primary"
+                            nzSize="small">
+                            Unsubscribe
+                        </button>
                       </ng-container>
-                      <ng-template #noSubscription>
-                        were
-                      </ng-template>
-                      subscribed to 
-                      <ng-container [ngSwitch]="notification.event.subject.__typename">
-                        <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="notification.event.subject" [enablePopover]="false"></cvc-gene-tag>
-                        <cvc-assertion-tag *ngSwitchCase="'Assertion'" [assertion]="notification.event.subject" [enablePopover]="false"></cvc-assertion-tag>
-                        <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [evidence]="notification.event.subject" [enablePopover]="false"></cvc-evidence-tag>
-                        <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="notification.event.subject" [enablePopover]="false"></cvc-variant-tag>
-                        <span *ngSwitchCase="'Source'"></span>
-                        <span *ngSwitchDefault>{{ notification.event.subject.name }}</span>
-                      </ng-container>
-                      <button *ngIf="notification.subscription"
-                        type="unsubscribe"
-                        nz-button
-                        cvcOrgSelectorBtn
-                        nzType="primary"
-                        nzSize="small">
-                        Unsubscribe
-                      </button>
+                    <ng-template #noSubscription>
+                        You are no longer subscribed to the entity that triggered this notification.
+                    </ng-template>
                     </ng-template>
                   </nz-col>
                 </nz-row>

@@ -22656,8 +22656,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Subscribable",
+                  "kind": "INTERFACE",
+                  "name": "EventSubject",
                   "ofType": null
                 }
               },

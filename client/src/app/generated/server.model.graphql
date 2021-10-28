@@ -4900,7 +4900,7 @@ type SubscribePayload {
 
 type Subscription {
   id: Int!
-  subscribable: Subscribable!
+  subscribable: EventSubject!
 }
 
 """
