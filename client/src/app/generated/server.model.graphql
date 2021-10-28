@@ -1630,6 +1630,14 @@ interface EventSubject {
   name: String!
 }
 
+"""
+An event subject paired with a count of how many times that subject has appeared
+"""
+type EventSubjectWithCount {
+  occuranceCount: Int!
+  subject: EventSubject!
+}
+
 enum EvidenceClinicalSignificance {
   ADVERSE_RESPONSE
   BENIGN
@@ -2901,7 +2909,7 @@ type NotificationConnection {
   """
   List of subjects of the notifications in the stream
   """
-  notificationSubjects: [EventSubject!]!
+  notificationSubjects: [EventSubjectWithCount!]!
 
   """
   List of all organizations who are involved in this notification stream.

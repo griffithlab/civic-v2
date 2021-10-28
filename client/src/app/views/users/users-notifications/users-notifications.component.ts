@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from "@apollo/client/core";
-import { Maybe, NotificationNodeFragment, PageInfo, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
+import { Maybe, NotificationNodeFragment, NotificationReason, PageInfo, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+interface SelectableNotificationReason {
+  id: number,
+  type: NotificationReason,
+  iconName: string,
+  displayName: string
+}
 
 @Component({
   selector: 'cvc-users-notifications',
@@ -23,6 +30,12 @@ export class UsersNotificationsComponent {
   pageInfo$?: Observable<PageInfo>;
 
   includeReadInput: boolean = false
+
+
+  notificationTypes: SelectableNotificationReason[] = [
+    {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
+    {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
+  ]
 
   constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL) {
     this.userId = +this.route.snapshot.params['userId'];
@@ -58,6 +71,12 @@ export class UsersNotificationsComponent {
     this.includeReadInput = includeRead
     this.queryRef.refetch({
       includeRead: this.includeReadInput
+    })
+  }
+
+  onNotificationReasonSelected(r: Maybe<SelectableNotificationReason>) {
+    this.queryRef.refetch({
+      notificationReason: r?.type
     })
   }
 }

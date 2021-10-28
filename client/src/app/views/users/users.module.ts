@@ -56,6 +56,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 
 
 @NgModule({
@@ -118,6 +119,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,
+    CvcParticipantListModule
   ],
   exports: [
     UsersComponent,

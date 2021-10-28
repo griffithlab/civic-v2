@@ -8320,6 +8320,55 @@
           ]
         },
         {
+          "kind": "OBJECT",
+          "name": "EventSubjectWithCount",
+          "description": "An event subject paired with a count of how many times that subject has appeared",
+          "fields": [
+            {
+              "name": "occuranceCount",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "subject",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INTERFACE",
+                  "name": "EventSubject",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "ENUM",
           "name": "EvidenceClinicalSignificance",
           "description": null,
@@ -14546,8 +14595,8 @@
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
-                      "kind": "INTERFACE",
-                      "name": "EventSubject",
+                      "kind": "OBJECT",
+                      "name": "EventSubjectWithCount",
                       "ofType": null
                     }
                   }

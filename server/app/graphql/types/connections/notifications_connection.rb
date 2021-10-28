@@ -14,7 +14,7 @@ module Types::Connections
     field :organizations, [Types::Entities::OrganizationType], null: false,
       description: 'List of all organizations who are involved in this notification stream.'
 
-    field :notification_subjects, [Types::Interfaces::EventSubject], null: false,
+    field :notification_subjects, [Types::Events::EventSubjectWithCount], null: false,
       description: 'List of subjects of the notifications in the stream'
 
 
@@ -47,7 +47,11 @@ module Types::Connections
     end
 
     def notification_subjects
-      Event.where(id: event_ids).includes(:subject).map(&:subject).uniq
+      Event.where(id: event_ids).includes(:subject)
+        .map(&:subject)
+        .tally
+        .map {|subject, count|  { subject: subject, occurance_count: count } }
+        .sort_by {|s| -s[:occurance_count] }
     end
 
     private
@@ -56,7 +60,9 @@ module Types::Connections
     end
 
     def event_ids
-      Notification.where(notified_user_id: notified_user).distinct.pluck(:event_id)
+      Notification.where(
+        id: object.items.reorder(nil).distinct.pluck(:id)
+      ).distinct.pluck(:event_id)
     end
   end
 end

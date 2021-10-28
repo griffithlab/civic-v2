@@ -1,69 +1,88 @@
 <ng-container *ngIf="notifications$ | ngrxPush as notifications">
-  <nz-row>
+  <nz-row [nzGutter]="25">
+    <nz-col nzSpan="4" >
+      <nz-row>
+        <nz-button-group nzSize="small">
+          <button nz-button [nzType]="includeReadInput ? 'default'  : 'primary'" nzShape="round"
+            (click)="setIncludeRead(false)">Unread</button>
+          <button nz-button [nzType]="includeReadInput ? 'primary'  : 'default'" nzShape="round"
+            (click)="setIncludeRead(true)">All</button>
+        </nz-button-group>
+      </nz-row>
+      <nz-row>
+        <nz-col nzSpan="24">
+          <cvc-participant-list listTitle="Notification Reason" [participantList]="notificationTypes"
+            (participantSelectedEvent)="onNotificationReasonSelected($event)">
+            <ng-template #itemTemplate let-reason>
+              <nz-col>
+                <i nz-icon [nzType]="reason.iconName"></i>
+                {{reason.displayName}}
+              </nz-col>
+            </ng-template>
+          </cvc-participant-list>
 
-    <nz-button-group nzSize="small">
-      <button nz-button [nzType]="includeReadInput ? 'default'  : 'primary'" nzShape="round" (click)="setIncludeRead(false)">Unread</button>
-      <button nz-button [nzType]="includeReadInput ? 'primary'  : 'default'" nzShape="round" (click)="setIncludeRead(true)">All</button>
-    </nz-button-group>
-  </nz-row>
-    <nz-card 
-      id="card-content">
-      <nz-row [nzGutter]="16">
-        <nz-col nzSpan="24"
-          class="timeline">
-          <nz-timeline *ngIf="notifications.length > 0">
-            <ng-container *ngFor="let notification of notifications">
-              <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="notification.seen ? 'gray' : 'blue'">
-                <ng-template #timelineDotTemplate>
-                  <i nz-icon [nzType]="notification.event.action | iconNameForEventAction"
-                    [nzTheme]="notification.seen ? 'outline' : 'twotone'"
-                    class="item-icon"></i>
-                </ng-template>
-                <nz-row>
-                  <nz-col nzFlex="auto">
-                    <cvc-event-timeline-item [event]="notification.event"></cvc-event-timeline-item>
-                  </nz-col>
-                  <nz-col nzFlex="50px">
-                    <ng-container *ngIf="notification.seen; else unread">
-                      <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle">
-                          <i nz-icon nzType="undo"></i>
-                      </button>
-                    </ng-container>
-                    <ng-template #unread>
-                      <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle">
-                          <i nz-icon nzType="check"></i>
-                      </button>
-                    </ng-template>
-                  </nz-col>
-                  <nz-col nzFlex="50px">
-                    <ng-container *ngIf="notification.subscription; else noSubscriptionButton">
-                      <button nz-tooltip nzTooltipTitle= "You received this notification because you are subscribed to {{ notification.subscription.subscribable.name }}. Click to unsubscribe."nz-button nzType="default" nzShape="circle">
-                        <i nz-icon nzType="bell"></i>
-                      </button>
-                    </ng-container>
-                    <ng-template #noSubscriptionButton>
-                      <button nz-tooltip nzTooltipTitle="You are no longer subscribed to the entity that triggered this notification." nz-button nzType="default" nzShape="circle" disabled>
-                        <i nz-icon nzType="bell"></i> 
-                      </button>
-                    </ng-template>
-                  </nz-col>
-                </nz-row>
-              </nz-timeline-item>
-            </ng-container>
-          </nz-timeline>
-          <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-            <div nz-list-load-more
-              *ngIf="pageInfo.hasNextPage">
-              <button nz-button
-                nzType="default"
-                nzSize="small"
-                nzBlock
-                (click)="fetchMore(pageInfo.endCursor)">Load More
-              </button>
-            </div>
-          </ng-container>
         </nz-col>
       </nz-row>
-    </nz-card>
-  </ng-container>
-  
+    </nz-col>
+    <nz-col nzSpan="20">
+      <nz-card id="card-content">
+        <nz-row [nzGutter]="16">
+          <nz-col nzSpan="24" class="timeline">
+            <nz-timeline *ngIf="notifications.length > 0">
+              <ng-container *ngFor="let notification of notifications">
+                <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="notification.seen ? 'gray' : 'blue'">
+                  <ng-template #timelineDotTemplate>
+                    <i nz-icon [nzType]="notification.event.action | iconNameForEventAction"
+                      [nzTheme]="notification.seen ? 'outline' : 'twotone'" class="item-icon"></i>
+                  </ng-template>
+                  <nz-row>
+                    <nz-col nzFlex="auto">
+                      <cvc-event-timeline-item [event]="notification.event"></cvc-event-timeline-item>
+                    </nz-col>
+                    <nz-col nzFlex="50px">
+                      <ng-container *ngIf="notification.seen; else unread">
+                        <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle">
+                          <i nz-icon nzType="undo"></i>
+                        </button>
+                      </ng-container>
+                      <ng-template #unread>
+                        <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle">
+                          <i nz-icon nzType="check"></i>
+                        </button>
+                      </ng-template>
+                    </nz-col>
+                    <nz-col nzFlex="50px">
+                      <ng-container *ngIf="notification.subscription; else noSubscriptionButton">
+                        <button nz-tooltip
+                          nzTooltipTitle="You received this notification because you are subscribed to {{ notification.subscription.subscribable.name }}. Click to unsubscribe."
+                          nz-button nzType="default" nzShape="circle">
+                          <i nz-icon nzType="bell"></i>
+                        </button>
+                      </ng-container>
+                      <ng-template #noSubscriptionButton>
+                        <button nz-tooltip
+                          nzTooltipTitle="You are no longer subscribed to the entity that triggered this notification."
+                          nz-button nzType="default" nzShape="circle" disabled>
+                          <i nz-icon nzType="bell"></i>
+                        </button>
+                      </ng-template>
+                    </nz-col>
+                  </nz-row>
+                </nz-timeline-item>
+              </ng-container>
+            </nz-timeline>
+            <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+              <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
+                <button nz-button nzType="default" nzSize="small" nzBlock (click)="fetchMore(pageInfo.endCursor)">Load
+                  More
+                </button>
+              </div>
+            </ng-container>
+          </nz-col>
+        </nz-row>
+      </nz-card>
+
+    </nz-col>
+
+  </nz-row>
+</ng-container>
