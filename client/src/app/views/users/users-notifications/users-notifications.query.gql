@@ -30,12 +30,24 @@ query UserNotifications(
         hasNextPage
         hasPreviousPage
     }
+    notificationSubjects {
+        ...notificationFeedSubjects
+    }
     edges {
         node {
             ...notificationNode
         }
     }
   }
+}
+
+fragment notificationFeedSubjects on EventSubjectWithCount {
+        subject {
+            id
+            __typename
+            name
+        }
+        occuranceCount
 }
 
 fragment notificationNode on Notification {

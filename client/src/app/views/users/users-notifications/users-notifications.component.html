@@ -20,7 +20,14 @@
               </nz-col>
             </ng-template>
           </cvc-participant-list>
-
+          <cvc-participant-list listTitle="Subject" [participantList]="notificationSubjects$ | ngrxPush"
+            (participantSelectedEvent)="onNotificationSubjectSelected($event)">
+            <ng-template #itemTemplate let-subject>
+              <nz-col>
+                {{subject.subjectWithCount.subject.__typename}}: {{subject.subjectWithCount.subject.name}} ({{subject.subjectWithCount.occuranceCount}})
+              </nz-col>
+            </ng-template>
+          </cvc-participant-list>
         </nz-col>
       </nz-row>
     </nz-col>

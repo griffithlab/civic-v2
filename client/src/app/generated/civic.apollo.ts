@@ -1047,6 +1047,13 @@ export type EventSubjectEventsArgs = {
   sortBy?: Maybe<DateSort>;
 };
 
+/** An event subject paired with a count of how many times that subject has appeared */
+export type EventSubjectWithCount = {
+  __typename: 'EventSubjectWithCount';
+  occuranceCount: Scalars['Int'];
+  subject: EventSubject;
+};
+
 export enum EvidenceClinicalSignificance {
   AdverseResponse = 'ADVERSE_RESPONSE',
   Benign = 'BENIGN',
@@ -1815,7 +1822,7 @@ export type NotificationConnection = {
   /** A list of nodes. */
   nodes: Array<Notification>;
   /** List of subjects of the notifications in the stream */
-  notificationSubjects: Array<EventSubject>;
+  notificationSubjects: Array<EventSubjectWithCount>;
   /** List of all organizations who are involved in this notification stream. */
   organizations: Array<Organization>;
   /** Users who have performed an action (other than a mention) that created a notification. */
@@ -5910,13 +5917,46 @@ export type UserNotificationsQuery = (
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
-    ), edges: Array<(
+    ), notificationSubjects: Array<(
+      { __typename: 'EventSubjectWithCount' }
+      & NotificationFeedSubjectsFragment
+    )>, edges: Array<(
       { __typename: 'NotificationEdge' }
       & { node?: Maybe<(
         { __typename: 'Notification' }
         & NotificationNodeFragment
       )> }
     )> }
+  ) }
+);
+
+export type NotificationFeedSubjectsFragment = (
+  { __typename: 'EventSubjectWithCount' }
+  & Pick<EventSubjectWithCount, 'occuranceCount'>
+  & { subject: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'name'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'name'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'id' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'name'>
   ) }
 );
 
@@ -7299,6 +7339,16 @@ export const UserDetailFieldsFragmentDoc = gql`
     createdAt
     expiresAt
   }
+}
+    `;
+export const NotificationFeedSubjectsFragmentDoc = gql`
+    fragment notificationFeedSubjects on EventSubjectWithCount {
+  subject {
+    id
+    __typename
+    name
+  }
+  occuranceCount
 }
     `;
 export const NotificationNodeFragmentDoc = gql`
@@ -9486,6 +9536,9 @@ export const UserNotificationsDocument = gql`
       hasNextPage
       hasPreviousPage
     }
+    notificationSubjects {
+      ...notificationFeedSubjects
+    }
     edges {
       node {
         ...notificationNode
@@ -9493,7 +9546,8 @@ export const UserNotificationsDocument = gql`
     }
   }
 }
-    ${NotificationNodeFragmentDoc}`;
+    ${NotificationFeedSubjectsFragmentDoc}
+${NotificationNodeFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

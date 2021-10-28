@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from "@apollo/client/core";
-import { Maybe, NotificationNodeFragment, NotificationReason, PageInfo, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
+import { Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,6 +11,11 @@ interface SelectableNotificationReason {
   type: NotificationReason,
   iconName: string,
   displayName: string
+}
+
+interface SelectableNotificationSubject {
+  subjectWithCount: NotificationFeedSubjectsFragment,
+  id: number
 }
 
 @Component({
@@ -31,11 +36,13 @@ export class UsersNotificationsComponent {
 
   includeReadInput: boolean = false
 
+  notificationSubjects$?: Observable<SelectableNotificationSubject[]>
 
   notificationTypes: SelectableNotificationReason[] = [
     {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
     {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
   ]
+
 
   constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL) {
     this.userId = +this.route.snapshot.params['userId'];
@@ -58,6 +65,16 @@ export class UsersNotificationsComponent {
         return data.notifications.edges.map(e => e.node)
       })
     )
+
+    let subjectId = 1
+
+    this.notificationSubjects$ = this.results$.pipe(
+      map(({data}) => {
+        return data.notifications.notificationSubjects.map((ns) => {
+          return { id: subjectId++, subjectWithCount: ns} 
+        })
+      })
+    )
   }
   fetchMore(endCursor: string) {
     this.queryRef.fetchMore({
@@ -77,6 +94,23 @@ export class UsersNotificationsComponent {
   onNotificationReasonSelected(r: Maybe<SelectableNotificationReason>) {
     this.queryRef.refetch({
       notificationReason: r?.type
+    })
+  }
+  
+  onNotificationSubjectSelected(s: Maybe<SelectableNotificationSubject>) {
+    let orgObj: Maybe<SubscribableInput> = undefined
+
+    if (s !== undefined) {
+      let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subjectWithCount.subject.__typename
+      console.log(entityType)
+      orgObj = { 
+        id: s.subjectWithCount.subject.id,
+        entityType: SubscribableEntities[entityType]
+      }
+    }
+
+    this.queryRef.refetch({
+      originatingObject: orgObj
     })
   }
 }
