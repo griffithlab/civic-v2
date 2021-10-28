@@ -7,6 +7,7 @@ import { IfEmptyPipe } from './if-empty-pipe';
 import { SourceTypeDisplayPipe } from './source-type-display.pipe';
 import { ReferenceBuildDisplayPipe } from './reference-build-display.pipe';
 import { PrepositionForSubjectPipe } from './preposition-for-subject-pipe';
+import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PrepositionForSubjectPipe } from './preposition-for-subject-pipe';
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
-    PrepositionForSubjectPipe
+    PrepositionForSubjectPipe,
+    IconNameForEventActionPipe
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { PrepositionForSubjectPipe } from './preposition-for-subject-pipe';
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
-    PrepositionForSubjectPipe
+    PrepositionForSubjectPipe,
+    IconNameForEventActionPipe
   ]
 })
 export class CvcPipesModule { }

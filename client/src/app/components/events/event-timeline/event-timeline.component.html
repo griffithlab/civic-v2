@@ -3,7 +3,7 @@
     <nz-timeline-item [nzDot]="timelineDotTemplate">
       <ng-template #timelineDotTemplate>
           <i nz-icon
-            [nzType]="iconNameForEventAction(event.action)"
+            [nzType]="event.action | iconNameForEventAction"
             nzTheme="twotone"
             class="item-icon"></i>
       </ng-template>
