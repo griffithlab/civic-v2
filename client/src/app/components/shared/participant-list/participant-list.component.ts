@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef} from
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface WithId {
-  id: number
+  id: unknown
 }
 
 @Component({

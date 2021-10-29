@@ -15,7 +15,7 @@ interface SelectableNotificationReason {
 
 interface SelectableNotificationSubject {
   subjectWithCount: NotificationFeedSubjectsFragment,
-  id: number
+  id: string
 }
 
 @Component({
@@ -66,12 +66,10 @@ export class UsersNotificationsComponent {
       })
     )
 
-    let subjectId = 1
-
     this.notificationSubjects$ = this.results$.pipe(
       map(({data}) => {
         return data.notifications.notificationSubjects.map((ns) => {
-          return { id: subjectId++, subjectWithCount: ns} 
+          return { id: `${ns.subject.__typename}:${ns.subject.id}`, subjectWithCount: ns} 
         })
       })
     )
