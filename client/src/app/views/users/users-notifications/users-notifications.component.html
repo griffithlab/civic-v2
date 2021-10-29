@@ -24,7 +24,9 @@
             (participantSelectedEvent)="onNotificationSubjectSelected($event)">
             <ng-template #itemTemplate let-subject>
               <nz-col>
-                {{subject.subjectWithCount.subject.__typename}}: {{subject.subjectWithCount.subject.name}} ({{subject.subjectWithCount.occuranceCount}})
+                <i nz-icon [nzType]="subject.subjectWithCount.subject.__typename | iconNameForSubscribableEntity"></i>
+                
+                {{subject.subjectWithCount.subject.name}} ({{subject.subjectWithCount.occuranceCount}})
               </nz-col>
             </ng-template>
           </cvc-participant-list>

@@ -146,22 +146,4 @@ export class CvcEventFeedComponent implements OnInit {
       subject: newSubscribable
     })
   }
-
-  iconNameForSubscribableEntity(e: SubscribableEntities): string {
-    switch (e) {
-      case (SubscribableEntities.Assertion):
-        return 'civic:assertion'
-      case (SubscribableEntities.EvidenceItem):
-        return 'civic:evidence'
-      case (SubscribableEntities.Gene):
-        return 'civic:gene'
-      case (SubscribableEntities.Revision):
-        return 'civic:revision'
-      case (SubscribableEntities.Variant):
-        return 'civic:variant'
-      default:
-        throw new Error('No icon name found for ' + e);
-    }
-  }
-
 }

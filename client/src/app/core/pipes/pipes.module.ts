@@ -8,6 +8,7 @@ import { SourceTypeDisplayPipe } from './source-type-display.pipe';
 import { ReferenceBuildDisplayPipe } from './reference-build-display.pipe';
 import { PrepositionForSubjectPipe } from './preposition-for-subject-pipe';
 import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
+import { IconNameForSubscribableEntity } from './icon-name-for-subscribable-entity';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
     PrepositionForSubjectPipe,
-    IconNameForEventActionPipe
+    IconNameForEventActionPipe,
+    IconNameForSubscribableEntity
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
     PrepositionForSubjectPipe,
-    IconNameForEventActionPipe
+    IconNameForEventActionPipe,
+    IconNameForSubscribableEntity
   ]
 })
 export class CvcPipesModule { }
