@@ -36,6 +36,9 @@ query UserNotifications(
     originatingUsers {
         ...notificationOriginatingUsers
     }
+    organizations {
+        ...notificationOrganization
+    }
     eventTypes
     edges {
         node {
@@ -43,6 +46,11 @@ query UserNotifications(
         }
     }
   }
+}
+
+fragment notificationOrganization on Organization {
+    id
+    name
 }
 
 fragment notificationOriginatingUsers on User {

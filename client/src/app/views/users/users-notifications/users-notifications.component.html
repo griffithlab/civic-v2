@@ -44,6 +44,14 @@
               </nz-col>
             </ng-template>
           </cvc-participant-list>
+          <cvc-participant-list listTitle="Organization" [participantList]="organizations$ | ngrxPush"
+            (participantSelectedEvent)="onOrganizationSelected($event)">
+            <ng-template #itemTemplate let-organization>
+              <nz-col>
+                {{ organization.name }}
+              </nz-col>
+            </ng-template>
+          </cvc-participant-list>
         </nz-col>
       </nz-row>
     </nz-col>

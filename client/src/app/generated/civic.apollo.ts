@@ -5924,6 +5924,9 @@ export type UserNotificationsQuery = (
     )>, originatingUsers: Array<(
       { __typename: 'User' }
       & NotificationOriginatingUsersFragment
+    )>, organizations: Array<(
+      { __typename: 'Organization' }
+      & NotificationOrganizationFragment
     )>, edges: Array<(
       { __typename: 'NotificationEdge' }
       & { node?: Maybe<(
@@ -5932,6 +5935,11 @@ export type UserNotificationsQuery = (
       )> }
     )> }
   ) }
+);
+
+export type NotificationOrganizationFragment = (
+  { __typename: 'Organization' }
+  & Pick<Organization, 'id' | 'name'>
 );
 
 export type NotificationOriginatingUsersFragment = (
@@ -7348,6 +7356,12 @@ export const UserDetailFieldsFragmentDoc = gql`
     createdAt
     expiresAt
   }
+}
+    `;
+export const NotificationOrganizationFragmentDoc = gql`
+    fragment notificationOrganization on Organization {
+  id
+  name
 }
     `;
 export const NotificationOriginatingUsersFragmentDoc = gql`
@@ -9557,6 +9571,9 @@ export const UserNotificationsDocument = gql`
     originatingUsers {
       ...notificationOriginatingUsers
     }
+    organizations {
+      ...notificationOrganization
+    }
     eventTypes
     edges {
       node {
@@ -9567,6 +9584,7 @@ export const UserNotificationsDocument = gql`
 }
     ${NotificationFeedSubjectsFragmentDoc}
 ${NotificationOriginatingUsersFragmentDoc}
+${NotificationOrganizationFragmentDoc}
 ${NotificationNodeFragmentDoc}`;
 
   @Injectable({

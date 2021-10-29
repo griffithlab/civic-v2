@@ -44,8 +44,8 @@ module Types::Connections
 
     def organizations
         Organization.where(
-          id: Event.where(id: event_ids).distinct.pluck(:organization_id)
-        ).distinct
+          id: Event.where(id: unscoped_event_ids).distinct.pluck(:organization_id)
+        ).distinct.sort_by{|s| s.name}
     end
 
     def notification_subjects
