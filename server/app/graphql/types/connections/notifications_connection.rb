@@ -22,22 +22,24 @@ module Types::Connections
        User.where(
          id: Notification.where(
            notified_user: notified_user,
-           type: 'mention'
+           type: 'mention',
+           seen: false
          ).distinct.pluck(:originating_user_id),
-       )
+       ).sort_by{|u| u.display_name}
     end
 
     def originating_users
        User.where(
          id: Notification.where(
            notified_user: notified_user,
-           type: 'subscribed_event'
+           type: 'subscribed_event',
+           seen: false
          ).distinct.pluck(:originating_user_id),
-       )
+       ).sort_by{|u| u.display_name}
     end
 
     def event_types
-       Event.where( id: event_ids).distinct.pluck(:action)
+      Event.where( id: unscoped_event_ids).distinct.pluck(:action).sort
     end
 
     def organizations

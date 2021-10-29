@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EventAction, Maybe } from '@app/generated/civic.apollo';
 
-export type EventVerbiageContext = 'feed' | 'contributor-card'
+export type EventVerbiageContext = 'feed' | 'contributor-card' | 'action-filter'
 
 @Pipe({
   name: 'eventVerbiage',
@@ -11,8 +11,10 @@ export class EventVerbiagePipe implements PipeTransform {
   transform(value: EventAction, context: EventVerbiageContext = 'contributor-card', count: number = 0) : string {
     if (context === 'contributor-card') {
       return this.contributorVerbiage(value, count);
+    } else if (context === 'action-filter') {
+      return this.actionFilterVerbiage(value);
     } else {
-      return this.eventFeedVerbiage(value)
+      return this.eventFeedVerbiage(value);
     }
   }
 
@@ -55,7 +57,47 @@ export class EventVerbiagePipe implements PipeTransform {
       default:
         throw new Error('Not handling all event action types yet')
     }
+  }
 
+  actionFilterVerbiage(a: EventAction): string {
+    switch (a) {
+      case (EventAction.Commented):
+        return 'commented'
+      case (EventAction.RevisionSuggested):
+        return 'revision suggested'
+      case (EventAction.RevisionAccepted):
+        return 'revision accepted'
+      case (EventAction.RevisionRejected):
+        return 'revision rejected'
+      case (EventAction.RevisionSuperseded):
+        return 'superseding revision accepted'
+      case (EventAction.Flagged):
+        return 'flag opened'
+      case (EventAction.FlagResolved):
+        return 'flag resolved'
+      case (EventAction.AssertionSubmitted):
+        return 'assertion submitted'
+      case (EventAction.AssertionAccepted):
+        return 'assertion accepted'
+      case (EventAction.AssertionRejected):
+        return 'assertion rejected'
+      case (EventAction.Submitted):
+        return 'evidence item submitted'
+      case (EventAction.Accepted):
+        return 'evidence item accepted'
+      case (EventAction.Rejected):
+        return 'evidence item rejected'
+      case (EventAction.PublicationSuggested):
+        return 'source suggestion created'
+      case (EventAction.CuratedSourceSuggestion):
+        return 'source suggestion curated'
+      case (EventAction.RejectedSourceSuggestion):
+        return 'source suggestion rejected'
+      case (EventAction.RequeuedSourceSuggestion):
+        return 'source suggestion requeued'
+      default:
+        throw new Error('Not handling all event action types yet')
+    }
   }
 
   private contributorVerbiage(a: EventAction, count: Maybe<number>): string {

@@ -20,6 +20,12 @@
               </nz-col>
             </ng-template>
           </cvc-participant-list>
+          <cvc-participant-list listTitle="Action" [participantList]="actions$ | ngrxPush"
+            (participantSelectedEvent)="onActionSelected($event.id)">
+            <ng-template #itemTemplate let-action>
+                {{ action.id | eventVerbiage: 'action-filter' }}
+            </ng-template>
+          </cvc-participant-list>
           <cvc-participant-list listTitle="Subject" [participantList]="notificationSubjects$ | ngrxPush"
             (participantSelectedEvent)="onNotificationSubjectSelected($event)">
             <ng-template #itemTemplate let-subject>
@@ -27,6 +33,14 @@
                 <i nz-icon [nzType]="subject.subjectWithCount.subject.__typename | iconNameForSubscribableEntity"></i>
                 
                 {{subject.subjectWithCount.subject.name}} ({{subject.subjectWithCount.occuranceCount}})
+              </nz-col>
+            </ng-template>
+          </cvc-participant-list>
+          <cvc-participant-list listTitle="User" [participantList]="originatingUsers$ | ngrxPush"
+            (participantSelectedEvent)="onOriginatingUserSelected($event)">
+            <ng-template #itemTemplate let-user>
+              <nz-col>
+                  {{ user.displayName }}
               </nz-col>
             </ng-template>
           </cvc-participant-list>
@@ -41,7 +55,7 @@
               <ng-container *ngFor="let notification of notifications">
                 <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="notification.seen ? 'gray' : 'blue'">
                   <ng-template #timelineDotTemplate>
-                    <i nz-icon [nzType]="notification.event.action | iconNameForEventAction"
+                    <i nz-icon [nzType]="notification.type === 'SUBSCRIPTION' ? 'book' : 'notification'"
                       [nzTheme]="notification.seen ? 'outline' : 'twotone'" class="item-icon"></i>
                   </ng-template>
                   <nz-row>

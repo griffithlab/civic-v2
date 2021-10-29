@@ -33,12 +33,21 @@ query UserNotifications(
     notificationSubjects {
         ...notificationFeedSubjects
     }
+    originatingUsers {
+        ...notificationOriginatingUsers
+    }
+    eventTypes
     edges {
         node {
             ...notificationNode
         }
     }
   }
+}
+
+fragment notificationOriginatingUsers on User {
+    id
+    displayName
 }
 
 fragment notificationFeedSubjects on EventSubjectWithCount {

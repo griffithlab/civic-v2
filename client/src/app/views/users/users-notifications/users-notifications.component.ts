@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from "@apollo/client/core";
-import { Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
+import { EventAction, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,6 +17,8 @@ interface SelectableNotificationSubject {
   subjectWithCount: NotificationFeedSubjectsFragment,
   id: string
 }
+
+interface SelectableAction { id: EventAction }
 
 @Component({
   selector: 'cvc-users-notifications',
@@ -37,12 +39,13 @@ export class UsersNotificationsComponent {
   includeReadInput: boolean = false
 
   notificationSubjects$?: Observable<SelectableNotificationSubject[]>
+  originatingUsers$?: Observable<NotificationOriginatingUsersFragment[]>
+  actions$?: Observable<SelectableAction[]>
 
   notificationTypes: SelectableNotificationReason[] = [
     {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
     {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
   ]
-
 
   constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL) {
     this.userId = +this.route.snapshot.params['userId'];
@@ -73,7 +76,18 @@ export class UsersNotificationsComponent {
         })
       })
     )
+
+    this.originatingUsers$ = this.results$.pipe(
+      map(({data}) => {
+        return data.notifications.originatingUsers
+      })
+    )
+
+    this.actions$ = this.results$.pipe(
+      map(({data}) => data.notifications.eventTypes.map((et) => {return {id: et}}))
+    )
   }
+
   fetchMore(endCursor: string) {
     this.queryRef.fetchMore({
       variables: {
@@ -109,6 +123,19 @@ export class UsersNotificationsComponent {
 
     this.queryRef.refetch({
       originatingObject: orgObj
+    })
+  }
+
+  onOriginatingUserSelected(s: Maybe<NotificationOriginatingUsersFragment>) {
+    this.queryRef.refetch({
+      originatingUserId: s?.id
+    })
+  }
+
+  onActionSelected(a: Maybe<EventAction>) {
+    console.log(a)
+    this.queryRef.refetch({
+      eventType: a
     })
   }
 }

@@ -5914,12 +5914,16 @@ export type UserNotificationsQuery = (
   { __typename: 'Query' }
   & { notifications: (
     { __typename: 'NotificationConnection' }
+    & Pick<NotificationConnection, 'eventTypes'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
     ), notificationSubjects: Array<(
       { __typename: 'EventSubjectWithCount' }
       & NotificationFeedSubjectsFragment
+    )>, originatingUsers: Array<(
+      { __typename: 'User' }
+      & NotificationOriginatingUsersFragment
     )>, edges: Array<(
       { __typename: 'NotificationEdge' }
       & { node?: Maybe<(
@@ -5928,6 +5932,11 @@ export type UserNotificationsQuery = (
       )> }
     )> }
   ) }
+);
+
+export type NotificationOriginatingUsersFragment = (
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'displayName'>
 );
 
 export type NotificationFeedSubjectsFragment = (
@@ -7339,6 +7348,12 @@ export const UserDetailFieldsFragmentDoc = gql`
     createdAt
     expiresAt
   }
+}
+    `;
+export const NotificationOriginatingUsersFragmentDoc = gql`
+    fragment notificationOriginatingUsers on User {
+  id
+  displayName
 }
     `;
 export const NotificationFeedSubjectsFragmentDoc = gql`
@@ -9539,6 +9554,10 @@ export const UserNotificationsDocument = gql`
     notificationSubjects {
       ...notificationFeedSubjects
     }
+    originatingUsers {
+      ...notificationOriginatingUsers
+    }
+    eventTypes
     edges {
       node {
         ...notificationNode
@@ -9547,6 +9566,7 @@ export const UserNotificationsDocument = gql`
   }
 }
     ${NotificationFeedSubjectsFragmentDoc}
+${NotificationOriginatingUsersFragmentDoc}
 ${NotificationNodeFragmentDoc}`;
 
   @Injectable({
