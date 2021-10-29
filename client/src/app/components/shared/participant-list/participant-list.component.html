@@ -1,11 +1,29 @@
 <nz-card [nzTitle]="listTitle" nz-type="inner" style="margin-bottom: 1em">
     <nz-list>
-        <nz-list-item *ngFor="let u of participantList" nzSize="small"
-            [class.selected-participant]="u.id == selectedItem?.id" (click)="onParticipantSelected(u)" class="participant-list-item">
-            <ng-container
-                [ngTemplateOutlet]="itemTemplateRef || null"
-                [ngTemplateOutletContext]="{ $implicit: u }">
-            </ng-container>
-        </nz-list-item>
+        <ng-container *ngFor="let u of participantList; let i = index">
+            <nz-list-item *ngIf="(i+1) <= this.defaultListSize" nzSize="small"
+                [class.selected-participant]="u.id == selectedItem?.id" (click)="onParticipantSelected(u)" class="participant-list-item">
+                <ng-container
+                    [ngTemplateOutlet]="itemTemplateRef || null"
+                    [ngTemplateOutletContext]="{ $implicit: u }">
+                </ng-container>
+            </nz-list-item>
+        </ng-container>
     </nz-list>
+    <button *ngIf="participantList.length > this.defaultListSize"
+        nz-button
+        nzType="default"
+        nzSize="small"
+        (click)="onExpandClicked()">
+        <i nz-icon nzType="arrow-down"></i>
+        Expand
+    </button>
+    <button *ngIf="this.isExpanded"
+        nz-button
+        nzType="default"
+        nzSize="small"
+        (click)="onCollapseClicked()">
+        <i nz-icon nzType="arrow-up"></i>
+        Collapse
+    </button>
 </nz-card>

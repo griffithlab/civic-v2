@@ -13,6 +13,7 @@ export interface WithId {
 export class CvcParticipantListComponent<T extends WithId> {
     @Input() participantList!: T[]
     @Input() listTitle!: string
+    @Input() defaultListSize: number = 5
 
     @Output() participantSelectedEvent = new EventEmitter<Maybe<T>>();
 
@@ -20,6 +21,8 @@ export class CvcParticipantListComponent<T extends WithId> {
     @ContentChild('itemTemplate') itemTemplateRef?: TemplateRef<any>
 
     selectedItem: Maybe<T>
+    originalDefaultListSize: Maybe<number>
+    isExpanded = false
 
   constructor() { }
 
@@ -30,5 +33,18 @@ export class CvcParticipantListComponent<T extends WithId> {
         this.selectedItem = u
       }
       this.participantSelectedEvent.emit(this.selectedItem)
+  }
+
+  onExpandClicked() {
+    this.originalDefaultListSize = this.defaultListSize
+    this.defaultListSize = this.participantList.length
+    this.isExpanded = true
+  }
+
+  onCollapseClicked() {
+    if(this.originalDefaultListSize) {
+      this.defaultListSize = this.originalDefaultListSize
+      this.isExpanded = false
+    }
   }
 }

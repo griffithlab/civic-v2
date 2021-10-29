@@ -47,7 +47,8 @@ module Types::Connections
     end
 
     def notification_subjects
-      Event.where(id: event_ids).includes(:subject)
+      Event.where(id: unscoped_event_ids).includes(:subject)
+        .reject{|e| e.subject.nil?}
         .map(&:subject)
         .tally
         .map {|subject, count|  { subject: subject, occurance_count: count } }
@@ -63,6 +64,10 @@ module Types::Connections
       Notification.where(
         id: object.items.reorder(nil).distinct.pluck(:id)
       ).distinct.pluck(:event_id)
+    end
+
+    def unscoped_event_ids
+      Notification.where(notified_user: notified_user, seen: false).distinct.pluck(:event_id)
     end
   end
 end
