@@ -1,1 +1,60 @@
-<p>evidence-submit form works!</p>
+<form nz-form
+  [formGroup]="formGroup"
+  (ngSubmit)="submitEvidence(formModel)"
+  nzLayout="vertical">
+  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+  <formly-form [form]="formGroup"
+    [fields]="formFields"
+    [model]="formModel"
+    [options]="formOptions"
+    (modelChange)="formModel = $event"></formly-form>
+  <nz-form-item *ngIf="!(submitSuccess$ | async)">
+    <nz-form-control>
+      <cvc-form-buttons>
+        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+          <button type="submit"
+            nz-button
+            cvcOrgSelectorBtn
+            nzType="primary"
+            nzSize="small"
+            [disabled]="!formGroup.valid">
+            Submit Evidence
+          </button>
+        </cvc-org-selector-btn-group>
+      </cvc-form-buttons>
+    </nz-form-control>
+  </nz-form-item>
+  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+</form>
+
+<ng-template #formMessages>
+  <ng-container *ngIf="(submitError$ | async) as errors">
+    <nz-form-item *ngIf="errors.length > 0">
+      <cvc-form-errors-alert [errors]="errors">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+  </ng-container>
+  <ng-container *ngIf="submitSuccess$ | async">
+    <nz-alert nzType="success"
+      nzMessage="Suggested Revision Submitted"
+      [nzDescription]="successMessage"
+      nzShowIcon></nz-alert>
+    <ng-template #successMessage
+      nzSize="small">
+      <p>View <a routerLink="../../">its details</a>.</p>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
+<!-- <div nz-row>
+     <div nz-col nzSpan="12">
+     <ngx-json-viewer *ngIf="formGroup"
+     [json]="formGroup.value"></ngx-json-viewer>
+     </div>
+     <div nz-col nzSpan="12">
+     <h4>formModel</h4>
+     <p>To speed up form updates, comment out or remove this formModel debug block.</p>
+     <ngx-json-viewer *ngIf="formModel"
+     [json]="formModel"></ngx-json-viewer>
+     </div>
+     </div> -->

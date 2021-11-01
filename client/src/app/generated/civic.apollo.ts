@@ -5048,6 +5048,60 @@ export type SuggestEvidenceItemRevisionMutation = (
   )> }
 );
 
+export type EvidenceSubmittableFieldsQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidenceSubmittableFieldsQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & SubmittableEvidenceFieldsFragment
+  )> }
+);
+
+export type SubmittableEvidenceFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'description' | 'variantOrigin' | 'evidenceType' | 'clinicalSignificance' | 'evidenceLevel' | 'evidenceDirection' | 'evidenceRating' | 'drugInteractionType'>
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType'>
+  ), phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )> }
+);
+
+export type SubmitEvidenceItemMutationVariables = Exact<{
+  input: SubmitEvidenceItemInput;
+}>;
+
+
+export type SubmitEvidenceItemMutation = (
+  { __typename: 'Mutation' }
+  & { submitEvidence?: Maybe<(
+    { __typename: 'SubmitEvidenceItemPayload' }
+    & Pick<SubmitEvidenceItemPayload, 'clientMutationId'>
+    & { evidenceItem: (
+      { __typename: 'EvidenceItem' }
+      & Pick<EvidenceItem, 'id'>
+    ) }
+  )> }
+);
+
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -6740,6 +6794,44 @@ export const RevisableEvidenceFieldsFragmentDoc = gql`
     sourceType
     citationId
     citation
+  }
+}
+    `;
+export const SubmittableEvidenceFieldsFragmentDoc = gql`
+    fragment SubmittableEvidenceFields on EvidenceItem {
+  id
+  description
+  variantOrigin
+  evidenceType
+  clinicalSignificance
+  evidenceLevel
+  evidenceDirection
+  evidenceRating
+  drugInteractionType
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+  }
+  phenotypes {
+    id
+    name
+  }
+  drugs {
+    id
+    name
+  }
+  disease {
+    id
+    name
   }
 }
     `;
@@ -8674,6 +8766,45 @@ export const SuggestEvidenceItemRevisionDocument = gql`
   })
   export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
     document = SuggestEvidenceItemRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceSubmittableFieldsDocument = gql`
+    query EvidenceSubmittableFields($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...SubmittableEvidenceFields
+  }
+}
+    ${SubmittableEvidenceFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceSubmittableFieldsGQL extends Apollo.Query<EvidenceSubmittableFieldsQuery, EvidenceSubmittableFieldsQueryVariables> {
+    document = EvidenceSubmittableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubmitEvidenceItemDocument = gql`
+    mutation SubmitEvidenceItem($input: SubmitEvidenceItemInput!) {
+  submitEvidence(input: $input) {
+    clientMutationId
+    evidenceItem {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitEvidenceItemGQL extends Apollo.Mutation<SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables> {
+    document = SubmitEvidenceItemDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

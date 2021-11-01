@@ -1,0 +1,51 @@
+query EvidenceSubmittableFields($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...SubmittableEvidenceFields
+  }
+}
+
+fragment SubmittableEvidenceFields on EvidenceItem {
+  id
+  description
+  variantOrigin
+  evidenceType
+  clinicalSignificance
+  evidenceLevel
+  evidenceDirection
+  evidenceRating
+  drugInteractionType
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+  }
+  phenotypes {
+    id
+    name
+  }
+  drugs {
+    id
+    name
+  }
+  disease {
+    id
+    name
+  }
+}
+
+mutation SubmitEvidenceItem($input: SubmitEvidenceItemInput!) {
+  submitEvidence(input: $input) {
+    clientMutationId
+    evidenceItem {
+      id
+    }
+  }
+}
