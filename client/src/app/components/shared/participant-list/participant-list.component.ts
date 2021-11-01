@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef, OnInit} from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface WithId {

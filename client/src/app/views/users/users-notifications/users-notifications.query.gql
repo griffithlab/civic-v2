@@ -83,3 +83,11 @@ fragment notificationNode on Notification {
         }
     }
 }
+
+mutation MarkNotificationsRead($input: MarkNotificationsAsReadInput!) {
+    markNotificationsAsRead(input: $input) {
+        notifications {
+            ...notificationNode
+        }
+    }
+}

@@ -57,6 +57,8 @@ import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-ta
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
+import { UsersNotificationsService } from './users-notifications/users-notifications.service';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 
 @NgModule({
@@ -68,6 +70,9 @@ import { CvcParticipantListModule } from '@app/components/shared/participant-lis
     UsersEventsComponent,
     UsersSourceSuggestionsComponent,
     UsersNotificationsComponent
+  ],
+  providers: [
+    UsersNotificationsService
   ],
   imports: [
     CommonModule,
@@ -101,6 +106,7 @@ import { CvcParticipantListModule } from '@app/components/shared/participant-lis
     NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzCheckboxModule,
     ReactiveComponentModule,
     TimeagoModule.forChild(),
     NzInputModule,

@@ -21,7 +21,7 @@
             </ng-template>
           </cvc-participant-list>
           <cvc-participant-list listTitle="Action" [participantList]="actions$ | ngrxPush"
-            (participantSelectedEvent)="onActionSelected($event.id)">
+            (participantSelectedEvent)="onActionSelected($event)">
             <ng-template #itemTemplate let-action>
                 {{ action.id | eventVerbiage: 'action-filter' }}
             </ng-template>
@@ -56,7 +56,12 @@
       </nz-row>
     </nz-col>
     <nz-col nzSpan="20">
-      <nz-card id="card-content">
+      <nz-card nzTitle="Notifications" id="card-content" [nzExtra]="bulkOperations">
+        <ng-template #bulkOperations>
+          <button nz-button nzSize="small" *ngIf="bulkMarkAsReadEnabled" (click)="bulkMarkRead()">
+            <i nz-icon nzType="check"></i>Mark selected as read
+          </button>
+        </ng-template>
         <nz-row [nzGutter]="16">
           <nz-col nzSpan="24" class="timeline">
             <nz-timeline *ngIf="notifications.length > 0">
@@ -77,7 +82,7 @@
                         </button>
                       </ng-container>
                       <ng-template #unread>
-                        <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle">
+                        <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle" (click)="markAsRead(notification.id)">
                           <i nz-icon nzType="check"></i>
                         </button>
                       </ng-template>
@@ -97,6 +102,7 @@
                           <i nz-icon nzType="bell"></i>
                         </button>
                       </ng-template>
+                      <label nz-checkbox (nzCheckedChange)="onNotificationCheckBoxClicked(notification.id, $event)"></label>
                     </nz-col>
                   </nz-row>
                 </nz-timeline-item>

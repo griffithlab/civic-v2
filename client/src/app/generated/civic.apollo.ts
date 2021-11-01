@@ -6014,6 +6014,22 @@ export type NotificationNodeFragment = (
   )> }
 );
 
+export type MarkNotificationsReadMutationVariables = Exact<{
+  input: MarkNotificationsAsReadInput;
+}>;
+
+
+export type MarkNotificationsReadMutation = (
+  { __typename: 'Mutation' }
+  & { markNotificationsAsRead?: Maybe<(
+    { __typename: 'MarkNotificationsAsReadPayload' }
+    & { notifications: Array<(
+      { __typename: 'Notification' }
+      & NotificationNodeFragment
+    )> }
+  )> }
+);
+
 export type VariantGroupDetailQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
 }>;
@@ -9592,6 +9608,26 @@ ${NotificationNodeFragmentDoc}`;
   })
   export class UserNotificationsGQL extends Apollo.Query<UserNotificationsQuery, UserNotificationsQueryVariables> {
     document = UserNotificationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MarkNotificationsReadDocument = gql`
+    mutation MarkNotificationsRead($input: MarkNotificationsAsReadInput!) {
+  markNotificationsAsRead(input: $input) {
+    notifications {
+      ...notificationNode
+    }
+  }
+}
+    ${NotificationNodeFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MarkNotificationsReadGQL extends Apollo.Mutation<MarkNotificationsReadMutation, MarkNotificationsReadMutationVariables> {
+    document = MarkNotificationsReadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from "@apollo/client/core";
 import { EventAction, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UsersNotificationsService } from './users-notifications.service';
 
 interface SelectableNotificationReason {
   id: number,
@@ -24,8 +25,7 @@ interface SelectableAction { id: EventAction }
   selector: 'cvc-users-notifications',
   templateUrl: './users-notifications.component.html',
   styleUrls: ['./users-notifications.component.less'],
-})
-export class UsersNotificationsComponent {
+}) export class UsersNotificationsComponent {
   userId: number
 
   private queryRef!: QueryRef<UserNotificationsQuery, UserNotificationsQueryVariables>;
@@ -43,12 +43,15 @@ export class UsersNotificationsComponent {
   actions$?: Observable<SelectableAction[]>
   organizations$?: Observable<NotificationOrganizationFragment[]>
 
+  bulkSelectedIds: number[] = []
+  bulkMarkAsReadEnabled: boolean = false
+
   notificationTypes: SelectableNotificationReason[] = [
     {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
     {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
   ]
 
-  constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL) {
+  constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private notificationService: UsersNotificationsService) {
     this.userId = +this.route.snapshot.params['userId'];
   }
 
@@ -112,7 +115,7 @@ export class UsersNotificationsComponent {
 
   onNotificationReasonSelected(r: Maybe<SelectableNotificationReason>) {
     this.queryRef.refetch({
-      notificationReason: r?.type
+      notificationReason: r ? r.type: undefined
     })
   }
   
@@ -121,7 +124,6 @@ export class UsersNotificationsComponent {
 
     if (s !== undefined) {
       let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subjectWithCount.subject.__typename
-      console.log(entityType)
       orgObj = { 
         id: s.subjectWithCount.subject.id,
         entityType: SubscribableEntities[entityType]
@@ -139,10 +141,9 @@ export class UsersNotificationsComponent {
     })
   }
 
-  onActionSelected(a: Maybe<EventAction>) {
-    console.log(a)
+  onActionSelected(a: Maybe<SelectableAction>) {
     this.queryRef.refetch({
-      eventType: a
+      eventType: a ? a.id : undefined
     })
   }
 
@@ -150,5 +151,33 @@ export class UsersNotificationsComponent {
     this.queryRef.refetch({
       organizationId: s?.id
     })
+  }
+
+  markAsRead(id: number){
+    this.notificationService.markAsRead([id])
+  }
+
+  onBulkMarkAsReadClicked() {
+    this.notificationService.markAsRead(this.bulkSelectedIds)
+  }
+
+  onNotificationCheckBoxClicked(notificationId: number, newVal: boolean) {
+    if (newVal) {
+      this.bulkSelectedIds.push(notificationId)
+    } else {
+      this.bulkSelectedIds = this.bulkSelectedIds.filter(n => n != notificationId)
+    }
+
+    if (this.bulkSelectedIds.length > 0) {
+      this.bulkMarkAsReadEnabled = true
+    } else {
+      this.bulkMarkAsReadEnabled = false
+    }
+  }
+
+  bulkMarkRead() {
+    this.notificationService.markAsRead(this.bulkSelectedIds)
+    this.bulkMarkAsReadEnabled = false
+    this.bulkSelectedIds = []
   }
 }
