@@ -26,6 +26,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EvidenceItemSubmitService } from './evidence-submit.service';
+import { GeneInputModule } from '@app/forms/genes/types/gene-input/gene-input.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -49,6 +50,7 @@ import { EvidenceItemSubmitService } from './evidence-submit.service';
     RatingInputModule,
     PhenotypeInputModule,
     DiseaseInputModule,
+    GeneInputModule,
   ],
   exports: [EvidenceSubmitForm],
 })

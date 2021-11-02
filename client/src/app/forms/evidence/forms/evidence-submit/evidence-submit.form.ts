@@ -161,6 +161,21 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         hide: true
       },
       {
+        key: 'fields.source',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Gene',
+          addText: 'Specify a Gene',
+          maxCount: 1,
+        },
+        fieldArray: {
+          type: 'gene-input',
+          templateOptions: {
+            required: true,
+          },
+        },
+      },
+      {
         key: 'fields.variantOrigin',
         type: 'select',
         templateOptions: {

@@ -5210,6 +5210,27 @@ export type SuggestGeneRevisionMutation = (
   )> }
 );
 
+export type GeneTypeaheadQueryVariables = Exact<{
+  entrezSymbol: Scalars['String'];
+}>;
+
+
+export type GeneTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { browseGenes: (
+    { __typename: 'BrowseGeneConnection' }
+    & { nodes: Array<(
+      { __typename: 'BrowseGene' }
+      & GeneTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type GeneTypeaheadFieldsFragment = (
+  { __typename: 'BrowseGene' }
+  & Pick<BrowseGene, 'id' | 'name'>
+);
+
 export type PhenotypeTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -6845,6 +6866,12 @@ export const RevisableGeneFieldsFragmentDoc = gql`
     citation
     citationId
   }
+}
+    `;
+export const GeneTypeaheadFieldsFragmentDoc = gql`
+    fragment GeneTypeaheadFields on BrowseGene {
+  id
+  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -8934,6 +8961,26 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneTypeaheadDocument = gql`
+    query GeneTypeahead($entrezSymbol: String!) {
+  browseGenes(entrezSymbol: $entrezSymbol, first: 20) {
+    nodes {
+      ...GeneTypeaheadFields
+    }
+  }
+}
+    ${GeneTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneTypeaheadGQL extends Apollo.Query<GeneTypeaheadQuery, GeneTypeaheadQueryVariables> {
+    document = GeneTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
