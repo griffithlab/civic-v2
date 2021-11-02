@@ -266,7 +266,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Evidence Statement',
           placeholder: 'Please enter statement describing this evidence item.',
-          required: false
+          required: true
         }
       },
       {
@@ -275,6 +275,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         templateOptions: {
           label: 'Evidence Level',
           required: true,
+          placeholder: 'Please select an Evidence Level',
           options: $enum(EvidenceLevel)
             .map((value, key) => {
               return { value: value, label: key }
@@ -407,7 +408,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         evidenceType: fields.evidenceType,
         evidenceDirection: fields.evidenceDirection,
         clinicalSignificance: fields.clinicalSignificance,
-        diseaseId: fmt.toNullableInt(fields.disease[0].id),
+        diseaseId: fmt.toNullableInt(fields.disease[0]?.id),
         evidenceLevel: fields.evidenceLevel,
         phenotypeIds: fields.phenotypes ? fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }) : [],
         rating: +fields.evidenceRating,
