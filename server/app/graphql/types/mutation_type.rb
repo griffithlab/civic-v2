@@ -14,7 +14,7 @@ module Types
     #subscriptions
     field :subscribe, mutation: Mutations::Subscribe
     field :unsubscribe, mutation: Mutations::Unsubscribe
-    field :mark_notifications_as_read, mutation: Mutations::MarkNotificationsAsRead
+    field :update_notification_status, mutation: Mutations::UpdateNotificationStatus
 
     #flags
     field :flag_entity, mutation: Mutations::FlagEntity

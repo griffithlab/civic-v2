@@ -563,11 +563,6 @@ export type LinkoutDataFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestedValue?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MarkNotificationsAsReadPayloadKeySpecifier = ('clientMutationId' | 'notifications' | MarkNotificationsAsReadPayloadKeySpecifier)[];
-export type MarkNotificationsAsReadPayloadFieldPolicy = {
-	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
-	notifications?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type ModeratedObjectFieldKeySpecifier = ('displayName' | 'displayType' | 'entityType' | 'id' | ModeratedObjectFieldKeySpecifier)[];
 export type ModeratedObjectFieldFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -575,14 +570,13 @@ export type ModeratedObjectFieldFieldPolicy = {
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'editUser' | 'flagEntity' | 'markNotificationsAsRead' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addRemoteCitation' | 'editUser' | 'flagEntity' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	addRemoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	editUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagEntity?: FieldPolicy<any> | FieldReadFunction<any>,
-	markNotificationsAsRead?: FieldPolicy<any> | FieldReadFunction<any>,
 	rejectRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -595,6 +589,7 @@ export type MutationFieldPolicy = {
 	suggestVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCoi?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateNotificationStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateSourceSuggestionStatus?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MyVariantInfoKeySpecifier = ('caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'myVariantInfoId' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact' | MyVariantInfoKeySpecifier)[];
@@ -980,6 +975,11 @@ export type UpdateCoiPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	coiStatement?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type UpdateNotificationStatusPayloadKeySpecifier = ('clientMutationId' | 'notifications' | UpdateNotificationStatusPayloadKeySpecifier)[];
+export type UpdateNotificationStatusPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	notifications?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type UpdateSourceSuggestionStatusPayloadKeySpecifier = ('clientMutationId' | 'sourceSuggestion' | UpdateSourceSuggestionStatusPayloadKeySpecifier)[];
 export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1364,10 +1364,6 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | LinkoutDataKeySpecifier | (() => undefined | LinkoutDataKeySpecifier),
 		fields?: LinkoutDataFieldPolicy,
 	},
-	MarkNotificationsAsReadPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | MarkNotificationsAsReadPayloadKeySpecifier | (() => undefined | MarkNotificationsAsReadPayloadKeySpecifier),
-		fields?: MarkNotificationsAsReadPayloadFieldPolicy,
-	},
 	ModeratedObjectField?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ModeratedObjectFieldKeySpecifier | (() => undefined | ModeratedObjectFieldKeySpecifier),
 		fields?: ModeratedObjectFieldFieldPolicy,
@@ -1527,6 +1523,10 @@ export type TypedTypePolicies = TypePolicies & {
 	UpdateCoiPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UpdateCoiPayloadKeySpecifier | (() => undefined | UpdateCoiPayloadKeySpecifier),
 		fields?: UpdateCoiPayloadFieldPolicy,
+	},
+	UpdateNotificationStatusPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UpdateNotificationStatusPayloadKeySpecifier | (() => undefined | UpdateNotificationStatusPayloadKeySpecifier),
+		fields?: UpdateNotificationStatusPayloadFieldPolicy,
 	},
 	UpdateSourceSuggestionStatusPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UpdateSourceSuggestionStatusPayloadKeySpecifier | (() => undefined | UpdateSourceSuggestionStatusPayloadKeySpecifier),

@@ -77,7 +77,7 @@
                     </nz-col>
                     <nz-col nzFlex="50px">
                       <ng-container *ngIf="notification.seen; else unread">
-                        <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle">
+                        <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle" (click)="markAsUnread(notification.id)">
                           <i nz-icon nzType="undo"></i>
                         </button>
                       </ng-container>
@@ -118,8 +118,6 @@
           </nz-col>
         </nz-row>
       </nz-card>
-
     </nz-col>
-
   </nz-row>
 </ng-container>

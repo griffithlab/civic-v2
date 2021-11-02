@@ -1,11 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from "@apollo/client/core";
-import { EventAction, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { EventAction, UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables, ReadStatus } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UsersNotificationsService } from './users-notifications.service';
 
 interface SelectableNotificationReason {
   id: number,
@@ -46,13 +47,16 @@ interface SelectableAction { id: EventAction }
   bulkSelectedIds: number[] = []
   bulkMarkAsReadEnabled: boolean = false
 
+  markAsReadMutator: MutatorWithState<UpdateNotificationStatusGQL,UpdateNotificationStatusMutation,UpdateNotificationStatusMutationVariables>;
+
   notificationTypes: SelectableNotificationReason[] = [
     {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
     {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
   ]
 
-  constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private notificationService: UsersNotificationsService) {
+  constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private networkErrorService: NetworkErrorsService, private updateNotificationStatusMuation: UpdateNotificationStatusGQL) {
     this.userId = +this.route.snapshot.params['userId'];
+    this.markAsReadMutator = new MutatorWithState(networkErrorService)
   }
 
   ngOnInit() {
@@ -154,11 +158,25 @@ interface SelectableAction { id: EventAction }
   }
 
   markAsRead(id: number){
-    this.notificationService.markAsRead([id])
+    this.markAsReadMutator.mutate(this.updateNotificationStatusMuation, {
+      input: { 
+        ids: [id],
+        newStatus: ReadStatus.Read
+      }
+    })
+  }
+
+  markAsUnread(id: number){
+    this.markAsReadMutator.mutate(this.updateNotificationStatusMuation, {
+      input: { 
+        ids: [id],
+        newStatus: ReadStatus.Unread
+      }
+    })
   }
 
   onBulkMarkAsReadClicked() {
-    this.notificationService.markAsRead(this.bulkSelectedIds)
+    //this.notificationService.markAsRead(this.bulkSelectedIds)
   }
 
   onNotificationCheckBoxClicked(notificationId: number, newVal: boolean) {
@@ -176,7 +194,7 @@ interface SelectableAction { id: EventAction }
   }
 
   bulkMarkRead() {
-    this.notificationService.markAsRead(this.bulkSelectedIds)
+    //this.notificationService.markAsRead(this.bulkSelectedIds)
     this.bulkMarkAsReadEnabled = false
     this.bulkSelectedIds = []
   }

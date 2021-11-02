@@ -84,8 +84,8 @@ fragment notificationNode on Notification {
     }
 }
 
-mutation MarkNotificationsRead($input: MarkNotificationsAsReadInput!) {
-    markNotificationsAsRead(input: $input) {
+mutation UpdateNotificationStatus($input: UpdateNotificationStatusInput!) {
+    updateNotificationStatus(input: $input) {
         notifications {
             ...notificationNode
         }
