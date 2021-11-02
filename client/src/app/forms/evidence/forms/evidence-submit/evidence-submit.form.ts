@@ -56,6 +56,11 @@ interface FormVariant {
   name: string;
 }
 
+interface FormGene {
+  id?: number;
+  name?: string;
+}
+
  // description: NullableStringInput!
  // The Evidence Items's description/summary text.
 
@@ -111,7 +116,7 @@ interface FormModel {
     phenotypes: FormPhenotype[];
     evidenceRating: number;
     source: FormSource[];
-    variant: FormVariant;
+    variant: FormVariant[];
     variantOrigin: VariantOrigin;
   };
 }
@@ -161,7 +166,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         hide: true
       },
       {
-        key: 'fields.source',
+        key: 'fields.gene',
         type: 'multi-field',
         templateOptions: {
           label: 'Gene',
@@ -176,7 +181,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         },
       },
       {
-        key: 'fields.source',
+        key: 'fields.variant',
         type: 'multi-field',
         templateOptions: {
           label: 'Variant',
@@ -200,15 +205,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             .map((value, key) => {
               return { value: value, label: formatEvidenceEnum(value) }
             })
-        }
-      },
-      {
-        key: 'fields.description',
-        type: 'textarea',
-        templateOptions: {
-          label: 'Description',
-          placeholder: 'Enter a description for this evidence item.',
-          required: false
         }
       },
       {
@@ -303,6 +299,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         type: 'multi-field',
         templateOptions: {
           label: 'Drug(s)',
+          required: false,
           addText: 'Add a Drug',
         },
         fieldArray: {
@@ -329,6 +326,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         type: 'multi-field',
         templateOptions: {
           label: 'Associated Phenotypes',
+          required: false,
           addText: 'Add a Phenoype'
         },
         fieldArray: {
@@ -374,19 +372,19 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     //   });
   }
 
-  toFormModel(evidence: SubmittableEvidenceFieldsFragment): FormModel {
-    return <FormModel>{
-      id: evidence.id,
-      // comment: '',
-      organizationId: undefined,
-      fields: {
-        ...evidence,
-        source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
-        drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
-        disease: [evidence.disease],
-      },
-    }
-  }
+  // toFormModel(evidence: SubmittableEvidenceFieldsFragment): FormModel {
+  //   return <FormModel>{
+  //     id: evidence.id,
+  //     // comment: '',
+  //     organizationId: undefined,
+  //     fields: {
+  //       ...evidence,
+  //       source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
+  //       drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
+  //       disease: [evidence.disease],
+  //     },
+  //   }
+  // }
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
@@ -404,16 +402,16 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       fields: {
         variantOrigin: fields.variantOrigin,
         description: fmt.toNullableString(fields.description),
-        variantId: fields.variant.id,
+        variantId: fields.variant[0].id,
         sourceId: fields.source[0].id,
         evidenceType: fields.evidenceType,
         evidenceDirection: fields.evidenceDirection,
         clinicalSignificance: fields.clinicalSignificance,
         diseaseId: fmt.toNullableInt(fields.disease[0].id),
         evidenceLevel: fields.evidenceLevel,
-        phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
+        phenotypeIds: fields.phenotypes ? fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }) : [],
         rating: +fields.evidenceRating,
-        drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
+        drugIds: fields.drugs ? fields.drugs.map((dr: FormDrug) => { return dr.id }) : [],
         drugInteractionType: fmt.toNullableDrugInteractionTypeInput(fields.drugInteractionType)
       },
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
