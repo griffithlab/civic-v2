@@ -5410,6 +5410,27 @@ export type SuggestVariantRevisionMutation = (
   )> }
 );
 
+export type VariantTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type VariantTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & { nodes: Array<(
+      { __typename: 'Variant' }
+      & VariantTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type VariantTypeaheadFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
+);
+
 export type AssertionDetailQueryVariables = Exact<{
   assertionId: Scalars['Int'];
 }>;
@@ -6934,6 +6955,12 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   }
 }
     ${CoordinateFieldsFragmentDoc}`;
+export const VariantTypeaheadFieldsFragmentDoc = gql`
+    fragment VariantTypeaheadFields on Variant {
+  id
+  name
+}
+    `;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
@@ -9169,6 +9196,26 @@ export const SuggestVariantRevisionDocument = gql`
   })
   export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
     document = SuggestVariantRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypeaheadDocument = gql`
+    query VariantTypeahead($name: String!) {
+  variants(name: $name, first: 20) {
+    nodes {
+      ...VariantTypeaheadFields
+    }
+  }
+}
+    ${VariantTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypeaheadGQL extends Apollo.Query<VariantTypeaheadQuery, VariantTypeaheadQueryVariables> {
+    document = VariantTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

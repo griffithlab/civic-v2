@@ -176,6 +176,21 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         },
       },
       {
+        key: 'fields.source',
+        type: 'multi-field',
+        templateOptions: {
+          label: 'Variant',
+          addText: 'Specify a Variant',
+          maxCount: 1,
+        },
+        fieldArray: {
+          type: 'variant-input',
+          templateOptions: {
+            required: true,
+          },
+        },
+      },
+      {
         key: 'fields.variantOrigin',
         type: 'select',
         templateOptions: {

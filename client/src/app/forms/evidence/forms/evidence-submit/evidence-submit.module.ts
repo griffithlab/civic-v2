@@ -27,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EvidenceItemSubmitService } from './evidence-submit.service';
 import { GeneInputModule } from '@app/forms/genes/types/gene-input/gene-input.module';
+import { VariantInputModule } from '@app/forms/variants/types/variant-input/variant-input.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -51,6 +52,7 @@ import { GeneInputModule } from '@app/forms/genes/types/gene-input/gene-input.mo
     PhenotypeInputModule,
     DiseaseInputModule,
     GeneInputModule,
+    VariantInputModule,
   ],
   exports: [EvidenceSubmitForm],
 })
