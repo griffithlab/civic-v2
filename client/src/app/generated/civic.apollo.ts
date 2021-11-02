@@ -5048,6 +5048,60 @@ export type SuggestEvidenceItemRevisionMutation = (
   )> }
 );
 
+export type EvidenceSubmittableFieldsQueryVariables = Exact<{
+  evidenceId: Scalars['Int'];
+}>;
+
+
+export type EvidenceSubmittableFieldsQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & SubmittableEvidenceFieldsFragment
+  )> }
+);
+
+export type SubmittableEvidenceFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'description' | 'variantOrigin' | 'evidenceType' | 'clinicalSignificance' | 'evidenceLevel' | 'evidenceDirection' | 'evidenceRating' | 'drugInteractionType'>
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), source: (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType'>
+  ), phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'name'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name'>
+  )>, disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name'>
+  )> }
+);
+
+export type SubmitEvidenceItemMutationVariables = Exact<{
+  input: SubmitEvidenceItemInput;
+}>;
+
+
+export type SubmitEvidenceItemMutation = (
+  { __typename: 'Mutation' }
+  & { submitEvidence?: Maybe<(
+    { __typename: 'SubmitEvidenceItemPayload' }
+    & Pick<SubmitEvidenceItemPayload, 'clientMutationId'>
+    & { evidenceItem: (
+      { __typename: 'EvidenceItem' }
+      & Pick<EvidenceItem, 'id'>
+    ) }
+  )> }
+);
+
 export type FlagEntityMutationVariables = Exact<{
   input: FlagEntityInput;
 }>;
@@ -5154,6 +5208,27 @@ export type SuggestGeneRevisionMutation = (
       & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
   )> }
+);
+
+export type GeneTypeaheadQueryVariables = Exact<{
+  entrezSymbol: Scalars['String'];
+}>;
+
+
+export type GeneTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { browseGenes: (
+    { __typename: 'BrowseGeneConnection' }
+    & { nodes: Array<(
+      { __typename: 'BrowseGene' }
+      & GeneTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type GeneTypeaheadFieldsFragment = (
+  { __typename: 'BrowseGene' }
+  & Pick<BrowseGene, 'id' | 'name'>
 );
 
 export type PhenotypeTypeaheadQueryVariables = Exact<{
@@ -5333,6 +5408,27 @@ export type SuggestVariantRevisionMutation = (
       & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
   )> }
+);
+
+export type VariantTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type VariantTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & { nodes: Array<(
+      { __typename: 'Variant' }
+      & VariantTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type VariantTypeaheadFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
 );
 
 export type AssertionDetailQueryVariables = Exact<{
@@ -6743,6 +6839,44 @@ export const RevisableEvidenceFieldsFragmentDoc = gql`
   }
 }
     `;
+export const SubmittableEvidenceFieldsFragmentDoc = gql`
+    fragment SubmittableEvidenceFields on EvidenceItem {
+  id
+  description
+  variantOrigin
+  evidenceType
+  clinicalSignificance
+  evidenceLevel
+  evidenceDirection
+  evidenceRating
+  drugInteractionType
+  gene {
+    id
+    name
+  }
+  variant {
+    id
+    name
+  }
+  source {
+    id
+    citation
+    sourceType
+  }
+  phenotypes {
+    id
+    name
+  }
+  drugs {
+    id
+    name
+  }
+  disease {
+    id
+    name
+  }
+}
+    `;
 export const RevisableGeneFieldsFragmentDoc = gql`
     fragment RevisableGeneFields on Gene {
   id
@@ -6753,6 +6887,12 @@ export const RevisableGeneFieldsFragmentDoc = gql`
     citation
     citationId
   }
+}
+    `;
+export const GeneTypeaheadFieldsFragmentDoc = gql`
+    fragment GeneTypeaheadFields on BrowseGene {
+  id
+  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -6815,6 +6955,12 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   }
 }
     ${CoordinateFieldsFragmentDoc}`;
+export const VariantTypeaheadFieldsFragmentDoc = gql`
+    fragment VariantTypeaheadFields on Variant {
+  id
+  name
+}
+    `;
 export const AssertionDetailFieldsFragmentDoc = gql`
     fragment AssertionDetailFields on Assertion {
   id
@@ -8679,6 +8825,45 @@ export const SuggestEvidenceItemRevisionDocument = gql`
       super(apollo);
     }
   }
+export const EvidenceSubmittableFieldsDocument = gql`
+    query EvidenceSubmittableFields($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...SubmittableEvidenceFields
+  }
+}
+    ${SubmittableEvidenceFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceSubmittableFieldsGQL extends Apollo.Query<EvidenceSubmittableFieldsQuery, EvidenceSubmittableFieldsQueryVariables> {
+    document = EvidenceSubmittableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubmitEvidenceItemDocument = gql`
+    mutation SubmitEvidenceItem($input: SubmitEvidenceItemInput!) {
+  submitEvidence(input: $input) {
+    clientMutationId
+    evidenceItem {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitEvidenceItemGQL extends Apollo.Mutation<SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables> {
+    document = SubmitEvidenceItemDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const FlagEntityDocument = gql`
     mutation FlagEntity($input: FlagEntityInput!) {
   flagEntity(input: $input) {
@@ -8803,6 +8988,26 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneTypeaheadDocument = gql`
+    query GeneTypeahead($entrezSymbol: String!) {
+  browseGenes(entrezSymbol: $entrezSymbol, first: 20) {
+    nodes {
+      ...GeneTypeaheadFields
+    }
+  }
+}
+    ${GeneTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneTypeaheadGQL extends Apollo.Query<GeneTypeaheadQuery, GeneTypeaheadQueryVariables> {
+    document = GeneTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -8991,6 +9196,26 @@ export const SuggestVariantRevisionDocument = gql`
   })
   export class SuggestVariantRevisionGQL extends Apollo.Mutation<SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables> {
     document = SuggestVariantRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantTypeaheadDocument = gql`
+    query VariantTypeahead($name: String!) {
+  variants(name: $name, first: 20) {
+    nodes {
+      ...VariantTypeaheadFields
+    }
+  }
+}
+    ${VariantTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantTypeaheadGQL extends Apollo.Query<VariantTypeaheadQuery, VariantTypeaheadQueryVariables> {
+    document = VariantTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
