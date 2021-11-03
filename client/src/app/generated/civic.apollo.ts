@@ -6037,6 +6037,43 @@ export type UpdateNotificationStatusMutation = (
   )> }
 );
 
+export type UnsubscribeMutationVariables = Exact<{
+  input: UnsubscribeInput;
+}>;
+
+
+export type UnsubscribeMutation = (
+  { __typename: 'Mutation' }
+  & { unsubscribe?: Maybe<(
+    { __typename: 'UnsubscribePayload' }
+    & { unsubscribedEntities: Array<(
+      { __typename: 'Subscribable' }
+      & SubscribableFragment
+    )> }
+  )> }
+);
+
+export type SubscribeMutationVariables = Exact<{
+  input: SubscribeInput;
+}>;
+
+
+export type SubscribeMutation = (
+  { __typename: 'Mutation' }
+  & { subscribe?: Maybe<(
+    { __typename: 'SubscribePayload' }
+    & { subscriptions: Array<(
+      { __typename: 'Subscription' }
+      & Pick<Subscription, 'id'>
+    )> }
+  )> }
+);
+
+export type SubscribableFragment = (
+  { __typename: 'Subscribable' }
+  & Pick<Subscribable, 'id' | 'entityType'>
+);
+
 export type VariantGroupDetailQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
 }>;
@@ -7421,6 +7458,13 @@ export const NotificationNodeFragmentDoc = gql`
   }
 }
     ${EventFeedNodeFragmentDoc}`;
+export const SubscribableFragmentDoc = gql`
+    fragment subscribable on Subscribable {
+  id
+  entityType
+  __typename
+}
+    `;
 export const VariantGroupDetailFieldsFragmentDoc = gql`
     fragment VariantGroupDetailFields on VariantGroup {
   id
@@ -9635,6 +9679,46 @@ export const UpdateNotificationStatusDocument = gql`
   })
   export class UpdateNotificationStatusGQL extends Apollo.Mutation<UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables> {
     document = UpdateNotificationStatusDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UnsubscribeDocument = gql`
+    mutation Unsubscribe($input: UnsubscribeInput!) {
+  unsubscribe(input: $input) {
+    unsubscribedEntities {
+      ...subscribable
+    }
+  }
+}
+    ${SubscribableFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnsubscribeGQL extends Apollo.Mutation<UnsubscribeMutation, UnsubscribeMutationVariables> {
+    document = UnsubscribeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubscribeDocument = gql`
+    mutation Subscribe($input: SubscribeInput!) {
+  subscribe(input: $input) {
+    subscriptions {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubscribeGQL extends Apollo.Mutation<SubscribeMutation, SubscribeMutationVariables> {
+    document = SubscribeDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

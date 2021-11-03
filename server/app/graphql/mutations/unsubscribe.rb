@@ -26,12 +26,7 @@ class Mutations::Unsubscribe < Mutations::BaseMutation
     end
 
     {
-      unsubscribed_entities: unsubscribed_entities.map do |e|
-        {
-          id: e.id,
-          entity_type: e.class.to_s.underscore.upcase
-        }
-      end
+      unsubscribed_entities: unsubscribed_entities
     }
   end
 

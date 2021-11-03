@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApolloQueryResult } from "@apollo/client/core";
+import { ApolloQueryResult, throwServerError } from "@apollo/client/core";
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { EventAction, UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables, ReadStatus } from '@app/generated/civic.apollo';
+import { EventAction, UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables, ReadStatus, UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables, SubscribableFragment } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -35,6 +35,7 @@ interface SelectableAction { id: EventAction }
   private initialQueryVars?: UserNotificationsQueryVariables;
 
   notifications$?: Observable<Maybe<NotificationNodeFragment>[]>;
+  notificationState = new Map<NotificationNodeFragment, boolean>()
   pageInfo$?: Observable<PageInfo>;
 
   includeReadInput: boolean = false
@@ -45,18 +46,21 @@ interface SelectableAction { id: EventAction }
   organizations$?: Observable<NotificationOrganizationFragment[]>
 
   bulkSelectedIds: number[] = []
-  bulkMarkAsReadEnabled: boolean = false
+  bulkMarkEnabled: boolean = false
+  bulkSelectedSubjects: NotificationFeedSubjectsFragment[] = []
 
   markAsReadMutator: MutatorWithState<UpdateNotificationStatusGQL,UpdateNotificationStatusMutation,UpdateNotificationStatusMutationVariables>;
+  unsubscribeMutator: MutatorWithState<UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables>
 
   notificationTypes: SelectableNotificationReason[] = [
     {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
     {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
   ]
 
-  constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private networkErrorService: NetworkErrorsService, private updateNotificationStatusMuation: UpdateNotificationStatusGQL) {
+  constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private networkErrorService: NetworkErrorsService, private updateNotificationStatusMuation: UpdateNotificationStatusGQL, private unsubscribeMutation: UnsubscribeGQL) {
     this.userId = +this.route.snapshot.params['userId'];
     this.markAsReadMutator = new MutatorWithState(networkErrorService)
+    this.unsubscribeMutator = new MutatorWithState(networkErrorService)
   }
 
   ngOnInit() {
@@ -73,7 +77,12 @@ interface SelectableAction { id: EventAction }
 
     this.notifications$ = this.results$.pipe(
       map(({ data }) => {
-        return data.notifications.edges.map(e => e.node)
+        return data.notifications.edges.map(e => {
+          if (e.node){
+            this.notificationState.set(e.node, false)
+          }
+          return e.node
+        })
       })
     )
 
@@ -175,27 +184,79 @@ interface SelectableAction { id: EventAction }
     })
   }
 
-  onBulkMarkAsReadClicked() {
-    //this.notificationService.markAsRead(this.bulkSelectedIds)
+  unsubscribe(id: number, typename: string) {
+    let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> typename
+    this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
+      input :{
+        subscribables: [{id: id, entityType: SubscribableEntities[entityType]}]
+      }
+    })
   }
 
   onNotificationCheckBoxClicked(notificationId: number, newVal: boolean) {
-    if (newVal) {
-      this.bulkSelectedIds.push(notificationId)
-    } else {
-      this.bulkSelectedIds = this.bulkSelectedIds.filter(n => n != notificationId)
+    let key = Array.from(this.notificationState.keys()).find(e => e.id === notificationId)
+    if (key) {
+      this.notificationState.set(key, newVal)
     }
-
-    if (this.bulkSelectedIds.length > 0) {
-      this.bulkMarkAsReadEnabled = true
-    } else {
-      this.bulkMarkAsReadEnabled = false
+    if (newVal) {
+      this.bulkMarkEnabled = true
+    }
+    else {
+      if (Array.from(this.notificationState.values()).some(e => e)) {
+        this.bulkMarkEnabled = true
+      } else {
+        this.bulkMarkEnabled = false
+      }
     }
   }
 
   bulkMarkRead() {
-    //this.notificationService.markAsRead(this.bulkSelectedIds)
-    this.bulkMarkAsReadEnabled = false
+    this.updateNotificationStatusMuation.mutate({
+      input: {
+        ids: this.bulkSelectedIds,
+        newStatus: ReadStatus.Read
+      }
+    },
+    {
+      refetchQueries: [
+        {
+          query: this.gql.document,
+          variables: this.queryRef.variables
+        }
+      ]
+    }).subscribe()
+    this.bulkMarkEnabled = false
     this.bulkSelectedIds = []
+
+  }
+
+  bulkMarkUnread() {
+    let queryState = this.markAsReadMutator.mutate(this.updateNotificationStatusMuation, {
+      input: {
+        ids: this.bulkSelectedIds,
+        newStatus: ReadStatus.Unread
+      }
+    })
+    this.bulkMarkEnabled = false
+    this.bulkSelectedIds = []
+    queryState.submitSuccess$.subscribe((res) => {
+      if(res) {
+        this.queryRef.refetch()
+      } 
+    })
+  }
+
+  bulkUnsubscribe() {
+    this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
+      input: {
+        subscribables: this.bulkSelectedSubjects.map((s) => { 
+          let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subject.__typename
+          return {
+            id: s.subject.id,
+            entityType: SubscribableEntities[entityType]
+          }
+        })
+      }
+    })
   }
 }

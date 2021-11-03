@@ -91,3 +91,26 @@ mutation UpdateNotificationStatus($input: UpdateNotificationStatusInput!) {
         }
     }
 }
+
+mutation Unsubscribe($input: UnsubscribeInput!) {
+    unsubscribe(input: $input) {
+        unsubscribedEntities {
+            ...subscribable
+        }
+    }
+}
+
+mutation Subscribe($input: SubscribeInput!) {
+    subscribe(input: $input) {
+        subscriptions {
+            id
+        }
+    }
+}
+
+fragment subscribable on Subscribable {
+    id
+    name
+    entityType
+    __typename
+}

@@ -58,55 +58,62 @@
     <nz-col nzSpan="20">
       <nz-card nzTitle="Notifications" id="card-content" [nzExtra]="bulkOperations">
         <ng-template #bulkOperations>
-          <button nz-button nzSize="small" *ngIf="bulkMarkAsReadEnabled" (click)="bulkMarkRead()">
-            <i nz-icon nzType="check"></i>Mark selected as read
+          <button nz-button nzSize="small" *ngIf="bulkMarkEnabled" (click)="bulkMarkRead()">
+            <i nz-icon nzType="check"></i>Mark as read
+          </button>
+          <button nz-button nzSize="small" *ngIf="bulkMarkEnabled" (click)="bulkMarkUnread()">
+            <i nz-icon nzType="check"></i>Mark as unread
+          </button>
+          <button nz-button nzSize="small" *ngIf="bulkMarkEnabled" (click)="bulkUnsubscribe()">
+            <i nz-icon nzType="check"></i>Unsubscribe
           </button>
         </ng-template>
         <nz-row [nzGutter]="16">
           <nz-col nzSpan="24" class="timeline">
             <nz-timeline *ngIf="notifications.length > 0">
-              <ng-container *ngFor="let notification of notifications">
-                <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="notification.seen ? 'gray' : 'blue'">
-                  <ng-template #timelineDotTemplate>
-                    <i nz-icon [nzType]="notification.type === 'SUBSCRIPTION' ? 'book' : 'notification'"
-                      [nzTheme]="notification.seen ? 'outline' : 'twotone'" class="item-icon"></i>
-                  </ng-template>
-                  <nz-row>
-                    <nz-col nzFlex="auto">
-                      <cvc-event-timeline-item [event]="notification.event"></cvc-event-timeline-item>
-                    </nz-col>
-                    <nz-col nzFlex="50px">
-                      <ng-container *ngIf="notification.seen; else unread">
-                        <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle" (click)="markAsUnread(notification.id)">
-                          <i nz-icon nzType="undo"></i>
-                        </button>
-                      </ng-container>
-                      <ng-template #unread>
-                        <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle" (click)="markAsRead(notification.id)">
-                          <i nz-icon nzType="check"></i>
-                        </button>
-                      </ng-template>
-                    </nz-col>
-                    <nz-col nzFlex="50px">
-                      <ng-container *ngIf="notification.subscription; else noSubscriptionButton">
-                        <button nz-tooltip
-                          nzTooltipTitle="You received this notification because you are subscribed to {{ notification.subscription.subscribable.name }}. Click to unsubscribe."
-                          nz-button nzType="default" nzShape="circle">
-                          <i nz-icon nzType="bell"></i>
-                        </button>
-                      </ng-container>
-                      <ng-template #noSubscriptionButton>
-                        <button nz-tooltip
-                          nzTooltipTitle="You are no longer subscribed to the entity that triggered this notification."
-                          nz-button nzType="default" nzShape="circle" disabled>
-                          <i nz-icon nzType="bell"></i>
-                        </button>
-                      </ng-template>
-                      <label nz-checkbox (nzCheckedChange)="onNotificationCheckBoxClicked(notification.id, $event)"></label>
-                    </nz-col>
-                  </nz-row>
-                </nz-timeline-item>
-              </ng-container>
+                <ng-container *ngFor="let item of this.notificationState | keyvalue">
+                  <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="item.key.seen ? 'gray' : 'blue'">
+                    <ng-template #timelineDotTemplate>
+                      <i nz-icon [nzType]="item.key.type === 'SUBSCRIPTION' ? 'book' : 'notification'"
+                        [nzTheme]="item.key.seen ? 'outline' : 'twotone'" class="item-icon"></i>
+                    </ng-template>
+                    <nz-row>
+                      <nz-col nzFlex="auto">
+                        <cvc-event-timeline-item [event]="item.key.event"></cvc-event-timeline-item>
+                      </nz-col>
+                      <nz-col nzFlex="50px">
+                        <ng-container *ngIf="item.key.seen; else unread">
+                          <button nz-tooltip nzTooltipTitle="Mark as unread." nz-button nzType="default" nzShape="circle" (click)="markAsUnread(item.key.id)">
+                            <i nz-icon nzType="undo"></i>
+                          </button>
+                        </ng-container>
+                        <ng-template #unread>
+                          <button nz-tooltip nzTooltipTitle="Mark as read." nz-button nzType="default" nzShape="circle" (click)="markAsRead(item.key.id)">
+                            <i nz-icon nzType="check"></i>
+                          </button>
+                        </ng-template>
+                      </nz-col>
+                      <nz-col nzFlex="50px">
+                        <ng-container *ngIf="item.key.subscription; else noSubscriptionButton">
+                          <button nz-tooltip
+                            nzTooltipTitle="You received this notification because you are subscribed to {{ item.key.subscription.subscribable.name }}. Click to unsubscribe."
+                            nz-button nzType="default" nzShape="circle"
+                            (click)="unsubscribe(item.key.subscription.subscribable.id, item.key.subscription.subscribable.__typename)">
+                            <i nz-icon nzType="bell"></i>
+                          </button>
+                        </ng-container>
+                        <ng-template #noSubscriptionButton>
+                          <button nz-tooltip
+                            nzTooltipTitle="You are no longer subscribed to the entity that triggered this notification."
+                            nz-button nzType="default" nzShape="circle" disabled>
+                            <i nz-icon nzType="bell"></i>
+                          </button>
+                        </ng-template>
+                        <label nz-checkbox [(ngModel)]="item.value" (nzCheckedChange)="onNotificationCheckBoxClicked(item.key.id, $event)"></label>
+                      </nz-col>
+                    </nz-row>
+                  </nz-timeline-item>
+                </ng-container>
             </nz-timeline>
             <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
               <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
