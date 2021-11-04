@@ -2112,6 +2112,8 @@ export type Query = {
   sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
+  /** Get the active subscription for the entity and logged in user, if any */
+  subscriptionForEntity?: Maybe<Subscription>;
   user?: Maybe<User>;
   /** List and filter users. */
   users: UserConnection;
@@ -2465,6 +2467,11 @@ export type QuerySourceSuggestionsArgs = {
 export type QuerySourceTypeaheadArgs = {
   citationId: Scalars['Int'];
   sourceType: SourceSource;
+};
+
+
+export type QuerySubscriptionForEntityArgs = {
+  subscribable: SubscribableInput;
 };
 
 
@@ -4546,6 +4553,19 @@ export type ContributorFieldsFragment = (
   ), uniqueActions: Array<(
     { __typename: 'Contribution' }
     & Pick<Contribution, 'action' | 'count'>
+  )> }
+);
+
+export type SubscriptionForEntityQueryVariables = Exact<{
+  subscribable: SubscribableInput;
+}>;
+
+
+export type SubscriptionForEntityQuery = (
+  { __typename: 'Query' }
+  & { subscriptionForEntity?: Maybe<(
+    { __typename: 'Subscription' }
+    & Pick<Subscription, 'id'>
   )> }
 );
 
@@ -8326,6 +8346,24 @@ export const ContributorAvatarsDocument = gql`
   })
   export class ContributorAvatarsGQL extends Apollo.Query<ContributorAvatarsQuery, ContributorAvatarsQueryVariables> {
     document = ContributorAvatarsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SubscriptionForEntityDocument = gql`
+    query SubscriptionForEntity($subscribable: SubscribableInput!) {
+  subscriptionForEntity(subscribable: $subscribable) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubscriptionForEntityGQL extends Apollo.Query<SubscriptionForEntityQuery, SubscriptionForEntityQueryVariables> {
+    document = SubscriptionForEntityDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -24,6 +24,14 @@ module Types
       end
     end
 
+    field :subscription_for_entity, Types::Subscribable::SubscriptionType, null: true do
+      description 'Get the active subscription for the entity and logged in user, if any'
+      argument :subscribable,  Types::Subscribable::SubscribableInput, required: true
+      def authorized?(object, args, context)
+        context[:current_user].present?
+      end
+    end
+
     field :contributors, resolver: Resolvers::Contributors
 
     field :search, resolver: Resolvers::Quicksearch
@@ -180,6 +188,17 @@ module Types
 
     def revision(id: )
       Revision.find_by(id: id)
+    end
+
+    def subscription_for_entity(subscribable: )
+      if subscribable
+        Subscription.find_by(
+          user: context[:current_user],
+          subscribable: subscribable
+        )
+      else
+        nil
+      end
     end
 
     def search_genes(query:, create_permalink:)

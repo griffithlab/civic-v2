@@ -110,7 +110,6 @@ mutation Subscribe($input: SubscribeInput!) {
 
 fragment subscribable on Subscribable {
     id
-    name
     entityType
     __typename
 }

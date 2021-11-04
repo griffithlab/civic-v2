@@ -1,4 +1,4 @@
-<ng-container *ngIf="notifications$ | ngrxPush as notifications">
+<ng-container *ngIf="notificationStateObservable$ | async as notifications">
   <nz-row [nzGutter]="25">
     <nz-col nzSpan="4" >
       <nz-row>
@@ -70,8 +70,8 @@
         </ng-template>
         <nz-row [nzGutter]="16">
           <nz-col nzSpan="24" class="timeline">
-            <nz-timeline *ngIf="notifications.length > 0">
-                <ng-container *ngFor="let item of this.notificationState | keyvalue">
+            <nz-timeline *ngIf="notifications.size > 0">
+                <ng-container *ngFor="let item of notifications | keyvalue">
                   <nz-timeline-item [nzDot]="timelineDotTemplate" [nzColor]="item.key.seen ? 'gray' : 'blue'">
                     <ng-template #timelineDotTemplate>
                       <i nz-icon [nzType]="item.key.type === 'SUBSCRIPTION' ? 'book' : 'notification'"
@@ -109,7 +109,7 @@
                             <i nz-icon nzType="bell"></i>
                           </button>
                         </ng-template>
-                        <label nz-checkbox [(ngModel)]="item.value" (nzCheckedChange)="onNotificationCheckBoxClicked(item.key.id, $event)"></label>
+                        <label nz-checkbox [(ngModel)]="item.value.checked" (nzCheckedChange)="onNotificationCheckBoxClicked(item.key.id, $event)"></label>
                       </nz-col>
                     </nz-row>
                   </nz-timeline-item>

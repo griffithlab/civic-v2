@@ -4081,6 +4081,11 @@ type Query {
   Provide suggestions for sources based on a partial citation ID
   """
   sourceTypeahead(citationId: Int!, sourceType: SourceSource!): [Source!]!
+
+  """
+  Get the active subscription for the entity and logged in user, if any
+  """
+  subscriptionForEntity(subscribable: SubscribableInput!): Subscription
   user(id: Int!): User
 
   """

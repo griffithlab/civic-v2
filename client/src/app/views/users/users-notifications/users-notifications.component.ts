@@ -22,6 +22,8 @@ interface SelectableNotificationSubject {
 
 interface SelectableAction { id: EventAction }
 
+interface Checked { checked: boolean }
+
 @Component({
   selector: 'cvc-users-notifications',
   templateUrl: './users-notifications.component.html',
@@ -35,7 +37,8 @@ interface SelectableAction { id: EventAction }
   private initialQueryVars?: UserNotificationsQueryVariables;
 
   notifications$?: Observable<Maybe<NotificationNodeFragment>[]>;
-  notificationState = new Map<NotificationNodeFragment, boolean>()
+  notificationState = new Map<NotificationNodeFragment, Checked>()
+  notificationStateObservable$?: Observable<Maybe<Map<NotificationNodeFragment, Checked>>>
   pageInfo$?: Observable<PageInfo>;
 
   includeReadInput: boolean = false
@@ -45,11 +48,9 @@ interface SelectableAction { id: EventAction }
   actions$?: Observable<SelectableAction[]>
   organizations$?: Observable<NotificationOrganizationFragment[]>
 
-  bulkSelectedIds: number[] = []
   bulkMarkEnabled: boolean = false
-  bulkSelectedSubjects: NotificationFeedSubjectsFragment[] = []
 
-  markAsReadMutator: MutatorWithState<UpdateNotificationStatusGQL,UpdateNotificationStatusMutation,UpdateNotificationStatusMutationVariables>;
+  updateNotificationStatusMutator: MutatorWithState<UpdateNotificationStatusGQL,UpdateNotificationStatusMutation,UpdateNotificationStatusMutationVariables>;
   unsubscribeMutator: MutatorWithState<UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables>
 
   notificationTypes: SelectableNotificationReason[] = [
@@ -59,7 +60,7 @@ interface SelectableAction { id: EventAction }
 
   constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private networkErrorService: NetworkErrorsService, private updateNotificationStatusMuation: UpdateNotificationStatusGQL, private unsubscribeMutation: UnsubscribeGQL) {
     this.userId = +this.route.snapshot.params['userId'];
-    this.markAsReadMutator = new MutatorWithState(networkErrorService)
+    this.updateNotificationStatusMutator = new MutatorWithState(networkErrorService)
     this.unsubscribeMutator = new MutatorWithState(networkErrorService)
   }
 
@@ -68,21 +69,35 @@ interface SelectableAction { id: EventAction }
       includeRead: this.includeReadInput
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryVars, {});
+    this.queryRef = this.gql.watch(this.initialQueryVars);
     this.results$ = this.queryRef.valueChanges;
 
     this.pageInfo$ = this.results$.pipe(
       map(({ data }) => data.notifications.pageInfo)
     )
 
-    this.notifications$ = this.results$.pipe(
+/*     this.notifications$ = this.results$.pipe(
       map(({ data }) => {
         return data.notifications.edges.map(e => {
           if (e.node){
-            this.notificationState.set(e.node, false)
+            this.notificationState.set(e.node, {checked: false} )
           }
           return e.node
         })
+      })
+    ) */
+
+    this.notificationStateObservable$ = this.results$.pipe(
+      map(({ data }) => {
+        let checkedMap = new Map<NotificationNodeFragment, Checked>()
+        data.notifications.edges.forEach(e => {
+          if (e.node){
+            let initialChecked = { checked: false}
+            checkedMap.set(e.node, initialChecked)
+            this.notificationState.set(e.node, initialChecked)
+          }
+        })
+        return checkedMap
       })
     )
 
@@ -167,7 +182,7 @@ interface SelectableAction { id: EventAction }
   }
 
   markAsRead(id: number){
-    this.markAsReadMutator.mutate(this.updateNotificationStatusMuation, {
+    this.updateNotificationStatusMutator.mutate(this.updateNotificationStatusMuation, {
       input: { 
         ids: [id],
         newStatus: ReadStatus.Read
@@ -176,7 +191,7 @@ interface SelectableAction { id: EventAction }
   }
 
   markAsUnread(id: number){
-    this.markAsReadMutator.mutate(this.updateNotificationStatusMuation, {
+    this.updateNotificationStatusMutator.mutate(this.updateNotificationStatusMuation, {
       input: { 
         ids: [id],
         newStatus: ReadStatus.Unread
@@ -196,13 +211,13 @@ interface SelectableAction { id: EventAction }
   onNotificationCheckBoxClicked(notificationId: number, newVal: boolean) {
     let key = Array.from(this.notificationState.keys()).find(e => e.id === notificationId)
     if (key) {
-      this.notificationState.set(key, newVal)
+      this.notificationState.set(key, {checked: newVal})
     }
     if (newVal) {
       this.bulkMarkEnabled = true
     }
     else {
-      if (Array.from(this.notificationState.values()).some(e => e)) {
+      if (Array.from(this.notificationState.values()).some(e => e.checked)) {
         this.bulkMarkEnabled = true
       } else {
         this.bulkMarkEnabled = false
@@ -210,53 +225,68 @@ interface SelectableAction { id: EventAction }
     }
   }
 
+
+  getCheckedIds() {
+    let ids: number[] = []
+    this.notificationState.forEach((checked, notification) => {
+      if(checked.checked) {
+        ids.push(notification.id)
+      }
+    })
+
+    return ids;
+  }
+
+  uncheckAll() {
+    this.queryRef.refetch().then(() => {
+        this.notificationState.forEach((checkedState, _ ) => { 
+          checkedState.checked = false
+        })
+    })
+  }
+
   bulkMarkRead() {
-    this.updateNotificationStatusMuation.mutate({
+    this.updateNotificationStatusMutator.mutate(this.updateNotificationStatusMuation, {
       input: {
-        ids: this.bulkSelectedIds,
+        ids: this.getCheckedIds(),
         newStatus: ReadStatus.Read
       }
-    },
-    {
-      refetchQueries: [
-        {
-          query: this.gql.document,
-          variables: this.queryRef.variables
-        }
-      ]
-    }).subscribe()
+    })
     this.bulkMarkEnabled = false
-    this.bulkSelectedIds = []
-
+    this.uncheckAll()
   }
 
   bulkMarkUnread() {
-    let queryState = this.markAsReadMutator.mutate(this.updateNotificationStatusMuation, {
+    this.updateNotificationStatusMutator.mutate(this.updateNotificationStatusMuation, {
       input: {
-        ids: this.bulkSelectedIds,
+        ids: this.getCheckedIds(),
         newStatus: ReadStatus.Unread
       }
     })
     this.bulkMarkEnabled = false
-    this.bulkSelectedIds = []
-    queryState.submitSuccess$.subscribe((res) => {
-      if(res) {
-        this.queryRef.refetch()
-      } 
-    })
+    this.uncheckAll()
   }
 
   bulkUnsubscribe() {
-    this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
-      input: {
-        subscribables: this.bulkSelectedSubjects.map((s) => { 
-          let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subject.__typename
-          return {
-            id: s.subject.id,
-            entityType: SubscribableEntities[entityType]
-          }
+    let subscribables: SubscribableInput[] = []
+    this.notificationState.forEach((checked, notification) => {
+      if(checked.checked && notification.subscription) {
+        let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> notification.subscription.subscribable.__typename
+        subscribables.push({
+          id: notification.subscription.subscribable.id,
+          entityType: SubscribableEntities[entityType]
         })
       }
     })
+
+    this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
+      input: {subscribables: subscribables}
+      }).submitSuccess$.subscribe((res) => {
+        if(res) {
+          this.queryRef.refetch()
+        }
+      })
+
+      this.uncheckAll();
   }
 }
