@@ -49,6 +49,8 @@ interface Checked { checked: boolean }
   organizations$?: Observable<NotificationOrganizationFragment[]>
 
   bulkMarkEnabled: boolean = false
+  allChecked: boolean = false
+  someChecked: boolean = false
 
   updateNotificationStatusMutator: MutatorWithState<UpdateNotificationStatusGQL,UpdateNotificationStatusMutation,UpdateNotificationStatusMutationVariables>;
   unsubscribeMutator: MutatorWithState<UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables>
@@ -211,20 +213,44 @@ interface Checked { checked: boolean }
   onNotificationCheckBoxClicked(notificationId: number, newVal: boolean) {
     let key = Array.from(this.notificationState.keys()).find(e => e.id === notificationId)
     if (key) {
-      this.notificationState.set(key, {checked: newVal})
+      let foo = this.notificationState.get(key)
+      if (foo) {
+        foo.checked = newVal
+      }
     }
     if (newVal) {
       this.bulkMarkEnabled = true
+      if (Array.from(this.notificationState.values()).every(e => e.checked)) {
+        this.allChecked = true
+        this.someChecked = false
+      } else {
+        this.someChecked = true
+      }
     }
     else {
       if (Array.from(this.notificationState.values()).some(e => e.checked)) {
         this.bulkMarkEnabled = true
+        this.allChecked = false
+        if (Array.from(this.notificationState.values()).every(e => !e.checked)) {
+          this.someChecked = false
+        } else {
+          this.someChecked = true
+        }
       } else {
         this.bulkMarkEnabled = false
+        this.allChecked = false
+        this.someChecked = false
       }
     }
   }
 
+  onCheckAllCheckBoxClicked(newVal: boolean) {
+    if (newVal) {
+      this.checkAll()
+    } else {
+      this.uncheckAll()
+    }
+  }
 
   getCheckedIds() {
     let ids: number[] = []
@@ -237,12 +263,26 @@ interface Checked { checked: boolean }
     return ids;
   }
 
-  uncheckAll() {
+  checkAll() {
     this.queryRef.refetch().then(() => {
         this.notificationState.forEach((checkedState, _ ) => { 
+          checkedState.checked = true
+        })
+    })
+    this.allChecked = true
+    this.someChecked = false
+    this.bulkMarkEnabled = true
+  }
+
+  uncheckAll() {
+    this.queryRef.refetch().then(() => {
+      this.notificationState.forEach((checkedState, _ ) => {
           checkedState.checked = false
         })
     })
+    this.allChecked = false
+    this.someChecked = false
+    this.bulkMarkEnabled = false
   }
 
   bulkMarkRead() {
@@ -252,7 +292,6 @@ interface Checked { checked: boolean }
         newStatus: ReadStatus.Read
       }
     })
-    this.bulkMarkEnabled = false
     this.uncheckAll()
   }
 
@@ -263,7 +302,6 @@ interface Checked { checked: boolean }
         newStatus: ReadStatus.Unread
       }
     })
-    this.bulkMarkEnabled = false
     this.uncheckAll()
   }
 

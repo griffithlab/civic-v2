@@ -67,6 +67,7 @@
           <button nz-button nzSize="small" (click)="bulkUnsubscribe()" [disabled]="!bulkMarkEnabled">
             <i nz-icon nzType="bell"></i>Unsubscribe
           </button>
+          Check all <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="someChecked" (nzCheckedChange)="onCheckAllCheckBoxClicked($event)"></label>
         </ng-template>
         <nz-row [nzGutter]="16">
           <nz-col nzSpan="24" class="timeline">
