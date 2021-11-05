@@ -58,14 +58,14 @@
     <nz-col nzSpan="20">
       <nz-card nzTitle="Notifications" id="card-content" [nzExtra]="bulkOperations">
         <ng-template #bulkOperations>
-          <button nz-button nzSize="small" *ngIf="bulkMarkEnabled" (click)="bulkMarkRead()">
+          <button nz-button nzSize="small" (click)="bulkMarkRead()" [disabled]="!bulkMarkEnabled">
             <i nz-icon nzType="check"></i>Mark as read
           </button>
-          <button nz-button nzSize="small" *ngIf="bulkMarkEnabled" (click)="bulkMarkUnread()">
+          <button nz-button nzSize="small" (click)="bulkMarkUnread()" [disabled]="!bulkMarkEnabled">
             <i nz-icon nzType="check"></i>Mark as unread
           </button>
-          <button nz-button nzSize="small" *ngIf="bulkMarkEnabled" (click)="bulkUnsubscribe()">
-            <i nz-icon nzType="check"></i>Unsubscribe
+          <button nz-button nzSize="small" (click)="bulkUnsubscribe()" [disabled]="!bulkMarkEnabled">
+            <i nz-icon nzType="bell"></i>Unsubscribe
           </button>
         </ng-template>
         <nz-row [nzGutter]="16">
