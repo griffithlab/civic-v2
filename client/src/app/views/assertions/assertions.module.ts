@@ -55,6 +55,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
+import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
     CvcTabNavigationModule,
     NzSelectModule,
     EvidenceModule,
-    CvcContributorAvatarsModule
+    CvcContributorAvatarsModule,
+    CvcEntitySubscriptionButtonModule
   ],
   exports: [
     AssertionsComponent,

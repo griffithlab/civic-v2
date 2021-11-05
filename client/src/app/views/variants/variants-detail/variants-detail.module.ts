@@ -13,6 +13,7 @@ import { VariantsDetailRoutingModule } from './variants-detail-routing.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
+import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 
 @NgModule({
   declarations: [VariantsDetailView],
@@ -30,6 +31,7 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
     CvcFlaggableModule,
     CvcGeneTagModule,
     CvcSectionNavigationModule,
+    CvcEntitySubscriptionButtonModule
   ],
 })
 export class VariantsDetailModule { }
