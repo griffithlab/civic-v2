@@ -4565,8 +4565,13 @@ export type SubscriptionForEntityQuery = (
   { __typename: 'Query' }
   & { subscriptionForEntity?: Maybe<(
     { __typename: 'Subscription' }
-    & Pick<Subscription, 'id'>
+    & SubscriptionIdFragment
   )> }
+);
+
+export type SubscriptionIdFragment = (
+  { __typename: 'Subscription' }
+  & Pick<Subscription, 'id'>
 );
 
 export type BrowseSourceSuggestionsQueryVariables = Exact<{
@@ -6799,6 +6804,12 @@ export const ContributorFieldsFragmentDoc = gql`
   totalActionCount
 }
     `;
+export const SubscriptionIdFragmentDoc = gql`
+    fragment subscriptionId on Subscription {
+  id
+  __typename
+}
+    `;
 export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
     fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   id
@@ -8354,10 +8365,10 @@ export const ContributorAvatarsDocument = gql`
 export const SubscriptionForEntityDocument = gql`
     query SubscriptionForEntity($subscribable: SubscribableInput!) {
   subscriptionForEntity(subscribable: $subscribable) {
-    id
+    ...subscriptionId
   }
 }
-    `;
+    ${SubscriptionIdFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

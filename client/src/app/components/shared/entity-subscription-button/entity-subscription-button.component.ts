@@ -1,27 +1,30 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { NetworkErrorsService } from "@app/core/services/network-errors.service";
 import { Viewer } from "@app/core/services/viewer/viewer.service";
 import { MutatorWithState } from "@app/core/utilities/mutation-state-wrapper";
-import { Maybe, SubscribableEntities, SubscribableInput, SubscribeGQL, SubscribeMutation, SubscribeMutationVariables, SubscriptionForEntityGQL, SubscriptionForEntityQuery, SubscriptionForEntityQueryVariables, UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables } from "@app/generated/civic.apollo";
+import { Maybe, SubscribableEntities, SubscribableInput, SubscribeGQL, SubscribeMutation, SubscribeMutationVariables, SubscriptionForEntityGQL, SubscriptionForEntityQuery, SubscriptionForEntityQueryVariables, SubscriptionIdFragment, UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
-import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'cvc-entity-subscription-button',
   templateUrl: './entity-subscription-button.component.html',
   styleUrls: ['./entity-subscription-button.component.less']
 })
-export class CvcEntitySubscriptionButtonComponent implements OnInit {
+export class CvcEntitySubscriptionButtonComponent implements OnInit, OnDestroy {
   @Input() viewer!: Viewer
   @Input() typename!: string
   @Input() subscribableId!: number
 
   subscribable!: SubscribableInput
 
-  existingSubscription$?: Observable<Maybe<number>>
+  existingSubscription$?: Observable<Maybe<SubscriptionIdFragment>>
   queryRef?: QueryRef<SubscriptionForEntityQuery, SubscriptionForEntityQueryVariables>
+  isSubmitting = false
 
+  destroy$ = new Subject<void>()
+  
   unsubscribeMutator: MutatorWithState<UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables>
   subscribeMutator: MutatorWithState<SubscribeGQL, SubscribeMutation, SubscribeMutationVariables>
 
@@ -46,26 +49,45 @@ export class CvcEntitySubscriptionButtonComponent implements OnInit {
       id: this.subscribableId,
       entityType: SubscribableEntities[entityType]
     }
+    this.queryRef = this.isSubscribedGQL.watch({subscribable: this.subscribable})
 
-    let queryRef = this.isSubscribedGQL.watch({subscribable: this.subscribable}).valueChanges
-
-    this.existingSubscription$ = queryRef
-      .pipe(map(({data}) => data.subscriptionForEntity?.id ))
+    this.existingSubscription$ = this.queryRef.valueChanges.pipe(map(({data}) => data.subscriptionForEntity ))
   }
 
   subscribe() {
     if(this.subscribable) {
-     this.subscribeMutator.mutate(this.subscribeMutation, {
+     this.isSubmitting = true
+     let state = this.subscribeMutator.mutate(this.subscribeMutation, {
         input: {subscribables: [ this.subscribable]} 
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe( (s) => {
+        if(s) {
+          this.queryRef?.refetch()
+          this.isSubmitting = false
+        }
       })
     }
   }
 
   unsubscribe() {
     if(this.subscribable) {
-      this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
+      this.isSubmitting = true
+      let state = this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
         input: {subscribables: [ this.subscribable]} 
       })
+      
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((s) => {
+        if(s) {
+          this.queryRef?.refetch()
+          this.isSubmitting = false
+        }
+      })
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }
