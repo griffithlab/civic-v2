@@ -24,7 +24,13 @@ module Subscribable
     if unsubscribe_from_children
       subscribables.concat(EventHierarchy.self_with_children(self))
     end
-    Subscription.where(subscribable: subscribables, user: user).destroy_all
+    Subscription.where(subscribable: subscribables, user: user).each do |s|
+      Notification.where(subscription: s).each do |n|
+        n.subscription_id = nil
+        n.save!
+      end
+      s.destroy!
+    end
     subscribables
   end
 

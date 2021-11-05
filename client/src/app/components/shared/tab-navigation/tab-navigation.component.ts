@@ -17,6 +17,7 @@ export class CvcTabNavigationComponent {
   @Input() entity: Maybe<SubscribableInput>;
   @Input() tabs: Maybe<RouteableTab[]>
 
+
   //May pass in an <ng-template #tabBarExtraContent> as a child element
   @ContentChild('tabBarExtraContent') tabBarExtraContent?: TemplateRef<any>
 

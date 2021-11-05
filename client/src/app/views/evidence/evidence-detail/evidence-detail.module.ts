@@ -15,6 +15,7 @@ import { CvcDetailsNavigationModule } from '@app/components/shared/details-navig
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { EvidenceDetailRoutingModule } from './evidence-detail-routing.module';
+import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 
 @NgModule({
   declarations: [EvidenceDetailView],
@@ -34,6 +35,7 @@ import { EvidenceDetailRoutingModule } from './evidence-detail-routing.module';
     CvcFlaggableModule,
     CvcDetailsNavigationModule,
     CvcVariantTagModule,
+    CvcEntitySubscriptionButtonModule
   ]
 })
 export class EvidenceDetailModule { }

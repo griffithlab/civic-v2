@@ -4,7 +4,7 @@
     id="card-content">
     <ng-template #cardTitle>
       <i nz-icon
-        [nzType]="iconNameForSubscribableEntity(subscribable.entityType)"
+        [nzType]="subscribable.entityType | iconNameForSubscribableEntity"
         *ngIf="subscribable"></i> {{ subscribableName }} Events
     </ng-template>
     <ng-template #cardExtra>

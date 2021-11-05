@@ -1,7 +1,10 @@
-class Mutations::MarkNotificationsAsRead < Mutations::BaseMutation
-  description 'Mark one or more of your notifications as read. The notification IDs provided must belong to the requesting user.'
+class Mutations::UpdateNotificationStatus < Mutations::BaseMutation
+  description 'Mark one or more notifications as read/unread. The notification IDs provided must belong to the requesting user.'
   argument :ids, [Int], required: true,
     description: 'A list of one or more Notification IDs.'
+
+  argument :new_status, Types::ReadStatus , required: true,
+    description: 'The new status of the selected notifications.'
 
   field :notifications, [Types::Entities::NotificationType],
     null: false,
@@ -9,7 +12,7 @@ class Mutations::MarkNotificationsAsRead < Mutations::BaseMutation
 
   attr_reader :notifications
 
-  def ready?(ids:)
+  def ready?(ids:, **_)
     validate_user_logged_in
 
     @notifications = ids.map do |id|
@@ -33,10 +36,10 @@ class Mutations::MarkNotificationsAsRead < Mutations::BaseMutation
     return true
   end
 
-  def resolve(**_)
+  def resolve(new_status:, **_)
     notifications.map do |notification|
-      notification.seen = true
-      notification.save
+      notification.seen = new_status
+      notification.save!
     end
 
     {

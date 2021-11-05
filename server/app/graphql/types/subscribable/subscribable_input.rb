@@ -9,7 +9,7 @@ module Types::Subscribable
       description: 'Type of subscribable entity.'
 
     def prepare
-      entity_type.downcase.classify.constantize.find(id)
+      entity_type.constantize.find(id)
     end
   end
 end

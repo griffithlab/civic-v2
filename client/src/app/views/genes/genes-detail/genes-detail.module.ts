@@ -13,6 +13,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 
 @NgModule({
   declarations: [GenesDetailView],
@@ -30,6 +31,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CvcFlaggableModule,
     CvcContributorAvatarsModule,
     CvcSectionNavigationModule,
+    CvcEntitySubscriptionButtonModule
   ]
 })
 export class GenesDetailModule { }

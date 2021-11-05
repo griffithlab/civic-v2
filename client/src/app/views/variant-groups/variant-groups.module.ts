@@ -46,6 +46,7 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
+import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
     CvcContributorAvatarsModule,
     EvidenceModule,
     NzSelectModule,
+    CvcEntitySubscriptionButtonModule
   ],
   exports: [
     VariantGroupsDetailComponent,

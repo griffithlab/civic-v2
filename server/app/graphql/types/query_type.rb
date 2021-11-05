@@ -18,6 +18,19 @@ module Types
     field :events, resolver: Resolvers::TopLevelEvents
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
+    field :notifications, resolver: Resolvers::Notifications do
+      def authorized?(object, args, context)
+        context[:current_user].present?
+      end
+    end
+
+    field :subscription_for_entity, Types::Subscribable::SubscriptionType, null: true do
+      description 'Get the active subscription for the entity and logged in user, if any'
+      argument :subscribable,  Types::Subscribable::SubscribableInput, required: true
+      def authorized?(object, args, context)
+        context[:current_user].present?
+      end
+    end
 
     field :contributors, resolver: Resolvers::Contributors
 
@@ -175,6 +188,17 @@ module Types
 
     def revision(id: )
       Revision.find_by(id: id)
+    end
+
+    def subscription_for_entity(subscribable: )
+      if subscribable
+        Subscription.find_by(
+          user: context[:current_user],
+          subscribable: subscribable
+        )
+      else
+        nil
+      end
     end
 
     def search_genes(query:, create_permalink:)

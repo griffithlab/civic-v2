@@ -19,6 +19,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcEventTimelineItemModule } from '../event-timeline-item/event-timeline-item-module';
 
 @NgModule({
   declarations: [CvcEventTimelineComponent],
@@ -41,7 +42,8 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     CvcEvidenceTagModule,
     CvcVariantTagModule,
     CvcOrganizationTagModule,
-    CvcSourceTagModule
+    CvcSourceTagModule,
+    CvcEventTimelineItemModule,
   ],
   exports: [CvcEventTimelineComponent]
 })

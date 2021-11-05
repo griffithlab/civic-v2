@@ -7,7 +7,7 @@ module Types::Entities
     field :originating_user, Types::Entities::UserType, null: false
     field :organization, Types::Entities::OrganizationType, null: true
     field :action, Types::Events::EventActionType, null: false
-    field :subject, Types::Interfaces::EventSubject, null: false
+    field :subject, Types::Interfaces::EventSubject, null: true
     #TODO - can this ever be null?
     field :originating_object, Types::Interfaces::EventOriginObject, null: true
 

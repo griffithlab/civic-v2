@@ -62,7 +62,7 @@ class EventHierarchy
         },
       }
       hierarchy.default = {
-        direct_relations: []
+        direct_relations: [],
         children: [],
       }
       @hierarchy = hierarchy
