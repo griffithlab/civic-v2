@@ -18,7 +18,11 @@
 
                 <ng-container [ngSwitch]="revision.node.fieldName">
                   <ng-container *ngSwitchCase="'source_ids'">
-                    <ng-container *ngTemplateOutlet="revDiffSourceIds"></ng-container>
+                    <cvc-list-diff [removed]="revision.node.linkoutData.diffValue.removedObjects" [added]="revision.node.linkoutData.diffValue.addedObjects" [final]="revision.node.linkoutData.diffValue.keptObjects" entityType="Source">
+                      <ng-template #itemTemplate let-item>
+                        <cvc-source-tag [source]="item"></cvc-source-tag>
+                      </ng-template>
+                    </cvc-list-diff>
                   </ng-container>
                   <ng-container *ngSwitchCase="'description'">
                     <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>
@@ -89,11 +93,6 @@
             <ng-template #revDiffDescription>
               <cvc-gene-description-revision [revision]="revision.node">
               </cvc-gene-description-revision>
-            </ng-template>
-            <!-- sources -->
-            <ng-template #revDiffSourceIds>
-              <cvc-gene-sources-revision [revision]="revision.node">
-              </cvc-gene-sources-revision>
             </ng-template>
 
           </ng-template>

@@ -35,6 +35,9 @@ import { IconNameForSubscribableEntity } from './icon-name-for-subscribable-enti
     PrepositionForSubjectPipe,
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity
+  ],
+  providers: [
+    SourceTypeDisplayPipe
   ]
 })
 export class CvcPipesModule { }

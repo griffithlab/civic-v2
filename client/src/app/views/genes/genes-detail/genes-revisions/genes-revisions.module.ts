@@ -15,6 +15,8 @@ import { CvcGeneDescriptionRevisionModule } from '@app/components/genes/gene-des
 import { CvcGeneSourcesRevisionModule } from '@app/components/genes/gene-sources-revision/gene-sources-revision.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { ListDiffModule } from '@app/components/shared/list-diff/list-diff.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({
   declarations: [GenesRevisionsPage],
@@ -33,6 +35,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     CvcGeneDescriptionRevisionModule,
     CvcGeneSourcesRevisionModule,
     CvcParticipantListModule,
+    ListDiffModule,
+    CvcSourceTagModule
   ]
 })
 export class GenesRevisionsModule { }
