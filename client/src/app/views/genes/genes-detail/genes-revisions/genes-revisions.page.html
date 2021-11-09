@@ -19,11 +19,7 @@
                 <ng-container [ngSwitch]="revision.node.fieldName">
                   <ng-container *ngSwitchCase="'source_ids'">
                     <cvc-list-diff
-                      [original]="revision.node.linkoutData.diffValue.currentObjects"
-                      [removed]="revision.node.linkoutData.diffValue.removedObjects"
-                      [added]="revision.node.linkoutData.diffValue.addedObjects"
-                      [kept]="revision.node.linkoutData.diffValue.keptObjects"
-                      [final]="revision.node.linkoutData.diffValue.suggestedObjects"
+                      [diffObject]="revision.node.linkoutData.diffValue"
                       entityType="Source">
                       <ng-template #itemTemplate let-item>
                         <cvc-source-tag [source]="item"></cvc-source-tag>

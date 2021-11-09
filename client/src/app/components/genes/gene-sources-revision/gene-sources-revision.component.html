@@ -45,9 +45,3 @@
     </nz-list>
   </nz-col>
 </nz-row>
-
-<cvc-list-diff [removed]="removedSources" [added]="addedSources" [final]="suggestedSources" entityType="Source">
-  <ng-template #itemTemplate let-item>
-    <cvc-source-tag [source]="item"></cvc-source-tag>
-  </ng-template>
-</cvc-list-diff>
