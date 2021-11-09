@@ -1551,7 +1551,7 @@ export type LinkoutData = {
 export type ModeratedField = ObjectField | ScalarField;
 
 /** Fields that can have revisions can be either scalar values or complex objects */
-export type ModeratedFieldDiff = ObjectFieldDiff | ScalarField;
+export type ModeratedFieldDiff = ObjectFieldDiff | ScalarFieldDiff;
 
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
@@ -2673,6 +2673,12 @@ export enum RevisionStatus {
 export type ScalarField = {
   __typename: 'ScalarField';
   value?: Maybe<Scalars['String']>;
+};
+
+export type ScalarFieldDiff = {
+  __typename: 'ScalarFieldDiff';
+  left: Scalars['String'];
+  right: Scalars['String'];
 };
 
 export type SearchResult = {
@@ -5101,8 +5107,8 @@ export type SuggestEvidenceItemRevisionMutation = (
                   & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
                 )> }
               ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
+                { __typename: 'ScalarFieldDiff' }
+                & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
             ), revisor: (
               { __typename: 'User' }
@@ -5263,8 +5269,8 @@ export type SuggestGeneRevisionMutation = (
                   & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
                 )> }
               ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
+                { __typename: 'ScalarFieldDiff' }
+                & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
             ), revisor: (
               { __typename: 'User' }
@@ -5463,8 +5469,8 @@ export type SuggestVariantRevisionMutation = (
                   & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
                 )> }
               ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
+                { __typename: 'ScalarFieldDiff' }
+                & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
             ), revisor: (
               { __typename: 'User' }
@@ -5800,40 +5806,45 @@ export type GeneRevisionsQuery = (
         { __typename: 'RevisionEdge' }
         & { node?: Maybe<(
           { __typename: 'Revision' }
-          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-          & { linkoutData: (
-            { __typename: 'LinkoutData' }
-            & Pick<LinkoutData, 'name'>
-            & { diffValue: (
-              { __typename: 'ObjectFieldDiff' }
-              & { currentObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, addedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, removedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, keptObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, suggestedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )> }
-            ) | (
-              { __typename: 'ScalarField' }
-              & Pick<ScalarField, 'value'>
-            ) }
-          ), revisor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name'>
-          ) }
+          & RevisionFragment
         )> }
       )> }
     ) }
   )> }
+);
+
+export type RevisionFragment = (
+  { __typename: 'Revision' }
+  & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+  & { linkoutData: (
+    { __typename: 'LinkoutData' }
+    & Pick<LinkoutData, 'name'>
+    & { diffValue: (
+      { __typename: 'ObjectFieldDiff' }
+      & { currentObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, addedObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, removedObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, keptObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, suggestedObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )> }
+    ) | (
+      { __typename: 'ScalarFieldDiff' }
+      & Pick<ScalarFieldDiff, 'left' | 'right'>
+    ) }
+  ), revisor: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'name'>
+  ) }
 );
 
 export type GenesSummaryQueryVariables = Exact<{
@@ -6296,8 +6307,8 @@ export type VariantGroupRevisionsQuery = (
                 & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
               )> }
             ) | (
-              { __typename: 'ScalarField' }
-              & Pick<ScalarField, 'value'>
+              { __typename: 'ScalarFieldDiff' }
+              & Pick<ScalarFieldDiff, 'left' | 'right'>
             ) }
           ), revisor: (
             { __typename: 'User' }
@@ -7437,6 +7448,62 @@ export const GeneDetailFieldsFragmentDoc = gql`
   comments {
     totalCount
   }
+}
+    `;
+export const RevisionFragmentDoc = gql`
+    fragment revision on Revision {
+  id
+  revisionsetId
+  createdAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        addedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        removedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        keptObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  revisor {
+    id
+    name
+  }
+  status
 }
     `;
 export const GeneSummaryFieldsFragmentDoc = gql`
@@ -9112,8 +9179,9 @@ export const SuggestEvidenceItemRevisionDocument = gql`
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
@@ -9280,8 +9348,9 @@ export const SuggestGeneRevisionDocument = gql`
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
@@ -9488,8 +9557,9 @@ export const SuggestVariantRevisionDocument = gql`
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
@@ -9719,63 +9789,13 @@ export const GeneRevisionsDocument = gql`
       }
       edges {
         node {
-          id
-          revisionsetId
-          createdAt
-          fieldName
-          currentValue
-          suggestedValue
-          linkoutData {
-            name
-            diffValue {
-              ... on ObjectFieldDiff {
-                currentObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                addedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                removedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                keptObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                suggestedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-              }
-              ... on ScalarField {
-                value
-              }
-            }
-          }
-          revisor {
-            id
-            name
-          }
-          status
+          ...revision
         }
       }
     }
   }
 }
-    `;
+    ${RevisionFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -10127,8 +10147,9 @@ export const VariantGroupRevisionsDocument = gql`
                   entityType
                 }
               }
-              ... on ScalarField {
-                value
+              ... on ScalarFieldDiff {
+                left
+                right
               }
             }
           }

@@ -7,7 +7,9 @@ import {
   GeneRevisionsQuery,
   GeneRevisionsQueryVariables,
   RevisionConnection,
-  PageInfo
+  PageInfo,
+  Revision,
+  RevisionFragment
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
@@ -39,7 +41,7 @@ export class GenesRevisionsService implements OnDestroy {
   queryRef!: QueryRef<GeneRevisionsQuery, GeneRevisionsQueryVariables>;
   result$!: Observable<ApolloQueryResult<GeneRevisionsQuery>>;
 
-  revisions$: Maybe<Observable<RevisionEdge[]>>;
+  revisions$: Maybe<Observable<Maybe<Maybe<RevisionFragment>[]>>>;
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
   uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>;
 
@@ -90,7 +92,7 @@ export class GenesRevisionsService implements OnDestroy {
     this.spy.log('revisions$'); // debug
     this.revisions$ = this.result$
       .pipe(
-        map(({ data }) => { return data.gene?.revisions?.edges as RevisionEdge[]  }),
+        map(({ data }) => { return data.gene?.revisions?.edges.map(e => e.node) }),
         shareReplay(1));
 
     this.uniqueRevisors$ = this.result$

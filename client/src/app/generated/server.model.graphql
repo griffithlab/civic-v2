@@ -2566,7 +2566,7 @@ union ModeratedField = ObjectField | ScalarField
 """
 Fields that can have revisions can be either scalar values or complex objects
 """
-union ModeratedFieldDiff = ObjectFieldDiff | ScalarField
+union ModeratedFieldDiff = ObjectFieldDiff | ScalarFieldDiff
 
 type ModeratedObjectField {
   displayName: String!
@@ -4455,6 +4455,11 @@ enum RevisionStatus {
 
 type ScalarField {
   value: String
+}
+
+type ScalarFieldDiff {
+  left: String!
+  right: String!
 }
 
 type SearchResult {

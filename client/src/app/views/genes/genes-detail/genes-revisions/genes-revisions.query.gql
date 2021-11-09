@@ -29,59 +29,64 @@ query GeneRevisions(
       }
       edges {
         node {
-          id
-          revisionsetId
-          createdAt
-          fieldName
-          currentValue
-          suggestedValue
-          linkoutData {
-            name
-            diffValue {
-              ... on ObjectFieldDiff {
-                currentObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                addedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                removedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                keptObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                suggestedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-              }
-              ... on ScalarField {
-                value
-              }
-            }
-          }
-          revisor {
-            id
-            name
-          }
-          status
+          ...revision
         }
       }
     }
   }
+}
+
+fragment revision on Revision {
+  id
+  revisionsetId
+  createdAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        addedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        removedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        keptObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  revisor {
+    id
+    name
+  }
+  status  
 }

@@ -53,8 +53,9 @@ mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }

@@ -840,6 +840,11 @@ export type ScalarFieldKeySpecifier = ('value' | ScalarFieldKeySpecifier)[];
 export type ScalarFieldFieldPolicy = {
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ScalarFieldDiffKeySpecifier = ('left' | 'right' | ScalarFieldDiffKeySpecifier)[];
+export type ScalarFieldDiffFieldPolicy = {
+	left?: FieldPolicy<any> | FieldReadFunction<any>,
+	right?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SearchResultKeySpecifier = ('id' | 'matchingText' | 'name' | 'resultType' | SearchResultKeySpecifier)[];
 export type SearchResultFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1450,6 +1455,10 @@ export type TypedTypePolicies = TypePolicies & {
 	ScalarField?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ScalarFieldKeySpecifier | (() => undefined | ScalarFieldKeySpecifier),
 		fields?: ScalarFieldFieldPolicy,
+	},
+	ScalarFieldDiff?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ScalarFieldDiffKeySpecifier | (() => undefined | ScalarFieldDiffKeySpecifier),
+		fields?: ScalarFieldDiffFieldPolicy,
 	},
 	SearchResult?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SearchResultKeySpecifier | (() => undefined | SearchResultKeySpecifier),
