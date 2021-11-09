@@ -4,6 +4,7 @@ import { ListDiffComponent } from './list-diff.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [ListDiffComponent],
@@ -11,7 +12,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CommonModule,
     NzCardModule,
     NzListModule,
-    NzGridModule
+    NzGridModule,
+    NzSpaceModule
   ],
   exports: [ListDiffComponent]
 })

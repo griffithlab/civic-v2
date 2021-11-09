@@ -39,6 +39,12 @@ query GeneRevisions(
             name
             diffValue {
               ... on ObjectFieldDiff {
+                currentObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
                 addedObjects {
                   id
                   displayName
@@ -52,6 +58,12 @@ query GeneRevisions(
                   entityType
                 }
                 keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                suggestedObjects {
                   id
                   displayName
                   displayType

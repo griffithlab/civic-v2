@@ -10,8 +10,10 @@ export interface WithId {
   styleUrls: ['./list-diff.component.less']
 })
 export class ListDiffComponent<T extends WithId> implements OnInit{
+    @Input() original!: T[]
     @Input() removed!: T[]
     @Input() added!: T[]
+    @Input() kept!: T[]
     @Input() final!: T[]
     @Input() entityType!: string
 
@@ -20,11 +22,17 @@ export class ListDiffComponent<T extends WithId> implements OnInit{
   constructor() { }
 
   ngOnInit(): void {
+    if (this.original === undefined) {
+      throw new Error('Must specify a list of removed items.');
+    }
     if (this.removed === undefined) {
       throw new Error('Must specify a list of removed items.');
     }
     if (this.added === undefined) {
       throw new Error("Must specify a list of added items.")
+    }
+    if (this.kept === undefined) {
+      throw new Error('Must specify a list of removed items.');
     }
     if (this.final === undefined) {
       throw new Error("Must specify a list of final items.")

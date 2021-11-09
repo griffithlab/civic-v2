@@ -1931,8 +1931,10 @@ export type ObjectField = {
 export type ObjectFieldDiff = {
   __typename: 'ObjectFieldDiff';
   addedObjects: Array<ModeratedObjectField>;
+  currentObjects: Array<ModeratedObjectField>;
   keptObjects: Array<ModeratedObjectField>;
   removedObjects: Array<ModeratedObjectField>;
+  suggestedObjects: Array<ModeratedObjectField>;
 };
 
 export type Organization = {
@@ -5804,13 +5806,19 @@ export type GeneRevisionsQuery = (
             & Pick<LinkoutData, 'name'>
             & { diffValue: (
               { __typename: 'ObjectFieldDiff' }
-              & { addedObjects: Array<(
+              & { currentObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, addedObjects: Array<(
                 { __typename: 'ModeratedObjectField' }
                 & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
               )>, removedObjects: Array<(
                 { __typename: 'ModeratedObjectField' }
                 & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
               )>, keptObjects: Array<(
+                { __typename: 'ModeratedObjectField' }
+                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+              )>, suggestedObjects: Array<(
                 { __typename: 'ModeratedObjectField' }
                 & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
               )> }
@@ -9721,6 +9729,12 @@ export const GeneRevisionsDocument = gql`
             name
             diffValue {
               ... on ObjectFieldDiff {
+                currentObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
                 addedObjects {
                   id
                   displayName
@@ -9734,6 +9748,12 @@ export const GeneRevisionsDocument = gql`
                   entityType
                 }
                 keptObjects {
+                  id
+                  displayName
+                  displayType
+                  entityType
+                }
+                suggestedObjects {
                   id
                   displayName
                   displayType

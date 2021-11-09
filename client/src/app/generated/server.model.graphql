@@ -3059,8 +3059,10 @@ type ObjectField {
 
 type ObjectFieldDiff {
   addedObjects: [ModeratedObjectField!]!
+  currentObjects: [ModeratedObjectField!]!
   keptObjects: [ModeratedObjectField!]!
   removedObjects: [ModeratedObjectField!]!
+  suggestedObjects: [ModeratedObjectField!]!
 }
 
 type Organization {

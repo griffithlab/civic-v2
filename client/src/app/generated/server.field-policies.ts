@@ -690,11 +690,13 @@ export type ObjectFieldKeySpecifier = ('objects' | ObjectFieldKeySpecifier)[];
 export type ObjectFieldFieldPolicy = {
 	objects?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ObjectFieldDiffKeySpecifier = ('addedObjects' | 'keptObjects' | 'removedObjects' | ObjectFieldDiffKeySpecifier)[];
+export type ObjectFieldDiffKeySpecifier = ('addedObjects' | 'currentObjects' | 'keptObjects' | 'removedObjects' | 'suggestedObjects' | ObjectFieldDiffKeySpecifier)[];
 export type ObjectFieldDiffFieldPolicy = {
 	addedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
+	currentObjects?: FieldPolicy<any> | FieldReadFunction<any>,
 	keptObjects?: FieldPolicy<any> | FieldReadFunction<any>,
-	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>
+	removedObjects?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestedObjects?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type OrganizationKeySpecifier = ('description' | 'eventCount' | 'events' | 'id' | 'memberCount' | 'members' | 'mostRecentEvent' | 'name' | 'orgAndSuborgsStatsHash' | 'orgStatsHash' | 'profileImagePath' | 'subGroups' | 'url' | OrganizationKeySpecifier)[];
 export type OrganizationFieldPolicy = {

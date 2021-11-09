@@ -1,14 +1,28 @@
-.participant-list-item:hover {
-    border: 1px solid #40a9ff;
-    cursor: pointer;
+@import "~ng-zorro-antd/style/color/colors.less";
+
+:host {
+  display: block;
 }
 
-.participant-list-item {
-    padding: 5px;
-    margin: 5px;
-}
-
-.selected-participant {
-    background: #40a9ff;
-    color: #fff;
+nz-list {
+  .kept {
+    background-color: @geekblue-1;
+    color: @geekblue-9;
+  }
+  .added {
+    background-color: @green-1;
+    color: @green-9;
+  }
+  .removed {
+    background-color: @red-1;
+    color: @red-9;
+  }
+  .suggested {
+    background-color: @geekblue-1;
+    color: @geekblue-9;
+  }
+  .current {
+    background-color: @geekblue-1;
+    color: @geekblue-9;
+  }
 }
