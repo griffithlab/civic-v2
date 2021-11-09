@@ -18,13 +18,13 @@
 
                 <ng-container [ngSwitch]="revision.node.fieldName">
                   <ng-container *ngSwitchCase="'source_ids'">
-                    <cvc-list-diff
+                    <cvc-revision-list-diff
                       [diffObject]="revision.node.linkoutData.diffValue"
                       entityType="Source">
                       <ng-template #itemTemplate let-item>
                         <cvc-source-tag [source]="item"></cvc-source-tag>
                       </ng-template>
-                    </cvc-list-diff>
+                    </cvc-revision-list-diff>
                   </ng-container>
                   <ng-container *ngSwitchCase="'description'">
                     <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>

@@ -2,11 +2,11 @@ import { Component, Input, ContentChild, TemplateRef, OnInit} from '@angular/cor
 import { ObjectFieldDiff } from '@app/generated/civic.apollo';
 
 @Component({
-  selector: 'cvc-list-diff',
-  templateUrl: './list-diff.component.html',
-  styleUrls: ['./list-diff.component.less']
+  selector: 'cvc-revision-list-diff',
+  templateUrl: './revision-list-diff.component.html',
+  styleUrls: ['./revision-list-diff.component.less']
 })
-export class ListDiffComponent implements OnInit{
+export class RevisionListDiffComponent implements OnInit{
     @Input() diffObject!: ObjectFieldDiff
     @Input() entityType!: string
 

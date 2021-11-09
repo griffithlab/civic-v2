@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListDiffComponent } from './list-diff.component';
+import { RevisionListDiffComponent } from './revision-list-diff.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
-  declarations: [ListDiffComponent],
+  declarations: [RevisionListDiffComponent],
   imports: [
     CommonModule,
     NzCardModule,
@@ -15,6 +15,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzGridModule,
     NzSpaceModule
   ],
-  exports: [ListDiffComponent]
+  exports: [RevisionListDiffComponent]
 })
-export class ListDiffModule { }
+export class RevisionListDiffModule { }

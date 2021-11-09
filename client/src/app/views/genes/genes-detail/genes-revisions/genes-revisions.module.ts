@@ -12,10 +12,9 @@ import { TimeagoModule } from 'ngx-timeago';
 import { GenesRevisionsPage } from './genes-revisions.page';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcGeneDescriptionRevisionModule } from '@app/components/genes/gene-description-revision/gene-description-revision.module';
-import { CvcGeneSourcesRevisionModule } from '@app/components/genes/gene-sources-revision/gene-sources-revision.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { ListDiffModule } from '@app/components/shared/list-diff/list-diff.module';
+import { RevisionListDiffModule } from '@app/components/revisions/revision-list-diff/revision-list-diff.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({
@@ -33,9 +32,8 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     TimeagoModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     CvcGeneDescriptionRevisionModule,
-    CvcGeneSourcesRevisionModule,
     CvcParticipantListModule,
-    ListDiffModule,
+    RevisionListDiffModule,
     CvcSourceTagModule
   ]
 })
