@@ -1,8 +1,6 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="18">
-    <ng-container *ngIf="revisions$ | ngrxPush as revisions">
-      <cvc-revision-list [revisions]="revisions"></cvc-revision-list>
-    </ng-container>
+    <cvc-revision-list [revisions]="revisions$ | ngrxPush"></cvc-revision-list>
   </nz-col>
   <nz-col nzSpan="6">
     <cvc-participant-list listTitle="Revision Status" [preselectedOption]="this.selectableStatuses[0]" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">

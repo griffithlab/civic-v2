@@ -1,6 +1,6 @@
   <nz-card nzTitle="Revisions"
     class="card-list">
-    <nz-collapse class="revision-list">
+    <nz-collapse class="revision-list" *ngIf="revisions && revisions.length > 0">
       <nz-collapse-panel *ngFor="let revision of untypedRevisons" [nzHeader]="revCardHeaderTitle" [nzExtra]="revCardHeaderExtra" [nzActive]="true">
             <ng-container [ngSwitch]="revision.fieldName">
               <ng-container *ngSwitchCase="'source_ids'">
