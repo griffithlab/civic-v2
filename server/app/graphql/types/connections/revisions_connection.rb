@@ -9,15 +9,25 @@ module Types::Connections
       description: 'List of all fields that have at least one revision.'
 
     def unique_revisors
+      if revision_subject
+        subject = revision_subject
+      else
+        subject = parent
+      end
+
        User.where(id:
-            Event.where(action: 'revision suggested', subject: parent)
+            Event.where(action: 'revision suggested', subject: subject)
              .select(:originating_user_id)
        ).distinct
-
     end
 
     def revised_field_names
-      names = Revision.where(subject: parent).distinct.pluck(:field_name)
+      if revision_subject
+        subject = revision_subject
+      else
+        subject = parent
+      end
+      names = Revision.where(subject: subject).distinct.pluck(:field_name)
       names.map do|n|
         {
           name: n,
@@ -26,5 +36,9 @@ module Types::Connections
       end
     end
 
+    private
+    def revision_subject
+      @revision_subject ||= object.arguments[:subject]
+    end
   end
 end

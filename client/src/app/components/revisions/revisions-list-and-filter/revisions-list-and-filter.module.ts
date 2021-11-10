@@ -8,14 +8,13 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
-import { GenesRevisionsPage } from './genes-revisions.page';
+import { RevisionsListAndFilterComponent } from './revisions-list-and-filter.component';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { RevisionListModule } from '@app/components/revisions/revision-list/revision-list.module';
-import { RevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
 
 @NgModule({
-  declarations: [GenesRevisionsPage],
+  declarations: [RevisionsListAndFilterComponent],
   imports: [
     CommonModule,
     ReactiveComponentModule,
@@ -27,8 +26,8 @@ import { RevisionsListAndFilterModule } from '@app/components/revisions/revision
     NzTypographyModule,
     NzAvatarModule,
     CvcParticipantListModule,
-    RevisionListModule,
-    RevisionsListAndFilterModule
-  ]
+    RevisionListModule
+  ],
+  exports: [RevisionsListAndFilterComponent]
 })
-export class GenesRevisionsModule { }
+export class RevisionsListAndFilterModule { }

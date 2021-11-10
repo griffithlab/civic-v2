@@ -1,5 +1,5 @@
-query GeneRevisions(
-  $geneId: Int!,
+query Revisions(
+  $subject: ModeratedInput,
   $first: Int,
   $last: Int,
   $before: String,
@@ -7,30 +7,28 @@ query GeneRevisions(
   $fieldName: String,
   $originatingUserId: Int
 ) {
-  gene(id: $geneId) {
-    id
-    revisions(
-      first: $first,
-      last: $last,
-      before: $before,
-      after: $after,
-      fieldName: $fieldName,
-      originatingUserId: $originatingUserId
-    ) {
-      totalCount
-      uniqueRevisors {
-        username
-        id
-        profileImagePath(size: 32)
-      }
-      revisedFieldNames {
-        name
-        displayName
-      }
-      edges {
-        node {
-          ...revision
-        }
+  revisions(
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after,
+    fieldName: $fieldName,
+    originatingUserId: $originatingUserId,
+    subject: $subject
+  ) {
+    totalCount
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
+    edges {
+      node {
+        ...revision
       }
     }
   }
