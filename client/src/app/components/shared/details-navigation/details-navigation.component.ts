@@ -22,7 +22,6 @@ export class CvcDetailsNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.entity);
   }
 
 }

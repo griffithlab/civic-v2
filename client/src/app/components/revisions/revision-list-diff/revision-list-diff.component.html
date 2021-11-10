@@ -11,12 +11,12 @@
         </span>
     </nz-list-item>
     <nz-list-empty *ngIf="this.diffObject.currentObjects.length === 0"
-    nzNoResult="No {{ entityType }}s"></nz-list-empty>
+    nzNoResult="No {{ entityType }}"></nz-list-empty>
     </nz-list>
   </nz-col>
   <nz-col [nzSpan]="8">
       <!-- show removed items -->
-      <nz-list nzHeader="Removed {{ entityType }}s" nzBordered nzType="inner" nzSize="small">
+      <nz-list nzHeader="Removed {{ entityType }}" nzBordered nzType="inner" nzSize="small">
         <nz-list-item *ngFor="let item of this.diffObject.removedObjects" ngClass="removed">
           <span nz-typography>
             <ng-container
@@ -26,10 +26,10 @@
           </span>
         </nz-list-item>
         <nz-list-empty *ngIf="this.diffObject.removedObjects.length === 0"
-        nzNoResult="No {{ entityType }}s Removed"></nz-list-empty>
+        nzNoResult="No {{ entityType }} Removed"></nz-list-empty>
       </nz-list>
       <!-- show added items -->
-      <nz-list nzHeader="Added {{ entityType }}s" nzBordered nzType="inner" nzSize="small">
+      <nz-list nzHeader="Added {{ entityType }}" nzBordered nzType="inner" nzSize="small">
         <nz-list-item *ngFor="let item of this.diffObject.addedObjects" ngClass="added">
           <span nz-typography>
             <ng-container
@@ -39,9 +39,9 @@
           </span>
         </nz-list-item>
         <nz-list-empty *ngIf="this.diffObject.addedObjects.length === 0"
-          nzNoResult="No {{ entityType }}s Added"></nz-list-empty>
+          nzNoResult="No {{ entityType }} Added"></nz-list-empty>
       </nz-list>
-      <nz-list nzHeader="Kept {{ entityType }}s" nzBordered nzType="inner" nzSize="small">
+      <nz-list nzHeader="Kept {{ entityType }}" nzBordered nzType="inner" nzSize="small">
         <nz-list-item *ngFor="let item of this.diffObject.keptObjects" ngClass="kept">
           <span nz-typography>
             <ng-container
@@ -51,7 +51,7 @@
           </span>
         </nz-list-item>
         <nz-list-empty *ngIf="this.diffObject.keptObjects.length === 0"
-          nzNoResult="No {{ entityType }}s Kept"></nz-list-empty>
+          nzNoResult="No {{ entityType }} Kept"></nz-list-empty>
       </nz-list>
   </nz-col>
   <nz-col [nzSpan]="8">
@@ -66,7 +66,7 @@
         </span>
       </nz-list-item>
       <nz-list-empty *ngIf="this.diffObject.suggestedObjects.length === 0"
-        nzNoResult="No {{ entityType }}s"></nz-list-empty>
+        nzNoResult="No {{ entityType }}"></nz-list-empty>
     </nz-list>
   </nz-col>
 </nz-row>

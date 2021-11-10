@@ -17,14 +17,68 @@
               <ng-container *ngSwitchCase="'source_ids'">
                 <cvc-revision-list-diff
                   [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Sources">
+                  <ng-template #itemTemplate let-item>
+                    <cvc-source-tag [source]="item"></cvc-source-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'disease_id'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Disease">
+                  <ng-template #itemTemplate let-item>
+                    <cvc-disease-tag [disease]="{id: item.id, name: item.displayName}"></cvc-disease-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'drug_ids'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Drugs">
+                  <ng-template #itemTemplate let-item>
+                    <cvc-drug-tag [drug]="{id: item.id, name: item.displayName}"></cvc-drug-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'variant_type_ids'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Variant Types">
+                  <ng-template #itemTemplate let-item>
+                    <cvc-variant-type-tag [variantType]="{id: item.id, name: item.displayName}"></cvc-variant-type-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'phenotype_ids'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Phenotypes">
+                  <ng-template #itemTemplate let-item>
+                    <cvc-phenotype-tag [phenotype]="{id: item.id, name: item.displayName}"></cvc-phenotype-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'variant_id'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Variant">
+                  <ng-template #itemTemplate let-item>
+                    <cvc-variant-tag [variant]="{id: item.id, name: item.displayName}"></cvc-variant-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'source_id'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
                   entityType="Source">
                   <ng-template #itemTemplate let-item>
                     <cvc-source-tag [source]="item"></cvc-source-tag>
                   </ng-template>
                 </cvc-revision-list-diff>
               </ng-container>
-              <ng-container *ngSwitchCase="'description'">
-                <ng-container *ngTemplateOutlet="revDiffDescription"></ng-container>
+              <ng-container *ngSwitchDefault>
+                <ng-container *ngTemplateOutlet="revDiffText"></ng-container>
               </ng-container>
             </ng-container>
             <nz-card-meta [nzDescription]="moderationButtons">
@@ -89,14 +143,14 @@
         </nz-list-item>
 
         <!-- Field Diff Templates -->
-        <!-- description -->
-        <ng-template #revDiffDescription>
+        <!-- default text difff -->
+        <ng-template #revDiffText>
           <cvc-revision-value-diff
             [currentValue]="revision.currentValue"
             [suggestedValue]="revision.suggestedValue"
             [left]="revision.linkoutData.diffValue.left"
             [right]="revision.linkoutData.diffValue.right"
-            entityType="Description"
+            [entityType]="revision.linkoutData.name"
           ></cvc-revision-value-diff>
         </ng-template>
 
