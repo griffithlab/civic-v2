@@ -7,11 +7,11 @@ import { ObjectFieldDiff } from '@app/generated/civic.apollo';
   styleUrls: ['./revision-list-diff.component.less']
 })
 export class RevisionListDiffComponent implements OnInit{
-    @Input() diffObject!: ObjectFieldDiff
-    @Input() entityType!: string
+  @Input() diffObject!: ObjectFieldDiff
+  @Input() entityType!: string
 
-    //Must pass in an <ng-template #itemTemplate> as a child element
-    @ContentChild('itemTemplate') itemTemplateRef?: TemplateRef<any>
+  //Must pass in an <ng-template #itemTemplate> as a child element
+  @ContentChild('itemTemplate') itemTemplateRef?: TemplateRef<any>
   constructor() { }
 
   ngOnInit(): void {

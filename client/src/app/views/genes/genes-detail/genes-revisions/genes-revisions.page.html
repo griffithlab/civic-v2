@@ -1,11 +1,11 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="18">
-    <ng-container *ngIf="service.revisions$ | ngrxPush as revisions">
-      <cvc-revision-list [revisions]="revisions" [mostRecentOrg]="mostRecentOrg"></cvc-revision-list>
+    <ng-container *ngIf="revisions$ | ngrxPush as revisions">
+      <cvc-revision-list [revisions]="revisions"></cvc-revision-list>
     </ng-container>
   </nz-col>
   <nz-col nzSpan="6">
-    <cvc-participant-list listTitle="Revisors" [participantList]="service.uniqueRevisors$ | ngrxPush" (participantSelectedEvent)="onRevisorSelected($event)">
+    <cvc-participant-list listTitle="Revisors" [participantList]="uniqueRevisors$ | ngrxPush" (participantSelectedEvent)="onRevisorSelected($event)">
       <ng-template #itemTemplate let-user>
         <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
         </nz-avatar>
@@ -15,7 +15,7 @@
         <span>{{user.username}}</span>
       </ng-template>
     </cvc-participant-list>
-    <cvc-participant-list listTitle="Fields Revised" [participantList]="service.revisionFields$ | ngrxPush" (participantSelectedEvent)="onFieldNameSelected($event)">
+    <cvc-participant-list listTitle="Fields Revised" [participantList]="revisionFields$ | ngrxPush" (participantSelectedEvent)="onFieldNameSelected($event)">
       <ng-template #itemTemplate let-field>
         <span>{{field.displayName}}</span>
       </ng-template>
