@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, Organization, RevisionFragment, ModeratedEntities } from '@app/generated/civic.apollo';
+import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, Organization, RevisionFragment, ModeratedEntities, RevisionStatus } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, pluck } from 'rxjs/operators';
@@ -15,6 +15,12 @@ export interface UniqueRevisor {
   id: number
   username: string
   profileImagePath?: string
+}
+
+export interface SelectableRevisionStatus {
+  id: number,
+  displayName: string,
+  value: RevisionStatus
 }
 
 @Component({
@@ -34,6 +40,13 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
 
   routeSub?: Subscription
 
+  selectableStatuses: SelectableRevisionStatus[] = [
+    {id: 4, displayName: 'New', value: RevisionStatus.New},
+    {id: 1, displayName: 'Accepted', value: RevisionStatus.Accepted},
+    {id: 2, displayName: 'Rejected', value: RevisionStatus.Rejected},
+    {id: 3, displayName: 'Superseded', value: RevisionStatus.Superseded},
+  ]
+
   constructor(
     private gql: RevisionsGQL,
     private route: ActivatedRoute
@@ -43,7 +56,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
-        subject: {id: this.id, entityType: this.entityType}
+        subject: {id: this.id, entityType: this.entityType},
+        status: RevisionStatus.New
       })
       let observable = this.queryRef.valueChanges
       this.revisions$ = observable.pipe(
@@ -85,6 +99,13 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     this.queryRef.refetch({
       subject: {id: this.id, entityType: this.entityType},
       originatingUserId: user ? user.id : undefined
+    })
+  }
+
+  onStatusSelected(status: Maybe<SelectableRevisionStatus>) {
+    this.queryRef.refetch({
+      subject: {id: this.id, entityType: this.entityType},
+      status: status ? status.value : undefined
     })
   }
 }

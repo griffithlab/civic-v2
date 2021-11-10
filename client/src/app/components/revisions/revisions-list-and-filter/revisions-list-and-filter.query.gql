@@ -5,7 +5,8 @@ query Revisions(
   $before: String,
   $after: String,
   $fieldName: String,
-  $originatingUserId: Int
+  $originatingUserId: Int,
+  $status: RevisionStatus
 ) {
   revisions(
     first: $first,
@@ -14,7 +15,8 @@ query Revisions(
     after: $after,
     fieldName: $fieldName,
     originatingUserId: $originatingUserId,
-    subject: $subject
+    subject: $subject,
+    status: $status
   ) {
     totalCount
     uniqueRevisors {

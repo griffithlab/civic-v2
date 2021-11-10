@@ -4573,6 +4573,7 @@ export type RevisionsQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
   fieldName?: Maybe<Scalars['String']>;
   originatingUserId?: Maybe<Scalars['Int']>;
+  status?: Maybe<RevisionStatus>;
 }>;
 
 
@@ -5873,42 +5874,6 @@ export type GeneDetailFieldsFragment = (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
   ) }
-);
-
-export type GeneRevisionsQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  fieldName?: Maybe<Scalars['String']>;
-  originatingUserId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type GeneRevisionsQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id'>
-    & { revisions: (
-      { __typename: 'RevisionConnection' }
-      & Pick<RevisionConnection, 'totalCount'>
-      & { uniqueRevisors: Array<(
-        { __typename: 'User' }
-        & Pick<User, 'username' | 'id' | 'profileImagePath'>
-      )>, revisedFieldNames: Array<(
-        { __typename: 'FieldName' }
-        & Pick<FieldName, 'name' | 'displayName'>
-      )>, edges: Array<(
-        { __typename: 'RevisionEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Revision' }
-          & RevisionFragment
-        )> }
-      )> }
-    ) }
-  )> }
 );
 
 export type GenesSummaryQueryVariables = Exact<{
@@ -8641,7 +8606,7 @@ export const PhenotypesBrowseDocument = gql`
     }
   }
 export const RevisionsDocument = gql`
-    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
+    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $status: RevisionStatus) {
   revisions(
     first: $first
     last: $last
@@ -8650,6 +8615,7 @@ export const RevisionsDocument = gql`
     fieldName: $fieldName
     originatingUserId: $originatingUserId
     subject: $subject
+    status: $status
   ) {
     totalCount
     uniqueRevisors {
@@ -9864,48 +9830,6 @@ export const GeneDetailDocument = gql`
   })
   export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
     document = GeneDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneRevisionsDocument = gql`
-    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
-  gene(id: $geneId) {
-    id
-    revisions(
-      first: $first
-      last: $last
-      before: $before
-      after: $after
-      fieldName: $fieldName
-      originatingUserId: $originatingUserId
-    ) {
-      totalCount
-      uniqueRevisors {
-        username
-        id
-        profileImagePath(size: 32)
-      }
-      revisedFieldNames {
-        name
-        displayName
-      }
-      edges {
-        node {
-          ...revision
-        }
-      }
-    }
-  }
-}
-    ${RevisionFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneRevisionsGQL extends Apollo.Query<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
-    document = GeneRevisionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

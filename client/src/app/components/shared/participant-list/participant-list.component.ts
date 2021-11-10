@@ -10,10 +10,11 @@ export interface WithId {
   templateUrl: './participant-list.component.html',
   styleUrls: ['./participant-list.component.less']
 })
-export class CvcParticipantListComponent<T extends WithId> {
+export class CvcParticipantListComponent<T extends WithId> implements OnInit {
     @Input() participantList!: T[]
     @Input() listTitle!: string
     @Input() defaultListSize: number = 5
+    @Input() preselectedOption?: T
 
     @Output() participantSelectedEvent = new EventEmitter<Maybe<T>>();
 
@@ -25,6 +26,12 @@ export class CvcParticipantListComponent<T extends WithId> {
     isExpanded = false
 
   constructor() { }
+
+  ngOnInit() {
+    if (this.preselectedOption) {
+      this.selectedItem = this.preselectedOption
+    }
+  }
 
   onParticipantSelected(u: T) {
       if (u.id == this.selectedItem?.id) {
