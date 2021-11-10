@@ -86,7 +86,8 @@ fragment revision on Revision {
   }
   revisor {
     id
-    name
+    displayName
+    role
   }
   status  
 }

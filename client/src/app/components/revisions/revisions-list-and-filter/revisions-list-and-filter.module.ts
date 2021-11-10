@@ -26,7 +26,7 @@ import { RevisionListModule } from '@app/components/revisions/revision-list/revi
     NzTypographyModule,
     NzAvatarModule,
     CvcParticipantListModule,
-    RevisionListModule
+    RevisionListModule,
   ],
   exports: [RevisionsListAndFilterComponent]
 })

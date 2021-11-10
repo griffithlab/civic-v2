@@ -4628,7 +4628,7 @@ export type RevisionFragment = (
     ) }
   ), revisor: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'name'>
+    & Pick<User, 'id' | 'displayName' | 'role'>
   ) }
 );
 
@@ -7001,7 +7001,8 @@ export const RevisionFragmentDoc = gql`
   }
   revisor {
     id
-    name
+    displayName
+    role
   }
   status
 }

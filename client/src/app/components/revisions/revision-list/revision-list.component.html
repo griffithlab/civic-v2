@@ -77,8 +77,9 @@
           <ng-template #revCardHeaderExtra>
             <nz-space nzSize="small">
               <nz-space-item>
-                <span nz-typography
-                  nzType="secondary">{{ revision.createdAt | timeago }}</span>
+                <span nz-typography nzType="secondary">Submitted By</span>
+                <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
+                <span nz-typography nzType="secondary">{{ revision.createdAt | timeago }}</span>
               </nz-space-item>
               <nz-space-item>
                 <nz-tag>{{ revision.status }}</nz-tag>

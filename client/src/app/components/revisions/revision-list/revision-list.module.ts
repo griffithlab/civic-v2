@@ -13,6 +13,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { TimeagoModule } from 'ngx-timeago';
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -29,7 +30,8 @@ import { TimeagoModule } from 'ngx-timeago';
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
     CvcSourceTagModule,
-    CvcRevisionValueDiffModule
+    CvcRevisionValueDiffModule,
+    CvcUserTagModule
   ],
   exports: [RevisionListComponent]
 })
