@@ -19,6 +19,7 @@ import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-ta
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -41,7 +42,8 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
     CvcDrugTagModule,
     CvcPhenotypeTagModule,
     CvcVariantTagModule,
-    CvcVariantTypeTagModule
+    CvcVariantTypeTagModule,
+    NzCollapseModule
   ],
   exports: [RevisionListComponent]
 })

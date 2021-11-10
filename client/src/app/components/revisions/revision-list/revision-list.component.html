@@ -1,18 +1,7 @@
   <nz-card nzTitle="Revisions"
     class="card-list">
-    <nz-list [nzDataSource]="revisions"
-      class="revision-list"
-      [nzRenderItem]="revision">
-      <ng-template #revision
-        let-revision>
-        <nz-list-item>
-          <!-- Revision Card -->
-          <nz-card nzType="inner"
-            nzSize="small"
-            style="width: 100%"
-            [nzTitle]="revCardHeaderTitle"
-            [nzExtra]="revCardHeaderExtra">
-
+    <nz-collapse class="revision-list">
+      <nz-collapse-panel *ngFor="let revision of untypedRevisons" [nzHeader]="revCardHeaderTitle" [nzExtra]="revCardHeaderExtra" [nzActive]="true">
             <ng-container [ngSwitch]="revision.fieldName">
               <ng-container *ngSwitchCase="'source_ids'">
                 <cvc-revision-list-diff
@@ -38,6 +27,39 @@
                   entityType="Drugs">
                   <ng-template #itemTemplate let-item>
                     <cvc-drug-tag [drug]="{id: item.id, name: item.displayName}"></cvc-drug-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'variant_alias_ids'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="Variant Aliases">
+                  <ng-template #itemTemplate let-item>
+                    <nz-tag>
+                      {{ item.displayName }}
+                    </nz-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'clinvar_entry_ids'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="ClinVar Entries">
+                  <ng-template #itemTemplate let-item>
+                    <nz-tag>
+                      {{ item.displayName }}
+                    </nz-tag>
+                  </ng-template>
+                </cvc-revision-list-diff>
+              </ng-container>
+              <ng-container *ngSwitchCase="'hgvs_expression_ids'">
+                <cvc-revision-list-diff
+                  [diffObject]="revision.linkoutData.diffValue"
+                  entityType="HGVS Expressions">
+                  <ng-template #itemTemplate let-item>
+                    <nz-tag>
+                      {{ item.displayName }}
+                    </nz-tag>
                   </ng-template>
                 </cvc-revision-list-diff>
               </ng-container>
@@ -78,8 +100,14 @@
                 </cvc-revision-list-diff>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <ng-container *ngTemplateOutlet="revDiffText"></ng-container>
-              </ng-container>
+                <!-- default text diff -->
+                <cvc-revision-value-diff
+                  [currentValue]="revision.currentValue"
+                  [suggestedValue]="revision.suggestedValue"
+                  [left]="revision.linkoutData.diffValue.left"
+                  [right]="revision.linkoutData.diffValue.right"
+                  [entityType]="revision.linkoutData.name" ></cvc-revision-value-diff>
+                  </ng-container>
             </ng-container>
             <nz-card-meta [nzDescription]="moderationButtons">
             </nz-card-meta>
@@ -111,22 +139,19 @@
                           Accept Revision
                         </button>
                       </cvc-org-selector-btn-group>
-
                     </nz-space-item>
                   </nz-space>
-
                 </div>
               </div>
-            </ng-template>
-          </nz-card>
+              </ng-template>
 
-          <!-- Revision Card Templates -->
           <!-- header title -->
           <ng-template #revCardHeaderTitle>
             <i nz-icon
               nzType="civic:revision"></i> RID{{ revision.id }}
             <span>{{ revision.linkoutData.name }} Updated</span>
           </ng-template>
+
           <!-- header secondary & status -->
           <ng-template #revCardHeaderExtra>
             <nz-space nzSize="small">
@@ -140,20 +165,5 @@
               </nz-space-item>
             </nz-space>
           </ng-template>
-        </nz-list-item>
-
-        <!-- Field Diff Templates -->
-        <!-- default text difff -->
-        <ng-template #revDiffText>
-          <cvc-revision-value-diff
-            [currentValue]="revision.currentValue"
-            [suggestedValue]="revision.suggestedValue"
-            [left]="revision.linkoutData.diffValue.left"
-            [right]="revision.linkoutData.diffValue.right"
-            [entityType]="revision.linkoutData.name"
-          ></cvc-revision-value-diff>
-        </ng-template>
-
-      </ng-template>
-    </nz-list>
-  </nz-card>
+      </nz-collapse-panel>
+    </nz-collapse>
