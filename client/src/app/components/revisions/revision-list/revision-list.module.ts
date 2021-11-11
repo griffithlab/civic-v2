@@ -22,6 +22,9 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -35,6 +38,9 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     NzTypographyModule,
     NzAvatarModule,
     NzEmptyModule,
+    NzCheckboxModule,
+    NzDividerModule,
+    NzToolTipModule,
     TimeagoModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,

@@ -1,7 +1,12 @@
   <nz-card nzTitle="Revisions"
-    class="card-list">
+    class="card-list" [nzExtra]="moderationButtons">
     <nz-collapse class="revision-list" *ngIf="revisions && revisions.length > 0; else noRevisions">
-      <nz-collapse-panel *ngFor="let revision of untypedRevisons" [nzHeader]="revCardHeaderTitle" [nzExtra]="revCardHeaderExtra" [nzActive]="true">
+      <nz-collapse-panel
+        *ngFor="let revision of untypedRevisons"
+        [nzHeader]="revCardHeaderTitle"
+        [nzExtra]="revCardHeaderExtra"
+        [nzActive]="true"
+      >
         <ng-container [ngSwitch]="revision.fieldName">
           <ng-container *ngSwitchCase="'source_ids'">
             <cvc-revision-list-diff
@@ -109,42 +114,6 @@
               [entityType]="revision.linkoutData.name" ></cvc-revision-value-diff>
               </ng-container>
         </ng-container>
-        <nz-card-meta [nzDescription]="moderationButtons">
-        </nz-card-meta>
-        <ng-template #moderationButtons>
-          <div nz-row
-            style="margin-top: 1em;">
-            <div nz-col
-              nzSpan="24"
-              style="text-align: right;">
-              <nz-space nzDirection="horizontal">
-                <nz-space-item>
-                  <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-                    <button type="submit"
-                      nz-button
-                      cvcOrgSelectorBtn
-                      nzType="primary"
-                      nzSize="small">
-                      Reject Revision
-                    </button>
-                  </cvc-org-selector-btn-group>
-                </nz-space-item>
-                <nz-space-item>
-                  <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-                    <button type="submit"
-                      nz-button
-                      cvcOrgSelectorBtn
-                      nzType="primary"
-                      nzSize="small">
-                      Accept Revision
-                    </button>
-                  </cvc-org-selector-btn-group>
-                </nz-space-item>
-              </nz-space>
-            </div>
-          </div>
-          </ng-template>
-
       <!-- header title -->
       <ng-template #revCardHeaderTitle>
             <i nz-icon
@@ -164,8 +133,19 @@
             <cvc-status-tag [status]="revision.status"></cvc-status-tag>
           </nz-space-item>
           <nz-space-item>
+            <nz-divider nzType="vertical"></nz-divider>
+          </nz-space-item>
+          <nz-space-item>
               <a nz-button nzType="link" (click)="onChangesetSelected(revision.revisionsetId)">Show Group</a> 
           </nz-space-item>
+          <ng-container *ngIf="revision.status === 'NEW'">
+            <nz-space-item>
+              <nz-divider nzType="vertical"></nz-divider>
+            </nz-space-item>
+            <nz-space-item>
+              <label nz-checkbox nz-tooltip nzTooltipTitle="Select Revision for Acceptance/Rejection" (nzCheckedChange)="onRevisionCheckboxClicked($event, revision.id)"></label>
+            </nz-space-item>
+          </ng-container>
         </nz-space>
       </ng-template>
     </nz-collapse-panel>
@@ -174,3 +154,39 @@
     <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No Revisions matching filters"></nz-empty>
   </ng-template>
 </nz-card>
+<ng-template #moderationButtons>
+  <div nz-row
+    style="margin-top: 1em;">
+    <div nz-col
+      nzSpan="24"
+      style="text-align: right;">
+      <nz-space nzDirection="horizontal">
+        <nz-space-item>
+          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+            <button type="submit"
+              nz-button
+              cvcOrgSelectorBtn
+              nzType="primary"
+              nzSize="small"
+              [disabled]="this.selectedRevisionIds.length === 0"
+              nzDanger>
+              Reject Revision
+            </button>
+          </cvc-org-selector-btn-group>
+        </nz-space-item>
+        <nz-space-item>
+          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+            <button type="submit"
+              nz-button
+              cvcOrgSelectorBtn
+              nzType="primary"
+              nzSize="small"
+              [disabled]="this.selectedRevisionIds.length === 0">
+              Accept Revision
+            </button>
+          </cvc-org-selector-btn-group>
+        </nz-space-item>
+      </nz-space>
+    </div>
+  </div>
+  </ng-template>

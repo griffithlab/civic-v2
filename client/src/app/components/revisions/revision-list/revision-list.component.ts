@@ -13,6 +13,8 @@ export class RevisionListComponent implements OnInit, OnChanges{
   
   mostRecentOrg!: Maybe<Organization>
 
+  selectedRevisionIds: number[] = []
+
   viewer$?: Observable<Viewer>;
 
   @Output() revisionSetSelectedEvent = new EventEmitter<string>();
@@ -40,5 +42,15 @@ export class RevisionListComponent implements OnInit, OnChanges{
 
   onChangesetSelected(changesetId: string) {
     this.revisionSetSelectedEvent.emit(changesetId)
+  }
+
+  onRevisionCheckboxClicked(value: boolean, revisionId: number) {
+    if (value) {
+      this.selectedRevisionIds.push(revisionId)
+    }
+    else {
+      this.selectedRevisionIds = this.selectedRevisionIds.filter(i => i != revisionId)
+    }
+    console.log(this.selectedRevisionIds)
   }
 }
