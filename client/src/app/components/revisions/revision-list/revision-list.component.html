@@ -1,3 +1,5 @@
+  <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+  <nz-alert *ngIf="this.success" nzBanner nzMessage="Revision(s) successfully applied." nzType="error" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
   <nz-card nzTitle="Revisions"
     class="card-list" [nzExtra]="moderationButtons">
     <nz-collapse class="revision-list" *ngIf="revisions && revisions.length > 0; else noRevisions">
@@ -165,8 +167,8 @@
           <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
             <button type="submit"
               nz-button
+              [nzLoading]="isLoading"
               cvcOrgSelectorBtn
-              nzType="primary"
               nzSize="small"
               [disabled]="this.selectedRevisionIds.length === 0"
               nzDanger>
@@ -178,10 +180,12 @@
           <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
             <button type="submit"
               nz-button
+              [nzLoading]="isLoading"
               cvcOrgSelectorBtn
-              nzType="primary"
               nzSize="small"
-              [disabled]="this.selectedRevisionIds.length === 0">
+              [disabled]="this.selectedRevisionIds.length === 0"
+              (click)="onAcceptRevisionClicked()"
+              >
               Accept Revision
             </button>
           </cvc-org-selector-btn-group>

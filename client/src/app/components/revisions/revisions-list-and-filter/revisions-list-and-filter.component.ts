@@ -129,6 +129,9 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
       subject: {id: this.id, entityType: this.entityType},
       revisionsetId: undefined
     })
+  }
 
+  refresh() {
+    this.queryRef.refetch()
   }
 }

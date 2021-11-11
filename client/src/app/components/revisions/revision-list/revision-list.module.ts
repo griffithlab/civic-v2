@@ -25,6 +25,8 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -53,7 +55,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
     CvcStatusTagModule,
-    NzCollapseModule
+    NzCollapseModule,
+    NzButtonModule,
+    NzAlertModule
   ],
   exports: [RevisionListComponent]
 })
