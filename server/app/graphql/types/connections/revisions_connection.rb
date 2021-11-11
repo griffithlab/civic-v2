@@ -8,6 +8,9 @@ module Types::Connections
     field :revised_field_names, [Types::Revisions::FieldNameType], null: false,
       description: 'List of all fields that have at least one revision.'
 
+    field :unfiltered_count_for_subject, Int, null: true,
+      description: 'When filtered on a subject, the total number of revisions for that subject, irregardless of other filters'
+
     def unique_revisors
       if revision_subject
         subject = revision_subject
@@ -34,6 +37,15 @@ module Types::Connections
           display_name: Types::Revisions::LinkoutData.display_name(n)
         }
       end
+    end
+
+    def unfiltered_count_for_subject
+      if revision_subject
+        subject = revision_subject
+      else
+        subject = parent
+      end
+      Revision.where(subject: subject).count
     end
 
     private

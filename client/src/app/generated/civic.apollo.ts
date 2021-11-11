@@ -2670,6 +2670,8 @@ export type RevisionConnection = {
   revisedFieldNames: Array<FieldName>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** When filtered on a subject, the total number of revisions for that subject, irregardless of other filters */
+  unfilteredCountForSubject?: Maybe<Scalars['Int']>;
   /** List of all users that have submitted a revision to this entity. */
   uniqueRevisors: Array<User>;
 };
@@ -4581,7 +4583,7 @@ export type RevisionsQuery = (
   { __typename: 'Query' }
   & { revisions: (
     { __typename: 'RevisionConnection' }
-    & Pick<RevisionConnection, 'totalCount'>
+    & Pick<RevisionConnection, 'totalCount' | 'unfilteredCountForSubject'>
     & { uniqueRevisors: Array<(
       { __typename: 'User' }
       & Pick<User, 'username' | 'id' | 'profileImagePath'>
@@ -8619,6 +8621,7 @@ export const RevisionsDocument = gql`
     status: $status
   ) {
     totalCount
+    unfilteredCountForSubject
     uniqueRevisors {
       username
       id

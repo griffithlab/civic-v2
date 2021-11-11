@@ -20,6 +20,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -32,6 +33,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
     NzTagModule,
     NzTypographyModule,
     NzAvatarModule,
+    NzEmptyModule,
     TimeagoModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,

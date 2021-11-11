@@ -19,6 +19,7 @@ query Revisions(
     status: $status
   ) {
     totalCount
+    unfilteredCountForSubject
     uniqueRevisors {
       username
       id

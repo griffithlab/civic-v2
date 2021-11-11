@@ -35,6 +35,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   revisions$?: Observable<Maybe<RevisionFragment>[]>
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
   uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>
+  unfilteredCount$: Maybe<Observable<Maybe<number>>>
 
   queryRef!: QueryRef<RevisionsQuery, RevisionsQueryVariables>
 
@@ -81,6 +82,9 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
         })
       );
 
+      this.unfilteredCount$ = observable.pipe(
+        pluck('data', 'revisions', 'unfilteredCountForSubject')
+      )
     });
   }
 

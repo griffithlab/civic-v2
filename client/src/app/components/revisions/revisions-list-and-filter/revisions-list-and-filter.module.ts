@@ -12,6 +12,7 @@ import { RevisionsListAndFilterComponent } from './revisions-list-and-filter.com
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { RevisionListModule } from '@app/components/revisions/revision-list/revision-list.module';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [RevisionsListAndFilterComponent],
@@ -25,6 +26,7 @@ import { RevisionListModule } from '@app/components/revisions/revision-list/revi
     NzTagModule,
     NzTypographyModule,
     NzAvatarModule,
+    NzEmptyModule,
     CvcParticipantListModule,
     RevisionListModule,
   ],

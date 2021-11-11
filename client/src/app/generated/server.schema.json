@@ -20510,6 +20510,20 @@
               "deprecationReason": null
             },
             {
+              "name": "unfilteredCountForSubject",
+              "description": "When filtered on a subject, the total number of revisions for that subject, irregardless of other filters",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "uniqueRevisors",
               "description": "List of all users that have submitted a revision to this entity.",
               "args": [
