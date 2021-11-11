@@ -21,6 +21,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -45,6 +46,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     CvcPhenotypeTagModule,
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
+    CvcStatusTagModule,
     NzCollapseModule
   ],
   exports: [RevisionListComponent]

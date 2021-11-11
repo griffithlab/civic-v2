@@ -161,7 +161,7 @@
             <span nz-typography nzType="secondary">{{ revision.createdAt | timeago }}</span>
           </nz-space-item>
           <nz-space-item>
-            <nz-tag>{{ revision.status }}</nz-tag>
+            <cvc-status-tag [status]="revision.status"></cvc-status-tag>
           </nz-space-item>
           <nz-space-item>
               <a nz-button nzType="link" (click)="onChangesetSelected(revision.revisionsetId)">Show Group</a> 
