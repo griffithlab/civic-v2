@@ -131,7 +131,8 @@ export const CvcTypePolicies: TypePolicies = {
         'subject',
         'status',
         'originatingUserId',
-        'fieldName'
+        'fieldName',
+        'revisionsetId'
       ])
     },
   },
