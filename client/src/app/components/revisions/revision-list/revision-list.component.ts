@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter} from '@angular/core';
 import { Maybe, Organization, Revision } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
@@ -14,6 +14,8 @@ export class RevisionListComponent implements OnInit, OnChanges{
   mostRecentOrg!: Maybe<Organization>
 
   viewer$?: Observable<Viewer>;
+
+  @Output() revisionSetSelectedEvent = new EventEmitter<string>();
 
   //TODO: Get rid of, we need a type guard pipe in the template to narrow the type safely in the template
   // (or the angular team to make ngSwitch better)
@@ -34,5 +36,9 @@ export class RevisionListComponent implements OnInit, OnChanges{
       });
 
     this.untypedRevisons = this.revisions
+  }
+
+  onChangesetSelected(changesetId: string) {
+    this.revisionSetSelectedEvent.emit(changesetId)
   }
 }

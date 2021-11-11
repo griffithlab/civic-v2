@@ -37,6 +37,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>
   unfilteredCount$: Maybe<Observable<Maybe<number>>>
 
+  filteredSet: undefined | string = undefined
+
   queryRef!: QueryRef<RevisionsQuery, RevisionsQueryVariables>
 
   routeSub?: Subscription
@@ -111,5 +113,22 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
       subject: {id: this.id, entityType: this.entityType},
       status: status ? status.value : undefined
     })
+  }
+
+  onRevisionSetSelected(revisionsetId: string) {
+    this.filteredSet = revisionsetId
+    this.queryRef.refetch({
+      subject: {id: this.id, entityType: this.entityType},
+      revisionsetId: revisionsetId ? revisionsetId : undefined
+    })
+  }
+
+  onSetFilterClearClicked() {
+    this.filteredSet = undefined
+    this.queryRef.refetch({
+      subject: {id: this.id, entityType: this.entityType},
+      revisionsetId: undefined
+    })
+
   }
 }

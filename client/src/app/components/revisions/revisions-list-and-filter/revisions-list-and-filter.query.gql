@@ -6,6 +6,7 @@ query Revisions(
   $after: String,
   $fieldName: String,
   $originatingUserId: Int,
+  $revisionsetId: String
   $status: RevisionStatus
 ) {
   revisions(
@@ -16,7 +17,8 @@ query Revisions(
     fieldName: $fieldName,
     originatingUserId: $originatingUserId,
     subject: $subject,
-    status: $status
+    status: $status,
+    revisionsetId: $revisionsetId
   ) {
     totalCount
     unfilteredCountForSubject

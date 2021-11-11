@@ -147,14 +147,14 @@
 
       <!-- header title -->
       <ng-template #revCardHeaderTitle>
-        <i nz-icon
-          nzType="civic:revision"></i> RID{{ revision.id }}
-        <span>{{ revision.linkoutData.name }} Updated</span>
+            <i nz-icon
+              nzType="civic:revision"></i> RID{{ revision.id }}
+            <span>{{ revision.linkoutData.name }} Updated</span>
       </ng-template>
 
       <!-- header secondary & status -->
       <ng-template #revCardHeaderExtra>
-        <nz-space nzSize="small">
+        <nz-space nzSize="small" (click)="$event.stopPropagation()">
           <nz-space-item>
             <span nz-typography nzType="secondary">Submitted By</span>
             <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
@@ -162,6 +162,9 @@
           </nz-space-item>
           <nz-space-item>
             <nz-tag>{{ revision.status }}</nz-tag>
+          </nz-space-item>
+          <nz-space-item>
+              <a nz-button nzType="link" (click)="onChangesetSelected(revision.revisionsetId)">Show Group</a> 
           </nz-space-item>
         </nz-space>
       </ng-template>

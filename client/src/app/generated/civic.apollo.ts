@@ -4575,6 +4575,7 @@ export type RevisionsQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
   fieldName?: Maybe<Scalars['String']>;
   originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
   status?: Maybe<RevisionStatus>;
 }>;
 
@@ -8609,7 +8610,7 @@ export const PhenotypesBrowseDocument = gql`
     }
   }
 export const RevisionsDocument = gql`
-    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $status: RevisionStatus) {
+    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $revisionsetId: String, $status: RevisionStatus) {
   revisions(
     first: $first
     last: $last
@@ -8619,6 +8620,7 @@ export const RevisionsDocument = gql`
     originatingUserId: $originatingUserId
     subject: $subject
     status: $status
+    revisionsetId: $revisionsetId
   ) {
     totalCount
     unfilteredCountForSubject

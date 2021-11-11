@@ -1,9 +1,16 @@
 <ng-container *ngIf="unfilteredCount$ | ngrxPush as unfilteredCount; else noRevisions">
   <nz-row [nzGutter]="16">
     <nz-col nzSpan="18">
-      <cvc-revision-list [revisions]="revisions$ | ngrxPush"></cvc-revision-list>
+      <cvc-revision-list [revisions]="revisions$ | ngrxPush" (revisionSetSelectedEvent)="onRevisionSetSelected($event)"></cvc-revision-list>
     </nz-col>
     <nz-col nzSpan="6">
+      <nz-space nzDirection="vertical" *ngIf="this.filteredSet">
+        <nz-space-item>
+        <nz-row >
+          <nz-tag nzMode="closeable" (nzOnClose)="onSetFilterClearClicked()">Group: {{this.filteredSet}}</nz-tag>
+        </nz-row>
+        </nz-space-item>
+      </nz-space>
       <cvc-participant-list listTitle="Revision Status" [preselectedOption]="this.selectableStatuses[0]" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">
         <ng-template #itemTemplate let-status>
           <span>{{status.displayName}}</span>
