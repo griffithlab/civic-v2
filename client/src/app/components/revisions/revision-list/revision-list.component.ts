@@ -25,6 +25,9 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   errors: Maybe<string[]>;
   success: boolean = false
 
+  validationPopoverVisible: boolean = false
+  revisionComment: Maybe<string>
+
   private destroy$ = new Subject();
 
   @Output() revisionSetSelectedEvent = new EventEmitter<string>();
@@ -99,7 +102,8 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     let state = this.acceptRevisionsMutator.mutate(this.acceptRevisionsGql, {
       input: {
         ids: this.selectedRevisionIds,
-        organizationId: this.mostRecentOrg?.id  
+        organizationId: this.mostRecentOrg?.id,
+        comment: this.revisionComment === "" ? undefined : this.revisionComment
       }
     })
 
@@ -109,6 +113,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         this.revisionMutationCompleted.emit();
         this.errors = undefined
         this.success = true
+        this.validationPopoverVisible = false
       }
     })
     state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -116,6 +121,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         this.isLoading = false
         this.success = false
         this.errors  = res
+        this.validationPopoverVisible = false
       }
     })
   }

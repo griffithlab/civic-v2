@@ -30,6 +30,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -49,6 +51,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzListModule,
     NzPopoverModule,
     NzIconModule,
+    NzInputModule,
+    FormsModule,
     TimeagoModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
