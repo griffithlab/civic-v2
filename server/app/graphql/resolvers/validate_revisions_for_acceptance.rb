@@ -23,8 +23,16 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
 
     if !revisions.empty?
       subjects = revisions.compact.map(&:subject).uniq
+
       if subjects.size > 1
         errors << "Revisions span multiple subjects"
+      end
+
+      revisors = revisions.compact.map(&:revisor).uniq
+      revisors.each do |user|
+        if user.id == context[:current_user]&.id
+          errors << "Users cannot accept their own revisions."
+        end
       end
 
       revisions.compact.group_by{|r| r.field_name}.each do |field_name, rs|
