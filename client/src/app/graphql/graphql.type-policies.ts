@@ -126,6 +126,13 @@ export const CvcTypePolicies: TypePolicies = {
         'originatingUserId',
         'organizationId',
         'includeRead'
+      ]),
+      revisions: relayStylePagination([
+        'subject',
+        'status',
+        'originatingUserId',
+        'fieldName',
+        'revisionsetId'
       ])
     },
   },

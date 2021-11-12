@@ -14,17 +14,23 @@ module Types::Revisions
           current_value: -> { { objects: value_for_field(r, method_name: :current_value) } },
           suggested_value: -> { { objects: value_for_field(r, method_name: :suggested_value) } },
           diff_value: -> { {
+            current_objects: value_for_set(r, set: current_set),
             added_objects: value_for_set(r, set: suggested_set - current_set),
             removed_objects: value_for_set(r, set: current_set - suggested_set),
-            kept_objects: value_for_set(r, set: current_set & suggested_set)
+            kept_objects: value_for_set(r, set: current_set & suggested_set),
+            suggested_objects: value_for_set(r, set: suggested_set)
           } }
         }
       else
+        diff = Diffy::SplitDiff.new(r.current_value, r.suggested_value, :format => :html )
         {
           name: revision_display_name(r),
           current_value: { value: r.current_value },
           suggested_value: { value: r.suggested_value },
-          diff_value: { value: Diffy::Diff.new(r.current_value, r.suggested_value).to_s(:html) }
+          diff_value: {
+            left: diff.left,
+            right: diff.right
+          }
         }
       end
     end

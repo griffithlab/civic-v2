@@ -2559,6 +2559,16 @@ type LinkoutData {
 }
 
 """
+Enumeration of all moderated CIViC entities.
+"""
+enum ModeratedEntities {
+  ASSERTION
+  EVIDENCE_ITEM
+  GENE
+  VARIANT
+}
+
+"""
 Fields that can have revisions can be either scalar values or complex objects
 """
 union ModeratedField = ObjectField | ScalarField
@@ -2566,7 +2576,22 @@ union ModeratedField = ObjectField | ScalarField
 """
 Fields that can have revisions can be either scalar values or complex objects
 """
-union ModeratedFieldDiff = ObjectFieldDiff | ScalarField
+union ModeratedFieldDiff = ObjectFieldDiff | ScalarFieldDiff
+
+"""
+Entity to moderate.
+"""
+input ModeratedInput {
+  """
+  Type of moderated entity.
+  """
+  entityType: ModeratedEntities!
+
+  """
+  ID of moderated entity.
+  """
+  id: Int!
+}
 
 type ModeratedObjectField {
   displayName: String!
@@ -3059,8 +3084,10 @@ type ObjectField {
 
 type ObjectFieldDiff {
   addedObjects: [ModeratedObjectField!]!
+  currentObjects: [ModeratedObjectField!]!
   keptObjects: [ModeratedObjectField!]!
   removedObjects: [ModeratedObjectField!]!
+  suggestedObjects: [ModeratedObjectField!]!
 }
 
 type Organization {
@@ -4030,6 +4057,61 @@ type Query {
   Find a revision by CIViC ID
   """
   revision(id: Int!): Revision
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionsetId: String
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+
+    """
+    Limit to revisions of a specific CIViC entity
+    """
+    subject: ModeratedInput
+  ): RevisionConnection!
   search(
     """
     The term to query for
@@ -4117,6 +4199,12 @@ type Query {
     """
     organization: OrganizationFilter
   ): UserConnection!
+  validateRevisionsForAcceptance(
+    """
+    A list of CIViC Revisions IDs to validate
+    """
+    revisionIds: [Int!]!
+  ): ValidationErrors!
 
   """
   Find a variant by CIViC ID
@@ -4402,6 +4490,11 @@ type RevisionConnection {
   totalCount: Int!
 
   """
+  When filtered on a subject, the total number of revisions for that subject, irregardless of other filters
+  """
+  unfilteredCountForSubject: Int
+
+  """
   List of all users that have submitted a revision to this entity.
   """
   uniqueRevisors: [User!]!
@@ -4453,6 +4546,11 @@ enum RevisionStatus {
 
 type ScalarField {
   value: String
+}
+
+type ScalarFieldDiff {
+  left: String!
+  right: String!
 }
 
 type SearchResult {
@@ -5456,6 +5554,10 @@ type UserEdge {
   The item at the end of the edge.
   """
   node: User
+}
+
+type ValidationErrors {
+  validationErrors: [String!]!
 }
 
 type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {

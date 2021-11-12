@@ -40,7 +40,11 @@ class Actions::AcceptRevisions
   end
 
   def supersede_conflicting_revisions(revision)
-    @superseded_revisions = Revision.where(field_name: revision.field_name, status: 'new')
+    @superseded_revisions = Revision.where(
+      subject: revision.subject,
+      field_name: revision.field_name,
+      status: 'new'
+    )
     superseded_revisions.each do |sc|
       sc.status = 'superseded'
       sc.save!

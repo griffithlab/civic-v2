@@ -132,7 +132,7 @@
             "name": "ObjectFieldDiff"
           },
           {
-            "name": "ScalarField"
+            "name": "ScalarFieldDiff"
           }
         ]
       },

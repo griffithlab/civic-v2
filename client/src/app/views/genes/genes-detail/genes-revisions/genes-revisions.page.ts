@@ -1,45 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Maybe, Organization } from '@app/generated/civic.apollo';
-import {
-  GenesRevisionsService,
-  SelectableFieldName,
-  UniqueRevisor
-} from './genes-revisions.service';
+import { ModeratedEntities } from '@app/generated/civic.apollo';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-genes-revisions',
   templateUrl: './genes-revisions.page.html',
   styleUrls: ['./genes-revisions.page.less'],
-  providers: [GenesRevisionsService]
 })
-export class GenesRevisionsPage implements OnInit {
-  service: GenesRevisionsService;
-  mostRecentOrg: Maybe<Organization>;
-  geneId: number
+export class GenesRevisionsPage implements OnDestroy {
+  geneId!: number
+  entityType!: ModeratedEntities
+  
+  routeSub: Subscription
 
   constructor(
-    private genesRevisionsService: GenesRevisionsService,
-    private route: ActivatedRoute) {
-
-    this.geneId = +this.route.snapshot.params['geneId'];
-    this.service = genesRevisionsService;
+    private route: ActivatedRoute
+  ) {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.geneId = +params.geneId;
+      this.entityType = ModeratedEntities['Gene']
+    });
   }
 
-  ngOnInit(): void {
-    this.service.createQuery({geneId: this.geneId});
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
-
-  onFieldNameSelected(field: Maybe<SelectableFieldName>) {
-    this.service.fieldNameSelected(field)
-  }
-
-  onRevisorSelected(user: Maybe<UniqueRevisor>) {
-    this.service.revisorSelected(user)
-  }
-
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
-  }
-
 }

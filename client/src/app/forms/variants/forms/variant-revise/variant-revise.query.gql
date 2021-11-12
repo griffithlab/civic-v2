@@ -84,8 +84,9 @@ mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }

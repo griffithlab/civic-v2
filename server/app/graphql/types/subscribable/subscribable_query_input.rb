@@ -12,7 +12,7 @@ module Types::Subscribable
       description: 'Include child entities of the requested subscribable'
 
     def prepare
-      subscribable = entity_type.downcase.classify.constantize.find(id)
+      subscribable = entity_type.constantize.find(id)
       if include_children
         return EventHierarchy.self_with_children(subscribable)
       else

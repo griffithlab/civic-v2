@@ -1547,11 +1547,27 @@ export type LinkoutData = {
   suggestedValue: ModeratedField;
 };
 
+/** Enumeration of all moderated CIViC entities. */
+export enum ModeratedEntities {
+  Assertion = 'ASSERTION',
+  EvidenceItem = 'EVIDENCE_ITEM',
+  Gene = 'GENE',
+  Variant = 'VARIANT'
+}
+
 /** Fields that can have revisions can be either scalar values or complex objects */
 export type ModeratedField = ObjectField | ScalarField;
 
 /** Fields that can have revisions can be either scalar values or complex objects */
-export type ModeratedFieldDiff = ObjectFieldDiff | ScalarField;
+export type ModeratedFieldDiff = ObjectFieldDiff | ScalarFieldDiff;
+
+/** Entity to moderate. */
+export type ModeratedInput = {
+  /** Type of moderated entity. */
+  entityType: ModeratedEntities;
+  /** ID of moderated entity. */
+  id: Scalars['Int'];
+};
 
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
@@ -1931,8 +1947,10 @@ export type ObjectField = {
 export type ObjectFieldDiff = {
   __typename: 'ObjectFieldDiff';
   addedObjects: Array<ModeratedObjectField>;
+  currentObjects: Array<ModeratedObjectField>;
   keptObjects: Array<ModeratedObjectField>;
   removedObjects: Array<ModeratedObjectField>;
+  suggestedObjects: Array<ModeratedObjectField>;
 };
 
 export type Organization = {
@@ -2104,6 +2122,8 @@ export type Query = {
   remoteCitation?: Maybe<Scalars['String']>;
   /** Find a revision by CIViC ID */
   revision?: Maybe<Revision>;
+  /** List and filter revisions. */
+  revisions: RevisionConnection;
   search: Array<SearchResult>;
   searchByPermalink: AdvancedSearchResult;
   searchGenes: AdvancedSearchResult;
@@ -2117,6 +2137,7 @@ export type Query = {
   user?: Maybe<User>;
   /** List and filter users. */
   users: UserConnection;
+  validateRevisionsForAcceptance: ValidationErrors;
   /** Find a variant by CIViC ID */
   variant?: Maybe<Variant>;
   /** Find a variant group by CIViC ID */
@@ -2423,6 +2444,20 @@ export type QueryRevisionArgs = {
 };
 
 
+export type QueryRevisionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  sortBy?: Maybe<DateSort>;
+  status?: Maybe<RevisionStatus>;
+  subject?: Maybe<ModeratedInput>;
+};
+
+
 export type QuerySearchArgs = {
   query: Scalars['String'];
 };
@@ -2486,6 +2521,11 @@ export type QueryUsersArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   organization?: Maybe<OrganizationFilter>;
+};
+
+
+export type QueryValidateRevisionsForAcceptanceArgs = {
+  revisionIds: Array<Scalars['Int']>;
 };
 
 
@@ -2636,6 +2676,8 @@ export type RevisionConnection = {
   revisedFieldNames: Array<FieldName>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** When filtered on a subject, the total number of revisions for that subject, irregardless of other filters */
+  unfilteredCountForSubject?: Maybe<Scalars['Int']>;
   /** List of all users that have submitted a revision to this entity. */
   uniqueRevisors: Array<User>;
 };
@@ -2671,6 +2713,12 @@ export enum RevisionStatus {
 export type ScalarField = {
   __typename: 'ScalarField';
   value?: Maybe<Scalars['String']>;
+};
+
+export type ScalarFieldDiff = {
+  __typename: 'ScalarFieldDiff';
+  left: Scalars['String'];
+  right: Scalars['String'];
 };
 
 export type SearchResult = {
@@ -3322,6 +3370,11 @@ export type UserEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<User>;
+};
+
+export type ValidationErrors = {
+  __typename: 'ValidationErrors';
+  validationErrors: Array<Scalars['String']>;
 };
 
 export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
@@ -4525,6 +4578,122 @@ export type PhenotypeBrowseTableRowFieldsFragment = (
   & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
 );
 
+export type AcceptRevisionMutationVariables = Exact<{
+  input: AcceptRevisionsInput;
+}>;
+
+
+export type AcceptRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { acceptRevisions?: Maybe<(
+    { __typename: 'AcceptRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type RejectRevisionMutationVariables = Exact<{
+  input: RejectRevisionsInput;
+}>;
+
+
+export type RejectRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { rejectRevisions?: Maybe<(
+    { __typename: 'RejectRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
+  ids: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type ValidateRevisionsForAcceptanceQuery = (
+  { __typename: 'Query' }
+  & { validateRevisionsForAcceptance: (
+    { __typename: 'ValidationErrors' }
+    & Pick<ValidationErrors, 'validationErrors'>
+  ) }
+);
+
+export type RevisionsQueryVariables = Exact<{
+  subject?: Maybe<ModeratedInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  fieldName?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  revisionsetId?: Maybe<Scalars['String']>;
+  status?: Maybe<RevisionStatus>;
+}>;
+
+
+export type RevisionsQuery = (
+  { __typename: 'Query' }
+  & { revisions: (
+    { __typename: 'RevisionConnection' }
+    & Pick<RevisionConnection, 'totalCount' | 'unfilteredCountForSubject'>
+    & { uniqueRevisors: Array<(
+      { __typename: 'User' }
+      & Pick<User, 'username' | 'id' | 'profileImagePath'>
+    )>, revisedFieldNames: Array<(
+      { __typename: 'FieldName' }
+      & Pick<FieldName, 'name' | 'displayName'>
+    )>, edges: Array<(
+      { __typename: 'RevisionEdge' }
+      & { node?: Maybe<(
+        { __typename: 'Revision' }
+        & RevisionFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type RevisionFragment = (
+  { __typename: 'Revision' }
+  & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+  & { linkoutData: (
+    { __typename: 'LinkoutData' }
+    & Pick<LinkoutData, 'name'>
+    & { diffValue: (
+      { __typename: 'ObjectFieldDiff' }
+      & { currentObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, addedObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, removedObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, keptObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )>, suggestedObjects: Array<(
+        { __typename: 'ModeratedObjectField' }
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+      )> }
+    ) | (
+      { __typename: 'ScalarFieldDiff' }
+      & Pick<ScalarFieldDiff, 'left' | 'right'>
+    ) }
+  ), revisor: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  ), comments: Array<(
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  )> }
+);
+
 export type ContributorAvatarsQueryVariables = Exact<{
   subscribable: SubscribableInput;
 }>;
@@ -5099,8 +5268,8 @@ export type SuggestEvidenceItemRevisionMutation = (
                   & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
                 )> }
               ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
+                { __typename: 'ScalarFieldDiff' }
+                & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
             ), revisor: (
               { __typename: 'User' }
@@ -5261,8 +5430,8 @@ export type SuggestGeneRevisionMutation = (
                   & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
                 )> }
               ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
+                { __typename: 'ScalarFieldDiff' }
+                & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
             ), revisor: (
               { __typename: 'User' }
@@ -5461,8 +5630,8 @@ export type SuggestVariantRevisionMutation = (
                   & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
                 )> }
               ) | (
-                { __typename: 'ScalarField' }
-                & Pick<ScalarField, 'value'>
+                { __typename: 'ScalarFieldDiff' }
+                & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
             ), revisor: (
               { __typename: 'User' }
@@ -5767,65 +5936,6 @@ export type GeneDetailFieldsFragment = (
     { __typename: 'CommentConnection' }
     & Pick<CommentConnection, 'totalCount'>
   ) }
-);
-
-export type GeneRevisionsQueryVariables = Exact<{
-  geneId: Scalars['Int'];
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  fieldName?: Maybe<Scalars['String']>;
-  originatingUserId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type GeneRevisionsQuery = (
-  { __typename: 'Query' }
-  & { gene?: Maybe<(
-    { __typename: 'Gene' }
-    & Pick<Gene, 'id'>
-    & { revisions: (
-      { __typename: 'RevisionConnection' }
-      & Pick<RevisionConnection, 'totalCount'>
-      & { uniqueRevisors: Array<(
-        { __typename: 'User' }
-        & Pick<User, 'username' | 'id' | 'profileImagePath'>
-      )>, revisedFieldNames: Array<(
-        { __typename: 'FieldName' }
-        & Pick<FieldName, 'name' | 'displayName'>
-      )>, edges: Array<(
-        { __typename: 'RevisionEdge' }
-        & { node?: Maybe<(
-          { __typename: 'Revision' }
-          & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-          & { linkoutData: (
-            { __typename: 'LinkoutData' }
-            & Pick<LinkoutData, 'name'>
-            & { diffValue: (
-              { __typename: 'ObjectFieldDiff' }
-              & { addedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, removedObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )>, keptObjects: Array<(
-                { __typename: 'ModeratedObjectField' }
-                & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-              )> }
-            ) | (
-              { __typename: 'ScalarField' }
-              & Pick<ScalarField, 'value'>
-            ) }
-          ), revisor: (
-            { __typename: 'User' }
-            & Pick<User, 'id' | 'name'>
-          ) }
-        )> }
-      )> }
-    ) }
-  )> }
 );
 
 export type GenesSummaryQueryVariables = Exact<{
@@ -6288,8 +6398,8 @@ export type VariantGroupRevisionsQuery = (
                 & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
               )> }
             ) | (
-              { __typename: 'ScalarField' }
-              & Pick<ScalarField, 'value'>
+              { __typename: 'ScalarFieldDiff' }
+              & Pick<ScalarFieldDiff, 'left' | 'right'>
             ) }
           ), revisor: (
             { __typename: 'User' }
@@ -6900,6 +7010,66 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   url
   assertionCount
   evidenceCount
+}
+    `;
+export const RevisionFragmentDoc = gql`
+    fragment revision on Revision {
+  id
+  revisionsetId
+  createdAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        addedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        removedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        keptObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  revisor {
+    id
+    displayName
+    role
+  }
+  comments {
+    comment
+  }
+  status
 }
     `;
 export const ContributorFieldsFragmentDoc = gql`
@@ -8501,6 +8671,109 @@ export const PhenotypesBrowseDocument = gql`
       super(apollo);
     }
   }
+export const AcceptRevisionDocument = gql`
+    mutation AcceptRevision($input: AcceptRevisionsInput!) {
+  acceptRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
+    document = AcceptRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RejectRevisionDocument = gql`
+    mutation RejectRevision($input: RejectRevisionsInput!) {
+  rejectRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
+    document = RejectRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidateRevisionsForAcceptanceDocument = gql`
+    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
+  validateRevisionsForAcceptance(revisionIds: $ids) {
+    validationErrors
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
+    document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RevisionsDocument = gql`
+    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $revisionsetId: String, $status: RevisionStatus) {
+  revisions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    fieldName: $fieldName
+    originatingUserId: $originatingUserId
+    subject: $subject
+    status: $status
+    revisionsetId: $revisionsetId
+  ) {
+    totalCount
+    unfilteredCountForSubject
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
+    edges {
+      node {
+        ...revision
+      }
+    }
+  }
+}
+    ${RevisionFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RevisionsGQL extends Apollo.Query<RevisionsQuery, RevisionsQueryVariables> {
+    document = RevisionsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ContributorAvatarsDocument = gql`
     query ContributorAvatars($subscribable: SubscribableInput!) {
   contributors(subscribable: $subscribable) {
@@ -9104,8 +9377,9 @@ export const SuggestEvidenceItemRevisionDocument = gql`
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
@@ -9272,8 +9546,9 @@ export const SuggestGeneRevisionDocument = gql`
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
@@ -9480,8 +9755,9 @@ export const SuggestVariantRevisionDocument = gql`
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
@@ -9682,86 +9958,6 @@ export const GeneDetailDocument = gql`
   })
   export class GeneDetailGQL extends Apollo.Query<GeneDetailQuery, GeneDetailQueryVariables> {
     document = GeneDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneRevisionsDocument = gql`
-    query GeneRevisions($geneId: Int!, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int) {
-  gene(id: $geneId) {
-    id
-    revisions(
-      first: $first
-      last: $last
-      before: $before
-      after: $after
-      fieldName: $fieldName
-      originatingUserId: $originatingUserId
-    ) {
-      totalCount
-      uniqueRevisors {
-        username
-        id
-        profileImagePath(size: 32)
-      }
-      revisedFieldNames {
-        name
-        displayName
-      }
-      edges {
-        node {
-          id
-          revisionsetId
-          createdAt
-          fieldName
-          currentValue
-          suggestedValue
-          linkoutData {
-            name
-            diffValue {
-              ... on ObjectFieldDiff {
-                addedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                removedObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-                keptObjects {
-                  id
-                  displayName
-                  displayType
-                  entityType
-                }
-              }
-              ... on ScalarField {
-                value
-              }
-            }
-          }
-          revisor {
-            id
-            name
-          }
-          status
-        }
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneRevisionsGQL extends Apollo.Query<GeneRevisionsQuery, GeneRevisionsQueryVariables> {
-    document = GeneRevisionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10107,8 +10303,9 @@ export const VariantGroupRevisionsDocument = gql`
                   entityType
                 }
               }
-              ... on ScalarField {
-                value
+              ... on ScalarFieldDiff {
+                left
+                right
               }
             }
           }

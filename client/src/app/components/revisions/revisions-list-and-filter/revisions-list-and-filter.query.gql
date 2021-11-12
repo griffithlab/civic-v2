@@ -1,0 +1,99 @@
+query Revisions(
+  $subject: ModeratedInput,
+  $first: Int,
+  $last: Int,
+  $before: String,
+  $after: String,
+  $fieldName: String,
+  $originatingUserId: Int,
+  $revisionsetId: String
+  $status: RevisionStatus
+) {
+  revisions(
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after,
+    fieldName: $fieldName,
+    originatingUserId: $originatingUserId,
+    subject: $subject,
+    status: $status,
+    revisionsetId: $revisionsetId
+  ) {
+    totalCount
+    unfilteredCountForSubject
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
+    edges {
+      node {
+        ...revision
+      }
+    }
+  }
+}
+
+fragment revision on Revision {
+  id
+  revisionsetId
+  createdAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        addedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        removedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        keptObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  revisor {
+    id
+    displayName
+    role
+  }
+  comments {
+    comment
+  }
+  status  
+}

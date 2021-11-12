@@ -80,8 +80,9 @@ mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) 
                     entityType
                   }
                 }
-                ... on ScalarField {
-                  value
+                ... on ScalarFieldDiff {
+                  left
+                  right
                 }
               }
             }
