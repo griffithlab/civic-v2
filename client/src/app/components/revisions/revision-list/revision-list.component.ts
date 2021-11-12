@@ -2,10 +2,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitte
 import { AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables, Maybe, Organization, RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables, Revision, ValidateRevisionsForAcceptanceGQL, ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables } from '@app/generated/civic.apollo';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
+
+type SuccessType = false | 'accepted' | 'rejected'
 
 @Component({
   selector: 'cvc-revision-list',
@@ -23,7 +25,8 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   
   isLoading: boolean = false
   errors: Maybe<string[]>;
-  success: boolean = false
+
+  success: SuccessType = false
 
   validationPopoverVisible: boolean = false
   revisionComment: Maybe<string>
@@ -94,7 +97,40 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     console.log(this.validationErrors$)
   }
 
-  onRejectRevisionsClicked(organizationId: number) {
+  setupMutationResultHandlers(state: MutationState, successType: SuccessType) {
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if (res) {
+          this.isLoading = false
+          this.revisionMutationCompleted.emit();
+          this.errors = undefined
+          this.success = successType
+          this.validationPopoverVisible = false
+          this.selectedRevisionIds = []
+        }
+      })
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if (res.length > 0) {
+          this.isLoading = false
+          this.success = false
+          this.errors  = res
+          this.validationPopoverVisible = false
+          this.selectedRevisionIds = []
+        }
+      })
+  }
+
+  onRejectRevisionsClicked() {
+    if (this.revisionComment && this.revisionComment !== "") {
+      this.isLoading = true
+      let state = this.rejectRevisionsMutator.mutate(this.rejectRevisionsGql, {
+        input: {
+          ids: this.selectedRevisionIds,
+          organizationId: this.mostRecentOrg?.id,
+          comment: this.revisionComment 
+        }
+      })
+      this.setupMutationResultHandlers(state, 'rejected')
+    }
   }
 
   onAcceptRevisionClicked() {
@@ -106,24 +142,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         comment: this.revisionComment === "" ? undefined : this.revisionComment
       }
     })
-
-    state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      if (res) {
-        this.isLoading = false
-        this.revisionMutationCompleted.emit();
-        this.errors = undefined
-        this.success = true
-        this.validationPopoverVisible = false
-      }
-    })
-    state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      if (res.length > 0) {
-        this.isLoading = false
-        this.success = false
-        this.errors  = res
-        this.validationPopoverVisible = false
-      }
-    })
+    this.setupMutationResultHandlers(state, 'accepted')
   }
 
   ngOnDestroy() {

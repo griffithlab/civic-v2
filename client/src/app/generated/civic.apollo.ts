@@ -4688,7 +4688,10 @@ export type RevisionFragment = (
   ), revisor: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  ) }
+  ), comments: Array<(
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  )> }
 );
 
 export type ContributorAvatarsQueryVariables = Exact<{
@@ -7062,6 +7065,9 @@ export const RevisionFragmentDoc = gql`
     id
     displayName
     role
+  }
+  comments {
+    comment
   }
   status
 }

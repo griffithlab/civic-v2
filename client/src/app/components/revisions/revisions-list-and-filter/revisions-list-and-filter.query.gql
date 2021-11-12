@@ -92,5 +92,8 @@ fragment revision on Revision {
     displayName
     role
   }
+  comments {
+    comment
+  }
   status  
 }
