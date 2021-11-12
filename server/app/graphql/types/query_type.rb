@@ -107,6 +107,7 @@ module Types
     end
 
     field :revisions, resolver: Resolvers::TopLevelRevisions
+    field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
     field :search_genes, Types::AdvancedSearch::AdvancedSearchResultType, null: false do
       argument :query, Types::AdvancedSearch::GeneSearchFilterType, required: true

@@ -4199,6 +4199,12 @@ type Query {
     """
     organization: OrganizationFilter
   ): UserConnection!
+  validateRevisionsForAcceptance(
+    """
+    A list of CIViC Revisions IDs to validate
+    """
+    revisionIds: [Int!]!
+  ): ValidationErrors!
 
   """
   Find a variant by CIViC ID
@@ -5548,6 +5554,10 @@ type UserEdge {
   The item at the end of the edge.
   """
   node: User
+}
+
+type ValidationErrors {
+  validationErrors: [String!]!
 }
 
 type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {

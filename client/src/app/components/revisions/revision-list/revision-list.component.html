@@ -176,20 +176,32 @@
             </button>
           </cvc-org-selector-btn-group>
         </nz-space-item>
-        <nz-space-item>
-          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-            <button type="submit"
-              nz-button
-              [nzLoading]="isLoading"
-              cvcOrgSelectorBtn
-              nzSize="small"
-              [disabled]="this.selectedRevisionIds.length === 0"
-              (click)="onAcceptRevisionClicked()"
-              >
-              Accept Revision
-            </button>
-          </cvc-org-selector-btn-group>
-        </nz-space-item>
+        <ng-container *ngrxLet="validationErrors$ as validationErrors">
+          <nz-space-item>
+              <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+                <button type="submit"
+                  nz-button
+                  [nzLoading]="isLoading"
+                  cvcOrgSelectorBtn
+                  nzSize="small"
+                  [disabled]="this.selectedRevisionIds.length === 0 || validationErrors.length > 0"
+                  (click)="onAcceptRevisionClicked()"
+                  >
+                  Accept Revision
+                </button>
+              </cvc-org-selector-btn-group>
+          </nz-space-item>
+          <nz-space-item>
+              <i nz-icon *ngIf="validationErrors.length > 0" nzType="question-circle" nzTheme="outline"
+                nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"  
+              ></i>
+              <ng-template #validationErrorTemplate>
+                <nz-list nzBordered nzSize="small">
+                  <nz-list-item *ngFor="let error of validationErrors">{{ error }}</nz-list-item>
+                </nz-list>
+              </ng-template>
+          </nz-space-item>
+        </ng-container>
       </nz-space>
     </div>
   </div>

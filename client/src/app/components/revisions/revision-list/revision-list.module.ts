@@ -27,6 +27,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -43,6 +46,9 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzCheckboxModule,
     NzDividerModule,
     NzToolTipModule,
+    NzListModule,
+    NzPopoverModule,
+    NzIconModule,
     TimeagoModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
@@ -57,7 +63,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     CvcStatusTagModule,
     NzCollapseModule,
     NzButtonModule,
-    NzAlertModule
+    NzAlertModule,
+    ReactiveComponentModule
   ],
   exports: [RevisionListComponent]
 })

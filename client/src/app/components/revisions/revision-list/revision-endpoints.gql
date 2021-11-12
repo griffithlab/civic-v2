@@ -15,3 +15,9 @@ mutation RejectRevision($input: RejectRevisionsInput!) {
     }
   }
 }
+
+query ValidateRevisionsForAcceptance($ids: [Int!]!) {
+  validateRevisionsForAcceptance(revisionIds: $ids) {
+    validationErrors
+  }
+}

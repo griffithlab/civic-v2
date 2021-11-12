@@ -741,7 +741,7 @@ export type PhenotypeFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -781,6 +781,7 @@ export type QueryFieldPolicy = {
 	subscriptionForEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
+	validateRevisionsForAcceptance?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantType?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1030,6 +1031,10 @@ export type UserEdgeKeySpecifier = ('cursor' | 'node' | UserEdgeKeySpecifier)[];
 export type UserEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ValidationErrorsKeySpecifier = ('validationErrors' | ValidationErrorsKeySpecifier)[];
+export type ValidationErrorsFieldPolicy = {
+	validationErrors?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'myVariantInfo' | 'name' | 'referenceBuild' | 'revisions' | 'sources' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
@@ -1557,6 +1562,10 @@ export type TypedTypePolicies = TypePolicies & {
 	UserEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserEdgeKeySpecifier | (() => undefined | UserEdgeKeySpecifier),
 		fields?: UserEdgeFieldPolicy,
+	},
+	ValidationErrors?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ValidationErrorsKeySpecifier | (() => undefined | ValidationErrorsKeySpecifier),
+		fields?: ValidationErrorsFieldPolicy,
 	},
 	Variant?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantKeySpecifier | (() => undefined | VariantKeySpecifier),

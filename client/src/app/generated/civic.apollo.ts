@@ -2137,6 +2137,7 @@ export type Query = {
   user?: Maybe<User>;
   /** List and filter users. */
   users: UserConnection;
+  validateRevisionsForAcceptance: ValidationErrors;
   /** Find a variant by CIViC ID */
   variant?: Maybe<Variant>;
   /** Find a variant group by CIViC ID */
@@ -2520,6 +2521,11 @@ export type QueryUsersArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   organization?: Maybe<OrganizationFilter>;
+};
+
+
+export type QueryValidateRevisionsForAcceptanceArgs = {
+  revisionIds: Array<Scalars['Int']>;
 };
 
 
@@ -3364,6 +3370,11 @@ export type UserEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<User>;
+};
+
+export type ValidationErrors = {
+  __typename: 'ValidationErrors';
+  validationErrors: Array<Scalars['String']>;
 };
 
 export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
@@ -4597,6 +4608,19 @@ export type RejectRevisionMutation = (
       & Pick<Revision, 'id'>
     )> }
   )> }
+);
+
+export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
+  ids: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type ValidateRevisionsForAcceptanceQuery = (
+  { __typename: 'Query' }
+  & { validateRevisionsForAcceptance: (
+    { __typename: 'ValidationErrors' }
+    & Pick<ValidationErrors, 'validationErrors'>
+  ) }
 );
 
 export type RevisionsQueryVariables = Exact<{
@@ -8678,6 +8702,24 @@ export const RejectRevisionDocument = gql`
   })
   export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
     document = RejectRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidateRevisionsForAcceptanceDocument = gql`
+    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
+  validateRevisionsForAcceptance(revisionIds: $ids) {
+    validationErrors
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
+    document = ValidateRevisionsForAcceptanceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
