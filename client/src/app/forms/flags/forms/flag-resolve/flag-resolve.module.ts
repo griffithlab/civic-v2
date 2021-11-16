@@ -9,6 +9,8 @@ import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-s
 import { CvcFlagResolveForm } from './flag-resolve.form';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcFlagResolveForm],
@@ -19,6 +21,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzFormModule,
     NzAlertModule,
     NzCardModule,
+    NzPopoverModule,
+    NzIconModule,
     FormlyModule.forChild(),
     CvcFormButtonsModule,
     CvcOrgSelectorBtnGroupModule,

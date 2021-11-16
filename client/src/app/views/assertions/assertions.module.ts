@@ -50,7 +50,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
-import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
@@ -81,7 +81,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
     CvcTagListModule,
     CvcUserTagModule,
     CvcCommentListModule,
-    CvcFlagListModule,
+    CvcFlagListAndFilterModule,
     CvcFlaggableModule,
     CvcEventFeedModule,
     CvcSectionNavigationModule,

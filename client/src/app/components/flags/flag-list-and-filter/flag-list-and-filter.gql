@@ -1,0 +1,67 @@
+query FlagList (
+    $flaggable: FlaggableInput,
+    $flaggingUserId: Int,
+    $resolvingUserId: Int,
+    $state: FlagState,
+    $sortBy: DateSort,
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String
+){
+flags(flaggable: $flaggable, flaggingUserId: $flaggingUserId, resolvingUserId: $resolvingUserId, state: $state, sortBy: $sortBy, first: $first, last: $last, before: $before, after: $after
+) { ...flagList }
+}
+
+fragment flagList on FlagConnection {
+    pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+    }
+    totalCount
+    unfilteredCountForSubject
+    uniqueFlaggingUsers {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    uniqueResolvingUsers {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    edges {
+        node {
+            ...flag
+        }
+    }
+}
+
+fragment flag on Flag {
+    id
+    state
+    createdAt
+    resolvedAt
+    flaggable {
+        id
+        name
+    }
+    flaggingUser {
+        id
+        displayName
+        profileImagePath(size: 32)
+    }
+    resolvingUser {
+        id
+        displayName
+        profileImagePath(size: 32)
+    }
+    openComment {
+        comment
+    }
+    resolutionComment {
+        comment
+    }
+}

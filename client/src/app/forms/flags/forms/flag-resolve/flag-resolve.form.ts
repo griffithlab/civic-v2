@@ -1,20 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import {
   Organization,
   ResolveFlagGQL,
   ResolveFlagInput,
   Maybe,
+  ResolveFlagMutation,
+  ResolveFlagMutationVariables,
 } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-flag-resolve',
   templateUrl: './flag-resolve.form.html',
   styleUrls: ['./flag-resolve.form.less'],
 })
-export class CvcFlagResolveForm implements OnInit {
+export class CvcFlagResolveForm implements OnInit, OnDestroy {
   @Input() flagId!: number;
   @Input() flagResolvedCallback?: () => void;
 
@@ -24,9 +30,18 @@ export class CvcFlagResolveForm implements OnInit {
   formGroup = new FormGroup({});
   formOptions: FormlyFormOptions = {};
 
-  errorMessages: Maybe<string[]>
+  errorMessages: string[] = []
 
-  constructor(private gql: ResolveFlagGQL, private modal: NzModalRef) {
+  flagResolvePopoverVisible: boolean = false
+  success: boolean = false
+
+  viewer$?: Observable<Viewer>;
+
+  resolveFlagMutator: MutatorWithState<ResolveFlagGQL, ResolveFlagMutation, ResolveFlagMutationVariables>;
+
+  private destroy$ = new Subject();
+
+  constructor(private gql: ResolveFlagGQL, private viewerService: ViewerService, private networkErrorService: NetworkErrorsService) {
     this.formFields = [
       {
         key: 'comment',
@@ -37,6 +52,7 @@ export class CvcFlagResolveForm implements OnInit {
         },
       },
     ];
+    this.resolveFlagMutator= new MutatorWithState(networkErrorService)
   }
 
   ngOnInit() {
@@ -48,6 +64,11 @@ export class CvcFlagResolveForm implements OnInit {
       id: this.flagId,
       comment: '',
     };
+
+    this.viewer$ = this.viewerService.viewer$;
+    this.viewerService.viewer$.subscribe((v: Viewer) => {
+      this.formModel.organizationId = v.mostRecentOrg?.id
+    })
   }
 
   onOrgSelected(org: Organization) {
@@ -55,26 +76,29 @@ export class CvcFlagResolveForm implements OnInit {
   }
 
   resolveFlag(input: ResolveFlagInput) {
-    this.gql.mutate(
-      { input: input },
-      {errorPolicy: 'all'}
-     ).subscribe(({ data, errors }) => {
-        if(errors) {
-          this.errorMessages = errors.map(e => e.message)
-          return;
-        }
-        if (this.flagResolvedCallback) {
-          this.flagResolvedCallback();
-        }
-        this.closeModal();
-      },
-      (error) => {
-        console.log(error);
+    this.errorMessages = []
+    let state = this.resolveFlagMutator.mutate(this.gql, {input})
+    state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      if (res) {
+        this.flagResolvePopoverVisible = false
       }
-    );
+    })
+    state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      if (res.length > 0) {
+        this.errorMessages = res
+      }
+    })
   }
 
-  closeModal() {
-    this.modal.destroy();
+  onSuccessBannerClose() {
+    this.success = false
+    if (this.flagResolvedCallback) {
+      this.flagResolvedCallback();
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

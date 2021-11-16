@@ -5,7 +5,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';
 
 @NgModule({
   declarations: [GenesFlagsPage],
@@ -15,7 +15,7 @@ import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.mod
     NzCardModule,
     NzSpaceModule,
     NzSkeletonModule,
-    CvcFlagListModule,
+    CvcFlagListAndFilterModule,
   ]
 })
 export class GenesFlagsModule { }

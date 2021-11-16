@@ -1,4 +1,4 @@
-<ng-container *ngIf="participantList">
+<ng-container *ngIf="participantList && participantList.length > 0">
     <nz-card [nzTitle]="listTitle" nz-type="inner" style="margin-bottom: 1em">
         <nz-list>
             <ng-container *ngFor="let u of participantList; let i = index">

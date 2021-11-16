@@ -1,5 +1,7 @@
 module Types::Entities
   class FlagType < Types::BaseObject
+    connection_type_class Types::Connections::FlagsConnection
+
     implements Types::Interfaces::Commentable
     implements Types::Interfaces::EventOriginObject
 

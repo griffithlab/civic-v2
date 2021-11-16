@@ -507,13 +507,16 @@ export type FlagFieldPolicy = {
 	resolvingUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlagConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | FlagConnectionKeySpecifier)[];
+export type FlagConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'unfilteredCountForSubject' | 'uniqueFlaggingUsers' | 'uniqueResolvingUsers' | FlagConnectionKeySpecifier)[];
 export type FlagConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	unfilteredCountForSubject?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueFlaggingUsers?: FieldPolicy<any> | FieldReadFunction<any>,
+	uniqueResolvingUsers?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FlagEdgeKeySpecifier = ('cursor' | 'node' | FlagEdgeKeySpecifier)[];
 export type FlagEdgeFieldPolicy = {

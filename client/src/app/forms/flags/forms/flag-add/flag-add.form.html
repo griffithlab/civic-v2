@@ -1,4 +1,13 @@
 <nz-card nzType="inner">
+  <nz-alert *ngIf="this.success" nzBanner nzMessage="Flag submitted" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+  <nz-alert *ngIf="errorMessages.length > 0" nzType="error" nzShowIcon [nzDescription]="errorContents" nzMessage="Error Adding Flag"> </nz-alert>
+  <ng-template #errorContents>
+    <ul>
+      <li *ngFor="let error of errorMessages">
+        {{ error }}
+      </li>
+    </ul>
+  </ng-template>
   <form nz-form
     [formGroup]="formGroup"
     (ngSubmit)="submitFlag(formModel)"
@@ -6,7 +15,8 @@
     <formly-form [form]="formGroup"
       [fields]="formFields"
       [model]="formModel"
-      [options]="formOptions"></formly-form>
+      [options]="formOptions"
+      (modelChange)="formModel = $event"></formly-form>
     <nz-form-item>
       <nz-form-control>
         <cvc-form-buttons>
