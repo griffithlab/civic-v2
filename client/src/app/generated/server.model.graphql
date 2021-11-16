@@ -1357,6 +1357,17 @@ type Disease {
   name: String!
 }
 
+type DiseasePopover {
+  assertionCount: Int!
+  diseaseUrl: String
+  displayName: String!
+  doid: Int
+  evidenceItemCount: Int!
+  id: Int!
+  name: String!
+  variantCount: Int!
+}
+
 input DiseasesSort {
   """
   Available columns for sorting
@@ -1389,6 +1400,15 @@ enum DrugInteraction {
   COMBINATION
   SEQUENTIAL
   SUBSTITUTES
+}
+
+type DrugPopover {
+  assertionCount: Int!
+  drugUrl: String
+  evidenceItemCount: Int!
+  id: Int!
+  name: String!
+  ncitId: String
 }
 
 input DrugSort {
@@ -3255,6 +3275,15 @@ type Phenotype {
   url: String!
 }
 
+type PhenotypePopover {
+  assertionCount: Int!
+  evidenceItemCount: Int!
+  hpoId: String!
+  id: Int!
+  name: String!
+  url: String!
+}
+
 input PhenotypeSort {
   """
   Available columns for sorting
@@ -3637,9 +3666,19 @@ type Query {
   disease(id: Int!): Disease
 
   """
+  Retrieve popover fields for a specific disease.
+  """
+  diseasePopover(id: Int!): DiseasePopover
+
+  """
   Find a drug by CIViC ID
   """
   drug(id: Int!): Drug
+
+  """
+  Retrieve popover fields for a specific drug.
+  """
+  drugPopover(id: Int!): DrugPopover
 
   """
   List and filter Drugs from the NCI Thesaurus.
@@ -4004,6 +4043,11 @@ type Query {
   phenotype(id: Int!): Phenotype
 
   """
+  Retrieve popover fields for a specific phenotype.
+  """
+  phenotypePopover(id: Int!): PhenotypePopover
+
+  """
   List and filter Phenotypes from the Human Phenotype Ontology.
   """
   phenotypes(
@@ -4125,6 +4169,11 @@ type Query {
   Find a source by CIViC ID
   """
   source(id: Int!): Source
+
+  """
+  Retrieve popover fields for a specific source.
+  """
+  sourcePopover(id: Int!): SourcePopover
   sourceSuggestions(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -4220,6 +4269,11 @@ type Query {
   Find a variant type by CIViC ID
   """
   variantType(id: Int!): VariantType
+
+  """
+  Retrieve popover fields for a specific variant type.
+  """
+  variantTypePopover(id: Int!): VariantTypePopover
 
   """
   List and filter Variant Types from the Sequence Ontology.
@@ -4615,6 +4669,62 @@ type Source implements EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
+  fullJournalTitle: String
+  id: Int!
+  journal: String!
+  name: String!
+  pmcId: String
+  publicationDate: String
+  publicationDay: Int
+  publicationMonth: Int!
+  publicationYear: Int!
+  sourceType: SourceSource!
+  sourceUrl: String!
+  title: String
+}
+
+type SourcePopover implements EventSubject {
+  abstract: String
+  ascoAbstractId: Int
+  authorString: String
+  citation: String!
+  citationId: Int!
+  clinicalTrials: [ClinicalTrial!]
+  displayType: String!
+
+  """
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  evidenceItemCount: Int!
   fullJournalTitle: String
   id: Int!
   journal: String!
@@ -6155,6 +6265,15 @@ type VariantType {
   name: String!
   soid: String!
   url: String!
+}
+
+type VariantTypePopover {
+  description: String!
+  id: Int!
+  name: String!
+  soid: String!
+  url: String!
+  variantCount: Int!
 }
 
 input VariantTypeSort {

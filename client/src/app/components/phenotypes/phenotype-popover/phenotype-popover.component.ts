@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Maybe, PhenotypePopoverFragment, PhenotypePopoverGQL } from "@app/generated/civic.apollo";
+import { Maybe, PhenotypePopover, PhenotypePopoverGQL } from "@app/generated/civic.apollo";
 import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class CvcPhenotypePopoverComponent implements OnInit {
   @Input() phenotypeId!: number;
 
-  phenotype$?: Observable<Maybe<PhenotypePopoverFragment>>
+  phenotype$?: Observable<Maybe<PhenotypePopover>>
 
   constructor(private gql: PhenotypePopoverGQL) { }
 
@@ -22,6 +22,6 @@ export class CvcPhenotypePopoverComponent implements OnInit {
     }
     this.phenotype$ = this.gql.watch({ phenotypeId: this.phenotypeId })
       .valueChanges
-      .pipe(map(({ data }) => data.phenotypes.edges[0]?.node))
+      .pipe(map(({ data }) => data.phenotypePopover))
   }
 }

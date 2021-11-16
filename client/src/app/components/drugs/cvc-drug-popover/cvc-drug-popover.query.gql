@@ -1,18 +1,10 @@
 query DrugPopover($drugId: Int!) {
-  drugs(id: $drugId) {
-    edges {
-      node {
-        ...drugPopover
-      }
-    }
+  drugPopover(id: $drugId) {
+    id
+    name
+    drugUrl
+    ncitId
+    assertionCount
+    evidenceItemCount
   }
-}
-
-fragment drugPopover on BrowseDrug {
-  id
-  name
-  drugUrl
-  ncitId
-  assertionCount
-  evidenceCount
 }

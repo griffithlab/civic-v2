@@ -1,5 +1,6 @@
 class Disease < ApplicationRecord
   has_many :evidence_items
+  has_many :assertions
 
   def disease_url
     Disease.url_for_doid(doid)

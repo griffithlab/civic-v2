@@ -1,20 +1,12 @@
 query DiseasePopover($diseaseId: Int!) {
-  browseDiseases(id: $diseaseId) {
-    edges {
-      node {
-        ...diseasePopover
-      }
-    }
+  diseasePopover(id: $diseaseId) {
+    id
+    name
+    displayName
+    doid
+    diseaseUrl
+    assertionCount
+    evidenceItemCount
+    variantCount
   }
-}
-
-
-fragment diseasePopover on BrowseDisease {
-  id
-  name
-  doid
-  diseaseUrl
-  assertionCount
-  evidenceItemCount
-  variantCount
 }

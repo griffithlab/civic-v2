@@ -30,6 +30,7 @@ fragment AssertionSummaryFields on Assertion {
   drugs {
     ncitId
     name
+    id
   }
   phenotypes {
     id

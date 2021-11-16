@@ -1,18 +1,10 @@
 query PhenotypePopover($phenotypeId: Int!) {
-  phenotypes(id: $phenotypeId) {
-    edges {
-      node {
-        ...phenotypePopover
-      }
-    }
+  phenotypePopover(id: $phenotypeId) {
+    id
+    name
+    url
+    hpoId
+    assertionCount
+    evidenceItemCount
   }
-}
-
-fragment phenotypePopover on BrowsePhenotype {
-  id
-  name
-  url
-  hpoId
-  assertionCount
-  evidenceCount
 }

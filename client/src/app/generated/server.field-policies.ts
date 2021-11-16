@@ -387,9 +387,29 @@ export type DiseaseFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'name' | 'variantCount' | DiseasePopoverKeySpecifier)[];
+export type DiseasePopoverFieldPolicy = {
+	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	doid?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DrugKeySpecifier = ('drugUrl' | 'id' | 'name' | 'ncitId' | DrugKeySpecifier)[];
 export type DrugFieldPolicy = {
 	drugUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	ncitId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DrugPopoverKeySpecifier = ('assertionCount' | 'drugUrl' | 'evidenceItemCount' | 'id' | 'name' | 'ncitId' | DrugPopoverKeySpecifier)[];
+export type DrugPopoverFieldPolicy = {
+	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	drugUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>
@@ -741,7 +761,16 @@ export type PhenotypeFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'drug' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type PhenotypePopoverKeySpecifier = ('assertionCount' | 'evidenceItemCount' | 'hpoId' | 'id' | 'name' | 'url' | PhenotypePopoverKeySpecifier)[];
+export type PhenotypePopoverFieldPolicy = {
+	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	hpoId?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'diseasePopover' | 'drug' | 'drugPopover' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -756,7 +785,9 @@ export type QueryFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	contributors?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
+	diseasePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
+	drugPopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -768,6 +799,7 @@ export type QueryFieldPolicy = {
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotype?: FieldPolicy<any> | FieldReadFunction<any>,
+	phenotypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	remoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -776,6 +808,7 @@ export type QueryFieldPolicy = {
 	searchByPermalink?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchGenes?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourcePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestions?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscriptionForEntity?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -785,6 +818,7 @@ export type QueryFieldPolicy = {
 	variant?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantType?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
@@ -865,6 +899,30 @@ export type SourceFieldPolicy = {
 	clinicalTrials?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayType?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	fullJournalTitle?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	journal?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	pmcId?: FieldPolicy<any> | FieldReadFunction<any>,
+	publicationDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	publicationDay?: FieldPolicy<any> | FieldReadFunction<any>,
+	publicationMonth?: FieldPolicy<any> | FieldReadFunction<any>,
+	publicationYear?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceType?: FieldPolicy<any> | FieldReadFunction<any>,
+	sourceUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SourcePopoverKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'displayType' | 'events' | 'evidenceItemCount' | 'fullJournalTitle' | 'id' | 'journal' | 'name' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourcePopoverKeySpecifier)[];
+export type SourcePopoverFieldPolicy = {
+	abstract?: FieldPolicy<any> | FieldReadFunction<any>,
+	ascoAbstractId?: FieldPolicy<any> | FieldReadFunction<any>,
+	authorString?: FieldPolicy<any> | FieldReadFunction<any>,
+	citation?: FieldPolicy<any> | FieldReadFunction<any>,
+	citationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	clinicalTrials?: FieldPolicy<any> | FieldReadFunction<any>,
+	displayType?: FieldPolicy<any> | FieldReadFunction<any>,
+	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	fullJournalTitle?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	journal?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1104,6 +1162,15 @@ export type VariantTypeFieldPolicy = {
 	soid?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type VariantTypePopoverKeySpecifier = ('description' | 'id' | 'name' | 'soid' | 'url' | 'variantCount' | VariantTypePopoverKeySpecifier)[];
+export type VariantTypePopoverFieldPolicy = {
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	soid?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type WithRevisionsKeySpecifier = ('lastAcceptedRevisionEvent' | 'lastSubmittedRevisionEvent' | 'revisions' | WithRevisionsKeySpecifier)[];
 export type WithRevisionsFieldPolicy = {
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1299,9 +1366,17 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | DiseaseKeySpecifier | (() => undefined | DiseaseKeySpecifier),
 		fields?: DiseaseFieldPolicy,
 	},
+	DiseasePopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DiseasePopoverKeySpecifier | (() => undefined | DiseasePopoverKeySpecifier),
+		fields?: DiseasePopoverFieldPolicy,
+	},
 	Drug?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DrugKeySpecifier | (() => undefined | DrugKeySpecifier),
 		fields?: DrugFieldPolicy,
+	},
+	DrugPopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DrugPopoverKeySpecifier | (() => undefined | DrugPopoverKeySpecifier),
+		fields?: DrugPopoverFieldPolicy,
 	},
 	EditUserPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EditUserPayloadKeySpecifier | (() => undefined | EditUserPayloadKeySpecifier),
@@ -1431,6 +1506,10 @@ export type TypedTypePolicies = TypePolicies & {
 		keyFields?: false | PhenotypeKeySpecifier | (() => undefined | PhenotypeKeySpecifier),
 		fields?: PhenotypeFieldPolicy,
 	},
+	PhenotypePopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PhenotypePopoverKeySpecifier | (() => undefined | PhenotypePopoverKeySpecifier),
+		fields?: PhenotypePopoverFieldPolicy,
+	},
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
@@ -1474,6 +1553,10 @@ export type TypedTypePolicies = TypePolicies & {
 	Source?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceKeySpecifier | (() => undefined | SourceKeySpecifier),
 		fields?: SourceFieldPolicy,
+	},
+	SourcePopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SourcePopoverKeySpecifier | (() => undefined | SourcePopoverKeySpecifier),
+		fields?: SourcePopoverFieldPolicy,
 	},
 	SourceStub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceStubKeySpecifier | (() => undefined | SourceStubKeySpecifier),
@@ -1590,6 +1673,10 @@ export type TypedTypePolicies = TypePolicies & {
 	VariantType?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VariantTypeKeySpecifier | (() => undefined | VariantTypeKeySpecifier),
 		fields?: VariantTypeFieldPolicy,
+	},
+	VariantTypePopover?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | VariantTypePopoverKeySpecifier | (() => undefined | VariantTypePopoverKeySpecifier),
+		fields?: VariantTypePopoverFieldPolicy,
 	},
 	WithRevisions?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | WithRevisionsKeySpecifier | (() => undefined | WithRevisionsKeySpecifier),
