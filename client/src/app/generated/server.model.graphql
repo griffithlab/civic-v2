@@ -4064,7 +4064,7 @@ type Query {
   """
   Retrieve phenotype typeahead fields for a search term.
   """
-  phenotypeTypeahead(queryTerm: String!): Phenotype!
+  phenotypeTypeahead(queryTerm: String!): [Phenotype!]!
 
   """
   List and filter Phenotypes from the Human Phenotype Ontology.
@@ -4297,7 +4297,7 @@ type Query {
   """
   Retrieve variant type typeahead fields for a search term.
   """
-  variantTypeTypeahead(queryTerm: String!): VariantType!
+  variantTypeTypeahead(queryTerm: String!): [VariantType!]!
 
   """
   List and filter Variant Types from the Sequence Ontology.

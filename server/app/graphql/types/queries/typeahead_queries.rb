@@ -16,7 +16,7 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
-      klass.field :phenotype_typeahead, Types::Entities::PhenotypeType, null: false do
+      klass.field :phenotype_typeahead, [Types::Entities::PhenotypeType], null: false do
         description "Retrieve phenotype typeahead fields for a search term."
         argument :query_term, GraphQL::Types::String, required: true
       end
@@ -27,8 +27,7 @@ module Types::Queries
         argument :source_type, Types::SourceSourceType, required: true
       end
 
-
-      klass.field :variant_type_typeahead, Types::Entities::VariantTypeType, null: false do
+      klass.field :variant_type_typeahead, [Types::Entities::VariantTypeType], null: false do
         description "Retrieve variant type typeahead fields for a search term."
         argument :query_term, GraphQL::Types::String, required: true
       end
@@ -51,7 +50,6 @@ module Types::Queries
       end
 
       def gene_typeahead(query_term:)
-        #Gene.first(10)
         scope = Gene.eager_load(:gene_aliases)
         scope.where("genes.name ILIKE ?", "#{query_term}%")
           .or(scope.where("gene_aliases.name ILIKE ?", "#{query_term}%"))
@@ -60,7 +58,9 @@ module Types::Queries
       end
 
       def phenotype_typeahead(query_term:)
-        Phenotype.find(query_term)
+        Phenotype.where('hpo_class ILIKE ?', "%#{query_term}%")
+          .order('hpo_class')
+          .limit(10)
       end
 
       def source_typeahead(citation_id:, source_type:)
@@ -70,7 +70,9 @@ module Types::Queries
       end
 
       def variant_type_typeahead(query_term:)
-        VariantType.find(query_term)
+        VariantType.where('display_name ILIKE ?', "%#{query_term}%")
+          .order('display_name')
+          .limit(10)
       end
     end
   end
