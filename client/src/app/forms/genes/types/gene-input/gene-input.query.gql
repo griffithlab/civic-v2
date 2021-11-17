@@ -1,12 +1,12 @@
 query GeneTypeahead($entrezSymbol: String!) {
-  browseGenes(entrezSymbol: $entrezSymbol, first: 20) {
-    nodes {
-      ... GeneTypeaheadFields
-    }
+  geneTypeahead(queryTerm: $entrezSymbol) {
+    ... GeneTypeaheadFields
   }
 }
 
-fragment GeneTypeaheadFields on BrowseGene {
+fragment GeneTypeaheadFields on Gene {
   id
   name
+  geneAliases
+  entrezId
 }

@@ -4,6 +4,7 @@ query DrugPopover($drugId: Int!) {
     name
     drugUrl
     ncitId
+    drugAliases
     assertionCount
     evidenceItemCount
   }

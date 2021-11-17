@@ -8,9 +8,7 @@ fragment genePopover on Gene {
   id,
   name,
   officialName,
-  aliases {
-    name
-  }
+  geneAliases
   variants {
     totalCount
   }

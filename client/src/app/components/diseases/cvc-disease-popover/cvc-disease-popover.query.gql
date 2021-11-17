@@ -5,6 +5,7 @@ query DiseasePopover($diseaseId: Int!) {
     displayName
     doid
     diseaseUrl
+    diseaseAliases
     assertionCount
     evidenceItemCount
     variantCount

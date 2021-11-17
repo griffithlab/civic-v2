@@ -10,13 +10,15 @@ module Types::Entities
     field :name, String, null: false
     field :description, String, null: false
     field :official_name, String, null: false
-    field :aliases, [Types::Entities::GeneAliasType], null: false
+    field :gene_aliases, [String], null: false
     field :sources, [Types::Entities::SourceType], null: false
     field :variants, resolver: Resolvers::Variants
     field :my_gene_info_details, GraphQL::Types::JSON, null: true
 
-    def aliases
-      Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object)
+    def gene_aliases
+      Loaders::AssociationLoader.for(Gene, :gene_aliases).load(object).then do |gene_aliases|
+        gene_aliases.map{|a| a.name}.sort
+      end
     end
 
     def sources

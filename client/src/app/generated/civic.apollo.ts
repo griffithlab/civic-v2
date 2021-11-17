@@ -452,13 +452,13 @@ export type BrowseDrugEdge = {
 
 export type BrowseGene = {
   __typename: 'BrowseGene';
-  aliases?: Maybe<Array<GeneAlias>>;
   assertionCount: Scalars['Int'];
   description: Scalars['String'];
   diseases?: Maybe<Array<Disease>>;
   drugs?: Maybe<Array<Drug>>;
   entrezId: Scalars['Int'];
   evidenceItemCount: Scalars['Int'];
+  geneAliases?: Maybe<Array<Scalars['String']>>;
   id: Scalars['Int'];
   name: Scalars['String'];
   variantCount: Scalars['Int'];
@@ -862,6 +862,7 @@ export enum DateSortColumns {
 
 export type Disease = {
   __typename: 'Disease';
+  diseaseAliases: Array<Scalars['String']>;
   diseaseUrl?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['Int']>;
@@ -872,6 +873,7 @@ export type Disease = {
 export type DiseasePopover = {
   __typename: 'DiseasePopover';
   assertionCount: Scalars['Int'];
+  diseaseAliases: Array<Scalars['String']>;
   diseaseUrl?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['Int']>;
@@ -899,6 +901,7 @@ export enum DiseasesSortColumns {
 
 export type Drug = {
   __typename: 'Drug';
+  drugAliases: Array<Scalars['String']>;
   drugUrl?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -914,6 +917,7 @@ export enum DrugInteraction {
 export type DrugPopover = {
   __typename: 'DrugPopover';
   assertionCount: Scalars['Int'];
+  drugAliases: Array<Scalars['String']>;
   drugUrl?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
@@ -1421,7 +1425,6 @@ export type FlaggableInput = {
 
 export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Gene';
-  aliases: Array<GeneAlias>;
   /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
@@ -1431,6 +1434,7 @@ export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  geneAliases: Array<Scalars['String']>;
   id: Scalars['Int'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
@@ -1500,11 +1504,6 @@ export type GeneVariantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-};
-
-export type GeneAlias = {
-  __typename: 'GeneAlias';
-  name: Scalars['String'];
 };
 
 /** Fields on a Gene that curators may propose revisions to. */
@@ -2126,10 +2125,14 @@ export type Query = {
   disease?: Maybe<Disease>;
   /** Retrieve popover fields for a specific disease. */
   diseasePopover?: Maybe<DiseasePopover>;
+  /** Retrieve disease typeahead fields for a search term. */
+  diseaseTypeahead: Array<Disease>;
   /** Find a drug by CIViC ID */
   drug?: Maybe<Drug>;
   /** Retrieve popover fields for a specific drug. */
   drugPopover?: Maybe<DrugPopover>;
+  /** Retrieve drug typeahead fields for a search term. */
+  drugTypeahead: Array<Drug>;
   /** List and filter Drugs from the NCI Thesaurus. */
   drugs: BrowseDrugConnection;
   /** List and filter events for an object */
@@ -2144,6 +2147,8 @@ export type Query = {
   flags: FlagConnection;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
+  /** Retrieve gene typeahead fields for a search term. */
+  geneTypeahead: Array<Gene>;
   /** List and filter notifications for the logged in user. */
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
@@ -2154,6 +2159,8 @@ export type Query = {
   phenotype?: Maybe<Phenotype>;
   /** Retrieve popover fields for a specific phenotype. */
   phenotypePopover?: Maybe<PhenotypePopover>;
+  /** Retrieve phenotype typeahead fields for a search term. */
+  phenotypeTypeahead: Phenotype;
   /** List and filter Phenotypes from the Human Phenotype Ontology. */
   phenotypes: BrowsePhenotypeConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
@@ -2186,6 +2193,8 @@ export type Query = {
   variantType?: Maybe<VariantType>;
   /** Retrieve popover fields for a specific variant type. */
   variantTypePopover?: Maybe<VariantTypePopover>;
+  /** Retrieve variant type typeahead fields for a search term. */
+  variantTypeTypeahead: VariantType;
   /** List and filter Variant Types from the Sequence Ontology. */
   variantTypes: BrowseVariantTypeConnection;
   /** List and filter variants. */
@@ -2343,6 +2352,11 @@ export type QueryDiseasePopoverArgs = {
 };
 
 
+export type QueryDiseaseTypeaheadArgs = {
+  queryTerm: Scalars['String'];
+};
+
+
 export type QueryDrugArgs = {
   id: Scalars['Int'];
 };
@@ -2350,6 +2364,11 @@ export type QueryDrugArgs = {
 
 export type QueryDrugPopoverArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryDrugTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -2437,6 +2456,11 @@ export type QueryGeneArgs = {
 };
 
 
+export type QueryGeneTypeaheadArgs = {
+  queryTerm: Scalars['String'];
+};
+
+
 export type QueryNotificationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2475,6 +2499,11 @@ export type QueryPhenotypeArgs = {
 
 export type QueryPhenotypePopoverArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryPhenotypeTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -2608,6 +2637,11 @@ export type QueryVariantTypeArgs = {
 
 export type QueryVariantTypePopoverArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryVariantTypeTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -4080,7 +4114,7 @@ export type DiseasePopoverQuery = (
   { __typename: 'Query' }
   & { diseasePopover?: Maybe<(
     { __typename: 'DiseasePopover' }
-    & Pick<DiseasePopover, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseUrl' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+    & Pick<DiseasePopover, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseUrl' | 'diseaseAliases' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
   )> }
 );
 
@@ -4129,7 +4163,7 @@ export type DrugPopoverQuery = (
   { __typename: 'Query' }
   & { drugPopover?: Maybe<(
     { __typename: 'DrugPopover' }
-    & Pick<DrugPopover, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'assertionCount' | 'evidenceItemCount'>
+    & Pick<DrugPopover, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'drugAliases' | 'assertionCount' | 'evidenceItemCount'>
   )> }
 );
 
@@ -4394,6 +4428,51 @@ export type EvidenceGridFieldsFragment = (
   )> }
 );
 
+export type AcceptRevisionMutationVariables = Exact<{
+  input: AcceptRevisionsInput;
+}>;
+
+
+export type AcceptRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { acceptRevisions?: Maybe<(
+    { __typename: 'AcceptRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type RejectRevisionMutationVariables = Exact<{
+  input: RejectRevisionsInput;
+}>;
+
+
+export type RejectRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { rejectRevisions?: Maybe<(
+    { __typename: 'RejectRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
+  ids: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type ValidateRevisionsForAcceptanceQuery = (
+  { __typename: 'Query' }
+  & { validateRevisionsForAcceptance: (
+    { __typename: 'ValidationErrors' }
+    & Pick<ValidationErrors, 'validationErrors'>
+  ) }
+);
+
 export type FlagListQueryVariables = Exact<{
   flaggable?: Maybe<FlaggableInput>;
   flaggingUserId?: Maybe<Scalars['Int']>;
@@ -4472,11 +4551,8 @@ export type GenePopoverQuery = (
 
 export type GenePopoverFragment = (
   { __typename: 'Gene' }
-  & Pick<Gene, 'id' | 'name' | 'officialName'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, variants: (
+  & Pick<Gene, 'id' | 'name' | 'officialName' | 'geneAliases'>
+  & { variants: (
     { __typename: 'VariantConnection' }
     & Pick<VariantConnection, 'totalCount'>
   ), revisions: (
@@ -4514,11 +4590,8 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { aliases?: Maybe<Array<(
-          { __typename: 'GeneAlias' }
-          & Pick<GeneAlias, 'name'>
-        )>>, diseases?: Maybe<Array<(
+        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+        & { diseases?: Maybe<Array<(
           { __typename: 'Disease' }
           & Pick<Disease, 'name' | 'id'>
         )>>, drugs?: Maybe<Array<(
@@ -4661,51 +4734,6 @@ export type PhenotypesBrowseQuery = (
 export type PhenotypeBrowseTableRowFieldsFragment = (
   { __typename: 'BrowsePhenotype' }
   & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
-);
-
-export type AcceptRevisionMutationVariables = Exact<{
-  input: AcceptRevisionsInput;
-}>;
-
-
-export type AcceptRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { acceptRevisions?: Maybe<(
-    { __typename: 'AcceptRevisionsPayload' }
-    & { revisions: Array<(
-      { __typename: 'Revision' }
-      & Pick<Revision, 'id'>
-    )> }
-  )> }
-);
-
-export type RejectRevisionMutationVariables = Exact<{
-  input: RejectRevisionsInput;
-}>;
-
-
-export type RejectRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { rejectRevisions?: Maybe<(
-    { __typename: 'RejectRevisionsPayload' }
-    & { revisions: Array<(
-      { __typename: 'Revision' }
-      & Pick<Revision, 'id'>
-    )> }
-  )> }
-);
-
-export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
-  ids: Array<Scalars['Int']> | Scalars['Int'];
-}>;
-
-
-export type ValidateRevisionsForAcceptanceQuery = (
-  { __typename: 'Query' }
-  & { validateRevisionsForAcceptance: (
-    { __typename: 'ValidationErrors' }
-    & Pick<ValidationErrors, 'validationErrors'>
-  ) }
 );
 
 export type RevisionsQueryVariables = Exact<{
@@ -5245,13 +5273,10 @@ export type DiseaseTypeaheadQueryVariables = Exact<{
 
 export type DiseaseTypeaheadQuery = (
   { __typename: 'Query' }
-  & { browseDiseases: (
-    { __typename: 'BrowseDiseaseConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowseDisease' }
-      & Pick<BrowseDisease, 'id' | 'name' | 'doid'>
-    )> }
-  ) }
+  & { diseaseTypeahead: Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseAliases'>
+  )> }
 );
 
 export type DrugTypeaheadQueryVariables = Exact<{
@@ -5261,13 +5286,10 @@ export type DrugTypeaheadQueryVariables = Exact<{
 
 export type DrugTypeaheadQuery = (
   { __typename: 'Query' }
-  & { drugs: (
-    { __typename: 'BrowseDrugConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowseDrug' }
-      & Pick<BrowseDrug, 'id' | 'name' | 'ncitId'>
-    )> }
-  ) }
+  & { drugTypeahead: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugAliases'>
+  )> }
 );
 
 export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
@@ -5527,18 +5549,15 @@ export type GeneTypeaheadQueryVariables = Exact<{
 
 export type GeneTypeaheadQuery = (
   { __typename: 'Query' }
-  & { browseGenes: (
-    { __typename: 'BrowseGeneConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowseGene' }
-      & GeneTypeaheadFieldsFragment
-    )> }
-  ) }
+  & { geneTypeahead: Array<(
+    { __typename: 'Gene' }
+    & GeneTypeaheadFieldsFragment
+  )> }
 );
 
 export type GeneTypeaheadFieldsFragment = (
-  { __typename: 'BrowseGene' }
-  & Pick<BrowseGene, 'id' | 'name'>
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'geneAliases' | 'entrezId'>
 );
 
 export type PhenotypeTypeaheadQueryVariables = Exact<{
@@ -5861,7 +5880,7 @@ export type DiseaseDetailQuery = (
   { __typename: 'Query' }
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName'>
+    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName' | 'diseaseAliases'>
   )> }
 );
 
@@ -5874,7 +5893,7 @@ export type DrugDetailQuery = (
   { __typename: 'Query' }
   & { drug?: Maybe<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl'>
+    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases'>
   )> }
 );
 
@@ -6026,11 +6045,8 @@ export type GenesSummaryQuery = (
 
 export type GeneSummaryFieldsFragment = (
   { __typename: 'Gene' }
-  & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, sources: Array<(
+  & Pick<Gene, 'description' | 'entrezId' | 'geneAliases' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
+  & { sources: Array<(
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variants: (
@@ -6988,9 +7004,7 @@ export const GenePopoverFragmentDoc = gql`
   id
   name
   officialName
-  aliases {
-    name
-  }
+  geneAliases
   variants {
     totalCount
   }
@@ -7354,9 +7368,11 @@ export const RevisableGeneFieldsFragmentDoc = gql`
 }
     `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
-    fragment GeneTypeaheadFields on BrowseGene {
+    fragment GeneTypeaheadFields on Gene {
   id
   name
+  geneAliases
+  entrezId
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -7654,9 +7670,7 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     fragment GeneSummaryFields on Gene {
   description
   entrezId
-  aliases {
-    name
-  }
+  geneAliases
   id
   name
   officialName
@@ -8265,6 +8279,7 @@ export const DiseasePopoverDocument = gql`
     displayName
     doid
     diseaseUrl
+    diseaseAliases
     assertionCount
     evidenceItemCount
     variantCount
@@ -8330,6 +8345,7 @@ export const DrugPopoverDocument = gql`
     name
     drugUrl
     ncitId
+    drugAliases
     assertionCount
     evidenceItemCount
   }
@@ -8486,6 +8502,66 @@ export const EvidenceBrowseDocument = gql`
       super(apollo);
     }
   }
+export const AcceptRevisionDocument = gql`
+    mutation AcceptRevision($input: AcceptRevisionsInput!) {
+  acceptRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
+    document = AcceptRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RejectRevisionDocument = gql`
+    mutation RejectRevision($input: RejectRevisionsInput!) {
+  rejectRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
+    document = RejectRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidateRevisionsForAcceptanceDocument = gql`
+    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
+  validateRevisionsForAcceptance(revisionIds: $ids) {
+    validationErrors
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
+    document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const FlagListDocument = gql`
     query FlagList($flaggable: FlaggableInput, $flaggingUserId: Int, $resolvingUserId: Int, $state: FlagState, $sortBy: DateSort, $first: Int, $last: Int, $before: String, $after: String) {
   flags(
@@ -8551,9 +8627,7 @@ export const BrowseGenesDocument = gql`
         id
         entrezId
         name
-        aliases {
-          name
-        }
+        geneAliases
         diseases {
           name
           id
@@ -8720,66 +8794,6 @@ export const PhenotypesBrowseDocument = gql`
   })
   export class PhenotypesBrowseGQL extends Apollo.Query<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables> {
     document = PhenotypesBrowseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AcceptRevisionDocument = gql`
-    mutation AcceptRevision($input: AcceptRevisionsInput!) {
-  acceptRevisions(input: $input) {
-    revisions {
-      id
-      __typename
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
-    document = AcceptRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const RejectRevisionDocument = gql`
-    mutation RejectRevision($input: RejectRevisionsInput!) {
-  rejectRevisions(input: $input) {
-    revisions {
-      id
-      __typename
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
-    document = RejectRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ValidateRevisionsForAcceptanceDocument = gql`
-    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
-  validateRevisionsForAcceptance(revisionIds: $ids) {
-    validationErrors
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
-    document = ValidateRevisionsForAcceptanceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -9324,12 +9338,11 @@ export const AddCommentDocument = gql`
   }
 export const DiseaseTypeaheadDocument = gql`
     query DiseaseTypeahead($name: String!) {
-  browseDiseases(name: $name) {
-    nodes {
-      id
-      name
-      doid
-    }
+  diseaseTypeahead(queryTerm: $name) {
+    id
+    name
+    doid
+    diseaseAliases
   }
 }
     `;
@@ -9346,12 +9359,11 @@ export const DiseaseTypeaheadDocument = gql`
   }
 export const DrugTypeaheadDocument = gql`
     query DrugTypeahead($name: String!) {
-  drugs(name: $name) {
-    nodes {
-      id
-      name
-      ncitId
-    }
+  drugTypeahead(queryTerm: $name) {
+    id
+    name
+    ncitId
+    drugAliases
   }
 }
     `;
@@ -9627,10 +9639,8 @@ export const SuggestGeneRevisionDocument = gql`
   }
 export const GeneTypeaheadDocument = gql`
     query GeneTypeahead($entrezSymbol: String!) {
-  browseGenes(entrezSymbol: $entrezSymbol, first: 20) {
-    nodes {
-      ...GeneTypeaheadFields
-    }
+  geneTypeahead(queryTerm: $entrezSymbol) {
+    ...GeneTypeaheadFields
   }
 }
     ${GeneTypeaheadFieldsFragmentDoc}`;
@@ -9920,6 +9930,7 @@ export const DiseaseDetailDocument = gql`
     doid
     diseaseUrl
     displayName
+    diseaseAliases
   }
 }
     `;
@@ -9941,6 +9952,7 @@ export const DrugDetailDocument = gql`
     name
     ncitId
     drugUrl
+    drugAliases
   }
 }
     `;

@@ -8,6 +8,7 @@ module Types
     include Types::Queries::EvidenceItemQueries
     include Types::Queries::SourceQueries
     include Types::Queries::PopoverQueries
+    include Types::Queries::TypeaheadQueries
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.

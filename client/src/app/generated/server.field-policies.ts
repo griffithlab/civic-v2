@@ -148,15 +148,15 @@ export type BrowseDrugEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BrowseGeneKeySpecifier = ('aliases' | 'assertionCount' | 'description' | 'diseases' | 'drugs' | 'entrezId' | 'evidenceItemCount' | 'id' | 'name' | 'variantCount' | BrowseGeneKeySpecifier)[];
+export type BrowseGeneKeySpecifier = ('assertionCount' | 'description' | 'diseases' | 'drugs' | 'entrezId' | 'evidenceItemCount' | 'geneAliases' | 'id' | 'name' | 'variantCount' | BrowseGeneKeySpecifier)[];
 export type BrowseGeneFieldPolicy = {
-	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
 	entrezId?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	geneAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
@@ -379,17 +379,19 @@ export type CountryFieldPolicy = {
 	iso?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DiseaseKeySpecifier = ('diseaseUrl' | 'displayName' | 'doid' | 'id' | 'name' | DiseaseKeySpecifier)[];
+export type DiseaseKeySpecifier = ('diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'id' | 'name' | DiseaseKeySpecifier)[];
 export type DiseaseFieldPolicy = {
+	diseaseAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	doid?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'name' | 'variantCount' | DiseasePopoverKeySpecifier)[];
+export type DiseasePopoverKeySpecifier = ('assertionCount' | 'diseaseAliases' | 'diseaseUrl' | 'displayName' | 'doid' | 'evidenceItemCount' | 'id' | 'name' | 'variantCount' | DiseasePopoverKeySpecifier)[];
 export type DiseasePopoverFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	diseaseAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	doid?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -398,16 +400,18 @@ export type DiseasePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DrugKeySpecifier = ('drugUrl' | 'id' | 'name' | 'ncitId' | DrugKeySpecifier)[];
+export type DrugKeySpecifier = ('drugAliases' | 'drugUrl' | 'id' | 'name' | 'ncitId' | DrugKeySpecifier)[];
 export type DrugFieldPolicy = {
+	drugAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	ncitId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DrugPopoverKeySpecifier = ('assertionCount' | 'drugUrl' | 'evidenceItemCount' | 'id' | 'name' | 'ncitId' | DrugPopoverKeySpecifier)[];
+export type DrugPopoverKeySpecifier = ('assertionCount' | 'drugAliases' | 'drugUrl' | 'evidenceItemCount' | 'id' | 'name' | 'ncitId' | DrugPopoverKeySpecifier)[];
 export type DrugPopoverFieldPolicy = {
 	assertionCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	drugAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItemCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -552,15 +556,15 @@ export type FlaggableFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GeneKeySpecifier = ('aliases' | 'comments' | 'description' | 'entrezId' | 'events' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
+export type GeneKeySpecifier = ('comments' | 'description' | 'entrezId' | 'events' | 'flagged' | 'flags' | 'geneAliases' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'myGeneInfoDetails' | 'name' | 'officialName' | 'revisions' | 'sources' | 'variants' | GeneKeySpecifier)[];
 export type GeneFieldPolicy = {
-	aliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	entrezId?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
+	geneAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastAcceptedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -571,10 +575,6 @@ export type GeneFieldPolicy = {
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type GeneAliasKeySpecifier = ('name' | GeneAliasKeySpecifier)[];
-export type GeneAliasFieldPolicy = {
-	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type LinkoutDataKeySpecifier = ('currentValue' | 'diffValue' | 'name' | 'suggestedValue' | LinkoutDataKeySpecifier)[];
 export type LinkoutDataFieldPolicy = {
@@ -770,7 +770,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'diseasePopover' | 'drug' | 'drugPopover' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -786,8 +786,10 @@ export type QueryFieldPolicy = {
 	contributors?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseasePopover?: FieldPolicy<any> | FieldReadFunction<any>,
+	diseaseTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	drug?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugPopover?: FieldPolicy<any> | FieldReadFunction<any>,
+	drugTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -795,11 +797,13 @@ export type QueryFieldPolicy = {
 	flag?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
+	geneTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	organization?: FieldPolicy<any> | FieldReadFunction<any>,
 	organizations?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotype?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
+	phenotypeTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	remoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -819,6 +823,7 @@ export type QueryFieldPolicy = {
 	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantType?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantTypeTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	variants?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1445,10 +1450,6 @@ export type TypedTypePolicies = TypePolicies & {
 	Gene?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GeneKeySpecifier | (() => undefined | GeneKeySpecifier),
 		fields?: GeneFieldPolicy,
-	},
-	GeneAlias?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | GeneAliasKeySpecifier | (() => undefined | GeneAliasKeySpecifier),
-		fields?: GeneAliasFieldPolicy,
 	},
 	LinkoutData?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkoutDataKeySpecifier | (() => undefined | LinkoutDataKeySpecifier),

@@ -8,12 +8,21 @@
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
-    <nz-option *ngFor="let opt of to.optionList"
-      nzCustomContent
-      [nzLabel]="opt.label"
-      [nzValue]="opt.drug">
-      {{ opt.drug.name}} ({{ opt.drug.ncitId }})
-    </nz-option>
+    <ng-container *ngrxLet="this.drugs$ as drugs">
+      <nz-option *ngFor="let opt of drugs"
+        nzCustomContent
+        [nzLabel]="opt.tooltip"
+        [nzValue]="opt.drug">
+        <nz-space>
+          <nz-space-item>
+            {{ opt.label }}
+          </nz-space-item>
+          <nz-space-item *ngIf="opt.drug.drugAliases.length > 0">
+            <span nz-typography nzType="secondary">{{ opt.drug.drugAliases.join(', ') }}</span>
+          </nz-space-item>
+        </nz-space>
+      </nz-option>
+    </ng-container>
   </nz-select>
   <ng-template #sourceLoader>
     No drug found in CIViC that matches the string provided.

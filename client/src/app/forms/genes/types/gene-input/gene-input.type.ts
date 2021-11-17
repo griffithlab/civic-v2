@@ -1,20 +1,29 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GeneTypeaheadGQL } from '@app/generated/civic.apollo';
+import { GeneTypeaheadFieldsFragment, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { QueryRef } from 'apollo-angular';
+import { Observable, Subject } from 'rxjs';
+import { map, pluck, takeUntil } from 'rxjs/operators';
+
+interface GeneTypeaheadOption {
+  value: number,
+  label: string,
+  tooltip: string,
+  gene: GeneTypeaheadFieldsFragment
+}
 
 @Component({
   selector: 'cvc-gene-input',
   templateUrl: './gene-input.type.html',
   styleUrls: ['./gene-input.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneInputComponent extends FieldType implements AfterViewInit {
+export class GeneInputComponent extends FieldType implements AfterViewInit, OnDestroy, OnInit {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -27,10 +36,35 @@ export class GeneInputComponent extends FieldType implements AfterViewInit {
     },
   };
 
+  private queryRef!: QueryRef<GeneTypeaheadQuery, GeneTypeaheadQueryVariables>
+  genes$?: Observable<GeneTypeaheadOption[]>
+
+  private destroy$ = new Subject();
+
   constructor(
     private geneTypeaheadQuery: GeneTypeaheadGQL,
-    private changeDetectorRef: ChangeDetectorRef
   ) { super(); }
+
+  ngOnInit() {
+    this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: ""})
+
+    this.genes$ = this.queryRef
+    .valueChanges
+    .pipe(takeUntil(this.destroy$),
+      pluck('data', 'geneTypeahead'),
+      map((genes) => {
+        return genes.map((g) => {
+          let aliases = g.geneAliases.length > 0 ? `Aliases: ${g.geneAliases.join(', ')}` : ""
+          return {
+            value: g.id,
+            tooltip: `${g.name} (${g.entrezId}) ${aliases}`,
+            label: `${g.name} (${g.entrezId})`,
+            gene: g,
+          }
+        })
+      })
+    )
+  }
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
@@ -42,21 +76,15 @@ export class GeneInputComponent extends FieldType implements AfterViewInit {
       ) {
         return;
       }
-      this.geneTypeaheadQuery
-        .fetch({ entrezSymbol: value })
-        .subscribe(({ data: { browseGenes } }) => {
-          this.to.optionList = browseGenes.nodes.map((g) => {
-            return {
-              value: g.id,
-              label: g.name,
-              gene: g
-            };
-          });
-          // TODO implement this search as an observable to avoid detectChanges
-          this.changeDetectorRef.detectChanges();
-        });
-    };
+      this.queryRef.refetch({entrezSymbol: value})
+    }
   }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }
 
 

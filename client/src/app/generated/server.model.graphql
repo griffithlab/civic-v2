@@ -742,13 +742,13 @@ type BrowseDrugEdge {
 }
 
 type BrowseGene {
-  aliases: [GeneAlias!]
   assertionCount: Int!
   description: String!
   diseases: [Disease!]
   drugs: [Drug!]
   entrezId: Int!
   evidenceItemCount: Int!
+  geneAliases: [String!]
   id: Int!
   name: String!
   variantCount: Int!
@@ -1350,6 +1350,7 @@ enum DateSortColumns {
 }
 
 type Disease {
+  diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
   doid: Int
@@ -1359,6 +1360,7 @@ type Disease {
 
 type DiseasePopover {
   assertionCount: Int!
+  diseaseAliases: [String!]!
   diseaseUrl: String
   displayName: String!
   doid: Int
@@ -1390,6 +1392,7 @@ enum DiseasesSortColumns {
 }
 
 type Drug {
+  drugAliases: [String!]!
   drugUrl: String
   id: Int!
   name: String!
@@ -1404,6 +1407,7 @@ enum DrugInteraction {
 
 type DrugPopover {
   assertionCount: Int!
+  drugAliases: [String!]!
   drugUrl: String
   evidenceItemCount: Int!
   id: Int!
@@ -2279,8 +2283,6 @@ input FlaggableInput {
 }
 
 type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
-  aliases: [GeneAlias!]!
-
   """
   List and filter comments.
   """
@@ -2396,6 +2398,7 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     """
     state: FlagState
   ): FlagConnection!
+  geneAliases: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -2489,10 +2492,6 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     """
     name: String
   ): VariantConnection!
-}
-
-type GeneAlias {
-  name: String!
 }
 
 """
@@ -3671,6 +3670,11 @@ type Query {
   diseasePopover(id: Int!): DiseasePopover
 
   """
+  Retrieve disease typeahead fields for a search term.
+  """
+  diseaseTypeahead(queryTerm: String!): [Disease!]!
+
+  """
   Find a drug by CIViC ID
   """
   drug(id: Int!): Drug
@@ -3679,6 +3683,11 @@ type Query {
   Retrieve popover fields for a specific drug.
   """
   drugPopover(id: Int!): DrugPopover
+
+  """
+  Retrieve drug typeahead fields for a search term.
+  """
+  drugTypeahead(queryTerm: String!): [Drug!]!
 
   """
   List and filter Drugs from the NCI Thesaurus.
@@ -3961,6 +3970,11 @@ type Query {
   gene(id: Int!): Gene
 
   """
+  Retrieve gene typeahead fields for a search term.
+  """
+  geneTypeahead(queryTerm: String!): [Gene!]!
+
+  """
   List and filter notifications for the logged in user.
   """
   notifications(
@@ -4046,6 +4060,11 @@ type Query {
   Retrieve popover fields for a specific phenotype.
   """
   phenotypePopover(id: Int!): PhenotypePopover
+
+  """
+  Retrieve phenotype typeahead fields for a search term.
+  """
+  phenotypeTypeahead(queryTerm: String!): Phenotype!
 
   """
   List and filter Phenotypes from the Human Phenotype Ontology.
@@ -4274,6 +4293,11 @@ type Query {
   Retrieve popover fields for a specific variant type.
   """
   variantTypePopover(id: Int!): VariantTypePopover
+
+  """
+  Retrieve variant type typeahead fields for a search term.
+  """
+  variantTypeTypeahead(queryTerm: String!): VariantType!
 
   """
   List and filter Variant Types from the Sequence Ontology.

@@ -5,6 +5,9 @@ import { DiseaseInputComponent, DiseaseInputType } from './disease-input.type';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 const formlyConfig = {
   types: [DiseaseInputType],
@@ -15,9 +18,12 @@ const formlyConfig = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     FormlyModule.forChild(formlyConfig),
     NzSelectModule,
     CvcDiseaseTagModule,
+    NzTypographyModule,
+    NzSpaceModule
   ],
 })
 export class DiseaseInputModule {}

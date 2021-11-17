@@ -8,12 +8,6 @@ module Types::Queries
         argument :source_type, Types::SourceSourceType, required: true
       end
 
-      klass.field :source_typeahead, [Types::Entities::SourceType], null: false do
-        description 'Provide suggestions for sources based on a partial citation ID'
-        argument :citation_id, GraphQL::Types::Int, required: true
-        argument :source_type, Types::SourceSourceType, required: true
-      end
-
       def remote_citation(citation_id:, source_type:)
         citation = case source_type
         when 'ASCO'
@@ -29,12 +23,6 @@ module Types::Queries
         else
           nil
         end
-      end
-
-      def source_typeahead(citation_id:, source_type:)
-        Source.where(source_type: source_type)
-          .where('sources.citation_id LIKE ?', "#{citation_id}%")
-          .limit(10)
       end
     end
   end
