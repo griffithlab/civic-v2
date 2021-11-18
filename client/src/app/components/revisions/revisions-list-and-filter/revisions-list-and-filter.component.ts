@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, Organization, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
-import { map, pluck } from 'rxjs/operators';
+import { map, pluck, startWith } from 'rxjs/operators';
 
 export interface SelectableFieldName {
   id: number
@@ -37,6 +37,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
   uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>
   unfilteredCount$: Maybe<Observable<Maybe<number>>>
+  isLoading$: Maybe<Observable<boolean>>;
 
   filteredSet: undefined | string = undefined
 
@@ -51,7 +52,7 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     {id: 3, displayName: 'Superseded', value: RevisionStatus.Superseded},
   ]
 
-  private defaultPageSize = 3
+  private defaultPageSize = 10
 
   constructor(
     private gql: RevisionsGQL,
@@ -74,6 +75,11 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
           return edges.map((e) => e.node)
         })
       );
+
+      this.isLoading$ = observable.pipe(
+        map((res) =>  res.loading),
+        startWith(true)
+      )
 
       this.pageInfo$ = observable.pipe(
         pluck('data', 'revisions', 'pageInfo')

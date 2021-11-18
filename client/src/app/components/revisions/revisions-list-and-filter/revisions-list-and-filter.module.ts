@@ -14,6 +14,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { RevisionListModule } from '@app/components/revisions/revision-list/revision-list.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [RevisionsListAndFilterComponent],
@@ -29,6 +30,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzAvatarModule,
     NzEmptyModule,
     NzButtonModule,
+    NzIconModule,
     CvcParticipantListModule,
     RevisionListModule,
   ],

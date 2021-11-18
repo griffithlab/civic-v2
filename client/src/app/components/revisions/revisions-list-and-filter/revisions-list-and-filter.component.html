@@ -44,5 +44,12 @@
   </nz-row>
 </ng-container>
 <ng-template #noRevisions>
-  <nz-empty nzNotFoundImage="simple" nzNotFoundContent="Entity has no Revisions"></nz-empty>
+  <ng-container *ngIf="isLoading$ | ngrxPush as isLoading; else noneFound">
+    <nz-row nzJustify="center">
+        <i nz-icon nzType="loading" style="font-size: 32px;"></i>
+    </nz-row>
+  </ng-container>
+  <ng-template #noneFound>
+    <nz-empty nzNotFoundImage="simple" nzNotFoundContent="Entity has no Revisions"></nz-empty>
+  </ng-template>
 </ng-template>
