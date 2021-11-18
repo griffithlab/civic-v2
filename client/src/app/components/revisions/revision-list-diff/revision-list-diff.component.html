@@ -15,6 +15,8 @@
     </nz-list>
   </nz-col>
   <nz-col [nzSpan]="8">
+    <nz-space nzDirection="vertical">
+      <nz-space-item>
       <!-- show removed items -->
       <nz-list nzHeader="Removed {{ entityType }}" nzBordered nzType="inner" nzSize="small">
         <nz-list-item *ngFor="let item of this.diffObject.removedObjects" ngClass="removed">
@@ -28,6 +30,8 @@
         <nz-list-empty *ngIf="this.diffObject.removedObjects.length === 0"
         nzNoResult="No {{ entityType }} Removed"></nz-list-empty>
       </nz-list>
+      </nz-space-item>
+      <nz-space-item>
       <!-- show added items -->
       <nz-list nzHeader="Added {{ entityType }}" nzBordered nzType="inner" nzSize="small">
         <nz-list-item *ngFor="let item of this.diffObject.addedObjects" ngClass="added">
@@ -41,6 +45,8 @@
         <nz-list-empty *ngIf="this.diffObject.addedObjects.length === 0"
           nzNoResult="No {{ entityType }} Added"></nz-list-empty>
       </nz-list>
+      </nz-space-item>
+      <nz-space-item>
       <nz-list nzHeader="Kept {{ entityType }}" nzBordered nzType="inner" nzSize="small">
         <nz-list-item *ngFor="let item of this.diffObject.keptObjects" ngClass="kept">
           <span nz-typography>
@@ -53,6 +59,8 @@
         <nz-list-empty *ngIf="this.diffObject.keptObjects.length === 0"
           nzNoResult="No {{ entityType }} Kept"></nz-list-empty>
       </nz-list>
+      </nz-space-item>
+    </nz-space>
   </nz-col>
   <nz-col [nzSpan]="8">
     <!-- show final list -->

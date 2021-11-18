@@ -1,122 +1,88 @@
-import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
-import { ApolloQueryResult } from '@apollo/client/core';
-import {
-  FlaggableInput,
-  FlagListFragment,
-  FlagListGQL,
-  FlagListQuery,
-  FlagListQueryVariables,
-  Maybe,
-  FlagState,
-} from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { QueryRef } from 'apollo-angular';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, OnDestroy} from '@angular/core';
+import { Flag, Maybe, Organization } from '@app/generated/civic.apollo';
+import { Observable, Subject } from 'rxjs';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { takeUntil } from 'rxjs/operators';
+
+type SuccessType = false | 'accepted' | 'rejected'
 
 @Component({
   selector: 'cvc-flag-list',
   templateUrl: './flag-list.component.html',
   styleUrls: ['./flag-list.component.less'],
 })
-export class CvcFlagListComponent implements OnInit {
-  @Input() flaggable!: FlaggableInput;
+export class FlagListComponent implements OnInit, OnDestroy {
+  @Input() flags?: Flag[];
+  @Input() flagResolvedCallback?: () => void
 
-  private queryRef!: QueryRef<FlagListQuery, FlagListQueryVariables>;
-  private results$!: Observable<ApolloQueryResult<FlagListQuery>>;
-  flags$!: Observable<Maybe<FlagListFragment>>;
+  mostRecentOrg!: Maybe<Organization>;
 
-  stateFilter: String;
-  selectedFlagForResolving: Maybe<number>;
-  refresh!: () => void;
-  canResolveOtherFlags$?: Observable<boolean>;
-  userId$?: Observable<number>;
+  selectedFlagId: Maybe<number>;
+
+  viewer$?: Observable<Viewer>;
+  
+  isLoading: boolean = false
+  errors: Maybe<string[]>;
+
+  success: SuccessType = false
+
+  flagComment: Maybe<string>
+
+  private destroy$ = new Subject();
+
+  //@Output() revisionSetSelectedEvent = new EventEmitter<string>();
+  //@Output() revisionMutationCompleted = new EventEmitter<void>();
+
+  //acceptRevisionsMutator: MutatorWithState<AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables>;
+  //rejectRevisionsMutator: MutatorWithState<RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables>;
 
   constructor(
-    private gql: FlagListGQL,
-    private modal: NzModalService,
-    private viewContainerRef: ViewContainerRef,
-    private viewer: ViewerService
+    private viewerService: ViewerService,
+    private networkErrorService: NetworkErrorsService,
+    //private acceptRevisionsGql: AcceptRevisionGQL,
+    //private rejectRevisionsGql: RejectRevisionGQL,
   ) {
-    this.stateFilter = 'open';
+    //this.acceptRevisionsMutator= new MutatorWithState(networkErrorService)
+    //this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
   }
 
-  ngOnInit() {
-    if (this.flaggable == undefined) {
-      throw new Error('Must pass a flaggable into flag list');
-    }
-
-    this.queryRef = this.gql.watch({
-      flaggable: this.flaggable,
-      state: this.resolveStateFilter(),
-    });
-    this.results$ = this.queryRef.valueChanges;
-    this.flags$ = this.results$.pipe(map(({ data }) => data.flags));
-    this.refresh = () => {
-      this.queryRef.refetch();
-    };
-
-    this.canResolveOtherFlags$ = this.viewer.viewer$.pipe(
-      map((v) => v.isAdmin || v.isEditor)
-    );
-    this.userId$ = this.viewer.viewer$.pipe(map((v) => v.id));
-  }
-
-  private resolveStateFilter(): Maybe<FlagState> {
-    if (this.stateFilter === 'open') {
-      return FlagState.Open;
-    } else if (this.stateFilter === 'resolved') {
-      return FlagState.Resolved;
-    } else {
-      return undefined;
-    }
-  }
-
-  fetchFlags(event: String) {
-    this.queryRef.refetch({
-      flaggable: this.flaggable,
-      state: this.resolveStateFilter(),
+  ngOnInit(): void {
+    this.viewer$ = this.viewerService.viewer$;
+    this.viewerService.viewer$.subscribe((v: Viewer) => {
+      this.mostRecentOrg = v.mostRecentOrg;
     });
   }
 
-  canResolve(
-    flaggingUserId: number,
-    canResolveOther: boolean,
-    userId: number
-  ): boolean {
-    if (canResolveOther) {
-      return true;
-    } else if (userId == flaggingUserId) {
-      return true;
-    }
-    return false;
+  setupMutationResultHandlers(state: MutationState, successType: SuccessType) {
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if (res) {
+          this.isLoading = false
+          //this.revisionMutationCompleted.emit();
+          this.errors = undefined
+          this.success = successType
+        }
+      })
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if (res.length > 0) {
+          this.isLoading = false
+          this.success = false
+          this.errors  = res
+        }
+      })
   }
 
-  resolveClicked(flagId: number) {
-    this.selectedFlagForResolving = flagId;
-
-    let modal = this.modal.create({
-      nzTitle: 'Resolve Flag ' + flagId,
-      nzViewContainerRef: this.viewContainerRef,
-      nzContent: 'test flag',
-      // nzContent: CvcFlagResolveComponent,
-      nzComponentParams: {
-        flagId: flagId,
-        flagResolvedCallback: () => {
-          this.refresh();
-        },
-      },
-      nzOnCancel: () => {
-        this.resolveModalClosed();
-      },
-      nzFooter: null,
-    });
-
-    modal.getContentComponent();
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  resolveModalClosed() {
-    this.selectedFlagForResolving = undefined;
+  onErrorBannerClose(err: string) {
+    this.errors = this.errors?.filter(e => e != err)
+  }
+
+  onSuccessBannerClose() {
+    this.success = false
   }
 }

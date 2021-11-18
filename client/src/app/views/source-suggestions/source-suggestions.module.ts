@@ -36,7 +36,7 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
-import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { SourceSuggestionsHomeModule } from './source-suggestions-home/source-suggestions-home.module';
 import { SourceSuggestionsRoutingModule } from './source-suggestions-routing.module';
@@ -54,7 +54,7 @@ import { SourceSuggestionsRoutingModule } from './source-suggestions-routing.mod
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,
     CvcSourceTagModule,
-    CvcFlagListModule,
+    CvcFlagListAndFilterModule,
     CvcFlaggableModule,
     CvcSectionNavigationModule,
     SourceSuggestionsRoutingModule,

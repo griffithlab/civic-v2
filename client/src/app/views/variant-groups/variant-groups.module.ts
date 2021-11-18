@@ -41,7 +41,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
-import { CvcFlagListModule } from '@app/components/flags/flag-list/flag-list.module';
+import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
@@ -67,7 +67,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
     CvcOrgSelectorBtnGroupModule,
     CvcParticipantListModule,
     CvcCommentListModule,
-    CvcFlagListModule,
+    CvcFlagListAndFilterModule,
     CvcFlaggableModule,
     NzIconModule,
     NzAvatarModule,

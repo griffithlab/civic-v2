@@ -124,7 +124,7 @@
               nzType="civic:revision"></i> RID{{ revision.id }}
             <span>{{ revision.linkoutData.name }} Updated</span>
           </nz-space-item>
-          <nz-space-item>
+          <nz-space-item *ngIf="revision.comments[0].comment !== ''">
             <i nz-popover [nzPopoverContent]="revision.comments[0].comment" *ngIf="revision.comments.length > 0" nz-icon nzType="comment" nzTheme="outline"></i>
           </nz-space-item>
         </nz-space>

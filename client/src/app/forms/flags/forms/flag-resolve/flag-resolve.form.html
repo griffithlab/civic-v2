@@ -1,15 +1,37 @@
-<!-- TODO: this needs to replace the current in-place flag resolve in flag-list -->
+<nz-alert *ngIf="this.success" nzBanner nzMessage="Flag resolved." nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+<button
+  *ngIf="!this.success"
+  nz-button
+  nz-popover
+  nzSize="small"
+  [nzPopoverTitle]="flagResolvePopoverTitleTemplate"
+  [(nzPopoverVisible)]="flagResolvePopoverVisible"
+  (click)="this.flagResolvePopoverVisible = !this.flagResolvePopoverVisible"
+  [nzPopoverContent]="flagResolvePopoverContentTemplate"
+  [nzPopoverTrigger]="undefined "
+  nzPopoverPlacement="bottom"
+>
+  Resolve Flag
+  <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+</button>
 
-<nz-alert *ngIf="errorMessages" nzType="error" nzShowIcon [nzDescription]="errorContents" nzMessage="Error Resolving Flag"> </nz-alert>
-<ng-template #errorContents>
-  <ul>
-    <li *ngFor="let error of errorMessages">
-      {{ error }}
-    </li>
-  </ul>
+<ng-template #flagResolvePopoverTitleTemplate>
+  Resolve Flag
+  <span [ngStyle]="{ 'float': 'right' }">
+    <i nz-icon nzType="close" nzTheme="outline" (click)="this.flagResolvePopoverVisible = false; this.errorMessages = []"></i>
+  </span>
 </ng-template>
 
-<nz-card nzType="inner">
+<ng-template #flagResolvePopoverContentTemplate>
+  <nz-alert *ngIf="errorMessages.length > 0" nzType="error" nzShowIcon [nzDescription]="errorContents" nzMessage="Error Resolving Flag"> </nz-alert>
+  <ng-template #errorContents>
+    <ul>
+      <li *ngFor="let error of errorMessages">
+        {{ error }}
+      </li>
+    </ul>
+  </ng-template>
+  <nz-card nzType="inner">
     <form nz-form
       [formGroup]="formGroup"
       (ngSubmit)="resolveFlag(formModel)"
@@ -17,7 +39,8 @@
       <formly-form [form]="formGroup"
         [fields]="formFields"
         [model]="formModel"
-        [options]="formOptions"></formly-form>
+        [options]="formOptions"
+        (modelChange)="formModel = $event"></formly-form>
       <nz-form-item>
         <nz-form-control>
           <cvc-form-buttons>
@@ -36,5 +59,4 @@
       </nz-form-item>
     </form>
   </nz-card>
-
-<button (click)="closeModal()">Cancel</button>
+</ng-template>

@@ -8,6 +8,7 @@ import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-s
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [CvcFlagAddForm],
@@ -15,10 +16,11 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     CommonModule,
     ReactiveFormsModule,
     NzFormModule,
-    FormlyModule.forChild(),
-    NzCardModule,
-    CvcOrgSelectorBtnGroupModule,
     NzButtonModule,
+    NzCardModule,
+    NzAlertModule,
+    FormlyModule.forChild(),
+    CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
   ],
   exports: [CvcFlagAddForm]
