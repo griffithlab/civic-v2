@@ -8,12 +8,14 @@
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
-    <nz-option *ngFor="let opt of to.optionList"
-      nzCustomContent
-      [nzLabel]="opt.label"
-      [nzValue]="opt.phenotype">
-      {{ opt.phenotype.name}}
-    </nz-option>
+    <ng-container *ngrxLet="this.phenotypes$ as phenotypes">
+      <nz-option *ngFor="let opt of phenotypes"
+        nzCustomContent
+        nzLabel="{{opt.name}} ({{opt.hpoId}})"
+        [nzValue]="opt">
+        {{ opt.name }} ({{opt.hpoId }})
+      </nz-option>
+    </ng-container>
   </nz-select>
   <ng-template #sourceLoader>
     No phenotype found in CIViC that matches the string provided.

@@ -21,6 +21,6 @@ export class CvcSourcePopoverComponent implements OnInit {
     }
     this.source$ = this.gql.watch({ sourceId: this.sourceId })
       .valueChanges
-      .pipe(map(({ data }) => data.browseSources.edges[0]?.node))
+      .pipe(map(({ data }) => data.sourcePopover))
   }
 }

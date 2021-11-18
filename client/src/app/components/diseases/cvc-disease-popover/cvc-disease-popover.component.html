@@ -8,14 +8,19 @@
          {{ d.name }}
       </ng-template>
       <ng-template #linkout>
-        <cvc-link-tag [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
+        <cvc-link-tag *ngIf="d.doid; else noDoid" [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
           DOID: {{ d.doid }}
         </cvc-link-tag>
+      </ng-template>
+      <ng-template #noDoid>
+        <span nz-typography nzType="secondary">No DOID</span>
       </ng-template>
       <nz-descriptions nzSize="small"
         [nzColumn]="1"
         nzBordered="true">
-
+        <nz-descriptions-item *ngIf="d.diseaseAliases.length > 0" nzTitle="Aliases" nzSpan="2">
+          {{ d.diseaseAliases.join(', ') }}
+        </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Assertions" nzSpan="1">
           {{d.assertionCount}}
         </nz-descriptions-item>

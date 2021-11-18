@@ -58,9 +58,9 @@
 
               <nz-descriptions-item nzTitle="Aliases"
                 nzSpan="1"
-                *ngIf="gene.aliases.length > 0; else noAliases">
-                <ng-container *ngFor="let alias of gene.aliases; last as isLast">
-                  {{ alias.name }}<span *ngIf="!isLast">,&nbsp;</span>
+                *ngIf="gene.geneAliases.length > 0; else noAliases">
+                <ng-container *ngFor="let alias of gene.geneAliases; last as isLast">
+                  {{ alias }}<span *ngIf="!isLast">,</span>
                 </ng-container>
               </nz-descriptions-item>
               <ng-template #noAliases>

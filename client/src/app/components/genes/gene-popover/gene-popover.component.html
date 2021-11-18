@@ -14,9 +14,9 @@
         <!-- aliases -->
         <nz-descriptions-item nzTitle="Aliases"
           nzSpan="2"
-          *ngIf="gene.aliases.length > 0">
-          <span *ngFor="let alias of gene.aliases; last as isLast">
-            {{alias.name}}<span *ngIf="!isLast">,&nbsp;</span>
+          *ngIf="gene.geneAliases.length > 0">
+          <span *ngFor="let alias of gene.geneAliases; last as isLast">
+            {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
           </span>
         </nz-descriptions-item>
 

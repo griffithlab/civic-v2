@@ -7,5 +7,6 @@ query DiseaseDetail(
     doid
     diseaseUrl
     displayName
+    diseaseAliases
   }
 }

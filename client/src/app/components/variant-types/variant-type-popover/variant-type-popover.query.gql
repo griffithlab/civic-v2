@@ -1,14 +1,10 @@
 query VariantTypePopover($variantTypeId: Int!) {
-variantTypes(id: $variantTypeId) {
-    edges {
-      node {
-        ...variantTypePopover
-      }
-    }
+  variantTypePopover(id: $variantTypeId) {
+    ...variantTypePopover
   }
 }
 
-fragment variantTypePopover on BrowseVariantType {
+fragment variantTypePopover on VariantTypePopover {
   id
   name
   url

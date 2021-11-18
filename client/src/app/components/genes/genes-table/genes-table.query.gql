@@ -27,9 +27,7 @@ query BrowseGenes(
         id
         entrezId
         name
-        aliases {
-          name
-        }
+        geneAliases
         diseases {
           name
           id

@@ -81,6 +81,9 @@
             "name": "Source"
           },
           {
+            "name": "SourcePopover"
+          },
+          {
             "name": "SourceSuggestion"
           },
           {

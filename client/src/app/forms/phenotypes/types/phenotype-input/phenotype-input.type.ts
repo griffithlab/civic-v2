@@ -1,21 +1,34 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PhenotypeTypeaheadGQL } from '@app/generated/civic.apollo';
+import { PhenotypeTypeaheadGQL, PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { QueryRef } from 'apollo-angular';
+import { Observable, Subject } from 'rxjs';
+import { pluck, takeUntil } from 'rxjs/operators';
+
+interface PhenotypeTypeahead {
+  id: number,
+  hpoId: string,
+  name: string
+}
 
 @Component({
   selector: 'cvc-phenotype-input',
   templateUrl: './phenotype-input.type.html',
   styleUrls: ['./phenotype-input.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PhenotypeInputComponent extends FieldType implements AfterViewInit {
+export class PhenotypeInputComponent extends FieldType implements OnInit, AfterViewInit, OnDestroy {
   formControl!: FormControl;
+
+  private destroy$ = new Subject();
+  private queryRef?: QueryRef<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables>
+  
+  phenotypes$?: Observable<PhenotypeTypeahead[]>
 
   defaultOptions = {
     templateOptions: {
@@ -23,15 +36,21 @@ export class PhenotypeInputComponent extends FieldType implements AfterViewInit 
       showArrow: false,
       onSearch: () => {},
       minLengthSearch: 1,
-      optionList: [] as Array<{ value: string; label: string; drug: any }>,
+      optionList: [],
     },
   };
 
   constructor(
     private phenotypeTypeaheadQuery: PhenotypeTypeaheadGQL,
-    private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
+  }
+
+  ngOnInit() {
+    this.queryRef = this.phenotypeTypeaheadQuery.watch({name: ''})
+
+    this.phenotypes$ = this.queryRef.valueChanges
+      .pipe( takeUntil(this.destroy$), pluck('data', 'phenotypeTypeahead'))
   }
 
   ngAfterViewInit() {
@@ -44,20 +63,14 @@ export class PhenotypeInputComponent extends FieldType implements AfterViewInit 
       ) {
         return;
       }
-      this.phenotypeTypeaheadQuery
-        .fetch({ name: value })
-        .subscribe(({ data: { phenotypes } }) => {
-          this.to.optionList = phenotypes.nodes.map((p) => {
-            return {
-              value: p.id,
-              label: p.name,
-              phenotype: p
-            };
-          });
-          // TODO implement this search as an observable to avoid detectChanges
-          this.changeDetectorRef.detectChanges();
-        });
+
+      this.queryRef?.refetch({name: value})
     };
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

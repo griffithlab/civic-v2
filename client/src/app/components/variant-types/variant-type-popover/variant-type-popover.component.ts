@@ -21,6 +21,6 @@ export class CvcVariantTypePopoverComponent implements OnInit {
     }
     this.variantType$ = this.gql.watch({ variantTypeId: this.variantTypeId })
       .valueChanges
-      .pipe(map(({ data }) => data.variantTypes.edges[0]?.node))
+      .pipe(map(({ data }) => data.variantTypePopover))
   }
 }

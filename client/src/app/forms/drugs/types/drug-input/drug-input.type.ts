@@ -1,20 +1,36 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DrugTypeaheadGQL } from '@app/generated/civic.apollo';
+import { DrugTypeaheadGQL, DrugTypeaheadQuery, DrugTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { map, pluck, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { QueryRef } from 'apollo-angular';
+
+interface DrugTypeahead {
+  id: number,
+  name: string,
+  ncitId?: string,
+  drugAliases: string[]
+}
+
+interface DrugTypeaheadOption {
+  value: number,
+  label: string,
+  tooltip: string,
+  drug: DrugTypeahead
+}
 
 @Component({
   selector: 'cvc-drug-input',
   templateUrl: './drug-input.type.html',
   styleUrls: ['./drug-input.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DrugInputComponent extends FieldType implements AfterViewInit {
+export class DrugInputComponent extends FieldType implements AfterViewInit, OnInit, OnDestroy {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -27,11 +43,37 @@ export class DrugInputComponent extends FieldType implements AfterViewInit {
     },
   };
 
+  private queryRef!: QueryRef<DrugTypeaheadQuery, DrugTypeaheadQueryVariables>
+  drugs$?: Observable<DrugTypeaheadOption[]>
+
+  private destroy$ = new Subject();
+
   constructor(
     private drugTypeaheadQuery: DrugTypeaheadGQL,
-    private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
+  }
+
+  ngOnInit() {
+    this.queryRef = this.drugTypeaheadQuery.watch({ name: ""})
+
+    this.drugs$ = this.queryRef
+    .valueChanges
+    .pipe(takeUntil(this.destroy$),
+      pluck('data', 'drugTypeahead'),
+      map((drugs) => {
+        return drugs.map((d) => {
+          let ncitId = d.ncitId ? `${d.ncitId}` : "no NCIt ID"
+          let aliases = d.drugAliases.length > 0 ? `Aliases: ${d.drugAliases.join(', ')}` : ""
+          return {
+            value: d.id,
+            tooltip: `${d.name} (${ncitId}) ${aliases}`,
+            label: `${d.name} (${ncitId})`,
+            drug: d,
+          }
+        })
+      })
+    )
   }
 
   ngAfterViewInit() {
@@ -44,20 +86,13 @@ export class DrugInputComponent extends FieldType implements AfterViewInit {
       ) {
         return;
       }
-      this.drugTypeaheadQuery
-        .fetch({ name: value })
-        .subscribe(({ data: { drugs } }) => {
-          this.to.optionList = drugs.nodes.map((d) => {
-            return {
-              value: d.id,
-              label: `${d.name} (${d.ncitId})`,
-              drug: d
-            };
-          });
-          // TODO implement this search as an observable to avoid detectChanges
-          this.changeDetectorRef.detectChanges();
-        });
+      this.queryRef.refetch({name: value})
     };
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

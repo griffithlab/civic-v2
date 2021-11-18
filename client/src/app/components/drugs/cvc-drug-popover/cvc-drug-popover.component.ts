@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { DrugPopoverFragment, DrugPopoverGQL, Maybe } from "@app/generated/civic.apollo";
+import { DrugPopover, DrugPopoverGQL, Maybe } from "@app/generated/civic.apollo";
 import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class CvcDrugPopoverComponent implements OnInit {
   @Input() drugId!: number;
 
-  drug$?: Observable<Maybe<DrugPopoverFragment>>
+  drug$?: Observable<Maybe<DrugPopover>>
 
   constructor(private gql: DrugPopoverGQL) { }
 
@@ -21,6 +21,6 @@ export class CvcDrugPopoverComponent implements OnInit {
     }
     this.drug$ = this.gql.watch({ drugId: this.drugId })
       .valueChanges
-      .pipe(map(({ data }) => data.drugs.edges[0]?.node))
+      .pipe(map(({ data }) => data.drugPopover))
   }
 }

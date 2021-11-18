@@ -8,12 +8,21 @@
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
-    <nz-option *ngFor="let opt of to.optionList"
-      nzCustomContent
-      [nzLabel]="opt.label"
-      [nzValue]="opt.disease">
-      {{ opt.disease.name}} ({{ opt.disease.doid }})
-    </nz-option>
+    <ng-container *ngrxLet="this.diseases$ as diseases">
+      <nz-option *ngFor="let opt of diseases"
+        nzCustomContent
+        [nzLabel]="opt.tooltip"
+        [nzValue]="opt.disease">
+        <nz-space>
+          <nz-space-item>
+            {{ opt.label }}
+          </nz-space-item>
+          <nz-space-item *ngIf="opt.disease.diseaseAliases.length > 0">
+            <span nz-typography nzType="secondary">{{ opt.disease.diseaseAliases.join(', ') }}</span>
+          </nz-space-item>
+        </nz-space>
+      </nz-option>
+    </ng-container>
   </nz-select>
   <ng-template #sourceLoader>
     No disease found in CIViC that matches the string provided.
