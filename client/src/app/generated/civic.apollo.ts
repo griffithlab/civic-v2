@@ -4509,51 +4509,6 @@ export type FlagFragment = (
   )> }
 );
 
-export type AcceptRevisionMutationVariables = Exact<{
-  input: AcceptRevisionsInput;
-}>;
-
-
-export type AcceptRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { acceptRevisions?: Maybe<(
-    { __typename: 'AcceptRevisionsPayload' }
-    & { revisions: Array<(
-      { __typename: 'Revision' }
-      & Pick<Revision, 'id'>
-    )> }
-  )> }
-);
-
-export type RejectRevisionMutationVariables = Exact<{
-  input: RejectRevisionsInput;
-}>;
-
-
-export type RejectRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { rejectRevisions?: Maybe<(
-    { __typename: 'RejectRevisionsPayload' }
-    & { revisions: Array<(
-      { __typename: 'Revision' }
-      & Pick<Revision, 'id'>
-    )> }
-  )> }
-);
-
-export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
-  ids: Array<Scalars['Int']> | Scalars['Int'];
-}>;
-
-
-export type ValidateRevisionsForAcceptanceQuery = (
-  { __typename: 'Query' }
-  & { validateRevisionsForAcceptance: (
-    { __typename: 'ValidationErrors' }
-    & Pick<ValidationErrors, 'validationErrors'>
-  ) }
-);
-
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -4754,6 +4709,51 @@ export type PhenotypeBrowseTableRowFieldsFragment = (
   & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
 );
 
+export type AcceptRevisionMutationVariables = Exact<{
+  input: AcceptRevisionsInput;
+}>;
+
+
+export type AcceptRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { acceptRevisions?: Maybe<(
+    { __typename: 'AcceptRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type RejectRevisionMutationVariables = Exact<{
+  input: RejectRevisionsInput;
+}>;
+
+
+export type RejectRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { rejectRevisions?: Maybe<(
+    { __typename: 'RejectRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
+  ids: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type ValidateRevisionsForAcceptanceQuery = (
+  { __typename: 'Query' }
+  & { validateRevisionsForAcceptance: (
+    { __typename: 'ValidationErrors' }
+    & Pick<ValidationErrors, 'validationErrors'>
+  ) }
+);
+
 export type RevisionsQueryVariables = Exact<{
   subject?: Maybe<ModeratedInput>;
   first?: Maybe<Scalars['Int']>;
@@ -4778,7 +4778,10 @@ export type RevisionsQuery = (
     )>, revisedFieldNames: Array<(
       { __typename: 'FieldName' }
       & Pick<FieldName, 'name' | 'displayName'>
-    )>, edges: Array<(
+    )>, pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'>
+    ), edges: Array<(
       { __typename: 'RevisionEdge' }
       & { node?: Maybe<(
         { __typename: 'Revision' }
@@ -8544,66 +8547,6 @@ export const FlagListDocument = gql`
       super(apollo);
     }
   }
-export const AcceptRevisionDocument = gql`
-    mutation AcceptRevision($input: AcceptRevisionsInput!) {
-  acceptRevisions(input: $input) {
-    revisions {
-      id
-      __typename
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
-    document = AcceptRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const RejectRevisionDocument = gql`
-    mutation RejectRevision($input: RejectRevisionsInput!) {
-  rejectRevisions(input: $input) {
-    revisions {
-      id
-      __typename
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
-    document = RejectRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ValidateRevisionsForAcceptanceDocument = gql`
-    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
-  validateRevisionsForAcceptance(revisionIds: $ids) {
-    validationErrors
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
-    document = ValidateRevisionsForAcceptanceDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const GenePopoverDocument = gql`
     query GenePopover($geneId: Int!) {
   gene(id: $geneId) {
@@ -8813,6 +8756,66 @@ export const PhenotypesBrowseDocument = gql`
       super(apollo);
     }
   }
+export const AcceptRevisionDocument = gql`
+    mutation AcceptRevision($input: AcceptRevisionsInput!) {
+  acceptRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
+    document = AcceptRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RejectRevisionDocument = gql`
+    mutation RejectRevision($input: RejectRevisionsInput!) {
+  rejectRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
+    document = RejectRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidateRevisionsForAcceptanceDocument = gql`
+    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
+  validateRevisionsForAcceptance(revisionIds: $ids) {
+    validationErrors
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
+    document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const RevisionsDocument = gql`
     query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $revisionsetId: String, $status: RevisionStatus) {
   revisions(
@@ -8836,6 +8839,12 @@ export const RevisionsDocument = gql`
     revisedFieldNames {
       name
       displayName
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
     }
     edges {
       node {

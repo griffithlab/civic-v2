@@ -13,6 +13,7 @@ import { CvcParticipantListModule } from '@app/components/shared/participant-lis
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { RevisionListModule } from '@app/components/revisions/revision-list/revision-list.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [RevisionsListAndFilterComponent],
@@ -27,6 +28,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzTypographyModule,
     NzAvatarModule,
     NzEmptyModule,
+    NzButtonModule,
     CvcParticipantListModule,
     RevisionListModule,
   ],

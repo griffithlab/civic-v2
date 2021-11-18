@@ -31,6 +31,12 @@ query Revisions(
       name
       displayName
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
+    }
     edges {
       node {
         ...revision
