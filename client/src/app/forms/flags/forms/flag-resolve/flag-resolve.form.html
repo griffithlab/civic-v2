@@ -1,19 +1,34 @@
 <nz-alert *ngIf="this.success" nzBanner nzMessage="Flag resolved." nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-<button
-  *ngIf="!this.success"
-  nz-button
-  nz-popover
-  nzSize="small"
-  [nzPopoverTitle]="flagResolvePopoverTitleTemplate"
-  [(nzPopoverVisible)]="flagResolvePopoverVisible"
-  (click)="this.flagResolvePopoverVisible = !this.flagResolvePopoverVisible"
-  [nzPopoverContent]="flagResolvePopoverContentTemplate"
-  [nzPopoverTrigger]="undefined "
-  nzPopoverPlacement="bottom"
->
-  Resolve Flag
-  <i nz-icon nzType="caret-down" nzTheme="outline"></i>
-</button>
+<ng-container *ngrxLet="viewer$ as viewer">
+  <ng-container *ngIf="viewer.signedIn; else notSignedIn">
+    <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+  </ng-container>
+  <ng-template #notSignedIn>
+    <span
+      nz-tooltip
+      nzTooltipTitle="Must be signed in to resolve flag.">
+      <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+    </span>
+  </ng-template>
+  <ng-template #submitButton>
+    <button
+      *ngIf="!this.success"
+      nz-button
+      nz-popover
+      nzSize="small"
+      [nzPopoverTitle]="flagResolvePopoverTitleTemplate"
+      [(nzPopoverVisible)]="flagResolvePopoverVisible"
+      (click)="this.flagResolvePopoverVisible = !this.flagResolvePopoverVisible"
+      [nzPopoverContent]="flagResolvePopoverContentTemplate"
+      [nzPopoverTrigger]="undefined "
+      nzPopoverPlacement="bottom"
+      [disabled]="!viewer.signedIn"
+    >
+      Resolve Flag
+      <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+    </button>
+  </ng-template>
+</ng-container>
 
 <ng-template #flagResolvePopoverTitleTemplate>
   Resolve Flag
