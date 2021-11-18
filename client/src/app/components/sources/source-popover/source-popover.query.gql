@@ -1,14 +1,10 @@
 query SourcePopover($sourceId: Int!) {
-  browseSources(id: $sourceId) {
-    edges {
-      node {
-        ...sourcePopover
-      }
-    }
+  sourcePopover(id: $sourceId) {
+    ...sourcePopover
   }
 }
 
-fragment sourcePopover on BrowseSource {
+fragment sourcePopover on SourcePopover {
   id
   name
   evidenceItemCount

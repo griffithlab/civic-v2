@@ -5,6 +5,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 const formlyConfig = {
   types: [PhenotypeInputType]
@@ -15,6 +16,7 @@ const formlyConfig = {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     FormlyModule.forChild(formlyConfig),
     NzSelectModule,
     CvcPhenotypeTagModule,

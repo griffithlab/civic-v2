@@ -1,21 +1,36 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DiseaseTypeaheadGQL } from '@app/generated/civic.apollo';
+import { DiseaseTypeaheadGQL, DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { map, pluck, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { QueryRef } from 'apollo-angular';
+
+interface DiseaseTypeahead {
+  id: number,
+  name: string,
+  doid?: number,
+  diseaseAliases: string[]
+}
+
+interface DiseaseTypeaheadOption {
+  value: number,
+  label: string,
+  tooltip: string,
+  disease: DiseaseTypeahead
+}
 
 @Component({
   selector: 'cvc-disease-input',
   templateUrl: './disease-input.type.html',
   styleUrls: ['./disease-input.type.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DiseaseInputComponent extends FieldType implements AfterViewInit {
+export class DiseaseInputComponent extends FieldType implements AfterViewInit, OnInit, OnDestroy {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -28,11 +43,37 @@ export class DiseaseInputComponent extends FieldType implements AfterViewInit {
     },
   };
 
+  private queryRef!: QueryRef<DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables>
+  diseases$?: Observable<DiseaseTypeaheadOption[]>
+
+  private destroy$ = new Subject();
+
   constructor(
     private diseaseTypeaheadQuery: DiseaseTypeaheadGQL,
-    private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
+  }
+
+  ngOnInit() {
+    this.queryRef = this.diseaseTypeaheadQuery.watch({ name: ""})
+
+    this.diseases$ = this.queryRef
+    .valueChanges
+    .pipe(takeUntil(this.destroy$),
+      pluck('data', 'diseaseTypeahead'),
+      map((diseases) => {
+        return diseases.map((d) => {
+          let doid = d.doid ? `DOID:${d.doid}` : "no DOID"
+          let aliases = d.diseaseAliases.length > 0 ? `Aliases: ${d.diseaseAliases.join(', ')}` : ""
+          return {
+            value: d.id,
+            tooltip: `${d.name} (${doid}) ${aliases}`,
+            label: `${d.name} (${doid})`,
+            disease: d,
+          }
+        })
+      })
+    )
   }
 
   ngAfterViewInit(): void {
@@ -45,20 +86,13 @@ export class DiseaseInputComponent extends FieldType implements AfterViewInit {
       ) {
         return;
       }
-      this.diseaseTypeaheadQuery
-        .fetch({ name: value })
-        .subscribe(({ data: { browseDiseases } }) => {
-          this.to.optionList = browseDiseases.nodes.map((d) => {
-            return {
-              value: d.id,
-              label: `${d.name} (DOID: ${d.doid})`,
-              disease: d,
-            };
-          });
-          // TODO implement this search as an observable to avoid detectChanges
-          this.changeDetectorRef.detectChanges();
-        });
+      this.queryRef.refetch({name: value})
     };
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

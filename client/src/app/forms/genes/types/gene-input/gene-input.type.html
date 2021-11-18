@@ -8,12 +8,22 @@
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
-    <nz-option *ngFor="let opt of to.optionList"
-      nzCustomContent
-      [nzLabel]="opt.label"
-      [nzValue]="opt.gene">
-      {{ opt.gene.name }}
-    </nz-option>
+    <ng-container *ngrxLet="this.genes$ as genes">
+      {{genes | json}}
+      <nz-option *ngFor="let opt of genes"
+        nzCustomContent
+        [nzLabel]="opt.tooltip"
+        [nzValue]="opt.gene">
+        <nz-space>
+          <nz-space-item>
+            {{ opt.label }}
+          </nz-space-item>
+          <nz-space-item *ngIf="opt.gene.geneAliases.length > 0">
+            <span nz-typography nzType="secondary">{{ opt.gene.geneAliases.join(', ') }}</span>
+          </nz-space-item>
+        </nz-space>
+      </nz-option>
+    </ng-container>
   </nz-select>
   <ng-template #sourceLoader>
     No gene found in CIViC that matches the string provided.

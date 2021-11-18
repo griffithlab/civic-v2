@@ -20,6 +20,7 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     DrugsRoutingModule,
     NzIconModule,
     NzTableModule,
-
+    NzDescriptionsModule,
     NzPageHeaderModule,
     ReactiveComponentModule,
     NzGridModule,

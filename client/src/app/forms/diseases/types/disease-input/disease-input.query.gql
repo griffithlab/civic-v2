@@ -1,9 +1,8 @@
 query DiseaseTypeahead($name: String!) {
-  browseDiseases(name:$name){
-    nodes {
-      id
-      name
-      doid
-    }
+  diseaseTypeahead(queryTerm:$name){
+    id
+    name
+    doid
+    diseaseAliases
   }
 }

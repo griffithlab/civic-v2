@@ -452,13 +452,13 @@ export type BrowseDrugEdge = {
 
 export type BrowseGene = {
   __typename: 'BrowseGene';
-  aliases?: Maybe<Array<GeneAlias>>;
   assertionCount: Scalars['Int'];
   description: Scalars['String'];
   diseases?: Maybe<Array<Disease>>;
   drugs?: Maybe<Array<Drug>>;
   entrezId: Scalars['Int'];
   evidenceItemCount: Scalars['Int'];
+  geneAliases?: Maybe<Array<Scalars['String']>>;
   id: Scalars['Int'];
   name: Scalars['String'];
   variantCount: Scalars['Int'];
@@ -862,11 +862,25 @@ export enum DateSortColumns {
 
 export type Disease = {
   __typename: 'Disease';
+  diseaseAliases: Array<Scalars['String']>;
   diseaseUrl?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+};
+
+export type DiseasePopover = {
+  __typename: 'DiseasePopover';
+  assertionCount: Scalars['Int'];
+  diseaseAliases: Array<Scalars['String']>;
+  diseaseUrl?: Maybe<Scalars['String']>;
+  displayName: Scalars['String'];
+  doid?: Maybe<Scalars['Int']>;
+  evidenceItemCount: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  variantCount: Scalars['Int'];
 };
 
 export type DiseasesSort = {
@@ -887,6 +901,7 @@ export enum DiseasesSortColumns {
 
 export type Drug = {
   __typename: 'Drug';
+  drugAliases: Array<Scalars['String']>;
   drugUrl?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -898,6 +913,17 @@ export enum DrugInteraction {
   Sequential = 'SEQUENTIAL',
   Substitutes = 'SUBSTITUTES'
 }
+
+export type DrugPopover = {
+  __typename: 'DrugPopover';
+  assertionCount: Scalars['Int'];
+  drugAliases: Array<Scalars['String']>;
+  drugUrl?: Maybe<Scalars['String']>;
+  evidenceItemCount: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  ncitId?: Maybe<Scalars['String']>;
+};
 
 export type DrugSort = {
   /** Available columns for sorting */
@@ -1399,7 +1425,6 @@ export type FlaggableInput = {
 
 export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Gene';
-  aliases: Array<GeneAlias>;
   /** List and filter comments. */
   comments: CommentConnection;
   description: Scalars['String'];
@@ -1409,6 +1434,7 @@ export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
+  geneAliases: Array<Scalars['String']>;
   id: Scalars['Int'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
@@ -1478,11 +1504,6 @@ export type GeneVariantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-};
-
-export type GeneAlias = {
-  __typename: 'GeneAlias';
-  name: Scalars['String'];
 };
 
 /** Fields on a Gene that curators may propose revisions to. */
@@ -2056,6 +2077,16 @@ export type Phenotype = {
   url: Scalars['String'];
 };
 
+export type PhenotypePopover = {
+  __typename: 'PhenotypePopover';
+  assertionCount: Scalars['Int'];
+  evidenceItemCount: Scalars['Int'];
+  hpoId: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  url: Scalars['String'];
+};
+
 export type PhenotypeSort = {
   /** Available columns for sorting */
   column: PhenotypeSortColumns;
@@ -2092,8 +2123,16 @@ export type Query = {
   contributors: ContributingUsersSummary;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
+  /** Retrieve popover fields for a specific disease. */
+  diseasePopover?: Maybe<DiseasePopover>;
+  /** Retrieve disease typeahead fields for a search term. */
+  diseaseTypeahead: Array<Disease>;
   /** Find a drug by CIViC ID */
   drug?: Maybe<Drug>;
+  /** Retrieve popover fields for a specific drug. */
+  drugPopover?: Maybe<DrugPopover>;
+  /** Retrieve drug typeahead fields for a search term. */
+  drugTypeahead: Array<Drug>;
   /** List and filter Drugs from the NCI Thesaurus. */
   drugs: BrowseDrugConnection;
   /** List and filter events for an object */
@@ -2108,6 +2147,8 @@ export type Query = {
   flags: FlagConnection;
   /** Find a gene by CIViC ID */
   gene?: Maybe<Gene>;
+  /** Retrieve gene typeahead fields for a search term. */
+  geneTypeahead: Array<Gene>;
   /** List and filter notifications for the logged in user. */
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
@@ -2116,6 +2157,10 @@ export type Query = {
   organizations: OrganizationConnection;
   /** Find a phenotype by CIViC ID */
   phenotype?: Maybe<Phenotype>;
+  /** Retrieve popover fields for a specific phenotype. */
+  phenotypePopover?: Maybe<PhenotypePopover>;
+  /** Retrieve phenotype typeahead fields for a search term. */
+  phenotypeTypeahead: Array<Phenotype>;
   /** List and filter Phenotypes from the Human Phenotype Ontology. */
   phenotypes: BrowsePhenotypeConnection;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
@@ -2129,6 +2174,8 @@ export type Query = {
   searchGenes: AdvancedSearchResult;
   /** Find a source by CIViC ID */
   source?: Maybe<Source>;
+  /** Retrieve popover fields for a specific source. */
+  sourcePopover?: Maybe<SourcePopover>;
   sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
@@ -2144,6 +2191,10 @@ export type Query = {
   variantGroup?: Maybe<VariantGroup>;
   /** Find a variant type by CIViC ID */
   variantType?: Maybe<VariantType>;
+  /** Retrieve popover fields for a specific variant type. */
+  variantTypePopover?: Maybe<VariantTypePopover>;
+  /** Retrieve variant type typeahead fields for a search term. */
+  variantTypeTypeahead: Array<VariantType>;
   /** List and filter Variant Types from the Sequence Ontology. */
   variantTypes: BrowseVariantTypeConnection;
   /** List and filter variants. */
@@ -2296,8 +2347,28 @@ export type QueryDiseaseArgs = {
 };
 
 
+export type QueryDiseasePopoverArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryDiseaseTypeaheadArgs = {
+  queryTerm: Scalars['String'];
+};
+
+
 export type QueryDrugArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryDrugPopoverArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryDrugTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -2385,6 +2456,11 @@ export type QueryGeneArgs = {
 };
 
 
+export type QueryGeneTypeaheadArgs = {
+  queryTerm: Scalars['String'];
+};
+
+
 export type QueryNotificationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2418,6 +2494,16 @@ export type QueryOrganizationsArgs = {
 
 export type QueryPhenotypeArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryPhenotypePopoverArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryPhenotypeTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -2475,6 +2561,11 @@ export type QuerySearchGenesArgs = {
 
 
 export type QuerySourceArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QuerySourcePopoverArgs = {
   id: Scalars['Int'];
 };
 
@@ -2541,6 +2632,16 @@ export type QueryVariantGroupArgs = {
 
 export type QueryVariantTypeArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryVariantTypePopoverArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryVariantTypeTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -2770,6 +2871,44 @@ export type Source = EventSubject & {
 
 
 export type SourceEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  eventType?: Maybe<EventAction>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
+};
+
+export type SourcePopover = EventSubject & {
+  __typename: 'SourcePopover';
+  abstract?: Maybe<Scalars['String']>;
+  ascoAbstractId?: Maybe<Scalars['Int']>;
+  authorString?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  citationId: Scalars['Int'];
+  clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  displayType: Scalars['String'];
+  /** List and filter events for an object */
+  events: EventConnection;
+  evidenceItemCount: Scalars['Int'];
+  fullJournalTitle?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  journal: Scalars['String'];
+  name: Scalars['String'];
+  pmcId?: Maybe<Scalars['String']>;
+  publicationDate?: Maybe<Scalars['String']>;
+  publicationDay?: Maybe<Scalars['Int']>;
+  publicationMonth: Scalars['Int'];
+  publicationYear: Scalars['Int'];
+  sourceType: SourceSource;
+  sourceUrl: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+};
+
+
+export type SourcePopoverEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   eventType?: Maybe<EventAction>;
@@ -3648,6 +3787,16 @@ export type VariantType = {
   url: Scalars['String'];
 };
 
+export type VariantTypePopover = {
+  __typename: 'VariantTypePopover';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  soid: Scalars['String'];
+  url: Scalars['String'];
+  variantCount: Scalars['Int'];
+};
+
 export type VariantTypeSort = {
   /** Available columns for sorting */
   column: VariantTypeSortColumns;
@@ -3963,21 +4112,10 @@ export type DiseasePopoverQueryVariables = Exact<{
 
 export type DiseasePopoverQuery = (
   { __typename: 'Query' }
-  & { browseDiseases: (
-    { __typename: 'BrowseDiseaseConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseDiseaseEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseDisease' }
-        & DiseasePopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type DiseasePopoverFragment = (
-  { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  & { diseasePopover?: Maybe<(
+    { __typename: 'DiseasePopover' }
+    & Pick<DiseasePopover, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseUrl' | 'diseaseAliases' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+  )> }
 );
 
 export type BrowseDiseasesQueryVariables = Exact<{
@@ -4023,21 +4161,10 @@ export type DrugPopoverQueryVariables = Exact<{
 
 export type DrugPopoverQuery = (
   { __typename: 'Query' }
-  & { drugs: (
-    { __typename: 'BrowseDrugConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseDrugEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseDrug' }
-        & DrugPopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type DrugPopoverFragment = (
-  { __typename: 'BrowseDrug' }
-  & Pick<BrowseDrug, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'assertionCount' | 'evidenceCount'>
+  & { drugPopover?: Maybe<(
+    { __typename: 'DrugPopover' }
+    & Pick<DrugPopover, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'drugAliases' | 'assertionCount' | 'evidenceItemCount'>
+  )> }
 );
 
 export type DrugsBrowseQueryVariables = Exact<{
@@ -4141,6 +4268,9 @@ export type EventFeedNodeFragment = (
   ) | (
     { __typename: 'Source' }
     & Pick<Source, 'citation' | 'sourceType' | 'name' | 'id'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'name' | 'id'>
   ) | (
     { __typename: 'SourceSuggestion' }
     & Pick<SourceSuggestion, 'name' | 'id'>
@@ -4376,11 +4506,8 @@ export type GenePopoverQuery = (
 
 export type GenePopoverFragment = (
   { __typename: 'Gene' }
-  & Pick<Gene, 'id' | 'name' | 'officialName'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, variants: (
+  & Pick<Gene, 'id' | 'name' | 'officialName' | 'geneAliases'>
+  & { variants: (
     { __typename: 'VariantConnection' }
     & Pick<VariantConnection, 'totalCount'>
   ), revisions: (
@@ -4418,11 +4545,8 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { aliases?: Maybe<Array<(
-          { __typename: 'GeneAlias' }
-          & Pick<GeneAlias, 'name'>
-        )>>, diseases?: Maybe<Array<(
+        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+        & { diseases?: Maybe<Array<(
           { __typename: 'Disease' }
           & Pick<Disease, 'name' | 'id'>
         )>>, drugs?: Maybe<Array<(
@@ -4526,21 +4650,10 @@ export type PhenotypePopoverQueryVariables = Exact<{
 
 export type PhenotypePopoverQuery = (
   { __typename: 'Query' }
-  & { phenotypes: (
-    { __typename: 'BrowsePhenotypeConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowsePhenotypeEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowsePhenotype' }
-        & PhenotypePopoverFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type PhenotypePopoverFragment = (
-  { __typename: 'BrowsePhenotype' }
-  & Pick<BrowsePhenotype, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceCount'>
+  & { phenotypePopover?: Maybe<(
+    { __typename: 'PhenotypePopover' }
+    & Pick<PhenotypePopover, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceItemCount'>
+  )> }
 );
 
 export type PhenotypesBrowseQueryVariables = Exact<{
@@ -4817,25 +4930,19 @@ export type SourcePopoverQueryVariables = Exact<{
 
 export type SourcePopoverQuery = (
   { __typename: 'Query' }
-  & { browseSources: (
-    { __typename: 'BrowseSourceConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseSourceEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseSource' }
-        & SourcePopoverFragment
-      )> }
-    )> }
-  ) }
+  & { sourcePopover?: Maybe<(
+    { __typename: 'SourcePopover' }
+    & SourcePopoverFragment
+  )> }
 );
 
 export type SourcePopoverFragment = (
-  { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'name' | 'evidenceItemCount' | 'citation' | 'citationId' | 'displayType' | 'sourceUrl'>
-  & { clinicalTrials: Array<(
+  { __typename: 'SourcePopover' }
+  & Pick<SourcePopover, 'id' | 'name' | 'evidenceItemCount' | 'citation' | 'citationId' | 'displayType' | 'sourceUrl'>
+  & { clinicalTrials?: Maybe<Array<(
     { __typename: 'ClinicalTrial' }
     & Pick<ClinicalTrial, 'id' | 'nctId'>
-  )> }
+  )>> }
 );
 
 export type BrowseSourcesQueryVariables = Exact<{
@@ -4943,21 +5050,15 @@ export type VariantTypePopoverQueryVariables = Exact<{
 
 export type VariantTypePopoverQuery = (
   { __typename: 'Query' }
-  & { variantTypes: (
-    { __typename: 'BrowseVariantTypeConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseVariantTypeEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantType' }
-        & VariantTypePopoverFragment
-      )> }
-    )> }
-  ) }
+  & { variantTypePopover?: Maybe<(
+    { __typename: 'VariantTypePopover' }
+    & VariantTypePopoverFragment
+  )> }
 );
 
 export type VariantTypePopoverFragment = (
-  { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
+  { __typename: 'VariantTypePopover' }
+  & Pick<VariantTypePopover, 'id' | 'name' | 'url' | 'soid' | 'variantCount'>
 );
 
 export type VariantTypesBrowseQueryVariables = Exact<{
@@ -5172,13 +5273,10 @@ export type DiseaseTypeaheadQueryVariables = Exact<{
 
 export type DiseaseTypeaheadQuery = (
   { __typename: 'Query' }
-  & { browseDiseases: (
-    { __typename: 'BrowseDiseaseConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowseDisease' }
-      & Pick<BrowseDisease, 'id' | 'name' | 'doid'>
-    )> }
-  ) }
+  & { diseaseTypeahead: Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseAliases'>
+  )> }
 );
 
 export type DrugTypeaheadQueryVariables = Exact<{
@@ -5188,13 +5286,10 @@ export type DrugTypeaheadQueryVariables = Exact<{
 
 export type DrugTypeaheadQuery = (
   { __typename: 'Query' }
-  & { drugs: (
-    { __typename: 'BrowseDrugConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowseDrug' }
-      & Pick<BrowseDrug, 'id' | 'name' | 'ncitId'>
-    )> }
-  ) }
+  & { drugTypeahead: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugAliases'>
+  )> }
 );
 
 export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
@@ -5454,18 +5549,15 @@ export type GeneTypeaheadQueryVariables = Exact<{
 
 export type GeneTypeaheadQuery = (
   { __typename: 'Query' }
-  & { browseGenes: (
-    { __typename: 'BrowseGeneConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowseGene' }
-      & GeneTypeaheadFieldsFragment
-    )> }
-  ) }
+  & { geneTypeahead: Array<(
+    { __typename: 'Gene' }
+    & GeneTypeaheadFieldsFragment
+  )> }
 );
 
 export type GeneTypeaheadFieldsFragment = (
-  { __typename: 'BrowseGene' }
-  & Pick<BrowseGene, 'id' | 'name'>
+  { __typename: 'Gene' }
+  & Pick<Gene, 'id' | 'name' | 'geneAliases' | 'entrezId'>
 );
 
 export type PhenotypeTypeaheadQueryVariables = Exact<{
@@ -5475,13 +5567,10 @@ export type PhenotypeTypeaheadQueryVariables = Exact<{
 
 export type PhenotypeTypeaheadQuery = (
   { __typename: 'Query' }
-  & { phenotypes: (
-    { __typename: 'BrowsePhenotypeConnection' }
-    & { nodes: Array<(
-      { __typename: 'BrowsePhenotype' }
-      & Pick<BrowsePhenotype, 'id' | 'name'>
-    )> }
-  ) }
+  & { phenotypeTypeahead: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'hpoId' | 'id' | 'name'>
+  )> }
 );
 
 export type CitationTypeaheadQueryVariables = Exact<{
@@ -5537,21 +5626,10 @@ export type VariantTypeTypeaheadQueryVariables = Exact<{
 
 export type VariantTypeTypeaheadQuery = (
   { __typename: 'Query' }
-  & { variantTypes: (
-    { __typename: 'BrowseVariantTypeConnection' }
-    & { edges: Array<(
-      { __typename: 'BrowseVariantTypeEdge' }
-      & { node?: Maybe<(
-        { __typename: 'BrowseVariantType' }
-        & VariantTypeTypeaheadFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type VariantTypeTypeaheadFragment = (
-  { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'soid'>
+  & { variantTypeTypeahead: Array<(
+    { __typename: 'VariantType' }
+    & Pick<VariantType, 'name' | 'soid' | 'id'>
+  )> }
 );
 
 export type VariantRevisableFieldsQueryVariables = Exact<{
@@ -5729,7 +5807,7 @@ export type AssertionSummaryFieldsFragment = (
     & Pick<Variant, 'id' | 'name' | 'alleleRegistryId'>
   ), drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'ncitId' | 'name'>
+    & Pick<Drug, 'ncitId' | 'name' | 'id'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name'>
@@ -5788,7 +5866,7 @@ export type DiseaseDetailQuery = (
   { __typename: 'Query' }
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName'>
+    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName' | 'diseaseAliases'>
   )> }
 );
 
@@ -5801,7 +5879,7 @@ export type DrugDetailQuery = (
   { __typename: 'Query' }
   & { drug?: Maybe<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl'>
+    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases'>
   )> }
 );
 
@@ -5953,11 +6031,8 @@ export type GenesSummaryQuery = (
 
 export type GeneSummaryFieldsFragment = (
   { __typename: 'Gene' }
-  & Pick<Gene, 'description' | 'entrezId' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
-  & { aliases: Array<(
-    { __typename: 'GeneAlias' }
-    & Pick<GeneAlias, 'name'>
-  )>, sources: Array<(
+  & Pick<Gene, 'description' | 'entrezId' | 'geneAliases' | 'id' | 'name' | 'officialName' | 'myGeneInfoDetails'>
+  & { sources: Array<(
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variants: (
@@ -6220,6 +6295,9 @@ export type NotificationFeedSubjectsFragment = (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'name'>
   ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'name'>
+  ) | (
     { __typename: 'SourceSuggestion' }
     & Pick<SourceSuggestion, 'id' | 'name'>
   ) | (
@@ -6255,6 +6333,9 @@ export type NotificationNodeFragment = (
     ) | (
       { __typename: 'Source' }
       & Pick<Source, 'id' | 'name'>
+    ) | (
+      { __typename: 'SourcePopover' }
+      & Pick<SourcePopover, 'id' | 'name'>
     ) | (
       { __typename: 'SourceSuggestion' }
       & Pick<SourceSuggestion, 'id' | 'name'>
@@ -6674,17 +6755,6 @@ export const CommentPopoverFragmentDoc = gql`
   }
 }
     `;
-export const DiseasePopoverFragmentDoc = gql`
-    fragment diseasePopover on BrowseDisease {
-  id
-  name
-  doid
-  diseaseUrl
-  assertionCount
-  evidenceItemCount
-  variantCount
-}
-    `;
 export const BrowseDiseaseRowFieldsFragmentDoc = gql`
     fragment BrowseDiseaseRowFields on BrowseDisease {
   id
@@ -6696,16 +6766,6 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   evidenceItemCount
   variantCount
   geneCount
-}
-    `;
-export const DrugPopoverFragmentDoc = gql`
-    fragment drugPopover on BrowseDrug {
-  id
-  name
-  drugUrl
-  ncitId
-  assertionCount
-  evidenceCount
 }
     `;
 export const DrugBrowseTableRowFieldsFragmentDoc = gql`
@@ -6930,9 +6990,7 @@ export const GenePopoverFragmentDoc = gql`
   id
   name
   officialName
-  aliases {
-    name
-  }
+  geneAliases
   variants {
     totalCount
   }
@@ -6990,16 +7048,6 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
     submittedAssertions
     acceptedAssertions
   }
-}
-    `;
-export const PhenotypePopoverFragmentDoc = gql`
-    fragment phenotypePopover on BrowsePhenotype {
-  id
-  name
-  url
-  hpoId
-  assertionCount
-  evidenceCount
 }
     `;
 export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
@@ -7117,7 +7165,7 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
-    fragment sourcePopover on BrowseSource {
+    fragment sourcePopover on SourcePopover {
   id
   name
   evidenceItemCount
@@ -7169,7 +7217,7 @@ export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
 }
     `;
 export const VariantTypePopoverFragmentDoc = gql`
-    fragment variantTypePopover on BrowseVariantType {
+    fragment variantTypePopover on VariantTypePopover {
   id
   name
   url
@@ -7306,9 +7354,11 @@ export const RevisableGeneFieldsFragmentDoc = gql`
 }
     `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
-    fragment GeneTypeaheadFields on BrowseGene {
+    fragment GeneTypeaheadFields on Gene {
   id
   name
+  geneAliases
+  entrezId
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -7318,13 +7368,6 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   citation
   citationId
   sourceType
-}
-    `;
-export const VariantTypeTypeaheadFragmentDoc = gql`
-    fragment variantTypeTypeahead on BrowseVariantType {
-  id
-  name
-  soid
 }
     `;
 export const CoordinateFieldsFragmentDoc = gql`
@@ -7427,6 +7470,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   drugs {
     ncitId
     name
+    id
   }
   phenotypes {
     id
@@ -7605,9 +7649,7 @@ export const GeneSummaryFieldsFragmentDoc = gql`
     fragment GeneSummaryFields on Gene {
   description
   entrezId
-  aliases {
-    name
-  }
+  geneAliases
   id
   name
   officialName
@@ -8210,15 +8252,19 @@ export const CommentPopoverDocument = gql`
   }
 export const DiseasePopoverDocument = gql`
     query DiseasePopover($diseaseId: Int!) {
-  browseDiseases(id: $diseaseId) {
-    edges {
-      node {
-        ...diseasePopover
-      }
-    }
+  diseasePopover(id: $diseaseId) {
+    id
+    name
+    displayName
+    doid
+    diseaseUrl
+    diseaseAliases
+    assertionCount
+    evidenceItemCount
+    variantCount
   }
 }
-    ${DiseasePopoverFragmentDoc}`;
+    `;
 
   @Injectable({
     providedIn: 'root'
@@ -8273,15 +8319,17 @@ export const BrowseDiseasesDocument = gql`
   }
 export const DrugPopoverDocument = gql`
     query DrugPopover($drugId: Int!) {
-  drugs(id: $drugId) {
-    edges {
-      node {
-        ...drugPopover
-      }
-    }
+  drugPopover(id: $drugId) {
+    id
+    name
+    drugUrl
+    ncitId
+    drugAliases
+    assertionCount
+    evidenceItemCount
   }
 }
-    ${DrugPopoverFragmentDoc}`;
+    `;
 
   @Injectable({
     providedIn: 'root'
@@ -8498,9 +8546,7 @@ export const BrowseGenesDocument = gql`
         id
         entrezId
         name
-        aliases {
-          name
-        }
+        geneAliases
         diseases {
           name
           id
@@ -8613,15 +8659,16 @@ export const OrganizationsBrowseDocument = gql`
   }
 export const PhenotypePopoverDocument = gql`
     query PhenotypePopover($phenotypeId: Int!) {
-  phenotypes(id: $phenotypeId) {
-    edges {
-      node {
-        ...phenotypePopover
-      }
-    }
+  phenotypePopover(id: $phenotypeId) {
+    id
+    name
+    url
+    hpoId
+    assertionCount
+    evidenceItemCount
   }
 }
-    ${PhenotypePopoverFragmentDoc}`;
+    `;
 
   @Injectable({
     providedIn: 'root'
@@ -8887,12 +8934,8 @@ export const UpdateSourceSuggestionStatusDocument = gql`
   }
 export const SourcePopoverDocument = gql`
     query SourcePopover($sourceId: Int!) {
-  browseSources(id: $sourceId) {
-    edges {
-      node {
-        ...sourcePopover
-      }
-    }
+  sourcePopover(id: $sourceId) {
+    ...sourcePopover
   }
 }
     ${SourcePopoverFragmentDoc}`;
@@ -9013,12 +9056,8 @@ export const BrowseVariantGroupsDocument = gql`
   }
 export const VariantTypePopoverDocument = gql`
     query VariantTypePopover($variantTypeId: Int!) {
-  variantTypes(id: $variantTypeId) {
-    edges {
-      node {
-        ...variantTypePopover
-      }
-    }
+  variantTypePopover(id: $variantTypeId) {
+    ...variantTypePopover
   }
 }
     ${VariantTypePopoverFragmentDoc}`;
@@ -9278,12 +9317,11 @@ export const AddCommentDocument = gql`
   }
 export const DiseaseTypeaheadDocument = gql`
     query DiseaseTypeahead($name: String!) {
-  browseDiseases(name: $name) {
-    nodes {
-      id
-      name
-      doid
-    }
+  diseaseTypeahead(queryTerm: $name) {
+    id
+    name
+    doid
+    diseaseAliases
   }
 }
     `;
@@ -9300,12 +9338,11 @@ export const DiseaseTypeaheadDocument = gql`
   }
 export const DrugTypeaheadDocument = gql`
     query DrugTypeahead($name: String!) {
-  drugs(name: $name) {
-    nodes {
-      id
-      name
-      ncitId
-    }
+  drugTypeahead(queryTerm: $name) {
+    id
+    name
+    ncitId
+    drugAliases
   }
 }
     `;
@@ -9581,10 +9618,8 @@ export const SuggestGeneRevisionDocument = gql`
   }
 export const GeneTypeaheadDocument = gql`
     query GeneTypeahead($entrezSymbol: String!) {
-  browseGenes(entrezSymbol: $entrezSymbol, first: 20) {
-    nodes {
-      ...GeneTypeaheadFields
-    }
+  geneTypeahead(queryTerm: $entrezSymbol) {
+    ...GeneTypeaheadFields
   }
 }
     ${GeneTypeaheadFieldsFragmentDoc}`;
@@ -9601,11 +9636,10 @@ export const GeneTypeaheadDocument = gql`
   }
 export const PhenotypeTypeaheadDocument = gql`
     query PhenotypeTypeahead($name: String!) {
-  phenotypes(name: $name) {
-    nodes {
-      id
-      name
-    }
+  phenotypeTypeahead(queryTerm: $name) {
+    hpoId
+    id
+    name
   }
 }
     `;
@@ -9678,15 +9712,13 @@ export const CreateSourceStubDocument = gql`
   }
 export const VariantTypeTypeaheadDocument = gql`
     query VariantTypeTypeahead($name: String!) {
-  variantTypes(name: $name, first: 20) {
-    edges {
-      node {
-        ...variantTypeTypeahead
-      }
-    }
+  variantTypeTypeahead(queryTerm: $name) {
+    name
+    soid
+    id
   }
 }
-    ${VariantTypeTypeaheadFragmentDoc}`;
+    `;
 
   @Injectable({
     providedIn: 'root'
@@ -9874,6 +9906,7 @@ export const DiseaseDetailDocument = gql`
     doid
     diseaseUrl
     displayName
+    diseaseAliases
   }
 }
     `;
@@ -9895,6 +9928,7 @@ export const DrugDetailDocument = gql`
     name
     ncitId
     drugUrl
+    drugAliases
   }
 }
     `;
