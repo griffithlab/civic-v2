@@ -10,6 +10,7 @@ import {
   Maybe,
   ResolveFlagMutation,
   ResolveFlagMutationVariables,
+  FlagFragment,
 } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Observable, Subject } from 'rxjs';
@@ -21,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./flag-resolve.form.less'],
 })
 export class CvcFlagResolveForm implements OnInit, OnDestroy {
-  @Input() flagId!: number;
+  @Input() flag!: FlagFragment;
   @Input() flagResolvedCallback?: () => void;
 
   formModel!: ResolveFlagInput;
@@ -56,12 +57,12 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.flagId === undefined) {
-      throw new Error('Must pass a Flag ID in to resolve component.');
+    if (this.flag === undefined) {
+      throw new Error('Must pass a Flag in to resolve component.');
     }
 
     this.formModel = {
-      id: this.flagId,
+      id: this.flag.id,
       comment: '',
     };
 

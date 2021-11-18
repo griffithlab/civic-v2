@@ -1,12 +1,21 @@
 <nz-alert *ngIf="this.success" nzBanner nzMessage="Flag resolved." nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
 <ng-container *ngrxLet="viewer$ as viewer">
   <ng-container *ngIf="viewer.signedIn; else notSignedIn">
-    <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+    <ng-container *ngIf="viewer.isEditor || viewer.isAdmin || this.flag.flaggingUser.id === viewer.id; else noPermissions">
+      <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+    </ng-container>
   </ng-container>
   <ng-template #notSignedIn>
     <span
       nz-tooltip
       nzTooltipTitle="Must be signed in to resolve flag.">
+      <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+    </span>
+  </ng-template>
+  <ng-template #noPermissions>
+    <span
+      nz-tooltip
+      nzTooltipTitle="If you are not an editor, you can only resolve flags you opened.">
       <ng-template *ngTemplateOutlet="submitButton"></ng-template>
     </span>
   </ng-template>
@@ -22,7 +31,7 @@
       [nzPopoverContent]="flagResolvePopoverContentTemplate"
       [nzPopoverTrigger]="undefined "
       nzPopoverPlacement="bottom"
-      [disabled]="!viewer.signedIn"
+      [disabled]="!viewer.signedIn || (viewer.isCurator && this.flag.flaggingUser.id != viewer.id)"
     >
       Resolve Flag
       <i nz-icon nzType="caret-down" nzTheme="outline"></i>

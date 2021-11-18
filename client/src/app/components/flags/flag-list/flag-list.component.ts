@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { Flag, Maybe, Organization } from '@app/generated/civic.apollo';
+import { Flag, FlagFragment, Maybe, Organization } from '@app/generated/civic.apollo';
 import { Observable, Subject } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { MutationState } from '@app/core/utilities/mutation-state-wrapper';
@@ -13,7 +13,7 @@ type SuccessType = false | 'accepted' | 'rejected'
   styleUrls: ['./flag-list.component.less'],
 })
 export class FlagListComponent implements OnInit, OnDestroy {
-  @Input() flags?: Flag[];
+  @Input() flags?: FlagFragment[];
   @Input() flagResolvedCallback?: () => void
 
   mostRecentOrg!: Maybe<Organization>;

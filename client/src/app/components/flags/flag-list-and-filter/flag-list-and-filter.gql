@@ -51,11 +51,13 @@ fragment flag on Flag {
     flaggingUser {
         id
         displayName
+        role
         profileImagePath(size: 32)
     }
     resolvingUser {
         id
         displayName
+        role
         profileImagePath(size: 32)
     }
     openComment {

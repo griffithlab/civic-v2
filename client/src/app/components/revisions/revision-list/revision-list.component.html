@@ -153,7 +153,13 @@
               <nz-divider nzType="vertical"></nz-divider>
             </nz-space-item>
             <nz-space-item>
-              <label nz-checkbox nz-tooltip nzTooltipTitle="Select Revision for Acceptance/Rejection" (nzCheckedChange)="onRevisionCheckboxClicked($event, revision.id)"></label>
+              <label *ngIf="viewer.isCurator && viewer.id != revision.revisor.id; else canRevise" 
+                nz-checkbox nz-tooltip nzTooltipTitle="Curators may only reject their own revisions."
+                [nzDisabled]="true"></label>
+                <ng-template #canRevise>
+                  <label nz-checkbox nz-tooltip nzTooltipTitle="Select Revision for Acceptance/Rejection"
+                    (nzCheckedChange)="onRevisionCheckboxClicked($event, revision.id)"></label>
+                </ng-template>
             </nz-space-item>
           </ng-container>
         </nz-space>
@@ -205,7 +211,7 @@
               </ng-template>
             </nz-space-item>
               <nz-space-item>
-                  <i nz-icon *ngIf="validationErrors.length > 0" nzType="question-circle" nzTheme="outline"
+                  <i nz-icon *ngIf="validationErrors.length > 0" nzType="exclamation-circle" nzTheme="twotone" nzTwotoneColor="red"
                     nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"  
                   ></i>
                   <ng-template #validationErrorTemplate>
@@ -258,7 +264,7 @@
                     </cvc-org-selector-btn-group>
                   </nz-space-item>
                   <nz-space-item>
-                      <i nz-icon *ngIf="validationErrors.length > 0" nzType="question-circle" nzTheme="outline"
+                      <i nz-icon *ngIf="validationErrors.length > 0" nzTwotoneColor="red" nzType="exclamation-circle" nzTheme="twotone"
                         nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"  
                       ></i>
                       <ng-template #validationErrorTemplate>

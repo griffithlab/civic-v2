@@ -4496,10 +4496,10 @@ export type FlagFragment = (
     & Pick<VariantGroup, 'id' | 'name'>
   ), flaggingUser: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   ), resolvingUser?: Maybe<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   )>, openComment: (
     { __typename: 'Comment' }
     & Pick<Comment, 'comment'>
@@ -6981,11 +6981,13 @@ export const FlagFragmentDoc = gql`
   flaggingUser {
     id
     displayName
+    role
     profileImagePath(size: 32)
   }
   resolvingUser {
     id
     displayName
+    role
     profileImagePath(size: 32)
   }
   openComment {

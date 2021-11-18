@@ -12,7 +12,7 @@
           {{flag.openComment.comment}}
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
-            <cvc-flag-resolve [flagId]="flag.id" [flagResolvedCallback]="flagResolvedCallback"></cvc-flag-resolve>
+            <cvc-flag-resolve [flag]="flag" [flagResolvedCallback]="flagResolvedCallback"></cvc-flag-resolve>
           </ng-container>
           <ng-template #flagResolved>
           <nz-row>

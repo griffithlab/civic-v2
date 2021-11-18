@@ -21,6 +21,7 @@ export interface Viewer extends User {
   signedOut: boolean;
   isAdmin: boolean;
   isEditor: boolean;
+  isCurator: boolean;
   canCurate: boolean;
   canModerate: boolean;
 }
@@ -30,6 +31,7 @@ export const InitialViewer: Viewer = <Viewer>{
   signedIn: false,
   isAdmin: false,
   isEditor: false,
+  isCurator: false,
   canCurate: false,
   canModerate: false
 }
