@@ -27,6 +27,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     FormlyModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
+    CvcPipesModule
   ],
   exports: [CvcFlagAddForm]
 })

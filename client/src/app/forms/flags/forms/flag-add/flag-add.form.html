@@ -39,7 +39,7 @@
                   nzType="primary"
                   nzSize="small"
                   [disabled]="!formGroup.valid || !viewer.signedIn">
-                  Flag {{ this.flaggable.entityType }}
+                  Flag {{ this.flaggable.entityType | enumToTitle }}
                 </button>
               </ng-template>
             </cvc-org-selector-btn-group>
