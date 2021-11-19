@@ -9286,7 +9286,7 @@ let ViewerService = /*@__PURE__*/ (() => {
             this.isLoading$ = this.data$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["pluck"])('loading'), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(true));
             this.viewer$ = this.data$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["pluck"])('data', 'viewer'), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])((v) => {
                 return Object.assign(Object.assign({}, v), { signedIn: v === null ? false : true, signedOut: v === null ? true : false, canCurate: canCurate(v), canModerate: canModerate(v), isAdmin: isAdmin(v), isEditor: isEditor(v), isCurator: isCurator(v), organizations: v === null ? [] : v.organizations, mostRecentOrg: v === null ? undefined : mostRecentOrg(v) });
-            }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["shareReplay"])(1));
+            }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["startWith"])(InitialViewer), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["shareReplay"])(1));
             this.signedIn$ = this.viewer$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(v => v.signedIn));
             this.signedOut$ = this.viewer$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(v => v.signedOut));
             this.isAdmin$ = this.viewer$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(v => isAdmin(v)));
