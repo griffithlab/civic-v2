@@ -90,6 +90,7 @@ export class ViewerService implements OnDestroy {
           mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
         }
       }),
+      startWith(InitialViewer),
       shareReplay(1));
 
     this.signedIn$ = this.viewer$.pipe(
