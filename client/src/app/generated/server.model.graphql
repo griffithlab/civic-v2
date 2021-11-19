@@ -2061,6 +2061,11 @@ type FieldName {
   name: String!
 }
 
+type FieldValidationError {
+  error: String!
+  fieldName: String!
+}
+
 type Flag implements Commentable & EventOriginObject {
   """
   List and filter comments.
@@ -4502,6 +4507,7 @@ type ResolveFlagPayload {
 type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
+  creationComment: Comment!
   creationEvent: Event
   currentValue: JSON
 
@@ -4541,6 +4547,10 @@ type Revision implements EventOriginObject & EventSubject {
   id: Int!
   linkoutData: LinkoutData!
   name: String!
+  resolutionComment: Comment
+  resolvedAt: ISO8601DateTime
+  resolver: User
+  resolvingEvent: Event
   revisionsetId: String!
   revisor: User!
   status: RevisionStatus!
@@ -5706,7 +5716,8 @@ type UserEdge {
 }
 
 type ValidationErrors {
-  validationErrors: [String!]!
+  genericErrors: [String!]!
+  validationErrors: [FieldValidationError!]!
 }
 
 type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {

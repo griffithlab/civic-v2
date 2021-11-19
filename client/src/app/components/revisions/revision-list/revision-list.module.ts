@@ -32,6 +32,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -52,6 +54,8 @@ import { FormsModule } from '@angular/forms';
     NzPopoverModule,
     NzIconModule,
     NzInputModule,
+    NzDescriptionsModule,
+    NzDividerModule,
     FormsModule,
     TimeagoModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
@@ -65,6 +69,7 @@ import { FormsModule } from '@angular/forms';
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
     CvcStatusTagModule,
+    CvcPipesModule,
     NzCollapseModule,
     NzButtonModule,
     NzAlertModule,

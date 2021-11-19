@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables, Maybe, Organization, RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables, Revision, ValidateRevisionsForAcceptanceGQL, ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables } from '@app/generated/civic.apollo';
+import { AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables, Maybe, Organization, RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables, Revision, ValidateRevisionsForAcceptanceGQL, ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables, ValidationErrorFragment } from '@app/generated/civic.apollo';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 
 type SuccessType = false | 'accepted' | 'rejected'
@@ -40,7 +40,9 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   // (or the angular team to make ngSwitch better)
   //until then, at least its type checked at the Input level
   untypedRevisons?: any[];
-  validationErrors$?: Observable<Maybe<string>[]>
+  genericErrors$?: Observable<Maybe<string>[]>
+  validationErrors$?: Observable<ValidationErrorFragment[]>
+  totalErrorCount$?: Observable<number>
 
   acceptRevisionsMutator: MutatorWithState<AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables>;
   rejectRevisionsMutator: MutatorWithState<RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables>;
@@ -60,6 +62,10 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     this.untypedRevisons = this.revisions;
+    this.selectedRevisionIds = []
+    this.queryRef.refetch({
+      ids: this.selectedRevisionIds
+    })
   }
 
   ngOnInit(): void {
@@ -72,9 +78,18 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
       ids: []
     })
 
+    this.genericErrors$ = this.queryRef.valueChanges.pipe(
+        map(({data}) => { return data.validateRevisionsForAcceptance.genericErrors })
+    );
+
     this.validationErrors$ = this.queryRef.valueChanges.pipe(
         map(({data}) => { return data.validateRevisionsForAcceptance.validationErrors })
     );
+
+    this.totalErrorCount$ = this.queryRef.valueChanges.pipe(
+      map(({data}) => { return data.validateRevisionsForAcceptance.genericErrors.length + data.validateRevisionsForAcceptance.validationErrors.length }),
+      startWith(0)
+    )
 
     this.untypedRevisons = this.revisions;
   }
@@ -94,7 +109,6 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     this.queryRef.refetch({
       ids: this.selectedRevisionIds
     })
-    console.log(this.validationErrors$)
   }
 
   setupMutationResultHandlers(state: MutationState, successType: SuccessType) {

@@ -50,6 +50,7 @@ export class CvcFlagResolveForm implements OnInit, OnDestroy {
         templateOptions: {
           required: true,
           minLength: 10,
+          placeholder: 'Reason for resolving this flag (minimum 10 characters)'
         },
       },
     ];

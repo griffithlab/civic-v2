@@ -15,19 +15,19 @@
             <cvc-flag-resolve [flag]="flag" [flagResolvedCallback]="flagResolvedCallback"></cvc-flag-resolve>
           </ng-container>
           <ng-template #flagResolved>
-          <nz-row>
-            <nz-col nzSpan="18">
-            <ng-container *ngIf="flag.resolutionComment">
-              {{ flag.resolutionComment.comment }}
-            </ng-container>
+            <nz-row>
+              <nz-col nzSpan="16">
+              <ng-container *ngIf="flag.resolutionComment">
+                {{ flag.resolutionComment.comment }}
+              </ng-container>
 
-            </nz-col>
-            <nz-col nzSpan="6" nz-typography nzType="secondary">
-              Resolved By
-              <cvc-user-tag *ngIf="flag.resolvingUser !== undefined" [user]="flag.resolvingUser"></cvc-user-tag>
-              {{ flag.resolvedAt | timeago }}
-            </nz-col>
-          </nz-row>
+              </nz-col>
+              <nz-col nzSpan="8" nz-typography nzType="secondary" style="text-align: right;">
+                Resolved By
+                <cvc-user-tag *ngIf="flag.resolvingUser !== undefined" [user]="flag.resolvingUser"></cvc-user-tag>
+                {{ flag.resolvedAt | timeago }}
+              </nz-col>
+            </nz-row>
           </ng-template>
 
           <!-- header title -->

@@ -7,16 +7,18 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
   def resolve(revision_ids:)
     if revision_ids.empty?
       return {
-        'validation_errors': []
+        'validation_errors': [],
+        'generic_errors': [],
       }
     end
-    errors = []
+    validation_errors = []
+    generic_errors = []
     revisions = revision_ids.map do |id|
       revision = Revision.find_by(id: id)
       if revision.nil?
-        errors << "Revision with id #{id} doesn't exist."
+        generic_errors << "Revision with id #{id} doesn't exist."
       elsif revision.status != 'new'
-        errors << "Revision with id #{id} is already #{revision.status}."
+        generic_errors << "Revision with id #{id} is already #{revision.status}."
       end
       revision
     end
@@ -25,19 +27,19 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
       subjects = revisions.compact.map(&:subject).uniq
 
       if subjects.size > 1
-        errors << "Revisions span multiple subjects"
+        generic_errors << "Revisions span multiple subjects"
       end
 
       revisors = revisions.compact.map(&:revisor).uniq
       revisors.each do |user|
         if user.id == context[:current_user]&.id
-          errors << "Users cannot accept their own revisions."
+          generic_errors << "Users cannot accept their own revisions."
         end
       end
 
       revisions.compact.group_by{|r| r.field_name}.each do |field_name, rs|
         if rs.size > 1
-          errors << "Multiple revisions with the same field_name #{field_name}: #{rs.map(&:id).join(', ')}"
+          generic_errors << "Multiple revisions with the same field_name #{field_name}: #{rs.map(&:id).join(', ')}"
         end
       end
 
@@ -48,13 +50,14 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
       end
       if !subject.valid?
         subject.errors.each do |attribute, message|
-          errors << "#{attribute}: #{message}"
+          validation_errors << { 'field_name': attribute, 'error':  message }
         end
       end
     end
 
     return {
-      'validation_errors': errors
+      'validation_errors': validation_errors,
+      'generic_errors': generic_errors,
     }
   end
 end

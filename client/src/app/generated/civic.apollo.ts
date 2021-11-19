@@ -1302,6 +1302,12 @@ export type FieldName = {
   name: Scalars['String'];
 };
 
+export type FieldValidationError = {
+  __typename: 'FieldValidationError';
+  error: Scalars['String'];
+  fieldName: Scalars['String'];
+};
+
 export type Flag = Commentable & EventOriginObject & {
   __typename: 'Flag';
   /** List and filter comments. */
@@ -2741,6 +2747,7 @@ export type Revision = EventOriginObject & EventSubject & {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
+  creationComment: Comment;
   creationEvent?: Maybe<Event>;
   currentValue?: Maybe<Scalars['JSON']>;
   /** List and filter events for an object */
@@ -2749,6 +2756,10 @@ export type Revision = EventOriginObject & EventSubject & {
   id: Scalars['Int'];
   linkoutData: LinkoutData;
   name: Scalars['String'];
+  resolutionComment?: Maybe<Comment>;
+  resolvedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  resolver?: Maybe<User>;
+  resolvingEvent?: Maybe<Event>;
   revisionsetId: Scalars['String'];
   revisor: User;
   status: RevisionStatus;
@@ -3519,7 +3530,8 @@ export type UserEdge = {
 
 export type ValidationErrors = {
   __typename: 'ValidationErrors';
-  validationErrors: Array<Scalars['String']>;
+  genericErrors: Array<Scalars['String']>;
+  validationErrors: Array<FieldValidationError>;
 };
 
 export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
@@ -4750,8 +4762,17 @@ export type ValidateRevisionsForAcceptanceQuery = (
   { __typename: 'Query' }
   & { validateRevisionsForAcceptance: (
     { __typename: 'ValidationErrors' }
-    & Pick<ValidationErrors, 'validationErrors'>
+    & Pick<ValidationErrors, 'genericErrors'>
+    & { validationErrors: Array<(
+      { __typename: 'FieldValidationError' }
+      & ValidationErrorFragment
+    )> }
   ) }
+);
+
+export type ValidationErrorFragment = (
+  { __typename: 'FieldValidationError' }
+  & Pick<FieldValidationError, 'fieldName' | 'error'>
 );
 
 export type RevisionsQueryVariables = Exact<{
@@ -4793,7 +4814,7 @@ export type RevisionsQuery = (
 
 export type RevisionFragment = (
   { __typename: 'Revision' }
-  & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+  & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'resolvedAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
   & { linkoutData: (
     { __typename: 'LinkoutData' }
     & Pick<LinkoutData, 'name'>
@@ -4822,7 +4843,13 @@ export type RevisionFragment = (
   ), revisor: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  ), comments: Array<(
+  ), resolver?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  )>, creationComment: (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  ), resolutionComment?: Maybe<(
     { __typename: 'Comment' }
     & Pick<Comment, 'comment'>
   )> }
@@ -7100,11 +7127,18 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const ValidationErrorFragmentDoc = gql`
+    fragment validationError on FieldValidationError {
+  fieldName
+  error
+}
+    `;
 export const RevisionFragmentDoc = gql`
     fragment revision on Revision {
   id
   revisionsetId
   createdAt
+  resolvedAt
   fieldName
   currentValue
   suggestedValue
@@ -7154,7 +7188,15 @@ export const RevisionFragmentDoc = gql`
     displayName
     role
   }
-  comments {
+  resolver {
+    id
+    displayName
+    role
+  }
+  creationComment {
+    comment
+  }
+  resolutionComment {
     comment
   }
   status
@@ -8803,10 +8845,13 @@ export const RejectRevisionDocument = gql`
 export const ValidateRevisionsForAcceptanceDocument = gql`
     query ValidateRevisionsForAcceptance($ids: [Int!]!) {
   validateRevisionsForAcceptance(revisionIds: $ids) {
-    validationErrors
+    genericErrors
+    validationErrors {
+      ...validationError
+    }
   }
 }
-    `;
+    ${ValidationErrorFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

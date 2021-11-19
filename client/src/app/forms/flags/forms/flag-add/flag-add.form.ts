@@ -39,7 +39,8 @@ export class CvcFlagAddForm implements OnInit, OnDestroy {
             type: 'comment-textarea',
             templateOptions: {
                 required: true,
-                minLength: 10
+                minLength: 10,
+                placeholder: 'Reason for flagging this entity (minimum 10 characters)'
             }
         }]
         this.addFlagMutator= new MutatorWithState(networkErrorService)

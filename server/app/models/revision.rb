@@ -11,6 +11,11 @@ class Revision < ApplicationRecord
     as: :originating_object,
     class_name: 'Event'
 
+  has_one :resolving_event,
+    ->() { where("events.action = 'revision rejected' OR events.action = 'revision accepted' OR events.action = 'revision superseded'") },
+    as: :originating_object,
+    class_name: 'Event'
+
   validates :status, inclusion: {
     in: ['accepted', 'rejected', 'superseded', 'new'],
     message: "%{value} is not a valid revision status"
@@ -20,10 +25,11 @@ class Revision < ApplicationRecord
   searchkick highlight: [:id]
 
   def revisor
-    events
-      .where(action: 'revision suggested')
-      .first
-      .originating_user
+    creation_event.originating_user
+  end
+
+  def resolver
+    resolving_event&.originating_user
   end
 
 
