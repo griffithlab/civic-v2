@@ -1,7 +1,16 @@
 <ng-container *ngIf="unfilteredCount$ | ngrxPush as unfilteredCount; else noRevisions">
   <nz-row [nzGutter]="16">
     <nz-col nzSpan="18">
-      <cvc-revision-list [revisions]="revisions$ | ngrxPush" (revisionSetSelectedEvent)="onRevisionSetSelected($event)" (revisionMutationCompleted)="refresh()"></cvc-revision-list>
+      <nz-space nzDirection="vertical">
+        <nz-space-item>
+          <cvc-revision-list [revisions]="revisions$ | ngrxPush" (revisionSetSelectedEvent)="onRevisionSetSelected($event)" (revisionMutationCompleted)="refresh()"></cvc-revision-list>
+        </nz-space-item>
+        <ng-container *ngrxLet="pageInfo$ as pageInfo">
+          <nz-space-item  *ngIf="pageInfo?.hasNextPage">
+            <button nz-button nzBlock nzType="default" (click)="loadMore(pageInfo?.endCursor)">Load More</button>
+          </nz-space-item>
+        </ng-container>
+      </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
       <nz-space nzDirection="vertical" *ngIf="this.filteredSet">
@@ -35,5 +44,12 @@
   </nz-row>
 </ng-container>
 <ng-template #noRevisions>
-  <nz-empty nzNotFoundImage="simple" nzNotFoundContent="Entity has no Revisions"></nz-empty>
+  <ng-container *ngIf="isLoading$ | ngrxPush as isLoading; else noneFound">
+    <nz-row nzJustify="center">
+        <i nz-icon nzType="loading" style="font-size: 32px;"></i>
+    </nz-row>
+  </ng-container>
+  <ng-template #noneFound>
+    <nz-empty nzNotFoundImage="simple" nzNotFoundContent="Entity has no Revisions"></nz-empty>
+  </ng-template>
 </ng-template>

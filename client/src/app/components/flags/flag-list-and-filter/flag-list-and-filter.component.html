@@ -5,6 +5,11 @@
         <nz-space-item>
           <cvc-flag-list [flags]="flags$ | ngrxPush" [flagResolvedCallback]="refresh"></cvc-flag-list>
         </nz-space-item>
+        <ng-container *ngrxLet="pageInfo$ as pageInfo">
+          <nz-space-item  *ngIf="pageInfo?.hasNextPage">
+            <button nz-button nzBlock nzType="default" (click)="loadMore(pageInfo?.endCursor)">Load More</button>
+          </nz-space-item>
+        </ng-container>
         <nz-space-item>
           <cvc-flag-add [flaggable]="flaggable" [flagAddedCallback]="refresh"></cvc-flag-add>
         </nz-space-item>

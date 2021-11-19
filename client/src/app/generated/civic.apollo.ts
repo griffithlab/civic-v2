@@ -1302,6 +1302,12 @@ export type FieldName = {
   name: Scalars['String'];
 };
 
+export type FieldValidationError = {
+  __typename: 'FieldValidationError';
+  error: Scalars['String'];
+  fieldName: Scalars['String'];
+};
+
 export type Flag = Commentable & EventOriginObject & {
   __typename: 'Flag';
   /** List and filter comments. */
@@ -2741,6 +2747,7 @@ export type Revision = EventOriginObject & EventSubject & {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
+  creationComment: Comment;
   creationEvent?: Maybe<Event>;
   currentValue?: Maybe<Scalars['JSON']>;
   /** List and filter events for an object */
@@ -2749,6 +2756,10 @@ export type Revision = EventOriginObject & EventSubject & {
   id: Scalars['Int'];
   linkoutData: LinkoutData;
   name: Scalars['String'];
+  resolutionComment?: Maybe<Comment>;
+  resolvedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  resolver?: Maybe<User>;
+  resolvingEvent?: Maybe<Event>;
   revisionsetId: Scalars['String'];
   revisor: User;
   status: RevisionStatus;
@@ -3519,7 +3530,8 @@ export type UserEdge = {
 
 export type ValidationErrors = {
   __typename: 'ValidationErrors';
-  validationErrors: Array<Scalars['String']>;
+  genericErrors: Array<Scalars['String']>;
+  validationErrors: Array<FieldValidationError>;
 };
 
 export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
@@ -4496,10 +4508,10 @@ export type FlagFragment = (
     & Pick<VariantGroup, 'id' | 'name'>
   ), flaggingUser: (
     { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   ), resolvingUser?: Maybe<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'displayName' | 'profileImagePath'>
+    & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   )>, openComment: (
     { __typename: 'Comment' }
     & Pick<Comment, 'comment'>
@@ -4507,51 +4519,6 @@ export type FlagFragment = (
     { __typename: 'Comment' }
     & Pick<Comment, 'comment'>
   )> }
-);
-
-export type AcceptRevisionMutationVariables = Exact<{
-  input: AcceptRevisionsInput;
-}>;
-
-
-export type AcceptRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { acceptRevisions?: Maybe<(
-    { __typename: 'AcceptRevisionsPayload' }
-    & { revisions: Array<(
-      { __typename: 'Revision' }
-      & Pick<Revision, 'id'>
-    )> }
-  )> }
-);
-
-export type RejectRevisionMutationVariables = Exact<{
-  input: RejectRevisionsInput;
-}>;
-
-
-export type RejectRevisionMutation = (
-  { __typename: 'Mutation' }
-  & { rejectRevisions?: Maybe<(
-    { __typename: 'RejectRevisionsPayload' }
-    & { revisions: Array<(
-      { __typename: 'Revision' }
-      & Pick<Revision, 'id'>
-    )> }
-  )> }
-);
-
-export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
-  ids: Array<Scalars['Int']> | Scalars['Int'];
-}>;
-
-
-export type ValidateRevisionsForAcceptanceQuery = (
-  { __typename: 'Query' }
-  & { validateRevisionsForAcceptance: (
-    { __typename: 'ValidationErrors' }
-    & Pick<ValidationErrors, 'validationErrors'>
-  ) }
 );
 
 export type GenePopoverQueryVariables = Exact<{
@@ -4754,6 +4721,60 @@ export type PhenotypeBrowseTableRowFieldsFragment = (
   & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
 );
 
+export type AcceptRevisionMutationVariables = Exact<{
+  input: AcceptRevisionsInput;
+}>;
+
+
+export type AcceptRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { acceptRevisions?: Maybe<(
+    { __typename: 'AcceptRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type RejectRevisionMutationVariables = Exact<{
+  input: RejectRevisionsInput;
+}>;
+
+
+export type RejectRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { rejectRevisions?: Maybe<(
+    { __typename: 'RejectRevisionsPayload' }
+    & { revisions: Array<(
+      { __typename: 'Revision' }
+      & Pick<Revision, 'id'>
+    )> }
+  )> }
+);
+
+export type ValidateRevisionsForAcceptanceQueryVariables = Exact<{
+  ids: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type ValidateRevisionsForAcceptanceQuery = (
+  { __typename: 'Query' }
+  & { validateRevisionsForAcceptance: (
+    { __typename: 'ValidationErrors' }
+    & Pick<ValidationErrors, 'genericErrors'>
+    & { validationErrors: Array<(
+      { __typename: 'FieldValidationError' }
+      & ValidationErrorFragment
+    )> }
+  ) }
+);
+
+export type ValidationErrorFragment = (
+  { __typename: 'FieldValidationError' }
+  & Pick<FieldValidationError, 'fieldName' | 'error'>
+);
+
 export type RevisionsQueryVariables = Exact<{
   subject?: Maybe<ModeratedInput>;
   first?: Maybe<Scalars['Int']>;
@@ -4778,7 +4799,10 @@ export type RevisionsQuery = (
     )>, revisedFieldNames: Array<(
       { __typename: 'FieldName' }
       & Pick<FieldName, 'name' | 'displayName'>
-    )>, edges: Array<(
+    )>, pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'>
+    ), edges: Array<(
       { __typename: 'RevisionEdge' }
       & { node?: Maybe<(
         { __typename: 'Revision' }
@@ -4790,7 +4814,7 @@ export type RevisionsQuery = (
 
 export type RevisionFragment = (
   { __typename: 'Revision' }
-  & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
+  & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'resolvedAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
   & { linkoutData: (
     { __typename: 'LinkoutData' }
     & Pick<LinkoutData, 'name'>
@@ -4819,7 +4843,13 @@ export type RevisionFragment = (
   ), revisor: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  ), comments: Array<(
+  ), resolver?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  )>, creationComment: (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  ), resolutionComment?: Maybe<(
     { __typename: 'Comment' }
     & Pick<Comment, 'comment'>
   )> }
@@ -6978,11 +7008,13 @@ export const FlagFragmentDoc = gql`
   flaggingUser {
     id
     displayName
+    role
     profileImagePath(size: 32)
   }
   resolvingUser {
     id
     displayName
+    role
     profileImagePath(size: 32)
   }
   openComment {
@@ -7095,11 +7127,18 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const ValidationErrorFragmentDoc = gql`
+    fragment validationError on FieldValidationError {
+  fieldName
+  error
+}
+    `;
 export const RevisionFragmentDoc = gql`
     fragment revision on Revision {
   id
   revisionsetId
   createdAt
+  resolvedAt
   fieldName
   currentValue
   suggestedValue
@@ -7149,7 +7188,15 @@ export const RevisionFragmentDoc = gql`
     displayName
     role
   }
-  comments {
+  resolver {
+    id
+    displayName
+    role
+  }
+  creationComment {
+    comment
+  }
+  resolutionComment {
     comment
   }
   status
@@ -8544,66 +8591,6 @@ export const FlagListDocument = gql`
       super(apollo);
     }
   }
-export const AcceptRevisionDocument = gql`
-    mutation AcceptRevision($input: AcceptRevisionsInput!) {
-  acceptRevisions(input: $input) {
-    revisions {
-      id
-      __typename
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
-    document = AcceptRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const RejectRevisionDocument = gql`
-    mutation RejectRevision($input: RejectRevisionsInput!) {
-  rejectRevisions(input: $input) {
-    revisions {
-      id
-      __typename
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
-    document = RejectRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ValidateRevisionsForAcceptanceDocument = gql`
-    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
-  validateRevisionsForAcceptance(revisionIds: $ids) {
-    validationErrors
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
-    document = ValidateRevisionsForAcceptanceDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const GenePopoverDocument = gql`
     query GenePopover($geneId: Int!) {
   gene(id: $geneId) {
@@ -8813,6 +8800,69 @@ export const PhenotypesBrowseDocument = gql`
       super(apollo);
     }
   }
+export const AcceptRevisionDocument = gql`
+    mutation AcceptRevision($input: AcceptRevisionsInput!) {
+  acceptRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcceptRevisionGQL extends Apollo.Mutation<AcceptRevisionMutation, AcceptRevisionMutationVariables> {
+    document = AcceptRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RejectRevisionDocument = gql`
+    mutation RejectRevision($input: RejectRevisionsInput!) {
+  rejectRevisions(input: $input) {
+    revisions {
+      id
+      __typename
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RejectRevisionGQL extends Apollo.Mutation<RejectRevisionMutation, RejectRevisionMutationVariables> {
+    document = RejectRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ValidateRevisionsForAcceptanceDocument = gql`
+    query ValidateRevisionsForAcceptance($ids: [Int!]!) {
+  validateRevisionsForAcceptance(revisionIds: $ids) {
+    genericErrors
+    validationErrors {
+      ...validationError
+    }
+  }
+}
+    ${ValidationErrorFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
+    document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const RevisionsDocument = gql`
     query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $revisionsetId: String, $status: RevisionStatus) {
   revisions(
@@ -8836,6 +8886,12 @@ export const RevisionsDocument = gql`
     revisedFieldNames {
       name
       displayName
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
     }
     edges {
       node {

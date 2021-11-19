@@ -1,5 +1,6 @@
-  <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
-  <nz-alert *ngIf="this.success" nzBanner nzMessage="Revision(s) successfully {{this.success}}." nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+<nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+<nz-alert *ngIf="this.success" nzBanner nzMessage="Revision(s) successfully {{this.success}}." nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+<ng-container *ngrxLet="viewer$ as viewer">
   <nz-card nzTitle="Revisions"
     class="card-list" [nzExtra]="moderationButtons">
     <nz-collapse class="revision-list" *ngIf="revisions && revisions.length > 0; else noRevisions">
@@ -116,146 +117,204 @@
               [entityType]="revision.linkoutData.name" ></cvc-revision-value-diff>
               </ng-container>
         </ng-container>
-      <!-- header title -->
-      <ng-template #revCardHeaderTitle>
-        <nz-space>
-          <nz-space-item>
-            <i nz-icon
-              nzType="civic:revision"></i> RID{{ revision.id }}
-            <span>{{ revision.linkoutData.name }} Updated</span>
-          </nz-space-item>
-          <nz-space-item *ngIf="revision.comments[0].comment !== ''">
-            <i nz-popover [nzPopoverContent]="revision.comments[0].comment" *ngIf="revision.comments.length > 0" nz-icon nzType="comment" nzTheme="outline"></i>
-          </nz-space-item>
-        </nz-space>
-      </ng-template>
 
-      <!-- header secondary & status -->
-      <ng-template #revCardHeaderExtra>
-        <nz-space nzSize="small" (click)="$event.stopPropagation()">
-          <nz-space-item>
-            <span nz-typography nzType="secondary">Submitted By</span>
-            <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
-            <span nz-typography nzType="secondary">{{ revision.createdAt | timeago }}</span>
-          </nz-space-item>
-          <nz-space-item>
-            <cvc-status-tag [status]="revision.status"></cvc-status-tag>
-          </nz-space-item>
-          <nz-space-item>
-            <nz-divider nzType="vertical"></nz-divider>
-          </nz-space-item>
-          <nz-space-item>
-              <a nz-button nzType="link" (click)="onChangesetSelected(revision.revisionsetId)">Show Group</a> 
-          </nz-space-item>
-          <ng-container *ngIf="revision.status === 'NEW'">
+        <ng-container *ngIf="revision.status !== 'NEW'">
+          <nz-divider></nz-divider>
+          <nz-row>
+            <nz-col nzSpan="16">
+            <ng-container *ngIf="revision.resolutionComment">
+              {{ revision.resolutionComment.comment }}
+            </ng-container>
+
+            </nz-col>
+            <nz-col nzSpan="8" nz-typography nzType="secondary" style="text-align: right;">
+              {{ revision.status | enumToTitle }} By
+              <cvc-user-tag *ngIf="revision.resolver !== undefined" [user]="revision.resolver"></cvc-user-tag>
+              {{ revision.resolvedAt | timeago }}
+            </nz-col>
+          </nz-row>
+        </ng-container>
+
+        <!-- header title -->
+        <ng-template #revCardHeaderTitle>
+          <nz-space>
+            <nz-space-item>
+              <i nz-icon
+                nzType="civic:revision"></i> RID{{ revision.id }}
+              <span>{{ revision.linkoutData.name }} Updated</span>
+            </nz-space-item>
+            <nz-space-item *ngIf="revision.creationComment.comment !== ''">
+              <i nz-popover [nzPopoverContent]="revision.creationComment.comment" nz-icon nzType="comment" nzTheme="outline"></i>
+            </nz-space-item>
+          </nz-space>
+        </ng-template>
+
+        <!-- header secondary & status -->
+        <ng-template #revCardHeaderExtra>
+          <nz-space nzSize="small" (click)="$event.stopPropagation()">
+            <nz-space-item>
+              <span nz-typography nzType="secondary">Submitted By</span>
+              <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
+              <span nz-typography nzType="secondary">{{ revision.createdAt | timeago }}</span>
+            </nz-space-item>
+            <nz-space-item>
+              <cvc-status-tag [status]="revision.status"></cvc-status-tag>
+            </nz-space-item>
             <nz-space-item>
               <nz-divider nzType="vertical"></nz-divider>
             </nz-space-item>
             <nz-space-item>
-              <label nz-checkbox nz-tooltip nzTooltipTitle="Select Revision for Acceptance/Rejection" (nzCheckedChange)="onRevisionCheckboxClicked($event, revision.id)"></label>
+                <a nz-button nzType="link" (click)="onChangesetSelected(revision.revisionsetId)">Show Group</a> 
             </nz-space-item>
-          </ng-container>
-        </nz-space>
-      </ng-template>
-    </nz-collapse-panel>
-  </nz-collapse>
-  <ng-template #noRevisions>
-    <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No Revisions matching filters"></nz-empty>
-  </ng-template>
-</nz-card>
+            <ng-container *ngIf="revision.status === 'NEW'">
+              <nz-space-item>
+                <nz-divider nzType="vertical"></nz-divider>
+              </nz-space-item>
+              <nz-space-item>
+                <label *ngIf="!viewer.signedIn; else loggedIn"
+                  nz-checkbox nz-tooltip nzTooltipTitle="Must be signed in to manage revisions."
+                  [nzDisabled]="true"></label>
+                <ng-template #loggedIn>
+                  <label *ngIf="viewer.isCurator && viewer.id != revision.revisor.id; else canRevise"
+                    nz-checkbox nz-tooltip nzTooltipTitle="Curators may only reject their own revisions."
+                    [nzDisabled]="true"></label>
+                    <ng-template #canRevise>
+                      <label nz-checkbox nz-tooltip nzTooltipTitle="Select Revision for Acceptance/Rejection"
+                        (nzCheckedChange)="onRevisionCheckboxClicked($event, revision.id)"></label>
+                    </ng-template>
+                </ng-template>
+              </nz-space-item>
+            </ng-container>
+          </nz-space>
+        </ng-template>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <ng-template #noRevisions>
+      <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No Revisions matching filters"></nz-empty>
+    </ng-template>
+  </nz-card>
+</ng-container>
+
 <ng-template #moderationButtons>
   <ng-container *ngrxLet="validationErrors$ as validationErrors">
-  <div nz-row
-    style="margin-top: 1em;">
-    <div nz-col
-      nzSpan="24"
-      style="text-align: right;">
-      <nz-space nzDirection="horizontal">
-        <nz-space-item>
-          <button
-            nz-button
-            nz-popover
-            nzSize="small"
-            [nzPopoverTitle]="validationPopoverTitleTemplate"
-            [(nzPopoverVisible)]="validationPopoverVisible"
-            (click)="this.validationPopoverVisible = !this.validationPopoverVisible"
-            [nzPopoverContent]="validationPopoverContentTemplate"
-            [nzPopoverTrigger]="undefined "
-            nzPopoverPlacement="bottom"
-            [disabled]="this.selectedRevisionIds.length === 0"
-          >
-            Review Selected Revisions
-            <i nz-icon nzType="caret-down" nzTheme="outline"></i>
-          </button>
-        </nz-space-item>
-          <nz-space-item>
-              <i nz-icon *ngIf="validationErrors.length > 0" nzType="question-circle" nzTheme="outline"
-                nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"  
-              ></i>
-              <ng-template #validationErrorTemplate>
-                <nz-list nzBordered nzSize="small">
-                  <nz-list-item *ngFor="let error of validationErrors">{{ error }}</nz-list-item>
-                </nz-list>
+    <ng-container *ngrxLet="genericErrors$ as genericErrors">
+      <ng-container *ngrxLet="totalErrorCount$ as totalErrorCount">
+        <ng-container *ngrxLet="viewer$ as viewer">
+          <div nz-row
+            style="margin-top: 1em;">
+            <div nz-col
+              nzSpan="24"
+              style="text-align: right;">
+              <nz-space nzDirection="horizontal">
+                <nz-space-item>
+                  <ng-container *ngIf="viewer.signedIn; else notSignedIn">
+                    <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+                  </ng-container>
+                  <ng-template #notSignedIn>
+                    <span
+                      nz-tooltip
+                      nzTooltipTitle="Must be signed in to manage revisions.">
+                      <ng-template *ngTemplateOutlet="submitButton"></ng-template>
+                    </span>
+                  </ng-template>
+                  <ng-template #submitButton>
+                    <button
+                      nz-button
+                      nz-popover
+                      nzSize="small"
+                      [nzPopoverTitle]="validationPopoverTitleTemplate"
+                      [(nzPopoverVisible)]="validationPopoverVisible"
+                      (click)="this.validationPopoverVisible = !this.validationPopoverVisible"
+                      [nzPopoverContent]="validationPopoverContentTemplate"
+                      [nzPopoverTrigger]="undefined "
+                      nzPopoverPlacement="bottom"
+                      [disabled]="this.selectedRevisionIds.length === 0 || !viewer.signedIn"
+                    >
+                      Review Selected Revisions
+                      <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+                    </button>
+                  </ng-template>
+                </nz-space-item>
+                <nz-space-item>
+                    <i nz-icon *ngIf="totalErrorCount > 0" nzType="exclamation-circle" nzTheme="twotone" nzTwotoneColor="red"
+                      nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"  
+                    ></i>
+                </nz-space-item>
+              </nz-space>
+              <ng-template #validationPopoverTitleTemplate>
+                Review Selected Revisions
+                <span [ngStyle]="{ 'float': 'right' }">
+                  <i nz-icon nzType="close" nzTheme="outline" (click)="this.validationPopoverVisible = false"></i>
+                </span>
               </ng-template>
-          </nz-space-item>
-      </nz-space> 
-      <ng-template #validationPopoverTitleTemplate>
-        Review Selected Revisions
-        <span [ngStyle]="{ 'float': 'right' }">
-          <i nz-icon nzType="close" nzTheme="outline" (click)="this.validationPopoverVisible = false"></i>
-        </span>
-      </ng-template>
-      <ng-template #validationPopoverContentTemplate>
+              <ng-template #validationPopoverContentTemplate>
+                <nz-space nzDirection="vertical">
+                  <nz-space-item>
+                    <textarea rows="4" nz-input [(ngModel)]="revisionComment" placeholder="Additional comments (required if rejecting, minimum 10 characters)"></textarea>
+                  </nz-space-item>
+                  <nz-space-item>
+                    <nz-space>
+                      <nz-space-item>
+                        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+                          <button type="submit"
+                            nz-button
+                            [nzLoading]="isLoading"
+                            cvcOrgSelectorBtn
+                            nzSize="small"
+                            nzDanger
+                            [disabled]="this.revisionComment === undefined || this.revisionComment.length < 10"
+                            (click)="onRejectRevisionsClicked()"
+                            >
+                            Reject Revision
+                          </button>
+                        </cvc-org-selector-btn-group>
+                      </nz-space-item>
+                      <nz-space-item>
+                        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+                          <button type="submit"
+                            nz-button
+                            [nzLoading]="isLoading"
+                            cvcOrgSelectorBtn
+                            nzSize="small"
+                            [disabled]="!(totalErrorCount == 0 && (this.revisionComment === undefined || this.revisionComment === '' || this.revisionComment.length >= 10))"
+                            (click)="onAcceptRevisionClicked()"
+                            >
+                            Accept Revision
+                          </button>
+                        </cvc-org-selector-btn-group>
+                      </nz-space-item>
+                      <nz-space-item>
+                          <i nz-icon *ngIf="totalErrorCount > 0" nzTwotoneColor="red" nzType="exclamation-circle" nzTheme="twotone"
+                            nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"
+                          ></i>
+                      </nz-space-item>
+                    </nz-space>
+                  </nz-space-item>
+                </nz-space>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #validationErrorTemplate>
         <nz-space nzDirection="vertical">
           <nz-space-item>
-            <textarea rows="4" nz-input [(ngModel)]="revisionComment" placeholder="Additional comments (required if rejecting, minimum 10 characters)"></textarea>
+            <nz-card *ngIf="genericErrors.length > 0" nzTitle="Errors">
+              <nz-list nzSize="small" >
+                <nz-list-item *ngFor="let error of genericErrors">{{ error }}</nz-list-item>
+              </nz-list>
+            </nz-card>
           </nz-space-item>
           <nz-space-item>
-            <nz-space>
-              <nz-space-item>
-                <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-                  <button type="submit"
-                    nz-button
-                    [nzLoading]="isLoading"
-                    cvcOrgSelectorBtn
-                    nzSize="small"
-                    nzDanger
-                    [disabled]="this.revisionComment === undefined || this.revisionComment.length < 10"
-                    (click)="onRejectRevisionsClicked()"
-                    >
-                    Reject Revision
-                  </button>
-                </cvc-org-selector-btn-group>
-              </nz-space-item>
-              <nz-space-item>
-                <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-                  <button type="submit"
-                    nz-button
-                    [nzLoading]="isLoading"
-                    cvcOrgSelectorBtn
-                    nzSize="small"
-                    [disabled]="!(validationErrors.length == 0 && (this.revisionComment === undefined || this.revisionComment === '' || this.revisionComment.length >= 10))"
-                    (click)="onAcceptRevisionClicked()"
-                    >
-                    Accept Revision
-                  </button>
-                </cvc-org-selector-btn-group>
-              </nz-space-item>
-              <nz-space-item>
-                  <i nz-icon *ngIf="validationErrors.length > 0" nzType="question-circle" nzTheme="outline"
-                    nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity" [nzPopoverContent]="validationErrorTemplate"  
-                  ></i>
-                  <ng-template #validationErrorTemplate>
-                    <nz-list nzBordered nzSize="small">
-                      <nz-list-item *ngFor="let error of validationErrors">{{ error }}</nz-list-item>
-                    </nz-list>
-                  </ng-template>
-              </nz-space-item>
-            </nz-space>
+            <nz-card *ngIf="validationErrors.length > 0" nzTitle="Validation Errors">
+              <nz-descriptions nzBordered>
+                <nz-descriptions-item *ngFor="let error of validationErrors" [nzTitle]="error.fieldName">{{ error.error }}</nz-descriptions-item>
+              </nz-descriptions>
+            </nz-card>
           </nz-space-item>
         </nz-space>
       </ng-template>
-    </div>
-  </div>
+    </ng-container>
   </ng-container>
-  </ng-template>
+</ng-template>

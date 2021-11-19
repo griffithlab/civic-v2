@@ -27,6 +27,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzButtonModule,
     NzFormModule,
     NzRadioModule,
+    NzButtonModule,
     CvcUserTagModule,
     NzListModule,
     NzCardModule,

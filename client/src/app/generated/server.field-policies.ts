@@ -516,6 +516,11 @@ export type FieldNameFieldPolicy = {
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type FieldValidationErrorKeySpecifier = ('error' | 'fieldName' | FieldValidationErrorKeySpecifier)[];
+export type FieldValidationErrorFieldPolicy = {
+	error?: FieldPolicy<any> | FieldReadFunction<any>,
+	fieldName?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type FlagKeySpecifier = ('comments' | 'createdAt' | 'flaggable' | 'flaggingUser' | 'id' | 'lastCommentEvent' | 'name' | 'openComment' | 'resolutionComment' | 'resolvedAt' | 'resolvingUser' | 'state' | FlagKeySpecifier)[];
 export type FlagFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -841,10 +846,11 @@ export type ResolveFlagPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RevisionKeySpecifier = ('comments' | 'createdAt' | 'creationEvent' | 'currentValue' | 'events' | 'fieldName' | 'id' | 'linkoutData' | 'name' | 'revisionsetId' | 'revisor' | 'status' | 'suggestedValue' | 'updatedAt' | RevisionKeySpecifier)[];
+export type RevisionKeySpecifier = ('comments' | 'createdAt' | 'creationComment' | 'creationEvent' | 'currentValue' | 'events' | 'fieldName' | 'id' | 'linkoutData' | 'name' | 'resolutionComment' | 'resolvedAt' | 'resolver' | 'resolvingEvent' | 'revisionsetId' | 'revisor' | 'status' | 'suggestedValue' | 'updatedAt' | RevisionKeySpecifier)[];
 export type RevisionFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	creationComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	creationEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	currentValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -852,6 +858,10 @@ export type RevisionFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkoutData?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolutionComment?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolvedAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolver?: FieldPolicy<any> | FieldReadFunction<any>,
+	resolvingEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisionsetId?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisor?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1098,8 +1108,9 @@ export type UserEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ValidationErrorsKeySpecifier = ('validationErrors' | ValidationErrorsKeySpecifier)[];
+export type ValidationErrorsKeySpecifier = ('genericErrors' | 'validationErrors' | ValidationErrorsKeySpecifier)[];
 export type ValidationErrorsFieldPolicy = {
+	genericErrors?: FieldPolicy<any> | FieldReadFunction<any>,
 	validationErrors?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'myVariantInfo' | 'name' | 'referenceBuild' | 'revisions' | 'sources' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
@@ -1429,6 +1440,10 @@ export type TypedTypePolicies = TypePolicies & {
 	FieldName?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FieldNameKeySpecifier | (() => undefined | FieldNameKeySpecifier),
 		fields?: FieldNameFieldPolicy,
+	},
+	FieldValidationError?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FieldValidationErrorKeySpecifier | (() => undefined | FieldValidationErrorKeySpecifier),
+		fields?: FieldValidationErrorFieldPolicy,
 	},
 	Flag?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FlagKeySpecifier | (() => undefined | FlagKeySpecifier),

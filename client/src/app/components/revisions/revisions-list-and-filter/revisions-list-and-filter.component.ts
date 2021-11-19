@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, Organization, RevisionFragment, ModeratedEntities, RevisionStatus } from '@app/generated/civic.apollo';
+import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, Organization, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
-import { map, pluck } from 'rxjs/operators';
+import { map, pluck, startWith } from 'rxjs/operators';
 
 export interface SelectableFieldName {
   id: number
@@ -33,9 +33,11 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   @Input() entityType!: ModeratedEntities
 
   revisions$?: Observable<Maybe<RevisionFragment>[]>
+  pageInfo$?: Observable<Maybe<PageInfo>>
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
   uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>
   unfilteredCount$: Maybe<Observable<Maybe<number>>>
+  isLoading$: Maybe<Observable<boolean>>;
 
   filteredSet: undefined | string = undefined
 
@@ -50,6 +52,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     {id: 3, displayName: 'Superseded', value: RevisionStatus.Superseded},
   ]
 
+  private defaultPageSize = 10
+
   constructor(
     private gql: RevisionsGQL,
     private route: ActivatedRoute
@@ -59,16 +63,28 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({
+        first: this.defaultPageSize,
         subject: {id: this.id, entityType: this.entityType},
         status: RevisionStatus.New
       })
       let observable = this.queryRef.valueChanges
+
       this.revisions$ = observable.pipe(
         pluck('data', 'revisions', 'edges'),
         map((edges) => {
           return edges.map((e) => e.node)
         })
       );
+
+      this.isLoading$ = observable.pipe(
+        map((res) =>  res.loading),
+        startWith(true)
+      )
+
+      this.pageInfo$ = observable.pipe(
+        pluck('data', 'revisions', 'pageInfo')
+      );
+
       this.uniqueRevisors$ = observable.pipe(
         map(({data}) => { return data.revisions?.uniqueRevisors })
       );
@@ -133,5 +149,14 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
 
   refresh() {
     this.queryRef.refetch()
+  }
+
+  loadMore(afterCursor: Maybe<string>):void {
+    this.queryRef?.fetchMore({
+      variables: {
+        first: this.defaultPageSize,
+        after: afterCursor
+      },
+    });
   }
 }

@@ -31,6 +31,12 @@ query Revisions(
       name
       displayName
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
+    }
     edges {
       node {
         ...revision
@@ -43,6 +49,7 @@ fragment revision on Revision {
   id
   revisionsetId
   createdAt
+  resolvedAt
   fieldName
   currentValue
   suggestedValue
@@ -92,7 +99,15 @@ fragment revision on Revision {
     displayName
     role
   }
-  comments {
+  resolver {
+    id
+    displayName
+    role
+  }
+  creationComment {
+    comment
+  }
+  resolutionComment {
     comment
   }
   status  

@@ -8,6 +8,7 @@ import {
   Maybe,
   FlagState,
   FlagListGQL,
+  PageInfo,
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -35,7 +36,9 @@ export class CvcFlagListAndFilterComponent implements OnInit {
 
   private queryRef!: QueryRef<FlagListQuery, FlagListQueryVariables>;
   private results$!: Observable<ApolloQueryResult<FlagListQuery>>;
+  private defaultPageSize = 5
   flags$?: Observable<Maybe<FlagFragment>[]>
+  pageInfo$?: Observable<Maybe<PageInfo>>
   uniqueFlaggingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>
   uniqueResolvingUsers$: Maybe<Observable<Maybe<UniqueFlaggingUsers[]>>>
   unfilteredCount$: Maybe<Observable<Maybe<number>>>
@@ -58,6 +61,7 @@ export class CvcFlagListAndFilterComponent implements OnInit {
     }
 
     this.queryRef = this.gql.watch({
+      first: this.defaultPageSize,
       flaggable: this.flaggable,
       state: FlagState.Open,
     });
@@ -73,6 +77,10 @@ export class CvcFlagListAndFilterComponent implements OnInit {
         return edges.map((e) => e.node)
       })
     );
+
+    this.pageInfo$ = this.results$.pipe(
+      pluck('data', 'flags', 'pageInfo')
+    )
 
     this.unfilteredCount$ = this.results$.pipe(
       pluck('data', 'flags', 'unfilteredCountForSubject')
@@ -106,5 +114,14 @@ export class CvcFlagListAndFilterComponent implements OnInit {
       flaggable: {id: this.flaggable.id, entityType: this.flaggable.entityType},
       state: state ? state.value : undefined
     })
+  }
+
+  loadMore(afterCursor: Maybe<string>):void {
+    this.queryRef?.fetchMore({
+      variables: {
+        first: this.defaultPageSize,
+        after: afterCursor
+      },
+    });
   }
 }

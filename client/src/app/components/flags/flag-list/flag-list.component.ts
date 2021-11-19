@@ -1,9 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { Flag, Maybe, Organization } from '@app/generated/civic.apollo';
+import { Flag, FlagFragment, Maybe, Organization } from '@app/generated/civic.apollo';
 import { Observable, Subject } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
-import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { MutationState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
 
 type SuccessType = false | 'accepted' | 'rejected'
@@ -14,7 +13,7 @@ type SuccessType = false | 'accepted' | 'rejected'
   styleUrls: ['./flag-list.component.less'],
 })
 export class FlagListComponent implements OnInit, OnDestroy {
-  @Input() flags?: Flag[];
+  @Input() flags?: FlagFragment[];
   @Input() flagResolvedCallback?: () => void
 
   mostRecentOrg!: Maybe<Organization>;
@@ -32,21 +31,9 @@ export class FlagListComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject();
 
-  //@Output() revisionSetSelectedEvent = new EventEmitter<string>();
-  //@Output() revisionMutationCompleted = new EventEmitter<void>();
-
-  //acceptRevisionsMutator: MutatorWithState<AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables>;
-  //rejectRevisionsMutator: MutatorWithState<RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables>;
-
   constructor(
     private viewerService: ViewerService,
-    private networkErrorService: NetworkErrorsService,
-    //private acceptRevisionsGql: AcceptRevisionGQL,
-    //private rejectRevisionsGql: RejectRevisionGQL,
-  ) {
-    //this.acceptRevisionsMutator= new MutatorWithState(networkErrorService)
-    //this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
-  }
+  ) { }
 
   ngOnInit(): void {
     this.viewer$ = this.viewerService.viewer$;

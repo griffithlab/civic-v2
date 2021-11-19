@@ -11,18 +11,22 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcFlagResolveForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     NzButtonModule,
     NzFormModule,
     NzAlertModule,
     NzCardModule,
     NzPopoverModule,
     NzIconModule,
+    NzToolTipModule,
     FormlyModule.forChild(),
     CvcFormButtonsModule,
     CvcOrgSelectorBtnGroupModule,
