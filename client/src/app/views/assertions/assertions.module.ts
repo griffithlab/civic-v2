@@ -28,7 +28,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
 import { AssertionsSummaryComponent } from './assertions-summary/assertions-summary.component';
@@ -56,6 +56,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
     NzToolTipModule,
     NzTypographyModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     NzInputModule,
     FormsModule,
     CvcTabNavigationModule,

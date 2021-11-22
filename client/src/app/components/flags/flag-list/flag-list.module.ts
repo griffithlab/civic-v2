@@ -9,7 +9,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
@@ -30,6 +30,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { FlagListComponent } from './flag-list.component';
 import { CvcResolveFlagModule } from '@app/forms/flags/forms/flag-resolve/flag-resolve.module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [FlagListComponent],
@@ -51,7 +52,7 @@ import { CvcResolveFlagModule } from '@app/forms/flags/forms/flag-resolve/flag-r
     NzIconModule,
     NzInputModule,
     FormsModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     CvcOrgSelectorBtnGroupModule,
     CvcSourceTagModule,
     CvcUserTagModule,

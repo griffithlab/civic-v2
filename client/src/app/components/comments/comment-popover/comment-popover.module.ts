@@ -6,10 +6,11 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcAssertionsTagModule } from '@app/components/assertions/assertions-tag/assertions-tag.module';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [CvcCommentPopoverComponent],
@@ -24,7 +25,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     CvcEvidenceTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [CvcCommentPopoverComponent]
 })

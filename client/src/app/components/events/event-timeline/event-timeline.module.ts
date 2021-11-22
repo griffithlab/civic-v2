@@ -13,13 +13,14 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcEventTimelineItemModule } from '../event-timeline-item/event-timeline-item-module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [CvcEventTimelineComponent],
@@ -31,7 +32,7 @@ import { CvcEventTimelineItemModule } from '../event-timeline-item/event-timelin
     NzTypographyModule,
     NzTimelineModule,
     NzGridModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     CvcRevisionTagModule,
     CvcUserTagModule,
     CvcPipesModule,
