@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
+  Output,
 } from '@angular/core';
 
 import {
@@ -35,6 +37,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 })
 export class CvcCommentAddForm implements OnDestroy {
   @Input() subject!: CommentableInput;
+  @Output() commentAddedEvent = new EventEmitter<void>();
+
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
@@ -67,7 +71,10 @@ export class CvcCommentAddForm implements OnDestroy {
     this.submitSuccess$
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => {
-        if(e) { this.resetForm(); }
+        if(e) { 
+          this.resetForm(); 
+          this.commentAddedEvent.emit();
+        }
       });
 
     this.formFields = [

@@ -16,7 +16,7 @@
         </ng-template>
       </nz-list>
       <ng-container *ngIf="viewer$ | ngrxPush as viewer">
-        <cvc-comment-add id="addComment" *ngIf="viewer.canCurate" [subject]="commentable"></cvc-comment-add>
+        <cvc-comment-add id="addComment" *ngIf="viewer.canCurate" [subject]="commentable" (commentAddedEvent)="refreshList()" ></cvc-comment-add>
       </ng-container>
     </nz-card>
   </nz-col>

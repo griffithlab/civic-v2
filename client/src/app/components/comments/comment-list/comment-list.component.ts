@@ -77,4 +77,8 @@ export class CvcCommentListComponent implements OnInit {
       originatingUserId: u?.id
     })
   }
+
+  refreshList() {
+    this.queryRef$.refetch();
+  }
 }
