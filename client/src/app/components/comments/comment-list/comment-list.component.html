@@ -3,12 +3,12 @@
     <nz-card nzTitle="Comments">
       <nz-list [nzDataSource]="comments$ | ngrxPush" [nzLoading]="loading$ | ngrxPush" [nzRenderItem]="comment"
         nzSize="small" nzItemLayout="horizontal">
-        <nz-list-footer *ngIf="pageInfo$ | ngrxPush as pageInfo">
-          <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
-            <button nz-button nzType="link" nzSize="small" nzBlock (click)="onLoadMore(pageInfo.endCursor)">Load older
+        <nz-list-header *ngIf="pageInfo$ | ngrxPush as pageInfo">
+          <div nz-list-load-more *ngIf="pageInfo.hasPreviousPage">
+            <button nz-button nzType="link" nzSize="small" nzBlock (click)="onLoadMore(pageInfo.startCursor)">Load older
               comments</button>
           </div>
-        </nz-list-footer>
+        </nz-list-header>
         <ng-template #comment let-comment>
           <nz-list-item>
             <cvc-comment-display [comment]="comment"></cvc-comment-display>
