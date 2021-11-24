@@ -315,7 +315,7 @@ export type CoiFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'title' | CommentKeySpecifier)[];
+export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'parsedComment' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	commentable?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -324,6 +324,7 @@ export type CommentFieldPolicy = {
 	creationEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	parsedComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CommentConnectionKeySpecifier = ('edges' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'uniqueCommenters' | CommentConnectionKeySpecifier)[];
@@ -339,6 +340,16 @@ export type CommentEdgeKeySpecifier = ('cursor' | 'node' | CommentEdgeKeySpecifi
 export type CommentEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CommentTagSegmentKeySpecifier = ('displayName' | 'entityId' | 'tagType' | CommentTagSegmentKeySpecifier)[];
+export type CommentTagSegmentFieldPolicy = {
+	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
+	entityId?: FieldPolicy<any> | FieldReadFunction<any>,
+	tagType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type CommentTextSegmentKeySpecifier = ('text' | CommentTextSegmentKeySpecifier)[];
+export type CommentTextSegmentFieldPolicy = {
+	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CommentableKeySpecifier = ('comments' | 'id' | 'lastCommentEvent' | 'name' | CommentableKeySpecifier)[];
 export type CommentableFieldPolicy = {
@@ -778,7 +789,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -799,6 +810,7 @@ export type QueryFieldPolicy = {
 	drugPopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
+	entityTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -813,6 +825,7 @@ export type QueryFieldPolicy = {
 	phenotypePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypeTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
+	previewCommentText?: FieldPolicy<any> | FieldReadFunction<any>,
 	remoteCitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -825,6 +838,7 @@ export type QueryFieldPolicy = {
 	sourceTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscriptionForEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	userTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	users?: FieldPolicy<any> | FieldReadFunction<any>,
 	validateRevisionsForAcceptance?: FieldPolicy<any> | FieldReadFunction<any>,
 	variant?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1356,6 +1370,14 @@ export type TypedTypePolicies = TypePolicies & {
 	CommentEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentEdgeKeySpecifier | (() => undefined | CommentEdgeKeySpecifier),
 		fields?: CommentEdgeFieldPolicy,
+	},
+	CommentTagSegment?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentTagSegmentKeySpecifier | (() => undefined | CommentTagSegmentKeySpecifier),
+		fields?: CommentTagSegmentFieldPolicy,
+	},
+	CommentTextSegment?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CommentTextSegmentKeySpecifier | (() => undefined | CommentTextSegmentKeySpecifier),
+		fields?: CommentTextSegmentFieldPolicy,
 	},
 	Commentable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CommentableKeySpecifier | (() => undefined | CommentableKeySpecifier),

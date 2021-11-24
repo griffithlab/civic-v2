@@ -1,23 +1,23 @@
 query Revisions(
-  $subject: ModeratedInput,
-  $first: Int,
-  $last: Int,
-  $before: String,
-  $after: String,
-  $fieldName: String,
-  $originatingUserId: Int,
+  $subject: ModeratedInput
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $fieldName: String
+  $originatingUserId: Int
   $revisionsetId: String
   $status: RevisionStatus
 ) {
   revisions(
-    first: $first,
-    last: $last,
-    before: $before,
-    after: $after,
-    fieldName: $fieldName,
-    originatingUserId: $originatingUserId,
-    subject: $subject,
-    status: $status,
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    fieldName: $fieldName
+    originatingUserId: $originatingUserId
+    subject: $subject
+    status: $status
     revisionsetId: $revisionsetId
   ) {
     totalCount
@@ -105,10 +105,42 @@ fragment revision on Revision {
     role
   }
   creationComment {
-    comment
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
   resolutionComment {
-    comment
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
-  status  
+  status
 }

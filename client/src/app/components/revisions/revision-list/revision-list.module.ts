@@ -12,7 +12,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
@@ -34,6 +34,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcCommentInputModule } from '@app/forms/comments/forms/comment-input/comment-input.module';
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -57,7 +60,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
     NzDescriptionsModule,
     NzDividerModule,
     FormsModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     CvcOrgSelectorBtnGroupModule,
     RevisionListDiffModule,
     CvcSourceTagModule,
@@ -69,7 +72,9 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
     CvcStatusTagModule,
+    CvcCommentInputModule,
     CvcPipesModule,
+    CvcCommentBodyModule,
     NzCollapseModule,
     NzButtonModule,
     NzAlertModule,

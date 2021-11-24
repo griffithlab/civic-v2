@@ -23,10 +23,11 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 // additional imports
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 
 // cvc imports
 import { IconsProviderModule } from '@app/icons-provider.module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { IconsProviderModule } from '@app/icons-provider.module';
     NzPopoverModule,
     NzDividerModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild()
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [
   ]

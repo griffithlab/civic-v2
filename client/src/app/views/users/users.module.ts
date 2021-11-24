@@ -28,7 +28,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { NzImageModule } from 'ng-zorro-antd/image';
@@ -58,6 +58,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 
 @NgModule({
@@ -104,7 +105,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzTypographyModule,
     NzCheckboxModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     NzInputModule,
     FormsModule,
     CvcSectionNavigationModule,

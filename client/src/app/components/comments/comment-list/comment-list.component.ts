@@ -35,10 +35,10 @@ export class CvcCommentListComponent implements OnInit {
   ngOnInit() {
     this.queryRef$ = this.gql.watch({
       subject: this.commentable,
-      first: this.pageSize,
+      last: this.pageSize,
       sortBy: {
         column: DateSortColumns.Created,
-        direction: SortDirection.Desc
+        direction: SortDirection.Asc
       }});
 
     this.viewer$ = this.viewerService.viewer$;
@@ -65,8 +65,8 @@ export class CvcCommentListComponent implements OnInit {
   onLoadMore(cursor: Maybe<string>): void {
     this.queryRef$.fetchMore({
       variables: {
-        first: this.pageSize,
-        after: cursor,
+        last: this.pageSize,
+        before: cursor,
       },
     });
   }
@@ -76,5 +76,9 @@ export class CvcCommentListComponent implements OnInit {
       first: this.pageSize,
       originatingUserId: u?.id
     })
+  }
+
+  refreshList() {
+    this.queryRef$.refetch();
   }
 }

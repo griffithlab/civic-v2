@@ -27,7 +27,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
@@ -43,6 +43,7 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 
 @NgModule({
@@ -87,7 +88,7 @@ import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggesti
     NzToolTipModule,
     NzTypographyModule,
     ReactiveComponentModule,
-    TimeagoModule.forChild(),
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     NzInputModule,
     FormsModule,
 

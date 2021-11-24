@@ -5,7 +5,6 @@
         <nz-avatar nz-comment-avatar nzIcon="civic:curator"></nz-avatar>
     </ng-template>
     <nz-comment-content>
-        {{ comment.id }}
-        <p>{{ comment.comment }}</p>
+        <cvc-comment-body [commentBodySegments]="comment.parsedComment"></cvc-comment-body>
     </nz-comment-content>
 </nz-comment>

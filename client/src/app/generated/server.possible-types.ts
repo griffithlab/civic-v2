@@ -14,6 +14,21 @@
   "__schema": {
     "types": [
       {
+        "kind": "UNION",
+        "name": "CommentBodySegment",
+        "possibleTypes": [
+          {
+            "name": "CommentTagSegment"
+          },
+          {
+            "name": "CommentTextSegment"
+          },
+          {
+            "name": "User"
+          }
+        ]
+      },
+      {
         "kind": "INTERFACE",
         "name": "Commentable",
         "possibleTypes": [

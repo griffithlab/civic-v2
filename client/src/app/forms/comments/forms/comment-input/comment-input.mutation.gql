@@ -1,12 +1,3 @@
-mutation AddComment($input: AddCommentInput!) {
-  addComment(input:$input) {
-    clientMutationId
-    comment {
-      ...commentListNode
-    }
-  }
-}
-
 query previewComment($commentText: String!) {
   previewCommentText(commentText: $commentText) {
     ...previewComment
@@ -30,5 +21,19 @@ fragment previewComment on CommentBodySegment {
     displayName
     role
     __typename
+  }
+}
+
+query userTypeahead($queryTerm: String!) {
+  userTypeahead(queryTerm: $queryTerm) {
+    username
+  }
+}
+
+query entityTypeahead($queryTerm: String!) {
+  entityTypeahead(queryTerm: $queryTerm) {
+    entityId
+    tagType
+    displayName
   }
 }

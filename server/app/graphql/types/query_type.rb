@@ -62,7 +62,7 @@ module Types
       description "Find a variant group by CIViC ID"
       argument :id, Int, required: true
     end
-    
+
     field :assertion, Types::Entities::AssertionType, null: true do
       description "Find an assertion by CIViC ID"
       argument :id, Int, required: true
@@ -121,6 +121,9 @@ module Types
     end
 
     field :comments, resolver: Resolvers::TopLevelComments
+    field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
+      argument :comment_text, String, required: true
+    end
 
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 40
 
@@ -238,6 +241,10 @@ module Types
         result_ids: formatted_hash['resultIds'],
         search_endpoint: saved_search.search_type
       }
+    end
+
+    def preview_comment_text(comment_text:)
+        Actions::PreviewCommentText.get_segments(text: comment_text)
     end
   end
 end

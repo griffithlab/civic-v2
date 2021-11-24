@@ -11,6 +11,7 @@ module Types::Entities
     field :commenter, Types::Entities::UserType, null: false
     field :creation_event, Types::Entities::EventType, null: true
     field :commentable, Types::Interfaces::Commentable, null: false
+    field :parsed_comment, [Types::Commentable::CommentBodySegment], null: false
 
     def commenter
       Loaders::AssociationLoader.for(Comment, :user).load(object)
@@ -18,6 +19,16 @@ module Types::Entities
 
     def creation_event
       Loaders::AssociationLoader.for(Comment, :creation_event).load(object)
+    end
+
+    def parsed_comment
+      Rails.cache.fetch(hash_key_from_object(object)) do
+        Actions::PreviewCommentText.get_segments(text: object.comment)
+      end
+    end
+
+    def hash_key_from_object(object)
+      "segments_#{object.class}_#{object.id}_#{object.updated_at}"
     end
   end
 end

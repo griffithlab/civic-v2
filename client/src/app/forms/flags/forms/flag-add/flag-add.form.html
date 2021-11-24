@@ -8,15 +8,9 @@
       </li>
     </ul>
   </ng-template>
-  <form nz-form
-    [formGroup]="formGroup"
-    (ngSubmit)="submitFlag(formModel)"
-    nzLayout="vertical">
-    <formly-form [form]="formGroup"
-      [fields]="formFields"
-      [model]="formModel"
-      [options]="formOptions"
-      (modelChange)="formModel = $event"></formly-form>
+  <form nz-form (ngSubmit)="submitFlag()" nzLayout="vertical">
+    <cvc-comment-input [(comment)]="comment"></cvc-comment-input>
+  <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
     <nz-form-item>
       <nz-form-control>
         <ng-container *ngrxLet="viewer$ as viewer">
@@ -38,7 +32,7 @@
                   cvcOrgSelectorBtn
                   nzType="primary"
                   nzSize="small"
-                  [disabled]="!formGroup.valid || !viewer.signedIn">
+                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10) || !viewer.signedIn">
                   Flag {{ this.flaggable.entityType | enumToTitle }}
                 </button>
               </ng-template>
@@ -47,5 +41,6 @@
         </ng-container>
       </nz-form-control>
     </nz-form-item>
+    </nz-spin>
   </form>
 </nz-card>

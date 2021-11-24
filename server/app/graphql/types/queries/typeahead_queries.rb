@@ -32,6 +32,15 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
+      klass.field :user_typeahead, [Types::Entities::UserType], null: false do
+        description "Retrieve user type typeahead fields for a search term."
+        argument :query_term, GraphQL::Types::String, required: true
+      end
+
+      klass.field :entity_typeahead, [Types::Commentable::CommentTagSegment], null: false do
+        description "Retrieve entity type typeahead fields for a entity mention search term."
+        argument :query_term, GraphQL::Types::String, required: true
+      end
 
       def disease_typeahead(query_term:)
         scope = Disease.eager_load(:disease_aliases)
@@ -73,6 +82,20 @@ module Types::Queries
         VariantType.where('display_name ILIKE ?', "%#{query_term}%")
           .order('display_name')
           .limit(10)
+      end
+
+      def user_typeahead(query_term:)
+        if query_term.blank?
+          return []
+        else
+          User.where('username ILIKE ? OR name ILIKE ?', "#{query_term}%", "#{query_term}%")
+            .order('username')
+            .limit(10)
+        end
+      end
+
+      def entity_typeahead(query_term:)
+        Actions::ExtractReferences.typeahead_matches(query_term)
       end
     end
   end

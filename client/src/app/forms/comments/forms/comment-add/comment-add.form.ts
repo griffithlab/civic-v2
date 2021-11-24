@@ -1,17 +1,13 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-
-import {
-  BehaviorSubject,
   Subject,
 } from 'rxjs';
 
@@ -19,38 +15,43 @@ import { takeUntil } from 'rxjs/operators';
 
 import {
   Organization,
-  AddCommentInput,
   CommentableInput,
   Maybe,
+  AddCommentGQL,
+  AddCommentMutation,
+  AddCommentMutationVariables,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
-import { CommentAddService } from './comment-add.service';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 @Component({
   selector: 'cvc-comment-add',
   templateUrl: './comment-add.form.html',
-  styleUrls: ['./comment-add.form.less']
+  styleUrls: ['./comment-add.form.less'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CvcCommentAddForm implements OnDestroy {
   @Input() subject!: CommentableInput;
+  @Output() commentAddedEvent = new EventEmitter<void>();
+
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 
-  submitError$: BehaviorSubject<string[]>;
-  submitSuccess$: BehaviorSubject<boolean>;
-  isSubmitting$: BehaviorSubject<boolean>;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
-  formModel!: AddCommentInput;
-  formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  addCommentMutator: MutatorWithState<AddCommentGQL, AddCommentMutation, AddCommentMutationVariables>;
 
-  constructor(private fb: FormBuilder,
-              private viewerService: ViewerService,
-              private commentAddService: CommentAddService) {
+  commentText?: string;
+  constructor(
+    private viewerService: ViewerService,
+    private addCommentGql: AddCommentGQL,
+    private networkErrorService: NetworkErrorsService
+    ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -60,57 +61,54 @@ export class CvcCommentAddForm implements OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-    this.submitError$ = this.commentAddService.submitError$;
-    this.isSubmitting$ = this.commentAddService.isSubmitting$;
-    this.submitSuccess$ = this.commentAddService.submitSuccess$;
-
-    this.submitSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((e) => {
-        if(e) { this.resetForm(); }
-      });
-
-    this.formFields = [
-      {
-        key: 'body',
-        type: 'comment-textarea',
-        templateOptions: {
-          placeholder: 'Please enter a comment.',
-          required: true,
-          minLength: 10
-        },
-      }
-    ];
-  }
-
-  ngOnInit(): void {
-    this.formModel = {
-      body: '',
-      subject: this.subject,
-    }
+      this.addCommentMutator = new MutatorWithState(networkErrorService);
   }
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
   }
 
-  submitComment(value: AddCommentInput): void {
-    for (const key in this.formGroup.controls) {
-      this.formGroup.controls[key].markAsDirty();
-      this.formGroup.controls[key].updateValueAndValidity();
+  submitComment(): void {
+    if (this.commentText) {
+      this.errorMessages = [];
+      let newCommentInput = {
+        body: this.commentText,
+        subject: this.subject,
+        organizationId:
+          this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
+      };
+
+      let state = this.addCommentMutator.mutate(this.addCommentGql, {
+        input: newCommentInput,
+      });
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.resetForm()
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
     }
-
-    const newCommentInput = <AddCommentInput>{
-      ...value,
-      subject: this.subject,
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
-    };
-
-    this.commentAddService.addComment(newCommentInput);
   }
 
   resetForm(): void {
-    this.formGroup.reset();
+    this.commentText = '';
+    this.commentAddedEvent.emit();
+  }
+
+  onSuccessBannerClose() {
+    this.resetForm();
   }
 
   ngOnDestroy(): void {

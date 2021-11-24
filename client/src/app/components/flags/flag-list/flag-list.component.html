@@ -9,7 +9,7 @@
           [nzTitle]="flagCardHeaderTitle"
           [nzExtra]="flagCardHeaderExtra"
           nzType="inner">
-          {{flag.openComment.comment}}
+          <cvc-comment-body *ngIf="flag.openComment" [commentBodySegments]="flag.openComment.parsedComment"></cvc-comment-body>
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
             <cvc-flag-resolve [flag]="flag" [flagResolvedCallback]="flagResolvedCallback"></cvc-flag-resolve>
@@ -18,7 +18,7 @@
             <nz-row>
               <nz-col nzSpan="16">
               <ng-container *ngIf="flag.resolutionComment">
-                {{ flag.resolutionComment.comment }}
+                  <cvc-comment-body [commentBodySegments]="flag.resolutionComment.parsedComment"></cvc-comment-body>
               </ng-container>
 
               </nz-col>

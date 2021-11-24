@@ -1,24 +1,32 @@
 <nz-row [nzGutter]="16">
   <nz-col nzSpan="18">
-    <nz-card nzTitle="Comments">
-      <nz-list [nzDataSource]="comments$ | ngrxPush" [nzLoading]="loading$ | ngrxPush" [nzRenderItem]="comment"
-        nzSize="small" nzItemLayout="horizontal">
-        <nz-list-footer *ngIf="pageInfo$ | ngrxPush as pageInfo">
-          <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
-            <button nz-button nzType="link" nzSize="small" nzBlock (click)="onLoadMore(pageInfo.endCursor)">Load older
-              comments</button>
-          </div>
-        </nz-list-footer>
-        <ng-template #comment let-comment>
-          <nz-list-item>
-            <cvc-comment-display [comment]="comment"></cvc-comment-display>
-          </nz-list-item>
-        </ng-template>
-      </nz-list>
-      <ng-container *ngIf="viewer$ | ngrxPush as viewer">
-        <cvc-comment-add id="addComment" *ngIf="viewer.canCurate" [subject]="commentable"></cvc-comment-add>
-      </ng-container>
-    </nz-card>
+    <nz-space nzDirection="vertical" style="width: 100%">
+      <nz-space-item>
+        <nz-card nzTitle="Comments">
+          <nz-list [nzDataSource]="comments$ | ngrxPush" [nzLoading]="loading$ | ngrxPush" [nzRenderItem]="comment"
+            nzSize="small" nzItemLayout="horizontal">
+            <nz-list-header *ngIf="pageInfo$ | ngrxPush as pageInfo">
+              <div nz-list-load-more *ngIf="pageInfo.hasPreviousPage">
+                <button nz-button nzType="link" nzSize="small" nzBlock (click)="onLoadMore(pageInfo.startCursor)">Load older
+                  comments</button>
+              </div>
+            </nz-list-header>
+            <ng-template #comment let-comment>
+              <nz-list-item>
+                <cvc-comment-display [comment]="comment"></cvc-comment-display>
+              </nz-list-item>
+            </ng-template>
+          </nz-list>
+        </nz-card>
+      </nz-space-item>
+      <nz-space-item>
+        <nz-card>
+          <ng-container *ngIf="viewer$ | ngrxPush as viewer">
+            <cvc-comment-add id="addComment" *ngIf="viewer.canCurate" [subject]="commentable" (commentAddedEvent)="refreshList()" ></cvc-comment-add>
+          </ng-container>
+        </nz-card>
+      </nz-space-item>
+    </nz-space>
   </nz-col>
   <nz-col nzSpan="6">
     <cvc-participant-list listTitle="Commenters" [participantList]="participants$ | ngrxPush"
@@ -32,7 +40,7 @@
         <span>{{user.displayName}}</span>
       </ng-template>
     </cvc-participant-list>
-    <nz-card nzTitle="Curators Mentioned" nz-type="inner" style="margin-bottom: 1em">
+    <!-- <nz-card nzTitle="Curators Mentioned" nz-type="inner" style="margin-bottom: 1em">
       <nz-space nzDirection="vertical" style="width: 100%">
         <nz-space-item>
           <nz-skeleton [nzAvatar]="true" [nzParagraph]="{ rows: 0 }"></nz-skeleton>
@@ -51,7 +59,7 @@
           <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
         </nz-list-item>
       </nz-list>
-    </nz-card>
+    </nz-card> -->
 
   </nz-col>
 </nz-row>
