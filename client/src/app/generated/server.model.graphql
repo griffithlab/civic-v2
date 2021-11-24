@@ -1171,8 +1171,14 @@ type Comment implements EventOriginObject {
   creationEvent: Event
   id: Int!
   name: String!
+  parsedComment: [CommentBodySegment!]!
   title: String
 }
+
+"""
+Segment of a comment that can either be text or an object to be rendered as a tag
+"""
+union CommentBodySegment = CommentTagSegment | CommentTextSegment | User
 
 """
 The connection type for Comment.
@@ -1222,6 +1228,16 @@ type CommentEdge {
   The item at the end of the edge.
   """
   node: Comment
+}
+
+type CommentTagSegment {
+  displayName: String!
+  entityId: Int!
+  tagType: TaggableEntity!
+}
+
+type CommentTextSegment {
+  text: String!
 }
 
 """
@@ -4130,6 +4146,7 @@ type Query {
     """
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!
+  previewCommentText(commentText: String!): [CommentBodySegment!]!
 
   """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
@@ -5436,6 +5453,16 @@ type SuggestVariantRevisionPayload {
   The Variant the user has proposed a Revision to.
   """
   variant: Variant!
+}
+
+enum TaggableEntity {
+  ASSERTION
+  EVIDENCE_ITEM
+  GENE
+  ORGANIZATION
+  REVISION
+  VARIANT
+  VARIANT_GROUP
 }
 
 """

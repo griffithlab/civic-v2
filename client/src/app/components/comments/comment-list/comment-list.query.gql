@@ -56,4 +56,21 @@ fragment commentListNode on Comment {
       profileImagePath(size: 32)
     }
   }
+  parsedComment {
+    __typename
+    ...on CommentTagSegment {
+      entityId
+      displayName
+      tagType
+      __typename
+    }
+    ... on CommentTextSegment {
+      text
+    }
+    ... on User {
+      id
+      displayName
+      role
+    }
+  }
 }

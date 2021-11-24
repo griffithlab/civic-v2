@@ -5,6 +5,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcCommentBodyModule } from '../comment-body/comment-body.module';
 
 @NgModule({
   declarations: [CvcCommentDisplayComponent],
@@ -13,6 +14,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzCommentModule,
     NzAvatarModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
+    CvcCommentBodyModule
   ],
   exports: [CvcCommentDisplayComponent]
 })

@@ -26,11 +26,7 @@ module Actions
               minus_at = split_segment[1..-1]
               if user = User.where('username ILIKE ?', minus_at).first
                 mentioned_users << user
-                {
-                  id: user.id,
-                  display_name: user.display_name,
-                  tag_type: 'USER'
-                }
+                user
               elsif organization = Organization.where('name ILIKE ?', minus_at).first
                 mentioned_organizations << organization
                 {

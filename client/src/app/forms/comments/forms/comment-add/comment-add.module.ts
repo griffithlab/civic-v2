@@ -13,19 +13,27 @@ import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-s
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CommentTextareaModule } from '../../types/comment-textarea/comment-textarea.module';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [CvcCommentAddForm],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     NzButtonModule,
     NzCardModule,
+    NzTabsModule,
     NzFormModule,
+    NzSpinModule,
     FormlyModule.forChild(),
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
+    CvcCommentBodyModule,
     CommentTextareaModule,
   ],
   exports: [CvcCommentAddForm]

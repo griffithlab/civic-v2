@@ -25,7 +25,7 @@ module Actions
               if referenced_item = klass.find_by(id: match[:id])
                 referenced_items << referenced_item
                 {
-                  id: referenced_item.id,
+                  entity_id: referenced_item.id,
                   display_name: referenced_item.name,
                   tag_type: tag_type
                 }
@@ -60,11 +60,11 @@ module Actions
     end
 
     def self.split_regex
-      @split_regex ||= Regexp.new(/\s*(#[a|v|g|vg|e|r]\d+)\b/i)
+      @split_regex ||= Regexp.new(/\s*(#(?:a|v|g|vg|e|r)(?:id)?\d+)\b/i)
     end
 
     def self.scan_regex
-      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r)(?<id>\d+)\b/i)
+      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r)(?:id)?(?<id>\d+)\b/i)
     end
   end
 end

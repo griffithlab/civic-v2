@@ -6,7 +6,6 @@ module Types::Commentable
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
     value 'REVISION'
-    value 'USER'
     value 'ORGANIZATION'
   end
 end

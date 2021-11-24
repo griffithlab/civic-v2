@@ -1,33 +1,43 @@
-<nz-card nzType="inner">
-  <form nz-form
-    [formGroup]="formGroup"
-    (ngSubmit)="submitComment(formModel)"
-    nzLayout="vertical">
-    <ng-container *ngIf="(submitError$ | async) as errors">
-      <nz-form-item *ngIf="errors.length > 0">
-        <cvc-form-errors-alert [errors]="errors">
-        </cvc-form-errors-alert>
-      </nz-form-item>
-    </ng-container>
-    <formly-form [form]="formGroup"
-      [fields]="formFields"
-      [(model)]="formModel"
-      [options]="formOptions"></formly-form>
-    <nz-form-item>
-      <nz-form-control>
-        <cvc-form-buttons>
-          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-            <button type="submit"
-              nz-button
-              cvcOrgSelectorBtn
-              nzType="primary"
-              nzSize="small"
-              [disabled]="!formGroup.valid">
-              Add Comment
-            </button>
-          </cvc-org-selector-btn-group>
-        </cvc-form-buttons>
-      </nz-form-control>
+<form nz-form
+  [formGroup]="formGroup"
+  (ngSubmit)="submitComment(formModel)"
+  nzLayout="vertical">
+  <ng-container *ngIf="(submitError$ | async) as errors">
+    <nz-form-item *ngIf="errors.length > 0">
+      <cvc-form-errors-alert [errors]="errors">
+      </cvc-form-errors-alert>
     </nz-form-item>
-  </form>
-</nz-card>
+  </ng-container>
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="Write">
+        <formly-form [form]="formGroup"
+          [fields]="formFields"
+          [(model)]="formModel"
+          [options]="formOptions"></formly-form>
+    </nz-tab>
+    <nz-tab nzTitle="Preview" (nzClick)="this.onPreviewButtonClicked()">
+      <ng-container *ngIf="(previewLoading$ | ngrxPush) as loading">
+        <nz-spin nzTip="Loading..."></nz-spin>
+      </ng-container>
+      <ng-container *ngIf="(previewComment$ | ngrxPush) as previewComment">
+        <cvc-comment-body [commentBodySegments]="previewComment"></cvc-comment-body>
+      </ng-container>
+    </nz-tab>
+  </nz-tabset>
+  <nz-form-item>
+    <nz-form-control>
+      <cvc-form-buttons>
+        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+          <button type="submit"
+            nz-button
+            cvcOrgSelectorBtn
+            nzType="primary"
+            nzSize="small"
+            [disabled]="!formGroup.valid">
+            Add Comment
+          </button>
+        </cvc-org-selector-btn-group>
+      </cvc-form-buttons>
+    </nz-form-control>
+  </nz-form-item>
+</form>

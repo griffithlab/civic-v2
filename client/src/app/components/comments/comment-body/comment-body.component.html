@@ -1,0 +1,33 @@
+<ng-container *ngFor="let c of commentBodySegments">
+    <ng-container *ngIf="c.__typename == 'CommentTextSegment'">
+        {{ c.text }}
+    </ng-container>
+    <ng-container *ngIf="c.__typename == 'User'">
+        <cvc-user-tag [user]="c"></cvc-user-tag>
+    </ng-container>
+    <ng-container *ngIf="c.__typename == 'CommentTagSegment'">
+        <ng-container [ngSwitch]="c.tagType">
+            <span *ngSwitchCase="'REVISION'">
+                <cvc-revision-tag [revision]="{id: c.entityId, name: c.displayName}"></cvc-revision-tag>
+            </span>
+            <span *ngSwitchCase="'GENE'">
+                <cvc-gene-tag [gene]="{id: c.entityId, name: c.displayName}"></cvc-gene-tag>
+            </span>
+            <span *ngSwitchCase="'VARIANT'">
+                <cvc-variant-tag [variant]="{id: c.entityId, name: c.displayName}"></cvc-variant-tag>
+            </span>
+            <span *ngSwitchCase="'VARIANT_GROUP'">
+                <cvc-variant-group-tag [variantgroup]="{id: c.entityId, name: c.displayName}"></cvc-variant-group-tag>
+            </span>
+            <span *ngSwitchCase="'EVIDENCE_ITEM'">
+                <cvc-evidence-tag [evidence]="{id: c.entityId, name: c.displayName}"></cvc-evidence-tag>
+            </span>
+            <span *ngSwitchCase="'ASSERTION'">
+                <cvc-assertion-tag [assertion]="{id: c.entityId, name: c.displayName}"></cvc-assertion-tag>
+            </span>
+            <span *ngSwitchCase="'ORGANIZATION'">
+                <cvc-organization-tag [org]="{id: c.entityId, name: c.displayName}"></cvc-organization-tag>
+            </span>
+        </ng-container>
+    </ng-container>
+</ng-container>

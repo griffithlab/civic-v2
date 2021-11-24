@@ -15,15 +15,19 @@ import {
 import {
   BehaviorSubject,
   Subject,
+  Observable
 } from 'rxjs';
 
-import { takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 
 import {
   Organization,
   AddCommentInput,
   CommentableInput,
   Maybe,
+  PreviewCommentGQL,
+  PreviewCommentQuery,
+  PreviewCommentFragment,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
@@ -52,9 +56,12 @@ export class CvcCommentAddForm implements OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
+  previewComment$?: Observable<PreviewCommentFragment[]>
+  previewLoading$?: Observable<boolean>
+
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
-              private commentAddService: CommentAddService) {
+              private commentAddService: CommentAddService, private previewCommentGql: PreviewCommentGQL) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -123,5 +130,14 @@ export class CvcCommentAddForm implements OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onPreviewButtonClicked() {
+    this.previewComment$ = this.previewCommentGql.watch({commentText: this.formModel.body}).valueChanges.pipe(
+      map(({data}) => { return data.previewCommentText })
+    );
+    this.previewLoading$ = this.previewCommentGql.watch({commentText: this.formModel.body}).valueChanges.pipe(
+      map(({loading}) => { return loading }), startWith(true)
+    );
   }
 }
