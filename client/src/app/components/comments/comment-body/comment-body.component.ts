@@ -1,5 +1,14 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { CommentBodySegment } from "@app/generated/civic.apollo";
+import { CommentTagSegment, CommentTextSegment } from "@app/generated/civic.apollo";
+
+interface CommentBodyUserSegment {
+    __typename: 'User',
+    id: number,
+    displayName: string,
+    role: string
+}
+
+export type CommentSegment = CommentBodyUserSegment | CommentTagSegment | CommentTextSegment
 
 @Component({
     selector: 'cvc-comment-body',
@@ -7,7 +16,7 @@ import { CommentBodySegment } from "@app/generated/civic.apollo";
     styleUrls: ['./comment-body.component.less']
 })
 export class CvcCommentBodyComponent implements OnInit {
-    @Input() commentBodySegments!: CommentBodySegment[]
+    @Input() commentBodySegments!: CommentSegment[]
 
     ngOnInit() {
         if(this.commentBodySegments === undefined) {

@@ -123,7 +123,7 @@
           <nz-row>
             <nz-col nzSpan="16">
             <ng-container *ngIf="revision.resolutionComment">
-              {{ revision.resolutionComment.comment }}
+              <cvc-comment-body [commentBodySegments]="revision.resolutionComment.parsedComment"></cvc-comment-body>
             </ng-container>
 
             </nz-col>
@@ -143,8 +143,11 @@
                 nzType="civic:revision"></i> RID{{ revision.id }}
               <span>{{ revision.linkoutData.name }} Updated</span>
             </nz-space-item>
-            <nz-space-item *ngIf="revision.creationComment.comment !== ''">
-              <i nz-popover [nzPopoverContent]="revision.creationComment.comment" nz-icon nzType="comment" nzTheme="outline"></i>
+            <nz-space-item *ngIf="revision.creationComment">
+              <i nz-popover [nzPopoverContent]="creationCommentTemplate" nz-icon nzType="comment" nzTheme="outline"></i>
+              <ng-template #creationCommentTemplate>
+                <cvc-comment-body [commentBodySegments]="revision.creationComment.parsedComment"></cvc-comment-body>
+              </ng-template>
             </nz-space-item>
           </nz-space>
         </ng-template>
@@ -250,7 +253,7 @@
               <ng-template #validationPopoverContentTemplate>
                 <nz-space nzDirection="vertical">
                   <nz-space-item>
-                    <textarea rows="4" nz-input [(ngModel)]="revisionComment" placeholder="Additional comments (required if rejecting, minimum 10 characters)"></textarea>
+                    <cvc-comment-input [(comment)]="revisionComment"></cvc-comment-input>
                   </nz-space-item>
                   <nz-space-item>
                     <nz-space>

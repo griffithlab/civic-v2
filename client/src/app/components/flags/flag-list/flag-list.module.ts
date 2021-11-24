@@ -31,6 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { FlagListComponent } from './flag-list.component';
 import { CvcResolveFlagModule } from '@app/forms/flags/forms/flag-resolve/flag-resolve.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
 @NgModule({
   declarations: [FlagListComponent],
@@ -66,7 +67,8 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzAlertModule,
     ReactiveComponentModule,
     CvcResolveFlagModule,
-    NzDividerModule
+    NzDividerModule,
+    CvcCommentBodyModule
   ],
   exports: [FlagListComponent]
 })

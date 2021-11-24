@@ -4569,10 +4569,28 @@ export type FlagFragment = (
     & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   )>, openComment: (
     { __typename: 'Comment' }
-    & Pick<Comment, 'comment'>
+    & { parsedComment: Array<(
+      { __typename: 'CommentTagSegment' }
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+    ) | (
+      { __typename: 'CommentTextSegment' }
+      & Pick<CommentTextSegment, 'text'>
+    ) | (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role'>
+    )> }
   ), resolutionComment?: Maybe<(
     { __typename: 'Comment' }
-    & Pick<Comment, 'comment'>
+    & { parsedComment: Array<(
+      { __typename: 'CommentTagSegment' }
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+    ) | (
+      { __typename: 'CommentTextSegment' }
+      & Pick<CommentTextSegment, 'text'>
+    ) | (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role'>
+    )> }
   )> }
 );
 
@@ -4903,10 +4921,28 @@ export type RevisionFragment = (
     & Pick<User, 'id' | 'displayName' | 'role'>
   )>, creationComment: (
     { __typename: 'Comment' }
-    & Pick<Comment, 'comment'>
+    & { parsedComment: Array<(
+      { __typename: 'CommentTagSegment' }
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+    ) | (
+      { __typename: 'CommentTextSegment' }
+      & Pick<CommentTextSegment, 'text'>
+    ) | (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role'>
+    )> }
   ), resolutionComment?: Maybe<(
     { __typename: 'Comment' }
-    & Pick<Comment, 'comment'>
+    & { parsedComment: Array<(
+      { __typename: 'CommentTagSegment' }
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+    ) | (
+      { __typename: 'CommentTextSegment' }
+      & Pick<CommentTextSegment, 'text'>
+    ) | (
+      { __typename: 'User' }
+      & Pick<User, 'id' | 'displayName' | 'role'>
+    )> }
   )> }
 );
 
@@ -7152,10 +7188,44 @@ export const FlagFragmentDoc = gql`
     profileImagePath(size: 32)
   }
   openComment {
-    comment
+    __typename
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
   resolutionComment {
-    comment
+    __typename
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
 }
     `;
@@ -7328,10 +7398,42 @@ export const RevisionFragmentDoc = gql`
     role
   }
   creationComment {
-    comment
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
   resolutionComment {
-    comment
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
   }
   status
 }

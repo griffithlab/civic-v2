@@ -18,8 +18,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzMentionModule } from 'ng-zorro-antd/mention';
-import { NzInputModule } from 'ng-zorro-antd/input';
 import { CvcCommentInputModule } from '../comment-input/comment-input.module';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [CvcCommentAddForm],
@@ -33,6 +33,7 @@ import { CvcCommentInputModule } from '../comment-input/comment-input.module';
     NzFormModule,
     NzSpinModule,
     NzMentionModule,
+    NzAlertModule,
     FormsModule,
     FormlyModule.forChild(),
     CvcFormErrorsAlertModule,

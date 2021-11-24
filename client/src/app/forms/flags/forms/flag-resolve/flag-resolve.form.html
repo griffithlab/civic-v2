@@ -57,30 +57,27 @@
   </ng-template>
   <nz-card style="width:300px;" nzType="inner">
     <form nz-form
-      [formGroup]="formGroup"
-      (ngSubmit)="resolveFlag(formModel)"
+      (ngSubmit)="resolveFlag()"
       nzLayout="vertical">
-      <formly-form [form]="formGroup"
-        [fields]="formFields"
-        [model]="formModel"
-        [options]="formOptions"
-        (modelChange)="formModel = $event"></formly-form>
-      <nz-form-item>
-        <nz-form-control>
-          <cvc-form-buttons>
-            <cvc-org-selector-btn-group (selectedOrgChange)="onOrgSelected($event)">
-              <button type="submit"
-                nz-button
-                cvcOrgSelectorBtn
-                nzType="primary"
-                nzSize="small"
-                [disabled]="!formGroup.valid">
-                Resolve
-              </button>
-            </cvc-org-selector-btn-group>
-          </cvc-form-buttons>
-        </nz-form-control>
-      </nz-form-item>
+      <cvc-comment-input [(comment)]="comment"></cvc-comment-input>
+      <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+        <nz-form-item>
+          <nz-form-control>
+            <cvc-form-buttons>
+              <cvc-org-selector-btn-group (selectedOrgChange)="onOrgSelected($event)">
+                <button type="submit"
+                  nz-button
+                  cvcOrgSelectorBtn
+                  nzType="primary"
+                  nzSize="small"
+                  [disabled]="!(this.comment !== undefined && this.comment.length >= 10)">
+                  Resolve
+                </button>
+              </cvc-org-selector-btn-group>
+            </cvc-form-buttons>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-spin>
     </form>
   </nz-card>
 </ng-template>

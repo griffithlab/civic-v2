@@ -8,11 +8,6 @@ import {
 } from '@angular/core';
 
 import {
-  FormBuilder,
-} from '@angular/forms';
-
-import {
-  BehaviorSubject,
   Subject,
 } from 'rxjs';
 
@@ -20,14 +15,16 @@ import { takeUntil } from 'rxjs/operators';
 
 import {
   Organization,
-  AddCommentInput,
   CommentableInput,
   Maybe,
-  PreviewCommentGQL,
+  AddCommentGQL,
+  AddCommentMutation,
+  AddCommentMutationVariables,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
-import { CommentAddService } from './comment-add.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 @Component({
   selector: 'cvc-comment-add',
@@ -43,15 +40,18 @@ export class CvcCommentAddForm implements OnDestroy {
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 
-  submitError$: BehaviorSubject<string[]>;
-  submitSuccess$: BehaviorSubject<boolean>;
-  isSubmitting$: BehaviorSubject<boolean>;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+
+  addCommentMutator: MutatorWithState<AddCommentGQL, AddCommentMutation, AddCommentMutationVariables>;
 
   commentText?: string;
-
-  constructor(private fb: FormBuilder,
-              private viewerService: ViewerService,
-              private commentAddService: CommentAddService, private previewCommentGql: PreviewCommentGQL) {
+  constructor(
+    private viewerService: ViewerService,
+    private addCommentGql: AddCommentGQL,
+    private networkErrorService: NetworkErrorsService
+    ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
@@ -61,21 +61,7 @@ export class CvcCommentAddForm implements OnDestroy {
         this.mostRecentOrg = v.mostRecentOrg;
       });
 
-    this.submitError$ = this.commentAddService.submitError$;
-    this.isSubmitting$ = this.commentAddService.isSubmitting$;
-    this.submitSuccess$ = this.commentAddService.submitSuccess$;
-
-    this.submitSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((e) => {
-        if(e) { 
-          this.resetForm(); 
-          this.commentAddedEvent.emit();
-        }
-      });
-  }
-
-  ngOnInit(): void {
+      this.addCommentMutator = new MutatorWithState(networkErrorService);
   }
 
   selectOrg(org: Organization): void {
@@ -84,18 +70,45 @@ export class CvcCommentAddForm implements OnDestroy {
 
   submitComment(): void {
     if (this.commentText) {
-      const newCommentInput = <AddCommentInput>{
+      this.errorMessages = [];
+      let newCommentInput = {
         body: this.commentText,
         subject: this.subject,
-        organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+        organizationId:
+          this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
       };
 
-      this.commentAddService.addComment(newCommentInput);
+      let state = this.addCommentMutator.mutate(this.addCommentGql, {
+        input: newCommentInput,
+      });
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.resetForm()
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
     }
   }
 
   resetForm(): void {
-    this.commentText = undefined
+    this.commentText = '';
+    this.commentAddedEvent.emit();
+  }
+
+  onSuccessBannerClose() {
+    this.resetForm();
   }
 
   ngOnDestroy(): void {

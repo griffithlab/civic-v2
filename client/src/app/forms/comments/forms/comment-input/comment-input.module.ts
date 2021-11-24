@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FormlyModule } from '@ngx-formly/core';
-
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 
@@ -32,7 +30,6 @@ import { NzMentionModule } from 'ng-zorro-antd/mention';
     NzSpinModule,
     NzMentionModule,
     FormsModule,
-    FormlyModule.forChild(),
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,

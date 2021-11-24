@@ -1,27 +1,28 @@
+<nz-alert *ngIf="this.success" nzBanner nzMessage="Comment submitted" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
 <form nz-form
   (ngSubmit)="submitComment()"
   nzLayout="vertical">
-  <ng-container *ngIf="(submitError$ | async) as errors">
-    <nz-form-item *ngIf="errors.length > 0">
-      <cvc-form-errors-alert [errors]="errors">
-      </cvc-form-errors-alert>
-    </nz-form-item>
-  </ng-container>
-  <cvc-comment-input [(comment)]="commentText"></cvc-comment-input>
-  <nz-form-item>
-    <nz-form-control>
-      <cvc-form-buttons>
-        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-          <button type="submit"
-            nz-button
-            cvcOrgSelectorBtn
-            nzType="primary"
-            nzSize="small"
-            [disabled]="!(this.commentText !== undefined && this.commentText.length >= 10)">
-            Add Comment
-          </button>
-        </cvc-org-selector-btn-group>
-      </cvc-form-buttons>
-    </nz-form-control>
+  <nz-form-item *ngIf="this.errorMessages.length > 0">
+    <cvc-form-errors-alert [errors]="this.errorMessages">
+    </cvc-form-errors-alert>
   </nz-form-item>
+  <cvc-comment-input [(comment)]="commentText"></cvc-comment-input>
+  <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+    <nz-form-item>
+      <nz-form-control>
+        <cvc-form-buttons>
+          <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+            <button type="submit"
+              nz-button
+              cvcOrgSelectorBtn
+              nzType="primary"
+              nzSize="small"
+              [disabled]="this.loading || !(this.commentText !== undefined && this.commentText.length >= 10)">
+              Add Comment
+            </button>
+          </cvc-org-selector-btn-group>
+        </cvc-form-buttons>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-spin>
 </form>

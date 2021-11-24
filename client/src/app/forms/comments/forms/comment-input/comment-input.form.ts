@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
   ViewEncapsulation
@@ -40,7 +41,7 @@ interface WithDisplayNameAndValue {
   styleUrls: ['./comment-input.form.less'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CvcCommentInputForm implements OnDestroy {
+export class CvcCommentInputForm implements OnDestroy, OnChanges {
   @Input()  comment?: string;
   @Output() commentChange = new EventEmitter<string>();
   
@@ -83,6 +84,10 @@ export class CvcCommentInputForm implements OnDestroy {
         value: this.tagForEntityTypeAndId(t.tagType, t.entityId) 
       } 
     }))
+  }
+
+  ngOnChanges() {
+    this.commentText = this.comment;
   }
 
   autoCompleteValueFor(x: WithDisplayNameAndValue): string {
