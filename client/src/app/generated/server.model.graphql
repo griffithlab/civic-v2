@@ -4276,6 +4276,11 @@ type Query {
   user(id: Int!): User
 
   """
+  Retrieve user type typeahead fields for a search term.
+  """
+  userTypeahead(queryTerm: String!): [User!]!
+
+  """
   List and filter users.
   """
   users(

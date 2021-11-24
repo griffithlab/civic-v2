@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -33,11 +34,13 @@ import {
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 
 @Component({
   selector: 'cvc-comment-add',
   templateUrl: './comment-add.form.html',
-  styleUrls: ['./comment-add.form.less']
+  styleUrls: ['./comment-add.form.less'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CvcCommentAddForm implements OnDestroy {
   @Input() subject!: CommentableInput;
@@ -51,13 +54,7 @@ export class CvcCommentAddForm implements OnDestroy {
   submitSuccess$: BehaviorSubject<boolean>;
   isSubmitting$: BehaviorSubject<boolean>;
 
-  formModel!: AddCommentInput;
-  formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
-
-  previewComment$?: Observable<PreviewCommentFragment[]>
-  previewLoading$?: Observable<boolean>
+  commentText?: string;
 
   constructor(private fb: FormBuilder,
               private viewerService: ViewerService,
@@ -79,65 +76,39 @@ export class CvcCommentAddForm implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => {
         if(e) { 
+          console.log("inside submit success if")
           this.resetForm(); 
           this.commentAddedEvent.emit();
         }
+        console.log("outisde submit success if")
       });
-
-    this.formFields = [
-      {
-        key: 'body',
-        type: 'comment-textarea',
-        templateOptions: {
-          placeholder: 'Please enter a comment.',
-          required: true,
-          minLength: 10
-        },
-      }
-    ];
   }
 
   ngOnInit(): void {
-    this.formModel = {
-      body: '',
-      subject: this.subject,
-    }
   }
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
   }
 
-  submitComment(value: AddCommentInput): void {
-    for (const key in this.formGroup.controls) {
-      this.formGroup.controls[key].markAsDirty();
-      this.formGroup.controls[key].updateValueAndValidity();
+  submitComment(): void {
+    if (this.commentText) {
+      const newCommentInput = <AddCommentInput>{
+        body: this.commentText,
+        subject: this.subject,
+        organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+      };
+
+      this.commentAddService.addComment(newCommentInput);
     }
-
-    const newCommentInput = <AddCommentInput>{
-      ...value,
-      subject: this.subject,
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
-    };
-
-    this.commentAddService.addComment(newCommentInput);
   }
 
   resetForm(): void {
-    this.formGroup.reset();
+    this.commentText = undefined
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  onPreviewButtonClicked() {
-    this.previewComment$ = this.previewCommentGql.watch({commentText: this.formModel.body}).valueChanges.pipe(
-      map(({data}) => { return data.previewCommentText })
-    );
-    this.previewLoading$ = this.previewCommentGql.watch({commentText: this.formModel.body}).valueChanges.pipe(
-      map(({loading}) => { return loading }), startWith(true)
-    );
   }
 }

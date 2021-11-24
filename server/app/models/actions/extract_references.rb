@@ -21,7 +21,7 @@ module Actions
         if segment.is_a?(String)
           segment.split(self.class.split_regex).map do |split_segment|
             if match = split_segment.match(self.class.scan_regex)
-              (klass, tag_type) = extract_type(match[:type])
+              (klass, tag_type) = self.class.extract_type(match[:type])
               if referenced_item = klass.find_by(id: match[:id])
                 referenced_items << referenced_item
                 {
@@ -42,7 +42,26 @@ module Actions
       end
     end
 
-    def extract_type(type)
+    def self.typeahead_matches(query_term)
+      if match = "##{query_term}".match(self.scan_regex)
+        (klass, tag_type) = self.extract_type(match[:type])
+        if referenced_items = klass.where("CAST(id as TEXT) LIKE ?", "#{match[:id]}%").order(:id).limit(10)
+          return referenced_items.map do |referenced_item|
+          {
+            entity_id: referenced_item.id,
+            display_name: referenced_item.name,
+            tag_type: tag_type
+          }
+          end
+        else
+          return []
+        end
+      else
+        return []
+      end
+    end
+
+    def self.extract_type(type)
       case type.upcase
       when 'V'
         [Variant, 'VARIANT']

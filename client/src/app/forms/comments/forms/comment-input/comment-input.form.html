@@ -1,0 +1,23 @@
+<nz-tabset [nzAnimated]="false">
+  <nz-tab nzTitle="Write">
+    <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@']">
+      <textarea
+        placeholder="Enter comment (minimum length 10. Use @ to mention users; # to link entities)"
+        nzMentionTrigger
+        nz-input
+        rows="4"
+        style="width: 100%"
+        [(ngModel)]="commentText"
+        (ngModelChange)="onCommentChanged($event)"
+      ></textarea>
+    </nz-mention>
+  </nz-tab>
+  <nz-tab nzTitle="Preview" (nzClick)="this.onPreviewButtonClicked()">
+    <ng-container *ngIf="(previewLoading$ | ngrxPush) as loading">
+      <nz-spin nzTip="Loading..."></nz-spin>
+    </ng-container>
+    <ng-container *ngIf="(previewComment$ | ngrxPush) as previewComment">
+      <cvc-comment-body [commentBodySegments]="previewComment"></cvc-comment-body>
+    </ng-container>
+  </nz-tab>
+</nz-tabset>

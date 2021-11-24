@@ -2211,6 +2211,8 @@ export type Query = {
   /** Get the active subscription for the entity and logged in user, if any */
   subscriptionForEntity?: Maybe<Subscription>;
   user?: Maybe<User>;
+  /** Retrieve user type typeahead fields for a search term. */
+  userTypeahead: Array<User>;
   /** List and filter users. */
   users: UserConnection;
   validateRevisionsForAcceptance: ValidationErrors;
@@ -2637,6 +2639,11 @@ export type QuerySubscriptionForEntityArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryUserTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -5390,6 +5397,19 @@ type PreviewComment_User_Fragment = (
 );
 
 export type PreviewCommentFragment = PreviewComment_CommentTagSegment_Fragment | PreviewComment_CommentTextSegment_Fragment | PreviewComment_User_Fragment;
+
+export type UserTypeaheadQueryVariables = Exact<{
+  queryTerm: Scalars['String'];
+}>;
+
+
+export type UserTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { userTypeahead: Array<(
+    { __typename: 'User' }
+    & Pick<User, 'username'>
+  )> }
+);
 
 export type DiseaseTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -9534,7 +9554,25 @@ export const PreviewCommentDocument = gql`
   })
   export class PreviewCommentGQL extends Apollo.Query<PreviewCommentQuery, PreviewCommentQueryVariables> {
     document = PreviewCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserTypeaheadDocument = gql`
+    query userTypeahead($queryTerm: String!) {
+  userTypeahead(queryTerm: $queryTerm) {
+    username
+  }
+}
+    `;
 
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserTypeaheadGQL extends Apollo.Query<UserTypeaheadQuery, UserTypeaheadQueryVariables> {
+    document = UserTypeaheadDocument;
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
