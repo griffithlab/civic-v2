@@ -3771,6 +3771,11 @@ type Query {
   ): BrowseDrugConnection!
 
   """
+  Retrieve entity type typeahead fields for a entity mention search term.
+  """
+  entityTypeahead(queryTerm: String!): [CommentTagSegment!]!
+
+  """
   List and filter events for an object
   """
   events(

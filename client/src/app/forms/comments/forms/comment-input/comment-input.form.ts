@@ -18,11 +18,21 @@ import {
   UserTypeaheadGQL,
   UserTypeaheadQuery,
   UserTypeaheadQueryVariables,
+  EntityTypeaheadGQL,
+  EntityTypeaheadQuery,
+  EntityTypeaheadQueryVariables,
+  TaggableEntity
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
-import { map, startWith } from 'rxjs/operators';
-import { Apollo, QueryRef } from 'apollo-angular';
+import { map, startWith, takeUntil } from 'rxjs/operators';
+import {QueryRef } from 'apollo-angular';
+
+
+interface WithDisplayNameAndValue {
+  displayName: string
+  value: string
+}
 
 @Component({
   selector: 'cvc-comment-input',
@@ -39,12 +49,13 @@ export class CvcCommentInputForm implements OnDestroy {
   previewComment$?: Observable<PreviewCommentFragment[]>
   previewLoading$?: Observable<boolean>
 
-  suggestions: string[] = [];
+  suggestions: WithDisplayNameAndValue[] = [];
   commentText?: string;
 
   private userTypeaheadQueryRef$!: QueryRef<UserTypeaheadQuery, UserTypeaheadQueryVariables>;
+  private entityTypeaheadQueryRef$!: QueryRef<EntityTypeaheadQuery, EntityTypeaheadQueryVariables>;
 
-  constructor(private previewCommentGql: PreviewCommentGQL, private userTypeaheadGql: UserTypeaheadGQL, private apollo: Apollo) {
+  constructor(private previewCommentGql: PreviewCommentGQL, private userTypeaheadGql: UserTypeaheadGQL, private entityTypeaheadGql: EntityTypeaheadGQL) {
   }
 
   ngOnInit(): void {
@@ -55,11 +66,50 @@ export class CvcCommentInputForm implements OnDestroy {
     });
 
     this.userTypeaheadQueryRef$.valueChanges.pipe(
-      map(({data}) => data.userTypeahead)
-    ).subscribe((users) => this.suggestions = users.map((u) => u.username))
+      map(({data}) => data.userTypeahead),
+      takeUntil(this.destroy$)
+    ).subscribe((users) => this.suggestions = users.map((u) => {return {displayName: u.username, value: u.username }}))
+
+    this.entityTypeaheadQueryRef$ = this.entityTypeaheadGql.watch({
+      queryTerm: ''
+    })
+
+    this.entityTypeaheadQueryRef$.valueChanges.pipe(
+      map(({data}) => data.entityTypeahead),
+      takeUntil(this.destroy$)
+    ).subscribe((tagEntities) => this.suggestions = tagEntities.map((t) => {
+      return {
+        displayName: t.displayName,
+        value: this.tagForEntityTypeAndId(t.tagType, t.entityId) 
+      } 
+    }))
+  }
+
+  autoCompleteValueFor(x: WithDisplayNameAndValue): string {
+    return x.value;
+  }
+
+  tagForEntityTypeAndId(entityType: TaggableEntity, id: number): string {
+    switch (entityType) {
+      case (TaggableEntity.Gene):
+        return `GID${id}`;
+      case TaggableEntity.Variant:
+        return `VID${id}`;
+      case TaggableEntity.VariantGroup:
+        return `VGID${id}`;
+      case TaggableEntity.EvidenceItem:
+        return `EID${id}`;
+      case TaggableEntity.Assertion:
+        return `AID${id}`;
+      case TaggableEntity.Revision:
+        return `RID${id}`;
+      case TaggableEntity.Organization:
+        return `OID${id}`;
+    }
   }
 
   resetForm(): void {
+    this.commentText = ''
   }
 
   ngOnDestroy(): void {
@@ -79,9 +129,11 @@ export class CvcCommentInputForm implements OnDestroy {
   }
 
   onSearchChange({ value, prefix }: MentionOnSearchTypes): void {
-      console.log('before calling fetch');
+    if(prefix === "@") {
       this.userTypeaheadQueryRef$.refetch({queryTerm: value})
-    //this.suggestions = prefix === '@' ? this.users : this.tags;
+    } else {
+      this.entityTypeaheadQueryRef$.refetch({queryTerm: value})
+    }
   }
 
   onCommentChanged(e: string): void {

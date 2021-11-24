@@ -9,17 +9,14 @@ import {
 
 import {
   FormBuilder,
-  FormGroup,
-  Validators,
 } from '@angular/forms';
 
 import {
   BehaviorSubject,
   Subject,
-  Observable
 } from 'rxjs';
 
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import {
   Organization,
@@ -27,14 +24,10 @@ import {
   CommentableInput,
   Maybe,
   PreviewCommentGQL,
-  PreviewCommentQuery,
-  PreviewCommentFragment,
 } from '@app/generated/civic.apollo';
 
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { CommentAddService } from './comment-add.service';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 
 @Component({
   selector: 'cvc-comment-add',
@@ -76,11 +69,9 @@ export class CvcCommentAddForm implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => {
         if(e) { 
-          console.log("inside submit success if")
           this.resetForm(); 
           this.commentAddedEvent.emit();
         }
-        console.log("outisde submit success if")
       });
   }
 

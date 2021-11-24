@@ -2163,6 +2163,8 @@ export type Query = {
   drugTypeahead: Array<Drug>;
   /** List and filter Drugs from the NCI Thesaurus. */
   drugs: BrowseDrugConnection;
+  /** Retrieve entity type typeahead fields for a entity mention search term. */
+  entityTypeahead: Array<CommentTagSegment>;
   /** List and filter events for an object */
   events: EventConnection;
   /** Find an evidence item by CIViC ID */
@@ -2412,6 +2414,11 @@ export type QueryDrugsArgs = {
   name?: Maybe<Scalars['String']>;
   ncitId?: Maybe<Scalars['String']>;
   sortBy?: Maybe<DrugSort>;
+};
+
+
+export type QueryEntityTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -5408,6 +5415,19 @@ export type UserTypeaheadQuery = (
   & { userTypeahead: Array<(
     { __typename: 'User' }
     & Pick<User, 'username'>
+  )> }
+);
+
+export type EntityTypeaheadQueryVariables = Exact<{
+  queryTerm: Scalars['String'];
+}>;
+
+
+export type EntityTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { entityTypeahead: Array<(
+    { __typename: 'CommentTagSegment' }
+    & Pick<CommentTagSegment, 'entityId' | 'tagType' | 'displayName'>
   )> }
 );
 
@@ -9572,6 +9592,26 @@ export const UserTypeaheadDocument = gql`
   })
   export class UserTypeaheadGQL extends Apollo.Query<UserTypeaheadQuery, UserTypeaheadQueryVariables> {
     document = UserTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EntityTypeaheadDocument = gql`
+    query entityTypeahead($queryTerm: String!) {
+  entityTypeahead(queryTerm: $queryTerm) {
+    entityId
+    tagType
+    displayName
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EntityTypeaheadGQL extends Apollo.Query<EntityTypeaheadQuery, EntityTypeaheadQueryVariables> {
+    document = EntityTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

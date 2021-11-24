@@ -1,6 +1,9 @@
 <nz-tabset [nzAnimated]="false">
   <nz-tab nzTitle="Write">
-    <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@']">
+    <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@']"
+        nzNotFoundContent="No matches..."
+        [nzValueWith]="autoCompleteValueFor"
+        (nzOnSelect)="this.suggestions = []">
       <textarea
         placeholder="Enter comment (minimum length 10. Use @ to mention users; # to link entities)"
         nzMentionTrigger
@@ -10,6 +13,9 @@
         [(ngModel)]="commentText"
         (ngModelChange)="onCommentChanged($event)"
       ></textarea>
+      <ng-container *nzMentionSuggestion="let entity">
+        <span>{{entity.displayName}}</span>
+      </ng-container>
     </nz-mention>
   </nz-tab>
   <nz-tab nzTitle="Preview" (nzClick)="this.onPreviewButtonClicked()">
