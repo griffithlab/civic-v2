@@ -1,6 +1,7 @@
 <ng-container *ngFor="let c of commentBodySegments">
     <ng-container *ngIf="c.__typename == 'CommentTextSegment'">
-        {{ c.text }}
+        <span [innerHtml]="c.text">
+        </span>
     </ng-container>
     <ng-container *ngIf="c.__typename == 'User'">
         <cvc-user-tag [user]="c"></cvc-user-tag>
