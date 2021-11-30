@@ -2,7 +2,7 @@ require 'rinku'
 require 'sanitize'
 
 module Actions
-  class PreviewCommentText
+  class FormatCommentText
     def self.get_segments(text:)
       linked = Rinku.auto_link(text, :all, 'target="_blank"')
       sanitized = Sanitize.fragment(linked, Sanitize::Config::BASIC)

@@ -23,7 +23,7 @@ module Types::Entities
 
     def parsed_comment
       Rails.cache.fetch(hash_key_from_object(object)) do
-        Actions::PreviewCommentText.get_segments(text: object.comment)
+        Actions::FormatCommentText.get_segments(text: object.comment)
       end
     end
 
