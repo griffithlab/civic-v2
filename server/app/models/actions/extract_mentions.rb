@@ -3,7 +3,7 @@ require 'set'
 module Actions
   class ExtractMentions
     include Actions::Transactional
-    attr_reader :mentioned_users, :mentioned_organizations, :mentioned_roles, :input_segments, :regexp, :segments
+    attr_reader :mentioned_users, :mentioned_organizations, :mentioned_roles, :input_segments, :user_regexp, :role_regexp, :segments
 
     def initialize(input_segments)
       @input_segments = Array(input_segments)
@@ -19,9 +19,28 @@ module Actions
     end
 
     def find_matches
-      input_segments.flat_map do |segment|
+      with_roles = input_segments.flat_map do |segment|
         if segment.is_a?(String)
-          segment.split(self.class.regexp).map do |split_segment|
+          segment.split(self.role_regexp).map do |split_segment|
+            if split_segment.starts_with?('$')
+              role = split_segment[1..-1]
+              {
+                entity_id: User.roles[role.singularize],
+                display_name: role,
+                tag_type: 'ROLE'
+              }
+            else
+              split_segment
+            end
+          end
+        else
+          segment
+        end
+      end
+
+      with_roles.flat_map do |segment|
+        if segment.is_a?(String)
+          segment.split(self.class.user_regexp).map do |split_segment|
             if split_segment.starts_with?('@')
               minus_at = split_segment[1..-1]
               if user = User.where('username ILIKE ?', minus_at).first
@@ -30,7 +49,7 @@ module Actions
               elsif organization = Organization.where('name ILIKE ?', minus_at).first
                 mentioned_organizations << organization
                 {
-                  id: organization.id,
+                  entity_id: organization.id,
                   display_name: organization.name,
                   tag_type: 'ORGANIZATION'
                 }
@@ -50,8 +69,12 @@ module Actions
       end
     end
 
-    def self.regexp
-      @regexp ||= Regexp.new(/\s*(@[^@\s']+)\b/)
+    def self.user_regexp
+      @user_regexp ||= Regexp.new(/\s*(@[^@\s']+)\b/)
+    end
+
+    def self.role_regexp
+      @role_regexp ||= Regexp.new(/\s(\$(?:admins|editors))\b/)
     end
   end
 end

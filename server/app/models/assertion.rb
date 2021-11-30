@@ -14,6 +14,7 @@ class Assertion < ActiveRecord::Base
   belongs_to :nccn_guideline, optional: true
   has_and_belongs_to_many :acmg_codes
   has_and_belongs_to_many :phenotypes
+  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   enum amp_level: Constants::AMP_LEVELS
   enum evidence_type: Constants::ASSERTION_TYPES

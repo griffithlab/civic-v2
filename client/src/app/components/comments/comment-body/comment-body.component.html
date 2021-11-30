@@ -29,6 +29,10 @@
             <span *ngSwitchCase="'ORGANIZATION'">
                 <cvc-organization-tag [org]="{id: c.entityId, name: c.displayName}"></cvc-organization-tag>
             </span>
+            <span *ngSwitchCase="'ROLE'">
+                <nz-tag><i nz-icon
+                    nzType="civic-{{c.displayName.slice(0, -1)}}" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{c.displayName}}</nz-tag>
+            </span>
         </ng-container>
     </ng-container>
 </ng-container>

@@ -244,7 +244,7 @@ module Types
     end
 
     def preview_comment_text(comment_text:)
-        Actions::PreviewCommentText.get_segments(text: comment_text)
+      Actions::FormatCommentText.get_segments(text: comment_text)
     end
   end
 end

@@ -16,6 +16,7 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :hgvs_expressions
   has_and_belongs_to_many :sources
   has_one :evidence_items_by_status
+  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 

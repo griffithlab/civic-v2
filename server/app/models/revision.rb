@@ -5,6 +5,7 @@ class Revision < ApplicationRecord
   belongs_to :subject, polymorphic: true
   #TODO: will we want a mixin someday?
   has_many :events, as: :originating_object
+  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   has_one :creation_event,
     ->() { where(action: 'revision suggested') },

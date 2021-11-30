@@ -51,6 +51,7 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   previewLoading$?: Observable<boolean>
 
   suggestions: WithDisplayNameAndValue[] = [];
+  roleSuggestions = [{displayName: 'admins', value: 'admins'}, {displayName: 'editors', value: 'editors'}]
   commentText?: string;
 
   private userTypeaheadQueryRef$!: QueryRef<UserTypeaheadQuery, UserTypeaheadQueryVariables>;
@@ -136,6 +137,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   onSearchChange({ value, prefix }: MentionOnSearchTypes): void {
     if(prefix === "@") {
       this.userTypeaheadQueryRef$.refetch({queryTerm: value})
+    } else if (prefix == '$') {
+      this.suggestions = this.roleSuggestions.filter((role) => role.value.startsWith(value))
     } else {
       this.entityTypeaheadQueryRef$.refetch({queryTerm: value})
     }

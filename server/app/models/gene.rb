@@ -10,6 +10,8 @@ class Gene < ActiveRecord::Base
   has_and_belongs_to_many :sources
   has_and_belongs_to_many :gene_aliases
 
+  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+
   searchkick highlight: [:symbol, :aliases]
   scope :search_import, -> { includes(:gene_aliases) }
 
