@@ -4,6 +4,9 @@ query CommentList(
   $before: String
   $after: String
   $originatingUserId: Int
+  $mentionedUserId: Int
+  $mentionedRole: UserRole
+  $mentionedEntity: TaggableEntityInput
   $subject: CommentableInput
   $sortBy: DateSort
 ) {
@@ -13,6 +16,9 @@ query CommentList(
     before: $before
     after: $after
     originatingUserId: $originatingUserId
+    mentionedUserId: $mentionedUserId
+    mentionedRole: $mentionedRole
+    mentionedEntity: $mentionedEntity
     subject: $subject
     sortBy: $sortBy
   ) {
@@ -35,7 +41,11 @@ query CommentList(
       role
       profileImagePath(size: 32)
     }
-    mentionedRoles
+    mentionedRoles {
+      displayName
+      entityId
+      tagType
+    }
     mentionedEntities {
       displayName
       entityId

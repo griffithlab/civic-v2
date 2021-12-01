@@ -12,6 +12,8 @@ import { CvcParticipantListModule } from '@app/components/shared/participant-lis
 import { CvcCommentDisplayModule } from '../comment-display/comment-display.module';
 import { CvcCommentAddModule } from '@app/forms/comments/forms/comment-add/comment-add.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcCommentListComponent],
@@ -22,6 +24,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzGridModule,
     NzCardModule,
     NzListModule,
+    NzIconModule,
+    CvcPipesModule,
     NzAvatarModule,
     NzSpaceModule,
     NzSkeletonModule,

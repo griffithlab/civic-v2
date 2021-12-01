@@ -10,7 +10,7 @@ module Types::Connections
     field :mentioned_users, [Types::Entities::UserType], null: false,
       description: 'List of users mentioned in this comment thread.'
 
-    field :mentioned_roles, [Types::Entities::UserRoleType], null: false,
+    field :mentioned_roles, [Types::Commentable::CommentTagSegment], null: false,
       description: 'List of roles mentioned in this comment thread'
 
     field :mentioned_entities, [Types::Commentable::CommentTagSegment], null: false,
@@ -30,6 +30,13 @@ module Types::Connections
       RoleMention.where(comment: comment_scope)
         .distinct
         .pluck(:role)
+        .map do |r|
+          {
+            entity_id: User.roles[r],
+            display_name: r,
+            tag_type: 'ROLE'
+          }
+        end
     end
 
     def mentioned_entities
