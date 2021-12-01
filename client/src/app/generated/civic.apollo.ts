@@ -767,6 +767,11 @@ export type CommentConnection = {
   pageInfo: PageInfo;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /**
+   * When filtered on a subject, the total number of comments for that subject,
+   * irregardless of other filters. Returns null when there is no subject.
+   */
+  unfilteredCountForSubject?: Maybe<Scalars['Int']>;
   /** List of all users that have commented on this entity. */
   uniqueCommenters: Array<User>;
 };
@@ -1382,7 +1387,10 @@ export type FlagConnection = {
   pageInfo: PageInfo;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
-  /** When filtered on a subject, the total number of flags for that subject, irregardless of other filters */
+  /**
+   * When filtered on a subject, the total number of flags for that subject,
+   * irregardless of other filters. Returns null when there is no subject.
+   */
   unfilteredCountForSubject?: Maybe<Scalars['Int']>;
   /** List of all users that have flagged this entity. */
   uniqueFlaggingUsers: Array<User>;
@@ -4151,7 +4159,7 @@ export type CommentListQuery = (
   { __typename: 'Query' }
   & { comments: (
     { __typename: 'CommentConnection' }
-    & Pick<CommentConnection, 'totalCount'>
+    & Pick<CommentConnection, 'totalCount' | 'unfilteredCountForSubject'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
@@ -8636,6 +8644,7 @@ export const CommentListDocument = gql`
       entityId
       tagType
     }
+    unfilteredCountForSubject
     edges {
       cursor
       node {

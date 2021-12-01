@@ -16,6 +16,9 @@ module Types::Connections
     field :mentioned_entities, [Types::Commentable::CommentTagSegment], null: false,
       description: 'List of entities mentioned in this comment thread.'
 
+    field :unfiltered_count_for_subject, Int, null: true,
+      description: 'When filtered on a subject, the total number of comments for that subject, irregardless of other filters. Returns null when there is no subject.'
+
     def unique_commenters
       User.where(id: comment_scope.select(:user_id)).distinct
     end
@@ -51,6 +54,21 @@ module Types::Connections
             tag_type: ref.entity.class.to_s.underscore.upcase
           }
         end
+    end
+
+    def unfiltered_count_for_subject
+      @comment_subject ||= object.arguments[:subject]
+      if comment_subject
+        subject = comment_subject
+      else
+        subject = parent
+      end
+
+      if subject
+        Comment.where(commentable: subject).count
+      else
+        nil
+      end
     end
 
     private

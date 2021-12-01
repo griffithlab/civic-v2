@@ -29,6 +29,7 @@ import {
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import {QueryRef } from 'apollo-angular';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 
 
 interface WithDisplayNameAndValue {
@@ -55,13 +56,17 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   roleSuggestions = [{displayName: 'admins', value: 'admins'}, {displayName: 'editors', value: 'editors'}]
   commentText?: string;
 
+  viewer$?: Observable<Viewer>;
+
   private userTypeaheadQueryRef$!: QueryRef<UserTypeaheadQuery, UserTypeaheadQueryVariables>;
   private entityTypeaheadQueryRef$!: QueryRef<EntityTypeaheadQuery, EntityTypeaheadQueryVariables>;
 
-  constructor(private previewCommentGql: PreviewCommentGQL, private userTypeaheadGql: UserTypeaheadGQL, private entityTypeaheadGql: EntityTypeaheadGQL) {
+  constructor(private previewCommentGql: PreviewCommentGQL, private userTypeaheadGql: UserTypeaheadGQL, private entityTypeaheadGql: EntityTypeaheadGQL, private viewerService: ViewerService) {
   }
 
   ngOnInit(): void {
+    this.viewer$ = this.viewerService.viewer$;
+
     this.commentText = this.comment
 
     this.userTypeaheadQueryRef$ = this.userTypeaheadGql.watch({

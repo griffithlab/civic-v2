@@ -327,7 +327,7 @@ export type CommentFieldPolicy = {
 	parsedComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CommentConnectionKeySpecifier = ('edges' | 'mentionedEntities' | 'mentionedRoles' | 'mentionedUsers' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'uniqueCommenters' | CommentConnectionKeySpecifier)[];
+export type CommentConnectionKeySpecifier = ('edges' | 'mentionedEntities' | 'mentionedRoles' | 'mentionedUsers' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | 'unfilteredCountForSubject' | 'uniqueCommenters' | CommentConnectionKeySpecifier)[];
 export type CommentConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
 	mentionedEntities?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -337,6 +337,7 @@ export type CommentConnectionFieldPolicy = {
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	unfilteredCountForSubject?: FieldPolicy<any> | FieldReadFunction<any>,
 	uniqueCommenters?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CommentEdgeKeySpecifier = ('cursor' | 'node' | CommentEdgeKeySpecifier)[];
