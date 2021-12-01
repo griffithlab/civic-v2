@@ -12,7 +12,8 @@ import {
   User,
   Organization,
   ViewerBaseGQL,
-  Maybe
+  Maybe,
+  UserRole
 } from '@app/generated/civic.apollo';
 
 export interface Viewer extends User {
@@ -115,23 +116,24 @@ export class ViewerService implements OnDestroy {
       map(v => canModerate(v)));
 
     function isAdmin(v: User): boolean {
-      return (v && (v.role === 'admin')) ? true : false;
+
+      return (v && (v.role === UserRole.Admin)) ? true : false;
     }
 
     function isEditor(v: User): boolean {
-      return (v && (v.role === 'editor')) ? true : false;
+      return (v && (v.role === UserRole.Editor)) ? true : false;
     }
 
     function isCurator(v: User): boolean {
-      return (v && (v.role === 'curator')) ? true : false;
+      return (v && (v.role === UserRole.Curator)) ? true : false;
     }
 
     function canCurate(v: User): boolean {
-      return (v && (v.role === 'curator' || v.role === 'editor' || v.role === 'admin')) ? true : false;
+      return (v && (v.role === UserRole.Curator || v.role === UserRole.Editor || v.role === UserRole.Admin)) ? true : false;
     }
 
     function canModerate(v: User): boolean {
-      return (v && (v.role === 'editor' || v.role === 'admin')) ? true : false;
+      return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin)) ? true : false;
     }
 
     function mostRecentOrg(v: User): Maybe<Organization>{

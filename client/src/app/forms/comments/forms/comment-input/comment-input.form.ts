@@ -22,7 +22,8 @@ import {
   EntityTypeaheadGQL,
   EntityTypeaheadQuery,
   EntityTypeaheadQueryVariables,
-  TaggableEntity
+  TaggableEntity,
+  UserRole
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
@@ -109,8 +110,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
         return `AID${id}`;
       case TaggableEntity.Revision:
         return `RID${id}`;
-      case TaggableEntity.Organization:
-        return `OID${id}`;
+      case TaggableEntity.Role:
+        return Object.keys(UserRole)[id];
     }
   }
 

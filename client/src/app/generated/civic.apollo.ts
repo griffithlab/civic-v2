@@ -750,6 +750,12 @@ export type CommentConnection = {
   __typename: 'CommentConnection';
   /** A list of edges. */
   edges: Array<CommentEdge>;
+  /** List of entities mentioned in this comment thread. */
+  mentionedEntities: Array<CommentTagSegment>;
+  /** List of roles mentioned in this comment thread */
+  mentionedRoles: Array<UserRole>;
+  /** List of users mentioned in this comment thread. */
+  mentionedUsers: Array<User>;
   /** A list of nodes. */
   nodes: Array<Comment>;
   /** Total number of pages, based on filtered count and pagesize. */
@@ -3409,8 +3415,8 @@ export enum TaggableEntity {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Organization = 'ORGANIZATION',
   Revision = 'REVISION',
+  Role = 'ROLE',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
@@ -3518,7 +3524,7 @@ export type User = {
   orcid?: Maybe<Scalars['String']>;
   organizations: Array<Organization>;
   profileImagePath?: Maybe<Scalars['String']>;
-  role: Scalars['String'];
+  role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
@@ -3573,6 +3579,12 @@ export type UserEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<User>;
 };
+
+export enum UserRole {
+  Admin = 'ADMIN',
+  Curator = 'CURATOR',
+  Editor = 'EDITOR'
+}
 
 export type ValidationErrors = {
   __typename: 'ValidationErrors';

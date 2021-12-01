@@ -4,7 +4,7 @@ query CommentList(
   $before: String
   $after: String
   $originatingUserId: Int
-  $subject: CommentableInput,
+  $subject: CommentableInput
   $sortBy: DateSort
 ) {
   comments(
@@ -13,7 +13,7 @@ query CommentList(
     before: $before
     after: $after
     originatingUserId: $originatingUserId
-    subject: $subject,
+    subject: $subject
     sortBy: $sortBy
   ) {
     totalCount
@@ -28,6 +28,18 @@ query CommentList(
       displayName
       role
       profileImagePath(size: 32)
+    }
+    mentionedUsers {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    mentionedRoles
+    mentionedEntities {
+      displayName
+      entityId
+      tagType
     }
     edges {
       cursor

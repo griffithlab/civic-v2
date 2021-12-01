@@ -1190,6 +1190,21 @@ type CommentConnection {
   edges: [CommentEdge!]!
 
   """
+  List of entities mentioned in this comment thread.
+  """
+  mentionedEntities: [CommentTagSegment!]!
+
+  """
+  List of roles mentioned in this comment thread
+  """
+  mentionedRoles: [UserRole!]!
+
+  """
+  List of users mentioned in this comment thread.
+  """
+  mentionedUsers: [User!]!
+
+  """
   A list of nodes.
   """
   nodes: [Comment!]!
@@ -5469,8 +5484,8 @@ enum TaggableEntity {
   ASSERTION
   EVIDENCE_ITEM
   GENE
-  ORGANIZATION
   REVISION
+  ROLE
   VARIANT
   VARIANT_GROUP
 }
@@ -5700,7 +5715,7 @@ type User {
   orcid: String
   organizations: [Organization!]!
   profileImagePath(size: Int = 56): String
-  role: String!
+  role: UserRole!
   statsHash: Stats!
   twitterHandle: String
   url: String
@@ -5750,6 +5765,12 @@ type UserEdge {
   The item at the end of the edge.
   """
   node: User
+}
+
+enum UserRole {
+  ADMIN
+  CURATOR
+  EDITOR
 }
 
 type ValidationErrors {
