@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     ->() { order('created_at DESC').limit(1) },
     class_name: 'ConflictOfInterestStatement'
 
-  has_many :comment_mentions, foreign_key: :comment_id, class_name: 'UserMention'
+  has_many :comment_mentions, foreign_key: :user_id, class_name: 'UserMention'
 
   enum area_of_expertise: ['Patient Advocate', 'Clinical Scientist', 'Research Scientist']
   enum role: ['curator', 'editor', 'admin']

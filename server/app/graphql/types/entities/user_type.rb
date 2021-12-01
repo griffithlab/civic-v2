@@ -4,7 +4,7 @@ module Types::Entities
     field :name, String, null: false
     field :url, String, null: true
     field :username, String, null: false
-    field :role, String, null: false #TODO this needs to be an enum
+    field :role, Types::Entities::UserRoleType, null: false
     field :bio, String, null: true
     field :country, Types::Entities::CountryType, null: true
     field :organizations, [Types::Entities::OrganizationType], null: false

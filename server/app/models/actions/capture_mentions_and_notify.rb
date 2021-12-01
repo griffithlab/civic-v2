@@ -34,7 +34,7 @@ module Actions
     def notify_users
       mentioned_by_name = User.joins(:comment_mentions).where("user_mentions.comment_id = ?", comment.id)
       mentioned_by_role = RoleMention.where(comment: comment).flat_map do |m|
-                            User.where("users.role >= ?", m.role)
+                              User.where("users.role >= ?", User.roles[m.role])
                           end
 
       users_to_notify = mentioned_by_name + mentioned_by_role

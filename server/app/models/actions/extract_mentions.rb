@@ -24,6 +24,7 @@ module Actions
           segment.split(self.role_regexp).map do |split_segment|
             if split_segment.starts_with?('$')
               role = split_segment[1..-1]
+              mentioned_roles << role.singularize
               {
                 entity_id: User.roles[role.singularize],
                 display_name: role,
