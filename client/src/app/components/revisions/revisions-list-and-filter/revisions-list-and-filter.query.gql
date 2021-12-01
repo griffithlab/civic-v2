@@ -6,6 +6,7 @@ query Revisions(
   $after: String
   $fieldName: String
   $originatingUserId: Int
+  $resolvingUserId: Int
   $revisionsetId: String
   $status: RevisionStatus
 ) {
@@ -16,6 +17,7 @@ query Revisions(
     after: $after
     fieldName: $fieldName
     originatingUserId: $originatingUserId
+    resolvingUserId: $resolvingUserId
     subject: $subject
     status: $status
     revisionsetId: $revisionsetId
@@ -23,6 +25,11 @@ query Revisions(
     totalCount
     unfilteredCountForSubject
     uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    uniqueResolvers {
       username
       id
       profileImagePath(size: 32)

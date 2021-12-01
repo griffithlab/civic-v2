@@ -4303,6 +4303,11 @@ type Query {
     originatingUserId: Int
 
     """
+    Limit to revisions accepted, rejected, or superseded by a certain user
+    """
+    resolvingUserId: Int
+
+    """
     Limit to revisions suggested as part of a single Revision Set.
     """
     revisionsetId: String
@@ -4725,9 +4730,15 @@ type RevisionConnection {
   totalCount: Int!
 
   """
-  When filtered on a subject, the total number of revisions for that subject, irregardless of other filters
+  When filtered on a subject, the total number of revisions for that subject,
+  irregardless of other filters. Null when no subject provided.
   """
   unfilteredCountForSubject: Int
+
+  """
+  List of all users that have accepted/rejected/superseded a revision to this entity.
+  """
+  uniqueResolvers: [User!]!
 
   """
   List of all users that have submitted a revision to this entity.
