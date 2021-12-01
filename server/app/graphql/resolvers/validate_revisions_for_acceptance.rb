@@ -39,19 +39,34 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
 
       revisions.compact.group_by{|r| r.field_name}.each do |field_name, rs|
         if rs.size > 1
-          generic_errors << "Multiple revisions with the same field_name #{field_name}: #{rs.map(&:id).join(', ')}"
+          if field_name.ends_with?("_ids")
+            formatted_field_name = field_name.singularize.humanize.pluralize
+          else
+            formatted_field_name = field_name.humanize
+          end
+          generic_errors << "Multiple revisions with the same field name #{formatted_field_name}: #{rs.map(&:id).join(', ')}"
         end
       end
 
       #validate applying revisions generates valid entity
-      subject = subjects.first
-      revisions.each do |revision|
-        subject.send("#{revision.field_name}=", revision.suggested_value)
-      end
-      if !subject.valid?
-        subject.errors.each do |attribute, message|
-          validation_errors << { 'field_name': attribute, 'error':  message }
+      #wrap in a transaction and rollback at the end so that it doesn't
+      #actually commit the tested changes
+      ActiveRecord::Base.transaction do
+        subject = subjects.first
+        revisions.each do |revision|
+          subject.send("#{revision.field_name}=", revision.suggested_value)
         end
+        if !subject.valid?
+          subject.errors.each do |attribute, message|
+            if attribute.ends_with?("_ids")
+              formatted_attribute = attribute.singularize.humanize.pluralize
+            else
+              formatted_attribute = attribute.humanize
+            end
+            validation_errors << { 'field_name': formatted_attribute, 'error':  message }
+          end
+        end
+        raise ActiveRecord::Rollback.new
       end
     end
 
