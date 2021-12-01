@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_184234) do
+ActiveRecord::Schema.define(version: 2021_11_30_183420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,6 +341,16 @@ ActiveRecord::Schema.define(version: 2021_10_22_184234) do
     t.index ["evidence_item_id"], name: "index_drugs_evidence_items_on_evidence_item_id"
   end
 
+  create_table "entity_mentions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "entity_type"
+    t.bigint "entity_id"
+    t.bigint "comment_id"
+    t.index ["comment_id"], name: "index_entity_mentions_on_comment_id"
+    t.index ["entity_type", "entity_id"], name: "index_entity_mentions_on_entity"
+  end
+
   create_table "events", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -563,6 +573,14 @@ ActiveRecord::Schema.define(version: 2021_10_22_184234) do
     t.index ["updated_at"], name: "index_revisions_on_updated_at"
   end
 
+  create_table "role_mentions", force: :cascade do |t|
+    t.integer "role", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "comment_id"
+    t.index ["comment_id"], name: "index_role_mentions_on_comment_id"
+  end
+
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
@@ -647,6 +665,15 @@ ActiveRecord::Schema.define(version: 2021_10_22_184234) do
     t.text "path", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "user_mentions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.index ["comment_id"], name: "index_user_mentions_on_comment_id"
+    t.index ["user_id"], name: "index_user_mentions_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -795,6 +822,7 @@ ActiveRecord::Schema.define(version: 2021_10_22_184234) do
   add_foreign_key "domain_expert_tags", "users"
   add_foreign_key "drugs_evidence_items", "drugs"
   add_foreign_key "drugs_evidence_items", "evidence_items"
+  add_foreign_key "entity_mentions", "comments"
   add_foreign_key "events", "organizations"
   add_foreign_key "events", "users", column: "originating_user_id"
   add_foreign_key "evidence_items", "diseases"
@@ -814,8 +842,11 @@ ActiveRecord::Schema.define(version: 2021_10_22_184234) do
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "regulatory_agencies", "countries"
+  add_foreign_key "role_mentions", "comments"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
+  add_foreign_key "user_mentions", "comments"
+  add_foreign_key "user_mentions", "users"
   add_foreign_key "variant_aliases_variants", "variant_aliases"
   add_foreign_key "variant_aliases_variants", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"

@@ -1,6 +1,7 @@
 <ng-container *ngFor="let c of commentBodySegments">
     <ng-container *ngIf="c.__typename == 'CommentTextSegment'">
-        {{ c.text }}
+        <span [innerHtml]="c.text">
+        </span>
     </ng-container>
     <ng-container *ngIf="c.__typename == 'User'">
         <cvc-user-tag [user]="c"></cvc-user-tag>
@@ -27,6 +28,10 @@
             </span>
             <span *ngSwitchCase="'ORGANIZATION'">
                 <cvc-organization-tag [org]="{id: c.entityId, name: c.displayName}"></cvc-organization-tag>
+            </span>
+            <span *ngSwitchCase="'ROLE'">
+                <nz-tag><i nz-icon
+                    nzType="civic-{{c.displayName.slice(0, -1)}}" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i> {{c.displayName}}</nz-tag>
             </span>
         </ng-container>
     </ng-container>

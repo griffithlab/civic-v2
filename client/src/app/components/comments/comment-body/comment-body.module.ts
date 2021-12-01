@@ -13,11 +13,15 @@ import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcCommentBodyComponent],
   imports: [
     CommonModule,
+    NzTagModule,
+    NzIconModule,
     CvcRevisionTagModule,
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,

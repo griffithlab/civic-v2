@@ -1,6 +1,6 @@
 <nz-tabset [nzAnimated]="false">
   <nz-tab nzTitle="Write">
-    <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@']"
+    <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@', '$']"
         nzNotFoundContent="No matches..."
         [nzValueWith]="autoCompleteValueFor"
         (nzOnSelect)="this.suggestions = []">

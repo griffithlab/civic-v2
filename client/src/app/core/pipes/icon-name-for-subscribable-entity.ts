@@ -28,6 +28,10 @@ export class IconNameForSubscribableEntity implements PipeTransform {
       case 'VARIANT':
       case 'Variant':
         return 'civic:variant';
+      case SubscribableEntities.VariantGroup:
+      case 'VARIANT_GROUP':
+      case 'VariantGrou':
+        return 'civic:variant-group';
       default:
         console.log('String No icon name found for ' + e);
         return 'border-outer';

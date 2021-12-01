@@ -3,14 +3,21 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CommentableInput, CommentListGQL, CommentListNodeFragment, CommentListQuery, CommentListQueryVariables, DateSort, DateSortColumns, Maybe, PageInfo, SortDirection } from '@app/generated/civic.apollo';
+import { CommentableInput, CommentListGQL, CommentListNodeFragment, CommentListQuery, CommentListQueryVariables, CommentTagSegment, DateSort, DateSortColumns, Maybe, PageInfo, SortDirection, TaggableEntity, UserRole } from '@app/generated/civic.apollo';
 
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
-import { pluck, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component';
+import { tag } from 'rxjs-spy/cjs/operators';
+
+
+interface CommentTagSegmentWithId {
+  id: string
+  tag: CommentTagSegment
+}
 
 @Component({
   selector: 'cvc-comment-list',
@@ -24,7 +31,10 @@ export class CvcCommentListComponent implements OnInit {
   loading$?: Observable<boolean>;
   pageInfo$?: Observable<PageInfo>;
   comments$?: Observable<Maybe<CommentListNodeFragment>[]>;
-  participants$?: Observable<TagLinkableUser[]>
+  commenters$?: Observable<TagLinkableUser[]>
+  mentionedUsers$?: Observable<TagLinkableUser[]>
+  mentionedRoles$?: Observable<CommentTagSegmentWithId[]>
+  mentionedEntities$?: Observable<CommentTagSegmentWithId[]>
 
   private queryRef$!: QueryRef<CommentListQuery, CommentListQueryVariables>;
 
@@ -57,8 +67,20 @@ export class CvcCommentListComponent implements OnInit {
       map(({ data }) => data.comments.edges.map((e) => e.node))
     );
 
-    this.participants$ = results.pipe(
+    this.commenters$ = results.pipe(
       map(({ data }) => data.comments.uniqueCommenters)
+    );
+
+    this.mentionedUsers$ = results.pipe(
+      map(({ data }) => data.comments.mentionedUsers)
+    );
+
+    this.mentionedRoles$ = results.pipe(
+      map(({ data }) => data.comments.mentionedRoles.map((t) => {return { id: `${t.entityId}-${t.tagType}`, tag: t}}))
+    );
+
+    this.mentionedEntities$ = results.pipe(
+      map(({ data }) => data.comments.mentionedEntities.map((t) => {return { id: `${t.entityId}-${t.tagType}`, tag: t}}))
     );
   }
 
@@ -71,11 +93,42 @@ export class CvcCommentListComponent implements OnInit {
     });
   }
 
-  onParticipantSelected(u: Maybe<TagLinkableUser>): void {
+  onCommenterSelected(u: Maybe<TagLinkableUser>): void {
     this.queryRef$.refetch({
-      first: this.pageSize,
       originatingUserId: u?.id
     })
+  }
+
+  onMentionedUserSelected(u: Maybe<TagLinkableUser>): void {
+    this.queryRef$.refetch({
+      mentionedUserId: u?.id
+    })
+  }
+
+  onMentionedRoleSelected(r: Maybe<CommentTagSegmentWithId>): void {
+    if (r) {
+      let enumVal = (<any>UserRole)[r.tag.displayName[0].toUpperCase() + r.tag.displayName.slice(1)]
+      this.queryRef$.refetch({
+        mentionedRole: enumVal
+      }) 
+    } else {
+      this.queryRef$.refetch({
+        mentionedRole: undefined
+      }) 
+    }
+  }
+
+  onMentionedEntitySelected(r: Maybe<CommentTagSegmentWithId>): void {
+    if (r) {
+      this.queryRef$.refetch({
+        mentionedEntity: {entityType: r.tag.tagType, id: r.tag.entityId}
+      })
+    } else {
+      this.queryRef$.refetch({
+        mentionedEntity: undefined
+      })
+      
+    }
   }
 
   refreshList() {

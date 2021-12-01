@@ -22,7 +22,8 @@ import {
   EntityTypeaheadGQL,
   EntityTypeaheadQuery,
   EntityTypeaheadQueryVariables,
-  TaggableEntity
+  TaggableEntity,
+  UserRole
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
@@ -51,6 +52,7 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   previewLoading$?: Observable<boolean>
 
   suggestions: WithDisplayNameAndValue[] = [];
+  roleSuggestions = [{displayName: 'admins', value: 'admins'}, {displayName: 'editors', value: 'editors'}]
   commentText?: string;
 
   private userTypeaheadQueryRef$!: QueryRef<UserTypeaheadQuery, UserTypeaheadQueryVariables>;
@@ -108,8 +110,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
         return `AID${id}`;
       case TaggableEntity.Revision:
         return `RID${id}`;
-      case TaggableEntity.Organization:
-        return `OID${id}`;
+      case TaggableEntity.Role:
+        return Object.keys(UserRole)[id];
     }
   }
 
@@ -136,6 +138,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
   onSearchChange({ value, prefix }: MentionOnSearchTypes): void {
     if(prefix === "@") {
       this.userTypeaheadQueryRef$.refetch({queryTerm: value})
+    } else if (prefix == '$') {
+      this.suggestions = this.roleSuggestions.filter((role) => role.value.startsWith(value))
     } else {
       this.entityTypeaheadQueryRef$.refetch({queryTerm: value})
     }

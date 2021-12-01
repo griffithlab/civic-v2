@@ -6,6 +6,9 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, ->() { unscope(where: :deleted) }, polymorphic: true
 
   has_many :events, as: :originating_object
+  has_many :user_mentions
+  has_many :entity_mentions
+  has_many :role_mentions
 
   has_one :creation_event,
     ->() { where(action: 'commented') },
