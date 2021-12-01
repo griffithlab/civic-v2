@@ -2604,6 +2604,7 @@ export type QueryRevisionsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   originatingUserId?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
   revisionsetId?: Maybe<Scalars['String']>;
   sortBy?: Maybe<DateSort>;
   status?: Maybe<RevisionStatus>;
@@ -2854,8 +2855,13 @@ export type RevisionConnection = {
   revisedFieldNames: Array<FieldName>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
-  /** When filtered on a subject, the total number of revisions for that subject, irregardless of other filters */
+  /**
+   * When filtered on a subject, the total number of revisions for that subject,
+   * irregardless of other filters. Null when no subject provided.
+   */
   unfilteredCountForSubject?: Maybe<Scalars['Int']>;
+  /** List of all users that have accepted/rejected/superseded a revision to this entity. */
+  uniqueResolvers: Array<User>;
   /** List of all users that have submitted a revision to this entity. */
   uniqueRevisors: Array<User>;
 };
@@ -4912,6 +4918,7 @@ export type RevisionsQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
   fieldName?: Maybe<Scalars['String']>;
   originatingUserId?: Maybe<Scalars['Int']>;
+  resolvingUserId?: Maybe<Scalars['Int']>;
   revisionsetId?: Maybe<Scalars['String']>;
   status?: Maybe<RevisionStatus>;
 }>;
@@ -4923,6 +4930,9 @@ export type RevisionsQuery = (
     { __typename: 'RevisionConnection' }
     & Pick<RevisionConnection, 'totalCount' | 'unfilteredCountForSubject'>
     & { uniqueRevisors: Array<(
+      { __typename: 'User' }
+      & Pick<User, 'username' | 'id' | 'profileImagePath'>
+    )>, uniqueResolvers: Array<(
       { __typename: 'User' }
       & Pick<User, 'username' | 'id' | 'profileImagePath'>
     )>, revisedFieldNames: Array<(
@@ -9196,7 +9206,7 @@ export const ValidateRevisionsForAcceptanceDocument = gql`
     }
   }
 export const RevisionsDocument = gql`
-    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $revisionsetId: String, $status: RevisionStatus) {
+    query Revisions($subject: ModeratedInput, $first: Int, $last: Int, $before: String, $after: String, $fieldName: String, $originatingUserId: Int, $resolvingUserId: Int, $revisionsetId: String, $status: RevisionStatus) {
   revisions(
     first: $first
     last: $last
@@ -9204,6 +9214,7 @@ export const RevisionsDocument = gql`
     after: $after
     fieldName: $fieldName
     originatingUserId: $originatingUserId
+    resolvingUserId: $resolvingUserId
     subject: $subject
     status: $status
     revisionsetId: $revisionsetId
@@ -9211,6 +9222,11 @@ export const RevisionsDocument = gql`
     totalCount
     unfilteredCountForSubject
     uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    uniqueResolvers {
       username
       id
       profileImagePath(size: 32)

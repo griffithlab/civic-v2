@@ -11,7 +11,7 @@ export interface SelectableFieldName {
   displayName: string
 }
 
-export interface UniqueRevisor {
+export interface UniqueUsers {
   id: number
   username: string
   profileImagePath?: string
@@ -35,7 +35,8 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
   revisions$?: Observable<Maybe<RevisionFragment>[]>
   pageInfo$?: Observable<Maybe<PageInfo>>
   revisionFields$: Maybe<Observable<Maybe<SelectableFieldName[]>>>;
-  uniqueRevisors$: Maybe<Observable<Maybe<UniqueRevisor[]>>>
+  uniqueRevisors$: Maybe<Observable<Maybe<UniqueUsers[]>>>
+  uniqueResolvers$: Maybe<Observable<Maybe<UniqueUsers[]>>>
   unfilteredCount$: Maybe<Observable<Maybe<number>>>
   isLoading$: Maybe<Observable<boolean>>;
 
@@ -88,6 +89,10 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
       this.uniqueRevisors$ = observable.pipe(
         map(({data}) => { return data.revisions?.uniqueRevisors })
       );
+
+      this.uniqueResolvers$ = observable.pipe(
+        map(({data}) => { return data.revisions?.uniqueResolvers })
+      );
   
       this.revisionFields$ = observable.pipe(
         map(({ data }) => {
@@ -117,10 +122,17 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     })
   }
 
-  onRevisorSelected(user: UniqueRevisor) {
+  onRevisorSelected(user: UniqueUsers) {
     this.queryRef.refetch({
       subject: {id: this.id, entityType: this.entityType},
       originatingUserId: user ? user.id : undefined
+    })
+  }
+
+  onResolverSelected(user: UniqueUsers) {
+    this.queryRef.refetch({
+      subject: {id: this.id, entityType: this.entityType},
+      resolvingUserId: user ? user.id : undefined
     })
   }
 

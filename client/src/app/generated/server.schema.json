@@ -20068,6 +20068,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "resolvingUserId",
+                  "description": "Limit to revisions accepted, rejected, or superseded by a certain user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "status",
                   "description": "Limit to revisions with a certain status",
                   "type": {
@@ -22115,7 +22127,7 @@
             },
             {
               "name": "unfilteredCountForSubject",
-              "description": "When filtered on a subject, the total number of revisions for that subject, irregardless of other filters",
+              "description": "When filtered on a subject, the total number of revisions for that subject, irregardless of other filters. Null when no subject provided.",
               "args": [
 
               ],
@@ -22123,6 +22135,32 @@
                 "kind": "SCALAR",
                 "name": "Int",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uniqueResolvers",
+              "description": "List of all users that have accepted/rejected/superseded a revision to this entity.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "User",
+                      "ofType": null
+                    }
+                  }
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

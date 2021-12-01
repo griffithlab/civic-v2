@@ -14,6 +14,10 @@ class Resolvers::TopLevelRevisions < GraphQL::Schema::Resolver
     scope.joins(:creation_event).where('events.originating_user_id = ?', value)
   end
 
+  option(:resolving_user_id, type: Int, description: 'Limit to revisions accepted, rejected, or superseded by a certain user') do |scope, value|
+    scope.joins(:resolving_event).where('events.originating_user_id = ?', value)
+  end
+
   option(:status, type: Types::Revisions::RevisionStatus, description: 'Limit to revisions with a certain status') do |scope, value|
     scope.where(status: value)
   end

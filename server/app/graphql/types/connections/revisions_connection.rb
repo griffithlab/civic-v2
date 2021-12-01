@@ -1,5 +1,7 @@
 module Types::Connections
   class RevisionsConnection < Types::BaseConnection
+    attr_reader :revisions_subject
+
     description 'Connection type for objects with revisions including additional metadata.'
 
     field :unique_revisors, [Types::Entities::UserType], null: false,
@@ -9,7 +11,10 @@ module Types::Connections
       description: 'List of all fields that have at least one revision.'
 
     field :unfiltered_count_for_subject, Int, null: true,
-      description: 'When filtered on a subject, the total number of revisions for that subject, irregardless of other filters'
+      description: 'When filtered on a subject, the total number of revisions for that subject, irregardless of other filters. Null when no subject provided.'
+
+    field :unique_resolvers, [Types::Entities::UserType], null: false,
+      description: 'List of all users that have accepted/rejected/superseded a revision to this entity.'
 
     def unique_revisors
       if revision_subject
@@ -18,10 +23,17 @@ module Types::Connections
         subject = parent
       end
 
-       User.where(id:
-            Event.where(action: 'revision suggested', subject: subject)
-             .select(:originating_user_id)
-       ).distinct
+      if subject
+        User.where(id:
+              Event.where(action: 'revision suggested', subject: subject)
+               .select(:originating_user_id)
+        ).distinct
+      else
+        User.where(id:
+              Event.where(action: 'revision suggested')
+               .select(:originating_user_id)
+        ).distinct
+      end
     end
 
     def revised_field_names
@@ -30,7 +42,13 @@ module Types::Connections
       else
         subject = parent
       end
-      names = Revision.where(subject: subject).distinct.pluck(:field_name)
+
+      if subject
+        names = Revision.where(subject: subject).distinct.pluck(:field_name)
+      else
+        names = Revision.distinct.pluck(:field_name)
+      end
+
       names.map do|n|
         {
           name: n,
@@ -45,7 +63,33 @@ module Types::Connections
       else
         subject = parent
       end
-      Revision.where(subject: subject).count
+
+      if subject
+        Revision.where(subject: subject).count
+      else
+        nil
+      end
+    end
+
+    def unique_resolvers
+      if revision_subject
+        subject = revision_subject
+      else
+        subject = parent
+      end
+
+      review_actions = ['revision accepted', 'revision rejected', 'revision superseded']
+      if subject
+        User.where(id:
+            Event.where(action: review_actions, subject: subject)
+             .select(:originating_user_id)
+        ).distinct
+      else
+        User.where(id:
+              Event.where(action: review_actions)
+               .select(:originating_user_id)
+        ).distinct
+      end
     end
 
     private
