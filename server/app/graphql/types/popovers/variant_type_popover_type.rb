@@ -4,8 +4,7 @@ module Types::Popovers
 
     def variant_count
       VariantType.where(id: object.id)
-        .joins(variants: [:evidence_items])
-        .where("evidence_items.status != 'rejected'")
+        .joins(:variants)
         .select('variants.id')
         .distinct
         .count
