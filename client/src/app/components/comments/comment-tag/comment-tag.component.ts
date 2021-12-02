@@ -5,6 +5,11 @@ export interface LinkableComment {
   name: string
 }
 
+export interface Subject {
+  id: number,
+  __typename: string
+}
+
 @Component({
   selector: 'cvc-comment-tag',
   templateUrl: './comment-tag.component.html',
@@ -12,6 +17,7 @@ export interface LinkableComment {
 })
 export class CvcCommentTagComponent implements OnInit {
   @Input() comment!: LinkableComment;
+  @Input() subject?: Subject;
   @Input() enablePopover: Boolean = true
 
   constructor() { }

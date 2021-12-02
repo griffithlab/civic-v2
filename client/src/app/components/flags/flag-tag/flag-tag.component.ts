@@ -5,6 +5,11 @@ export interface LinkableFlag {
   name: string,
 }
 
+export interface Subject {
+  id: number,
+  __typename: string
+}
+
 @Component({
   selector: 'cvc-flag-tag',
   templateUrl: './flag-tag.component.html',
@@ -12,6 +17,7 @@ export interface LinkableFlag {
 })
 export class CvcFlagTagComponent implements OnInit {
   @Input() flag!: LinkableFlag
+  @Input() subject?: Subject
 
   constructor() { }
 
