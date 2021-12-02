@@ -10,6 +10,7 @@ import { PrepositionForSubjectPipe } from './preposition-for-subject-pipe';
 import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
 import { IconNameForSubscribableEntity } from './icon-name-for-subscribable-entity';
 import { EnumToTitlePipe } from './enum-to-title-pipe';
+import { TypenameToRoutePipe } from './typename-to-route-pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EnumToTitlePipe } from './enum-to-title-pipe';
     PrepositionForSubjectPipe,
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
-    EnumToTitlePipe
+    EnumToTitlePipe,
+    TypenameToRoutePipe
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { EnumToTitlePipe } from './enum-to-title-pipe';
     PrepositionForSubjectPipe,
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
-    EnumToTitlePipe
+    EnumToTitlePipe,
+    TypenameToRoutePipe
   ],
   providers: [
     SourceTypeDisplayPipe

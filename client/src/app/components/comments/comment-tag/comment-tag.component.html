@@ -1,20 +1,32 @@
-<nz-tag *ngIf="enablePopover; else noPopover" 
-  nz-popover
-  [nzPopoverMouseEnterDelay]="0.5"
-  [nzPopoverContent]="commentPopover"
-  nzPopoverPlacement="right"
-  nzPopoverTrigger="hover">
-  <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-</nz-tag>
+<ng-container *ngIf="subject; else unlinked">
+  <a routerLink="/{{subject.__typename | typenameToRoute}}/{{subject.id}}/comments">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
 
-<ng-template #commentPopover>
-  <cvc-comment-popover [commentId]="comment.id"></cvc-comment-popover>
+<ng-template #tag>
+  <nz-tag *ngIf="enablePopover; else noPopover"
+    nz-popover
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="commentPopover"
+    nzPopoverPlacement="right"
+    nzPopoverTrigger="hover">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+
+  <ng-template #commentPopover>
+    <cvc-comment-popover [commentId]="comment.id"></cvc-comment-popover>
+  </ng-template>
 </ng-template>
 
 <ng-template #noPopover>
   <nz-tag>
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>

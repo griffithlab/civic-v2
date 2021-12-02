@@ -14,17 +14,17 @@
     <ng-container *ngIf="event.originatingObject as object">
       <ng-container [ngSwitch]="object.__typename">
         <span *ngSwitchCase="'Revision'">
-          <cvc-revision-tag [revision]="object"></cvc-revision-tag>
+          <cvc-revision-tag [revision]="object" [subject]="event.subject"></cvc-revision-tag>
           <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
             }}&nbsp;</span>
         </span>
         <span *ngSwitchCase="'Comment'">
-          <cvc-comment-tag [comment]="object"></cvc-comment-tag>
+          <cvc-comment-tag [comment]="object" [subject]="event.subject"></cvc-comment-tag>
           <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
             }}&nbsp;</span>
         </span>
         <span *ngSwitchCase="'Flag'">
-          <cvc-flag-tag [flag]="object"></cvc-flag-tag>
+          <cvc-flag-tag [flag]="object" [subject]="event.subject"></cvc-flag-tag>
           <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
             }}&nbsp;</span>
         </span>

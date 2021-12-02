@@ -1,4 +1,16 @@
-<nz-tag>
+<ng-container *ngIf="subject; noSubject">
+  <a routerLink="/{{subject.__typename | typenameToRoute}}/{{subject.id}}/flags">
+    <nz-tag>
+      <ng-template [ngTemplateOutlet]="flagTemplate"></ng-template>
+    </nz-tag>
+  </a>
+</ng-container>
+
+<ng-template #flagTemplate>
   <i nz-icon nzType="civic-flag" nzTheme="twotone" nzTwotoneColor="#E24759"></i>
   {{ flag.name }}
-</nz-tag>
+</ng-template>
+
+<ng-template #noSubject>
+  <ng-template [ngTemplateOutlet]="flagTemplate"></ng-template>
+</ng-template>

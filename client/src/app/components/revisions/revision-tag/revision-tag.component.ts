@@ -5,6 +5,11 @@ export interface LinkableRevision {
   name: string
 }
 
+export interface Subject {
+  id: number,
+  __typename: string
+}
+
 @Component({
   selector: 'cvc-revision-tag',
   templateUrl: './revision-tag.component.html',
@@ -12,6 +17,7 @@ export interface LinkableRevision {
 })
 export class CvcRevisionTagComponent implements OnInit {
   @Input() revision!: LinkableRevision
+  @Input() subject?: Subject
 
   constructor() { }
 
