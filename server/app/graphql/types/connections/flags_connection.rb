@@ -9,7 +9,7 @@ module Types::Connections
       description: 'List of all users that have resolved a flag on this entity.'
 
     field :unfiltered_count_for_subject, Int, null: true,
-      description: 'When filtered on a subject, the total number of flags for that subject, irregardless of other filters'
+      description: 'When filtered on a subject, the total number of flags for that subject, irregardless of other filters. Returns null when there is no subject.'
 
     def unique_flagging_users
       if flaggable
@@ -43,7 +43,12 @@ module Types::Connections
       else
         subject = parent
       end
-      Flag.where(flaggable: flaggable).count
+
+      if subject
+        Flag.where(flaggable: flaggable).count
+      else
+        nil
+      end
     end
 
     private

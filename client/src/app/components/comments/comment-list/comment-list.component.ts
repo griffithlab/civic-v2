@@ -5,11 +5,10 @@ import {
 } from '@angular/core';
 import { CommentableInput, CommentListGQL, CommentListNodeFragment, CommentListQuery, CommentListQueryVariables, CommentTagSegment, DateSort, DateSortColumns, Maybe, PageInfo, SortDirection, TaggableEntity, UserRole } from '@app/generated/civic.apollo';
 
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { TagLinkableUser } from '@app/components/users/user-tag/user-tag.component';
 import { tag } from 'rxjs-spy/cjs/operators';
 
@@ -27,7 +26,6 @@ interface CommentTagSegmentWithId {
 export class CvcCommentListComponent implements OnInit {
   @Input() commentable!: CommentableInput;
 
-  viewer$?: Observable<Viewer>;
   loading$?: Observable<boolean>;
   pageInfo$?: Observable<PageInfo>;
   comments$?: Observable<Maybe<CommentListNodeFragment>[]>;
@@ -35,12 +33,13 @@ export class CvcCommentListComponent implements OnInit {
   mentionedUsers$?: Observable<TagLinkableUser[]>
   mentionedRoles$?: Observable<CommentTagSegmentWithId[]>
   mentionedEntities$?: Observable<CommentTagSegmentWithId[]>
+  unfilteredCount$: Maybe<Observable<Maybe<number>>>
 
   private queryRef$!: QueryRef<CommentListQuery, CommentListQueryVariables>;
 
   private pageSize = 5;
 
-  constructor(private gql: CommentListGQL, private viewerService: ViewerService) { }
+  constructor(private gql: CommentListGQL) { }
 
   ngOnInit() {
     this.queryRef$ = this.gql.watch({
@@ -50,8 +49,6 @@ export class CvcCommentListComponent implements OnInit {
         column: DateSortColumns.Created,
         direction: SortDirection.Asc
       }});
-
-    this.viewer$ = this.viewerService.viewer$;
 
     let results = this.queryRef$.valueChanges;
 
@@ -82,6 +79,10 @@ export class CvcCommentListComponent implements OnInit {
     this.mentionedEntities$ = results.pipe(
       map(({ data }) => data.comments.mentionedEntities.map((t) => {return { id: `${t.entityId}-${t.tagType}`, tag: t}}))
     );
+
+    this.unfilteredCount$ = results.pipe(
+      pluck('data', 'comments', 'unfilteredCountForSubject')
+    )
   }
 
   onLoadMore(cursor: Maybe<string>): void {

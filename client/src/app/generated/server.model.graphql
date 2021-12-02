@@ -1240,6 +1240,12 @@ type CommentConnection {
   totalCount: Int!
 
   """
+  When filtered on a subject, the total number of comments for that subject,
+  irregardless of other filters. Returns null when there is no subject.
+  """
+  unfilteredCountForSubject: Int
+
+  """
   List of all users that have commented on this entity.
   """
   uniqueCommenters: [User!]!
@@ -2235,7 +2241,8 @@ type FlagConnection {
   totalCount: Int!
 
   """
-  When filtered on a subject, the total number of flags for that subject, irregardless of other filters
+  When filtered on a subject, the total number of flags for that subject,
+  irregardless of other filters. Returns null when there is no subject.
   """
   unfilteredCountForSubject: Int
 

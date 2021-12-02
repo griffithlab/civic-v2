@@ -51,6 +51,7 @@ query CommentList(
       entityId
       tagType
     }
+    unfilteredCountForSubject
     edges {
       cursor
       node {
