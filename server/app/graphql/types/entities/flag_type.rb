@@ -1,5 +1,6 @@
 module Types::Entities
   class FlagType < Types::BaseObject
+    include Types::Shared::OrderedList
     connection_type_class Types::Connections::FlagsConnection
 
     implements Types::Interfaces::Commentable
@@ -42,6 +43,10 @@ module Types::Entities
     private
     def resolution_event
       Event.find_by(action: 'flag resolved', originating_object: object)
+    end
+
+    def object_list_scope
+      -> (scope) { scope.where(flaggable_id: object.flaggable_id, flaggable_type: object.flaggable_type) }
     end
   end
 end

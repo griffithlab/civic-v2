@@ -1,5 +1,6 @@
 module Types::Revisions
   class RevisionType < Types::BaseObject
+    include Types::Shared::OrderedList
     connection_type_class Types::Connections::RevisionsConnection
 
     implements Types::Interfaces::EventSubject
@@ -78,5 +79,10 @@ module Types::Revisions
         end
       end
     end
+
+    def object_list_scope
+      -> (scope) { scope.where(subject_id: object.subject_id, subject_type: object.subject_type) }
+    end
   end
+
 end

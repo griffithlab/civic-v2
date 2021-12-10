@@ -1,5 +1,6 @@
 module Types::Entities
   class CommentType < Types::BaseObject
+    include Types::Shared::OrderedList
     connection_type_class Types::Connections::CommentsConnection
 
     implements Types::Interfaces::EventOriginObject
@@ -13,12 +14,17 @@ module Types::Entities
     field :commentable, Types::Interfaces::Commentable, null: false
     field :parsed_comment, [Types::Commentable::CommentBodySegment], null: false
 
+
     def commenter
       Loaders::AssociationLoader.for(Comment, :user).load(object)
     end
 
     def creation_event
       Loaders::AssociationLoader.for(Comment, :creation_event).load(object)
+    end
+
+    def commentable
+      Loaders::AssociationLoader.for(Comment, :commentable).load(object)
     end
 
     def parsed_comment
@@ -29,6 +35,11 @@ module Types::Entities
 
     def hash_key_from_object(object)
       "segments_#{object.class}_#{object.id}_#{object.updated_at}"
+    end
+
+    #used in OrderedList
+    def object_list_scope
+      ->(scope) { scope.where(commentable_id: object.commentable_id, commentable_type: object.commentable_type) }
     end
   end
 end

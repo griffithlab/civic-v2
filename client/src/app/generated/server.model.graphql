@@ -1186,7 +1186,17 @@ type Comment implements EventOriginObject {
   creationEvent: Event
   id: Int!
   name: String!
+
+  """
+  Fetch the next "count" items in chronological order
+  """
+  nextItems(count: Int!): [Comment!]!
   parsedComment: [CommentBodySegment!]!
+
+  """
+  Fetch the previous "count" items in chronological order
+  """
+  previousItems(count: Int!): [Comment!]!
   title: String
 }
 
@@ -2204,7 +2214,17 @@ type Flag implements Commentable & EventOriginObject {
   id: Int!
   lastCommentEvent: Event
   name: String!
+
+  """
+  Fetch the next "count" items in chronological order
+  """
+  nextItems(count: Int!): [Flag!]!
   openComment: Comment!
+
+  """
+  Fetch the previous "count" items in chronological order
+  """
+  previousItems(count: Int!): [Flag!]!
   resolutionComment: Comment
   resolvedAt: ISO8601DateTime
   resolvingUser: User
@@ -4691,6 +4711,16 @@ type Revision implements EventOriginObject & EventSubject {
   id: Int!
   linkoutData: LinkoutData!
   name: String!
+
+  """
+  Fetch the next "count" items in chronological order
+  """
+  nextItems(count: Int!): [Revision!]!
+
+  """
+  Fetch the previous "count" items in chronological order
+  """
+  previousItems(count: Int!): [Revision!]!
   resolutionComment: Comment
   resolvedAt: ISO8601DateTime
   resolver: User

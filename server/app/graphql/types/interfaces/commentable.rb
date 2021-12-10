@@ -21,7 +21,7 @@ module Types::Interfaces
         when Gene
           Types::Entities::GeneType
         when Revision
-          Types::Entities::RevisionType
+          Types::Revisions::RevisionType
         when Source
           Types::Entities::SourceType
         when Variant
