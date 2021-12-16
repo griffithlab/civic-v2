@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_30_183420) do
+ActiveRecord::Schema.define(version: 2021_12_16_173308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -523,6 +523,8 @@ ActiveRecord::Schema.define(version: 2021_11_30_183420) do
     t.text "url"
     t.text "description"
     t.integer "parent_id"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "phenotypes", id: :serial, force: :cascade do |t|
