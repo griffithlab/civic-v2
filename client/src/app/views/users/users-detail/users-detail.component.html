@@ -3,7 +3,6 @@
   </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
-
     <!-- title -->
     <nz-page-header-title>
         <i nz-icon nzType="civic:user"></i>
@@ -14,6 +13,8 @@
 
     <!--extra-->
     <nz-page-header-content>
+      <nz-alert *ngIf="this.uploadError" nzType="error" nzCloseable nzMessage="There was an error updating your profile image." (nzOnClose)="this.uploadError = false"></nz-alert>
+      <nz-alert *ngIf="this.updateSuccess" nzType="success" nzCloseable nzMessage="Profile image successfully updated." (nzOnClose)="this.updateSuccess = false"></nz-alert>
       <cvc-tab-navigation [tabs]="tabs"> </cvc-tab-navigation>
       <div class="content">
         <nz-space>
@@ -21,7 +22,8 @@
             <div nz-row [nzGutter]="16">
                 <nz-row>
                   <nz-col [nzSpan]="2">
-                    <cvc-user-card [user]="user"></cvc-user-card>
+                    <cvc-user-avatar [user]="user" [size]="128"></cvc-user-avatar>
+                    <cvc-avatar-uploader *ngIf="this.ownProfile$ | ngrxPush" (uploadComplete)="profileUploadComplete($event)"></cvc-avatar-uploader>
                   </nz-col>
                   <nz-col [nzSpan]="18">
                     <nz-row [nzGutter]="16">

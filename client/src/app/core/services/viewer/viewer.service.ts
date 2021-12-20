@@ -2,8 +2,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
-import { makeVar, ReactiveVar } from '@apollo/client/core';
-import { gql, QueryRef } from 'apollo-angular';
+import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
 import { pluck, map, shareReplay, startWith } from 'rxjs/operators';
@@ -13,7 +12,8 @@ import {
   Organization,
   ViewerBaseGQL,
   Maybe,
-  UserRole
+  UserRole,
+  CoiStatus
 } from '@app/generated/civic.apollo';
 
 export interface Viewer extends User {
@@ -133,7 +133,7 @@ export class ViewerService implements OnDestroy {
     }
 
     function canModerate(v: User): boolean {
-      return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin)) ? true : false;
+      return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin) && (v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Conflict || v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Valid)) ? true : false;
     }
 
     function mostRecentOrg(v: User): Maybe<Organization>{

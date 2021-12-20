@@ -1169,6 +1169,7 @@ type Coi {
   coiStatus: CoiStatus!
   createdAt: ISO8601DateTime
   expiresAt: ISO8601DateTime!
+  id: Int!
 }
 
 enum CoiStatus {

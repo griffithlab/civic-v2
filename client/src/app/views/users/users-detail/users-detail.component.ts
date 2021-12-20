@@ -3,8 +3,8 @@ import { ActivatedRoute } from "@angular/router";
 import { Maybe, UserDetailFieldsFragment, UserDetailGQL, UserDetailQuery, UserDetailQueryVariables } from "@app/generated/civic.apollo";
 import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
 import { QueryRef } from "apollo-angular";
-import { pluck, startWith, tap } from "rxjs/operators";
-import { Observable, Subscription } from 'rxjs';
+import { pluck, startWith } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigation.component";
 
 @Component({
@@ -18,6 +18,9 @@ export class UsersDetailComponent implements OnDestroy {
     user$?: Observable<Maybe<UserDetailFieldsFragment>>;
     loading$?: Observable<boolean>;
     viewer$?: Observable<Viewer>;
+    ownProfile$ = new BehaviorSubject<boolean>(false);
+    uploadError = false
+    updateSuccess = false
 
     routeSub: Subscription;
     viewerSub?: Subscription
@@ -45,6 +48,7 @@ export class UsersDetailComponent implements OnDestroy {
 
                     }
                     this.tabs.push(notificationTab)
+                    this.ownProfile$.next(true)
                 }
             }))
         })
@@ -81,5 +85,14 @@ export class UsersDetailComponent implements OnDestroy {
     ngOnDestroy() {
         this.routeSub.unsubscribe();
         this.viewerSub?.unsubscribe();
+    }
+
+    profileUploadComplete(success: boolean) {
+        if (success) {
+            this.queryRef?.refetch()
+            this.updateSuccess = true
+        } else {
+            this.uploadError = true
+        }
     }
 }

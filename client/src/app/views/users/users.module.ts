@@ -59,6 +59,9 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
+import { CvcAvatarUploaderModule } from '@app/components/shared/avatar-uploader/avatar-uploader.module';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 
 @NgModule({
@@ -122,7 +125,10 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,
-    CvcParticipantListModule
+    CvcParticipantListModule,
+    CvcUserAvatarModule,
+    CvcAvatarUploaderModule,
+    NzAlertModule
   ],
   exports: [
     UsersComponent,

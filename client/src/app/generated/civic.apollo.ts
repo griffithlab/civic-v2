@@ -723,6 +723,7 @@ export type Coi = {
   coiStatus: CoiStatus;
   createdAt?: Maybe<Scalars['ISO8601DateTime']>;
   expiresAt: Scalars['ISO8601DateTime'];
+  id: Scalars['Int'];
 };
 
 export enum CoiStatus {
@@ -5433,6 +5434,9 @@ export type ViewerBaseQuery = (
     & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+    )>, mostRecentConflictOfInterestStatement?: Maybe<(
+      { __typename: 'Coi' }
+      & Pick<Coi, 'coiStatus'>
     )>, events: (
       { __typename: 'EventConnection' }
       & { nodes: Array<(
@@ -5444,21 +5448,6 @@ export type ViewerBaseQuery = (
         )> }
       )> }
     ) }
-  )> }
-);
-
-export type ViewerFullQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ViewerFullQuery = (
-  { __typename: 'Query' }
-  & { viewer?: Maybe<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'name' | 'email' | 'bio' | 'url' | 'role' | 'profileImagePath'>
-    & { organizations: Array<(
-      { __typename: 'Organization' }
-      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )> }
   )> }
 );
 
@@ -8200,7 +8189,7 @@ export const UserDetailFieldsFragmentDoc = gql`
   name
   displayName
   username
-  profileImagePath(size: 36)
+  profileImagePath(size: 128)
   role
   url
   bio
@@ -9687,6 +9676,9 @@ export const ViewerBaseDocument = gql`
       name
       profileImagePath(size: 32)
     }
+    mostRecentConflictOfInterestStatement {
+      coiStatus
+    }
     events(first: 1) {
       nodes {
         id
@@ -9707,36 +9699,6 @@ export const ViewerBaseDocument = gql`
   })
   export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
     document = ViewerBaseDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ViewerFullDocument = gql`
-    query ViewerFull {
-  viewer {
-    id
-    username
-    name
-    email
-    bio
-    url
-    role
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
-    document = ViewerFullDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

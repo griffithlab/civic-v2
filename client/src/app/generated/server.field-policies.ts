@@ -307,13 +307,14 @@ export type ClinicalTrialFieldPolicy = {
 	nctId?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CoiKeySpecifier = ('coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt' | CoiKeySpecifier)[];
+export type CoiKeySpecifier = ('coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt' | 'id' | CoiKeySpecifier)[];
 export type CoiFieldPolicy = {
 	coiPresent?: FieldPolicy<any> | FieldReadFunction<any>,
 	coiStatement?: FieldPolicy<any> | FieldReadFunction<any>,
 	coiStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>
+	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'parsedComment' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {

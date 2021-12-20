@@ -1,8 +1,7 @@
 import { Component, } from '@angular/core';
 import { Observable } from 'rxjs';
 import { pluck, } from 'rxjs/operators';
-import { User } from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/core/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 
 @Component({
   selector: 'cvc-viewer-button',
@@ -10,7 +9,7 @@ import { ViewerService } from '@app/core/services/viewer/viewer.service';
   styleUrls: ['./viewer-button.component.less']
 })
 export class CvcViewerButtonComponent {
-  viewer$: Observable<User>;
+  viewer$: Observable<Viewer>;
   username$: Observable<string>;
   userId$: Observable<number>;
   role$: Observable<string>;
