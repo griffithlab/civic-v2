@@ -15,7 +15,7 @@
     <nz-page-header-content>
       <nz-alert *ngIf="this.uploadError" nzType="error" nzCloseable nzMessage="There was an error updating your profile image." (nzOnClose)="this.uploadError = false"></nz-alert>
       <nz-alert *ngIf="this.updateSuccess" nzType="success" nzCloseable nzMessage="Profile image successfully updated." (nzOnClose)="this.updateSuccess = false"></nz-alert>
-      <cvc-tab-navigation [tabs]="tabs"> </cvc-tab-navigation>
+      <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
       <div class="content">
         <nz-space>
           <nz-space-item>
