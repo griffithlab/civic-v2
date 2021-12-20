@@ -13,17 +13,6 @@ query ViewerBase {
     mostRecentConflictOfInterestStatement {
       coiStatus
     }
-    # fetch latest event to get most recent org
-    events(first:1) {
-      nodes {
-        id
-        createdAt
-        organization {
-          id
-          name
-          profileImagePath(size: 32)
-        },
-      }
-    }
+    mostRecentOrganizationId
   }
 }

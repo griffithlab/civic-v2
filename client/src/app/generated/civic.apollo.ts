@@ -3559,6 +3559,7 @@ export type User = {
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;
@@ -3568,6 +3569,7 @@ export type User = {
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
+  unreadCount: Scalars['Int'];
   url?: Maybe<Scalars['String']>;
   username: Scalars['String'];
 };
@@ -5430,24 +5432,14 @@ export type ViewerBaseQuery = (
   { __typename: 'Query' }
   & { viewer?: Maybe<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath' | 'mostRecentOrganizationId'>
     & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
     )>, mostRecentConflictOfInterestStatement?: Maybe<(
       { __typename: 'Coi' }
       & Pick<Coi, 'coiStatus'>
-    )>, events: (
-      { __typename: 'EventConnection' }
-      & { nodes: Array<(
-        { __typename: 'Event' }
-        & Pick<Event, 'id' | 'createdAt'>
-        & { organization?: Maybe<(
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        )> }
-      )> }
-    ) }
+    )> }
   )> }
 );
 
@@ -6484,7 +6476,7 @@ export type UserDetailFieldsFragment = (
     & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ), mostRecentConflictOfInterestStatement?: Maybe<(
     { __typename: 'Coi' }
-    & Pick<Coi, 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
+    & Pick<Coi, 'id' | 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
   )> }
 );
 
@@ -8217,6 +8209,7 @@ export const UserDetailFieldsFragmentDoc = gql`
     acceptedAssertions
   }
   mostRecentConflictOfInterestStatement {
+    id
     coiPresent
     coiStatement
     coiStatus
@@ -9679,17 +9672,7 @@ export const ViewerBaseDocument = gql`
     mostRecentConflictOfInterestStatement {
       coiStatus
     }
-    events(first: 1) {
-      nodes {
-        id
-        createdAt
-        organization {
-          id
-          name
-          profileImagePath(size: 32)
-        }
-      }
-    }
+    mostRecentOrganizationId
   }
 }
     `;

@@ -137,7 +137,11 @@ export class ViewerService implements OnDestroy {
     }
 
     function mostRecentOrg(v: User): Maybe<Organization>{
-      return v.events?.nodes?.[0]?.organization;
+      if (v.mostRecentOrganizationId) {
+        return v.organizations.find(o => o.id === v.mostRecentOrganizationId)
+      } else {
+        return undefined
+      }
     }
 
   }
