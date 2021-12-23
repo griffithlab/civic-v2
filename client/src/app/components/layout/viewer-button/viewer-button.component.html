@@ -4,7 +4,7 @@
       <ng-container *ngrxLet="unreadCount$ as unreadCount">
         <div class="topMenuIcon" nz-tooltip nzTooltipTitle="You have {{unreadCount}} unread notification(s).">
           <i nz-icon nzType="bell" nzTheme="outline" ></i>
-          <nz-badge class="notificationBadge" nzColor="blue" [nzShowDot]="unreadCount > 0">
+          <nz-badge class="topBarBadge" nzColor="blue" [nzShowDot]="unreadCount > 0">
           </nz-badge>
         </div>
       </ng-container>
@@ -38,10 +38,19 @@
       <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" nzPlacement="bottomRight">
         <cvc-user-avatar [user]="viewer" size="small"></cvc-user-avatar>
         <i nz-icon class="topMenuSecondary" nzType="caret-down" nzTheme="outline" ></i>
+          <nz-badge *ngIf="viewer.invalidCoi" class="topBarBadge" nzColor="orange" [nzShowDot]="true">
+          </nz-badge>
         <nz-dropdown-menu #userMenu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item>Signed In as <strong>{{viewer.username}}</strong></li>
             <li nz-menu-divider></li>
+            <li nz-menu-item *ngIf="viewer.invalidCoi" (click)="this.coiUpdateModalVisible = true">
+              <nz-badge nzColor="orange" [nzShowDot]="true">
+                <strong>
+                  Please provide an updated conflict of interest statement.
+                </strong>
+              </nz-badge>
+            </li>
             <li nz-menu-item>
                 <a routerLink="/users/{{viewer.id}}">
                   Your Profile
@@ -54,4 +63,16 @@
       </div>
     </nz-space-item>
   </nz-space>
+
+
 </ng-container>
+  <nz-modal [(nzVisible)]="this.coiUpdateModalVisible"
+    [nzContent]="coiModalContent"
+    [nzTitle]="coiModalTitle"
+    [nzFooter]="null"
+    (nzOnCancel)="this.handleCoiModalCancel()">
+  <ng-template #coiModalTitle><span>Update your Conflict of Interest Statement</span></ng-template>
+  <ng-template #coiModalContent>
+    <cvc-update-coi (coiUpdatedEvent)="this.coiUpdated()"></cvc-update-coi>
+  </ng-template>
+  </nz-modal>

@@ -9,6 +9,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { CvcCoiUpdateModule } from '@app/forms/users/forms/coi-update/coi-update.module';
 
 @NgModule({
   declarations: [CvcViewerButtonComponent],
@@ -21,7 +23,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzIconModule,
     NzBadgeModule,
     NzToolTipModule,
-    CvcUserAvatarModule
+    NzModalModule,
+    CvcUserAvatarModule,
+    CvcCoiUpdateModule
   ],
   exports: [CvcViewerButtonComponent]
 })

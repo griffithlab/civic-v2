@@ -5887,6 +5887,22 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type UpdateCoiMutationVariables = Exact<{
+  input: UpdateCoiInput;
+}>;
+
+
+export type UpdateCoiMutation = (
+  { __typename: 'Mutation' }
+  & { updateCoi?: Maybe<(
+    { __typename: 'UpdateCoiPayload' }
+    & { coiStatement: (
+      { __typename: 'Coi' }
+      & Pick<Coi, 'coiPresent' | 'coiStatus' | 'createdAt' | 'id'>
+    ) }
+  )> }
+);
+
 export type VariantTypeTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -10184,6 +10200,29 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateCoiDocument = gql`
+    mutation UpdateCoi($input: UpdateCoiInput!) {
+  updateCoi(input: $input) {
+    coiStatement {
+      coiPresent
+      coiStatus
+      createdAt
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateCoiGQL extends Apollo.Mutation<UpdateCoiMutation, UpdateCoiMutationVariables> {
+    document = UpdateCoiDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
