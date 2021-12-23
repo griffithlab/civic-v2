@@ -21,6 +21,8 @@ export class UsersDetailComponent implements OnDestroy {
   uploadError = false;
   updateSuccess = false;
 
+  updateCoiModalVisible = false;
+
   routeSub: Subscription;
   viewerSub?: Subscription;
 
@@ -95,5 +97,14 @@ export class UsersDetailComponent implements OnDestroy {
     } else {
       this.uploadError = true;
     }
+  }
+
+  coiUpdated() {
+    this.updateCoiModalVisible = false;
+    this.queryRef?.refetch();
+  }
+
+  handleCoiModalCancel() {
+    this.updateCoiModalVisible = false;
   }
 }

@@ -62,6 +62,9 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
 import { CvcAvatarUploaderModule } from '@app/components/shared/avatar-uploader/avatar-uploader.module';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { CvcCoiUpdateModule } from '@app/forms/users/forms/coi-update/coi-update.module';
 
 
 @NgModule({
@@ -128,7 +131,10 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     CvcParticipantListModule,
     CvcUserAvatarModule,
     CvcAvatarUploaderModule,
-    NzAlertModule
+    NzAlertModule,
+    NzDividerModule,
+    NzModalModule,
+    CvcCoiUpdateModule
   ],
   exports: [
     UsersComponent,
