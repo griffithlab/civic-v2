@@ -1,11 +1,13 @@
 <ng-container *ngIf="viewer$ | ngrxPush as viewer">
   <nz-space nzAlign="center" nzSize="middle">
     <nz-space-item routerLink="/users/{{viewer.id}}/notifications">
-        <div class="topMenuIcon" nz-tooltip nzTooltipTitle="You have {{viewer.notifications.unreadCount}} unread notification(s).">
+      <ng-container *ngrxLet="unreadCount$ as unreadCount">
+        <div class="topMenuIcon" nz-tooltip nzTooltipTitle="You have {{unreadCount}} unread notification(s).">
           <i nz-icon nzType="bell" nzTheme="outline" ></i>
-          <nz-badge class="notificationBadge" nzColor="blue" [nzShowDot]="viewer.notifications.unreadCount > 0">
+          <nz-badge class="notificationBadge" nzColor="blue" [nzShowDot]="unreadCount > 0">
           </nz-badge>
         </div>
+      </ng-container>
     </nz-space-item>
     <nz-space-item>
       <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="addMenu" nzPlacement="bottomRight">

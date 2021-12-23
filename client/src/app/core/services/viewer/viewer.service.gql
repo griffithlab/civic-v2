@@ -14,8 +14,11 @@ query ViewerBase {
       coiStatus
     }
     mostRecentOrganizationId
-    notifications {
-      unreadCount
-    }
+  }
+}
+
+query ViewerNotificationCount {
+  notifications {
+    unreadCount
   }
 }

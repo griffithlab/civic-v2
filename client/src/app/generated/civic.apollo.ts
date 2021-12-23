@@ -5440,11 +5440,19 @@ export type ViewerBaseQuery = (
     )>, mostRecentConflictOfInterestStatement?: Maybe<(
       { __typename: 'Coi' }
       & Pick<Coi, 'coiStatus'>
-    )>, notifications?: Maybe<(
-      { __typename: 'NotificationConnection' }
-      & Pick<NotificationConnection, 'unreadCount'>
     )> }
   )> }
+);
+
+export type ViewerNotificationCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ViewerNotificationCountQuery = (
+  { __typename: 'Query' }
+  & { notifications: (
+    { __typename: 'NotificationConnection' }
+    & Pick<NotificationConnection, 'unreadCount'>
+  ) }
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -9677,9 +9685,6 @@ export const ViewerBaseDocument = gql`
       coiStatus
     }
     mostRecentOrganizationId
-    notifications {
-      unreadCount
-    }
   }
 }
     `;
@@ -9689,6 +9694,24 @@ export const ViewerBaseDocument = gql`
   })
   export class ViewerBaseGQL extends Apollo.Query<ViewerBaseQuery, ViewerBaseQueryVariables> {
     document = ViewerBaseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ViewerNotificationCountDocument = gql`
+    query ViewerNotificationCount {
+  notifications {
+    unreadCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ViewerNotificationCountGQL extends Apollo.Query<ViewerNotificationCountQuery, ViewerNotificationCountQueryVariables> {
+    document = ViewerNotificationCountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
