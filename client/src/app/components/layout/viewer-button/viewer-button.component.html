@@ -56,6 +56,11 @@
                   Your Profile
                 </a>
               </li>
+            <li nz-menu-item *ngIf="viewer.isAdmin">
+              <a routerLink="/admin">
+                Admin Console
+              </a>
+            </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="signOut()">Sign Out</li>
           </ul>
