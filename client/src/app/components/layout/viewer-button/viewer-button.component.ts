@@ -1,8 +1,8 @@
-import { Component, OnDestroy, } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { ViewerNotificationCountGQL } from '@app/generated/civic.apollo';
-import { pluck, startWith, map } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-viewer-button',
