@@ -32,7 +32,7 @@
             </nz-space>
           </div>
           <div nz-col [nzSpan]='13'>
-            <nz-descriptions nzTitle="Profile" nzBordered>
+            <nz-descriptions nzTitle="Profile" nzBordered [nzExtra]="updateProfile">
               <nz-descriptions-item [nzSpan]="2" nzTitle="Username">{{ user.username }}</nz-descriptions-item>
               <nz-descriptions-item [nzSpan]="2" nzTitle="Role">{{user.role | enumToTitle}}</nz-descriptions-item>
               <nz-descriptions-item [nzSpan]="4" nzTitle="Bio">{{user.bio}}</nz-descriptions-item>
@@ -41,6 +41,13 @@
               <nz-descriptions-item *ngIf="user.organizations.length > 0" [nzSpan]="4" nzTitle="Organizations">
                 <cvc-organization-tag *ngFor="let org of user.organizations" [org]="org"></cvc-organization-tag>
               </nz-descriptions-item>
+              <ng-template #updateProfile>
+                <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+                  <button nz-button nzSize="small" (click)="this.updateProfileModalVisible = true">
+                    Update Profile <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  </button>
+                </ng-container>
+              </ng-template>
             </nz-descriptions>
           </div>
           <div *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'" nz-col [nzSpan]="8">
@@ -126,6 +133,16 @@
       <router-outlet></router-outlet>
     </nz-page-header-content>
   </nz-page-header>
+  <nz-modal [(nzVisible)]="this.updateProfileModalVisible"
+    [nzContent]="profileModalContent"
+    [nzTitle]="profileModalTitle"
+    [nzFooter]="null"
+    (nzOnCancel)="this.handleProfileModalCancel()">
+  <ng-template #profileModalTitle><span>Update Profile</span></ng-template>
+  <ng-template #profileModalContent>
+    <cvc-update-profile [user]="user" (profileUpdatedEvent)="this.profileUpdated()"></cvc-update-profile>
+  </ng-template>
+  </nz-modal>
 </ng-container>
 
   <nz-modal [(nzVisible)]="this.updateCoiModalVisible"

@@ -2181,6 +2181,8 @@ export type Query = {
   /** List and filter comments. */
   comments: CommentConnection;
   contributors: ContributingUsersSummary;
+  /** Fetch a list of countries for user profiles. */
+  countries: Array<Country>;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Retrieve popover fields for a specific disease. */
@@ -5903,6 +5905,33 @@ export type UpdateCoiMutation = (
   )> }
 );
 
+export type UpdateUserProfileMutationVariables = Exact<{
+  input: EditUserInput;
+}>;
+
+
+export type UpdateUserProfileMutation = (
+  { __typename: 'Mutation' }
+  & { editUser?: Maybe<(
+    { __typename: 'EditUserPayload' }
+    & { user: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  )> }
+);
+
+export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountriesQuery = (
+  { __typename: 'Query' }
+  & { countries: Array<(
+    { __typename: 'Country' }
+    & Pick<Country, 'id' | 'name'>
+  )> }
+);
+
 export type VariantTypeTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -6492,7 +6521,7 @@ export type UserDetailQuery = (
 
 export type UserDetailFieldsFragment = (
   { __typename: 'User' }
-  & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'bio' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'email' | 'profileImagePath' | 'role' | 'url' | 'bio' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
   & { organizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
@@ -8209,6 +8238,7 @@ export const UserDetailFieldsFragmentDoc = gql`
   name
   displayName
   username
+  email
   profileImagePath(size: 128)
   role
   url
@@ -10223,6 +10253,45 @@ export const UpdateCoiDocument = gql`
   })
   export class UpdateCoiGQL extends Apollo.Mutation<UpdateCoiMutation, UpdateCoiMutationVariables> {
     document = UpdateCoiDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateUserProfileDocument = gql`
+    mutation UpdateUserProfile($input: EditUserInput!) {
+  editUser(input: $input) {
+    user {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserProfileGQL extends Apollo.Mutation<UpdateUserProfileMutation, UpdateUserProfileMutationVariables> {
+    document = UpdateUserProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CountriesDocument = gql`
+    query Countries {
+  countries {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CountriesGQL extends Apollo.Query<CountriesQuery, CountriesQueryVariables> {
+    document = CountriesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -21,7 +21,6 @@ export class CvcCoiUpdateForm implements OnDestroy {
 
   coiText: Maybe<string> = undefined
   coiStatus: string = "noCoi"
-  foo: boolean = false
 
   success: boolean = false
   errorMessages: string[] = []

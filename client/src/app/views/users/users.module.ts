@@ -65,6 +65,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { CvcCoiUpdateModule } from '@app/forms/users/forms/coi-update/coi-update.module';
+import { CvcProfileUpdateModule } from '@app/forms/users/forms/profile-update/profile-update.module';
 
 
 @NgModule({
@@ -134,7 +135,8 @@ import { CvcCoiUpdateModule } from '@app/forms/users/forms/coi-update/coi-update
     NzAlertModule,
     NzDividerModule,
     NzModalModule,
-    CvcCoiUpdateModule
+    CvcCoiUpdateModule,
+    CvcProfileUpdateModule
   ],
   exports: [
     UsersComponent,

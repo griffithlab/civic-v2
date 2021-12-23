@@ -18425,6 +18425,32 @@
               "deprecationReason": null
             },
             {
+              "name": "countries",
+              "description": "Fetch a list of countries for user profiles.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Country",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "disease",
               "description": "Find a disease by CIViC ID",
               "args": [

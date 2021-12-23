@@ -11,6 +11,7 @@ fragment UserDetailFields on User {
   name
   displayName
   username
+  email
   profileImagePath(size: 128)
   role
   url

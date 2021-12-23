@@ -22,6 +22,7 @@ export class UsersDetailComponent implements OnDestroy {
   updateSuccess = false;
 
   updateCoiModalVisible = false;
+  updateProfileModalVisible = false
 
   routeSub: Subscription;
   viewerSub?: Subscription;
@@ -104,7 +105,16 @@ export class UsersDetailComponent implements OnDestroy {
     this.queryRef?.refetch();
   }
 
+  profileUpdated() {
+    this.updateProfileModalVisible = false;
+    this.queryRef?.refetch();
+  }
+
   handleCoiModalCancel() {
     this.updateCoiModalVisible = false;
+  }
+
+  handleProfileModalCancel() {
+    this.updateProfileModalVisible = false;
   }
 }

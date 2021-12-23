@@ -3814,6 +3814,11 @@ type Query {
   ): ContributingUsersSummary!
 
   """
+  Fetch a list of countries for user profiles.
+  """
+  countries: [Country!]!
+
+  """
   Find a disease by CIViC ID
   """
   disease(id: Int!): Disease

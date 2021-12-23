@@ -108,6 +108,10 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :countries, [Types::Entities::CountryType], null: false do
+      description 'Fetch a list of countries for user profiles.'
+    end
+
     field :revisions, resolver: Resolvers::TopLevelRevisions
     field :validate_revisions_for_acceptance, resolver: Resolvers::ValidateRevisionsForAcceptance
 
@@ -124,6 +128,7 @@ module Types
     field :preview_comment_text, [Types::Commentable::CommentBodySegment], null: false do
       argument :comment_text, String, required: true
     end
+
 
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 40
 
@@ -245,6 +250,10 @@ module Types
 
     def preview_comment_text(comment_text:)
       Actions::FormatCommentText.get_segments(text: comment_text)
+    end
+
+    def countries
+      Country.all
     end
   end
 end
