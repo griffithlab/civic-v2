@@ -3083,6 +3083,11 @@ type NotificationConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  Count of unread notifications
+  """
+  unreadCount: Int!
 }
 
 """
@@ -5843,7 +5848,6 @@ type User {
   role: UserRole!
   statsHash: Stats!
   twitterHandle: String
-  unreadCount: Int!
   url: String
   username: String!
 }

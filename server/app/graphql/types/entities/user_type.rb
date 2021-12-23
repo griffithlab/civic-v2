@@ -19,10 +19,6 @@ module Types::Entities
     field :most_recent_conflict_of_interest_statement, Types::Entities::CoiType, null: true
     field :most_recent_organization_id, Int, null: true
 
-
-
-    field :unread_count, Int, null: false
-
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
       argument :size, Int, required: false, default_value: 56,

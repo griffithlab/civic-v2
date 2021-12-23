@@ -17,6 +17,9 @@ module Types::Connections
     field :notification_subjects, [Types::Events::EventSubjectWithCount], null: false,
       description: 'List of subjects of the notifications in the stream'
 
+    field :unread_count, Int, null: false,
+      description: 'Count of unread notifications'
+
 
     def mentioning_users
        User.where(
@@ -55,6 +58,13 @@ module Types::Connections
         .tally
         .map {|subject, count|  { subject: subject, occurance_count: count } }
         .sort_by {|s| -s[:occurance_count] }
+    end
+
+    def unread_count
+      Notification.where(
+        notified_user: notified_user,
+        seen: false
+      ).count
     end
 
     private

@@ -1,6 +1,5 @@
 import { Component, } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck, } from 'rxjs/operators';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 
 @Component({
@@ -10,17 +9,9 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 })
 export class CvcViewerButtonComponent {
   viewer$: Observable<Viewer>;
-  username$: Observable<string>;
-  userId$: Observable<number>;
-  role$: Observable<string>;
-  avatarUrl$: Observable<any>;
 
   constructor(private queryService: ViewerService) {
     this.viewer$ = this.queryService.viewer$;
-    this.username$ = this.viewer$.pipe(pluck('username'));
-    this.userId$ = this.viewer$.pipe(pluck('id'));
-    this.role$ = this.viewer$.pipe(pluck('role'));
-    this.avatarUrl$ = this.viewer$.pipe(pluck('profileImagePath'));
   }
 
   signOut(): void {

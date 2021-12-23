@@ -1,17 +1,55 @@
-<a routerLink="/users/{{userId$ | ngrxPush}}">
-  <button nz-button nzType="primary" nzValue="small" nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
-
-    <!-- <nz-avatar [nzSrc]="avatarUrl$ | async" [nzSize]="16"
-         [nzShape]="'square'"
-         style="background-color:#f0f5ff;"
-         *ngIf="(avatarUrl$ | async)"></nz-avatar> -->
-    <!-- <i nz-icon nzType="civic:editor"></i> -->
-    {{ username$ | ngrxPush }}
-
-  </button>
-</a>
-<nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu>
-    <li nz-menu-item (click)="signOut()">Sign Out</li>
-  </ul>
-</nz-dropdown-menu>
+<ng-container *ngIf="viewer$ | ngrxPush as viewer">
+  <nz-space nzAlign="center" nzSize="middle">
+    <nz-space-item routerLink="/users/{{viewer.id}}/notifications">
+        <div class="topMenuIcon" nz-tooltip nzTooltipTitle="You have {{viewer.notifications.unreadCount}} unread notification(s).">
+          <i nz-icon nzType="bell" nzTheme="outline" ></i>
+          <nz-badge class="notificationBadge" nzColor="blue" [nzShowDot]="viewer.notifications.unreadCount > 0">
+          </nz-badge>
+        </div>
+    </nz-space-item>
+    <nz-space-item>
+      <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="addMenu" nzPlacement="bottomRight">
+        <i nz-icon nzType="plus" nzTheme="outline" ></i>
+        <i class="topMenuSecondary" nz-icon nzType="caret-down" nzTheme="outline" ></i>
+        <nz-dropdown-menu #addMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+                <a routerLink="/evidence/add/submit">
+                  Add Evidence
+                </a>
+              </li>
+            <li nz-menu-item>
+                <a routerLink="/assertions/add/submit">
+                  Add Assertion
+                </a>
+              </li>
+            <li nz-menu-item>
+                <a routerLink="/assertions/add/submit">
+                  Suggest Source
+                </a>
+              </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </nz-space-item>
+    <nz-space-item>
+      <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" nzPlacement="bottomRight">
+        <cvc-user-avatar [user]="viewer" size="small"></cvc-user-avatar>
+        <i nz-icon class="topMenuSecondary" nzType="caret-down" nzTheme="outline" ></i>
+        <nz-dropdown-menu #userMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>Signed In as <strong>{{viewer.username}}</strong></li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item>
+                <a routerLink="/users/{{viewer.id}}">
+                  Your Profile
+                </a>
+              </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item (click)="signOut()">Sign Out</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </nz-space-item>
+  </nz-space>
+</ng-container>

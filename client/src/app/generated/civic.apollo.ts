@@ -1911,6 +1911,8 @@ export type NotificationConnection = {
   pageInfo: PageInfo;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** Count of unread notifications */
+  unreadCount: Scalars['Int'];
 };
 
 /** An edge in a connection. */
@@ -3569,7 +3571,6 @@ export type User = {
   role: UserRole;
   statsHash: Stats;
   twitterHandle?: Maybe<Scalars['String']>;
-  unreadCount: Scalars['Int'];
   url?: Maybe<Scalars['String']>;
   username: Scalars['String'];
 };
@@ -5439,6 +5440,9 @@ export type ViewerBaseQuery = (
     )>, mostRecentConflictOfInterestStatement?: Maybe<(
       { __typename: 'Coi' }
       & Pick<Coi, 'coiStatus'>
+    )>, notifications?: Maybe<(
+      { __typename: 'NotificationConnection' }
+      & Pick<NotificationConnection, 'unreadCount'>
     )> }
   )> }
 );
@@ -9673,6 +9677,9 @@ export const ViewerBaseDocument = gql`
       coiStatus
     }
     mostRecentOrganizationId
+    notifications {
+      unreadCount
+    }
   }
 }
     `;
