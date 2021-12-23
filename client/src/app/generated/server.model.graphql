@@ -1169,6 +1169,7 @@ type Coi {
   coiStatus: CoiStatus!
   createdAt: ISO8601DateTime
   expiresAt: ISO8601DateTime!
+  id: Int!
 }
 
 enum CoiStatus {
@@ -3082,6 +3083,11 @@ type NotificationConnection {
   The total number of records in this filtered collection.
   """
   totalCount: Int!
+
+  """
+  Count of unread notifications
+  """
+  unreadCount: Int!
 }
 
 """
@@ -3806,6 +3812,11 @@ type Query {
     """
     subscribable: SubscribableInput!
   ): ContributingUsersSummary!
+
+  """
+  Fetch a list of countries for user profiles.
+  """
+  countries: [Country!]!
 
   """
   Find a disease by CIViC ID
@@ -5789,6 +5800,7 @@ type User {
   id: Int!
   linkedinProfile: String
   mostRecentConflictOfInterestStatement: Coi
+  mostRecentOrganizationId: Int
   name: String!
 
   """

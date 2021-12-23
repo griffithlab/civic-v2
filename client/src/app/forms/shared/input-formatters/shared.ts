@@ -1,21 +1,21 @@
-import { Maybe, NullableIntInput, NullableStringInput } from "@app/generated/civic.apollo";
+import { Maybe, NullableStringInput } from "@app/generated/civic.apollo";
 
 export function toNullableString(str: Maybe<string>): NullableStringInput {
   let nStr: NullableStringInput = { value: undefined, unset: undefined };
   if (str && str.trim().length > 0) {
-    nStr.value = str;
+    nStr.value = str.trim();
   } else {
     nStr.unset = true;
   }
   return nStr;
 }
 
-export function toNullableInt(int: Maybe<number>): NullableIntInput {
-  let nInt: NullableIntInput = { value: undefined, unset: undefined };
-  if (int) {
-    nInt.value = int;
+export function toNullableInput<T>(x: Maybe<T>):  { value: Maybe<T>, unset: Maybe<boolean> } {
+  let nullable: { value: Maybe<T>, unset: Maybe<boolean> } = { value: undefined, unset: undefined }
+  if(x) {
+    nullable.value = x;
   } else {
-    nInt.unset = true;
+    nullable.unset = true;
   }
-  return nInt;
+  return nullable;
 }

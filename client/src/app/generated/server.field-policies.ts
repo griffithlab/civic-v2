@@ -307,13 +307,14 @@ export type ClinicalTrialFieldPolicy = {
 	nctId?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CoiKeySpecifier = ('coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt' | CoiKeySpecifier)[];
+export type CoiKeySpecifier = ('coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt' | 'id' | CoiKeySpecifier)[];
 export type CoiFieldPolicy = {
 	coiPresent?: FieldPolicy<any> | FieldReadFunction<any>,
 	coiStatement?: FieldPolicy<any> | FieldReadFunction<any>,
 	coiStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
-	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>
+	expiresAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CommentKeySpecifier = ('comment' | 'commentable' | 'commenter' | 'createdAt' | 'creationEvent' | 'id' | 'name' | 'parsedComment' | 'title' | CommentKeySpecifier)[];
 export type CommentFieldPolicy = {
@@ -711,7 +712,7 @@ export type NotificationFieldPolicy = {
 	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type NotificationConnectionKeySpecifier = ('edges' | 'eventTypes' | 'mentioningUsers' | 'nodes' | 'notificationSubjects' | 'organizations' | 'originatingUsers' | 'pageCount' | 'pageInfo' | 'totalCount' | NotificationConnectionKeySpecifier)[];
+export type NotificationConnectionKeySpecifier = ('edges' | 'eventTypes' | 'mentioningUsers' | 'nodes' | 'notificationSubjects' | 'organizations' | 'originatingUsers' | 'pageCount' | 'pageInfo' | 'totalCount' | 'unreadCount' | NotificationConnectionKeySpecifier)[];
 export type NotificationConnectionFieldPolicy = {
 	edges?: FieldPolicy<any> | FieldReadFunction<any>,
 	eventTypes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -722,7 +723,8 @@ export type NotificationConnectionFieldPolicy = {
 	originatingUsers?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	unreadCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type NotificationEdgeKeySpecifier = ('cursor' | 'node' | NotificationEdgeKeySpecifier)[];
 export type NotificationEdgeFieldPolicy = {
@@ -793,7 +795,7 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'user' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -807,6 +809,7 @@ export type QueryFieldPolicy = {
 	comment?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	contributors?: FieldPolicy<any> | FieldReadFunction<any>,
+	countries?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseasePopover?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseaseTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1091,7 +1094,7 @@ export type UpdateSourceSuggestionStatusPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentConflictOfInterestStatement' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('areaOfExpertise' | 'bio' | 'country' | 'displayName' | 'email' | 'events' | 'facebookProfile' | 'id' | 'linkedinProfile' | 'mostRecentConflictOfInterestStatement' | 'mostRecentOrganizationId' | 'name' | 'notifications' | 'orcid' | 'organizations' | 'profileImagePath' | 'role' | 'statsHash' | 'twitterHandle' | 'url' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	areaOfExpertise?: FieldPolicy<any> | FieldReadFunction<any>,
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1103,6 +1106,7 @@ export type UserFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	linkedinProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	mostRecentConflictOfInterestStatement?: FieldPolicy<any> | FieldReadFunction<any>,
+	mostRecentOrganizationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	notifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	orcid?: FieldPolicy<any> | FieldReadFunction<any>,

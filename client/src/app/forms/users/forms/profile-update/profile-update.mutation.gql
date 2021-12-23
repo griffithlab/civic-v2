@@ -1,0 +1,14 @@
+mutation UpdateUserProfile($input: EditUserInput!) {
+  editUser(input: $input) {
+    user {
+      id
+    }
+  }
+}
+
+query Countries {
+  countries {
+    id
+    name
+  }
+}

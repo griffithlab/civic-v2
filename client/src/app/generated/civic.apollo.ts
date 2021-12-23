@@ -723,6 +723,7 @@ export type Coi = {
   coiStatus: CoiStatus;
   createdAt?: Maybe<Scalars['ISO8601DateTime']>;
   expiresAt: Scalars['ISO8601DateTime'];
+  id: Scalars['Int'];
 };
 
 export enum CoiStatus {
@@ -1910,6 +1911,8 @@ export type NotificationConnection = {
   pageInfo: PageInfo;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /** Count of unread notifications */
+  unreadCount: Scalars['Int'];
 };
 
 /** An edge in a connection. */
@@ -2178,6 +2181,8 @@ export type Query = {
   /** List and filter comments. */
   comments: CommentConnection;
   contributors: ContributingUsersSummary;
+  /** Fetch a list of countries for user profiles. */
+  countries: Array<Country>;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Retrieve popover fields for a specific disease. */
@@ -3558,6 +3563,7 @@ export type User = {
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;
@@ -5429,37 +5435,26 @@ export type ViewerBaseQuery = (
   { __typename: 'Query' }
   & { viewer?: Maybe<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath'>
+    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath' | 'mostRecentOrganizationId'>
     & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )>, events: (
-      { __typename: 'EventConnection' }
-      & { nodes: Array<(
-        { __typename: 'Event' }
-        & Pick<Event, 'id' | 'createdAt'>
-        & { organization?: Maybe<(
-          { __typename: 'Organization' }
-          & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-        )> }
-      )> }
-    ) }
+    )>, mostRecentConflictOfInterestStatement?: Maybe<(
+      { __typename: 'Coi' }
+      & Pick<Coi, 'coiStatus'>
+    )> }
   )> }
 );
 
-export type ViewerFullQueryVariables = Exact<{ [key: string]: never; }>;
+export type ViewerNotificationCountQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ViewerFullQuery = (
+export type ViewerNotificationCountQuery = (
   { __typename: 'Query' }
-  & { viewer?: Maybe<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'name' | 'email' | 'bio' | 'url' | 'role' | 'profileImagePath'>
-    & { organizations: Array<(
-      { __typename: 'Organization' }
-      & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
-    )> }
-  )> }
+  & { notifications: (
+    { __typename: 'NotificationConnection' }
+    & Pick<NotificationConnection, 'unreadCount'>
+  ) }
 );
 
 export type AddCommentMutationVariables = Exact<{
@@ -5891,6 +5886,49 @@ export type CreateSourceStubMutation = (
       { __typename: 'SourceStub' }
       & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
     ) }
+  )> }
+);
+
+export type UpdateCoiMutationVariables = Exact<{
+  input: UpdateCoiInput;
+}>;
+
+
+export type UpdateCoiMutation = (
+  { __typename: 'Mutation' }
+  & { updateCoi?: Maybe<(
+    { __typename: 'UpdateCoiPayload' }
+    & { coiStatement: (
+      { __typename: 'Coi' }
+      & Pick<Coi, 'coiPresent' | 'coiStatus' | 'createdAt' | 'id'>
+    ) }
+  )> }
+);
+
+export type UpdateUserProfileMutationVariables = Exact<{
+  input: EditUserInput;
+}>;
+
+
+export type UpdateUserProfileMutation = (
+  { __typename: 'Mutation' }
+  & { editUser?: Maybe<(
+    { __typename: 'EditUserPayload' }
+    & { user: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  )> }
+);
+
+export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountriesQuery = (
+  { __typename: 'Query' }
+  & { countries: Array<(
+    { __typename: 'Country' }
+    & Pick<Country, 'id' | 'name'>
   )> }
 );
 
@@ -6483,7 +6521,7 @@ export type UserDetailQuery = (
 
 export type UserDetailFieldsFragment = (
   { __typename: 'User' }
-  & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'bio' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'email' | 'profileImagePath' | 'role' | 'url' | 'bio' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
   & { organizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
@@ -6495,7 +6533,7 @@ export type UserDetailFieldsFragment = (
     & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
   ), mostRecentConflictOfInterestStatement?: Maybe<(
     { __typename: 'Coi' }
-    & Pick<Coi, 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
+    & Pick<Coi, 'id' | 'coiPresent' | 'coiStatement' | 'coiStatus' | 'createdAt' | 'expiresAt'>
   )> }
 );
 
@@ -8200,7 +8238,8 @@ export const UserDetailFieldsFragmentDoc = gql`
   name
   displayName
   username
-  profileImagePath(size: 36)
+  email
+  profileImagePath(size: 128)
   role
   url
   bio
@@ -8228,6 +8267,7 @@ export const UserDetailFieldsFragmentDoc = gql`
     acceptedAssertions
   }
   mostRecentConflictOfInterestStatement {
+    id
     coiPresent
     coiStatement
     coiStatus
@@ -9687,17 +9727,10 @@ export const ViewerBaseDocument = gql`
       name
       profileImagePath(size: 32)
     }
-    events(first: 1) {
-      nodes {
-        id
-        createdAt
-        organization {
-          id
-          name
-          profileImagePath(size: 32)
-        }
-      }
+    mostRecentConflictOfInterestStatement {
+      coiStatus
     }
+    mostRecentOrganizationId
   }
 }
     `;
@@ -9712,22 +9745,10 @@ export const ViewerBaseDocument = gql`
       super(apollo);
     }
   }
-export const ViewerFullDocument = gql`
-    query ViewerFull {
-  viewer {
-    id
-    username
-    name
-    email
-    bio
-    url
-    role
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
+export const ViewerNotificationCountDocument = gql`
+    query ViewerNotificationCount {
+  notifications {
+    unreadCount
   }
 }
     `;
@@ -9735,8 +9756,8 @@ export const ViewerFullDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class ViewerFullGQL extends Apollo.Query<ViewerFullQuery, ViewerFullQueryVariables> {
-    document = ViewerFullDocument;
+  export class ViewerNotificationCountGQL extends Apollo.Query<ViewerNotificationCountQuery, ViewerNotificationCountQueryVariables> {
+    document = ViewerNotificationCountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10209,6 +10230,68 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateCoiDocument = gql`
+    mutation UpdateCoi($input: UpdateCoiInput!) {
+  updateCoi(input: $input) {
+    coiStatement {
+      coiPresent
+      coiStatus
+      createdAt
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateCoiGQL extends Apollo.Mutation<UpdateCoiMutation, UpdateCoiMutationVariables> {
+    document = UpdateCoiDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateUserProfileDocument = gql`
+    mutation UpdateUserProfile($input: EditUserInput!) {
+  editUser(input: $input) {
+    user {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserProfileGQL extends Apollo.Mutation<UpdateUserProfileMutation, UpdateUserProfileMutationVariables> {
+    document = UpdateUserProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CountriesDocument = gql`
+    query Countries {
+  countries {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CountriesGQL extends Apollo.Query<CountriesQuery, CountriesQueryVariables> {
+    document = CountriesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

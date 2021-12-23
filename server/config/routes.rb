@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post '/graphql', to: 'graphql#execute'
     get '/auth/:provider/callback' => 'sessions#create'
     get '/sign_out' => 'sessions#destroy', as: :signout
+    post '/upload_profile_image' => 'profile_images#upload'
 
     if Rails.env.development?
       post '/auth/:provider/callback' => 'sessions#create'

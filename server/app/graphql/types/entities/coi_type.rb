@@ -1,5 +1,6 @@
 module Types::Entities
   class CoiType < Types::BaseObject
+    field :id, Integer, null: false
     field :coi_present, Boolean, null: false
     field :coi_statement, String, null: true
     field :coi_status, Types::CoiStatusType, null: false

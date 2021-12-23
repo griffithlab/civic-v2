@@ -10,37 +10,15 @@ query ViewerBase {
       name
       profileImagePath(size: 32)
     },
-    # fetch latest event to get most recent org
-    events(first:1) {
-      nodes {
-        id
-        createdAt
-        organization {
-          id
-          name
-          profileImagePath(size: 32)
-        },
-      }
+    mostRecentConflictOfInterestStatement {
+      coiStatus
     }
+    mostRecentOrganizationId
   }
 }
 
-# Fetch all visitor fields
-# TODO: add event, notification fields
-query ViewerFull {
-  viewer {
-    id
-    username
-    name
-    email
-    bio
-    url
-    role
-    profileImagePath(size: 32)
-    organizations {
-      id
-      name
-      profileImagePath(size: 32)
-    }
+query ViewerNotificationCount {
+  notifications {
+    unreadCount
   }
 }
