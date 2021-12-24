@@ -7,7 +7,7 @@ on:
         required: true
         type: string
 
-  build-staging:
+  build_staging:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
