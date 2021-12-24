@@ -1,0 +1,11 @@
+name: Build and deploy staging
+
+on: 
+  push:
+    branches: [staging]
+jobs: 
+  build-staging:
+    uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@v1
+    with: 
+      branch: staging
+      
