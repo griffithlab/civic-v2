@@ -7,6 +7,7 @@ on:
         required: true
         type: string
 
+jobs:
   build_staging:
     runs-on: ubuntu-latest
     steps:
