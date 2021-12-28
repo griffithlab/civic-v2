@@ -6418,6 +6418,20 @@
               "deprecationReason": null
             },
             {
+              "name": "status",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "ENUM",
+                "name": "EvidenceStatus",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "tagType",
               "description": null,
               "args": [

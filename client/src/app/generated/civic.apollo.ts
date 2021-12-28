@@ -790,6 +790,7 @@ export type CommentTagSegment = {
   __typename: 'CommentTagSegment';
   displayName: Scalars['String'];
   entityId: Scalars['Int'];
+  status?: Maybe<EvidenceStatus>;
   tagType: TaggableEntity;
 };
 
@@ -4204,7 +4205,7 @@ export type CommentListNodeFragment = (
     )> }
   ), parsedComment: Array<(
     { __typename: 'CommentTagSegment' }
-    & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+    & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'status'>
   ) | (
     { __typename: 'CommentTextSegment' }
     & Pick<CommentTextSegment, 'text'>
@@ -4404,10 +4405,10 @@ export type EventFeedNodeFragment = (
     & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
   ), subject?: Maybe<(
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'name' | 'id'>
+    & Pick<Assertion, 'status' | 'name' | 'id'>
   ) | (
     { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'name' | 'id'>
+    & Pick<EvidenceItem, 'status' | 'name' | 'id'>
   ) | (
     { __typename: 'Gene' }
     & Pick<Gene, 'name' | 'id'>
@@ -5495,7 +5496,7 @@ export type PreviewCommentQuery = (
 
 type PreviewComment_CommentTagSegment_Fragment = (
   { __typename: 'CommentTagSegment' }
-  & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+  & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'status'>
 );
 
 type PreviewComment_CommentTextSegment_Fragment = (
@@ -7052,6 +7053,7 @@ export const CommentListNodeFragmentDoc = gql`
       entityId
       displayName
       tagType
+      status
       __typename
     }
     ... on CommentTextSegment {
@@ -7131,6 +7133,12 @@ export const EventFeedNodeFragmentDoc = gql`
     ... on Source {
       citation
       sourceType
+    }
+    ... on EvidenceItem {
+      status
+    }
+    ... on Assertion {
+      status
     }
     __typename
   }
@@ -7702,6 +7710,7 @@ export const PreviewCommentFragmentDoc = gql`
     entityId
     displayName
     tagType
+    status
     __typename
   }
   ... on CommentTextSegment {

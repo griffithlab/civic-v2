@@ -9,7 +9,8 @@
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover">
+    nzPopoverTrigger="hover"
+    [nzColor]="evidence.status | colorNameForStatus">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
@@ -19,7 +20,7 @@
 </ng-template>
 
 <ng-template #noPopover>
-  <nz-tag>
+  <nz-tag [nzColor]="evidence.status | colorNameForStatus">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>

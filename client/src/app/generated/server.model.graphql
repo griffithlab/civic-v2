@@ -1270,6 +1270,7 @@ type CommentEdge {
 type CommentTagSegment {
   displayName: String!
   entityId: Int!
+  status: EvidenceStatus
   tagType: TaggableEntity!
 }
 
