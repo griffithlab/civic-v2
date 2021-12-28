@@ -70,6 +70,12 @@ fragment eventFeedNode on Event {
             citation
             sourceType
         }
+        ... on EvidenceItem {
+            status
+        }
+        ... on Assertion {
+            status
+        }
         __typename
     }
     originatingObject {

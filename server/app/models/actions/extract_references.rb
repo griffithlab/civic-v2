@@ -27,7 +27,8 @@ module Actions
                 {
                   entity_id: referenced_item.id,
                   display_name: referenced_item.name,
-                  tag_type: tag_type
+                  tag_type: tag_type,
+                  status: self.class.status_value_for_referenced_entity(referenced_item)
                 }
               else
                 split_segment
@@ -42,6 +43,14 @@ module Actions
       end
     end
 
+    def self.status_value_for_referenced_entity(item)
+      if item.is_a?(EvidenceItem) || item.is_a?(Assertion)
+        item.status
+      else
+        nil
+      end
+    end
+
     def self.typeahead_matches(query_term)
       if match = "##{query_term}".match(self.scan_regex)
         (klass, tag_type) = self.extract_type(match[:type])
@@ -50,7 +59,8 @@ module Actions
           {
             entity_id: referenced_item.id,
             display_name: referenced_item.name,
-            tag_type: tag_type
+            tag_type: tag_type,
+            status: status_value_for_referenced_entity(referenced_item)
           }
           end
         else
