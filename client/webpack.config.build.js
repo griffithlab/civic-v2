@@ -12,14 +12,18 @@ module.exports = {
     rules: [
       {
         test   : /\.less$/,
-        loader: 'less-loader',
-        options: {
-          lessOptions: {
-            math: 'always',
-            javascriptEnabled: true
+        use: [
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                math: 'always',
+                javascriptEnabled: true
+              }
+            }
           }
-        }
-      },
+        ]
+      }
     ]
   },
   plugins: [ ]

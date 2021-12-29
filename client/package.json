@@ -24,7 +24,7 @@
     "@angular/platform-browser": "~11.2.2",
     "@angular/platform-browser-dynamic": "~11.2.2",
     "@angular/router": "~11.2.2",
-    "@apollo/client": "^3.0.0",
+    "@apollo/client": "^3.5.0",
     "@ngrx/component": "^11.1.1",
     "@ngx-formly/core": "^5.0.0",
     "@ngx-formly/ng-zorro-antd": "^0.0",
