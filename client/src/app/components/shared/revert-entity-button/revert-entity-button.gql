@@ -1,0 +1,15 @@
+  mutation  RevertEvidenceItem($input: ModerateEvidenceItemInput!) {
+   moderateEvidenceItem(input: $input) {
+     evidenceItem {
+       id
+     }
+   }
+  }
+  
+  mutation  RevertAssertion($input: ModerateAssertionInput!) {
+   moderateAssertion(input: $input) {
+     assertion {
+       id
+     }
+   }
+  }
