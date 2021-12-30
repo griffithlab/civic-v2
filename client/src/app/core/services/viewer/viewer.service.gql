@@ -4,6 +4,7 @@ query ViewerBase {
     id
     username
     role
+    displayName
     profileImagePath(size: 32)
     organizations {
       id

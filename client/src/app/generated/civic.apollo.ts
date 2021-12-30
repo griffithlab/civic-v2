@@ -5535,7 +5535,7 @@ export type ViewerBaseQuery = (
   { __typename: 'Query' }
   & { viewer?: Maybe<(
     { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'role' | 'profileImagePath' | 'mostRecentOrganizationId'>
+    & Pick<User, 'id' | 'username' | 'role' | 'displayName' | 'profileImagePath' | 'mostRecentOrganizationId'>
     & { organizations: Array<(
       { __typename: 'Organization' }
       & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
@@ -9871,6 +9871,7 @@ export const ViewerBaseDocument = gql`
     id
     username
     role
+    displayName
     profileImagePath(size: 32)
     organizations {
       id
