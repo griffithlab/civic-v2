@@ -77,10 +77,17 @@
             <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="EvidenceItem">
             </cvc-entity-subscription-button>
           </nz-space-item>
+
+          <nz-space-item>
+            <cvc-revert-entity-button *ngIf="viewer.canModerate && evidence.status !='SUBMITTED'" entityType="EvidenceItem" [entityId]="evidence.id" (onReverted)="onRevertCompleted($event)">
+            </cvc-revert-entity-button>
+          </nz-space-item>
         </nz-space>
       </nz-page-header-extra>
 
       <nz-page-header-content>
+        <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+        <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
         <div class="content">
           <router-outlet></router-outlet>
