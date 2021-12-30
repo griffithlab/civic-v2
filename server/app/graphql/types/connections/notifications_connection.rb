@@ -27,7 +27,7 @@ module Types::Connections
            notified_user: notified_user,
            type: 'mention',
            seen: false
-         ).distinct.pluck(:originating_user_id),
+         ).distinct.select(:originating_user_id),
        ).sort_by{|u| u.display_name}
     end
 
@@ -37,26 +37,27 @@ module Types::Connections
            notified_user: notified_user,
            type: 'subscribed_event',
            seen: false
-         ).distinct.pluck(:originating_user_id),
+         ).distinct.select(:originating_user_id),
        ).sort_by{|u| u.display_name}
     end
 
     def event_types
-      Event.where( id: unscoped_event_ids).distinct.pluck(:action).sort
+      Event.where(id: unscoped_event_ids).distinct.pluck(:action).sort
     end
 
     def organizations
         Organization.where(
-          id: Event.where(id: unscoped_event_ids).distinct.pluck(:organization_id)
+          id: Event.where(id: unscoped_event_ids).distinct.select(:organization_id)
         ).distinct.sort_by{|s| s.name}
     end
 
     def notification_subjects
-      Event.where(id: unscoped_event_ids).includes(:subject)
-        .reject{|e| e.subject.nil?}
-        .map(&:subject)
-        .tally
-        .map {|subject, count|  { subject: subject, occurance_count: count } }
+      Event.where(id: unscoped_event_ids)
+        .group(:subject_type, :subject_id)
+        .reorder(nil)
+        .includes(:subject)
+        .select("events.subject_id, events.subject_type, count(distinct(events.id)) as occurance_count")
+        .map {|e|  { subject: e.subject, occurance_count: e.occurance_count } }
         .sort_by {|s| -s[:occurance_count] }
     end
 
@@ -74,12 +75,12 @@ module Types::Connections
 
     def event_ids
       Notification.where(
-        id: object.items.reorder(nil).distinct.pluck(:id)
-      ).distinct.pluck(:event_id)
+        id: object.items.reorder(nil).distinct.select(:id)
+      ).distinct.select(:event_id)
     end
 
     def unscoped_event_ids
-      Notification.where(notified_user: notified_user, seen: false).distinct.pluck(:event_id)
+      Notification.where(notified_user: notified_user, seen: false).distinct.select(:event_id)
     end
   end
 end

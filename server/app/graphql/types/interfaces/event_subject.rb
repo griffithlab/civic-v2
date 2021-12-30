@@ -26,6 +26,8 @@ module Types::Interfaces
           Types::Entities::SourceType
         when SourceSuggestion
           Types::Entities::SourceSuggestionType
+        when VariantGroup
+          Types::Entities::VariantGroupType
         else
           raise "Unexpected EventSubject type: #{object.class}"
         end
