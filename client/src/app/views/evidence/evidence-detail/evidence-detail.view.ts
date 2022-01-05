@@ -5,6 +5,7 @@ import {
   EvidenceDetailGQL,
   EvidenceDetailQuery,
   EvidenceDetailQueryVariables,
+  EvidenceStatus,
   Maybe,
   SubscribableEntities,
   SubscribableInput,
@@ -83,6 +84,17 @@ export class EvidenceDetailView implements OnDestroy {
     } else {
       this.errors = res;
       this.successMessage = undefined;
+    }
+  }
+
+  onModerateCompleted(res: EvidenceStatus | string[]) {
+    if(Array.isArray(res)) {
+      this.errors = res;
+      this.successMessage = undefined;
+    } else {
+      this.errors = [];
+      this.successMessage = `Evidence successfully ${res}.`;
+      this.queryRef?.refetch();
     }
   }
 

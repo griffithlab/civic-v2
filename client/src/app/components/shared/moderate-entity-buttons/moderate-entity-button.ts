@@ -7,19 +7,21 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: 'cvc-revert-entity-button',
-  templateUrl: './revert-entity-button.component.html',
-  styleUrls: ['./revert-entity-button.component.less']
+  selector: 'cvc-moderate-entity-buttons',
+  templateUrl: './moderate-entity-buttons.component.html',
+  styleUrls: ['./moderate-entity-buttons.component.less']
 })
-export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
+export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
   @Input() viewer!: Viewer
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
   @Input() entityId!: number
 
-  @Output() onReverted = new EventEmitter<true | string[]>()
+  @Output() onModerated = new EventEmitter<EvidenceStatus | string[]>()
 
-  revertEvidenceMutator: MutatorWithState<ModerateEvidenceItemGQL, ModerateEvidenceItemMutation, ModerateEvidenceItemMutationVariables>
-  revertAssertionMutator: MutatorWithState<ModerateAssertionGQL, ModerateAssertionMutation, ModerateAssertionMutationVariables>
+  moderateEvidenceMutator: MutatorWithState<ModerateEvidenceItemGQL, ModerateEvidenceItemMutation, ModerateEvidenceItemMutationVariables>
+  moderateAssertionMutator: MutatorWithState<ModerateAssertionGQL, ModerateAssertionMutation, ModerateAssertionMutationVariables>
+
+  evidenceStatuses = EvidenceStatus
 
   isSubmitting = false
   showConfirm = false
@@ -29,28 +31,28 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>()
   
   constructor(private revertEvidenceGQL: ModerateEvidenceItemGQL, private  revertAssertionGQL: ModerateAssertionGQL, private networkErrorService: NetworkErrorsService) {
-    this.revertAssertionMutator = new MutatorWithState(networkErrorService);
-    this.revertEvidenceMutator = new MutatorWithState(networkErrorService);
+    this.moderateAssertionMutator = new MutatorWithState(networkErrorService);
+    this.moderateEvidenceMutator = new MutatorWithState(networkErrorService);
   }
 
-  revert() {
+  moderate(newStatus: EvidenceStatus) {
     this.isSubmitting = true
     let state: MutationState
     
     if(this.entityType === "EvidenceItem") {
-      state = this.revertEvidenceMutator.mutate(this.revertEvidenceGQL, {
+      state = this.moderateEvidenceMutator.mutate(this.revertEvidenceGQL, {
         input: {
           evidenceItemId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
-          newStatus: EvidenceStatus.Submitted
+          newStatus: newStatus
         }
       }) ;
     } else {
-      state = this.revertAssertionMutator.mutate(this.revertAssertionGQL, {
+      state = this.moderateAssertionMutator.mutate(this.revertAssertionGQL, {
         input: {
           assertionId: this.entityId,
           organizationId: this.mostRecentOrg?.id,
-          newStatus: EvidenceStatus.Submitted
+          newStatus: newStatus
         }
       }) ;
     }
@@ -59,7 +61,7 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       if(res) {
         this.isSubmitting = false;
         this.showConfirm = false;
-        this.onReverted.emit(true);
+        this.onModerated.emit(newStatus);
       }
     })
 
@@ -67,7 +69,7 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       if(errs) {
         this.isSubmitting = false
         this.showConfirm = false
-        this.onReverted.emit(errs)
+        this.onModerated.emit(errs)
       }
     })
 
@@ -75,10 +77,7 @@ export class CvcRevertEntityButtonComponent implements OnInit, OnDestroy {
       this.isSubmitting = loading
     })
 
-  }
 
-  handleConfirmModalCancel() {
-    this.showConfirm = false;
   }
 
   ngOnInit() {

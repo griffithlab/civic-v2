@@ -7,6 +7,7 @@ import {
   AssertionDetailQueryVariables,
   SubscribableInput,
   SubscribableEntities,
+  EvidenceStatus,
 } from '@app/generated/civic.apollo';
 import {
   Viewer,
@@ -119,4 +120,16 @@ export class AssertionsDetailComponent implements OnDestroy {
   onSuccessBannerClose() {
     this.successMessage = undefined;
   }
+
+  onModerateCompleted(res: EvidenceStatus | string[]) {
+    if(Array.isArray(res)) {
+      this.errors = res;
+      this.successMessage = undefined;
+    } else {
+      this.errors = [];
+      this.successMessage = `Assertion successfully ${res}.`;
+      this.queryRef?.refetch();
+    }
+  }
+
 }

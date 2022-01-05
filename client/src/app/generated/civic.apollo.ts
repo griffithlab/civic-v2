@@ -5143,12 +5143,12 @@ export type SubscriptionIdFragment = (
   & Pick<Subscription, 'id'>
 );
 
-export type RevertEvidenceItemMutationVariables = Exact<{
+export type ModerateEvidenceItemMutationVariables = Exact<{
   input: ModerateEvidenceItemInput;
 }>;
 
 
-export type RevertEvidenceItemMutation = (
+export type ModerateEvidenceItemMutation = (
   { __typename: 'Mutation' }
   & { moderateEvidenceItem?: Maybe<(
     { __typename: 'ModerateEvidenceItemPayload' }
@@ -5159,12 +5159,12 @@ export type RevertEvidenceItemMutation = (
   )> }
 );
 
-export type RevertAssertionMutationVariables = Exact<{
+export type ModerateAssertionMutationVariables = Exact<{
   input: ModerateAssertionInput;
 }>;
 
 
-export type RevertAssertionMutation = (
+export type ModerateAssertionMutation = (
   { __typename: 'Mutation' }
   & { moderateAssertion?: Maybe<(
     { __typename: 'ModerateAssertionPayload' }
@@ -9460,8 +9460,8 @@ export const SubscriptionForEntityDocument = gql`
       super(apollo);
     }
   }
-export const RevertEvidenceItemDocument = gql`
-    mutation RevertEvidenceItem($input: ModerateEvidenceItemInput!) {
+export const ModerateEvidenceItemDocument = gql`
+    mutation ModerateEvidenceItem($input: ModerateEvidenceItemInput!) {
   moderateEvidenceItem(input: $input) {
     evidenceItem {
       id
@@ -9473,15 +9473,15 @@ export const RevertEvidenceItemDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class RevertEvidenceItemGQL extends Apollo.Mutation<RevertEvidenceItemMutation, RevertEvidenceItemMutationVariables> {
-    document = RevertEvidenceItemDocument;
+  export class ModerateEvidenceItemGQL extends Apollo.Mutation<ModerateEvidenceItemMutation, ModerateEvidenceItemMutationVariables> {
+    document = ModerateEvidenceItemDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-export const RevertAssertionDocument = gql`
-    mutation RevertAssertion($input: ModerateAssertionInput!) {
+export const ModerateAssertionDocument = gql`
+    mutation ModerateAssertion($input: ModerateAssertionInput!) {
   moderateAssertion(input: $input) {
     assertion {
       id
@@ -9493,8 +9493,8 @@ export const RevertAssertionDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class RevertAssertionGQL extends Apollo.Mutation<RevertAssertionMutation, RevertAssertionMutationVariables> {
-    document = RevertAssertionDocument;
+  export class ModerateAssertionGQL extends Apollo.Mutation<ModerateAssertionMutation, ModerateAssertionMutationVariables> {
+    document = ModerateAssertionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
