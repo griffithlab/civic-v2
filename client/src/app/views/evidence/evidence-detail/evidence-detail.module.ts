@@ -18,6 +18,8 @@ import { EvidenceDetailRoutingModule } from './evidence-detail-routing.module';
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
 
 @NgModule({
   declarations: [EvidenceDetailView],
@@ -33,13 +35,15 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzTagModule,
     NzIconModule,
     NzAlertModule,
+    NzGridModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcFlaggableModule,
     CvcDetailsNavigationModule,
     CvcVariantTagModule,
     CvcEntitySubscriptionButtonModule,
-    CvcRevertEntityButtonModule
+    CvcRevertEntityButtonModule,
+    CvcModerateEntityButtonsModule
   ]
 })
 export class EvidenceDetailModule { }

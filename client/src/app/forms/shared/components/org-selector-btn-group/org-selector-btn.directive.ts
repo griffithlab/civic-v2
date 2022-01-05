@@ -6,6 +6,9 @@ import {
 
 @Directive({
   selector: 'button[cvcOrgSelectorBtn]',
+  host: {
+    '[class.ant-btn-dangerous]': `nzDanger`
+  }
 })
 export class CvcOrgSelectorBtnDirective implements OnDestroy {
   public disabled!: boolean;

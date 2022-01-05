@@ -59,6 +59,7 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module';
+import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entit
     CvcRevertEntityButtonModule,
     EvidenceModule,
     CvcContributorAvatarsModule,
-    CvcEntitySubscriptionButtonModule
+    CvcEntitySubscriptionButtonModule,
+    CvcModerateEntityButtonsModule
   ],
   exports: [
     AssertionsComponent,
