@@ -5,7 +5,7 @@ on:
     branches: [staging]
 jobs: 
   build-staging:
-    uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@v1
+    uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@main
     with: 
       branch: staging
       
