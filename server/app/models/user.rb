@@ -10,9 +10,9 @@ class User < ActiveRecord::Base
     ->() { order('events.created_at DESC') },
     foreign_key: :originating_user_id
 
-  #has_one :most_recent_event,
-    #->() { order('created_at DESC').limit(1) },
-    #class_name: 'Event', foreign_key: :originating_user_id
+  has_one :most_recent_event,
+    ->() { order('created_at DESC').limit(1) },
+    class_name: 'Event', foreign_key: :originating_user_id
   #has_many :domain_expert_tags
   #has_many :badge_awards
   #has_many :badge_claims

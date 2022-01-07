@@ -63,7 +63,7 @@ export class CvcDiseasesTableComponent implements OnInit {
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh() );
 
-      this.textInputCallback = () => { this.debouncedQuery.next(); }
+    this.textInputCallback = () => { this.debouncedQuery.next(); }
   }
 
   refresh() {

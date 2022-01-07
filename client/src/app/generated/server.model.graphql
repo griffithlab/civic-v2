@@ -3350,12 +3350,17 @@ input OrganizationFilter {
   """
   The organization ID.
   """
-  id: Int!
+  id: Int
 
   """
   Whether or not to include the organization's subgroup.
   """
   includeSubgroups: Boolean = false
+
+  """
+  The organization name.
+  """
+  name: String!
 }
 
 input OrganizationSort {
@@ -4427,9 +4432,29 @@ type Query {
     last: Int
 
     """
+    Filtering on name
+    """
+    name: String
+
+    """
     Limit to users that belong to a certain organizations
     """
     organization: OrganizationFilter
+
+    """
+    Filtering on role.
+    """
+    role: UserRole
+
+    """
+    Sort user columns in ascending or decending order
+    """
+    sortBy: UsersSort
+
+    """
+    Filtering on username
+    """
+    username: String
   ): UserConnection!
   validateRevisionsForAcceptance(
     """
@@ -5789,7 +5814,8 @@ type User {
   id: Int!
   linkedinProfile: String
   mostRecentConflictOfInterestStatement: Coi
-  name: String!
+  mostRecentEvent: Event
+  name: String
 
   """
   Filterable list of notifications for the logged in user.
@@ -5894,6 +5920,27 @@ enum UserRole {
   ADMIN
   CURATOR
   EDITOR
+}
+
+input UsersSort {
+  """
+  Available columns for sorting
+  """
+  column: UsersSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum UsersSortColumns {
+  EIDS
+  ID
+  LAST_ACTION
+  NAME
+  REVISIONS
+  ROLE
 }
 
 type ValidationErrors {
