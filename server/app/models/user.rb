@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :affiliations
   has_many :organizations, through: :affiliations
   has_many :notifications, foreign_key: :notified_user_id
-  #has_one :most_recent_organization, through: :most_recent_event, source: :organization
+  belongs_to :most_recent_organization, class_name: 'Organization', optional: true
   belongs_to :country
   has_many :conflict_of_interest_statements, dependent: :destroy
   has_one :most_recent_conflict_of_interest_statement,

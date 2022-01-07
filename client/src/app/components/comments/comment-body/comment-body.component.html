@@ -21,10 +21,10 @@
                 <cvc-variant-group-tag [variantgroup]="{id: c.entityId, name: c.displayName}"></cvc-variant-group-tag>
             </span>
             <span *ngSwitchCase="'EVIDENCE_ITEM'">
-                <cvc-evidence-tag [evidence]="{id: c.entityId, name: c.displayName}"></cvc-evidence-tag>
+                <cvc-evidence-tag [evidence]="{id: c.entityId, name: c.displayName, status: c.status}"></cvc-evidence-tag>
             </span>
             <span *ngSwitchCase="'ASSERTION'">
-                <cvc-assertion-tag [assertion]="{id: c.entityId, name: c.displayName}"></cvc-assertion-tag>
+                <cvc-assertion-tag [assertion]="{id: c.entityId, name: c.displayName, status: c.status}"></cvc-assertion-tag>
             </span>
             <span *ngSwitchCase="'ORGANIZATION'">
                 <cvc-organization-tag [org]="{id: c.entityId, name: c.displayName}"></cvc-organization-tag>

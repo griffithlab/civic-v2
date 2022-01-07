@@ -10,6 +10,7 @@ fragment previewComment on CommentBodySegment {
     entityId
     displayName
     tagType
+    status
     __typename
   }
   ... on CommentTextSegment {

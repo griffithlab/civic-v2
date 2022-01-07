@@ -5,6 +5,7 @@ import {
   EvidenceDetailGQL,
   EvidenceDetailQuery,
   EvidenceDetailQueryVariables,
+  EvidenceStatus,
   Maybe,
   SubscribableEntities,
   SubscribableInput,
@@ -31,6 +32,9 @@ export class EvidenceDetailView implements OnDestroy {
   flagsTotal$?: Observable<number>;
   revisionsTotal$?: Observable<number>;
   viewer$?: Observable<Viewer>;
+
+  errors: string[] = []
+  successMessage: Maybe<string>
 
   routeSub: Subscription;
   subscribable?: SubscribableInput;
@@ -70,5 +74,35 @@ export class EvidenceDetailView implements OnDestroy {
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+  }
+
+  onRevertCompleted(res: true | string[]) {
+    if(res === true){
+      this.errors = [];
+      this.successMessage = "Evidence Item reverted to submitted status.";
+      this.queryRef?.refetch();
+    } else {
+      this.errors = res;
+      this.successMessage = undefined;
+    }
+  }
+
+  onModerateCompleted(res: EvidenceStatus | string[]) {
+    if(Array.isArray(res)) {
+      this.errors = res;
+      this.successMessage = undefined;
+    } else {
+      this.errors = [];
+      this.successMessage = `Evidence successfully ${res}.`;
+      this.queryRef?.refetch();
+    }
+  }
+
+  onErrorBannerClose(err: string) {
+    this.errors = this.errors?.filter(e => e != err);
+  }
+
+  onSuccessBannerClose() {
+    this.successMessage = undefined;
   }
 }

@@ -59,6 +59,13 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcUserAvatarModule } from '@app/components/users/user-avatar/user-avatar.module';
+import { CvcAvatarUploaderModule } from '@app/components/shared/avatar-uploader/avatar-uploader.module';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { CvcCoiUpdateModule } from '@app/forms/users/forms/coi-update/coi-update.module';
+import { CvcProfileUpdateModule } from '@app/forms/users/forms/profile-update/profile-update.module';
 
 
 @NgModule({
@@ -122,7 +129,14 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcAssertionsTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,
-    CvcParticipantListModule
+    CvcParticipantListModule,
+    CvcUserAvatarModule,
+    CvcAvatarUploaderModule,
+    NzAlertModule,
+    NzDividerModule,
+    NzModalModule,
+    CvcCoiUpdateModule,
+    CvcProfileUpdateModule
   ],
   exports: [
     UsersComponent,

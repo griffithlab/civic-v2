@@ -23,7 +23,7 @@
   </ng-template>
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
-    <nz-page-header class="site-page-header">
+    <nz-page-header *ngrxLet="viewer$ as viewer" class="site-page-header">
 
       <!-- title -->
       <nz-page-header-title cvcFlaggableOptions
@@ -33,10 +33,9 @@
       </nz-page-header-title>
 
       <!-- header action btns, actions menu -->
-      <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+      <nz-page-header-extra >
         <nz-space nzDirection="horizontal"
-          nzSize="small"
-          *ngrxLet="viewer$ as viewer">
+          nzSize="small" >
 
           <!-- add revision btn -->
           <nz-space-item>
@@ -70,10 +69,17 @@
             </cvc-entity-subscription-button>
           </nz-space-item>
 
+          <nz-space-item>
+            <cvc-revert-entity-button *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'" entityType="Assertion" [entityId]="assertion.id" (onReverted)="onRevertCompleted($event)">
+            </cvc-revert-entity-button>
+          </nz-space-item>
         </nz-space>
       </nz-page-header-extra>
 
       <nz-page-header-content>
+        <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+        <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+        <nz-alert *ngIf="this.assertion.status == 'SUBMITTED'" nzBanner nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
         <cvc-tab-navigation [tabs]="this.tabs">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
@@ -81,6 +87,12 @@
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
+        <nz-space nzDirection="vertical">
+          <nz-space-item>
+            <cvc-moderate-entity-buttons *ngIf="viewer.canModerate && assertion.status == 'SUBMITTED'" entityType="Assertion" [entityId]="assertion.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
+            </cvc-moderate-entity-buttons>
+          </nz-space-item>
+        </nz-space>
         <div class="content">
           <router-outlet></router-outlet>
         </div>

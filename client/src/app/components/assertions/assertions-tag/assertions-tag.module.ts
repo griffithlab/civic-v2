@@ -6,6 +6,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcAssertionsPopoverModule } from '../assertions-popover/assertions-popover.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcAssertionTagComponent],
@@ -15,7 +16,8 @@ import { CvcAssertionsPopoverModule } from '../assertions-popover/assertions-pop
     NzTagModule,
     NzPopoverModule,
     NzIconModule,
-    CvcAssertionsPopoverModule
+    CvcAssertionsPopoverModule,
+    CvcPipesModule
   ],
   exports: [CvcAssertionTagComponent]
 })

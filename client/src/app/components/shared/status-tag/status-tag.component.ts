@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EvidenceStatus, FlagState, RevisionStatus } from '@app/generated/civic.apollo';
+import { EvidenceStatus, FlagState, Maybe, RevisionStatus } from '@app/generated/civic.apollo';
+
+type StatusType  =  EvidenceStatus | RevisionStatus | FlagState
 
 @Component({
   selector: 'cvc-status-tag',
@@ -7,7 +9,18 @@ import { EvidenceStatus, FlagState, RevisionStatus } from '@app/generated/civic.
   styleUrls: ['./status-tag.component.less']
 })
 export class CvcStatusTagComponent implements OnInit {
-  @Input() status?: EvidenceStatus | RevisionStatus | FlagState; // TODO update to accept AssertionStatus when available
+  private _status?: StatusType
+
+  @Input() set status(value: Maybe<StatusType>) {
+    this._status = value;
+    if (value){
+      this.tagStatus = this.statusColorMap[value];
+    }
+  }
+
+  get status(): Maybe<StatusType> {
+    return this._status;
+  }
 
   tagStatus?: string;
   statusColorMap: { [key in EvidenceStatus | RevisionStatus | FlagState]: string} = {
@@ -20,14 +33,9 @@ export class CvcStatusTagComponent implements OnInit {
     'RESOLVED': 'default',
   }
 
-  constructor() { }
-
   ngOnInit(): void {
     if (this.status === undefined) {
       throw new Error("Must pass a valid EvidenceStatus or RevisionStatus to cvc-status-tag component");
     }
-
-    this.tagStatus = this.statusColorMap[this.status];
   }
-
 }

@@ -11,7 +11,8 @@ fragment UserDetailFields on User {
   name
   displayName
   username
-  profileImagePath(size:36)
+  email
+  profileImagePath(size: 128)
   role
   url
   bio
@@ -39,6 +40,7 @@ fragment UserDetailFields on User {
     acceptedAssertions
   }
   mostRecentConflictOfInterestStatement {
+    id
     coiPresent
     coiStatement
     coiStatus

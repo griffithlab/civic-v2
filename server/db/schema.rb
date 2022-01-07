@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_30_183420) do
+ActiveRecord::Schema.define(version: 2021_12_20_202643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -523,6 +523,8 @@ ActiveRecord::Schema.define(version: 2021_11_30_183420) do
     t.text "url"
     t.text "description"
     t.integer "parent_id"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "phenotypes", id: :serial, force: :cascade do |t|
@@ -697,6 +699,7 @@ ActiveRecord::Schema.define(version: 2021_11_30_183420) do
     t.text "bio"
     t.boolean "signup_complete"
     t.integer "country_id"
+    t.integer "most_recent_organization_id"
     t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
@@ -847,6 +850,7 @@ ActiveRecord::Schema.define(version: 2021_11_30_183420) do
   add_foreign_key "suggested_changes", "users"
   add_foreign_key "user_mentions", "comments"
   add_foreign_key "user_mentions", "users"
+  add_foreign_key "users", "organizations", column: "most_recent_organization_id"
   add_foreign_key "variant_aliases_variants", "variant_aliases"
   add_foreign_key "variant_aliases_variants", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"

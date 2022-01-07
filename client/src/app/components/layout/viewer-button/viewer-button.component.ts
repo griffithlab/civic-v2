@@ -1,8 +1,9 @@
-import { Component, } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck, } from 'rxjs/operators';
-import { User } from '@app/generated/civic.apollo';
-import { ViewerService } from '@app/core/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import { Maybe, ViewerNotificationCountGQL } from '@app/generated/civic.apollo';
+import { startWith, map } from 'rxjs/operators';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'cvc-viewer-button',
@@ -10,21 +11,30 @@ import { ViewerService } from '@app/core/services/viewer/viewer.service';
   styleUrls: ['./viewer-button.component.less']
 })
 export class CvcViewerButtonComponent {
-  viewer$: Observable<User>;
-  username$: Observable<string>;
-  userId$: Observable<number>;
-  role$: Observable<string>;
-  avatarUrl$: Observable<any>;
+  viewer$: Observable<Viewer>;
+  unreadCount$: Observable<number>;
 
-  constructor(private queryService: ViewerService) {
+  coiUpdateModalVisible: boolean = false
+
+  constructor(private queryService: ViewerService, private unreadCountGql: ViewerNotificationCountGQL) {
     this.viewer$ = this.queryService.viewer$;
-    this.username$ = this.viewer$.pipe(pluck('username'));
-    this.userId$ = this.viewer$.pipe(pluck('id'));
-    this.role$ = this.viewer$.pipe(pluck('role'));
-    this.avatarUrl$ = this.viewer$.pipe(pluck('profileImagePath'));
+    this.unreadCount$ = this.unreadCountGql.watch(undefined, {pollInterval: 3000})
+      .valueChanges.pipe(
+        map(({data}) => data.notifications.unreadCount),
+        startWith(0)
+      )
   }
 
   signOut(): void {
     this.queryService.signOut();
+  }
+
+  coiUpdated() {
+    this.coiUpdateModalVisible = false;
+    this.queryService.refetch();
+  }
+
+  handleCoiModalCancel() {
+    this.coiUpdateModalVisible = false;
   }
 }

@@ -2,8 +2,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
-import { makeVar, ReactiveVar } from '@apollo/client/core';
-import { gql, QueryRef } from 'apollo-angular';
+import { QueryRef } from 'apollo-angular';
 
 import { Observable } from 'rxjs';
 import { pluck, map, shareReplay, startWith } from 'rxjs/operators';
@@ -13,7 +12,8 @@ import {
   Organization,
   ViewerBaseGQL,
   Maybe,
-  UserRole
+  UserRole,
+  CoiStatus
 } from '@app/generated/civic.apollo';
 
 export interface Viewer extends User {
@@ -25,6 +25,7 @@ export interface Viewer extends User {
   isCurator: boolean;
   canCurate: boolean;
   canModerate: boolean;
+  invalidCoi: boolean
 }
 
 export const InitialViewer: Viewer = <Viewer>{
@@ -34,7 +35,8 @@ export const InitialViewer: Viewer = <Viewer>{
   isEditor: false,
   isCurator: false,
   canCurate: false,
-  canModerate: false
+  canModerate: false,
+  invalidCoi: true,
 }
 @Injectable({
   providedIn: 'root'
@@ -89,6 +91,7 @@ export class ViewerService implements OnDestroy {
           isCurator: isCurator(v),
           organizations: v === null ? [] : v.organizations,
           mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
+          invalidCoi: isEditor(v) && (!v.mostRecentConflictOfInterestStatement || v.mostRecentConflictOfInterestStatement.coiStatus === CoiStatus.Expired || v.mostRecentConflictOfInterestStatement.coiStatus === CoiStatus.Missing)
         }
       }),
       startWith(InitialViewer),
@@ -121,7 +124,7 @@ export class ViewerService implements OnDestroy {
     }
 
     function isEditor(v: User): boolean {
-      return (v && (v.role === UserRole.Editor)) ? true : false;
+      return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin)) ? true : false;
     }
 
     function isCurator(v: User): boolean {
@@ -133,11 +136,15 @@ export class ViewerService implements OnDestroy {
     }
 
     function canModerate(v: User): boolean {
-      return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin)) ? true : false;
+      return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin) && v.mostRecentConflictOfInterestStatement && (v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Conflict || v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Valid)) ? true : false;
     }
 
     function mostRecentOrg(v: User): Maybe<Organization>{
-      return v.events?.nodes?.[0]?.organization;
+      if (v.mostRecentOrganizationId) {
+        return v.organizations.find(o => o.id === v.mostRecentOrganizationId)
+      } else {
+        return undefined
+      }
     }
 
   }

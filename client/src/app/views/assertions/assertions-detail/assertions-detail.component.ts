@@ -7,6 +7,7 @@ import {
   AssertionDetailQueryVariables,
   SubscribableInput,
   SubscribableEntities,
+  EvidenceStatus,
 } from '@app/generated/civic.apollo';
 import {
   Viewer,
@@ -37,6 +38,9 @@ export class AssertionsDetailComponent implements OnDestroy {
   subscribable?: SubscribableInput;
 
   tabs: RouteableTab[]
+
+  errors: string[] = []
+  successMessage: Maybe<string>
 
   constructor(
     private gql: AssertionDetailGQL,
@@ -97,4 +101,35 @@ export class AssertionsDetailComponent implements OnDestroy {
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
   }
+
+  onRevertCompleted(res: true | string[]) {
+    if(res === true){
+      this.errors = [];
+      this.successMessage = "Assertion reverted to submitted status.";
+      this.queryRef?.refetch();
+    } else {
+      this.errors = res;
+      this.successMessage = undefined;
+    }
+  }
+
+  onErrorBannerClose(err: string) {
+    this.errors = this.errors?.filter(e => e != err);
+  }
+
+  onSuccessBannerClose() {
+    this.successMessage = undefined;
+  }
+
+  onModerateCompleted(res: EvidenceStatus | string[]) {
+    if(Array.isArray(res)) {
+      this.errors = res;
+      this.successMessage = undefined;
+    } else {
+      this.errors = [];
+      this.successMessage = `Assertion successfully ${res}.`;
+      this.queryRef?.refetch();
+    }
+  }
+
 }

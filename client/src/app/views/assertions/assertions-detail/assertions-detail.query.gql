@@ -9,6 +9,7 @@ query AssertionDetail(
 fragment AssertionDetailFields on Assertion {
     id
     name
+    status
     gene {
         id
         name
