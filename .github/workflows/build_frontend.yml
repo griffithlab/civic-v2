@@ -20,7 +20,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           working-directory: ./server
-          bundler-cache: true
           ruby-version: '3.0'
 
       - name: Setup node
@@ -39,6 +38,9 @@ jobs:
 
       - run: yarn build --prod
         working-directory: ./client
+
+      - run: bundle install
+        working-directory: ./server
 
       - run: bundle exec rails assets:precompile
         working-directory: ./server
