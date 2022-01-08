@@ -16,6 +16,12 @@ jobs:
         with:
           ref: ${{ inputs.branch }}
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: '3.0'
+
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -32,6 +38,9 @@ jobs:
 
       - run: yarn build --prod
         working-directory: ./client
+
+      - run: bundle exec rails assets:precompile
+        working-directory: ./server
 
       - name: Commit and push build
         uses: EndBug/add-and-commit@v7

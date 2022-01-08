@@ -20,3 +20,8 @@ production:
   <<: *default
   pool: 20
   database: civic
+    
+staging:
+  <<: *default
+  pool: 20
+  database: civic_staging

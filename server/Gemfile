@@ -50,6 +50,7 @@ gem 'typhoeus', '~>1.4.0'
 
 gem 'audited', '~> 4.9'
 
+gem 'graphiql-rails', '~> 1.8.0'
 
 #user comment rendering
 gem 'rinku', '~> 2.0.6'
@@ -73,7 +74,6 @@ group :development do
   gem 'capistrano-rbenv', '~> 2.0'
   gem 'capistrano-passenger', '~> 0.2.0'
 
-  gem 'graphiql-rails', '~> 1.7.0'
 
   gem 'pry'
   gem 'pry-rails'

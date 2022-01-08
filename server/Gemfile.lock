@@ -143,7 +143,7 @@ GEM
     ffi (1.15.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    graphiql-rails (1.7.0)
+    graphiql-rails (1.8.0)
       railties
       sprockets-rails
     graphql (1.12.23)
@@ -414,7 +414,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   diffy (~> 3.4.0)
   elasticsearch (< 7.14)
-  graphiql-rails (~> 1.7.0)
+  graphiql-rails (~> 1.8.0)
   graphql (~> 1.12.4)
   graphql-batch (~> 0.4.3)
   htmlentities (~> 4.3.4)
