@@ -35,10 +35,12 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          working-directory: ./server
           ruby-version: '3.0'
           bundler-cache: true
 
       - name: Deploy to production
+        working-directory: ./server
         run: |
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/github-actions
