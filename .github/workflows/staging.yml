@@ -8,4 +8,12 @@ jobs:
     uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@main
     with: 
       branch: staging
-      
+  deploy-staging:
+    uses: griffithlab/civic-v2/.github/workflows/deploy.yml@main
+    needs: build-staging
+    with:
+      environment: staging
+    secrets:
+      SSH_HOST: ${{ secrets.CIVIC_V2_STAGING_SSH_HOST }}
+      SSH_KEY: ${{ secrets.CIVIC_V2_STAGING_SSH_KEY }}
+
