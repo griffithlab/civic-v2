@@ -25,3 +25,5 @@ staging:
   <<: *default
   pool: 20
   database: civic_staging
+  username: <%=  Rails.application.credentials.dig(:database, :username) %>
+  password: <%=  Rails.application.credentials.dig(:database, :password %>
