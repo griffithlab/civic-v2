@@ -9,10 +9,8 @@ on:
     secrets:
       SSH_HOST:
         required: true
-        type: string
       SSH_KEY:
         required: true
-        type: string
 
 jobs:
   deploy:
@@ -26,7 +24,7 @@ jobs:
           name: github-actions
           known_hosts: 'random-placeholder-value-replaced-by-keyscan-below'
           config: |
-            host 35.87.115.86 
+            host ${{ secrets.SSH_HOST }}
               IdentityFile ~/.ssh/github-actions
               IdentitiesOnly yes
               ForwardAgent yes
