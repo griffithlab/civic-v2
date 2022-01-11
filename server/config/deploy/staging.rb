@@ -7,8 +7,10 @@ set :rails_env, 'staging'
 
 set :linked_files, fetch(:linked_files, []).push('config/credentials/staging.key')
 
-set :ssh_options, {
-  keys: ENV['CIVIC_STAGING_KEY'],
-  forward_agent: false,
-  auth_methods: %w(publickey)
-}
+if !ENV['CI']
+  set :ssh_options, {
+    keys: ENV['CIVIC_STAGING_KEY'],
+    forward_agent: false,
+    auth_methods: %w(publickey)
+  }
+end
