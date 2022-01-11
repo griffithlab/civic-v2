@@ -14,7 +14,8 @@ Rails.application.routes.draw do
     end
   end
 
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api/graphql"
-  end
+  get '/links' => 'links#redirect'
+  get 'links/:idtype/:id' => 'links#redirect'
+
+  mount GraphiQL::Rails::Engine, at: "/api/graphiql", graphql_path: "/api/graphql"
 end
