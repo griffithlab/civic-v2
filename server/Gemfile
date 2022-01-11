@@ -73,6 +73,10 @@ group :development do
   gem 'capistrano-rails', '~> 1.6.1'
   gem 'capistrano-rbenv', '~> 2.2.0'
 
+  #required for ssh tasks
+  gem 'ed25519'
+  gem 'bcrypt_pbkdf'
+
   gem 'pry'
   gem 'pry-rails'
   gem 'solargraph'
