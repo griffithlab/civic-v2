@@ -1,8 +1,6 @@
-import { componentFactoryName } from '@angular/compiler';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import { version } from 'graphql';
 import { CommentTextareaType } from './comments/types/comment-textarea/comment-textarea.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
 
