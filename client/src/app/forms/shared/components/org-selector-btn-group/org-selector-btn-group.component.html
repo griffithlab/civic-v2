@@ -13,12 +13,12 @@
 
       <ng-container *ngTemplateOutlet="submitButton"></ng-container>
 
-      <button type="button" nz-button nzType="primary" class="org-dropdown-btn"
+      <button type="button" nz-button [nzType]="buttonType" [nzDanger]="this.nzDanger" class="org-dropdown-btn"
         [disabled]="disabled"
         nz-dropdown [nzDropdownMenu]="orgMenu">
         <nz-space nzDirection="horizontal" [nzSize]="4">
           <span>for</span>
-          <nz-avatar [nzSrc]="mostRecentOrg?.profileImagePath" [nzSize]="10"
+          <nz-avatar [nzSrc]="selectedOrg?.profileImagePath" [nzSize]="10"
             [nzShape]="'square'"></nz-avatar>
           <i nz-icon nzType="down"></i>
         </nz-space>
@@ -30,7 +30,7 @@
   <nz-dropdown-menu #orgMenu="nzDropdownMenu">
     <ul nz-menu>
       <li *ngFor="let org of organizations"
-        nz-menu-item [nzSelected]="mostRecentOrg?.id === org.id"
+        nz-menu-item [nzSelected]="selectedOrg?.id === org.id"
         (click)="selectOrg(org)">
         <nz-avatar [nzSrc]="org?.profileImagePath" [nzSize]="10"
           [nzShape]="'square'"

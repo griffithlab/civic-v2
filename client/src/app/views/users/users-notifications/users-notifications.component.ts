@@ -6,7 +6,7 @@ import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { EventAction, UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables, ReadStatus, UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables, SubscribableFragment } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 interface SelectableNotificationReason {
   id: number,
@@ -47,6 +47,7 @@ interface Checked { checked: boolean }
   originatingUsers$?: Observable<NotificationOriginatingUsersFragment[]>
   actions$?: Observable<SelectableAction[]>
   organizations$?: Observable<NotificationOrganizationFragment[]>
+  isLoading$?: Observable<boolean>
 
   bulkMarkEnabled: boolean = false
   allChecked: boolean = false
@@ -59,6 +60,7 @@ interface Checked { checked: boolean }
     {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
     {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
   ]
+
 
   constructor(private route: ActivatedRoute, private gql: UserNotificationsGQL, private networkErrorService: NetworkErrorsService, private updateNotificationStatusMuation: UpdateNotificationStatusGQL, private unsubscribeMutation: UnsubscribeGQL) {
     this.userId = +this.route.snapshot.params['userId'];
@@ -126,6 +128,12 @@ interface Checked { checked: boolean }
         return data.notifications.organizations
       })
     )
+
+    this.isLoading$ = this.results$.pipe(
+      map(({loading}) => loading),
+      startWith(true)
+    )
+
   }
 
   fetchMore(endCursor: string) {

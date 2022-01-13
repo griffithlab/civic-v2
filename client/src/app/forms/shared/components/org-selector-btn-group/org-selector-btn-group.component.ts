@@ -17,6 +17,8 @@ import { map, pluck, takeUntil, tap } from 'rxjs/operators';
 import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
 import { CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
+import { NzButtonType } from 'ng-zorro-antd/button';
+import { BooleanInput } from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'cvc-org-selector-btn-group',
@@ -27,12 +29,13 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
   @Input() selectedOrg!: Maybe<Organization>;
   @Output() selectedOrgChange = new EventEmitter<Organization>();
 
+  @Input() buttonType: NzButtonType = 'primary'
+  @Input() nzDanger: BooleanInput = false
+
   @ContentChild(CvcOrgSelectorBtnDirective, {static: false}) button!: CvcOrgSelectorBtnDirective
 
   organizations$!: Observable<Organization[]>;
   mostRecentOrg$!: Observable<Maybe<Organization>>;
-
-  mostRecentOrg: Maybe<Organization>;
 
   private destroy$ = new Subject();
 
@@ -43,7 +46,7 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
   }
 
   selectOrg(org: any): void {
-    this.mostRecentOrg = org;
+    this.selectedOrg = org;
     this.selectedOrgChange.emit(org);
   }
 
@@ -54,8 +57,8 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
     this.mostRecentOrg$ = this.viewerService.viewer$
       .pipe(pluck('mostRecentOrg'),
         tap((org: Maybe<Organization>) => {
-          this.mostRecentOrg = org;
           if (org) {
+            this.selectedOrg = org;
             this.selectedOrgChange.emit(org)
           }
         }));

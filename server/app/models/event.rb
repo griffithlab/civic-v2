@@ -12,6 +12,7 @@ class Event < ActiveRecord::Base
   before_create :capture_user_role
 
   after_commit :queue_feed_updates, on: [:create]
+  after_commit :update_most_recent_org, on: [:create]
 
   #TODO actions as an enum rather than freetext
 
@@ -28,5 +29,12 @@ class Event < ActiveRecord::Base
 
   def queue_feed_updates
     NotifySubscribers.perform_later(self)
+  end
+
+  def update_most_recent_org
+    if self.organization_id
+      self.originating_user.most_recent_organization_id = self.organization_id
+      self.originating_user.save!
+    end
   end
 end

@@ -43,6 +43,10 @@ export class IconNameForEventActionPipe implements PipeTransform {
         return 'file-add'
       case (EventAction.RequeuedSourceSuggestion):
         return 'file-add'
+      case (EventAction.Reverted):
+        return 'civic-evidence'
+      case (EventAction.AssertionReverted):
+        return 'civic-assertion'
       default:
         throw new Error('Not handling all event action types yet' + a)
     }

@@ -11,6 +11,7 @@ import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
 import { IconNameForSubscribableEntity } from './icon-name-for-subscribable-entity';
 import { EnumToTitlePipe } from './enum-to-title-pipe';
 import { TypenameToRoutePipe } from './typename-to-route-pipe';
+import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
     EnumToTitlePipe,
-    TypenameToRoutePipe
+    TypenameToRoutePipe,
+    ColorNameForStatusPipe
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     IconNameForEventActionPipe,
     IconNameForSubscribableEntity,
     EnumToTitlePipe,
-    TypenameToRoutePipe
+    TypenameToRoutePipe,
+    ColorNameForStatusPipe
   ],
   providers: [
     SourceTypeDisplayPipe

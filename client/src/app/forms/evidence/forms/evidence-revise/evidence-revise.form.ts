@@ -385,12 +385,12 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         evidenceType: fields.evidenceType,
         evidenceDirection: fields.evidenceDirection,
         clinicalSignificance: fields.clinicalSignificance,
-        diseaseId: fmt.toNullableInt(fields.disease[0].id),
+        diseaseId: fmt.toNullableInput(fields.disease[0].id),
         evidenceLevel: fields.evidenceLevel,
         phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
         rating: +fields.evidenceRating,
         drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
-        drugInteractionType: fmt.toNullableDrugInteractionTypeInput(fields.drugInteractionType)
+        drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
       },
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
 

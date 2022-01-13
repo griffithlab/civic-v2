@@ -1,0 +1,41 @@
+name: Build CIViC Frontend
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+
+jobs:
+  build_staging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - run: npm install -g yarn
+        working-directory: ./client
+
+      - run: yarn install
+        working-directory: ./client
+
+      - run: rm public/*.js
+        working-directory: ./server
+
+      - run: yarn build --prod
+        working-directory: ./client
+
+      - name: Commit and push build
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: server/public/*
+          branch: ${{ inputs.branch }}
+          message: Automated frontend build

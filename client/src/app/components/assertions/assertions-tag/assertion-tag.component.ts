@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Maybe } from '@app/generated/civic.apollo';
+import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableAssertion {
   id: number,
   name: string,
+  status?: EvidenceStatus
 }
 
 @Component({

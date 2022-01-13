@@ -14,6 +14,7 @@ module Types::Events
     value 'ASSERTION_SUBMITTED', value: 'assertion submitted'
     value 'ASSERTION_ACCEPTED', value: 'assertion accepted'
     value 'ASSERTION_REJECTED', value: 'assertion rejected'
+    value 'ASSERTION_REVERTED', value: 'assertion reverted'
     value 'REVERTED', value: 'reverted'
     value 'REQUEUED_SOURCE_SUGGESTION', value: 'requeued source suggestion'
     value 'CURATED_SOURCE_SUGGESTION', value: 'curated source suggestion'

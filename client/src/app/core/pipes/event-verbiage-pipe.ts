@@ -54,6 +54,10 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'rejected source suggestion'
       case (EventAction.RequeuedSourceSuggestion):
         return 'requeued source suggestion'
+      case (EventAction.Reverted):
+        return 'reverted evidence item'
+      case (EventAction.AssertionReverted):
+        return 'reverted assertion'
       default:
         throw new Error('Not handling all event action types yet')
     }
@@ -95,6 +99,10 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'source suggestion rejected'
       case (EventAction.RequeuedSourceSuggestion):
         return 'source suggestion requeued'
+      case (EventAction.Reverted):
+        return 'evidence item reverted'
+      case (EventAction.AssertionReverted): 
+        return 'assertion reverted'
       default:
         throw new Error('Not handling all event action types yet')
     }
@@ -136,6 +144,10 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'rejected this source suggestion'
       case (EventAction.RequeuedSourceSuggestion):
         return 'requeued this source suggestion'
+      case (EventAction.AssertionReverted):
+        return 'reverted this assertion'
+      case (EventAction.Reverted):
+        return 'reverted this evidence item'
       default:
         throw new Error('Not handling all event action types yet')
     }

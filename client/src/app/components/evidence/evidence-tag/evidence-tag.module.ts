@@ -6,6 +6,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcEvidencePopoverModule } from '../evidence-popover/evidence-popover.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 
 
@@ -17,7 +18,8 @@ import { CvcEvidencePopoverModule } from '../evidence-popover/evidence-popover.m
     NzTagModule,
     NzPopoverModule,
     NzIconModule,
-    CvcEvidencePopoverModule
+    CvcEvidencePopoverModule,
+    CvcPipesModule
   ],
   exports: [CvcEvidenceTagComponent]
 })

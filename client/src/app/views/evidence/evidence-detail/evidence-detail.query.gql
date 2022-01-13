@@ -7,6 +7,7 @@ query EvidenceDetail($evidenceId: Int!) {
 fragment EvidenceDetailFields on EvidenceItem {
   id
   name
+  status
   variant {
     id
     name
