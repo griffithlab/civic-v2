@@ -2167,9 +2167,11 @@ export type OrganizationEdge = {
 /** Filter on organization id and whether or not to include the organization's subgroups */
 export type OrganizationFilter = {
   /** The organization ID. */
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   /** Whether or not to include the organization's subgroup. */
   includeSubgroups?: Maybe<Scalars['Boolean']>;
+  /** The organization name. */
+  name: Scalars['String'];
 };
 
 export type OrganizationSort = {
@@ -2765,7 +2767,11 @@ export type QueryUsersArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   organization?: Maybe<OrganizationFilter>;
+  role?: Maybe<UserRole>;
+  sortBy?: Maybe<UsersSort>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -3631,8 +3637,9 @@ export type User = {
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
+  mostRecentEvent?: Maybe<Event>;
   mostRecentOrganizationId?: Maybe<Scalars['Int']>;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;
   orcid?: Maybe<Scalars['String']>;
@@ -3698,6 +3705,22 @@ export enum UserRole {
   Admin = 'ADMIN',
   Curator = 'CURATOR',
   Editor = 'EDITOR'
+}
+
+export type UsersSort = {
+  /** Available columns for sorting */
+  column: UsersSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum UsersSortColumns {
+  Eids = 'EIDS',
+  Id = 'ID',
+  LastAction = 'LAST_ACTION',
+  Name = 'NAME',
+  Revisions = 'REVISIONS',
+  Role = 'ROLE'
 }
 
 export type ValidationErrors = {
@@ -5323,6 +5346,52 @@ export type PopoverUserFragment = (
   & { organizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
+  )> }
+);
+
+export type UsersBrowseQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  userName?: Maybe<Scalars['String']>;
+  orgName?: Maybe<OrganizationFilter>;
+  userRole?: Maybe<UserRole>;
+  sortBy?: Maybe<UsersSort>;
+}>;
+
+
+export type UsersBrowseQuery = (
+  { __typename: 'Query' }
+  & { users: (
+    { __typename: 'UserConnection' }
+    & Pick<UserConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'>
+    ), edges: Array<(
+      { __typename: 'UserEdge' }
+      & Pick<UserEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'User' }
+        & UserBrowseTableRowFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type UserBrowseTableRowFieldsFragment = (
+  { __typename: 'User' }
+  & Pick<User, 'id' | 'name' | 'role'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )>, statsHash: (
+    { __typename: 'Stats' }
+    & Pick<Stats, 'submittedEvidenceItems' | 'revisions'>
+  ), mostRecentEvent?: Maybe<(
+    { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
   )> }
 );
 
@@ -7743,6 +7812,24 @@ export const PopoverUserFragmentDoc = gql`
   }
 }
     `;
+export const UserBrowseTableRowFieldsFragmentDoc = gql`
+    fragment UserBrowseTableRowFields on User {
+  id
+  name
+  organizations {
+    id
+    name
+  }
+  role
+  statsHash {
+    submittedEvidenceItems
+    revisions
+  }
+  mostRecentEvent {
+    createdAt
+  }
+}
+    `;
 export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
     fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
   id
@@ -9646,6 +9733,45 @@ export const UserPopoverDocument = gql`
   })
   export class UserPopoverGQL extends Apollo.Query<UserPopoverQuery, UserPopoverQueryVariables> {
     document = UserPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UsersBrowseDocument = gql`
+    query UsersBrowse($first: Int, $last: Int, $before: String, $after: String, $userName: String, $orgName: OrganizationFilter, $userRole: UserRole, $sortBy: UsersSort) {
+  users(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $userName
+    organization: $orgName
+    role: $userRole
+    sortBy: $sortBy
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ...UserBrowseTableRowFields
+      }
+    }
+  }
+}
+    ${UserBrowseTableRowFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UsersBrowseGQL extends Apollo.Query<UsersBrowseQuery, UsersBrowseQueryVariables> {
+    document = UsersBrowseDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
