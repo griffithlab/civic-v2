@@ -56,6 +56,9 @@ gem 'graphiql-rails', '~> 1.8.0'
 gem 'rinku', '~> 2.0.6'
 gem 'sanitize', '~> 6.0.0'
 
+#google analytics
+gem 'staccato', '~> 0.5.3'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

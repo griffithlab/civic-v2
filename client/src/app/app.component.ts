@@ -3,6 +3,10 @@ import { NzIconService } from 'ng-zorro-antd/icon';
 
 import { fullColorIcons } from '@app/icons-provider.module';
 import { CivicIconLiteral } from './generated/civic.icons';
+import { NavigationEnd, Router } from '@angular/router';
+import { environment } from 'environments/environment';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -11,8 +15,17 @@ import { CivicIconLiteral } from './generated/civic.icons';
 })
 
 export class AppComponent {
-  constructor(private iconService: NzIconService) {
+  constructor(private iconService: NzIconService, private router: Router) {
     this.addIcons(fullColorIcons);
+    if (environment.production) {
+      this.router.events.subscribe(event => {
+        if(event instanceof NavigationEnd) {
+          gtag('config', 'UA-60119642-1', {
+            'page_path':  event.urlAfterRedirects
+          });
+        }
+      })
+    }
   }
 
   // TODO: switch to twotone civic custom icons ('civic-[entity]') exclusively.
