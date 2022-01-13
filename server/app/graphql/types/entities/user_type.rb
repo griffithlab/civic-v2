@@ -18,6 +18,7 @@ module Types::Entities
     field :stats_hash, Types::StatsType, null: false
     field :most_recent_conflict_of_interest_statement, Types::Entities::CoiType, null: true
     field :most_recent_event, Types::Entities::EventType, null: true
+    field :most_recent_organization_id, Int, null: true
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
     field :profile_image_path, String, null: true do
@@ -99,6 +100,10 @@ module Types::Entities
 
     def most_recent_conflict_of_interest_statement
       Loaders::AssociationLoader.for(User, :most_recent_conflict_of_interest_statement).load(object)
+    end
+
+    def most_recent_event
+      Loaders::AssociationLoader.for(User, :most_recent_event).load(object)
     end
   end
 end

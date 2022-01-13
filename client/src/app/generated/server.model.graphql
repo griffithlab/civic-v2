@@ -5815,6 +5815,7 @@ type User {
   linkedinProfile: String
   mostRecentConflictOfInterestStatement: Coi
   mostRecentEvent: Event
+  mostRecentOrganizationId: Int
   name: String
 
   """

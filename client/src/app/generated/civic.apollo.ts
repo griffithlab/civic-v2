@@ -3565,6 +3565,7 @@ export type User = {
   linkedinProfile?: Maybe<Scalars['String']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
   mostRecentEvent?: Maybe<Event>;
+  mostRecentOrganizationId?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   /** Filterable list of notifications for the logged in user. */
   notifications?: Maybe<NotificationConnection>;

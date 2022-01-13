@@ -29,14 +29,7 @@ class Resolvers::TopLevelUsers < GraphQL::Schema::Resolver
   end
 
   option(:role, type: Types::Entities::UserRoleType, description: 'Filtering on role.') do | scope, value |
-    case value
-    when 'curator'
-      scope.where("role = ?", 0)
-    when 'editor'
-      scope.where("role = ?", 1)
-    when 'admin'
-      scope.where("role = ?", 2)
-    end
+    scope.where(role: value)
   end
 
   option(:sort_by, type: Types::BrowseTables::UsersSortType, description: 'Sort user columns in ascending or decending order') do |scope, value|
