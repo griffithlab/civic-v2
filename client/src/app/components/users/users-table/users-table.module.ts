@@ -12,6 +12,9 @@ import { CvcOrganizationTagModule } from "@app/components/organizations/organiza
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { FormsModule } from "@angular/forms";
 import { NzButtonModule } from "ng-zorro-antd/button";
+import { CvcPipesModule } from "@app/core/pipes/pipes.module";
+import { CivicTimeagoFormatter } from "@app/core/utilities/timeago-formatter";
+import { TimeagoFormatter, TimeagoModule } from "ngx-timeago";
 
 @NgModule({
   declarations: [CvcUsersTableComponent],
@@ -27,6 +30,8 @@ import { NzButtonModule } from "ng-zorro-antd/button";
     CvcClearableInputFilterModule,
     CvcLinkTagModule,
     CvcUserTagModule,
+    CvcPipesModule,
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     CvcOrganizationTagModule
   ],
   exports: [CvcUsersTableComponent]

@@ -37,6 +37,7 @@ query UsersBrowse(
 fragment UserBrowseTableRowFields on User {
   id
   name
+  displayName
   organizations {
     id
     name
@@ -46,7 +47,5 @@ fragment UserBrowseTableRowFields on User {
     submittedEvidenceItems
     revisions
   }
-  mostRecentEvent {
-    createdAt
-  }
+  mostRecentActionTimestamp
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { Maybe, PageInfo, UsersSortColumns, OrganizationFilter, UserRole, UsersBrowseQuery, UsersBrowseQueryVariables, UsersBrowseGQL, UserBrowseTableRowFieldsFragment } from "@app/generated/civic.apollo";
+import { Maybe, PageInfo, UsersSortColumns, OrganizationFilter, UserRole, UsersBrowseQuery, UsersBrowseQueryVariables, UsersBrowseGQL, UserBrowseTableRowFieldsFragment, SortDirection } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from 'rxjs';
@@ -40,7 +40,11 @@ export class CvcUsersTableComponent implements OnInit {
   ngOnInit(): void {
 
     this.queryRef = this.gql.watch({
-      first: this.initialPageSize
+      first: this.initialPageSize,
+      sortBy: {
+        column: UsersSortColumns.LastAction,
+        direction: SortDirection.Desc
+      }
     });
 
     let observable = this.queryRef.valueChanges;

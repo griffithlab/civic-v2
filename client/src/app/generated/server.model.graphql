@@ -5932,6 +5932,7 @@ type User {
   facebookProfile: String
   id: Int!
   linkedinProfile: String
+  mostRecentActionTimestamp: ISO8601DateTime
   mostRecentConflictOfInterestStatement: Coi
   mostRecentEvent: Event
   mostRecentOrganizationId: Int
@@ -6055,11 +6056,9 @@ input UsersSort {
 }
 
 enum UsersSortColumns {
-  EIDS
   ID
   LAST_ACTION
   NAME
-  REVISIONS
   ROLE
 }
 

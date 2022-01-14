@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_20_202643) do
+ActiveRecord::Schema.define(version: 2022_01_14_224101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -700,9 +700,11 @@ ActiveRecord::Schema.define(version: 2021_12_20_202643) do
     t.boolean "signup_complete"
     t.integer "country_id"
     t.integer "most_recent_organization_id"
+    t.datetime "most_recent_action_timestamp"
     t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
+    t.index ["most_recent_action_timestamp"], name: "index_users_on_most_recent_action_timestamp"
     t.index ["role"], name: "index_users_on_role"
   end
 
