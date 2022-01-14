@@ -11,6 +11,10 @@
     "target": "http://localhost:3000",
     "secure": false
   },
+  "/links/*": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
   "/rails": {
     "target": "http://localhost:3000",
     "secure": false
