@@ -35,6 +35,10 @@ class FrontendRouter
       [ VariantGroup, :id, ]
     when /revisions?/
       [ Revision, :id ]
+    when /diseases?/
+      [ Disease, :id ]
+    when /drugs?/
+      [ Drug, :id ]
     when /assertions?/
       [ Assertion, :id ]
     when /allele_registry/

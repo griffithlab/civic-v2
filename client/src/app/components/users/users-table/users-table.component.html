@@ -27,7 +27,9 @@
       <th>
           Revisions
       </th>
-      <th>
+      <th
+        [nzColumnKey]="sortColumns.LastAction"
+        [nzSortFn]="true">
           Last Action
       </th>
     </tr>
@@ -84,7 +86,7 @@
         </ng-template>
       </td>
       <td>
-        {{ user.role }}
+        {{ user.role | enumToTitle }}
       </td>
       <td>
         {{ user.statsHash.submittedEvidenceItems }}
@@ -93,8 +95,8 @@
         {{ user.statsHash.revisions }}
       </td>
       <td>
-        <ng-container *ngIf="user.mostRecentEvent; else eventElse">
-          {{ user.mostRecentEvent.createdAt }}
+        <ng-container *ngIf="user.mostRecentActionTimestamp else eventElse">
+          {{ user.mostRecentActionTimestamp | timeago }}
         </ng-container>
         <ng-template #eventElse>
           --

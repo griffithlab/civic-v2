@@ -3,8 +3,6 @@ module Types::BrowseTables
     value "ID"
     value "NAME"
     value "ROLE"
-    value "EIDS"
-    value "REVISIONS"
     value "LAST_ACTION"
   end
 end

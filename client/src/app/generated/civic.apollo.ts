@@ -3636,6 +3636,7 @@ export type User = {
   facebookProfile?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   linkedinProfile?: Maybe<Scalars['String']>;
+  mostRecentActionTimestamp?: Maybe<Scalars['ISO8601DateTime']>;
   mostRecentConflictOfInterestStatement?: Maybe<Coi>;
   mostRecentEvent?: Maybe<Event>;
   mostRecentOrganizationId?: Maybe<Scalars['Int']>;
@@ -3715,11 +3716,9 @@ export type UsersSort = {
 };
 
 export enum UsersSortColumns {
-  Eids = 'EIDS',
   Id = 'ID',
   LastAction = 'LAST_ACTION',
   Name = 'NAME',
-  Revisions = 'REVISIONS',
   Role = 'ROLE'
 }
 
@@ -5382,17 +5381,14 @@ export type UsersBrowseQuery = (
 
 export type UserBrowseTableRowFieldsFragment = (
   { __typename: 'User' }
-  & Pick<User, 'id' | 'name' | 'role'>
+  & Pick<User, 'id' | 'name' | 'displayName' | 'role' | 'mostRecentActionTimestamp'>
   & { organizations: Array<(
     { __typename: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
   )>, statsHash: (
     { __typename: 'Stats' }
     & Pick<Stats, 'submittedEvidenceItems' | 'revisions'>
-  ), mostRecentEvent?: Maybe<(
-    { __typename: 'Event' }
-    & Pick<Event, 'createdAt'>
-  )> }
+  ) }
 );
 
 export type BrowseVariantGroupsQueryVariables = Exact<{
@@ -7816,6 +7812,7 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
     fragment UserBrowseTableRowFields on User {
   id
   name
+  displayName
   organizations {
     id
     name
@@ -7825,9 +7822,7 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
     submittedEvidenceItems
     revisions
   }
-  mostRecentEvent {
-    createdAt
-  }
+  mostRecentActionTimestamp
 }
     `;
 export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
