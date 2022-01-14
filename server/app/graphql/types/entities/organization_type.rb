@@ -49,11 +49,11 @@ module Types::Entities
     end
 
     def member_count
-      Loaders::CountLoader.for(Organization, association: :users).load(object.id)
+      Loaders::AssociationCountLoader.for(Organization, association: :users).load(object.id)
     end
 
     def event_count
-      Loaders::CountLoader.for(Organization, association: :events).load(object.id)
+      Loaders::AssociationCountLoader.for(Organization, association: :events).load(object.id)
     end
   end
 end
