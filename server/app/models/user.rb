@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_many :organizations, through: :affiliations
   has_many :notifications, foreign_key: :notified_user_id
   belongs_to :most_recent_organization, class_name: 'Organization', optional: true
-  belongs_to :country
+  belongs_to :country, optional: true
   has_many :conflict_of_interest_statements, dependent: :destroy
   has_one :most_recent_conflict_of_interest_statement,
     ->() { order('created_at DESC').limit(1) },
