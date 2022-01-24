@@ -98,30 +98,24 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <nz-space-item>
-              <a routerLink="/evidences/{{evidence.id}}/flags">
-                <nz-tag nzColor="red">
-                  <i nz-icon
-                    nzType="civic-flag"></i> Flags ({{ evidence.flags.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
-            <nz-space-item>
-              <a routerLink="/evidences/{{evidence.id}}/revisions">
-                <nz-tag nzColor="orange">
-                  <i nz-icon
-                    nzType="civic-revision"></i> Revisions ({{ evidence.revisions.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
-            <nz-space-item>
-              <a routerLink="/evidences/{{evidence.id}}/comments">
-                <nz-tag nzColor="blue">
-                  <i nz-icon
-                    nzType="civic-comment"></i> Comments ({{ evidence.comments.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
+            <a routerLink="/evidences/{{evidence.id}}/flags" *nzSpaceItem>
+              <nz-tag nzColor="red">
+                <i nz-icon
+                  nzType="civic-flag"></i> Flags ({{ evidence.flags.totalCount }})
+              </nz-tag>
+            </a>
+            <a routerLink="/evidences/{{evidence.id}}/revisions" *nzSpaceItem>
+              <nz-tag nzColor="orange">
+                <i nz-icon
+                  nzType="civic-revision"></i> Revisions ({{ evidence.revisions.totalCount }})
+              </nz-tag>
+            </a>
+            <a routerLink="/evidences/{{evidence.id}}/comments" *nzSpaceItem>
+              <nz-tag nzColor="blue">
+                <i nz-icon
+                  nzType="civic-comment"></i> Comments ({{ evidence.comments.totalCount }})
+              </nz-tag>
+            </a>
           </nz-space>
         </nz-col>
       </nz-row>

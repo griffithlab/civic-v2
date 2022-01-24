@@ -6,24 +6,25 @@
     <nz-space nzDirection="horizontal">
 
       <!-- parent relations -->
-      <nz-space-item>
-        <span nz-typography
-          class="label">Related to <strong>{{ assertion.name }}</strong>:</span>
-      </nz-space-item>
-      <nz-space-item class="tags">
+      <span nz-typography
+        class="label"
+        *nzSpaceItem>Related to <strong>{{ assertion.name }}</strong>:</span>
+      <span *nzSpaceItem
+        class="tags">
         <a routerLink="/genes/{{ assertion.gene.id }}">
           <cvc-gene-tag [gene]="assertion.gene"></cvc-gene-tag>
         </a>
         <a routerLink="/variants/{{ assertion.variant.id }}">
           <cvc-variant-tag [variant]="assertion.variant"></cvc-variant-tag>
         </a>
-      </nz-space-item>
+      </span>
 
     </nz-space>
   </ng-template>
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
-    <nz-page-header *ngrxLet="viewer$ as viewer" class="site-page-header">
+    <nz-page-header *ngrxLet="viewer$ as viewer"
+      class="site-page-header">
 
       <!-- title -->
       <nz-page-header-title cvcFlaggableOptions
@@ -33,53 +34,74 @@
       </nz-page-header-title>
 
       <!-- header action btns, actions menu -->
-      <nz-page-header-extra >
+      <nz-page-header-extra>
         <nz-space nzDirection="horizontal"
-          nzSize="small" >
+          nzSize="small">
 
           <!-- add revision btn -->
-          <nz-space-item>
+          <ng-container *ngIf="viewer.signedIn">
             <button routerLink="suggest-revision"
-              *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small">
+              nzSize="small"
+              *nzSpaceItem>
               Revise
             </button>
-          </nz-space-item>
+          </ng-container>
 
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
-          <nz-space-item>
+          <ng-container *ngIf="viewer.signedIn">
             <button routerLink="flags"
-              *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small">
+              nzSize="small"
+              *nzSpaceItem>
               Flag
             </button>
-          </nz-space-item>
+          </ng-container>
 
-          <nz-space-item>
-            <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="Assertion">
+          <ng-container *ngIf="viewer.signedIn && subscribable">
+            <cvc-entity-subscription-button
+              [viewer]="viewer"
+              [subscribableId]="subscribable.id"
+              typename="Assertion"
+              *nzSpaceItem>
             </cvc-entity-subscription-button>
-          </nz-space-item>
+          </ng-container>
 
-          <nz-space-item>
-            <cvc-revert-entity-button *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'" entityType="Assertion" [entityId]="assertion.id" (onReverted)="onRevertCompleted($event)">
+          <ng-container *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'">
+            <cvc-revert-entity-button
+              entityType="Assertion"
+              [entityId]="assertion.id"
+              (onReverted)="onRevertCompleted($event)"
+              *nzSpaceItem>
             </cvc-revert-entity-button>
-          </nz-space-item>
+          </ng-container>
         </nz-space>
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
-        <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-        <nz-alert *ngIf="this.assertion.status == 'SUBMITTED'" nzBanner nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
+        <nz-alert *ngFor="let error of this.errors"
+          nzBanner
+          [nzMessage]="error"
+          nzType="error"
+          nzCloseable
+          (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+        <nz-alert *ngIf="this.successMessage"
+          nzBanner
+          [nzMessage]="this.successMessage"
+          nzType="success"
+          nzCloseable
+          (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+        <nz-alert *ngIf="this.assertion.status == 'SUBMITTED'"
+          nzBanner
+          nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
+          nzType="warning"></nz-alert>
         <cvc-tab-navigation [tabs]="this.tabs">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
@@ -88,10 +110,14 @@
           </ng-template>
         </cvc-tab-navigation>
         <nz-space nzDirection="vertical">
-          <nz-space-item>
-            <cvc-moderate-entity-buttons *ngIf="viewer.canModerate && assertion.status == 'SUBMITTED'" entityType="Assertion" [entityId]="assertion.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
+          <ng-container *ngIf="viewer.canModerate && assertion.status == 'SUBMITTED'">
+            <cvc-moderate-entity-buttons entityType="Assertion"
+              [entityId]="assertion.id"
+              (onModerated)="onModerateCompleted($event)"
+              [viewer]="viewer"
+              *nzSpaceItem>
             </cvc-moderate-entity-buttons>
-          </nz-space-item>
+          </ng-container>
         </nz-space>
         <div class="content">
           <router-outlet></router-outlet>

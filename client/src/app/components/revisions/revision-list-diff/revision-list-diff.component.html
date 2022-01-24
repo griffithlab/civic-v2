@@ -17,18 +17,20 @@
   <nz-col [nzSpan]="8">
     <nz-space nzDirection="vertical">
       <!-- show removed items -->
-      <nz-list *ngIf="this.diffObject.currentObjects.length > 0" nzHeader="Removed {{ entityType }}" nzBordered nzType="inner" nzSize="small" *nzSpaceItem>
-        <nz-list-item *ngFor="let item of this.diffObject.removedObjects" ngClass="removed">
-          <span nz-typography>
-            <ng-container
-              [ngTemplateOutlet]="itemTemplateRef || null"
-              [ngTemplateOutletContext]="{ $implicit: item }">
-            </ng-container>
-          </span>
-        </nz-list-item>
-        <nz-list-empty *ngIf="this.diffObject.removedObjects.length === 0"
-          nzNoResult="No {{ entityType }} Removed"></nz-list-empty>
-      </nz-list>
+      <ng-container *ngIf="this.diffObject.currentObjects.length > 0" >
+        <nz-list nzHeader="Removed {{ entityType }}" nzBordered nzType="inner" nzSize="small" *nzSpaceItem>
+          <nz-list-item *ngFor="let item of this.diffObject.removedObjects" ngClass="removed">
+            <span nz-typography>
+              <ng-container
+                [ngTemplateOutlet]="itemTemplateRef || null"
+                [ngTemplateOutletContext]="{ $implicit: item }">
+              </ng-container>
+            </span>
+          </nz-list-item>
+          <nz-list-empty *ngIf="this.diffObject.removedObjects.length === 0"
+            nzNoResult="No {{ entityType }} Removed"></nz-list-empty>
+        </nz-list>
+      </ng-container>
       <!-- show added items -->
       <nz-list nzHeader="Added {{ entityType }}" nzBordered nzType="inner" nzSize="small" *nzSpaceItem>
         <nz-list-item *ngFor="let item of this.diffObject.addedObjects" ngClass="added">
@@ -42,18 +44,20 @@
         <nz-list-empty *ngIf="this.diffObject.addedObjects.length === 0"
           nzNoResult="No {{ entityType }} Added"></nz-list-empty>
       </nz-list>
-      <nz-list *ngIf="this.diffObject.currentObjects.length > 0" nzHeader="Kept {{ entityType }}" nzBordered nzType="inner" nzSize="small" *nzSpaceItem>
-        <nz-list-item *ngFor="let item of this.diffObject.keptObjects" ngClass="kept">
-          <span nz-typography>
-            <ng-container
-              [ngTemplateOutlet]="itemTemplateRef || null"
-              [ngTemplateOutletContext]="{ $implicit: item }">
-            </ng-container>
-          </span>
-        </nz-list-item>
-        <nz-list-empty *ngIf="this.diffObject.keptObjects.length === 0"
-          nzNoResult="No {{ entityType }} Kept"></nz-list-empty>
-      </nz-list>
+      <ng-container *ngIf="this.diffObject.currentObjects.length > 0">
+        <nz-list nzHeader="Kept {{ entityType }}" nzBordered nzType="inner" nzSize="small" *nzSpaceItem>
+          <nz-list-item *ngFor="let item of this.diffObject.keptObjects" ngClass="kept">
+            <span nz-typography>
+              <ng-container
+                [ngTemplateOutlet]="itemTemplateRef || null"
+                [ngTemplateOutletContext]="{ $implicit: item }">
+              </ng-container>
+            </span>
+          </nz-list-item>
+          <nz-list-empty *ngIf="this.diffObject.keptObjects.length === 0"
+            nzNoResult="No {{ entityType }} Kept"></nz-list-empty>
+        </nz-list>
+      </ng-container>
     </nz-space>
   </nz-col>
   <nz-col [nzSpan]="8">

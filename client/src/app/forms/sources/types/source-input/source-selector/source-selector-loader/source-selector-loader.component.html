@@ -51,20 +51,25 @@
 <ng-template #fetchCitation>
   <!-- source not found, fetch citation? -->
   <nz-space nzDirection="vertical">
-    <span *ngIf="showPrompt" *nzSpaceItem
+    <ng-container *ngIf="showPrompt">
+    <span *nzSpaceItem
       nz-typography>
       <i nz-icon nzType="info-circle" nzTheme="twotone"></i>
       Source not known to CIViC, fetch citation from {{ sourceTypeKey }}?
     </span>
-    <span *ngIf="existenceFail" *nzSpaceItem>
-      <nz-alert nzType="warning"
-        [nzMessage]="existenceFail"
-        nzShowIcon>
-      </nz-alert>
-      <ng-template #existenceFail>
-        Citation not found for {{ sourceTypeKey }}: {{ citationId  }}.
-      </ng-template>
-    </span>
+    </ng-container>
+
+    <ng-container *ngIf="existenceFail">
+      <span *nzSpaceItem>
+        <nz-alert nzType="warning"
+          [nzMessage]="existenceFail"
+          nzShowIcon>
+        </nz-alert>
+        <ng-template #existenceFail>
+          Citation not found for {{ sourceTypeKey }}: {{ citationId  }}.
+        </ng-template>
+      </span>
+    </ng-container>
     <button type="submit" *nzSpaceItem
       (click)="onExistenceQuery($event)"
       [nzLoading]="isChecking"

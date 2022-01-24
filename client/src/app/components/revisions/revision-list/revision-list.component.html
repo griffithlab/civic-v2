@@ -230,10 +230,12 @@
                     </button>
                   </ng-template>
                 </span>
-                <i nz-icon *ngIf="totalErrorCount > 0" nzType="exclamation-circle"
-                  nzTheme="twotone" nzTwotoneColor="red"
-                  nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity"
-                  [nzPopoverContent]="validationErrorTemplate" *nzSpaceItem></i>
+                <ng-container *ngIf="totalErrorCount > 0">
+                  <i nz-icon nzType="exclamation-circle"
+                    nzTheme="twotone" nzTwotoneColor="red"
+                    nz-popover nzPopoverTitle="Selected Revisions would result in an invalid entity"
+                    [nzPopoverContent]="validationErrorTemplate" *nzSpaceItem></i>
+                </ng-container>
               </nz-space>
               <ng-template #validationPopoverTitleTemplate>
                 Review Selected Revisions
