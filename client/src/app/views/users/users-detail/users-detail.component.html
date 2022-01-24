@@ -22,13 +22,9 @@
         <div nz-row [nzGutter]="16">
           <div nz-col [nzSpan]="3">
             <nz-space nzDirection="vertical" nzSize="middle">
-              <nz-space-item>
-                <cvc-user-avatar [user]="user" [size]="128"></cvc-user-avatar>
-              </nz-space-item>
-              <nz-space-item>
-                <cvc-avatar-uploader *ngIf="this.ownProfile$ | ngrxPush"
-                  (uploadComplete)="profileUploadComplete($event)"></cvc-avatar-uploader>
-              </nz-space-item>
+              <cvc-user-avatar [user]="user" [size]="128" *nzSpaceItem></cvc-user-avatar>
+              <cvc-avatar-uploader *ngIf="this.ownProfile$ | ngrxPush"
+                (uploadComplete)="profileUploadComplete($event)" *nzSpaceItem></cvc-avatar-uploader>
             </nz-space>
           </div>
           <div nz-col [nzSpan]='13'>
@@ -54,11 +50,11 @@
             <nz-descriptions nzTitle="Editor Conflict of Interest Statement" nzBordered [nzExtra]="updateCoi">
               <ng-container *ngIf="user.mostRecentConflictOfInterestStatement">
                 <nz-descriptions-item [nzSpan]="3" nzTitle="Status">{{
-                  user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }} </nz-descriptions-item>
+                                                                      user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }} </nz-descriptions-item>
                 <nz-descriptions-item [nzSpan]="2" nzTitle="Updated">{{
-                  user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }} </nz-descriptions-item>
+                                                                       user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }} </nz-descriptions-item>
                 <nz-descriptions-item [nzSpan]="2" nzTitle="Expires">{{
-                  user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }} </nz-descriptions-item>
+                                                                       user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }} </nz-descriptions-item>
                 <nz-descriptions-item [nzSpan]="3" nzTitle="Statement">
                   <ng-container *ngIf="user.mostRecentConflictOfInterestStatement.coiPresent; else noStatement">
                     {{user.mostRecentConflictOfInterestStatement.coiStatement }}
@@ -138,20 +134,20 @@
     [nzTitle]="profileModalTitle"
     [nzFooter]="null"
     (nzOnCancel)="this.handleProfileModalCancel()">
-  <ng-template #profileModalTitle><span>Update Profile</span></ng-template>
-  <ng-template #profileModalContent>
-    <cvc-update-profile [user]="user" (profileUpdatedEvent)="this.profileUpdated()"></cvc-update-profile>
-  </ng-template>
+    <ng-template #profileModalTitle><span>Update Profile</span></ng-template>
+    <ng-template #profileModalContent>
+      <cvc-update-profile [user]="user" (profileUpdatedEvent)="this.profileUpdated()"></cvc-update-profile>
+    </ng-template>
   </nz-modal>
 </ng-container>
 
-  <nz-modal [(nzVisible)]="this.updateCoiModalVisible"
-    [nzContent]="coiModalContent"
-    [nzTitle]="coiModalTitle"
-    [nzFooter]="null"
-    (nzOnCancel)="this.handleCoiModalCancel()">
+<nz-modal [(nzVisible)]="this.updateCoiModalVisible"
+  [nzContent]="coiModalContent"
+  [nzTitle]="coiModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="this.handleCoiModalCancel()">
   <ng-template #coiModalTitle><span>Update your Conflict of Interest Statement</span></ng-template>
   <ng-template #coiModalContent>
     <cvc-update-coi (coiUpdatedEvent)="this.coiUpdated()"></cvc-update-coi>
   </ng-template>
-  </nz-modal>
+</nz-modal>

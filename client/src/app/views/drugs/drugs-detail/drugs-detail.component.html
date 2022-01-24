@@ -3,10 +3,8 @@
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <nz-space nzDirection="horizontal">
-        <nz-space-item>
-          <i nz-icon nzType="civic:intervention"></i>
-        </nz-space-item>
-        {{ drug.name }}
+        <i nz-icon nzType="civic:intervention" *nzSpaceItem></i>
+        <span *nzSpaceItem>{{ drug.name }}</span>
       </nz-space>
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="drug.ncitId">

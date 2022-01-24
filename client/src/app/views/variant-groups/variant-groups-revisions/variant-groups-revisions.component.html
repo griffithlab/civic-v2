@@ -33,29 +33,25 @@
                       nzSpan="24"
                       style="text-align: right;">
                       <nz-space nzDirection="horizontal">
-                        <nz-space-item>
-                          <cvc-org-selector-btn-group [(selectedOrg)]="mostRecentOrg">
-                            <button type="submit"
-                              nz-button
-                              cvcOrgSelectorBtn
-                              nzType="primary"
-                              nzSize="small">
-                              Reject Revision
-                            </button>
-                          </cvc-org-selector-btn-group>
-                        </nz-space-item>
-                        <nz-space-item>
-                          <cvc-org-selector-btn-group [(selectedOrg)]="mostRecentOrg">
-                            <button type="submit"
-                              nz-button
-                              cvcOrgSelectorBtn
-                              nzType="primary"
-                              nzSize="small">
-                              Accept Revision
-                            </button>
-                          </cvc-org-selector-btn-group>
+                        <cvc-org-selector-btn-group [(selectedOrg)]="mostRecentOrg" *nzSpaceItem>
+                          <button type="submit"
+                            nz-button
+                            cvcOrgSelectorBtn
+                            nzType="primary"
+                            nzSize="small">
+                            Reject Revision
+                          </button>
+                        </cvc-org-selector-btn-group>
+                        <cvc-org-selector-btn-group [(selectedOrg)]="mostRecentOrg" *nzSpaceItem>
+                          <button type="submit"
+                            nz-button
+                            cvcOrgSelectorBtn
+                            nzType="primary"
+                            nzSize="small">
+                            Accept Revision
+                          </button>
+                        </cvc-org-selector-btn-group>
 
-                        </nz-space-item>
                       </nz-space>
 
                     </div>
@@ -73,13 +69,9 @@
               <!-- header secondary & status -->
               <ng-template #revCardHeaderExtra>
                 <nz-space nzSize="small">
-                  <nz-space-item>
-                    <span nz-typography
-                      nzType="secondary">{{ revision.node.createdAt | timeago }}</span>
-                  </nz-space-item>
-                  <nz-space-item>
-                    <nz-tag>{{ revision.node.status }}</nz-tag>
-                  </nz-space-item>
+                  <span nz-typography *nzSpaceItem
+                    nzType="secondary">{{ revision.node.createdAt | timeago }}</span>
+                  <nz-tag *nzSpaceItem>{{ revision.node.status }}</nz-tag>
                 </nz-space>
               </ng-template>
             </nz-list-item>
@@ -109,7 +101,7 @@
         <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
         </nz-avatar>
         <ng-template #noAvatar>
-            <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+          <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
         </ng-template>
         <span>{{user.username}}</span>
       </ng-template>

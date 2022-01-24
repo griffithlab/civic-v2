@@ -11,18 +11,10 @@
       nz-type="inner">
       <nz-space nzDirection="vertical"
         style="width: 100%">
-        <nz-space-item>
-          <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton [nzParagraph]="{ rows: 3 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton [nzParagraph]="{ rows: 4 }"></nz-skeleton>
-        </nz-space-item>
-        <nz-space-item>
-          <nz-skeleton [nzParagraph]="{ rows: 5 }"></nz-skeleton>
-        </nz-space-item>
+        <nz-skeleton [nzParagraph]="{ rows: 1 }" *nzSpaceItem></nz-skeleton>
+        <nz-skeleton [nzParagraph]="{ rows: 3 }" *nzSpaceItem></nz-skeleton>
+        <nz-skeleton [nzParagraph]="{ rows: 4 }" *nzSpaceItem></nz-skeleton>
+        <nz-skeleton [nzParagraph]="{ rows: 5 }" *nzSpaceItem></nz-skeleton>
       </nz-space>
     </nz-card>
   </nz-col>

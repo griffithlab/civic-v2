@@ -4,11 +4,11 @@
   class="card-list">
   <ng-container *ngIf="flags && flags.length > 0; else noFlags">
     <nz-space nzDirection="vertical">
-      <nz-space-item *ngFor="let flag of flags">
-        <nz-card 
+      <ng-container *ngFor="let flag of flags">
+        <nz-card
           [nzTitle]="flagCardHeaderTitle"
           [nzExtra]="flagCardHeaderExtra"
-          nzType="inner">
+          nzType="inner" *nzSpaceItem>
           <cvc-comment-body *ngIf="flag.openComment" [commentBodySegments]="flag.openComment.parsedComment"></cvc-comment-body>
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
@@ -17,9 +17,9 @@
           <ng-template #flagResolved>
             <nz-row>
               <nz-col nzSpan="16">
-              <ng-container *ngIf="flag.resolutionComment">
+                <ng-container *ngIf="flag.resolutionComment">
                   <cvc-comment-body [commentBodySegments]="flag.resolutionComment.parsedComment"></cvc-comment-body>
-              </ng-container>
+                </ng-container>
 
               </nz-col>
               <nz-col nzSpan="8" nz-typography nzType="secondary" style="text-align: right;">
@@ -38,18 +38,16 @@
           <!-- header secondary & status -->
           <ng-template #flagCardHeaderExtra>
             <nz-space nzSize="small">
-              <nz-space-item>
+              <span *nzSpaceItem>
                 <span nz-typography nzType="secondary">Flagged By</span>
                 <cvc-user-tag [user]="flag.flaggingUser"></cvc-user-tag>
                 <span nz-typography nzType="secondary">{{ flag.createdAt | timeago }}</span>
-              </nz-space-item>
-              <nz-space-item>
-                <cvc-status-tag [status]="flag.state"></cvc-status-tag>
-              </nz-space-item>
+              </span>
+              <cvc-status-tag [status]="flag.state" *nzSpaceItem></cvc-status-tag>
             </nz-space>
           </ng-template>
         </nz-card>
-      </nz-space-item>
+      </ng-container>
     </nz-space>
   </ng-container>
   <ng-template #noFlags>

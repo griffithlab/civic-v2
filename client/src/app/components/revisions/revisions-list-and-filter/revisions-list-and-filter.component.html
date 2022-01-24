@@ -2,23 +2,20 @@
   <nz-row [nzGutter]="16">
     <nz-col nzSpan="18">
       <nz-space nzDirection="vertical">
-        <nz-space-item>
-          <cvc-revision-list [revisions]="revisions$ | ngrxPush" (revisionSetSelectedEvent)="onRevisionSetSelected($event)" (revisionMutationCompleted)="refresh()"></cvc-revision-list>
-        </nz-space-item>
+        <cvc-revision-list [revisions]="revisions$ | ngrxPush" (revisionSetSelectedEvent)="onRevisionSetSelected($event)" (revisionMutationCompleted)="refresh()" *nzSpaceItem></cvc-revision-list>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <nz-space-item  *ngIf="pageInfo?.hasNextPage">
-            <button nz-button nzBlock nzType="default" (click)="loadMore(pageInfo?.endCursor)">Load More</button>
-          </nz-space-item>
+          <ng-container  *ngIf="pageInfo?.hasNextPage">
+            <button nz-button nzBlock nzType="default" (click)="loadMore(pageInfo?.endCursor)" *nzSpaceItem>Load More</button>
+          </ng-container>
         </ng-container>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
+      <!-- TODO: Evaluate the need for this nz-space -->
       <nz-space nzDirection="vertical" *ngIf="this.filteredSet">
-        <nz-space-item>
-        <nz-row >
+        <nz-row *nzSpaceItem>
           <nz-tag nzMode="closeable" (nzOnClose)="onSetFilterClearClicked()">Group: {{this.filteredSet}}</nz-tag>
         </nz-row>
-        </nz-space-item>
       </nz-space>
       <cvc-participant-list listTitle="Revision Status" [preselectedOption]="this.selectableStatuses[0]" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">
         <ng-template #itemTemplate let-status>
@@ -30,7 +27,7 @@
           <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
           </nz-avatar>
           <ng-template #noAvatar>
-              <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+            <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
           </ng-template>
           <span>{{user.username}}</span>
         </ng-template>
@@ -45,7 +42,7 @@
           <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
           </nz-avatar>
           <ng-template #noAvatar>
-              <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+            <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
           </ng-template>
           <span>{{user.username}}</span>
         </ng-template>
@@ -56,7 +53,7 @@
 <ng-template #noRevisions>
   <ng-container *ngIf="isLoading$ | ngrxPush as isLoading; else noneFound">
     <nz-row nzJustify="center">
-        <i nz-icon nzType="loading" style="font-size: 32px;"></i>
+      <i nz-icon nzType="loading" style="font-size: 32px;"></i>
     </nz-row>
   </ng-container>
   <ng-template #noneFound>

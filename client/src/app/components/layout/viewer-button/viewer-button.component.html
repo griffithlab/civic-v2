@@ -1,6 +1,6 @@
 <ng-container *ngIf="viewer$ | ngrxPush as viewer">
   <nz-space nzAlign="center" nzSize="middle">
-    <nz-space-item routerLink="/users/{{viewer.id}}/notifications">
+    <a routerLink="/users/{{viewer.id}}/notifications" *nzSpaceItem>
       <ng-container *ngrxLet="unreadCount$ as unreadCount">
         <div class="topMenuIcon" nz-tooltip nzTooltipTitle="You have {{unreadCount}} unread notification(s).">
           <i nz-icon nzType="bell" nzTheme="outline" ></i>
@@ -8,76 +8,72 @@
           </nz-badge>
         </div>
       </ng-container>
-    </nz-space-item>
-    <nz-space-item>
-      <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="addMenu" nzPlacement="bottomRight">
-        <i nz-icon nzType="plus" nzTheme="outline" ></i>
-        <i class="topMenuSecondary" nz-icon nzType="caret-down" nzTheme="outline" ></i>
-        <nz-dropdown-menu #addMenu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item>
-                <a routerLink="/evidence/add/submit">
-                  Add Evidence
-                </a>
-              </li>
-            <li nz-menu-item>
-                <a routerLink="/assertions/add/submit">
-                  Add Assertion
-                </a>
-              </li>
-            <li nz-menu-item>
-                <a routerLink="/assertions/add/submit">
-                  Suggest Source
-                </a>
-              </li>
-          </ul>
-        </nz-dropdown-menu>
-      </div>
-    </nz-space-item>
-    <nz-space-item>
-      <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" nzPlacement="bottomRight">
-        <cvc-user-avatar [user]="viewer" size="small"></cvc-user-avatar>
-        <i nz-icon class="topMenuSecondary" nzType="caret-down" nzTheme="outline" ></i>
-          <nz-badge *ngIf="viewer.invalidCoi" class="topBarBadge" nzColor="orange" [nzShowDot]="true">
-          </nz-badge>
-        <nz-dropdown-menu #userMenu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item>Signed In as <strong>{{viewer.username}}</strong></li>
-            <li nz-menu-divider></li>
-            <li nz-menu-item *ngIf="viewer.invalidCoi" (click)="this.coiUpdateModalVisible = true">
-              <nz-badge nzColor="orange" [nzShowDot]="true">
-                <strong>
-                  Please provide an updated conflict of interest statement.
-                </strong>
-              </nz-badge>
-            </li>
-            <li nz-menu-item>
-                <a routerLink="/users/{{viewer.id}}">
-                  Your Profile
-                </a>
-              </li>
-            <li nz-menu-item *ngIf="viewer.isAdmin">
-              <a routerLink="/admin">
-                Admin Console
-              </a>
-            </li>
-            <li nz-menu-divider></li>
-            <li nz-menu-item (click)="signOut()">Sign Out</li>
-          </ul>
-        </nz-dropdown-menu>
-      </div>
-    </nz-space-item>
+    </a>
+    <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="addMenu" nzPlacement="bottomRight" *nzSpaceItem>
+      <i nz-icon nzType="plus" nzTheme="outline" ></i>
+      <i class="topMenuSecondary" nz-icon nzType="caret-down" nzTheme="outline" ></i>
+      <nz-dropdown-menu #addMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>
+            <a routerLink="/evidence/add/submit">
+              Add Evidence
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/assertions/add/submit">
+              Add Assertion
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/assertions/add/submit">
+              Suggest Source
+            </a>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+    <div class="topMenuIcon" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" nzPlacement="bottomRight" *nzSpaceItem>
+      <cvc-user-avatar [user]="viewer" size="small"></cvc-user-avatar>
+      <i nz-icon class="topMenuSecondary" nzType="caret-down" nzTheme="outline" ></i>
+      <nz-badge *ngIf="viewer.invalidCoi" class="topBarBadge" nzColor="orange" [nzShowDot]="true">
+      </nz-badge>
+      <nz-dropdown-menu #userMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>Signed In as <strong>{{viewer.username}}</strong></li>
+          <li nz-menu-divider></li>
+          <li nz-menu-item *ngIf="viewer.invalidCoi" (click)="this.coiUpdateModalVisible = true">
+            <nz-badge nzColor="orange" [nzShowDot]="true">
+              <strong>
+                Please provide an updated conflict of interest statement.
+              </strong>
+            </nz-badge>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/users/{{viewer.id}}">
+              Your Profile
+            </a>
+          </li>
+          <li nz-menu-item *ngIf="viewer.isAdmin">
+            <a routerLink="/admin">
+              Admin Console
+            </a>
+          </li>
+          <li nz-menu-divider></li>
+          <li nz-menu-item (click)="signOut()">Sign Out</li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
   </nz-space>
 
 
 </ng-container>
-  <nz-modal [(nzVisible)]="this.coiUpdateModalVisible"
-    [nzContent]="coiModalContent"
-    [nzTitle]="coiModalTitle"
-    [nzFooter]="null"
-    (nzOnCancel)="this.handleCoiModalCancel()">
+<nz-modal [(nzVisible)]="this.coiUpdateModalVisible"
+  [nzContent]="coiModalContent"
+  [nzTitle]="coiModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="this.handleCoiModalCancel()">
   <ng-template #coiModalTitle><span>Update your Conflict of Interest Statement</span></ng-template>
   <ng-template #coiModalContent>
     <cvc-update-coi (coiUpdatedEvent)="this.coiUpdated()"></cvc-update-coi>
   </ng-template>
-  </nz-modal>
+</nz-modal>
