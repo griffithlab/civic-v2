@@ -45,7 +45,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/themes/"
+                "src/themes/",
+                "node_modules"
               ]
             },
             "scripts": [],
