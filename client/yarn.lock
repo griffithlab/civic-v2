@@ -2726,10 +2726,10 @@
   resolved "https://registry.yarnpkg.com/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz#8ace5259254426ccef57f3175bc64ed7095ed919"
   integrity sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==
 
-"@ngrx/component@^11.1.1":
-  version "11.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-11.1.1.tgz#dcab88e0d4c1bacd38c74e3753cf3cfef3b7294b"
-  integrity sha512-Vw2jyz5O8g61OcDtX8FcJh+EV9VDJsk/q61WQyOuwr0yi3SbRnn/77bHzF27RVwiQn8lq3yteNnh32H/vRdFWQ==
+"@ngrx/component@^12.5.1":
+  version "12.5.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-12.5.1.tgz#72935cab7b99ee16635c8e8e43c0eee41caf5f8f"
+  integrity sha512-uMy1yQ/ceI8fF73PaUCKwvOu3wEMc2VDauCQom1nS7+X49SDiqwAsy3kvWdkGyaDAgOGvYs1mZlTAbCI8cM8Dg==
   dependencies:
     tslib "^2.0.0"
 
@@ -8841,11 +8841,11 @@ ngx-json-viewer@^3.0.2:
     tslib "^2.0.0"
 
 ngx-logger@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/ngx-logger/-/ngx-logger-4.2.1.tgz#b5d5037efe9e141fd5979a2c48a019c6a2c2873c"
-  integrity sha512-Z4ZauhTXzTCITzZxCHgG/eM1Ad/3p9ZxRZQFbCskDOG2CS/LDe1nsTATU/K/IJv8jUDA9u3LJ1T+8Byb43OAKw==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/ngx-logger/-/ngx-logger-4.3.3.tgz#29432fa27a8c935bfc8e21dcaf4488572b413f5b"
+  integrity sha512-LvHBt0OWIyjwVroecgxmZVDH+9lCYYd3gSiup9wNgtK0a3f+D+h2LCb8p9RI16wqCVFqYe/QChqJA8PGJzZTcw==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.0.0"
     vlq "^1.0.0"
 
 ngx-mask@^11.1.5:
