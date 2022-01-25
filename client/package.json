@@ -30,7 +30,7 @@
     "apollo-angular": "^2.1.0",
     "ng-zorro-antd": "^13.0.1",
     "ngx-cookie-service": "^13.1.2",
-    "ngx-logger": "^4.2.1",
+    "ngx-logger": "^5.0.7",
     "ngx-timeago": "^2.0.0",
     "rxjs": "~6.6.0",
     "svgo": "^2.3.0",
