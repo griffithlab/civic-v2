@@ -22,7 +22,7 @@
           *ngrxLet="viewer$ as viewer">
 
           <!-- add revision btn -->
-          <nz-space-item>
+          <span *nzSpaceItem>
             <button routerLink="suggest-revision"
               *ngIf="viewer.signedIn"
               routerLinkActive
@@ -32,11 +32,11 @@
               nzSize="small">
               Revise
             </button>
-          </nz-space-item>
+          </span>
 
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
-          <nz-space-item>
+          <span *nzSpaceItem>
             <button routerLink="flags"
               *ngIf="viewer.signedIn"
               routerLinkActive
@@ -46,12 +46,12 @@
               nzSize="small">
               Flag
             </button>
-          </nz-space-item>
+          </span>
 
-          <nz-space-item>
+          <span *nzSpaceItem>
             <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="Variant">
             </cvc-entity-subscription-button>
-          </nz-space-item>
+          </span>
         </nz-space>
       </nz-page-header-extra>
 

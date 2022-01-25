@@ -6,7 +6,7 @@
       <ng-template #cardTitle>
         <i nz-icon
           nzType="civic:variant"
-          ></i> {{ variant.name }}
+        ></i> {{ variant.name }}
       </ng-template>
       <ng-template #gene>
         <cvc-gene-tag [enablePopover]="false" [gene]="variant.gene"></cvc-gene-tag>
@@ -45,30 +45,24 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <nz-space-item>
-              <a routerLink="/variants/{{variant.id}}/flags">
-                <nz-tag nzColor="red" >
-                  <i nz-icon nzType="civic-flag"></i>
-                  Flags ({{ variant.flags.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
-            <nz-space-item>
-              <a routerLink="/variants/{{variant.id}}/revisions">
-                <nz-tag nzColor="orange">
-                  <i nz-icon nzType="civic-revision"></i>
-                  Revisions ({{ variant.revisions.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
-            <nz-space-item>
-              <a routerLink="/variants/{{variant.id}}/comments">
-                <nz-tag nzColor="blue">
-                  <i nz-icon nzType="civic-comment"></i>
-                  Comments ({{ variant.comments.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
+            <a routerLink="/variants/{{variant.id}}/flags" *nzSpaceItem>
+              <nz-tag nzColor="red" >
+                <i nz-icon nzType="civic-flag"></i>
+                Flags ({{ variant.flags.totalCount }})
+              </nz-tag>
+            </a>
+            <a routerLink="/variants/{{variant.id}}/revisions" *nzSpaceItem>
+              <nz-tag nzColor="orange">
+                <i nz-icon nzType="civic-revision"></i>
+                Revisions ({{ variant.revisions.totalCount }})
+              </nz-tag>
+            </a>
+            <a routerLink="/variants/{{variant.id}}/comments" *nzSpaceItem>
+              <nz-tag nzColor="blue">
+                <i nz-icon nzType="civic-comment"></i>
+                Comments ({{ variant.comments.totalCount }})
+              </nz-tag>
+            </a>
           </nz-space>
         </nz-col>
       </nz-row>

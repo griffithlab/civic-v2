@@ -6,18 +6,15 @@
     <nz-space nzDirection="horizontal">
 
       <!-- parent relations -->
-      <nz-space-item>
-        <span nz-typography
-          class="label"><strong>{{ evidence.name }}</strong> Parents:</span>
-      </nz-space-item>
-      <nz-space-item class="tags">
+      <span nz-typography class="label" *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
+      <span class="tags">
         <a routerLink="/genes/{{ evidence.gene.id }}">
           <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
         </a>
         <a routerLink="/variants/{{ evidence.variant.id }}">
           <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
         </a>
-      </nz-space-item>
+      </span>
 
     </nz-space>
   </ng-template>
@@ -44,7 +41,7 @@
       <nz-page-header-extra>
         <nz-space nzDirection="horizontal" nzSize="small" >
           <!-- add revision btn -->
-          <nz-space-item>
+          <span *nzSpaceItem>
             <button [routerLink]="['/evidence', evidence.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
@@ -54,11 +51,11 @@
               nzSize="small">
               Revise
             </button>
-          </nz-space-item>
+          </span>
 
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
-          <nz-space-item>
+          <span *nzSpaceItem>
             <button routerLink="flags"
               *ngIf="viewer.signedIn"
               routerLinkActive
@@ -68,17 +65,17 @@
               nzSize="small">
               Flag
             </button>
-          </nz-space-item>
+          </span>
 
-          <nz-space-item>
+          <span *nzSpaceItem>
             <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="EvidenceItem">
             </cvc-entity-subscription-button>
-          </nz-space-item>
+          </span>
 
-          <nz-space-item>
+          <span *nzSpaceItem>
             <cvc-revert-entity-button *ngIf="viewer.canModerate && evidence.status !='SUBMITTED'" [viewer]="viewer" entityType="EvidenceItem" [entityId]="evidence.id" (onReverted)="onRevertCompleted($event)">
             </cvc-revert-entity-button>
-          </nz-space-item>
+          </span>
         </nz-space>
       </nz-page-header-extra>
 
@@ -88,10 +85,10 @@
         <nz-alert *ngIf="this.evidence.status == 'SUBMITTED'" nzBanner nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
         <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
         <nz-space nzDirection="vertical">
-          <nz-space-item>
+          <span *nzSpaceItem>
             <cvc-moderate-entity-buttons *ngIf="viewer.canModerate && evidence.status == 'SUBMITTED'" entityType="EvidenceItem" [entityId]="evidence.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
             </cvc-moderate-entity-buttons>
-          </nz-space-item>
+          </span>
         </nz-space>
         <div class="content">
           <router-outlet></router-outlet>

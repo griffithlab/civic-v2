@@ -2,41 +2,61 @@
   <nz-row [nzGutter]="16">
     <nz-col nzSpan="18">
       <nz-space nzDirection="vertical">
-        <nz-space-item>
-          <cvc-flag-list [flags]="flags$ | ngrxPush" [flagResolvedCallback]="refresh"></cvc-flag-list>
-        </nz-space-item>
+        <cvc-flag-list [flags]="flags$ | ngrxPush"
+          [flagResolvedCallback]="refresh"
+          *nzSpaceItem></cvc-flag-list>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <nz-space-item  *ngIf="pageInfo?.hasNextPage">
-            <button nz-button nzBlock nzType="default" (click)="loadMore(pageInfo?.endCursor)">Load More</button>
-          </nz-space-item>
+          <ng-container *ngIf="pageInfo?.hasNextPage">
+            <button nz-button
+              nzBlock
+              nzType="default"
+              (click)="loadMore(pageInfo?.endCursor)"
+              *nzSpaceItem>Load More</button>
+          </ng-container>
         </ng-container>
-        <nz-space-item>
-          <cvc-flag-add [flaggable]="flaggable" [flagAddedCallback]="refresh"></cvc-flag-add>
-        </nz-space-item>
+        <cvc-flag-add [flaggable]="flaggable"
+          [flagAddedCallback]="refresh"
+          *nzSpaceItem></cvc-flag-add>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
-      <cvc-participant-list listTitle="Flag State" [preselectedOption]="this.selectableStates[0]" [participantList]="selectableStates" (participantSelectedEvent)="onStateSelected($event)">
-        <ng-template #itemTemplate let-state>
+      <cvc-participant-list listTitle="Flag State"
+        [preselectedOption]="this.selectableStates[0]"
+        [participantList]="selectableStates"
+        (participantSelectedEvent)="onStateSelected($event)">
+        <ng-template #itemTemplate
+          let-state>
           <span>{{state.displayName}}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Flagging Users" [participantList]="uniqueFlaggingUsers$ | ngrxPush" (participantSelectedEvent)="onFlaggingUsersSelected($event)">
-        <ng-template #itemTemplate let-user>
-          <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
+      <cvc-participant-list listTitle="Flagging Users"
+        [participantList]="uniqueFlaggingUsers$ | ngrxPush"
+        (participantSelectedEvent)="onFlaggingUsersSelected($event)">
+        <ng-template #itemTemplate
+          let-user>
+          <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+            nz-comment-avatar
+            [nzSrc]="user.profileImagePath">
           </nz-avatar>
           <ng-template #noAvatar>
-              <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+            <nz-avatar nz-comment-avatar
+              [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
           </ng-template>
           <span>{{user.username}}</span>
         </ng-template>
       </cvc-participant-list>
-      <cvc-participant-list listTitle="Resolving Users" [participantList]="uniqueResolvingUsers$ | ngrxPush" (participantSelectedEvent)="onResolvingUsersSelected($event)">
-        <ng-template #itemTemplate let-user>
-          <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
+      <cvc-participant-list listTitle="Resolving Users"
+        [participantList]="uniqueResolvingUsers$ | ngrxPush"
+        (participantSelectedEvent)="onResolvingUsersSelected($event)">
+        <ng-template #itemTemplate
+          let-user>
+          <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
+            nz-comment-avatar
+            [nzSrc]="user.profileImagePath">
           </nz-avatar>
           <ng-template #noAvatar>
-              <nz-avatar nz-comment-avatar [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
+            <nz-avatar nz-comment-avatar
+              [nzText]="user.username.charAt(0) | uppercase"></nz-avatar>
           </ng-template>
           <span>{{user.username}}</span>
         </ng-template>
@@ -45,5 +65,6 @@
   </nz-row>
 </ng-container>
 <ng-template #noFlags>
-  <cvc-flag-add [flaggable]="flaggable" [flagAddedCallback]="refresh"></cvc-flag-add>
+  <cvc-flag-add [flaggable]="flaggable"
+    [flagAddedCallback]="refresh"></cvc-flag-add>
 </ng-template>

@@ -98,7 +98,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-template nz-virtual-scroll let-interpro let-id="id">
+            <ng-template nz-virtual-scroll let-interpro let-index="index">
             <tr>
               <td>
                 {{ interpro.short_desc }}
@@ -134,7 +134,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-template nz-virtual-scroll let-pathway let-id="name">
+            <ng-template nz-virtual-scroll let-pathway let-index="index">
               <tr >
                 <td>
                   {{ pathway.name }}

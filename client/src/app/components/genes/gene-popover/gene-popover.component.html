@@ -31,30 +31,24 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <nz-space-item>
-              <a routerLink="/genes/{{gene.id}}/flags">
-                <nz-tag nzColor="red" >
-                  <i nz-icon nzType="civic-flag"></i>
-                  Flags ({{ gene.flags.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
-            <nz-space-item>
-              <a routerLink="/genes/{{gene.id}}/revisions">
-                <nz-tag nzColor="orange">
-                  <i nz-icon nzType="civic-revision"></i>
-                  Revisions ({{ gene.revisions.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
-            <nz-space-item>
-              <a routerLink="/genes/{{gene.id}}/comments">
-                <nz-tag nzColor="blue">
-                  <i nz-icon nzType="civic-comment"></i>
-                  Comments ({{ gene.comments.totalCount }})
-                </nz-tag>
-              </a>
-            </nz-space-item>
+            <a routerLink="/genes/{{gene.id}}/flags" *nzSpaceItem>
+              <nz-tag nzColor="red" >
+                <i nz-icon nzType="civic-flag"></i>
+                Flags ({{ gene.flags.totalCount }})
+              </nz-tag>
+            </a>
+            <a routerLink="/genes/{{gene.id}}/revisions" *nzSpaceItem>
+              <nz-tag nzColor="orange">
+                <i nz-icon nzType="civic-revision"></i>
+                Revisions ({{ gene.revisions.totalCount }})
+              </nz-tag>
+            </a>
+            <a routerLink="/genes/{{gene.id}}/comments" *nzSpaceItem>
+              <nz-tag nzColor="blue">
+                <i nz-icon nzType="civic-comment"></i>
+                Comments ({{ gene.comments.totalCount }})
+              </nz-tag>
+            </a>
           </nz-space>
         </nz-col>
       </nz-row>

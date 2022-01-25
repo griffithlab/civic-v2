@@ -14,12 +14,10 @@
         [nzLabel]="opt.tooltip"
         [nzValue]="opt.disease">
         <nz-space>
-          <nz-space-item>
-            {{ opt.label }}
-          </nz-space-item>
-          <nz-space-item *ngIf="opt.disease.diseaseAliases.length > 0">
-            <span nz-typography nzType="secondary">{{ opt.disease.diseaseAliases.join(', ') }}</span>
-          </nz-space-item>
+          <span *nzSpaceItem>{{ opt.label }}</span>
+          <span nz-typography nzType="secondary" *nzSpaceItem>
+            {{ opt.disease.diseaseAliases.join(', ') }}
+          </span>
         </nz-space>
       </nz-option>
     </ng-container>
