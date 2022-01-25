@@ -1,4 +1,5 @@
 Trestle.configure do |config|
+
   # == Customization Options
   #
   # Set the page title shown in the main header within the admin.
@@ -74,6 +75,10 @@ Trestle.configure do |config|
   # Register callbacks to run before, after or around all Trestle actions.
   #
   config.before_action do |controller|
+    current_user = User.find_by(id: session[:user_id])
+    unless current_user && Role.user_is_at_least_a?(current_user, :admin)
+      redirect_to '/'
+    end
     ActiveStorage::Current.host = request.base_url
   end
   #

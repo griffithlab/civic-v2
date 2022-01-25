@@ -1,7 +1,7 @@
 module Types::Entities
   class UserType < Types::BaseObject
     field :id, Int, null: false
-    field :name, String, null: false
+    field :name, String, null: true
     field :url, String, null: true
     field :username, String, null: false
     field :role, Types::Entities::UserRoleType, null: false
@@ -17,6 +17,8 @@ module Types::Entities
     field :linkedin_profile, String, null: true
     field :stats_hash, Types::StatsType, null: false
     field :most_recent_conflict_of_interest_statement, Types::Entities::CoiType, null: true
+    field :most_recent_event, Types::Entities::EventType, null: true
+    field :most_recent_action_timestamp, GraphQL::Types::ISO8601DateTime, null: true
     field :most_recent_organization_id, Int, null: true
 
     profile_image_sizes = [256, 128, 64, 32, 18, 12]
@@ -99,6 +101,10 @@ module Types::Entities
 
     def most_recent_conflict_of_interest_statement
       Loaders::AssociationLoader.for(User, :most_recent_conflict_of_interest_statement).load(object)
+    end
+
+    def most_recent_event
+      Loaders::AssociationLoader.for(User, :most_recent_event).load(object)
     end
   end
 end

@@ -133,6 +133,11 @@ export const CvcTypePolicies: TypePolicies = {
         'originatingUserId',
         'fieldName',
         'revisionsetId'
+      ]),
+      users: relayStylePagination([
+        'userName',
+        'orgName',
+        'userRole'
       ])
     },
   },

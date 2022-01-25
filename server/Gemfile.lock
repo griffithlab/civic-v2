@@ -367,6 +367,7 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    staccato (0.5.3)
     thor (1.2.1)
     tilt (2.0.10)
     trestle (0.9.5)
@@ -448,6 +449,7 @@ DEPENDENCIES
   simplecov
   simplecov-lcov
   solargraph
+  staccato (~> 0.5.3)
   trestle (~> 0.9.5)
   trestle-search (~> 0.4.3)
   typhoeus (~> 1.4.0)
