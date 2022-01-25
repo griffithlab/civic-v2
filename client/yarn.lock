@@ -2738,10 +2738,10 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.1.4.tgz#359c9078af281413cf9cabd0af06b3fca4ddbf7e"
   integrity sha512-s8gzjG2nYHawFhlkHMkQWYrocHkBI1nF6T9K/oCSTIsq6kvTv//Ahno2VdBSgVq8uMnpv1TymvX0nFC4Dgn1HA==
 
-"@ngx-formly/core@^5.0.0":
-  version "5.10.22"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.22.tgz#e8723b932bb6f056b1b0d899179ac73dabf4f4ed"
-  integrity sha512-HTgVN2xNf3TdPS10ayV4G7dvX1olHvggquhTUY/dzej1x03NVofDQulnPTxKEU1ObN92IQZNq3VL9pm3sBCR7A==
+"@ngx-formly/core@^5.10.30":
+  version "5.10.30"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.30.tgz#6e6cfcf51f097e839bb4d928c3458106cb6f46f6"
+  integrity sha512-w31+pYyUNwbC+hmERpl1JWTYnQkE0UejRfgAIYrH7PVtg3sEf69p0t0Qp6MnpXQ1C8ekVx71mSTYsEkEXobUIQ==
   dependencies:
     tslib "^1.7.1"
 
@@ -2752,10 +2752,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngx-formly/schematics@^5.10.10":
-  version "5.10.10"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/schematics/-/schematics-5.10.10.tgz#9ebe6d82f386115288355bd29e8b40ed624531f4"
-  integrity sha512-ornYrPrMYr0d4csPuBbFlVASc7+QXiWIDu+sRQpuxVeKpu4+qsxCVDLUFWpz1YdBrvcBnWvwNVjCMMTk8MihWQ==
+"@ngx-formly/schematics@^5.10.30":
+  version "5.10.30"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/schematics/-/schematics-5.10.30.tgz#76ded793d26af463a8d1fb5fd5b2c116608f4ac1"
+  integrity sha512-BYjJf5V8EiTtQ0JNSWpdViltyqn4jnQq7g+vmOP///xicOKExtwlFKHJZou6bbvyCj+4MQFKt5OuZ8XlW/38Ig==
   dependencies:
     "@angular-devkit/core" ">=7.0.0"
     "@angular-devkit/schematics" ">=7.0.0"
