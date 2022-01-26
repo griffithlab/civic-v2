@@ -5,6 +5,7 @@ class EvidenceItem < ActiveRecord::Base
   include Commentable
   include Flaggable
   include Moderated
+  include WithTimepointCounts
 
   belongs_to :variant
   belongs_to :disease, optional: true
@@ -56,6 +57,14 @@ class EvidenceItem < ActiveRecord::Base
 
   def gene
     self.variant.gene
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.where("evidence_items.status != 'rejected'")
+        .where('evidence_items.created_at >= ?', x)
+        .distinct
+    }
   end
 
 end

@@ -3,6 +3,7 @@ class Variant < ApplicationRecord
   include Subscribable
   include Flaggable
   include Commentable
+  include WithTimepointCounts
 
   belongs_to :gene
   belongs_to :secondary_gene, class_name: 'Gene', optional: true
@@ -38,5 +39,17 @@ class Variant < ApplicationRecord
       name: name,
       aliases: variant_aliases.map(&:name)
     } 
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:evidence_items)
+        .group('variants.id')
+        .select('variants.id')
+        .where("evidence_items.status != 'rejected'")
+        .having('MIN(evidence_items.created_at) >= ?', x)
+        .distinct
+        .count
+    }
   end
 end

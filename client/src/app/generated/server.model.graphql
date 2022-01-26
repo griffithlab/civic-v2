@@ -1123,6 +1123,21 @@ type BrowseVariantTypeEdge {
   node: BrowseVariantType
 }
 
+"""
+Counts of CIViC activity over time, used for the homepage
+"""
+type CivicTimepointStats {
+  assertions: TimePointCounts!
+  diseases: TimePointCounts!
+  drugs: TimePointCounts!
+  evidenceItems: TimePointCounts!
+  genes: TimePointCounts!
+  revisions: TimePointCounts!
+  sources: TimePointCounts!
+  users: TimePointCounts!
+  variants: TimePointCounts!
+}
+
 type ClinicalTrial {
   description: String!
   id: Int!
@@ -4519,6 +4534,7 @@ type Query {
   Get the active subscription for the entity and logged in user, if any
   """
   subscriptionForEntity(subscribable: SubscribableInput!): Subscription
+  timepointStats: CivicTimepointStats!
   user(id: Int!): User
 
   """
@@ -5755,6 +5771,13 @@ input TaggableEntityInput {
   ID of the mentioned entity
   """
   id: Int!
+}
+
+type TimePointCounts {
+  allTime: Int!
+  newThisMonth: Int!
+  newThisWeek: Int!
+  newThisYear: Int!
 }
 
 """

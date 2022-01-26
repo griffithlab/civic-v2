@@ -1,6 +1,7 @@
 class Revision < ApplicationRecord
   include Commentable
   include Subscribable
+  include WithTimepointCounts
 
   belongs_to :subject, polymorphic: true
   #TODO: will we want a mixin someday?
@@ -42,5 +43,12 @@ class Revision < ApplicationRecord
 
   def name
     "RID#{self.id}"
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      Event.where(action: 'revision accepted')
+        .where('created_at >= ?', x)
+    }
   end
 end
