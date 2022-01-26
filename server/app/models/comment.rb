@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  ##include WithTimepointCounts
+  include WithTimepointCounts
   ##before_destroy :mark_events_unlinkable
 
   belongs_to :user

@@ -5,6 +5,7 @@ class Assertion < ActiveRecord::Base
   include Subscribable
   include Flaggable
   include Moderated
+  include WithTimepointCounts
 
   belongs_to :gene
   belongs_to :variant
@@ -39,8 +40,6 @@ class Assertion < ActiveRecord::Base
     class_name: 'Event'
   has_one :rejector, through: :rejection_event, source: :originating_user
 
-  #associate_by_attribute :nccn_guideline, :name
-  
   searchkick highlight: [:id]
 
   def search_data
@@ -51,5 +50,13 @@ class Assertion < ActiveRecord::Base
 
   def name
     "AID#{self.id}"
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.where("assertions.status != 'rejected'")
+        .where('assertions.created_at >= ?', x)
+        .distinct
+    }
   end
 end

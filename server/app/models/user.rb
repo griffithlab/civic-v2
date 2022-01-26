@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
- #include WithTimepointCounts
+ include WithTimepointCounts
  #include SoftDeletable
 
   has_many :authorizations
@@ -160,6 +160,17 @@ class User < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:events)
+        .group('users.id')
+        .select('users.id')
+        .where('events.created_at >= ?', x)
+        .distinct
+        .count
+    }
   end
 
   private

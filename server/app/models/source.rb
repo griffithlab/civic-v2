@@ -1,6 +1,7 @@
 class Source < ActiveRecord::Base
   include ModeratedField
   include Subscribable
+  include WithTimepointCounts
 
   has_many :evidence_items
   has_and_belongs_to_many :genes
@@ -48,4 +49,16 @@ class Source < ActiveRecord::Base
       "https://meetinglibrary.asco.org/record/#{source.citation_id}/abstract"
     end
   end
+
+    def self.timepoint_query
+      ->(x) {
+        self.joins(:evidence_items)
+          .group('sources.id')
+          .select('sources.id')
+          .where("evidence_items.status != 'rejected'")
+          .distinct
+          .having('MIN(evidence_items.created_at) >= ?', x)
+          .count
+      }
+    end
 end
