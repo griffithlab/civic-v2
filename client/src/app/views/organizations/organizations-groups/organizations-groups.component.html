@@ -1,11 +1,9 @@
 <nz-space nzSize="middle" *ngIf="(organizations$ | ngrxPush) as organizations" nzDirection="vertical" class="space-align-block">
-  <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <nz-row *ngFor="let organization of organizations">
-        <nz-col [nzSpan]="24">
-          <cvc-organization-card [organization]="organization"></cvc-organization-card>
-        </nz-col>
-      </nz-row>
-    </div>
-  </nz-space-item>
+  <div nz-row [nzGutter]="16" *nzSpaceItem>
+    <nz-row *ngFor="let organization of organizations">
+      <nz-col [nzSpan]="24">
+        <cvc-organization-card [organization]="organization"></cvc-organization-card>
+      </nz-col>
+    </nz-row>
+  </div>
 </nz-space>

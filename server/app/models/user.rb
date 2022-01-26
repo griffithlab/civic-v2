@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
- #include WithTimepointCounts
+ include WithTimepointCounts
  #include SoftDeletable
 
   has_many :authorizations
@@ -10,9 +10,9 @@ class User < ActiveRecord::Base
     ->() { order('events.created_at DESC') },
     foreign_key: :originating_user_id
 
-  #has_one :most_recent_event,
-    #->() { order('created_at DESC').limit(1) },
-    #class_name: 'Event', foreign_key: :originating_user_id
+  has_one :most_recent_event,
+    ->() { order('created_at DESC').limit(1) },
+    class_name: 'Event', foreign_key: :originating_user_id
   #has_many :domain_expert_tags
   #has_many :badge_awards
   #has_many :badge_claims
@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_many :organizations, through: :affiliations
   has_many :notifications, foreign_key: :notified_user_id
   belongs_to :most_recent_organization, class_name: 'Organization', optional: true
-  belongs_to :country
+  belongs_to :country, optional: true
   has_many :conflict_of_interest_statements, dependent: :destroy
   has_one :most_recent_conflict_of_interest_statement,
     ->() { order('created_at DESC').limit(1) },
@@ -70,9 +70,9 @@ class User < ActiveRecord::Base
 
   def stats_hash
     #TODO no longer a direct relation from user -> revision
-    r_ids = Event.where(originating_user_id: self.id, action: 'revision suggested').pluck(:originating_object_id).compact.uniq
-    e_ids = Event.where(originating_user_id: self.id, action: 'submitted').pluck(:subject_id).uniq
-    a_ids = Event.where(originating_user_id: self.id, action: 'assertion submitted').pluck(:subject_id).uniq
+    r_ids = Event.where(originating_user_id: self.id, action: 'revision suggested').distinct.select(:originating_object_id)
+    e_ids = Event.where(originating_user_id: self.id, action: 'submitted').distinct.select(:subject_id)
+    a_ids = Event.where(originating_user_id: self.id, action: 'assertion submitted').distinct.select(:subject_id)
     {
       'comments': Event.where(originating_user_id: self.id).where(action: 'commented').count,
       'revisions': r_ids.count,
@@ -160,6 +160,17 @@ class User < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:events)
+        .group('users.id')
+        .select('users.id')
+        .where('events.created_at >= ?', x)
+        .distinct
+        .count
+    }
   end
 
   private

@@ -3,6 +3,7 @@ class Gene < ActiveRecord::Base
   include Subscribable
   include Flaggable
   include Commentable
+  include WithTimepointCounts
 
   has_many :variants
   has_many :assertions
@@ -19,6 +20,18 @@ class Gene < ActiveRecord::Base
     {
       name: name,
       aliases: gene_aliases.map(&:name)
+    }
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(variants: [:evidence_items])
+        .group('genes.id')
+        .select('genes.id')
+        .where("evidence_items.status != 'rejected'")
+        .having('MIN(evidence_items.created_at) >= ?', x)
+        .distinct
+        .count
     }
   end
 end

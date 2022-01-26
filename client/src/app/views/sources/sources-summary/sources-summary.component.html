@@ -1,66 +1,69 @@
-<nz-space nzSize="middle" *ngIf="(source$ | ngrxPush) as source" nzDirection="vertical" class="space-align-block">
-  <nz-space-item>
-    <h2>{{ source.title }}</h2>
-  </nz-space-item>
-  <nz-space-item>
-    <div nz-row [nzGutter]="16">
-      <div nz-col [nzSpan]="12">
-        <nz-row>
-          <nz-col [nzSpan]="24">
-            {{ source.abstract }}
-          </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="24">
-            {{ source.abstract }}
-          </nz-col>
-        </nz-row>
-      </div>
-      <div nz-col [nzSpan]="6">
-        <nz-row><b>Published:&nbsp;</b>{{ source.publicationDate }}</nz-row>
-        <nz-row><b>{{ source.displayType }} ID:&nbsp;</b>{{ source.citationId }}</nz-row>
-        <nz-row><b>Journal:&nbsp;</b>{{ source.fullJournalTitle }}</nz-row>
-        <nz-row>
-          <b>PMC ID:&nbsp;</b>
-          <span *ngIf="source.pmcId; else pmcIdElse">
-            {{ source.pmcId }}
-          </span>
-          <ng-template #pmcIdElse>
-            -
-          </ng-template>
-        </nz-row>
-        <nz-row *ngIf="source.clinicalTrials" [ngPlural]="source.clinicalTrials.length">
-          <ng-template ngPluralCase="=0"><b>Clinical Trial:&nbsp;</b> <i>-</i></ng-template>
-          <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
-          <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
-          <ng-container *ngFor="let t of source.clinicalTrials">
-            <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-          </ng-container>
-        </nz-row>
-      </div>
-      <div nz-col [nzSpan]="6">
-        <b>Authors:</b> {{ source.authorString }}
-      </div>
+<nz-space nzSize="middle"
+  *ngIf="(source$ | ngrxPush) as source"
+  nzDirection="vertical"
+  class="space-align-block">
+  <h2 *nzSpaceItem>{{ source.title }}</h2>
+  <div nz-row
+    [nzGutter]="16"
+    *nzSpaceItem>
+    <div nz-col
+      [nzSpan]="12">
+      <nz-row>
+        <nz-col [nzSpan]="24">
+          {{ source.abstract }}
+        </nz-col>
+      </nz-row>
+      <nz-row>
+        <nz-col [nzSpan]="24">
+          {{ source.abstract }}
+        </nz-col>
+      </nz-row>
     </div>
-  </nz-space-item>
+    <div nz-col
+      [nzSpan]="6">
+      <nz-row><b>Published:&nbsp;</b>{{ source.publicationDate }}</nz-row>
+      <nz-row><b>{{ source.displayType }} ID:&nbsp;</b>{{ source.citationId }}</nz-row>
+      <nz-row><b>Journal:&nbsp;</b>{{ source.fullJournalTitle }}</nz-row>
+      <nz-row>
+        <b>PMC ID:&nbsp;</b>
+        <span *ngIf="source.pmcId; else pmcIdElse">
+          {{ source.pmcId }}
+        </span>
+        <ng-template #pmcIdElse>
+          -
+        </ng-template>
+      </nz-row>
+      <nz-row *ngIf="source.clinicalTrials"
+        [ngPlural]="source.clinicalTrials.length">
+        <ng-template ngPluralCase="=0"><b>Clinical Trial:&nbsp;</b> <i>-</i></ng-template>
+        <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
+        <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
+        <ng-container *ngFor="let t of source.clinicalTrials">
+          <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+        </ng-container>
+      </nz-row>
+    </div>
+    <div nz-col
+      [nzSpan]="6">
+      <b>Authors:</b> {{ source.authorString }}
+    </div>
+  </div>
   <!-- evidence table card -->
-  <nz-space-item>
-    <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
-      <cvc-evidence-table [sourceId]="sourceId"></cvc-evidence-table>
-    </cvc-entity-table-card>
-    <ng-template #evidenceCardTitle>
-      <i nz-icon nzType="civic:source"></i>
-      Evidence Items with <i>{{ source.title}}</i>
-    </ng-template>
-  </nz-space-item>
+  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle"
+    *nzSpaceItem>
+    <cvc-evidence-table [sourceId]="sourceId"></cvc-evidence-table>
+  </cvc-entity-table-card>
+  <ng-template #evidenceCardTitle>
+    <i nz-icon
+      nzType="civic:source"></i> Evidence Items with <i>{{ source.title}}</i>
+  </ng-template>
   <!-- source suggestion table card -->
-  <nz-space-item>
-    <cvc-entity-table-card [cvcTitle]="sourceSuggestionCardTitle">
-      <cvc-source-suggestions-table [sourceId]="sourceId"></cvc-source-suggestions-table>
-    </cvc-entity-table-card>
-    <ng-template #sourceSuggestionCardTitle>
-      <i nz-icon nzType="flag-add"></i>
-      Source suggestions for <i>{{ source.title}}</i>
-    </ng-template>
-  </nz-space-item>
+  <cvc-entity-table-card [cvcTitle]="sourceSuggestionCardTitle"
+    *nzSpaceItem>
+    <cvc-source-suggestions-table [sourceId]="sourceId"></cvc-source-suggestions-table>
+  </cvc-entity-table-card>
+  <ng-template #sourceSuggestionCardTitle>
+    <i nz-icon
+      nzType="flag-add"></i> Source suggestions for <i>{{ source.title}}</i>
+  </ng-template>
 </nz-space>

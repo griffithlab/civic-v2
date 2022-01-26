@@ -1,7 +1,7 @@
 <nz-space nzSize="middle" *ngIf="diseaseId" nzDirection="vertical" class="space-align-block">
 
   <!-- assertions table card -->
-  <nz-space-item>
+  <span *nzSpaceItem>
     <cvc-entity-table-card [cvcTitle]="assertionsCardTitle">
       <cvc-assertions-table [diseaseId]="diseaseId"></cvc-assertions-table>
     </cvc-entity-table-card>
@@ -9,16 +9,16 @@
       <i nz-icon nzType="civic:disease"></i>
       Disease Assertions
     </ng-template>
-  </nz-space-item>
+  </span>
 
   <!-- evidence table card -->
-  <nz-space-item>
-    <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
-      <cvc-evidence-table [diseaseId]="diseaseId"></cvc-evidence-table>
-    </cvc-entity-table-card>
-    <ng-template #evidenceCardTitle>
-      <i nz-icon nzType="civic:disease"></i>
-      Disease Evidence
-    </ng-template>
-  </nz-space-item>
+  <span *nzSpaceItem>
+  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
+    <cvc-evidence-table [diseaseId]="diseaseId"></cvc-evidence-table>
+  </cvc-entity-table-card>
+  <ng-template #evidenceCardTitle>
+    <i nz-icon nzType="civic:disease"></i>
+    Disease Evidence
+  </ng-template>
+</span>
 </nz-space>

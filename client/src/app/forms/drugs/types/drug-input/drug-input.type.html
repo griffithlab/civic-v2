@@ -14,12 +14,16 @@
         [nzLabel]="opt.tooltip"
         [nzValue]="opt.drug">
         <nz-space>
-          <nz-space-item>
+          <span *nzSpaceItem>
             {{ opt.label }}
-          </nz-space-item>
-          <nz-space-item *ngIf="opt.drug.drugAliases.length > 0">
-            <span nz-typography nzType="secondary">{{ opt.drug.drugAliases.join(', ') }}</span>
-          </nz-space-item>
+          </span>
+          <ng-container *ngIf="opt.drug.drugAliases.length > 0">
+            <span nz-typography
+              nzType="secondary"
+              *ngSpaceItem>
+              {{ opt.drug.drugAliases.join(', ') }}
+            </span>
+          </ng-container>
         </nz-space>
       </nz-option>
     </ng-container>

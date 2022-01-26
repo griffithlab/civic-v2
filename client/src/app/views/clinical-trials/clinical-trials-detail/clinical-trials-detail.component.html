@@ -1,12 +1,8 @@
 <ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <nz-space nzDirection="horizontal">
-        <nz-space-item>
-          <i nz-icon nzType="audit"></i>
-        </nz-space-item>
-        {{ t.name }}
-      </nz-space>
+      <i nz-icon nzType="audit"></i>
+      {{ t.name }}
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag [href]="t.url" tooltip="View on clinicaltrials.gov">

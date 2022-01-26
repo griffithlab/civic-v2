@@ -5,7 +5,8 @@
   <nz-page-header class="site-page-header">
     <!-- title -->
     <nz-page-header-title>
-      <i nz-icon nzType="civic:user"></i>
+      <i nz-icon
+        nzType="civic:user"></i>
       <span routerLink="/user/{{user.id}}">
         {{ user.name }}
       </span>
@@ -13,53 +14,85 @@
 
     <!--extra-->
     <nz-page-header-content>
-      <nz-alert *ngIf="this.uploadError" nzType="error" nzCloseable
-        nzMessage="There was an error updating your profile image." (nzOnClose)="this.uploadError = false"></nz-alert>
-      <nz-alert *ngIf="this.updateSuccess" nzType="success" nzCloseable nzMessage="Profile image successfully updated."
+      <nz-alert *ngIf="this.uploadError"
+        nzType="error"
+        nzCloseable
+        nzMessage="There was an error updating your profile image."
+        (nzOnClose)="this.uploadError = false"></nz-alert>
+      <nz-alert *ngIf="this.updateSuccess"
+        nzType="success"
+        nzCloseable
+        nzMessage="Profile image successfully updated."
         (nzOnClose)="this.updateSuccess = false"></nz-alert>
       <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
       <div class="content">
-        <div nz-row [nzGutter]="16">
-          <div nz-col [nzSpan]="3">
-            <nz-space nzDirection="vertical" nzSize="middle">
-              <nz-space-item>
-                <cvc-user-avatar [user]="user" [size]="128"></cvc-user-avatar>
-              </nz-space-item>
-              <nz-space-item>
-                <cvc-avatar-uploader *ngIf="this.ownProfile$ | ngrxPush"
-                  (uploadComplete)="profileUploadComplete($event)"></cvc-avatar-uploader>
-              </nz-space-item>
+        <div nz-row
+          [nzGutter]="16">
+          <div nz-col
+            [nzSpan]="3">
+            <nz-space nzDirection="vertical"
+              nzSize="middle">
+              <cvc-user-avatar [user]="user"
+                [size]="128"
+                *nzSpaceItem></cvc-user-avatar>
+              <ng-container *ngIf="this.ownProfile$ | ngrxPush">
+                <cvc-avatar-uploader (uploadComplete)="profileUploadComplete($event)"
+                  *nzSpaceItem></cvc-avatar-uploader>
+              </ng-container>
             </nz-space>
           </div>
-          <div nz-col [nzSpan]='13'>
-            <nz-descriptions nzTitle="Profile" nzBordered [nzExtra]="updateProfile">
-              <nz-descriptions-item [nzSpan]="2" nzTitle="Username">{{ user.username }}</nz-descriptions-item>
-              <nz-descriptions-item [nzSpan]="2" nzTitle="Role">{{user.role | enumToTitle}}</nz-descriptions-item>
-              <nz-descriptions-item [nzSpan]="4" nzTitle="Bio">{{user.bio}}</nz-descriptions-item>
-              <nz-descriptions-item [nzSpan]="2" nzTitle="Area of Expertise">{{ user.areaOfExpertise | enumToTitle }} </nz-descriptions-item>
-              <nz-descriptions-item [nzSpan]="2" nzTitle="Country">{{ user.country?.name }}</nz-descriptions-item>
-              <nz-descriptions-item *ngIf="user.organizations.length > 0" [nzSpan]="4" nzTitle="Organizations">
-                <cvc-organization-tag *ngFor="let org of user.organizations" [org]="org"></cvc-organization-tag>
+          <div nz-col
+            [nzSpan]='13'>
+            <nz-descriptions nzTitle="Profile"
+              nzBordered
+              [nzExtra]="updateProfile">
+              <nz-descriptions-item [nzSpan]="2"
+                nzTitle="Username">{{ user.username }}</nz-descriptions-item>
+              <nz-descriptions-item [nzSpan]="2"
+                nzTitle="Role">{{user.role | enumToTitle}}</nz-descriptions-item>
+              <nz-descriptions-item [nzSpan]="4"
+                nzTitle="Bio">{{user.bio}}</nz-descriptions-item>
+              <nz-descriptions-item [nzSpan]="2"
+                nzTitle="Area of Expertise">{{ user.areaOfExpertise | enumToTitle }} </nz-descriptions-item>
+              <nz-descriptions-item [nzSpan]="2"
+                nzTitle="Country">{{ user.country?.name }}</nz-descriptions-item>
+              <nz-descriptions-item *ngIf="user.organizations.length > 0"
+                [nzSpan]="4"
+                nzTitle="Organizations">
+                <cvc-organization-tag *ngFor="let org of user.organizations"
+                  [org]="org"></cvc-organization-tag>
               </nz-descriptions-item>
               <ng-template #updateProfile>
                 <ng-container *ngIf="this.ownProfile$ | ngrxPush">
-                  <button nz-button nzSize="small" (click)="this.updateProfileModalVisible = true">
-                    Update Profile <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  <button nz-button
+                    nzSize="small"
+                    (click)="this.updateProfileModalVisible = true">
+                    Update Profile <i nz-icon
+                      nzType="edit"
+                      nzTheme="outline"></i>
                   </button>
                 </ng-container>
               </ng-template>
             </nz-descriptions>
           </div>
-          <div *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'" nz-col [nzSpan]="8">
-            <nz-descriptions nzTitle="Editor Conflict of Interest Statement" nzBordered [nzExtra]="updateCoi">
+          <div *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'"
+            nz-col
+            [nzSpan]="8">
+            <nz-descriptions nzTitle="Editor Conflict of Interest Statement"
+              nzBordered
+              [nzExtra]="updateCoi">
               <ng-container *ngIf="user.mostRecentConflictOfInterestStatement">
-                <nz-descriptions-item [nzSpan]="3" nzTitle="Status">{{
-                  user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }} </nz-descriptions-item>
-                <nz-descriptions-item [nzSpan]="2" nzTitle="Updated">{{
-                  user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }} </nz-descriptions-item>
-                <nz-descriptions-item [nzSpan]="2" nzTitle="Expires">{{
-                  user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }} </nz-descriptions-item>
-                <nz-descriptions-item [nzSpan]="3" nzTitle="Statement">
+                <nz-descriptions-item [nzSpan]="3"
+                  nzTitle="Status">{{
+                                                                      user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }} </nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="2"
+                  nzTitle="Updated">{{
+                                                                       user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }} </nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="2"
+                  nzTitle="Expires">{{
+                                                                       user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }} </nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                  nzTitle="Statement">
                   <ng-container *ngIf="user.mostRecentConflictOfInterestStatement.coiPresent; else noStatement">
                     {{user.mostRecentConflictOfInterestStatement.coiStatement }}
                   </ng-container>
@@ -69,12 +102,17 @@
                 </nz-descriptions-item>
               </ng-container>
               <ng-container *ngIf="!user.mostRecentConflictOfInterestStatement">
-                <nz-descriptions-item [nzSpan]="3" nzTitle="Status">None on file.</nz-descriptions-item>
+                <nz-descriptions-item [nzSpan]="3"
+                  nzTitle="Status">None on file.</nz-descriptions-item>
               </ng-container>
               <ng-template #updateCoi>
                 <ng-container *ngIf="this.ownProfile$ | ngrxPush">
-                  <button nz-button nzSize="small" (click)="this.updateCoiModalVisible = true">
-                    Update COI <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  <button nz-button
+                    nzSize="small"
+                    (click)="this.updateCoiModalVisible = true">
+                    Update COI <i nz-icon
+                      nzType="edit"
+                      nzTheme="outline"></i>
                   </button>
                 </ng-container>
               </ng-template>
@@ -82,48 +120,59 @@
           </div>
         </div>
         <div nz-row>
-          <div nz-col [nzSpan]="21" [nzOffset]="3">
+          <div nz-col
+            [nzSpan]="21"
+            [nzOffset]="3">
             <nz-divider></nz-divider>
             <p nz-typography><b>User Statistics</b></p>
-            <div nz-row [nzGutter]="16">
+            <div nz-row
+              [nzGutter]="16">
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.comments | number)!"
+                    [nzTitle]="'Comments'"></nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"> </nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.revisions | number)!"
+                    [nzTitle]="'Suggested Revisions'"> </nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.appliedRevisions | number)!"
+                    [nzTitle]="'Applied Revisions'"></nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.suggestedSources | number)!"
+                    [nzTitle]="'Suggested Sources'"></nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.submittedEvidenceItems | number)!"
+                    [nzTitle]="'Submitted Evidence'"></nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.acceptedEvidenceItems | number)!"
+                    [nzTitle]="'Accepted Evidence'"></nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.submittedAssertions | number)!"
+                    [nzTitle]="'Submitted Assertions'"></nz-statistic>
                 </nz-card>
               </div>
               <div nz-col>
                 <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
+                  <nz-statistic [nzValue]="(user.statsHash.acceptedAssertions | number)!"
+                    [nzTitle]="'Accepted Assertions'"></nz-statistic>
                 </nz-card>
               </div>
             </div>
@@ -138,20 +187,21 @@
     [nzTitle]="profileModalTitle"
     [nzFooter]="null"
     (nzOnCancel)="this.handleProfileModalCancel()">
-  <ng-template #profileModalTitle><span>Update Profile</span></ng-template>
-  <ng-template #profileModalContent>
-    <cvc-update-profile [user]="user" (profileUpdatedEvent)="this.profileUpdated()"></cvc-update-profile>
-  </ng-template>
+    <ng-template #profileModalTitle><span>Update Profile</span></ng-template>
+    <ng-template #profileModalContent>
+      <cvc-update-profile [user]="user"
+        (profileUpdatedEvent)="this.profileUpdated()"></cvc-update-profile>
+    </ng-template>
   </nz-modal>
 </ng-container>
 
-  <nz-modal [(nzVisible)]="this.updateCoiModalVisible"
-    [nzContent]="coiModalContent"
-    [nzTitle]="coiModalTitle"
-    [nzFooter]="null"
-    (nzOnCancel)="this.handleCoiModalCancel()">
+<nz-modal [(nzVisible)]="this.updateCoiModalVisible"
+  [nzContent]="coiModalContent"
+  [nzTitle]="coiModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="this.handleCoiModalCancel()">
   <ng-template #coiModalTitle><span>Update your Conflict of Interest Statement</span></ng-template>
   <ng-template #coiModalContent>
     <cvc-update-coi (coiUpdatedEvent)="this.coiUpdated()"></cvc-update-coi>
   </ng-template>
-  </nz-modal>
+</nz-modal>

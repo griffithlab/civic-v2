@@ -19,15 +19,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from '@app/graphql/graphql.module';
 import { environment } from 'environments/environment';
-import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module';
 import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter';
 
 registerLocaleData(en);
-const maskConfig: Partial<IConfig> = {
-  validation: true,
-};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +45,6 @@ const maskConfig: Partial<IConfig> = {
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
     NgxJsonViewerModule,
-    NgxMaskModule.forRoot(maskConfig),
     NzIconModule.forRoot(civicIcons),
     ReactiveFormsModule,
     ReactiveComponentModule,

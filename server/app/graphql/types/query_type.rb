@@ -147,6 +147,8 @@ module Types
 
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
+    field :timepoint_stats, Types::CivicTimepointStats, null: false
+
     def disease(id: )
       Disease.find_by(id: id)
     end
@@ -254,6 +256,12 @@ module Types
 
     def countries
       Country.all
+    end
+
+    def timepoint_stats
+      Rails.cache.fetch("homepage_timepoint_stats", expires_in: 10.minutes) do
+        CivicStats.homepage_stats
+      end
     end
   end
 end

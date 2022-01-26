@@ -1,16 +1,13 @@
-<ng-container *ngIf="source$ | ngrxPush as source" >
+<ng-container *ngIf="source$ | ngrxPush as source">
   <cvc-section-navigation [displayName]="source.citation"> </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <nz-space nzDirection="horizontal">
-        <nz-space-item>
-          <i nz-icon nzType="civic:source"></i>
-        </nz-space-item>
-        {{ source.citation }}
-      </nz-space>
+      <i nz-icon
+        nzType="civic:source"></i> {{ source.citation }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [href]="source.sourceUrl" [tooltip]="'View on ' + source.displayType">
+      <cvc-link-tag [href]="source.sourceUrl"
+        [tooltip]="'View on ' + source.displayType">
         {{ source.displayType + ': ' + source.citationId }}
       </cvc-link-tag>
     </nz-page-header-extra>
