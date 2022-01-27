@@ -1,5 +1,5 @@
 module LinkAdaptors
-  class SuggestedChange < Base
+  class Revision < Base
 
     def display_name
       "#RID#{obj.id}"
