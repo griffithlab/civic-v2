@@ -1,1 +1,160 @@
-<h1>Welcome!</h1>
+<nz-space nzDirection="vertical"
+  nzSize="middle"
+  class="space-container">
+  <nz-row *nzSpaceItem>
+    <nz-col [nzSpan]="24">
+      <nz-space nzDirection="vertical"
+        nzSize="middle"
+        class="space-container">
+        <nz-carousel nzAutoPlay nzAutoPlaySpeed="5000"
+          *nzSpaceItem>
+          <div nz-carousel-content>
+            <h1>
+              Discover supported clinical interpretations <br/>
+            of mutations related to cancer.
+</h1> </div>
+          <div nz-carousel-content>
+            <h1>
+            Participate with colleagues <br/>to add variants
+            and support <br/>for cancer-related mutations.</h1></div>
+          <div nz-carousel-content>
+            <h1>
+            Become an Editor! <br/>Help moderate updates to CIViC
+          </h1></div>
+        </nz-carousel>
+        <nz-card nzTitle="Knowledgebase Statistics"
+          class="home-card"
+          [nzExtra]="statsRadioGroup"
+          nzSize="small"
+          *nzSpaceItem>
+          <ng-template #statsRadioGroup>
+            <nz-radio-group [(ngModel)]="statsFilter"
+              nzSize="small">
+              <label nz-radio-button
+                nzValue="Total">Total</label>
+              <label nz-radio-button
+                nzValue="Weekly">Weekly</label>
+              <label nz-radio-button
+                nzValue="Monthly">Monthly</label>
+              <label nz-radio-button
+                nzValue="Yearly">Yearly</label>
+            </nz-radio-group>
+          </ng-template>
+          <nz-row nzGutter="8">
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Assertions'"
+                [nzValue]="(41 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Genes'"
+                [nzValue]="(461 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Variants'"
+                [nzValue]="(3031 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Evidence'"
+                [nzValue]="(8553 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Drugs'"
+                [nzValue]="(481 | number)!"></nz-statistic>
+            </nz-col>
+          </nz-row>
+          <nz-row nzGutter="8">
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Diseases'"
+                [nzValue]="(324 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Publications'"
+                [nzValue]="(3090 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Revisions'"
+                [nzValue]="(12912 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Contributors'"
+                [nzValue]="(312 | number)!"></nz-statistic>
+            </nz-col>
+            <nz-col nzFlex="1">
+              <nz-statistic [nzTitle]="statsFilter + ' Comments'"
+                [nzValue]="(6709 | number)!"></nz-statistic>
+            </nz-col>
+
+          </nz-row>
+        </nz-card>
+      </nz-space>
+    </nz-col>
+  </nz-row>
+  <nz-row [nzGutter]="16"
+    *nzSpaceItem>
+    <nz-col [nzSpan]="12">
+      <nz-card nzTitle="The Precision Medicine Revolution"
+        nzSize="small"
+        class="home-card">
+        Precision medicine refers to the use of prevention and treatment strategies that are tailored to the unique features of each individual and their disease. In the context of cancer this might involve the identification of specific mutations shown to predict response to a targeted therapy. The biomedical literature describing these associations is large and growing rapidly. Currently these interpretations exist largely in private or encumbered databases resulting in extensive repetition of effort.
+
+      </nz-card>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-card nzTitle="CIViC's Role in Precision Medicine"
+        nzSize="small"
+        class="home-card">
+        Realizing precision medicine will require this information to be centralized, debated and interpreted for application in the clinic. CIViC is an open access, open source, community-driven web resource for Clinical Interpretation of Variants in Cancer. Our goal is to enable precision medicine by providing an educational forum for dissemination of knowledge and active discussion of the clinical significance of cancer genome alterations. For more details refer to the 2017 CIViC publication in Nature Genetics.
+      </nz-card>
+    </nz-col>
+  </nz-row>
+  <nz-row [nzGutter]="16"
+    *nzSpaceItem>
+    <nz-col [nzSpan]="12">
+      <nz-card nzTitle="News & Events"
+        nzSize="small"
+        class="home-card">
+        <nz-list nzItemLayout="vertical">
+          <nz-list-item>
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <span>Pediatric Cancer Variants</span>
+                <br/>
+                <span nz-typography
+                  nzType="secondary">
+                  February 12th, 2021
+                </span>
+              </nz-list-item-meta-title>
+            </nz-list-item-meta>
+            Through support from the Childhood Cancer Data Initiative (CCDI), we have executed our initial phase of highlighting pediatric cancer variant content. This advanced search query displays childhood relevant data contained in CIViC. Stay tuned for more pediatric-focused features as we launch the first open-access searchable childhood-cancer-specific dataset.
+            <nz-list-item-extra></nz-list-item-extra>
+          </nz-list-item>
+          <nz-list-item>
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <span>Explore CIViC Variants in ProteinPaint</span>
+                <br/>
+                <span nz-typography
+                  nzType="secondary">June 29th, 2020</span>
+              </nz-list-item-meta-title>
+            </nz-list-item-meta>
+            <nz-list-item-meta-description>
+              St. Jude's ProteinPaint now incorporates a CIViC variant track, displaying CIViC curated data along with a variety of additional sources, and providing one-click access to CIViC's variant summaries. We've also added ProteinPaint links to our gene summaries.
+            </nz-list-item-meta-description>
+            <nz-list-item-extra>
+              <img width="150"
+                alt="logo"
+                src="https://civicdb.org/assets/images/partners/protein-paint-integration.png" />
+            </nz-list-item-extra>
+          </nz-list-item>
+        </nz-list>
+
+      </nz-card>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-card nzTitle="Live Curation Activity"
+        style="min-height: 600px"
+        nzSize="small"
+        class="home-card"></nz-card>
+    </nz-col>
+  </nz-row>
+</nz-space>
