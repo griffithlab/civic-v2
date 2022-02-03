@@ -14,11 +14,14 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveComponentModule,
     NzButtonModule,
     NzGridModule,
     NzCarouselModule,
@@ -29,6 +32,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzStatisticModule,
    NzTypographyModule,
     WelcomeRoutingModule,
+
+    NgxJsonViewerModule,
   ],
   declarations: [
     WelcomeComponent

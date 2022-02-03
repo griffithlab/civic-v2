@@ -157,4 +157,9 @@
         class="home-card"></nz-card>
     </nz-col>
   </nz-row>
+  <nz-row *nzSpaceItem>
+    <nz-col>
+      <ngx-json-viewer [json]="stats$ | ngrxPush"></ngx-json-viewer>
+    </nz-col>
+  </nz-row>
 </nz-space>
