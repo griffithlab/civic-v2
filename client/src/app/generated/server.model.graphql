@@ -1128,6 +1128,7 @@ Counts of CIViC activity over time, used for the homepage
 """
 type CivicTimepointStats {
   assertions: TimePointCounts!
+  comments: TimePointCounts!
   diseases: TimePointCounts!
   drugs: TimePointCounts!
   evidenceItems: TimePointCounts!

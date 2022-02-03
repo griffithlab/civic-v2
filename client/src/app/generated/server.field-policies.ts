@@ -299,9 +299,10 @@ export type BrowseVariantTypeEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CivicTimepointStatsKeySpecifier = ('assertions' | 'diseases' | 'drugs' | 'evidenceItems' | 'genes' | 'revisions' | 'sources' | 'users' | 'variants' | CivicTimepointStatsKeySpecifier)[];
+export type CivicTimepointStatsKeySpecifier = ('assertions' | 'comments' | 'diseases' | 'drugs' | 'evidenceItems' | 'genes' | 'revisions' | 'sources' | 'users' | 'variants' | CivicTimepointStatsKeySpecifier)[];
 export type CivicTimepointStatsFieldPolicy = {
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
+	comments?: FieldPolicy<any> | FieldReadFunction<any>,
 	diseases?: FieldPolicy<any> | FieldReadFunction<any>,
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,

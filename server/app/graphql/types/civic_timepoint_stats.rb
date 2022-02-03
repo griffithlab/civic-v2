@@ -12,6 +12,7 @@ module Types
     field :variants, TimePointCounts, null: false
     field :revisions, TimePointCounts, null: false
     field :evidence_items, TimePointCounts, null: false
+    field :comments, TimePointCounts, null: false
     field :drugs, TimePointCounts, null: false
     field :diseases, TimePointCounts, null: false
     field :sources, TimePointCounts, null: false

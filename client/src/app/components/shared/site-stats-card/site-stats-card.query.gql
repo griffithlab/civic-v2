@@ -6,6 +6,9 @@ query CivicStats {
     diseases {
       ...TimepointCount
     }
+    comments {
+      ...TimepointCount
+    }
     drugs {
       ...TimepointCount
     }

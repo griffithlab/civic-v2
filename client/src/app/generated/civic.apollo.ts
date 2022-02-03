@@ -686,6 +686,7 @@ export type BrowseVariantTypeEdge = {
 export type CivicTimepointStats = {
   __typename: 'CivicTimepointStats';
   assertions: TimePointCounts;
+  comments: TimePointCounts;
   diseases: TimePointCounts;
   drugs: TimePointCounts;
   evidenceItems: TimePointCounts;
@@ -5233,6 +5234,9 @@ export type CivicStatsQuery = (
     ), diseases: (
       { __typename: 'TimePointCounts' }
       & TimepointCountFragment
+    ), comments: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
     ), drugs: (
       { __typename: 'TimePointCounts' }
       & TimepointCountFragment
@@ -9663,6 +9667,9 @@ export const CivicStatsDocument = gql`
       ...TimepointCount
     }
     diseases {
+      ...TimepointCount
+    }
+    comments {
       ...TimepointCount
     }
     drugs {

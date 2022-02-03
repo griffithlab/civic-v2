@@ -55,11 +55,9 @@
         <nz-statistic [nzTitle]="statsType + ' Contributors'"
           [nzValue]="(stats.users[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
-      <!-- TODO add comment stats back in when provided by server -->
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Comments'"
-          [nzValue]="'--'"></nz-statistic>
-          <!-- [nzValue]="(stats.comments[statsTypes[statsType]] | number)!"></nz-statistic> -->
+          [nzValue]="(stats.comments[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
 
     </nz-row>
@@ -82,7 +80,6 @@
         <nz-statistic [nzTitle]="statsType + ' Contributors'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
-      <!-- TODO add comment stats back in when provided by server -->
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Comments'"
           [nzValue]="'--'"></nz-statistic>
@@ -105,7 +102,6 @@
         <nz-statistic [nzTitle]="statsType + ' Contributors'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
-      <!-- TODO add comment stats back in when provided by server -->
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Comments'"
           [nzValue]="'--'"></nz-statistic>
