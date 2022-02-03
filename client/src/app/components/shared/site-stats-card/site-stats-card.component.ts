@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CivicStatsGQL, CivicStatsQuery, CivicTimepointStats, TimePointCounts } from '@app/generated/civic.apollo';
+import { ApolloQueryResult } from '@apollo/client/core';
+import { CivicStatsGQL, CivicStatsQuery, CivicTimepointStats } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,11 +12,15 @@ import { map } from 'rxjs/operators';
 })
 export class CvcSiteStatsCardComponent implements OnInit {
   private statsRef!: QueryRef<CivicStatsQuery, {}>;
+  private response$!: Observable<ApolloQueryResult<CivicStatsQuery>>;
+
+  isLoading$!: Observable<boolean>;
   stats$!: Observable<CivicTimepointStats>;
   statsType: string;
+  statsTypes: { [index: string]: string };
 
   constructor(private statsGql: CivicStatsGQL) {
-    const statsTypes = {
+    this.statsTypes = {
       Total: 'allTime',
       Yearly: 'newThisYear',
       Monthly: 'newThisMonth',
@@ -27,7 +32,9 @@ export class CvcSiteStatsCardComponent implements OnInit {
 
   ngOnInit() {
     this.statsRef = this.statsGql.watch({});
-    this.stats$ = this.statsRef.valueChanges
-      .pipe(map(r => r.data.timepointStats));
+    this.response$ = this.statsRef.valueChanges;
+
+    this.isLoading$ = this.response$.pipe(map(r => r.loading));
+    this.stats$ = this.response$.pipe(map(r => r.data.timepointStats));
   }
 }

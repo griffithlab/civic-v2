@@ -15,49 +15,102 @@
         nzValue="Yearly">Yearly</label>
     </nz-radio-group>
   </ng-template>
-  <nz-row nzGutter="8">
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Assertions'"
-        [nzValue]="(41 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Genes'"
-        [nzValue]="(461 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Variants'"
-        [nzValue]="(3031 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Evidence'"
-        [nzValue]="(8553 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Drugs'"
-        [nzValue]="(481 | number)!"></nz-statistic>
-    </nz-col>
-  </nz-row>
-  <nz-row nzGutter="8">
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Diseases'"
-        [nzValue]="(324 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Publications'"
-        [nzValue]="(3090 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Revisions'"
-        [nzValue]="(12912 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Contributors'"
-        [nzValue]="(312 | number)!"></nz-statistic>
-    </nz-col>
-    <nz-col nzFlex="1">
-      <nz-statistic [nzTitle]="statsType + ' Comments'"
-        [nzValue]="(6709 | number)!"></nz-statistic>
-    </nz-col>
+  <ng-container *ngIf="(stats$ | ngrxPush) as stats; else isLoading">
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Assertions'"
+          [nzValue]="stats.assertions[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Genes'"
+          [nzValue]="stats.genes[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Variants'"
+          [nzValue]="stats.variants[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Evidence'"
+          [nzValue]="stats.evidenceItems[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Drugs'"
+          [nzValue]="stats.drugs[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="stats.diseases[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="stats.sources[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="stats.revisions[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="stats.users[statsTypes[statsType]]"></nz-statistic>
+      </nz-col>
+      <!-- TODO add comment stats back in when provided by server -->
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+          <!-- [nzValue]="stats.comments[statsTypes[statsType]]"></nz-statistic> -->
+      </nz-col>
 
-  </nz-row>
+    </nz-row>
+  </ng-container>
+  <ng-template #isLoading>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <!-- TODO add comment stats back in when provided by server -->
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <!-- TODO add comment stats back in when provided by server -->
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+
+    </nz-row>
+  </ng-template>
 </nz-card>

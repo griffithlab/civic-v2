@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcSiteStatsCardComponent } from './site-stats-card.component';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CvcSiteStatsCardComponent } from './site-stats-card.component';
     NzCardModule,
     NzRadioModule,
     NzButtonModule,
+    NzSkeletonModule,
     NzTypographyModule,
     NgxJsonViewerModule,
   ],
