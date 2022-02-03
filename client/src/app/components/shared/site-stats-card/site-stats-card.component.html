@@ -1,0 +1,63 @@
+<nz-card nzTitle="Knowledgebase Statistics"
+  class="home-card"
+  [nzExtra]="statsRadioGroup"
+  nzSize="small">
+  <ng-template #statsRadioGroup>
+    <nz-radio-group [(ngModel)]="statsType"
+      nzSize="small">
+      <label nz-radio-button
+        nzValue="Total">Total</label>
+      <label nz-radio-button
+        nzValue="Weekly">Weekly</label>
+      <label nz-radio-button
+        nzValue="Monthly">Monthly</label>
+      <label nz-radio-button
+        nzValue="Yearly">Yearly</label>
+    </nz-radio-group>
+  </ng-template>
+  <nz-row nzGutter="8">
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Assertions'"
+        [nzValue]="(41 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Genes'"
+        [nzValue]="(461 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Variants'"
+        [nzValue]="(3031 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Evidence'"
+        [nzValue]="(8553 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Drugs'"
+        [nzValue]="(481 | number)!"></nz-statistic>
+    </nz-col>
+  </nz-row>
+  <nz-row nzGutter="8">
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Diseases'"
+        [nzValue]="(324 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Publications'"
+        [nzValue]="(3090 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Revisions'"
+        [nzValue]="(12912 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Contributors'"
+        [nzValue]="(312 | number)!"></nz-statistic>
+    </nz-col>
+    <nz-col nzFlex="1">
+      <nz-statistic [nzTitle]="statsType + ' Comments'"
+        [nzValue]="(6709 | number)!"></nz-statistic>
+    </nz-col>
+
+  </nz-row>
+</nz-card>
