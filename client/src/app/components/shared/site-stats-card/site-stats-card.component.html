@@ -19,47 +19,47 @@
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Assertions'"
-          [nzValue]="stats.assertions[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.assertions[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Genes'"
-          [nzValue]="stats.genes[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.genes[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Variants'"
-          [nzValue]="stats.variants[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.variants[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Evidence'"
-          [nzValue]="stats.evidenceItems[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.evidenceItems[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Drugs'"
-          [nzValue]="stats.drugs[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.drugs[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
     </nz-row>
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Diseases'"
-          [nzValue]="stats.diseases[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.diseases[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Publications'"
-          [nzValue]="stats.sources[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.sources[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Revisions'"
-          [nzValue]="stats.revisions[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.revisions[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Contributors'"
-          [nzValue]="stats.users[statsTypes[statsType]]"></nz-statistic>
+          [nzValue]="(stats.users[statsTypes[statsType]] | number)!"></nz-statistic>
       </nz-col>
       <!-- TODO add comment stats back in when provided by server -->
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Comments'"
           [nzValue]="'--'"></nz-statistic>
-          <!-- [nzValue]="stats.comments[statsTypes[statsType]]"></nz-statistic> -->
+          <!-- [nzValue]="(stats.comments[statsTypes[statsType]] | number)!"></nz-statistic> -->
       </nz-col>
 
     </nz-row>
