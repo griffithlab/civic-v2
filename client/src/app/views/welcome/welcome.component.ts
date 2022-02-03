@@ -12,11 +12,18 @@ import { Observable } from 'rxjs';
 export class WelcomeComponent implements OnInit {
   private statsRef!: QueryRef<CivicStatsQuery, {}>;
   stats$!: Observable<ApolloQueryResult<CivicStatsQuery>>;
+  statsType = "Total";
+
   constructor(private statsGql: CivicStatsGQL) {
+    const statsTypes = {
+      Total: 'allTime',
+      Yearly: 'newThisYear',
+      Monthly: 'newThisMonth',
+      Weekly: 'newThisWeek',
+    }
 
   }
 
-  statsFilter = "Total";
 
   ngOnInit() {
     this.statsRef = this.statsGql.watch({});
