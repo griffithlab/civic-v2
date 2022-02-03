@@ -7118,6 +7118,49 @@ export type MyVariantInfoFieldsFragment = (
   & Pick<MyVariantInfo, 'myVariantInfoId' | 'caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact'>
 );
 
+export type CivicStatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CivicStatsQuery = (
+  { __typename: 'Query' }
+  & { timepointStats: (
+    { __typename: 'CivicTimepointStats' }
+    & { assertions: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), diseases: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), drugs: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), evidenceItems: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), genes: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), revisions: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), sources: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), users: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), variants: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ) }
+  ) }
+);
+
+export type TimepointCountFragment = (
+  { __typename: 'TimePointCounts' }
+  & Pick<TimePointCounts, 'allTime' | 'newThisMonth' | 'newThisWeek' | 'newThisYear'>
+);
+
 export const AssertionPopoverFragmentDoc = gql`
     fragment assertionPopover on Assertion {
   id
@@ -8721,6 +8764,14 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   }
 }
     ${MyVariantInfoFieldsFragmentDoc}`;
+export const TimepointCountFragmentDoc = gql`
+    fragment TimepointCount on TimePointCounts {
+  allTime
+  newThisMonth
+  newThisWeek
+  newThisYear
+}
+    `;
 export const AssertionPopoverDocument = gql`
     query AssertionPopover($assertionId: Int!) {
   assertion(id: $assertionId) {
@@ -11318,6 +11369,50 @@ export const VariantSummaryDocument = gql`
   })
   export class VariantSummaryGQL extends Apollo.Query<VariantSummaryQuery, VariantSummaryQueryVariables> {
     document = VariantSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CivicStatsDocument = gql`
+    query CivicStats {
+  timepointStats {
+    assertions {
+      ...TimepointCount
+    }
+    diseases {
+      ...TimepointCount
+    }
+    drugs {
+      ...TimepointCount
+    }
+    evidenceItems {
+      ...TimepointCount
+    }
+    genes {
+      ...TimepointCount
+    }
+    revisions {
+      ...TimepointCount
+    }
+    sources {
+      ...TimepointCount
+    }
+    users {
+      ...TimepointCount
+    }
+    variants {
+      ...TimepointCount
+    }
+  }
+}
+    ${TimepointCountFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CivicStatsGQL extends Apollo.Query<CivicStatsQuery, CivicStatsQueryVariables> {
+    document = CivicStatsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
