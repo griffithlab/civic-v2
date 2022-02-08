@@ -1,0 +1,112 @@
+<nz-card nzTitle="Knowledgebase Statistics"
+  class="home-card"
+  [nzExtra]="statsRadioGroup"
+  nzSize="small">
+  <ng-template #statsRadioGroup>
+    <nz-radio-group [(ngModel)]="statsType"
+      nzSize="small">
+      <label nz-radio-button
+        nzValue="Total">Total</label>
+      <label nz-radio-button
+        nzValue="Weekly">Weekly</label>
+      <label nz-radio-button
+        nzValue="Monthly">Monthly</label>
+      <label nz-radio-button
+        nzValue="Yearly">Yearly</label>
+    </nz-radio-group>
+  </ng-template>
+  <ng-container *ngIf="(stats$ | ngrxPush) as stats; else isLoading">
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Assertions'"
+          [nzValue]="(stats.assertions[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Genes'"
+          [nzValue]="(stats.genes[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Variants'"
+          [nzValue]="(stats.variants[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Evidence'"
+          [nzValue]="(stats.evidenceItems[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Drugs'"
+          [nzValue]="(stats.drugs[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="(stats.diseases[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="(stats.sources[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="(stats.revisions[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="(stats.users[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="(stats.comments[statsTypes[statsType]] | number)!"></nz-statistic>
+      </nz-col>
+
+    </nz-row>
+  </ng-container>
+  <ng-template #isLoading>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+
+    </nz-row>
+  </ng-template>
+</nz-card>

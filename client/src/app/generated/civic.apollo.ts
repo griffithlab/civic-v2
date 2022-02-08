@@ -686,6 +686,7 @@ export type BrowseVariantTypeEdge = {
 export type CivicTimepointStats = {
   __typename: 'CivicTimepointStats';
   assertions: TimePointCounts;
+  comments: TimePointCounts;
   diseases: TimePointCounts;
   drugs: TimePointCounts;
   evidenceItems: TimePointCounts;
@@ -5220,6 +5221,52 @@ export type ModerateAssertionMutation = (
   )> }
 );
 
+export type CivicStatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CivicStatsQuery = (
+  { __typename: 'Query' }
+  & { timepointStats: (
+    { __typename: 'CivicTimepointStats' }
+    & { assertions: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), diseases: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), comments: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), drugs: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), evidenceItems: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), genes: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), revisions: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), sources: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), users: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ), variants: (
+      { __typename: 'TimePointCounts' }
+      & TimepointCountFragment
+    ) }
+  ) }
+);
+
+export type TimepointCountFragment = (
+  { __typename: 'TimePointCounts' }
+  & Pick<TimePointCounts, 'allTime' | 'newThisMonth' | 'newThisWeek' | 'newThisYear'>
+);
+
 export type BrowseSourceSuggestionsQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -7765,6 +7812,14 @@ export const SubscriptionIdFragmentDoc = gql`
   __typename
 }
     `;
+export const TimepointCountFragmentDoc = gql`
+    fragment TimepointCount on TimePointCounts {
+  allTime
+  newThisMonth
+  newThisWeek
+  newThisYear
+}
+    `;
 export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
     fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   id
@@ -9600,6 +9655,53 @@ export const ModerateAssertionDocument = gql`
   })
   export class ModerateAssertionGQL extends Apollo.Mutation<ModerateAssertionMutation, ModerateAssertionMutationVariables> {
     document = ModerateAssertionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CivicStatsDocument = gql`
+    query CivicStats {
+  timepointStats {
+    assertions {
+      ...TimepointCount
+    }
+    diseases {
+      ...TimepointCount
+    }
+    comments {
+      ...TimepointCount
+    }
+    drugs {
+      ...TimepointCount
+    }
+    evidenceItems {
+      ...TimepointCount
+    }
+    genes {
+      ...TimepointCount
+    }
+    revisions {
+      ...TimepointCount
+    }
+    sources {
+      ...TimepointCount
+    }
+    users {
+      ...TimepointCount
+    }
+    variants {
+      ...TimepointCount
+    }
+  }
+}
+    ${TimepointCountFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CivicStatsGQL extends Apollo.Query<CivicStatsQuery, CivicStatsQueryVariables> {
+    document = CivicStatsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

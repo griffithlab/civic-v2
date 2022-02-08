@@ -14,11 +14,15 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcSiteStatsCardModule } from '@app/components/shared/site-stats-card/site-stats-card.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveComponentModule,
     NzButtonModule,
     NzGridModule,
     NzCarouselModule,
@@ -27,8 +31,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzRadioModule,
     NzSpaceModule,
     NzStatisticModule,
-   NzTypographyModule,
+    NzTypographyModule,
     WelcomeRoutingModule,
+    CvcSiteStatsCardModule,
+
+    NgxJsonViewerModule,
   ],
   declarations: [
     WelcomeComponent
