@@ -6,6 +6,7 @@ import {
 
 import {
   AbstractControl,
+  FormControl,
   FormGroup,
 } from '@angular/forms';
 
@@ -375,8 +376,6 @@ export class VariantReviseForm implements OnDestroy {
         },
         // complete
         () => {
-          // touch all non-comment fields to highlight any pre-existing errors
-          // this.formGroup.controls.fields.markAllAsTouched();
           this.formFields
             .filter((f: FormlyFieldConfig) => {
               return f.key && f.key !== 'comment'; // don't show invalid comment msg on init
@@ -386,8 +385,8 @@ export class VariantReviseForm implements OnDestroy {
             })
             .forEach((fc: AbstractControl) => {
               if (fc) {
-                fc.markAsTouched(); // updates form UI
-                fc.updateValueAndValidity(); // forces FormArray controls to emit StatusChange events
+                if(fc instanceof FormControl){ fc.markAsTouched(); }
+                fc.updateValueAndValidity(); // forces FormArray validation
               }
             });
         });

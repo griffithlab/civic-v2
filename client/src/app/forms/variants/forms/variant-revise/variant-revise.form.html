@@ -47,11 +47,6 @@
     <nz-card nzTitle="Form Helper"
       nzSize="small"
       class="form-helper-card">
-      <ng-template #markTouched>
-        <button nz-button
-          nzSize="small"
-          (click)="markFieldsAsTouched()">Mark</button>
-      </ng-template>
 
       <nz-collapse [nzBordered]="false">
         <ng-container *ngFor="let field of formFields">
