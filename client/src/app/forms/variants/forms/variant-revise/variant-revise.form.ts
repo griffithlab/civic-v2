@@ -1,11 +1,15 @@
 import {
+  AfterViewInit,
   Component,
   Input,
-
   OnDestroy,
 } from '@angular/core';
 
 import {
+  AbstractControl,
+  FormArray,
+  FormArrayName,
+  FormControl,
   FormGroup,
 } from '@angular/forms';
 
@@ -34,6 +38,7 @@ import * as fmt from '@app/forms/shared/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
 import { Chromosomes } from '@app/forms/shared/input-formatters';
+import { NzFooterComponent } from 'ng-zorro-antd/layout';
 
 interface FormSource {
   id?: number;
@@ -96,6 +101,10 @@ export class VariantReviseForm implements OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
+  formControls!: { [key: string]: AbstractControl }
+
+  markAsTouched!: () => void;
+
   constructor(
     private revisionService: VariantReviseService,
     private viewerService: ViewerService,
@@ -127,6 +136,7 @@ export class VariantReviseForm implements OnDestroy {
         templateOptions: {
           label: 'Description',
           placeholder: 'Enter a description for this variant.',
+          helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the Creative Commons Public Domain Dedication (CC0 1.0 Universal).',
           required: false
         }
       },
@@ -155,9 +165,24 @@ export class VariantReviseForm implements OnDestroy {
           type: 'input',
           templateOptions: {
             required: false,
-            placeholder: 'Add Alias'
-          }
-        }
+            placeholder: 'Add Alias',
+            minLength: 3,
+          },
+        },
+        // validators: {
+        //   ip: {
+        //     expression: (c: any) => {
+        //       console.log(c);
+        //       return true;
+        //       // const sum = c.value
+        //       //   .map(v => v.investmentName)
+        //       //   .reduce((sum, investmentName) => sum += investmentName, 0);
+
+        //       // return sum === 10;
+        //     },
+        //     message: (error: any, field: FormlyFieldConfig) => `sum !== 10`,
+        //   },
+        // },
       },
       {
         key: 'fields.hgvsDescriptions',
@@ -175,7 +200,7 @@ export class VariantReviseForm implements OnDestroy {
         }
       },
       {
-        key:'fields.clinvarIds',
+        key: 'fields.clinvarIds',
         type: 'multi-field',
         templateOptions: {
           label: 'ClinVar IDs',
@@ -215,7 +240,7 @@ export class VariantReviseForm implements OnDestroy {
           required: false,
           options: $enum(ReferenceBuild)
             .map((value, key) => {
-              return { value: value, label: formatReferenceBuildEnum(value)}
+              return { value: value, label: formatReferenceBuildEnum(value) }
             })
         }
       },
@@ -326,25 +351,59 @@ export class VariantReviseForm implements OnDestroy {
           this.formOptions.resetModel();
         }
       })
+
+    this.markAsTouched = () => {
+      // this.formGroup.controls.fields.markAllAsTouched();
+      this.formGroup.get('fields.variantAliases')!.markAsTouched();
+    }
   }
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ variantId: this.variantId })
-      .subscribe(({ data: { variant } }) => {
-        if (variant) {
-          this.formModel = this.toFormModel(variant);
+      .subscribe(
+        // response
+        ({ data: { variant } }) => {
+          if (variant) {
+            this.formModel = this.toFormModel(variant);
+          } else {
+            // TODO: handle errors with subscribe({complete, error})
+            console.error('Could not retrieve variant.');
+          }
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
+        },
+        // error
+        (error) => {
+          console.error(error);
+        },
+        // complete
+        () => {
           // touch all non-comment fields to highlight any pre-existing errors
-          this.formGroup.controls.fields.markAllAsTouched();
-        } else {
-          // TODO: handle errors with subscribe({complete, error})
-          console.error('Could not retrieve variant.');
-        }
-        if (this.formOptions.updateInitialValue) {
-          this.formOptions.updateInitialValue();
+          // this.formGroup.controls.fields.markAllAsTouched();
+          this.markFieldsAsTouched();
+        });
+
+  }
+
+  markFieldsAsTouched = (): void => {
+    this.formFields
+      .filter((f: FormlyFieldConfig) => {
+        return f.key && f.key !== 'comment'; // don't show invalid comment msg on init
+      })
+      .map((f: FormlyFieldConfig): AbstractControl => {
+        return this.formGroup.get(f.key!.toString())!;
+      })
+      .forEach((fc: AbstractControl) => {
+        if (fc) {
+          fc.markAsTouched(); // updates form UI
+          fc.updateValueAndValidity(); // forces FormArray controls to emit StatusChange events
         }
       });
   }
+
+
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;

@@ -16,19 +16,28 @@ import { RouterModule } from '@angular/router';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { VariantReviseService } from './variant-revise.service';
 import { VariantTypeInputModule } from '@app/forms/variant-types/types/variant-type-input/variant-type-input.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   declarations: [VariantReviseForm],
   providers: [VariantReviseService],
   imports: [
     CommonModule,
+    ReactiveComponentModule,
     RouterModule,
     ReactiveFormsModule,
     NgxJsonViewerModule,
+    NzButtonModule,
+    NzCardModule,
+    NzCollapseModule,
     NzFormModule,
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
+    NzSwitchModule,
     FormlyModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
@@ -36,6 +45,8 @@ import { VariantTypeInputModule } from '@app/forms/variant-types/types/variant-t
     MultiFieldModule,
     SourceInputModule,
     VariantTypeInputModule,
+
+    NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],
 })
