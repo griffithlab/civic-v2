@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   Input,
   OnDestroy,
@@ -7,9 +6,6 @@ import {
 
 import {
   AbstractControl,
-  FormArray,
-  FormArrayName,
-  FormControl,
   FormGroup,
 } from '@angular/forms';
 
@@ -38,7 +34,6 @@ import * as fmt from '@app/forms/shared/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
 import { Chromosomes } from '@app/forms/shared/input-formatters';
-import { NzFooterComponent } from 'ng-zorro-antd/layout';
 
 interface FormSource {
   id?: number;
@@ -239,7 +234,7 @@ export class VariantReviseForm implements OnDestroy {
           label: 'Reference Build',
           required: false,
           options: $enum(ReferenceBuild)
-            .map((value, key) => {
+            .map((value) => {
               return { value: value, label: formatReferenceBuildEnum(value) }
             })
         }
@@ -382,28 +377,22 @@ export class VariantReviseForm implements OnDestroy {
         () => {
           // touch all non-comment fields to highlight any pre-existing errors
           // this.formGroup.controls.fields.markAllAsTouched();
-          this.markFieldsAsTouched();
+          this.formFields
+            .filter((f: FormlyFieldConfig) => {
+              return f.key && f.key !== 'comment'; // don't show invalid comment msg on init
+            })
+            .map((f: FormlyFieldConfig): AbstractControl => {
+              return this.formGroup.get(f.key!.toString())!;
+            })
+            .forEach((fc: AbstractControl) => {
+              if (fc) {
+                fc.markAsTouched(); // updates form UI
+                fc.updateValueAndValidity(); // forces FormArray controls to emit StatusChange events
+              }
+            });
         });
 
   }
-
-  markFieldsAsTouched = (): void => {
-    this.formFields
-      .filter((f: FormlyFieldConfig) => {
-        return f.key && f.key !== 'comment'; // don't show invalid comment msg on init
-      })
-      .map((f: FormlyFieldConfig): AbstractControl => {
-        return this.formGroup.get(f.key!.toString())!;
-      })
-      .forEach((fc: AbstractControl) => {
-        if (fc) {
-          fc.markAsTouched(); // updates form UI
-          fc.updateValueAndValidity(); // forces FormArray controls to emit StatusChange events
-        }
-      });
-  }
-
-
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
