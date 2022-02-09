@@ -140,7 +140,7 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'source-input',
           templateOptions: {
-            required: true
+            required: false
           }
         }
       },
@@ -154,7 +154,7 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'input',
           templateOptions: {
-            required: true,
+            required: false,
             placeholder: 'Add Alias'
           }
         }
@@ -169,7 +169,7 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'input',
           templateOptions: {
-            required: true,
+            required: false,
             placeholder: 'Enter an HGVS string'
           }
         }
@@ -184,7 +184,7 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'input',
           templateOptions: {
-            required: true,
+            required: false,
             placeholder: 'Enter a ClinVar ID'
           }
         }
@@ -199,7 +199,7 @@ export class VariantReviseForm implements OnDestroy {
         fieldArray: {
           type: 'variant-type-input',
           templateOptions: {
-            required: true
+            required: false
           }
         }
       },
@@ -334,6 +334,8 @@ export class VariantReviseForm implements OnDestroy {
       .subscribe(({ data: { variant } }) => {
         if (variant) {
           this.formModel = this.toFormModel(variant);
+          // touch all non-comment fields to highlight any pre-existing errors
+          this.formGroup.controls.fields.markAllAsTouched();
         } else {
           // TODO: handle errors with subscribe({complete, error})
           console.error('Could not retrieve variant.');
