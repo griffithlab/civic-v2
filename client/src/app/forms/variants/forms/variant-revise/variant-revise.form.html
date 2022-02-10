@@ -54,6 +54,7 @@
             [nzHeader]="label"
             [nzExtra]="fieldStatus">
             {{ field.templateOptions?.helpText }}
+            <p>has focus: {{ (field.templateOptions!.hasFocus | ngrxPush) | json }}</p>
             <!-- <ngx-json-viewer [json]="formGroup.get(field.key!.toString())"></ngx-json-viewer> -->
           </nz-collapse-panel>
           <ng-template #fieldStatus>

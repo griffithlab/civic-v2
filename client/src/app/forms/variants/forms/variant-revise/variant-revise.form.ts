@@ -133,7 +133,20 @@ export class VariantReviseForm implements OnDestroy {
           label: 'Description',
           placeholder: 'Enter a description for this variant.',
           helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the Creative Commons Public Domain Dedication (CC0 1.0 Universal).',
-          required: false
+          required: false,
+          hasFocus: new BehaviorSubject<boolean>(false),
+          focus: (f: FormlyFieldConfig, e: FocusEvent) => {
+            f.templateOptions!.hasFocus.next(true);
+            console.log(`Description focus: `);
+            console.log(f);
+            console.log(e);
+          },
+          blur: (f: FormlyFieldConfig, e: FocusEvent) => {
+            f.templateOptions!.hasFocus.next(false);
+            console.log(`Description blur: `);
+            console.log(f);
+            console.log(e);
+          },
         }
       },
       {
@@ -385,7 +398,7 @@ export class VariantReviseForm implements OnDestroy {
             })
             .forEach((fc: AbstractControl) => {
               if (fc) {
-                if(fc instanceof FormControl){ fc.markAsTouched(); }
+                if (fc instanceof FormControl) { fc.markAsTouched(); }
                 fc.updateValueAndValidity(); // forces FormArray validation
               }
             });
