@@ -52,10 +52,9 @@
         <ng-container *ngFor="let field of formFields">
           <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
             [nzHeader]="label"
+            [nzActive]="field.templateOptions!.hasFocus | ngrxPush"
             [nzExtra]="fieldStatus">
             {{ field.templateOptions?.helpText }}
-            <p>has focus: {{ (field.templateOptions!.hasFocus | ngrxPush) | json }}</p>
-            <!-- <ngx-json-viewer [json]="formGroup.get(field.key!.toString())"></ngx-json-viewer> -->
           </nz-collapse-panel>
           <ng-template #fieldStatus>
             <ng-container *ngIf="formGroup.get(field.key!.toString())!.statusChanges | ngrxPush as status">
