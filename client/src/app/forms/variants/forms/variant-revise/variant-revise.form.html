@@ -44,10 +44,10 @@
     </form>
   </nz-col>
   <nz-col [nzSpan]="10">
-    <nz-card nzTitle="Form Helper"
+    <nz-card nzTitle="Instructions"
       nzSize="small"
       class="form-helper-card">
-
+      <p style="padding: 1em; margin: 0; border-bottom: 1px solid #d9d9d9">Apply your edits to this variant using the form fields, then click the 'Submit Revision' button at the bottom of the form. Please familiarize yourself with the basics of <a href="https://civic.readthedocs.io/en/latest/model/variants.html#variants">variant curation</a> and the help for each field to ensure your revision will be accepted by an editor.</p>
       <nz-collapse [nzBordered]="false">
         <ng-container *ngFor="let field of formFields">
           <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
@@ -57,11 +57,23 @@
             {{ field.templateOptions?.helpText }}
           </nz-collapse-panel>
           <ng-template #fieldStatus>
-            <ng-container *ngIf="formGroup.get(field.key!.toString())!.statusChanges | ngrxPush as status">
-              {{ status }}
+            <ng-container *ngIf="field.templateOptions!.status | ngrxPush as status">
+              <ng-container *ngIf="status === 'INVALID'">
+                <i nz-icon
+                  nzType="exclamation-circle"
+                  nzTheme="twotone"
+                  nzTwotoneColor="#f5222d"></i>
+              </ng-container>
             </ng-container>
           </ng-template>
         </ng-container>
+        <nz-collapse-panel nzHeader="DEBUG: formControl?">
+          <p>hopefully we get a formControl below:</p>
+          <ng-container *ngIf="formFields[1].formControl">
+            <ngx-json-viewer [json]="formFields[1].formControl"
+              [depth]="1"></ngx-json-viewer>
+          </ng-container>
+        </nz-collapse-panel>
         <nz-collapse-panel nzHeader="DEBUG: formFields">
           <ngx-json-viewer [json]="formFields"
             [depth]="1"></ngx-json-viewer>

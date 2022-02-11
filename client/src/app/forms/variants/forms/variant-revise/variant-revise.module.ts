@@ -20,6 +20,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -36,6 +37,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzFormModule,
     NzAlertModule,
     NzGridModule,
+    NzIconModule,
     NzButtonModule,
     NzSwitchModule,
     FormlyModule.forChild(),
