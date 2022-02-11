@@ -145,6 +145,9 @@ export class VariantReviseForm implements OnDestroy {
             f.templateOptions!.hasFocus.next(false);
           },
           status: new Subject<FormControlStatus>(),
+          attributes: {
+           'rows': 8
+          }
         },
         hooks: {
           onInit: (field?: FormlyFieldConfig) => {
