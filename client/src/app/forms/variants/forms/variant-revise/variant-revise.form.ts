@@ -133,7 +133,6 @@ export class VariantReviseForm implements OnDestroy {
         type: 'textarea',
         templateOptions: {
           label: 'Description',
-          rows: 8,
           placeholder: 'Enter a description for this variant.',
           helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the Creative Commons Public Domain Dedication (CC0 1.0 Universal).',
           required: true,
