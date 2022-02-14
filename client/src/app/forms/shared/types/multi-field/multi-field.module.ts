@@ -8,17 +8,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MultiFieldComponent, MultiFieldType } from './multi-field.type';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
-const formlyConfig = {
-  types: [MultiFieldType]
-}
-
 @NgModule({
   declarations: [MultiFieldComponent],
   imports: [
     CommonModule,
     FormsModule,
+    FormlyModule.forChild({ types: [MultiFieldType] }),
     ReactiveFormsModule,
-    FormlyModule.forChild(formlyConfig),
     NzFormModule,
     NzInputModule,
     NzIconModule,

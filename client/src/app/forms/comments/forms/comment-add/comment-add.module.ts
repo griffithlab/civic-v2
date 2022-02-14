@@ -35,7 +35,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzMentionModule,
     NzAlertModule,
     FormsModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,

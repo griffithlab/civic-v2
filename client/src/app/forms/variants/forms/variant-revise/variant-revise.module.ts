@@ -40,7 +40,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzIconModule,
     NzButtonModule,
     NzSwitchModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,

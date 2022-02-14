@@ -5,15 +5,11 @@ import { SourceInputComponent, SourceInputType } from './source-input.type';
 import { SourceSelectorModule } from './source-selector/source-selector.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
-const formlyConfig = {
-  types: [SourceInputType]
-}
-
 @NgModule({
   declarations: [SourceInputComponent],
   imports: [
     CommonModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule.forChild({ types: [SourceInputType] }),
     SourceSelectorModule,
     CvcSourceTagModule,
   ],
