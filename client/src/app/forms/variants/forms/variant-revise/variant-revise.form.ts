@@ -137,33 +137,19 @@ export class VariantReviseForm implements OnDestroy {
           placeholder: 'Enter a description for this variant.',
           helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the Creative Commons Public Domain Dedication (CC0 1.0 Universal).',
           required: true,
-          hasFocus: new BehaviorSubject<boolean>(false),
-          focus: (f: FormlyFieldConfig) => {
-            f.templateOptions!.hasFocus.next(true);
-          },
-          blur: (f: FormlyFieldConfig) => {
-            f.templateOptions!.hasFocus.next(false);
-          },
-          status: new Subject<FormControlStatus>(),
+          test: true,
+          // hasFocus: new BehaviorSubject<boolean>(false),
+          // focus: (f: FormlyFieldConfig) => {
+          //   f.templateOptions!.hasFocus.next(true);
+          // },
+          // blur: (f: FormlyFieldConfig) => {
+          //   f.templateOptions!.hasFocus.next(false);
+          // },
+          // status: new Subject<FormControlStatus>(),
           attributes: {
            'rows': 8
           }
         },
-        hooks: {
-          onInit: (field?: FormlyFieldConfig) => {
-            const to = field!.templateOptions!;
-            const fc = field!.formControl!;
-            // placing a reference to fc.statusChanges on templateOptions didn't work,
-            // so instead we have to pipe events through a new to.status Subject
-            to.statusSubscription = fc.statusChanges
-              .subscribe((s: FormControlStatus) => {
-                to.status.next(s);
-              });
-          },
-          onDestroy: (field?: FormlyFieldConfig) => {
-            field!.templateOptions!.statusSubscription.unsubscribe();
-          }
-        }
       },
       {
         key: 'fields.sources',

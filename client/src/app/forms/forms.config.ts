@@ -1,12 +1,14 @@
+import { ModuleWithProviders } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
 import { CommentTextareaType } from './comments/types/comment-textarea/comment-textarea.type';
 import { DiseaseInputType } from './diseases/types/disease-input/disease-input.type';
 import { DrugInputType } from './drugs/types/drug-input/drug-input.type';
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
 import { GeneInputType } from './genes/types/gene-input/gene-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
+import { CvcFormlyExtension } from './shared/extensions/cvc-formly.extension';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
@@ -91,8 +93,7 @@ export const additionalValidators: ValidatorOption[] = [
   },
 ];
 
-
-export const formlyConfig = {
+export const CvcFormlyConfig: ConfigOption = {
   types: [
     CommentTextareaType,
     MultiFieldType,
@@ -110,5 +111,6 @@ export const formlyConfig = {
   ],
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
-  validators: additionalValidators
+  validators: additionalValidators,
+  extensions: [{ name: 'cvc-formly-extension', extension: new CvcFormlyExtension() }]
 }

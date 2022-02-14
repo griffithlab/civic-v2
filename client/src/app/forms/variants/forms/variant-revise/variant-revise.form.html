@@ -47,12 +47,15 @@
     <nz-card nzTitle="Instructions"
       nzSize="small"
       class="form-helper-card">
-      <p style="padding: 1em; margin: 0; border-bottom: 1px solid #d9d9d9">Apply your edits to this variant using the form fields, then click the 'Submit Revision' button at the bottom of the form. Please familiarize yourself with the basics of <a href="https://civic.readthedocs.io/en/latest/model/variants.html#variants">variant curation</a> and the help for each field to ensure your revision will be accepted by an editor.</p>
+      <p>
+        <ngx-json-viewer [json]="formFields[1].templateOptions"
+          [depth]="1"></ngx-json-viewer>
+      </p>
       <nz-collapse [nzBordered]="false">
         <ng-container *ngFor="let field of formFields">
           <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
             [nzHeader]="label"
-            [nzActive]="field.templateOptions!.hasFocus | ngrxPush"
+            [nzActive]="field.templateOptions!.hasFocus$ | ngrxPush"
             [nzExtra]="fieldStatus">
             {{ field.templateOptions?.helpText }}
           </nz-collapse-panel>

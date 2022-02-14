@@ -4,7 +4,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
-import { formlyConfig } from '@app/forms/forms.config';
+import { CvcFormlyConfig } from '@app/forms/forms.config';
 import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -49,7 +49,7 @@ registerLocaleData(en);
     ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter }}),
-    FormlyModule.forRoot(formlyConfig),
+    FormlyModule.forRoot(CvcFormlyConfig),
     CvcNetworkErrorAlertModule,
   ],
   providers: [
