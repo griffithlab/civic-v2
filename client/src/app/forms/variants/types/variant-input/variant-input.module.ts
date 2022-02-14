@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild({ types: [VariantInputType], }),
+    FormlyModule,
     NzSelectModule,
     CvcVariantTagModule,
   ]

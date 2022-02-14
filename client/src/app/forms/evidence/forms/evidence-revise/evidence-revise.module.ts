@@ -32,7 +32,7 @@ import { DiseaseInputModule } from '@app/forms/diseases/types/disease-input/dise
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,

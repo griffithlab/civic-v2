@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    FormlyModule.forChild({ types: [RatingInputType] }),
+    FormlyModule,
     NzRateModule,
   ],
   exports: [RatingInputComponent]

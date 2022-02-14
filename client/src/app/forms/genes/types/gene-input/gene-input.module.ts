@@ -15,7 +15,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CommonModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
-    FormlyModule.forChild({ types: [GeneInputType], }),
+    FormlyModule,
     NzSelectModule,
     NzSpaceModule,
     NzTypographyModule,

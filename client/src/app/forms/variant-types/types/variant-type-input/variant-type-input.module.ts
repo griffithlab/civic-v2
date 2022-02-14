@@ -12,8 +12,8 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormlyModule,
     ReactiveComponentModule,
-    FormlyModule.forChild({ types: [VariantTypeInputType] }),
     NzSelectModule,
     CvcVariantTypeTagModule
   ]

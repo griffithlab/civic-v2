@@ -11,7 +11,7 @@ import { SourceSelectorLoaderModule } from '../source-selector-loader/source-sel
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild({ types: [TypeaheadSelectorType] }),
+    FormlyModule,
     NzSelectModule,
     SourceSelectorLoaderModule
   ],

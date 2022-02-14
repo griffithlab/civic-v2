@@ -13,7 +13,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CommonModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
-    FormlyModule.forChild({ types: [PhenotypeInputType] }),
+    FormlyModule,
     NzSelectModule,
     CvcPhenotypeTagModule,
   ]

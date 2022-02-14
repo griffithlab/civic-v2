@@ -13,7 +13,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   imports: [
     CommonModule,
     FormsModule,
-    FormlyModule.forChild({ types: [MultiFieldType] }),
+    FormlyModule,
     ReactiveFormsModule,
     NzFormModule,
     NzInputModule,

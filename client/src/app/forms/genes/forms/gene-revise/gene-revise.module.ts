@@ -26,7 +26,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
