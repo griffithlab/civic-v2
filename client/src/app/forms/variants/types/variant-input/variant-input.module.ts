@@ -6,16 +6,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-const formlyConfig = {
-  types: [VariantInputType],
-};
-
 @NgModule({
   declarations: [VariantInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule.forChild({ types: [VariantInputType], }),
     NzSelectModule,
     CvcVariantTagModule,
   ]

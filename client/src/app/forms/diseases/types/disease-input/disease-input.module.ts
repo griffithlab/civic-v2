@@ -9,21 +9,17 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-const formlyConfig = {
-  types: [DiseaseInputType],
-};
-
 @NgModule({
   declarations: [DiseaseInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule.forChild({ types: [DiseaseInputType], }),
     NzSelectModule,
     CvcDiseaseTagModule,
     NzTypographyModule,
     NzSpaceModule
   ],
 })
-export class DiseaseInputModule {}
+export class DiseaseInputModule { }

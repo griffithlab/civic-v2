@@ -6,15 +6,11 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormlyModule } from '@ngx-formly/core';
 
-const formlyConfig = {
-  types: [MultiFieldAddBtnType]
-}
-
 @NgModule({
   declarations: [MultiFieldAddBtnComponent],
   imports: [
     CommonModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule.forChild({ types: [MultiFieldAddBtnType] }),
     FormlyNgZorroAntdModule,
     NzFormModule,
     NzButtonModule,

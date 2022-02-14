@@ -9,17 +9,13 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-const formlyConfig = {
-  types: [GeneInputType],
-};
-
 @NgModule({
-  declarations: [ GeneInputComponent ],
+  declarations: [GeneInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule.forChild({ types: [GeneInputType], }),
     NzSelectModule,
     NzSpaceModule,
     NzTypographyModule,

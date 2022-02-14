@@ -6,16 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { SourceSelectorLoaderModule } from '../source-selector-loader/source-selector-loader.module';
 
-const formlyConfig = {
-  types: [TypeaheadSelectorType]
-}
-
 @NgModule({
   declarations: [SourceSelectorTypeaheadComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule.forChild({ types: [TypeaheadSelectorType] }),
     NzSelectModule,
     SourceSelectorLoaderModule
   ],
