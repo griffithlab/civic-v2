@@ -1,4 +1,3 @@
-import { ModuleWithProviders } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
@@ -8,7 +7,6 @@ import { DrugInputType } from './drugs/types/drug-input/drug-input.type';
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
 import { GeneInputType } from './genes/types/gene-input/gene-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
-import { CvcFormlyExtension } from './shared/extensions/cvc-formly.extension';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
@@ -96,21 +94,20 @@ export const additionalValidators: ValidatorOption[] = [
 export const CvcFormlyConfig: ConfigOption = {
   types: [
     CommentTextareaType,
-    MultiFieldType,
-    SourceInputType,
     CommentTextareaType,
-    VariantTypeInputType,
     DiseaseInputType,
-    MultiFieldAddBtnType,
     DrugInputType,
-    VariantInputType,
     GeneInputType,
-    RatingInputType,
-    TypeaheadSelectorType,
+    MultiFieldAddBtnType,
+    MultiFieldType,
     PhenotypeInputType,
+    RatingInputType,
+    SourceInputType,
+    TypeaheadSelectorType,
+    VariantInputType,
+    VariantTypeInputType,
   ],
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
   validators: additionalValidators,
-  extensions: [{ name: 'cvc-formly-extension', extension: new CvcFormlyExtension() }]
 }
