@@ -9,6 +9,7 @@ import { GeneInputType } from './genes/types/gene-input/gene-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
+import { CvcFormInfoWrapper } from './shared/wrappers/form-info.wrapper';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
 import { TypeaheadSelectorType } from './sources/types/source-input/source-selector/source-selector-typeahead/source-selector-typeahead.type';
 import { VariantTypeInputType } from './variant-types/types/variant-type-input/variant-type-input.type';
@@ -107,6 +108,7 @@ export const CvcFormlyConfig: ConfigOption = {
     VariantInputType,
     VariantTypeInputType,
   ],
+  wrappers: [{ name: 'form-info', component: CvcFormInfoWrapper, }],
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
   validators: additionalValidators,

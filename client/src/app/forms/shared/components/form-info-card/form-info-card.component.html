@@ -1,0 +1,47 @@
+<nz-card nzTitle="Instructions"
+  nzSize="small"
+  class="form-helper-card">
+  <p>
+    <ngx-json-viewer [json]="formFields[1].templateOptions"
+      [depth]="1"></ngx-json-viewer>
+  </p>
+  <nz-collapse [nzBordered]="false">
+    <ng-container *ngFor="let field of formFields">
+      <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
+        [nzHeader]="label"
+        [nzActive]="field.templateOptions!.hasFocus$ | ngrxPush"
+        [nzExtra]="fieldStatus">
+        {{ field.templateOptions?.helpText }}
+      </nz-collapse-panel>
+      <ng-template #fieldStatus>
+        <ng-container *ngIf="field.templateOptions!.status | ngrxPush as status">
+          <ng-container *ngIf="status === 'INVALID'">
+            <i nz-icon
+              nzType="exclamation-circle"
+              nzTheme="twotone"
+              nzTwotoneColor="#f5222d"></i>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </ng-container>
+    <nz-collapse-panel nzHeader="DEBUG: formControl?">
+      <p>hopefully we get a formControl below:</p>
+      <ng-container *ngIf="formFields[1].formControl">
+        <ngx-json-viewer [json]="formFields[1].formControl"
+          [depth]="1"></ngx-json-viewer>
+      </ng-container>
+    </nz-collapse-panel>
+    <nz-collapse-panel nzHeader="DEBUG: formFields">
+      <ngx-json-viewer [json]="formFields"
+        [depth]="1"></ngx-json-viewer>
+    </nz-collapse-panel>
+    <!-- <nz-collapse-panel nzHeader="DEBUG: custom input type">
+         <ngx-json-viewer [json]="formGroup.get('comment')"
+         [depth]="1"></ngx-json-viewer>
+         </nz-collapse-panel>
+         <nz-collapse-panel nzHeader="DEBUG: custom multi-field type">
+         <ngx-json-viewer [json]="formGroup.get('fields.sources')"
+         [depth]="1"></ngx-json-viewer>
+         </nz-collapse-panel> -->
+  </nz-collapse>
+</nz-card>

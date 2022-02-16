@@ -1,99 +1,45 @@
-<nz-row [nzGutter]="16">
-  <nz-col [nzSpan]="14">
-    <form nz-form
-      [formGroup]="formGroup"
-      (ngSubmit)="submitRevision(formModel)"
-      nzLayout="vertical">
-      <ng-container *ngIf="(submitError$ | async) as errors">
-        <nz-form-item *ngIf="errors.length > 0">
-          <cvc-form-errors-alert [errors]="errors">
-          </cvc-form-errors-alert>
-        </nz-form-item>
-      </ng-container>
-      <ng-container *ngIf="submitSuccess$ | async">
-        <nz-alert nzType="success"
-          nzMessage="Suggested Revision Submitted"
-          [nzDescription]="successMessage"
-          nzShowIcon></nz-alert>
-        <ng-template #successMessage
-          nzSize="small">
-          <p>View it on the <a routerLink="../../revisions">Revisions Page</a> or suggest another revision below.</p>
-        </ng-template>
-      </ng-container>
-      <formly-form [form]="formGroup"
-        [fields]="formFields"
-        [model]="formModel"
-        [options]="formOptions"
-        (modelChange)="formModel = $event"></formly-form>
-      <nz-form-item *ngIf="!(submitSuccess$ | async)">
-        <nz-form-control>
-          <cvc-form-buttons>
-            <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-              <button type="submit"
-                nz-button
-                cvcOrgSelectorBtn
-                nzType="primary"
-                nzSize="small"
-                [disabled]="!formGroup.valid">
-                Suggest Revision
-              </button>
-            </cvc-org-selector-btn-group>
-          </cvc-form-buttons>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </nz-col>
-  <nz-col [nzSpan]="10">
-    <nz-card nzTitle="Instructions"
-      nzSize="small"
-      class="form-helper-card">
-      <p>
-        <ngx-json-viewer [json]="formFields[1].templateOptions"
-          [depth]="1"></ngx-json-viewer>
-      </p>
-      <nz-collapse [nzBordered]="false">
-        <ng-container *ngFor="let field of formFields">
-          <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
-            [nzHeader]="label"
-            [nzActive]="field.templateOptions!.hasFocus$ | ngrxPush"
-            [nzExtra]="fieldStatus">
-            {{ field.templateOptions?.helpText }}
-          </nz-collapse-panel>
-          <ng-template #fieldStatus>
-            <ng-container *ngIf="field.templateOptions!.status | ngrxPush as status">
-              <ng-container *ngIf="status === 'INVALID'">
-                <i nz-icon
-                  nzType="exclamation-circle"
-                  nzTheme="twotone"
-                  nzTwotoneColor="#f5222d"></i>
-              </ng-container>
-            </ng-container>
-          </ng-template>
-        </ng-container>
-        <nz-collapse-panel nzHeader="DEBUG: formControl?">
-          <p>hopefully we get a formControl below:</p>
-          <ng-container *ngIf="formFields[1].formControl">
-            <ngx-json-viewer [json]="formFields[1].formControl"
-              [depth]="1"></ngx-json-viewer>
-          </ng-container>
-        </nz-collapse-panel>
-        <nz-collapse-panel nzHeader="DEBUG: formFields">
-          <ngx-json-viewer [json]="formFields"
-            [depth]="1"></ngx-json-viewer>
-        </nz-collapse-panel>
-        <nz-collapse-panel nzHeader="DEBUG: custom input type">
-          <ngx-json-viewer [json]="formGroup.get('comment')"
-            [depth]="1"></ngx-json-viewer>
-        </nz-collapse-panel>
-        <nz-collapse-panel nzHeader="DEBUG: custom multi-field type">
-          <ngx-json-viewer [json]="formGroup.get('fields.sources')"
-            [depth]="1"></ngx-json-viewer>
-        </nz-collapse-panel>
-      </nz-collapse>
-    </nz-card>
-  </nz-col>
-
-</nz-row>
+<form nz-form
+  [formGroup]="formGroup"
+  (ngSubmit)="submitRevision(formModel)"
+  nzLayout="vertical">
+  <ng-container *ngIf="(submitError$ | async) as errors">
+    <nz-form-item *ngIf="errors.length > 0">
+      <cvc-form-errors-alert [errors]="errors">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+  </ng-container>
+  <ng-container *ngIf="submitSuccess$ | async">
+    <nz-alert nzType="success"
+      nzMessage="Suggested Revision Submitted"
+      [nzDescription]="successMessage"
+      nzShowIcon></nz-alert>
+    <ng-template #successMessage
+      nzSize="small">
+      <p>View it on the <a routerLink="../../revisions">Revisions Page</a> or suggest another revision below.</p>
+    </ng-template>
+  </ng-container>
+  <formly-form [form]="formGroup"
+    [fields]="formFields"
+    [model]="formModel"
+    [options]="formOptions"
+    (modelChange)="formModel = $event"></formly-form>
+  <nz-form-item *ngIf="!(submitSuccess$ | async)">
+    <nz-form-control>
+      <cvc-form-buttons>
+        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
+          <button type="submit"
+            nz-button
+            cvcOrgSelectorBtn
+            nzType="primary"
+            nzSize="small"
+            [disabled]="!formGroup.valid">
+            Suggest Revision
+          </button>
+        </cvc-org-selector-btn-group>
+      </cvc-form-buttons>
+    </nz-form-control>
+  </nz-form-item>
+</form>
 
 <!-- <div nz-row>
      <div nz-col nzSpan="12">
