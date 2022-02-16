@@ -18,6 +18,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NgxJsonViewerModule,
     NzCollapseModule,
     NzIconModule,
-  ]
+  ],
+  exports: [CvcFormInfoCardComponent]
 })
 export class CvcFormInfoCardModule { }
