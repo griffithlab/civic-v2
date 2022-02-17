@@ -22,6 +22,7 @@ import { environment } from 'environments/environment';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module';
 import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter';
+import { CvcFormInfoWrapperModule } from './forms/shared/wrappers/form-info.module';
 
 registerLocaleData(en);
 
@@ -49,6 +50,7 @@ registerLocaleData(en);
     ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter }}),
+    CvcFormInfoWrapperModule, // TODO: figure out a better way of configuring wrappers with module dependencies - shouldn't have to import wrapper modules into app.module. Probably should follow the examples here: https://medium.com/hackernoon/organize-your-forms-application-using-ngx-fomrly-796150461045
     FormlyModule.forRoot(CvcFormlyConfig),
     CvcNetworkErrorAlertModule,
   ],

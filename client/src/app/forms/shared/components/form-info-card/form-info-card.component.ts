@@ -7,7 +7,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   styleUrls: ['./form-info-card.component.less']
 })
 export class CvcFormInfoCardComponent implements OnInit {
-  @Input() formFields!: FormlyFieldConfig[];
+  @Input() fieldGroup: FormlyFieldConfig[] | undefined;
   
   constructor() { }
 

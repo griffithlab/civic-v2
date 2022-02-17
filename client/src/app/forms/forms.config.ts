@@ -108,7 +108,6 @@ export const CvcFormlyConfig: ConfigOption = {
     VariantInputType,
     VariantTypeInputType,
   ],
-  wrappers: [{ name: 'form-info', component: CvcFormInfoWrapper, }],
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
   validators: additionalValidators,

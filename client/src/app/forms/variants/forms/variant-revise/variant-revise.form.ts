@@ -336,18 +336,18 @@ export class VariantReviseForm implements OnDestroy {
               label: 'Representative Transcript',
             },
           },
+          {
+            key: 'comment',
+            type: 'comment-textarea',
+            templateOptions: {
+              label: 'Comment',
+              placeholder: 'Please enter a comment describing your revision.',
+              required: true,
+              minLength: 10
+            },
+          }
         ]
       },
-      {
-        key: 'comment',
-        type: 'comment-textarea',
-        templateOptions: {
-          label: 'Comment',
-          placeholder: 'Please enter a comment describing your revision.',
-          required: true,
-          minLength: 10
-        },
-      }
     ]
 
     // reset form upon successful submit
@@ -358,11 +358,6 @@ export class VariantReviseForm implements OnDestroy {
           this.formOptions.resetModel();
         }
       })
-
-    this.markAsTouched = () => {
-      // this.formGroup.controls.fields.markAllAsTouched();
-      this.formGroup.get('fields.variantAliases')!.markAsTouched();
-    }
   }
 
   ngOnInit(): void {
@@ -385,19 +380,7 @@ export class VariantReviseForm implements OnDestroy {
         },
         // complete
         () => {
-          this.formFields
-            .filter((f: FormlyFieldConfig) => {
-              return f.key && f.key !== 'comment'; // don't show invalid comment msg on init
-            })
-            .map((f: FormlyFieldConfig): AbstractControl => {
-              return this.formGroup.get(f.key!.toString())!;
-            })
-            .forEach((fc: AbstractControl) => {
-              if (fc) {
-                if (fc instanceof FormControl) { fc.markAsTouched(); }
-                fc.updateValueAndValidity(); // forces FormArray validation
-              }
-            });
+          this.formGroup.markAllAsTouched();
         });
 
   }
