@@ -8,6 +8,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 })
 export class CvcFormInfoCardComponent implements OnInit {
   @Input() fieldGroup: FormlyFieldConfig[] | undefined;
+  @Input() affixTo!: HTMLElement;
   
   constructor() { }
 

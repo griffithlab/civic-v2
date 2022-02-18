@@ -4,8 +4,8 @@
       <ng-container #fieldComponent></ng-container>
     </nz-card>
   </nz-col>
-  <nz-col [nzSpan]="8">
-    <cvc-form-info-card [fieldGroup]="field.fieldGroup"></cvc-form-info-card>
+  <nz-col [nzSpan]="8" #infoCardContainer>
+    <cvc-form-info-card [fieldGroup]="field.fieldGroup" [affixTo]="infoCardContainer"></cvc-form-info-card>
   </nz-col>
 </nz-row>
 <!-- <nz-row>

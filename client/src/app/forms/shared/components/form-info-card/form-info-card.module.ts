@@ -7,6 +7,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { FormlyModule } from '@ngx-formly/core';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormlyModule } from '@ngx-formly/core';
     FormlyModule,
     NzCardModule,
     NgxJsonViewerModule,
+    NzAffixModule,
     NzCollapseModule,
     NzIconModule,
     NzToolTipModule,
