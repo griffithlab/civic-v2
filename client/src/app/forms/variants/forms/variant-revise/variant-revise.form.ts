@@ -397,7 +397,11 @@ export class VariantReviseForm implements OnDestroy {
         },
         // complete
         () => {
+          // prompt fields to display any errors that exist in loaded variant
           this.formGroup.markAllAsTouched();
+          // mark comment field as untouched, we don't want to show an error before the user interacts with the field
+          const commentFc: AbstractControl | null = this.formGroup.get('fields.comment');
+          if (commentFc) { commentFc.markAsUntouched() }
         });
 
   }

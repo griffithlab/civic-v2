@@ -2,7 +2,7 @@
   <nz-card nzTitle="Form Assistant"
     nzSize="small"
     class="form-helper-card">
-    <ng-template #noFieldGroup>No field group provided.</ng-template>
+    <ng-template #noFieldGroup>Form Assistant requires a valid FormGroup, none provided.</ng-template>
     <ng-container *ngIf="fieldGroup; else noFieldGroup">
       <nz-collapse [nzBordered]="false">
         <ng-container *ngFor="let field of fieldGroup">
