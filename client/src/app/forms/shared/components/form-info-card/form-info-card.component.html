@@ -9,7 +9,10 @@
           [nzHeader]="label"
           [nzActive]="field.templateOptions!.hasFocus"
           [nzExtra]="fieldStatus">
-          <div [innerHtml]="field.templateOptions?.helpText" class="help-text"></div>
+          <div *ngIf="field.templateOptions?.helpText as helpText; else noHelpText"
+            [innerHtml]="helpText"
+            class="help-text"></div>
+          <ng-template #noHelpText><div class="help-text">Help not available for this field.</div></ng-template>
         </nz-collapse-panel>
         <ng-template #fieldStatus>
           <ng-container *ngIf="field.formControl!.statusChanges | ngrxPush as status">
