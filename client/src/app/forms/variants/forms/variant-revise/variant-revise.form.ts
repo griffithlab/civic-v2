@@ -136,9 +136,9 @@ export class VariantReviseForm implements OnDestroy {
             key: 'description',
             type: 'textarea',
             templateOptions: {
-              label: 'Description',
+              label: 'Variant Description',
               placeholder: 'Enter a description for this variant.',
-              helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.',
+              helpText: 'Provide a summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.',
               required: true,
               attributes: {
                 'rows': 8
@@ -149,8 +149,9 @@ export class VariantReviseForm implements OnDestroy {
             key: 'sources',
             type: 'multi-field',
             templateOptions: {
-              label: 'Sources',
+              label: 'Description Sources',
               addText: 'Add another Source',
+              helpText: 'Add any Sources used as references for this Variant\'s Description above.'
             },
             fieldArray: {
               type: 'source-input',
@@ -165,6 +166,7 @@ export class VariantReviseForm implements OnDestroy {
             templateOptions: {
               label: 'Variant Aliases',
               addText: 'Add an Alias',
+              helpText: 'List any aliases commonly used to refer to this variant.'
             },
             fieldArray: {
               type: 'input',
@@ -194,12 +196,13 @@ export class VariantReviseForm implements OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'HGVS Descriptions',
-              addText: 'Add an HGVS Description'
+              addText: 'Add an HGVS Description',
+              helpText: 'Please specify any HGVS descriptions for this variant.'
             },
             fieldArray: {
               type: 'input',
               templateOptions: {
-                required: false,
+                required: true,
                 placeholder: 'Enter an HGVS string'
               }
             }
@@ -209,7 +212,8 @@ export class VariantReviseForm implements OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'ClinVar IDs',
-              addText: 'Add a ClinVar ID'
+              addText: 'Add a ClinVar ID',
+              helpText: 'Specify any corresponding ClinVar identifiers for this variant.'
             },
             fieldArray: {
               type: 'input',
@@ -224,7 +228,8 @@ export class VariantReviseForm implements OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'Variant Types',
-              addText: 'Add a Variant Type'
+              addText: 'Add a Variant Type',
+              helpText: 'Add one or more variant types from the <a href="http://www.sequenceontology.org/browser/" title="Opens a new tab for the Sequence Ontology Browser" target="_blank">Sequence Ontology</a> (e.g., missense, loss-of-function). Be specific as possible, avoid the addition of root concepts, and use the <i>sequence_variant</i> tree of the sequence ontology.'
             },
             fieldArray: {
               type: 'variant-type-input',
@@ -243,6 +248,7 @@ export class VariantReviseForm implements OnDestroy {
             templateOptions: {
               label: 'Reference Build',
               required: false,
+              helpText: 'Specify the human genome reference sequence from which these coordinates are obtained.',
               options: $enum(ReferenceBuild)
                 .map((value) => {
                   return { value: value, label: formatReferenceBuildEnum(value) }
@@ -254,6 +260,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Ensembl Version',
+              helpText: 'Enter the Ensembl database version (e.g. 75).'
             },
             validators: {
               validation: ['ensembl']
@@ -265,6 +272,7 @@ export class VariantReviseForm implements OnDestroy {
             defaultValue: undefined,
             templateOptions: {
               label: 'Chromosome',
+              helpText: 'Specify the chromosome in which this variant occurs (e.g. 17).',
               required: false,
               options: Chromosomes
             },
@@ -274,6 +282,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Start',
+              helpText: 'Enter the left/first coordinate of this variant. Must be &leq; the Stop coordinate. Coordinate must be compatible with the selected reference build.'
             },
             validators: {
               validation: ['integer']
@@ -284,6 +293,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Stop',
+              helpText: 'Provide the right/second coordinate of this variant. Must be &geq; the Start coordinate. Coordinate must be compatible with the selected reference build.',
             },
             validators: {
               validation: ['integer']
@@ -294,6 +304,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Representative Transcript',
+              helpText: 'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
             },
           },
           {
@@ -306,7 +317,9 @@ export class VariantReviseForm implements OnDestroy {
             templateOptions: {
               label: 'Chromosome',
               required: false,
-              options: Chromosomes
+              options: Chromosomes,
+              helpText: 'If this variant is a fusion (e.g. BCR-ABL1), specify the chromosome name, coordinates, and representative transcript for the 3-prime partner.'
+
             },
           },
           {
@@ -314,6 +327,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Start',
+              helpText: 'Enter the left/first coordinate of this 3-prime partner fusion variant. Must be &leq; the Stop coordinate. Coordinate must be compatible with the selected reference build.'
             },
             validators: {
               validation: ['integer']
@@ -324,6 +338,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Stop',
+              helpText: 'Provide the right/second coordinate of this 3-prime partner fusion variant. Must be &geq; the Start coordinate. Coordinate must be compatible with the selected reference build.',
             },
             validators: {
               validation: ['integer']
@@ -334,6 +349,7 @@ export class VariantReviseForm implements OnDestroy {
             type: 'input',
             templateOptions: {
               label: 'Representative Transcript',
+              helpText: 'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
             },
           },
           {
@@ -341,7 +357,8 @@ export class VariantReviseForm implements OnDestroy {
             type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
-              placeholder: 'Please enter a comment describing your revision.',
+              placeholder: 'Please enter a comment describing your revision to this variant.',
+              helpText: 'Please enter a comment describing your revision to this variant.',
               required: true,
               minLength: 10
             },
