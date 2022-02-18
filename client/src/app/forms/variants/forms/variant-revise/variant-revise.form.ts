@@ -138,7 +138,7 @@ export class VariantReviseForm implements OnDestroy {
             templateOptions: {
               label: 'Description',
               placeholder: 'Enter a description for this variant.',
-              helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the Creative Commons Public Domain Dedication (CC0 1.0 Universal).',
+              helpText: 'User-defined summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.',
               required: true,
               attributes: {
                 'rows': 8
@@ -257,7 +257,7 @@ export class VariantReviseForm implements OnDestroy {
             },
             validators: {
               validation: ['ensembl']
-            }
+            },
           },
           {
             key: 'fivePrimeCoordinates.chromosome',

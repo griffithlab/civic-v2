@@ -6,6 +6,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NgxJsonViewerModule,
     NzCollapseModule,
     NzIconModule,
+    NzTypographyModule,
   ],
   exports: [CvcFormInfoCardComponent]
 })

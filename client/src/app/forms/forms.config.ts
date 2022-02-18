@@ -7,6 +7,7 @@ import { DrugInputType } from './drugs/types/drug-input/drug-input.type';
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
 import { GeneInputType } from './genes/types/gene-input/gene-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
+import { hasFocusExtension } from './shared/extensions/has-focus.extension';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
 import { CvcFormInfoWrapper } from './shared/wrappers/form-info.wrapper';
@@ -111,4 +112,5 @@ export const CvcFormlyConfig: ConfigOption = {
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
   validators: additionalValidators,
+  extensions: [{ name: 'has-focus', extension: hasFocusExtension }]
 }

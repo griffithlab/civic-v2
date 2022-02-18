@@ -7,9 +7,9 @@
       <ng-container *ngFor="let field of fieldGroup">
         <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
           [nzHeader]="label"
-          [nzActive]="field.templateOptions!.hasFocus$ | ngrxPush"
+          [nzActive]="field.templateOptions!.hasFocus"
           [nzExtra]="fieldStatus">
-          {{ field.templateOptions?.helpText }}
+          <div [innerHtml]="field.templateOptions?.helpText" class="help-text"></div>
         </nz-collapse-panel>
         <ng-template #fieldStatus>
           <ng-container *ngIf="field.formControl!.statusChanges | ngrxPush as status">
@@ -22,21 +22,6 @@
           </ng-container>
         </ng-template>
       </ng-container>
-      <nz-collapse-panel nzHeader="DEBUG: formControl?">
-        <p>hopefully we get a formControl below:</p>
-        <ng-container *ngIf="fieldGroup[1].formControl">
-          <ngx-json-viewer [json]="fieldGroup[1].formControl"
-            [depth]="1"></ngx-json-viewer>
-        </ng-container>
-      </nz-collapse-panel>
-      <nz-collapse-panel nzHeader="DEBUG: formFields">
-        <ngx-json-viewer [json]="fieldGroup"
-          [depth]="1"></ngx-json-viewer>
-      </nz-collapse-panel>
     </nz-collapse>
   </ng-container>
-  <!-- <p>
-       <ngx-json-viewer [json]="formFields[1].templateOptions"
-       [depth]="1"></ngx-json-viewer>
-       </p> -->
 </nz-card>
