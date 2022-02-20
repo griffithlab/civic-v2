@@ -2,39 +2,37 @@
   <nz-card nzTitle="Form Assistant"
     nzSize="small"
     class="form-helper-card">
-    <ng-template #noFieldGroup>Form Assistant requires a valid FormGroup, none provided.</ng-template>
-    <ng-container *ngIf="fieldGroup; else noFieldGroup">
-      <nz-collapse [nzBordered]="false">
-        <ng-container *ngFor="let field of fieldGroup">
-          <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
-            [nzHeader]="label"
-            [nzActive]="field.templateOptions!.hasFocus"
-            [nzExtra]="fieldStatus">
-            <div *ngIf="field.templateOptions?.helpText as helpText; else noHelpText"
-              [innerHtml]="helpText"
-              class="help-text"></div>
-            <ng-template #noHelpText>
-              <div class="help-text">Help not available for this field.</div>
-            </ng-template>
-          </nz-collapse-panel>
-          <ng-template #fieldStatus>
-            <ng-container *ngIf="field.formControl!.statusChanges | ngrxPush as status">
-              <ng-container *ngIf="status === 'INVALID'">
-                <i nz-icon
-                  nzType="exclamation-circle"
-                  nzTheme="twotone"
-                  nzTwotoneColor="#f5222d"
-                  nz-tooltip
-                  [nzTooltipTitle]="errorTooltip"
-                  nzTooltipColor="red"></i>
-                <ng-template #errorTooltip>
-                  <formly-validation-message [field]="field"></formly-validation-message>
-                </ng-template>
-              </ng-container>
-            </ng-container>
+    <nz-collapse [nzBordered]="false">
+      <ng-container *ngFor="let field of fieldGroup">
+        <!-- skip any fields that do not have labels -->
+        <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
+          [nzHeader]="label"
+          [nzActive]="field.templateOptions!.hasFocus"
+          [nzExtra]="fieldStatus">
+          <div *ngIf="field.templateOptions?.helpText as helpText; else noHelpText"
+            [innerHtml]="helpText"
+            class="help-text"></div>
+          <ng-template #noHelpText>
+            <div class="help-text">Help not available for this field.</div>
           </ng-template>
-        </ng-container>
-      </nz-collapse>
-    </ng-container>
+        </nz-collapse-panel>
+        <ng-template #fieldStatus>
+          <ng-container *ngIf="field.formControl!.statusChanges | ngrxPush as status">
+            <ng-container *ngIf="status === 'INVALID'">
+              <i nz-icon
+                nzType="exclamation-circle"
+                nzTheme="twotone"
+                nzTwotoneColor="#f5222d"
+                nz-tooltip
+                [nzTooltipTitle]="errorTooltip"
+                nzTooltipColor="red"></i>
+              <ng-template #errorTooltip>
+                <formly-validation-message [field]="field"></formly-validation-message>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </ng-container>
+    </nz-collapse>
   </nz-card>
 </nz-affix>
