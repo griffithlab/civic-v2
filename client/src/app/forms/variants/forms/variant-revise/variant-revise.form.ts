@@ -58,7 +58,6 @@ interface FormVariantType {
 
 interface FormModel {
   id: number;
-  comment: string;
   fields: {
     name: string;
     variantAliases: string[];
@@ -74,6 +73,8 @@ interface FormModel {
     threePrimeCoordinates: CoordinateFieldsFragment;
     referenceBases: Maybe<string>;
     variantBases: Maybe<string>;
+    comment: string;
+    organization: Maybe<Organization>,
   }
 }
 
@@ -362,6 +363,13 @@ export class VariantReviseForm implements OnDestroy {
               required: true,
               minLength: 10
             },
+          },
+          {
+            key: 'organization',
+            type: 'org-submit-button',
+            templateOptions: {
+              submitLabel: 'Submit Variant Revision'
+            }
           }
         ]
       },
@@ -424,9 +432,9 @@ export class VariantReviseForm implements OnDestroy {
         // fivePrimeCoordinates
         referenceBases: variant.fivePrimeCoordinates?.referenceBases,
         variantBases: variant.fivePrimeCoordinates?.variantBases,
+        comment: this.formModel.fields.comment,
+        organization: this.formModel.fields.organization,
       },
-      comment: '',
-      organizationId: undefined
     }
   }
 
@@ -450,7 +458,8 @@ export class VariantReviseForm implements OnDestroy {
         variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
         aliases: model.fields.variantAliases,
       },
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+      comment: model.fields.comment,
+      organizationId: model.fields.organization === undefined ? undefined : model.fields.organization.id
     }
   }
 
