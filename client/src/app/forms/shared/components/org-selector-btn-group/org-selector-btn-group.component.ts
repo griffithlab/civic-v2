@@ -29,8 +29,9 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
   @Input() selectedOrg!: Maybe<Organization>;
   @Output() selectedOrgChange = new EventEmitter<Organization>();
 
-  @Input() buttonType: NzButtonType = 'primary'
-  @Input() nzDanger: BooleanInput = false
+  @Input() buttonType: NzButtonType = 'primary';
+  @Input() nzDanger: BooleanInput = false;
+  @Input() nzSize: 'large' | 'default' | 'small' = 'small';
 
   @ContentChild(CvcOrgSelectorBtnDirective, {static: false}) button!: CvcOrgSelectorBtnDirective
 

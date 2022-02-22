@@ -368,7 +368,8 @@ export class VariantReviseForm implements OnDestroy {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
-              submitLabel: 'Submit Variant Revision'
+              submitLabel: 'Submit Variant Revision',
+              submitSize: 'large'
             }
           }
         ]

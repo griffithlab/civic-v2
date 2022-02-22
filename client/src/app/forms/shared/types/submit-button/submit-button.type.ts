@@ -21,7 +21,8 @@ export class SubmitButtonComponent extends FieldType {
 
   defaultOptions = {
     templateOptions: {
-      submitLabel: 'Submit'
+      submitLabel: 'Submit',
+      submitSize: 'small'
     }
   }
 
