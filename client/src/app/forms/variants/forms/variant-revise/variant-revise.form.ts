@@ -6,14 +6,11 @@ import {
 
 import {
   AbstractControl,
-  FormControl,
   FormGroup,
-  FormControlStatus
 } from '@angular/forms';
 
 import {
   BehaviorSubject,
-  Observable,
   Subject,
 } from 'rxjs';
 
@@ -30,7 +27,6 @@ import {
   CoordinateFieldsFragment,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { VariantReviseService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/shared/input-formatters';
@@ -106,18 +102,8 @@ export class VariantReviseForm implements OnDestroy {
 
   constructor(
     private revisionService: VariantReviseService,
-    private viewerService: ViewerService,
     private revisableFieldsGQL: VariantRevisableFieldsGQL,
   ) {
-
-    // subscribing to viewer$ and setting local org, mostRecentOrg
-    // so that mostRecentOrg can be updated by org-selector's selectOrg events
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((v: Viewer) => {
-        this.organizations = v.organizations;
-        this.mostRecentOrg = v.mostRecentOrg;
-      });
 
     this.submitError$ = this.revisionService.submitError$;
     this.isSubmitting$ = this.revisionService.isSubmitting$;
@@ -413,10 +399,6 @@ export class VariantReviseForm implements OnDestroy {
           if (commentFc) { commentFc.markAsUntouched() }
         });
 
-  }
-
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
   }
 
   submitRevision(formModel: FormModel): void {
