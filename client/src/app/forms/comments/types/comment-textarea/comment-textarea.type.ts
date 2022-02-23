@@ -8,7 +8,7 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
   styleUrls: ['./comment-textarea.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentTextareaComponent extends FieldType {
+export class CommentTextareaComponent extends FieldType<FormlyFieldConfig> {
   formControl!: FormControl;
 
   defaultOptions = {

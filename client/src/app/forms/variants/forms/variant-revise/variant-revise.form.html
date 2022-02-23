@@ -23,23 +23,8 @@
     [model]="formModel"
     [options]="formOptions"
     (modelChange)="formModel = $event"></formly-form>
-  <nz-form-item *ngIf="!(submitSuccess$ | async)">
-    <nz-form-control>
-      <cvc-form-buttons>
-        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg">
-          <button type="submit"
-            nz-button
-            cvcOrgSelectorBtn
-            nzType="primary"
-            nzSize="small"
-            [disabled]="!formGroup.valid">
-            Suggest Revision
-          </button>
-        </cvc-org-selector-btn-group>
-      </cvc-form-buttons>
-    </nz-form-control>
-  </nz-form-item>
 </form>
+
 <!-- <div nz-row>
      <div nz-col nzSpan="12">
      <ngx-json-viewer *ngIf="formGroup"

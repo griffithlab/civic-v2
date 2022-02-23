@@ -14,7 +14,7 @@ import { MultiFieldAddBtnModule } from '@app/forms/shared/types/multi-field/mult
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     FormlyNgZorroAntdModule,
     NzButtonModule,
     SourceSelectorLoaderModule,

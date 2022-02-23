@@ -17,5 +17,4 @@ export class MultiFieldAddBtnComponent extends FieldType {
 export const MultiFieldAddBtnType = {
   name: 'multi-field-add-btn',
   component: MultiFieldAddBtnComponent,
-  // wrappers: ['form-field'],
 }

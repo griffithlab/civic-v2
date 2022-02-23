@@ -1,11 +1,11 @@
 import {
   Component,
   Input,
-
   OnDestroy,
 } from '@angular/core';
 
 import {
+  AbstractControl,
   FormGroup,
 } from '@angular/forms';
 
@@ -27,7 +27,6 @@ import {
   CoordinateFieldsFragment,
 } from '@app/generated/civic.apollo';
 
-import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
 import { VariantReviseService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/shared/input-formatters';
@@ -55,7 +54,6 @@ interface FormVariantType {
 
 interface FormModel {
   id: number;
-  comment: string;
   fields: {
     name: string;
     variantAliases: string[];
@@ -71,6 +69,8 @@ interface FormModel {
     threePrimeCoordinates: CoordinateFieldsFragment;
     referenceBases: Maybe<string>;
     variantBases: Maybe<string>;
+    comment: string;
+    organization: Maybe<Organization>,
   }
 }
 
@@ -96,20 +96,14 @@ export class VariantReviseForm implements OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
+  formControls!: { [key: string]: AbstractControl }
+
+  markAsTouched!: () => void;
+
   constructor(
     private revisionService: VariantReviseService,
-    private viewerService: ViewerService,
     private revisableFieldsGQL: VariantRevisableFieldsGQL,
   ) {
-
-    // subscribing to viewer$ and setting local org, mostRecentOrg
-    // so that mostRecentOrg can be updated by org-selector's selectOrg events
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((v: Viewer) => {
-        this.organizations = v.organizations;
-        this.mostRecentOrg = v.mostRecentOrg;
-      });
 
     this.submitError$ = this.revisionService.submitError$;
     this.isSubmitting$ = this.revisionService.isSubmitting$;
@@ -117,205 +111,255 @@ export class VariantReviseForm implements OnDestroy {
 
     this.formFields = [
       {
-        key: 'id',
-        type: 'input',
-        hide: true,
-      },
-      {
-        key: 'fields.description',
-        type: 'textarea',
-        templateOptions: {
-          label: 'Description',
-          placeholder: 'Enter a description for this variant.',
-          required: false
-        }
-      },
-      {
-        key: 'fields.sources',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Sources',
-          addText: 'Add another Source',
-        },
-        fieldArray: {
-          type: 'source-input',
-          templateOptions: {
-            required: true
+        key: 'fields',
+        wrappers: ['form-info'],
+        fieldGroup: [
+          {
+            key: 'id',
+            type: 'input',
+            hide: true,
+          },
+          {
+            key: 'description',
+            type: 'textarea',
+            templateOptions: {
+              label: 'Variant Description',
+              placeholder: 'Enter a description for this variant.',
+              helpText: 'Provide a summary of the clinical relevance of this Variant. The Variant Summary should be a synthesis of the existing Evidence Statements for this variant. Basic information on recurrence rates and biological/functional impact of the Variant may be included, but the focus should be on the clinical impact (i.e. predictive, prognostic, diagnostic, or predisposing relevance). By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.',
+              required: true,
+              attributes: {
+                'rows': 8
+              }
+            },
+          },
+          {
+            key: 'sources',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Description Sources',
+              addText: 'Add another Source',
+              helpText: 'Add any Sources used as references for this Variant\'s Description above.'
+            },
+            fieldArray: {
+              type: 'source-input',
+              templateOptions: {
+                required: false
+              }
+            }
+          },
+          {
+            key: 'variantAliases',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Variant Aliases',
+              addText: 'Add an Alias',
+              helpText: 'List any aliases commonly used to refer to this variant.'
+            },
+            fieldArray: {
+              type: 'input',
+              templateOptions: {
+                required: false,
+                placeholder: 'Add Alias',
+                minLength: 3,
+              },
+            },
+            // validators: {
+            //   ip: {
+            //     expression: (c: any) => {
+            //       console.log(c);
+            //       return true;
+            //       // const sum = c.value
+            //       //   .map(v => v.investmentName)
+            //       //   .reduce((sum, investmentName) => sum += investmentName, 0);
+
+            //       // return sum === 10;
+            //     },
+            //     message: (error: any, field: FormlyFieldConfig) => `sum !== 10`,
+            //   },
+            // },
+          },
+          {
+            key: 'hgvsDescriptions',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'HGVS Descriptions',
+              addText: 'Add an HGVS Description',
+              helpText: 'Please specify any HGVS descriptions for this variant.'
+            },
+            fieldArray: {
+              type: 'input',
+              templateOptions: {
+                required: true,
+                placeholder: 'Enter an HGVS string'
+              }
+            }
+          },
+          {
+            key: 'clinvarIds',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'ClinVar IDs',
+              addText: 'Add a ClinVar ID',
+              helpText: 'Specify any corresponding ClinVar identifiers for this variant.'
+            },
+            fieldArray: {
+              type: 'input',
+              templateOptions: {
+                required: false,
+                placeholder: 'Enter a ClinVar ID'
+              }
+            }
+          },
+          {
+            key: 'variantTypes',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Variant Types',
+              addText: 'Add a Variant Type',
+              helpText: 'Add one or more variant types from the <a href="http://www.sequenceontology.org/browser/" title="Opens a new tab for the Sequence Ontology Browser" target="_blank">Sequence Ontology</a> (e.g., missense, loss-of-function). Be specific as possible, avoid the addition of root concepts, and use the <i>sequence_variant</i> tree of the sequence ontology.'
+            },
+            fieldArray: {
+              type: 'variant-type-input',
+              templateOptions: {
+                required: false
+              }
+            }
+          },
+          {
+            template: '<h3>Primary Coordinates</h3>',
+          },
+          {
+            key: 'referenceBuild',
+            type: 'select',
+            defaultValue: ReferenceBuild.Grch37,
+            templateOptions: {
+              label: 'Reference Build',
+              required: false,
+              helpText: 'Specify the human genome reference sequence from which these coordinates are obtained.',
+              options: $enum(ReferenceBuild)
+                .map((value) => {
+                  return { value: value, label: formatReferenceBuildEnum(value) }
+                })
+            }
+          },
+          {
+            key: 'ensemblVersion',
+            type: 'input',
+            templateOptions: {
+              label: 'Ensembl Version',
+              helpText: 'Enter the Ensembl database version (e.g. 75).'
+            },
+            validators: {
+              validation: ['ensembl']
+            },
+          },
+          {
+            key: 'fivePrimeCoordinates.chromosome',
+            type: 'select',
+            defaultValue: undefined,
+            templateOptions: {
+              label: 'Chromosome',
+              helpText: 'Specify the chromosome in which this variant occurs (e.g. 17).',
+              required: false,
+              options: Chromosomes
+            },
+          },
+          {
+            key: 'fivePrimeCoordinates.start',
+            type: 'input',
+            templateOptions: {
+              label: 'Start',
+              helpText: 'Enter the left/first coordinate of this variant. Must be &leq; the Stop coordinate. Coordinate must be compatible with the selected reference build.'
+            },
+            validators: {
+              validation: ['integer']
+            }
+          },
+          {
+            key: 'fivePrimeCoordinates.stop',
+            type: 'input',
+            templateOptions: {
+              label: 'Stop',
+              helpText: 'Provide the right/second coordinate of this variant. Must be &geq; the Start coordinate. Coordinate must be compatible with the selected reference build.',
+            },
+            validators: {
+              validation: ['integer']
+            }
+          },
+          {
+            key: 'fivePrimeCoordinates.representativeTranscript',
+            type: 'input',
+            templateOptions: {
+              label: 'Representative Transcript',
+              helpText: 'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
+            },
+          },
+          {
+            template: '<h3>Secondary Coordinates</h3>',
+          },
+          {
+            key: 'threePrimeCoordinates.chromosome',
+            type: 'select',
+            defaultValue: undefined,
+            templateOptions: {
+              label: 'Chromosome',
+              required: false,
+              options: Chromosomes,
+              helpText: 'If this variant is a fusion (e.g. BCR-ABL1), specify the chromosome name, coordinates, and representative transcript for the 3-prime partner.'
+
+            },
+          },
+          {
+            key: 'threePrimeCoordinates.start',
+            type: 'input',
+            templateOptions: {
+              label: 'Start',
+              helpText: 'Enter the left/first coordinate of this 3-prime partner fusion variant. Must be &leq; the Stop coordinate. Coordinate must be compatible with the selected reference build.'
+            },
+            validators: {
+              validation: ['integer']
+            }
+          },
+          {
+            key: 'threePrimeCoordinates.stop',
+            type: 'input',
+            templateOptions: {
+              label: 'Stop',
+              helpText: 'Provide the right/second coordinate of this 3-prime partner fusion variant. Must be &geq; the Start coordinate. Coordinate must be compatible with the selected reference build.',
+            },
+            validators: {
+              validation: ['integer']
+            }
+          },
+          {
+            key: 'threePrimeCoordinates.representativeTranscript',
+            type: 'input',
+            templateOptions: {
+              label: 'Representative Transcript',
+              helpText: 'Specify a transcript ID, including version number (e.g. ENST00000348159.4, the canonical transcript defined by Ensembl).',
+            },
+          },
+          {
+            key: 'comment',
+            type: 'comment-textarea',
+            templateOptions: {
+              label: 'Comment',
+              placeholder: 'Please enter a comment describing your revision to this variant.',
+              helpText: 'Please enter a comment describing your revision to this variant.',
+              required: true,
+              minLength: 10
+            },
+          },
+          {
+            key: 'organization',
+            type: 'org-submit-button',
+            templateOptions: {
+              submitLabel: 'Submit Variant Revision',
+              submitSize: 'large'
+            }
           }
-        }
+        ]
       },
-      {
-        key: 'fields.variantAliases',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Variant Aliases',
-          addText: 'Add an Alias',
-        },
-        fieldArray: {
-          type: 'input',
-          templateOptions: {
-            required: true,
-            placeholder: 'Add Alias'
-          }
-        }
-      },
-      {
-        key: 'fields.hgvsDescriptions',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'HGVS Descriptions',
-          addText: 'Add an HGVS Description'
-        },
-        fieldArray: {
-          type: 'input',
-          templateOptions: {
-            required: true,
-            placeholder: 'Enter an HGVS string'
-          }
-        }
-      },
-      {
-        key:'fields.clinvarIds',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'ClinVar IDs',
-          addText: 'Add a ClinVar ID'
-        },
-        fieldArray: {
-          type: 'input',
-          templateOptions: {
-            required: true,
-            placeholder: 'Enter a ClinVar ID'
-          }
-        }
-      },
-      {
-        key: 'fields.variantTypes',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Variant Types',
-          addText: 'Add a Variant Type'
-        },
-        fieldArray: {
-          type: 'variant-type-input',
-          templateOptions: {
-            required: true
-          }
-        }
-      },
-      {
-        template: '<h3>Primary Coordinates</h3>',
-      },
-      {
-        key: 'fields.referenceBuild',
-        type: 'select',
-        defaultValue: ReferenceBuild.Grch37,
-        templateOptions: {
-          label: 'Reference Build',
-          required: false,
-          options: $enum(ReferenceBuild)
-            .map((value, key) => {
-              return { value: value, label: formatReferenceBuildEnum(value)}
-            })
-        }
-      },
-      {
-        key: 'fields.ensemblVersion',
-        type: 'input',
-        templateOptions: {
-          label: 'Ensembl Version',
-        },
-        validators: {
-          validation: ['ensembl']
-        }
-      },
-      {
-        key: 'fields.fivePrimeCoordinates.chromosome',
-        type: 'select',
-        defaultValue: undefined,
-        templateOptions: {
-          label: 'Chromosome',
-          required: false,
-          options: Chromosomes
-        },
-      },
-      {
-        key: 'fields.fivePrimeCoordinates.start',
-        type: 'input',
-        templateOptions: {
-          label: 'Start',
-        },
-        validators: {
-          validation: ['integer']
-        }
-      },
-      {
-        key: 'fields.fivePrimeCoordinates.stop',
-        type: 'input',
-        templateOptions: {
-          label: 'Stop',
-        },
-        validators: {
-          validation: ['integer']
-        }
-      },
-      {
-        key: 'fields.fivePrimeCoordinates.representativeTranscript',
-        type: 'input',
-        templateOptions: {
-          label: 'Representative Transcript',
-        },
-      },
-      {
-        template: '<h3>Secondary Coordinates</h3>',
-      },
-      {
-        key: 'fields.threePrimeCoordinates.chromosome',
-        type: 'select',
-        defaultValue: undefined,
-        templateOptions: {
-          label: 'Chromosome',
-          required: false,
-          options: Chromosomes
-        },
-      },
-      {
-        key: 'fields.threePrimeCoordinates.start',
-        type: 'input',
-        templateOptions: {
-          label: 'Start',
-        },
-        validators: {
-          validation: ['integer']
-        }
-      },
-      {
-        key: 'fields.threePrimeCoordinates.stop',
-        type: 'input',
-        templateOptions: {
-          label: 'Stop',
-        },
-        validators: {
-          validation: ['integer']
-        }
-      },
-      {
-        key: 'fields.threePrimeCoordinates.representativeTranscript',
-        type: 'input',
-        templateOptions: {
-          label: 'Representative Transcript',
-        },
-      },
-      {
-        key: 'comment',
-        type: 'comment-textarea',
-        templateOptions: {
-          label: 'Comment',
-          placeholder: 'Please enter a comment describing your revision.',
-          required: true,
-          minLength: 10
-        },
-      }
     ]
 
     // reset form upon successful submit
@@ -331,21 +375,30 @@ export class VariantReviseForm implements OnDestroy {
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ variantId: this.variantId })
-      .subscribe(({ data: { variant } }) => {
-        if (variant) {
-          this.formModel = this.toFormModel(variant);
-        } else {
-          // TODO: handle errors with subscribe({complete, error})
-          console.error('Could not retrieve variant.');
-        }
-        if (this.formOptions.updateInitialValue) {
-          this.formOptions.updateInitialValue();
-        }
-      });
-  }
+      .subscribe(
+        // response
+        ({ data: { variant } }) => {
+          if (variant) {
+            this.formModel = this.toFormModel(variant);
+          }
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
+        },
+        // error
+        (error) => {
+          console.error('Error retrieving variant.');
+          console.error(error);
+        },
+        // complete
+        () => {
+          // prompt fields to display any errors that exist in loaded variant
+          this.formGroup.markAllAsTouched();
+          // mark comment field as untouched, we don't want to show an error before the user interacts with the field
+          const commentFc: AbstractControl | null = this.formGroup.get('fields.comment');
+          if (commentFc) { commentFc.markAsUntouched() }
+        });
 
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
   }
 
   submitRevision(formModel: FormModel): void {
@@ -362,9 +415,9 @@ export class VariantReviseForm implements OnDestroy {
         // fivePrimeCoordinates
         referenceBases: variant.fivePrimeCoordinates?.referenceBases,
         variantBases: variant.fivePrimeCoordinates?.variantBases,
+        comment: this.formModel.fields.comment,
+        organization: this.formModel.fields.organization,
       },
-      comment: '',
-      organizationId: undefined
     }
   }
 
@@ -388,7 +441,8 @@ export class VariantReviseForm implements OnDestroy {
         variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
         aliases: model.fields.variantAliases,
       },
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+      comment: model.fields.comment,
+      organizationId: model.fields.organization === undefined ? undefined : model.fields.organization.id
     }
   }
 

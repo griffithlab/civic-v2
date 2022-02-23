@@ -12,7 +12,7 @@ import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-erro
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
-import { SourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
+import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
@@ -26,12 +26,12 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     MultiFieldModule,
-    SourceInputModule,
+    CvcSourceInputModule,
   ],
   exports: [GeneReviseForm]
 })

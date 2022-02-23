@@ -7,6 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { VariantTypeaheadGQL } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 
 @Component({
   selector: 'cvc-variant-input',
@@ -14,7 +15,7 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ['./variant-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantInputComponent extends FieldType implements AfterViewInit {
+export class VariantInputType extends FieldType implements AfterViewInit {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -59,9 +60,7 @@ export class VariantInputComponent extends FieldType implements AfterViewInit {
   }
 }
 
-
-export const VariantInputType = {
+export const VariantInputTypeOption: TypeOption = {
   name: 'variant-input',
-  component: VariantInputComponent,
-  // wrappers: ['form-field'],
+  component: VariantInputType,
 }

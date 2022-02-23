@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceReviseForm } from './evidence-revise.form';
-import { SourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
+import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
 import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-errors-alert/form-errors-alert.module';
@@ -32,12 +32,12 @@ import { DiseaseInputModule } from '@app/forms/diseases/types/disease-input/dise
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
-    FormlyModule.forChild(),
+    FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     MultiFieldModule,
-    SourceInputModule,
+    CvcSourceInputModule,
     DrugInputModule,
     RatingInputModule,
     PhenotypeInputModule,

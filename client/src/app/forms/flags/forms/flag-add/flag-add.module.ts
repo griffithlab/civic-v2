@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcFlagAddForm } from './flag-add.form';
-import { FormlyModule } from '@ngx-formly/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
@@ -19,16 +18,15 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
   declarations: [CvcFlagAddForm],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
     NzFormModule,
     NzButtonModule,
     NzCardModule,
-    FormsModule,
     NzAlertModule,
     NzToolTipModule,
     NzSpinModule,
-    FormlyModule.forChild(),
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcPipesModule,

@@ -5,17 +5,13 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-const formlyConfig = {
-  types: [RatingInputType]
-}
-
 @NgModule({
   declarations: [RatingInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule,
     NzRateModule,
   ],
   exports: [RatingInputComponent]

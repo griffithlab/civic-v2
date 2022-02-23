@@ -2738,10 +2738,10 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.1.4.tgz#359c9078af281413cf9cabd0af06b3fca4ddbf7e"
   integrity sha512-s8gzjG2nYHawFhlkHMkQWYrocHkBI1nF6T9K/oCSTIsq6kvTv//Ahno2VdBSgVq8uMnpv1TymvX0nFC4Dgn1HA==
 
-"@ngx-formly/core@^5.10.30":
-  version "5.10.30"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.30.tgz#6e6cfcf51f097e839bb4d928c3458106cb6f46f6"
-  integrity sha512-w31+pYyUNwbC+hmERpl1JWTYnQkE0UejRfgAIYrH7PVtg3sEf69p0t0Qp6MnpXQ1C8ekVx71mSTYsEkEXobUIQ==
+"@ngx-formly/core@^5.10.32":
+  version "5.10.32"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.32.tgz#3e89adebe239ead0f703ef5c603490868fd58b45"
+  integrity sha512-kk6IhpScqTbZvbJzlzIcSpJw6pr+iowiTA7IyTs7fWN6KqSrDg3BcgECXhBiT/t+/sE5kBLuKR7bFT539oKeiA==
   dependencies:
     tslib "^1.7.1"
 

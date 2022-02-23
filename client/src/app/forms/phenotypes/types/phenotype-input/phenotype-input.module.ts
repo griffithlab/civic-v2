@@ -7,17 +7,13 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-const formlyConfig = {
-  types: [PhenotypeInputType]
-}
-
 @NgModule({
   declarations: [PhenotypeInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
-    FormlyModule.forChild(formlyConfig),
+    FormlyModule,
     NzSelectModule,
     CvcPhenotypeTagModule,
   ]

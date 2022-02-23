@@ -23,5 +23,4 @@ export class SourceInputComponent extends FieldType {
 export const SourceInputType = {
   name: 'source-input',
   component: SourceInputComponent,
-  // wrappers: ['form-field'],
 }
