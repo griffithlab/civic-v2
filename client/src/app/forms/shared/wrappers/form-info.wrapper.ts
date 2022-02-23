@@ -10,3 +10,8 @@ import { WrapperOption } from '@ngx-formly/core/lib/services/formly.config';
 })
 export class CvcFormInfoWrapper extends FieldWrapper {
 }
+
+export const CvcFormInfoWrapperOption: WrapperOption = {
+  name: 'form-info',
+  component: CvcFormInfoWrapper
+}

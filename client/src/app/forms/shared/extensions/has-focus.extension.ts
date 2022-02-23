@@ -1,7 +1,8 @@
 // default-label-extension.ts
 import { FormlyExtension } from '@ngx-formly/core';
+import { ExtensionOption } from '@ngx-formly/core/lib/services/formly.config';
 
-export const hasFocusExtension: FormlyExtension = {
+export const hasFocus: FormlyExtension = {
   prePopulate(field): void {
     if (field.expressionProperties?.hasFocus) { return; };
 
@@ -14,3 +15,8 @@ export const hasFocusExtension: FormlyExtension = {
     }
   },
 };
+
+export const HasFocusExtension: ExtensionOption = {
+  name: 'has-focus',
+  extension: hasFocus
+}

@@ -5,8 +5,8 @@ import { FormlyModule } from '@ngx-formly/core';
 import { CvcFormlyConfig } from '@app/forms/forms.config';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.module';
-import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button/submit-button.module';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { CvcSubmitButtonTypeModule } from './shared/types/submit-button/submit-button.module';
 
 @NgModule({
   declarations: [],
@@ -17,8 +17,12 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     ReactiveComponentModule,
     FormlyModule.forRoot(CvcFormlyConfig),
     FormlyNgZorroAntdModule,
-    CvcFormInfoWrapperModule,
+
+    // type module imports
     CvcSubmitButtonTypeModule,
+
+    // wrapper modules
+    CvcFormInfoWrapperModule,
   ],
   exports: [
     FormsModule,

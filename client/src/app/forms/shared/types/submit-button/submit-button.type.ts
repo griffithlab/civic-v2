@@ -26,6 +26,9 @@ export class SubmitButtonComponent extends FieldType {
     }
   }
 
+  constructor() {
+    super();
+  }
 }
 
 export const SubmitButtonType = {

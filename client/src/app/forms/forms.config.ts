@@ -1,5 +1,5 @@
-import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
 import { CommentTextareaType } from './comments/types/comment-textarea/comment-textarea.type';
 import { DiseaseInputType } from './diseases/types/disease-input/disease-input.type';
@@ -7,10 +7,11 @@ import { DrugInputType } from './drugs/types/drug-input/drug-input.type';
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
 import { GeneInputType } from './genes/types/gene-input/gene-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
-import { hasFocusExtension } from './shared/extensions/has-focus.extension';
+import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
 import { SubmitButtonType } from './shared/types/submit-button/submit-button.type';
+import { CvcFormInfoWrapperOption } from './shared/wrappers/form-info.wrapper';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
 import { TypeaheadSelectorType } from './sources/types/source-input/source-selector/source-selector-typeahead/source-selector-typeahead.type';
 import { VariantTypeInputType } from './variant-types/types/variant-type-input/variant-type-input.type';
@@ -96,7 +97,6 @@ export const additionalValidators: ValidatorOption[] = [
 export const CvcFormlyConfig: ConfigOption = {
   types: [
     CommentTextareaType,
-    CommentTextareaType,
     DiseaseInputType,
     DrugInputType,
     GeneInputType,
@@ -113,5 +113,6 @@ export const CvcFormlyConfig: ConfigOption = {
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
   validators: additionalValidators,
-  extensions: [{ name: 'has-focus', extension: hasFocusExtension }]
+  extensions: [HasFocusExtension],
+  wrappers: [CvcFormInfoWrapperOption]
 }

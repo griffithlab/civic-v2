@@ -14,12 +14,7 @@ import { CvcFormInfoWrapper } from "./form-info.wrapper";
   imports: [
     CommonModule,
     ReactiveComponentModule,
-    FormlyModule.forChild({
-      wrappers: [{
-        name: 'form-info',
-        component: CvcFormInfoWrapper
-      }]
-    }),
+    FormlyModule,
     NzGridModule,
     NzCardModule,
     NzCollapseModule,
