@@ -101,8 +101,6 @@ interface FormVariant {
 
 interface FormModel {
   id: number;
-  // comment: string;
-  organizationId: Maybe<Organization>,
   fields: {
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
@@ -117,6 +115,8 @@ interface FormModel {
     source: FormSource[];
     variant: FormVariant;
     variantOrigin: VariantOrigin;
+    comment: string,
+    organization: Maybe<Organization>
   };
 }
 
@@ -337,14 +337,14 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               minLength: 10
             },
           },
-          // {
-          //   key: 'organization',
-          //   type: 'org-submit-button',
-          //   templateOptions: {
-          //     submitLabel: 'Submit Variant Revision',
-          //     submitSize: 'large'
-          //   }
-          // }
+          {
+            key: 'organization',
+            type: 'org-submit-button',
+            templateOptions: {
+              submitLabel: 'Submit Evidence Item Revision',
+              submitSize: 'large'
+            }
+          }
         ]
       }
     ];
@@ -380,13 +380,13 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
     return <FormModel>{
       id: evidence.id,
-      // comment: '',
-      organizationId: undefined,
       fields: {
         ...evidence,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
         disease: [evidence.disease],
+        comment: this.formModel.fields.comment,
+        organization: this.formModel.fields.organization
       },
     }
   }
