@@ -113,6 +113,9 @@ export class VariantReviseForm implements OnDestroy {
       {
         key: 'fields',
         wrappers: ['form-info'],
+        templateOptions: {
+          label: 'Suggest Variant Revision Form',
+        },
         fieldGroup: [
           {
             key: 'id',

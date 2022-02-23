@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   Viewer,
   ViewerService,
@@ -162,192 +162,219 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
 
     this.formFields = [
       {
-        key: 'id',
-        type: 'input',
-        hide: true
-      },
-      {
-        key: 'fields.variantOrigin',
-        type: 'select',
+        key: 'fields',
+        wrappers: ['form-info'],
         templateOptions: {
-          label: 'Variant Origin',
-          required: true,
-          options: $enum(VariantOrigin)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
-        }
-      },
-      {
-        key: 'fields.description',
-        type: 'textarea',
-        templateOptions: {
-          label: 'Description',
-          placeholder: 'Enter a description for this evidence item.',
-          required: false
-        }
-      },
-      {
-        key: 'fields.source',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Source',
-          addText: 'Add another Source',
-          maxCount: 1,
+          label: 'Suggest Evidence Item Revision Form'
         },
-        fieldArray: {
-          type: 'source-input',
-          templateOptions: {
-            required: true,
+        fieldGroup: [
+          {
+            key: 'id',
+            type: 'input',
+            hide: true
           },
-        },
-      },
-      {
-        key: 'fields.evidenceType',
-        type: 'select',
-        templateOptions: {
-          label: 'Evidence Type',
-          required: true,
-          options: $enum(EvidenceType)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
-        }
-      },
-      {
-        key: 'fields.clinicalSignificance',
-        type: 'select',
-        templateOptions: {
-          label: 'Clinical Signficance',
-          required: true,
-          options: $enum(EvidenceClinicalSignificance)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
-        }
-      },
-      {
-        key: 'fields.disease',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Disease',
-          addText: 'Add a Disease',
-          minLength: 1,
-          maxCount: 1,
-        },
-        fieldArray: {
-          type: 'disease-input',
-          templateOptions: {}
-        }
-      },
-      {
-        key: 'fields.description',
-        type: 'textarea',
-        templateOptions: {
-          label: 'Evidence Statement',
-          placeholder: 'Please enter statement describing this evidence item.',
-          required: false
-        }
-      },
-      {
-        key: 'fields.evidenceLevel',
-        type: 'select',
-        templateOptions: {
-          label: 'Evidence Level',
-          required: true,
-          options: $enum(EvidenceLevel)
-            .map((value, key) => {
-              return { value: value, label: key }
-            })
-        }
-      },
-      {
-        key: 'fields.evidenceDirection',
-        type: 'select',
-        templateOptions: {
-          label: 'Evidence Direction',
-          placeholder: 'Please select an Evidence Direction',
-          required: true,
-          options: $enum(EvidenceDirection)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
-        }
-      },
-      {
-        key: 'fields.drugs',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Drug(s)',
-          addText: 'Add a Drug',
-        },
-        fieldArray: {
-          type: 'drug-input',
-          templateOptions: {
+          {
+            key: 'variantOrigin',
+            type: 'select',
+            templateOptions: {
+              label: 'Variant Origin',
+              required: true,
+              options: $enum(VariantOrigin)
+                .map((value, key) => {
+                  return { value: value, label: formatEvidenceEnum(value) }
+                })
+            }
           },
-        },
-      },
-      {
-        key: 'fields.drugInteractionType',
-        type: 'select',
-        templateOptions: {
-          label: 'Drug InteractionType',
-          required: false,
-          placeholder: 'Please select a Drug Interaction Type',
-          options: $enum(DrugInteraction)
-            .map((value, key) => {
-              return { value: value, label: key }
-            })
-        }
-      },
-      {
-        key: 'fields.phenotypes',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Associated Phenotypes',
-          addText: 'Add a Phenoype'
-        },
-        fieldArray: {
-          type: 'phenotype-input',
-          templateOptions: {
-          }
-        }
-      },
-      {
-        key: 'fields.evidenceRating',
-        type: 'rating-input',
-        templateOptions: {
-          label: 'Rating',
-        },
-      },
-      {
-        key: 'comment',
-        type: 'comment-textarea',
-        templateOptions: {
-          label: 'Comment',
-          placeholder: 'Please enter a comment describing your revision.',
-          required: true,
-          minLength: 10
-        },
+          {
+            key: 'description',
+            type: 'textarea',
+            templateOptions: {
+              label: 'Description',
+              placeholder: 'Enter a description for this evidence item.',
+              required: false
+            }
+          },
+          {
+            key: 'source',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Source',
+              addText: 'Add another Source',
+              maxCount: 1,
+            },
+            fieldArray: {
+              type: 'source-input',
+              templateOptions: {
+                required: true,
+              },
+            },
+          },
+          {
+            key: 'evidenceType',
+            type: 'select',
+            templateOptions: {
+              label: 'Evidence Type',
+              required: true,
+              options: $enum(EvidenceType)
+                .map((value, key) => {
+                  return { value: value, label: formatEvidenceEnum(value) }
+                })
+            }
+          },
+          {
+            key: 'clinicalSignificance',
+            type: 'select',
+            templateOptions: {
+              label: 'Clinical Signficance',
+              required: true,
+              options: $enum(EvidenceClinicalSignificance)
+                .map((value, key) => {
+                  return { value: value, label: formatEvidenceEnum(value) }
+                })
+            }
+          },
+          {
+            key: 'disease',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Disease',
+              addText: 'Add a Disease',
+              minLength: 1,
+              maxCount: 1,
+            },
+            fieldArray: {
+              type: 'disease-input',
+              templateOptions: {}
+            }
+          },
+          {
+            key: 'description',
+            type: 'textarea',
+            templateOptions: {
+              label: 'Evidence Statement',
+              placeholder: 'Please enter statement describing this evidence item.',
+              required: false
+            }
+          },
+          {
+            key: 'evidenceLevel',
+            type: 'select',
+            templateOptions: {
+              label: 'Evidence Level',
+              required: true,
+              options: $enum(EvidenceLevel)
+                .map((value, key) => {
+                  return { value: value, label: key }
+                })
+            }
+          },
+          {
+            key: 'evidenceDirection',
+            type: 'select',
+            templateOptions: {
+              label: 'Evidence Direction',
+              placeholder: 'Please select an Evidence Direction',
+              required: true,
+              options: $enum(EvidenceDirection)
+                .map((value, key) => {
+                  return { value: value, label: formatEvidenceEnum(value) }
+                })
+            }
+          },
+          {
+            key: 'drugs',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Drug(s)',
+              addText: 'Add a Drug',
+            },
+            fieldArray: {
+              type: 'drug-input',
+              templateOptions: {
+              },
+            },
+          },
+          {
+            key: 'drugInteractionType',
+            type: 'select',
+            templateOptions: {
+              label: 'Drug InteractionType',
+              required: false,
+              placeholder: 'Please select a Drug Interaction Type',
+              options: $enum(DrugInteraction)
+                .map((value, key) => {
+                  return { value: value, label: key }
+                })
+            }
+          },
+          {
+            key: 'phenotypes',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Associated Phenotypes',
+              addText: 'Add a Phenoype'
+            },
+            fieldArray: {
+              type: 'phenotype-input',
+              templateOptions: {
+              }
+            }
+          },
+          {
+            key: 'evidenceRating',
+            type: 'rating-input',
+            templateOptions: {
+              label: 'Rating',
+            },
+          },
+          {
+            key: 'comment',
+            type: 'comment-textarea',
+            templateOptions: {
+              label: 'Comment',
+              placeholder: 'Please enter a comment describing your revision.',
+              required: true,
+              minLength: 10
+            },
+          },
+          // {
+          //   key: 'organization',
+          //   type: 'org-submit-button',
+          //   templateOptions: {
+          //     submitLabel: 'Submit Variant Revision',
+          //     submitSize: 'large'
+          //   }
+          // }
+        ]
       }
-
     ];
   }
 
   ngOnInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ evidenceId: this.evidenceId })
-      .subscribe(({ data: { evidenceItem } }) => {
-        if (evidenceItem) {
-          this.formModel = this.toFormModel(evidenceItem);
-        } else {
-          // TODO: handle errors with subscribe({complete, error})
-          console.error('Evidence Revise form could not retrieve evidence item.');
-        }
-        if (this.formOptions.updateInitialValue) {
-          this.formOptions.updateInitialValue();
-        }
-      });
+      .subscribe(        // response
+        ({ data: { evidenceItem } }) => {
+          if (evidenceItem) {
+            this.formModel = this.toFormModel(evidenceItem);
+          }
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
+        },
+        // error
+        (error) => {
+          console.error('Error retrieving evidenceItem.');
+          console.error(error);
+        },
+        // complete
+        () => {
+          // prompt fields to display any errors that exist in loaded evidenceItem
+          this.formGroup.markAllAsTouched();
+          // mark comment field as untouched, we don't want to show an error before the user interacts with the field
+          const commentFc: AbstractControl | null = this.formGroup.get('fields.comment');
+          if (commentFc) { commentFc.markAsUntouched() }
+        });
   }
 
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
