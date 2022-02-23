@@ -31,7 +31,7 @@ export class SubmitButtonComponent extends FieldType {
   }
 }
 
-export const SubmitButtonType = {
+export const SubmitButtonTypeOption = {
   name: 'org-submit-button',
   component: SubmitButtonComponent
 }

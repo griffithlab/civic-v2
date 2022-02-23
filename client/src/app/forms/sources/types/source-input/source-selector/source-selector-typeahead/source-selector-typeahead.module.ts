@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { SourceSelectorTypeaheadComponent, TypeaheadSelectorType } from './source-selector-typeahead.type';
+import { SourceSelectorTypeaheadComponent } from './source-selector-typeahead.type';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { SourceSelectorLoaderModule } from '../source-selector-loader/source-selector-loader.module';
@@ -13,8 +13,7 @@ import { SourceSelectorLoaderModule } from '../source-selector-loader/source-sel
     ReactiveFormsModule,
     FormlyModule,
     NzSelectModule,
-    SourceSelectorLoaderModule
-  ],
-  exports: [SourceSelectorTypeaheadComponent]
+    SourceSelectorLoaderModule,
+  ]
 })
 export class SourceSelectorTypeaheadModule { }

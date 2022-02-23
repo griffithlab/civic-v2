@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VariantReviseForm } from './variant-revise.form';
-import { SourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
+import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
 import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-errors-alert/form-errors-alert.module';
@@ -21,6 +21,9 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button/submit-button.module';
+import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.module';
+import { CvcVariantCoordinatesCardModule } from '../../types/variant-coordinates-card/variant-coordinates-card.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -41,11 +44,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzIconModule,
     NzButtonModule,
     NzSwitchModule,
+    CvcSubmitButtonTypeModule,
     CvcOrgSelectorBtnGroupModule,
+    CvcFormInfoWrapperModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
+    CvcVariantCoordinatesCardModule,
     MultiFieldModule,
-    SourceInputModule,
+    CvcSourceInputModule,
     VariantTypeInputModule,
 
     NgxJsonViewerModule,

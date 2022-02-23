@@ -13,4 +13,4 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
   ],
   exports: [SourceInputComponent],
 })
-export class SourceInputModule { }
+export class CvcSourceInputModule { }

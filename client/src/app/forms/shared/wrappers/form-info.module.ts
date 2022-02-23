@@ -7,14 +7,14 @@ import { NzCollapseModule } from "ng-zorro-antd/collapse";
 import { NzGridModule } from "ng-zorro-antd/grid";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { CvcFormInfoCardModule } from "../components/form-info-card/form-info-card.module";
-import { CvcFormInfoWrapper } from "./form-info.wrapper";
+import { CvcFormInfoWrapper, CvcFormInfoWrapperOption } from "./form-info.wrapper";
 
 @NgModule({
   declarations: [CvcFormInfoWrapper],
   imports: [
     CommonModule,
     ReactiveComponentModule,
-    FormlyModule,
+    FormlyModule.forChild({ wrappers: [CvcFormInfoWrapperOption] }),
     NzGridModule,
     NzCardModule,
     NzCollapseModule,
