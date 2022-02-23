@@ -25,6 +25,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
 import { EvidenceItemReviseService } from './evidence-revise.service';
+import { getSignificanceOptions } from './evidence-revise.state';
 
 interface FormSource {
   id?: number;
@@ -84,12 +85,12 @@ interface FormVariant {
  *
  * evidenceDirection: EvidenceDirection!
  * The evidence direction for this EvidenceItem.
- *
+
  * phenotypeIds: [Int!]!
  * List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none.
  *
  * rating: Int!
- * The rating for this EvidenceItem
+ * The rating for this ceItem
  *
  * drugIds: [Int!]!
  * List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none.
@@ -219,7 +220,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                 .map((value, key) => {
                   return { value: value, label: formatEvidenceEnum(value) }
                 })
-            }
+            },
           },
           {
             key: 'clinicalSignificance',
@@ -231,6 +232,18 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                 .map((value, key) => {
                   return { value: value, label: formatEvidenceEnum(value) }
                 })
+            },
+            expressionProperties: {
+              'templateOptions.options': (model: any) => {
+                return getSignificanceOptions(model.evidenceType)
+                  .map(
+                    (value) => {
+                      return {
+                        value: value,
+                        label: formatEvidenceEnum(value)
+                      }
+                    })
+              }
             }
           },
           {
