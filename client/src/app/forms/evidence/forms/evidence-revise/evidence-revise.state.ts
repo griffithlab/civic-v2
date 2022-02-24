@@ -86,13 +86,22 @@ validStates.set(EvidenceType.Functional, {
   requiresDrug: false
 });
 
-
 export function getSignificanceOptions(t: EvidenceType): EvidenceClinicalSignificance[] {
   let state = validStates.get(t);
   return state?.clinicalSignificance || [];
 }
 
+export function getDirectionOptions(t: EvidenceType): EvidenceDirection[] {
+  let state = validStates.get(t);
+  return state?.evidenceDirection || [];
+}
+
 export function requiresDrug(t: EvidenceType): boolean {
   let state = validStates.get(t);
   return state !== undefined ? state.requiresDrug : true;
+}
+
+export function requiresDisease(t: EvidenceType): boolean {
+  let state = validStates.get(t);
+  return state !== undefined ? state.requiresDisease : true;
 }

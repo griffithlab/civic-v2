@@ -253,6 +253,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'Disease',
+              required: true,
               addText: 'Add a Disease',
               minLength: 1,
               maxCount: 1,
@@ -294,6 +295,21 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                 .map((value, key) => {
                   return { value: value, label: formatEvidenceEnum(value) }
                 })
+            },
+            expressionProperties: {
+              'templateOptions.options': (model: any, state: any, field?: FormlyFieldConfig) => {
+                const options = fieldState.getDirectionOptions(model.evidenceType)
+                  .map(
+                    (value) => {
+                      return {
+                        value: value,
+                        label: formatEvidenceEnum(value)
+                      }
+                    })
+                // reset model value if options change
+                // this.resetSelect(options, field);
+                return options;
+              }
             }
           },
           {
@@ -310,17 +326,18 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               },
             },
             hideExpression: (model: any, formState: any, field?: FormlyFieldConfig) => {
-              // TODO why isn't the main model provided for this field? instead of accessing the main model directly, we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
+              // TODO why isn't the main model provided for this field? instead of accessing the main model directly (as with clinicalSignificance's expressionProperties), we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
               const evidenceType = field?.parent?.model.evidenceType;
-              if(evidenceType) {
-                const requiresDrug = fieldState.requiresDrug(evidenceType);
-                console.log(`${evidenceType} requiresDrug: ${requiresDrug}`);
-                console.log(`hide drugs field: ${!requiresDrug}`);
-                return !fieldState.requiresDrug(evidenceType);
-              } else {
-                return false;
-              }
+              return evidenceType !== undefined ?
+                !fieldState.requiresDrug(evidenceType)
+                : true;
             },
+            expressionProperties: {
+              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
+                const evidenceType = f?.parent?.model.evidenceType;
+                return evidenceType !== undefined ? fieldState.requiresDrug(m.evidenceType) : false;
+              }
+            }
           },
           {
             key: 'drugInteractionType',
@@ -333,6 +350,20 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                 .map((value, key) => {
                   return { value: value, label: key }
                 })
+            },
+            hideExpression: (m: any, s: any, f?: FormlyFieldConfig) => {
+              if (!m.drugs) { return false; }
+              const requiresDrug = fieldState.requiresDrug(m.evidenceType);
+              return (requiresDrug && m.drugs.length > 1) ?
+                false : true;
+            },
+            expressionProperties: {
+              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
+                if (!m.drugs) { return false; }
+                const requiresDrug = fieldState.requiresDrug(m.evidenceType);
+                return (requiresDrug && m.drugs.length > 1) ?
+                  true : false;
+              }
             }
           },
           {
@@ -376,6 +407,21 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         ]
       }
     ];
+  }
+
+  resetSelect(options: any[], field?: FormlyFieldConfig): void {
+    if (field && options instanceof Array
+      && field?.templateOptions?.options
+      && field?.formControl) {
+      const currentOptions = field.templateOptions.options;
+      // reset model value if options change
+      if (!(JSON.stringify(options) === JSON.stringify(currentOptions))) {
+        // if there's only one option, set model to that option
+        if (options.length === 1) { field.formControl.setValue(options[0]) }
+        // otherwise reset to undefined
+        else { field.formControl.setValue(undefined); }
+      }
+    }
   }
 
   ngOnInit(): void {
