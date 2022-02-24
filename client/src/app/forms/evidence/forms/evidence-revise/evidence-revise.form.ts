@@ -177,24 +177,13 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             hide: true
           },
           {
-            key: 'variantOrigin',
-            type: 'select',
-            templateOptions: {
-              label: 'Variant Origin',
-              required: true,
-              options: $enum(VariantOrigin)
-                .map((value, key) => {
-                  return { value: value, label: formatEvidenceEnum(value) }
-                })
-            }
-          },
-          {
             key: 'description',
             type: 'textarea',
             templateOptions: {
-              label: 'Description',
-              placeholder: 'Enter a description for this evidence item.',
-              required: false
+              label: 'Evidence Statement',
+              helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+              placeholder: 'Please enter statement describing this evidence item.',
+              required: true
             }
           },
           {
@@ -202,6 +191,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'Source',
+              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
               addText: 'Add another Source',
               maxCount: 1,
             },
@@ -213,10 +203,24 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             },
           },
           {
+            key: 'variantOrigin',
+            type: 'select',
+            templateOptions: {
+              label: 'Variant Origin',
+              helpText: 'Origin of variant',
+              required: true,
+              options: $enum(VariantOrigin)
+                .map((value, key) => {
+                  return { value: value, label: formatEvidenceEnum(value) }
+                })
+            }
+          },
+          {
             key: 'evidenceType',
             type: 'select',
             templateOptions: {
               label: 'Evidence Type',
+              helpText: 'Type of clinical outcome associated with the evidence statement.',
               required: true,
               options: $enum(EvidenceType)
                 .map((value, key) => {
@@ -229,6 +233,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'select',
             templateOptions: {
               label: 'Clinical Signficance',
+              helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
               required: true,
               options: $enum(EvidenceClinicalSignificance)
                 .map((value, key) => {
@@ -253,6 +258,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'Disease',
+              helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
               required: true,
               addText: 'Add a Disease',
               minLength: 1,
@@ -264,19 +270,11 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             },
           },
           {
-            key: 'description',
-            type: 'textarea',
-            templateOptions: {
-              label: 'Evidence Statement',
-              placeholder: 'Please enter statement describing this evidence item.',
-              required: false
-            }
-          },
-          {
             key: 'evidenceLevel',
             type: 'select',
             templateOptions: {
               label: 'Evidence Level',
+              helpText: 'Type of study performed to produce the evidence statement',
               required: true,
               options: $enum(EvidenceLevel)
                 .map((value, key) => {
@@ -289,6 +287,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'select',
             templateOptions: {
               label: 'Evidence Direction',
+              helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
               placeholder: 'Please select an Evidence Direction',
               required: true,
               options: $enum(EvidenceDirection)
@@ -317,6 +316,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'Drug(s)',
+              helpText: 'For predictive evidence, specify one or more drug names. If the type-ahead list does not display your drug\'s name or alias, it likely does not exist in CIViC\'s database.',
               addText: 'Add a Drug',
               hidden: false,
             },
@@ -335,7 +335,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             expressionProperties: {
               'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
                 const evidenceType = f?.parent?.model.evidenceType;
-                return evidenceType !== undefined ? fieldState.requiresDrug(m.evidenceType) : false;
+                return evidenceType !== undefined ? fieldState.requiresDrug(evidenceType) : false;
               }
             }
           },
@@ -344,6 +344,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'select',
             templateOptions: {
               label: 'Drug InteractionType',
+              helpText: 'Please indicate whether the drugs specified above are substitutes, or are used in sequential or combination treatments.',
               required: false,
               placeholder: 'Please select a Drug Interaction Type',
               options: $enum(DrugInteraction)
@@ -371,6 +372,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'multi-field',
             templateOptions: {
               label: 'Associated Phenotypes',
+              helpText: 'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes.</a>',
               addText: 'Add a Phenoype'
             },
             fieldArray: {
@@ -384,6 +386,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'rating-input',
             templateOptions: {
               label: 'Rating',
+              helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
             },
           },
           {
@@ -391,6 +394,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
+              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
               placeholder: 'Please enter a comment describing your revision.',
               required: true,
               minLength: 10
