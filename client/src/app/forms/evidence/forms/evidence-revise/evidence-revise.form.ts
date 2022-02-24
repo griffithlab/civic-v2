@@ -25,7 +25,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
 import { EvidenceItemReviseService } from './evidence-revise.service';
-import { getSignificanceOptions } from './evidence-revise.state';
+import * as fieldState from './evidence-revise.state';
+
+
 
 interface FormSource {
   id?: number;
@@ -235,7 +237,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             },
             expressionProperties: {
               'templateOptions.options': (model: any) => {
-                return getSignificanceOptions(model.evidenceType)
+                return fieldState.getSignificanceOptions(model.evidenceType)
                   .map(
                     (value) => {
                       return {
@@ -258,7 +260,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             fieldArray: {
               type: 'disease-input',
               templateOptions: {}
-            }
+            },
           },
           {
             key: 'description',
@@ -300,11 +302,24 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             templateOptions: {
               label: 'Drug(s)',
               addText: 'Add a Drug',
+              hidden: false,
             },
             fieldArray: {
               type: 'drug-input',
               templateOptions: {
               },
+            },
+            hideExpression: (model: any, formState: any, field?: FormlyFieldConfig) => {
+              // TODO why isn't the main model provided for this field? instead of accessing the main model directly, we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
+              const evidenceType = field?.parent?.model.evidenceType;
+              if(evidenceType) {
+                const requiresDrug = fieldState.requiresDrug(evidenceType);
+                console.log(`${evidenceType} requiresDrug: ${requiresDrug}`);
+                console.log(`hide drugs field: ${!requiresDrug}`);
+                return !fieldState.requiresDrug(evidenceType);
+              } else {
+                return false;
+              }
             },
           },
           {

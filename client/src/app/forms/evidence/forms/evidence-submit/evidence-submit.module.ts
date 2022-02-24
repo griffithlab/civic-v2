@@ -21,6 +21,8 @@ import { RouterModule } from '@angular/router';
 import { EvidenceItemSubmitService } from './evidence-submit.service';
 import { CvcGeneInputModule } from '@app/forms/genes/types/gene-input/gene-input.module';
 import { CvcVariantInputModule } from '@app/forms/variants/types/variant-input/variant-input.module';
+import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.module';
+import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button/submit-button.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -36,6 +38,7 @@ import { CvcVariantInputModule } from '@app/forms/variants/types/variant-input/v
     NzButtonModule,
     FormlyModule,
     CvcOrgSelectorBtnGroupModule,
+    CvcSubmitButtonTypeModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     MultiFieldModule,
@@ -45,6 +48,7 @@ import { CvcVariantInputModule } from '@app/forms/variants/types/variant-input/v
     PhenotypeInputModule,
     DiseaseInputModule,
     CvcGeneInputModule,
+    CvcFormInfoWrapperModule,
     CvcVariantInputModule,
   ],
   exports: [EvidenceSubmitForm],
