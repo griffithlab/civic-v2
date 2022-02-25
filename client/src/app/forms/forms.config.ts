@@ -1,7 +1,6 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
 import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
 import { TypeaheadSelectorType } from './sources/types/source-input/source-selector/source-selector-typeahead/source-selector-typeahead.type';
@@ -87,7 +86,6 @@ export const additionalValidators: ValidatorOption[] = [
 
 export const CvcFormlyConfig: ConfigOption = {
   types: [
-    RatingInputType,
     SourceInputType,
     TypeaheadSelectorType,
     VariantInputType,

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
@@ -7,7 +7,7 @@ import { FieldType } from '@ngx-formly/core';
   templateUrl: './rating-input.type.html',
   styleUrls: ['./rating-input.type.less'],
 })
-export class RatingInputComponent extends FieldType {
+export class RatingInputType extends FieldType {
   formControl!: FormControl;
   rating?: number;
 
@@ -24,8 +24,8 @@ export class RatingInputComponent extends FieldType {
 
 }
 
-export const RatingInputType = {
+export const RatingInputTypeOption = {
   name: 'rating-input',
-  component: RatingInputComponent,
+  component: RatingInputType,
   wrappers: ['form-field'],
 };

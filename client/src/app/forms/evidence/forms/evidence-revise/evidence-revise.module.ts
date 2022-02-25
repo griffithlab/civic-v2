@@ -15,7 +15,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EvidenceItemReviseService } from './evidence-revise.service';
-import { RatingInputModule } from '../../types/rating-input/rating-input.module';
+import { CvcRatingInputModule } from '../../types/rating-input/rating-input.module';
 import { CvcDrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 import { CvcPhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
 import { CvcDiseaseInputModule } from '@app/forms/diseases/types/disease-input/disease-input.module';
@@ -43,7 +43,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.m
     CvcMultiFieldModule,
     CvcSourceInputModule,
     CvcDrugInputModule,
-    RatingInputModule,
+    CvcRatingInputModule,
     CvcPhenotypeInputModule,
     CvcDiseaseInputModule,
   ],

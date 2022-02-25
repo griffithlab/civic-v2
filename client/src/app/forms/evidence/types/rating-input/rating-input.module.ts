@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RatingInputComponent, RatingInputType } from './rating-input.type';
+import { RatingInputType, RatingInputTypeOption } from './rating-input.type';
 import { FormlyModule } from '@ngx-formly/core';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [RatingInputComponent],
+  declarations: [RatingInputType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    FormlyModule,
+    FormlyModule.forChild({ types: [RatingInputTypeOption] }),
     NzRateModule,
   ],
-  exports: [RatingInputComponent]
 })
-export class RatingInputModule { }
+export class CvcRatingInputModule { }
