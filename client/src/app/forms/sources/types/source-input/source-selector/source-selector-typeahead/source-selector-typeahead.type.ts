@@ -12,7 +12,7 @@ import {
   styleUrls: ['./source-selector-typeahead.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SourceSelectorTypeaheadComponent extends FieldType implements AfterViewInit {
+export class SourceSelectorTypeaheadType extends FieldType implements AfterViewInit {
   formControl!: FormControl;
   selectedValue = null;
   nzFilterOption = () => true;
@@ -84,8 +84,8 @@ export class SourceSelectorTypeaheadComponent extends FieldType implements After
   }
 }
 
-export const TypeaheadSelectorType = {
+export const SourceSelectorTypeaheadTypeOption = {
   name: 'source-selector-typeahead',
-  component: SourceSelectorTypeaheadComponent,
+  component: SourceSelectorTypeaheadType,
   wrappers: ['form-field'],
 }
