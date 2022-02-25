@@ -30,7 +30,7 @@ interface DrugTypeaheadOption {
   templateUrl: './drug-input.type.html',
   styleUrls: ['./drug-input.type.less'],
 })
-export class DrugInputComponent extends FieldType implements AfterViewInit, OnInit, OnDestroy {
+export class DrugInputType extends FieldType implements AfterViewInit, OnInit, OnDestroy {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -96,7 +96,7 @@ export class DrugInputComponent extends FieldType implements AfterViewInit, OnIn
   }
 }
 
-export const DrugInputType = {
-  name: 'drug-input',
-  component: DrugInputComponent,
+export const DrugInputTypeOption = {
+  name: 'cvc-drug-input',
+  component: DrugInputType,
 };

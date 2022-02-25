@@ -23,7 +23,7 @@ interface GeneTypeaheadOption {
   templateUrl: './gene-input.type.html',
   styleUrls: ['./gene-input.type.less'],
 })
-export class GeneInputComponent extends FieldType implements AfterViewInit, OnDestroy, OnInit {
+export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy, OnInit {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -87,9 +87,8 @@ export class GeneInputComponent extends FieldType implements AfterViewInit, OnDe
 
 }
 
-
-export const GeneInputType = {
-  name: 'gene-input',
-  component: GeneInputComponent,
+export const GeneInputTypeOption = {
+  name: 'cvc-gene-input',
+  component: GeneInputType,
   // wrappers: ['form-field'],
 }

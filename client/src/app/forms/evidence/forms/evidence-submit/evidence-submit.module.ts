@@ -4,7 +4,7 @@ import { EvidenceSubmitForm } from './evidence-submit.form';
 import { CvcDiseaseInputModule } from '@app/forms/diseases/types/disease-input/disease-input.module';
 import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
-import { DrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
+import { CvcDrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
 import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
@@ -45,7 +45,7 @@ import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-text
     CvcCommentTextareaModule,
     MultiFieldModule,
     CvcSourceInputModule,
-    DrugInputModule,
+    CvcDrugInputModule,
     RatingInputModule,
     PhenotypeInputModule,
     CvcDiseaseInputModule,

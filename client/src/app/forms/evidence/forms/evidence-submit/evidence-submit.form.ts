@@ -173,7 +173,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           maxCount: 1,
         },
         fieldArray: {
-          type: 'gene-input',
+          type: 'cvc-gene-input',
           templateOptions: {
             required: true,
           },
@@ -303,7 +303,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           addText: 'Add a Drug',
         },
         fieldArray: {
-          type: 'drug-input',
+          type: 'cvc-drug-input',
           templateOptions: {
           },
         },

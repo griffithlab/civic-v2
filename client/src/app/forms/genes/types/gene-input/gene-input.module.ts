@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GeneInputComponent, GeneInputType } from './gene-input.type';
+import { GeneInputType, GeneInputTypeOption } from './gene-input.type';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormlyModule } from '@ngx-formly/core';
@@ -10,12 +10,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
-  declarations: [GeneInputComponent],
+  declarations: [GeneInputType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
-    FormlyModule,
+    FormlyModule.forChild({ types: [GeneInputTypeOption] }),
     NzSelectModule,
     NzSpaceModule,
     NzTypographyModule,

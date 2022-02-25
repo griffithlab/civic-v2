@@ -1,9 +1,8 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import { DrugInputType } from './drugs/types/drug-input/drug-input.type';
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
-import { GeneInputType } from './genes/types/gene-input/gene-input.type';
+// import { GeneInputType } from './genes/types/gene-input/gene-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
 import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
@@ -92,8 +91,7 @@ export const additionalValidators: ValidatorOption[] = [
 
 export const CvcFormlyConfig: ConfigOption = {
   types: [
-    DrugInputType,
-    GeneInputType,
+    // GeneInputType,
     MultiFieldAddBtnType,
     MultiFieldType,
     PhenotypeInputType,

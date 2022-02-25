@@ -321,7 +321,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               hidden: false,
             },
             fieldArray: {
-              type: 'drug-input',
+              type: 'cvc-drug-input',
               templateOptions: {
               },
             },
