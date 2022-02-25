@@ -30,7 +30,7 @@ interface DiseaseTypeaheadOption {
   templateUrl: './disease-input.type.html',
   styleUrls: ['./disease-input.type.less'],
 })
-export class DiseaseInputComponent extends FieldType implements AfterViewInit, OnInit, OnDestroy {
+export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit, OnDestroy {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -96,7 +96,7 @@ export class DiseaseInputComponent extends FieldType implements AfterViewInit, O
   }
 }
 
-export const DiseaseInputType = {
-  name: 'disease-input',
-  component: DiseaseInputComponent,
+export const DiseaseInputTypeOption = {
+  name: 'cvc-disease-input',
+  component: DiseaseInputType,
 };

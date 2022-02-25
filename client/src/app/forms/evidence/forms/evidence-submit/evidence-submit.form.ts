@@ -255,7 +255,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           maxCount: 1,
         },
         fieldArray: {
-          type: 'disease-input',
+          type: 'cvc-disease-input',
           templateOptions: {}
         }
       },

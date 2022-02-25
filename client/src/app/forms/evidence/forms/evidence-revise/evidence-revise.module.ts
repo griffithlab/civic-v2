@@ -18,7 +18,7 @@ import { EvidenceItemReviseService } from './evidence-revise.service';
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
 import { DrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
-import { DiseaseInputModule } from '@app/forms/diseases/types/disease-input/disease-input.module';
+import { CvcDiseaseInputModule } from '@app/forms/diseases/types/disease-input/disease-input.module';
 import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.module';
 
@@ -45,7 +45,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.m
     DrugInputModule,
     RatingInputModule,
     PhenotypeInputModule,
-    DiseaseInputModule,
+    CvcDiseaseInputModule,
   ],
   exports: [EvidenceReviseForm]
 })
