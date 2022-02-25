@@ -22,7 +22,7 @@ interface VariantTypeTypeahead {
   templateUrl: './variant-type-input.type.html',
   styleUrls: ['./variant-type-input.type.less'],
 })
-export class VariantTypeInputComponent extends FieldType implements OnInit, AfterViewInit, OnDestroy {
+export class VariantTypeInputType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
   formControl!: FormControl;
 
   private destroy$ = new Subject();
@@ -73,7 +73,7 @@ export class VariantTypeInputComponent extends FieldType implements OnInit, Afte
   }
 }
 
-export const VariantTypeInputType = {
+export const VariantTypeInputTypeOption = {
   name: 'variant-type-input',
-  component: VariantTypeInputComponent,
+  component: VariantTypeInputType,
 };

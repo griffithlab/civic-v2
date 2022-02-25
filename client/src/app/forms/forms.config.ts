@@ -2,8 +2,6 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
 import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
-import { VariantTypeInputType } from './variant-types/types/variant-type-input/variant-type-input.type';
-import { VariantInputType } from './variants/types/variant-input/variant-input.type';
 
 export const defaultValidationMessages: ValidationMessageOption[] = [
   {
@@ -83,10 +81,7 @@ export const additionalValidators: ValidatorOption[] = [
 ];
 
 export const CvcFormlyConfig: ConfigOption = {
-  types: [
-    VariantInputType,
-    VariantTypeInputType,
-  ],
+  types: [],
   extras: { immutable: true },
   validationMessages: defaultValidationMessages,
   validators: additionalValidators,

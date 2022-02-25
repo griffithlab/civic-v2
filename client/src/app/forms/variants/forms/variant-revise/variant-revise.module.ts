@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { VariantReviseService } from './variant-revise.service';
-import { VariantTypeInputModule } from '@app/forms/variant-types/types/variant-type-input/variant-type-input.module';
+import { CvcVariantTypeInputModule } from '@app/forms/variant-types/types/variant-type-input/variant-type-input.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
@@ -54,7 +54,7 @@ import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-text
     CvcCommentTextareaModule,
     CvcMultiFieldModule,
     CvcSourceInputTypeModule,
-    VariantTypeInputModule,
+    CvcVariantTypeInputModule,
 
     NgxJsonViewerModule,
   ],
