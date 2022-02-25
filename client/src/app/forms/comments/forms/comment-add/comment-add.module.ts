@@ -12,7 +12,7 @@ import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-erro
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { CommentTextareaModule } from '../../types/comment-textarea/comment-textarea.module';
+import { CvcCommentTextareaModule } from '../../types/comment-textarea/comment-textarea.module';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
@@ -40,7 +40,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcCommentBodyModule,
-    CommentTextareaModule,
+    CvcCommentTextareaModule,
     CvcCommentInputModule
   ],
   exports: [CvcCommentAddForm]

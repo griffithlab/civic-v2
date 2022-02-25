@@ -12,11 +12,10 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormlyModule,
+    FormlyModule.forChild({ types: [CommentTextareaType] }),
     FormlyNgZorroAntdModule,
     NzFormModule,
     NzInputModule,
-  ],
-  exports: [CommentTextareaComponent]
+  ]
 })
-export class CommentTextareaModule { }
+export class CvcCommentTextareaModule { }

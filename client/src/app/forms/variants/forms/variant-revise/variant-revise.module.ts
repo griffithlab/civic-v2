@@ -24,6 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.module';
 import { CvcVariantCoordinatesCardModule } from '../../types/variant-coordinates-card/variant-coordinates-card.module';
+import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-textarea/comment-textarea.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -50,6 +51,7 @@ import { CvcVariantCoordinatesCardModule } from '../../types/variant-coordinates
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcVariantCoordinatesCardModule,
+    CvcCommentTextareaModule,
     MultiFieldModule,
     CvcSourceInputModule,
     VariantTypeInputModule,

@@ -344,7 +344,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       },
       {
         key: 'comment',
-        type: 'comment-textarea',
+        type: 'cvc-comment-textarea',
         templateOptions: {
           label: 'Comment',
           placeholder: 'Please enter a comment describing your revision.',

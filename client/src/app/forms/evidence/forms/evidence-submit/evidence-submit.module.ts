@@ -23,6 +23,7 @@ import { CvcGeneInputModule } from '@app/forms/genes/types/gene-input/gene-input
 import { CvcVariantInputModule } from '@app/forms/variants/types/variant-input/variant-input.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.module';
 import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button/submit-button.module';
+import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-textarea/comment-textarea.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -41,6 +42,7 @@ import { CvcSubmitButtonTypeModule } from '@app/forms/shared/types/submit-button
     CvcSubmitButtonTypeModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
+    CvcCommentTextareaModule,
     MultiFieldModule,
     CvcSourceInputModule,
     DrugInputModule,

@@ -1,7 +1,6 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import { CommentTextareaType } from './comments/types/comment-textarea/comment-textarea.type';
 import { DiseaseInputType } from './diseases/types/disease-input/disease-input.type';
 import { DrugInputType } from './drugs/types/drug-input/drug-input.type';
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
@@ -10,12 +9,9 @@ import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype
 import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
 import { MultiFieldAddBtnType } from './shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.type';
 import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
-import { SubmitButtonTypeOption } from './shared/types/submit-button/submit-button.type';
-import { CvcFormInfoWrapperOption } from './shared/wrappers/form-info.wrapper';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
 import { TypeaheadSelectorType } from './sources/types/source-input/source-selector/source-selector-typeahead/source-selector-typeahead.type';
 import { VariantTypeInputType } from './variant-types/types/variant-type-input/variant-type-input.type';
-import { VariantCoordinatesCardType } from './variants/types/variant-coordinates-card/variant-coordinates-card.type';
 import { VariantInputType } from './variants/types/variant-input/variant-input.type';
 
 export const defaultValidationMessages: ValidationMessageOption[] = [
@@ -97,7 +93,6 @@ export const additionalValidators: ValidatorOption[] = [
 
 export const CvcFormlyConfig: ConfigOption = {
   types: [
-    CommentTextareaType,
     DiseaseInputType,
     DrugInputType,
     GeneInputType,

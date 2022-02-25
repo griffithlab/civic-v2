@@ -27,7 +27,7 @@ export class CommentTextareaComponent extends FieldType<FormlyFieldConfig> {
 }
 
 export const CommentTextareaType = {
-  name: 'comment-textarea',
+  name: 'cvc-comment-textarea',
   component: CommentTextareaComponent,
   wrappers: ['form-field'],
 }
