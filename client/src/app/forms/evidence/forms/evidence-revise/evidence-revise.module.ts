@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceReviseForm } from './evidence-revise.form';
-import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
+import { CvcSourceInputTypeModule } from '@app/forms/sources/types/source-input/source-input.module';
 import { CvcMultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-errors-alert/form-errors-alert.module';
@@ -41,7 +41,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/shared/wrappers/form-info.m
     CvcFormInfoWrapperModule,
     CvcSubmitButtonTypeModule,
     CvcMultiFieldModule,
-    CvcSourceInputModule,
+    CvcSourceInputTypeModule,
     CvcDrugInputModule,
     CvcRatingInputModule,
     CvcPhenotypeInputModule,

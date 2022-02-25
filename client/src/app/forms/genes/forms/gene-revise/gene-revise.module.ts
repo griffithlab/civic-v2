@@ -12,7 +12,7 @@ import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-erro
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcMultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
-import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
+import { CvcSourceInputTypeModule } from '@app/forms/sources/types/source-input/source-input.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-textarea/comment-textarea.module';
 
@@ -33,7 +33,7 @@ import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-text
     CvcFormButtonsModule,
     CvcCommentTextareaModule,
     CvcMultiFieldModule,
-    CvcSourceInputModule,
+    CvcSourceInputTypeModule,
   ],
   exports: [GeneReviseForm]
 })

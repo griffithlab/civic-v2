@@ -8,7 +8,7 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ['./source-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SourceInputComponent extends FieldType {
+export class SourceInputType extends FieldType {
   constructor() {
     super();
   }
@@ -20,7 +20,7 @@ export class SourceInputComponent extends FieldType {
 
 }
 
-export const SourceInputType = {
+export const SourceInputTypeOption = {
   name: 'source-input',
-  component: SourceInputComponent,
+  component: SourceInputType,
 }
