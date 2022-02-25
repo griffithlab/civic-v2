@@ -7,7 +7,7 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SourceSelectorTypeaheadModule } from './source-selector-typeahead/source-selector-typeahead.module';
 import { SourceSelectorLoaderModule } from './source-selector-loader/source-selector-loader.module';
-import { MultiFieldAddBtnModule } from '@app/forms/shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.module';
+import { CvcMultiFieldAddBtnModule } from '@app/forms/shared/types/multi-field/multi-field-add-btn/multi-field-add-btn.module';
 
 @NgModule({
   declarations: [SourceSelectorForm],
@@ -19,7 +19,7 @@ import { MultiFieldAddBtnModule } from '@app/forms/shared/types/multi-field/mult
     NzButtonModule,
     SourceSelectorLoaderModule,
     SourceSelectorTypeaheadModule,
-    MultiFieldAddBtnModule,
+    CvcMultiFieldAddBtnModule,
   ],
   exports: [SourceSelectorForm]
 })
