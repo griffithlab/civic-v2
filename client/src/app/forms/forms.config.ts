@@ -4,7 +4,6 @@ import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-for
 import { RatingInputType } from './evidence/types/rating-input/rating-input.type';
 import { PhenotypeInputType } from './phenotypes/types/phenotype-input/phenotype-input.type';
 import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
-import { MultiFieldType } from './shared/types/multi-field/multi-field.type';
 import { SourceInputType } from './sources/types/source-input/source-input.type';
 import { TypeaheadSelectorType } from './sources/types/source-input/source-selector/source-selector-typeahead/source-selector-typeahead.type';
 import { VariantTypeInputType } from './variant-types/types/variant-type-input/variant-type-input.type';
@@ -89,7 +88,6 @@ export const additionalValidators: ValidatorOption[] = [
 
 export const CvcFormlyConfig: ConfigOption = {
   types: [
-    MultiFieldType,
     PhenotypeInputType,
     RatingInputType,
     SourceInputType,

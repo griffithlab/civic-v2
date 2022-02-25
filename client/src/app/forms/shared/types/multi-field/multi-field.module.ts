@@ -5,21 +5,20 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { MultiFieldComponent, MultiFieldType } from './multi-field.type';
+import { MultiFieldType, MultiFieldTypeOption } from './multi-field.type';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
-  declarations: [MultiFieldComponent],
+  declarations: [MultiFieldType],
   imports: [
     CommonModule,
     FormsModule,
-    FormlyModule.forChild({ types: [MultiFieldType] }),
+    FormlyModule.forChild({ types: [MultiFieldTypeOption] }),
     ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
     NzIconModule,
     NzButtonModule,
   ],
-  exports: [MultiFieldComponent]
 })
-export class MultiFieldModule { }
+export class CvcMultiFieldModule { }

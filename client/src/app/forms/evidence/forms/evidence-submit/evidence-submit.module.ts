@@ -6,7 +6,7 @@ import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-inpu
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
 import { CvcDrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
-import { MultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
+import { CvcMultiFieldModule } from '@app/forms/shared/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/shared/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/shared/components/form-errors-alert/form-errors-alert.module';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
@@ -43,7 +43,7 @@ import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-text
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcCommentTextareaModule,
-    MultiFieldModule,
+    CvcMultiFieldModule,
     CvcSourceInputModule,
     CvcDrugInputModule,
     RatingInputModule,
