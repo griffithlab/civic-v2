@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceSubmitForm } from './evidence-submit.form';
 import { CvcDiseaseInputModule } from '@app/forms/diseases/types/disease-input/disease-input.module';
-import { PhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
+import { CvcPhenotypeInputModule } from '@app/forms/phenotypes/types/phenotype-input/phenotype-input.module';
 import { RatingInputModule } from '../../types/rating-input/rating-input.module';
 import { CvcDrugInputModule } from '@app/forms/drugs/types/drug-input/drug-input.module';
 import { CvcSourceInputModule } from '@app/forms/sources/types/source-input/source-input.module';
@@ -47,7 +47,7 @@ import { CvcCommentTextareaModule } from '@app/forms/comments/types/comment-text
     CvcSourceInputModule,
     CvcDrugInputModule,
     RatingInputModule,
-    PhenotypeInputModule,
+    CvcPhenotypeInputModule,
     CvcDiseaseInputModule,
     CvcGeneInputModule,
     CvcFormInfoWrapperModule,

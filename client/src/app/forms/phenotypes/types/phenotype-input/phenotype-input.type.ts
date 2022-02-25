@@ -22,7 +22,7 @@ interface PhenotypeTypeahead {
   templateUrl: './phenotype-input.type.html',
   styleUrls: ['./phenotype-input.type.less'],
 })
-export class PhenotypeInputComponent extends FieldType implements OnInit, AfterViewInit, OnDestroy {
+export class PhenotypeInputType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
   formControl!: FormControl;
 
   private destroy$ = new Subject();
@@ -74,7 +74,7 @@ export class PhenotypeInputComponent extends FieldType implements OnInit, AfterV
   }
 }
 
-export const PhenotypeInputType = {
+export const PhenotypeInputTypeOption = {
   name: 'phenotype-input',
-  component: PhenotypeInputComponent,
+  component: PhenotypeInputType,
 };
