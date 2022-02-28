@@ -21,6 +21,7 @@ import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-i
 import { CvcDiseaseInputTypeModule } from '@app/forms/config/types/disease-input/disease-input.module';
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
+import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -46,6 +47,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/f
     CvcRatingInputTypeModule,
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
+    CvcTextareaBaseTypeModule,
   ],
   exports: [EvidenceReviseForm]
 })

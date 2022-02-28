@@ -26,6 +26,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/f
 import { CvcVariantCoordinatesCardTypeModule } from '@app/forms/config/types/variant-coordinates-card/variant-coordinates-card.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
+import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -57,6 +58,7 @@ import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl
     CvcSourceInputTypeModule,
     CvcVariantTypeInputTypeModule,
     CvcEnsemblInputTypeModule,
+    CvcTextareaBaseTypeModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],

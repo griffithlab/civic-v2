@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
@@ -6,7 +6,8 @@ import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-forml
 @Component({
   selector: 'cvc-ensembl-input-type',
   templateUrl: './ensembl-input.type.html',
-  styleUrls: ['./ensembl-input.type.less']
+  styleUrls: ['./ensembl-input.type.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnsemblInputType extends FieldType {
   formControl!: FormControl;

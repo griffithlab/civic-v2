@@ -6,9 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 @NgModule({
-  declarations: [
-    EnsemblInputType
-  ],
+  declarations: [EnsemblInputType],
   imports: [
     CommonModule,
     FormsModule,
