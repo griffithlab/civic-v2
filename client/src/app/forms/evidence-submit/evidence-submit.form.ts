@@ -227,14 +227,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.evidenceType',
-        type: 'select',
+        type: 'evidence-type-select',
         templateOptions: {
-          label: 'Evidence Type',
           required: true,
-          options: $enum(EvidenceType)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
         }
       },
       {
