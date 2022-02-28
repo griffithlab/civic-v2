@@ -23,8 +23,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
-import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
+import { CvcVariantCoordinatesCardTypeModule } from '@app/forms/config/types/variant-coordinates-card/variant-coordinates-card.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
+import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -55,7 +56,7 @@ import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-te
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
     CvcVariantTypeInputTypeModule,
-
+    CvcEnsemblInputTypeModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],

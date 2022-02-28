@@ -55,20 +55,6 @@ export const defaultValidationMessages: ValidationMessageOption[] = [
 
 export const additionalValidators: ValidatorOption[] = [
   {
-    name: 'ensembl',
-    validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
-      if (c.value === undefined) {
-        return null;
-      } else {
-        let versionNum = +c.value;
-        if (versionNum < 76 || versionNum > 150) {
-          return { ensembl: true };
-        }
-        return null;
-      }
-    },
-  },
-  {
     name: 'integer',
     validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
       if (c.value === '' || c.value === undefined) {
