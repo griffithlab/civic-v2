@@ -247,14 +247,7 @@ export class VariantReviseForm implements OnDestroy {
           },
           {
             key: 'ensemblVersion',
-            type: 'input',
-            templateOptions: {
-              label: 'Ensembl Version',
-              helpText: 'Enter the Ensembl database version (e.g. 75).'
-            },
-            validators: {
-              validation: ['ensembl']
-            },
+            type: 'cvc-ensembl-input',
           },
           {
             key: 'fivePrimeCoordinates.chromosome',

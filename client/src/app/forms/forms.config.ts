@@ -39,12 +39,6 @@ export const defaultValidationMessages: ValidationMessageOption[] = [
     }
   },
   {
-    name: 'ensembl',
-    message: (_err: any, field: FormlyFieldConfig): string => {
-      return `${field.formControl?.value} is not a valid version of Ensembl. Must be an number between 76 and the latest version of Ensembl.`;
-    }
-  },
-  {
     name: 'integer',
     message: (_err: any, field: FormlyFieldConfig): string => {
       return `${field.formControl?.value} is not a valid integer. Must be either a number or empty`;
@@ -54,20 +48,6 @@ export const defaultValidationMessages: ValidationMessageOption[] = [
 ];
 
 export const additionalValidators: ValidatorOption[] = [
-  {
-    name: 'ensembl',
-    validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
-      if (c.value === undefined) {
-        return null;
-      } else {
-        let versionNum = +c.value;
-        if (versionNum < 76 || versionNum > 150) {
-          return { ensembl: true };
-        }
-        return null;
-      }
-    },
-  },
   {
     name: 'integer',
     validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
