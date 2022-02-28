@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ConfigOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import { HasFocusExtension, } from './shared/extensions/has-focus.extension';
+import { HasFocusExtension, } from './config/extensions/has-focus.extension';
 
 export const defaultValidationMessages: ValidationMessageOption[] = [
   {

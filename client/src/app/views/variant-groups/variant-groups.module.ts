@@ -38,7 +38,7 @@ import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-grou
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
 import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';

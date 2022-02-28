@@ -5,7 +5,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { EvidenceSubmitPage } from './evidence-submit.page';
-import { EvidenceSubmitFormModule } from '@app/forms/evidence/forms/evidence-submit/evidence-submit.module';
+import { EvidenceSubmitFormModule } from '@app/forms/evidence-submit/evidence-submit.module';
 
 @NgModule({
   declarations: [EvidenceSubmitPage],

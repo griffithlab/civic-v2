@@ -1,7 +1,0 @@
-../../tsconfig.json
-variants/forms/variant-revise/variant-revise.form.html  -->  forms/variant-revise/variant-revise.form.html
-variants/forms/variant-revise/variant-revise.form.less  -->  forms/variant-revise/variant-revise.form.less
-variants/forms/variant-revise/variant-revise.form.ts    -->  forms/variant-revise/variant-revise.form.ts
-variants/forms/variant-revise/variant-revise.module.ts  -->  forms/variant-revise/variant-revise.module.ts
-variants/forms/variant-revise/variant-revise.query.gql  -->  forms/variant-revise/variant-revise.query.gql
-variants/forms/variant-revise/variant-revise.service.ts -->  forms/variant-revise/variant-revise.service.ts

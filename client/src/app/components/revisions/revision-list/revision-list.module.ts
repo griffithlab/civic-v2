@@ -7,7 +7,7 @@ import { CvcRevisionValueDiffModule } from '../revision-value-diff/revision-valu
 import { RevisionListDiffModule } from '../revision-list-diff/revision-list-diff.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -35,7 +35,7 @@ import { FormsModule } from '@angular/forms';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
-import { CvcCommentInputModule } from '@app/forms/comments/forms/comment-input/comment-input.module';
+import { CvcCommentInputModule } from '@app/forms/comment-input/comment-input.module';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
 @NgModule({
