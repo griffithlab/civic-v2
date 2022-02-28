@@ -234,14 +234,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.clinicalSignificance',
-        type: 'select',
+        type: 'clinical-significance-select',
         templateOptions: {
-          label: 'Clinical Signficance',
           required: true,
-          options: $enum(EvidenceClinicalSignificance)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
         }
       },
       {

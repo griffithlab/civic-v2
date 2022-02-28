@@ -24,6 +24,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/f
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
+import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -52,6 +53,7 @@ import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-s
     CvcTextareaBaseTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
+    CvcClinicalSignificanceSelectModule,
   ],
   exports: [EvidenceReviseForm]
 })

@@ -1,4 +1,8 @@
-import { EvidenceClinicalSignificance, EvidenceDirection, EvidenceType } from "@app/generated/civic.apollo";
+import {
+  EvidenceClinicalSignificance,
+  EvidenceDirection,
+  EvidenceType
+} from "@app/generated/civic.apollo";
 
 export interface ValidEvidenceItem {
   evidenceType: EvidenceType

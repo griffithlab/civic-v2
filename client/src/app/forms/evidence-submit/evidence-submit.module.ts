@@ -27,6 +27,7 @@ import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-te
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
+import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -58,6 +59,7 @@ import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-s
     CvcVariantOriginSelectTypeModule,
     CvcTextareaBaseTypeModule,
     CvcEvidenceTypeSelectTypeModule,
+    CvcClinicalSignificanceSelectModule,
   ],
   exports: [EvidenceSubmitForm],
 })

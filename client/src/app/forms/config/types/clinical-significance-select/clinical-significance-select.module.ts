@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormlySelectModule } from '@ngx-formly/core/select';
 import { FormlyModule } from '@ngx-formly/core';
-import { evidenceTypeSelectTypeOption } from './evidence-type-select.type';
+import { FormlySelectModule } from '@ngx-formly/core/select';
+import { clinicalSignificanceSelectTypeOption } from './clinical-significance-select.type';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormlySelectModule,
-    FormlyModule.forChild({ types: [evidenceTypeSelectTypeOption] }),
+    FormlyModule.forChild({ types: [clinicalSignificanceSelectTypeOption] }),
   ]
 })
-export class CvcEvidenceTypeSelectTypeModule { }
+export class CvcClinicalSignificanceSelectModule { }
