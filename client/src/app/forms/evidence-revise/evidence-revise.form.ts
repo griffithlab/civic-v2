@@ -204,7 +204,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           },
           {
             key: 'variantOrigin',
-            type: 'variant-origin-selector',
+            type: 'variant-origin-select',
             templateOptions: {
               required: true,
             }

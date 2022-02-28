@@ -22,7 +22,7 @@ import { CvcDiseaseInputTypeModule } from '@app/forms/config/types/disease-input
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
-import { CvcVariantOriginSelectorTypeModule } from '../config/types/variant-origin-selector/variant-origin-selector.module';
+import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -49,7 +49,7 @@ import { CvcVariantOriginSelectorTypeModule } from '../config/types/variant-orig
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
     CvcTextareaBaseTypeModule,
-    CvcVariantOriginSelectorTypeModule,
+    CvcVariantOriginSelectTypeModule,
   ],
   exports: [EvidenceReviseForm]
 })

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { variantOriginSelectorTypeOption } from './variant-origin-selector.type';
+import { variantOriginSelectTypeOption } from './variant-origin-select.type';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
@@ -13,8 +13,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     ReactiveFormsModule,
     FormlyNzFormFieldModule,
     FormlySelectModule,
-    FormlyModule.forChild({ types: [variantOriginSelectorTypeOption] }),
+    FormlyModule.forChild({ types: [variantOriginSelectTypeOption] }),
     NzSelectModule,
   ]
 })
-export class CvcVariantOriginSelectorTypeModule { }
+export class CvcVariantOriginSelectTypeModule { }

@@ -205,7 +205,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.variantOrigin',
-        type: 'variant-origin-selector',
+        type: 'variant-origin-select',
         templateOptions: {
           required: true,
         }

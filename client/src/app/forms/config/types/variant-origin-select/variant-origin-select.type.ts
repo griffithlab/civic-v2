@@ -3,8 +3,8 @@ import { VariantOrigin } from '@app/generated/civic.apollo';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { $enum } from 'ts-enum-util';
 
-export const variantOriginSelectorTypeOption: TypeOption = {
-  name: 'variant-origin-selector',
+export const variantOriginSelectTypeOption: TypeOption = {
+  name: 'variant-origin-select',
   extends: 'select',
   wrappers: ['form-field'],
   defaultOptions: {
