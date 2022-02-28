@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-    selector: 'cvc-flag-add',
+    selector: 'cvc-flag-add-form',
     templateUrl: './flag-add.form.html',
     styleUrls: ['./flag-add.form.less']
 })

@@ -60,4 +60,4 @@ import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textar
   ],
   exports: [VariantReviseForm],
 })
-export class VariantReviseModule { }
+export class CvcVariantReviseFormModule { }

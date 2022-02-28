@@ -14,9 +14,9 @@
               *nzSpaceItem>Load More</button>
           </ng-container>
         </ng-container>
-        <cvc-flag-add [flaggable]="flaggable"
+        <cvc-flag-add-form [flaggable]="flaggable"
           [flagAddedCallback]="refresh"
-          *nzSpaceItem></cvc-flag-add>
+          *nzSpaceItem></cvc-flag-add-form>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
@@ -65,6 +65,6 @@
   </nz-row>
 </ng-container>
 <ng-template #noFlags>
-  <cvc-flag-add [flaggable]="flaggable"
-    [flagAddedCallback]="refresh"></cvc-flag-add>
+  <cvc-flag-add-form [flaggable]="flaggable"
+    [flagAddedCallback]="refresh"></cvc-flag-add-form>
 </ng-template>

@@ -11,7 +11,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { CvcCommentInputModule } from '@app/forms/comment-input/comment-input.module';
+import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
@@ -30,8 +30,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcPipesModule,
-    CvcCommentInputModule
+    CvcCommentInputFormModule
   ],
   exports: [CvcFlagAddForm]
 })
-export class CvcFlagAddModule { }
+export class CvcFlagAddFormModule { }

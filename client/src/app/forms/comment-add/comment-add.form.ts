@@ -27,7 +27,7 @@ import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 @Component({
-  selector: 'cvc-comment-add',
+  selector: 'cvc-comment-add-form',
   templateUrl: './comment-add.form.html',
   styleUrls: ['./comment-add.form.less'],
   encapsulation: ViewEncapsulation.None,

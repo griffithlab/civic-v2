@@ -35,7 +35,7 @@ import { FormsModule } from '@angular/forms';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
-import { CvcCommentInputModule } from '@app/forms/comment-input/comment-input.module';
+import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
 @NgModule({
@@ -72,7 +72,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
     CvcStatusTagModule,
-    CvcCommentInputModule,
+    CvcCommentInputFormModule,
     CvcPipesModule,
     CvcCommentBodyModule,
     NzCollapseModule,

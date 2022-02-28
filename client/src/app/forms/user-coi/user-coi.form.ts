@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: `cvc-update-coi`,
+  selector: 'cvc-user-coi-form',
   templateUrl: './user-coi.form.html',
   styleUrls: ['./user-coi.form.less'],
 })

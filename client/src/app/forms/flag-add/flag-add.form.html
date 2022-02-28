@@ -9,7 +9,7 @@
     </ul>
   </ng-template>
   <form nz-form (ngSubmit)="submitFlag()" nzLayout="vertical">
-    <cvc-comment-input [(comment)]="comment"></cvc-comment-input>
+    <cvc-comment-input-form [(comment)]="comment"></cvc-comment-input-form>
   <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
     <nz-form-item>
       <nz-form-control>

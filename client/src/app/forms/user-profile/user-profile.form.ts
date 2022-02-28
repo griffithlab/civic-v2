@@ -15,7 +15,7 @@ import { Subject, Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: `cvc-update-profile`,
+  selector: 'cvc-user-profile-form',
   templateUrl: './user-profile.form.html',
   styleUrls: ['./user-profile.form.less'],
 })

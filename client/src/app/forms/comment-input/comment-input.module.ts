@@ -38,4 +38,4 @@ import { NzMentionModule } from 'ng-zorro-antd/mention';
   ],
   exports: [CvcCommentInputForm]
 })
-export class CvcCommentInputModule { }
+export class CvcCommentInputFormModule { }
