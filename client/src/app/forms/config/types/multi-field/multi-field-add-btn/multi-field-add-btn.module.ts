@@ -16,4 +16,4 @@ import { FormlyModule } from '@ngx-formly/core';
     NzButtonModule,
   ],
 })
-export class CvcMultiFieldAddBtnModule { }
+export class CvcMultiFieldAddBtnTypeModule { }

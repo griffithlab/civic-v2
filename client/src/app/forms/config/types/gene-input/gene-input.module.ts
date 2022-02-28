@@ -22,4 +22,4 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CvcGeneTagModule,
   ]
 })
-export class CvcGeneInputModule { }
+export class CvcGeneInputTypeModule { }

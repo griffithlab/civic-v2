@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceReviseForm } from './evidence-revise.form';
 import { CvcSourceInputTypeModule } from '@app/forms/config/types/source-input/source-input.module';
-import { CvcMultiFieldModule } from '@app/forms/config/types/multi-field/multi-field.module';
+import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
@@ -15,10 +15,10 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EvidenceItemReviseService } from './evidence-revise.service';
-import { CvcRatingInputModule } from '../config/types/rating-input/rating-input.module';
-import { CvcDrugInputModule } from '@app/forms/config/types/drug-input/drug-input.module';
-import { CvcPhenotypeInputModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
-import { CvcDiseaseInputModule } from '@app/forms/config/types/disease-input/disease-input.module';
+import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-input.module';
+import { CvcDrugInputTypeModule } from '@app/forms/config/types/drug-input/drug-input.module';
+import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
+import { CvcDiseaseInputTypeModule } from '@app/forms/config/types/disease-input/disease-input.module';
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
 
@@ -40,12 +40,12 @@ import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/f
     CvcFormButtonsModule,
     CvcFormInfoWrapperModule,
     CvcSubmitButtonTypeModule,
-    CvcMultiFieldModule,
+    CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
-    CvcDrugInputModule,
-    CvcRatingInputModule,
-    CvcPhenotypeInputModule,
-    CvcDiseaseInputModule,
+    CvcDrugInputTypeModule,
+    CvcRatingInputTypeModule,
+    CvcPhenotypeInputTypeModule,
+    CvcDiseaseInputTypeModule,
   ],
   exports: [EvidenceReviseForm]
 })

@@ -11,10 +11,10 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { CvcMultiFieldModule } from '@app/forms/config/types/multi-field/multi-field.module';
+import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/multi-field.module';
 import { CvcSourceInputTypeModule } from '@app/forms/config/types/source-input/source-input.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
+import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 
 @NgModule({
   declarations: [GeneReviseForm],
@@ -31,8 +31,8 @@ import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textar
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
-    CvcCommentTextareaModule,
-    CvcMultiFieldModule,
+    CvcCommentTextareaTypeModule,
+    CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
   ],
   exports: [GeneReviseForm]

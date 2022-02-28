@@ -15,4 +15,4 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NzRateModule,
   ],
 })
-export class CvcRatingInputModule { }
+export class CvcRatingInputTypeModule { }

@@ -18,4 +18,4 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     NzInputModule,
   ]
 })
-export class CvcCommentTextareaModule { }
+export class CvcCommentTextareaTypeModule { }

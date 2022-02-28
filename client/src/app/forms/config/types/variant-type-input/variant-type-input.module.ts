@@ -18,4 +18,4 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
     CvcVariantTypeTagModule
   ]
 })
-export class CvcVariantTypeInputModule { }
+export class CvcVariantTypeInputTypeModule { }

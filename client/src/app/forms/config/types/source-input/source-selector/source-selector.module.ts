@@ -5,9 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { CvcSourceSelectorTypeaheadModule } from './source-selector-typeahead/source-selector-typeahead.module';
+import { CvcSourceSelectorTypeaheadTypeModule } from './source-selector-typeahead/source-selector-typeahead.module';
 import { SourceSelectorLoaderModule } from './source-selector-loader/source-selector-loader.module';
-import { CvcMultiFieldAddBtnModule } from '@app/forms/config/types/multi-field/multi-field-add-btn/multi-field-add-btn.module';
+import { CvcMultiFieldAddBtnTypeModule } from '@app/forms/config/types/multi-field/multi-field-add-btn/multi-field-add-btn.module';
 
 @NgModule({
   declarations: [SourceSelectorForm],
@@ -18,9 +18,9 @@ import { CvcMultiFieldAddBtnModule } from '@app/forms/config/types/multi-field/m
     FormlyNgZorroAntdModule,
     NzButtonModule,
     SourceSelectorLoaderModule,
-    CvcSourceSelectorTypeaheadModule,
-    CvcMultiFieldAddBtnModule,
+    CvcSourceSelectorTypeaheadTypeModule,
+    CvcMultiFieldAddBtnTypeModule,
   ],
   exports: [SourceSelectorForm]
 })
-export class SourceSelectorModule { }
+export class CvcSourceSelectorFormModule { }

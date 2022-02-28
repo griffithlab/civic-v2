@@ -16,4 +16,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     CvcVariantTagModule,
   ]
 })
-export class CvcVariantInputModule { }
+export class CvcVariantInputTypeModule { }

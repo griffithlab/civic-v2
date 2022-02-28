@@ -22,4 +22,4 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CvcDrugTagModule,
   ],
 })
-export class CvcDrugInputModule { }
+export class CvcDrugInputTypeModule { }

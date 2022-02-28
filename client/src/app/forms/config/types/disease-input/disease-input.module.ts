@@ -22,4 +22,4 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzSpaceModule
   ],
 })
-export class CvcDiseaseInputModule { }
+export class CvcDiseaseInputTypeModule { }

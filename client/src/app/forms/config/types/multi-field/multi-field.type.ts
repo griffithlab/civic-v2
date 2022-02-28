@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'cvc-multi-field',
+  selector: 'cvc-multi-field-type',
   templateUrl: './multi-field.type.html',
   styleUrls: ['./multi-field.type.less'],
 })

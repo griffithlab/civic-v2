@@ -21,7 +21,7 @@ import {
 } from '@app/core/services/viewer/viewer.service';
 import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { toNullableString } from '@app/forms/config/input-formatters';
+import { toNullableString } from '@app/forms/config/utilities/input-formatters';
 
 export interface FormSource {
   id: number;

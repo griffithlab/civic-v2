@@ -18,7 +18,7 @@ import {
   SubmitEvidenceItemInput,
   VariantOrigin,
 } from '@app/generated/civic.apollo';
-import * as fmt from '@app/forms/config/input-formatters';
+import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

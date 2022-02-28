@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'cvc-multi-field-add-btn',
+  selector: 'cvc-multi-field-add-btn-type',
   templateUrl: './multi-field-add-btn.type.html',
   styleUrls: ['./multi-field-add-btn.type.less'],
   encapsulation: ViewEncapsulation.None,

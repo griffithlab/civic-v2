@@ -10,6 +10,7 @@ import { FieldType } from '@ngx-formly/core';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
+import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 interface DrugTypeahead {
   id: number,
@@ -26,7 +27,7 @@ interface DrugTypeaheadOption {
 }
 
 @Component({
-  selector: 'cvc-drug-input',
+  selector: 'cvc-drug-input-type',
   templateUrl: './drug-input.type.html',
   styleUrls: ['./drug-input.type.less'],
 })
@@ -96,7 +97,7 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
   }
 }
 
-export const DrugInputTypeOption = {
+export const DrugInputTypeOption: TypeOption = {
   name: 'cvc-drug-input',
   component: DrugInputType,
 };

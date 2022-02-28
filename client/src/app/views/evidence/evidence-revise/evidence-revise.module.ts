@@ -10,7 +10,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
+import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 
 @NgModule({
   declarations: [EvidenceReviseView],
@@ -25,7 +25,7 @@ import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textar
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcSectionNavigationModule,
-    CvcCommentTextareaModule,
+    CvcCommentTextareaTypeModule,
   ]
 })
 export class EvidenceReviseModule { }

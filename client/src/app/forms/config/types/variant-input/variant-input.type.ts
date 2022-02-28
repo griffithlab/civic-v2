@@ -10,7 +10,7 @@ import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 
 @Component({
-  selector: 'cvc-variant-input',
+  selector: 'cvc-variant-input-type',
   templateUrl: './variant-input.type.html',
   styleUrls: ['./variant-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,

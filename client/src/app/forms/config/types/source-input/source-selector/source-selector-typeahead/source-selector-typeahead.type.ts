@@ -5,9 +5,10 @@ import { FieldType } from '@ngx-formly/core';
 import {
   CitationTypeaheadGQL,
 } from '@app/generated/civic.apollo';
+import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 @Component({
-  selector: 'cvc-source-selector-typeahead',
+  selector: 'cvc-source-selector-typeahead-type',
   templateUrl: './source-selector-typeahead.type.html',
   styleUrls: ['./source-selector-typeahead.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,7 +85,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
   }
 }
 
-export const SourceSelectorTypeaheadTypeOption = {
+export const SourceSelectorTypeaheadTypeOption: TypeOption = {
   name: 'source-selector-typeahead',
   component: SourceSelectorTypeaheadType,
   wrappers: ['form-field'],

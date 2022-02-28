@@ -21,4 +21,4 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzButtonModule,
   ],
 })
-export class CvcMultiFieldModule { }
+export class CvcMultiFieldTypeModule { }

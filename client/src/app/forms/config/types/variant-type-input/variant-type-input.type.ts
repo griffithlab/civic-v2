@@ -10,6 +10,7 @@ import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
+import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 interface VariantTypeTypeahead {
   id: number,
@@ -18,7 +19,7 @@ interface VariantTypeTypeahead {
 }
 
 @Component({
-  selector: 'cvc-variant-type-input',
+  selector: 'cvc-variant-type-input-type',
   templateUrl: './variant-type-input.type.html',
   styleUrls: ['./variant-type-input.type.less'],
 })
@@ -27,7 +28,7 @@ export class VariantTypeInputType extends FieldType implements OnInit, AfterView
 
   private destroy$ = new Subject();
   private queryRef?: QueryRef<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables>
-  
+
   variantTypes$?: Observable<VariantTypeTypeahead[]>
 
   defaultOptions = {
@@ -73,7 +74,7 @@ export class VariantTypeInputType extends FieldType implements OnInit, AfterView
   }
 }
 
-export const VariantTypeInputTypeOption = {
+export const VariantTypeInputTypeOption: TypeOption = {
   name: 'variant-type-input',
   component: VariantTypeInputType,
 };

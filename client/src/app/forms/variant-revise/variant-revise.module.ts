@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VariantReviseForm } from './variant-revise.form';
 import { CvcSourceInputTypeModule } from '@app/forms/config/types/source-input/source-input.module';
-import { CvcMultiFieldModule } from '@app/forms/config/types/multi-field/multi-field.module';
+import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/multi-field.module';
 import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { VariantReviseService } from './variant-revise.service';
-import { CvcVariantTypeInputModule } from '@app/forms/config/types/variant-type-input/variant-type-input.module';
+import { CvcVariantTypeInputTypeModule } from '@app/forms/config/types/variant-type-input/variant-type-input.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
@@ -23,8 +23,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
-import { CvcVariantCoordinatesCardModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
-import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
+import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
+import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -50,11 +50,11 @@ import { CvcCommentTextareaModule } from '@app/forms/config/types/comment-textar
     CvcFormInfoWrapperModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
-    CvcVariantCoordinatesCardModule,
-    CvcCommentTextareaModule,
-    CvcMultiFieldModule,
+    CvcVariantCoordinatesCardTypeModule,
+    CvcCommentTextareaTypeModule,
+    CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
-    CvcVariantTypeInputModule,
+    CvcVariantTypeInputTypeModule,
 
     NgxJsonViewerModule,
   ],

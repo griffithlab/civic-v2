@@ -19,4 +19,4 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CvcPhenotypeTagModule,
   ]
 })
-export class CvcPhenotypeInputModule { }
+export class CvcPhenotypeInputTypeModule { }

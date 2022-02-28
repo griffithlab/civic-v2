@@ -29,10 +29,10 @@ import {
 
 import { VariantReviseService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import * as fmt from '@app/forms/config/input-formatters';
+import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
-import { Chromosomes } from '@app/forms/config/input-formatters';
+import { Chromosomes } from '@app/forms/config/utilities/input-formatters';
 
 interface FormSource {
   id?: number;

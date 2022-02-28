@@ -14,4 +14,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzCardModule,
   ],
 })
-export class CvcVariantCoordinatesCardModule { }
+export class CvcVariantCoordinatesCardTypeModule { }

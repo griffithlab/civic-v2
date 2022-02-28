@@ -16,4 +16,4 @@ import { SourceSelectorLoaderModule } from '../source-selector-loader/source-sel
     SourceSelectorLoaderModule,
   ]
 })
-export class CvcSourceSelectorTypeaheadModule { }
+export class CvcSourceSelectorTypeaheadTypeModule { }

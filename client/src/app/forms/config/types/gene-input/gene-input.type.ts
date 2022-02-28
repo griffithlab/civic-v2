@@ -10,6 +10,7 @@ import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
+import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 interface GeneTypeaheadOption {
   value: number,
@@ -87,7 +88,7 @@ export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy
 
 }
 
-export const GeneInputTypeOption = {
+export const GeneInputTypeOption: TypeOption = {
   name: 'cvc-gene-input',
   component: GeneInputType,
   // wrappers: ['form-field'],

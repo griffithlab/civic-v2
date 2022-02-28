@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { toNullableInput, toNullableString } from '@app/forms/config/input-formatters';
+import { toNullableInput, toNullableString } from '@app/forms/config/utilities/input-formatters';
 import { AreaOfExpertise, CountriesGQL, EditUserInput, Maybe, UpdateUserProfileGQL, UpdateUserProfileMutation, UpdateUserProfileMutationVariables, UserDetailFieldsFragment } from '@app/generated/civic.apollo';
 
 import { Subject, Observable } from 'rxjs';
