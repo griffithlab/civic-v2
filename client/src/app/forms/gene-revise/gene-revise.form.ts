@@ -87,7 +87,7 @@ export class GeneReviseForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.description',
-        type: 'textarea',
+        type: 'cvc-textarea',
         templateOptions: {
           label: 'Description',
           placeholder: 'Enter a description for this gene.',

@@ -15,6 +15,7 @@ import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/mul
 import { CvcSourceInputTypeModule } from '@app/forms/config/types/source-input/source-input.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
+import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 
 @NgModule({
   declarations: [GeneReviseForm],
@@ -34,6 +35,7 @@ import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-te
     CvcCommentTextareaTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
+    CvcTextareaBaseTypeModule,
   ],
   exports: [GeneReviseForm]
 })

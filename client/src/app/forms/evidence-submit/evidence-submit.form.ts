@@ -165,6 +165,15 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         hide: true
       },
       {
+        key: 'fields.description',
+        type: 'cvc-textarea',
+        templateOptions: {
+          label: 'Evidence Statement',
+          placeholder: 'Please enter statement describing this evidence item.',
+          required: true
+        }
+      },
+      {
         key: 'fields.gene',
         type: 'multi-field',
         templateOptions: {
@@ -257,15 +266,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         fieldArray: {
           type: 'cvc-disease-input',
           templateOptions: {}
-        }
-      },
-      {
-        key: 'fields.description',
-        type: 'textarea',
-        templateOptions: {
-          label: 'Evidence Statement',
-          placeholder: 'Please enter statement describing this evidence item.',
-          required: true
         }
       },
       {

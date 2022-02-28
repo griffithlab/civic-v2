@@ -17,7 +17,7 @@ export class TextareaBaseType extends FieldType {
     templateOptions: {
       autosize: {
         minRows: 2,
-        maxRows: 12
+        maxRows: 20
       }
     }
   }
