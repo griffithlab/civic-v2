@@ -205,14 +205,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.variantOrigin',
-        type: 'select',
+        type: 'variant-origin-selector',
         templateOptions: {
-          label: 'Variant Origin',
           required: true,
-          options: $enum(VariantOrigin)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
         }
       },
       {

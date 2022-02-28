@@ -25,6 +25,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/f
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
+import { CvcVariantOriginSelectorTypeModule } from '../config/types/variant-origin-selector/variant-origin-selector.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -53,6 +54,7 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
     CvcGeneInputTypeModule,
     CvcFormInfoWrapperModule,
     CvcVariantInputTypeModule,
+    CvcVariantOriginSelectorTypeModule,
     CvcTextareaBaseTypeModule,
   ],
   exports: [EvidenceSubmitForm],

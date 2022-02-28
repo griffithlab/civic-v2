@@ -204,15 +204,9 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           },
           {
             key: 'variantOrigin',
-            type: 'select',
+            type: 'variant-origin-selector',
             templateOptions: {
-              label: 'Variant Origin',
-              helpText: 'Origin of variant',
               required: true,
-              options: $enum(VariantOrigin)
-                .map((value, key) => {
-                  return { value: value, label: formatEvidenceEnum(value) }
-                })
             }
           },
           {
@@ -226,6 +220,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                 .map((value, key) => {
                   return { value: value, label: formatEvidenceEnum(value) }
                 })
+
             },
           },
           {
