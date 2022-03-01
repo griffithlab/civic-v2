@@ -3,6 +3,7 @@ import {
   EvidenceDirection,
   EvidenceType
 } from "@app/generated/civic.apollo";
+import { $enum } from "ts-enum-util";
 
 export interface ValidEvidenceItem {
   evidenceType: EvidenceType
@@ -89,6 +90,10 @@ validStates.set(EvidenceType.Functional, {
   requiresDisease: true,
   requiresDrug: false
 });
+
+export function getAllSignificanceOptions(): EvidenceClinicalSignificance[] {
+  return $enum(EvidenceClinicalSignificance).map(value => value);
+}
 
 export function getSignificanceOptions(t: EvidenceType): EvidenceClinicalSignificance[] {
   let state = validStates.get(t);
