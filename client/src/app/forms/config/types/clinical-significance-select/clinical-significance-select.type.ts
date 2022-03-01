@@ -1,17 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { EvidenceClinicalSignificance } from '@app/generated/civic.apollo';
-import { ExtensionOption, FormlyExtension, TypeOption } from '@ngx-formly/core/lib/services/formly.config';
-import { $enum } from 'ts-enum-util';
+import { EvidenceClinicalSignificance, EvidenceType } from '@app/generated/civic.apollo';
+import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import * as state from '@app/forms/config/states/evidence.state';
-import { BehaviorSubject } from 'rxjs';
-import { FieldFormExtension } from '@ngx-formly/core/lib/extensions/field-form/field-form';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import { tap } from 'rxjs/operators';
-import { FormlyFieldSelect, FormlyNzSelectModule } from '@ngx-formly/ng-zorro-antd/select';
-import { CvcClinicalSignificanceSelectModule } from './clinical-significance-select.module';
-import { FormConfig } from 'ng-zorro-antd/core/config';
-import { FormControl } from '@angular/forms';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { AbstractControl, FormControl } from '@angular/forms';
 
 export type SelectOption = {
   [key: string | number]: string | number
@@ -26,35 +21,47 @@ export const defaultOptions = new BehaviorSubject<SelectOption[]>
   styleUrls: ['./clinical-significance-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClinicalSignificanceSelectType extends FieldType implements OnInit {
+export class ClinicalSignificanceSelectType extends FieldType {
   formControl!: FormControl;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   defaultOptions = {
     templateOptions: {
       label: 'Clinical Signficance',
       helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
       placeholder: 'Not specified',
-      options: getOptionsFromEnums(state.getAllSignificanceOptions())
+      options: new BehaviorSubject<SelectOption[]>
+        (getOptionsFromEnums(state.getAllSignificanceOptions()))
     },
-    // expressionProperties: {
-    //   'templateOptions.options': (model: any) => {
-    //     return state.getSignificanceOptions(model.evidenceType)
-    //       .map(
-    //         (value) => {
-    //           return {
-    //             value: value,
-    //             label: formatEvidenceEnum(value)
-    //           }
-    //         })
-    //   }
-    // }
+
+    hooks: {
+      // using 'any' for fc arg here bc compiler complains about possible undefined
+      // value for fc when the argument is properly typed:
+      // onInit: (fc: FormlyFieldControl): void => { ... }
+      onInit: (fc: any): void => {
+        const etCtrl: AbstractControl | null = fc.form ? fc.form.get('evidenceType') : null;
+        if (!etCtrl) { return; } // no evidenceType FormControl found
+        const opt$ = this.defaultOptions?.templateOptions?.options;
+        if (opt$) {
+          etCtrl.valueChanges
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((et: EvidenceType) => {
+              opt$.next(getOptionsFromEnums(state.getSignificanceOptions(et)));
+            });
+        }
+      },
+      onDestroy: (): void => {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+      }
+    },
+
   }
+}
 
-
-
-  ngOnInit(): void {
-    console.log('ClinicalSignificanceType OnInit! -------------');
-  }
+export function getOptionsFromEnums(e: EvidenceClinicalSignificance[]): SelectOption[] {
+  if (e.length === 0) { return []; }
+  return e.map((value) => { return { value: value, label: formatEvidenceEnum(value) } })
 }
 
 export const clinicalSignificanceSelectTypeOption: TypeOption = {
@@ -62,30 +69,3 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
   component: ClinicalSignificanceSelectType,
   wrappers: ['form-field'],
 };
-
-export function getOptionsFromEnums(e: EvidenceClinicalSignificance[]): SelectOption[] {
-  if (e.length === 0) { return []; }
-  return e.map((value) => { return { value: value, label: formatEvidenceEnum(value) } })
-}
-
-// watches changes on the evidenceType value, updates valid select options
-// export const ClinicalSignificanceOptionsExtension: FormlyExtension = {
-//   postPopulate(field: FormlyFieldConfig): void {
-//     const to = field.templateOptions || {};
-
-//     const formControl = field.parent?.formControl;
-
-//     field.expressionProperties = {
-//       'templateOptions.test': formControl ? formControl.valueChanges.pipe(tap(
-//         (m:any) => {
-//           console.log(m);
-//         })
-//       ) : 'no formControl'
-//     };
-//   }
-// }
-
-// export const clinicalSignificanceOptionsExt = {
-//   name: 'clinical-significance-options',
-//   extension: ClinicalSignificanceOptionsExtension,
-// }
