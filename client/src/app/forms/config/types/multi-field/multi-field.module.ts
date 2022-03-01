@@ -7,6 +7,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MultiFieldType, MultiFieldTypeOption } from './multi-field.type';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CvcFieldErrorsWrapper } from '@app/forms/config/wrappers/field-errors/field-errors.module';
 
 @NgModule({
   declarations: [MultiFieldType],
@@ -15,6 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     FormsModule,
     FormlyModule.forChild({ types: [MultiFieldTypeOption] }),
     ReactiveFormsModule,
+    CvcFieldErrorsWrapper,
     NzFormModule,
     NzInputModule,
     NzIconModule,

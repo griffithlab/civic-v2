@@ -223,31 +223,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               required: true
             }
           },
-          // {
-          //   key: 'clinicalSignificance',
-          //   type: 'select',
-          //   templateOptions: {
-          //     label: 'Clinical Signficance',
-          //     helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
-          //     required: true,
-          //     options: $enum(EvidenceClinicalSignificance)
-          //       .map((value, key) => {
-          //         return { value: value, label: formatEvidenceEnum(value) }
-          //       })
-          //   },
-          //   expressionProperties: {
-          //     'templateOptions.options': (model: any) => {
-          //       return fieldState.getSignificanceOptions(model.evidenceType)
-          //         .map(
-          //           (value) => {
-          //             return {
-          //               value: value,
-          //               label: formatEvidenceEnum(value)
-          //             }
-          //           })
-          //     }
-          //   }
-          // },
           {
             key: 'disease',
             type: 'multi-field',

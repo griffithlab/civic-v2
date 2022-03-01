@@ -26,4 +26,5 @@ export class MultiFieldType extends FieldArrayType {
 export const MultiFieldTypeOption = {
   name: 'multi-field',
   component: MultiFieldType,
+  // wrappers: ['cvc-field-errors']
 }
