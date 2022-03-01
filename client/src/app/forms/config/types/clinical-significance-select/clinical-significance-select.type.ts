@@ -30,20 +30,23 @@ export class ClinicalSignificanceSelectType extends FieldType {
       label: 'Clinical Signficance',
       helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
       placeholder: 'Not specified',
-      options: this.selectOptions$
+      options: this.selectOptions$,
     },
-
+    validators: {
+      validation: ['cs-option']
+    },
     hooks: {
       // using 'any' for fc arg here bc compiler complains about possible undefined
       // value for fc when the argument is properly typed:
       // onInit: (fc: FormlyFieldControl): void => { ... }
-      onInit: (fc: any): void => {
-        const etCtrl: AbstractControl | null = fc.form ? fc.form.get('evidenceType') : null;
+      onInit: (ffc: any): void => {
+        const etCtrl: AbstractControl | null = ffc.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found
         etCtrl.valueChanges
           .pipe(takeUntil(this.destroy$))
           .subscribe((et: EvidenceType) => {
             this.selectOptions$.next(this.getOptionsFromEnums(state.getSignificanceOptions(et)));
+            ffc.formControl.updateValueAndValidity();
           });
       },
       onDestroy: (): void => {
@@ -59,27 +62,25 @@ export class ClinicalSignificanceSelectType extends FieldType {
   }
 }
 
-export const clinicalSignificanceOptionValidator: ValidatorOption = {
-  name: 'clinical-significance-option',
+export const optionValidator: ValidatorOption = {
+  name: 'cs-option',
   validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
-    if (c.value === undefined) {
-      return null;
-    } else {
-      let versionNum = +c.value;
-      if (versionNum < 76 || versionNum > 150) {
-        return { 'ensembl-version': true };
-      }
-      return null;
+    const cs: EvidenceClinicalSignificance = c.value;
+    if(!cs) { return null; }
+    const et: EvidenceType = c.parent?.get('evidenceType')?.value;
+    if(!et) { return null; }
+    else {
+      return state.isValidSignificanceOption(et, cs) ? null : { 'cs-option': et };
     }
   },
 };
 
-export const clinicalSignificanceValidationMessage: ValidationMessageOption = {
-  name: 'clinical-significance-option',
-  message: (_err: any, f: FormlyFieldConfig): string => {
-    return `${f.formControl?.value} is not a valid version of Ensembl. Must be an number between 76 and the latest version of Ensembl.`;
+export const optionValidationMessage: ValidationMessageOption = {
+  name: 'cs-option',
+  message: (et: EvidenceType, f: FormlyFieldConfig): string => {
+    return `'${formatEvidenceEnum(f.formControl?.value)}' is not a valid Clinical Significance for ${formatEvidenceEnum(et)} Evidence.`;
   }
-}
+};
 
 export const clinicalSignificanceSelectTypeOption: TypeOption = {
   name: 'clinical-significance-select',

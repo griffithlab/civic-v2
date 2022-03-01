@@ -73,6 +73,18 @@ validStates.set(EvidenceType.Oncogenic, {
   requiresDrug: false
 });
 
+validStates.set(EvidenceType.Predisposing, {
+  evidenceType: EvidenceType.Predisposing,
+  clinicalSignificance: [
+    EvidenceClinicalSignificance.Na,
+  ],
+  evidenceDirection: [
+    EvidenceDirection.Na,
+  ],
+  requiresDisease: true,
+  requiresDrug: false
+});
+
 validStates.set(EvidenceType.Functional, {
   evidenceType: EvidenceType.Functional,
   clinicalSignificance: [
@@ -98,6 +110,15 @@ export function getAllSignificanceOptions(): EvidenceClinicalSignificance[] {
 export function getSignificanceOptions(t: EvidenceType): EvidenceClinicalSignificance[] {
   let state = validStates.get(t);
   return state?.clinicalSignificance || [];
+}
+
+export function isValidSignificanceOption(t: EvidenceType,
+                                          cs: EvidenceClinicalSignificance): boolean {
+  let state = validStates.get(t);
+  if(!state) { return true; }
+  // why doesn't this more elegant option work here?
+  // return cs in state.clinicalSignificance;
+  return state.clinicalSignificance.find(vcs => vcs === cs) ? true : false;
 }
 
 export function getDirectionOptions(t: EvidenceType): EvidenceDirection[] {
