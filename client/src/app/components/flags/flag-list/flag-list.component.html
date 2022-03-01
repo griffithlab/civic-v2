@@ -12,7 +12,7 @@
           <cvc-comment-body *ngIf="flag.openComment" [commentBodySegments]="flag.openComment.parsedComment"></cvc-comment-body>
           <nz-divider></nz-divider>
           <ng-container *ngIf="flag.state == 'OPEN'; else flagResolved">
-            <cvc-flag-resolve [flag]="flag" [flagResolvedCallback]="flagResolvedCallback"></cvc-flag-resolve>
+            <cvc-flag-resolve-form [flag]="flag" [flagResolvedCallback]="flagResolvedCallback"></cvc-flag-resolve-form>
           </ng-container>
           <ng-template #flagResolved>
             <nz-row>

@@ -4,7 +4,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/shared/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -29,7 +29,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { FlagListComponent } from './flag-list.component';
-import { CvcResolveFlagModule } from '@app/forms/flags/forms/flag-resolve/flag-resolve.module';
+import { CvcResolveFlagFormModule } from '@app/forms/flag-resolve/flag-resolve.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
@@ -66,7 +66,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     NzButtonModule,
     NzAlertModule,
     ReactiveComponentModule,
-    CvcResolveFlagModule,
+    CvcResolveFlagFormModule,
     NzDividerModule,
     CvcCommentBodyModule
   ],

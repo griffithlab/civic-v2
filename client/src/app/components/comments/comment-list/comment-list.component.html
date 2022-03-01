@@ -29,9 +29,9 @@
             </ng-template>
           </nz-list>
         </nz-card>
-        <cvc-comment-add id="addComment"
+        <cvc-comment-add-form id="addComment"
           [subject]="commentable"
-          (commentAddedEvent)="refreshList()" *nzSpaceItem></cvc-comment-add>
+          (commentAddedEvent)="refreshList()" *nzSpaceItem></cvc-comment-add-form>
       </nz-space>
     </nz-col>
     <nz-col nzSpan="6">
@@ -91,7 +91,7 @@
   </nz-row>
 </ng-container>
 <ng-template #noComments>
-  <cvc-comment-add id="addComment"
+  <cvc-comment-add-form id="addComment"
     [subject]="commentable"
-    (commentAddedEvent)="refreshList()"></cvc-comment-add>
+    (commentAddedEvent)="refreshList()"></cvc-comment-add-form>
 </ng-template>
