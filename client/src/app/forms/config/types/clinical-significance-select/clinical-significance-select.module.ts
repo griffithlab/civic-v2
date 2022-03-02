@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import {
-  ClinicalSignificanceSelectType,
   clinicalSignificanceSelectTypeOption,
   optionValidationMessage,
   optionValidator,
@@ -13,7 +12,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
 
 @NgModule({
-  declarations: [ClinicalSignificanceSelectType],
   imports: [
     CommonModule,
     FormsModule,
