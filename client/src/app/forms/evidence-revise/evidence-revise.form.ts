@@ -25,9 +25,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
 import { EvidenceItemReviseService } from './evidence-revise.service';
-import * as fieldState from '@app/forms/config/states/evidence.state';
-
-
+import { EvidenceState, IEvidenceState } from '@app/forms/config/states/evidence.state';
 
 interface FormSource {
   id?: number;
@@ -143,7 +141,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   constructor(
     private revisionService: EvidenceItemReviseService,
@@ -266,17 +264,15 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                 })
             },
             expressionProperties: {
-              'templateOptions.options': (model: any, state: any, field?: FormlyFieldConfig) => {
-                const options = fieldState.getDirectionOptions(model.evidenceType)
+              'templateOptions.options': (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
+                const options = st.getDirectionOptions(m.evidenceType)
                   .map(
-                    (value) => {
+                    (value: EvidenceDirection) => {
                       return {
                         value: value,
                         label: formatEvidenceEnum(value)
                       }
                     })
-                // reset model value if options change
-                // this.resetSelect(options, field);
                 return options;
               }
             }
@@ -295,17 +291,17 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               templateOptions: {
               },
             },
-            hideExpression: (model: any, formState: any, field?: FormlyFieldConfig) => {
+            hideExpression: (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
               // TODO why isn't the main model provided for this field? instead of accessing the main model directly (as with clinicalSignificance's expressionProperties), we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
-              const evidenceType = field?.parent?.model.evidenceType;
+              const evidenceType = ffc?.parent?.model.evidenceType;
               return evidenceType !== undefined ?
-                !fieldState.requiresDrug(evidenceType)
+                !st.requiresDrug(evidenceType)
                 : true;
             },
             expressionProperties: {
-              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
-                const evidenceType = f?.parent?.model.evidenceType;
-                return evidenceType !== undefined ? fieldState.requiresDrug(evidenceType) : false;
+              'templateOptions.required': (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
+                const evidenceType = ffc?.parent?.model.evidenceType;
+                return evidenceType !== undefined ? st.requiresDrug(evidenceType) : false;
               }
             }
           },
@@ -322,16 +318,16 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
                   return { value: value, label: key }
                 })
             },
-            hideExpression: (m: any, s: any, f?: FormlyFieldConfig) => {
+            hideExpression: (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
               if (!m.drugs) { return false; }
-              const requiresDrug = fieldState.requiresDrug(m.evidenceType);
+              const requiresDrug = st.requiresDrug(m.evidenceType);
               return (requiresDrug && m.drugs.length > 1) ?
                 false : true;
             },
             expressionProperties: {
-              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
+              'templateOptions.required': (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
                 if (!m.drugs) { return false; }
-                const requiresDrug = fieldState.requiresDrug(m.evidenceType);
+                const requiresDrug = st.requiresDrug(m.evidenceType);
                 return (requiresDrug && m.drugs.length > 1) ?
                   true : false;
               }
@@ -381,21 +377,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         ]
       }
     ];
-  }
-
-  resetSelect(options: any[], field?: FormlyFieldConfig): void {
-    if (field && options instanceof Array
-      && field?.templateOptions?.options
-      && field?.formControl) {
-      const currentOptions = field.templateOptions.options;
-      // reset model value if options change
-      if (!(JSON.stringify(options) === JSON.stringify(currentOptions))) {
-        // if there's only one option, set model to that option
-        if (options.length === 1) { field.formControl.setValue(options[0]) }
-        // otherwise reset to undefined
-        else { field.formControl.setValue(undefined); }
-      }
-    }
   }
 
   ngOnInit(): void {

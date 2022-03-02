@@ -1,11 +1,12 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { EvidenceClinicalSignificance, EvidenceType } from '@app/generated/civic.apollo';
+import { EvidenceClinicalSignificance, EvidenceType, Maybe } from '@app/generated/civic.apollo';
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import * as state from '@app/forms/config/states/evidence.state';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { EvidenceState} from '@app/forms/config/states/evidence.state';
+import { $enum } from 'ts-enum-util';
 
 type SelectOption = { [key: string | number]: string | number };
 
@@ -13,8 +14,7 @@ const getOptionsFromEnums = (e: EvidenceClinicalSignificance[]): SelectOption[] 
   if (e.length === 0) { return []; }
   return e.map((value) => { return { value: value, label: formatEvidenceEnum(value) } })
 };
-const selectOptions$ = new BehaviorSubject<SelectOption[]>
-  (getOptionsFromEnums(state.getAllSignificanceOptions()));
+const selectOptions$ = new Subject<SelectOption[]>();
 const destroy$: Subject<boolean> = new Subject<boolean>();
 
 export const clinicalSignificanceSelectTypeOption: TypeOption = {
@@ -33,17 +33,21 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
       validation: ['cs-option']
     },
     hooks: {
-      // using 'any' for fc arg here bc compiler complains about possible undefined
-      // value for fc when the argument is properly typed:
-      // onInit: (fc: FormlyFieldConfig): void => { ... }
-      onInit: (ffc: any): void => {
-        const etCtrl: AbstractControl | null = ffc.form ? ffc.form.get('evidenceType') : null;
+      onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const st: EvidenceState = ffc?.options?.formState;
+        if(!st) { // current form has no state, display all options
+          const csOpts: EvidenceClinicalSignificance[] = $enum(EvidenceClinicalSignificance).getValues();
+          selectOptions$.next(getOptionsFromEnums(csOpts))
+        }
+        const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found
         etCtrl.valueChanges
           .pipe(takeUntil(destroy$))
           .subscribe((et: EvidenceType) => {
-            selectOptions$.next(getOptionsFromEnums(state.getSignificanceOptions(et)));
-            ffc.formControl.updateValueAndValidity();
+            selectOptions$.next(
+              getOptionsFromEnums(st.getSignificanceOptions(et))
+            );
+            ffc!.formControl!.updateValueAndValidity();
           });
       },
       onDestroy: (): void => {
@@ -58,12 +62,13 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
 export const optionValidator: ValidatorOption = {
   name: 'cs-option',
   validation: (c: AbstractControl, ffc: FormlyFieldConfig, opt: any): ValidationErrors | null => {
+    const st: EvidenceState = ffc.options?.formState;
     const cs: EvidenceClinicalSignificance = c.value;
-    if (!cs) { return null; }
+    if (!cs || !st) { return null; }
     const et: EvidenceType = c.parent?.get('evidenceType')?.value;
     if (!et) { return null; }
     else {
-      return state.isValidSignificanceOption(et, cs) ? null : { 'cs-option': et };
+      return st.isValidSignificanceOption(et, cs) ? null : { 'cs-option': et };
     }
   },
 };
