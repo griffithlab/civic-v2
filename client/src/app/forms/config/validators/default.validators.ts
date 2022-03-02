@@ -49,11 +49,11 @@ export const defaultMessages: ValidationMessageOption[] = [
 export const defaultValidators: ValidatorOption[] = [
   {
     name: 'integer',
-    validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
-      if (c.value === '' || c.value === undefined) {
+    validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
+      if (fc.value === '' || fc.value === undefined) {
         return null;
       } else {
-        return /^\d+$/.test(c.value) ? null : { 'integer': true }
+        return /^\d+$/.test(fc.value) ? null : { 'integer': true }
       }
     },
   },
