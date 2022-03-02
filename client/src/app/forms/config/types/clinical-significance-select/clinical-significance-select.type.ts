@@ -34,13 +34,15 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+        // check for formState, populate with all options if not found
         const st: EvidenceState = ffc?.options?.formState;
-        if(!st) { // current form has no state, display all options
+        if(!st) {
           const csOpts: EvidenceClinicalSignificance[] = $enum(EvidenceClinicalSignificance).getValues();
           selectOptions$.next(getOptionsFromEnums(csOpts))
         }
+        // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
-        if (!etCtrl) { return; } // no evidenceType FormControl found
+        if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
         etCtrl.valueChanges
           .pipe(takeUntil(destroy$))
           .subscribe((et: EvidenceType) => {
