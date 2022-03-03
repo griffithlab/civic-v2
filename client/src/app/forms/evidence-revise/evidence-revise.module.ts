@@ -27,6 +27,7 @@ import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-s
 import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
 import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
+import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -58,6 +59,7 @@ import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direc
     CvcClinicalSignificanceSelectModule,
     CvcEvidenceLevelSelectModule,
     CvcEvidenceDirectionSelectModule,
+    CvcDiseaseArrayTypeModule,
   ],
   exports: [EvidenceReviseForm]
 })
