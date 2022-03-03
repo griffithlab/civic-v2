@@ -126,29 +126,35 @@ class EvidenceState implements IEvidenceState {
   // call with no argument to get all significance options
   getSignificanceOptions = (et: Maybe<EvidenceType>): EvidenceClinicalSignificance[] => {
     if(!et) { return $enum(EvidenceClinicalSignificance).map(value => value); }
-    let state = this.validStates.get(et);
+    const state = this.validStates.get(et);
     return state?.clinicalSignificance || [];
   }
 
   isValidSignificanceOption = (et: EvidenceType,
     cs: EvidenceClinicalSignificance): boolean => {
-    let state = this.validStates.get(et);
+    const state = this.validStates.get(et);
     if (!state) { return true; }
     return state.clinicalSignificance.includes(cs);
   }
 
   getDirectionOptions = (et: EvidenceType): EvidenceDirection[] => {
-    let state = this.validStates.get(et);
+    const state = this.validStates.get(et);
     return state?.evidenceDirection || [];
   }
 
+  isValidDirectionOption = (et: EvidenceType, ed: EvidenceDirection): boolean => {
+    const state = this.validStates.get(et);
+    if (!state) { return true; }
+    return state.evidenceDirection.includes(ed);
+  }
+
   requiresDrug = (et: EvidenceType): boolean => {
-    let state = this.validStates.get(et);
+    const state = this.validStates.get(et);
     return state !== undefined ? state.requiresDrug : true;
   }
 
   requiresDisease = (et: EvidenceType): boolean => {
-    let state = this.validStates.get(et);
+    const state = this.validStates.get(et);
     return state !== undefined ? state.requiresDisease : true;
   }
 

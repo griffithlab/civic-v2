@@ -24,12 +24,12 @@ export const evidenceLevelSelectTypeOption: TypeOption = {
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
-      label: 'Evidence Level!',
+      label: 'Evidence Level',
       placeholder: 'None specified',
       helpText: 'Type of study performed to produce the evidence statement',
       options: $enum(EvidenceLevel)
         .map((val) => {
-          return { value: val, label: labels.get(val)}
+          return { value: val, label: labels.get(val) }
         }),
       labels: labels,
       descriptions: descriptions

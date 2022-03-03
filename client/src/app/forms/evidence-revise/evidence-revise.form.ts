@@ -246,30 +246,10 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           },
           {
             key: 'evidenceDirection',
-            type: 'select',
+            type: 'evidence-direction-select',
             templateOptions: {
-              label: 'Evidence Direction',
-              helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
-              placeholder: 'Please select an Evidence Direction',
               required: true,
-              options: $enum(EvidenceDirection)
-                .map((value, key) => {
-                  return { value: value, label: formatEvidenceEnum(value) }
-                })
             },
-            expressionProperties: {
-              'templateOptions.options': (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
-                const options = st.getDirectionOptions(m.evidenceType)
-                  .map(
-                    (value: EvidenceDirection) => {
-                      return {
-                        value: value,
-                        label: formatEvidenceEnum(value)
-                      }
-                    })
-                return options;
-              }
-            }
           },
           {
             key: 'drugs',

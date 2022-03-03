@@ -26,6 +26,7 @@ import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
 import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
+import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -56,6 +57,7 @@ import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-sel
     CvcEvidenceTypeSelectTypeModule,
     CvcClinicalSignificanceSelectModule,
     CvcEvidenceLevelSelectModule,
+    CvcEvidenceDirectionSelectModule,
   ],
   exports: [EvidenceReviseForm]
 })
