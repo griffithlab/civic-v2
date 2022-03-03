@@ -239,15 +239,9 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           },
           {
             key: 'evidenceLevel',
-            type: 'select',
+            type: 'evidence-level-select',
             templateOptions: {
-              label: 'Evidence Level',
-              helpText: 'Type of study performed to produce the evidence statement',
               required: true,
-              options: $enum(EvidenceLevel)
-                .map((value, key) => {
-                  return { value: value, label: key }
-                })
             }
           },
           {

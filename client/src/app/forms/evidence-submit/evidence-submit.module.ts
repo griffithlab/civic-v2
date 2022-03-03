@@ -28,6 +28,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -60,6 +61,7 @@ import { RouterModule } from '@angular/router';
     CvcTextareaBaseTypeModule,
     CvcEvidenceTypeSelectTypeModule,
     CvcClinicalSignificanceSelectModule,
+    CvcEvidenceLevelSelectModule,
   ],
   exports: [EvidenceSubmitForm],
 })

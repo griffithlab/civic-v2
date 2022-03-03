@@ -255,15 +255,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       },
       {
         key: 'fields.evidenceLevel',
-        type: 'select',
+        type: 'cvc-evidence-level',
         templateOptions: {
-          label: 'Evidence Level',
           required: true,
-          placeholder: 'Please select an Evidence Level',
-          options: $enum(EvidenceLevel)
-            .map((value, key) => {
-              return { value: value, label: key }
-            })
         }
       },
       {
