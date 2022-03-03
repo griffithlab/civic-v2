@@ -116,8 +116,8 @@ interface FormModel {
     source: FormSource[];
     variant: FormVariant;
     variantOrigin: VariantOrigin;
-    comment: string,
-    organization: Maybe<Organization>
+    comment?: string,
+    organization?: Maybe<Organization>
   };
 }
 
@@ -422,8 +422,8 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
         drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
       },
+      comment: fields.comment,
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
-
     }
   }
 

@@ -118,7 +118,7 @@ class EvidenceState implements IEvidenceState {
         EvidenceDirection.Supports,
         EvidenceDirection.DoesNotSupport
       ],
-      requiresDisease: true,
+      requiresDisease: false,
       requiresDrug: false
     });
   }
