@@ -229,22 +229,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
               minLength: 1
             }
           },
-          // {
-          //   key: 'disease',
-          //   type: 'multi-field',
-          //   templateOptions: {
-          //     label: 'Disease',
-          //     helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
-          //     required: true,
-          //     addText: 'Add a Disease',
-          //     minLength: 1,
-          //     maxCount: 1,
-          //   },
-          //   fieldArray: {
-          //     type: 'cvc-disease-input',
-          //     templateOptions: {}
-          //   },
-          // },
           {
             key: 'evidenceLevel',
             type: 'evidence-level-select',
