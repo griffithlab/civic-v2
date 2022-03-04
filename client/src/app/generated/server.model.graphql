@@ -1537,6 +1537,17 @@ type Country {
   name: String!
 }
 
+type DataRelease {
+  acceptedAndSubmittedVariantsVcf: DownloadableFile
+  acceptedVariantsVcf: DownloadableFile
+  assertionTsv: DownloadableFile
+  evidenceTsv: DownloadableFile
+  geneTsv: DownloadableFile
+  name: String!
+  variantGroupTsv: DownloadableFile
+  variantTsv: DownloadableFile
+}
+
 input DateSort {
   """
   Value to sort by.
@@ -1594,6 +1605,11 @@ enum DiseasesSortColumns {
   GENE_COUNT
   NAME
   VARIANT_COUNT
+}
+
+type DownloadableFile {
+  filename: String!
+  path: String!
 }
 
 type Drug {
@@ -4096,6 +4112,7 @@ type Query {
   Fetch a list of countries for user profiles.
   """
   countries: [Country!]!
+  dataReleases: [DataRelease!]!
 
   """
   Find a disease by CIViC ID
