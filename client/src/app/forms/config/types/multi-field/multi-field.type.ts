@@ -17,6 +17,10 @@ export class MultiFieldType extends FieldArrayType implements OnInit {
     super();
   }
 
+  get errorState() {
+    return this.showError ? 'error' : '';
+  }
+
   addField(e: MouseEvent): void {
     if (e) { e.preventDefault(); } // prevent form submit
     this.add();

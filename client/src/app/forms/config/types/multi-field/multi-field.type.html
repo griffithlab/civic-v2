@@ -6,14 +6,19 @@
       {{ to.label }}
     </nz-form-label>
   </ng-container>
-  <div class="field-add-btn">
-    <button nz-button
-      nzBlock
-      nzType="default"
-      nzSize="small"
-      nzSearch
-      (click)="addField($event)">{{ to.addText }}</button>
-  </div>
+  <nz-form-control [nzValidateStatus]="errorState"
+    [nzErrorTip]="errorTpl">
+      <button nz-button
+        nzBlock
+        nzType="default"
+        nzSize="small"
+        nzSearch
+        (click)="addField($event)">{{ to.addText }}</button>
+    <ng-template #errorTpl
+      let-control>
+      <formly-validation-message [field]="field"></formly-validation-message>
+    </ng-template>
+  </nz-form-control>
 </nz-form-item>
 
 <nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
