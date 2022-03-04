@@ -39,8 +39,9 @@ module Types
     field :moderate_evidence_item, mutation: Mutations::ModerateEvidenceItem
     field :moderate_assertion, mutation: Mutations::ModerateAssertion
 
-    #secondary entity creation
+    #non-moderated entity creation
     field :add_disease, mutation: Mutations::AddDisease
     field :add_drug, mutation: Mutations::AddDrug
+    field :add_variant, mutation: Mutations::AddVariant
   end
 end
