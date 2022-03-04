@@ -225,8 +225,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             key: 'disease',
             type: 'disease-array',
             templateOptions: {
-              maxCount: 1,
-              minLength: 1
             }
           },
           {

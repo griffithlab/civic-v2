@@ -9,6 +9,11 @@ import { EvidenceState } from '../../states/evidence.state';
 
 const destroy$: Subject<boolean> = new Subject<boolean>();
 
+const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
+    const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
+    return etCtrl ? `${formatEvidenceEnum(etCtrl.value)} Evidence requires a disease to be specified.` : 'Disease is required.';
+};
+
 export const diseaseArrayTypeOption: TypeOption = {
   name: 'disease-array',
   extends: 'multi-field',
@@ -18,12 +23,15 @@ export const diseaseArrayTypeOption: TypeOption = {
       helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
       required: false,
       addText: 'Add a Disease',
-      minLength: 1,
-      maxCount: 1,
     },
     fieldArray: {
       type: 'cvc-disease-input',
       templateOptions: {}
+    },
+    validation: {
+      messages: {
+        required: requiredValidationMsgFn
+      },
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
@@ -38,11 +46,14 @@ export const diseaseArrayTypeOption: TypeOption = {
             const to = ffc!.templateOptions!;
             const fc: FormArray = ffc!.formControl! as FormArray;
             // clear disease array if evidence type omits disease
+            // TODO: get multi-fields 'required' validatio working
             if (!st.requiresDisease(et)) {
               to.hidden = true;
+              to.required = false;
               to.remove(0);
             } else {
               to.hidden = false;
+              to.required = true;
             }
           });
       },

@@ -7,7 +7,7 @@ import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcDiseaseInputTypeModule } from '../disease-input/disease-input.module';
 import { CvcMultiFieldTypeModule } from '../multi-field/multi-field.module';
-import { diseaseArrayTypeOption, diseaseRequiredValidationMessage, diseaseRequiredValidator } from './disease-array.type';
+import { diseaseArrayTypeOption } from './disease-array.type';
 
 @NgModule({
   imports: [
@@ -17,11 +17,7 @@ import { diseaseArrayTypeOption, diseaseRequiredValidationMessage, diseaseRequir
     NzSelectModule,
     FormlyNzFormFieldModule,
     FormlySelectModule,
-    FormlyModule.forChild({
-      types: [diseaseArrayTypeOption],
-      validators: [diseaseRequiredValidator],
-      validationMessages: [diseaseRequiredValidationMessage]
-    }),
+    FormlyModule.forChild({types: [diseaseArrayTypeOption]}),
     CvcDiseaseInputTypeModule,
     CvcMultiFieldTypeModule,
   ]
