@@ -1988,7 +1988,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     """
     sortBy: DateSort
   ): EventConnection!
-  evidenceDirection: EvidenceDirection
+  evidenceDirection: EvidenceDirection!
   evidenceLevel: EvidenceLevel!
   evidenceRating: Int
   evidenceType: EvidenceType!

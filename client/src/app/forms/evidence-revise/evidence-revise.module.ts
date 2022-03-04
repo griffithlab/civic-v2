@@ -25,6 +25,8 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
 import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant-input.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -38,6 +40,7 @@ import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-si
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
+    NzSpinModule,
     FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,
@@ -51,6 +54,7 @@ import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-si
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
     CvcTextareaBaseTypeModule,
+    CvcVariantInputTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
     CvcClinicalSignificanceSelectModule,

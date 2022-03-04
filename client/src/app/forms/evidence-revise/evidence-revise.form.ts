@@ -18,14 +18,18 @@ import {
   VariantOrigin,
   EvidenceItemRevisableFieldsGQL,
   RevisableEvidenceFieldsFragment,
+  SuggestEvidenceItemRevisionGQL,
+  SuggestEvidenceItemRevisionMutation,
+  SuggestEvidenceItemRevisionMutationVariables,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
-import { EvidenceItemReviseService } from './evidence-revise.service';
 import * as fieldState from '@app/forms/config/states/evidence.state';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 
 
@@ -37,9 +41,9 @@ interface FormSource {
 }
 
 interface FormDisease {
-  id?: number;
+  id: number;
   doid?: number;
-  displayName?: string;
+  displayName: string;
 }
 
 interface FormDrug {
@@ -55,7 +59,7 @@ interface FormPhenotype {
 }
 
 interface FormVariant {
-  id?: number;
+  id: number;
   name: string;
 }
 
@@ -107,18 +111,18 @@ interface FormModel {
   fields: {
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
-    disease: FormDisease[];
+    disease: Maybe<FormDisease>[];
     drugInteractionType: Maybe<DrugInteraction>;
     drugs: FormDrug[];
     evidenceDirection: EvidenceDirection;
     evidenceLevel: EvidenceLevel;
     evidenceType: EvidenceType;
     phenotypes: FormPhenotype[];
-    evidenceRating: number;
+    evidenceRating: Maybe<number>;
     source: FormSource[];
-    variant: FormVariant;
+    variant: FormVariant[];
     variantOrigin: VariantOrigin;
-    comment: string,
+    comment: Maybe<string>,
     organization: Maybe<Organization>
   };
 }
@@ -130,38 +134,31 @@ interface FormModel {
 })
 export class EvidenceReviseForm implements OnInit, OnDestroy {
   @Input() evidenceId!: number;
-  private destroy$ = new Subject();
+  private destroy$!: Subject<void>;
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 
-  evidenceRevisionInput!: SuggestEvidenceItemRevisionInput;
+  suggestRevisionMutator: MutatorWithState<SuggestEvidenceItemRevisionGQL, SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables>
 
-  submitError$: BehaviorSubject<string[]>;
-  submitSuccess$: BehaviorSubject<boolean>;
-  isSubmitting$: BehaviorSubject<boolean>;
-
-  formModel!: FormModel;
+  formModel: Maybe<FormModel>;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+
   constructor(
-    private revisionService: EvidenceItemReviseService,
+    private suggestRevisionGQL: SuggestEvidenceItemRevisionGQL,
+    private networkErrorService: NetworkErrorsService,
     private viewerService: ViewerService,
     private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL
   ) {
     // subscribing to viewer$ and setting local org, mostRecentOrg
     // so that mostRecentOrg can be updated by org-selector's selectOrg events
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((v: Viewer) => {
-        this.organizations = v.organizations;
-        this.mostRecentOrg = v.mostRecentOrg;
-      });
 
-    this.submitError$ = this.revisionService.submitError$;
-    this.isSubmitting$ = this.revisionService.isSubmitting$;
-    this.submitSuccess$ = this.revisionService.submitSuccess$;
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -175,6 +172,21 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             key: 'id',
             type: 'input',
             hide: true
+          },
+          {
+            key: 'variant',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Variant',
+              addText: 'Specify a Variant',
+              maxCount: 1,
+            },
+            fieldArray: {
+              type: 'variant-input',
+              templateOptions: {
+                required: true,
+              },
+            },
           },
           {
             key: 'description',
@@ -237,6 +249,19 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             fieldArray: {
               type: 'cvc-disease-input',
               templateOptions: {}
+            },
+            expressionProperties: {
+              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
+                const evidenceType = f?.parent?.model.evidenceType;
+                return evidenceType !== undefined ? fieldState.requiresDisease(evidenceType) : false;
+              }
+            },
+            hideExpression: (model: any, formState: any, field?: FormlyFieldConfig) => {
+              // TODO why isn't the main model provided for this field? instead of accessing the main model directly (as with clinicalSignificance's expressionProperties), we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
+              const evidenceType = field?.parent?.model.evidenceType;
+              return evidenceType !== undefined ?
+                !fieldState.requiresDisease(evidenceType)
+                : true;
             },
           },
           {
@@ -357,6 +382,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             templateOptions: {
               label: 'Rating',
               helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
+              required: true
             },
           },
           {
@@ -399,6 +425,14 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.destroy$ = new Subject();
+
+    this.viewerService.viewer$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((v: Viewer) => {
+        this.organizations = v.organizations;
+        this.mostRecentOrg = v.mostRecentOrg;
+      });
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ evidenceId: this.evidenceId })
       .subscribe(        // response
@@ -426,15 +460,18 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   }
 
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
-    return <FormModel>{
+    return {
       id: evidence.id,
       fields: {
         ...evidence,
+        variant: [evidence.variant],
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
         disease: [evidence.disease],
-        comment: this.formModel.fields.comment,
-        organization: this.formModel.fields.organization
+        comment: this.formModel?.fields.comment,
+        drugInteractionType: evidence.drugInteractionType,
+        organization: this.formModel?.fields.organization,
+        evidenceRating: evidence.evidenceRating
       },
     }
   }
@@ -443,38 +480,62 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
     this.mostRecentOrg = org;
   }
 
-  submitRevision(formModel: FormModel): void {
-    this.revisionService
-      .suggest(this.toRevisionInput(formModel));
+  submitRevision(formModel: Maybe<FormModel>): void {
+    let input = this.toRevisionInput(formModel)
+    if(input) {
+      let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
+        input: input
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
+    }
   }
 
-  toRevisionInput(model: FormModel): SuggestEvidenceItemRevisionInput {
-    const fields = model.fields;
-    return <SuggestEvidenceItemRevisionInput>{
-      ...model,
-      fields: {
-        variantOrigin: fields.variantOrigin,
-        description: fmt.toNullableString(fields.description),
-        variantId: fields.variant.id,
-        sourceId: fields.source[0].id,
-        evidenceType: fields.evidenceType,
-        evidenceDirection: fields.evidenceDirection,
-        clinicalSignificance: fields.clinicalSignificance,
-        diseaseId: fmt.toNullableInput(fields.disease[0].id),
-        evidenceLevel: fields.evidenceLevel,
-        phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
-        rating: +fields.evidenceRating,
-        drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
-        drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
-      },
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+  toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestEvidenceItemRevisionInput> {
+    if (model) {
+      const fields = model.fields;
+      return {
+        id: model.id,
+        comment: fields.comment!,
+        fields: {
+          variantOrigin: fields.variantOrigin,
+          description: fmt.toNullableString(fields.description),
+          variantId: fields.variant[0].id,
+          sourceId: fields.source[0].id!,
+          evidenceType: fields.evidenceType,
+          evidenceDirection: fields.evidenceDirection,
+          clinicalSignificance: fields.clinicalSignificance,
+          diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
+          evidenceLevel: fields.evidenceLevel,
+          phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id! }),
+          rating: fields.evidenceRating!,
+          drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
+          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
+        },
+        organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
 
+      }
     }
+    return undefined;
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.revisionService.cleanup();
   }
 }

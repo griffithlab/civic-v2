@@ -1236,7 +1236,7 @@ export type EvidenceItem = Commentable & EventOriginObject & EventSubject & Flag
   drugs: Array<Drug>;
   /** List and filter events for an object */
   events: EventConnection;
-  evidenceDirection?: Maybe<EvidenceDirection>;
+  evidenceDirection: EvidenceDirection;
   evidenceLevel: EvidenceLevel;
   evidenceRating?: Maybe<Scalars['Int']>;
   evidenceType: EvidenceType;
@@ -5864,7 +5864,7 @@ export type DiseaseTypeaheadQuery = (
   { __typename: 'Query' }
   & { diseaseTypeahead: Array<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseAliases'>
+    & Pick<Disease, 'id' | 'displayName' | 'doid' | 'diseaseAliases'>
   )> }
 );
 
@@ -6013,7 +6013,7 @@ export type RevisableEvidenceFieldsFragment = (
     & Pick<Variant, 'id' | 'name'>
   ), disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'doid' | 'name'>
+    & Pick<Disease, 'id' | 'doid' | 'name' | 'displayName'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'ncitId' | 'name'>
@@ -8105,6 +8105,7 @@ export const RevisableEvidenceFieldsFragmentDoc = gql`
     id
     doid
     name
+    displayName
   }
   drugs {
     id
@@ -10325,7 +10326,7 @@ export const DiseaseTypeaheadDocument = gql`
     query DiseaseTypeahead($name: String!) {
   diseaseTypeahead(queryTerm: $name) {
     id
-    name
+    displayName
     doid
     diseaseAliases
   }

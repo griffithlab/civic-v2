@@ -99,7 +99,7 @@ validStates.set(EvidenceType.Functional, {
     EvidenceDirection.Supports,
     EvidenceDirection.DoesNotSupport
   ],
-  requiresDisease: true,
+  requiresDisease: false,
   requiresDrug: false
 });
 

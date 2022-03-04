@@ -14,7 +14,7 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 interface DiseaseTypeahead {
   id: number,
-  name: string,
+  displayName: string,
   doid?: number,
   diseaseAliases: string[]
 }
@@ -68,8 +68,8 @@ export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit
           let aliases = d.diseaseAliases.length > 0 ? `Aliases: ${d.diseaseAliases.join(', ')}` : ""
           return {
             value: d.id,
-            tooltip: `${d.name} (${doid}) ${aliases}`,
-            label: `${d.name} (${doid})`,
+            tooltip: `${d.displayName} (${doid}) ${aliases}`,
+            label: `${d.displayName} (${doid})`,
             disease: d,
           }
         })
