@@ -38,5 +38,8 @@ module Types
     #moderation
     field :moderate_evidence_item, mutation: Mutations::ModerateEvidenceItem
     field :moderate_assertion, mutation: Mutations::ModerateAssertion
+
+    #secondary entity creation
+    field :add_disease, mutation: Mutations::AddDisease
   end
 end
