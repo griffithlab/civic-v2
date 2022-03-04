@@ -41,5 +41,6 @@ module Types
 
     #secondary entity creation
     field :add_disease, mutation: Mutations::AddDisease
+    field :add_drug, mutation: Mutations::AddDrug
   end
 end
