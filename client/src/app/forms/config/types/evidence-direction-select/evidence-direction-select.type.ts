@@ -33,7 +33,7 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
       //     return { value: val, label: formatEvidenceEnum(val) }
       //   }),
     },
-    validators: { validation: 'ed-option' },
+    validators: { validation: [ 'ed-option' ] },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
         // check for formState, populate with all options if not found
