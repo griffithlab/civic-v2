@@ -30,6 +30,7 @@ export const drugArrayTypeOption: TypeOption = {
         required: false
       }
     },
+    defaultValue: [],
     validation: {
       messages: {
         required: requiredValidationMsgFn

@@ -30,6 +30,7 @@ export const diseaseArrayTypeOption: TypeOption = {
         required: false
       }
     },
+    defaultValue: [],
     validation: {
       messages: {
         required: requiredValidationMsgFn

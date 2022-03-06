@@ -1,29 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   Viewer,
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
   EvidenceDirection,
   EvidenceLevel,
-  EvidenceSubmittableFieldsGQL,
   EvidenceType,
   Maybe,
   Organization,
   SourceSource,
-  SubmitEvidenceItemInput,
+  SuggestEvidenceItemRevisionInput,
   VariantOrigin,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { $enum } from 'ts-enum-util';
 import { EvidenceItemSubmitService } from './evidence-submit.service';
+import { EvidenceState } from '@app/forms/config/states/evidence.state';
 
 interface FormSource {
   id?: number;
@@ -50,60 +48,62 @@ interface FormPhenotype {
   name?: string;
 }
 
-interface FormVariant {
-  id?: number;
-  name: string;
-}
-
 interface FormGene {
   id?: number;
   name?: string;
 }
 
- // description: NullableStringInput!
- // The Evidence Items's description/summary text.
+interface FormVariant {
+  id?: number;
+  name: string;
+}
 
- // variantId: Int!
- // The ID of the Variant to which this EvidenceItem belongs
+/* SuggestEvidenceItemRevisionInput
+ *
+ * description: NullableStringInput!
+ * The Evidence Items's description/summary text.
+ *
+ * variantId: Int!
+ * The ID of the Variant to which this EvidenceItem belongs
+ *
+ * variantOrigin: VariantOrigin!
+ * The Variant Origin for this EvidenceItem.
+ *
+ * sourceId: Int!
+ * The ID of the Source from which this EvidenceItem was curated.
+ *
+ * evidenceType: EvidenceType!
+ * The Type of the EvidenceItem
+ *
+ * clinicalSignificance: EvidenceClinicalSignificance!
+ * The Clinical Significance of the EvidenceItem
+ *
+ * diseaseId: NullableIntInput!
+ * The ID of the disease (if applicable) for this EvidenceItem
+ *
+ * evidenceLevel: EvidenceLevel!
+ * The evidence level of the EvidenceItem
+ *
+ * evidenceDirection: EvidenceDirection!
+ * The evidence direction for this EvidenceItem.
 
- // variantOrigin: VariantOrigin!
- // The Variant Origin for this EvidenceItem.
-
- // sourceId: Int!
- // The ID of the Source from which this EvidenceItem was curated.
-
- // evidenceType: EvidenceType!
- // The Type of the EvidenceItem
-
- // clinicalSignificance: EvidenceClinicalSignificance!
- // The Clinical Significance of the EvidenceItem
-
- // diseaseId: NullableIntInput!
- // The ID of the disease (if applicable) for this EvidenceItem
-
- // evidenceLevel: EvidenceLevel!
- // The evidence level of the EvidenceItem
-
- // evidenceDirection: EvidenceDirection!
- // The evidence direction for this EvidenceItem.
-
- // phenotypeIds: [Int!]!
- // List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none.
-
- // rating: Int!
- // The rating for this EvidenceItem
-
- // drugIds: [Int!]!
- // List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none.
-
- // drugInteractionType: NullableDrugInteractionTypeInput!
- // Drug interaction type for cases where more than one drug ID is provided.
+ * phenotypeIds: [Int!]!
+ * List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none.
+ *
+ * rating: Int!
+ * The rating for this ceItem
+ *
+ * drugIds: [Int!]!
+ * List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none.
+ *
+ * drugInteractionType: NullableDrugInteractionTypeInput!
+ * Drug interaction type for cases where more than one drug ID is provided.
+ *
+ */
 
 interface FormModel {
-  id: number;
-  // comment: string;
-  organizationId: Maybe<Organization>,
   fields: {
+    id: number;
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
     disease: FormDisease[];
@@ -112,25 +112,29 @@ interface FormModel {
     evidenceDirection: EvidenceDirection;
     evidenceLevel: EvidenceLevel;
     evidenceType: EvidenceType;
+    gene: FormGene[],
     phenotypes: FormPhenotype[];
     evidenceRating: number;
     source: FormSource[];
     variant: FormVariant[];
     variantOrigin: VariantOrigin;
+    comment?: string,
+    organization?: Maybe<Organization>
   };
 }
 
 @Component({
   selector: 'cvc-evidence-submit-form',
   templateUrl: './evidence-submit.form.html',
-  styleUrls: ['./evidence-submit.form.less']
+  styleUrls: ['./evidence-submit.form.less'],
 })
-export class EvidenceSubmitForm implements OnInit, OnDestroy {
+export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
+  @Input() evidenceId!: number;
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
   mostRecentOrg!: Maybe<Organization>;
 
-  evidenceSubmitInput!: SubmitEvidenceItemInput;
+  evidenceRevisionInput!: SuggestEvidenceItemRevisionInput;
 
   submitError$: BehaviorSubject<string[]>;
   submitSuccess$: BehaviorSubject<boolean>;
@@ -139,14 +143,14 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   constructor(
     private submitService: EvidenceItemSubmitService,
     private viewerService: ViewerService,
-    private submittableFieldsGQL: EvidenceSubmittableFieldsGQL
   ) {
-
+    // subscribing to viewer$ and setting local org, mostRecentOrg
+    // so that mostRecentOrg can be updated by org-selector's selectOrg events
     this.viewerService.viewer$
       .pipe(takeUntil(this.destroy$))
       .subscribe((v: Viewer) => {
@@ -160,210 +164,158 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
 
     this.formFields = [
       {
-        key: 'id',
-        type: 'input',
-        hide: true
-      },
-      {
-        key: 'fields.description',
-        type: 'cvc-textarea',
+        key: 'fields',
+        wrappers: ['form-info'],
         templateOptions: {
-          label: 'Evidence Statement',
-          placeholder: 'Please enter statement describing this evidence item.',
-          required: true
-        }
-      },
-      {
-        key: 'fields.gene',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Gene',
-          addText: 'Specify a Gene',
-          maxCount: 1,
+          label: 'Add Evidence Item Form'
         },
-        fieldArray: {
-          type: 'cvc-gene-input',
-          templateOptions: {
-            required: true,
+        fieldGroup: [
+          {
+            key: 'gene',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Gene',
+              addText: 'Specify a Gene',
+              maxCount: 1,
+            },
+            fieldArray: {
+              type: 'cvc-gene-input',
+              templateOptions: {
+                required: true,
+              },
+            },
+            defaultValue: []
           },
-        },
-      },
-      {
-        key: 'fields.variant',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Variant',
-          addText: 'Specify a Variant',
-          maxCount: 1,
-        },
-        fieldArray: {
-          type: 'variant-input',
-          templateOptions: {
-            required: true,
+          {
+            key: 'variant',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Variant',
+              addText: 'Specify a Variant',
+              maxCount: 1,
+            },
+            fieldArray: {
+              type: 'variant-input',
+              templateOptions: {
+                required: true,
+              },
+            },
+            defaultValue: []
           },
-        },
-      },
-      {
-        key: 'fields.variantOrigin',
-        type: 'variant-origin-select',
-        templateOptions: {
-          required: true,
-        }
-      },
-      {
-        key: 'fields.source',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Source',
-          addText: 'Add a Source',
-          maxCount: 1,
-        },
-        fieldArray: {
-          type: 'source-input',
-          templateOptions: {
-            required: true,
+          {
+            key: 'description',
+            type: 'cvc-textarea',
+            templateOptions: {
+              label: 'Evidence Statement',
+              helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+              placeholder: 'No description provided',
+              required: true
+            }
           },
-        },
-      },
-      {
-        key: 'fields.evidenceType',
-        type: 'evidence-type-select',
-        templateOptions: {
-          required: true,
-        }
-      },
-      {
-        key: 'fields.clinicalSignificance',
-        type: 'clinical-significance-select',
-        templateOptions: {
-          required: true,
-        }
-      },
-      {
-        key: 'fields.disease',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Disease',
-          addText: 'Add a Disease',
-          minLength: 1,
-          maxCount: 1,
-        },
-        fieldArray: {
-          type: 'cvc-disease-input',
-          templateOptions: {}
-        }
-      },
-      {
-        key: 'fields.evidenceLevel',
-        type: 'cvc-evidence-level',
-        templateOptions: {
-          required: true,
-        }
-      },
-      {
-        key: 'fields.evidenceDirection',
-        type: 'select',
-        templateOptions: {
-          label: 'Evidence Direction',
-          placeholder: 'Please select an Evidence Direction',
-          required: true,
-          options: $enum(EvidenceDirection)
-            .map((value, key) => {
-              return { value: value, label: formatEvidenceEnum(value) }
-            })
-        }
-      },
-      {
-        key: 'fields.drugs',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Drug(s)',
-          required: false,
-          addText: 'Add a Drug',
-        },
-        fieldArray: {
-          type: 'cvc-drug-input',
-          templateOptions: {
+          {
+            key: 'source',
+            type: 'multi-field',
+            templateOptions: {
+              label: 'Source',
+              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
+              addText: 'Specify a Source',
+              maxCount: 1,
+              required: true
+            },
+            fieldArray: {
+              type: 'source-input',
+              templateOptions: {
+                required: true,
+              },
+            },
+            defaultValue: []
           },
-        },
-      },
-      {
-        key: 'fields.drugInteractionType',
-        type: 'select',
-        templateOptions: {
-          label: 'Drug InteractionType',
-          required: false,
-          placeholder: 'Please select a Drug Interaction Type',
-          options: $enum(DrugInteraction)
-            .map((value, key) => {
-              return { value: value, label: key }
-            })
-        }
-      },
-      {
-        key: 'fields.phenotypes',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Associated Phenotypes',
-          required: false,
-          addText: 'Add a Phenoype'
-        },
-        fieldArray: {
-          type: 'phenotype-input',
-          templateOptions: {
+          {
+            key: 'variantOrigin',
+            type: 'variant-origin-select',
+            templateOptions: {
+              required: true,
+            }
+          },
+          {
+            key: 'evidenceType',
+            type: 'evidence-type-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
+            key: 'clinicalSignificance',
+            type: 'clinical-significance-select',
+            templateOptions: {
+              required: true
+            }
+          },
+          {
+            key: 'disease',
+            type: 'disease-array',
+            templateOptions: {}
+          },
+          {
+            key: 'evidenceLevel',
+            type: 'evidence-level-select',
+            templateOptions: {
+              required: true,
+            }
+          },
+          {
+            key: 'evidenceDirection',
+            type: 'evidence-direction-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
+            key: 'drugs',
+            type: 'drug-array',
+          },
+          {
+            key: 'drugInteractionType',
+            type: 'drug-interaction-select'
+          },
+          {
+            key: 'phenotypes',
+            type: 'phenotype-array',
+          },
+          {
+            key: 'evidenceRating',
+            type: 'rating-input',
+            templateOptions: {
+              label: 'Rating',
+              helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
+            },
+          },
+          {
+            key: 'comment',
+            type: 'cvc-comment-textarea',
+            templateOptions: {
+              label: 'Comment',
+              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
+              placeholder: 'Please enter a comment describing your revision.',
+              required: true,
+              minLength: 10
+            },
+          },
+          {
+            key: 'organization',
+            type: 'org-submit-button',
+            templateOptions: {
+              submitLabel: 'Submit Evidence Item Revision',
+              submitSize: 'large'
+            }
           }
-        }
-      },
-      {
-        key: 'fields.evidenceRating',
-        type: 'rating-input',
-        templateOptions: {
-          label: 'Rating',
-        },
-      },
-      {
-        key: 'comment',
-        type: 'cvc-comment-textarea',
-        templateOptions: {
-          label: 'Comment',
-          placeholder: 'Please enter a comment describing your revision.',
-          required: true,
-          minLength: 10
-        },
+        ]
       }
-
     ];
   }
 
-  ngOnInit(): void {
-    // // fetch latest revisable field values, update form fields
-    // this.submittableFieldsGQL.fetch({ evidenceId: this.evidenceId })
-    //   .subscribe(({ data: { evidenceItem } }) => {
-    //     if (evidenceItem) {
-    //       this.formModel = this.toFormModel(evidenceItem);
-    //     } else {
-    //       // TODO: handle errors with subscribe({complete, error})
-    //       console.error('Evidence Revise form could not retrieve evidence item.');
-    //     }
-    //     if (this.formOptions.updateInitialValue) {
-    //       this.formOptions.updateInitialValue();
-    //     }
-    //   });
+  ngAfterViewInit(): void {
   }
-
-  // toFormModel(evidence: SubmittableEvidenceFieldsFragment): FormModel {
-  //   return <FormModel>{
-  //     id: evidence.id,
-  //     // comment: '',
-  //     organizationId: undefined,
-  //     fields: {
-  //       ...evidence,
-  //       source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
-  //       drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
-  //       disease: [evidence.disease],
-  //     },
-  //   }
-  // }
 
   selectOrg(org: Organization): void {
     this.mostRecentOrg = org;
@@ -374,27 +326,29 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       .submit(this.toSubmitInput(formModel));
   }
 
-  toSubmitInput(model: FormModel): SubmitEvidenceItemInput {
+  toSubmitInput(model: FormModel): SuggestEvidenceItemRevisionInput {
     const fields = model.fields;
-    return <SubmitEvidenceItemInput>{
+    return <SuggestEvidenceItemRevisionInput>{
       ...model,
       fields: {
         variantOrigin: fields.variantOrigin,
         description: fmt.toNullableString(fields.description),
+        geneId: fields.gene[0].id,
         variantId: fields.variant[0].id,
         sourceId: fields.source[0].id,
         evidenceType: fields.evidenceType,
         evidenceDirection: fields.evidenceDirection,
         clinicalSignificance: fields.clinicalSignificance,
-        diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
+        diseaseId: fmt.toNullableInput(fields.disease[0].id),
         evidenceLevel: fields.evidenceLevel,
-        phenotypeIds: fields.phenotypes ? fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }) : [],
+        phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
         rating: +fields.evidenceRating,
-        drugIds: fields.drugs ? fields.drugs.map((dr: FormDrug) => { return dr.id }) : [],
+        drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
         drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
       },
+      id: fields.id,
+      comment: fields.comment,
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
-
     }
   }
 
@@ -403,5 +357,4 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     this.destroy$.complete();
     this.submitService.cleanup();
   }
-
 }

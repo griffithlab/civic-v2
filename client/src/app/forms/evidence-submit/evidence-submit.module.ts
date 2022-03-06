@@ -29,6 +29,11 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
+import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
+import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
+import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
+import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
+import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -44,24 +49,29 @@ import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-sel
     NzButtonModule,
     FormlyModule,
     CvcOrgSelectorBtnGroupModule,
-    CvcSubmitButtonTypeModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
-    CvcCommentTextareaTypeModule,
+    CvcFormInfoWrapperModule,
+    CvcSubmitButtonTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
     CvcDrugInputTypeModule,
     CvcRatingInputTypeModule,
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
-    CvcGeneInputTypeModule,
-    CvcFormInfoWrapperModule,
-    CvcVariantInputTypeModule,
-    CvcVariantOriginSelectTypeModule,
     CvcTextareaBaseTypeModule,
+    CvcCommentTextareaTypeModule,
+    CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
     CvcClinicalSignificanceSelectModule,
     CvcEvidenceLevelSelectModule,
+    CvcEvidenceDirectionSelectModule,
+    CvcDiseaseArrayTypeModule,
+    CvcDrugArrayTypeModule,
+    CvcPhenotypeArrayTypeModule,
+    CvcDrugInteractionSelectTypeModule,
+    CvcGeneInputTypeModule,
+    CvcVariantInputTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })

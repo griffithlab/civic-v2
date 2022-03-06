@@ -24,6 +24,7 @@ export const phenotypeArrayTypeOption: TypeOption = {
         required: false
       }
     },
+    defaultValue: [],
     validation: {
       messages: {
         required: requiredValidationMsgFn

@@ -22,9 +22,8 @@ import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { $enum } from 'ts-enum-util';
 import { EvidenceItemReviseService } from './evidence-revise.service';
-import { EvidenceState, IEvidenceState } from '@app/forms/config/states/evidence.state';
+import { EvidenceState } from '@app/forms/config/states/evidence.state';
 
 interface FormSource {
   id?: number;
@@ -189,7 +188,7 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
             templateOptions: {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Add another Source',
+              addText: 'Specify a Source',
               maxCount: 1,
             },
             fieldArray: {
