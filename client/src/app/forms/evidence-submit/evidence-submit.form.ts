@@ -172,19 +172,11 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         fieldGroup: [
           {
             key: 'gene',
-            type: 'multi-field',
+            type: 'gene-array',
             templateOptions: {
-              label: 'Gene',
-              addText: 'Specify a Gene',
               maxCount: 1,
-            },
-            fieldArray: {
-              type: 'cvc-gene-input',
-              templateOptions: {
-                required: true,
-              },
-            },
-            defaultValue: []
+              required: true
+            }
           },
           {
             key: 'variant',
