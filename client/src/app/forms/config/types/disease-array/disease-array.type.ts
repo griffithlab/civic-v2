@@ -7,12 +7,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';
 
-interface FormDisease {
-  id?: number;
-  doid?: number;
-  displayName?: string;
-}
-
 const destroy$: Subject<boolean> = new Subject<boolean>();
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {

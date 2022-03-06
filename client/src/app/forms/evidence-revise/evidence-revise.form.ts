@@ -274,17 +274,7 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'phenotypes',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Associated Phenotypes',
-              helpText: 'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes.</a>',
-              addText: 'Add a Phenoype'
-            },
-            fieldArray: {
-              type: 'phenotype-input',
-              templateOptions: {
-              }
-            }
+            type: 'phenotype-array',
           },
           {
             key: 'evidenceRating',
