@@ -242,31 +242,7 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'drugs',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Drug(s)',
-              helpText: 'For predictive evidence, specify one or more drug names. If the type-ahead list does not display your drug\'s name or alias, it likely does not exist in CIViC\'s database.',
-              addText: 'Add a Drug',
-              hidden: false,
-            },
-            fieldArray: {
-              type: 'cvc-drug-input',
-              templateOptions: {
-              },
-            },
-            hideExpression: (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
-              // TODO why isn't the main model provided for this field? instead of accessing the main model directly (as with clinicalSignificance's expressionProperties), we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
-              const evidenceType = ffc?.parent?.model.evidenceType;
-              return evidenceType !== undefined ?
-                !st.requiresDrug(evidenceType)
-                : true;
-            },
-            expressionProperties: {
-              'templateOptions.required': (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
-                const evidenceType = ffc?.parent?.model.evidenceType;
-                return evidenceType !== undefined ? st.requiresDrug(evidenceType) : false;
-              }
-            }
+            type: 'drug-array',
           },
           {
             key: 'drugInteractionType',

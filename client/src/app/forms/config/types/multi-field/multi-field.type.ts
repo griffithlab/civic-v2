@@ -29,15 +29,16 @@ export class MultiFieldType extends FieldArrayType implements OnInit {
   ngOnInit() {
     this.to.add = this.add.bind(this);
     this.to.remove = this.remove.bind(this);
-    if(this.field.key === 'disease') {
-      console.log('----- multi-field OnInit disease field:');
-      console.log(this.field);
-      console.log('----- multi-field OnInit disease formControl:');
-      console.log(this.field.formControl);
-      this.formControl.statusChanges.subscribe((s) => {
-        console.log(`multi-field disease status: ${s}`)
-      });
-    }
+    // TODO: use this to debug initial form status issue w/ form-info-card
+    // if(this.field.key === 'disease') {
+    //   console.log('----- multi-field OnInit disease field:');
+    //   console.log(this.field);
+    //   console.log('----- multi-field OnInit disease formControl:');
+    //   console.log(this.field.formControl);
+    //   this.formControl.statusChanges.subscribe((s) => {
+    //     console.log(`multi-field disease status: ${s}`)
+    //   });
+    // }
   }
 }
 

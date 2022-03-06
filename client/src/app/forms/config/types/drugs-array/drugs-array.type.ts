@@ -7,31 +7,31 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';
 
-interface FormDisease {
+interface FormDrug {
   id?: number;
-  doid?: number;
-  displayName?: string;
+  ncitId?: string;
+  name?: string;
 }
 
 const destroy$: Subject<boolean> = new Subject<boolean>();
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
-    const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
-    return etCtrl ? `${formatEvidenceEnum(etCtrl.value)} Evidence requires a disease to be specified.` : 'Disease is required.';
+  const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
+  return etCtrl ? `${formatEvidenceEnum(etCtrl.value)} Evidence requires at least one drug to be specified.` : 'Drug is required.';
 };
 
-export const diseaseArrayTypeOption: TypeOption = {
-  name: 'disease-array',
+export const drugArrayTypeOption: TypeOption = {
+  name: 'drug-array',
   extends: 'multi-field',
   defaultOptions: {
     templateOptions: {
-      label: 'Disease',
-      helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
+      label: 'Drug',
+      helpText: 'Please enter a drug name. If you are unable to locate the drug in the dropdown, please check the \'Could not find drug\' checkbox below and enter the drug in the field that appears.',
       required: false,
-      addText: 'Add a Disease',
+      addText: 'Add a Drug',
     },
     fieldArray: {
-      type: 'cvc-disease-input',
+      type: 'cvc-drug-input',
       templateOptions: {
         required: false
       }
@@ -44,7 +44,7 @@ export const diseaseArrayTypeOption: TypeOption = {
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
         ffc!.formControl!.statusChanges.subscribe((s) => {
-          console.log(`disease-array disease status: ${s}`)
+          console.log(`drug-array drug status: ${s}`)
         });
         // check for formState, populate with all options if not found
         const st: EvidenceState = ffc?.options?.formState;
@@ -56,7 +56,7 @@ export const diseaseArrayTypeOption: TypeOption = {
           .subscribe((et: EvidenceType) => {
             const to = ffc!.templateOptions!;
             const fc: FormArray = ffc!.formControl! as FormArray;
-            if (!st.requiresDisease(et)) {
+            if (!st.requiresDrug(et)) {
               to.hidden = true;
               to.required = false;
               // remove() rebuilds the field, so here we clear the array except for the
@@ -78,3 +78,4 @@ export const diseaseArrayTypeOption: TypeOption = {
     },
   }
 }
+
