@@ -246,31 +246,7 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'drugInteractionType',
-            type: 'select',
-            templateOptions: {
-              label: 'Drug InteractionType',
-              helpText: 'Please indicate whether the drugs specified above are substitutes, or are used in sequential or combination treatments.',
-              required: false,
-              placeholder: 'Please select a Drug Interaction Type',
-              options: $enum(DrugInteraction)
-                .map((value, key) => {
-                  return { value: value, label: key }
-                })
-            },
-            hideExpression: (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
-              if (!m.drugs) { return false; }
-              const requiresDrug = st.requiresDrug(m.evidenceType);
-              return (requiresDrug && m.drugs.length > 1) ?
-                false : true;
-            },
-            expressionProperties: {
-              'templateOptions.required': (m: any, st: IEvidenceState, ffc?: FormlyFieldConfig) => {
-                if (!m.drugs) { return false; }
-                const requiresDrug = st.requiresDrug(m.evidenceType);
-                return (requiresDrug && m.drugs.length > 1) ?
-                  true : false;
-              }
-            }
+            type: 'drug-interaction-select'
           },
           {
             key: 'phenotypes',
