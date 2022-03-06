@@ -1,10 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   Viewer,
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
@@ -101,8 +100,8 @@ interface FormVariant {
  */
 
 interface FormModel {
-  id: number;
   fields: {
+    id: number;
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
     disease: FormDisease[];
@@ -126,7 +125,7 @@ interface FormModel {
   templateUrl: './evidence-revise.form.html',
   styleUrls: ['./evidence-revise.form.less'],
 })
-export class EvidenceReviseForm implements OnInit, OnDestroy {
+export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
   @Input() evidenceId!: number;
   private destroy$ = new Subject();
   organizations!: Array<Organization>;
@@ -343,16 +342,13 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
     ];
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ evidenceId: this.evidenceId })
       .subscribe(        // response
         ({ data: { evidenceItem } }) => {
           if (evidenceItem) {
             this.formModel = this.toFormModel(evidenceItem);
-          }
-          if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
           }
         },
         // error
@@ -362,6 +358,10 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         },
         // complete
         () => {
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
+          // this.formGroup.updateValueAndValidity();
           // prompt fields to display any errors that exist in loaded evidenceItem
           this.formGroup.markAllAsTouched();
           // mark comment field as untouched, we don't want to show an error before the user interacts with the field
@@ -372,7 +372,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
 
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
     return <FormModel>{
-      id: evidence.id,
       fields: {
         ...evidence,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
@@ -412,6 +411,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
         drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
       },
+      id: fields.id,
       comment: fields.comment,
       organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
     }

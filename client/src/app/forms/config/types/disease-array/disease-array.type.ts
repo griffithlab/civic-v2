@@ -26,7 +26,9 @@ export const diseaseArrayTypeOption: TypeOption = {
     },
     fieldArray: {
       type: 'cvc-disease-input',
-      templateOptions: {}
+      templateOptions: {
+        required: false
+      }
     },
     validation: {
       messages: {
@@ -35,6 +37,9 @@ export const diseaseArrayTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+        ffc!.formControl!.statusChanges.subscribe((s) => {
+          console.log(`disease-array disease status: ${s}`)
+        });
         // check for formState, populate with all options if not found
         const st: EvidenceState = ffc?.options?.formState;
         // find evidenceType formControl, subscribe to value changes to update options
@@ -45,11 +50,10 @@ export const diseaseArrayTypeOption: TypeOption = {
           .subscribe((et: EvidenceType) => {
             const to = ffc!.templateOptions!;
             const fc: FormArray = ffc!.formControl! as FormArray;
-            // clear disease array if evidence type omits disease
-            // TODO: get multi-fields 'required' validatio working
             if (!st.requiresDisease(et)) {
               to.hidden = true;
               to.required = false;
+              // clear disease array if evidence type omits disease
               to.remove(0);
             } else {
               to.hidden = false;
