@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ViewerService } from '@app/core/services/viewer/viewer.service';
 import { Maybe, EvidenceDetailFieldsFragment, EvidenceDetailGQL } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
-import { pluck, startWith } from 'rxjs/operators';
+import { map, pluck, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-evidence-revise',
@@ -16,10 +17,12 @@ export class EvidenceReviseView implements OnDestroy {
   revisionsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
   routeSub: Subscription;
+  isSignedIn$?: Observable<boolean>;
 
   constructor(
     private gql: EvidenceDetailGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       let observable = this.gql.watch({ evidenceId: +params.evidenceId }).valueChanges;
@@ -34,7 +37,13 @@ export class EvidenceReviseView implements OnDestroy {
 
       this.revisionsTotal$ = this.evidence$.pipe(pluck('revisions', 'totalCount'));
 
+
+
     });
+  }
+
+  ngOnInit(): void {
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
   }
 
   ngOnDestroy(): void {
