@@ -23,6 +23,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'add',
+        loadChildren: () =>
+          import('@app/views/assertions/assertion-add/assertion-add.module').then(
+            (m) => m.AssertionAddModule
+          ),
+        data: { breadcrumb: 'Add' }
+      },
+      {
         path: ':assertionId',
         component: AssertionsDetailComponent,
         data: {
@@ -61,7 +69,8 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
+  { path: 'revise', loadChildren: () => import('./assertion-add/assertion-add.module').then(m => m.AssertionAddModule) }
 ];
 
 @NgModule({

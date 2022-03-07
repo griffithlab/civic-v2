@@ -28,10 +28,6 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
       helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
       options: selectOptions$,
       destroy$: new Subject<boolean>(),
-      // options: $enum(EvidenceDirection)
-      //   .map((val) => {
-      //     return { value: val, label: formatEvidenceEnum(val) }
-      //   }),
     },
     validators: { validation: [ 'ed-option' ] },
     hooks: {
