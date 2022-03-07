@@ -60,7 +60,7 @@ export class VariantInputType extends FieldType implements AfterViewInit {
   }
 }
 
-export const VariantInputTypeOption: TypeOption = {
+export const variantInputTypeOption: TypeOption = {
   name: 'variant-input',
   component: VariantInputType,
 }

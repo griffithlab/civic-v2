@@ -180,19 +180,11 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'variant',
-            type: 'multi-field',
+            type: 'variant-array',
             templateOptions: {
-              label: 'Variant',
-              addText: 'Specify a Variant',
-              maxCount: 1,
-            },
-            fieldArray: {
-              type: 'variant-input',
-              templateOptions: {
-                required: true,
-              },
-            },
-            defaultValue: []
+              required: true,
+              maxCount: 1
+            }
           },
           {
             key: 'description',
