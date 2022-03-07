@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo';
+import { Observable } from 'rxjs';
+import { startWith, pluck, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-releases-main',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReleasesMainComponent implements OnInit {
 
-  constructor() { }
+  loading$?: Observable<boolean>;
+  releases$?: Observable<ReleaseFragment[]>
+
+  constructor(private gql: DataReleasesGQL) { }
 
   ngOnInit(): void {
-  }
+    let queryRef = this.gql.watch().valueChanges
 
+    this.loading$ = queryRef.pipe(
+      pluck('loading'),
+      startWith(true)
+    );
+
+    this.releases$ = queryRef.pipe(
+      pluck('data'),
+      map((releases) => releases.dataReleases)
+    )
+  }
 }
