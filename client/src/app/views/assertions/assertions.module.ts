@@ -33,7 +33,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
@@ -60,13 +59,13 @@ import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entit
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
 import { AssertionsSummaryModule } from './assertions-summary/assertions-summary.module';
 import { AssertionsCommentsModule } from './assertions-comments/assertions-comments.module';
+import { AssertionsRevisionsModule } from './assertions-revisions/assertions-revisions.module';
 
 @NgModule({
   declarations: [
     AssertionsComponent,
     AssertionsDetailComponent,
     AssertionsFlagsComponent,
-    AssertionsRevisionsComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +73,7 @@ import { AssertionsCommentsModule } from './assertions-comments/assertions-comme
     AssertionsHomeModule,
     AssertionsSummaryModule,
     AssertionsCommentsModule,
+    AssertionsRevisionsModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
     CvcPipesModule,
@@ -128,7 +128,6 @@ import { AssertionsCommentsModule } from './assertions-comments/assertions-comme
     AssertionsComponent,
     AssertionsDetailComponent,
     AssertionsFlagsComponent,
-    AssertionsRevisionsComponent,
   ]
 })
 export class AssertionsModule { }
