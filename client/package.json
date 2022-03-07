@@ -35,6 +35,8 @@
     "rxjs": "~6.6.6",
     "ts-enum-util": "^4.0.2",
     "tslib": "^2.3.1",
+    "xstate": "^4.30.3",
+    "xstate-angular": "^0.0.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

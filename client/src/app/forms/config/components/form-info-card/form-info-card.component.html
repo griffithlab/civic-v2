@@ -3,8 +3,13 @@
     nzSize="default"
     class="form-helper-card">
     <nz-collapse [nzBordered]="false">
+      <!-- TODO: figure out why this component version of the panel isn't working -->
+      <!-- <ng-container *ngFor="let field of fieldGroup">
+           <cvc-form-info-panel *ngIf="field.templateOptions?.label"
+           [field]="field">
+           </cvc-form-info-panel>
+           </ng-container> -->
       <ng-container *ngFor="let field of fieldGroup">
-        <!-- skip any fields that do not have labels -->
         <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
           [nzHeader]="label"
           [nzActive]="field.templateOptions!.hasFocus"
