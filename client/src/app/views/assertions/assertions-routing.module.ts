@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AssertionsCommentsPage } from './assertions-comments/assertions-comments.page';
+import { AssertionsCommentsPage } from './assertions-detail/assertions-comments/assertions-comments.page';
 import { AssertionsDetailPage } from './assertions-detail/assertions-detail.page';
-import { AssertionsFlagsPage } from './assertions-flags/assertions-flags.page';
+import { AssertionsFlagsPage } from './assertions-detail/assertions-flags/assertions-flags.page';
 import { AssertionsHomePage } from './assertions-home/assertions-home.page';
-import { AssertionsRevisionsPage } from './assertions-revisions/assertions-revisions.page';
-import { AssertionsSummaryPage } from './assertions-summary/assertions-summary.page';
+import { AssertionsRevisionsPage } from './assertions-detail/assertions-revisions/assertions-revisions.page';
+import { AssertionsSummaryPage } from './assertions-detail/assertions-summary/assertions-summary.page';
 
 import { AssertionsView } from './assertions.view';
 

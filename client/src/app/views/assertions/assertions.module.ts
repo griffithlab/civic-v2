@@ -55,10 +55,10 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module';
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
-import { AssertionsSummaryModule } from './assertions-summary/assertions-summary.module';
-import { AssertionsCommentsModule } from './assertions-comments/assertions-comments.module';
-import { AssertionsRevisionsModule } from './assertions-revisions/assertions-revisions.module';
-import { AssertionsFlagsModule } from './assertions-flags/assertions-flags.module';
+import { AssertionsSummaryModule } from './assertions-detail/assertions-summary/assertions-summary.module';
+import { AssertionsCommentsModule } from './assertions-detail/assertions-comments/assertions-comments.module';
+import { AssertionsRevisionsModule } from './assertions-detail/assertions-revisions/assertions-revisions.module';
+import { AssertionsFlagsModule } from './assertions-detail/assertions-flags/assertions-flags.module';
 import { AssertionsDetailModule } from './assertions-detail/assertions-detail.module';
 import { RouterModule } from '@angular/router';
 
