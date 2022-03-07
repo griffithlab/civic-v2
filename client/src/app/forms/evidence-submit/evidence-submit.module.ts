@@ -36,6 +36,7 @@ import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/ph
 import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
 import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
+import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -74,6 +75,7 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
     CvcDrugInteractionSelectTypeModule,
     CvcGeneArrayTypeModule,
     CvcVariantArrayTypeModule,
+    CvcSourceArrayTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })

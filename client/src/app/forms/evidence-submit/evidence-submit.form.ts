@@ -198,22 +198,30 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'source',
-            type: 'multi-field',
+            type: 'source-array',
             templateOptions: {
-              label: 'Source',
-              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Specify a Source',
-              maxCount: 1,
-              required: true
-            },
-            fieldArray: {
-              type: 'source-input',
-              templateOptions: {
-                required: true,
-              },
-            },
-            defaultValue: []
+              required: true,
+              maxCount: 1
+            }
           },
+          // {
+          //   key: 'source',
+          //   type: 'multi-field',
+          //   templateOptions: {
+          //     label: 'Source',
+          //     helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
+          //     addText: 'Specify a Source',
+          //     maxCount: 1,
+          //     required: true
+          //   },
+          //   fieldArray: {
+          //     type: 'source-input',
+          //     templateOptions: {
+          //       required: true,
+          //     },
+          //   },
+          //   defaultValue: []
+          // },
           {
             key: 'variantOrigin',
             type: 'variant-origin-select',
