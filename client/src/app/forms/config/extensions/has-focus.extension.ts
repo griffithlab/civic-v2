@@ -1,4 +1,3 @@
-// default-label-extension.ts
 import { FormlyExtension } from '@ngx-formly/core';
 import { ExtensionOption } from '@ngx-formly/core/lib/services/formly.config';
 

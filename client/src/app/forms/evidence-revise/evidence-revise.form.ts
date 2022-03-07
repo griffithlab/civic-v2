@@ -1,10 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   Viewer,
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
@@ -30,7 +29,7 @@ import { $enum } from 'ts-enum-util';
 import * as fieldState from '@app/forms/config/states/evidence.state';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-
+import { EvidenceState } from '@app/forms/config/states/evidence.state';
 
 
 interface FormSource {
@@ -107,8 +106,8 @@ interface FormVariant {
  */
 
 interface FormModel {
-  id: number;
   fields: {
+    id: number;
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
     disease: Maybe<FormDisease>[];
@@ -132,7 +131,7 @@ interface FormModel {
   templateUrl: './evidence-revise.form.html',
   styleUrls: ['./evidence-revise.form.less'],
 })
-export class EvidenceReviseForm implements OnInit, OnDestroy {
+export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
   @Input() evidenceId!: number;
   private destroy$!: Subject<void>;
   organizations!: Array<Organization>;
@@ -143,7 +142,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
   formModel: Maybe<FormModel>;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
-  formOptions: FormlyFormOptions = {};
+  formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   success: boolean = false
   errorMessages: string[] = []
@@ -204,7 +203,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
             templateOptions: {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Add another Source',
+              addText: 'Specify a Source',
               maxCount: 1,
             },
             fieldArray: {
@@ -237,144 +236,35 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           },
           {
             key: 'disease',
-            type: 'multi-field',
+            type: 'disease-array',
             templateOptions: {
-              label: 'Disease',
-              helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
-              required: true,
-              addText: 'Add a Disease',
-              minLength: 1,
-              maxCount: 1,
-            },
-            fieldArray: {
-              type: 'cvc-disease-input',
-              templateOptions: {}
-            },
-            expressionProperties: {
-              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
-                const evidenceType = f?.parent?.model.evidenceType;
-                return evidenceType !== undefined ? fieldState.requiresDisease(evidenceType) : false;
-              }
-            },
-            hideExpression: (model: any, formState: any, field?: FormlyFieldConfig) => {
-              // TODO why isn't the main model provided for this field? instead of accessing the main model directly (as with clinicalSignificance's expressionProperties), we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
-              const evidenceType = field?.parent?.model.evidenceType;
-              return evidenceType !== undefined ?
-                !fieldState.requiresDisease(evidenceType)
-                : true;
-            },
+            }
           },
           {
             key: 'evidenceLevel',
-            type: 'select',
+            type: 'evidence-level-select',
             templateOptions: {
-              label: 'Evidence Level',
-              helpText: 'Type of study performed to produce the evidence statement',
               required: true,
-              options: $enum(EvidenceLevel)
-                .map((value, key) => {
-                  return { value: value, label: key }
-                })
             }
           },
           {
             key: 'evidenceDirection',
-            type: 'select',
+            type: 'evidence-direction-select',
             templateOptions: {
-              label: 'Evidence Direction',
-              helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
-              placeholder: 'Please select an Evidence Direction',
               required: true,
-              options: $enum(EvidenceDirection)
-                .map((value, key) => {
-                  return { value: value, label: formatEvidenceEnum(value) }
-                })
             },
-            expressionProperties: {
-              'templateOptions.options': (model: any, state: any, field?: FormlyFieldConfig) => {
-                const options = fieldState.getDirectionOptions(model.evidenceType)
-                  .map(
-                    (value) => {
-                      return {
-                        value: value,
-                        label: formatEvidenceEnum(value)
-                      }
-                    })
-                // reset model value if options change
-                // this.resetSelect(options, field);
-                return options;
-              }
-            }
           },
           {
             key: 'drugs',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Drug(s)',
-              helpText: 'For predictive evidence, specify one or more drug names. If the type-ahead list does not display your drug\'s name or alias, it likely does not exist in CIViC\'s database.',
-              addText: 'Add a Drug',
-              hidden: false,
-            },
-            fieldArray: {
-              type: 'cvc-drug-input',
-              templateOptions: {
-              },
-            },
-            hideExpression: (model: any, formState: any, field?: FormlyFieldConfig) => {
-              // TODO why isn't the main model provided for this field? instead of accessing the main model directly (as with clinicalSignificance's expressionProperties), we have to get to it via field.parent.model. b/c it's a fieldArray type intead of fieldType?
-              const evidenceType = field?.parent?.model.evidenceType;
-              return evidenceType !== undefined ?
-                !fieldState.requiresDrug(evidenceType)
-                : true;
-            },
-            expressionProperties: {
-              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
-                const evidenceType = f?.parent?.model.evidenceType;
-                return evidenceType !== undefined ? fieldState.requiresDrug(evidenceType) : false;
-              }
-            }
+            type: 'drug-array',
           },
           {
             key: 'drugInteractionType',
-            type: 'select',
-            templateOptions: {
-              label: 'Drug InteractionType',
-              helpText: 'Please indicate whether the drugs specified above are substitutes, or are used in sequential or combination treatments.',
-              required: false,
-              placeholder: 'Please select a Drug Interaction Type',
-              options: $enum(DrugInteraction)
-                .map((value, key) => {
-                  return { value: value, label: key }
-                })
-            },
-            hideExpression: (m: any, s: any, f?: FormlyFieldConfig) => {
-              if (!m.drugs) { return false; }
-              const requiresDrug = fieldState.requiresDrug(m.evidenceType);
-              return (requiresDrug && m.drugs.length > 1) ?
-                false : true;
-            },
-            expressionProperties: {
-              'templateOptions.required': (m: any, s: any, f?: FormlyFieldConfig) => {
-                if (!m.drugs) { return false; }
-                const requiresDrug = fieldState.requiresDrug(m.evidenceType);
-                return (requiresDrug && m.drugs.length > 1) ?
-                  true : false;
-              }
-            }
+            type: 'drug-interaction-select'
           },
           {
             key: 'phenotypes',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Associated Phenotypes',
-              helpText: 'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes.</a>',
-              addText: 'Add a Phenoype'
-            },
-            fieldArray: {
-              type: 'phenotype-input',
-              templateOptions: {
-              }
-            }
+            type: 'phenotype-array',
           },
           {
             key: 'evidenceRating',
@@ -387,7 +277,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
           },
           {
             key: 'comment',
-            type: 'cvc-comment-textarea',
+            type: 'comment-cvc-textarea',
             templateOptions: {
               label: 'Comment',
               helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
@@ -409,39 +299,14 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
     ];
   }
 
-  resetSelect(options: any[], field?: FormlyFieldConfig): void {
-    if (field && options instanceof Array
-      && field?.templateOptions?.options
-      && field?.formControl) {
-      const currentOptions = field.templateOptions.options;
-      // reset model value if options change
-      if (!(JSON.stringify(options) === JSON.stringify(currentOptions))) {
-        // if there's only one option, set model to that option
-        if (options.length === 1) { field.formControl.setValue(options[0]) }
-        // otherwise reset to undefined
-        else { field.formControl.setValue(undefined); }
-      }
-    }
-  }
 
-  ngOnInit(): void {
-    this.destroy$ = new Subject();
-
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((v: Viewer) => {
-        this.organizations = v.organizations;
-        this.mostRecentOrg = v.mostRecentOrg;
-      });
+  ngAfterViewInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ evidenceId: this.evidenceId })
       .subscribe(        // response
         ({ data: { evidenceItem } }) => {
           if (evidenceItem) {
             this.formModel = this.toFormModel(evidenceItem);
-          }
-          if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
           }
         },
         // error
@@ -451,6 +316,10 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
         },
         // complete
         () => {
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
+          // this.formGroup.updateValueAndValidity();
           // prompt fields to display any errors that exist in loaded evidenceItem
           this.formGroup.markAllAsTouched();
           // mark comment field as untouched, we don't want to show an error before the user interacts with the field
@@ -461,7 +330,6 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
 
   toFormModel(evidence: RevisableEvidenceFieldsFragment): FormModel {
     return {
-      id: evidence.id,
       fields: {
         ...evidence,
         variant: [evidence.variant],
@@ -510,7 +378,7 @@ export class EvidenceReviseForm implements OnInit, OnDestroy {
     if (model) {
       const fields = model.fields;
       return {
-        id: model.id,
+        id: fields.id,
         comment: fields.comment!,
         fields: {
           variantOrigin: fields.variantOrigin,

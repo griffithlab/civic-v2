@@ -12651,6 +12651,18 @@ xmlbuilder@~11.0.0:
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-11.0.1.tgz#be9bae1c8a046e76b31127726347d0ad7002beb3"
   integrity sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==
 
+xstate-angular@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/xstate-angular/-/xstate-angular-0.0.2.tgz#6e0d78d7ac37695bd97ce3d08dcefd73d951c95b"
+  integrity sha512-dE1XPavzjQOH+yvUuuRMGDWj8X3uaGgQ9zWBtK3TX1U6XFLUTez9iuZWkpIaTwPVVb97tL6Y7QuAN+7d1zLjjA==
+  dependencies:
+    tslib "^2.0.0"
+
+xstate@^4.30.3:
+  version "4.30.3"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.30.3.tgz#e1b81bad0bb669b4411294961f286a338d52d8f0"
+  integrity sha512-ccFjxRKvLq5Fap9+Cc2barHjdEqcDMLZOnHKhslGPgOknM/GKku744Hixm7PzBfQolKQqi/oLQcYm6C5GCULyg==
+
 y18n@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.1.tgz#8db2b83c31c5d75099bb890b23f3094891e247d4"

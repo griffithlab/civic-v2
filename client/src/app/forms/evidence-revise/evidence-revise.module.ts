@@ -26,7 +26,13 @@ import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
 import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant-input.module';
+import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
+import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
+import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
+import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
+import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
+import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
+import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -54,10 +60,16 @@ import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
     CvcTextareaBaseTypeModule,
-    CvcVariantInputTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
     CvcClinicalSignificanceSelectModule,
+    CvcEvidenceLevelSelectModule,
+    CvcEvidenceDirectionSelectModule,
+    CvcDiseaseArrayTypeModule,
+    CvcDrugArrayTypeModule,
+    CvcPhenotypeArrayTypeModule,
+    CvcDrugInteractionSelectTypeModule,
+    CvcVariantArrayTypeModule,
   ],
   exports: [EvidenceReviseForm]
 })
