@@ -25,7 +25,7 @@ export const diseaseArrayTypeOption: TypeOption = {
       addText: 'Add a Disease',
     },
     fieldArray: {
-      type: 'cvc-disease-input',
+      type: 'disease-input',
       templateOptions: {
         required: false
       }
