@@ -13,6 +13,10 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ReleasesRoutingModule } from './releases-routing.module';
 import { ReleasesComponent } from './releases.component';
 import { ReleasesMainComponent } from './releases-main/releases-main.component';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 
 @NgModule({
@@ -22,12 +26,16 @@ import { ReleasesMainComponent } from './releases-main/releases-main.component';
     ReleasesRoutingModule,
     IconsProviderModule,
     NzTableModule,
-
+    NzTypographyModule,
     NzPageHeaderModule,
     ReactiveComponentModule,
     NzGridModule,
     NzToolTipModule,
-    NzSpaceModule
+    NzAlertModule,
+    NzSpaceModule,
+    NzCardModule,
+    NzSpaceModule,
+    CvcLinkTagModule
   ]
 })
 export class ReleasesModule { }

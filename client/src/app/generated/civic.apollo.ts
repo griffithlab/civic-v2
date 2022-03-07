@@ -961,6 +961,18 @@ export type Country = {
   name: Scalars['String'];
 };
 
+export type DataRelease = {
+  __typename: 'DataRelease';
+  acceptedAndSubmittedVariantsVcf?: Maybe<DownloadableFile>;
+  acceptedVariantsVcf?: Maybe<DownloadableFile>;
+  assertionTsv?: Maybe<DownloadableFile>;
+  evidenceTsv?: Maybe<DownloadableFile>;
+  geneTsv?: Maybe<DownloadableFile>;
+  name: Scalars['String'];
+  variantGroupTsv?: Maybe<DownloadableFile>;
+  variantTsv?: Maybe<DownloadableFile>;
+};
+
 export type DateSort = {
   /** Value to sort by. */
   column: DateSortColumns;
@@ -1011,6 +1023,12 @@ export enum DiseasesSortColumns {
   Name = 'NAME',
   VariantCount = 'VARIANT_COUNT'
 }
+
+export type DownloadableFile = {
+  __typename: 'DownloadableFile';
+  filename: Scalars['String'];
+  path: Scalars['String'];
+};
 
 export type Drug = {
   __typename: 'Drug';
@@ -2352,6 +2370,7 @@ export type Query = {
   contributors: ContributingUsersSummary;
   /** Fetch a list of countries for user profiles. */
   countries: Array<Country>;
+  dataReleases: Array<DataRelease>;
   /** Find a disease by CIViC ID */
   disease?: Maybe<Disease>;
   /** Retrieve popover fields for a specific disease. */
@@ -6785,6 +6804,44 @@ export type PhenotypeDetailQuery = (
   )> }
 );
 
+export type DataReleasesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DataReleasesQuery = (
+  { __typename: 'Query' }
+  & { dataReleases: Array<(
+    { __typename: 'DataRelease' }
+    & ReleaseFragment
+  )> }
+);
+
+export type ReleaseFragment = (
+  { __typename: 'DataRelease' }
+  & Pick<DataRelease, 'name'>
+  & { geneTsv?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )>, variantTsv?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )>, variantGroupTsv?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )>, evidenceTsv?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )>, assertionTsv?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )>, acceptedVariantsVcf?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )>, acceptedAndSubmittedVariantsVcf?: Maybe<(
+    { __typename: 'DownloadableFile' }
+    & Pick<DownloadableFile, 'filename' | 'path'>
+  )> }
+);
+
 export type SourceDetailQueryVariables = Exact<{
   sourceId: Scalars['Int'];
 }>;
@@ -8559,6 +8616,40 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   twitterHandle
   facebookProfile
   linkedinProfile
+}
+    `;
+export const ReleaseFragmentDoc = gql`
+    fragment Release on DataRelease {
+  __typename
+  name
+  geneTsv {
+    filename
+    path
+  }
+  variantTsv {
+    filename
+    path
+  }
+  variantGroupTsv {
+    filename
+    path
+  }
+  evidenceTsv {
+    filename
+    path
+  }
+  assertionTsv {
+    filename
+    path
+  }
+  acceptedVariantsVcf {
+    filename
+    path
+  }
+  acceptedAndSubmittedVariantsVcf {
+    filename
+    path
+  }
 }
     `;
 export const SourceDetailFieldsFragmentDoc = gql`
@@ -11162,6 +11253,24 @@ export const PhenotypeDetailDocument = gql`
   })
   export class PhenotypeDetailGQL extends Apollo.Query<PhenotypeDetailQuery, PhenotypeDetailQueryVariables> {
     document = PhenotypeDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DataReleasesDocument = gql`
+    query DataReleases {
+  dataReleases {
+    ...Release
+  }
+}
+    ${ReleaseFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DataReleasesGQL extends Apollo.Query<DataReleasesQuery, DataReleasesQueryVariables> {
+    document = DataReleasesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
