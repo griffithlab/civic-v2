@@ -37,7 +37,7 @@ const routes: Routes = [
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
-          {path: '', redirectTo: 'summary', pathMatch: 'full'},
+          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
             component: AssertionsSummaryComponent,
@@ -70,7 +70,7 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'revise', loadChildren: () => import('./assertion-add/assertion-add.module').then(m => m.AssertionAddModule) }
+  { path: 'add', loadChildren: () => import('./assertion-add/assertion-add.module').then(m => m.AssertionAddModule) }
 ];
 
 @NgModule({

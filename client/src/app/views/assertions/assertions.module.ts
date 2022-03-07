@@ -31,7 +31,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
-import { AssertionsSummaryComponent } from './assertions-summary/assertions-summary.component';
 import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
 import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
@@ -60,12 +59,12 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entity-button/revert-entity-button.module';
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
+import { AssertionsSummaryModule } from './assertions-summary/assertions-summary.module';
 
 @NgModule({
   declarations: [
     AssertionsComponent,
     AssertionsDetailComponent,
-    AssertionsSummaryComponent,
     AssertionsCommentsComponent,
     AssertionsFlagsComponent,
     AssertionsRevisionsComponent,
@@ -74,6 +73,7 @@ import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-
     CommonModule,
     AssertionsRoutingModule,
     AssertionsHomeModule,
+    AssertionsSummaryModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
     CvcPipesModule,
@@ -127,7 +127,6 @@ import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-
   exports: [
     AssertionsComponent,
     AssertionsDetailComponent,
-    AssertionsSummaryComponent,
     AssertionsFlagsComponent,
     AssertionsCommentsComponent,
     AssertionsRevisionsComponent,
