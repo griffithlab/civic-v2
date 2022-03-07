@@ -5,10 +5,10 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-filter/flag-list-and-filter.module';
-import { AssertionsFlagsComponent } from './assertions-flags.component';
+import { AssertionsFlagsPage } from './assertions-flags.page';
 
 @NgModule({
-  declarations: [AssertionsFlagsComponent],
+  declarations: [AssertionsFlagsPage],
   imports: [
     CommonModule,
     NzGridModule,
@@ -17,6 +17,6 @@ import { AssertionsFlagsComponent } from './assertions-flags.component';
     NzSkeletonModule,
     CvcFlagListAndFilterModule,
   ],
-  exports: [AssertionsFlagsComponent],
+  exports: [AssertionsFlagsPage],
 })
 export class AssertionsFlagsModule { }

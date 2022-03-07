@@ -21,10 +21,10 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 
 @Component({
   selector: 'assertions-detail',
-  templateUrl: './assertions-detail.component.html',
-  styleUrls: ['./assertions-detail.component.less'],
+  templateUrl: './assertions-detail.page.html',
+  styleUrls: ['./assertions-detail.page.less'],
 })
-export class AssertionsDetailComponent implements OnDestroy {
+export class AssertionsDetailPage implements OnDestroy {
   queryRef?: QueryRef<AssertionDetailQuery, AssertionDetailQueryVariables>;
 
   assertion$?: Observable<Maybe<AssertionDetailFieldsFragment>>;

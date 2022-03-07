@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AssertionsCommentsComponent } from './assertions-comments/assertions-comments.component';
-import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
-import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
+import { AssertionsCommentsPage } from './assertions-comments/assertions-comments.page';
+import { AssertionsDetailPage } from './assertions-detail/assertions-detail.page';
+import { AssertionsFlagsPage } from './assertions-flags/assertions-flags.page';
 import { AssertionsHomePage } from './assertions-home/assertions-home.page';
-import { AssertionsRevisionsComponent } from './assertions-revisions/assertions-revisions.component';
-import { AssertionsSummaryComponent } from './assertions-summary/assertions-summary.component';
+import { AssertionsRevisionsPage } from './assertions-revisions/assertions-revisions.page';
+import { AssertionsSummaryPage } from './assertions-summary/assertions-summary.page';
 
-import { AssertionsComponent } from './assertions.component';
+import { AssertionsView } from './assertions.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: AssertionsComponent,
+    component: AssertionsView,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: ':assertionId',
-        component: AssertionsDetailComponent,
+        component: AssertionsDetailPage,
         data: {
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
@@ -40,28 +40,28 @@ const routes: Routes = [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: AssertionsSummaryComponent,
+            component: AssertionsSummaryPage,
             data: {
               breadcrumb: 'Summary'
             }
           },
           {
             path: 'comments',
-            component: AssertionsCommentsComponent,
+            component: AssertionsCommentsPage,
             data: {
               breadcrumb: 'Comments'
             }
           },
           {
             path: 'revisions',
-            component: AssertionsRevisionsComponent,
+            component: AssertionsRevisionsPage,
             data: {
               breadcrumb: 'Revisions'
             }
           },
           {
             path: 'flags',
-            component: AssertionsFlagsComponent,
+            component: AssertionsFlagsPage,
             data: {
               breadcrumb: 'Flags'
             }

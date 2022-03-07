@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssertionsSummaryComponent } from './assertions-summary.component';
+import { AssertionsSummaryPage } from './assertions-summary.page';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -21,7 +21,7 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 
 @NgModule({
-  declarations: [AssertionsSummaryComponent],
+  declarations: [AssertionsSummaryPage],
   imports: [
     CommonModule,
     ReactiveComponentModule,
@@ -45,6 +45,6 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
   ],
-  exports: [AssertionsSummaryComponent]
+  exports: [AssertionsSummaryPage]
 })
 export class AssertionsSummaryModule { }

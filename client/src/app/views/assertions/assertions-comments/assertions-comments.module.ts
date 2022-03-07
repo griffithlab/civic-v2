@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
-import { AssertionsCommentsComponent } from './assertions-comments.component';
+import { AssertionsCommentsPage } from './assertions-comments.page';
 
 @NgModule({
-  declarations: [AssertionsCommentsComponent],
+  declarations: [AssertionsCommentsPage],
   imports: [
     CommonModule,
     CvcCommentListModule,
   ],
-  exports: [AssertionsCommentsComponent]
+  exports: [AssertionsCommentsPage]
 })
 export class AssertionsCommentsModule { }

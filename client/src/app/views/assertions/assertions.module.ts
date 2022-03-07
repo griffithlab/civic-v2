@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AssertionsRoutingModule } from './assertions-routing.module';
-import { AssertionsComponent } from './assertions.component';
+import { AssertionsView } from './assertions.view';
 import { FormsModule } from '@angular/forms';
 
 import { IconsProviderModule } from '@app/icons-provider.module';
@@ -63,7 +63,7 @@ import { AssertionsDetailModule } from './assertions-detail/assertions-detail.mo
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [AssertionsComponent],
+  declarations: [AssertionsView],
   imports: [
     CommonModule,
     RouterModule,

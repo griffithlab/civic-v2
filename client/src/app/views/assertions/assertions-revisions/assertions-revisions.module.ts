@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
-import { AssertionsRevisionsComponent } from './assertions-revisions.component';
+import { AssertionsRevisionsPage } from './assertions-revisions.page';
 
 @NgModule({
-  declarations: [AssertionsRevisionsComponent],
+  declarations: [AssertionsRevisionsPage],
   imports: [
     CommonModule,
     RevisionsListAndFilterModule,
   ],
-  exports: [AssertionsRevisionsComponent]
+  exports: [AssertionsRevisionsPage]
 })
 export class AssertionsRevisionsModule { }
