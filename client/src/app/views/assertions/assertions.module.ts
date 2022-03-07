@@ -60,13 +60,13 @@ import { AssertionsCommentsModule } from './assertions-comments/assertions-comme
 import { AssertionsRevisionsModule } from './assertions-revisions/assertions-revisions.module';
 import { AssertionsFlagsModule } from './assertions-flags/assertions-flags.module';
 import { AssertionsDetailModule } from './assertions-detail/assertions-detail.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    AssertionsComponent,
-  ],
+  declarations: [AssertionsComponent],
   imports: [
     CommonModule,
+    RouterModule,
     AssertionsRoutingModule,
     AssertionsHomeModule,
     AssertionsSummaryModule,
@@ -124,8 +124,5 @@ import { AssertionsDetailModule } from './assertions-detail/assertions-detail.mo
     CvcEntitySubscriptionButtonModule,
     CvcModerateEntityButtonsModule
   ],
-  exports: [
-    AssertionsComponent,
-  ]
 })
 export class AssertionsModule { }
