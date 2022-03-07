@@ -31,7 +31,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AssertionsDetailComponent } from './assertions-detail/assertions-detail.component';
-import { AssertionsFlagsComponent } from './assertions-flags/assertions-flags.component';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
@@ -60,12 +59,12 @@ import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-
 import { AssertionsSummaryModule } from './assertions-summary/assertions-summary.module';
 import { AssertionsCommentsModule } from './assertions-comments/assertions-comments.module';
 import { AssertionsRevisionsModule } from './assertions-revisions/assertions-revisions.module';
+import { AssertionsFlagsModule } from './assertions-flags/assertions-flags.module';
 
 @NgModule({
   declarations: [
     AssertionsComponent,
     AssertionsDetailComponent,
-    AssertionsFlagsComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +73,7 @@ import { AssertionsRevisionsModule } from './assertions-revisions/assertions-rev
     AssertionsSummaryModule,
     AssertionsCommentsModule,
     AssertionsRevisionsModule,
+    AssertionsFlagsModule,
     CvcEvidenceTableModule,
     CvcEntityTableCardModule,
     CvcPipesModule,
@@ -127,7 +127,6 @@ import { AssertionsRevisionsModule } from './assertions-revisions/assertions-rev
   exports: [
     AssertionsComponent,
     AssertionsDetailComponent,
-    AssertionsFlagsComponent,
   ]
 })
 export class AssertionsModule { }
