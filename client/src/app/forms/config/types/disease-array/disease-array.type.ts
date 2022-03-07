@@ -1,13 +1,12 @@
-import { AbstractControl, FormArray, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';
 
-const destroy$: Subject<boolean> = new Subject<boolean>();
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
     const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
@@ -43,10 +42,11 @@ export const diseaseArrayTypeOption: TypeOption = {
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
+        const to = ffc!.templateOptions!;
+        to.destroy$ = new Subject<boolean>();
         etCtrl.valueChanges
-          .pipe(takeUntil(destroy$))
+          .pipe(takeUntil(to.destroy$))
           .subscribe((et: EvidenceType) => {
-            const to = ffc!.templateOptions!;
             const fc: FormArray = ffc!.formControl! as FormArray;
             if (!st.requiresDisease(et)) {
               to.hidden = true;
@@ -63,9 +63,10 @@ export const diseaseArrayTypeOption: TypeOption = {
             }
           });
       },
-      onDestroy: (): void => {
-        destroy$.next(true);
-        destroy$.unsubscribe();
+      onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to = ffc!.templateOptions!;
+        to.destroy$.next(true);
+        to.destroy$.unsubscribe();
       }
     },
   }
