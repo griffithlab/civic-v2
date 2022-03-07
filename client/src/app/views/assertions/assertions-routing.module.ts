@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AssertionsCommentsPage } from './assertions-detail/assertions-comments/assertions-comments.page';
-import { AssertionsDetailPage } from './assertions-detail/assertions-detail.page';
+import { AssertionsDetailView } from './assertions-detail/assertions-detail.view';
 import { AssertionsFlagsPage } from './assertions-detail/assertions-flags/assertions-flags.page';
 import { AssertionsHomePage } from './assertions-home/assertions-home.page';
 import { AssertionsRevisionsPage } from './assertions-detail/assertions-revisions/assertions-revisions.page';
@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: ':assertionId',
-        component: AssertionsDetailPage,
+        component: AssertionsDetailView,
         data: {
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },

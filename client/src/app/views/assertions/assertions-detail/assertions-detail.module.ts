@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssertionsDetailPage } from './assertions-detail.page';
+import { AssertionsDetailView } from './assertions-detail.view';
 import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -23,7 +23,7 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 
 @NgModule({
-  declarations: [AssertionsDetailPage],
+  declarations: [AssertionsDetailView],
   imports: [
     CommonModule,
     RouterModule,
@@ -47,6 +47,6 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
   ],
-  exports: [AssertionsDetailPage]
+  exports: [AssertionsDetailView]
 })
 export class AssertionsDetailModule { }
