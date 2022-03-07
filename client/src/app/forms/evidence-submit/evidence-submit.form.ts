@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import {
   Viewer,
   ViewerService,

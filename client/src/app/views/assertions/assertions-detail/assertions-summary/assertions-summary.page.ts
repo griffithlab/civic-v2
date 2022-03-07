@@ -7,10 +7,10 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: 'cvc-assertion-summary',
-  templateUrl: './assertions-summary.component.html',
-  styleUrls: ['./assertions-summary.component.less']
+  templateUrl: './assertions-summary.page.html',
+  styleUrls: ['./assertions-summary.page.less']
 })
-export class AssertionsSummaryComponent {
+export class AssertionsSummaryPage {
   @Input() assertionId: Maybe<number>
 
   queryRef: QueryRef<AssertionSummaryQuery, AssertionSummaryQueryVariables>
@@ -46,7 +46,7 @@ export class AssertionsSummaryComponent {
     this.assertion$ = observable.pipe(
       pluck('data', 'assertion')
     )
-    
+
     this.subscribable = {
       entityType: SubscribableEntities.Assertion,
       id: queryAssertionId
