@@ -5864,7 +5864,7 @@ export type DiseaseTypeaheadQuery = (
   { __typename: 'Query' }
   & { diseaseTypeahead: Array<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'displayName' | 'doid' | 'diseaseAliases'>
+    & Pick<Disease, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseAliases'>
   )> }
 );
 
@@ -10326,6 +10326,7 @@ export const DiseaseTypeaheadDocument = gql`
     query DiseaseTypeahead($name: String!) {
   diseaseTypeahead(queryTerm: $name) {
     id
+    name
     displayName
     doid
     diseaseAliases

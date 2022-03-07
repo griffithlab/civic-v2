@@ -25,7 +25,7 @@ export const drugArrayTypeOption: TypeOption = {
       addText: 'Add a Drug',
     },
     fieldArray: {
-      type: 'drug-input',
+      type: 'cvc-drug-input',
       templateOptions: {
         required: false
       }
@@ -38,9 +38,6 @@ export const drugArrayTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        ffc!.formControl!.statusChanges.subscribe((s) => {
-          console.log(`drug-array drug status: ${s}`)
-        });
         // check for formState, populate with all options if not found
         const st: EvidenceState = ffc?.options?.formState;
         // find evidenceType formControl, subscribe to value changes to update options

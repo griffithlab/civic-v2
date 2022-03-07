@@ -1,6 +1,7 @@
 query DiseaseTypeahead($name: String!) {
   diseaseTypeahead(queryTerm:$name){
     id
+    name
     displayName
     doid
     diseaseAliases

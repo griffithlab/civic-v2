@@ -1,9 +1,5 @@
-import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Input, OnDestroy, AfterViewInit, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
@@ -25,8 +21,6 @@ import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { $enum } from 'ts-enum-util';
-import * as fieldState from '@app/forms/config/states/evidence.state';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
@@ -52,7 +46,7 @@ interface FormDrug {
 }
 
 interface FormPhenotype {
-  id?: number;
+  id: number;
   hpoId?: string;
   name?: string;
 }
@@ -131,11 +125,9 @@ interface FormModel {
   templateUrl: './evidence-revise.form.html',
   styleUrls: ['./evidence-revise.form.less'],
 })
-export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
+export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() evidenceId!: number;
   private destroy$!: Subject<void>;
-  organizations!: Array<Organization>;
-  mostRecentOrg!: Maybe<Organization>;
 
   suggestRevisionMutator: MutatorWithState<SuggestEvidenceItemRevisionGQL, SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables>
 
@@ -151,11 +143,8 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
   constructor(
     private suggestRevisionGQL: SuggestEvidenceItemRevisionGQL,
     private networkErrorService: NetworkErrorsService,
-    private viewerService: ViewerService,
     private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL
   ) {
-    // subscribing to viewer$ and setting local org, mostRecentOrg
-    // so that mostRecentOrg can be updated by org-selector's selectOrg events
 
     this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
@@ -277,7 +266,7 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'comment',
-            type: 'comment-cvc-textarea',
+            type: 'cvc-comment-textarea',
             templateOptions: {
               label: 'Comment',
               helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
@@ -297,6 +286,10 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
         ]
       }
     ];
+  }
+
+  ngOnInit() {
+    this.destroy$ = new Subject();
   }
 
 
@@ -344,10 +337,6 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
     }
   }
 
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
-  }
-
   submitRevision(formModel: Maybe<FormModel>): void {
     let input = this.toRevisionInput(formModel)
     if(input) {
@@ -390,12 +379,12 @@ export class EvidenceReviseForm implements AfterViewInit, OnDestroy {
           clinicalSignificance: fields.clinicalSignificance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
-          phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id! }),
+          phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: fields.evidenceRating!,
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
           drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
         },
-        organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+        organizationId: model.fields.organization?.id
 
       }
     }

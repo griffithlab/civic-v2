@@ -14,7 +14,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { EvidenceItemReviseService } from './evidence-revise.service';
 import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-input.module';
 import { CvcDrugInputTypeModule } from '@app/forms/config/types/drug-input/drug-input.module';
 import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
@@ -36,7 +35,7 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
 
 @NgModule({
   declarations: [EvidenceReviseForm],
-  providers: [EvidenceItemReviseService],
+  providers: [],
   imports: [
     CommonModule,
     RouterModule,

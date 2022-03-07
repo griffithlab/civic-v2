@@ -1,9 +1,5 @@
-import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  Viewer,
-  ViewerService,
-} from '@app/core/services/viewer/viewer.service';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
@@ -13,15 +9,19 @@ import {
   Maybe,
   Organization,
   SourceSource,
-  SuggestEvidenceItemRevisionInput,
+  SubmitEvidenceItemGQL,
+  SubmitEvidenceItemInput,
+  SubmitEvidenceItemMutation,
+  SubmitEvidenceItemMutationVariables,
   VariantOrigin,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { EvidenceItemSubmitService } from './evidence-submit.service';
+import { Subject } from 'rxjs';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { takeUntil } from 'rxjs/operators';
 
 interface FormSource {
   id?: number;
@@ -43,13 +43,13 @@ interface FormDrug {
 }
 
 interface FormPhenotype {
-  id?: number;
+  id: number;
   hpoId?: string;
   name?: string;
 }
 
 interface FormGene {
-  id?: number;
+  id: number;
   name?: string;
 }
 
@@ -128,39 +128,27 @@ interface FormModel {
   templateUrl: './evidence-submit.form.html',
   styleUrls: ['./evidence-submit.form.less'],
 })
-export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
-  @Input() evidenceId!: number;
-  private destroy$ = new Subject();
-  organizations!: Array<Organization>;
-  mostRecentOrg!: Maybe<Organization>;
-
-  evidenceRevisionInput!: SuggestEvidenceItemRevisionInput;
-
-  submitError$: BehaviorSubject<string[]>;
-  submitSuccess$: BehaviorSubject<boolean>;
-  isSubmitting$: BehaviorSubject<boolean>;
+export class EvidenceSubmitForm implements OnInit, OnDestroy {
+  private destroy$!: Subject<void>
 
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
-  constructor(
-    private submitService: EvidenceItemSubmitService,
-    private viewerService: ViewerService,
-  ) {
-    // subscribing to viewer$ and setting local org, mostRecentOrg
-    // so that mostRecentOrg can be updated by org-selector's selectOrg events
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((v: Viewer) => {
-        this.organizations = v.organizations;
-        this.mostRecentOrg = v.mostRecentOrg;
-      });
+  submitEvidenceMutator: MutatorWithState<SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables>
 
-    this.submitError$ = this.submitService.submitError$;
-    this.isSubmitting$ = this.submitService.isSubmitting$;
-    this.submitSuccess$ = this.submitService.submitSuccess$;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+  newId?: number
+
+  constructor(
+    private submitEvidenceGQL: SubmitEvidenceItemGQL,
+    private networkErrorService: NetworkErrorsService,
+    ) {
+
+    this.submitEvidenceMutator = new MutatorWithState(networkErrorService);
 
     this.formFields = [
       {
@@ -198,30 +186,20 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'source',
-            type: 'source-array',
+            type: 'multi-field',
             templateOptions: {
-              required: true,
-              maxCount: 1
-            }
+              label: 'Source',
+              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
+              addText: 'Specify a Source',
+              maxCount: 1,
+            },
+            fieldArray: {
+              type: 'source-input',
+              templateOptions: {
+                required: true,
+              },
+            },
           },
-          // {
-          //   key: 'source',
-          //   type: 'multi-field',
-          //   templateOptions: {
-          //     label: 'Source',
-          //     helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-          //     addText: 'Specify a Source',
-          //     maxCount: 1,
-          //     required: true
-          //   },
-          //   fieldArray: {
-          //     type: 'source-input',
-          //     templateOptions: {
-          //       required: true,
-          //     },
-          //   },
-          //   defaultValue: []
-          // },
           {
             key: 'variantOrigin',
             type: 'variant-origin-select',
@@ -278,6 +256,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             key: 'evidenceRating',
             type: 'rating-input',
             templateOptions: {
+              required: true,
               label: 'Rating',
               helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
             },
@@ -306,47 +285,68 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
     ];
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.destroy$ = new Subject();
   }
 
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
-  }
-
-  submitEvidence(formModel: FormModel): void {
-    this.submitService
-      .submit(this.toSubmitInput(formModel));
-  }
-
-  toSubmitInput(model: FormModel): SuggestEvidenceItemRevisionInput {
-    const fields = model.fields;
-    return <SuggestEvidenceItemRevisionInput>{
-      ...model,
-      fields: {
-        variantOrigin: fields.variantOrigin,
-        description: fmt.toNullableString(fields.description),
-        geneId: fields.gene[0].id,
-        variantId: fields.variant[0].id,
-        sourceId: fields.source[0].id,
-        evidenceType: fields.evidenceType,
-        evidenceDirection: fields.evidenceDirection,
-        clinicalSignificance: fields.clinicalSignificance,
-        diseaseId: fmt.toNullableInput(fields.disease[0].id),
-        evidenceLevel: fields.evidenceLevel,
-        phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
-        rating: +fields.evidenceRating,
-        drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id }),
-        drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
+  submitEvidence(formModel: Maybe<FormModel>): void {
+    let input = this.toSubmitInput(formModel);
+    if (input) {
+      let state = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {
+        input: input
       },
-      id: fields.id,
-      comment: fields.comment,
-      organizationId: this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id
+      (data) => {
+        this.newId = data.submitEvidence.evidenceItem.id;
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
     }
+  }
+
+  toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitEvidenceItemInput> {
+    if (model) {
+      const fields = model.fields;
+      return {
+        fields: {
+          variantOrigin: fields.variantOrigin,
+          description: fmt.toNullableString(fields.description),
+          variantId: fields.variant[0].id!,
+          sourceId: fields.source[0].id!,
+          evidenceType: fields.evidenceType,
+          evidenceDirection: fields.evidenceDirection,
+          clinicalSignificance: fields.clinicalSignificance,
+          diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
+          evidenceLevel: fields.evidenceLevel,
+          phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
+          rating: +fields.evidenceRating,
+          drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
+          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
+        },
+      comment: fields.comment,
+      organizationId: model?.fields.organization?.id
+    }
+
+    }
+    return undefined
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.submitService.cleanup();
   }
 }
