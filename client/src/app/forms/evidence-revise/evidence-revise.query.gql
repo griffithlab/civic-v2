@@ -17,6 +17,7 @@ fragment RevisableEvidenceFields on EvidenceItem {
     id
     doid
     name
+    displayName
   }
   drugs {
     id

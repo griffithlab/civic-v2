@@ -14,7 +14,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { EvidenceItemReviseService } from './evidence-revise.service';
 import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-input.module';
 import { CvcDrugInputTypeModule } from '@app/forms/config/types/drug-input/drug-input.module';
 import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
@@ -25,6 +24,7 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
 import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
 import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
 import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
@@ -35,7 +35,7 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
 
 @NgModule({
   declarations: [EvidenceReviseForm],
-  providers: [EvidenceItemReviseService],
+  providers: [],
   imports: [
     CommonModule,
     RouterModule,
@@ -45,6 +45,7 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
+    NzSpinModule,
     FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,

@@ -1,28 +1,30 @@
-<form nz-form
-  [formGroup]="formGroup"
-  (ngSubmit)="submitRevision(formModel)"
-  nzLayout="vertical">
+<nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+  <form nz-form
+    [formGroup]="formGroup"
+    (ngSubmit)="submitRevision(formModel)"
+    nzLayout="vertical">
 
-  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+    <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-  <formly-form [form]="formGroup"
-    [fields]="formFields"
-    [model]="formModel"
-    [options]="formOptions"
-    (modelChange)="formModel = $event">
-  </formly-form>
+    <formly-form [form]="formGroup"
+      [fields]="formFields"
+      [model]="formModel"
+      [options]="formOptions"
+      (modelChange)="formModel = $event">
+    </formly-form>
 
-  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
-</form>
+    <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+  </form>
+</nz-spin>
 
 <ng-template #formMessages>
-  <ng-container *ngIf="(submitError$ | async) as errors">
-    <nz-form-item *ngIf="errors.length > 0">
-      <cvc-form-errors-alert [errors]="errors">
+  <ng-container *ngIf="this.errorMessages.length > 0">
+    <nz-form-item>
+      <cvc-form-errors-alert [errors]="this.errorMessages">
       </cvc-form-errors-alert>
     </nz-form-item>
   </ng-container>
-  <ng-container *ngIf="submitSuccess$ | async">
+  <ng-container *ngIf="this.success">
     <nz-alert nzType="success"
       nzMessage="Suggested Revision Submitted"
       [nzDescription]="successMessage"
@@ -33,7 +35,6 @@
     </ng-template>
   </ng-container>
 </ng-template>
-
 <!-- <div nz-row>
      <div nz-col
      nzSpan="12">

@@ -75,7 +75,7 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
         }
       },
       {
-        type: 'multi-field-add-btn',
+        type: 'cvc-multi-field-add-btn',
         className: 'add-button',
         templateOptions: {
           label: 'Add Source',

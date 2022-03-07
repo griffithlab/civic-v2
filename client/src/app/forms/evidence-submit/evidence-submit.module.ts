@@ -37,6 +37,7 @@ import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interac
 import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -50,6 +51,7 @@ import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-ar
     NzAlertModule,
     NzGridModule,
     NzButtonModule,
+    NzSpinModule,
     FormlyModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormErrorsAlertModule,

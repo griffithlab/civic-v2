@@ -9554,9 +9554,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "ENUM",
-                "name": "EvidenceDirection",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "EvidenceDirection",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
