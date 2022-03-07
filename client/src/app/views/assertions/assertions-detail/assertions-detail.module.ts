@@ -21,11 +21,13 @@ import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entit
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
+import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module';
 
 @NgModule({
   declarations: [AssertionsDetailView],
   imports: [
     CommonModule,
+    AssertionsDetailRoutingModule,
     RouterModule,
     ReactiveComponentModule,
     NzSpaceModule,
@@ -47,6 +49,5 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
   ],
-  exports: [AssertionsDetailView]
 })
 export class AssertionsDetailModule { }

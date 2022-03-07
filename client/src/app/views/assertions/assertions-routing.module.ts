@@ -1,12 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AssertionsCommentsPage } from './assertions-detail/assertions-comments/assertions-comments.page';
-import { AssertionsDetailView } from './assertions-detail/assertions-detail.view';
-import { AssertionsFlagsPage } from './assertions-detail/assertions-flags/assertions-flags.page';
+import { AssertionsHomeModule } from './assertions-home/assertions-home.module';
 import { AssertionsHomePage } from './assertions-home/assertions-home.page';
-import { AssertionsRevisionsPage } from './assertions-detail/assertions-revisions/assertions-revisions.page';
-import { AssertionsSummaryPage } from './assertions-detail/assertions-summary/assertions-summary.page';
-
 import { AssertionsView } from './assertions.view';
 
 const routes: Routes = [
@@ -32,49 +27,35 @@ const routes: Routes = [
       },
       {
         path: ':assertionId',
-        component: AssertionsDetailView,
-        data: {
-          breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
-        },
+        data: { breadcrumb: 'DISPLAYNAME' },
         children: [
-          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
-            path: 'summary',
-            component: AssertionsSummaryPage,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/assertions/assertions-detail/assertions-detail.module').then(
+                (m) => m.AssertionsDetailModule
+              ),
           },
-          {
-            path: 'comments',
-            component: AssertionsCommentsPage,
-            data: {
-              breadcrumb: 'Comments'
-            }
-          },
-          {
-            path: 'revisions',
-            component: AssertionsRevisionsPage,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: AssertionsFlagsPage,
-            data: {
-              breadcrumb: 'Flags'
-            }
-          }
+          // {
+          //   path: 'revise',
+          //   loadChildren: () =>
+          //     import('@app/views/assertions/assertions-revise/assertions-revise.module').then(
+          //       (m) => m.AssertionsReviseModule
+          //     ),
+          //   data: { breadcrumb: 'Revise' }
+          // },
         ]
-      }
+      },
+
     ]
-  },
-  { path: 'add', loadChildren: () => import('./assertion-add/assertion-add.module').then(m => m.AssertionAddModule) }
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    AssertionsHomeModule
+  ],
   exports: [RouterModule]
 })
 export class AssertionsRoutingModule { }
