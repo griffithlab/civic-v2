@@ -2959,6 +2959,7 @@ enum ModeratedEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
@@ -3988,6 +3989,7 @@ type Query {
     last: Int
     sortBy: VariantsSort
     variantAlias: String
+    variantGroupId: Int
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!

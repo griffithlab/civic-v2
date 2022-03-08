@@ -32,6 +32,7 @@ export interface VariantTableRow {
 })
 export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   @Input() variantTypeId: Maybe<number>
+  @Input() variantGroupId: Maybe<number>
 
   private initialQueryArgs?: QueryBrowseVariantsArgs;
   private debouncedQuery = new Subject<void>();
@@ -58,7 +59,8 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   ngOnInit () {
     this.initialQueryArgs = {
       first: this.initialPageSize,
-      variantTypeId: this.variantTypeId
+      variantTypeId: this.variantTypeId,
+      variantGroupId: this.variantGroupId
     };
 
     this.queryRef = this.query.watch(this.initialQueryArgs);

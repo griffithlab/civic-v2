@@ -98,6 +98,15 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'variant_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Variants">
+              <ng-template #itemTemplate let-item>
+                <cvc-variant-tag [variant]="{id: item.id, name: item.displayName}"></cvc-variant-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'source_id'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"

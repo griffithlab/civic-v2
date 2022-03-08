@@ -1781,7 +1781,8 @@ export enum ModeratedEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Fields that can have revisions can be either scalar values or complex objects */
@@ -2555,6 +2556,7 @@ export type QueryBrowseVariantsArgs = {
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
   variantAlias?: Maybe<Scalars['String']>;
+  variantGroupId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
 };
@@ -5729,6 +5731,7 @@ export type BrowseVariantsQueryVariables = Exact<{
   drugName?: Maybe<Scalars['String']>;
   variantAlias?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
+  variantGroupId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -10226,7 +10229,7 @@ export const VariantsMenuDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantAlias: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
@@ -10234,6 +10237,7 @@ export const BrowseVariantsDocument = gql`
     drugName: $drugName
     variantAlias: $variantAlias
     variantTypeId: $variantTypeId
+    variantGroupId: $variantGroupId
     sortBy: $sortBy
     first: $first
     last: $last
