@@ -1781,7 +1781,8 @@ export enum ModeratedEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Fields that can have revisions can be either scalar values or complex objects */

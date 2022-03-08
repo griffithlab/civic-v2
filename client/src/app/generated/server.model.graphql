@@ -2959,6 +2959,7 @@ enum ModeratedEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
