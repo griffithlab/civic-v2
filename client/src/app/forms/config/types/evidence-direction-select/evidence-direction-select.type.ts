@@ -15,7 +15,6 @@ const getOptionsFromEnums = (e: EvidenceDirection[]): SelectOption[] => {
   return e.map((value) => { return { value: value, label: formatEvidenceEnum(value) } })
 };
 const selectOptions$ = new Subject<SelectOption[]>();
-const destroy$: Subject<boolean> = new Subject<boolean>();
 
 export const evidenceDirectionSelectTypeOption: TypeOption = {
   name: 'evidence-direction-select',
@@ -41,8 +40,10 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
+        const to = ffc!.templateOptions!;
+        to.destroy$ = new Subject<boolean>();
         etCtrl.valueChanges
-          .pipe(takeUntil(destroy$))
+          .pipe(takeUntil(to.destroy$))
           .subscribe((et: EvidenceType) => {
             selectOptions$.next(
               getOptionsFromEnums(st.getDirectionOptions(et))
@@ -50,9 +51,10 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
             ffc!.formControl!.updateValueAndValidity();
           });
       },
-      onDestroy: (): void => {
-        destroy$.next(true);
-        destroy$.unsubscribe();
+      onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to = ffc!.templateOptions!;
+        to.destroy$.next(true);
+        to.destroy$.unsubscribe();
       }
     },
 
