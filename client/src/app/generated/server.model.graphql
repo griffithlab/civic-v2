@@ -3989,6 +3989,7 @@ type Query {
     last: Int
     sortBy: VariantsSort
     variantAlias: String
+    variantGroupId: Int
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!

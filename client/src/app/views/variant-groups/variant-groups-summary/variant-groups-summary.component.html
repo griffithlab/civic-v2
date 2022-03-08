@@ -51,9 +51,9 @@
   <!-- variant menu row -->
   <nz-row [nzGutter]="16" *nzSpaceItem>
     <nz-col [nzSpan]="24">
-      <h3>Variant Menu Here</h3>
-      <!-- <cvc-variant-menu [geneId]="gene.id"
-           [geneName]="gene.name"></cvc-variant-menu> -->
+      <ng-container *ngrxLet="this.variantGroup$ as variantGroup">
+        <cvc-variants-table [variantGroupId]="variantGroup?.id"></cvc-variants-table>
+      </ng-container>
     </nz-col>
   </nz-row>
 </nz-space>
