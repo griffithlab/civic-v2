@@ -16,10 +16,11 @@ export const evidenceTypeSelectTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        const to: Maybe<FormlyTemplateOptions> = ffc!.templateOptions;
+        const to: Maybe<FormlyTemplateOptions> = ffc!.templateOptions!;
         const st: Maybe<EntityState> = ffc?.options?.formState;
         if(st) {
-          to!.options! = st.getOptionsFromEnums(st.getTypeOptions());
+          to.label = `${st.entityName} Type`;
+          to.options = st.getOptionsFromEnums(st.getTypeOptions());
         } else {
           console.warn('entity-type-select requires a formState to populate select options.');
         }
