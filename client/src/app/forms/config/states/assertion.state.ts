@@ -3,11 +3,11 @@ import {
   AssertionDirection,
   AssertionType,
 } from "@app/generated/civic.apollo";
-import { EntityState } from "./entity.state";
+import { EntityName, EntityState } from "./entity.state";
 
 class AssertionState extends EntityState {
   constructor() {
-    super();
+    super(EntityName.ASSERTION);
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,
       clinicalSignificance: [

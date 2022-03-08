@@ -3,11 +3,11 @@ import {
   EvidenceDirection,
   EvidenceType,
 } from "@app/generated/civic.apollo";
-import { EntityState } from "./entity.state";
+import { EntityName, EntityState } from "./entity.state";
 
 class EvidenceState extends EntityState {
   constructor() {
-    super();
+    super(EntityName.EVIDENCE);
     this.validStates.set(EvidenceType.Predictive, {
       entityType: EvidenceType.Predictive,
       clinicalSignificance: [
