@@ -10,7 +10,7 @@ import { map, pluck, startWith } from 'rxjs/operators';
   templateUrl: './evidence-revise.view.html',
   styleUrls: ['./evidence-revise.view.less']
 })
-export class EvidenceReviseView implements OnDestroy {
+export class EvidenceReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
   evidence$?: Observable<Maybe<EvidenceDetailFieldsFragment>>;
   commentsTotal$?: Observable<number>;
