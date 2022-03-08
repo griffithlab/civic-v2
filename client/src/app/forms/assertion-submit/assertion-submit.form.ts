@@ -130,6 +130,11 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new AssertionState() };
 
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+  newId?: number
+
   constructor() {
 
     this.formFields = [
@@ -172,6 +177,7 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
             key: 'evidenceType',
             type: 'evidence-type-select',
             templateOptions: {
+              label: 'Assertion Type',
               required: true,
             },
           },
@@ -179,6 +185,7 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
             key: 'evidenceDirection',
             type: 'evidence-direction-select',
             templateOptions: {
+              label: 'Assertion Direction',
               required: true,
             },
           },
@@ -301,6 +308,11 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
         ]
       }
     ];
+  }
+
+  submitAssertion = (model: FormModel):void => {
+    console.log('Assertion Submitted!');
+    console.log(model);
   }
 
   ngOnInit(): void { }
