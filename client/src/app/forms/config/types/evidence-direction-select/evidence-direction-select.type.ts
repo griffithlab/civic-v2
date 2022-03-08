@@ -6,16 +6,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EvidenceState} from '@app/forms/config/states/evidence.state';
-import { $enum } from 'ts-enum-util';
-
-type SelectOption = { [key: string | number]: string | number };
-
-const getOptionsFromEnums = (e: EvidenceDirection[]): SelectOption[] => {
-  if (e.length === 0) { return []; }
-  return e.map((value) => { return { value: value, label: formatEvidenceEnum(value) } })
-};
-const selectOptions$ = new Subject<SelectOption[]>();
-const destroy$: Subject<boolean> = new Subject<boolean>();
+import { EntityState, EntityType, SelectOption } from '../../states/entity.state';
 
 export const evidenceDirectionSelectTypeOption: TypeOption = {
   name: 'evidence-direction-select',
@@ -26,33 +17,33 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
       label: 'Evidence Direction',
       placeholder: 'None specified',
       helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
-      options: selectOptions$,
+      options: new Subject<SelectOption[]>(),
       destroy$: new Subject<boolean>(),
     },
     validators: { validation: [ 'ed-option' ] },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to = ffc!.templateOptions!;
+        const options = to.options as Subject<SelectOption[]>;
         // check for formState, populate with all options if not found
-        const st: EvidenceState = ffc?.options?.formState;
-        if (!st) {
-          const edOpts: EvidenceDirection[] = $enum(EvidenceDirection).getValues();
-          selectOptions$.next(getOptionsFromEnums(edOpts))
-        }
+        const st: EntityState = ffc?.options?.formState;
+        if (!st) {options.next([])}
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
         etCtrl.valueChanges
-          .pipe(takeUntil(destroy$))
-          .subscribe((et: EvidenceType) => {
-            selectOptions$.next(
-              getOptionsFromEnums(st.getDirectionOptions(et))
+          .pipe(takeUntil(to.destroy$))
+          .subscribe((et: EntityType) => {
+            options.next(
+              st.getOptionsFromEnums(st.getDirectionOptions(et))
             );
             ffc!.formControl!.updateValueAndValidity();
           });
       },
-      onDestroy: (): void => {
-        destroy$.next(true);
-        destroy$.unsubscribe();
+      onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to = ffc!.templateOptions!;
+        to.destroy$.next(true);
+        to.destroy$.unsubscribe();
       }
     },
 

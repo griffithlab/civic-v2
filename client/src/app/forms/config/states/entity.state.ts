@@ -60,48 +60,16 @@ export interface IEntityState {
   requiresAmpLevel: (et: EntityType) => boolean;
 }
 
-type ValidationMessages = {
-  [validationName: string]: (error: any, field: FormlyFieldConfig) => string
-}
-
 class EntityState implements IEntityState {
   validStates = new Map<EntityType, ValidEntity>();
   entityName: EntityName;
-  optionValidators: Map<SelectType, ValidatorOption[]>;
-  optionValidationMessages: Map<SelectType, ValidationMessages>;
+  pluralNames: Map<EntityName, string>;
   constructor(en: EntityName) {
     this.entityName = en;
-    this.optionValidators = new Map<SelectType, ValidatorOption[]>();
-    this.optionValidationMessages = new Map<SelectType, ValidationMessages>();
+    this.pluralNames = new Map<EntityName, string>();
 
-    // clinical significance option validator
-    this.optionValidators.set(SelectType.CS, [{
-      name: 'cs-option',
-      validation: (c: AbstractControl,
-                   ffc: FormlyFieldConfig,
-                   opt: any): ValidationErrors | null => {
-        const st: EntityState = ffc.options?.formState;
-        const cs: EntityClinicalSignificance = c.value;
-        if (!cs || !st) { return null; }
-        const et: EntityType = c.parent?.get('evidenceType')?.value;
-        if (!et) { return null; }
-        else {
-          return st.isValidSignificanceOption(et, cs) ? null : { 'cs-option': et };
-        }
-      }
-    }]);
-
-    this.optionValidators.set(SelectType.ED, [{
-      name: 'ed-option',
-      validation: () => null,
-    }]);
-
-    // clinical significance option validator message
-    this.optionValidationMessages.set(SelectType.CS, {
-      'cs-option': (et: EntityType, ffc: FormlyFieldConfig): string => {
-        return `'${formatEvidenceEnum(ffc.formControl?.value)}' is not a valid Clinical Significance for ${formatEvidenceEnum(et)} Evidence.`;
-      }
-    });
+    this.pluralNames.set(EntityName.ASSERTION, 'Assertions');
+    this.pluralNames.set(EntityName.EVIDENCE, 'Evidence');
   }
 
   getTypeOptions = (): EntityType[] => {
@@ -158,16 +126,6 @@ class EntityState implements IEntityState {
     })
   };
 
-  getOptionValidators = (en: EntityName, st: SelectType): ValidatorOption[] => {
-    const vos = this.optionValidators.get(st);
-    // add entity type to validator options to be used in validation message
-    return vos ? vos.map((vo) => { vo.options = { entityType: st }; return vo; }) : [];
-  }
-
-  getOptionValidationMessages = (en: EntityName, st: SelectType): ValidationMessages  => {
-    const vm = this.optionValidationMessages.get(st);
-    return vm ? vm : {};
-  }
 }
 
 export { EntityState };
