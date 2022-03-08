@@ -244,7 +244,7 @@ export class VariantReviseForm implements OnDestroy {
           },
           {
             key: 'ensemblVersion',
-            type: 'ensembl-input',
+            type: 'cvc-ensembl-input',
           },
           {
             key: 'fivePrimeCoordinates.chromosome',
@@ -334,7 +334,7 @@ export class VariantReviseForm implements OnDestroy {
           },
           {
             key: 'comment',
-            type: 'comment-cvc-textarea',
+            type: 'cvc-comment-textarea',
             templateOptions: {
               label: 'Comment',
               placeholder: 'Please enter a comment describing your revision to this variant.',
