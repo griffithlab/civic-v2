@@ -1,3 +1,4 @@
+import { formatEvidenceEnum, InputEnum } from "@app/core/utilities/enum-formatters/format-evidence-enum";
 import {
   AssertionClinicalSignificance,
   AssertionDirection,
@@ -24,6 +25,8 @@ export type ValidEntity = {
   requiresAcmgCodes: boolean
   requiresAmpLevel: boolean
 }
+
+type SelectOption = { [key: string | number]: string | number };
 
 export interface IEntityState {
   validStates: Map<EntityType, ValidEntity>
@@ -89,6 +92,14 @@ class EntityState implements IEntityState {
     const state = this.validStates.get(at);
     return state !== undefined ? state.requiresAmpLevel : true;
   }
+
+  getOptionsFromEnums = (e: InputEnum[]): SelectOption[] => {
+    if (e.length === 0) { return []; }
+    return e.map((value) => {
+      return { value: value, label: formatEvidenceEnum(value) }
+    })
+  };
+
 }
 
 export { EntityState };
