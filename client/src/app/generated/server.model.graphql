@@ -4979,7 +4979,7 @@ type ResolveFlagPayload {
 type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
-  creationComment: Comment!
+  creationComment: Comment
   creationEvent: Event
   currentValue: JSON
 
@@ -5024,7 +5024,7 @@ type Revision implements EventOriginObject & EventSubject {
   resolver: User
   resolvingEvent: Event
   revisionsetId: String!
-  revisor: User!
+  revisor: User
   status: RevisionStatus!
   suggestedValue: JSON
   updatedAt: ISO8601DateTime!
