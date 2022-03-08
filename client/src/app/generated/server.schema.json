@@ -2193,7 +2193,7 @@
               "deprecationReason": null
             },
             {
-              "name": "evidenceType",
+              "name": "assertionType",
               "description": "The Type of the Assertion",
               "type": {
                 "kind": "NON_NULL",
@@ -2241,7 +2241,7 @@
               "deprecationReason": null
             },
             {
-              "name": "evidenceDirection",
+              "name": "assertionDirection",
               "description": "The evidence direction for this Assertion.",
               "type": {
                 "kind": "NON_NULL",

@@ -333,6 +333,10 @@ export type AssertionFields = {
   acmgCodeIds: Array<Scalars['Int']>;
   /** The AMP/ASCO/CAP Category for this assertion. */
   ampLevel: NullableAmpLevelTypeInput;
+  /** The evidence direction for this Assertion. */
+  assertionDirection: AssertionDirection;
+  /** The Type of the Assertion */
+  assertionType: AssertionType;
   /** The Clinical Significance of the Assertion */
   clinicalSignificance: AssertionClinicalSignificance;
   /** A detailed description of the Assertion including practice guidelines and approved tests. */
@@ -343,12 +347,8 @@ export type AssertionFields = {
   drugIds: Array<Scalars['Int']>;
   /** Drug interaction type for cases where more than one drug ID is provided. */
   drugInteractionType: NullableDrugInteractionTypeInput;
-  /** The evidence direction for this Assertion. */
-  evidenceDirection: AssertionDirection;
   /** IDs of evidence items that are included in this Assertion. */
   evidenceItemIds: Array<Scalars['Int']>;
-  /** The Type of the Assertion */
-  evidenceType: AssertionType;
   /** Is an FDA companion test available that pertains to this Assertion. */
   fdaCompanionTest: Scalars['Boolean'];
   /** Does the Assertion have FDA regulatory approval. */
@@ -8621,7 +8621,6 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
     `;
 export const ReleaseFragmentDoc = gql`
     fragment Release on DataRelease {
-  __typename
   name
   geneTsv {
     filename
