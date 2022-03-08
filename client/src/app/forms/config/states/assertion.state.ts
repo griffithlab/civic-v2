@@ -2,20 +2,12 @@ import {
   AssertionClinicalSignificance,
   AssertionDirection,
   AssertionType,
-  Maybe
 } from "@app/generated/civic.apollo";
-import { $enum } from "ts-enum-util";
-import {
-  IEntityState,
-  EntityType,
-  EntityDirection,
-  EntityClinicalSignificance,
-  ValidEntity
-} from "./state.types";
+import { EntityState } from "./entity.state";
 
-class AssertionState implements IEntityState {
-  validStates = new Map<EntityType, ValidEntity>();
+class AssertionState extends EntityState {
   constructor() {
+    super();
     this.validStates.set(AssertionType.Predictive, {
       entityType: AssertionType.Predictive,
       clinicalSignificance: [
@@ -86,56 +78,6 @@ class AssertionState implements IEntityState {
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
     });
-
-  }
-
-  getTypeOptions = (): EntityType[] => {
-    return $enum(AssertionType).map(value => value);
-  }
-
-  // call with no argument to get all significance options
-  getSignificanceOptions = (at: Maybe<EntityType>): EntityClinicalSignificance[] => {
-    if (!at) { return $enum(AssertionClinicalSignificance).map(value => value); }
-    const state = this.validStates.get(at);
-    return state?.clinicalSignificance || [];
-  }
-
-  isValidSignificanceOption = (at: EntityType,
-    cs: EntityClinicalSignificance): boolean => {
-    const state = this.validStates.get(at);
-    if (!state) { return true; }
-    return state.clinicalSignificance.includes(cs);
-  }
-
-  getDirectionOptions = (at: EntityType): EntityDirection[] => {
-    const state = this.validStates.get(at);
-    return state?.entityDirection || [];
-  }
-
-  isValidDirectionOption = (at: AssertionType, ed: AssertionDirection): boolean => {
-    const state = this.validStates.get(at);
-    if (!state) { return true; }
-    return state.entityDirection.includes(ed);
-  }
-
-  requiresDrug = (at: EntityType): boolean => {
-    const state = this.validStates.get(at);
-    return state !== undefined ? state.requiresDrug : true;
-  }
-
-  requiresDisease = (at: EntityType): boolean => {
-    const state = this.validStates.get(at);
-    return state !== undefined ? state.requiresDisease : true;
-  }
-
-  requiresAcmgCodes = (at: EntityType): boolean => {
-    const state = this.validStates.get(at);
-    return state !== undefined ? state.requiresAcmgCodes : true;
-  }
-
-  requiresAmpLevel = (at: EntityType): boolean => {
-    const state = this.validStates.get(at);
-    return state !== undefined ? state.requiresAmpLevel : true;
   }
 }
 

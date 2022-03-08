@@ -2,40 +2,14 @@ import {
   EvidenceClinicalSignificance,
   EvidenceDirection,
   EvidenceType,
-  Maybe
 } from "@app/generated/civic.apollo";
-import { $enum } from "ts-enum-util";
+import { EntityState } from "./entity.state";
 
-interface ValidEvidenceItem {
-  evidenceType: EvidenceType
-  clinicalSignificance: EvidenceClinicalSignificance[]
-  evidenceDirection: EvidenceDirection[]
-  requiresDisease: boolean
-  requiresDrug: boolean
-}
-
-interface OptionsFn {
-  (et?: EvidenceType): EvidenceClinicalSignificance[] | EvidenceDirection[]
-}
-
-interface ValidationFn {
-  (et: EvidenceType, cs: EvidenceClinicalSignificance): boolean
-}
-
-interface IEvidenceState {
-  validStates: Map<EvidenceType, ValidEvidenceItem>
-  getSignificanceOptions: (et?: EvidenceType) => EvidenceClinicalSignificance[]
-  getDirectionOptions: (et: EvidenceType) => EvidenceDirection[]
-  isValidSignificanceOption: (et: EvidenceType, cs: EvidenceClinicalSignificance) => boolean
-  requiresDrug: (et: EvidenceType) => boolean
-  requiresDisease: (et: EvidenceType) => boolean
-}
-
-class EvidenceState implements IEvidenceState {
-  validStates = new Map<EvidenceType, ValidEvidenceItem>();
+class EvidenceState extends EntityState {
   constructor() {
+    super();
     this.validStates.set(EvidenceType.Predictive, {
-      evidenceType: EvidenceType.Predictive,
+      entityType: EvidenceType.Predictive,
       clinicalSignificance: [
         EvidenceClinicalSignificance.Sensitivityresponse,
         EvidenceClinicalSignificance.Resistance,
@@ -43,69 +17,79 @@ class EvidenceState implements IEvidenceState {
         EvidenceClinicalSignificance.ReducedSensitivity,
         EvidenceClinicalSignificance.Na,
       ],
-      evidenceDirection: [
+      entityDirection: [
         EvidenceDirection.Supports,
         EvidenceDirection.DoesNotSupport
       ],
       requiresDisease: true,
-      requiresDrug: true
+      requiresDrug: true,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false
     });
 
     this.validStates.set(EvidenceType.Diagnostic, {
-      evidenceType: EvidenceType.Diagnostic,
+      entityType: EvidenceType.Diagnostic,
       clinicalSignificance: [
         EvidenceClinicalSignificance.Positive,
         EvidenceClinicalSignificance.Negative,
       ],
-      evidenceDirection: [
+      entityDirection: [
         EvidenceDirection.Supports,
         EvidenceDirection.DoesNotSupport
       ],
       requiresDisease: true,
-      requiresDrug: false
+      requiresDrug: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false
     });
 
     this.validStates.set(EvidenceType.Prognostic, {
-      evidenceType: EvidenceType.Prognostic,
+      entityType: EvidenceType.Prognostic,
       clinicalSignificance: [
         EvidenceClinicalSignificance.BetterOutcome,
         EvidenceClinicalSignificance.PoorOutcome,
         EvidenceClinicalSignificance.Na
       ],
-      evidenceDirection: [
+      entityDirection: [
         EvidenceDirection.Supports,
         EvidenceDirection.DoesNotSupport
       ],
       requiresDisease: true,
-      requiresDrug: false
+      requiresDrug: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false
     });
 
     this.validStates.set(EvidenceType.Oncogenic, {
-      evidenceType: EvidenceType.Oncogenic,
+      entityType: EvidenceType.Oncogenic,
       clinicalSignificance: [
         EvidenceClinicalSignificance.Na,
       ],
-      evidenceDirection: [
+      entityDirection: [
         EvidenceDirection.Na,
       ],
       requiresDisease: true,
-      requiresDrug: false
+      requiresDrug: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false
     });
 
     this.validStates.set(EvidenceType.Predisposing, {
-      evidenceType: EvidenceType.Predisposing,
+      entityType: EvidenceType.Predisposing,
       clinicalSignificance: [
         EvidenceClinicalSignificance.Na,
       ],
-      evidenceDirection: [
+      entityDirection: [
         EvidenceDirection.Na,
       ],
       requiresDisease: true,
-      requiresDrug: false
+      requiresDrug: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false
     });
 
     this.validStates.set(EvidenceType.Functional, {
-      evidenceType: EvidenceType.Functional,
+      entityType: EvidenceType.Functional,
       clinicalSignificance: [
         EvidenceClinicalSignificance.GainOfFunction,
         EvidenceClinicalSignificance.LossOfFunction,
@@ -114,50 +98,16 @@ class EvidenceState implements IEvidenceState {
         EvidenceClinicalSignificance.DominantNegative,
         EvidenceClinicalSignificance.Unknown,
       ],
-      evidenceDirection: [
+      entityDirection: [
         EvidenceDirection.Supports,
         EvidenceDirection.DoesNotSupport
       ],
       requiresDisease: false,
-      requiresDrug: false
+      requiresDrug: false,
+      requiresAcmgCodes: false,
+      requiresAmpLevel: false
     });
   }
-
-  // call with no argument to get all significance options
-  getSignificanceOptions = (et: Maybe<EvidenceType>): EvidenceClinicalSignificance[] => {
-    if(!et) { return $enum(EvidenceClinicalSignificance).map(value => value); }
-    const state = this.validStates.get(et);
-    return state?.clinicalSignificance || [];
-  }
-
-  isValidSignificanceOption = (et: EvidenceType,
-    cs: EvidenceClinicalSignificance): boolean => {
-    const state = this.validStates.get(et);
-    if (!state) { return true; }
-    return state.clinicalSignificance.includes(cs);
-  }
-
-  getDirectionOptions = (et: EvidenceType): EvidenceDirection[] => {
-    const state = this.validStates.get(et);
-    return state?.evidenceDirection || [];
-  }
-
-  isValidDirectionOption = (et: EvidenceType, ed: EvidenceDirection): boolean => {
-    const state = this.validStates.get(et);
-    if (!state) { return true; }
-    return state.evidenceDirection.includes(ed);
-  }
-
-  requiresDrug = (et: EvidenceType): boolean => {
-    const state = this.validStates.get(et);
-    return state !== undefined ? state.requiresDrug : true;
-  }
-
-  requiresDisease = (et: EvidenceType): boolean => {
-    const state = this.validStates.get(et);
-    return state !== undefined ? state.requiresDisease : true;
-  }
-
 }
 
-export { EvidenceState, IEvidenceState };
+export { EvidenceState };

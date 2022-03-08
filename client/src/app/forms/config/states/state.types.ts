@@ -1,20 +1,18 @@
-import { AssertionClinicalSignificance, AssertionDirection, AssertionType, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType } from "@app/generated/civic.apollo";
+import {
+  AssertionClinicalSignificance,
+  AssertionDirection,
+  AssertionType,
+  EvidenceClinicalSignificance,
+  EvidenceDirection,
+  EvidenceType
+} from "@app/generated/civic.apollo";
 
 export type EntityClinicalSignificance =
-  | EvidenceClinicalSignificance
-  | AssertionClinicalSignificance;
+  EvidenceClinicalSignificance | AssertionClinicalSignificance;
 
-export type EntityType =
-  | EvidenceType
-  | AssertionType
+export type EntityType = EvidenceType | AssertionType
 
-// export type ValidEntity =
-//   | ValidEvidenceItem
-//   | ValidAssertion
-
-export type EntityDirection =
-  | EvidenceDirection
-  | AssertionDirection;
+export type EntityDirection = EvidenceDirection | AssertionDirection;
 
 export type ValidEntity = {
   entityType: EntityType
@@ -29,9 +27,10 @@ export type ValidEntity = {
 export interface IEntityState {
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[];
-  getSignificanceOptions: (et?: EntityType) => EntityClinicalSignificance[];
+  getSignificanceOptions: (et: EntityType) => EntityClinicalSignificance[];
   getDirectionOptions: (et: EntityType) => EntityDirection[];
   isValidSignificanceOption: (et: EntityType, cs: EntityClinicalSignificance) => boolean;
+  isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
   requiresDrug: (et: EntityType) => boolean;
   requiresDisease: (et: EntityType) => boolean;
   requiresAcmgCodes: (et: EntityType) => boolean;
