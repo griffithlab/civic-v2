@@ -431,6 +431,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastSubmittedRevisionEvent: Event
   name: String!
   nccnGuideline: String
+  nccnGuidelineVersion: String
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
   rejectionEvent: Event
