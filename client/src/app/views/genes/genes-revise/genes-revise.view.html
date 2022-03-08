@@ -17,7 +17,16 @@
 
     <nz-page-header-content>
       <div class="content">
-        <router-outlet></router-outlet>
+        <div *ngIf="isSignedIn$ | ngrxPush as isSignedIn; else notSignedIn">
+          <router-outlet></router-outlet>
+        </div>
+        <ng-template #notSignedIn>
+          <nz-row nzSpan="24" nzJustify="center">
+            <div nz-col nzSpan="6">
+              <cvc-login-prompt></cvc-login-prompt>
+            </div>
+          </nz-row>
+        </ng-template>
       </div>
     </nz-page-header-content>
   </nz-page-header>
