@@ -156,8 +156,13 @@
         <ng-template #revCardHeaderExtra>
           <nz-space nzSize="small" (click)="$event.stopPropagation()">
             <span *nzSpaceItem>
-              <span nz-typography nzType="secondary">Submitted By</span>
-              <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
+              <ng-container *ngIf="revision.revisor; else noRevisor">
+                <span nz-typography nzType="secondary">Submitted By</span>
+                <cvc-user-tag [user]="revision.revisor"></cvc-user-tag>
+              </ng-container>
+              <ng-template #noRevisor>
+                <span nz-typography nzType="secondary">Submitted</span>
+              </ng-template>
               <span nz-typography nzType="secondary">{{ revision.createdAt | timeago }}</span>
             </span>
             <cvc-status-tag [status]="revision.status" *nzSpaceItem></cvc-status-tag>
@@ -170,7 +175,7 @@
                   nz-checkbox nz-tooltip nzTooltipTitle="Must be signed in to manage revisions."
                   [nzDisabled]="true"></label>
                 <ng-template #loggedIn>
-                  <label *ngIf="viewer.isCurator && viewer.id != revision.revisor.id; else canRevise"
+                  <label *ngIf="viewer.isCurator && viewer.id != revision.revisor?.id; else canRevise"
                     nz-checkbox nz-tooltip nzTooltipTitle="Curators may only reject their own revisions."
                     [nzDisabled]="true"></label>
                   <ng-template #canRevise>

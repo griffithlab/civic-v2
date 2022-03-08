@@ -3014,7 +3014,7 @@ export type Revision = EventOriginObject & EventSubject & {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
-  creationComment: Comment;
+  creationComment?: Maybe<Comment>;
   creationEvent?: Maybe<Event>;
   currentValue?: Maybe<Scalars['JSON']>;
   /** List and filter events for an object */
@@ -3028,7 +3028,7 @@ export type Revision = EventOriginObject & EventSubject & {
   resolver?: Maybe<User>;
   resolvingEvent?: Maybe<Event>;
   revisionsetId: Scalars['String'];
-  revisor: User;
+  revisor?: Maybe<User>;
   status: RevisionStatus;
   suggestedValue?: Maybe<Scalars['JSON']>;
   updatedAt: Scalars['ISO8601DateTime'];
@@ -5210,13 +5210,13 @@ export type RevisionFragment = (
       { __typename: 'ScalarFieldDiff' }
       & Pick<ScalarFieldDiff, 'left' | 'right'>
     ) }
-  ), revisor: (
+  ), revisor?: Maybe<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  ), resolver?: Maybe<(
+  )>, resolver?: Maybe<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  )>, creationComment: (
+  )>, creationComment?: Maybe<(
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
@@ -5228,7 +5228,7 @@ export type RevisionFragment = (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role'>
     )> }
-  ), resolutionComment?: Maybe<(
+  )>, resolutionComment?: Maybe<(
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
@@ -6085,10 +6085,10 @@ export type SuggestEvidenceItemRevisionMutation = (
                 { __typename: 'ScalarFieldDiff' }
                 & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
-            ), revisor: (
+            ), revisor?: Maybe<(
               { __typename: 'User' }
               & Pick<User, 'id' | 'name'>
-            ) }
+            )> }
           )> }
         )> }
       ) }
@@ -6247,10 +6247,10 @@ export type SuggestGeneRevisionMutation = (
                 { __typename: 'ScalarFieldDiff' }
                 & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
-            ), revisor: (
+            ), revisor?: Maybe<(
               { __typename: 'User' }
               & Pick<User, 'id' | 'name'>
-            ) }
+            )> }
           )> }
         )> }
       ) }
@@ -6383,10 +6383,10 @@ export type SuggestVariantRevisionMutation = (
                 { __typename: 'ScalarFieldDiff' }
                 & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
-            ), revisor: (
+            ), revisor?: Maybe<(
               { __typename: 'User' }
               & Pick<User, 'id' | 'name'>
-            ) }
+            )> }
           )> }
         )> }
       ) }
@@ -7171,10 +7171,10 @@ export type VariantGroupRevisionsQuery = (
               { __typename: 'ScalarFieldDiff' }
               & Pick<ScalarFieldDiff, 'left' | 'right'>
             ) }
-          ), revisor: (
+          ), revisor?: Maybe<(
             { __typename: 'User' }
             & Pick<User, 'id' | 'name'>
-          ) }
+          )> }
         )> }
       )> }
     ) }
