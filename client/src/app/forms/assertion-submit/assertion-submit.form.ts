@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NullableAmpLevelTypeInput, SourceSource, VariantOrigin } from '@app/generated/civic.apollo';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NullableAmpLevelTypeInput, SourceSource, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
 import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 
@@ -36,7 +39,7 @@ interface FormModel {
   templateUrl: './assertion-submit.form.html',
   styleUrls: ['./assertion-submit.form.less']
 })
-export class AssertionSubmitForm implements OnInit, OnDestroy {
+export class AssertionSubmitForm implements OnDestroy {
   private destroy$!: Subject<void>;
 
   formModel!: FormModel;
@@ -44,12 +47,20 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new AssertionState() };
 
+  submitAssertionMutator: MutatorWithState<SubmitAssertionGQL, SubmitAssertionMutation, SubmitAssertionMutationVariables>
+
   success: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
   newId?: number
 
-  constructor() {
+  constructor(
+    private submitAssertionGQL: SubmitAssertionGQL,
+    private networkErrorService: NetworkErrorsService
+
+  ) {
+
+    this.submitAssertionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -217,13 +228,47 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
     ];
   }
 
-  submitAssertion = (model: FormModel):void => {
-    console.log('Assertion Submitted!');
-    console.log(model);
+  toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitAssertionInput> {
+    if(model) {
+
+    }
+    return undefined
   }
 
-  ngOnInit(): void { }
+  submitAssertion(model: Maybe<FormModel>): void {
+    let input = this.toSubmitInput(model)
+    if(input) {
 
-  ngOnDestroy(): void {  }
+      let state = this.submitAssertionMutator.mutate(this.submitAssertionGQL, {
+        input: input
+      },
+      (data) => {
+        this.newId = data.submitAssertion.assertion.id;
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
+    }
+  }
+
+
+  ngOnDestroy(): void { 
+    this.destroy$.next();
+    this.destroy$.complete();
+   }
 
 }

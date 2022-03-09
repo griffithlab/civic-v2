@@ -75,7 +75,7 @@ class AssertionState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: false,
-      requiresAcmgCodes: false,
+      requiresAcmgCodes: true,
       requiresAmpLevel: false,
     });
   }

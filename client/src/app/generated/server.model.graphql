@@ -3740,6 +3740,11 @@ enum PhenotypeSortColumns {
 
 type Query {
   """
+  Retrieve ACMG Code options as a typeahead
+  """
+  acmgCodesTypeahead(queryTerm: String!): [AcmgCode!]!
+
+  """
   Find an assertion by CIViC ID
   """
   assertion(id: Int!): Assertion
