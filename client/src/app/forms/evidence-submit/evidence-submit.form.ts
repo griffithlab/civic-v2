@@ -8,7 +8,6 @@ import {
   EvidenceType,
   Maybe,
   Organization,
-  SourceSource,
   SubmitEvidenceItemGQL,
   SubmitEvidenceItemInput,
   SubmitEvidenceItemMutation,
@@ -27,20 +26,26 @@ import { FormDisease, FormDrug, FormGene, FormPhenotype, FormSource, FormVariant
 interface FormModel {
   fields: {
     id: number
-    clinicalSignificance: EvidenceClinicalSignificance
+
     description: string
+    source: FormSource[]
+
+    gene: FormGene[],
+    variant: FormVariant[]
+
+    variantOrigin: VariantOrigin
     disease: FormDisease[]
-    drugInteractionType: Maybe<DrugInteraction>
     drugs: FormDrug[]
+    drugInteractionType: Maybe<DrugInteraction>
+
+    clinicalSignificance: EvidenceClinicalSignificance
     evidenceDirection: EvidenceDirection
     evidenceLevel: EvidenceLevel
     evidenceType: EvidenceType
-    gene: FormGene[],
-    phenotypes: FormPhenotype[]
     evidenceRating: number
-    source: FormSource[]
-    variant: FormVariant[]
-    variantOrigin: VariantOrigin
+
+    phenotypes: FormPhenotype[]
+
     comment?: string
     organization?: Maybe<Organization>
   }
