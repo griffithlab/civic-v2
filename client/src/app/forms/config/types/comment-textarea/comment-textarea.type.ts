@@ -4,7 +4,7 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 @Component({
-  selector: 'cvc-comment-textarea-type',
+  selector: 'comment-textarea-type',
   templateUrl: './comment-textarea.type.html',
   styleUrls: ['./comment-textarea.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +28,7 @@ export class CommentTextareaType extends FieldType<FormlyFieldConfig> {
 }
 
 export const CommentTextareaTypeOption: TypeOption = {
-  name: 'cvc-comment-textarea',
+  name: 'comment-textarea',
   component: CommentTextareaType,
   wrappers: ['form-field'],
 }

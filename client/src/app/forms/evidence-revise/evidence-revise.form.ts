@@ -266,7 +266,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           },
           {
             key: 'comment',
-            type: 'cvc-comment-textarea',
+            type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
               helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',

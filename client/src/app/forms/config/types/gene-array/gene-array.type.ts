@@ -15,7 +15,7 @@ export const geneArrayTypeOption: TypeOption = {
       addText: 'Specify a Gene',
     },
     fieldArray: {
-      type: 'cvc-gene-input',
+      type: 'gene-input',
       templateOptions: {
         required: false
       }

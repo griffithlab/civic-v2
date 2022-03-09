@@ -3,18 +3,9 @@ import { EvidenceDirection, EvidenceType, Maybe } from '@app/generated/civic.apo
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
 import { Subject } from 'rxjs';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { takeUntil } from 'rxjs/operators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { EvidenceState} from '@app/forms/config/states/evidence.state';
-import { $enum } from 'ts-enum-util';
-
-type SelectOption = { [key: string | number]: string | number };
-
-const getOptionsFromEnums = (e: EvidenceDirection[]): SelectOption[] => {
-  if (e.length === 0) { return []; }
-  return e.map((value) => { return { value: value, label: formatEvidenceEnum(value) } })
-};
-const selectOptions$ = new Subject<SelectOption[]>();
+import { EvidenceState } from '@app/forms/config/states/evidence.state';
+import { EntityState, EntityType, SelectOption } from '../../states/entity.state';
 
 export const evidenceDirectionSelectTypeOption: TypeOption = {
   name: 'evidence-direction-select',
@@ -24,37 +15,34 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
     templateOptions: {
       label: 'Evidence Direction',
       placeholder: 'None specified',
-      helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
-      options: selectOptions$,
-      destroy$: new Subject<boolean>(),
+      options: new Subject<SelectOption[]>(),
     },
-    validators: { validation: [ 'ed-option' ] },
+    validators: { validation: ['ed-option'] },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-        // check for formState, populate with all options if not found
-        const st: EvidenceState = ffc?.options?.formState;
-        if (!st) {
-          const edOpts: EvidenceDirection[] = $enum(EvidenceDirection).getValues();
-          selectOptions$.next(getOptionsFromEnums(edOpts))
-        }
-        // find evidenceType formControl, subscribe to value changes to update options
-        const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
-        if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
         const to = ffc!.templateOptions!;
-        to.destroy$ = new Subject<boolean>();
-        etCtrl.valueChanges
-          .pipe(takeUntil(to.destroy$))
-          .subscribe((et: EvidenceType) => {
-            selectOptions$.next(
-              getOptionsFromEnums(st.getDirectionOptions(et))
-            );
-            ffc!.formControl!.updateValueAndValidity();
-          });
+        const options = to.options as Subject<SelectOption[]>;
+        // check for formState, populate with all options if not found
+        const st: EntityState = ffc?.options?.formState;
+        if (!st) { options.next([]) }
+        else {
+          to.label = `${st.entityName} Direction`;
+          to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event. For predisposing and oncogenic ${st.pluralNames.get(st.entityName)}, directionality is only applied at the assertion level and N/A should be selected here.`;
+          // find evidenceType formControl, subscribe to value changes to update options
+          const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
+          if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
+          to.vcSubscription = etCtrl.valueChanges
+            .subscribe((et: EntityType) => {
+              options.next(
+                st.getOptionsFromEnums(st.getDirectionOptions(et))
+              );
+              ffc!.formControl!.updateValueAndValidity();
+            });
+        }
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to = ffc!.templateOptions!;
-        to.destroy$.next(true);
-        to.destroy$.unsubscribe();
+        to.vcSubscription.unsubscribe();
       }
     },
 

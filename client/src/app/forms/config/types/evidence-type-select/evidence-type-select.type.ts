@@ -1,7 +1,7 @@
-import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { EvidenceType } from '@app/generated/civic.apollo';
+import { Maybe } from '@app/generated/civic.apollo';
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
-import { $enum } from 'ts-enum-util';
+import { EntityState } from '../../states/entity.state';
 
 export const evidenceTypeSelectTypeOption: TypeOption = {
   name: 'evidence-type-select',
@@ -9,13 +9,22 @@ export const evidenceTypeSelectTypeOption: TypeOption = {
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
-      label: 'Evidence Type',
+      label: 'Entity Type',
       placeholder: 'Not specified',
-      helpText: 'Type of clinical outcome associated with the evidence statement.',
-      options: $enum(EvidenceType)
-        .map((value, key) => {
-          return { value: value, label: formatEvidenceEnum(value) }
-        })
+      options: [],
+    },
+    hooks: {
+      onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to: Maybe<FormlyTemplateOptions> = ffc!.templateOptions!;
+        const st: Maybe<EntityState> = ffc?.options?.formState;
+        if(st) {
+          to.label = `${st.entityName} Type`;
+          to.helpText = `Type of clinical outcome associated with the ${st.entityName} statement.`,
+          to.options = st.getOptionsFromEnums(st.getTypeOptions());
+        } else {
+          console.warn('entity-type-select requires a formState to populate select options.');
+        }
+      }
     }
-  }
+  },
 };

@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AssertionAddRoutingModule } from './assertion-add-routing.module';
-import { AssertionAddComponent } from './assertion-add.component';
-
+import { AssertionAddView } from './assertion-add.view';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
-  declarations: [
-    AssertionAddComponent
-  ],
+  declarations: [AssertionAddView],
   imports: [
     CommonModule,
-    AssertionAddRoutingModule
+    AssertionAddRoutingModule,
+    NzPageHeaderModule,
+    NzIconModule,
+    CvcSectionNavigationModule,
   ]
 })
 export class AssertionAddModule { }

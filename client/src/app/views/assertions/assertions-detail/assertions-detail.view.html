@@ -39,49 +39,50 @@
           nzSize="small">
 
           <!-- add revision btn -->
-          <ng-container *ngIf="viewer.signedIn">
-            <button routerLink="suggest-revision"
+          <span *nzSpaceItem>
+            <button [routerLink]="['/assertions', assertion.id, 'revise']"
+              *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-              *nzSpaceItem>
+              nzSize="small">
               Revise
             </button>
-          </ng-container>
+          </span>
 
           <!-- add flag btn -->
           <!-- TODO implement as flag form within popover window -->
-          <ng-container *ngIf="viewer.signedIn">
+          <span *nzSpaceItem>
             <button routerLink="flags"
               routerLinkActive
               #rlaComments="routerLinkActive"
               [nzType]="rlaComments.isActive ? 'primary' : 'default'"
               nz-button
-              nzSize="small"
-              *nzSpaceItem>
+              nzSize="small">
               Flag
             </button>
-          </ng-container>
+          </span>
 
+          <span *nzSpaceItem>
           <ng-container *ngIf="viewer.signedIn && subscribable">
-            <cvc-entity-subscription-button
-              [viewer]="viewer"
+            <cvc-entity-subscription-button [viewer]="viewer"
               [subscribableId]="subscribable.id"
-              typename="Assertion"
-              *nzSpaceItem>
+              typename="Assertion">
             </cvc-entity-subscription-button>
           </ng-container>
+          </span>
 
+          <span *nzSpaceItem>
           <ng-container *ngIf="viewer.canModerate && assertion.status !='SUBMITTED'">
-            <cvc-revert-entity-button
-              entityType="Assertion"
+            <cvc-revert-entity-button entityType="Assertion"
               [entityId]="assertion.id"
               (onReverted)="onRevertCompleted($event)"
               *nzSpaceItem>
             </cvc-revert-entity-button>
           </ng-container>
+          </span>
+
         </nz-space>
       </nz-page-header-extra>
 

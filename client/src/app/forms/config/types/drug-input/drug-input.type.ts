@@ -98,6 +98,6 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
 }
 
 export const DrugInputTypeOption: TypeOption = {
-  name: 'cvc-drug-input',
+  name: 'drug-input',
   component: DrugInputType,
 };

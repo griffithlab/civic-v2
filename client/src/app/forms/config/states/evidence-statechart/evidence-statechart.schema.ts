@@ -1,46 +1,66 @@
-// based on: https://github.com/stefanoslig/xstate-angular/blob/main/apps/conduit/src/app/article-list/%2Bxstate/article-list-machine.schema.ts
-import { EvidenceClinicalSignificance, EvidenceDirection } from "@app/generated/civic.apollo";
+// based on:
+// https://github.com/stefanoslig/xstate-angular/blob/main/apps/conduit/src/app/article-list/%2Bxstate/article-list-machine.schema.ts
 
 export interface EvidenceStatechartSchema {
   states: {
-    unspecified: {
-      // gene, variant, source unspecified
+    // located if gene, variant, source specified
+    located: {
       states: {
-        gene: {};
-        variant: {};
-        source: {};
+        // identified if located & origin, type, disease, drug specified
+        identified: {
+          states: {
+            // characterized if identified & all required fields are specified
+            characterized: {
+              states: { // parallel state
+                // complete if characterized & all optional fields specified
+                complete: {}
+                curated: {
+                  states: {
+                    pending: {}
+                    approved: {}
+                    rejected: {}
+                    revised: {}
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-    };
-    specified: {
-     // gene, variant, source specified
-      state: {
-        duplicates: {};
-        unique: {};
-      }
-    };
-    evidencetype: {
-      states: {
-        diagnostic: {};
-        functional: {};
-        oncogenic: {};
-        predictive: {};
-        predisposing: {};
-        prognostic: {};
-      }
-    };
-    drug: {
-      states: {
-        single: {};
-        combination: {};
-      }
-    };
-  };
+    }
+  }
 }
 
 export interface EvidenceStatechartContext {
-  significanceOptions: EvidenceClinicalSignificance[];
-  directionOptions: EvidenceDirection[];
-  diseaseRequired: boolean;
-  drugRequired: boolean;
-  drugInteractionRequired: boolean;
+  evidence: {
+    hasGene: boolean
+    hasVariant: boolean
+    hasSource: boolean
+
+    hasVariantOrigin: boolean
+    hasType: boolean
+
+    hasDisease: boolean
+    hasDrug: boolean
+    hasMultipleDrugs: boolean
+    hasInteractionType: boolean
+
+    hasSignificance: boolean
+    hasDirection: boolean
+    hasLevel: boolean
+    hasRating: boolean
+
+    hasPhenotype: boolean
+  }
+  curation: {
+    isLocated: boolean
+    isIdentified: boolean
+    isCharacterized: boolean
+    isComplete: boolean
+    isCurated: boolean
+    isSubmitted: boolean
+    isApproved: boolean
+    isRejected: boolean
+    isRevised: boolean
+  }
 }
