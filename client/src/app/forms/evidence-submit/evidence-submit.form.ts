@@ -22,105 +22,28 @@ import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
-
-interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: number;
-  citation?: string;
-}
-
-interface FormDisease {
-  id?: number;
-  doid?: number;
-  displayName?: string;
-}
-
-interface FormDrug {
-  id?: number;
-  ncitId?: string;
-  name?: string;
-}
-
-interface FormPhenotype {
-  id: number;
-  hpoId?: string;
-  name?: string;
-}
-
-interface FormGene {
-  id: number;
-  name?: string;
-}
-
-interface FormVariant {
-  id?: number;
-  name: string;
-}
-
-/* SuggestEvidenceItemRevisionInput
- *
- * description: NullableStringInput!
- * The Evidence Items's description/summary text.
- *
- * variantId: Int!
- * The ID of the Variant to which this EvidenceItem belongs
- *
- * variantOrigin: VariantOrigin!
- * The Variant Origin for this EvidenceItem.
- *
- * sourceId: Int!
- * The ID of the Source from which this EvidenceItem was curated.
- *
- * evidenceType: EvidenceType!
- * The Type of the EvidenceItem
- *
- * clinicalSignificance: EvidenceClinicalSignificance!
- * The Clinical Significance of the EvidenceItem
- *
- * diseaseId: NullableIntInput!
- * The ID of the disease (if applicable) for this EvidenceItem
- *
- * evidenceLevel: EvidenceLevel!
- * The evidence level of the EvidenceItem
- *
- * evidenceDirection: EvidenceDirection!
- * The evidence direction for this EvidenceItem.
-
- * phenotypeIds: [Int!]!
- * List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none.
- *
- * rating: Int!
- * The rating for this ceItem
- *
- * drugIds: [Int!]!
- * List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none.
- *
- * drugInteractionType: NullableDrugInteractionTypeInput!
- * Drug interaction type for cases where more than one drug ID is provided.
- *
- */
+import { FormDisease, FormDrug, FormGene, FormPhenotype, FormSource, FormVariant } from '../forms.interfaces';
 
 interface FormModel {
   fields: {
-    id: number;
-    clinicalSignificance: EvidenceClinicalSignificance;
-    description: string;
-    disease: FormDisease[];
-    drugInteractionType: Maybe<DrugInteraction>;
-    drugs: FormDrug[];
-    evidenceDirection: EvidenceDirection;
-    evidenceLevel: EvidenceLevel;
-    evidenceType: EvidenceType;
+    id: number
+    clinicalSignificance: EvidenceClinicalSignificance
+    description: string
+    disease: FormDisease[]
+    drugInteractionType: Maybe<DrugInteraction>
+    drugs: FormDrug[]
+    evidenceDirection: EvidenceDirection
+    evidenceLevel: EvidenceLevel
+    evidenceType: EvidenceType
     gene: FormGene[],
-    phenotypes: FormPhenotype[];
-    evidenceRating: number;
-    source: FormSource[];
-    variant: FormVariant[];
-    variantOrigin: VariantOrigin;
-    comment?: string,
+    phenotypes: FormPhenotype[]
+    evidenceRating: number
+    source: FormSource[]
+    variant: FormVariant[]
+    variantOrigin: VariantOrigin
+    comment?: string
     organization?: Maybe<Organization>
-  };
+  }
 }
 
 @Component({

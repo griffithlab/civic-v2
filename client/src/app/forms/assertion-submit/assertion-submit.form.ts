@@ -4,116 +4,30 @@ import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugI
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
+import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 
-interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: number;
-  citation?: string;
-}
-
-interface FormDisease {
-  id?: number;
-  doid?: number;
-  displayName?: string;
-}
-
-interface FormDrug {
-  id?: number;
-  ncitId?: string;
-  name?: string;
-}
-
-interface FormPhenotype {
-  id: number;
-  hpoId?: string;
-  name?: string;
-}
-
-interface FormGene {
-  id: number;
-  name?: string;
-}
-
-interface FormVariant {
-  id?: number;
-  name: string;
-}
-
-// description: NullableStringInput!
-// A detailed description of the Assertion including practice guidelines and approved tests.
-
-// summary: NullableStringInput!
-// A brief single sentence statement summarizing the clinical significance of this Assertion.
-
-// variantId: Int!
-// The ID of the Variant to which this Assertion belongs
-
-// geneId: Int!
-// The ID of the Gene to which this Assertion belongs
-
-// variantOrigin: VariantOrigin!
-// The Variant Origin for this Assertion.
-
-// evidenceType: AssertionType!
-// The Type of the Assertion
-
-// clinicalSignificance: AssertionClinicalSignificance!
-// The Clinical Significance of the Assertion
-
-// diseaseId: NullableIntInput!
-// The ID of the disease (if applicable) for this Assertion
-
-// evidenceDirection: AssertionDirection!
-// The evidence direction for this Assertion.
-
-// phenotypeIds: [Int!]!
-// List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none.
-
-// drugIds: [Int!]!
-// List of IDs of CIViC Drug entries for this Assertion. An empty list indicates none.
-
-// drugInteractionType: NullableDrugInteractionTypeInput!
-// Drug interaction type for cases where more than one drug ID is provided.
-
-// ampLevel: NullableAmpLevelTypeInput!
-// The AMP/ASCO/CAP Category for this assertion.
-
-// evidenceItemIds: [Int!]!
-// IDs of evidence items that are included in this Assertion.
-
-// nccnGuidelineId: NullableIntInput!
-// The internal CIViC ID of the NCCN guideline associated with this Assertion
-
-// acmgCodeIds: [Int!]!
-// List of CIViC IDs for the ACMG/AMP codes associated with this Assertion
-
-// fdaCompanionTest: Boolean!
-// Is an FDA companion test available that pertains to this Assertion.
-
-// fdaRegulatoryApproval: Boolean!
-// Does the Assertion have FDA regulatory approval.
 interface FormModel {
   fields: {
-    id: number;
-    description: string;
-    summary: string;
-    variant: FormVariant[];
-    gene: FormGene[];
-    variantOrigin: VariantOrigin;
-    evidenceType: AssertionType;
-    clinicalSignificance: AssertionClinicalSignificance;
-    disease: FormDisease[];
-    evidenceDirection: AssertionDirection;
-    phenotypes: FormPhenotype[];
-    drugs: FormDrug[];
-    drugInteractionType: Maybe<DrugInteraction>;
-    ampLevel: Maybe<NullableAmpLevelTypeInput>;
-    evidenceItems: EvidenceItem[];
-    nccnGuideline: Maybe<number>;
-    acmgCodeIds: number[];
-    fdaCompanionTest: boolean;
-    fdaRegulatoryApproval: boolean;
+    id: number
+    description: string
+    summary: string
+    variant: FormVariant[]
+    gene: FormGene[]
+    variantOrigin: VariantOrigin
+    evidenceType: AssertionType
+    clinicalSignificance: AssertionClinicalSignificance
+    disease: FormDisease[]
+    evidenceDirection: AssertionDirection
+    phenotypes: FormPhenotype[]
+    drugs: FormDrug[]
+    drugInteractionType: Maybe<DrugInteraction>
+    ampLevel: Maybe<NullableAmpLevelTypeInput>
+    evidenceItems: EvidenceItem[]
+    nccnGuideline: Maybe<number>
+    acmgCodeIds: number[]
+    fdaCompanionTest: boolean
+    fdaRegulatoryApproval: boolean
+    comment: Maybe<string>
   }
 }
 
