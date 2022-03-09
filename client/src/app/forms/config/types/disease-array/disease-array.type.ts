@@ -24,7 +24,7 @@ export const diseaseArrayTypeOption: TypeOption = {
       destroy$: new Subject<boolean>()
     },
     fieldArray: {
-      type: 'cvc-disease-input',
+      type: 'disease-input',
       templateOptions: {
         required: false
       }

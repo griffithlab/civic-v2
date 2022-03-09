@@ -21,7 +21,7 @@ export const drugArrayTypeOption: TypeOption = {
       addText: 'Add a Drug',
     },
     fieldArray: {
-      type: 'cvc-drug-input',
+      type: 'drug-input',
       templateOptions: {
         required: false
       }
