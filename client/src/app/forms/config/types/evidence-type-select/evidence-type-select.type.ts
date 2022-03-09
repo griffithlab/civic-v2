@@ -11,7 +11,6 @@ export const evidenceTypeSelectTypeOption: TypeOption = {
     templateOptions: {
       label: 'Entity Type',
       placeholder: 'Not specified',
-      helpText: 'Type of clinical outcome associated with the evidence statement.',
       options: [],
     },
     hooks: {
@@ -20,6 +19,7 @@ export const evidenceTypeSelectTypeOption: TypeOption = {
         const st: Maybe<EntityState> = ffc?.options?.formState;
         if(st) {
           to.label = `${st.entityName} Type`;
+          to.helpText = `Type of clinical outcome associated with the ${st.entityName} statement.`,
           to.options = st.getOptionsFromEnums(st.getTypeOptions());
         } else {
           console.warn('entity-type-select requires a formState to populate select options.');

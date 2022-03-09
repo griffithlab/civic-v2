@@ -16,7 +16,6 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
     templateOptions: {
       label: 'Evidence Direction',
       placeholder: 'None specified',
-      helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. For predisposing and oncogenic evidence, directionality is only applied at the assertion level and N/A should be selected here.',
       options: new Subject<SelectOption[]>(),
       destroy$: new Subject<boolean>(),
     },
@@ -30,6 +29,7 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
         if (!st) { options.next([]) }
         else {
           to.label = `${st.entityName} Direction`;
+          to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event. For predisposing and oncogenic ${st.pluralNames.get(st.entityName)}, directionality is only applied at the assertion level and N/A should be selected here.`;
           // find evidenceType formControl, subscribe to value changes to update options
           const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
           if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
