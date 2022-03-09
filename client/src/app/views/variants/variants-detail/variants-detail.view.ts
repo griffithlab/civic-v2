@@ -76,17 +76,17 @@ export class VariantsDetailView implements OnDestroy {
       },
       {
         routeName: 'comments',
-        iconName: 'civic:comment',
+        iconName: 'civic-comment',
         tabLabel: 'Comments'
       },
       {
         routeName: 'revisions',
-        iconName: 'civic:revision',
+        iconName: 'civic-revision',
         tabLabel: 'Revisions'
       },
       {
         routeName: 'flags',
-        iconName: 'civic:flag',
+        iconName: 'civic-flag',
         tabLabel: 'Flags'
       }
     ]

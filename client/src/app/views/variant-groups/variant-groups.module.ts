@@ -48,6 +48,8 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { RevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
+import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,9 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcContributorAvatarsModule,
     EvidenceModule,
     NzSelectModule,
-    CvcEntitySubscriptionButtonModule
+    CvcEntitySubscriptionButtonModule,
+    CvcVariantsTableModule,
+    RevisionsListAndFilterModule
   ],
   exports: [
     VariantGroupsDetailComponent,

@@ -63,9 +63,11 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     this.untypedRevisons = this.revisions;
     this.selectedRevisionIds = []
-    this.queryRef.refetch({
-      ids: this.selectedRevisionIds
-    })
+    if (this.queryRef) {
+      this.queryRef.refetch({
+        ids: this.selectedRevisionIds
+      })
+    }
   }
 
   ngOnInit(): void {

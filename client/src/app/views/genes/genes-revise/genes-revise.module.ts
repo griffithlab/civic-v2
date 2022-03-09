@@ -6,6 +6,9 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GenesReviseRoutingModule } from './genes-revise-routing.module';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 
 @NgModule({
   declarations: [GenesReviseView],
@@ -16,6 +19,9 @@ import { GenesReviseRoutingModule } from './genes-revise-routing.module';
     CvcSectionNavigationModule,
     NzPageHeaderModule,
     NzIconModule,
+    ReactiveComponentModule,
+    NzGridModule,
+    CvcLoginPromptModule
   ]
 })
 export class GenesReviseModule { }

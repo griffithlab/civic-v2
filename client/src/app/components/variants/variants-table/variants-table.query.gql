@@ -5,6 +5,7 @@ query BrowseVariants(
   $drugName: String
   $variantAlias: String
   $variantTypeId: Int
+  $variantGroupId: Int
   $sortBy: VariantsSort
   $first: Int
   $last: Int
@@ -18,6 +19,7 @@ query BrowseVariants(
     drugName: $drugName
     variantAlias: $variantAlias
     variantTypeId: $variantTypeId
+    variantGroupId: $variantGroupId
     sortBy: $sortBy
     first: $first
     last: $last

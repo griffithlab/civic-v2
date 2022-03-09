@@ -333,6 +333,10 @@ export type AssertionFields = {
   acmgCodeIds: Array<Scalars['Int']>;
   /** The AMP/ASCO/CAP Category for this assertion. */
   ampLevel: NullableAmpLevelTypeInput;
+  /** The evidence direction for this Assertion. */
+  assertionDirection: AssertionDirection;
+  /** The Type of the Assertion */
+  assertionType: AssertionType;
   /** The Clinical Significance of the Assertion */
   clinicalSignificance: AssertionClinicalSignificance;
   /** A detailed description of the Assertion including practice guidelines and approved tests. */
@@ -343,12 +347,8 @@ export type AssertionFields = {
   drugIds: Array<Scalars['Int']>;
   /** Drug interaction type for cases where more than one drug ID is provided. */
   drugInteractionType: NullableDrugInteractionTypeInput;
-  /** The evidence direction for this Assertion. */
-  evidenceDirection: AssertionDirection;
   /** IDs of evidence items that are included in this Assertion. */
   evidenceItemIds: Array<Scalars['Int']>;
-  /** The Type of the Assertion */
-  evidenceType: AssertionType;
   /** Is an FDA companion test available that pertains to this Assertion. */
   fdaCompanionTest: Scalars['Boolean'];
   /** Does the Assertion have FDA regulatory approval. */
@@ -1781,7 +1781,8 @@ export enum ModeratedEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
-  Variant = 'VARIANT'
+  Variant = 'VARIANT',
+  VariantGroup = 'VARIANT_GROUP'
 }
 
 /** Fields that can have revisions can be either scalar values or complex objects */
@@ -2555,6 +2556,7 @@ export type QueryBrowseVariantsArgs = {
   last?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
   variantAlias?: Maybe<Scalars['String']>;
+  variantGroupId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
 };
@@ -3014,7 +3016,7 @@ export type Revision = EventOriginObject & EventSubject & {
   __typename: 'Revision';
   comments: Array<Comment>;
   createdAt: Scalars['ISO8601DateTime'];
-  creationComment: Comment;
+  creationComment?: Maybe<Comment>;
   creationEvent?: Maybe<Event>;
   currentValue?: Maybe<Scalars['JSON']>;
   /** List and filter events for an object */
@@ -3028,7 +3030,7 @@ export type Revision = EventOriginObject & EventSubject & {
   resolver?: Maybe<User>;
   resolvingEvent?: Maybe<Event>;
   revisionsetId: Scalars['String'];
-  revisor: User;
+  revisor?: Maybe<User>;
   status: RevisionStatus;
   suggestedValue?: Maybe<Scalars['JSON']>;
   updatedAt: Scalars['ISO8601DateTime'];
@@ -5210,13 +5212,13 @@ export type RevisionFragment = (
       { __typename: 'ScalarFieldDiff' }
       & Pick<ScalarFieldDiff, 'left' | 'right'>
     ) }
-  ), revisor: (
+  ), revisor?: Maybe<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  ), resolver?: Maybe<(
+  )>, resolver?: Maybe<(
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role'>
-  )>, creationComment: (
+  )>, creationComment?: Maybe<(
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
@@ -5228,7 +5230,7 @@ export type RevisionFragment = (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role'>
     )> }
-  ), resolutionComment?: Maybe<(
+  )>, resolutionComment?: Maybe<(
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
@@ -5729,6 +5731,7 @@ export type BrowseVariantsQueryVariables = Exact<{
   drugName?: Maybe<Scalars['String']>;
   variantAlias?: Maybe<Scalars['String']>;
   variantTypeId?: Maybe<Scalars['Int']>;
+  variantGroupId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<VariantsSort>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -6085,10 +6088,10 @@ export type SuggestEvidenceItemRevisionMutation = (
                 { __typename: 'ScalarFieldDiff' }
                 & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
-            ), revisor: (
+            ), revisor?: Maybe<(
               { __typename: 'User' }
               & Pick<User, 'id' | 'name'>
-            ) }
+            )> }
           )> }
         )> }
       ) }
@@ -6247,10 +6250,10 @@ export type SuggestGeneRevisionMutation = (
                 { __typename: 'ScalarFieldDiff' }
                 & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
-            ), revisor: (
+            ), revisor?: Maybe<(
               { __typename: 'User' }
               & Pick<User, 'id' | 'name'>
-            ) }
+            )> }
           )> }
         )> }
       ) }
@@ -6383,10 +6386,10 @@ export type SuggestVariantRevisionMutation = (
                 { __typename: 'ScalarFieldDiff' }
                 & Pick<ScalarFieldDiff, 'left' | 'right'>
               ) }
-            ), revisor: (
+            ), revisor?: Maybe<(
               { __typename: 'User' }
               & Pick<User, 'id' | 'name'>
-            ) }
+            )> }
           )> }
         )> }
       ) }
@@ -7171,10 +7174,10 @@ export type VariantGroupRevisionsQuery = (
               { __typename: 'ScalarFieldDiff' }
               & Pick<ScalarFieldDiff, 'left' | 'right'>
             ) }
-          ), revisor: (
+          ), revisor?: Maybe<(
             { __typename: 'User' }
             & Pick<User, 'id' | 'name'>
-          ) }
+          )> }
         )> }
       )> }
     ) }
@@ -8621,7 +8624,6 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
     `;
 export const ReleaseFragmentDoc = gql`
     fragment Release on DataRelease {
-  __typename
   name
   geneTsv {
     filename
@@ -10227,7 +10229,7 @@ export const VariantsMenuDocument = gql`
     }
   }
 export const BrowseVariantsDocument = gql`
-    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantAlias: String, $variantTypeId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseVariants($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $variantAlias: String, $variantTypeId: Int, $variantGroupId: Int, $sortBy: VariantsSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseVariants(
     variantName: $variantName
     entrezSymbol: $entrezSymbol
@@ -10235,6 +10237,7 @@ export const BrowseVariantsDocument = gql`
     drugName: $drugName
     variantAlias: $variantAlias
     variantTypeId: $variantTypeId
+    variantGroupId: $variantGroupId
     sortBy: $sortBy
     first: $first
     last: $last

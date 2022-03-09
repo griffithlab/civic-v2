@@ -57,7 +57,7 @@ interface FormModel {
   styleUrls: ['./evidence-submit.form.less'],
 })
 export class EvidenceSubmitForm implements OnInit, OnDestroy {
-  private destroy$!: Subject<void>
+  private destroy$: Subject<void> = new Subject();
 
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
@@ -214,7 +214,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.destroy$ = new Subject();
   }
 
   submitEvidence(formModel: Maybe<FormModel>): void {

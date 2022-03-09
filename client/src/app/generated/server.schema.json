@@ -2193,7 +2193,7 @@
               "deprecationReason": null
             },
             {
-              "name": "evidenceType",
+              "name": "assertionType",
               "description": "The Type of the Assertion",
               "type": {
                 "kind": "NON_NULL",
@@ -2241,7 +2241,7 @@
               "deprecationReason": null
             },
             {
-              "name": "evidenceDirection",
+              "name": "assertionDirection",
               "description": "The evidence direction for this Assertion.",
               "type": {
                 "kind": "NON_NULL",
@@ -13264,6 +13264,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "VARIANT_GROUP",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -17893,6 +17899,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "variantGroupId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": null,
                   "type": {
@@ -21627,13 +21645,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Comment",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Comment",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -21908,13 +21922,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "User",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

@@ -11,7 +11,6 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { RouterModule } from '@angular/router';
-import { CvcDetailsNavigationModule } from '@app/components/shared/details-navigation/details-navigation.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { EvidenceDetailRoutingModule } from './evidence-detail-routing.module';
@@ -20,6 +19,8 @@ import { CvcRevertEntityButtonModule } from '@app/components/shared/revert-entit
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-entity-buttons/moderate-entity-button.module';
+import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 
 @NgModule({
   declarations: [EvidenceDetailView],
@@ -39,11 +40,12 @@ import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcFlaggableModule,
-    CvcDetailsNavigationModule,
     CvcVariantTagModule,
     CvcEntitySubscriptionButtonModule,
     CvcRevertEntityButtonModule,
-    CvcModerateEntityButtonsModule
+    CvcModerateEntityButtonsModule,
+    CvcTabNavigationModule,
+    CvcContributorAvatarsModule
   ]
 })
 export class EvidenceDetailModule { }

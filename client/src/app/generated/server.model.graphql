@@ -573,6 +573,16 @@ input AssertionFields {
   ampLevel: NullableAmpLevelTypeInput!
 
   """
+  The evidence direction for this Assertion.
+  """
+  assertionDirection: AssertionDirection!
+
+  """
+  The Type of the Assertion
+  """
+  assertionType: AssertionType!
+
+  """
   The Clinical Significance of the Assertion
   """
   clinicalSignificance: AssertionClinicalSignificance!
@@ -598,19 +608,9 @@ input AssertionFields {
   drugInteractionType: NullableDrugInteractionTypeInput!
 
   """
-  The evidence direction for this Assertion.
-  """
-  evidenceDirection: AssertionDirection!
-
-  """
   IDs of evidence items that are included in this Assertion.
   """
   evidenceItemIds: [Int!]!
-
-  """
-  The Type of the Assertion
-  """
-  evidenceType: AssertionType!
 
   """
   Is an FDA companion test available that pertains to this Assertion.
@@ -2959,6 +2959,7 @@ enum ModeratedEntities {
   EVIDENCE_ITEM
   GENE
   VARIANT
+  VARIANT_GROUP
 }
 
 """
@@ -3988,6 +3989,7 @@ type Query {
     last: Int
     sortBy: VariantsSort
     variantAlias: String
+    variantGroupId: Int
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
@@ -4979,7 +4981,7 @@ type ResolveFlagPayload {
 type Revision implements EventOriginObject & EventSubject {
   comments: [Comment!]!
   createdAt: ISO8601DateTime!
-  creationComment: Comment!
+  creationComment: Comment
   creationEvent: Event
   currentValue: JSON
 
@@ -5024,7 +5026,7 @@ type Revision implements EventOriginObject & EventSubject {
   resolver: User
   resolvingEvent: Event
   revisionsetId: String!
-  revisor: User!
+  revisor: User
   status: RevisionStatus!
   suggestedValue: JSON
   updatedAt: ISO8601DateTime!
