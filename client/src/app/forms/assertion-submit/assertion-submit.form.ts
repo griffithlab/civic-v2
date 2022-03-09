@@ -113,10 +113,12 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
           {
             key: 'drugs',
             type: 'drug-array',
+            templateOptions: {}
           },
           {
             key: 'drugInteractionType',
-            type: 'drug-interaction-select'
+            type: 'drug-interaction-select',
+            templateOptions: {}
           },
           {
             key: 'ampLevel',
@@ -133,34 +135,27 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
           {
             key: 'phenotypes',
             type: 'phenotype-array',
+            templateOptions: {}
           },
           {
             key: 'nccnGuideline',
-            type: 'input',
-            templateOptions: {
-              label: 'NCCN Guideline'
-            }
+            type: 'nccn-guideline-input',
+            templateOptions: {}
           },
           {
             key: 'nccnGuidelineVersion',
-            type: 'input',
-            templateOptions: {
-              label: 'NCCN Guideline Version'
-            }
+            type: 'nccn-version-input',
+            templateOptions: {}
           },
           {
             key: 'fdaRegulatoryApproval',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'FDA Regulatory Approval?',
-            }
+            type: 'fda-approval-checkbox',
+            templateOptions: {}
           },
           {
             key: 'fdaCompanionTest',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'FDA Companion Test?',
-            }
+            type: 'fda-test-checkbox',
+            templateOptions: {}
           },
           {
             key: 'summary',

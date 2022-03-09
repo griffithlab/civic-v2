@@ -37,6 +37,10 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { CvcAmpLevelInputTypeModule } from '../config/types/amp-level-input/amp-level-input.module';
 import { CvcAcmgCodeArrayTypeModule } from '../config/types/acmg-code-array/acmg-code-array.module';
+import { CvcNccnVersionInputTypeModule } from '../config/types/nccn-version-input/nccn-version-input.module';
+import { CvcNccnGuidelineInputTypeModule } from '../config/types/nccn-guideline-input/nccn-guideline-input.module';
+import { CvcFdaApprovalCheckboxTypeModule } from '../config/types/fda-approval-checkbox/fda-approval-checkbox.module';
+import { CvcFdaTestCheckboxTypeModule } from '../config/types/fda-test-checkbox/fda-test-checkbox.module';
 
 @NgModule({
   declarations: [
@@ -80,6 +84,10 @@ import { CvcAcmgCodeArrayTypeModule } from '../config/types/acmg-code-array/acmg
     CvcSourceArrayTypeModule,
     CvcAmpLevelInputTypeModule,
     CvcAcmgCodeArrayTypeModule,
+    CvcNccnVersionInputTypeModule,
+    CvcNccnGuidelineInputTypeModule,
+    CvcFdaApprovalCheckboxTypeModule,
+    CvcFdaTestCheckboxTypeModule,
   ],
   exports: [
     AssertionSubmitForm
