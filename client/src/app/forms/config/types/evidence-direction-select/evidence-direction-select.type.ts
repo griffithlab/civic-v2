@@ -3,7 +3,6 @@ import { EvidenceDirection, EvidenceType, Maybe } from '@app/generated/civic.apo
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
 import { Subject } from 'rxjs';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { takeUntil } from 'rxjs/operators';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { EntityState, EntityType, SelectOption } from '../../states/entity.state';
@@ -17,7 +16,6 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
       label: 'Evidence Direction',
       placeholder: 'None specified',
       options: new Subject<SelectOption[]>(),
-      destroy$: new Subject<boolean>(),
     },
     validators: { validation: ['ed-option'] },
     hooks: {
@@ -33,8 +31,7 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
           // find evidenceType formControl, subscribe to value changes to update options
           const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
           if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
-          etCtrl.valueChanges
-            .pipe(takeUntil(to.destroy$))
+          to.vcSubscription = etCtrl.valueChanges
             .subscribe((et: EntityType) => {
               options.next(
                 st.getOptionsFromEnums(st.getDirectionOptions(et))
@@ -45,8 +42,7 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to = ffc!.templateOptions!;
-        to.destroy$.next(true);
-        to.destroy$.unsubscribe();
+        to.vcSubscription.unsubscribe();
       }
     },
 

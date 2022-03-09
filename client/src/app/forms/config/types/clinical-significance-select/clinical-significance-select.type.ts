@@ -17,7 +17,6 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
       helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
       placeholder: 'None specified',
       options: new Subject<SelectOption[]>(),
-      destroy$: new Subject<boolean>(),
     },
     validators: {
       validation: ['cs-option']
@@ -32,8 +31,7 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
-        etCtrl.valueChanges
-          .pipe(takeUntil(to.destroy$))
+        to.vcSub = etCtrl.valueChanges
           .subscribe((et: EntityType) => {
             options.next(st.getOptionsFromEnums(st.getSignificanceOptions(et)));
             ffc!.formControl!.updateValueAndValidity();
@@ -42,8 +40,7 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to: FormlyTemplateOptions = ffc!.templateOptions!;
-        to.destroy$.next(true);
-        to.destroy$.unsubscribe();
+        to.vcSub.unsubscribe();
       }
     },
   }

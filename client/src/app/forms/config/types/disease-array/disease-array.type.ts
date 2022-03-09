@@ -1,13 +1,11 @@
 import { AbstractControl, FormArray, ValidationErrors } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';
-
-const destroy$: Subject<boolean> = new Subject<boolean>();
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
     const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
@@ -23,6 +21,7 @@ export const diseaseArrayTypeOption: TypeOption = {
       helpText: 'Please enter a disease name. If you are unable to locate the disease in the dropdown, please check the \'Could not find disease\' checkbox below and enter the disease in the field that appears.',
       required: false,
       addText: 'Add a Disease',
+      destroy$: new Subject<boolean>()
     },
     fieldArray: {
       type: 'cvc-disease-input',
@@ -38,15 +37,14 @@ export const diseaseArrayTypeOption: TypeOption = {
     },
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to: FormlyTemplateOptions = ffc!.templateOptions!;
         // check for formState, populate with all options if not found
         const st: EvidenceState = ffc?.options?.formState;
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
-        etCtrl.valueChanges
-          .pipe(takeUntil(destroy$))
+        to.vcSub = etCtrl.valueChanges
           .subscribe((et: EvidenceType) => {
-            const to = ffc!.templateOptions!;
             const fc: FormArray = ffc!.formControl! as FormArray;
             if (!st.requiresDisease(et)) {
               to.hidden = true;
@@ -63,9 +61,9 @@ export const diseaseArrayTypeOption: TypeOption = {
             }
           });
       },
-      onDestroy: (): void => {
-        destroy$.next(true);
-        destroy$.unsubscribe();
+      onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
+        const to: FormlyTemplateOptions = ffc!.templateOptions!;
+        to.vcSub.unsubscribe();
       }
     },
   }
