@@ -120,14 +120,12 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
           },
           {
             key: 'ampLevel',
-            type: 'input',
-            templateOptions: {
-              label: 'AMP Level',
-            }
+            type: 'amp-level-input',
+            templateOptions: { }
           },
           {
             key: 'acmgCodes',
-            type: 'input',
+            type: 'acmg-code-array',
             templateOptions: {
               label: 'ACMG/AMP Code(s)',
             }

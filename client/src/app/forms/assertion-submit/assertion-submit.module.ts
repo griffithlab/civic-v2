@@ -35,8 +35,8 @@ import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interac
 import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
-
-
+import { CvcAmpLevelInputTypeModule } from '../config/types/amp-level-input/amp-level-input.module';
+import { CvcAcmgCodeArrayTypeModule } from '../config/types/acmg-code-array/acmg-code-array.module';
 
 @NgModule({
   declarations: [
@@ -78,6 +78,8 @@ import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-ar
     CvcGeneArrayTypeModule,
     CvcVariantArrayTypeModule,
     CvcSourceArrayTypeModule,
+    CvcAmpLevelInputTypeModule,
+    CvcAcmgCodeArrayTypeModule,
   ],
   exports: [
     AssertionSubmitForm
