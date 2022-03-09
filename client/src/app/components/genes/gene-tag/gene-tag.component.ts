@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableGene {
@@ -11,14 +12,20 @@ export interface LinkableGene {
   templateUrl: './gene-tag.component.html',
   styleUrls: ['./gene-tag.component.less']
 })
-export class CvcGeneTagComponent implements OnInit {
+export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
   @Input() gene!: LinkableGene;
-  @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
-  constructor() { }
+  constructor() {
+    super();
+   }
+
+   idFunction(): number {
+     return this.gene.id;
+   }
 
   ngOnInit() {
+    super.ngOnInit();
     if (this.gene === undefined) {
       throw new Error(
         'cvc-gene-tag requires LinkableGene input, none supplied.'

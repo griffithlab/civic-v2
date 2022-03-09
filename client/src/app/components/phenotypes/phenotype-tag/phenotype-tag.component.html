@@ -7,10 +7,12 @@
 <ng-template #tag>
   <nz-tag *ngIf="enablePopover; else noPopover"
     nz-popover
-    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="phenotypePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover">
+    nzPopoverTrigger="hover"
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)"
+    >
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -20,7 +22,7 @@
 </ng-template>
 
 <ng-template #noPopover>
-  <nz-tag>
+    <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>
