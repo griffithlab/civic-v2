@@ -36,14 +36,14 @@ const routes: Routes = [
                 (m) => m.AssertionsDetailModule
               ),
           },
-          // {
-          //   path: 'revise',
-          //   loadChildren: () =>
-          //     import('@app/views/assertions/assertions-revise/assertions-revise.module').then(
-          //       (m) => m.AssertionsReviseModule
-          //     ),
-          //   data: { breadcrumb: 'Revise' }
-          // },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/assertions/assertions-revise/assertions-revise.module').then(
+                (m) => m.AssertionsReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
+          },
         ]
       },
 
