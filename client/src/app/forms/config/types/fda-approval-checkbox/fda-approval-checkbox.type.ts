@@ -6,7 +6,7 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
-      label: 'FDA Regulatory Approval',
+      label: 'FDA Regulatory Approval?',
     },
     defaultValue: false
   }

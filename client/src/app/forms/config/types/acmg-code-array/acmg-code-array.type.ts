@@ -1,6 +1,6 @@
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 
-export const acmgCodeArrayType: TypeOption = {
+export const acmgCodeArrayTypeOption: TypeOption = {
   name: 'acmg-code-array',
   extends: 'multi-field',
   defaultOptions: {
