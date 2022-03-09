@@ -2351,6 +2351,8 @@ export enum PhenotypeSortColumns {
 
 export type Query = {
   __typename: 'Query';
+  /** Retrieve ACMG Code options as a typeahead */
+  acmgCodesTypeahead: Array<AcmgCode>;
   /** Find an assertion by CIViC ID */
   assertion?: Maybe<Assertion>;
   /** List and filter assertions. */
@@ -2457,6 +2459,11 @@ export type Query = {
   /** List and filter variants. */
   variants: VariantConnection;
   viewer?: Maybe<User>;
+};
+
+
+export type QueryAcmgCodesTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -5798,6 +5805,23 @@ export type ViewerNotificationCountQuery = (
   ) }
 );
 
+export type SubmitAssertionMutationVariables = Exact<{
+  input: SubmitAssertionInput;
+}>;
+
+
+export type SubmitAssertionMutation = (
+  { __typename: 'Mutation' }
+  & { submitAssertion?: Maybe<(
+    { __typename: 'SubmitAssertionPayload' }
+    & Pick<SubmitAssertionPayload, 'clientMutationId'>
+    & { assertion: (
+      { __typename: 'Assertion' }
+      & Pick<Assertion, 'id'>
+    ) }
+  )> }
+);
+
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -5874,6 +5898,19 @@ export type EntityTypeaheadQuery = (
   & { entityTypeahead: Array<(
     { __typename: 'CommentTagSegment' }
     & Pick<CommentTagSegment, 'entityId' | 'tagType' | 'displayName'>
+  )> }
+);
+
+export type AcmgCodeTypeaheaddQueryVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+
+export type AcmgCodeTypeaheaddQuery = (
+  { __typename: 'Query' }
+  & { acmgCodesTypeahead: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'id' | 'code' | 'description'>
   )> }
 );
 
@@ -10339,6 +10376,27 @@ export const ViewerNotificationCountDocument = gql`
       super(apollo);
     }
   }
+export const SubmitAssertionDocument = gql`
+    mutation SubmitAssertion($input: SubmitAssertionInput!) {
+  submitAssertion(input: $input) {
+    clientMutationId
+    assertion {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitAssertionGQL extends Apollo.Mutation<SubmitAssertionMutation, SubmitAssertionMutationVariables> {
+    document = SubmitAssertionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -10411,6 +10469,26 @@ export const EntityTypeaheadDocument = gql`
   })
   export class EntityTypeaheadGQL extends Apollo.Query<EntityTypeaheadQuery, EntityTypeaheadQueryVariables> {
     document = EntityTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AcmgCodeTypeaheaddDocument = gql`
+    query AcmgCodeTypeaheadd($code: String!) {
+  acmgCodesTypeahead(queryTerm: $code) {
+    id
+    code
+    description
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcmgCodeTypeaheaddGQL extends Apollo.Query<AcmgCodeTypeaheaddQuery, AcmgCodeTypeaheaddQueryVariables> {
+    document = AcmgCodeTypeaheaddDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

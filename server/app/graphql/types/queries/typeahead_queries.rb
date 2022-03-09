@@ -41,6 +41,11 @@ module Types::Queries
         description "Retrieve entity type typeahead fields for a entity mention search term."
         argument :query_term, GraphQL::Types::String, required: true
       end
+      
+      klass.field :acmg_codes_typeahead, [Types::Entities::AcmgCodeType], null: false do
+        description "Retrieve ACMG Code options as a typeahead"
+        argument :query_term, GraphQL::Types::String, required: true
+      end
 
       def disease_typeahead(query_term:)
         scope = Disease.eager_load(:disease_aliases)
@@ -96,6 +101,12 @@ module Types::Queries
 
       def entity_typeahead(query_term:)
         Actions::ExtractReferences.typeahead_matches(query_term)
+      end
+
+      def acmg_codes_typeahead(query_term:)
+        AcmgCode.where('code ILIKE ?', "#{query_term}%")
+          .order(:code)
+          .limit(20)
       end
     end
   end

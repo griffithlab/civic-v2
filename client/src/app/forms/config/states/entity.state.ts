@@ -1,4 +1,3 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { formatEvidenceEnum, InputEnum } from "@app/core/utilities/enum-formatters/format-evidence-enum";
 import {
   AssertionClinicalSignificance,
@@ -8,8 +7,6 @@ import {
   EvidenceDirection,
   EvidenceType,
 } from "@app/generated/civic.apollo";
-import { FormlyFieldConfig } from "@ngx-formly/core";
-import { FieldValidatorFn, ValidatorOption } from "@ngx-formly/core/lib/services/formly.config";
 import { $enum } from "ts-enum-util";
 
 export type EntityType = EvidenceType | AssertionType
@@ -63,6 +60,7 @@ export interface IEntityState {
 class EntityState implements IEntityState {
   validStates = new Map<EntityType, ValidEntity>();
   entityName: EntityName;
+
   pluralNames: Map<EntityName, string>;
   constructor(en: EntityName) {
     this.entityName = en;
@@ -73,7 +71,11 @@ class EntityState implements IEntityState {
   }
 
   getTypeOptions = (): EntityType[] => {
-    return $enum(EvidenceType).map(value => value);
+    if(this.entityName == EntityName.ASSERTION) {
+      return $enum(AssertionType).map(value => value);
+    } else {
+      return $enum(EvidenceType).map(value => value);
+    }
   }
 
   getSignificanceOptions = (et: EntityType): EntityClinicalSignificance[] => {
