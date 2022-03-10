@@ -23,6 +23,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           name: github-actions
           known_hosts: 'random-placeholder-value-replaced-by-keyscan-below'
+          if_key_exists: replace
           config: |
             host ${{ secrets.SSH_HOST }}
               IdentityFile ~/.ssh/github-actions
