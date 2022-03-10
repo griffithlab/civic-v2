@@ -634,6 +634,11 @@ input AssertionFields {
   nccnGuidelineId: NullableIntInput!
 
   """
+  The version of the NCCN Guideline specified
+  """
+  nccnGuidelineVersion: NullableStringInput!
+
+  """
   List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none.
   """
   phenotypeIds: [Int!]!

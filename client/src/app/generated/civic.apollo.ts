@@ -358,6 +358,8 @@ export type AssertionFields = {
   geneId: Scalars['Int'];
   /** The internal CIViC ID of the NCCN guideline associated with this Assertion */
   nccnGuidelineId: NullableIntInput;
+  /** The version of the NCCN Guideline specified */
+  nccnGuidelineVersion: NullableStringInput;
   /** List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none. */
   phenotypeIds: Array<Scalars['Int']>;
   /** A brief single sentence statement summarizing the clinical significance of this Assertion. */

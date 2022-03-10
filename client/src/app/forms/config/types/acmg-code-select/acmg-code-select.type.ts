@@ -7,6 +7,7 @@ import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
+
 @Component({
   selector: 'cvc-acmg-code-select-type',
   templateUrl: './acmg-code-select.type.html',

@@ -2389,6 +2389,22 @@
               "deprecationReason": null
             },
             {
+              "name": "nccnGuidelineVersion",
+              "description": "The version of the NCCN Guideline specified",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "NullableStringInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "acmgCodeIds",
               "description": "List of CIViC IDs for the ACMG/AMP codes associated with this Assertion",
               "type": {

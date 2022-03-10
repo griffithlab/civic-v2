@@ -14,7 +14,7 @@ export interface FormDisease {
 }
 
 export interface FormDrug {
-  id?: number;
+  id: number;
   ncitId?: string;
   name?: string;
 }

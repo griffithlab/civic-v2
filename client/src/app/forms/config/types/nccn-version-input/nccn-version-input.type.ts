@@ -33,9 +33,9 @@ export const nccnVersionInputTypeOption: TypeOption = {
             .subscribe((guideline: Maybe<NccnGuideline>) => {
               if(guideline) {
                 to.required = true
-                ffc.model[ffc.key as string] = undefined
               } else {
                 to.required = false
+                ffc.model[ffc.key as string] = undefined
               }
             })
         }
