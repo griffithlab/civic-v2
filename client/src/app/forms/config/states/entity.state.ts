@@ -1,4 +1,3 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { formatEvidenceEnum, InputEnum } from "@app/core/utilities/enum-formatters/format-evidence-enum";
 import {
   AssertionClinicalSignificance,
@@ -8,8 +7,6 @@ import {
   EvidenceDirection,
   EvidenceType,
 } from "@app/generated/civic.apollo";
-import { FormlyFieldConfig } from "@ngx-formly/core";
-import { FieldValidatorFn, ValidatorOption } from "@ngx-formly/core/lib/services/formly.config";
 import { $enum } from "ts-enum-util";
 
 export type EntityType = EvidenceType | AssertionType
@@ -27,6 +24,7 @@ export type ValidEntity = {
   requiresDrug: boolean
   requiresAcmgCodes: boolean
   requiresAmpLevel: boolean
+  allowsFdaApproval: boolean
 }
 
 export type SelectOption = { [key: string | number]: string | number };
@@ -58,11 +56,13 @@ export interface IEntityState {
   requiresDisease: (et: EntityType) => boolean;
   requiresAcmgCodes: (et: EntityType) => boolean;
   requiresAmpLevel: (et: EntityType) => boolean;
+  allowsFdaApproval: (et: EntityType) => boolean;
 }
 
 class EntityState implements IEntityState {
   validStates = new Map<EntityType, ValidEntity>();
   entityName: EntityName;
+
   pluralNames: Map<EntityName, string>;
   constructor(en: EntityName) {
     this.entityName = en;
@@ -73,7 +73,11 @@ class EntityState implements IEntityState {
   }
 
   getTypeOptions = (): EntityType[] => {
-    return $enum(EvidenceType).map(value => value);
+    if(this.entityName == EntityName.ASSERTION) {
+      return $enum(AssertionType).map(value => value);
+    } else {
+      return $enum(EvidenceType).map(value => value);
+    }
   }
 
   getSignificanceOptions = (et: EntityType): EntityClinicalSignificance[] => {
@@ -117,6 +121,12 @@ class EntityState implements IEntityState {
   requiresAmpLevel = (at: EntityType): boolean => {
     const state = this.validStates.get(at);
     return state !== undefined ? state.requiresAmpLevel : true;
+  }
+
+  allowsFdaApproval = (et: EntityType): boolean => {
+    const state = this.validStates.get(et);
+    return state !== undefined ? state.allowsFdaApproval : true;
+
   }
 
   getOptionsFromEnums = (e: InputEnum[]): SelectOption[] => {

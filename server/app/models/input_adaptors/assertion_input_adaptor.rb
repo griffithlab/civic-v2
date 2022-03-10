@@ -23,6 +23,7 @@ class InputAdaptors::AssertionInputAdaptor
       amp_level: input.amp_level,
       evidence_item_ids: input.evidence_item_ids,
       nccn_guideline_id: input.nccn_guideline_id,
+      nccn_guideline_version: input.nccn_guideline_version,
       acmg_code_ids: input.acmg_code_ids,
       fda_companion_test: input.fda_companion_test,
       fda_regulatory_approval: input.fda_regulatory_approval

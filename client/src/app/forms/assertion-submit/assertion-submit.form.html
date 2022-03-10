@@ -21,12 +21,12 @@
     </nz-form-item>
     <ng-container *ngIf="this.success">
       <nz-alert nzType="success"
-        nzMessage="Evidence Submitted"
+        nzMessage="Assertion Submitted"
         [nzDescription]="successMessage"
         nzShowIcon></nz-alert>
       <ng-template #successMessage
         nzSize="small">
-        <p>View <a routerLink="/evidence/{{this.newId}}/summary">its details</a>.</p>
+        <p>View <a routerLink="/assertions/{{this.newId}}/summary">its details</a>.</p>
       </ng-template>
     </ng-container>
   </ng-template>

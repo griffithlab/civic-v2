@@ -31,6 +31,8 @@ module Types::Revisions
       description: 'IDs of evidence items that are included in this Assertion.'
     argument :nccn_guideline_id, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,
       description: 'The internal CIViC ID of the NCCN guideline associated with this Assertion'
+    argument :nccn_guideline_version, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
+      description: 'The version of the NCCN Guideline specified'
     argument :acmg_code_ids, [Int], required: true,
       description: 'List of CIViC IDs for the ACMG/AMP codes associated with this Assertion'
     argument :fda_companion_test, Boolean, required: true,

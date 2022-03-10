@@ -1,10 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NullableAmpLevelTypeInput, SourceSource, VariantOrigin } from '@app/generated/civic.apollo';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NccnGuideline, NullableAmpLevelTypeInput, Organization, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
 import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
+import * as fmt from '@app/forms/config/utilities/input-formatters';
+import { FieldValidationExtension } from '@ngx-formly/core/lib/extensions/field-validation/field-validation';
 
 interface FormModel {
   fields: {
@@ -21,13 +26,15 @@ interface FormModel {
     phenotypes: FormPhenotype[]
     drugs: FormDrug[]
     drugInteractionType: Maybe<DrugInteraction>
-    ampLevel: Maybe<NullableAmpLevelTypeInput>
+    ampLevel: Maybe<AmpLevel>
     evidenceItems: EvidenceItem[]
-    nccnGuideline: Maybe<number>
-    acmgCodeIds: number[]
+    nccnGuideline: Maybe<NccnGuideline>
+    nccnGuidelineVersion: Maybe<string>,
+    acmgCodes: AcmgCode[],
     fdaCompanionTest: boolean
     fdaRegulatoryApproval: boolean
     comment: Maybe<string>
+    organization: Maybe<Organization>
   }
 }
 
@@ -36,20 +43,28 @@ interface FormModel {
   templateUrl: './assertion-submit.form.html',
   styleUrls: ['./assertion-submit.form.less']
 })
-export class AssertionSubmitForm implements OnInit, OnDestroy {
-  private destroy$!: Subject<void>;
+export class AssertionSubmitForm implements OnDestroy {
+  private destroy$: Subject<void> = new Subject();
 
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new AssertionState() };
 
+  submitAssertionMutator: MutatorWithState<SubmitAssertionGQL, SubmitAssertionMutation, SubmitAssertionMutationVariables>
+
   success: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
   newId?: number
 
-  constructor() {
+  constructor(
+    private submitAssertionGQL: SubmitAssertionGQL,
+    private networkErrorService: NetworkErrorsService
+
+  ) {
+
+    this.submitAssertionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
@@ -217,13 +232,72 @@ export class AssertionSubmitForm implements OnInit, OnDestroy {
     ];
   }
 
-  submitAssertion = (model: FormModel):void => {
-    console.log('Assertion Submitted!');
-    console.log(model);
+  toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitAssertionInput> {
+    if(model) {
+      const fields = model.fields
+      return {
+        comment: fields.comment,
+        organizationId: fields.organization?.id,
+        fields: {
+          description: fmt.toNullableString(fields.description),
+          summary: fmt.toNullableString(fields.summary),
+          variantId: fields.variant[0].id!,
+          geneId: fields.gene[0].id!,
+          variantOrigin: fields.variantOrigin,
+          assertionType: fields.evidenceType,
+          clinicalSignificance: fields.clinicalSignificance,
+          diseaseId: fmt.toNullableInput(fields.disease[0].id!),
+          assertionDirection: fields.evidenceDirection,
+          phenotypeIds: fields.phenotypes.map(p => p.id),
+          drugIds: fields.drugs.map(d => d.id),
+          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType),
+          ampLevel: fmt.toNullableInput(fields.ampLevel),
+          nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
+          nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
+          acmgCodeIds: fields.acmgCodes.map(c => c.id),
+          fdaCompanionTest: fields.fdaCompanionTest,
+          fdaRegulatoryApproval: fields.fdaRegulatoryApproval,
+          //TODO: don't hardcode these once josh makes the evidence picker
+          evidenceItemIds: [1, 2]
+        }
+      }
+    }
+    return undefined
   }
 
-  ngOnInit(): void { }
+  submitAssertion(model: Maybe<FormModel>): void {
+    let input = this.toSubmitInput(model)
+    if(input) {
 
-  ngOnDestroy(): void {  }
+      let state = this.submitAssertionMutator.mutate(this.submitAssertionGQL, {
+        input: input
+      },
+      (data) => {
+        this.newId = data.submitAssertion.assertion.id;
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
+    }
+  }
+
+  ngOnDestroy(): void { 
+    this.destroy$.next();
+    this.destroy$.complete();
+   }
 
 }

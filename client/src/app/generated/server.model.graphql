@@ -634,6 +634,11 @@ input AssertionFields {
   nccnGuidelineId: NullableIntInput!
 
   """
+  The version of the NCCN Guideline specified
+  """
+  nccnGuidelineVersion: NullableStringInput!
+
+  """
   List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none.
   """
   phenotypeIds: [Int!]!
@@ -3310,6 +3315,11 @@ type MyVariantInfo {
   snpeffSnpImpact: [String!]!
 }
 
+type NccnGuideline {
+  id: Int!
+  name: String!
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -3739,6 +3749,11 @@ enum PhenotypeSortColumns {
 }
 
 type Query {
+  """
+  Retrieve ACMG Code options as a typeahead
+  """
+  acmgCodesTypeahead(queryTerm: String!): [AcmgCode!]!
+
   """
   Find an assertion by CIViC ID
   """
@@ -4436,6 +4451,11 @@ type Query {
   Retrieve gene typeahead fields for a search term.
   """
   geneTypeahead(queryTerm: String!): [Gene!]!
+
+  """
+  Retrieve NCCN Guideline options as a typeahead
+  """
+  nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
 
   """
   List and filter notifications for the logged in user.

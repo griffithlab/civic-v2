@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { nccnGuidelineInputTypeOption } from './nccn-guideline-input.type';
+import { NccnGuidelineInputType, nccnGuidelineInputTypeOption } from './nccn-guideline-input.type';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
+  declarations: [NccnGuidelineInputType],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
+    NzSelectModule,
+    NzSpaceModule,
+    NzTagModule,
     FormlyModule.forChild({types: [nccnGuidelineInputTypeOption]}),
   ]
 })

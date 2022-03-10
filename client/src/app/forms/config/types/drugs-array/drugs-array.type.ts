@@ -1,9 +1,9 @@
 import { AbstractControl, FormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
+import { Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
-import { EvidenceState } from '../../states/evidence.state';
+import { EntityState, EntityType } from '../../states/entity.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
   const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
@@ -36,12 +36,12 @@ export const drugArrayTypeOption: TypeOption = {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to: FormlyTemplateOptions = ffc!.templateOptions!;
         // check for formState, populate with all options if not found
-        const st: EvidenceState = ffc?.options?.formState;
+        const st: EntityState = ffc?.options?.formState;
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
         to.vcSub = etCtrl.valueChanges
-          .subscribe((et: EvidenceType) => {
+          .subscribe((et: EntityType) => {
             const fc: FormArray = ffc!.formControl! as FormArray;
             if (!st.requiresDrug(et)) {
               to.hidden = true;

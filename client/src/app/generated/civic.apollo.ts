@@ -358,6 +358,8 @@ export type AssertionFields = {
   geneId: Scalars['Int'];
   /** The internal CIViC ID of the NCCN guideline associated with this Assertion */
   nccnGuidelineId: NullableIntInput;
+  /** The version of the NCCN Guideline specified */
+  nccnGuidelineVersion: NullableStringInput;
   /** List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none. */
   phenotypeIds: Array<Scalars['Int']>;
   /** A brief single sentence statement summarizing the clinical significance of this Assertion. */
@@ -2062,6 +2064,12 @@ export type MyVariantInfo = {
   snpeffSnpImpact: Array<Scalars['String']>;
 };
 
+export type NccnGuideline = {
+  __typename: 'NccnGuideline';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
 export type Notification = {
   __typename: 'Notification';
   createdAt: Scalars['ISO8601DateTime'];
@@ -2352,6 +2360,8 @@ export enum PhenotypeSortColumns {
 
 export type Query = {
   __typename: 'Query';
+  /** Retrieve ACMG Code options as a typeahead */
+  acmgCodesTypeahead: Array<AcmgCode>;
   /** Find an assertion by CIViC ID */
   assertion?: Maybe<Assertion>;
   /** List and filter assertions. */
@@ -2403,6 +2413,8 @@ export type Query = {
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
+  /** Retrieve NCCN Guideline options as a typeahead */
+  nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
@@ -2458,6 +2470,11 @@ export type Query = {
   /** List and filter variants. */
   variants: VariantConnection;
   viewer?: Maybe<User>;
+};
+
+
+export type QueryAcmgCodesTypeaheadArgs = {
+  queryTerm: Scalars['String'];
 };
 
 
@@ -2724,6 +2741,11 @@ export type QueryGeneArgs = {
 
 
 export type QueryGeneTypeaheadArgs = {
+  queryTerm: Scalars['String'];
+};
+
+
+export type QueryNccnGuidelinesTypeaheadArgs = {
   queryTerm: Scalars['String'];
 };
 
@@ -5799,6 +5821,23 @@ export type ViewerNotificationCountQuery = (
   ) }
 );
 
+export type SubmitAssertionMutationVariables = Exact<{
+  input: SubmitAssertionInput;
+}>;
+
+
+export type SubmitAssertionMutation = (
+  { __typename: 'Mutation' }
+  & { submitAssertion?: Maybe<(
+    { __typename: 'SubmitAssertionPayload' }
+    & Pick<SubmitAssertionPayload, 'clientMutationId'>
+    & { assertion: (
+      { __typename: 'Assertion' }
+      & Pick<Assertion, 'id'>
+    ) }
+  )> }
+);
+
 export type AddCommentMutationVariables = Exact<{
   input: AddCommentInput;
 }>;
@@ -5878,6 +5917,19 @@ export type EntityTypeaheadQuery = (
   )> }
 );
 
+export type AcmgCodeTypeaheadQueryVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+
+export type AcmgCodeTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { acmgCodesTypeahead: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'id' | 'code' | 'description'>
+  )> }
+);
+
 export type DiseaseTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -5920,6 +5972,19 @@ export type GeneTypeaheadQuery = (
 export type GeneTypeaheadFieldsFragment = (
   { __typename: 'Gene' }
   & Pick<Gene, 'id' | 'name' | 'geneAliases' | 'entrezId'>
+);
+
+export type NccnGuidelineTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type NccnGuidelineTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { nccnGuidelinesTypeahead: Array<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
+  )> }
 );
 
 export type PhenotypeTypeaheadQueryVariables = Exact<{
@@ -10341,6 +10406,27 @@ export const ViewerNotificationCountDocument = gql`
       super(apollo);
     }
   }
+export const SubmitAssertionDocument = gql`
+    mutation SubmitAssertion($input: SubmitAssertionInput!) {
+  submitAssertion(input: $input) {
+    clientMutationId
+    assertion {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubmitAssertionGQL extends Apollo.Mutation<SubmitAssertionMutation, SubmitAssertionMutationVariables> {
+    document = SubmitAssertionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AddCommentDocument = gql`
     mutation AddComment($input: AddCommentInput!) {
   addComment(input: $input) {
@@ -10418,6 +10504,26 @@ export const EntityTypeaheadDocument = gql`
       super(apollo);
     }
   }
+export const AcmgCodeTypeaheadDocument = gql`
+    query AcmgCodeTypeahead($code: String!) {
+  acmgCodesTypeahead(queryTerm: $code) {
+    id
+    code
+    description
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcmgCodeTypeaheadGQL extends Apollo.Query<AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables> {
+    document = AcmgCodeTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DiseaseTypeaheadDocument = gql`
     query DiseaseTypeahead($name: String!) {
   diseaseTypeahead(queryTerm: $name) {
@@ -10474,6 +10580,25 @@ export const GeneTypeaheadDocument = gql`
   })
   export class GeneTypeaheadGQL extends Apollo.Query<GeneTypeaheadQuery, GeneTypeaheadQueryVariables> {
     document = GeneTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const NccnGuidelineTypeaheadDocument = gql`
+    query NccnGuidelineTypeahead($name: String!) {
+  nccnGuidelinesTypeahead(queryTerm: $name) {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class NccnGuidelineTypeaheadGQL extends Apollo.Query<NccnGuidelineTypeaheadQuery, NccnGuidelineTypeaheadQueryVariables> {
+    document = NccnGuidelineTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
