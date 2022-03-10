@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AcmgCode, AcmgCodeTypeaheaddGQL, AcmgCodeTypeaheaddQuery, AcmgCodeTypeaheaddQueryVariables } from '@app/generated/civic.apollo';
+import { AcmgCode, AcmgCodeTypeaheadGQL, AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-
-
 
 @Component({
   selector: 'cvc-acmg-code-select-type',
@@ -20,10 +18,10 @@ export class AcmgCodeInputType extends FieldType implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   private searchVal = ""
 
-  private queryRef?: QueryRef<AcmgCodeTypeaheaddQuery, AcmgCodeTypeaheaddQueryVariables>
+  private queryRef?: QueryRef<AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables>
   codes$?: Observable<AcmgCode[]>
 
-  constructor(private acmgCodeGQL: AcmgCodeTypeaheaddGQL) {
+  constructor(private acmgCodeGQL: AcmgCodeTypeaheadGQL) {
     super();
   }
   

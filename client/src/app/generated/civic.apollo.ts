@@ -2062,6 +2062,12 @@ export type MyVariantInfo = {
   snpeffSnpImpact: Array<Scalars['String']>;
 };
 
+export type NccnGuideline = {
+  __typename: 'NccnGuideline';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
 export type Notification = {
   __typename: 'Notification';
   createdAt: Scalars['ISO8601DateTime'];
@@ -2405,6 +2411,8 @@ export type Query = {
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
+  /** Retrieve NCCN Guideline options as a typeahead */
+  nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
   notifications: NotificationConnection;
   /** Find an organization by CIViC ID */
@@ -2731,6 +2739,11 @@ export type QueryGeneArgs = {
 
 
 export type QueryGeneTypeaheadArgs = {
+  queryTerm: Scalars['String'];
+};
+
+
+export type QueryNccnGuidelinesTypeaheadArgs = {
   queryTerm: Scalars['String'];
 };
 
@@ -5902,12 +5915,12 @@ export type EntityTypeaheadQuery = (
   )> }
 );
 
-export type AcmgCodeTypeaheaddQueryVariables = Exact<{
+export type AcmgCodeTypeaheadQueryVariables = Exact<{
   code: Scalars['String'];
 }>;
 
 
-export type AcmgCodeTypeaheaddQuery = (
+export type AcmgCodeTypeaheadQuery = (
   { __typename: 'Query' }
   & { acmgCodesTypeahead: Array<(
     { __typename: 'AcmgCode' }
@@ -5957,6 +5970,19 @@ export type GeneTypeaheadQuery = (
 export type GeneTypeaheadFieldsFragment = (
   { __typename: 'Gene' }
   & Pick<Gene, 'id' | 'name' | 'geneAliases' | 'entrezId'>
+);
+
+export type NccnGuidelineTypeaheadQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type NccnGuidelineTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { nccnGuidelinesTypeahead: Array<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
+  )> }
 );
 
 export type PhenotypeTypeaheadQueryVariables = Exact<{
@@ -10476,8 +10502,8 @@ export const EntityTypeaheadDocument = gql`
       super(apollo);
     }
   }
-export const AcmgCodeTypeaheaddDocument = gql`
-    query AcmgCodeTypeaheadd($code: String!) {
+export const AcmgCodeTypeaheadDocument = gql`
+    query AcmgCodeTypeahead($code: String!) {
   acmgCodesTypeahead(queryTerm: $code) {
     id
     code
@@ -10489,8 +10515,8 @@ export const AcmgCodeTypeaheaddDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class AcmgCodeTypeaheaddGQL extends Apollo.Query<AcmgCodeTypeaheaddQuery, AcmgCodeTypeaheaddQueryVariables> {
-    document = AcmgCodeTypeaheaddDocument;
+  export class AcmgCodeTypeaheadGQL extends Apollo.Query<AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables> {
+    document = AcmgCodeTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10552,6 +10578,25 @@ export const GeneTypeaheadDocument = gql`
   })
   export class GeneTypeaheadGQL extends Apollo.Query<GeneTypeaheadQuery, GeneTypeaheadQueryVariables> {
     document = GeneTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const NccnGuidelineTypeaheadDocument = gql`
+    query NccnGuidelineTypeahead($name: String!) {
+  nccnGuidelinesTypeahead(queryTerm: $name) {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class NccnGuidelineTypeaheadGQL extends Apollo.Query<NccnGuidelineTypeaheadQuery, NccnGuidelineTypeaheadQueryVariables> {
+    document = NccnGuidelineTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

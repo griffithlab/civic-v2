@@ -3310,6 +3310,11 @@ type MyVariantInfo {
   snpeffSnpImpact: [String!]!
 }
 
+type NccnGuideline {
+  id: Int!
+  name: String!
+}
+
 type Notification {
   createdAt: ISO8601DateTime!
   event: Event!
@@ -4441,6 +4446,11 @@ type Query {
   Retrieve gene typeahead fields for a search term.
   """
   geneTypeahead(queryTerm: String!): [Gene!]!
+
+  """
+  Retrieve NCCN Guideline options as a typeahead
+  """
+  nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
 
   """
   List and filter notifications for the logged in user.
