@@ -15,7 +15,6 @@ export const acmgCodeArrayTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'ACMG/AMP Code(s)',
-      helpText: 'If applicable, please provide the <a href="http://www.ncbi.nlm.nih.gov/pubmed/27993330" target="_blank">AMP/ASCO/CAP somatic variant classification</a>.',
       required: false,
       addText: 'Add an ACMG/AMP Code',
     },
