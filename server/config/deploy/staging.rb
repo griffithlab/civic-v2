@@ -1,4 +1,4 @@
-server "35.87.115.86", user: 'ubuntu', roles: %w{web db app}
+server "(34.209.114.226)", user: 'ubuntu', roles: %w{web db app}
 
 set :branch, 'staging'
 set :rbenv_ruby, '3.0.2'
