@@ -1,45 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Maybe, Organization } from '@app/generated/civic.apollo';
-import {
-  VariantGroupsRevisionsService,
-  SelectableFieldName,
-  UniqueRevisor
-} from './variant-groups-revisions.service';
+import { Maybe, ModeratedEntities, Organization } from '@app/generated/civic.apollo';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-variant-groups-revisions',
   templateUrl: './variant-groups-revisions.component.html',
   styleUrls: ['./variant-groups-revisions.component.less'],
-  providers: [VariantGroupsRevisionsService]
 })
-export class VariantGroupsRevisionsComponent implements OnInit {
-  service: VariantGroupsRevisionsService;
-  mostRecentOrg: Maybe<Organization>;
-  variantGroupId: number
+export class VariantGroupsRevisionsComponent implements OnDestroy{
+  vgId!: number
+  entityType!: ModeratedEntities
+  
+  routeSub: Subscription
 
-  constructor(
-    private variantGroupsRevisionsService: VariantGroupsRevisionsService,
-    private route: ActivatedRoute) {
-
-    this.variantGroupId = +this.route.snapshot.params['variantGroupId'];
-    this.service = variantGroupsRevisionsService;
+  constructor(private route: ActivatedRoute) {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.vgId = +params.variantGroupId;
+      this.entityType = ModeratedEntities['VariantGroup']
+    });
   }
 
-  ngOnInit(): void {
-    this.service.createQuery({ variantGroupId: this.variantGroupId });
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
-
-  onFieldNameSelected(field: Maybe<SelectableFieldName>) {
-    this.service.fieldNameSelected(field)
-  }
-
-  onRevisorSelected(user: Maybe<UniqueRevisor>) {
-    this.service.revisorSelected(user)
-  }
-
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
-  }
-
 }

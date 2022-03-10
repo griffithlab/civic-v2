@@ -17,6 +17,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { pluck, startWith } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
   selector: 'evidence-detail',
@@ -38,6 +39,8 @@ export class EvidenceDetailView implements OnDestroy {
 
   routeSub: Subscription;
   subscribable?: SubscribableInput;
+
+  tabs: RouteableTab[]
 
   constructor(
     private gql: EvidenceDetailGQL,
@@ -70,6 +73,29 @@ export class EvidenceDetailView implements OnDestroy {
 
       this.viewer$ = this.viewerService.viewer$;
     });
+
+    this.tabs = [
+      {
+        routeName: 'summary',
+        iconName: 'pic-left',
+        tabLabel: 'Summary'
+      },
+      {
+        routeName: 'comments',
+        iconName: 'civic-comment',
+        tabLabel: 'Comments'
+      },
+      {
+        routeName: 'revisions',
+        iconName: 'civic-revision',
+        tabLabel: 'Revisions'
+      },
+      {
+        routeName: 'flags',
+        iconName: 'civic-flag',
+        tabLabel: 'Flags'
+      }
+    ]
   }
 
   ngOnDestroy() {

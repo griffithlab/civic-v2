@@ -9,7 +9,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { FormsModule } from '@angular/forms';
-import { CvcFlagAddModule } from '@app/forms/flags/forms/flag-add/flag-add.module';
+import { CvcFlagAddFormModule } from '@app/forms/flag-add/flag-add.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FlagListModule } from '../flag-list/flag-list.module';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
@@ -32,7 +32,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcUserTagModule,
     NzListModule,
     NzCardModule,
-    CvcFlagAddModule,
+    CvcFlagAddFormModule,
     FlagListModule,
     NzEmptyModule,
     CvcParticipantListModule,

@@ -25,7 +25,7 @@
     "@angular/router": "~13.1.3",
     "@apollo/client": "^3.5.8",
     "@ngrx/component": "^12.5.1",
-    "@ngx-formly/core": "^5.10.30",
+    "@ngx-formly/core": "^5.10.32",
     "@ngx-formly/ng-zorro-antd": "^0.0",
     "apollo-angular": "^2.1.0",
     "ng-zorro-antd": "^13.0.1",
@@ -35,6 +35,8 @@
     "rxjs": "~6.6.6",
     "ts-enum-util": "^4.0.2",
     "tslib": "^2.3.1",
+    "xstate": "^4.30.3",
+    "xstate-angular": "^0.0.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -76,7 +78,7 @@
     "graphql-schema-linter": "^2.0.1",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~6.3.12",
+    "karma": "~6.3.16",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",

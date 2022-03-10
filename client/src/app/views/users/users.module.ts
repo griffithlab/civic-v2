@@ -64,8 +64,8 @@ import { CvcAvatarUploaderModule } from '@app/components/shared/avatar-uploader/
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { CvcCoiUpdateModule } from '@app/forms/users/forms/coi-update/coi-update.module';
-import { CvcProfileUpdateModule } from '@app/forms/users/forms/profile-update/profile-update.module';
+import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module';
+import { CvcUserProfileFormModule } from '@app/forms/user-profile/user-profile.module';
 
 
 @NgModule({
@@ -135,8 +135,8 @@ import { CvcProfileUpdateModule } from '@app/forms/users/forms/profile-update/pr
     NzAlertModule,
     NzDividerModule,
     NzModalModule,
-    CvcCoiUpdateModule,
-    CvcProfileUpdateModule
+    CvcUserCoiFormModule,
+    CvcUserProfileFormModule
   ],
   exports: [
     UsersComponent,

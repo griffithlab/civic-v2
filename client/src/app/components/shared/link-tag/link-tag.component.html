@@ -4,7 +4,7 @@
     [nzTooltipTitle]="tooltip"
     [nzTooltipTrigger]="tooltip ? 'hover' : null">
     <i nz-icon
-      nzType='link'
+      [nzType]='iconName ? iconName : "link"'
       nzTheme='outline'></i>
     <ng-content></ng-content>
   </nz-tag>

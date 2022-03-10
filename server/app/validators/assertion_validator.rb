@@ -47,6 +47,15 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :fda_regulatory_approval, "Assertions without a drug cannot specify FDA regulatory approval."
     end
 
+    if record.nccn_guideline
+      if record.nccn_guideline_version
+        if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
+          record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
+        end
+      else
+        record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."
+      end
+    end
   end
 
   def valid_types

@@ -25,6 +25,7 @@ module Types::Entities
     field :regulatory_approval, GraphQL::Types::Boolean, null: true
     field :fda_companion_test, GraphQL::Types::Boolean, null: true
     field :nccn_guideline, String, null: true
+    field :nccn_guideline_version, String, null: true
     field :acmg_codes, [Types::Entities::AcmgCodeType], null: false
     field :amp_level, Types::AmpLevelType, null: true
     field :submission_event, Types::Entities::EventType, null: false

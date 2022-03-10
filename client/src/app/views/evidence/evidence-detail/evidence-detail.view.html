@@ -83,7 +83,13 @@
         <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
         <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <nz-alert *ngIf="this.evidence.status == 'SUBMITTED'" nzBanner nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
-        <cvc-details-navigation [entity]="subscribable"></cvc-details-navigation>
+        <cvc-tab-navigation [tabs]="this.tabs">
+          <ng-template #tabBarExtraContent>
+            <nz-col id="contributors-col">
+              <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+            </nz-col>
+          </ng-template>
+        </cvc-tab-navigation>
         <nz-space nzDirection="vertical">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons *ngIf="viewer.canModerate && evidence.status == 'SUBMITTED'" entityType="EvidenceItem" [entityId]="evidence.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">

@@ -1,4 +1,7 @@
 import {
+  AssertionClinicalSignificance,
+  AssertionDirection,
+  AssertionType,
   EvidenceClinicalSignificance,
   EvidenceDirection,
   EvidenceType,
@@ -9,6 +12,9 @@ export type InputEnum =
   | EvidenceClinicalSignificance
   | EvidenceDirection
   | EvidenceType
+  | AssertionClinicalSignificance
+  | AssertionDirection
+  | AssertionType
   | VariantOrigin;
 
 export function formatEvidenceEnum(value: InputEnum): string {

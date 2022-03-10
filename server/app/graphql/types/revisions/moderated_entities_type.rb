@@ -5,5 +5,6 @@ module Types::Revisions
     value 'VARIANT', value: 'Variant'
     value 'EVIDENCE_ITEM', value: 'EvidenceItem'
     value 'ASSERTION', value: 'Assertion'
+    value 'VARIANT_GROUP', value: 'VariantGroup'
   end
 end

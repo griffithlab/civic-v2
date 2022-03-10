@@ -1,0 +1,43 @@
+<nz-affix [nzOffsetTop]="0" [nzTarget]="affixTo">
+  <nz-card nzTitle="Form Assistant"
+    nzSize="default"
+    class="form-helper-card">
+    <nz-collapse [nzBordered]="false">
+      <!-- TODO: figure out why this component version of the panel isn't working -->
+      <!-- <ng-container *ngFor="let field of fieldGroup">
+           <cvc-form-info-panel *ngIf="field.templateOptions?.label"
+           [field]="field">
+           </cvc-form-info-panel>
+           </ng-container> -->
+      <ng-container *ngFor="let field of fieldGroup">
+        <nz-collapse-panel *ngIf="field.templateOptions?.label as label"
+          [nzHeader]="label"
+          [nzActive]="field.templateOptions!.hasFocus"
+          [nzExtra]="fieldStatus">
+          <div *ngIf="field.templateOptions?.helpText as helpText; else noHelpText"
+            [innerHtml]="helpText"
+            class="help-text"></div>
+          <ng-template #noHelpText>
+            <div class="help-text">Help not available for this field.</div>
+          </ng-template>
+        </nz-collapse-panel>
+        <ng-template #fieldStatus>
+          <ng-container *ngIf="field.formControl!.statusChanges | ngrxPush as status">
+            <ng-container *ngIf="status === 'INVALID'">
+              <i nz-icon
+                nzType="exclamation-circle"
+                nzTheme="twotone"
+                nzTwotoneColor="#f5222d"
+                nz-tooltip
+                [nzTooltipTitle]="errorTooltip"
+                nzTooltipColor="red"></i>
+              <ng-template #errorTooltip>
+                <formly-validation-message [field]="field"></formly-validation-message>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </ng-container>
+    </nz-collapse>
+  </nz-card>
+</nz-affix>

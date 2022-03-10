@@ -1,8 +1,0 @@
-query DiseaseTypeahead($name: String!) {
-  diseaseTypeahead(queryTerm:$name){
-    id
-    name
-    doid
-    diseaseAliases
-  }
-}

@@ -1,0 +1,51 @@
+<form nz-form
+  [formGroup]="formGroup"
+  (ngSubmit)="submitRevision(formModel)"
+  nzLayout="vertical">
+
+  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+
+  <formly-form [form]="formGroup"
+    [fields]="formFields"
+    [model]="formModel"
+    [options]="formOptions"
+    (modelChange)="formModel = $event">
+  </formly-form>
+
+  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+
+</form>
+
+<ng-template #formMessages>
+  <ng-container *ngIf="(submitError$ | async) as errors">
+    <nz-form-item *ngIf="errors.length > 0">
+      <cvc-form-errors-alert [errors]="errors">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+  </ng-container>
+  <ng-container *ngIf="submitSuccess$ | async">
+    <nz-alert nzType="success"
+      nzMessage="Suggested Revision Submitted"
+      [nzDescription]="successMessage"
+      nzShowIcon></nz-alert>
+    <ng-template #successMessage
+      nzSize="small">
+      <p>View it on the <a routerLink="../../revisions">Revisions Page</a> or suggest another revision below.</p>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
+<!-- <div nz-row>
+     <div nz-col
+     nzSpan="12">
+     <h4>formModel</h4>
+     <p>To speed up form updates, comment out or remove this formModel debug block.</p>
+     <ngx-json-viewer *ngIf="formModel"
+     [json]="formModel"></ngx-json-viewer>
+     </div>
+     <div nz-col
+     nzSpan="12">
+     <ngx-json-viewer *ngIf="formGroup"
+     [json]="formGroup.value"></ngx-json-viewer>
+     </div>
+     </div> -->

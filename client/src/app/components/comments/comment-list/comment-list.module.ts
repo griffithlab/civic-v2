@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { CvcCommentDisplayModule } from '../comment-display/comment-display.module';
-import { CvcCommentAddModule } from '@app/forms/comments/forms/comment-add/comment-add.module';
+import { CvcCommentAddFormModule } from '@app/forms/comment-add/comment-add.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
@@ -29,7 +29,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzAvatarModule,
     NzSpaceModule,
     NzSkeletonModule,
-    CvcCommentAddModule,
+    CvcCommentAddFormModule,
     CvcParticipantListModule,
     CvcCommentDisplayModule,
   ],

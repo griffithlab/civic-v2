@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+nz-form-item {
+  margin-bottom: 0.25em;
+}
+
+nz-form-item:last-child {
+  margin-bottom: 16px;
+}
+
+@btn-width: 24px;
+@btn-margin: 1em;
+
+// applied if to.hidden true
+.hidden {
+  display: none;
+}
+
+// class applied to row if field input displayed
+.field-display {
+  // provide a little margin between entity list & field input
+  margin-top: 0.5em;
+}
+
+> nz-form-item {
+  margin-bottom: 0;
+}
+
+// container for field input
+.field-col {
+  display: inline-block;
+  width: calc(~"100% - 2*(@{btn-width} + @{btn-margin})");
+}
+// containers for add/remove buttons
+.field-delete-btn,
+.field-add-btn {
+  display: inline-block;
+  margin-left: @btn-margin;
+  i {
+    top: 5px;
+    position: relative;
+    cursor: pointer;
+    font-size: @btn-width;
+    color: #999;
+    transition: all 0.3s;
+  }
+}
+// container for cancel button
+.field-cancel-btn {
+  display: inline-block;
+  margin-left: @btn-margin;
+  width: calc(~"(2*@{btn-width}) + @{btn-margin}");
+}

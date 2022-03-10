@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewerService } from '@app/core/services/viewer/viewer.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'evidence-add',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EvidenceAddView implements OnInit {
 
-  constructor() { }
+  isSignedIn$?: Observable<boolean>;
+
+  constructor(private viewerService: ViewerService) { }
 
   ngOnInit(): void {
+    this.isSignedIn$ = this.viewerService.viewer$.pipe(map((v) => v.signedIn))
   }
 
 }

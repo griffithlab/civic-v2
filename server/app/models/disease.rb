@@ -1,5 +1,6 @@
 class Disease < ApplicationRecord
   include WithTimepointCounts
+  include WithCapitalizedName
 
   has_many :evidence_items
   has_many :assertions

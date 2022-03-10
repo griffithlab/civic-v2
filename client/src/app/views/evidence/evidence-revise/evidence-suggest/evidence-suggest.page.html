@@ -1,21 +1,5 @@
-<nz-row [nzGutter]="16">
-  <nz-col nzSpan="16">
-    <ng-container *ngIf="evidenceId; else loadingEvidence">
-      <cvc-evidence-revise-form [evidenceId]="evidenceId">
-      </cvc-evidence-revise-form>
-    </ng-container>
-    <ng-template #loadingEvidence>Loading Evidence...</ng-template>
-  </nz-col>
-  <nz-col nzSpan="8">
-    <nz-card nzTitle="Instructions"
-      nz-type="inner">
-      <nz-space nzDirection="vertical"
-        style="width: 100%">
-        <nz-skeleton [nzParagraph]="{ rows: 1 }" *nzSpaceItem></nz-skeleton>
-        <nz-skeleton [nzParagraph]="{ rows: 3 }" *nzSpaceItem></nz-skeleton>
-        <nz-skeleton [nzParagraph]="{ rows: 4 }" *nzSpaceItem></nz-skeleton>
-        <nz-skeleton [nzParagraph]="{ rows: 5 }" *nzSpaceItem></nz-skeleton>
-      </nz-space>
-    </nz-card>
-  </nz-col>
-</nz-row>
+<ng-container *ngIf="evidenceId; else loadingEvidence">
+  <cvc-evidence-revise-form [evidenceId]="evidenceId">
+  </cvc-evidence-revise-form>
+</ng-container>
+<ng-template #loadingEvidence>Loading Evidence...</ng-template>

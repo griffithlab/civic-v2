@@ -9,6 +9,7 @@ module Types
     include Types::Queries::SourceQueries
     include Types::Queries::PopoverQueries
     include Types::Queries::TypeaheadQueries
+    include Types::Queries::DataReleaseQuery
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.

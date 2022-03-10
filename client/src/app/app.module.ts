@@ -2,9 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormlyModule } from '@ngx-formly/core';
-import { formlyConfig } from '@app/forms/forms.config';
 import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -22,6 +19,7 @@ import { environment } from 'environments/environment';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module';
 import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter';
+import { CvcFormsModule } from './forms/forms.module';
 
 registerLocaleData(en);
 
@@ -33,7 +31,6 @@ registerLocaleData(en);
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    FormsModule,
     GraphQLModule,
     HttpClientModule,
     HttpClientXsrfModule,
@@ -46,10 +43,9 @@ registerLocaleData(en);
     }),
     NgxJsonViewerModule,
     NzIconModule.forRoot(civicIcons),
-    ReactiveFormsModule,
     ReactiveComponentModule,
     TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter }}),
-    FormlyModule.forRoot(formlyConfig),
+    CvcFormsModule,
     CvcNetworkErrorAlertModule,
   ],
   providers: [

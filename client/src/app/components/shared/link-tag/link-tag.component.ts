@@ -9,6 +9,7 @@ import { Maybe } from '@app/generated/civic.apollo';
 export class CvcLinkTagComponent implements OnInit {
   @Input() href!: string;
   @Input() tooltip: Maybe<string>;
+  @Input() iconName: Maybe<string>
 
   constructor() { }
 
