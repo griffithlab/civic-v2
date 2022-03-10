@@ -1,10 +1,9 @@
 import { AbstractControl, FormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
-import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
+import { Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { EntityState, EntityType } from '../../states/entity.state';
-import { EvidenceState } from '../../states/evidence.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
   const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;

@@ -24,6 +24,7 @@ export type ValidEntity = {
   requiresDrug: boolean
   requiresAcmgCodes: boolean
   requiresAmpLevel: boolean
+  allowsFdaApproval: boolean
 }
 
 export type SelectOption = { [key: string | number]: string | number };
@@ -55,6 +56,7 @@ export interface IEntityState {
   requiresDisease: (et: EntityType) => boolean;
   requiresAcmgCodes: (et: EntityType) => boolean;
   requiresAmpLevel: (et: EntityType) => boolean;
+  allowsFdaApproval: (et: EntityType) => boolean;
 }
 
 class EntityState implements IEntityState {
@@ -119,6 +121,12 @@ class EntityState implements IEntityState {
   requiresAmpLevel = (at: EntityType): boolean => {
     const state = this.validStates.get(at);
     return state !== undefined ? state.requiresAmpLevel : true;
+  }
+
+  allowsFdaApproval = (et: EntityType): boolean => {
+    const state = this.validStates.get(et);
+    return state !== undefined ? state.allowsFdaApproval : true;
+
   }
 
   getOptionsFromEnums = (e: InputEnum[]): SelectOption[] => {

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NullableAmpLevelTypeInput, SourceSource, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
+import { AcmgCode, AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NccnGuideline, NullableAmpLevelTypeInput, SourceSource, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -26,8 +26,9 @@ interface FormModel {
     drugInteractionType: Maybe<DrugInteraction>
     ampLevel: Maybe<NullableAmpLevelTypeInput>
     evidenceItems: EvidenceItem[]
-    nccnGuideline: Maybe<number>
-    acmgCodeIds: number[]
+    nccnGuideline: Maybe<NccnGuideline>
+    nccnGuidelineVersion: Maybe<string>,
+    acmgCodes: Maybe<AcmgCode[]>,
     fdaCompanionTest: boolean
     fdaRegulatoryApproval: boolean
     comment: Maybe<string>

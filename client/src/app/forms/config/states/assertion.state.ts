@@ -24,7 +24,8 @@ class AssertionState extends EntityState {
       requiresDisease: true,
       requiresDrug: true,
       requiresAcmgCodes: false,
-      requiresAmpLevel: true
+      requiresAmpLevel: true,
+      allowsFdaApproval: true
     });
 
     this.validStates.set(AssertionType.Diagnostic, {
@@ -40,7 +41,8 @@ class AssertionState extends EntityState {
       requiresDisease: true,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: true
+      requiresAmpLevel: true,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(AssertionType.Prognostic, {
@@ -57,7 +59,8 @@ class AssertionState extends EntityState {
       requiresDisease: true,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: true
+      requiresAmpLevel: true,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(AssertionType.Predisposing, {
@@ -77,6 +80,7 @@ class AssertionState extends EntityState {
       requiresDrug: false,
       requiresAcmgCodes: true,
       requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
   }
 }

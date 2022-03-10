@@ -24,7 +24,8 @@ class EvidenceState extends EntityState {
       requiresDisease: true,
       requiresDrug: true,
       requiresAcmgCodes: false,
-      requiresAmpLevel: false
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(EvidenceType.Diagnostic, {
@@ -40,7 +41,8 @@ class EvidenceState extends EntityState {
       requiresDisease: true,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: false
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(EvidenceType.Prognostic, {
@@ -57,7 +59,8 @@ class EvidenceState extends EntityState {
       requiresDisease: true,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: false
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(EvidenceType.Oncogenic, {
@@ -71,7 +74,8 @@ class EvidenceState extends EntityState {
       requiresDisease: true,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: false
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(EvidenceType.Predisposing, {
@@ -85,7 +89,8 @@ class EvidenceState extends EntityState {
       requiresDisease: true,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: false
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
 
     this.validStates.set(EvidenceType.Functional, {
@@ -105,7 +110,8 @@ class EvidenceState extends EntityState {
       requiresDisease: false,
       requiresDrug: false,
       requiresAcmgCodes: false,
-      requiresAmpLevel: false
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
     });
   }
 }
