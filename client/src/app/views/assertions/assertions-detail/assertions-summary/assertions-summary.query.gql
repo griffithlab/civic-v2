@@ -43,6 +43,7 @@ fragment AssertionSummaryFields on Assertion {
     description
   }
   nccnGuideline
+  nccnGuidelineVersion
   regulatoryApproval
   fdaCompanionTest
   flags(state: OPEN) {

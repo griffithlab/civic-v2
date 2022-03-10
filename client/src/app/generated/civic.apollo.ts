@@ -219,6 +219,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   lastSubmittedRevisionEvent?: Maybe<Event>;
   name: Scalars['String'];
   nccnGuideline?: Maybe<Scalars['String']>;
+  nccnGuidelineVersion?: Maybe<Scalars['String']>;
   phenotypes: Array<Phenotype>;
   regulatoryApproval?: Maybe<Scalars['Boolean']>;
   rejectionEvent?: Maybe<Event>;
@@ -6449,7 +6450,7 @@ export type AssertionSummaryQuery = (
 
 export type AssertionSummaryFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'fdaCompanionTest'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'fdaCompanionTest'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name'>
@@ -8348,6 +8349,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     description
   }
   nccnGuideline
+  nccnGuidelineVersion
   regulatoryApproval
   fdaCompanionTest
   flags(state: OPEN) {

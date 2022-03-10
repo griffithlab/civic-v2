@@ -45,7 +45,7 @@ export type AdvancedSearchResultFieldPolicy = {
 	resultIds?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchEndpoint?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'assertionDirection' | 'assertionType' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceItems' | 'fdaCompanionTest' | 'flagged' | 'flags' | 'gene' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'nccnGuideline' | 'phenotypes' | 'regulatoryApproval' | 'rejectionEvent' | 'revisions' | 'status' | 'submissionEvent' | 'summary' | 'variant' | 'variantOrigin' | AssertionKeySpecifier)[];
+export type AssertionKeySpecifier = ('acceptanceEvent' | 'acmgCodes' | 'ampLevel' | 'assertionDirection' | 'assertionType' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceItems' | 'fdaCompanionTest' | 'flagged' | 'flags' | 'gene' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'name' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'phenotypes' | 'regulatoryApproval' | 'rejectionEvent' | 'revisions' | 'status' | 'submissionEvent' | 'summary' | 'variant' | 'variantOrigin' | AssertionKeySpecifier)[];
 export type AssertionFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	acmgCodes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -70,6 +70,7 @@ export type AssertionFieldPolicy = {
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	nccnGuideline?: FieldPolicy<any> | FieldReadFunction<any>,
+	nccnGuidelineVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	phenotypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	regulatoryApproval?: FieldPolicy<any> | FieldReadFunction<any>,
 	rejectionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
