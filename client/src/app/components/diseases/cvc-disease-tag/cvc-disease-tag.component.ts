@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableDisease {
@@ -11,14 +12,20 @@ export interface LinkableDisease {
   templateUrl: './cvc-disease-tag.component.html',
   styleUrls: ['./cvc-disease-tag.component.less']
 })
-export class CvcDiseaseTagComponent implements OnInit {
+export class CvcDiseaseTagComponent extends BaseCloseableTag implements OnInit {
   @Input() disease!: LinkableDisease
-  @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
-  constructor() { }
+  constructor() { 
+    super();
+  }
+
+  idFunction() {
+    return this.disease.id
+  }
 
   ngOnInit() {
+    super.ngOnInit();
     if (this.disease === undefined) {
       throw new Error('cvc-disease-tag requires LinkableDisease input, none supplied.')
     }

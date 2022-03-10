@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SourceTypeDisplayPipe } from '@app/core/pipes/source-type-display.pipe';
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe, SourceSource } from '@app/generated/civic.apollo';
 
 export interface LinkableSource {
@@ -26,17 +27,25 @@ export interface SourceWithCitation {
 @Component({
   selector: 'cvc-source-tag',
   templateUrl: './source-tag.component.html',
-  styleUrls: ['./source-tag.component.less']
+  styleUrls: ['./source-tag.component.less'],
 })
-export class CvcSourceTagComponent implements OnInit {
+export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() source!: SourceWithDisplayName | SourceWithCitation;
-  @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
+
   displayName!: string
 
-  constructor(private sourceTypeDisplay: SourceTypeDisplayPipe) { }
+  constructor(private sourceTypeDisplay: SourceTypeDisplayPipe) {
+    super();
+   }
+
+  idFunction() { 
+    return this.source.id 
+  }
 
   ngOnInit() {
+    super.ngOnInit();
+
     if (this.source === undefined) {
       throw new Error(
         'cvc-source-tag requires LinkableSource input, none provided.'
@@ -48,5 +57,4 @@ export class CvcSourceTagComponent implements OnInit {
       this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType) + ': ' + this.source.citation
     }
   }
-
 }
