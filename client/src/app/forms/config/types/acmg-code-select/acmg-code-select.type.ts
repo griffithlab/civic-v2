@@ -5,7 +5,7 @@ import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 
 
@@ -31,7 +31,6 @@ export class AcmgCodeInputType extends FieldType implements OnInit, OnDestroy {
     this.queryRef = this.acmgCodeGQL.watch({code: this.searchVal})
     this.codes$ = this.queryRef.valueChanges.pipe(
       takeUntil(this.destroy$),
-      debounceTime(500),
       map(({data}) => data.acmgCodesTypeahead)
     )
   }
@@ -54,6 +53,11 @@ export const acmgCodeSelectTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       placeholder: 'None specified.',
+    },
+    modelOptions: {
+      debounce: {
+        default: 500
+      }
     },
   }
 }
