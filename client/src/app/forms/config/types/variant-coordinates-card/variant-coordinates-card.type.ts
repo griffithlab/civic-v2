@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/models";
 
 @Component({
@@ -8,7 +8,7 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
   styleUrls: ['./variant-coordinates-card.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantCoordinatesCardType extends FieldType {
+export class VariantCoordinatesCardType extends FieldType<FieldTypeConfig> {
   defaultOptions = {
     templateOptions: {
       isFusionVariant: false

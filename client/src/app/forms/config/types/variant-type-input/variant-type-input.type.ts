@@ -4,13 +4,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { VariantTypeTypeaheadGQL, VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
 import {TypeOption} from "@ngx-formly/core/lib/models";
+import { AbstractControl, FormControl } from '@angular/forms';
 
 interface VariantTypeTypeahead {
   id: number,
@@ -23,8 +23,8 @@ interface VariantTypeTypeahead {
   templateUrl: './variant-type-input.type.html',
   styleUrls: ['./variant-type-input.type.less'],
 })
-export class VariantTypeInputType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
-  formControl!: FormControl;
+export class VariantTypeInputType extends FieldType<FieldTypeConfig> implements OnInit, AfterViewInit, OnDestroy {
+  
 
   private destroy$ = new Subject();
   private queryRef?: QueryRef<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables>

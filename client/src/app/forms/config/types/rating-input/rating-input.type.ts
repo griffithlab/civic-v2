@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/models";
 
 @Component({
@@ -8,8 +8,7 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
   templateUrl: './rating-input.type.html',
   styleUrls: ['./rating-input.type.less'],
 })
-export class RatingInputType extends FieldType {
-  formControl!: FormControl;
+export class RatingInputType extends FieldType<FieldTypeConfig> {
   rating?: number;
 
   defaultOptions = {

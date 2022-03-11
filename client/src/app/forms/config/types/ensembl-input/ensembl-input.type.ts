@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
-import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig, FormlyFieldConfig } from '@ngx-formly/core';
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/models';
 
 @Component({
@@ -9,8 +9,8 @@ import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-forml
   styleUrls: ['./ensembl-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EnsemblInputType extends FieldType {
-  formControl!: FormControl;
+export class EnsemblInputType extends FieldType<FieldTypeConfig> {
+  
 
   defaultOptions = {
     templateOptions: {

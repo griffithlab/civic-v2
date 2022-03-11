@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PhenotypeTypeaheadGQL, PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
@@ -23,8 +23,8 @@ interface PhenotypeTypeahead {
   templateUrl: './phenotype-input.type.html',
   styleUrls: ['./phenotype-input.type.less'],
 })
-export class PhenotypeInputType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
-  formControl!: FormControl;
+export class PhenotypeInputType extends FieldType<FieldTypeConfig> implements OnInit, AfterViewInit, OnDestroy {
+  
 
   private destroy$ = new Subject();
   private queryRef?: QueryRef<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables>

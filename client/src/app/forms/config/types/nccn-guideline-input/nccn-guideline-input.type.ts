@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NccnGuideline, NccnGuidelineTypeaheadGQL, NccnGuidelineTypeaheadQuery, NccnGuidelineTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -12,8 +12,8 @@ import { map, takeUntil } from 'rxjs/operators';
   templateUrl: './nccn-guideline-input.type.html',
   styleUrls: ['./nccn-guideline-input.type.less']
 })
-export class NccnGuidelineInputType extends FieldType implements OnInit, OnDestroy {
-  formControl!: FormControl;
+export class NccnGuidelineInputType extends FieldType<FieldTypeConfig> implements OnInit, OnDestroy {
+  
 
   private destroy$ = new Subject();
   private searchVal = ""

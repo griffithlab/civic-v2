@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 import {
   CitationTypeaheadGQL,
@@ -13,8 +13,8 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
   styleUrls: ['./source-selector-typeahead.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SourceSelectorTypeaheadType extends FieldType implements AfterViewInit {
-  formControl!: FormControl;
+export class SourceSelectorTypeaheadType extends FieldType<FieldTypeConfig> implements AfterViewInit {
+  
   selectedValue = null;
   nzFilterOption = () => true;
 
@@ -52,7 +52,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
         // update form model with selected source's id & citation
         const { source } = this.to.optionList.find((opt: any) => opt.value === +e);
         if (source) {
-          this.form.patchValue({ citation: source.citation, id: source.id });
+          this.form.patchValue([ { citation: source.citation, id: source.id } ]);
         } else {
           console.error('Could not find selected citation in list?');
         }

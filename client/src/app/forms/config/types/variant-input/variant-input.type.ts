@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { VariantTypeaheadGQL } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/models';
 
 @Component({
@@ -15,8 +15,8 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
   styleUrls: ['./variant-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantInputType extends FieldType implements AfterViewInit {
-  formControl!: FormControl;
+export class VariantInputType extends FieldType<FieldTypeConfig> implements AfterViewInit {
+  
 
   defaultOptions = {
     templateOptions: {

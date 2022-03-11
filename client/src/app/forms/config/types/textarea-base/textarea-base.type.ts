@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/models';
 
 @Component({
@@ -10,8 +10,8 @@ import { TypeOption } from '@ngx-formly/core/lib/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class TextareaBaseType extends FieldType {
-  formControl!: FormControl;
+export class TextareaBaseType extends FieldType<FieldTypeConfig>{
+  // 
 
   defaultOptions = {
     templateOptions: {

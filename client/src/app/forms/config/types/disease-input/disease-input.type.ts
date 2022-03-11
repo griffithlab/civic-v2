@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DiseaseTypeaheadGQL, DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
@@ -31,8 +31,8 @@ interface DiseaseTypeaheadOption {
   templateUrl: './disease-input.type.html',
   styleUrls: ['./disease-input.type.less'],
 })
-export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit, OnDestroy {
-  formControl!: FormControl;
+export class DiseaseInputType extends FieldType<FieldTypeConfig> implements AfterViewInit, OnInit, OnDestroy {
+  
 
   defaultOptions = {
     templateOptions: {

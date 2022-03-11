@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AcmgCode, AcmgCodeTypeaheadGQL, AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/models';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -13,8 +13,8 @@ import { map, takeUntil } from 'rxjs/operators';
   templateUrl: './acmg-code-select.type.html',
   styleUrls: ['./acmg-code-select.type.less'],
 })
-export class AcmgCodeInputType extends FieldType implements OnInit, OnDestroy {
-  formControl!: FormControl;
+export class AcmgCodeInputType extends FieldType<FieldTypeConfig> implements OnInit, OnDestroy {
+  
 
   private destroy$ = new Subject();
   private searchVal = ""

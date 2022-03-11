@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
 import {TypeOption} from "@ngx-formly/core/lib/models";
 
@@ -8,7 +8,7 @@ import {TypeOption} from "@ngx-formly/core/lib/models";
   templateUrl: './submit-button.type.html',
   styleUrls: ['./submit-button.type.less']
 })
-export class SubmitButtonComponent extends FieldType {
+export class SubmitButtonComponent extends FieldType<FieldTypeConfig> {
   _selectedOrg: Maybe<Organization> = undefined;
 
   get selectedOrg(): Maybe<Organization> {
@@ -17,7 +17,7 @@ export class SubmitButtonComponent extends FieldType {
 
   set selectedOrg(org: Maybe<Organization>) {
     this._selectedOrg = org;
-    this.formControl.setValue(org);
+    if(this.formControl) { this.formControl.setValue(org); }
   }
 
   defaultOptions = {
