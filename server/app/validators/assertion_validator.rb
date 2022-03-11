@@ -78,7 +78,7 @@ class AssertionValidator < ActiveModel::Validator
         disease: true,
         drug: false,
         acmg_codes: false,
-        amp_level: true
+        amp_level: true,
         allow_regulatory_approval: false,
       },
      'Prognostic' => {
