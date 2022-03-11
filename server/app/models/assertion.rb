@@ -40,7 +40,7 @@ class Assertion < ActiveRecord::Base
     class_name: 'Event'
   has_one :rejector, through: :rejection_event, source: :originating_user
 
-  searchkick highlight: [:id]
+  searchkick highlight: [:id], callbacks: :async
 
   def search_data
     {

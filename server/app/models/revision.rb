@@ -24,7 +24,7 @@ class Revision < ApplicationRecord
   },
   allow_blank: false
 
-  searchkick highlight: [:id]
+  searchkick highlight: [:id], callbacks: :async
 
   def revisor
     creation_event.originating_user
