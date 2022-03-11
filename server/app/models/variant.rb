@@ -32,7 +32,7 @@ class Variant < ApplicationRecord
     message: "only allows A,C,T,G or /"
   }, allow_nil: true
 
-  searchkick highlight: [:name, :aliases]
+  searchkick highlight: [:name, :aliases], callbacks: :async
   scope :search_import, -> { includes(:variant_aliases, :gene) }
 
   def search_data

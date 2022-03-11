@@ -43,7 +43,7 @@ class EvidenceItem < ActiveRecord::Base
   validates :rating, inclusion: [1, 2, 3, 4, 5]
 
 
-  searchkick highlight: [:id]
+  searchkick highlight: [:id], callbacks: :async
 
   def search_data
     {
