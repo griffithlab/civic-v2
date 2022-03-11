@@ -11,6 +11,9 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 
 @NgModule({
   declarations: [AssertionsReviseView],
@@ -26,6 +29,9 @@ import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-te
     CvcVariantTagModule,
     CvcSectionNavigationModule,
     CvcCommentTextareaTypeModule,
+    ReactiveComponentModule,
+    NzGridModule,
+    CvcLoginPromptModule
   ]
 })
 export class AssertionsReviseModule { }

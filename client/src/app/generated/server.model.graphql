@@ -430,7 +430,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   name: String!
-  nccnGuideline: String
+  nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
@@ -616,12 +616,12 @@ input AssertionFields {
   """
   Is an FDA companion test available that pertains to this Assertion.
   """
-  fdaCompanionTest: Boolean!
+  fdaCompanionTest: NullableBooleanInput!
 
   """
   Does the Assertion have FDA regulatory approval.
   """
-  fdaRegulatoryApproval: Boolean!
+  fdaRegulatoryApproval: NullableBooleanInput!
 
   """
   The ID of the Gene to which this Assertion belongs
@@ -3446,6 +3446,24 @@ input NullableAreaOfExpertiseTypeInput {
   The desired value for the field. Mutually exclusive with unset.
   """
   value: AreaOfExpertise
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
+input NullableBooleanInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: Boolean
 }
 
 """

@@ -68,7 +68,7 @@
         </nz-descriptions-item>
 
         <nz-descriptions-item nzTitle="NCCN Guideline">
-          {{ assertion.nccnGuideline | ifEmpty: "--" }}
+          {{ assertion.nccnGuideline?.name | ifEmpty: "--" }}
         </nz-descriptions-item>
 
         <nz-descriptions-item nzTitle="Variant Origin">

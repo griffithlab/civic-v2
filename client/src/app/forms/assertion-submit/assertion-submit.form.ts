@@ -2,14 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NccnGuideline, NullableAmpLevelTypeInput, Organization, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
+import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NccnGuideline, Organization, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
 import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { FieldValidationExtension } from '@ngx-formly/core/lib/extensions/field-validation/field-validation';
 
 interface FormModel {
   fields: {
@@ -71,7 +70,7 @@ export class AssertionSubmitForm implements OnDestroy {
         key: 'fields',
         wrappers: ['form-info'],
         templateOptions: {
-          label: 'Add Evidence Item Form'
+          label: 'Add Assertion Form'
         },
         fieldGroup: [
           {
@@ -193,22 +192,6 @@ export class AssertionSubmitForm implements OnDestroy {
             }
           },
           {
-            key: 'source',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Source',
-              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Specify a Source',
-              maxCount: 1,
-            },
-            fieldArray: {
-              type: 'source-input',
-              templateOptions: {
-                required: true,
-              },
-            },
-          },
-          {
             key: 'comment',
             type: 'comment-textarea',
             templateOptions: {
@@ -255,8 +238,8 @@ export class AssertionSubmitForm implements OnDestroy {
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
           acmgCodeIds: fields.acmgCodes.map(c => c.id),
-          fdaCompanionTest: fields.fdaCompanionTest,
-          fdaRegulatoryApproval: fields.fdaRegulatoryApproval,
+          fdaCompanionTest: fmt.toNullableInput(fields.fdaCompanionTest),
+          fdaRegulatoryApproval: fmt.toNullableInput(fields.fdaRegulatoryApproval),
           //TODO: don't hardcode these once josh makes the evidence picker
           evidenceItemIds: [1, 2]
         }

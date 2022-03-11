@@ -243,7 +243,7 @@
 
           <!-- NCCN guideline -->
           <nz-descriptions-item nzTitle="NCCN Guideline" nzSpan="2">
-            <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline }} ({{ assertion.nccnGuidelineVersion}})</ng-container>
+            <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline.name }} ({{ assertion.nccnGuidelineVersion}})</ng-container>
             <ng-container *ngIf="!assertion.nccnGuideline">
               <span nz-typography
                 nzType="secondary">None Provided</span>

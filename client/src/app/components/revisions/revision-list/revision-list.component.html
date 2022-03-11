@@ -116,6 +116,15 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'evidence_item_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Evidence">
+              <ng-template #itemTemplate let-item>
+                <cvc-evidence-tag [evidence]="{id: item.id, name: item.displayName}"></cvc-evidence-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchDefault>
             <!-- default text diff -->
             <cvc-revision-value-diff

@@ -218,7 +218,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
   name: Scalars['String'];
-  nccnGuideline?: Maybe<Scalars['String']>;
+  nccnGuideline?: Maybe<NccnGuideline>;
   nccnGuidelineVersion?: Maybe<Scalars['String']>;
   phenotypes: Array<Phenotype>;
   regulatoryApproval?: Maybe<Scalars['Boolean']>;
@@ -351,9 +351,9 @@ export type AssertionFields = {
   /** IDs of evidence items that are included in this Assertion. */
   evidenceItemIds: Array<Scalars['Int']>;
   /** Is an FDA companion test available that pertains to this Assertion. */
-  fdaCompanionTest: Scalars['Boolean'];
+  fdaCompanionTest: NullableBooleanInput;
   /** Does the Assertion have FDA regulatory approval. */
-  fdaRegulatoryApproval: Scalars['Boolean'];
+  fdaRegulatoryApproval: NullableBooleanInput;
   /** The ID of the Gene to which this Assertion belongs */
   geneId: Scalars['Int'];
   /** The internal CIViC ID of the NCCN guideline associated with this Assertion */
@@ -2148,6 +2148,19 @@ export type NullableAreaOfExpertiseTypeInput = {
   unset?: Maybe<Scalars['Boolean']>;
   /** The desired value for the field. Mutually exclusive with unset. */
   value?: Maybe<AreaOfExpertise>;
+};
+
+/**
+ * An input object that represents a field value that can be "unset" or changed to null.
+ * To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+ * This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+ * and the inability to have an input object argument be both required _and_ nullable at the same time.
+ */
+export type NullableBooleanInput = {
+  /** Set to true if you wish to set the field's value to null. */
+  unset?: Maybe<Scalars['Boolean']>;
+  /** The desired value for the field. Mutually exclusive with unset. */
+  value?: Maybe<Scalars['Boolean']>;
 };
 
 /**
@@ -4234,10 +4247,13 @@ export type AssertionPopoverQuery = (
 
 export type AssertionPopoverFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name'>
@@ -4313,7 +4329,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -4332,6 +4348,9 @@ export type AssertionBrowseTableRowFieldsFragment = (
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
   )> }
 );
 
@@ -5821,6 +5840,66 @@ export type ViewerNotificationCountQuery = (
   ) }
 );
 
+export type AssertionRevisableFieldsQueryVariables = Exact<{
+  assertionId: Scalars['Int'];
+}>;
+
+
+export type AssertionRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { assertion?: Maybe<(
+    { __typename: 'Assertion' }
+    & RevisableAssertionFieldsFragment
+  )> }
+);
+
+export type RevisableAssertionFieldsFragment = (
+  { __typename: 'Assertion' }
+  & Pick<Assertion, 'id' | 'variantOrigin' | 'description' | 'summary' | 'assertionType' | 'clinicalSignificance' | 'assertionDirection' | 'drugInteractionType' | 'ampLevel' | 'nccnGuidelineVersion' | 'fdaCompanionTest' | 'regulatoryApproval'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name'>
+  ), disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'doid' | 'name' | 'displayName'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoId' | 'name'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'ncitId' | 'name'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
+  )>, acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'id' | 'code' | 'description'>
+  )>, evidenceItems: Array<(
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name'>
+  )> }
+);
+
+export type SuggestAssertionRevisionMutationVariables = Exact<{
+  input: SuggestAssertionRevisionInput;
+}>;
+
+
+export type SuggestAssertionRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestAssertionRevision?: Maybe<(
+    { __typename: 'SuggestAssertionRevisionPayload' }
+    & Pick<SuggestAssertionRevisionPayload, 'clientMutationId'>
+    & { assertion: (
+      { __typename: 'Assertion' }
+      & Pick<Assertion, 'id'>
+    ) }
+  )> }
+);
+
 export type SubmitAssertionMutationVariables = Exact<{
   input: SubmitAssertionInput;
 }>;
@@ -6515,7 +6594,7 @@ export type AssertionSummaryQuery = (
 
 export type AssertionSummaryFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'fdaCompanionTest'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'fdaCompanionTest'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name'>
@@ -6534,6 +6613,9 @@ export type AssertionSummaryFieldsFragment = (
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
   )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -7388,7 +7470,10 @@ export const AssertionPopoverFragmentDoc = gql`
   acmgCodes {
     code
   }
-  nccnGuideline
+  nccnGuideline {
+    id
+    name
+  }
   fdaCompanionTest
   regulatoryApproval
   drugs {
@@ -7458,7 +7543,10 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   }
   fdaCompanionTest @include(if: $cardView)
   regulatoryApproval @include(if: $cardView)
-  nccnGuideline @include(if: $cardView)
+  nccnGuideline @include(if: $cardView) {
+    id
+    name
+  }
   variantOrigin @include(if: $cardView)
 }
     `;
@@ -8172,6 +8260,59 @@ export const MenuVariantFragmentDoc = gql`
   name
 }
     `;
+export const RevisableAssertionFieldsFragmentDoc = gql`
+    fragment RevisableAssertionFields on Assertion {
+  id
+  variant {
+    id
+    name
+  }
+  gene {
+    id
+    name
+  }
+  variantOrigin
+  description
+  summary
+  assertionType
+  clinicalSignificance
+  disease {
+    id
+    doid
+    name
+    displayName
+  }
+  assertionDirection
+  phenotypes {
+    id
+    hpoId
+    name
+  }
+  drugs {
+    id
+    ncitId
+    name
+  }
+  drugInteractionType
+  ampLevel
+  nccnGuideline {
+    id
+    name
+  }
+  nccnGuidelineVersion
+  acmgCodes {
+    id
+    code
+    description
+  }
+  fdaCompanionTest
+  regulatoryApproval
+  evidenceItems {
+    id
+    name
+  }
+}
+    `;
 export const PreviewCommentFragmentDoc = gql`
     fragment previewComment on CommentBodySegment {
   __typename
@@ -8413,7 +8554,10 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     code
     description
   }
-  nccnGuideline
+  nccnGuideline {
+    id
+    name
+  }
   nccnGuidelineVersion
   regulatoryApproval
   fdaCompanionTest
@@ -10402,6 +10546,45 @@ export const ViewerNotificationCountDocument = gql`
   export class ViewerNotificationCountGQL extends Apollo.Query<ViewerNotificationCountQuery, ViewerNotificationCountQueryVariables> {
     document = ViewerNotificationCountDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AssertionRevisableFieldsDocument = gql`
+    query AssertionRevisableFields($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...RevisableAssertionFields
+  }
+}
+    ${RevisableAssertionFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionRevisableFieldsGQL extends Apollo.Query<AssertionRevisableFieldsQuery, AssertionRevisableFieldsQueryVariables> {
+    document = AssertionRevisableFieldsDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestAssertionRevisionDocument = gql`
+    mutation SuggestAssertionRevision($input: SuggestAssertionRevisionInput!) {
+  suggestAssertionRevision(input: $input) {
+    clientMutationId
+    assertion {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestAssertionRevisionGQL extends Apollo.Mutation<SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables> {
+    document = SuggestAssertionRevisionDocument;
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

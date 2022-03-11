@@ -55,6 +55,10 @@ class EvidenceItem < ActiveRecord::Base
     "EID#{self.id}"
   end
 
+  def display_name
+    name
+  end
+
   def gene
     self.variant.gene
   end
