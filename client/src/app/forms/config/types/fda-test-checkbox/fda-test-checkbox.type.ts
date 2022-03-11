@@ -1,4 +1,4 @@
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 export const fdaTestCheckboxTypeOption: TypeOption = {
   name: 'fda-test-checkbox',

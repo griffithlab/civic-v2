@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/models';
 
 @Component({
   selector: 'cvc-ensembl-input-type',

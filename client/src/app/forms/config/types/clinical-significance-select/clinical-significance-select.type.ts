@@ -1,4 +1,4 @@
-import { TypeOption, ValidationMessageOption, ValidatorOption, } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption, ValidationMessageOption, ValidatorOption, } from '@ngx-formly/core/lib/models';
 import { Subject } from 'rxjs';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';

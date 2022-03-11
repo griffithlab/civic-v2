@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import {TypeOption} from "@ngx-formly/core/lib/models";
 
 @Component({
   selector: 'cvc-variant-coordinates-card-type',

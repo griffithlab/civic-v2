@@ -1,6 +1,6 @@
 import { Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { EntityState } from '../../states/entity.state';
 
 export const evidenceTypeSelectTypeOption: TypeOption = {

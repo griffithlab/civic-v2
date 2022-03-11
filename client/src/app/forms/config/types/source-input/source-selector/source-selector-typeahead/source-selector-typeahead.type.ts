@@ -5,7 +5,7 @@ import { FieldType } from '@ngx-formly/core';
 import {
   CitationTypeaheadGQL,
 } from '@app/generated/civic.apollo';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import {TypeOption} from "@ngx-formly/core/lib/models";
 
 @Component({
   selector: 'cvc-source-selector-typeahead-type',

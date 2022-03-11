@@ -2,7 +2,7 @@ import { AbstractControl, FormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';

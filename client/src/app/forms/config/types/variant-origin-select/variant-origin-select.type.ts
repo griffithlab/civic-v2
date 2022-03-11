@@ -1,6 +1,6 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { VariantOrigin } from '@app/generated/civic.apollo';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { $enum } from 'ts-enum-util';
 
 export const variantOriginSelectTypeOption: TypeOption = {

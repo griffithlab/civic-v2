@@ -2,7 +2,7 @@ import { AbstractControl } from '@angular/forms';
 import { AmpFormatPipe } from '@app/core/pipes/amp-format-pipe';
 import { AmpLevel } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 import { $enum } from 'ts-enum-util';
 import { EntityState, EntityType } from '../../states/entity.state';
 

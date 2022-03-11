@@ -1,5 +1,5 @@
 import { FormlyExtension } from '@ngx-formly/core';
-import { ExtensionOption } from '@ngx-formly/core/lib/services/formly.config';
+import { ExtensionOption } from '@ngx-formly/core/lib/models';
 
 export const hasFocus: FormlyExtension = {
   prePopulate(field): void {

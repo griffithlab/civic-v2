@@ -7,7 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { VariantTypeaheadGQL } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/models';
 
 @Component({
   selector: 'cvc-variant-input-type',

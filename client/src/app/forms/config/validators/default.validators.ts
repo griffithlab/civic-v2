@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core/lib/core";
-import { ValidationMessageOption, ValidatorOption } from "@ngx-formly/core/lib/services/formly.config";
+import { ValidationMessageOption, ValidatorOption } from "@ngx-formly/core/lib/models";
 
 export const defaultMessages: ValidationMessageOption[] = [
   {

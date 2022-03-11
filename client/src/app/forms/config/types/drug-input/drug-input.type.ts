@@ -10,7 +10,7 @@ import { FieldType } from '@ngx-formly/core';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import {TypeOption} from "@ngx-formly/core/lib/models";
 
 interface DrugTypeahead {
   id: number,
