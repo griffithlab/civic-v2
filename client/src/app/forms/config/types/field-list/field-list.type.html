@@ -1,0 +1,53 @@
+<!-- iterate using block or inline templates as determined by to.display -->
+<ng-container *ngFor="let field of field.fieldGroup; let index = index; let last = last">
+  <ng-container *ngTemplateOutlet="to.display === 'block' ? fieldRow : fieldItem; context: { $implicit: field, last: last, index: index}">
+  </ng-container>
+</ng-container>
+
+<ng-template #fieldRow
+  let-field
+  let-index="index"
+  let-last="last">
+  <div class="block-field">
+    <formly-field [field]="field"></formly-field>
+    <ng-container *ngTemplateOutlet="removeButton; context: { $implicit: index }"></ng-container>
+  </div>
+  <div *ngIf="last"
+    class="block-button">
+    <ng-container *ngTemplateOutlet="addButton"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #fieldItem
+  let-field
+  let-index="index"
+  let-last="last">
+  <div class="inline-field">
+    <ng-container *ngTemplateOutlet="removeButton; context: { $implicit: index }"></ng-container>
+    <formly-field [field]="field"></formly-field>
+  </div>
+  <div *ngIf="last"
+    class="inline-button">
+    <ng-container *ngTemplateOutlet="addButton"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #addButton>
+  <a nz-button
+    (click)="add()"
+    nzBlock
+    nzSize="small"
+    nzType="dashed">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+    {{ to.addButtonLabel }}</a>
+</ng-template>
+
+<ng-template #removeButton
+  let-index>
+  <a *ngIf="to.showRemoveButtons" nz-button
+    (click)="remove(index)"
+    nzSize="small"
+    nzType="dashed">
+     <i nz-icon nzType="minus" nzTheme="outline"></i>
+    </a>
+</ng-template>
