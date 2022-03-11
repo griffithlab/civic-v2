@@ -6,7 +6,7 @@ const requiredValidationMsgFn = (): string => {
 
 export const sourceArrayTypeOption: TypeOption = {
   name: 'source-array',
-  extends: 'multi-field',
+  extends: 'field-list',
   defaultOptions: {
     templateOptions: {
       label: 'Source',
