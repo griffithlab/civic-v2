@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
-  selector: 'cvc-select-base',
-  templateUrl: './cvc-select.type.html',
+  selector: 'cvc-input-base',
+  templateUrl: './cvc-input.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcSelectType extends FieldType<FieldTypeConfig> {}
+export class CvcInputType extends FieldType<FieldTypeConfig> {}
