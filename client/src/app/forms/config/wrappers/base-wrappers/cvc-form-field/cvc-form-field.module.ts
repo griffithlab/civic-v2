@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { CvcFormFieldWrapper } from './cvc-form-field.wrapper';
+import { FormFieldWrapperBase } from './cvc-form-field.wrapper';
 
 @NgModule({
-  declarations: [CvcFormFieldWrapper],
+  declarations: [FormFieldWrapperBase],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -15,7 +15,7 @@ import { CvcFormFieldWrapper } from './cvc-form-field.wrapper';
       wrappers: [
         {
           name: 'cvc-form-field',
-          component: CvcFormFieldWrapper,
+          component: FormFieldWrapperBase,
         },
       ],
     }),

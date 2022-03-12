@@ -6,7 +6,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   templateUrl: './cvc-form-field.wrapper.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcFormFieldWrapper extends FieldWrapper {
+export class FormFieldWrapperBase extends FieldWrapper {
   get errorState() {
     return this.showError ? 'error' : '';
   }

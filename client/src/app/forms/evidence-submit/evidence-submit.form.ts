@@ -81,19 +81,25 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'evidenceLevel',
+            type: 'evidence-level-select',
             templateOptions: {
-              maxCount: 1,
-              required: true
+              label: 'Gene'
             }
           },
+          // {
+          //   key: 'gene',
+          //   type: 'gene-array',
+          //   templateOptions: {
+          //     maxCount: 1,
+          //     required: true
+          //   }
+          // },
           //     {
           //       key: 'variant',
           //       type: 'variant-array',

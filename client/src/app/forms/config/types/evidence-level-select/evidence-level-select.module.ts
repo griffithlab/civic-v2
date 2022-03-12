@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import { evidenceLevelSelectTypeOption } from './evidence-level-select.type';
+import { CvcSelectTypeModule } from '../base-types/cvc-select/cvc-select.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { evidenceLevelSelectTypeOption } from './evidence-level-select.type';
     ReactiveFormsModule,
     FormlySelectModule,
     FormlyModule.forChild({ types: [evidenceLevelSelectTypeOption] }),
+    CvcSelectTypeModule,
   ]
 })
 export class CvcEvidenceLevelSelectModule { }

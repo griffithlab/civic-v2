@@ -6,4 +6,4 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   templateUrl: './cvc-select.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcSelectType extends FieldType<FieldTypeConfig> {}
+export class SelectTypeBase extends FieldType<FieldTypeConfig> {}

@@ -6,10 +6,10 @@ import { FormlySelectModule } from '@ngx-formly/core/select';
 
 import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { CvcSelectType } from './cvc-select.type';
+import { SelectTypeBase } from './cvc-select.type';
 
 @NgModule({
-  declarations: [CvcSelectType],
+  declarations: [SelectTypeBase],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -21,7 +21,7 @@ import { CvcSelectType } from './cvc-select.type';
       types: [
         {
           name: 'select',
-          component: CvcSelectType,
+          component: SelectTypeBase,
           wrappers: ['form-field'],
         },
         { name: 'enum', extends: 'select' },
