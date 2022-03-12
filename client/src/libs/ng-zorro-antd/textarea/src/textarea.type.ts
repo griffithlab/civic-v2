@@ -6,4 +6,4 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   templateUrl: './textarea.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldTextArea extends FieldType<FieldTypeConfig> {}
+export class FormlyFieldTextArea extends FieldType<FieldTypeConfig> { }

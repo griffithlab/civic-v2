@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { EvidenceState } from '@app/forms/config/states/evidence.state';
+import * as fmt from '@app/forms/config/utilities/input-formatters';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
@@ -12,14 +16,10 @@ import {
   SubmitEvidenceItemInput,
   SubmitEvidenceItemMutation,
   SubmitEvidenceItemMutationVariables,
-  VariantOrigin,
+  VariantOrigin
 } from '@app/generated/civic.apollo';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
-import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
 import { FormDisease, FormDrug, FormGene, FormPhenotype, FormSource, FormVariant } from '../forms.interfaces';
 
@@ -86,20 +86,13 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         },
         fieldGroup: [
           {
-            key: 'evidenceLevel',
-            type: 'evidence-level-select',
+            key: 'gene',
+            type: 'gene-select',
             templateOptions: {
-              label: 'Gene'
+              maxCount: 1,
+              required: true
             }
           },
-          // {
-          //   key: 'gene',
-          //   type: 'gene-array',
-          //   templateOptions: {
-          //     maxCount: 1,
-          //     required: true
-          //   }
-          // },
           //     {
           //       key: 'variant',
           //       type: 'variant-array',

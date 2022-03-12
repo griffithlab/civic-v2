@@ -6,4 +6,4 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   templateUrl: './select.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFieldSelect extends FieldType<FieldTypeConfig> {}
+export class FormlyFieldSelect extends FieldType<FieldTypeConfig> { }

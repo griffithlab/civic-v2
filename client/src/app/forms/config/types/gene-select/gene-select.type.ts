@@ -2,31 +2,26 @@ import { TypeOption } from "@ngx-formly/core/lib/models";
 
 export const geneSelectTypeOption: TypeOption = {
   name: 'gene-select',
-  extends: 'cvc-select',
-  wrappers: ['cvc-form-field'],
+  extends: 'select',
+  wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
       label: 'Gene',
-      placeholder: 'None specified'
+      placeholder: 'None specified',
+      options: []
     }
   }
 }
 
-// @Component({
-//   template: '',
-//   selector: 'cvc-gene-select'
-// })
-// export class GeneSelectType extends FieldType<FieldTypeConfig> {
-
-//   constructor() {
-//     super();
-
-//     this.defaultOptions = {
-//       templateOptions: {
-//         label: 'Gene',
-//         placeholder: 'None specified.',
-//       }
+// export class GeneSelectTypeOption implements TypeOption {
+//   name = 'gene-select';
+//   extends = 'select';
+//   wrappers = ['form-field'];
+//   defaultOptions = {
+//     templateOptions: {
+//       label: 'Gene',
+//       placeholder: 'None specified',
+//       options: []
 //     }
-
 //   }
 // }
