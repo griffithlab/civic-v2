@@ -3,17 +3,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'formly-field-nz-checkbox',
-  template: `
-    <label
-      nz-checkbox
-      [nzIndeterminate]="to.indeterminate && formControl.value == null"
-      [formControl]="formControl"
-      [formlyAttributes]="field"
-      (ngModelChange)="to.change && to.change(field, $event)"
-    >
-      {{ to.label }}
-    </label>
-  `,
+  templateUrl: './checkbox.type.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormlyFieldCheckbox extends FieldType<FieldTypeConfig> {
