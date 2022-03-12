@@ -5,7 +5,6 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 @NgModule({
   declarations: [CommentTextareaType],
@@ -13,7 +12,6 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
     CommonModule,
     ReactiveFormsModule,
     FormlyModule.forChild({ types: [CommentTextareaTypeOption] }),
-    FormlyNgZorroAntdModule,
     NzFormModule,
     NzInputModule,
   ]

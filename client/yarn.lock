@@ -2748,13 +2748,6 @@
   dependencies:
     tslib "^2.0.0"
 
-"@ngx-formly/ng-zorro-antd@6.0.0-next.7":
-  version "6.0.0-next.7"
-  resolved "https://registry.yarnpkg.com/@ngx-formly/ng-zorro-antd/-/ng-zorro-antd-6.0.0-next.7.tgz#64b671b9c1c371bd17167c08cfd82e1015a1585a"
-  integrity sha512-9m2g0K9qIP8R5CGAXkJnmloSlL0ZqwWxdu9pE7D04xUAnsKpgBM45agpar2Z8UUs+rfnl9U0TpzlIr+p6Abz4w==
-  dependencies:
-    tslib "^2.0.0"
-
 "@ngx-formly/schematics@6.0.0-next.7":
   version "6.0.0-next.7"
   resolved "https://registry.yarnpkg.com/@ngx-formly/schematics/-/schematics-6.0.0-next.7.tgz#5bf3fc40b04610d68516dd19f68ad5f1ea7cfef4"

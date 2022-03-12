@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
+import { FormlyNzFormFieldModule } from '@libs/ng-zorro-antd/form-field';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SelectTypeBase } from './cvc-select.type';
 

@@ -26,7 +26,6 @@
     "@apollo/client": "^3.5.8",
     "@ngrx/component": "^12.5.1",
     "@ngx-formly/core": "6.0.0-next.7",
-    "@ngx-formly/ng-zorro-antd": "6.0.0-next.7",
     "apollo-angular": "^2.1.0",
     "ng-zorro-antd": "^13.0.1",
     "ngx-cookie-service": "^13.1.2",

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { CvcFormlyConfig } from '@app/forms/forms.config';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { FormlyNgZorroAntdModule } from '@libs/ng-zorro-antd/src/public_api';
 
 @NgModule({
   declarations: [],
