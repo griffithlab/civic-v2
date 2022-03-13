@@ -4,6 +4,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FieldTagWrapper } from './field-tag.wrapper';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { GraphQLModule } from '@app/graphql/graphql.module';
 
 @NgModule({
   declarations: [FieldTagWrapper],
@@ -11,6 +12,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     CommonModule,
     ReactiveFormsModule,
     NzTagModule,
+    GraphQLModule,
     FormlyModule.forChild({
       wrappers: [
         {

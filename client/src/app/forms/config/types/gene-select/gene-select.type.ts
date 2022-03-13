@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GeneTypeaheadFieldsFragment, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables } from '@app/generated/civic.apollo';
+import { GeneTypeaheadFieldsFragment, GeneTypeaheadFieldsFragmentDoc, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -26,11 +26,7 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
   private destroy$ = new Subject();
 
   genes$?: Observable<GeneTypeaheadOption[]>
-  private onChange = (f: any, e: any) => {
-    console.log('gene-select onChange: ');
-    console.log(f);
-  }
-  constructor(private geneTypeaheadQuery: GeneTypeaheadGQL,) {
+  constructor(private geneTypeaheadQuery: GeneTypeaheadGQL) {
     super();
 
     this.defaultOptions = {
@@ -41,10 +37,16 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
         showArrow: false,
         onSearch: () => { },
         minLengthSearch: 1,
-        optionList: [] as Array<{ value: string; label: string; drug: any }>,
       },
     };
 
+  }
+
+  onChange(f: any, e: any) {
+    this.to.cacheQuery = {
+      id: `Gene:${e}`,
+      fragment: GeneTypeaheadFieldsFragmentDoc,
+    }
   }
 
   ngOnInit() {
