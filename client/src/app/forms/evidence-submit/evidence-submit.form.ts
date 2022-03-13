@@ -30,7 +30,7 @@ interface FormModel {
     description: string
     source: FormSource[]
 
-    gene: FormGene[]
+    gene: number,
     variant: FormVariant[]
 
     variantOrigin: VariantOrigin
@@ -87,8 +87,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         fieldGroup: [
           {
             key: 'gene',
-            type: 'gene-select',
-            defaultValue: null,
+            type: 'gene-select-tag',
             templateOptions: {
               required: true
             }

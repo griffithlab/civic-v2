@@ -4,13 +4,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { GeneTypeaheadFieldsFragment, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
-import { TypeOption } from "@ngx-formly/core/lib/models";
 
 interface GeneTypeaheadOption {
   value: number,
@@ -20,7 +18,7 @@ interface GeneTypeaheadOption {
 }
 
 @Component({
-  selector: 'gene-select',
+  selector: 'gene-select-type',
   templateUrl: './gene-select.type.html',
 })
 export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterViewInit, OnDestroy, OnInit {
@@ -36,7 +34,7 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
     super();
 
     this.defaultOptions = {
-      defaultValue: {},
+      defaultValue: null,
       templateOptions: {
         label: 'Gene',
         placeholder: 'None specified',
@@ -89,10 +87,4 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
     this.destroy$.complete();
   }
 
-}
-
-export const GeneSelectTypeOption: TypeOption = {
-  name: 'gene-select',
-  component: GeneSelectType,
-  wrappers: ['form-field'],
 }
