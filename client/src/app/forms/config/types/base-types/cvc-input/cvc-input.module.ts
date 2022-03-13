@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { FormlyNzFormFieldModule } from '@libs/ng-zorro-antd/form-field';
+import { FormlyNzFormFieldModule } from '@forms/config/ng-zorro-antd/form-field';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 

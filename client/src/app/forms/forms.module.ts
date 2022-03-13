@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { CvcFormlyConfig } from '@app/forms/forms.config';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { FormlyNgZorroAntdModule } from '@libs/ng-zorro-antd/src/public_api';
+import { FormlyNgZorroAntdModule } from './config/ng-zorro-antd/src/public_api';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,7 +19,6 @@ import { FormlyNgZorroAntdModule } from '@libs/ng-zorro-antd/src/public_api';
     FormsModule,
     ReactiveFormsModule,
     FormlyModule,
-    FormlyNgZorroAntdModule,
   ]
 })
 export class CvcFormsModule { }

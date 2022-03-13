@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { FormlyNzFormFieldModule } from '@libs/ng-zorro-antd/form-field';
+import { FormlyNzFormFieldModule } from '../../form-field';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 import { FormlyFieldCheckbox } from './checkbox.type';

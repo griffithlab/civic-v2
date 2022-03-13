@@ -4,7 +4,10 @@
     "baseUrl": "src",
     "paths": {
       "@app/*": ["app/*"],
-      "@libs/*": ["libs/*"]
+      "@views/*": ["app/views/*"],
+      "@components/*": ["app/components/*"],
+      "@forms/*": ["app/forms/*"],
+      "@generated/*": ["app/generated/*"]
     },
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,

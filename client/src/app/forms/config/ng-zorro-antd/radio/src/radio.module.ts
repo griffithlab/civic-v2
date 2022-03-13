@@ -4,7 +4,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 
-import { FormlyNzFormFieldModule } from '@libs/ng-zorro-antd/form-field';
+import { FormlyNzFormFieldModule } from '../../form-field';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 import { FormlyFieldRadio } from './radio.type';
