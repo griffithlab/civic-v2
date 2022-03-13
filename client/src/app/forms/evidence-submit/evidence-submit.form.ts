@@ -30,7 +30,7 @@ interface FormModel {
     description: string
     source: FormSource[]
 
-    gene: FormGene[],
+    gene: FormGene[]
     variant: FormVariant[]
 
     variantOrigin: VariantOrigin
@@ -87,126 +87,12 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         fieldGroup: [
           {
             key: 'gene',
-            type: 'gene-array',
+            type: 'gene-select',
+            defaultValue: null,
             templateOptions: {
-              maxCount: 1,
               required: true
             }
           },
-          //     {
-          //       key: 'variant',
-          //       type: 'variant-array',
-          //       templateOptions: {
-          //         required: true,
-          //         maxCount: 1
-          //       }
-          //     },
-          //     {
-          //       key: 'description',
-          //       type: 'cvc-textarea',
-          //       templateOptions: {
-          //         label: 'Evidence Statement',
-          //         helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
-          //         placeholder: 'No description provided',
-          //         required: true
-          //       }
-          //     },
-          //     {
-          //       key: 'source',
-          //       type: 'multi-field',
-          //       templateOptions: {
-          //         label: 'Source',
-          //         helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-          //         addText: 'Specify a Source',
-          //         maxCount: 1,
-          //       },
-          //       fieldArray: {
-          //         type: 'source-input',
-          //         templateOptions: {
-          //           required: true,
-          //         },
-          //       },
-          //     },
-          //     {
-          //       key: 'variantOrigin',
-          //       type: 'variant-origin-select',
-          //       templateOptions: {
-          //         required: true,
-          //       }
-          //     },
-          //     {
-          //       key: 'evidenceType',
-          //       type: 'evidence-type-select',
-          //       templateOptions: {
-          //         required: true,
-          //       },
-          //     },
-          //     {
-          //       key: 'clinicalSignificance',
-          //       type: 'clinical-significance-select',
-          //       templateOptions: {
-          //         required: true
-          //       }
-          //     },
-          //     {
-          //       key: 'disease',
-          //       type: 'disease-array',
-          //       templateOptions: {}
-          //     },
-          //     {
-          //       key: 'evidenceLevel',
-          //       type: 'evidence-level-select',
-          //       templateOptions: {
-          //         required: true,
-          //       }
-          //     },
-          //     {
-          //       key: 'evidenceDirection',
-          //       type: 'evidence-direction-select',
-          //       templateOptions: {
-          //         required: true,
-          //       },
-          //     },
-          //     {
-          //       key: 'drugs',
-          //       type: 'drug-array',
-          //     },
-          //     {
-          //       key: 'drugInteractionType',
-          //       type: 'drug-interaction-select'
-          //     },
-          //     {
-          //       key: 'phenotypes',
-          //       type: 'phenotype-array',
-          //     },
-          //     {
-          //       key: 'evidenceRating',
-          //       type: 'rating-input',
-          //       templateOptions: {
-          //         required: true,
-          //         label: 'Rating',
-          //         helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
-          //       },
-          //     },
-          //     {
-          //       key: 'comment',
-          //       type: 'comment-textarea',
-          //       templateOptions: {
-          //         label: 'Comment',
-          //         helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
-          //         placeholder: 'Please enter a comment describing your revision.',
-          //         required: true,
-          //         minLength: 10
-          //       },
-          //     },
-          // {
-          //   key: 'organization',
-          //   type: 'org-submit-button',
-          //   templateOptions: {
-          //     submitLabel: 'Submit Evidence Item Revision',
-          //     submitSize: 'large'
-          //   }
-          // }
         ]
       }
     ];

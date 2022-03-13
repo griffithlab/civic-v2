@@ -1,0 +1,12 @@
+query GeneTypeahead($entrezSymbol: String!) {
+  geneTypeahead(queryTerm: $entrezSymbol) {
+    ... GeneTypeaheadFields
+  }
+}
+
+fragment GeneTypeaheadFields on Gene {
+  id
+  name
+  geneAliases
+  entrezId
+}

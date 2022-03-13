@@ -5974,19 +5974,6 @@ export type GeneTypeaheadFieldsFragment = (
   & Pick<Gene, 'id' | 'name' | 'geneAliases' | 'entrezId'>
 );
 
-export type GeneSelectOptionsQueryVariables = Exact<{
-  entrezSymbol: Scalars['String'];
-}>;
-
-
-export type GeneSelectOptionsQuery = (
-  { __typename: 'Query' }
-  & { geneTypeahead: Array<(
-    { __typename: 'Gene' }
-    & GeneTypeaheadFieldsFragment
-  )> }
-);
-
 export type NccnGuidelineTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -10593,24 +10580,6 @@ export const GeneTypeaheadDocument = gql`
   })
   export class GeneTypeaheadGQL extends Apollo.Query<GeneTypeaheadQuery, GeneTypeaheadQueryVariables> {
     document = GeneTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GeneSelectOptionsDocument = gql`
-    query GeneSelectOptions($entrezSymbol: String!) {
-  geneTypeahead(queryTerm: $entrezSymbol) {
-    ...GeneTypeaheadFields
-  }
-}
-    ${GeneTypeaheadFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GeneSelectOptionsGQL extends Apollo.Query<GeneSelectOptionsQuery, GeneSelectOptionsQueryVariables> {
-    document = GeneSelectOptionsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

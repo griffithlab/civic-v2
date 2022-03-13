@@ -1,33 +1,48 @@
-<nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
-  <form nz-form
-    [formGroup]="formGroup"
-    (ngSubmit)="submitEvidence(formModel)"
-    nzLayout="vertical">
-    <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+<nz-col>
+  <nz-row>
+    <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+      <form nz-form
+        [formGroup]="formGroup"
+        (ngSubmit)="submitEvidence(formModel)"
+        nzLayout="vertical">
+        <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-    <formly-form [form]="formGroup"
-      [fields]="formFields"
-      [model]="formModel"
-      [options]="formOptions"
-      (modelChange)="formModel = $event"></formly-form>
+        <formly-form [form]="formGroup"
+          [fields]="formFields"
+          [model]="formModel"
+          [options]="formOptions"
+          (modelChange)="formModel = $event"></formly-form>
 
-    <ng-container *ngTemplateOutlet="formMessages"></ng-container>
-  </form>
+        <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+      </form>
 
-  <ng-template #formMessages>
-    <nz-form-item *ngIf="this.errorMessages.length > 0">
-      <cvc-form-errors-alert [errors]="this.errorMessages">
-      </cvc-form-errors-alert>
-    </nz-form-item>
-    <ng-container *ngIf="this.success">
-      <nz-alert nzType="success"
-        nzMessage="Evidence Submitted"
-        [nzDescription]="successMessage"
-        nzShowIcon></nz-alert>
-      <ng-template #successMessage
-        nzSize="small">
-        <p>View <a routerLink="/evidence/{{this.newId}}/summary">its details</a>.</p>
+      <ng-template #formMessages>
+        <nz-form-item *ngIf="this.errorMessages.length > 0">
+          <cvc-form-errors-alert [errors]="this.errorMessages">
+          </cvc-form-errors-alert>
+        </nz-form-item>
+        <ng-container *ngIf="this.success">
+          <nz-alert nzType="success"
+            nzMessage="Evidence Submitted"
+            [nzDescription]="successMessage"
+            nzShowIcon></nz-alert>
+          <ng-template #successMessage
+            nzSize="small">
+            <p>View <a routerLink="/evidence/{{this.newId}}/summary">its details</a>.</p>
+          </ng-template>
+        </ng-container>
       </ng-template>
-    </ng-container>
-  </ng-template>
-</nz-spin>
+    </nz-spin>
+  </nz-row>
+</nz-col>
+
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <ngx-json-viewer *ngIf="formGroup"
+      [json]="formGroup.value"></ngx-json-viewer>
+  </div>
+  <div nz-col nzSpan="12">
+    <ngx-json-viewer *ngIf="formModel"
+      [json]="formModel"></ngx-json-viewer>
+  </div>
+</div>
