@@ -22,7 +22,6 @@ interface GeneTypeaheadOption {
 @Component({
   selector: 'cvc-gene-input',
   templateUrl: './gene-input.type.html',
-  styleUrls: ['./gene-input.type.less'],
 })
 export class GeneInputType extends FieldType<FieldTypeConfig> implements AfterViewInit, OnDestroy, OnInit {
   
@@ -91,5 +90,5 @@ export class GeneInputType extends FieldType<FieldTypeConfig> implements AfterVi
 export const GeneInputTypeOption: TypeOption = {
   name: 'cvc-gene-input',
   component: GeneInputType,
-  // wrappers: ['form-field'],
+  wrappers: ['form-field'],
 }

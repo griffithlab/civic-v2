@@ -12,7 +12,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.module';
+import { CvcGeneInputTypeModule } from '../config/types/gene-input/gene-input.module';
+import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -29,10 +30,8 @@ import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.mod
     FormlyModule,
 
     CvcFormErrorsAlertModule,
-    CvcGeneSelectModule,
-    // CvcGeneInputTypeModule,
-    // CvcGeneArrayTypeModule,
-    // CvcGeneSelectModule,
+    CvcGeneInputTypeModule,
+    CvcGeneArrayTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })

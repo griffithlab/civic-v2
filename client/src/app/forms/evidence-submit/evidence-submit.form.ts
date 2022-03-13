@@ -87,7 +87,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         fieldGroup: [
           {
             key: 'gene',
-            type: 'gene-select',
+            type: 'gene-array',
             templateOptions: {
               maxCount: 1,
               required: true
