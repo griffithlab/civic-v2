@@ -28,7 +28,7 @@ interface FormModel {
     id: number
 
     description: string
-    source: FormSource[]
+    source: FormSource
 
     gene: FormGene,
     variant: FormVariant[]
@@ -94,39 +94,44 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             }
           },
           {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
-              required: true,
-              maxCount: 1
-            }
-          },
-          {
-            key: 'description',
-            type: 'cvc-textarea',
-            templateOptions: {
-              label: 'Evidence Statement',
-              helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
-              placeholder: 'No description provided',
-              required: true
-            }
-          },
-          {
             key: 'source',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Source',
-              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Specify a Source',
-              maxCount: 1,
-            },
-            fieldArray: {
-              type: 'source-input',
-              templateOptions: {
-                required: true,
-              },
-            },
+            type: 'source-select',
+            templateOptions: {}
           },
+          // {
+          //   key: 'variant',
+          //   type: 'variant-array',
+          //   templateOptions: {
+          //     required: true,
+          //     maxCount: 1
+          //   }
+          // },
+          // {
+          //   key: 'description',
+          //   type: 'cvc-textarea',
+          //   templateOptions: {
+          //     label: 'Evidence Statement',
+          //     helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+          //     placeholder: 'No description provided',
+          //     required: true
+          //   }
+          // },
+          // {
+          //   key: 'source',
+          //   type: 'multi-field',
+          //   templateOptions: {
+          //     label: 'Source',
+          //     helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
+          //     addText: 'Specify a Source',
+          //     maxCount: 1,
+          //   },
+          //   fieldArray: {
+          //     type: 'source-input',
+          //     templateOptions: {
+          //       required: true,
+          //     },
+          //   },
+          // },
           // {
           //   key: 'variantOrigin',
           //   type: 'variant-origin-select',
@@ -252,7 +257,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
           variantId: fields.variant[0].id!,
-          sourceId: fields.source[0].id!,
+          sourceId: fields.source.id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
           clinicalSignificance: fields.clinicalSignificance,

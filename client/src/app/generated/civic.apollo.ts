@@ -6046,6 +6046,25 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type SourceTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['Int'];
+  sourceType: SourceSource;
+}>;
+
+
+export type SourceTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { sourceTypeahead: Array<(
+    { __typename: 'Source' }
+    & SourceTypeaheadResultFragment
+  )> }
+);
+
+export type SourceTypeaheadFieldsFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
+);
+
 export type VariantTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -8204,6 +8223,15 @@ export const GeneTypeaheadFieldsFragmentDoc = gql`
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
     fragment SourceTypeaheadResult on Source {
+  id
+  name
+  citation
+  citationId
+  sourceType
+}
+    `;
+export const SourceTypeaheadFieldsFragmentDoc = gql`
+    fragment SourceTypeaheadFields on Source {
   id
   name
   citation
@@ -10675,6 +10703,24 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceTypeaheadDocument = gql`
+    query SourceTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+    ${SourceTypeaheadResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceTypeaheadGQL extends Apollo.Query<SourceTypeaheadQuery, SourceTypeaheadQueryVariables> {
+    document = SourceTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,0 +1,39 @@
+<nz-select nzShowSearch
+  nzServerSearch
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+  [nzNotFoundContent]="sourceLoader"
+  [nzShowArrow]="false"
+  [nzFilterOption]="to.filterOption"
+  (nzOnSearch)="to.onSearch($event)">
+  <ng-container *ngrxLet="this.sources$ as sources">
+    <nz-option *ngFor="let opt of sources"
+      nzCustomContent
+      [nzLabel]="opt.label"
+      [nzValue]="opt.value">
+      {{ opt.source.citation }} ({{ opt.source.citationId }})
+    </nz-option>
+  </ng-container>
+</nz-select>
+<!-- <div class="ant-form-item-explain"
+     *ngIf="model.citation.length > 0">
+     Citation:
+     <span class="source-citation">
+     {{ model.citation }}
+     </span>
+     </div> -->
+<ng-template #sourceLoader>
+  <p>Source Loader Here</p>
+  <!-- <ng-container [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
+       <div *ngSwitchCase="false"
+       class="ant-form-item-explain">
+       Enter a {{ to.sourceTypeKey }} citation ID to search CIViC sources
+       </div>
+       <cvc-source-loader *ngSwitchCase="true"
+       [model]="model"
+       (modelUpdate)="onModelUpdated($event)"
+       [(sourceType)]="model.sourceType"
+       [(citationId)]="to.fieldValue"></cvc-source-loader>
+       </ng-container> -->
+</ng-template>

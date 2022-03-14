@@ -42,30 +42,12 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
       templateOptions: {
         label: 'Gene',
         placeholder: 'None specified',
-        showArrow: false,
         showTag: true,
         onSearch: () => { },
         minLengthSearch: 1,
         entityType: 'Gene',
         entityFragment: GeneTypeaheadFieldsFragmentDoc
       },
-      hooks: {
-        onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
-          console.log('gene-select onInit called.');
-        },
-        onChanges: (ffc: Maybe<FormlyFieldConfig>): void => {
-          console.log('gene-select onChanges called.');
-            // const to: FormlyTemplateOptions = ffc!.templateOptions!;
-          // to.linkableEntity = {
-          //   id: ffc!.formControl!.value,
-          //   name:
-          //   // TODO: lookup gene from the cache
-          // }
-        },
-        onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
-          console.log('gene-select onDestroy called.');
-        }
-      }
     };
 
   }
@@ -75,7 +57,8 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
 
     this.genes$ = this.queryRef
       .valueChanges
-      .pipe(takeUntil(this.destroy$),
+      .pipe(
+        takeUntil(this.destroy$),
         pluck('data', 'geneTypeahead'),
         map((genes) => {
           return genes.map((g) => {
