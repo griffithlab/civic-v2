@@ -9,6 +9,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcFieldTagWrapperModule } from '../../wrappers/field-tag/field-tag.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 const configOption: ConfigOption = {
   types: [
@@ -39,6 +40,7 @@ const configOption: ConfigOption = {
     NzSelectModule,
     NzSpaceModule,
     NzTypographyModule,
+    NzTagModule,
     CvcFieldTagWrapperModule,
     CvcGeneTagModule,
   ]

@@ -1,12 +1,15 @@
 import {
   AfterViewInit,
   Component,
+  ContentChild,
   OnDestroy,
   OnInit,
+  TemplateRef,
 } from '@angular/core';
-import { GeneTypeaheadFieldsFragment, GeneTypeaheadFieldsFragmentDoc, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { GeneTypeaheadFieldsFragment, GeneTypeaheadFieldsFragmentDoc, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables, Maybe } from '@app/generated/civic.apollo';
+import { FieldType, FieldTypeConfig, FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
+import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 
@@ -20,12 +23,17 @@ interface GeneTypeaheadOption {
 @Component({
   selector: 'gene-select-type',
   templateUrl: './gene-select.type.html',
+  styleUrls: ['./gene-select.type.less']
 })
 export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterViewInit, OnDestroy, OnInit {
+
+  @ContentChild(NzSelectComponent, { read: TemplateRef }) tagTemplateRef: any;
+
   private queryRef!: QueryRef<GeneTypeaheadQuery, GeneTypeaheadQueryVariables>
   private destroy$ = new Subject();
 
-  genes$?: Observable<GeneTypeaheadOption[]>
+  genes$?: Observable<GeneTypeaheadOption[]>;
+
   constructor(private geneTypeaheadQuery: GeneTypeaheadGQL) {
     super();
 
@@ -35,13 +43,29 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
         label: 'Gene',
         placeholder: 'None specified',
         showArrow: false,
+        showTag: true,
         onSearch: () => { },
         minLengthSearch: 1,
-        cacheQuery: {
-          idFn: (id: number) => `Gene:${id}`,
-          fragment: GeneTypeaheadFieldsFragmentDoc
-        }
+        entityType: 'Gene',
+        entityFragment: GeneTypeaheadFieldsFragmentDoc
       },
+      hooks: {
+        onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
+          console.log('gene-select onInit called.');
+        },
+        onChanges: (ffc: Maybe<FormlyFieldConfig>): void => {
+          console.log('gene-select onChanges called.');
+            // const to: FormlyTemplateOptions = ffc!.templateOptions!;
+          // to.linkableEntity = {
+          //   id: ffc!.formControl!.value,
+          //   name:
+          //   // TODO: lookup gene from the cache
+          // }
+        },
+        onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
+          console.log('gene-select onDestroy called.');
+        }
+      }
     };
 
   }
@@ -63,8 +87,8 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
               gene: g,
             }
           })
-        })
-      )
+        }));
+
   }
 
   ngAfterViewInit() {
@@ -87,3 +111,4 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
   }
 
 }
+

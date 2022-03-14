@@ -14,7 +14,9 @@
       <nz-space>
         <span *nzSpaceItem>{{ opt.label }}</span>
         <ng-container *ngIf="opt.gene.geneAliases.length > 0">
-          <span nz-typography nzType="secondary" *nzSpaceItem>
+          <span nz-typography
+            nzType="secondary"
+            *nzSpaceItem>
             {{ opt.gene.geneAliases.join(', ') }}
           </span>
         </ng-container>
@@ -24,7 +26,4 @@
 </nz-select>
 <ng-template #sourceLoader>
   No gene found in CIViC that matches the string provided.
-</ng-template>
-<ng-template #entityTag>
-  <cvc-gene-tag [gene]="formControl.value"></cvc-gene-tag>
 </ng-template>
