@@ -46,6 +46,7 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
         onSearch: () => { },
         minSearchLength: 1,
         searchLength: 0,
+        searchString: '',
         entityType: 'Gene',
         entityFragment: GeneTypeaheadFieldsFragmentDoc
       },
@@ -54,7 +55,7 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
   }
 
   ngOnInit() {
-    this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: "" })
+    this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: "ZZZZZ" })
 
     this.genes$ = this.queryRef
       .valueChanges
@@ -78,6 +79,7 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
       this.to.searchLength = value.length;
+      this.to.searchString = value;
       if (
         value.length < this.to.minSearchLength ||
         value.length > this.to.maxLength!

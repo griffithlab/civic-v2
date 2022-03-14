@@ -11,29 +11,26 @@
       nzCustomContent
       [nzLabel]="opt.tooltip"
       [nzValue]="opt.gene">
-      <nz-space>
-        <span *nzSpaceItem>{{ opt.label }}</span>
-        <ng-container *ngIf="opt.gene.geneAliases.length > 0">
-          <span nz-typography
-            nzType="secondary"
-            *nzSpaceItem>
-            {{ opt.gene.geneAliases.join(', ') }}
-          </span>
-        </ng-container>
-      </nz-space>
+      {{ opt.label }}
+      <ng-container *ngIf="opt.gene.geneAliases.length > 0">
+        <span nz-typography
+          nzType="secondary">
+          Aliases: {{ opt.gene.geneAliases.join(', ') }}
+        </span>
+      </ng-container>
     </nz-option>
   </ng-container>
 </nz-select>
 <ng-template #notFound>
-    <!-- prompt user to enter search string if none entered, or it is of insufficient length -->
-  <ng-container [ngSwitch]="to.searchLength >= 0 && to.searchLength >= to.minSearchlength">
+  <!-- prompt user to enter search string if none entered, or it is of insufficient length -->
+  <ng-container [ngSwitch]="to.searchLength >= 0 && to.searchLength >= to.minSearchLength">
     <div *ngSwitchCase="false"
       class="ant-form-item-explain">
       Enter an ENTREZ gene ID to search CIViC Genes.
     </div>
     <!-- if valid search, but no results returned, show notice -->
     <div *ngSwitchCase="true" class="ant-form-item-explain">
-      No gene found in CIViC that matches the string provided.
+      No Gene found in CIViC that matches {{ to.searchString }}
     </div>
   </ng-container>
 
