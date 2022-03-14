@@ -23,13 +23,15 @@ export class SourceSelectType extends FieldType implements OnInit {
       templateOptions: {
         label: 'Source',
       },
+      fieldGroupClassName: 'select-group',
       fieldGroup: [
         {
           key: 'sourceType',
           type: 'select',
           defaultValue: SourceSource.Pubmed,
+          className: 'type-field',
           templateOptions: {
-            required: true,
+            required: false,
             placeholder: 'Select Type',
             options: $enum(SourceSource)
               .map((value, key) => {
@@ -40,9 +42,10 @@ export class SourceSelectType extends FieldType implements OnInit {
         {
           key: 'citationId',
           type: 'citation-select',
+          className: 'citation-field',
           templateOptions: {
             maxLength: 10,
-            required: true,
+            required: false,
             // triggerParentSubmit: () => { this.onSubmit(); }
           },
           // expressionProperties: {
