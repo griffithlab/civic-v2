@@ -37,16 +37,13 @@ export class GeneSelectType extends FieldType<FieldTypeConfig> implements AfterV
         showArrow: false,
         onSearch: () => { },
         minLengthSearch: 1,
+        cacheQuery: {
+          idFn: (id: number) => `Gene:${id}`,
+          fragment: GeneTypeaheadFieldsFragmentDoc
+        }
       },
     };
 
-  }
-
-  onChange(f: any, e: any) {
-    this.to.cacheQuery = {
-      id: `Gene:${e}`,
-      fragment: GeneTypeaheadFieldsFragmentDoc,
-    }
   }
 
   ngOnInit() {

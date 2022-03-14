@@ -1,9 +1,10 @@
-<ng-container *ngIf="formControl?.value; else showField">
-  <nz-tag>{{ to.label }} {{ formControl!.value }}</nz-tag>
-</ng-container>
-<ng-template #showField>
+<!-- <span *ngIf="formControl?.value; else showField"> -->
+<span [ngClass]="{ 'hidden': formControl?.value === null }">
+  <nz-tag>{{ to.label }} {{ formControl!.value === null }}</nz-tag>
+</span>
+<span [ngClass]="{ 'hidden': formControl?.value !== null }">
    <ng-container #fieldComponent></ng-container>
-</ng-template>
+</span>
 
 <!-- <nz-form-item>
      <ng-container *ngIf="to.label && to.hideLabel !== true">

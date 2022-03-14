@@ -6,6 +6,7 @@ import { Apollo } from 'apollo-angular';
 @Component({
   selector: 'field-tag-wrapper',
   templateUrl: './field-tag.wrapper.html',
+  styleUrls: ['./field-tag.wrapper.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FieldTagWrapper extends FieldWrapper implements AfterViewInit {
