@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
+  Maybe,
   SourceSource,
   SourceTypeaheadFieldsFragment,
   SourceTypeaheadGQL,
@@ -17,6 +18,8 @@ import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
+import { $enum } from 'ts-enum-util';
+import { SourceSelectorModel } from '../../source-input/source-selector/source-selector.form';
 
 
 interface CitationSelectOption {
@@ -47,7 +50,15 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
         onSearch: () => { },
         minLengthSearch: 1,
         maxLengthSearch: 15,
+        valueLength: 0,
       },
+      expressionProperties: {
+        'templateOptions.placeholder': (model: SourceSelectorModel): Maybe<string> => {
+          const sType = $enum(SourceSource).getKeyOrThrow(model.sourceType);
+          const article = model.sourceType === SourceSource.Pubmed ? 'a' : 'an';
+          return `Enter ${article} ${sType} citation ID to search Sources.`;
+        }
+      }
     };
   }
 
@@ -72,8 +83,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.fieldValue = value;
-      this.to.fieldLength = value.length;
+      this.to.valueLength = value.length;
       if (
         value.length < this.to.minLengthSearch ||
         value.length > this.to.maxLength!
