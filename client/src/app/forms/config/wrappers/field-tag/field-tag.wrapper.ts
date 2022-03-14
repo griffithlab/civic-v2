@@ -51,10 +51,15 @@ type AnyLinkableTypeToEntityType<T extends AnyLinkableType> =
 export class FieldTagWrapper extends FieldWrapper implements OnInit {
   private cache: ApolloCache<any>;
   linkableType!: AnyLinkableType;
+  closeTag: (_: number) => void;
 
   constructor(private apollo: Apollo) {
     super();
     this.cache = this.apollo.client.cache;
+
+    this.closeTag = (_: number) => {
+      this.formControl!.setValue(this.to.defaultValue);
+    }
   }
 
   get errorState() {

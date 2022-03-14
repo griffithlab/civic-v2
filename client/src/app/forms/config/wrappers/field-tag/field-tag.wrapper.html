@@ -2,7 +2,11 @@
 <span [ngClass]="{ 'hidden': !linkableType }">
   <!-- <nz-tag>{{ to.entityType }} {{ linkableType?.id }}</nz-tag> -->
     <ng-container *ngIf="linkableType" [ngSwitch]="to.entityType">
-      <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="linkableType"></cvc-gene-tag>
+      <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="linkableType" [onCloseClicked]="closeTag"></cvc-gene-tag>
+      <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="linkableType"></cvc-variant-tag>
+      <cvc-evidence-tag *ngSwitchCase="'Evidence'" [evidence]="linkableType"></cvc-evidence-tag>
+      <cvc-evidence-tag *ngSwitchCase="'Evidence'" [evidence]="linkableType"></cvc-evidence-tag>
+      <cvc-variant-type-tag *ngSwitchCase="'Variant'" [variantType]="linkableType"></cvc-variant-type-tag>
       <nz-tag *ngSwitchDefault>{{ to.entityType }} {{ linkableType?.id }}</nz-tag>
     </ng-container>
 </span>
