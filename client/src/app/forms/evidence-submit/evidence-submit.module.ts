@@ -7,7 +7,6 @@ import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-s
 import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
-import { CvcGeneInputTypeModule } from '@app/forms/config/types/gene-input/gene-input.module';
 import { CvcMultiFieldTypeModule } from '@app/forms/config/types/multi-field/multi-field.module';
 import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
 import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
@@ -15,7 +14,6 @@ import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-in
 import { CvcSourceInputTypeModule } from '@app/forms/config/types/source-input/source-input.module';
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
-import { CvcVariantInputTypeModule } from '@app/forms/config/types/variant-input/variant-input.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { EvidenceItemSubmitService } from './evidence-submit.service';
 import { EvidenceSubmitForm } from './evidence-submit.form';
@@ -38,6 +36,8 @@ import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.mo
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.module';
+import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -78,6 +78,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     CvcGeneArrayTypeModule,
     CvcVariantArrayTypeModule,
     CvcSourceArrayTypeModule,
+    CvcGeneSelectModule,
   ],
   exports: [EvidenceSubmitForm],
 })

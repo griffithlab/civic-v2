@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableVariantType {
@@ -11,12 +12,16 @@ export interface LinkableVariantType {
   templateUrl: './variant-type-tag.component.html',
   styleUrls: ['./variant-type-tag.component.less']
 })
-export class CvcVariantTypeTagComponent implements OnInit {
+export class CvcVariantTypeTagComponent extends BaseCloseableTag implements OnInit {
   @Input() variantType!: LinkableVariantType
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
-  constructor() { }
+  constructor() { super(); }
+
+  idFunction() {
+    return this.variantType.id
+  }
 
   ngOnInit() {
     if (this.variantType === undefined) {
