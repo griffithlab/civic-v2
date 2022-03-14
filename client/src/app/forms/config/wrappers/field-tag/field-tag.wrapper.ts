@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import { OnDestroy, OnInit } from '@angular/core';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ApolloCache } from '@apollo/client/core';
 import { LinkableAssertion } from '@app/components/assertions/assertions-tag/assertion-tag.component';
@@ -12,8 +12,12 @@ import { LinkablePhenotype } from '@app/components/phenotypes/phenotype-tag/phen
 import { LinkableSource } from '@app/components/sources/source-tag/source-tag.component';
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component';
 import { LinkableVariant } from '@app/components/variants/variant-tag/variant-tag.component';
+import { Maybe } from '@app/generated/civic.apollo';
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core';
 import { Apollo } from 'apollo-angular';
+import { Subscription } from 'rxjs';
+
+// TODO: normalize source tag and variant tag LinkableTypes with the others
 
 export type AnyLinkableType =
   LinkableGene
@@ -48,9 +52,10 @@ type AnyLinkableTypeToEntityType<T extends AnyLinkableType> =
   styleUrls: ['./field-tag.wrapper.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FieldTagWrapper extends FieldWrapper implements OnInit {
+export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
   private cache: ApolloCache<any>;
-  linkableType!: AnyLinkableType;
+  linkableType!: Maybe<AnyLinkableType>;
+  ltSub!: Subscription;
   closeTag: (_: number) => void;
 
   constructor(private apollo: Apollo) {
@@ -58,8 +63,9 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit {
     this.cache = this.apollo.client.cache;
 
     this.closeTag = (_: number) => {
-      this.formControl!.setValue(this.to.defaultValue);
+      this.formControl!.setValue(undefined);
     }
+
   }
 
   get errorState() {
@@ -67,15 +73,26 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit {
   }
 
   ngOnInit() {
-    if (this.formControl?.value) {
-      const lt = this.cache.readFragment({
-        id: `${this.to.entityType}:${this.formControl?.value}`,
-        fragment: this.to.entityFragment
-      }) as AnyLinkableType;
-      this.linkableType = linkableTypeToEntityType(lt);
-    }
+    this.ltSub = this.formControl
+      .valueChanges
+      .subscribe((selection: Maybe<AnyLinkableType>) => {
+        if (selection) {
+          const lt = this.cache.readFragment({
+            id: `${this.to.entityType}:${selection.id}`,
+            fragment: this.to.entityFragment
+          }) as AnyLinkableType;
+          this.linkableType = linkableTypeToEntityType(lt);
+        } else {
+          this.linkableType = undefined;
+        }
+      })
+
     function linkableTypeToEntityType<LT extends AnyLinkableType>(linkableType: AnyLinkableType): AnyLinkableTypeToEntityType<LT> {
       return linkableType as AnyLinkableTypeToEntityType<LT>;
     }
+  }
+
+  ngOnDestroy() {
+    this.ltSub.unsubscribe();
   }
 }

@@ -10,7 +10,7 @@
     <nz-option *ngFor="let opt of genes"
       nzCustomContent
       [nzLabel]="opt.tooltip"
-      [nzValue]="opt.gene.id">
+      [nzValue]="opt.gene">
       <nz-space>
         <span *nzSpaceItem>{{ opt.label }}</span>
         <ng-container *ngIf="opt.gene.geneAliases.length > 0">

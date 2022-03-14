@@ -1,6 +1,5 @@
 <!-- display entity tag if linkableType set -->
 <span [ngClass]="{ 'hidden': !linkableType }">
-  <!-- <nz-tag>{{ to.entityType }} {{ linkableType?.id }}</nz-tag> -->
     <ng-container *ngIf="linkableType" [ngSwitch]="to.entityType">
       <cvc-gene-tag *ngSwitchCase="'Gene'" [gene]="linkableType" [onCloseClicked]="closeTag"></cvc-gene-tag>
       <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="linkableType" [onCloseClicked]="closeTag"></cvc-variant-tag>
@@ -12,7 +11,6 @@
 </span>
 
 <!-- display field component if linkableType unset -->
-<!-- <span [ngClass]="{ 'hidden': linkableType }"> -->
-<span >
+<span [ngClass]="{ 'hidden': linkableType }">
   <ng-container #fieldComponent></ng-container>
 </span>

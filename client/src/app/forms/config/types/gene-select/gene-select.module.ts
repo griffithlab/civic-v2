@@ -26,9 +26,9 @@ const configOption: ConfigOption = {
     { // select-tag field with base form-field label, validation
       name: 'gene-select-field',
       extends: 'gene-select-tag',
-      wrappers: ['field-tag', 'form-field']
+      wrappers: ['form-field', 'field-tag' ]
     },
-    { // select-tag field with cvc-form-card label, validation, helptext
+    { // select-tag card with cvc-form-card label, validation, helptext
       name: 'gene-select-card',
       extends: 'gene-select-tag',
       wrappers: ['field-tag', 'form-card']
