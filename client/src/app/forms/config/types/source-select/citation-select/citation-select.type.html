@@ -3,7 +3,7 @@
   [formControl]="formControl"
   [formlyAttributes]="field"
   [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
-  [nzNotFoundContent]="sourceLoader"
+  [nzNotFoundContent]="notFound"
   [nzShowArrow]="false"
   [nzFilterOption]="to.filterOption"
   (nzOnSearch)="to.onSearch($event)">
@@ -16,12 +16,14 @@
     </nz-option>
   </ng-container>
 </nz-select>
-<ng-template #sourceLoader>
-  <ng-container [ngSwitch]="to.fieldLength > 0 && to.fieldLength >= to.minLengthSearch">
+<ng-template #notFound>
+  <!-- prompt user to enter search string if none entered, or it is of insufficient length -->
+  <ng-container [ngSwitch]="to.searchLength >= 0 && to.searchLength >= to.minSearchlength">
     <div *ngSwitchCase="false"
       class="ant-form-item-explain">
-      {{ to.placeholder }}
+      {{ to.prompt }}
     </div>
+    <!-- if valid citation id, but no results returned, show loader -->
     <div *ngSwitchCase="true">
       <p>Show Source Loader</p>
     </div>

@@ -10,6 +10,7 @@ import {
   Maybe,
   SourceSource,
   SourceTypeaheadFieldsFragment,
+  SourceTypeaheadFieldsFragmentDoc,
   SourceTypeaheadGQL,
   SourceTypeaheadQuery,
   SourceTypeaheadQueryVariables
@@ -46,24 +47,26 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
     super();
     this.defaultOptions = {
       templateOptions: {
-        placeholder: 'Search',
+        placeholder: 'Search Sources',
         onSearch: () => { },
-        minLengthSearch: 1,
-        maxLengthSearch: 15,
-        valueLength: 0,
+        minSearchLength: 1,
+        maxSearchLength: 15,
+        searchLength: 0,
+        entityType: 'Source',
+        entityFragment: SourceTypeaheadFieldsFragmentDoc
       },
       expressionProperties: {
-        'templateOptions.placeholder': (model: SourceSelectorModel): Maybe<string> => {
+        'templateOptions.prompt': (model: SourceSelectorModel): Maybe<string> => {
           const sType = $enum(SourceSource).getKeyOrThrow(model.sourceType);
           const article = model.sourceType === SourceSource.Pubmed ? 'a' : 'an';
-          return `Enter ${article} ${sType} citation ID to search Sources.`;
+          return `Enter ${article} ${sType} citation ID to search CIViC Sources.`;
         }
       }
     };
   }
 
   ngOnInit() {
-    this.queryRef = this.sourceTypeaheadQuery.watch({sourceType: SourceSource.Pubmed, partialCitationId: 9999999 });
+    this.queryRef = this.sourceTypeaheadQuery.watch({sourceType: this.model.sourceType, partialCitationId: 9999999 });
 
     this.sources$ = this.queryRef
       .valueChanges
@@ -95,24 +98,6 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
         partialCitationId: +value
       });
     }
-
-    // this.to.onSearch = (value: string): void => {
-    //   this.to.fieldValue = value;
-    //   this.to.fieldLength = value.length;
-    //   if(value.length < this.to.minLengthSearch || value.length > this.to.maxLength!) { return }
-    //   this.sourceTypeaheadQuery
-    //     .fetch({
-    //       sourceType: this.to.sourceType,
-    //       partialCitationId: +value
-    //     })
-    //     .subscribe(({ data: { sourceTypeahead } }) => {
-    //       this.to.optionList = sourceTypeahead.map(s => {
-    //         return { value: s.citationId, label: s.citationId, source: s }
-    //       })
-    //       // TODO implement this search as an observable to avoid detectChanges
-    //       this.changeDetectorRef.detectChanges();
-    //     })
-    // }
   }
 
   ngOnDestroy() {

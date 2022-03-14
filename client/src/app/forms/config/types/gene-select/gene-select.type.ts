@@ -41,10 +41,11 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
       defaultValue: null,
       templateOptions: {
         label: 'Gene',
-        placeholder: 'None specified',
+        placeholder: 'Search Genes',
         showTag: true,
         onSearch: () => { },
-        minLengthSearch: 1,
+        minSearchLength: 1,
+        searchLength: 0,
         entityType: 'Gene',
         entityFragment: GeneTypeaheadFieldsFragmentDoc
       },
@@ -76,10 +77,9 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.fieldValue = value;
-      this.to.fieldLength = value.length;
+      this.to.searchLength = value.length;
       if (
-        value.length < this.to.minLengthSearch ||
+        value.length < this.to.minSearchLength ||
         value.length > this.to.maxLength!
       ) {
         return;
