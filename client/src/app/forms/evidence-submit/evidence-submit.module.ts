@@ -15,6 +15,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcGeneInputTypeModule } from '../config/types/gene-input/gene-input.module';
 import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.module';
+import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -33,6 +34,7 @@ import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.mod
     CvcGeneSelectModule,
     CvcGeneInputTypeModule,
     CvcGeneArrayTypeModule,
+    CvcFieldListTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })
