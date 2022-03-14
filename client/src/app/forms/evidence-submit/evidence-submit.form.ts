@@ -81,6 +81,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },
@@ -96,7 +97,10 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           {
             key: 'source',
             type: 'source-select',
-            templateOptions: {}
+            wrappers: ['form-field'],
+            templateOptions: {
+              required: true
+            }
           },
           // {
           //   key: 'variant',
