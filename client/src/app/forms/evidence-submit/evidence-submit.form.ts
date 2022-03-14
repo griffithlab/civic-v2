@@ -30,7 +30,7 @@ interface FormModel {
     description: string
     source: FormSource[]
 
-    gene: FormGene[],
+    gene: FormGene,
     variant: FormVariant[]
 
     variantOrigin: VariantOrigin
@@ -81,14 +81,13 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },
         fieldGroup: [
           {
             key: 'gene',
-            type: 'gene-array',
+            type: 'gene-select-field',
             templateOptions: {
               maxCount: 1,
               required: true
@@ -128,86 +127,86 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
               },
             },
           },
-          {
-            key: 'variantOrigin',
-            type: 'variant-origin-select',
-            templateOptions: {
-              required: true,
-            }
-          },
-          {
-            key: 'evidenceType',
-            type: 'evidence-type-select',
-            templateOptions: {
-              required: true,
-            },
-          },
-          {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
-            templateOptions: {
-              required: true
-            }
-          },
-          {
-            key: 'disease',
-            type: 'disease-array',
-            templateOptions: {}
-          },
-          {
-            key: 'evidenceLevel',
-            type: 'evidence-level-select',
-            templateOptions: {
-              required: true,
-            }
-          },
-          {
-            key: 'evidenceDirection',
-            type: 'evidence-direction-select',
-            templateOptions: {
-              required: true,
-            },
-          },
-          {
-            key: 'drugs',
-            type: 'drug-array',
-          },
-          {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select'
-          },
-          {
-            key: 'phenotypes',
-            type: 'phenotype-array',
-          },
-          {
-            key: 'evidenceRating',
-            type: 'rating-input',
-            templateOptions: {
-              required: true,
-              label: 'Rating',
-              helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
-            },
-          },
-          {
-            key: 'comment',
-            type: 'comment-textarea',
-            templateOptions: {
-              label: 'Comment',
-              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
-              placeholder: 'Please enter a comment describing your revision.',
-              required: true,
-              minLength: 10
-            },
-          },
-          {
-            key: 'organization',
-            type: 'org-submit-button',
-            templateOptions: {
-              submitLabel: 'Submit Evidence Item Revision',
-              submitSize: 'large'
-            }
-          }
+          // {
+          //   key: 'variantOrigin',
+          //   type: 'variant-origin-select',
+          //   templateOptions: {
+          //     required: true,
+          //   }
+          // },
+          // {
+          //   key: 'evidenceType',
+          //   type: 'evidence-type-select',
+          //   templateOptions: {
+          //     required: true,
+          //   },
+          // },
+          // {
+          //   key: 'clinicalSignificance',
+          //   type: 'clinical-significance-select',
+          //   templateOptions: {
+          //     required: true
+          //   }
+          // },
+          // {
+          //   key: 'disease',
+          //   type: 'disease-array',
+          //   templateOptions: {}
+          // },
+          // {
+          //   key: 'evidenceLevel',
+          //   type: 'evidence-level-select',
+          //   templateOptions: {
+          //     required: true,
+          //   }
+          // },
+          // {
+          //   key: 'evidenceDirection',
+          //   type: 'evidence-direction-select',
+          //   templateOptions: {
+          //     required: true,
+          //   },
+          // },
+          // {
+          //   key: 'drugs',
+          //   type: 'drug-array',
+          // },
+          // {
+          //   key: 'drugInteractionType',
+          //   type: 'drug-interaction-select'
+          // },
+          // {
+          //   key: 'phenotypes',
+          //   type: 'phenotype-array',
+          // },
+          // {
+          //   key: 'evidenceRating',
+          //   type: 'rating-input',
+          //   templateOptions: {
+          //     required: true,
+          //     label: 'Rating',
+          //     helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
+          //   },
+          // },
+          // {
+          //   key: 'comment',
+          //   type: 'comment-textarea',
+          //   templateOptions: {
+          //     label: 'Comment',
+          //     helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
+          //     placeholder: 'Please enter a comment describing your revision.',
+          //     required: true,
+          //     minLength: 10
+          //   },
+          // },
+          // {
+          //   key: 'organization',
+          //   type: 'org-submit-button',
+          //   templateOptions: {
+          //     submitLabel: 'Submit Evidence Item Revision',
+          //     submitSize: 'large'
+          //   }
+          // }
         ]
       }
     ];

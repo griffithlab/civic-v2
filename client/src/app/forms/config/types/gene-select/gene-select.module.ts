@@ -10,22 +10,28 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcFieldTagWrapperModule } from '../../wrappers/field-tag/field-tag.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { CvcFormCardModule } from '../../wrappers/form-card/form-card.module';
 
 const configOption: ConfigOption = {
   types: [
-    {
+    { // gene-select only
       name: 'gene-select',
       component: GeneSelectType,
     },
-    {
-      name: 'gene-select-item',
-      extends: 'gene-select',
-      wrappers: ['form-field']
-    },
-    {
+    { // field-tag wrapper replaces select with gene-tag upon selection
       name: 'gene-select-tag',
       extends: 'gene-select',
       wrappers: ['field-tag']
+    },
+    { // select-tag field with base form-field label, validation
+      name: 'gene-select-field',
+      extends: 'gene-select-tag',
+      wrappers: ['field-tag', 'form-field']
+    },
+    { // select-tag field with cvc-form-card label, validation, helptext
+      name: 'gene-select-card',
+      extends: 'gene-select-tag',
+      wrappers: ['field-tag', 'form-card']
     }
   ]
 }
@@ -42,7 +48,7 @@ const configOption: ConfigOption = {
     NzTypographyModule,
     NzTagModule,
     CvcFieldTagWrapperModule,
-    CvcGeneTagModule,
+    CvcFormCardModule,
   ]
 })
 export class CvcGeneSelectModule { }

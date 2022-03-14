@@ -36,7 +36,6 @@ import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.mo
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.module';
 import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.module';
 
 @NgModule({
