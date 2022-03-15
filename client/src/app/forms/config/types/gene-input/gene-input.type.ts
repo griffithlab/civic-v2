@@ -12,6 +12,10 @@ import { Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
+//
+// DEPRECATED - use gene-select-field intead
+//
+
 interface GeneTypeaheadOption {
   value: number,
   label: string,

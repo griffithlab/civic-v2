@@ -1,16 +1,13 @@
 import {
   AfterViewInit,
   Component,
-  ContentChild,
   OnDestroy,
   OnInit,
-  TemplateRef,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GeneTypeaheadFieldsFragment, GeneTypeaheadFieldsFragmentDoc, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables, Maybe } from '@app/generated/civic.apollo';
-import { FieldType, FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
+import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
-import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 
@@ -28,10 +25,7 @@ interface GeneTypeaheadOption {
 })
 export class GeneSelectType extends FieldType implements AfterViewInit, OnDestroy, OnInit {
 
-  @ContentChild(NzSelectComponent, { read: TemplateRef }) tagTemplateRef: any;
-
   private queryRef!: QueryRef<GeneTypeaheadQuery, GeneTypeaheadQueryVariables>
-  private destroy$ = new Subject();
   formControl!: FormControl;
   genes$?: Observable<GeneTypeaheadOption[]>;
 
@@ -53,13 +47,12 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: "ZZZZZ" })
-
+    // no need to unsubscribe genes$ as ngrxLet in the template does this automatically
     this.genes$ = this.queryRef
       .valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         pluck('data', 'geneTypeahead'),
         map((genes) => {
           return genes.map((g) => {
@@ -75,7 +68,7 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
 
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.to.onSearch = (value: string): void => {
       this.to.searchLength = value.length;
       this.to.searchString = value;
@@ -90,8 +83,6 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
 }

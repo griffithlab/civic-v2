@@ -68,14 +68,11 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
   linkableType!: Maybe<AnyLinkableType>;
   ltSub!: Subscription;
   closeTag!: (_: number) => void;
-  // store default model values to restore when field reset
-  defaultValue: any;
+  defaultValue: any; // for storing defaults when field reset in closeTag Fns
 
   constructor(private apollo: Apollo) {
     super();
     this.cache = this.apollo.client.cache;
-
-
   }
 
   get errorState() {
@@ -87,6 +84,7 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
       .valueChanges
       .subscribe((selection: Maybe<AnyLinkableType>) => {
         if (selection && selection.id) {
+          // fetch linkable type entity from cache
           const lt = this.cache.readFragment({
             id: `${this.to.entityType}:${selection.id}`,
             fragment: this.to.entityFragment
@@ -96,27 +94,27 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
           this.linkableType = undefined;
         }
       })
-    this.closeTag = (_: number) => {
-      this.linkableType = undefined;
-      this.formControl!.reset(this.field.defaultValue);
-    }
-    //
-      // provide closeTag function depending on if single field or list item
+
+    // tag close fn achieves tag removal differently depending on context
     if (!this.field!.templateOptions!.isFieldListItem) {
       // field is a single item, just need to reset this field
       this.closeTag = (_: number) => {
-        this.linkableType = undefined;
-        this.formControl!.reset(this.field.defaultValue);
+        this.resetField();
       }
     } else {
-      // call remove function provided by field-list
+      // reset field, call remove function provided by field-list
       this.closeTag = (_: number) => {
-        this.linkableType = undefined;
-        this.formControl!.reset(this.field.defaultValue);
+        this.resetField();
         this.field!.templateOptions!.removeSelf(this.field.key);
       }
     }
 
+
+  }
+
+  resetField(): void {
+    this.linkableType = undefined;
+    this.formControl!.reset(this.field.defaultValue);
   }
 
   ngOnDestroy() {

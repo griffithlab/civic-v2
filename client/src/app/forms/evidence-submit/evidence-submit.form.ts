@@ -90,36 +90,38 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             key: 'gene',
             type: 'gene-select-field',
             templateOptions: {
-              maxCount: 1,
               required: true
             }
           },
           {
             key: 'source',
             type: 'source-select-field',
-            // wrappers: ['form-field'],
             templateOptions: {
               required: true
             }
           },
           {
-            key: 'sources',
-            type: 'field-list',
+            key: 'variant',
+            type: 'variant-select-field',
             templateOptions: {
-              label: 'Sources',
-            },
-            fieldArray: {
-              type: 'source-select-field'
+              required: true,
             }
-          }
+          },
+          {
+            key: 'disease',
+            type: 'disease-array',
+            templateOptions: {}
+          },
           // {
-          //   key: 'variant',
-          //   type: 'variant-array',
+          //   key: 'sources',
+          //   type: 'field-list',
           //   templateOptions: {
-          //     required: true,
-          //     maxCount: 1
+          //     label: 'Sources',
+          //   },
+          //   fieldArray: {
+          //     type: 'source-select-field'
           //   }
-          // },
+          // }
           // {
           //   key: 'description',
           //   type: 'cvc-textarea',
@@ -129,22 +131,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           //     placeholder: 'No description provided',
           //     required: true
           //   }
-          // },
-          // {
-          //   key: 'source',
-          //   type: 'multi-field',
-          //   templateOptions: {
-          //     label: 'Source',
-          //     helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-          //     addText: 'Specify a Source',
-          //     maxCount: 1,
-          //   },
-          //   fieldArray: {
-          //     type: 'source-input',
-          //     templateOptions: {
-          //       required: true,
-          //     },
-          //   },
           // },
           // {
           //   key: 'variantOrigin',

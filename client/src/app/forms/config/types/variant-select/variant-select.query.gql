@@ -1,0 +1,12 @@
+query VariantTypeahead($name: String!) {
+  variants(name: $name, first: 20) {
+    nodes {
+      ... VariantTypeaheadFields
+    }
+  }
+}
+
+fragment VariantTypeaheadFields on Variant {
+  id
+  name
+}

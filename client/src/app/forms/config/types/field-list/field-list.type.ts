@@ -19,19 +19,19 @@ export class FieldListType extends FieldArrayType {
       display: 'block',
       addFirstLabel: 'Add',
       addLabel: 'Add Another',
-      showRemoveButtons: true,
+      showRemoveButtons: false,
     },
     fieldArray: {
       templateOptions: {
         hideLabel: true,
         isFieldListItem: true,
-        removeSelf: null,
+        removeSelf: null, // placeholder for remove fn
       }
     }
   };
 
   ngOnInit(): void {
-    // provide remove function for list items
+    // provide bound remove function for list items to remove themselves
     this.field!.fieldArray!.templateOptions!.removeSelf = this.remove.bind(this);
   }
 }

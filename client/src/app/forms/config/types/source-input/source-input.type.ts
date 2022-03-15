@@ -3,6 +3,11 @@ import { Maybe } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
+//
+// DEPRECATED - use source-select field instead
+//
+
+
 @Component({
   selector: 'cvc-source-input-type',
   templateUrl: './source-input.type.html',

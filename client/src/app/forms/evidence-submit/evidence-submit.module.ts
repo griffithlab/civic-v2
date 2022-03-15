@@ -39,6 +39,7 @@ import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.mod
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.module';
+import { CvcVariantSelectTypeModule } from '../config/types/variant-select/variant-select.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -82,6 +83,7 @@ import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.mo
     CvcGeneSelectModule,
     CvcSourceSelectModule,
     CvcFieldListTypeModule,
+    CvcVariantSelectTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })

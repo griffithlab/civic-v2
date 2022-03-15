@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
+//
+// DEPRECATED - use field-list instead
+//
+
 @Component({
   selector: 'cvc-multi-field-type',
   templateUrl: './multi-field.type.html',
