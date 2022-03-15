@@ -32,6 +32,11 @@
         [onCloseClicked]="closeTag">
       </cvc-drug-tag>
 
+      <cvc-phenotype-tag *ngSwitchCase="'Phenotype'"
+        [phenotype]="linkableType"
+        [onCloseClicked]="closeTag">
+      </cvc-phenotype-tag>
+
       <!-- TODO: get LinkableSource & Stub types working with the others so actual tag can be used here -->
       <nz-tag *ngSwitchCase="'Source'"
         nzMode="closeable"

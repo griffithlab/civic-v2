@@ -16,6 +16,8 @@ import { CvcFlagTagModule } from '@app/components/flags/flag-tag/flag-tag.module
 import { CvcClinicalTrialTagComponent } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.component';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { CvcPhenotypeSelectTypeModule } from '../../types/phenotype-select/phenotype-select.module';
+import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 
 @NgModule({
   declarations: [FieldTagWrapper],
@@ -34,6 +36,7 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
     CvcCommentTagModule,
     CvcFlagTagModule,
     CvcDiseaseTagModule,
+    CvcPhenotypeTagModule,
     GraphQLModule,
     FormlyModule.forChild({
       wrappers: [
@@ -45,4 +48,4 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
     }),
   ],
 })
-export class CvcFieldTagWrapperModule {}
+export class CvcFieldTagWrapperModule { }
