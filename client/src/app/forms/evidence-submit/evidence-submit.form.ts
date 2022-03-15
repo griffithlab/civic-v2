@@ -74,7 +74,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private networkErrorService: NetworkErrorsService,
-    ) {
+  ) {
 
     this.submitEvidenceMutator = new MutatorWithState(networkErrorService);
 
@@ -121,19 +121,8 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             templateOptions: {
               required: true
             }
-          }
-
+          },
           // {
-          //   key: 'drugs',
-          //   type: 'drug-array',
-          // },
-          // {
-
-          // {
-          //   key: 'phenotypes',
-          //   type: 'phenotype-array',
-          // },
-          
           //   key: 'sources',
           //   type: 'field-list',
           //   templateOptions: {
@@ -143,6 +132,18 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           //     type: 'source-select-field'
           //   }
           // }
+
+            // {
+          //   key: 'drugs',
+          //   type: 'drug-array',
+          // },
+          // {
+
+          // {
+          //   key: 'phenotypes',
+          //   type: 'phenotype-array',
+          // },
+
           // {
           //   key: 'description',
           //   type: 'cvc-textarea',
@@ -242,18 +243,18 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
       let state = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {
         input: input
       },
-      (data) => {
-        this.newId = data.submitEvidence.evidenceItem.id;
-      })
+        (data) => {
+          this.newId = data.submitEvidence.evidenceItem.id;
+        })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
+        if (res) {
           this.success = true
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
+        if (errs) {
           this.errorMessages = errs
           this.success = false
         }
@@ -284,9 +285,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
           drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
         },
-      comment: fields.comment,
-      organizationId: model?.fields.organization?.id
-    }
+        comment: fields.comment,
+        organizationId: model?.fields.organization?.id
+      }
 
     }
     return undefined
