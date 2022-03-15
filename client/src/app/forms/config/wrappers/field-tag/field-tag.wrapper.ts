@@ -113,7 +113,7 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
       this.closeTag = (_: number) => {
         this.linkableType = undefined;
         this.formControl!.reset(this.field.defaultValue);
-        this.field!.templateOptions!.removeSelf();
+        this.field!.templateOptions!.removeSelf(this.field.key);
       }
     }
 
