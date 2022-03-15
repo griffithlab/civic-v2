@@ -124,7 +124,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
 
           {
             key: 'phenotypes',
-            type: 'phenotype-select-field',
+            type: 'phenotype-list-field',
           },
 
           // {

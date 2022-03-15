@@ -43,7 +43,7 @@ import { CvcVariantSelectTypeModule } from '../config/types/variant-select/varia
 import { CvcDiseaseSelectTypeModule } from '../config/types/disease-select/disease-select.module';
 import { CvcDrugSelectTypeModule } from '../config/types/drug-select/drug-select.module';
 import { CvcDrugListTypeModule } from '../config/types/drug-list/drug-list.module';
-import { CvcPhenotypeSelectTypeModule } from '../config/types/phenotype-select/phenotype-select.module';
+import { CvcPhenotypeListTypeModule } from '../config/types/phenotype-list/phenotype-list.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -90,7 +90,7 @@ import { CvcPhenotypeSelectTypeModule } from '../config/types/phenotype-select/p
     CvcVariantSelectTypeModule,
     CvcDiseaseSelectTypeModule,
     CvcDrugListTypeModule,
-    CvcPhenotypeSelectTypeModule,
+    CvcPhenotypeListTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })
