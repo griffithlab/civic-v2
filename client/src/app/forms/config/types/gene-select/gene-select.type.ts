@@ -2,14 +2,20 @@ import {
   AfterViewInit,
   Component,
   OnDestroy,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GeneTypeaheadFieldsFragment, GeneTypeaheadFieldsFragmentDoc, GeneTypeaheadGQL, GeneTypeaheadQuery, GeneTypeaheadQueryVariables, Maybe } from '@app/generated/civic.apollo';
+import {
+  GeneTypeaheadFieldsFragment,
+  GeneTypeaheadFieldsFragmentDoc,
+  GeneTypeaheadGQL,
+  GeneTypeaheadQuery,
+  GeneTypeaheadQueryVariables
+} from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { map, pluck, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, pluck } from 'rxjs/operators';
 
 interface GeneTypeaheadOption {
   value: number,
@@ -41,7 +47,7 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
         searchLength: 0,
         searchString: '',
         entityType: 'Gene',
-        entityFragment: GeneTypeaheadFieldsFragmentDoc
+        entityFragment: GeneTypeaheadFieldsFragmentDoc,
       },
     };
 
@@ -65,7 +71,6 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
             }
           })
         }));
-
   }
 
   ngAfterViewInit(): void {

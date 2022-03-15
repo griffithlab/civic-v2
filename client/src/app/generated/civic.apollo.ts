@@ -5943,6 +5943,24 @@ export type DiseaseTypeaheadQuery = (
   )> }
 );
 
+export type DiseaseSelectQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type DiseaseSelectQuery = (
+  { __typename: 'Query' }
+  & { diseaseTypeahead: Array<(
+    { __typename: 'Disease' }
+    & DiseaseSelectFieldsFragment
+  )> }
+);
+
+export type DiseaseSelectFieldsFragment = (
+  { __typename: 'Disease' }
+  & Pick<Disease, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseAliases'>
+);
+
 export type DrugTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -8243,6 +8261,15 @@ export const PreviewCommentFragmentDoc = gql`
     role
     __typename
   }
+}
+    `;
+export const DiseaseSelectFieldsFragmentDoc = gql`
+    fragment DiseaseSelectFields on Disease {
+  id
+  name
+  displayName
+  doid
+  diseaseAliases
 }
     `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
@@ -10608,6 +10635,24 @@ export const DiseaseTypeaheadDocument = gql`
   })
   export class DiseaseTypeaheadGQL extends Apollo.Query<DiseaseTypeaheadQuery, DiseaseTypeaheadQueryVariables> {
     document = DiseaseTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiseaseSelectDocument = gql`
+    query DiseaseSelect($name: String!) {
+  diseaseTypeahead(queryTerm: $name) {
+    ...DiseaseSelectFields
+  }
+}
+    ${DiseaseSelectFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseaseSelectGQL extends Apollo.Query<DiseaseSelectQuery, DiseaseSelectQueryVariables> {
+    document = DiseaseSelectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

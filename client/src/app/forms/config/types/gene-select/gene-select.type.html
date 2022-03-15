@@ -25,7 +25,7 @@
   <ng-container [ngSwitch]="to.searchLength >= 0 && to.searchLength >= to.minSearchLength">
     <div *ngSwitchCase="false"
       class="ant-form-item-explain">
-      Enter an ENTREZ gene ID to search CIViC Genes.
+      Search for genes known to CIViC.
     </div>
     <!-- if valid search, but no results returned, show notice -->
     <div *ngSwitchCase="true" class="ant-form-item-explain">

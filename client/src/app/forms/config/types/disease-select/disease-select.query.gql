@@ -1,0 +1,13 @@
+query DiseaseSelect($name: String!) {
+  diseaseTypeahead(queryTerm:$name){
+    ... DiseaseSelectFields
+  }
+}
+
+fragment DiseaseSelectFields on Disease {
+    id
+    name
+    displayName
+    doid
+    diseaseAliases
+}

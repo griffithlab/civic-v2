@@ -109,8 +109,10 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           },
           {
             key: 'disease',
-            type: 'disease-array',
-            templateOptions: {}
+            type: 'disease-select-field',
+            templateOptions: {
+              required: true
+            }
           },
           // {
           //   key: 'sources',

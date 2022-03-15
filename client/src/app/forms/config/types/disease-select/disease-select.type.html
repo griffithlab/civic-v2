@@ -1,0 +1,35 @@
+<nz-select nzShowSearch
+  nzServerSearch
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+  [nzNotFoundContent]="notFound"
+  [nzShowArrow]="false"
+  (nzOnSearch)="to.onSearch($event)">
+  <ng-container *ngrxLet="this.diseases$ as diseases">
+    <nz-option *ngFor="let opt of diseases"
+      nzCustomContent
+      [nzLabel]="opt.tooltip"
+      [nzValue]="opt.disease">
+      <nz-space>
+        <span *nzSpaceItem>{{ opt.label }}</span>
+        <span nz-typography nzType="secondary" *nzSpaceItem>
+          {{ opt.disease.diseaseAliases.join(', ') }}
+        </span>
+      </nz-space>
+    </nz-option>
+  </ng-container>
+</nz-select>
+<ng-template #notFound>
+  <!-- prompt user to enter search string if none entered, or it is of insufficient length -->
+  <ng-container [ngSwitch]="to.searchLength > 0 && to.searchLength >= to.minSearchLength">
+    <div *ngSwitchCase="false"
+      class="ant-form-item-explain">
+      Search for diseases known to CIViC.
+    </div>
+    <!-- if valid disease search string, but no results returned, show loader -->
+    <ng-container *ngSwitchcase="true">
+      <p>Show disease creation component here (see cvc-citation-loader for example)</p>
+    </ng-container>
+  </ng-container>
+</ng-template>

@@ -26,6 +26,10 @@ interface DiseaseTypeaheadOption {
   disease: DiseaseTypeahead
 }
 
+//
+// DEPRECATED - use disease-select intead
+//
+
 @Component({
   selector: 'cvc-disease-input-type',
   templateUrl: './disease-input.type.html',

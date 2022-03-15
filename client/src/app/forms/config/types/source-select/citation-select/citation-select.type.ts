@@ -57,8 +57,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
       expressionProperties: {
         'templateOptions.prompt': (model: SourceSelectorModel): Maybe<string> => {
           const sType = $enum(SourceSource).getKeyOrThrow(model.sourceType);
-          const article = model.sourceType === SourceSource.Pubmed ? 'a' : 'an';
-          return `Enter ${article} ${sType} citation ID to search CIViC Sources.`;
+          return `Search for ${sType} sources known to CIViC.`;
         }
       }
     };
