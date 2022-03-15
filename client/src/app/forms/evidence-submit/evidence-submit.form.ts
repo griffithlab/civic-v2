@@ -110,21 +110,21 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           {
             key: 'disease',
             type: 'disease-select-field',
-            templateOptions: {
-              required: true
-            }
+            templateOptions: {}
           },
-
           {
             key: 'drugs',
             type: 'drug-list-field',
-            templateOptions: {
-              required: true
-            }
+            templateOptions: {}
           },
           {
             key: 'drugInteractionType',
             type: 'drug-interaction-select'
+          },
+
+          {
+            key: 'phenotypes',
+            type: 'phenotype-select-field',
           },
 
           // {
@@ -138,16 +138,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           //   }
           // }
 
-          // {
-          //   key: 'drugs',
-          //   type: 'drug-array',
-          // },
-          // {
-
-          // {
-          //   key: 'phenotypes',
-          //   type: 'phenotype-array',
-          // },
 
           // {
           //   key: 'description',

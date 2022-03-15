@@ -1,0 +1,11 @@
+query PhenotypeSelect($name: String!) {
+  phenotypeTypeahead(queryTerm: $name) {
+    ...PhenotypeSelectFields
+  }
+}
+
+fragment PhenotypeSelectFields on Phenotype {
+  hpoId
+  id
+  name
+}

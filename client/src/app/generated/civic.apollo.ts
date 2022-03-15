@@ -6036,6 +6036,24 @@ export type PhenotypeTypeaheadQuery = (
   )> }
 );
 
+export type PhenotypeSelectQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type PhenotypeSelectQuery = (
+  { __typename: 'Query' }
+  & { phenotypeTypeahead: Array<(
+    { __typename: 'Phenotype' }
+    & PhenotypeSelectFieldsFragment
+  )> }
+);
+
+export type PhenotypeSelectFieldsFragment = (
+  { __typename: 'Phenotype' }
+  & Pick<Phenotype, 'hpoId' | 'id' | 'name'>
+);
+
 export type CitationTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['Int'];
   sourceType: SourceSource;
@@ -8304,6 +8322,13 @@ export const GeneTypeaheadFieldsFragmentDoc = gql`
   name
   geneAliases
   entrezId
+}
+    `;
+export const PhenotypeSelectFieldsFragmentDoc = gql`
+    fragment PhenotypeSelectFields on Phenotype {
+  hpoId
+  id
+  name
 }
     `;
 export const SourceTypeaheadResultFragmentDoc = gql`
@@ -10775,6 +10800,24 @@ export const PhenotypeTypeaheadDocument = gql`
   })
   export class PhenotypeTypeaheadGQL extends Apollo.Query<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables> {
     document = PhenotypeTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PhenotypeSelectDocument = gql`
+    query PhenotypeSelect($name: String!) {
+  phenotypeTypeahead(queryTerm: $name) {
+    ...PhenotypeSelectFields
+  }
+}
+    ${PhenotypeSelectFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PhenotypeSelectGQL extends Apollo.Query<PhenotypeSelectQuery, PhenotypeSelectQueryVariables> {
+    document = PhenotypeSelectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
