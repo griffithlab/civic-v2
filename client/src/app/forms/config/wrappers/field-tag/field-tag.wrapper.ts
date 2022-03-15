@@ -1,4 +1,4 @@
-import { OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ApolloCache } from '@apollo/client/core';
 import { LinkableAssertion } from '@app/components/assertions/assertions-tag/assertion-tag.component';
@@ -57,13 +57,17 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
   linkableType!: Maybe<AnyLinkableType>;
   ltSub!: Subscription;
   closeTag: (_: number) => void;
+  // store default model values to restore when field reset
+  defaultValue: any;
 
   constructor(private apollo: Apollo) {
     super();
     this.cache = this.apollo.client.cache;
 
+
     this.closeTag = (_: number) => {
-      this.formControl!.setValue(undefined);
+      this.linkableType = undefined;
+      this.formControl!.reset(this.field.defaultValue);
     }
 
   }

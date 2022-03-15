@@ -42,7 +42,6 @@ export class GeneSelectType extends FieldType implements AfterViewInit, OnDestro
       templateOptions: {
         label: 'Gene',
         placeholder: 'Search Genes',
-        showTag: true,
         onSearch: () => { },
         minSearchLength: 1,
         searchLength: 0,

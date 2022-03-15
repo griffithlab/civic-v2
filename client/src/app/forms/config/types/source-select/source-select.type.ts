@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { formatSourceTypeEnum } from '@app/core/utilities/enum-formatters/format-source-type-enum';
-import { Maybe, SourceSource } from '@app/generated/civic.apollo';
-import { FieldType } from '@ngx-formly/core';
+import { Maybe, SourceSource, SourceTypeaheadFieldsFragmentDoc } from '@app/generated/civic.apollo';
+import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
+import { Subscribable, Subscription } from 'rxjs';
 import { $enum } from 'ts-enum-util';
 
 export interface SourceSelectModel {
+  id: Maybe<number>,
   sourceType: Maybe<SourceSource>,
   citationId: Maybe<string>
 }
@@ -14,7 +16,8 @@ export interface SourceSelectModel {
   templateUrl: './source-select.type.html',
   styleUrls: ['./source-select.type.less']
 })
-export class SourceSelectType extends FieldType implements OnInit {
+export class SourceSelectType extends FieldType {
+  private updateSub!: Subscription;
 
   constructor() {
     super();
@@ -22,13 +25,18 @@ export class SourceSelectType extends FieldType implements OnInit {
     this.defaultOptions = {
       templateOptions: {
         label: 'Source',
+        entityType: 'Source',
+        entityFragment: SourceTypeaheadFieldsFragmentDoc
+      },
+      defaultValue: {
+        sourceType: SourceSource.Pubmed,
+        id: null
       },
       fieldGroupClassName: 'select-group',
       fieldGroup: [
         {
           key: 'sourceType',
           type: 'select',
-          defaultValue: SourceSource.Pubmed,
           className: 'type-field',
           templateOptions: {
             required: false,
@@ -40,30 +48,29 @@ export class SourceSelectType extends FieldType implements OnInit {
           }
         },
         {
-          key: 'citationId',
+          key: 'id',
           type: 'citation-select',
           className: 'citation-field',
           templateOptions: {
-            maxLength: 10,
             required: false,
-            // triggerParentSubmit: () => { this.onSubmit(); }
           },
-          // expressionProperties: {
-          //   'templateOptions.disabled': '!model.sourceType',
-          //   'templateOptions.placeholder': '!model.sourceType ? "Select source type before searching" : "Search " + model.sourceType + " sources"',
-          //   'templateOptions.sourceType': 'model.sourceType',
-          //   'templateOptions.sourceTypeKey': (model: SourceSelectModel): Maybe<string> => {
-          //     if (!model.sourceType) { return }
-          //     return $enum(SourceSource).getKeyOrThrow(model.sourceType);
-          //   }
-
-          // }
         },
-      ]
+      ],
+      hooks: {
+        onInit: (ffc?: FormlyFieldConfig): void => {
+          console.log('source-select onInit hook called.');
+          const fc = ffc!.formControl!;
+          this.updateSub = fc.valueChanges
+            .subscribe((source: Maybe<SourceSelectModel>) => {
+              console.log(source);
+            })
+
+        },
+        onDestroy: (ffc?: FormlyFieldConfig): void => {
+          console.log('source-select onDestroy hook called.');
+          this.updateSub.unsubscribe();
+        }
+      }
     }
   }
-
-  ngOnInit(): void {
-  }
-
 }
