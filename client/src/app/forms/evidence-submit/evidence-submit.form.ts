@@ -102,6 +102,16 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
               required: true
             }
           },
+          {
+            key: 'sources',
+            type: 'field-list',
+            templateOptions: {
+              label: 'Sources',
+            },
+            fieldArray: {
+              type: 'source-select-field'
+            }
+          }
           // {
           //   key: 'variant',
           //   type: 'variant-array',

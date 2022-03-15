@@ -38,6 +38,11 @@ export type AnyLinkableType =
   | LinkableFlag
   | LinkablePhenotype
 
+export function linkableTypeToEntityType<LT extends AnyLinkableType>(linkableType: AnyLinkableType): AnyLinkableTypeToEntityType<LT> {
+  return linkableType as AnyLinkableTypeToEntityType<LT>;
+}
+
+
 type AnyLinkableTypeToEntityType<T extends AnyLinkableType> =
   T extends LinkableGene ? LinkableGene :
   T extends LinkableVariant ? LinkableVariant :
@@ -62,7 +67,7 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
   private cache: ApolloCache<any>;
   linkableType!: Maybe<AnyLinkableType>;
   ltSub!: Subscription;
-  closeTag: (_: number) => void;
+  closeTag!: (_: number) => void;
   // store default model values to restore when field reset
   defaultValue: any;
 
@@ -70,11 +75,6 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
     super();
     this.cache = this.apollo.client.cache;
 
-
-    this.closeTag = (_: number) => {
-      this.linkableType = undefined;
-      this.formControl!.reset(this.field.defaultValue);
-    }
 
   }
 
@@ -96,10 +96,27 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
           this.linkableType = undefined;
         }
       })
-
-    function linkableTypeToEntityType<LT extends AnyLinkableType>(linkableType: AnyLinkableType): AnyLinkableTypeToEntityType<LT> {
-      return linkableType as AnyLinkableTypeToEntityType<LT>;
+    this.closeTag = (_: number) => {
+      this.linkableType = undefined;
+      this.formControl!.reset(this.field.defaultValue);
     }
+    //
+      // provide closeTag function depending on if single field or list item
+    if (!this.field!.templateOptions!.isFieldListItem) {
+      // field is a single item, just need to reset this field
+      this.closeTag = (_: number) => {
+        this.linkableType = undefined;
+        this.formControl!.reset(this.field.defaultValue);
+      }
+    } else {
+      // call remove function provided by field-list
+      this.closeTag = (_: number) => {
+        this.linkableType = undefined;
+        this.formControl!.reset(this.field.defaultValue);
+        this.field!.templateOptions!.removeSelf();
+      }
+    }
+
   }
 
   ngOnDestroy() {

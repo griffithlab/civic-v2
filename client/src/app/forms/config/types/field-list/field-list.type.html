@@ -1,3 +1,6 @@
+<!-- if empty fieldGroup, show Add Button template -->
+<ng-container *ngIf="field.fieldGroup!.length > 0; else addButton">
+</ng-container>
 <!-- iterate using block or inline templates as determined by to.display -->
 <ng-container *ngFor="let field of field.fieldGroup; let index = index; let last = last">
   <ng-container *ngTemplateOutlet="to.display === 'block' ? fieldRow : fieldItem; context: { $implicit: field, last: last, index: index}">
@@ -39,7 +42,7 @@
     nzSize="small"
     nzType="dashed">
     <i nz-icon nzType="plus" nzTheme="outline"></i>
-    {{ to.addButtonLabel }}</a>
+    {{ field.fieldGroup!.length === 0 ? to.addFirstLabel : to.addLabel }}</a>
 </ng-template>
 
 <ng-template #removeButton

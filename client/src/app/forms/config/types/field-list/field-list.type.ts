@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
-import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 
 @Component({
   selector: 'cvc-field-list',
@@ -15,31 +14,24 @@ export class FieldListType extends FieldArrayType {
 
   defaultOptions = {
     wrappers: ['form-field'],
+    defaultValue: [],
     templateOptions: {
       display: 'block',
-      addButtonLabel: 'Add Another',
-      showRemoveButtons: false,
+      addFirstLabel: 'Add',
+      addLabel: 'Add Another',
+      showRemoveButtons: true,
     },
     fieldArray: {
       templateOptions: {
+        hideLabel: true,
+        isFieldListItem: true,
+        removeSelf: null,
       }
     }
   };
 
   ngOnInit(): void {
-    // provide add/remove functions that can be called from
-    // field-list's child components
-    this.to.add = this.add.bind(this);
-    this.to.remove = this.remove.bind(this);
+    // provide remove function for list items
+    this.field!.fieldArray!.templateOptions!.removeSelf = this.remove.bind(this);
   }
-
-  // addField(e: MouseEvent): void {
-  //   if (e) { e.preventDefault(); }
-  //   this.add();
-  // }
-}
-
-export const fieldListTypeOption: TypeOption = {
-  name: 'field-list',
-  component: FieldListType,
 }

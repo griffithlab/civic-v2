@@ -38,6 +38,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcGeneSelectModule } from '../config/types/gene-select/gene-select.module';
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -80,6 +81,7 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
     CvcSourceArrayTypeModule,
     CvcGeneSelectModule,
     CvcSourceSelectModule,
+    CvcFieldListTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })
