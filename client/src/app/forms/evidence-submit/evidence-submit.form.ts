@@ -31,10 +31,10 @@ interface FormModel {
     source: FormSource
 
     gene: FormGene,
-    variant: FormVariant[]
+    variant: FormVariant
 
     variantOrigin: VariantOrigin
-    disease: FormDisease[]
+    disease: FormDisease
     drugs: FormDrug[]
     drugInteractionType: Maybe<DrugInteraction>
 
@@ -94,13 +94,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             }
           },
           {
-            key: 'source',
-            type: 'source-select-field',
-            templateOptions: {
-              required: true
-            }
-          },
-          {
             key: 'variant',
             type: 'variant-select-field',
             templateOptions: {
@@ -108,9 +101,61 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             }
           },
           {
+            key: 'source',
+            type: 'source-select-field',
+            templateOptions: {
+              required: true
+            }
+          },
+          {
+            key: 'variantOrigin',
+            type: 'variant-origin-select',
+            templateOptions: {
+              required: true,
+            }
+          },
+          {
+            key: 'evidenceType',
+            type: 'evidence-type-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
+            key: 'clinicalSignificance',
+            type: 'clinical-significance-select',
+            templateOptions: {
+              required: true
+            }
+          },
+          {
             key: 'disease',
             type: 'disease-select-field',
             templateOptions: {}
+          },
+          {
+            key: 'description',
+            type: 'cvc-textarea',
+            templateOptions: {
+              label: 'Evidence Statement',
+              helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+              placeholder: 'No description provided',
+              required: true
+            }
+          },
+          {
+            key: 'evidenceLevel',
+            type: 'evidence-level-select',
+            templateOptions: {
+              required: true,
+            }
+          },
+          {
+            key: 'evidenceDirection',
+            type: 'evidence-direction-select',
+            templateOptions: {
+              required: true,
+            },
           },
           {
             key: 'drugs',
@@ -121,105 +166,38 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             key: 'drugInteractionType',
             type: 'drug-interaction-select'
           },
-
           {
             key: 'phenotypes',
             type: 'phenotype-list-field',
           },
-
-          // {
-          //   key: 'sources',
-          //   type: 'field-list',
-          //   templateOptions: {
-          //     label: 'Sources',
-          //   },
-          //   fieldArray: {
-          //     type: 'source-select-field'
-          //   }
-          // }
-
-
-          // {
-          //   key: 'description',
-          //   type: 'cvc-textarea',
-          //   templateOptions: {
-          //     label: 'Evidence Statement',
-          //     helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
-          //     placeholder: 'No description provided',
-          //     required: true
-          //   }
-          // },
-          // {
-          //   key: 'variantOrigin',
-          //   type: 'variant-origin-select',
-          //   templateOptions: {
-          //     required: true,
-          //   }
-          // },
-          // {
-          //   key: 'evidenceType',
-          //   type: 'evidence-type-select',
-          //   templateOptions: {
-          //     required: true,
-          //   },
-          // },
-          // {
-          //   key: 'clinicalSignificance',
-          //   type: 'clinical-significance-select',
-          //   templateOptions: {
-          //     required: true
-          //   }
-          // },
-          // {
-          //   key: 'evidenceLevel',
-          //   type: 'evidence-level-select',
-          //   templateOptions: {
-          //     required: true,
-          //   }
-          // },
-          // {
-          //   key: 'evidenceDirection',
-          //   type: 'evidence-direction-select',
-          //   templateOptions: {
-          //     required: true,
-          //   },
-          // },
-          // {
-          //   key: 'drugInteractionType',
-          //   type: 'drug-interaction-select'
-          // },
-          // {
-          //   key: 'phenotypes',
-          //   type: 'phenotype-array',
-          // },
-          // {
-          //   key: 'evidenceRating',
-          //   type: 'rating-input',
-          //   templateOptions: {
-          //     required: true,
-          //     label: 'Rating',
-          //     helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
-          //   },
-          // },
-          // {
-          //   key: 'comment',
-          //   type: 'comment-textarea',
-          //   templateOptions: {
-          //     label: 'Comment',
-          //     helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
-          //     placeholder: 'Please enter a comment describing your revision.',
-          //     required: true,
-          //     minLength: 10
-          //   },
-          // },
-          // {
-          //   key: 'organization',
-          //   type: 'org-submit-button',
-          //   templateOptions: {
-          //     submitLabel: 'Submit Evidence Item Revision',
-          //     submitSize: 'large'
-          //   }
-          // }
+          {
+            key: 'evidenceRating',
+            type: 'rating-input',
+            templateOptions: {
+              required: true,
+              label: 'Rating',
+              helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
+            },
+          },
+          {
+            key: 'comment',
+            type: 'comment-textarea',
+            templateOptions: {
+              label: 'Comment',
+              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
+              placeholder: 'Please enter a comment describing your revision.',
+              required: true,
+              minLength: 10
+            },
+          },
+          {
+            key: 'organization',
+            type: 'org-submit-button',
+            templateOptions: {
+              submitLabel: 'Submit Evidence Item Revision',
+              submitSize: 'large'
+            }
+          }
         ]
       }
     ];
@@ -264,12 +242,12 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          variantId: fields.variant[0].id!,
+          variantId: fields.variant.id!,
           sourceId: fields.source.id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
           clinicalSignificance: fields.clinicalSignificance,
-          diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
+          diseaseId: fmt.toNullableInput(fields.disease.id),
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: +fields.evidenceRating,
