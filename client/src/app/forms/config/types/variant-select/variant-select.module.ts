@@ -8,6 +8,10 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcFieldTagWrapperModule } from '../../wrappers/field-tag/field-tag.module';
 import { CvcFormCardModule } from '../../wrappers/form-card/form-card.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/form-errors-alert.module';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 const configOption: ConfigOption = {
   types: [
@@ -23,7 +27,7 @@ const configOption: ConfigOption = {
     { // select-tag field with base form-field label, validation
       name: 'variant-select-field',
       extends: 'variant-select-tag',
-      wrappers: ['form-field', 'field-tag' ]
+      wrappers: ['form-field', 'field-tag']
     },
     { // select-tag card with cvc-form-card label, validation, helptext
       name: 'variant-select-card',
@@ -42,8 +46,12 @@ const configOption: ConfigOption = {
     FormlyModule.forChild(configOption),
     NzSelectModule,
     NzTypographyModule,
+    NzButtonModule,
+    NzIconModule,
+    NzAlertModule,
     CvcFieldTagWrapperModule,
     CvcFormCardModule,
+    CvcFormErrorsAlertModule
   ]
 })
 export class CvcVariantSelectTypeModule { }

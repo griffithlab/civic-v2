@@ -30,6 +30,7 @@ module Types::Queries
       klass.field :variant_type_typeahead, [Types::Entities::VariantTypeType], null: false do
         description "Retrieve variant type typeahead fields for a search term."
         argument :query_term, GraphQL::Types::String, required: true
+        argument :gene_id, GraphQL::Types::Int, required: false
       end
 
       klass.field :user_typeahead, [Types::Entities::UserType], null: false do

@@ -6153,6 +6153,7 @@ export type SourceTypeaheadFieldsFragment = (
 
 export type VariantTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
+  geneId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -6170,6 +6171,29 @@ export type VariantTypeaheadQuery = (
 export type VariantTypeaheadFieldsFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
+);
+
+export type AddVariantMutationVariables = Exact<{
+  name: Scalars['String'];
+  geneId: Scalars['Int'];
+}>;
+
+
+export type AddVariantMutation = (
+  { __typename: 'Mutation' }
+  & { addVariant?: Maybe<(
+    { __typename: 'AddVariantPayload' }
+    & AddVariantFieldsFragment
+  )> }
+);
+
+export type AddVariantFieldsFragment = (
+  { __typename: 'AddVariantPayload' }
+  & Pick<AddVariantPayload, 'new'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) }
 );
 
 export type VariantTypeTypeaheadQueryVariables = Exact<{
@@ -8360,6 +8384,15 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
   id
   name
+}
+    `;
+export const AddVariantFieldsFragmentDoc = gql`
+    fragment AddVariantFields on AddVariantPayload {
+  new
+  variant {
+    id
+    name
+  }
 }
     `;
 export const RevisableEvidenceFieldsFragmentDoc = gql`
@@ -10934,8 +10967,8 @@ export const SourceTypeaheadDocument = gql`
     }
   }
 export const VariantTypeaheadDocument = gql`
-    query VariantTypeahead($name: String!) {
-  variants(name: $name, first: 20) {
+    query VariantTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, first: 20, geneId: $geneId) {
     nodes {
       ...VariantTypeaheadFields
     }
@@ -10948,6 +10981,24 @@ export const VariantTypeaheadDocument = gql`
   })
   export class VariantTypeaheadGQL extends Apollo.Query<VariantTypeaheadQuery, VariantTypeaheadQueryVariables> {
     document = VariantTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddVariantDocument = gql`
+    mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+    ${AddVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddVariantGQL extends Apollo.Mutation<AddVariantMutation, AddVariantMutationVariables> {
+    document = AddVariantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
