@@ -42,6 +42,7 @@ import { CvcFieldListTypeModule } from '../config/types/field-list/field-list.mo
 import { CvcVariantSelectTypeModule } from '../config/types/variant-select/variant-select.module';
 import { CvcDiseaseSelectTypeModule } from '../config/types/disease-select/disease-select.module';
 import { CvcDrugSelectTypeModule } from '../config/types/drug-select/drug-select.module';
+import { CvcDrugListTypeModule } from '../config/types/drug-list/drug-list.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -87,7 +88,7 @@ import { CvcDrugSelectTypeModule } from '../config/types/drug-select/drug-select
     CvcFieldListTypeModule,
     CvcVariantSelectTypeModule,
     CvcDiseaseSelectTypeModule,
-    CvcDrugSelectTypeModule,
+    CvcDrugListTypeModule,
   ],
   exports: [EvidenceSubmitForm],
 })
