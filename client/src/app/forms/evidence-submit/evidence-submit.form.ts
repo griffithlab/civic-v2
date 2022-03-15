@@ -114,7 +114,26 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
               required: true
             }
           },
+
+          {
+            key: 'drugs',
+            type: 'drug-select-field',
+            templateOptions: {
+              required: true
+            }
+          }
+
           // {
+          //   key: 'drugs',
+          //   type: 'drug-array',
+          // },
+          // {
+
+          // {
+          //   key: 'phenotypes',
+          //   type: 'phenotype-array',
+          // },
+          
           //   key: 'sources',
           //   type: 'field-list',
           //   templateOptions: {
@@ -154,11 +173,6 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           //   templateOptions: {
           //     required: true
           //   }
-          // },
-          // {
-          //   key: 'disease',
-          //   type: 'disease-array',
-          //   templateOptions: {}
           // },
           // {
           //   key: 'evidenceLevel',

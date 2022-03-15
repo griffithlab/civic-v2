@@ -1,0 +1,12 @@
+query DrugSelect($name: String!) {
+  drugTypeahead(queryTerm:$name){
+    ... DrugSelectFields
+  }
+}
+
+fragment DrugSelectFields on Drug {
+    id
+    name
+    ncitId
+    drugAliases
+}

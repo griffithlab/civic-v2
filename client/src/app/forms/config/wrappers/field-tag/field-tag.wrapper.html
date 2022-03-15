@@ -27,6 +27,11 @@
         [onCloseClicked]="closeTag">
       </cvc-disease-tag>
 
+      <cvc-drug-tag *ngSwitchCase="'Drug'"
+        [drug]="linkableType"
+        [onCloseClicked]="closeTag">
+      </cvc-drug-tag>
+
       <!-- TODO: get LinkableSource & Stub types working with the others so actual tag can be used here -->
       <nz-tag *ngSwitchCase="'Source'"
         nzMode="closeable"
