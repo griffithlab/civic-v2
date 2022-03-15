@@ -96,8 +96,8 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           },
           {
             key: 'source',
-            type: 'source-select',
-            wrappers: ['form-field'],
+            type: 'source-select-field',
+            // wrappers: ['form-field'],
             templateOptions: {
               required: true
             }

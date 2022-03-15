@@ -35,10 +35,9 @@ interface CitationSelectOption {
   styleUrls: ['./citation-select.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CitationSelectType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
+export class CitationSelectType extends FieldType implements OnInit, AfterViewInit {
   formControl!: FormControl;
   private queryRef!: QueryRef<SourceTypeaheadQuery, SourceTypeaheadQueryVariables>;
-  private destroy$ = new Subject();
   sources$?: Observable<CitationSelectOption[]>;
 
   constructor(
@@ -52,8 +51,6 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
         minSearchLength: 1,
         maxSearchLength: 15,
         searchLength: 0,
-        entityType: 'Source',
-        entityFragment: SourceTypeaheadFieldsFragmentDoc
       },
       expressionProperties: {
         'templateOptions.prompt': (model: SourceSelectorModel): Maybe<string> => {
@@ -66,17 +63,20 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
   }
 
   ngOnInit() {
-    this.queryRef = this.sourceTypeaheadQuery.watch({sourceType: this.model.sourceType, partialCitationId: 9999999 });
-
+    this.queryRef = this.sourceTypeaheadQuery.watch({
+      sourceType: this.model.sourceType,
+      partialCitationId: 9999999
+    });
+    // NOTE: no need to unsub from sources$ as the template's
+    // ngrxLet does so automatically
     this.sources$ = this.queryRef
       .valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         pluck('data', 'sourceTypeahead'),
         map((sources) => {
           return sources.map((s) => {
             return {
-              value: s.citationId,
+              value: s.id,
               label: s.citation,
               source: s
             }
@@ -100,8 +100,4 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
     }
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 }

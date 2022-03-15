@@ -6,6 +6,14 @@
       <cvc-evidence-tag *ngSwitchCase="'Evidence'" [evidence]="linkableType" [onCloseClicked]="closeTag"></cvc-evidence-tag>
       <cvc-evidence-tag *ngSwitchCase="'Evidence'" [evidence]="linkableType" [onCloseClicked]="closeTag"></cvc-evidence-tag>
       <cvc-variant-type-tag *ngSwitchCase="'Variant'" [variantType]="linkableType" [onCloseClicked]="closeTag"></cvc-variant-type-tag>
+
+      <!-- TODO: get LinkableSource type working with the
+           others so actual tag can be used here -->
+      <nz-tag *ngSwitchCase="'Source'"
+        nzMode="closeable"
+        (nzOnClose)="closeTag(0)">
+         {{ linkableType.name }}
+      </nz-tag>
       <nz-tag *ngSwitchDefault>{{ to.entityType }} {{ linkableType?.id }}</nz-tag>
     </ng-container>
 </span>
