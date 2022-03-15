@@ -12,18 +12,24 @@ import { LinkablePhenotype } from '@app/components/phenotypes/phenotype-tag/phen
 import { LinkableSource } from '@app/components/sources/source-tag/source-tag.component';
 import { LinkableVariantType } from '@app/components/variant-types/variant-type-tag/variant-type-tag.component';
 import { LinkableVariant } from '@app/components/variants/variant-tag/variant-tag.component';
-import { Maybe } from '@app/generated/civic.apollo';
+import { Maybe, SourceSource } from '@app/generated/civic.apollo';
 import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core';
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 
-// TODO: normalize source tag and variant tag LinkableTypes with the others
+// TODO: normalize source, source stub tag and variant tag LinkableTypes with the others
+
+type LinkableSourceStub = {
+  id: number,
+  name: string,
+}
 
 export type AnyLinkableType =
   LinkableGene
   | LinkableVariant
   | LinkableEvidence
   // | LinkableSource
+  | LinkableSourceStub
   | LinkableVariantType
   | LinkableDrug
   | LinkableAssertion
@@ -80,7 +86,7 @@ export class FieldTagWrapper extends FieldWrapper implements OnInit, OnDestroy {
     this.ltSub = this.formControl
       .valueChanges
       .subscribe((selection: Maybe<AnyLinkableType>) => {
-        if (selection) {
+        if (selection && selection.id) {
           const lt = this.cache.readFragment({
             id: `${this.to.entityType}:${selection.id}`,
             fragment: this.to.entityFragment

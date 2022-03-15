@@ -58,7 +58,6 @@ export class SourceSelectType extends FieldType {
       ],
       hooks: {
         onInit: (ffc?: FormlyFieldConfig): void => {
-          console.log('source-select onInit hook called.');
           const fc = ffc!.formControl!;
           this.updateSub = fc.valueChanges
             .subscribe((source: Maybe<SourceSelectModel>) => {
@@ -67,7 +66,6 @@ export class SourceSelectType extends FieldType {
 
         },
         onDestroy: (ffc?: FormlyFieldConfig): void => {
-          console.log('source-select onDestroy hook called.');
           this.updateSub.unsubscribe();
         }
       }

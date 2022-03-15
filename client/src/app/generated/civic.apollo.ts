@@ -6046,6 +6046,38 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type CheckRemoteCitationQueryVariables = Exact<{
+  sourceType: SourceSource;
+  citationId: Scalars['Int'];
+}>;
+
+
+export type CheckRemoteCitationQuery = (
+  { __typename: 'Query' }
+  & Pick<Query, 'remoteCitation'>
+);
+
+export type AddRemoteCitationMutationVariables = Exact<{
+  input: AddRemoteCitationInput;
+}>;
+
+
+export type AddRemoteCitationMutation = (
+  { __typename: 'Mutation' }
+  & { addRemoteCitation?: Maybe<(
+    { __typename: 'AddRemoteCitationPayload' }
+    & { newSource: (
+      { __typename: 'SourceStub' }
+      & SourceStubFieldsFragment
+    ) }
+  )> }
+);
+
+export type SourceStubFieldsFragment = (
+  { __typename: 'SourceStub' }
+  & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
+);
+
 export type SourceTypeaheadQueryVariables = Exact<{
   partialCitationId: Scalars['Int'];
   sourceType: SourceSource;
@@ -8226,6 +8258,13 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   id
   name
   citation
+  citationId
+  sourceType
+}
+    `;
+export const SourceStubFieldsFragmentDoc = gql`
+    fragment SourceStubFields on SourceStub {
+  id
   citationId
   sourceType
 }
@@ -10703,6 +10742,42 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CheckRemoteCitationDocument = gql`
+    query CheckRemoteCitation($sourceType: SourceSource!, $citationId: Int!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CheckRemoteCitationGQL extends Apollo.Query<CheckRemoteCitationQuery, CheckRemoteCitationQueryVariables> {
+    document = CheckRemoteCitationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddRemoteCitationDocument = gql`
+    mutation AddRemoteCitation($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      ...SourceStubFields
+    }
+  }
+}
+    ${SourceStubFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddRemoteCitationGQL extends Apollo.Mutation<AddRemoteCitationMutation, AddRemoteCitationMutationVariables> {
+    document = AddRemoteCitationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

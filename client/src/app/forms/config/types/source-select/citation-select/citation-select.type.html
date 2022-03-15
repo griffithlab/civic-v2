@@ -18,21 +18,17 @@
 </nz-select>
 <ng-template #notFound>
   <!-- prompt user to enter search string if none entered, or it is of insufficient length -->
-  <ng-container [ngSwitch]="to.searchLength >= 0 && to.searchLength >= to.minSearchlength">
+  <ng-container [ngSwitch]="to.searchLength > 0 && to.searchLength >= to.minSearchLength">
     <div *ngSwitchCase="false"
       class="ant-form-item-explain">
       {{ to.prompt }}
     </div>
     <!-- if valid citation id, but no results returned, show loader -->
-    <div *ngSwitchCase="true">
-      <p>Show Source Loader</p>
-    </div>
-    <!-- <cvc-source-loader *ngSwitchCase="true"
-         [model]="model"
-         (modelUpdate)="onModelUpdated($event)"
-         [(sourceType)]="model.sourceType"
-         [(citationId)]="to.fieldValue">
-
-         </cvc-source-loader> -->
+    <cvc-citation-loader *ngSwitchCase="true"
+      [model]="model"
+      (addCitation)="onAddCitation($event)"
+      [(sourceType)]="model.sourceType"
+      [(citationId)]="to.searchValue">
+    </cvc-citation-loader>
   </ng-container>
 </ng-template>

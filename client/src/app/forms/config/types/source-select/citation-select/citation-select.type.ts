@@ -39,6 +39,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
   formControl!: FormControl;
   private queryRef!: QueryRef<SourceTypeaheadQuery, SourceTypeaheadQueryVariables>;
   sources$?: Observable<CitationSelectOption[]>;
+  onAddCitation: (e: any) => void
 
   constructor(
     private sourceTypeaheadQuery: SourceTypeaheadGQL,
@@ -51,6 +52,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
         minSearchLength: 1,
         maxSearchLength: 15,
         searchLength: 0,
+        searchValue: ''
       },
       expressionProperties: {
         'templateOptions.prompt': (model: SourceSelectorModel): Maybe<string> => {
@@ -60,6 +62,16 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
         }
       }
     };
+
+    this.onAddCitation = (e: any) => {
+      const parentOptions = this.field!.parent!.templateOptions!;
+      // set source-select's entity info & fragment
+      // so field-tag wrapper can fetch the record &
+      // display the tag
+      parentOptions.entityType = 'SourceStub';
+      parentOptions.entityFragment = e.entityFragment;
+      this.field!.formControl!.setValue(e.id);
+    }
   }
 
   ngOnInit() {
@@ -86,7 +98,8 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.valueLength = value.length;
+      this.to.searchLength = value.length;
+      this.to.searchValue = value;
       if (
         value.length < this.to.minLengthSearch ||
         value.length > this.to.maxLength!
