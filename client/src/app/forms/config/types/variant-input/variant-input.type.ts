@@ -11,7 +11,7 @@ import { AddVariantGQL, AddVariantMutation, AddVariantMutationVariables, Maybe, 
 import { FieldType, FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, pluck, takeUntil } from 'rxjs/operators';
 
 interface VariantSelectOption {
@@ -35,9 +35,10 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
   success: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
-  displayAdd: boolean = false
 
   addVariantMutator: MutatorWithState<AddVariantGQL, AddVariantMutation, AddVariantMutationVariables>
+
+  displayAdd$ = new BehaviorSubject<boolean>(false)
 
   constructor(
     private variantTypeaheadQuery: VariantTypeaheadGQL,
@@ -84,7 +85,6 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
             };
           });
           
-          this.displayAdd = variantInputs.filter(v => { return v.label.toUpperCase() == this.to.searchString.toUpperCase() }).length <= 0
           return variantInputs;
         }
       )
@@ -94,16 +94,16 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.fieldValue = value;
-      this.to.searchLength = value.length;
-      if (
-        value.length < this.to.minLengthSearch ||
-        value.length > this.to.maxLength!
-      ) {
+      if (value.length < this.to.minLengthSearch) {
         return;
       }
       this.to.searchString = value;
-      this.queryRef.refetch({ name: value, geneId: this.to.geneId });
+      this.errorMessages = []
+      this.queryRef.refetch({name: value, geneId: this.to.geneId}).then((res) => { 
+        this.displayAdd$.next(res.data.variants.nodes.filter(d => {
+          return d.name.toUpperCase() == value.toUpperCase()
+        }).length == 0
+      )})
     };
   }
 
@@ -138,6 +138,7 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.displayAdd$.complete();
   }
 }
 

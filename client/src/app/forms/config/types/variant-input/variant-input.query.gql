@@ -10,3 +10,17 @@ fragment VariantTypeaheadFields on Variant {
   id
   name
 }
+
+mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+
+fragment AddVariantFields on AddVariantPayload {
+  new
+  variant {
+    id
+    name
+  }
+}
