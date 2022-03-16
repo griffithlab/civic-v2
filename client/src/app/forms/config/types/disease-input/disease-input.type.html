@@ -4,6 +4,7 @@
     [formControl]="formControl"
     [formlyAttributes]="field"
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzDropdownRender]="addDiseaseTmpl"
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
@@ -28,4 +29,18 @@
 </ng-container>
 <ng-template #diseaseListItem>
   <cvc-disease-tag [disease]="formControl.value"></cvc-disease-tag>
+</ng-template>
+
+<ng-template #addDiseaseTmpl>
+  <ng-container *ngIf="this.displayAdd$ | ngrxPush">
+    <ng-container *ngIf="this.to.searchString !== '' && this.to.searchString.length >= 5">
+        <cvc-form-errors-alert *ngIf="this.errorMessages.length > 0" [errors]="errorMessages"> </cvc-form-errors-alert>
+        <nz-input-group nzAddOnBefore="DOID:">
+          <input type="text" nz-input placeholder="Optional DOID" [(ngModel)]="enteredDoid" />
+        </nz-input-group>
+        <button *ngIf="this.errorMessages.length == 0" nz-button nzSize="small" [nzLoading]="this.loading" (click)="addDisease(to.searchString)">
+          <i nz-icon nzType="plus" nzTheme="outline"></i>No Existing CIViC Disease&nbsp;<strong>{{ to.searchString }}</strong>&nbsp;found. Create A New Disease?
+        </button>
+    </ng-container>
+  </ng-container>
 </ng-template>

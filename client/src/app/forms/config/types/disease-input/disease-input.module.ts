@@ -4,10 +4,13 @@ import { FormlyModule } from '@ngx-formly/core';
 import { DiseaseInputType, DiseaseInputTypeOption } from './disease-input.type';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/form-errors-alert.module';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [DiseaseInputType],
@@ -19,7 +22,11 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzSelectModule,
     CvcDiseaseTagModule,
     NzTypographyModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzButtonModule,
+    CvcFormErrorsAlertModule,
+    NzInputModule,
+    FormsModule
   ],
 })
 export class CvcDiseaseInputTypeModule { }

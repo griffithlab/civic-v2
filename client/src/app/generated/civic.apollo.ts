@@ -5943,6 +5943,29 @@ export type DiseaseTypeaheadQuery = (
   )> }
 );
 
+export type AddDiseaseMutationVariables = Exact<{
+  name: Scalars['String'];
+  doid?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type AddDiseaseMutation = (
+  { __typename: 'Mutation' }
+  & { addDisease?: Maybe<(
+    { __typename: 'AddDiseasePayload' }
+    & AddDiseaseFieldsFragment
+  )> }
+);
+
+export type AddDiseaseFieldsFragment = (
+  { __typename: 'AddDiseasePayload' }
+  & Pick<AddDiseasePayload, 'new'>
+  & { disease: (
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'displayName'>
+  ) }
+);
+
 export type DrugTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -6119,28 +6142,6 @@ export type VariantTypeaheadFieldsFragment = (
   & Pick<Variant, 'id' | 'name'>
 );
 
-export type VariantSelectQueryVariables = Exact<{
-  name: Scalars['String'];
-  geneId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type VariantSelectQuery = (
-  { __typename: 'Query' }
-  & { variants: (
-    { __typename: 'VariantConnection' }
-    & { nodes: Array<(
-      { __typename: 'Variant' }
-      & VariantTypeaheadFieldsFragment
-    )> }
-  ) }
-);
-
-export type VariantSelectFieldsFragment = (
-  { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
-);
-
 export type AddVariantMutationVariables = Exact<{
   name: Scalars['String'];
   geneId: Scalars['Int'];
@@ -6162,6 +6163,28 @@ export type AddVariantFieldsFragment = (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
   ) }
+);
+
+export type VariantSelectQueryVariables = Exact<{
+  name: Scalars['String'];
+  geneId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type VariantSelectQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & { nodes: Array<(
+      { __typename: 'Variant' }
+      & VariantTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type VariantSelectFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
 );
 
 export type VariantTypeTypeaheadQueryVariables = Exact<{
@@ -8291,6 +8314,16 @@ export const PreviewCommentFragmentDoc = gql`
   }
 }
     `;
+export const AddDiseaseFieldsFragmentDoc = gql`
+    fragment AddDiseaseFields on AddDiseasePayload {
+  new
+  disease {
+    id
+    name
+    displayName
+  }
+}
+    `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
     fragment GeneTypeaheadFields on Gene {
   id
@@ -8330,12 +8363,6 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
   name
 }
     `;
-export const VariantSelectFieldsFragmentDoc = gql`
-    fragment VariantSelectFields on Variant {
-  id
-  name
-}
-    `;
 export const AddVariantFieldsFragmentDoc = gql`
     fragment AddVariantFields on AddVariantPayload {
   new
@@ -8343,6 +8370,12 @@ export const AddVariantFieldsFragmentDoc = gql`
     id
     name
   }
+}
+    `;
+export const VariantSelectFieldsFragmentDoc = gql`
+    fragment VariantSelectFields on Variant {
+  id
+  name
 }
     `;
 export const RevisableEvidenceFieldsFragmentDoc = gql`
@@ -10674,6 +10707,24 @@ export const DiseaseTypeaheadDocument = gql`
       super(apollo);
     }
   }
+export const AddDiseaseDocument = gql`
+    mutation AddDisease($name: String!, $doid: Int) {
+  addDisease(input: {name: $name, doid: $doid}) {
+    ...AddDiseaseFields
+  }
+}
+    ${AddDiseaseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddDiseaseGQL extends Apollo.Mutation<AddDiseaseMutation, AddDiseaseMutationVariables> {
+    document = AddDiseaseDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DrugTypeaheadDocument = gql`
     query DrugTypeahead($name: String!) {
   drugTypeahead(queryTerm: $name) {
@@ -10882,6 +10933,24 @@ export const VariantTypeaheadDocument = gql`
       super(apollo);
     }
   }
+export const AddVariantDocument = gql`
+    mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+    ${AddVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddVariantGQL extends Apollo.Mutation<AddVariantMutation, AddVariantMutationVariables> {
+    document = AddVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantSelectDocument = gql`
     query VariantSelect($name: String!, $geneId: Int) {
   variants(name: $name, first: 20, geneId: $geneId) {
@@ -10897,24 +10966,6 @@ export const VariantSelectDocument = gql`
   })
   export class VariantSelectGQL extends Apollo.Query<VariantSelectQuery, VariantSelectQueryVariables> {
     document = VariantSelectDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const AddVariantDocument = gql`
-    mutation AddVariant($name: String!, $geneId: Int!) {
-  addVariant(input: {name: $name, geneId: $geneId}) {
-    ...AddVariantFields
-  }
-}
-    ${AddVariantFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddVariantGQL extends Apollo.Mutation<AddVariantMutation, AddVariantMutationVariables> {
-    document = AddVariantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
