@@ -151,7 +151,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Suggest Evidence Item Revision Form'
         },
@@ -227,6 +227,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             key: 'disease',
             type: 'disease-array',
             templateOptions: {
+              maxCount: 1,
             }
           },
           {

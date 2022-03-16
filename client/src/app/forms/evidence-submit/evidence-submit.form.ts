@@ -153,7 +153,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           {
             key: 'disease',
             type: 'disease-array',
-            templateOptions: {}
+            templateOptions: {
+              maxCount: 1,
+            }
           },
           {
             key: 'evidenceLevel',

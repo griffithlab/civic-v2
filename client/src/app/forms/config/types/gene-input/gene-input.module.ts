@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [GeneInputType],
@@ -20,6 +21,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzSpaceModule,
     NzTypographyModule,
     CvcGeneTagModule,
+    CvcPipesModule
   ]
 })
 export class CvcGeneInputTypeModule { }

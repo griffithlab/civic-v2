@@ -58,13 +58,11 @@ export class PhenotypeInputType extends FieldType implements OnInit, AfterViewIn
     this.to.onSearch = (value: string): void => {
       this.to.fieldValue = value;
       this.to.fieldLength = value.length;
-      if (
-        value.length < this.to.minLengthSearch ||
-        value.length > this.to.maxLength!
-      ) {
+      if ( value.length < this.to.minLengthSearch) {
         return;
       }
 
+      this.to.searchString = value;
       this.queryRef?.refetch({name: value})
     };
   }

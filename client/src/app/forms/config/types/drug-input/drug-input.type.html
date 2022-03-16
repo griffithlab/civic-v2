@@ -15,15 +15,16 @@
         [nzLabel]="opt.tooltip"
         [nzValue]="opt.drug">
         <nz-space>
-          <span *nzSpaceItem>
-            {{ opt.label }}
+          <span *nzSpaceItem [innerHtml]=" opt.label | highlightTypeahead: this.to.searchString">
           </span>
           <ng-container *ngIf="opt.drug.drugAliases.length > 0">
-            <span nz-typography
+            <div *nzSpaceItem>
+              <span 
+              nz-typography 
               nzType="secondary"
-              *ngSpaceItem>
-              {{ opt.drug.drugAliases.join(', ') }}
-            </span>
+              [innerHtml]="opt.drug.drugAliases.join(', ') | highlightTypeahead: this.to.searchString" >
+              </span>
+            </div>
           </ng-container>
         </nz-space>
       </nz-option>

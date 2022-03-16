@@ -11,7 +11,7 @@
       <nz-option *ngFor="let opt of variants$ | ngrxPush"
         nzCustomContent
         [nzValue]="opt.variant">
-        {{ opt.label}}
+        <span [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
       </nz-option>
   </nz-select>
   <ng-template #sourceLoader>

@@ -12,6 +12,7 @@ import { IconNameForSubscribableEntity } from './icon-name-for-subscribable-enti
 import { EnumToTitlePipe } from './enum-to-title-pipe';
 import { TypenameToRoutePipe } from './typename-to-route-pipe';
 import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
+import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
     IconNameForSubscribableEntity,
     EnumToTitlePipe,
     TypenameToRoutePipe,
-    ColorNameForStatusPipe
+    ColorNameForStatusPipe,
+    HighlightTypeaheadPipe
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
     IconNameForSubscribableEntity,
     EnumToTitlePipe,
     TypenameToRoutePipe,
-    ColorNameForStatusPipe
+    ColorNameForStatusPipe,
+    HighlightTypeaheadPipe
   ],
   providers: [
     SourceTypeDisplayPipe

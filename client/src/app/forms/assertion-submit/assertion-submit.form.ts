@@ -69,7 +69,7 @@ export class AssertionSubmitForm implements OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },
@@ -100,7 +100,9 @@ export class AssertionSubmitForm implements OnDestroy {
           {
             key: 'disease',
             type: 'disease-array',
-            templateOptions: {}
+            templateOptions: {
+              maxCount: 1
+            }
           },
           {
             key: 'evidenceType',

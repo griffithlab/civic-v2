@@ -15,10 +15,9 @@
         [nzLabel]="opt.tooltip"
         [nzValue]="opt.gene">
         <nz-space>
-          <span *nzSpaceItem>{{ opt.label }}</span>
+          <span *nzSpaceItem [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
           <ng-container *ngIf="opt.gene.geneAliases.length > 0">
-            <span nz-typography nzType="secondary" *nzSpaceItem>
-              {{ opt.gene.geneAliases.join(', ') }}
+            <span nz-typography nzType="secondary" *nzSpaceItem [innerHtml]="opt.gene.geneAliases.join(', ') | highlightTypeahead: this.to.searchString">
             </span>
           </ng-container>
         </nz-space>

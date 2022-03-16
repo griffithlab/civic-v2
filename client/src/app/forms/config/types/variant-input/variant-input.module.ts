@@ -9,6 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/form-errors-alert.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [VariantInputType],
@@ -21,7 +22,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzButtonModule,
     NzIconModule,
     CvcVariantTagModule,
-    CvcFormErrorsAlertModule
+    CvcFormErrorsAlertModule,
+    CvcPipesModule
   ]
 })
 export class CvcVariantInputTypeModule { }

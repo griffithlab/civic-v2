@@ -8,6 +8,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [AcmgCodeInputType],
@@ -19,6 +20,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzTagModule,
     NzSelectModule,
     NzSpaceModule,
+    CvcPipesModule,
     FormlyModule.forChild({types: [acmgCodeSelectTypeOption],}),
   ]
 })

@@ -17,7 +17,7 @@ export class AcmgCodeInputType extends FieldType implements OnInit, OnDestroy {
   formControl!: FormControl;
 
   private destroy$ = new Subject();
-  private searchVal = ""
+  searchVal = ""
 
   private queryRef?: QueryRef<AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables>
   codes$?: Observable<AcmgCode[]>
@@ -40,6 +40,7 @@ export class AcmgCodeInputType extends FieldType implements OnInit, OnDestroy {
   }
   
   onSearch(value: string): void {
+    this.searchVal = value
     this.queryRef?.refetch({code: value})
   }
 
