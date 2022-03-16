@@ -5979,6 +5979,29 @@ export type DrugTypeaheadQuery = (
   )> }
 );
 
+export type AddDrugMutationVariables = Exact<{
+  name: Scalars['String'];
+  ncitId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AddDrugMutation = (
+  { __typename: 'Mutation' }
+  & { addDrug?: Maybe<(
+    { __typename: 'AddDrugPayload' }
+    & AddDrugFieldsFragment
+  )> }
+);
+
+export type AddDrugFieldsFragment = (
+  { __typename: 'AddDrugPayload' }
+  & Pick<AddDrugPayload, 'new'>
+  & { drug: (
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'ncitId' | 'name'>
+  ) }
+);
+
 export type GeneTypeaheadQueryVariables = Exact<{
   entrezSymbol: Scalars['String'];
 }>;
@@ -8321,6 +8344,16 @@ export const AddDiseaseFieldsFragmentDoc = gql`
     id
     name
     displayName
+  }
+}
+    `;
+export const AddDrugFieldsFragmentDoc = gql`
+    fragment AddDrugFields on AddDrugPayload {
+  new
+  drug {
+    id
+    ncitId
+    name
   }
 }
     `;
@@ -10720,7 +10753,7 @@ export const AddDiseaseDocument = gql`
   })
   export class AddDiseaseGQL extends Apollo.Mutation<AddDiseaseMutation, AddDiseaseMutationVariables> {
     document = AddDiseaseDocument;
-
+    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -10741,6 +10774,24 @@ export const DrugTypeaheadDocument = gql`
   })
   export class DrugTypeaheadGQL extends Apollo.Query<DrugTypeaheadQuery, DrugTypeaheadQueryVariables> {
     document = DrugTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddDrugDocument = gql`
+    mutation AddDrug($name: String!, $ncitId: String) {
+  addDrug(input: {name: $name, ncitId: $ncitId}) {
+    ...AddDrugFields
+  }
+}
+    ${AddDrugFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddDrugGQL extends Apollo.Mutation<AddDrugMutation, AddDrugMutationVariables> {
+    document = AddDrugDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -5,12 +5,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DrugTypeaheadGQL, DrugTypeaheadQuery, DrugTypeaheadQueryVariables } from '@app/generated/civic.apollo';
+import { AddDrugGQL, AddDrugMutation, AddDrugMutationVariables, DrugTypeaheadGQL, DrugTypeaheadQuery, DrugTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { map, pluck, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 interface DrugTypeahead {
   id: number,
@@ -34,29 +36,43 @@ interface DrugTypeaheadOption {
 export class DrugInputType extends FieldType implements AfterViewInit, OnInit, OnDestroy {
   formControl!: FormControl;
 
-  defaultOptions = {
-    templateOptions: {
-      placeholder: 'Search Drugs',
-      showArrow: false,
-      onSearch: () => {},
-      minLengthSearch: 1,
-      optionList: [] as Array<{ value: string; label: string; drug: any }>,
-    },
-  };
 
   private queryRef!: QueryRef<DrugTypeaheadQuery, DrugTypeaheadQueryVariables>
   drugs$?: Observable<DrugTypeaheadOption[]>
 
   private destroy$ = new Subject();
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
+
+  addDrugMutator: MutatorWithState<AddDrugGQL, AddDrugMutation, AddDrugMutationVariables>
+
+  enteredNcitId = ""
+  displayAdd$ = new BehaviorSubject<boolean>(false)
 
   constructor(
     private drugTypeaheadQuery: DrugTypeaheadGQL,
+    private networkErrorService: NetworkErrorsService,
+    private addDrugGQL: AddDrugGQL
   ) {
     super();
+
+    this.addDrugMutator = new MutatorWithState(networkErrorService);
+
+    this.defaultOptions = {
+      templateOptions: {
+        placeholder: 'Search Drugs',
+        showArrow: false,
+        onSearch: () => {},
+        minLengthSearch: 1,
+        optionList: [] as Array<{ value: string; label: string; drug: any }>,
+        searchString: "",
+      },
+    };
   }
 
   ngOnInit() {
-    this.queryRef = this.drugTypeaheadQuery.watch({ name: ""})
+    this.queryRef = this.drugTypeaheadQuery.watch({ name: "zzzzz"})
 
     this.drugs$ = this.queryRef
     .valueChanges
@@ -79,21 +95,55 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.fieldValue = value;
-      this.to.fieldLength = value.length;
-      if (
-        value.length < this.to.minLengthSearch ||
-        value.length > this.to.maxLength!
-      ) {
+      if (value.length < this.to.minLengthSearch)  {
         return;
       }
-      this.queryRef.refetch({name: value})
+      this.to.searchString = value;
+      this.errorMessages = []
+
+      this.queryRef.refetch({name: value}).then((res) => {
+        let displayAdd = res.data.drugTypeahead.filter(d => {
+          return d.name.toUpperCase() == value.toUpperCase();
+        }).length == 0
+        this.displayAdd$.next(displayAdd);
+      })
     };
+  }
+
+  addDrug(drugName: string): void  {
+    if(drugName && drugName != '') {
+      let ncit = this.enteredNcitId == '' || this.enteredNcitId == undefined ? undefined : this.enteredNcitId
+      let state = this.addDrugMutator.mutate(this.addDrugGQL, { name: drugName, ncitId: ncit },
+
+        (data) => {
+          this.field.formControl?.setValue( {id: data.addDrug.drug.id, name: data.addDrug.drug.name} )
+          this.to.searchString = '';
+          this.to.searchLength = 0;
+        })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if (res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if (errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
+    }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.displayAdd$.complete();
   }
 }
 
