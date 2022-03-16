@@ -71,7 +71,7 @@ export class AssertionSubmitForm implements OnDestroy {
         key: 'fields',
         wrappers: ['form-container'],
         templateOptions: {
-          label: 'Add Evidence Item Form'
+          label: 'Add Assertion Form'
         },
         fieldGroup: [
           {
