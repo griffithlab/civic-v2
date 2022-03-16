@@ -10,12 +10,8 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceInputType extends FieldType {
-  closeCallback: (id: number) => void
   constructor() {
     super();
-    this.closeCallback = (id: number) => {
-      console.log(`I just closed source ${id}`)
-    }
   }
 
   onSourceSelected(s: Maybe<any>): void {

@@ -11,8 +11,7 @@
     [nzPopoverContent]="drugPopover"
     nzPopoverPlacement="right"
     nzPopoverTrigger="hover"
-
-    >
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 

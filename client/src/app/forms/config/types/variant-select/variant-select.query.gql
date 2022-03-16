@@ -1,0 +1,26 @@
+query VariantSelect($name: String!, $geneId: Int) {
+  variants(name: $name, first: 20, geneId: $geneId) {
+    nodes {
+      ... VariantTypeaheadFields
+    }
+  }
+}
+
+fragment VariantSelectFields on Variant {
+  id
+  name
+}
+
+mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+
+fragment AddVariantFields on AddVariantPayload {
+  new
+  variant {
+    id
+    name
+  }
+}

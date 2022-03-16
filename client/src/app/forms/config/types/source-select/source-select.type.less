@@ -1,0 +1,21 @@
+::host {
+  display: block;
+}
+
+@type-field-width: 10em;
+@field-spacer: 0.5em;
+
+.type-field {
+  display: inline-block;
+  width: @type-field-width;
+}
+
+.citation-field {
+  display: inline-block;
+  margin-left: 0.5em;
+  width: calc(~"100% - @{type-field-width} - @{field-spacer}");
+}
+
+.hidden {
+  display: none;
+}

@@ -124,6 +124,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             fieldArray: {
               type: 'source-input',
               templateOptions: {
+                hideLabel: true,
                 required: true,
               },
             },

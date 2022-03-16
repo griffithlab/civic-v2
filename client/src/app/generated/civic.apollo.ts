@@ -6046,6 +6046,57 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type CheckRemoteCitationQueryVariables = Exact<{
+  sourceType: SourceSource;
+  citationId: Scalars['Int'];
+}>;
+
+
+export type CheckRemoteCitationQuery = (
+  { __typename: 'Query' }
+  & Pick<Query, 'remoteCitation'>
+);
+
+export type AddRemoteCitationMutationVariables = Exact<{
+  input: AddRemoteCitationInput;
+}>;
+
+
+export type AddRemoteCitationMutation = (
+  { __typename: 'Mutation' }
+  & { addRemoteCitation?: Maybe<(
+    { __typename: 'AddRemoteCitationPayload' }
+    & { newSource: (
+      { __typename: 'SourceStub' }
+      & SourceStubFieldsFragment
+    ) }
+  )> }
+);
+
+export type SourceStubFieldsFragment = (
+  { __typename: 'SourceStub' }
+  & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
+);
+
+export type SourceTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['Int'];
+  sourceType: SourceSource;
+}>;
+
+
+export type SourceTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { sourceTypeahead: Array<(
+    { __typename: 'Source' }
+    & SourceTypeaheadResultFragment
+  )> }
+);
+
+export type SourceTypeaheadFieldsFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
+);
+
 export type VariantTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -6065,6 +6116,51 @@ export type VariantTypeaheadQuery = (
 export type VariantTypeaheadFieldsFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
+);
+
+export type VariantSelectQueryVariables = Exact<{
+  name: Scalars['String'];
+  geneId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type VariantSelectQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & { nodes: Array<(
+      { __typename: 'Variant' }
+      & VariantTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type VariantSelectFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
+);
+
+export type AddVariantMutationVariables = Exact<{
+  name: Scalars['String'];
+  geneId: Scalars['Int'];
+}>;
+
+
+export type AddVariantMutation = (
+  { __typename: 'Mutation' }
+  & { addVariant?: Maybe<(
+    { __typename: 'AddVariantPayload' }
+    & AddVariantFieldsFragment
+  )> }
+);
+
+export type AddVariantFieldsFragment = (
+  { __typename: 'AddVariantPayload' }
+  & Pick<AddVariantPayload, 'new'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) }
 );
 
 export type VariantTypeTypeaheadQueryVariables = Exact<{
@@ -8211,10 +8307,41 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   sourceType
 }
     `;
+export const SourceStubFieldsFragmentDoc = gql`
+    fragment SourceStubFields on SourceStub {
+  id
+  citationId
+  sourceType
+}
+    `;
+export const SourceTypeaheadFieldsFragmentDoc = gql`
+    fragment SourceTypeaheadFields on Source {
+  id
+  name
+  citation
+  citationId
+  sourceType
+}
+    `;
 export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
   id
   name
+}
+    `;
+export const VariantSelectFieldsFragmentDoc = gql`
+    fragment VariantSelectFields on Variant {
+  id
+  name
+}
+    `;
+export const AddVariantFieldsFragmentDoc = gql`
+    fragment AddVariantFields on AddVariantPayload {
+  new
+  variant {
+    id
+    name
+  }
 }
     `;
 export const RevisableEvidenceFieldsFragmentDoc = gql`
@@ -10680,6 +10807,60 @@ export const CreateSourceStubDocument = gql`
       super(apollo);
     }
   }
+export const CheckRemoteCitationDocument = gql`
+    query CheckRemoteCitation($sourceType: SourceSource!, $citationId: Int!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CheckRemoteCitationGQL extends Apollo.Query<CheckRemoteCitationQuery, CheckRemoteCitationQueryVariables> {
+    document = CheckRemoteCitationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddRemoteCitationDocument = gql`
+    mutation AddRemoteCitation($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      ...SourceStubFields
+    }
+  }
+}
+    ${SourceStubFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddRemoteCitationGQL extends Apollo.Mutation<AddRemoteCitationMutation, AddRemoteCitationMutationVariables> {
+    document = AddRemoteCitationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceTypeaheadDocument = gql`
+    query SourceTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+    ${SourceTypeaheadResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceTypeaheadGQL extends Apollo.Query<SourceTypeaheadQuery, SourceTypeaheadQueryVariables> {
+    document = SourceTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantTypeaheadDocument = gql`
     query VariantTypeahead($name: String!) {
   variants(name: $name, first: 20) {
@@ -10695,6 +10876,44 @@ export const VariantTypeaheadDocument = gql`
   })
   export class VariantTypeaheadGQL extends Apollo.Query<VariantTypeaheadQuery, VariantTypeaheadQueryVariables> {
     document = VariantTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantSelectDocument = gql`
+    query VariantSelect($name: String!, $geneId: Int) {
+  variants(name: $name, first: 20, geneId: $geneId) {
+    nodes {
+      ...VariantTypeaheadFields
+    }
+  }
+}
+    ${VariantTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantSelectGQL extends Apollo.Query<VariantSelectQuery, VariantSelectQueryVariables> {
+    document = VariantSelectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddVariantDocument = gql`
+    mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+    ${AddVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddVariantGQL extends Apollo.Mutation<AddVariantMutation, AddVariantMutationVariables> {
+    document = AddVariantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

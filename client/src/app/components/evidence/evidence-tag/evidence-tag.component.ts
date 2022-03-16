@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableEvidence {
@@ -12,12 +13,16 @@ export interface LinkableEvidence {
   templateUrl: './evidence-tag.component.html',
   styleUrls: ['./evidence-tag.component.less']
 })
-export class CvcEvidenceTagComponent implements OnInit {
+export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() evidence!: LinkableEvidence
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
-  constructor() { }
+  constructor() { super(); }
+
+  idFunction() {
+    return this.evidence.id
+  }
 
   ngOnInit() {
     if (this.evidence === undefined) {
