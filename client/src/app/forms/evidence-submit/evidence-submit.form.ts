@@ -81,7 +81,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },

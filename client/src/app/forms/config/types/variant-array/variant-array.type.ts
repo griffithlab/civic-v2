@@ -1,3 +1,5 @@
+import { AbstractControl } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 
 const requiredValidationMsgFn = (): string => {
@@ -19,6 +21,13 @@ export const variantArrayTypeOption: TypeOption = {
       templateOptions: {
         required: false
       }
+    },
+    hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
+      const geneCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('gene') : null;      
+      if(!geneCtrl || !geneCtrl.value || !geneCtrl.value[0]) {
+        return true;
+      }
+      return false;
     },
     defaultValue: [],
     validation: {

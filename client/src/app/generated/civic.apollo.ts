@@ -6099,6 +6099,7 @@ export type SourceTypeaheadFieldsFragment = (
 
 export type VariantTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
+  geneId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -10862,8 +10863,8 @@ export const SourceTypeaheadDocument = gql`
     }
   }
 export const VariantTypeaheadDocument = gql`
-    query VariantTypeahead($name: String!) {
-  variants(name: $name, first: 20) {
+    query VariantTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, geneId: $geneId, first: 20) {
     nodes {
       ...VariantTypeaheadFields
     }

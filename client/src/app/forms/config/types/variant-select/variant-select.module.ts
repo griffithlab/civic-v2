@@ -47,7 +47,6 @@ const configOption: ConfigOption = {
     NzButtonModule,
     NzIconModule,
     NzAlertModule,
-    CvcFieldTagWrapperModule,
     CvcFormErrorsAlertModule
   ]
 })

@@ -1,5 +1,5 @@
-query VariantTypeahead($name: String!) {
-  variants(name: $name, first: 20) {
+query VariantTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, geneId: $geneId, first: 20) {
     nodes {
       ... VariantTypeaheadFields
     }
