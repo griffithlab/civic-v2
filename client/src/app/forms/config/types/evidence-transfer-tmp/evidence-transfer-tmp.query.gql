@@ -1,0 +1,22 @@
+query EvidenceTransferSearch($id: Int, $first: Int) {
+  evidenceItems(id: $id, first: $first) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...EvidenceTransferSearchFields
+      }
+    }
+  }
+}
+
+fragment EvidenceTransferSearchFields on EvidenceItem {
+  id
+  name
+}

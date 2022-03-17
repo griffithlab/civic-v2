@@ -34,3 +34,8 @@ export interface FormVariant {
   id?: number;
   name: string;
 }
+
+export interface FormEvidence {
+  id: number,
+  name: string
+}

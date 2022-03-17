@@ -6002,6 +6002,36 @@ export type AddDrugFieldsFragment = (
   ) }
 );
 
+export type EvidenceTransferSearchQueryVariables = Exact<{
+  id?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type EvidenceTransferSearchQuery = (
+  { __typename: 'Query' }
+  & { evidenceItems: (
+    { __typename: 'EvidenceItemConnection' }
+    & Pick<EvidenceItemConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'EvidenceItemEdge' }
+      & Pick<EvidenceItemEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'EvidenceItem' }
+        & EvidenceTransferSearchFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type EvidenceTransferSearchFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name'>
+);
+
 export type GeneTypeaheadQueryVariables = Exact<{
   entrezSymbol: Scalars['String'];
 }>;
@@ -8355,6 +8385,12 @@ export const AddDrugFieldsFragmentDoc = gql`
     ncitId
     name
   }
+}
+    `;
+export const EvidenceTransferSearchFieldsFragmentDoc = gql`
+    fragment EvidenceTransferSearchFields on EvidenceItem {
+  id
+  name
 }
     `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
@@ -10792,6 +10828,36 @@ export const AddDrugDocument = gql`
   })
   export class AddDrugGQL extends Apollo.Mutation<AddDrugMutation, AddDrugMutationVariables> {
     document = AddDrugDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceTransferSearchDocument = gql`
+    query EvidenceTransferSearch($id: Int, $first: Int) {
+  evidenceItems(id: $id, first: $first) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...EvidenceTransferSearchFields
+      }
+    }
+  }
+}
+    ${EvidenceTransferSearchFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceTransferSearchGQL extends Apollo.Query<EvidenceTransferSearchQuery, EvidenceTransferSearchQueryVariables> {
+    document = EvidenceTransferSearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -7,7 +7,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
-import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormDrug, FormEvidence, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FieldValidationExtension } from '@ngx-formly/core/lib/extensions/field-validation/field-validation';
 
@@ -27,7 +27,8 @@ interface FormModel {
     drugs: FormDrug[]
     drugInteractionType: Maybe<DrugInteraction>
     ampLevel: Maybe<AmpLevel>
-    evidenceItems: EvidenceItem[]
+    // evidenceItems: FormEvidence[]
+    evidenceItems: number[],
     nccnGuideline: Maybe<NccnGuideline>
     nccnGuidelineVersion: Maybe<string>,
     acmgCodes: AcmgCode[],
@@ -140,7 +141,7 @@ export class AssertionSubmitForm implements OnDestroy {
           {
             key: 'ampLevel',
             type: 'amp-level-input',
-            templateOptions: { }
+            templateOptions: {}
           },
           {
             key: 'acmgCodes',
@@ -211,6 +212,13 @@ export class AssertionSubmitForm implements OnDestroy {
             },
           },
           {
+            key: 'evidenceItems',
+            type: 'evidence-transfer-tmp',
+            templateOptions: {
+              label: 'Evidence Items',
+            }
+          },
+          {
             key: 'comment',
             type: 'comment-textarea',
             templateOptions: {
@@ -235,7 +243,7 @@ export class AssertionSubmitForm implements OnDestroy {
   }
 
   toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitAssertionInput> {
-    if(model) {
+    if (model) {
       const fields = model.fields
       return {
         comment: fields.comment,
@@ -259,8 +267,8 @@ export class AssertionSubmitForm implements OnDestroy {
           acmgCodeIds: fields.acmgCodes.map(c => c.id),
           fdaCompanionTest: fields.fdaCompanionTest,
           fdaRegulatoryApproval: fields.fdaRegulatoryApproval,
-          //TODO: don't hardcode these once josh makes the evidence picker
-          evidenceItemIds: [1, 2]
+          // evidenceItemIds: fields.evidenceItems.map((e) => e.id)
+          evidenceItemIds: fields.evidenceItems,
         }
       }
     }
@@ -269,23 +277,23 @@ export class AssertionSubmitForm implements OnDestroy {
 
   submitAssertion(model: Maybe<FormModel>): void {
     let input = this.toSubmitInput(model)
-    if(input) {
+    if (input) {
 
       let state = this.submitAssertionMutator.mutate(this.submitAssertionGQL, {
         input: input
       },
-      (data) => {
-        this.newId = data.submitAssertion.assertion.id;
-      })
+        (data) => {
+          this.newId = data.submitAssertion.assertion.id;
+        })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
+        if (res) {
           this.success = true
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
+        if (errs) {
           this.errorMessages = errs
           this.success = false
         }
@@ -297,9 +305,9 @@ export class AssertionSubmitForm implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void { 
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-   }
+  }
 
 }
