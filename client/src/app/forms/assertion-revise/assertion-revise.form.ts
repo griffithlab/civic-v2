@@ -178,22 +178,6 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
             }
           },
           {
-            key: 'source',
-            type: 'multi-field',
-            templateOptions: {
-              label: 'Source',
-              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Specify a Source',
-              maxCount: 1,
-            },
-            fieldArray: {
-              type: 'source-input',
-              templateOptions: {
-                required: true,
-              },
-            },
-          },
-          {
             key: 'comment',
             type: 'comment-textarea',
             templateOptions: {

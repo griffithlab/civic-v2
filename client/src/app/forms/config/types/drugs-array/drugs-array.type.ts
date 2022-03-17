@@ -13,6 +13,7 @@ const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
 export const drugArrayTypeOption: TypeOption = {
   name: 'drug-array',
   extends: 'multi-field',
+  wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
       label: 'Drug',

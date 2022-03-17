@@ -115,6 +115,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           {
             key: 'source',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',

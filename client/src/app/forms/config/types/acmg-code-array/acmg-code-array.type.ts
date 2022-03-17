@@ -12,11 +12,13 @@ const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
 export const acmgCodeArrayTypeOption: TypeOption = {
   name: 'acmg-code-array',
   extends: 'multi-field',
+  wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
       label: 'ACMG/AMP Code(s)',
       required: false,
       addText: 'Add an ACMG/AMP Code',
+      helpText: '',
     },
     fieldArray: {
       type: 'acmg-code-select',

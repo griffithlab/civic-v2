@@ -6,7 +6,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   pure: true
 })
 export class HighlightTypeaheadPipe implements PipeTransform {
-  constructor(private santizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   transform(value: string, searchTerm?: string): SafeHtml {
     if(!searchTerm || searchTerm == ''){
@@ -21,6 +21,6 @@ export class HighlightTypeaheadPipe implements PipeTransform {
     }
     let stringVal = value.replace(regex, `<span class='typeahead-match'>${match[0]}</span>`)
 
-    return this.santizer.bypassSecurityTrustHtml(stringVal);
+    return this.sanitizer.bypassSecurityTrustHtml(stringVal);
   }
 }

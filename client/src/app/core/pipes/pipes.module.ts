@@ -13,6 +13,7 @@ import { EnumToTitlePipe } from './enum-to-title-pipe';
 import { TypenameToRoutePipe } from './typename-to-route-pipe';
 import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
 import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
+import { SanitizeHtmlPipe } from './sanitize-html-pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
     EnumToTitlePipe,
     TypenameToRoutePipe,
     ColorNameForStatusPipe,
-    HighlightTypeaheadPipe
+    HighlightTypeaheadPipe,
+    SanitizeHtmlPipe
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
     EnumToTitlePipe,
     TypenameToRoutePipe,
     ColorNameForStatusPipe,
-    HighlightTypeaheadPipe
+    HighlightTypeaheadPipe,
+    SanitizeHtmlPipe
   ],
   providers: [
     SourceTypeDisplayPipe
