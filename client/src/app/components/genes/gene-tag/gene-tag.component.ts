@@ -12,7 +12,7 @@ export interface LinkableGene {
   templateUrl: './gene-tag.component.html',
   styleUrls: ['./gene-tag.component.less']
 })
-export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit, OnChanges {
+export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
   @Input() gene!: LinkableGene;
   @Input() enablePopover: Maybe<boolean> = true
 
@@ -22,10 +22,6 @@ export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit, OnC
 
   idFunction(): number {
     return this.gene.id;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 
   ngOnInit() {
