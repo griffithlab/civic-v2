@@ -4,10 +4,12 @@
             <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true" [nzFor]="id">
                 <nz-space>
                     <span *nzSpaceItem>{{ to.label }}</span>
-                    <i *nzSpaceItem nz-icon nzType="question-circle" nzTheme="outline" nz-popover [nzPopoverContent]="help"></i>
-                    <ng-template #help>
-                        <span [innerHtml]="to.helpText | sanitizeHtml"></span>
-                    </ng-template>
+                    <ng-container *ngIf="to.helpText">
+                        <i *nzSpaceItem nz-icon nzType="question-circle" nzTheme="outline" nz-popover [nzPopoverContent]="help"></i>
+                        <ng-template #help>
+                            <span [innerHtml]="to.helpText | sanitizeHtml"></span>
+                        </ng-template>
+                    </ng-container>
                 </nz-space>
             </nz-form-label>
         </ng-container>

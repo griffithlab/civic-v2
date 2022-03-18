@@ -6,11 +6,16 @@ import { EntityState, EntityType } from '../../states/entity.state';
 
 export const fdaApprovalCheckboxTypeOption: TypeOption = {
   name: 'fda-approval-checkbox',
-  extends: 'checkbox',
+  extends: 'select',
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
       label: 'FDA Regulatory Approval?',
+      placeholder: 'None Specified',
+      options: [
+        { value: true, label: 'Yes' },
+        { value: false, label: 'No' },
+      ],
     },
     hideExpression:  (m: any, st: any, ffc?: FormlyFieldConfig) => {
       const to: Maybe<FormlyTemplateOptions> = ffc?.templateOptions;
@@ -19,7 +24,6 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
       }
       return true
     },
-    defaultValue: false,
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
         if(ffc) {
@@ -32,6 +36,7 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
             .subscribe((et: Maybe<EntityType>) => {
               if(et && st.allowsFdaApproval(et)) {
                 to.hidden = false
+                to.required = true;
               } else {
                 ffc.model[ffc.key as string] = false
                 to.hidden = true
