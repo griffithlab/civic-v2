@@ -9,7 +9,6 @@ import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
 import { FormDisease, FormDrug, FormEvidence, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
-import { FieldValidationExtension } from '@ngx-formly/core/lib/extensions/field-validation/field-validation';
 
 interface FormModel {
   fields: {
@@ -27,8 +26,7 @@ interface FormModel {
     drugs: FormDrug[]
     drugInteractionType: Maybe<DrugInteraction>
     ampLevel: Maybe<AmpLevel>
-    // evidenceItems: FormEvidence[]
-    evidenceItems: number[],
+    evidenceItems: FormEvidence[],
     nccnGuideline: Maybe<NccnGuideline>
     nccnGuidelineVersion: Maybe<string>,
     acmgCodes: AcmgCode[],
@@ -197,11 +195,19 @@ export class AssertionSubmitForm implements OnDestroy {
           },
           {
             key: 'evidenceItems',
-            type: 'evidence-transfer-tmp',
+            type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Evidence Items',
-              helpText: 'Select evidence items supporting this assertion.',
-            }
+              helpText: 'Evidence Items that support the assertion.',
+              addText: 'Specify EIDs',
+            },
+            fieldArray: {
+              type: 'evidence-input',
+              templateOptions: {
+                required: true,
+              },
+            },
           },
           {
             key: 'comment',
@@ -252,8 +258,7 @@ export class AssertionSubmitForm implements OnDestroy {
           acmgCodeIds: fields.acmgCodes.map(c => c.id),
           fdaCompanionTest: fields.fdaCompanionTest,
           fdaRegulatoryApproval: fields.fdaRegulatoryApproval,
-          // evidenceItemIds: fields.evidenceItems.map((e) => e.id)
-          evidenceItemIds: fields.evidenceItems,
+          evidenceItemIds: fields.evidenceItems.map((e) => e.id)
         }
       }
     }

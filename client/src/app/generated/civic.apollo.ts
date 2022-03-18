@@ -6001,6 +6001,19 @@ export type AddDrugFieldsFragment = (
   ) }
 );
 
+export type EvidenceTypeaheadQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type EvidenceTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'status' | 'name'>
+  )> }
+);
+
 export type EvidenceTransferSearchQueryVariables = Exact<{
   id?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
@@ -10827,6 +10840,26 @@ export const AddDrugDocument = gql`
   })
   export class AddDrugGQL extends Apollo.Mutation<AddDrugMutation, AddDrugMutationVariables> {
     document = AddDrugDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceTypeaheadDocument = gql`
+    query EvidenceTypeahead($id: Int!) {
+  evidenceItem(id: $id) {
+    id
+    status
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceTypeaheadGQL extends Apollo.Query<EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables> {
+    document = EvidenceTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

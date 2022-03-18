@@ -44,6 +44,7 @@ import { CvcFdaTestCheckboxTypeModule } from '../config/types/fda-test-checkbox/
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcEvidenceTransferModule } from '../config/types/evidence-transfer/evidence-transfer.module';
 import { CvcEvidenceTransferTmpModule } from '../config/types/evidence-transfer-tmp/evidence-transfer-tmp.module';
+import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evidence-input.module';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { CvcEvidenceTransferTmpModule } from '../config/types/evidence-transfer-
     CvcFormContainerWrapperModule,
     CvcEvidenceTransferModule,
     CvcEvidenceTransferTmpModule,
+    CvcEvidenceInputTypeModule,
     NgxJsonViewerModule,
   ],
   exports: [
