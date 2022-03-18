@@ -7,6 +7,55 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { EntityState, EntityType, SelectOption } from '../../states/entity.state';
 
+const optionText: any = {
+  'Evidence': {
+    'PREDICTIVE': {
+      'SUPPORTS': 'The experiment or study supports this variant\'s response to a drug',
+      'DOES_NOT_SUPPORT': 'The experiment or study does not support, or was inconclusive of an interaction between this variant and a drug'
+    },
+    'DIAGNOSTIC': {
+      'SUPPORTS': 'The experiment or study supports this variant\'s impact on the diagnosis of disease or subtype',
+      'DOES_NOT_SUPPORT': 'The experiment or study does not support this variant\'s impact on diagnosis of disease or subtype'
+    },
+    'PROGNOSTIC': {
+      'SUPPORTS': 'The experiment or study supports this variant\'s impact on prognostic outcome',
+      'DOES_NOT_SUPPORT': 'The experiment or study does not support a prognostic association between variant and outcome'
+    },
+    'PREDISPOSING': {
+      'NA': 'Evidence Direction is Not Applicable.'
+    },
+    'FUNCTIONAL': {
+      'SUPPORTS': 'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
+      'DOES_NOT_SUPPORT': 'The experiment or study does not support this variant causing alteration or non-alteration of the gene product function',
+    },
+    'ONCOGENIC': {
+      'NA': 'Evidence Direction is Not Applicable for Oncogenic Evidence Type.'
+    },
+  },
+  'Assertion': {
+    'PREDICTIVE': {
+      'SUPPORTS': 'The Assertion and associated Evidence Items support this variant\'s response to a drug',
+      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support, or was inconclusive of an interaction between this variant and a drug'
+    },
+    'DIAGNOSTIC': {
+      'SUPPORTS': 'The Assertion and associated Evidence Items support this variant\'s impact on the diagnosis of disease or subtype',
+      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support this variant\'s impact on diagnosis of disease or subtype'
+    },
+    'PROGNOSTIC': {
+      'SUPPORTS': 'The Assertion and associated Evidence Items support this variant\'s impact on prognostic outcome',
+      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support a prognostic association between variant and outcome'
+    },
+    'PREDISPOSING': {
+      'SUPPORTS': 'The Assertion and associated Evidence Items support a variant\'s impact on predisposing outcome',
+      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support a predisposing association between variant and outcome'
+    },
+    'FUNCTIONAL': {
+      'SUPPORTS': 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function',
+      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function',
+    },
+  }
+}
+
 export const evidenceDirectionSelectTypeOption: TypeOption = {
   name: 'evidence-direction-select',
   extends: 'select',
@@ -16,6 +65,13 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
       label: 'Evidence Direction',
       placeholder: 'None specified',
       options: new Subject<SelectOption[]>(),
+    },
+    expressionProperties: {
+      'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+        if (st.entityName && m.evidenceType && m.evidenceDirection){
+          return optionText[st.entityName][m.evidenceType][m.evidenceDirection]
+        }
+      }
     },
     validators: { validation: ['ed-option'] },
     hooks: {

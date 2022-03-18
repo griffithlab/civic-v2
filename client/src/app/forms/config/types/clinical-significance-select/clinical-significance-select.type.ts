@@ -7,6 +7,66 @@ import { EntityClinicalSignificance, EntityState, EntityType, SelectOption, Sele
 import { Maybe } from '@app/generated/civic.apollo';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 
+const optionText: any = {
+  Evidence: {
+    'PREDICTIVE': {
+      'SENSITIVITYRESPONSE': 'Associated with a clinical or preclinical response to treatment',
+      'RESISTANCE': 'Associated with clinical or preclinical resistance to treatment',
+      'ADVERSE_RESPONSE': 'Associated with an adverse response to drug treatment',
+      'REDUCED_SENSITIVITY': 'Response to treatment is lower than seen in other treatment contexts',
+      'NA': 'Clinical Significance is not applicable.'
+    },
+    'DIAGNOSTIC': {
+      'POSITIVE': 'Associated with diagnosis of disease or subtype',
+      'NEGATIVE': 'Associated with lack of disease or subtype',
+    },
+    'PROGNOSTIC': {
+      'BETTER_OUTCOME': 'Demonstrates better than expected clinical outcome',
+      'POOR_OUTCOME': 'Demonstrates worse than expected clinical outcome',
+      'NA': 'Clinical Significance is not applicable.'
+    },
+    'PREDISPOSING': {
+      'NA': 'Clinical Significance is not applicable.'
+    },
+    'FUNCTIONAL': {
+      'GAIN_OF_FUNCTION': 'Sequence variant confers an increase in normal gene function',
+      'LOSS_OF_FUNCTION': 'Sequence variant confers a diminished or abolished function',
+      'UNALTERED_FUNCTION': 'Gene product of sequence variant is unchanged',
+      'NEOMORPHIC': 'Sequence variant creates a novel function',
+      'DOMINANT_NEGATIVE': 'Sequence variant abrogates function of wildtype allele gene product',
+      'UNKNOWN': 'Sequence variant that cannot be precisely defined by the other listed categories',
+    },
+    'ONCOGENIC': {
+      'NA': 'Clinical Significance is not applicable.'
+    }
+  },
+  Assertion: {
+    'PREDICTIVE': {
+      'SENSITIVITYRESPONSE': 'Associated with a clinical or preclinical response to treatment',
+      'RESISTANCE': 'Associated with clinical or preclinical resistance to treatment',
+      'ADVERSE_RESPONSE': 'Associated with an adverse response to drug treatment',
+      'REDUCED_SENSITIVITY': 'Response to treatment is lower than seen in other treatment contexts',
+      'NA': 'Clinical Significance is not applicable.'
+    },
+    'DIAGNOSTIC': {
+      'POSITIVE': 'Associated with diagnosis of disease or subtype',
+      'NEGATIVE': 'Associated with lack of disease or subtype',
+    },
+    'PROGNOSTIC': {
+      'BETTER_OUTCOME': 'Demonstrates better than expected clinical outcome',
+      'POOR_OUTCOME': 'Demonstrates worse than expected clinical outcome',
+      'NA': 'Clinical Significance is not applicable.'
+    },
+    'PREDISPOSING': {
+      'PATHOGENIC': 'Very strong evidence the variant is pathogenic',
+      'LIKELY_PATHOGENIC': 'Strong evidence (>90% certainty) the variant is pathogenic.',
+      'BENIGN': 'Very strong evidence the variant is benign',
+      'LIKELY_BENIGN': 'Not expected to have a major effect on disease',
+      'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
+    },
+  }
+}
+
 export const clinicalSignificanceSelectTypeOption: TypeOption = {
   name: 'clinical-significance-select',
   extends: 'select',
@@ -43,6 +103,13 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
         to.vcSub.unsubscribe();
       }
     },
+    expressionProperties: {
+      'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+        if (st.entityName && m.evidenceType && m.clinicalSignificance){
+          return optionText[st.entityName][m.evidenceType][m.clinicalSignificance]
+        }
+      }
+    }
   }
 };
 

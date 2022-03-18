@@ -16,13 +16,6 @@
   </nz-form-item>
 
   <nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
-    <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
-      <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
-        nzSpan="24"
-        [nzFor]="id">
-        {{ to.label }}
-      </nz-form-label>
-    </ng-container>
     <div [ngClass]="{'field-display': !f.model[i], 'entity-display': f.model[i] }">
       <!-- display field type -->
       <div class="field-col">

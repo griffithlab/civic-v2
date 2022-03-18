@@ -10,6 +10,7 @@ import { NzGridModule } from "ng-zorro-antd/grid";
 import { NzIconModule } from "ng-zorro-antd/icon";
 import { NzPopoverModule } from "ng-zorro-antd/popover";
 import { NzSpaceModule } from "ng-zorro-antd/space";
+import { NzTypographyModule } from "ng-zorro-antd/typography";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { CvcFormInfoCardModule } from "../../components/form-info-card/form-info-card.module";
 import { FormFieldWrapper } from "./form-field.wrapper";
@@ -38,7 +39,8 @@ const configOption: ConfigOption = {
     NzIconModule,
     NzSpaceModule,
     NzPopoverModule,
-    CvcPipesModule
+    CvcPipesModule,
+    NzTypographyModule
   ],
   exports: [FormFieldWrapper]
 })
