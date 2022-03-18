@@ -13,11 +13,8 @@
                 </nz-space>
             </nz-form-label>
         </ng-container>
-        <nz-form-control [nzValidateStatus]="errorState" [nzErrorTip]="errorTpl">
+        <nz-form-control [nzValidateStatus]="errorState">
             <ng-container #fieldComponent></ng-container>
-            <ng-template #errorTpl let-control>
-            <formly-validation-message [field]="field"></formly-validation-message>
-            </ng-template>
         </nz-form-control>
         <nz-typography nzType="secondary">
             {{to.optionText}}

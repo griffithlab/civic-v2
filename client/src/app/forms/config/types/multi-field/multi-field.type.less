@@ -10,7 +10,7 @@ nz-form-item:last-child {
   margin-bottom: 16px;
 }
 
-@btn-width: 24px;
+@btn-width: 10px;
 @btn-margin: 1em;
 
 // applied if to.hidden true
@@ -18,10 +18,17 @@ nz-form-item:last-child {
   display: none;
 }
 
+.editable-tag {
+  background: rgb(255, 255, 255);
+  border-style: dashed;
+  cursor: pointer;
+}
+
 // class applied to row if field input displayed
 .field-display {
   // provide a little margin between entity list & field input
   margin-top: 0.5em;
+  display: inline-block;
 }
 
 > nz-form-item {
@@ -29,23 +36,23 @@ nz-form-item:last-child {
 }
 
 // container for field input
-.field-col {
+.selected-field-col {
+  display: inline-block;
+}
+
+.default-field-col {
   display: inline-block;
   width: calc(~"100% - 2*(@{btn-width} + @{btn-margin})");
 }
+
 // containers for add/remove buttons
-.field-delete-btn,
 .field-add-btn {
   display: inline-block;
   margin-left: @btn-margin;
-  i {
-    top: 5px;
-    position: relative;
-    cursor: pointer;
-    font-size: @btn-width;
-    color: #999;
-    transition: all 0.3s;
-  }
+}
+.close-tag {
+  margin-left: -9px;
+  cursor: pointer
 }
 // container for cancel button
 .field-cancel-btn {

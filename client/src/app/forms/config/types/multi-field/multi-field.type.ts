@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
 @Component({
