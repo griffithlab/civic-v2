@@ -9,6 +9,7 @@ const requiredValidationMsgFn = (): string => {
 export const variantArrayTypeOption: TypeOption = {
   name: 'variant-array',
   extends: 'multi-field',
+  wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
       label: 'Variant',

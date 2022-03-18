@@ -4,11 +4,11 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import {FormControl } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AddVariantGQL, AddVariantMutation, AddVariantMutationVariables, Maybe, VariantSelectFieldsFragment, VariantSelectQuery, VariantSelectQueryVariables, VariantTypeaheadGQL } from '@app/generated/civic.apollo';
-import { FieldType, FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
+import { AddVariantGQL, AddVariantMutation, AddVariantMutationVariables, VariantSelectFieldsFragment, VariantSelectQuery, VariantSelectQueryVariables, VariantTypeaheadGQL } from '@app/generated/civic.apollo';
+import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
