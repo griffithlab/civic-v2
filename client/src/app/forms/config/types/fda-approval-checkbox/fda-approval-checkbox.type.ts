@@ -17,13 +17,6 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
         { value: false, label: 'No' },
       ],
     },
-    hideExpression:  (m: any, st: any, ffc?: FormlyFieldConfig) => {
-      const to: Maybe<FormlyTemplateOptions> = ffc?.templateOptions;
-      if(to && to.hidden !==  undefined) {
-        return to.hidden
-      }
-      return true
-    },
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
         if(ffc) {

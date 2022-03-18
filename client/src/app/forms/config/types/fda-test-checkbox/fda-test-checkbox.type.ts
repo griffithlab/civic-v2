@@ -17,30 +17,38 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
         { value: false, label: 'No' },
       ],
     },
-    hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {
-      const to: Maybe<FormlyTemplateOptions> = ffc?.templateOptions;
-      if (to && to.hidden !== undefined) {
-        return to.hidden;
-      }
-      return true;
-    },
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
         if (ffc) {
           const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
-          const nccnCtrl: AbstractControl | null = ffc?.form
-            ? ffc.form.get('evidenceType')
+          const regulatoryCtrl: AbstractControl | null = ffc?.form
+            ? ffc.form.get('fdaRegulatoryApproval')
             : null;
+          const assertionTypeCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
           const st: EntityState = ffc?.options?.formState;
-          if (!nccnCtrl) {
+          if (!regulatoryCtrl) {
             return;
           }
           if (!to) {
             return;
           }
-          to.ncSub = nccnCtrl.valueChanges.subscribe(
-            (et: Maybe<EntityType>) => {
-              if (et && st.allowsFdaApproval(et)) {
+          if(!assertionTypeCtrl) {
+            return;
+          }
+          to.etSub = assertionTypeCtrl.valueChanges
+            .subscribe((et: Maybe<EntityType>) => {
+              if(et && st.allowsFdaApproval(et)) {
+                to.hidden = false
+                to.required = true;
+              } else {
+                ffc.model[ffc.key as string] = false
+                to.hidden = true
+              }
+            })
+
+          to.ncSub = regulatoryCtrl.valueChanges.subscribe(
+            (hasApproval: Maybe<Boolean>) => {
+              if (hasApproval) {
                 to.hidden = false;
                 to.required = true;
               } else {
@@ -55,6 +63,7 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
         if (ffc) {
           const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
           to?.ncSub?.unsubscribe();
+          to?.etSub?.unsubscribe();
         }
       },
     },
