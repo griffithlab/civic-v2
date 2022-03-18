@@ -47,7 +47,6 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
 
   addDrugMutator: MutatorWithState<AddDrugGQL, AddDrugMutation, AddDrugMutationVariables>
 
-  enteredNcitId = ""
   displayAdd$ = new BehaviorSubject<boolean>(false)
 
   constructor(
@@ -112,8 +111,7 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
 
   addDrug(drugName: string): void  {
     if(drugName && drugName != '') {
-      let ncit = this.enteredNcitId == '' || this.enteredNcitId == undefined ? undefined : this.enteredNcitId
-      let state = this.addDrugMutator.mutate(this.addDrugGQL, { name: drugName, ncitId: ncit },
+      let state = this.addDrugMutator.mutate(this.addDrugGQL, { name: drugName },
 
         (data) => {
           this.field.formControl?.setValue( {id: data.addDrug.drug.id, name: data.addDrug.drug.name} )

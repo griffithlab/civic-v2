@@ -42,9 +42,6 @@
   <ng-container *ngIf="this.displayAdd$ | ngrxPush">
     <ng-container *ngIf="this.to.searchString !== '' && this.to.searchString.length >= 5">
         <cvc-form-errors-alert *ngIf="this.errorMessages.length > 0" [errors]="errorMessages"> </cvc-form-errors-alert>
-        <nz-input-group nzAddOnBefore="NCIT:">
-          <input type="text" nz-input placeholder="Optional NCI Thesaurus ID" [(ngModel)]="enteredNcitId" />
-        </nz-input-group>
         <button *ngIf="this.errorMessages.length == 0" nz-button nzSize="small" [nzLoading]="this.loading" (click)="addDrug(to.searchString)">
           <i nz-icon nzType="plus" nzTheme="outline"></i>No Existing CIViC Drug&nbsp;<strong>{{ to.searchString }}</strong>&nbsp;found. Create A New Disease?
         </button>
