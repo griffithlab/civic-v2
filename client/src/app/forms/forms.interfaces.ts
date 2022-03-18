@@ -1,4 +1,4 @@
-import { SourceSource } from "@app/generated/civic.apollo";
+import { EvidenceStatus, SourceSource } from "@app/generated/civic.apollo";
 
 export interface FormSource {
   id?: number;
@@ -37,5 +37,6 @@ export interface FormVariant {
 
 export interface FormEvidence {
   id: number,
-  name: string
+  name: string,
+  status: EvidenceStatus
 }

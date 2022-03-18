@@ -4,7 +4,7 @@ import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugI
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
-import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormDrug, FormEvidence, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 
 interface FormModel {
   fields: {
@@ -22,7 +22,7 @@ interface FormModel {
     drugs: FormDrug[]
     drugInteractionType: Maybe<DrugInteraction>
     ampLevel: Maybe<NullableAmpLevelTypeInput>
-    evidenceItems: EvidenceItem[]
+    evidenceItems: FormEvidence[]
     nccnGuideline: Maybe<number>
     acmgCodeIds: number[]
     fdaCompanionTest: boolean
@@ -176,6 +176,22 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
               placeholder: 'No description provided',
               required: true
             }
+          },
+          {
+            key: 'evidenceItems',
+            type: 'multi-field',
+            wrappers: ['form-field'],
+            templateOptions: {
+              label: 'Evidence Items',
+              helpText: 'Evidence Items that support the assertion.',
+              addText: 'Specify EIDs',
+            },
+            fieldArray: {
+              type: 'evidence-input',
+              templateOptions: {
+                required: true,
+              },
+            },
           },
           {
             key: 'comment',

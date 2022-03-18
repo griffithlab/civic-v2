@@ -11,6 +11,7 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'FDA Regulatory Approval?',
+      helpText: "Select yes if the referenced therapy is approved for use by the FDA in the specific disease associated with the Assertion (as in a listing <a href='https://www.cancer.gov/about-cancer/treatment/drugs/cancer-type' target='_blank'>here</a>.)",
       placeholder: 'None Specified',
       options: [
         { value: true, label: 'Yes' },
