@@ -18,7 +18,7 @@ export const acmgCodeArrayTypeOption: TypeOption = {
       label: 'ACMG/AMP Code(s)',
       required: false,
       addText: 'Add an ACMG/AMP Code',
-      helpText: '',
+      helpText: 'Refers to evidence criteria from the standards and guidelines for interpretation of sequence variants from ACMG/AMP in <a href="https://pubmed.ncbi.nlm.nih.gov/25741868/" target="_blank">Richards et. al. 2015</a>.',
     },
     fieldArray: {
       type: 'acmg-code-select',
