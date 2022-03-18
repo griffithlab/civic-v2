@@ -4141,7 +4141,6 @@ export enum VariantGroupsSortColumns {
 
 export enum VariantOrigin {
   CommonGermline = 'COMMON_GERMLINE',
-  GermlineOrSomatic = 'GERMLINE_OR_SOMATIC',
   Na = 'NA',
   RareGermline = 'RARE_GERMLINE',
   Somatic = 'SOMATIC',

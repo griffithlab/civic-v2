@@ -10,7 +10,6 @@ const optionText: { [option: string]: string } = {
   'COMMON_GERMLINE': 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item.',
   'UNKNOWN': 'The variant origin is uncertain based on the available evidence.',
   'NA': 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
-  'GERMLINE_OR_SOMATIC': ''
 }
 
 export const variantOriginSelectTypeOption: TypeOption = {

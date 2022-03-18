@@ -23,8 +23,6 @@ export function formatEvidenceEnum(value: InputEnum): string {
     str = ['N/A']
   } else if (value === 'SENSITIVITYRESPONSE') {
     str = ['Sensitivity', '/', 'Response']
-  } else if (value === 'GERMLINE_OR_SOMATIC') {
-    str = ['Germline', 'or', 'Somatic']
   } else {
     str = value.toLowerCase()
       .replace(/_/g, ' ')

@@ -6893,7 +6893,6 @@ enum VariantGroupsSortColumns {
 
 enum VariantOrigin {
   COMMON_GERMLINE
-  GERMLINE_OR_SOMATIC
   NA
   RARE_GERMLINE
   SOMATIC
