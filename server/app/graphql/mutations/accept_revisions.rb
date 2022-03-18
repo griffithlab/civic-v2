@@ -68,6 +68,16 @@ class Mutations::AcceptRevisions < Mutations::MutationWithOrg
     current_user = context[:current_user]
     validate_user_acting_as_org(user: current_user, organization_id: organization_id)
 
+    user_editing_their_own_submission = [ 
+      revisions.first.subject.submitter == current_user,
+      revisions.first.subject.status == 'submitted'
+    ].all?
+    
+    if user_editing_their_own_submission
+      return true
+    end
+
+
     if !Role.user_is_at_least_a?(current_user, :editor)
       raise GraphQL::ExecutionError, 'User must be an editor in order to reject this revision.'
     elsif !current_user.has_valid_coi_statement?
