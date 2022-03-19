@@ -14,7 +14,6 @@ const configOption: ConfigOption = {
     {
       name: 'cvc-gene-input',
       component: GeneInputType,
-      // wrappers: ['form-field'],
     }
   ]
 }

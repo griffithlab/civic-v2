@@ -7,7 +7,7 @@
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
     [nzNotFoundContent]="sourceLoader"
     (nzOnSearch)="onSearch$.next($event)">
-    <nz-option *ngFor="let opt of geneOpts$ | async"
+    <nz-option *ngFor="let opt of options$ | async"
       nzCustomContent
       [nzLabel]="opt.tooltip"
       [nzValue]="opt.gene">

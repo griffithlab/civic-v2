@@ -20,7 +20,10 @@ import {
   tap,
 } from 'rxjs/operators';
 
-interface GeneTypeaheadOption {
+// TODO: add loading state for initial load, to avoid showing 'None found...' before the
+// user has entered anything
+
+interface SelectOption {
   value: number,
   label: string,
   tooltip: string,
@@ -38,10 +41,10 @@ export class GeneInputType extends FieldType {
   formControl!: FormControl;
 
   private queryRef!: QueryRef<GeneTypeaheadQuery, GeneTypeaheadQueryVariables>
-  geneOpts$?: Observable<GeneTypeaheadOption[]>
+  options$: Observable<SelectOption[]>;
   onSearch$ = new Subject<string>();
 
-  constructor(private geneTypeaheadQuery: GeneTypeaheadGQL,) {
+  constructor(private selectQuery: GeneTypeaheadGQL,) {
     super();
 
     this.defaultOptions = {
@@ -53,23 +56,12 @@ export class GeneInputType extends FieldType {
       },
     };
 
-
-    // return watch observable
-    const watchQuery = (str: string): ObservableInput<QueryResult> => {
-      this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: str });
-      return this.queryRef.valueChanges;
-    }
-
-    // return refetch promise as an observable
-    const fetchQuery = (str: string): ObservableInput<QueryResult> => {
-      return from(this.queryRef.refetch({ entrezSymbol: str }));
-    }
-
-    this.geneOpts$ = this.onSearch$
+    // for every onSearch event,
+    // return watch query results as options if queryRef doesn't exist,
+    // return refetch query results as options if it does
+    this.options$ = this.onSearch$
       .pipe(
-        tap((str) => { this.to.searchString = str; }),
-        // return watch query observable if queryRef doesn't exist,
-        // return refetch query observable if it does
+        tap((str) => { this.to.searchString = str; }), // save search string for highlight
         switchMap((str: string): Observable<QueryResult> => {
           return iif(
             () => { return this.queryRef === undefined; },
@@ -88,8 +80,20 @@ export class GeneInputType extends FieldType {
               gene: g,
             }
           })
-        })
-      )
+        }));
+
+    // get watch observable
+    const watchQuery = (str: string): ObservableInput<QueryResult> => {
+      this.queryRef = this.selectQuery.watch({ entrezSymbol: str });
+      return this.queryRef.valueChanges;
+    }
+
+    // get refetch promise as an observable
+    const fetchQuery = (str: string): ObservableInput<QueryResult> => {
+      return from(this.queryRef.refetch({ entrezSymbol: str }));
+    }
+
+
   }
 }
 
