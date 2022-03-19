@@ -31,9 +31,18 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
       end
 
       revisors = revisions.compact.map(&:revisor).uniq
-      revisors.each do |user|
-        if user.id == context[:current_user]&.id
-          generic_errors << "Users cannot accept their own revisions."
+
+      user_editing_their_own_submission = [
+        revisors.size == 1,
+        subjects.first.submitter.id == context[:current_user]&.id,
+        subjects.first.status == 'submitted'
+      ].all?
+
+      if !user_editing_their_own_submission
+        revisors.each do |user|
+          if user.id == context[:current_user]&.id
+            generic_errors << "Users cannot accept their own revisions on subjects that are already accepted or they did not originally submit."
+          end
         end
       end
 

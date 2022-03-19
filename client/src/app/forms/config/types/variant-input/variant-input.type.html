@@ -4,16 +4,15 @@
     [formControl]="formControl"
     [formlyAttributes]="field"
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzDropdownRender]="addVariantTmpl"
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
-    [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
-    <nz-option *ngFor="let opt of to.optionList"
-      nzCustomContent
-      [nzLabel]="opt.label"
-      [nzValue]="opt.variant">
-      {{ opt.variant.name }}
-    </nz-option>
+      <nz-option *ngFor="let opt of variants$ | ngrxPush"
+        nzCustomContent
+        [nzValue]="opt.variant">
+        <span [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
+      </nz-option>
   </nz-select>
   <ng-template #sourceLoader>
     No variant found in CIViC that matches the string provided.
@@ -22,3 +21,15 @@
 <ng-template #variantListItem>
   <cvc-variant-tag [variant]="formControl.value"></cvc-variant-tag>
 </ng-template>
+
+<ng-template #addVariantTmpl>
+  <ng-container *ngIf="this.displayAdd$ | ngrxPush">
+    <ng-container *ngIf="this.to.searchString !== ''">
+        <cvc-form-errors-alert *ngIf="this.errorMessages.length > 0" [errors]="errorMessages"> </cvc-form-errors-alert>
+        <button *ngIf="this.errorMessages.length == 0" nz-button nzSize="small" [nzLoading]="this.loading" (click)="addVariant(to.searchString)">
+          <i nz-icon nzType="plus" nzTheme="outline"></i>No Existing CIViC Variant&nbsp;<strong>{{ to.searchString }}</strong>&nbsp;found. Create A New Variant?
+        </button>
+    </ng-container>
+  </ng-container>
+</ng-template>
+

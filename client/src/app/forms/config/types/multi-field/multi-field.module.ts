@@ -8,6 +8,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MultiFieldType, MultiFieldTypeOption } from './multi-field.type';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcFieldErrorsWrapper } from '@app/forms/config/wrappers/field-errors/field-errors.module';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [MultiFieldType],
@@ -21,6 +23,8 @@ import { CvcFieldErrorsWrapper } from '@app/forms/config/wrappers/field-errors/f
     NzInputModule,
     NzIconModule,
     NzButtonModule,
+    NgxJsonViewerModule,
+    NzTagModule
   ],
 })
 export class CvcMultiFieldTypeModule { }

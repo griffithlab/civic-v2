@@ -56,7 +56,7 @@ module Types::Queries
         scope = Disease.eager_load(:disease_aliases)
         scope.where("diseases.name ILIKE ?", "%#{query_term}%")
           .or(scope.where("disease_aliases.name ILIKE ?", "%#{query_term}%"))
-          .order("diseases.name")
+          .order("LENGTH(diseases.name) ASC")
           .limit(10)
       end
 

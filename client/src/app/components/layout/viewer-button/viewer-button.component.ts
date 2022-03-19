@@ -18,7 +18,8 @@ export class CvcViewerButtonComponent {
 
   constructor(private queryService: ViewerService, private unreadCountGql: ViewerNotificationCountGQL) {
     this.viewer$ = this.queryService.viewer$;
-    this.unreadCount$ = this.unreadCountGql.watch(undefined, {pollInterval: 3000})
+    // this.unreadCount$ = this.unreadCountGql.watch(undefined, {pollInterval: 3000})
+    this.unreadCount$ = this.unreadCountGql.watch(undefined)
       .valueChanges.pipe(
         map(({data}) => data.notifications.unreadCount),
         startWith(0)

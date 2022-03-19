@@ -15,7 +15,7 @@
         [nzValue]="opt">
         <nz-space>
           <span *nzSpaceItem>
-            {{ opt.code }} - {{ opt.description }}
+            <span [innerHtml]="opt.code | highlightTypeahead: this.searchVal"></span> - {{ opt.description }}
           </span>
         </nz-space>
       </nz-option>

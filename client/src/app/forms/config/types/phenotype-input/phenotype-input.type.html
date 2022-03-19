@@ -13,7 +13,7 @@
         nzCustomContent
         nzLabel="{{opt.name}} ({{opt.hpoId}})"
         [nzValue]="opt">
-        {{ opt.name }} ({{opt.hpoId }})
+        <span [innerHtml]="opt.name | highlightTypeahead: this.to.searchString"></span> - ({{opt.hpoId }})
       </nz-option>
     </ng-container>
   </nz-select>

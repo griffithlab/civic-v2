@@ -7,7 +7,7 @@ module Types::Queries
       end
 
       def evidence_item(id:)
-        EvidenceItem.find(id)
+        EvidenceItem.find_by(id: id)
       end
     end
   end

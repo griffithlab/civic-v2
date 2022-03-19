@@ -41,6 +41,10 @@ import { CvcNccnVersionInputTypeModule } from '../config/types/nccn-version-inpu
 import { CvcNccnGuidelineInputTypeModule } from '../config/types/nccn-guideline-input/nccn-guideline-input.module';
 import { CvcFdaApprovalCheckboxTypeModule } from '../config/types/fda-approval-checkbox/fda-approval-checkbox.module';
 import { CvcFdaTestCheckboxTypeModule } from '../config/types/fda-test-checkbox/fda-test-checkbox.module';
+import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcEvidenceTransferModule } from '../config/types/evidence-transfer/evidence-transfer.module';
+import { CvcEvidenceTransferTmpModule } from '../config/types/evidence-transfer-tmp/evidence-transfer-tmp.module';
+import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evidence-input.module';
 
 @NgModule({
   declarations: [
@@ -88,6 +92,11 @@ import { CvcFdaTestCheckboxTypeModule } from '../config/types/fda-test-checkbox/
     CvcNccnGuidelineInputTypeModule,
     CvcFdaApprovalCheckboxTypeModule,
     CvcFdaTestCheckboxTypeModule,
+    CvcFormContainerWrapperModule,
+    CvcEvidenceTransferModule,
+    CvcEvidenceTransferTmpModule,
+    CvcEvidenceInputTypeModule,
+    NgxJsonViewerModule,
   ],
   exports: [
     AssertionSubmitForm

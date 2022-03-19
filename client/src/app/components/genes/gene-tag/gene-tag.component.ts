@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
@@ -18,11 +18,11 @@ export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
 
   constructor() {
     super();
-   }
+  }
 
-   idFunction(): number {
-     return this.gene.id;
-   }
+  idFunction(): number {
+    return this.gene.id;
+  }
 
   ngOnInit() {
     super.ngOnInit();

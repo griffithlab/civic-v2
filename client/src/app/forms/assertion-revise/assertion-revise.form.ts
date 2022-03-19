@@ -4,7 +4,7 @@ import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugI
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
-import { FormDisease, FormDrug, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormDrug, FormEvidence, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
 
 interface FormModel {
   fields: {
@@ -22,7 +22,7 @@ interface FormModel {
     drugs: FormDrug[]
     drugInteractionType: Maybe<DrugInteraction>
     ampLevel: Maybe<NullableAmpLevelTypeInput>
-    evidenceItems: EvidenceItem[]
+    evidenceItems: FormEvidence[]
     nccnGuideline: Maybe<number>
     acmgCodeIds: number[]
     fdaCompanionTest: boolean
@@ -54,7 +54,7 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers:  ['form-container'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },
@@ -178,16 +178,16 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
             }
           },
           {
-            key: 'source',
+            key: 'evidenceItems',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
-              label: 'Source',
-              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
-              addText: 'Specify a Source',
-              maxCount: 1,
+              label: 'Evidence Items',
+              helpText: 'Evidence Items that support the assertion.',
+              addText: 'Specify EIDs',
             },
             fieldArray: {
-              type: 'source-input',
+              type: 'evidence-input',
               templateOptions: {
                 required: true,
               },

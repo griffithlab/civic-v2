@@ -81,7 +81,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Add Evidence Item Form'
         },
@@ -115,6 +115,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           {
             key: 'source',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
@@ -124,6 +125,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             fieldArray: {
               type: 'source-input',
               templateOptions: {
+                hideLabel: true,
                 required: true,
               },
             },
@@ -152,7 +154,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           {
             key: 'disease',
             type: 'disease-array',
-            templateOptions: {}
+            templateOptions: {
+              maxCount: 1,
+            }
           },
           {
             key: 'evidenceLevel',

@@ -151,7 +151,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Suggest Evidence Item Revision Form'
         },
@@ -164,6 +164,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           {
             key: 'variant',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Variant',
               addText: 'Specify a Variant',
@@ -189,6 +190,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           {
             key: 'source',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
@@ -227,6 +229,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             key: 'disease',
             type: 'disease-array',
             templateOptions: {
+              maxCount: 1,
             }
           },
           {

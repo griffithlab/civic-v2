@@ -43,18 +43,21 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :amp_level, "Assertions of type #{record.evidence_type} may not have an AMP/ASCO/CAP level attached."
     end
 
-    if !validator[:drug] && record.fda_regulatory_approval
+    if !validator[:allow_regulatory_approval] && !record.fda_regulatory_approval.nil?
       record.errors.add :fda_regulatory_approval, "Assertions without a drug cannot specify FDA regulatory approval."
     end
 
-    if record.nccn_guideline
-      if record.nccn_guideline_version
-        if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
-          record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
-        end
-      else
-        record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."
+    if record.nccn_guideline_version
+      if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
+        record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
       end
+      if !record.nccn_guidline
+        record.errors.add :nccn_guideline, "NCCN guideline is required when a NCCN guideline version is set."
+      end
+    end
+
+    if record.nccn_guideline && !record.nccn_guideline_version
+      record.errors.add :nccn_guideline_version, "Assertions with NCCN guideline requires a NCCN guideline version."
     end
   end
 
@@ -66,7 +69,8 @@ class AssertionValidator < ActiveModel::Validator
         disease: true,
         drug: true,
         acmg_codes: false,
-        amp_level: true
+        amp_level: true,
+        allow_regulatory_approval: true,
       },
      'Diagnostic' => {
         clinical_significance: ['Positive', 'Negative'],
@@ -74,7 +78,8 @@ class AssertionValidator < ActiveModel::Validator
         disease: true,
         drug: false,
         acmg_codes: false,
-        amp_level: true
+        amp_level: true,
+        allow_regulatory_approval: false,
       },
      'Prognostic' => {
         clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
@@ -82,7 +87,8 @@ class AssertionValidator < ActiveModel::Validator
         disease: true,
         drug: false,
         acmg_codes: false,
-        amp_level: true
+        amp_level: true,
+        allow_regulatory_approval: false,
       },
      'Predisposing' => {
        clinical_significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
@@ -90,7 +96,8 @@ class AssertionValidator < ActiveModel::Validator
         disease: true,
         drug: false,
         acmg_codes: true,
-        amp_level: false
+        amp_level: false,
+        allow_regulatory_approval: false,
       },
     }
   end

@@ -69,14 +69,10 @@ export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy
 
   ngAfterViewInit() {
     this.to.onSearch = (value: string): void => {
-      this.to.fieldValue = value;
-      this.to.fieldLength = value.length;
-      if (
-        value.length < this.to.minLengthSearch ||
-        value.length > this.to.maxLength!
-      ) {
+      if (value.length < this.to.minLengthSearch) {
         return;
       }
+      this.to.searchString = value;
       this.queryRef.refetch({entrezSymbol: value})
     }
   }

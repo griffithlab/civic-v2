@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
     // MultiFieldTypeOption,
 @NgModule({
@@ -17,6 +18,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     FormlyModule.forChild({ types: [PhenotypeInputTypeOption] }),
     NzSelectModule,
     CvcPhenotypeTagModule,
+    CvcPipesModule
   ]
 })
 export class CvcPhenotypeInputTypeModule { }

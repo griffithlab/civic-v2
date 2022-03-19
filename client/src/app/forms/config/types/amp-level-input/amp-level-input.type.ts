@@ -8,6 +8,16 @@ import { EntityState, EntityType } from '../../states/entity.state';
 
 const formatter = new AmpFormatPipe();
 
+const optionText: { [option: string]: string } = {
+  'TIER_I_LEVEL_A': 'Biomarkers showing therapeutic response to FDA-approved therapy, or therapy included in professional guidelines',
+  'TIER_I_LEVEL_B': 'Biomarkers showing therapeutic response based on well-powered studies with consensus from experts in the field',
+  'TIER_II_LEVEL_C': 'FDA-approved therapies for different tumor types or investigational therapies, or multiple small published studies with some consensus',
+  'TIER_II_LEVEL_D': 'Biomarkers that show plausible therapeutic significance based on preclinical studies',
+  'TIER_III': 'Somatic variants in cancer genes reported in the same or different cancer types with unknown clinical significance and variants in cancer genes that have not been reported in any cancers',
+  'TIER_IV': 'Benign or likely benign germline variants observed at significant allele frequencies in the general population or specific subpopulation',
+  'Not Applicable': 'AMP/ASCO/CAP category is not relevant to this assertion.'
+}
+
 export const ampLevelInputTypeOption: TypeOption = {
   name: 'amp-level-input',
   extends: 'select',
@@ -41,7 +51,11 @@ export const ampLevelInputTypeOption: TypeOption = {
             }
           });
       }
+    },
+    expressionProperties: {
+      'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+        return optionText[m.ampLevel]
+      }
     }
   }
-
 }

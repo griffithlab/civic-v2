@@ -4141,7 +4141,6 @@ export enum VariantGroupsSortColumns {
 
 export enum VariantOrigin {
   CommonGermline = 'COMMON_GERMLINE',
-  GermlineOrSomatic = 'GERMLINE_OR_SOMATIC',
   Na = 'NA',
   RareGermline = 'RARE_GERMLINE',
   Somatic = 'SOMATIC',
@@ -5943,6 +5942,29 @@ export type DiseaseTypeaheadQuery = (
   )> }
 );
 
+export type AddDiseaseMutationVariables = Exact<{
+  name: Scalars['String'];
+  doid?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type AddDiseaseMutation = (
+  { __typename: 'Mutation' }
+  & { addDisease?: Maybe<(
+    { __typename: 'AddDiseasePayload' }
+    & AddDiseaseFieldsFragment
+  )> }
+);
+
+export type AddDiseaseFieldsFragment = (
+  { __typename: 'AddDiseasePayload' }
+  & Pick<AddDiseasePayload, 'new'>
+  & { disease: (
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'displayName'>
+  ) }
+);
+
 export type DrugTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -5954,6 +5976,72 @@ export type DrugTypeaheadQuery = (
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugAliases'>
   )> }
+);
+
+export type AddDrugMutationVariables = Exact<{
+  name: Scalars['String'];
+  ncitId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AddDrugMutation = (
+  { __typename: 'Mutation' }
+  & { addDrug?: Maybe<(
+    { __typename: 'AddDrugPayload' }
+    & AddDrugFieldsFragment
+  )> }
+);
+
+export type AddDrugFieldsFragment = (
+  { __typename: 'AddDrugPayload' }
+  & Pick<AddDrugPayload, 'new'>
+  & { drug: (
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'ncitId' | 'name'>
+  ) }
+);
+
+export type EvidenceTypeaheadQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type EvidenceTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { evidenceItem?: Maybe<(
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'status' | 'name'>
+  )> }
+);
+
+export type EvidenceTransferSearchQueryVariables = Exact<{
+  id?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type EvidenceTransferSearchQuery = (
+  { __typename: 'Query' }
+  & { evidenceItems: (
+    { __typename: 'EvidenceItemConnection' }
+    & Pick<EvidenceItemConnection, 'totalCount'>
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'EvidenceItemEdge' }
+      & Pick<EvidenceItemEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'EvidenceItem' }
+        & EvidenceTransferSearchFieldsFragment
+      )> }
+    )> }
+  ) }
+);
+
+export type EvidenceTransferSearchFieldsFragment = (
+  { __typename: 'EvidenceItem' }
+  & Pick<EvidenceItem, 'id' | 'name'>
 );
 
 export type GeneTypeaheadQueryVariables = Exact<{
@@ -6046,8 +6134,60 @@ export type CreateSourceStubMutation = (
   )> }
 );
 
+export type CheckRemoteCitationQueryVariables = Exact<{
+  sourceType: SourceSource;
+  citationId: Scalars['Int'];
+}>;
+
+
+export type CheckRemoteCitationQuery = (
+  { __typename: 'Query' }
+  & Pick<Query, 'remoteCitation'>
+);
+
+export type AddRemoteCitationMutationVariables = Exact<{
+  input: AddRemoteCitationInput;
+}>;
+
+
+export type AddRemoteCitationMutation = (
+  { __typename: 'Mutation' }
+  & { addRemoteCitation?: Maybe<(
+    { __typename: 'AddRemoteCitationPayload' }
+    & { newSource: (
+      { __typename: 'SourceStub' }
+      & SourceStubFieldsFragment
+    ) }
+  )> }
+);
+
+export type SourceStubFieldsFragment = (
+  { __typename: 'SourceStub' }
+  & Pick<SourceStub, 'id' | 'citationId' | 'sourceType'>
+);
+
+export type SourceTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['Int'];
+  sourceType: SourceSource;
+}>;
+
+
+export type SourceTypeaheadQuery = (
+  { __typename: 'Query' }
+  & { sourceTypeahead: Array<(
+    { __typename: 'Source' }
+    & SourceTypeaheadResultFragment
+  )> }
+);
+
+export type SourceTypeaheadFieldsFragment = (
+  { __typename: 'Source' }
+  & Pick<Source, 'id' | 'name' | 'citation' | 'citationId' | 'sourceType'>
+);
+
 export type VariantTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
+  geneId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -6063,6 +6203,51 @@ export type VariantTypeaheadQuery = (
 );
 
 export type VariantTypeaheadFieldsFragment = (
+  { __typename: 'Variant' }
+  & Pick<Variant, 'id' | 'name'>
+);
+
+export type AddVariantMutationVariables = Exact<{
+  name: Scalars['String'];
+  geneId: Scalars['Int'];
+}>;
+
+
+export type AddVariantMutation = (
+  { __typename: 'Mutation' }
+  & { addVariant?: Maybe<(
+    { __typename: 'AddVariantPayload' }
+    & AddVariantFieldsFragment
+  )> }
+);
+
+export type AddVariantFieldsFragment = (
+  { __typename: 'AddVariantPayload' }
+  & Pick<AddVariantPayload, 'new'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name'>
+  ) }
+);
+
+export type VariantSelectQueryVariables = Exact<{
+  name: Scalars['String'];
+  geneId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type VariantSelectQuery = (
+  { __typename: 'Query' }
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & { nodes: Array<(
+      { __typename: 'Variant' }
+      & VariantTypeaheadFieldsFragment
+    )> }
+  ) }
+);
+
+export type VariantSelectFieldsFragment = (
   { __typename: 'Variant' }
   & Pick<Variant, 'id' | 'name'>
 );
@@ -8194,6 +8379,32 @@ export const PreviewCommentFragmentDoc = gql`
   }
 }
     `;
+export const AddDiseaseFieldsFragmentDoc = gql`
+    fragment AddDiseaseFields on AddDiseasePayload {
+  new
+  disease {
+    id
+    name
+    displayName
+  }
+}
+    `;
+export const AddDrugFieldsFragmentDoc = gql`
+    fragment AddDrugFields on AddDrugPayload {
+  new
+  drug {
+    id
+    ncitId
+    name
+  }
+}
+    `;
+export const EvidenceTransferSearchFieldsFragmentDoc = gql`
+    fragment EvidenceTransferSearchFields on EvidenceItem {
+  id
+  name
+}
+    `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
     fragment GeneTypeaheadFields on Gene {
   id
@@ -8211,8 +8422,39 @@ export const SourceTypeaheadResultFragmentDoc = gql`
   sourceType
 }
     `;
+export const SourceStubFieldsFragmentDoc = gql`
+    fragment SourceStubFields on SourceStub {
+  id
+  citationId
+  sourceType
+}
+    `;
+export const SourceTypeaheadFieldsFragmentDoc = gql`
+    fragment SourceTypeaheadFields on Source {
+  id
+  name
+  citation
+  citationId
+  sourceType
+}
+    `;
 export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
+  id
+  name
+}
+    `;
+export const AddVariantFieldsFragmentDoc = gql`
+    fragment AddVariantFields on AddVariantPayload {
+  new
+  variant {
+    id
+    name
+  }
+}
+    `;
+export const VariantSelectFieldsFragmentDoc = gql`
+    fragment VariantSelectFields on Variant {
   id
   name
 }
@@ -10546,6 +10788,24 @@ export const DiseaseTypeaheadDocument = gql`
       super(apollo);
     }
   }
+export const AddDiseaseDocument = gql`
+    mutation AddDisease($name: String!, $doid: Int) {
+  addDisease(input: {name: $name, doid: $doid}) {
+    ...AddDiseaseFields
+  }
+}
+    ${AddDiseaseFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddDiseaseGQL extends Apollo.Mutation<AddDiseaseMutation, AddDiseaseMutationVariables> {
+    document = AddDiseaseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DrugTypeaheadDocument = gql`
     query DrugTypeahead($name: String!) {
   drugTypeahead(queryTerm: $name) {
@@ -10562,6 +10822,74 @@ export const DrugTypeaheadDocument = gql`
   })
   export class DrugTypeaheadGQL extends Apollo.Query<DrugTypeaheadQuery, DrugTypeaheadQueryVariables> {
     document = DrugTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddDrugDocument = gql`
+    mutation AddDrug($name: String!, $ncitId: String) {
+  addDrug(input: {name: $name, ncitId: $ncitId}) {
+    ...AddDrugFields
+  }
+}
+    ${AddDrugFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddDrugGQL extends Apollo.Mutation<AddDrugMutation, AddDrugMutationVariables> {
+    document = AddDrugDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceTypeaheadDocument = gql`
+    query EvidenceTypeahead($id: Int!) {
+  evidenceItem(id: $id) {
+    id
+    status
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceTypeaheadGQL extends Apollo.Query<EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables> {
+    document = EvidenceTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceTransferSearchDocument = gql`
+    query EvidenceTransferSearch($id: Int, $first: Int) {
+  evidenceItems(id: $id, first: $first) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...EvidenceTransferSearchFields
+      }
+    }
+  }
+}
+    ${EvidenceTransferSearchFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceTransferSearchGQL extends Apollo.Query<EvidenceTransferSearchQuery, EvidenceTransferSearchQueryVariables> {
+    document = EvidenceTransferSearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10680,9 +11008,63 @@ export const CreateSourceStubDocument = gql`
       super(apollo);
     }
   }
+export const CheckRemoteCitationDocument = gql`
+    query CheckRemoteCitation($sourceType: SourceSource!, $citationId: Int!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CheckRemoteCitationGQL extends Apollo.Query<CheckRemoteCitationQuery, CheckRemoteCitationQueryVariables> {
+    document = CheckRemoteCitationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddRemoteCitationDocument = gql`
+    mutation AddRemoteCitation($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      ...SourceStubFields
+    }
+  }
+}
+    ${SourceStubFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddRemoteCitationGQL extends Apollo.Mutation<AddRemoteCitationMutation, AddRemoteCitationMutationVariables> {
+    document = AddRemoteCitationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SourceTypeaheadDocument = gql`
+    query SourceTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+    ${SourceTypeaheadResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SourceTypeaheadGQL extends Apollo.Query<SourceTypeaheadQuery, SourceTypeaheadQueryVariables> {
+    document = SourceTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantTypeaheadDocument = gql`
-    query VariantTypeahead($name: String!) {
-  variants(name: $name, first: 20) {
+    query VariantTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, geneId: $geneId, first: 20) {
     nodes {
       ...VariantTypeaheadFields
     }
@@ -10695,6 +11077,44 @@ export const VariantTypeaheadDocument = gql`
   })
   export class VariantTypeaheadGQL extends Apollo.Query<VariantTypeaheadQuery, VariantTypeaheadQueryVariables> {
     document = VariantTypeaheadDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddVariantDocument = gql`
+    mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+    ${AddVariantFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddVariantGQL extends Apollo.Mutation<AddVariantMutation, AddVariantMutationVariables> {
+    document = AddVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantSelectDocument = gql`
+    query VariantSelect($name: String!, $geneId: Int) {
+  variants(name: $name, first: 20, geneId: $geneId) {
+    nodes {
+      ...VariantTypeaheadFields
+    }
+  }
+}
+    ${VariantTypeaheadFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantSelectGQL extends Apollo.Query<VariantSelectQuery, VariantSelectQueryVariables> {
+    document = VariantSelectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

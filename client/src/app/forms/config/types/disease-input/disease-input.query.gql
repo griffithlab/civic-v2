@@ -7,3 +7,18 @@ query DiseaseTypeahead($name: String!) {
     diseaseAliases
   }
 }
+
+mutation AddDisease($name: String!, $doid: Int) {
+  addDisease(input: {name: $name, doid: $doid}) {
+    ...AddDiseaseFields
+  }
+}
+
+fragment AddDiseaseFields on AddDiseasePayload {
+  new
+  disease {
+    id
+    name
+    displayName
+  }
+}

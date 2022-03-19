@@ -11,6 +11,7 @@ const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
 export const phenotypeArrayTypeOption: TypeOption = {
   name: 'phenotype-array',
   extends: 'multi-field',
+  wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
       label: 'Phenotype',

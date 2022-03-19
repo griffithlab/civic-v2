@@ -1,4 +1,5 @@
 import { EvidenceLevel } from '@app/generated/civic.apollo';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { $enum } from 'ts-enum-util';
 
@@ -33,6 +34,11 @@ export const evidenceLevelSelectTypeOption: TypeOption = {
         }),
       labels: labels,
       descriptions: descriptions
+    },
+    expressionProperties: {
+      'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+        return descriptions.get(m.evidenceLevel)
+      }
     }
   }
 };

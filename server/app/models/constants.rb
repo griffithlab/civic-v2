@@ -20,7 +20,7 @@ module Constants
 
   EVIDENCE_STATUS = ['accepted', 'submitted', 'rejected']
 
-  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A', 'Germline or Somatic']
+  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A']
 
   CLINICAL_SIGNIFICANCES = [
     'Sensitivity/Response',

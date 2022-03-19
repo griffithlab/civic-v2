@@ -1,4 +1,5 @@
-<nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+<nz-spin nzTip="Submitting"
+  [nzSpinning]="this.loading">
   <form nz-form
     [formGroup]="formGroup"
     (ngSubmit)="submitEvidence(formModel)"
@@ -31,3 +32,11 @@
     </ng-container>
   </ng-template>
 </nz-spin>
+
+<div nz-row>
+  <div nz-col
+    nzSpan="24">
+    <ngx-json-viewer *ngIf="formModel"
+      [json]="formModel"></ngx-json-viewer>
+  </div>
+</div>

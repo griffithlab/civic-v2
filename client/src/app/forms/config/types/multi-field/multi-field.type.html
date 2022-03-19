@@ -1,20 +1,20 @@
 <div [ngClass]="{ 'hidden': to.hidden === true }">
   <nz-form-item *ngIf="field.fieldGroup?.length === 0">
-    <ng-container *ngIf="to.label && to.hideLabel !== true">
-      <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
-        nzSpan="24"
-        [nzFor]="id">
-        {{ to.label }}
-      </nz-form-label>
-    </ng-container>
     <nz-form-control [nzValidateStatus]="errorState"
       [nzErrorTip]="errorTpl">
+      <!--
+
       <button nz-button
         nzBlock
         nzType="default"
         nzSize="small"
         nzSearch
         (click)="addField($event)">{{ to.addText }}</button>
+      -->
+      <nz-tag class="editable-tag" nzNoAnimation (click)="addField($event)">
+        <i nz-icon nzType="plus"></i>
+        {{ to.addText }}
+      </nz-tag>
       <ng-template #errorTpl
         let-control>
         <formly-validation-message [field]="field"></formly-validation-message>
@@ -23,32 +23,28 @@
   </nz-form-item>
 
   <nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
-    <ng-container *ngIf="i === 0 && to.label && to.hideLabel !== true">
-      <nz-form-label [nzRequired]="to.required && to.hideRequiredMarker !== true"
-        nzSpan="24"
-        [nzFor]="id">
-        {{ to.label }}
-      </nz-form-label>
-    </ng-container>
-    <div [ngClass]="{'field-display': !f.model[i], 'entity-display': f.model[i] }">
+    <div ngClass="field-display">
       <!-- display field type -->
-      <div class="field-col">
+      <div [ngClass]="f.model[i] ? 'selected-field-col' : 'default-field-col'">
         <formly-field [field]="f"></formly-field>
       </div>
 
       <!-- display remove/add buttons if entity displayed -->
       <ng-container *ngIf="f.model[i]">
-        <div class="field-delete-btn">
+        <nz-tag class="close-tag">
           <i nz-icon
-            nzType="minus-circle-o"
+            nzType="close"
             (click)="remove(i)"></i>
-        </div>
+        </nz-tag>
         <div class="field-add-btn"
           *ngIf="last">
-          <i nz-icon
-            *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
-            nzType="plus-circle-o"
-            (click)="addField($event)"></i>
+          <nz-tag *ngIf="to.maxCount == 0 || to.maxCount! > f.model.length"
+            class="editable-tag"
+            nzNoAnimation
+            (click)="addField($event)">
+            <i nz-icon nzType="plus"></i>
+            {{ to.addText }}
+          </nz-tag>
         </div>
       </ng-container>
 
@@ -60,7 +56,9 @@
             nzType="default"
             nzSize="small"
             nzDanger
-            (click)="remove(i)">Cancel</button>
+            (click)="remove(i)">
+          <i nz-icon nzType="close"></i>
+          </button>
         </div>
       </ng-container>
     </div>
