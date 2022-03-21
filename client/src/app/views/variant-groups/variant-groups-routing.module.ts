@@ -1,12 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsCommentsPage } from './variant-groups-detail/variant-groups-comments/variant-groups-comments.page';
-import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-detail.view';
-import { VariantGroupsSummaryPage } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.page';
-import { VariantGroupsFlagsPage } from './variant-groups-detail/variant-groups-flags/variant-groups-flags.page';
 import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
-import { VariantGroupsRevisionsPage } from './variant-groups-detail/variant-groups-revisions/variant-groups-revisions.page';
-
 import { VariantGroupsView } from './variant-groups.view';
 
 const routes: Routes = [
@@ -22,42 +16,35 @@ const routes: Routes = [
           breadcrumb: 'Home'
         }
       },
+      // {
+      //   path: 'add',
+      //   loadChildren: () =>
+      //     import('@app/views/variant-groups/variant-groups-add/variant-group-add.module').then(
+      //       (m) => m.Variant-GroupsAddModule
+      //     ),
+      //   data: { breadcrumb: 'Add' }
+      // },
       {
         path: ':variantGroupId',
-        component: VariantGroupsDetailView,
         data: {
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
-          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
-            path: 'summary',
-            component: VariantGroupsSummaryPage,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/variant-groups/variant-groups-detail/variant-groups-detail.module').then(
+                (m) => m.VariantGroupsDetailModule
+              ),
           },
-          {
-            path: 'comments',
-            component: VariantGroupsCommentsPage,
-            data: {
-              breadcrumb: 'Comments'
-            }
-          },
-          {
-            path: 'revisions',
-            component: VariantGroupsRevisionsPage,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: VariantGroupsFlagsPage,
-            data: {
-              breadcrumb: 'Flags'
-            }
-          },
+          // {
+          //   path: 'revise',
+          //   loadChildren: () =>
+          //     import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
+          //       (m) => m.EvidenceReviseModule
+          //     ),
+          //   data: { breadcrumb: 'Revise' }
+          // },
         ]
       }
     ]
