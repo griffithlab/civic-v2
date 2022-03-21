@@ -30,7 +30,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -49,17 +48,19 @@ import { CvcVariantsTableModule } from '@app/components/variants/variants-table/
 import { VariantGroupsSummaryModule } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.module';
 import { VariantGroupsDetailModule } from './variant-groups-detail/variant-groups-detail.module';
 import { VariantGroupsCommentsModule } from './variant-groups-detail/variant-groups-comments/variant-groups-comments.module';
+import { VariantGroupsFlagsModule } from './variant-groups-detail/variant-groups-flags/variant-groups-flags.module';
+import { VariantGroupsRevisionsModule } from './variant-groups-detail/variant-groups-revisions/variant-groups-revisions.module';
 
 @NgModule({
   declarations: [
     VariantGroupsView,
-    VariantGroupsFlagsPage,
   ],
   imports: [
     VariantGroupsDetailModule,
     VariantGroupsSummaryModule,
     VariantGroupsCommentsModule,
-
+    VariantGroupsFlagsModule,
+    VariantGroupsRevisionsModule,
     CommonModule,
     ReactiveComponentModule,
     VariantGroupsRoutingModule,
@@ -102,9 +103,6 @@ import { VariantGroupsCommentsModule } from './variant-groups-detail/variant-gro
     CvcEntitySubscriptionButtonModule,
     CvcVariantsTableModule,
     CvcRevisionsListAndFilterModule
-  ],
-  exports: [
-    VariantGroupsFlagsPage,
   ],
 })
 export class VariantGroupsModule {}

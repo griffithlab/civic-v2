@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { VariantGroupsCommentsPage } from './variant-groups-detail/variant-groups-comments/variant-groups-comments.page';
 import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-detail.view';
 import { VariantGroupsSummaryPage } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.page';
-import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
+import { VariantGroupsFlagsPage } from './variant-groups-detail/variant-groups-flags/variant-groups-flags.page';
 import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
 import { VariantGroupsRevisionsPage } from './variant-groups-detail/variant-groups-revisions/variant-groups-revisions.page';
 
