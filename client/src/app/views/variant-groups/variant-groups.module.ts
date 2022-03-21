@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { VariantGroupsRoutingModule } from './variant-groups-routing.module';
-import { VariantGroupsComponent } from './variant-groups.component';
+import { VariantGroupsView } from './variant-groups.view';
 import { FormsModule } from '@angular/forms';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -30,11 +30,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantGroupsDetailComponent } from './variant-groups-detail/variant-groups-detail.component';
-import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-groups-summary.component';
-import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
-import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
-import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
+import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-detail.view';
+import { VariantGroupsSummaryPage } from './variant-groups-summary/variant-groups-summary.page';
+import { VariantGroupsCommentsPage } from './variant-groups-comments/variant-groups-comments.page';
+import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
+import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -53,12 +53,11 @@ import { CvcVariantsTableModule } from '@app/components/variants/variants-table/
 
 @NgModule({
   declarations: [
-    VariantGroupsComponent,
-    VariantGroupsDetailComponent,
-    VariantGroupsSummaryComponent,
-    VariantGroupsCommentsComponent,
-    VariantGroupsRevisionsComponent,
-    VariantGroupsFlagsComponent,
+    VariantGroupsView,
+    VariantGroupsSummaryPage,
+    VariantGroupsCommentsPage,
+    VariantGroupsRevisionsPage,
+    VariantGroupsFlagsPage,
   ],
   imports: [
     CommonModule,
@@ -105,11 +104,10 @@ import { CvcVariantsTableModule } from '@app/components/variants/variants-table/
     RevisionsListAndFilterModule
   ],
   exports: [
-    VariantGroupsDetailComponent,
-    VariantGroupsSummaryComponent,
-    VariantGroupsCommentsComponent,
-    VariantGroupsRevisionsComponent,
-    VariantGroupsFlagsComponent,
+    VariantGroupsSummaryPage,
+    VariantGroupsCommentsPage,
+    VariantGroupsRevisionsPage,
+    VariantGroupsFlagsPage,
   ],
 })
 export class VariantGroupsModule {}

@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
-import { VariantGroupsDetailComponent } from './variant-groups-detail/variant-groups-detail.component';
-import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
+import { VariantGroupsCommentsPage } from './variant-groups-comments/variant-groups-comments.page';
+import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-detail.view';
+import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
-import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
-import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-groups-summary.component';
+import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
+import { VariantGroupsSummaryPage } from './variant-groups-summary/variant-groups-summary.page';
 
-import { VariantGroupsComponent } from './variant-groups.component';
+import { VariantGroupsView } from './variant-groups.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: VariantGroupsComponent ,
+    component: VariantGroupsView,
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: VariantGroupsHomePage,
@@ -28,7 +24,7 @@ const routes: Routes = [
       },
       {
         path: ':variantGroupId',
-        component: VariantGroupsDetailComponent,
+        component: VariantGroupsDetailView,
         data: {
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
@@ -36,28 +32,28 @@ const routes: Routes = [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: VariantGroupsSummaryComponent,
+            component: VariantGroupsSummaryPage,
             data: {
               breadcrumb: 'Summary'
             }
           },
           {
             path: 'comments',
-            component: VariantGroupsCommentsComponent,
+            component: VariantGroupsCommentsPage,
             data: {
               breadcrumb: 'Comments'
             }
           },
           {
             path: 'revisions',
-            component: VariantGroupsRevisionsComponent,
+            component: VariantGroupsRevisionsPage,
             data: {
               breadcrumb: 'Revisions'
             }
           },
           {
             path: 'flags',
-            component: VariantGroupsFlagsComponent,
+            component: VariantGroupsFlagsPage,
             data: {
               breadcrumb: 'Flags'
             }

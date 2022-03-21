@@ -18,10 +18,10 @@ import {
 
 @Component({
   selector: 'cvc-variant-groups-summary',
-  templateUrl: './variant-groups-summary.component.html',
-  styleUrls: ['./variant-groups-summary.component.less']
+  templateUrl: './variant-groups-summary.page.html',
+  styleUrls: ['./variant-groups-summary.page.less']
 })
-export class VariantGroupsSummaryComponent implements OnDestroy {
+export class VariantGroupsSummaryPage implements OnDestroy {
   variantGroup$?: Observable<Maybe<VariantGroupSummaryFieldsFragment>>;
   loading$?: Observable<boolean>;
   myVariantGroupInfo$?: Observable<any>;
