@@ -30,9 +30,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-detail.view';
-import { VariantGroupsSummaryPage } from './variant-groups-summary/variant-groups-summary.page';
-import { VariantGroupsCommentsPage } from './variant-groups-comments/variant-groups-comments.page';
 import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
 import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
@@ -50,16 +47,21 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { RevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
 import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
+import { VariantGroupsSummaryModule } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.module';
+import { VariantGroupsDetailModule } from './variant-groups-detail/variant-groups-detail.module';
+import { VariantGroupsCommentsModule } from './variant-groups-detail/variant-groups-comments/variant-groups-comments.module';
 
 @NgModule({
   declarations: [
     VariantGroupsView,
-    VariantGroupsSummaryPage,
-    VariantGroupsCommentsPage,
     VariantGroupsRevisionsPage,
     VariantGroupsFlagsPage,
   ],
   imports: [
+    VariantGroupsDetailModule,
+    VariantGroupsSummaryModule,
+    VariantGroupsCommentsModule,
+
     CommonModule,
     ReactiveComponentModule,
     VariantGroupsRoutingModule,
@@ -104,8 +106,6 @@ import { CvcVariantsTableModule } from '@app/components/variants/variants-table/
     RevisionsListAndFilterModule
   ],
   exports: [
-    VariantGroupsSummaryPage,
-    VariantGroupsCommentsPage,
     VariantGroupsRevisionsPage,
     VariantGroupsFlagsPage,
   ],

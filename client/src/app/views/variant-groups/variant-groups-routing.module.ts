@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsCommentsPage } from './variant-groups-comments/variant-groups-comments.page';
+import { VariantGroupsCommentsPage } from './variant-groups-detail/variant-groups-comments/variant-groups-comments.page';
 import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-detail.view';
+import { VariantGroupsSummaryPage } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.page';
 import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
 import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
-import { VariantGroupsSummaryPage } from './variant-groups-summary/variant-groups-summary.page';
 
 import { VariantGroupsView } from './variant-groups.view';
 
