@@ -30,7 +30,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
-import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
 import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
@@ -45,7 +44,7 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
-import { RevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
+import { CvcRevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
 import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 import { VariantGroupsSummaryModule } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.module';
 import { VariantGroupsDetailModule } from './variant-groups-detail/variant-groups-detail.module';
@@ -54,7 +53,6 @@ import { VariantGroupsCommentsModule } from './variant-groups-detail/variant-gro
 @NgModule({
   declarations: [
     VariantGroupsView,
-    VariantGroupsRevisionsPage,
     VariantGroupsFlagsPage,
   ],
   imports: [
@@ -103,10 +101,9 @@ import { VariantGroupsCommentsModule } from './variant-groups-detail/variant-gro
     NzSelectModule,
     CvcEntitySubscriptionButtonModule,
     CvcVariantsTableModule,
-    RevisionsListAndFilterModule
+    CvcRevisionsListAndFilterModule
   ],
   exports: [
-    VariantGroupsRevisionsPage,
     VariantGroupsFlagsPage,
   ],
 })

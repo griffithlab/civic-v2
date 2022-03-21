@@ -5,7 +5,7 @@ import { VariantGroupsDetailView } from './variant-groups-detail/variant-groups-
 import { VariantGroupsSummaryPage } from './variant-groups-detail/variant-groups-summary/variant-groups-summary.page';
 import { VariantGroupsFlagsPage } from './variant-groups-flags/variant-groups-flags.page';
 import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
-import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
+import { VariantGroupsRevisionsPage } from './variant-groups-detail/variant-groups-revisions/variant-groups-revisions.page';
 
 import { VariantGroupsView } from './variant-groups.view';
 

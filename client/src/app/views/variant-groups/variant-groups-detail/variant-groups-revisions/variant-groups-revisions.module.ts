@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantsRevisionsPage } from './variants-revisions.page';
+import { VariantGroupsRevisionsPage } from './variant-groups-revisions.page';
 import { CvcRevisionsListAndFilterModule } from '@app/components/revisions/revisions-list-and-filter/revisions-list-and-filter.module';
 
 @NgModule({
-  declarations: [VariantsRevisionsPage],
+  declarations: [VariantGroupsRevisionsPage],
   imports: [
     CommonModule,
-    CvcRevisionsListAndFilterModule
+    CvcRevisionsListAndFilterModule,
   ],
-  exports: [VariantsRevisionsPage],
+  exports: [VariantGroupsRevisionsPage],
 })
-export class VariantsRevisionsModule { }
+export class VariantGroupsRevisionsModule { }
