@@ -23,7 +23,7 @@
 
           <!-- add revision btn -->
           <span *nzSpaceItem>
-            <button routerLink="suggest-revision"
+            <button [routerLink]="['/variant-groups', variantGroup.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

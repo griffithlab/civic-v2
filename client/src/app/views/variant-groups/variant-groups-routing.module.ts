@@ -16,14 +16,14 @@ const routes: Routes = [
           breadcrumb: 'Home'
         }
       },
-      // {
-      //   path: 'add',
-      //   loadChildren: () =>
-      //     import('@app/views/variant-groups/variant-groups-add/variant-group-add.module').then(
-      //       (m) => m.Variant-GroupsAddModule
-      //     ),
-      //   data: { breadcrumb: 'Add' }
-      // },
+      {
+        path: 'add',
+        loadChildren: () =>
+          import('@app/views/variant-groups/variant-groups-add/variant-groups-add.module').then(
+            (m) => m.VariantGroupsAddModule
+          ),
+        data: { breadcrumb: 'Add' }
+      },
       {
         path: ':variantGroupId',
         data: {
@@ -37,14 +37,14 @@ const routes: Routes = [
                 (m) => m.VariantGroupsDetailModule
               ),
           },
-          // {
-          //   path: 'revise',
-          //   loadChildren: () =>
-          //     import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
-          //       (m) => m.EvidenceReviseModule
-          //     ),
-          //   data: { breadcrumb: 'Revise' }
-          // },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/variant-groups/variant-groups-revise/variant-groups-revise.module').then(
+                (m) => m.VariantGroupsReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
+          },
         ]
       }
     ]
