@@ -13,7 +13,7 @@ class Gene < ActiveRecord::Base
 
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-  searchkick highlight: [:symbol, :aliases]
+  searchkick highlight: [:symbol, :aliases], callbacks: :async
   scope :search_import, -> { includes(:gene_aliases) }
 
   def search_data

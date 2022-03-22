@@ -8,7 +8,7 @@ class VariantGroup < ActiveRecord::Base
   has_many :variants, through: :variant_group_variants
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-  searchkick highlight: [:name]
+  searchkick highlight: [:name], callbacks: :async
 
   def search_data
     {
