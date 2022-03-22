@@ -11,14 +11,17 @@ fragment EvidenceDetailFields on EvidenceItem {
   variant {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   assertions {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount

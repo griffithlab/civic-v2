@@ -45,6 +45,9 @@
             "name": "Gene"
           },
           {
+            "name": "Revision"
+          },
+          {
             "name": "Variant"
           },
           {

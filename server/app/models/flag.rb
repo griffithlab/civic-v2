@@ -11,4 +11,7 @@ class Flag < ActiveRecord::Base
     "a flag on #{flaggable.name}"
   end
 
+  def link
+    "#{self.flaggable.link}/flags"
+  end
 end

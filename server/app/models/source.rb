@@ -27,6 +27,10 @@ class Source < ActiveRecord::Base
     "#{self.display_type}: #{self.citation}"
   end
 
+  def link
+    Rails.application.routes.url_helpers.url_for("/sources/#{self.id}")
+  end
+
   def display_type
     "#{self.source_type}"
   end

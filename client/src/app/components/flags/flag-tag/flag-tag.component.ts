@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export interface LinkableFlag {
   id: number,
   name: string,
+  link: string,
 }
 
 export interface Subject {

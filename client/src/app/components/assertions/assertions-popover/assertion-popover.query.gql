@@ -22,23 +22,28 @@ fragment assertionPopover on Assertion {
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount

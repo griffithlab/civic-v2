@@ -15,4 +15,8 @@ class VariantGroup < ActiveRecord::Base
       name: name
     }
   end
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/variant-groups/#{self.id}")
+  end
 end

@@ -9,6 +9,7 @@ module Types::BrowseTables
     field :evidence_count, Int, null: false
     field :assertion_count, Int, null: false
     field :drug_url, String, null: true
+    field :link, String, null: false
 
     def drug_url
       Drug.url_for(ncit_id: object.ncit_id)

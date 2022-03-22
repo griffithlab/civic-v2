@@ -37,17 +37,21 @@ query BrowseVariants(
       node {
         id
         name
+        link
         evidenceScore
         evidenceItemCount
         geneId
         geneName
+        geneLink
         diseases {
           id
           name
+          link
         }
         drugs {
           id
           name
+          link
         }
         aliases {
           name

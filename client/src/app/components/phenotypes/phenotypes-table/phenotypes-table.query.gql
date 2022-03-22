@@ -39,4 +39,5 @@ fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
   url
   assertionCount
   evidenceCount
+  link
 }

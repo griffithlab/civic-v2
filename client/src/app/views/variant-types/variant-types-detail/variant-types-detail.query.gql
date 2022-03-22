@@ -7,5 +7,6 @@ query VariantTypeDetail(
     soid
     description
     url
+    link
   }
 }

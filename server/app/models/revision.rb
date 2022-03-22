@@ -45,6 +45,10 @@ class Revision < ApplicationRecord
     "RID#{self.id}"
   end
 
+  def link
+    "#{self.subject.link}/revisions"
+  end
+
   def self.timepoint_query
     ->(x) {
       Event.where(action: 'revision accepted')

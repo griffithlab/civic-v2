@@ -217,6 +217,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  link: Scalars['String'];
   name: Scalars['String'];
   nccnGuideline?: Maybe<Scalars['String']>;
   nccnGuidelineVersion?: Maybe<Scalars['String']>;
@@ -411,6 +412,7 @@ export type BrowseClinicalTrial = {
   __typename: 'BrowseClinicalTrial';
   evidenceCount: Scalars['Int'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   nctId?: Maybe<Scalars['String']>;
   sourceCount: Scalars['Int'];
@@ -453,6 +455,7 @@ export type BrowseDisease = {
   geneCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   variantCount: Scalars['Int'];
 };
@@ -489,6 +492,7 @@ export type BrowseDrug = {
   drugUrl?: Maybe<Scalars['String']>;
   evidenceCount: Scalars['Int'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
 };
@@ -529,6 +533,7 @@ export type BrowseGene = {
   evidenceItemCount: Scalars['Int'];
   geneAliases?: Maybe<Array<Scalars['String']>>;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   variantCount: Scalars['Int'];
 };
@@ -565,6 +570,7 @@ export type BrowsePhenotype = {
   evidenceCount: Scalars['Int'];
   hpoId: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
 };
@@ -605,6 +611,7 @@ export type BrowseSource = {
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
   journal?: Maybe<Scalars['String']>;
+  link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   publicationYear?: Maybe<Scalars['Int']>;
   sourceType: SourceSource;
@@ -646,8 +653,10 @@ export type BrowseVariant = {
   evidenceItemCount: Scalars['Int'];
   evidenceScore: Scalars['Float'];
   geneId: Scalars['Int'];
+  geneLink: Scalars['String'];
   geneName: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -716,6 +725,7 @@ export type BrowseVariantGroupEdge = {
 export type BrowseVariantType = {
   __typename: 'BrowseVariantType';
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
   url?: Maybe<Scalars['String']>;
@@ -767,6 +777,7 @@ export type ClinicalTrial = {
   __typename: 'ClinicalTrial';
   description: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   nctId: Scalars['String'];
   url?: Maybe<Scalars['String']>;
@@ -822,6 +833,7 @@ export type Comment = EventOriginObject & {
   createdAt: Scalars['ISO8601DateTime'];
   creationEvent?: Maybe<Event>;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   parsedComment: Array<CommentBodySegment>;
   title?: Maybe<Scalars['String']>;
@@ -871,6 +883,7 @@ export type CommentTagSegment = {
   __typename: 'CommentTagSegment';
   displayName: Scalars['String'];
   entityId: Scalars['Int'];
+  link: Scalars['String'];
   status?: Maybe<EvidenceStatus>;
   tagType: TaggableEntity;
 };
@@ -886,6 +899,7 @@ export type Commentable = {
   comments: CommentConnection;
   id: Scalars['Int'];
   lastCommentEvent?: Maybe<Event>;
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -995,6 +1009,7 @@ export type Disease = {
   displayName: Scalars['String'];
   doid?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -1007,6 +1022,7 @@ export type DiseasePopover = {
   doid?: Maybe<Scalars['Int']>;
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   variantCount: Scalars['Int'];
 };
@@ -1038,6 +1054,7 @@ export type Drug = {
   drugAliases: Array<Scalars['String']>;
   drugUrl?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
 };
@@ -1055,6 +1072,7 @@ export type DrugPopover = {
   drugUrl?: Maybe<Scalars['String']>;
   evidenceItemCount: Scalars['Int'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   ncitId?: Maybe<Scalars['String']>;
 };
@@ -1184,6 +1202,7 @@ export type EventEdge = {
  */
 export type EventOriginObject = {
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -1192,6 +1211,7 @@ export type EventSubject = {
   /** List and filter events for an object */
   events: EventConnection;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -1269,6 +1289,7 @@ export type EvidenceItem = Commentable & EventOriginObject & EventSubject & Flag
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  link: Scalars['String'];
   name: Scalars['String'];
   phenotypes: Array<Phenotype>;
   rejectionEvent?: Maybe<Event>;
@@ -1455,6 +1476,7 @@ export type Flag = Commentable & EventOriginObject & {
   flaggingUser: User;
   id: Scalars['Int'];
   lastCommentEvent?: Maybe<Event>;
+  link: Scalars['String'];
   name: Scalars['String'];
   openComment: Comment;
   resolutionComment?: Maybe<Comment>;
@@ -1546,6 +1568,7 @@ export type Flaggable = {
   /** List and filter flags. */
   flags: FlagConnection;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -1595,6 +1618,7 @@ export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  link: Scalars['String'];
   myGeneInfoDetails?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   officialName: Scalars['String'];
@@ -1808,6 +1832,7 @@ export type ModeratedObjectField = {
   displayType?: Maybe<Scalars['String']>;
   entityType: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
 };
 
 export type Mutation = {
@@ -2330,6 +2355,7 @@ export type Phenotype = {
   __typename: 'Phenotype';
   hpoId: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
 };
@@ -2340,6 +2366,7 @@ export type PhenotypePopover = {
   evidenceItemCount: Scalars['Int'];
   hpoId: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   url: Scalars['String'];
 };
@@ -3035,9 +3062,10 @@ export type ResolveFlagPayload = {
   flag?: Maybe<Flag>;
 };
 
-export type Revision = EventOriginObject & EventSubject & {
+export type Revision = Commentable & EventOriginObject & EventSubject & {
   __typename: 'Revision';
-  comments: Array<Comment>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   createdAt: Scalars['ISO8601DateTime'];
   creationComment?: Maybe<Comment>;
   creationEvent?: Maybe<Event>;
@@ -3046,6 +3074,8 @@ export type Revision = EventOriginObject & EventSubject & {
   events: EventConnection;
   fieldName: Scalars['String'];
   id: Scalars['Int'];
+  lastCommentEvent?: Maybe<Event>;
+  link: Scalars['String'];
   linkoutData: LinkoutData;
   name: Scalars['String'];
   resolutionComment?: Maybe<Comment>;
@@ -3055,8 +3085,22 @@ export type Revision = EventOriginObject & EventSubject & {
   revisionsetId: Scalars['String'];
   revisor?: Maybe<User>;
   status: RevisionStatus;
+  subject: EventSubject;
   suggestedValue?: Maybe<Scalars['JSON']>;
   updatedAt: Scalars['ISO8601DateTime'];
+};
+
+
+export type RevisionCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  mentionedEntity?: Maybe<TaggableEntityInput>;
+  mentionedRole?: Maybe<UserRole>;
+  mentionedUserId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -3172,6 +3216,7 @@ export type Source = EventSubject & {
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   journal: Scalars['String'];
+  link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
@@ -3210,6 +3255,7 @@ export type SourcePopover = EventSubject & {
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   journal: Scalars['String'];
+  link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
@@ -3253,6 +3299,7 @@ export type SourceSuggestion = EventOriginObject & EventSubject & {
   geneName?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   initialComment: Scalars['String'];
+  link: Scalars['String'];
   name: Scalars['String'];
   source: Source;
   status: SourceSuggestionStatus;
@@ -3902,6 +3949,7 @@ export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  link: Scalars['String'];
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
   referenceBuild?: Maybe<ReferenceBuild>;
@@ -4057,6 +4105,7 @@ export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevision
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
+  link: Scalars['String'];
   name: Scalars['String'];
   /** List and filter revisions. */
   revisions: RevisionConnection;
@@ -4151,6 +4200,7 @@ export type VariantType = {
   __typename: 'VariantType';
   description: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
   url: Scalars['String'];
@@ -4160,6 +4210,7 @@ export type VariantTypePopover = {
   __typename: 'VariantTypePopover';
   description: Scalars['String'];
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
   url: Scalars['String'];
@@ -4239,19 +4290,19 @@ export type AssertionPopoverFragment = (
     & Pick<AcmgCode, 'code'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
+    & Pick<Drug, 'id' | 'name' | 'link'>
   )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -4312,22 +4363,22 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
+    & Pick<Drug, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
@@ -4382,7 +4433,7 @@ export type ClinicalTrialsBrowseQuery = (
       & Pick<BrowseClinicalTrialEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseClinicalTrial' }
-        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount'>
+        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
       )> }
     )> }
   ) }
@@ -4418,10 +4469,10 @@ export type CommentListQuery = (
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     )>, mentionedRoles: Array<(
       { __typename: 'CommentTagSegment' }
-      & Pick<CommentTagSegment, 'displayName' | 'entityId' | 'tagType'>
+      & Pick<CommentTagSegment, 'displayName' | 'entityId' | 'tagType' | 'link'>
     )>, mentionedEntities: Array<(
       { __typename: 'CommentTagSegment' }
-      & Pick<CommentTagSegment, 'displayName' | 'entityId' | 'tagType'>
+      & Pick<CommentTagSegment, 'displayName' | 'entityId' | 'tagType' | 'link'>
     )>, edges: Array<(
       { __typename: 'CommentEdge' }
       & Pick<CommentEdge, 'cursor'>
@@ -4445,7 +4496,7 @@ export type CommentListNodeFragment = (
     )> }
   ), parsedComment: Array<(
     { __typename: 'CommentTagSegment' }
-    & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'status'>
+    & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'status' | 'link'>
   ) | (
     { __typename: 'CommentTextSegment' }
     & Pick<CommentTextSegment, 'text'>
@@ -4476,22 +4527,25 @@ export type CommentPopoverFragment = (
     & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
   ), commentable: (
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
+    & Pick<Assertion, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'id' | 'name'>
+    & Pick<EvidenceItem, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Flag' }
-    & Pick<Flag, 'id' | 'name'>
+    & Pick<Flag, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'VariantGroup' }
-    & Pick<VariantGroup, 'id' | 'name'>
+    & Pick<VariantGroup, 'id' | 'name' | 'link'>
   ) }
 );
 
@@ -4504,7 +4558,7 @@ export type DiseasePopoverQuery = (
   { __typename: 'Query' }
   & { diseasePopover?: Maybe<(
     { __typename: 'DiseasePopover' }
-    & Pick<DiseasePopover, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseUrl' | 'diseaseAliases' | 'assertionCount' | 'evidenceItemCount' | 'variantCount'>
+    & Pick<DiseasePopover, 'id' | 'name' | 'displayName' | 'doid' | 'diseaseUrl' | 'diseaseAliases' | 'assertionCount' | 'evidenceItemCount' | 'variantCount' | 'link'>
   )> }
 );
 
@@ -4541,7 +4595,7 @@ export type BrowseDiseasesQuery = (
 
 export type BrowseDiseaseRowFieldsFragment = (
   { __typename: 'BrowseDisease' }
-  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount' | 'geneCount'>
+  & Pick<BrowseDisease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'geneNames' | 'assertionCount' | 'evidenceItemCount' | 'variantCount' | 'geneCount' | 'link'>
 );
 
 export type DrugPopoverQueryVariables = Exact<{
@@ -4553,7 +4607,7 @@ export type DrugPopoverQuery = (
   { __typename: 'Query' }
   & { drugPopover?: Maybe<(
     { __typename: 'DrugPopover' }
-    & Pick<DrugPopover, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'drugAliases' | 'assertionCount' | 'evidenceItemCount'>
+    & Pick<DrugPopover, 'id' | 'name' | 'drugUrl' | 'ncitId' | 'drugAliases' | 'assertionCount' | 'evidenceItemCount' | 'link'>
   )> }
 );
 
@@ -4589,7 +4643,7 @@ export type DrugsBrowseQuery = (
 
 export type DrugBrowseTableRowFieldsFragment = (
   { __typename: 'BrowseDrug' }
-  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount'>
+  & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount' | 'link'>
 );
 
 export type EventFeedQueryVariables = Exact<{
@@ -4645,49 +4699,49 @@ export type EventFeedNodeFragment = (
     & Pick<User, 'id' | 'username' | 'displayName' | 'role' | 'profileImagePath'>
   ), subject?: Maybe<(
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'status' | 'name' | 'id'>
+    & Pick<Assertion, 'status' | 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'status' | 'name' | 'id'>
+    & Pick<EvidenceItem, 'status' | 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'Gene' }
-    & Pick<Gene, 'name' | 'id'>
+    & Pick<Gene, 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'Revision' }
-    & Pick<Revision, 'name' | 'id'>
+    & Pick<Revision, 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'Source' }
-    & Pick<Source, 'citation' | 'sourceType' | 'name' | 'id'>
+    & Pick<Source, 'citation' | 'sourceType' | 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'SourcePopover' }
-    & Pick<SourcePopover, 'name' | 'id'>
+    & Pick<SourcePopover, 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'SourceSuggestion' }
-    & Pick<SourceSuggestion, 'name' | 'id'>
+    & Pick<SourceSuggestion, 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'Variant' }
-    & Pick<Variant, 'name' | 'id'>
+    & Pick<Variant, 'name' | 'id' | 'link'>
   ) | (
     { __typename: 'VariantGroup' }
-    & Pick<VariantGroup, 'name' | 'id'>
+    & Pick<VariantGroup, 'name' | 'id' | 'link'>
   )>, originatingObject?: Maybe<(
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
+    & Pick<Assertion, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Comment' }
-    & Pick<Comment, 'id' | 'name'>
+    & Pick<Comment, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'id' | 'name'>
+    & Pick<EvidenceItem, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Flag' }
-    & Pick<Flag, 'id' | 'name'>
+    & Pick<Flag, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Revision' }
-    & Pick<Revision, 'id' | 'name'>
+    & Pick<Revision, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'SourceSuggestion' }
-    & Pick<SourceSuggestion, 'id' | 'name'>
+    & Pick<SourceSuggestion, 'id' | 'name' | 'link'>
   )> }
 );
 
@@ -4709,22 +4763,22 @@ export type EvidencePopoverFragment = (
   & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
   & { drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
+    & Pick<Drug, 'id' | 'name' | 'link'>
   )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'sourceType' | 'displayType'>
+    & Pick<Source, 'id' | 'citation' | 'sourceType' | 'displayType' | 'link'>
   ), flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -4789,32 +4843,32 @@ export type EvidenceBrowseQuery = (
 
 export type EvidenceGridFieldsFragment = (
   { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'status' | 'drugInteractionType' | 'description' | 'evidenceType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'clinicalSignificance' | 'variantOrigin'>
+  & Pick<EvidenceItem, 'id' | 'name' | 'link' | 'status' | 'drugInteractionType' | 'description' | 'evidenceType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'clinicalSignificance' | 'variantOrigin'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
+    & Pick<Drug, 'id' | 'name' | 'link'>
   )>, gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl'>
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'sourceUrl' | 'link'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
       & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), assertions: Array<(
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
+    & Pick<Assertion, 'id' | 'name' | 'link'>
   )> }
 );
 
@@ -4865,19 +4919,19 @@ export type FlagFragment = (
   & Pick<Flag, 'id' | 'state' | 'createdAt' | 'resolvedAt'>
   & { flaggable: (
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
+    & Pick<Assertion, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'EvidenceItem' }
-    & Pick<EvidenceItem, 'id' | 'name'>
+    & Pick<EvidenceItem, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'VariantGroup' }
-    & Pick<VariantGroup, 'id' | 'name'>
+    & Pick<VariantGroup, 'id' | 'name' | 'link'>
   ), flaggingUser: (
     { __typename: 'User' }
     & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
@@ -4888,7 +4942,7 @@ export type FlagFragment = (
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
-      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'link'>
     ) | (
       { __typename: 'CommentTextSegment' }
       & Pick<CommentTextSegment, 'text'>
@@ -4900,7 +4954,7 @@ export type FlagFragment = (
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
-      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'link'>
     ) | (
       { __typename: 'CommentTextSegment' }
       & Pick<CommentTextSegment, 'text'>
@@ -4965,13 +5019,13 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
         & { diseases?: Maybe<Array<(
           { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id'>
+          & Pick<Disease, 'name' | 'id' | 'link'>
         )>>, drugs?: Maybe<Array<(
           { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id'>
+          & Pick<Drug, 'name' | 'id' | 'link'>
         )>> }
       )> }
     )>, pageInfo: (
@@ -5072,7 +5126,7 @@ export type PhenotypePopoverQuery = (
   { __typename: 'Query' }
   & { phenotypePopover?: Maybe<(
     { __typename: 'PhenotypePopover' }
-    & Pick<PhenotypePopover, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceItemCount'>
+    & Pick<PhenotypePopover, 'id' | 'name' | 'url' | 'hpoId' | 'assertionCount' | 'evidenceItemCount' | 'link'>
   )> }
 );
 
@@ -5108,7 +5162,7 @@ export type PhenotypesBrowseQuery = (
 
 export type PhenotypeBrowseTableRowFieldsFragment = (
   { __typename: 'BrowsePhenotype' }
-  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount'>
+  & Pick<BrowsePhenotype, 'id' | 'name' | 'hpoId' | 'url' | 'assertionCount' | 'evidenceCount' | 'link'>
 );
 
 export type AcceptRevisionMutationVariables = Exact<{
@@ -5216,19 +5270,19 @@ export type RevisionFragment = (
       { __typename: 'ObjectFieldDiff' }
       & { currentObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
       )>, addedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
       )>, removedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
       )>, keptObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
       )>, suggestedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
       )> }
     ) | (
       { __typename: 'ScalarFieldDiff' }
@@ -5244,7 +5298,7 @@ export type RevisionFragment = (
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
-      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'link'>
     ) | (
       { __typename: 'CommentTextSegment' }
       & Pick<CommentTextSegment, 'text'>
@@ -5256,7 +5310,7 @@ export type RevisionFragment = (
     { __typename: 'Comment' }
     & { parsedComment: Array<(
       { __typename: 'CommentTagSegment' }
-      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType'>
+      & Pick<CommentTagSegment, 'entityId' | 'displayName' | 'tagType' | 'link'>
     ) | (
       { __typename: 'CommentTextSegment' }
       & Pick<CommentTextSegment, 'text'>
@@ -5479,7 +5533,7 @@ export type SourcePopoverFragment = (
   & Pick<SourcePopover, 'id' | 'name' | 'evidenceItemCount' | 'citation' | 'citationId' | 'displayType' | 'sourceUrl'>
   & { clinicalTrials?: Maybe<Array<(
     { __typename: 'ClinicalTrial' }
-    & Pick<ClinicalTrial, 'id' | 'nctId'>
+    & Pick<ClinicalTrial, 'id' | 'nctId' | 'link'>
   )>> }
 );
 
@@ -5520,7 +5574,7 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
 );
 
 export type UserPopoverQueryVariables = Exact<{
@@ -5674,7 +5728,7 @@ export type VariantTypesBrowseQuery = (
 
 export type VariantTypeBrowseTableRowFieldsFragment = (
   { __typename: 'BrowseVariantType' }
-  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount'>
+  & Pick<BrowseVariantType, 'id' | 'name' | 'soid' | 'url' | 'variantCount' | 'link'>
 );
 
 export type VariantPopoverQueryVariables = Exact<{
@@ -5698,7 +5752,7 @@ export type VariantPopoverFieldsFragment = (
     & Pick<EvidenceItemConnection, 'totalCount'>
   ), gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), revisions: (
     { __typename: 'RevisionConnection' }
     & Pick<RevisionConnection, 'totalCount'>
@@ -5775,13 +5829,13 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'assertionCount'>
+        & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
         & { diseases: Array<(
           { __typename: 'Disease' }
-          & Pick<Disease, 'id' | 'name'>
+          & Pick<Disease, 'id' | 'name' | 'link'>
         )>, drugs: Array<(
           { __typename: 'Drug' }
-          & Pick<Drug, 'id' | 'name'>
+          & Pick<Drug, 'id' | 'name' | 'link'>
         )>, aliases: Array<(
           { __typename: 'VariantAlias' }
           & Pick<VariantAlias, 'name'>
@@ -6283,7 +6337,7 @@ export type RevisableEvidenceFieldsFragment = (
   & Pick<EvidenceItem, 'id' | 'variantOrigin' | 'description' | 'clinicalSignificance' | 'drugInteractionType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceType' | 'evidenceRating'>
   & { variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'doid' | 'name' | 'displayName'>
@@ -6758,7 +6812,7 @@ export type ClinicalTrialDetailQuery = (
   { __typename: 'Query' }
   & { clinicalTrial?: Maybe<(
     { __typename: 'ClinicalTrial' }
-    & Pick<ClinicalTrial, 'id' | 'name' | 'nctId' | 'description' | 'url'>
+    & Pick<ClinicalTrial, 'id' | 'name' | 'nctId' | 'description' | 'url' | 'link'>
   )> }
 );
 
@@ -6771,7 +6825,7 @@ export type DiseaseDetailQuery = (
   { __typename: 'Query' }
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName' | 'diseaseAliases'>
+    & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName' | 'diseaseAliases' | 'link'>
   )> }
 );
 
@@ -6784,7 +6838,7 @@ export type DrugDetailQuery = (
   { __typename: 'Query' }
   & { drug?: Maybe<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases'>
+    & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases' | 'link'>
   )> }
 );
 
@@ -6806,13 +6860,13 @@ export type EvidenceDetailFieldsFragment = (
   & Pick<EvidenceItem, 'id' | 'name' | 'status'>
   & { variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), assertions: Array<(
     { __typename: 'Assertion' }
-    & Pick<Assertion, 'id' | 'name'>
+    & Pick<Assertion, 'id' | 'name' | 'link'>
   )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -7054,7 +7108,7 @@ export type PhenotypeDetailQuery = (
   { __typename: 'Query' }
   & { phenotype?: Maybe<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name' | 'hpoId' | 'url'>
+    & Pick<Phenotype, 'id' | 'name' | 'hpoId' | 'url' | 'link'>
   )> }
 );
 
@@ -7462,7 +7516,7 @@ export type VariantTypeDetailQuery = (
   { __typename: 'Query' }
   & { variantType?: Maybe<(
     { __typename: 'VariantType' }
-    & Pick<VariantType, 'id' | 'name' | 'soid' | 'description' | 'url'>
+    & Pick<VariantType, 'id' | 'name' | 'soid' | 'description' | 'url' | 'link'>
   )> }
 );
 
@@ -7579,23 +7633,28 @@ export const AssertionPopoverFragmentDoc = gql`
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
@@ -7612,25 +7671,31 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     fragment AssertionBrowseTableRowFields on Assertion {
   id
   name
+  link
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   disease {
     id
     name
+    link
   }
   drugs {
     id
     name
+    link
   }
   phenotypes @include(if: $cardView) {
     id
     name
+    link
   }
   drugInteractionType
   summary
@@ -7683,6 +7748,7 @@ export const CommentListNodeFragmentDoc = gql`
       displayName
       tagType
       status
+      link
       __typename
     }
     ... on CommentTextSegment {
@@ -7712,6 +7778,7 @@ export const CommentPopoverFragmentDoc = gql`
   commentable {
     id
     name
+    link
     __typename
   }
 }
@@ -7727,6 +7794,7 @@ export const BrowseDiseaseRowFieldsFragmentDoc = gql`
   evidenceItemCount
   variantCount
   geneCount
+  link
 }
     `;
 export const DrugBrowseTableRowFieldsFragmentDoc = gql`
@@ -7737,6 +7805,7 @@ export const DrugBrowseTableRowFieldsFragmentDoc = gql`
   drugUrl
   assertionCount
   evidenceCount
+  link
 }
     `;
 export const EventFeedNodeFragmentDoc = gql`
@@ -7759,6 +7828,7 @@ export const EventFeedNodeFragmentDoc = gql`
   subject {
     name
     id
+    link
     ... on Source {
       citation
       sourceType
@@ -7774,6 +7844,7 @@ export const EventFeedNodeFragmentDoc = gql`
   originatingObject {
     id
     name
+    link
     __typename
     ... on Revision {
       id
@@ -7828,30 +7899,36 @@ export const EvidencePopoverFragmentDoc = gql`
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
     name
+    link
   }
   evidenceRating
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   source {
     id
     citation
     sourceType
     displayType
+    link
   }
   flags(state: OPEN) {
     totalCount
@@ -7868,25 +7945,31 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     fragment EvidenceGridFields on EvidenceItem {
   id
   name
+  link
   disease {
     id
     name
+    link
   }
   drugs {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   phenotypes @include(if: $cardView) {
     id
     name
+    link
   }
   source @include(if: $cardView) {
     id
@@ -7898,10 +7981,12 @@ export const EvidenceGridFieldsFragmentDoc = gql`
       nctId
       id
     }
+    link
   }
   assertions @include(if: $cardView) {
     id
     name
+    link
   }
   status
   drugInteractionType
@@ -7923,6 +8008,7 @@ export const FlagFragmentDoc = gql`
   flaggable {
     id
     name
+    link
   }
   flaggingUser {
     id
@@ -7944,6 +8030,7 @@ export const FlagFragmentDoc = gql`
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {
@@ -7964,6 +8051,7 @@ export const FlagFragmentDoc = gql`
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {
@@ -8078,6 +8166,7 @@ export const PhenotypeBrowseTableRowFieldsFragmentDoc = gql`
   url
   assertionCount
   evidenceCount
+  link
 }
     `;
 export const ValidationErrorFragmentDoc = gql`
@@ -8104,30 +8193,35 @@ export const RevisionFragmentDoc = gql`
           displayName
           displayType
           entityType
+          link
         }
         addedObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
         removedObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
         keptObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
         suggestedObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
       }
       ... on ScalarFieldDiff {
@@ -8153,6 +8247,7 @@ export const RevisionFragmentDoc = gql`
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {
@@ -8172,6 +8267,7 @@ export const RevisionFragmentDoc = gql`
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {
@@ -8251,6 +8347,7 @@ export const SourcePopoverFragmentDoc = gql`
   clinicalTrials {
     id
     nctId
+    link
   }
 }
     `;
@@ -8266,6 +8363,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   sourceType
   citation
   displayType
+  link
 }
     `;
 export const PopoverUserFragmentDoc = gql`
@@ -8324,6 +8422,7 @@ export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
   soid
   url
   variantCount
+  link
 }
     `;
 export const VariantPopoverFieldsFragmentDoc = gql`
@@ -8339,6 +8438,7 @@ export const VariantPopoverFieldsFragmentDoc = gql`
   gene {
     id
     name
+    link
   }
   revisions(status: NEW) {
     totalCount
@@ -8465,6 +8565,7 @@ export const RevisableEvidenceFieldsFragmentDoc = gql`
   variant {
     id
     name
+    link
   }
   variantOrigin
   description
@@ -8702,14 +8803,17 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   variant {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   assertions {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
@@ -9382,6 +9486,7 @@ export const ClinicalTrialsBrowseDocument = gql`
         nctId
         evidenceCount
         sourceCount
+        link
       }
     }
   }
@@ -9435,11 +9540,13 @@ export const CommentListDocument = gql`
       displayName
       entityId
       tagType
+      link
     }
     mentionedEntities {
       displayName
       entityId
       tagType
+      link
     }
     unfilteredCountForSubject
     edges {
@@ -9492,6 +9599,7 @@ export const DiseasePopoverDocument = gql`
     assertionCount
     evidenceItemCount
     variantCount
+    link
   }
 }
     `;
@@ -9557,6 +9665,7 @@ export const DrugPopoverDocument = gql`
     drugAliases
     assertionCount
     evidenceItemCount
+    link
   }
 }
     `;
@@ -9776,14 +9885,17 @@ export const BrowseGenesDocument = gql`
         id
         entrezId
         name
+        link
         geneAliases
         diseases {
           name
           id
+          link
         }
         drugs {
           name
           id
+          link
         }
         variantCount
         evidenceItemCount
@@ -9896,6 +10008,7 @@ export const PhenotypePopoverDocument = gql`
     hpoId
     assertionCount
     evidenceItemCount
+    link
   }
 }
     `;
@@ -10564,17 +10677,21 @@ export const BrowseVariantsDocument = gql`
       node {
         id
         name
+        link
         evidenceScore
         evidenceItemCount
         geneId
         geneName
+        geneLink
         diseases {
           id
           name
+          link
         }
         drugs {
           id
           name
+          link
         }
         aliases {
           name
@@ -11595,6 +11712,7 @@ export const ClinicalTrialDetailDocument = gql`
     nctId
     description
     url
+    link
   }
 }
     `;
@@ -11618,6 +11736,7 @@ export const DiseaseDetailDocument = gql`
     diseaseUrl
     displayName
     diseaseAliases
+    link
   }
 }
     `;
@@ -11640,6 +11759,7 @@ export const DrugDetailDocument = gql`
     ncitId
     drugUrl
     drugAliases
+    link
   }
 }
     `;
@@ -11796,6 +11916,7 @@ export const PhenotypeDetailDocument = gql`
     name
     hpoId
     url
+    link
   }
 }
     `;
@@ -12120,6 +12241,7 @@ export const VariantTypeDetailDocument = gql`
     soid
     description
     url
+    link
   }
 }
     `;

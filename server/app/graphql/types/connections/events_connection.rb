@@ -11,6 +11,9 @@ module Types::Connections
     field :participating_organizations, [Types::Entities::OrganizationType], null: false,
       description: 'List of all organizations who are involved in this event stream.'
 
+    field :unfiltered_count, Int, null: true,
+      description: 'When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters. Returns null when there is no subject, user, or organization.'
+
     def unique_participants
       if event_subject
         User.where(id:
@@ -38,6 +41,21 @@ module Types::Connections
                   ).distinct
       else
         Organization.where(id: object.items.except(:order).select(:organization_id)).distinct
+      end
+    end
+
+    def unfiltered_count
+      @comment_subject ||= object.arguments[:subject]
+      if comment_subject
+        subject = comment_subject
+      else
+        subject = parent
+      end
+
+      if subject
+        Comment.where(commentable: subject).count
+      else
+        nil
       end
     end
 

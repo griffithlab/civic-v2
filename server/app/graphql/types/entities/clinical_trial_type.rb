@@ -5,6 +5,7 @@ module Types::Entities
     field :name, String, null: false
     field :description, String, null: false
     field :url, String, null: true
+    field :link, String, null: false
 
     def url
       ClinicalTrial.url_for(nct_id: object.nct_id)

@@ -66,6 +66,7 @@ fragment eventFeedNode on Event {
     subject {
         name
         id
+        link
         ... on Source {
             citation
             sourceType
@@ -81,6 +82,7 @@ fragment eventFeedNode on Event {
     originatingObject {
         id
         name
+        link
         __typename
         ... on Revision {
             id

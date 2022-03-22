@@ -45,11 +45,13 @@ query CommentList(
       displayName
       entityId
       tagType
+      link
     }
     mentionedEntities {
       displayName
       entityId
       tagType
+      link
     }
     unfilteredCountForSubject
     edges {
@@ -86,6 +88,7 @@ fragment commentListNode on Comment {
       displayName
       tagType
       status
+      link
       __typename
     }
     ... on CommentTextSegment {

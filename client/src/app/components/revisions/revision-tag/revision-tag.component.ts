@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableRevision {
   id: number,
-  name: string
+  name: string,
+  link: string
 }
 
 export interface Subject {
@@ -18,6 +20,7 @@ export interface Subject {
 export class CvcRevisionTagComponent implements OnInit {
   @Input() revision!: LinkableRevision
   @Input() subject?: Subject
+  @Input() enablePopover: Boolean = true
 
   constructor() { }
 

@@ -20,6 +20,7 @@ fragment commentPopover on Comment {
   commentable {
     id
     name
+    link
     __typename
   }
 }

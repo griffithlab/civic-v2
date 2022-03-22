@@ -55,4 +55,5 @@ fragment BrowseSourceRowFields on BrowseSource {
   sourceType
   citation
   displayType
+  link
 }

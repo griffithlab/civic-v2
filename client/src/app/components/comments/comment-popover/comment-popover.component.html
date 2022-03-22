@@ -10,6 +10,7 @@
           <cvc-assertion-tag *ngSwitchCase="'Assertion'" [enablePopover]="false" [assertion]="c.commentable"></cvc-assertion-tag>
           <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [enablePopover]="false" [evidence]="c.commentable"></cvc-evidence-tag>
           <cvc-variant-tag *ngSwitchCase="'Variant'" [enablePopover]="false" [variant]="c.commentable"></cvc-variant-tag>
+          <cvc-revision-tag *ngSwitchCase="'Revision'" [revision]="c.commentable"></cvc-revision-tag>
           <span *ngSwitchDefault>{{ c.commentable.name }}</span>
         </ng-container>
         {{ c.createdAt | timeago }}

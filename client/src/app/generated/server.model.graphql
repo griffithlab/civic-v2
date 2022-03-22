@@ -429,6 +429,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  link: String!
   name: String!
   nccnGuideline: String
   nccnGuidelineVersion: String
@@ -704,6 +705,7 @@ input BooleanSearchInput {
 type BrowseClinicalTrial {
   evidenceCount: Int!
   id: Int!
+  link: String!
   name: String!
   nctId: String
   sourceCount: Int!
@@ -769,6 +771,7 @@ type BrowseDisease {
   geneCount: Int!
   geneNames: [String!]!
   id: Int!
+  link: String!
   name: String!
   variantCount: Int!
 }
@@ -828,6 +831,7 @@ type BrowseDrug {
   drugUrl: String
   evidenceCount: Int!
   id: Int!
+  link: String!
   name: String!
   ncitId: String
 }
@@ -891,6 +895,7 @@ type BrowseGene {
   evidenceItemCount: Int!
   geneAliases: [String!]
   id: Int!
+  link: String!
   name: String!
   variantCount: Int!
 }
@@ -950,6 +955,7 @@ type BrowsePhenotype {
   evidenceCount: Int!
   hpoId: String!
   id: Int!
+  link: String!
   name: String!
   url: String!
 }
@@ -1013,6 +1019,7 @@ type BrowseSource {
   evidenceItemCount: Int!
   id: Int!
   journal: String
+  link: String!
   name: String
   publicationYear: Int
   sourceType: SourceSource!
@@ -1077,8 +1084,10 @@ type BrowseVariant {
   evidenceItemCount: Int!
   evidenceScore: Float!
   geneId: Int!
+  geneLink: String!
   geneName: String!
   id: Int!
+  link: String!
   name: String!
 }
 
@@ -1193,6 +1202,7 @@ type BrowseVariantGroupEdge {
 
 type BrowseVariantType {
   id: Int!
+  link: String!
   name: String!
   soid: String!
   url: String
@@ -1268,6 +1278,7 @@ type CivicTimepointStats {
 type ClinicalTrial {
   description: String!
   id: Int!
+  link: String!
   name: String!
   nctId: String!
   url: String
@@ -1328,6 +1339,7 @@ type Comment implements EventOriginObject {
   createdAt: ISO8601DateTime!
   creationEvent: Event
   id: Int!
+  link: String!
   name: String!
   parsedComment: [CommentBodySegment!]!
   title: String
@@ -1412,6 +1424,7 @@ type CommentEdge {
 type CommentTagSegment {
   displayName: String!
   entityId: Int!
+  link: String!
   status: EvidenceStatus
   tagType: TaggableEntity!
 }
@@ -1475,6 +1488,7 @@ interface Commentable {
   ): CommentConnection!
   id: Int!
   lastCommentEvent: Event
+  link: String!
   name: String!
 }
 
@@ -1577,6 +1591,7 @@ type Disease {
   displayName: String!
   doid: Int
   id: Int!
+  link: String!
   name: String!
 }
 
@@ -1588,6 +1603,7 @@ type DiseasePopover {
   doid: Int
   evidenceItemCount: Int!
   id: Int!
+  link: String!
   name: String!
   variantCount: Int!
 }
@@ -1622,6 +1638,7 @@ type Drug {
   drugAliases: [String!]!
   drugUrl: String
   id: Int!
+  link: String!
   name: String!
   ncitId: String
 }
@@ -1638,6 +1655,7 @@ type DrugPopover {
   drugUrl: String
   evidenceItemCount: Int!
   id: Int!
+  link: String!
   name: String!
   ncitId: String
 }
@@ -1811,6 +1829,13 @@ type EventConnection {
   totalCount: Int!
 
   """
+  When filtered on a subject, user, or organization, the total number of events
+  for that subject/user/organization, irregardless of other filters. Returns
+  null when there is no subject, user, or organization.
+  """
+  unfilteredCount: Int
+
+  """
   List of all users that have generated an event on the subject entity.
   """
   uniqueParticipants: [User!]!
@@ -1839,6 +1864,7 @@ while the originating object will be the Revision itself.
 """
 interface EventOriginObject {
   id: Int!
+  link: String!
   name: String!
 }
 
@@ -1879,6 +1905,7 @@ interface EventSubject {
     sortBy: DateSort
   ): EventConnection!
   id: Int!
+  link: String!
   name: String!
 }
 
@@ -2065,6 +2092,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  link: String!
   name: String!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
@@ -2364,6 +2392,7 @@ type Flag implements Commentable & EventOriginObject {
   flaggingUser: User!
   id: Int!
   lastCommentEvent: Event
+  link: String!
   name: String!
   openComment: Comment!
   resolutionComment: Comment
@@ -2532,6 +2561,7 @@ interface Flaggable {
     state: FlagState
   ): FlagConnection!
   id: Int!
+  link: String!
   name: String!
 }
 
@@ -2697,6 +2727,7 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  link: String!
   myGeneInfoDetails: JSON
   name: String!
   officialName: String!
@@ -2998,6 +3029,7 @@ type ModeratedObjectField {
   displayType: String
   entityType: String!
   id: Int!
+  link: String!
 }
 
 type Mutation {
@@ -3716,6 +3748,7 @@ type PageInfo {
 type Phenotype {
   hpoId: String!
   id: Int!
+  link: String!
   name: String!
   url: String!
 }
@@ -3725,6 +3758,7 @@ type PhenotypePopover {
   evidenceItemCount: Int!
   hpoId: String!
   id: Int!
+  link: String!
   name: String!
   url: String!
 }
@@ -4999,8 +5033,56 @@ type ResolveFlagPayload {
   flag: Flag
 }
 
-type Revision implements EventOriginObject & EventSubject {
-  comments: [Comment!]!
+type Revision implements Commentable & EventOriginObject & EventSubject {
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
   createdAt: ISO8601DateTime!
   creationComment: Comment
   creationEvent: Event
@@ -5040,6 +5122,8 @@ type Revision implements EventOriginObject & EventSubject {
   ): EventConnection!
   fieldName: String!
   id: Int!
+  lastCommentEvent: Event
+  link: String!
   linkoutData: LinkoutData!
   name: String!
   resolutionComment: Comment
@@ -5049,6 +5133,7 @@ type Revision implements EventOriginObject & EventSubject {
   revisionsetId: String!
   revisor: User
   status: RevisionStatus!
+  subject: EventSubject!
   suggestedValue: JSON
   updatedAt: ISO8601DateTime!
 }
@@ -5222,6 +5307,7 @@ type Source implements EventSubject {
   fullJournalTitle: String
   id: Int!
   journal: String!
+  link: String!
   name: String!
   pmcId: String
   publicationDate: String
@@ -5278,6 +5364,7 @@ type SourcePopover implements EventSubject {
   fullJournalTitle: String
   id: Int!
   journal: String!
+  link: String!
   name: String!
   pmcId: String
   publicationDate: String
@@ -5338,6 +5425,7 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
   geneName: String
   id: Int!
   initialComment: String!
+  link: String!
   name: String!
   source: Source!
   status: SourceSuggestionStatus!
@@ -6444,6 +6532,7 @@ type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  link: String!
   myVariantInfo: MyVariantInfo
   name: String!
   referenceBuild: ReferenceBuild
@@ -6783,6 +6872,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
+  link: String!
   name: String!
 
   """
@@ -6902,6 +6992,7 @@ enum VariantOrigin {
 type VariantType {
   description: String!
   id: Int!
+  link: String!
   name: String!
   soid: String!
   url: String!
@@ -6910,6 +7001,7 @@ type VariantType {
 type VariantTypePopover {
   description: String!
   id: Int!
+  link: String!
   name: String!
   soid: String!
   url: String!

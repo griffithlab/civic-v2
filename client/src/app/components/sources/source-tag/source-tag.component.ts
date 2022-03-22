@@ -6,6 +6,7 @@ import { Maybe, SourceSource } from '@app/generated/civic.apollo';
 export interface LinkableSource {
   id: number;
   displayInfo: CitationSource | string
+  link: string;
 }
 
 export interface CitationSource {
@@ -16,12 +17,14 @@ export interface CitationSource {
 export interface SourceWithDisplayName {
   id: number,
   displayName: string
+  link: string
 }
 
 export interface SourceWithCitation {
   id: number,
   citation: string;
   sourceType: SourceSource;
+  link: string
 }
 
 @Component({
@@ -32,6 +35,7 @@ export interface SourceWithCitation {
 export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() source!: SourceWithDisplayName | SourceWithCitation;
   @Input() enablePopover: Maybe<boolean> = true
+  @Input() linked: Maybe<boolean> = true
 
   displayName!: string
 

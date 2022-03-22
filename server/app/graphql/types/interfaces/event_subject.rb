@@ -6,6 +6,7 @@ module Types::Interfaces
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :link, String, null: false
 
     field :events, resolver: Resolvers::Events
 

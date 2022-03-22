@@ -14,6 +14,7 @@ module Types::BrowseTables
     field :display_type, String, null: false
     field :clinical_trials, [Types::Entities::ClinicalTrialType], null: false
     field :source_url, String, null: false
+    field :link, String, null: false
 
     def citation
       object.description
@@ -35,5 +36,8 @@ module Types::BrowseTables
       Loaders::AssociationLoader.for(SourceBrowseTableRow, :clinical_trials).load(object)
     end
 
+    def link
+      Rails.application.routes.url_helpers.url_for("/sources/#{object.id}")
+    end
   end
 end

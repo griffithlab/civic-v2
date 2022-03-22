@@ -19,6 +19,14 @@ class Comment < ActiveRecord::Base
 
   alias_attribute :text, :comment
 
+  def link
+    if self.commentable_type == 'Revision' or self.commentable_type == 'Flag'
+      self.commentable.link
+    else
+      "#{self.commentable.link}/comments"
+    end
+  end
+
   private
   def mark_events_unlinkable
     if self.commentable.respond_to?(:events)
