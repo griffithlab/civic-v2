@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { GenesCommentsModule } from './genes-comments/genes-comments.module';
 import { GenesCommentsPage } from './genes-comments/genes-comments.page';
 import { GenesDetailView } from './genes-detail.view';
+import { GenesEventsModule } from './genes-events/genes-events.module';
+import { GenesEventsPage } from './genes-events/genes-events.page';
 import { GenesFlagsModule } from './genes-flags/genes-flags.module';
 import { GenesFlagsPage } from './genes-flags/genes-flags.page';
 import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module';
@@ -47,6 +49,13 @@ const routes: Routes = [
           breadcrumb: 'Summary',
         },
       },
+      {
+        path: 'events',
+        component: GenesEventsPage,
+        data: {
+          breadcrumb: 'Events',
+        },
+      },
     ],
   },
 ];
@@ -58,6 +67,7 @@ const routes: Routes = [
     GenesCommentsModule,
     GenesRevisionsModule,
     GenesFlagsModule,
+    GenesEventsModule
   ],
   exports: [RouterModule],
 })

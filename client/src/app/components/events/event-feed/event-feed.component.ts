@@ -6,6 +6,8 @@ import {
   EventFeedQuery,
   EventFeedQueryVariables,
   Maybe,
+  NotificationOrganizationFragment,
+  NotificationOriginatingUsersFragment,
   PageInfo,
   SubscribableEntities,
   SubscribableInput,
@@ -39,10 +41,6 @@ export class CvcEventFeedComponent implements OnInit {
 
   private initialQueryVars?: EventFeedQueryVariables;
   private pageSize = 5;
-
-  participantFilter: 'ALL' | number = 'ALL';
-  organizationFilter: 'ALL' | number = 'ALL';
-  actionFilter: 'ALL' | number = 'ALL';
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
@@ -98,28 +96,24 @@ export class CvcEventFeedComponent implements OnInit {
     })
   }
 
-  onParticipantSelected(u: 'ALL' | number) {
+  onOrganizationSelected(s: Maybe<NotificationOrganizationFragment>) {
     this.queryRef.refetch({
-      ...this.initialQueryVars,
-      originatingUserId: u === 'ALL' ? undefined : u
+      organizationId: s?.id
     })
   }
 
-  onOrganizationSelected(o: 'ALL' | number) {
+  onActionSelected(a: Maybe<SelectableAction>) {
     this.queryRef.refetch({
-      ...this.initialQueryVars,
-      organizationId: o === 'ALL' ? undefined : o
+      eventType: a ? a.id : undefined
     })
   }
 
-  //onActionSelected(a: 'ALL' | Maybe<SelectableAction>) {
-  onActionSelected(a: 'ALL' | EventAction) {
-      console.log(a)
+  onOriginatingUserSelected(s: Maybe<NotificationOriginatingUsersFragment>) {
     this.queryRef.refetch({
-      ...this.initialQueryVars,
-      eventType: a === 'ALL'? undefined : a
+      originatingUserId: s?.id
     })
   }
+
 
   onShowChildrenToggle() {
     console.log(this.showChildren)

@@ -17,7 +17,6 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
-import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
@@ -47,7 +46,6 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
     CvcSourceTagModule,
     CvcPhenotypeTagModule,
     CvcDrugTagModule,
-    CvcEventFeedModule,
     CvcAssertionsTableModule,
     CvcEntityTableCardModule,
   ]
