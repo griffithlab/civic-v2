@@ -30,7 +30,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { EvidenceModule } from '../evidence/evidence.module';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
 import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -44,17 +43,20 @@ import { CvcFlagListAndFilterModule } from '@app/components/flags/flag-list-and-
 import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.module';
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { SourcesDetailModule } from './sources-detail/sources-detail.module';
 
 
 @NgModule({
   declarations: [
     SourcesComponent,
-    SourcesDetailComponent,
     SourcesSummaryComponent
   ],
   imports: [
     CommonModule,
+    SourcesRoutingModule,
     SourcesHomeModule,
+    SourcesDetailModule,
+
     CvcEvidenceTableModule,
     CvcSourceSuggestionsTableModule,
     CvcEntityTableCardModule,
@@ -64,7 +66,6 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcFlagListAndFilterModule,
     CvcFlaggableModule,
     CvcSectionNavigationModule,
-    SourcesRoutingModule,
 
     NzAvatarModule,
     NzBadgeModule,
@@ -96,7 +97,5 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
     NzSelectModule
   ],
-  exports: [
-  ]
 })
 export class SourcesModule { }
