@@ -11,57 +11,65 @@ module Types::Connections
     field :participating_organizations, [Types::Entities::OrganizationType], null: false,
       description: 'List of all organizations who are involved in this event stream.'
 
-    field :unfiltered_count, Int, null: true,
+    field :unfiltered_count, Int, null: false,
       description: 'When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters. Returns null when there is no subject, user, or organization.'
 
     def unique_participants
-      if event_subject
-        User.where(id:
-                   Event.where(subject: event_subject).select(:originating_user_id)
-                  ).distinct
-      else
-        User.where(id: object.items.except(:order).select(:originating_user_id)).distinct
-      end
+      User.where(id: unscoped_events_base_query.select(:originating_user_id)).distinct
     end
 
     def event_types
-      if event_subject
-        Event.where(subject: event_subject)
-          .distinct
-          .pluck(:action)
-      else
-        object.items.except(:order).distinct.pluck(:action)
-      end
+      unscoped_events_base_query.distinct.pluck(:action)
     end
 
     def participating_organizations
-      if event_subject
-        Organization.where(id:
-                   Event.where(subject: event_subject).select(:organization_id)
-                  ).distinct
-      else
-        Organization.where(id: object.items.except(:order).select(:organization_id)).distinct
-      end
+      Organization.where(id: 
+                         unscoped_events_base_query.select(:organization_id)
+                        ).distinct
     end
 
     def unfiltered_count
-      @comment_subject ||= object.arguments[:subject]
-      if comment_subject
-        subject = comment_subject
-      else
-        subject = parent
-      end
-
-      if subject
-        Comment.where(commentable: subject).count
-      else
-        nil
-      end
+      unscoped_events_base_query.distinct.count
     end
 
     private
-    def event_subject
-      @event_subject ||= object.arguments[:subject]
+    def unscoped_events_base_query
+      @unscoped_base ||= unscoped_events
+    end
+
+    def unscoped_events
+      #this handles both cases where events are accessed at the root query
+      #as well as cases where its accessed as a child of an entity
+      #furthermore when accessed at the root, the user can supply a "mode"
+      #this mode will be treated as if it _were_ the parent
+      
+      if parent
+        #{ user(id: 1) { events { id} } }
+        return parent.events
+      end
+
+      if feed_mode = object.arguments[:mode]
+        if feed_mode == :user
+          if !object.arguments[:originating_user_id]
+            raise GraphQL::ExecutionError, "Must provide an originating user when event feed is in User mode."
+          end
+          return Event.where(originating_user_id: object.arguments[:originating_user_id])
+        elsif feed_mode == :organization
+          if !object.arguments[:organization_id]
+            raise GraphQL::ExecutionError, "Must provide an organization id when event feed is in Organization mode."
+          end
+          return Event.where(organization_id: object.arguments[:organization_id])
+        #subject mode
+        else 
+          if !object.arguments[:subject]
+            raise GraphQL::ExecutionError, "Must provide a subject when event feed is in Subject mode."
+          end
+          return Event.where(subject: object.arguments[:subject])
+        end
+      end
+
+      #no mode,no parent, unscoped
+      return Event.all
     end
   end
 end

@@ -70,7 +70,7 @@ class Mutations::AcceptRevisions < Mutations::MutationWithOrg
 
     user_editing_their_own_submission = [ 
       revisions.first.subject.submitter == current_user,
-      revisions.first.subject.status == 'submitted'
+      revisions.first.subject&.status == 'submitted'
     ].all?
     
     if user_editing_their_own_submission

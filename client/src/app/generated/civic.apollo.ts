@@ -1181,6 +1181,12 @@ export type EventConnection = {
   participatingOrganizations: Array<Organization>;
   /** The total number of records in this filtered collection. */
   totalCount: Scalars['Int'];
+  /**
+   * When filtered on a subject, user, or organization, the total number of events
+   * for that subject/user/organization, irregardless of other filters. Returns
+   * null when there is no subject, user, or organization.
+   */
+  unfilteredCount: Scalars['Int'];
   /** List of all users that have generated an event on the subject entity. */
   uniqueParticipants: Array<User>;
 };
@@ -1193,6 +1199,16 @@ export type EventEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<Event>;
 };
+
+/**
+ * The context of an event feed, i.e. what is the root subject of the feed. This
+ * option is a no-op when accessing events via a parent.
+ */
+export enum EventFeedMode {
+  Organization = 'ORGANIZATION',
+  Subject = 'SUBJECT',
+  User = 'USER'
+}
 
 /**
  * The originating object for an event.
@@ -2701,6 +2717,7 @@ export type QueryEventsArgs = {
   eventType?: Maybe<EventAction>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  mode?: Maybe<EventFeedMode>;
   organizationId?: Maybe<Scalars['Int']>;
   originatingUserId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<DateSort>;
@@ -4655,6 +4672,7 @@ export type EventFeedQueryVariables = Exact<{
   originatingUserId?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
   eventType?: Maybe<EventAction>;
+  mode?: Maybe<EventFeedMode>;
 }>;
 
 
@@ -4668,7 +4686,7 @@ export type EventFeedQuery = (
 
 export type EventFeedFragment = (
   { __typename: 'EventConnection' }
-  & Pick<EventConnection, 'eventTypes'>
+  & Pick<EventConnection, 'eventTypes' | 'unfilteredCount'>
   & { pageInfo: (
     { __typename: 'PageInfo' }
     & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
@@ -7867,6 +7885,7 @@ export const EventFeedFragmentDoc = gql`
     hasPreviousPage
   }
   eventTypes
+  unfilteredCount
   uniqueParticipants {
     id
     displayName
@@ -9719,7 +9738,7 @@ export const DrugsBrowseDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction) {
+    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
   events(
     subject: $subject
     first: $first
@@ -9729,6 +9748,7 @@ export const EventFeedDocument = gql`
     originatingUserId: $originatingUserId
     organizationId: $organizationId
     eventType: $eventType
+    mode: $mode
   ) {
     ...eventFeed
   }

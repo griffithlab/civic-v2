@@ -46,7 +46,7 @@ class Revision < ApplicationRecord
   end
 
   def link
-    "#{self.subject.link}/revisions"
+    "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.subject_type]}/#{self.subject_id}/revisions"
   end
 
   def self.timepoint_query

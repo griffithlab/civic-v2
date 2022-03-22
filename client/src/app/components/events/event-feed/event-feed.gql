@@ -6,7 +6,8 @@ query EventFeed (
     $after: String,
     $originatingUserId: Int,
     $organizationId: Int,
-    $eventType: EventAction
+    $eventType: EventAction,
+    $mode: EventFeedMode
 ){
 events (
     subject: $subject,
@@ -15,8 +16,9 @@ events (
     before: $before,
     after: $after,
     originatingUserId: $originatingUserId,
-    organizationId: $organizationId
-    eventType: $eventType
+    organizationId: $organizationId,
+    eventType: $eventType,
+    mode: $mode
 ) { ...eventFeed }
 
 }
@@ -28,6 +30,7 @@ fragment eventFeed on EventConnection {
         hasPreviousPage
     }
     eventTypes
+    unfilteredCount
     uniqueParticipants {
         id
         displayName

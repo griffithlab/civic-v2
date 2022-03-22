@@ -1833,7 +1833,7 @@ type EventConnection {
   for that subject/user/organization, irregardless of other filters. Returns
   null when there is no subject, user, or organization.
   """
-  unfilteredCount: Int
+  unfilteredCount: Int!
 
   """
   List of all users that have generated an event on the subject entity.
@@ -1854,6 +1854,16 @@ type EventEdge {
   The item at the end of the edge.
   """
   node: Event
+}
+
+"""
+The context of an event feed, i.e. what is the root subject of the feed. This
+option is a no-op when accessing events via a parent.
+"""
+enum EventFeedMode {
+  ORGANIZATION
+  SUBJECT
+  USER
 }
 
 """
@@ -4270,6 +4280,7 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+    mode: EventFeedMode
     organizationId: Int
     originatingUserId: Int
 

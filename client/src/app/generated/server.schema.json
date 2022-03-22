@@ -8968,9 +8968,13 @@
               "description": "When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters. Returns null when there is no subject, user, or organization.",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9042,6 +9046,35 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "EventFeedMode",
+          "description": "The context of an event feed, i.e. what is the root subject of the feed. This option is a no-op when accessing events via a parent.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "USER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUBJECT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -19343,6 +19376,18 @@
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "DateSort",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "mode",
+                  "description": null,
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EventFeedMode",
                     "ofType": null
                   },
                   "defaultValue": null,

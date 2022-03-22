@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EventFeedMode } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-users-events',
@@ -8,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UsersEventsComponent {
   userId: number
+  mode = EventFeedMode.User
 
   constructor(private route: ActivatedRoute) {
     this.userId = +this.route.snapshot.params['userId'];

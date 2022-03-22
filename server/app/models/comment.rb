@@ -23,7 +23,7 @@ class Comment < ActiveRecord::Base
     if self.commentable_type == 'Revision' or self.commentable_type == 'Flag'
       self.commentable.link
     else
-      "#{self.commentable.link}/comments"
+      "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.commentable_type]}/#{self.commentable_id}/comments"
     end
   end
 

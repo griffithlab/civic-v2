@@ -12,6 +12,6 @@ class Flag < ActiveRecord::Base
   end
 
   def link
-    "#{self.flaggable.link}/flags"
+    "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.flaggable_type]}/#{self.flaggable.id}/flags"
   end
 end

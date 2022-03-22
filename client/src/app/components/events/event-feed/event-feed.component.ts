@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import {
   EventAction,
   EventFeedGQL,
+  EventFeedMode,
   EventFeedNodeFragment,
   EventFeedQuery,
   EventFeedQueryVariables,
@@ -9,8 +10,6 @@ import {
   NotificationOrganizationFragment,
   NotificationOriginatingUsersFragment,
   PageInfo,
-  SubscribableEntities,
-  SubscribableInput,
   SubscribableQueryInput
 } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
@@ -35,18 +34,21 @@ export class CvcEventFeedComponent implements OnInit {
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
   @Input() tagDisplay: EventDisplayOption = "displayAll"
+  @Input() mode: EventFeedMode = EventFeedMode.Subject
+  @Input() showFilters: boolean = true
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
 
   private initialQueryVars?: EventFeedQueryVariables;
-  private pageSize = 5;
+  private pageSize = 15;
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
   participants$?: Observable<TagLinkableUser[]>;
   organizations$?: Observable<TagLinkableOrganization[]>;
   actions$?: Observable<SelectableAction[]>
+  unfilteredCount$?: Observable<number>
 
   showChildren: boolean = false
 
@@ -59,6 +61,7 @@ export class CvcEventFeedComponent implements OnInit {
       organizationId: this.organizationId,
       originatingUserId: this.userId,
       first: this.pageSize,
+      mode: this.mode
     }
 
     this.queryRef = this.gql.watch(this.initialQueryVars, {});
@@ -71,6 +74,12 @@ export class CvcEventFeedComponent implements OnInit {
     this.events$ = this.results$.pipe(
       map(({ data }) => {
         return data.events.edges.map(e => e.node)
+      })
+    )
+
+    this.unfilteredCount$ = this.results$.pipe(
+      map(({data}) => {
+        return data.events.unfilteredCount
       })
     )
 
@@ -116,7 +125,6 @@ export class CvcEventFeedComponent implements OnInit {
 
 
   onShowChildrenToggle() {
-    console.log(this.showChildren)
     let newSubscribable: Maybe<SubscribableQueryInput>
     if (this.subscribable) {
       newSubscribable = {
