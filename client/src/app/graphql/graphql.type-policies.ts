@@ -23,12 +23,14 @@ export const CvcTypePolicies: TypePolicies = {
         'entrezSymbol',
         'diseaseName',
         'drugName',
-        'variantTypeId'
+        'variantTypeId',
+        'variantGroupId'
       ]),
       browseVariantGroups: relayStylePagination([
         'name',
         'geneNames',
         'variantNames',
+        'variantId'
       ]),
       browseSources: relayStylePagination([
         'name',
@@ -138,7 +140,7 @@ export const CvcTypePolicies: TypePolicies = {
         'userName',
         'orgName',
         'userRole'
-      ])
+      ]),
     },
   },
 };

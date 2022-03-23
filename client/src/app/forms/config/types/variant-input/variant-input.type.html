@@ -4,7 +4,7 @@
     [formControl]="formControl"
     [formlyAttributes]="field"
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
-    [nzDropdownRender]="addVariantTmpl"
+    [nzDropdownRender]="to.allowCreate? addVariantTmpl : null"
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     (nzOnSearch)="to.onSearch($event)">

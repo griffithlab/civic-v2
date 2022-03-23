@@ -65,6 +65,7 @@ export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit
         minLengthSearch: 1,
         optionList: [] as Array<{ value: string; label: string; disease: any }>,
         searchString: "",
+        allowCreate: true
       },
     };
   }

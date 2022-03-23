@@ -8,6 +8,8 @@ import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/
 import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 
 @NgModule({
   declarations: [VariantGroupsSummaryPage],
@@ -20,6 +22,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzTypographyModule,
     CvcEmptyRevisableModule,
     CvcVariantsTableModule,
+    CvcTagListModule,
+    CvcSourceTagModule
   ],
   exports: [VariantGroupsSummaryPage],
 })

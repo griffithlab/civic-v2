@@ -1,6 +1,4 @@
-<nz-space nzSize="middle"
-  *ngIf=" (variantGroup$ | ngrxPush) as variantGroup"
-  nzDirection="vertical"
+<nz-space nzSize="middle" *ngIf=" (variantGroup$ | ngrxPush) as variantGroup" nzDirection="vertical"
   class="space-align-block">
 
   <!-- variantGroup description, details row -->
@@ -11,16 +9,11 @@
       <nz-space nzDirection="vertical">
 
         <!-- description, sources -->
-        <nz-descriptions nzLayout="vertical"
-          nzSize="small"
-          nzBordered="true"
-          [nzColumn]="1" *nzSpaceItem>
+        <nz-descriptions nzLayout="vertical" nzSize="small" nzBordered="true" [nzColumn]="1" *nzSpaceItem>
 
           <!-- description -->
           <nz-descriptions-item nzTitle="Description">
-            <p *ngIf="variantGroup.description; else noDescription" nz-typography
-              nzEllipsis
-              nzExpandable
+            <p *ngIf="variantGroup.description; else noDescription" nz-typography nzEllipsis nzExpandable
               [nzEllipsisRows]="14">{{ variantGroup.description }}</p>
 
             <!-- noDescription Tpl -->
@@ -29,20 +22,24 @@
             </ng-template>
 
           </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-space>
+    </nz-col>
 
+    <nz-col nzSpan="12">
+      <nz-space nzDirection="vertical">
+        <nz-descriptions nzLayout="vertical" nzSize="small" nzBordered="true" [nzColumn]="1" *nzSpaceItem>
           <!-- sources -->
-          <!-- <nz-descriptions-item nzTitle="Sources">
-               <ng-container *ngIf="variantGroup.sources.length > 0; else noSources">
-               <cvc-tag-list>
-               <cvc-source-tag *ngFor="let source of variantGroup.sources"
-               [source]="source"></cvc-source-tag>
-               </cvc-tag-list>
-               </ng-container>
-               <ng-template #noSources>
-               <span nz-typography
-               nzType="secondary">None specified</span>
-               </ng-template>
-               </nz-descriptions-item> -->
+          <nz-descriptions-item nzTitle="Sources">
+            <ng-container *ngIf="variantGroup.sources.length > 0; else noSources">
+              <cvc-tag-list>
+                <cvc-source-tag *ngFor="let source of variantGroup.sources" [source]="source"></cvc-source-tag>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noSources>
+              <span nz-typography nzType="secondary">None specified</span>
+            </ng-template>
+          </nz-descriptions-item>
         </nz-descriptions>
       </nz-space>
     </nz-col>

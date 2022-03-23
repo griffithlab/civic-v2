@@ -10,6 +10,7 @@ module Types::Entities
     field :name, String, null: false
     field :description, String, null: false
     field :variants, resolver: Resolvers::Variants
+    field :sources, [Types::Entities::SourceType], null: false
 
     def variants
       Loaders::AssociationLoader.for(VariantGroup, :variants).load(object)

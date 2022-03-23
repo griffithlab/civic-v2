@@ -56,6 +56,7 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
         onSearch: () => { },
         minLengthSearch: 1,
         optionList: [] as Array<{ value: string; label: string; variant: any }>,
+        allowCreate: true
       },
       expressionProperties: {
         'templateOptions.geneId': (model: any, formState: any, ffc?: FormlyFieldConfig) => {

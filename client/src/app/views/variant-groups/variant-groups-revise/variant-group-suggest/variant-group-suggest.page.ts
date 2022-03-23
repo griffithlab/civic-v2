@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-variant-groups-suggest-page',
   templateUrl: './variant-group-suggest.page.html',
   styleUrls: ['./variant-group-suggest.page.less']
 })
-export class VariantGroupSuggestPage implements OnInit {
+export class VariantGroupSuggestPage implements OnDestroy {
 
-  constructor() { }
+  variantGroupId?: number;
+  routeParams$: Subscription;
 
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute) {
+    this.routeParams$ = this.route.params.subscribe((params) => {
+      this.variantGroupId = +params.variantGroupId;
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.routeParams$.unsubscribe();
   }
 
 }

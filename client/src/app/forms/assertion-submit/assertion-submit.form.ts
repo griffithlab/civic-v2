@@ -86,7 +86,8 @@ export class AssertionSubmitForm implements OnDestroy {
             type: 'variant-array',
             templateOptions: {
               required: true,
-              maxCount: 1
+              maxCount: 1,
+              allowCreate: false
             }
           },
           {
@@ -100,7 +101,8 @@ export class AssertionSubmitForm implements OnDestroy {
             key: 'disease',
             type: 'disease-array',
             templateOptions: {
-              maxCount: 1
+              maxCount: 1,
+              allowCreate: false
             }
           },
           {
@@ -129,7 +131,9 @@ export class AssertionSubmitForm implements OnDestroy {
           {
             key: 'drugs',
             type: 'drug-array',
-            templateOptions: {}
+            templateOptions: {
+              allowCreate: false
+            }
           },
           {
             key: 'drugInteractionType',

@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Maybe, Organization } from '@app/generated/civic.apollo';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { isDefined } from '@app/core/utilities/defined-typeguard';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { Maybe, Organization, SubmitVariantGroupGQL, SubmitVariantGroupInput, SubmitVariantGroupMutation, SubmitVariantGroupMutationVariables } from '@app/generated/civic.apollo';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FormSource, FormVariant } from '../forms.interfaces';
 
 interface FormModel {
   fields: {
+    name: string,
     description: string,
     sources: FormSource[],
     variants: FormVariant[],
@@ -19,7 +25,9 @@ interface FormModel {
   templateUrl: './variant-group-submit.form.html',
   styleUrls: ['./variant-group-submit.form.less']
 })
-export class VariantGroupSubmitForm implements OnInit {
+export class VariantGroupSubmitForm implements OnDestroy{
+  private destroy$: Subject<void> = new Subject();
+
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
@@ -29,7 +37,15 @@ export class VariantGroupSubmitForm implements OnInit {
   loading: boolean = false
   newId?: number
 
-  constructor() {
+  submitVariantGroupMutator: MutatorWithState<SubmitVariantGroupGQL, SubmitVariantGroupMutation, SubmitVariantGroupMutationVariables>
+
+  constructor(
+    private submitVariantGroupGQL: SubmitVariantGroupGQL,
+    private networkErrorService: NetworkErrorsService
+  ) {
+
+    this.submitVariantGroupMutator = new MutatorWithState(networkErrorService)
+
     this.formFields = [
       {
         key: 'fields',
@@ -88,6 +104,7 @@ export class VariantGroupSubmitForm implements OnInit {
               templateOptions: {
                 hideLabel: true,
                 required: true,
+                allowCreate: false,
               },
             },
           },
@@ -115,11 +132,51 @@ export class VariantGroupSubmitForm implements OnInit {
     ]
   }
 
-  submitVariantGroup = (model: FormModel): void => {
-    console.log(model);
+  submitVariantGroup(formModel: FormModel): void  {
+    let input = this.toSubmitInput(formModel);
+    if (input) {
+      let state = this.submitVariantGroupMutator.mutate(this.submitVariantGroupGQL, {
+        input: input
+      },
+      (data) => {
+        this.newId = data.submitVariantGroup.variantGroup.id;
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
+    }
+  }
+  
+  toSubmitInput(model: Maybe<FormModel>): Maybe<SubmitVariantGroupInput> {
+    if(model) {
+      return {
+        description: model.fields.description,
+        name: model.fields.name,
+        organizationId: model.fields.organization?.id,
+        sourceIds: model.fields.sources.map(s => s.id).filter(isDefined),
+        variantIds: model.fields.variants.map(v => v.id).filter(isDefined)
+      }
+
+    }
+    return undefined;
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-
 }

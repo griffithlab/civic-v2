@@ -8,6 +8,7 @@ class Source < ActiveRecord::Base
   has_and_belongs_to_many :clinical_trials
   has_many :authors_sources
   has_many :authors, through: :authors_sources
+  has_many :variant_groups
 
   enum source_type: ['PubMed', 'ASCO']
 
