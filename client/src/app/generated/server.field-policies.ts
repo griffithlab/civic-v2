@@ -700,7 +700,7 @@ export type ModeratedObjectFieldFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addDrug' | 'addRemoteCitation' | 'addVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addDrug' | 'addRemoteCitation' | 'addVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -716,6 +716,7 @@ export type MutationFieldPolicy = {
 	resolveFlag?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitAssertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	submitEvidence?: FieldPolicy<any> | FieldReadFunction<any>,
+	submitVariantGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscribe?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestAssertionRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1137,6 +1138,11 @@ export type SubmitEvidenceItemPayloadKeySpecifier = ('clientMutationId' | 'evide
 export type SubmitEvidenceItemPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SubmitVariantGroupPayloadKeySpecifier = ('clientMutationId' | 'variantGroup' | SubmitVariantGroupPayloadKeySpecifier)[];
+export type SubmitVariantGroupPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SubscribableKeySpecifier = ('entityType' | 'id' | SubscribableKeySpecifier)[];
 export type SubscribableFieldPolicy = {
@@ -1793,6 +1799,10 @@ export type TypedTypePolicies = TypePolicies & {
 	SubmitEvidenceItemPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubmitEvidenceItemPayloadKeySpecifier | (() => undefined | SubmitEvidenceItemPayloadKeySpecifier),
 		fields?: SubmitEvidenceItemPayloadFieldPolicy,
+	},
+	SubmitVariantGroupPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubmitVariantGroupPayloadKeySpecifier | (() => undefined | SubmitVariantGroupPayloadKeySpecifier),
+		fields?: SubmitVariantGroupPayloadFieldPolicy,
 	},
 	Subscribable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscribableKeySpecifier | (() => undefined | SubscribableKeySpecifier),

@@ -34,6 +34,7 @@ module Types
     field :submit_evidence, mutation: Mutations::SubmitEvidenceItem
     field :submit_assertion, mutation: Mutations::SubmitAssertion
     field :suggest_source, mutation: Mutations::SuggestSource
+    field :submit_variant_group, mutation: Mutations::SubmitVariantGroup
 
     #moderation
     field :moderate_evidence_item, mutation: Mutations::ModerateEvidenceItem
