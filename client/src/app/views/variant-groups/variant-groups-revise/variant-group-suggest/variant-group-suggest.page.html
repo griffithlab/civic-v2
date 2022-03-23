@@ -1,1 +1,5 @@
-<p>variant-group-suggest works!</p>
+<ng-container *ngIf="variantGroupId; else loadingVariantGroup">
+  <cvc-variant-group-revise-form [variantGroupId]="variantGroupId">
+  </cvc-variant-group-revise-form>
+</ng-container>
+<ng-template #loadingVariantGroup>Loading Variant Group...</ng-template>

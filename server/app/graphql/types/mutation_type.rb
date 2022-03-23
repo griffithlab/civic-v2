@@ -8,6 +8,7 @@ module Types
     field :suggest_variant_revision, mutation: Mutations::SuggestVariantRevision
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
     field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision
+    field :suggest_variant_group_revision, mutation: Mutations::SuggestVariantGroupRevision
     field :reject_revisions, mutation: Mutations::RejectRevisions
     field :accept_revisions, mutation: Mutations::AcceptRevisions
 

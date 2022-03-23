@@ -8,20 +8,22 @@ fragment VariantGroupSummaryFields on VariantGroup {
   id
   name
   description
-  # sources {
-  #   id
-  #   citation
-  #   sourceUrl
-  #   displayType
-  #   sourceType
-  # }
-  # variants {
-  #   edges {
-  #     node {
-  #       id
-  #       name
-  #       description
-  #     }
-  #   }
-  # }
+  sources {
+    id
+    link
+    citation
+    sourceUrl
+    displayType
+    sourceType
+  }
+  variants {
+    edges {
+      node {
+        id
+        name
+        link
+        description
+      }
+    }
+  }
 }

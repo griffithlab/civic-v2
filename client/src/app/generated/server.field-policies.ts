@@ -700,7 +700,7 @@ export type ModeratedObjectFieldFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addDrug' | 'addRemoteCitation' | 'addVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptRevisions' | 'addComment' | 'addDisease' | 'addDrug' | 'addRemoteCitation' | 'addVariant' | 'editUser' | 'flagEntity' | 'moderateAssertion' | 'moderateEvidenceItem' | 'rejectRevisions' | 'resolveFlag' | 'submitAssertion' | 'submitEvidence' | 'submitVariantGroup' | 'subscribe' | 'suggestAssertionRevision' | 'suggestEvidenceItemRevision' | 'suggestGeneRevision' | 'suggestSource' | 'suggestVariantGroupRevision' | 'suggestVariantRevision' | 'unsubscribe' | 'updateCoi' | 'updateNotificationStatus' | 'updateSourceSuggestionStatus' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptRevisions?: FieldPolicy<any> | FieldReadFunction<any>,
 	addComment?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -722,6 +722,7 @@ export type MutationFieldPolicy = {
 	suggestEvidenceItemRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestGeneRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestSource?: FieldPolicy<any> | FieldReadFunction<any>,
+	suggestVariantGroupRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	suggestVariantRevision?: FieldPolicy<any> | FieldReadFunction<any>,
 	unsubscribe?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCoi?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1181,6 +1182,12 @@ export type SuggestSourcePayloadKeySpecifier = ('clientMutationId' | 'sourceSugg
 export type SuggestSourcePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceSuggestion?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SuggestVariantGroupRevisionPayloadKeySpecifier = ('clientMutationId' | 'results' | 'variantGroup' | SuggestVariantGroupRevisionPayloadKeySpecifier)[];
+export type SuggestVariantGroupRevisionPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	results?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantGroup?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SuggestVariantRevisionPayloadKeySpecifier = ('clientMutationId' | 'results' | 'variant' | SuggestVariantRevisionPayloadKeySpecifier)[];
 export type SuggestVariantRevisionPayloadFieldPolicy = {
@@ -1831,6 +1838,10 @@ export type TypedTypePolicies = TypePolicies & {
 	SuggestSourcePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestSourcePayloadKeySpecifier | (() => undefined | SuggestSourcePayloadKeySpecifier),
 		fields?: SuggestSourcePayloadFieldPolicy,
+	},
+	SuggestVariantGroupRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SuggestVariantGroupRevisionPayloadKeySpecifier | (() => undefined | SuggestVariantGroupRevisionPayloadKeySpecifier),
+		fields?: SuggestVariantGroupRevisionPayloadFieldPolicy,
 	},
 	SuggestVariantRevisionPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SuggestVariantRevisionPayloadKeySpecifier | (() => undefined | SuggestVariantRevisionPayloadKeySpecifier),

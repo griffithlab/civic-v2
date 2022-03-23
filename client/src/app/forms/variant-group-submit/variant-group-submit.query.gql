@@ -1,51 +1,33 @@
-query EvidenceSubmittableFields($evidenceId: Int!) {
-  evidenceItem(id: $evidenceId) {
-    ...SubmittableEvidenceFields
+query VariantGroupSubmittableFields($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId ) {
+    ...SubmittableVariantGroupFields
   }
 }
 
-fragment SubmittableEvidenceFields on EvidenceItem {
+fragment SubmittableVariantGroupFields on VariantGroup {
   id
+  name
   description
-  variantOrigin
-  evidenceType
-  clinicalSignificance
-  evidenceLevel
-  evidenceDirection
-  evidenceRating
-  drugInteractionType
-  gene {
-    id
-    name
+  variants(first: 50) {
+    nodes {
+      id
+      name
+      link
+    }
   }
-  variant {
+  sources {
     id
-    name
-  }
-  source {
-    id
+    link
     citation
     sourceType
   }
-  phenotypes {
-    id
-    name
-  }
-  drugs {
-    id
-    name
-  }
-  disease {
-    id
-    name
-  }
 }
 
-mutation SubmitEvidenceItem($input: SubmitEvidenceItemInput!) {
-  submitEvidence(input: $input) {
+mutation SubmitVariantGroup($input: SubmitVariantGroupInput!) {
+  submitVariantGroup(input: $input) {
     clientMutationId
-    evidenceItem {
+    variantGroup {
       id
-    }
+    } 
   }
 }
