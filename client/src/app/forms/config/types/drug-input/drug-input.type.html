@@ -5,7 +5,7 @@
     [formlyAttributes]="field"
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
     [nzNotFoundContent]="sourceLoader"
-    [nzDropdownRender]="addDrugTmpl"
+    [nzDropdownRender]="to.allowCreate ? addDrugTmpl : null"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">

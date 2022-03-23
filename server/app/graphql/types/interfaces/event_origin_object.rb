@@ -11,6 +11,7 @@ module Types::Interfaces
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :link, String, null: false
 
     def name
       "#{object.class.to_s.first}ID#{object.id}"

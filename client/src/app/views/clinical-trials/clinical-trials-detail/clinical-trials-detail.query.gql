@@ -7,5 +7,6 @@ query ClinicalTrialDetail(
     nctId
     description
     url
+    link
   }
 }

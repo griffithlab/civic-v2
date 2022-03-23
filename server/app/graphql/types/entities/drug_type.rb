@@ -5,6 +5,7 @@ module Types::Entities
     field :ncit_id, String, null: true
     field :drug_url, String, null: true
     field :drug_aliases, [String], null: false
+    field :link, String, null: false
 
     def drug_aliases
       Loaders::AssociationLoader.for(Drug, :drug_aliases).load(object).then do |drug_aliases|

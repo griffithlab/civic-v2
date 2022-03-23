@@ -10,6 +10,8 @@ import { EvidenceRevisionsModule } from './evidence-revisions/evidence-revisions
 import { EvidenceRevisionsPage } from './evidence-revisions/evidence-revisions.page';
 import { EvidenceSummaryModule } from './evidence-summary/evidence-summary.module';
 import { EvidenceSummaryPage } from './evidence-summary/evidence-summary.page';
+import { EvidenceEventsPage } from './evidence-events/evidence-events.page';
+import { EvidenceEventsModule } from './evidence-events/evidence-events.module';
 
 const routes: Routes = [
   {
@@ -45,6 +47,13 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Flags'
         }
+      },
+      {
+        path: 'events',
+        component: EvidenceEventsPage,
+        data: {
+          breadcrumb: 'Events'
+        }
       }
     ]
   }
@@ -57,6 +66,7 @@ const routes: Routes = [
     EvidenceCommentsModule,
     EvidenceRevisionsModule,
     EvidenceFlagsModule,
+    EvidenceEventsModule
   ],
   exports: [RouterModule],
 })

@@ -1,17 +1,6 @@
-
-<ng-container *ngIf="subject; noSubject">
-  <a routerLink="/{{subject.__typename | typenameToRoute}}/{{subject.id}}/revisions">
-    <nz-tag>
-      <ng-template [ngTemplateOutlet]="revisionTemplate"></ng-template>
-    </nz-tag>
-  </a>
-</ng-container>
-
-<ng-template #revisionTemplate>
-  <i nz-icon nzType="civic-revision" nzTheme="twotone" nzTwotoneColor="#F0673A"></i>
-  {{ revision.name }}
-</ng-template>
-
-<ng-template #noSubject>
-  <ng-template [ngTemplateOutlet]="revisionTemplate"></ng-template>
-</ng-template>
+<a [routerLink]="revision.link">
+  <nz-tag>
+    <i nz-icon nzType="civic-revision" nzTheme="twotone" nzTwotoneColor="#F0673A"></i>
+    {{ revision.name }}
+  </nz-tag>
+</a>

@@ -4,6 +4,7 @@ module Types::Revisions
     field :display_name, String, null: false
     field :display_type, String, null: true
     field :entity_type, String, null: false
+    field :link, String, null: false
   end
 
   class ScalarFieldType < Types::BaseObject

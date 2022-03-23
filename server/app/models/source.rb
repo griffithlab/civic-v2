@@ -8,6 +8,7 @@ class Source < ActiveRecord::Base
   has_and_belongs_to_many :clinical_trials
   has_many :authors_sources
   has_many :authors, through: :authors_sources
+  has_many :variant_groups
 
   enum source_type: ['PubMed', 'ASCO']
 
@@ -25,6 +26,10 @@ class Source < ActiveRecord::Base
 
   def display_name
     "#{self.display_type}: #{self.citation}"
+  end
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/sources/#{self.id}")
   end
 
   def display_type

@@ -3,7 +3,8 @@ import { Maybe } from "@app/generated/civic.apollo";
 
 export interface LinkableVariantgroup {
   id: number,
-  name: string
+  name: string,
+  link: string
 }
 
 @Component({

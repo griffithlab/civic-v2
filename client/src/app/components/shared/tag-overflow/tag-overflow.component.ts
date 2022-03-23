@@ -6,6 +6,7 @@ export type SupportedPileupTags = 'drug' | 'disease' | 'organization'
 export type TagInfo = {
   id: number
   name: string
+  link: string
 }
 
 @Component({

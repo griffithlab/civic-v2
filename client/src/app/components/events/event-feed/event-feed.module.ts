@@ -12,6 +12,10 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CvcEventTimelineModule } from '../event-timeline/event-timeline.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [CvcEventFeedComponent],
@@ -26,7 +30,12 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzSelectModule,
     NzSwitchModule,
     NzGridModule,
+    NzSpaceModule,
+    NzEmptyModule,
+    NzAvatarModule,
     CvcEventTimelineModule,
+    CvcPipesModule,
+    CvcParticipantListModule,
     CvcPipesModule
   ],
   exports: [CvcEventFeedComponent]

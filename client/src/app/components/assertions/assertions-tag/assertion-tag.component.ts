@@ -4,7 +4,8 @@ import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 export interface LinkableAssertion {
   id: number,
   name: string,
-  status?: EvidenceStatus
+  status?: EvidenceStatus,
+  link: string,
 }
 
 @Component({

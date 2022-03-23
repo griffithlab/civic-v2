@@ -6,5 +6,6 @@ query PhenotypeDetail(
     name
     hpoId
     url
+    link
   }
 }

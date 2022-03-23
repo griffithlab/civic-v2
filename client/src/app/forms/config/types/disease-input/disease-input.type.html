@@ -4,7 +4,7 @@
     [formControl]="formControl"
     [formlyAttributes]="field"
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
-    [nzDropdownRender]="addDiseaseTmpl"
+    [nzDropdownRender]="to.allowCreate ? addDiseaseTmpl : null"
     [nzNotFoundContent]="sourceLoader"
     [nzShowArrow]="to.showArrow"
     [nzFilterOption]="to.filterOption"

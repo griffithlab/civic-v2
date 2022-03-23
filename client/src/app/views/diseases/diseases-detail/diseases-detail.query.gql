@@ -8,5 +8,6 @@ query DiseaseDetail(
     diseaseUrl
     displayName
     diseaseAliases
+    link
   }
 }

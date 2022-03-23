@@ -1,0 +1,56 @@
+<nz-space nzSize="middle" *ngIf=" (variantGroup$ | ngrxPush) as variantGroup" nzDirection="vertical"
+  class="space-align-block">
+
+  <!-- variantGroup description, details row -->
+  <nz-row [nzGutter]="16" *nzSpaceItem>
+
+    <!-- variantGroup description, sources col -->
+    <nz-col nzSpan="12">
+      <nz-space nzDirection="vertical">
+
+        <!-- description, sources -->
+        <nz-descriptions nzLayout="vertical" nzSize="small" nzBordered="true" [nzColumn]="1" *nzSpaceItem>
+
+          <!-- description -->
+          <nz-descriptions-item nzTitle="Description">
+            <p *ngIf="variantGroup.description; else noDescription" nz-typography nzEllipsis nzExpandable
+              [nzEllipsisRows]="14">{{ variantGroup.description }}</p>
+
+            <!-- noDescription Tpl -->
+            <ng-template #noDescription>
+              <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
+            </ng-template>
+
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-space>
+    </nz-col>
+
+    <nz-col nzSpan="12">
+      <nz-space nzDirection="vertical">
+        <nz-descriptions nzLayout="vertical" nzSize="small" nzBordered="true" [nzColumn]="1" *nzSpaceItem>
+          <!-- sources -->
+          <nz-descriptions-item nzTitle="Sources">
+            <ng-container *ngIf="variantGroup.sources.length > 0; else noSources">
+              <cvc-tag-list>
+                <cvc-source-tag *ngFor="let source of variantGroup.sources" [source]="source"></cvc-source-tag>
+              </cvc-tag-list>
+            </ng-container>
+            <ng-template #noSources>
+              <span nz-typography nzType="secondary">None specified</span>
+            </ng-template>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-space>
+    </nz-col>
+  </nz-row>
+
+  <!-- variant menu row -->
+  <nz-row [nzGutter]="16" *nzSpaceItem>
+    <nz-col [nzSpan]="24">
+      <ng-container *ngrxLet="this.variantGroup$ as variantGroup">
+        <cvc-variants-table [variantGroupId]="variantGroup?.id"></cvc-variants-table>
+      </ng-container>
+    </nz-col>
+  </nz-row>
+</nz-space>

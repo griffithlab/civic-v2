@@ -21,6 +21,15 @@ export const variantArrayTypeOption: TypeOption = {
       type: 'variant-input',
       templateOptions: {
         required: false
+      },
+      expressionProperties: {
+        'templateOptions.allowCreate': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+          const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
+          if (existingSetting !== undefined) {
+            return existingSetting;
+          }
+          return true;
+        }
       }
     },
     hideExpression: (m: any, st: any, ffc?: FormlyFieldConfig) => {

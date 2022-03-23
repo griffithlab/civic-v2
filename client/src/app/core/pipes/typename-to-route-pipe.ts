@@ -20,6 +20,8 @@ export class TypenameToRoutePipe implements PipeTransform {
         return 'sources'
       case ('SourceSuggestion'):
         return 'source-suggestions'
+      case ('Revision'):
+        return 'revisions'
       default:
         throw new Error('Not handling all typenames yet' + n)
     }

@@ -9,6 +9,10 @@ class VariantType < ActiveRecord::Base
       nil
     end
   end
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/variant-types/#{self.id}")
+  end
   #acts_as_nested_set
 
   #def relationship_with(other)

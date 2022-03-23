@@ -15,5 +15,6 @@ fragment sourcePopover on SourcePopover {
   clinicalTrials {
     id
     nctId
+    link
   }
 }

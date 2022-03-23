@@ -14,15 +14,19 @@ class Drug < ApplicationRecord
     end
   end
 
-    def self.timepoint_query
-      ->(x) {
-        self.joins(:evidence_items)
-          .group('drugs.id')
-          .select('drugs.id')
-          .where("evidence_items.status != 'rejected'")
-          .having('MIN(evidence_items.created_at) >= ?', x)
-          .distinct
-          .count
-      }
-    end
+  def link
+    Rails.application.routes.url_helpers.url_for("/drugs/#{self.id}")
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:evidence_items)
+        .group('drugs.id')
+        .select('drugs.id')
+        .where("evidence_items.status != 'rejected'")
+        .having('MIN(evidence_items.created_at) >= ?', x)
+        .distinct
+        .count
+    }
+  end
 end

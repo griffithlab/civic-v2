@@ -1,0 +1,33 @@
+query VariantGroupSubmittableFields($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId ) {
+    ...SubmittableVariantGroupFields
+  }
+}
+
+fragment SubmittableVariantGroupFields on VariantGroup {
+  id
+  name
+  description
+  variants(first: 50) {
+    nodes {
+      id
+      name
+      link
+    }
+  }
+  sources {
+    id
+    link
+    citation
+    sourceType
+  }
+}
+
+mutation SubmitVariantGroup($input: SubmitVariantGroupInput!) {
+  submitVariantGroup(input: $input) {
+    clientMutationId
+    variantGroup {
+      id
+    } 
+  }
+}

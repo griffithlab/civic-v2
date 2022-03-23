@@ -10,6 +10,10 @@ class Disease < ApplicationRecord
     Disease.url_for_doid(doid)
   end
 
+  def link
+    Rails.application.routes.url_helpers.url_for("/diseases/#{self.id}")
+  end
+
   def self.url_for_doid(doid)
     if doid.nil?
       nil

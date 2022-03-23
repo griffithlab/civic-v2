@@ -84,7 +84,8 @@ module Types::Revisions
           id: obj.id,
           entity_type: obj.class.to_s,
           display_name: obj.display_name,
-          display_type: obj.respond_to?(:display_type) ? obj.display_type : nil
+          display_type: obj.respond_to?(:display_type) ? obj.display_type : nil,
+          link: obj.respond_to?(:link) ? obj.link : ""
         }
       end
 

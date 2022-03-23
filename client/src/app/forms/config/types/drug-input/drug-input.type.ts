@@ -66,6 +66,7 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
         minLengthSearch: 1,
         optionList: [] as Array<{ value: string; label: string; drug: any }>,
         searchString: "",
+        allowCreate: true
       },
     };
   }

@@ -13,6 +13,7 @@ module Types::Entities
     field :variant_name, String, null: true
     field :initial_comment, String, null: false
     field :status, Types::SourceSuggestionStatusType, null: false
+    field :link, String, null: false
 
     def source
       Loaders::AssociationLoader.for(SourceSuggestion, :source).load(object)
@@ -24,6 +25,10 @@ module Types::Entities
 
     def name
       "SSID#{object.id}"
+    end
+
+    def link
+      ''
     end
   end
 end

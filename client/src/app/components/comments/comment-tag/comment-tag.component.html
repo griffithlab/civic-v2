@@ -1,8 +1,6 @@
-<ng-container *ngIf="subject; else unlinked">
-  <a routerLink="/{{subject.__typename | typenameToRoute}}/{{subject.id}}/comments">
-    <ng-template [ngTemplateOutlet]="tag"></ng-template>
-  </a>
-</ng-container>
+<a [routerLink]="comment.link">
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</a>
 
 <ng-template #tag>
   <nz-tag *ngIf="enablePopover; else noPopover"
@@ -23,10 +21,6 @@
   <nz-tag>
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
-</ng-template>
-
-<ng-template #unlinked>
-  <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>

@@ -52,6 +52,10 @@ class Assertion < ActiveRecord::Base
     "AID#{self.id}"
   end
 
+  def link
+    Rails.application.routes.url_helpers.url_for("/assertions/#{self.id}")
+  end
+
   def self.timepoint_query
     ->(x) {
       self.where("assertions.status != 'rejected'")

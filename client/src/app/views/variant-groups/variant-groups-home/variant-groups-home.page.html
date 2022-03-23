@@ -1,3 +1,15 @@
+<cvc-section-navigation [actionsTpl]="vargroupActions"> </cvc-section-navigation>
+<ng-template #vargroupActions>
+  <ng-container *ngrxLet="viewer$ as viewer">
+    <button routerLink="/variant-groups/add/submit"
+      *ngIf="viewer.signedIn"
+      nz-button
+      nzSize="small">
+      <i nz-icon nzType="plus-circle"></i>
+      Submit New Variant Group
+    </button>
+  </ng-container>
+</ng-template>
 <nz-page-header class="site-page-header">
 
   <!--title-->

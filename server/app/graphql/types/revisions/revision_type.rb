@@ -4,13 +4,13 @@ module Types::Revisions
 
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::Commentable
 
     field :id, Int, null: false
     field :status, Types::Revisions::RevisionStatus, null: false
     field :current_value, GraphQL::Types::JSON, null: true
     field :suggested_value, GraphQL::Types::JSON, null: true
     field :field_name, String, null: false
-    field :comments, [Types::Entities::CommentType], null: false
     field :creation_comment, Types::Entities::CommentType, null: true
     field :resolution_comment, Types::Entities::CommentType, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
@@ -22,6 +22,7 @@ module Types::Revisions
     field :resolver, Types::Entities::UserType, null: true
     field :creation_event, Types::Entities::EventType, null: true
     field :resolving_event, Types::Entities::EventType, null: true
+    field :subject, Types::Interfaces::EventSubject, null: false
 
     def comments
       Loaders::AssociationLoader.for(Revision, :comments).load(object)

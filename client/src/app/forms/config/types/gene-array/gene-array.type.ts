@@ -7,7 +7,7 @@ const requiredValidationMsgFn = (): string => {
 export const geneArrayTypeOption: TypeOption = {
   name: 'gene-array',
   extends: 'multi-field',
-  wrappers: ['form-field'],
+  wrappers: ['form-card'],
   defaultOptions: {
     templateOptions: {
       label: 'Gene',

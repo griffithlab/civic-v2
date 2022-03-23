@@ -6,6 +6,10 @@ class Phenotype < ActiveRecord::Base
     self.hpo_class
   end
 
+  def link
+    Rails.application.routes.url_helpers.url_for("/phenotypes/#{self.id}")
+  end
+
   def url
     "https://hpo.jax.org/app/browse/term/#{self.hpo_id}"
   end

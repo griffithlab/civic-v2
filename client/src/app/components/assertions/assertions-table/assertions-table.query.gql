@@ -66,25 +66,31 @@ query AssertionsBrowse (
 fragment AssertionBrowseTableRowFields on Assertion {
   id
   name
+  link
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   disease {
     id
     name
+    link
   }
   drugs {
     id
     name
+    link
   }
   phenotypes @include(if: $cardView) {
     id
     name
+    link
   }
   drugInteractionType
   summary

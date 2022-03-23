@@ -5,6 +5,7 @@ module Types::Entities
     field :description, String, null: false
     field :soid, String, null: false
     field :url, String, null: false
+    field :link, String, null: false
 
     def name
       object.display_name

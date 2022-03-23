@@ -37,7 +37,8 @@ module Types::Connections
           {
             entity_id: User.roles[r],
             display_name: r,
-            tag_type: 'ROLE'
+            tag_type: 'ROLE',
+            link: "",
           }
         end
     end
@@ -51,7 +52,8 @@ module Types::Connections
           {
             entity_id: ref.entity.id,
             display_name: ref.entity.name,
-            tag_type: ref.entity.class.to_s.underscore.upcase
+            tag_type: ref.entity.class.to_s.underscore.upcase,
+            link: ref.entity.link
           }
         end
     end

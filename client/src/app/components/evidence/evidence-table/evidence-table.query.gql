@@ -74,25 +74,31 @@ query EvidenceBrowse(
 fragment EvidenceGridFields on EvidenceItem {
     id
     name
+    link
     disease {
       id
       name
+      link
     }
     drugs {
       id
       name
+      link
     }
     gene {
       id
       name
+      link
     }
     variant {
       id
       name
+      link
     }
     phenotypes @include(if: $cardView) {
       id
       name
+      link
     }
     source @include(if: $cardView)  {
       id
@@ -104,10 +110,12 @@ fragment EvidenceGridFields on EvidenceItem {
         nctId
         id
       }
+      link
     }
     assertions @include(if: $cardView) {
       id
       name
+      link
     }
     status
     drugInteractionType

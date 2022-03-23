@@ -16,30 +16,36 @@ fragment evidencePopover on EvidenceItem {
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
     name
+    link
   }
   evidenceRating
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   source {
     id
     citation
     sourceType
     displayType
+    link
   }
   flags(state: OPEN) {
     totalCount

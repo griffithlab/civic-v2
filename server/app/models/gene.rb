@@ -23,6 +23,10 @@ class Gene < ActiveRecord::Base
     }
   end
 
+  def link
+    Rails.application.routes.url_helpers.url_for("/genes/#{self.id}")
+  end
+
   def self.timepoint_query
     ->(x) {
       self.joins(variants: [:evidence_items])
