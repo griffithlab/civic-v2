@@ -17,10 +17,10 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
 
 @Component({
   selector: 'cvc-variant-groups-detail',
-  templateUrl: './variant-groups-detail.component.html',
-  styleUrls: ['./variant-groups-detail.component.less']
+  templateUrl: './variant-groups-detail.view.html',
+  styleUrls: ['./variant-groups-detail.view.less']
 })
-export class VariantGroupsDetailComponent implements OnInit {
+export class VariantGroupsDetailView implements OnInit {
   loading$?: Observable<boolean>;
   variantGroup$?: Observable<Maybe<VariantGroupDetailFieldsFragment>>;
   viewer$?: Observable<Viewer>;

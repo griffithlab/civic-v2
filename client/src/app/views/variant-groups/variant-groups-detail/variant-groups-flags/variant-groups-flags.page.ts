@@ -5,10 +5,10 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-variant-groups-flags',
-  templateUrl: './variant-groups-flags.component.html',
-  styleUrls: ['./variant-groups-flags.component.less']
+  templateUrl: './variant-groups-flags.page.html',
+  styleUrls: ['./variant-groups-flags.page.less']
 })
-export class VariantGroupsFlagsComponent implements OnDestroy {
+export class VariantGroupsFlagsPage implements OnDestroy {
 
   flaggable?: FlaggableInput
   routeSub: Subscription

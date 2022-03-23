@@ -5,13 +5,13 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-variant-groups-revisions',
-  templateUrl: './variant-groups-revisions.component.html',
-  styleUrls: ['./variant-groups-revisions.component.less'],
+  templateUrl: './variant-groups-revisions.page.html',
+  styleUrls: ['./variant-groups-revisions.page.less'],
 })
-export class VariantGroupsRevisionsComponent implements OnDestroy{
+export class VariantGroupsRevisionsPage implements OnDestroy{
   vgId!: number
   entityType!: ModeratedEntities
-  
+
   routeSub: Subscription
 
   constructor(private route: ActivatedRoute) {

@@ -36,4 +36,4 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   ],
   exports: [RevisionsListAndFilterComponent]
 })
-export class RevisionsListAndFilterModule { }
+export class CvcRevisionsListAndFilterModule { }

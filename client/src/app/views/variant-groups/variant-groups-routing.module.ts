@@ -1,24 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VariantGroupsCommentsComponent } from './variant-groups-comments/variant-groups-comments.component';
-import { VariantGroupsDetailComponent } from './variant-groups-detail/variant-groups-detail.component';
-import { VariantGroupsFlagsComponent } from './variant-groups-flags/variant-groups-flags.component';
 import { VariantGroupsHomePage } from './variant-groups-home/variant-groups-home.page';
-import { VariantGroupsRevisionsComponent } from './variant-groups-revisions/variant-groups-revisions.component';
-import { VariantGroupsSummaryComponent } from './variant-groups-summary/variant-groups-summary.component';
-
-import { VariantGroupsComponent } from './variant-groups.component';
+import { VariantGroupsView } from './variant-groups.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: VariantGroupsComponent ,
+    component: VariantGroupsView,
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: VariantGroupsHomePage,
@@ -27,40 +17,33 @@ const routes: Routes = [
         }
       },
       {
+        path: 'add',
+        loadChildren: () =>
+          import('@app/views/variant-groups/variant-groups-add/variant-groups-add.module').then(
+            (m) => m.VariantGroupsAddModule
+          ),
+        data: { breadcrumb: 'Add' }
+      },
+      {
         path: ':variantGroupId',
-        component: VariantGroupsDetailComponent,
         data: {
           breadcrumb: 'DISPLAYNAME' // triggers label generation by getRouteLabel in section-navigation
         },
         children: [
-          { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
-            path: 'summary',
-            component: VariantGroupsSummaryComponent,
-            data: {
-              breadcrumb: 'Summary'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/variant-groups/variant-groups-detail/variant-groups-detail.module').then(
+                (m) => m.VariantGroupsDetailModule
+              ),
           },
           {
-            path: 'comments',
-            component: VariantGroupsCommentsComponent,
-            data: {
-              breadcrumb: 'Comments'
-            }
-          },
-          {
-            path: 'revisions',
-            component: VariantGroupsRevisionsComponent,
-            data: {
-              breadcrumb: 'Revisions'
-            }
-          },
-          {
-            path: 'flags',
-            component: VariantGroupsFlagsComponent,
-            data: {
-              breadcrumb: 'Flags'
-            }
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/variant-groups/variant-groups-revise/variant-groups-revise.module').then(
+                (m) => m.VariantGroupsReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
           },
         ]
       }
