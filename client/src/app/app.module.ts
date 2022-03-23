@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CookieService } from 'ngx-cookie-service';
@@ -20,8 +20,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module';
 import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter';
 import { CvcFormsModule } from './forms/forms.module';
+import { Observable } from 'rxjs';
 
 registerLocaleData(en);
+
+function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
+  return () => httpClient.get("/api/status");
+}
 
 @NgModule({
   declarations: [
@@ -51,6 +56,12 @@ registerLocaleData(en);
   providers: [
     CookieService,
     { provide: NZ_I18N, useValue: en_US },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApiFactory,
+      deps: [HttpClient],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

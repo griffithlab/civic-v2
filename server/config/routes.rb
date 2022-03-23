@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/sign_in' =>"static#index"
 
   scope 'api', defaults: { format: :json } do
+    get '/status', to: 'static#status'
     post '/graphql', to: 'graphql#execute'
     get '/auth/:provider/callback' => 'sessions#create'
     get '/sign_out' => 'sessions#destroy', as: :signout
