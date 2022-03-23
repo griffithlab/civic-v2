@@ -107,6 +107,7 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
               templateOptions: {
                 hideLabel: true,
                 required: true,
+                allowCreate: false
               },
             },
           },

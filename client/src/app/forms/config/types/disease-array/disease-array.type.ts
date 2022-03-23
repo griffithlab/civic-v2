@@ -2,9 +2,8 @@ import { AbstractControl, FormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { EvidenceType, Maybe } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
-import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
+import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
@@ -28,6 +27,15 @@ export const diseaseArrayTypeOption: TypeOption = {
       type: 'cvc-disease-input',
       templateOptions: {
         required: false
+      },
+      expressionProperties: {
+        'templateOptions.allowCreate': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+          const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
+          if (existingSetting !== undefined) {
+            return existingSetting;
+          }
+          return true;
+        }
       }
     },
     defaultValue: [],

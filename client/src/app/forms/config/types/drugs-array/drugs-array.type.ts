@@ -25,6 +25,15 @@ export const drugArrayTypeOption: TypeOption = {
       type: 'drug-input',
       templateOptions: {
         required: false
+      },
+      expressionProperties: {
+        'templateOptions.allowCreate': (m: any, st: any, ffc?: FormlyFieldConfig) => {
+          const existingSetting = ffc?.parent?.templateOptions?.allowCreate;
+          if (existingSetting !== undefined) {
+            return existingSetting;
+          }
+          return true;
+        }
       }
     },
     defaultValue: [],

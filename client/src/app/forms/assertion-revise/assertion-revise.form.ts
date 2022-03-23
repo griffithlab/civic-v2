@@ -72,7 +72,8 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
             type: 'variant-array',
             templateOptions: {
               required: true,
-              maxCount: 1
+              maxCount: 1,
+              allowCreate: false
             }
           },
           {
@@ -85,7 +86,10 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
           {
             key: 'disease',
             type: 'disease-array',
-            templateOptions: {}
+            templateOptions: {
+              maxCount: 1,
+              allowCreate: false
+            }
           },
           {
             key: 'evidenceType',
@@ -113,7 +117,9 @@ export class AssertionReviseForm implements OnInit, OnDestroy {
           {
             key: 'drugs',
             type: 'drug-array',
-            templateOptions: {}
+            templateOptions: {
+              allowCreate: false
+            }
           },
           {
             key: 'drugInteractionType',

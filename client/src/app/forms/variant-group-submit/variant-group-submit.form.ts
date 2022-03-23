@@ -104,6 +104,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
               templateOptions: {
                 hideLabel: true,
                 required: true,
+                allowCreate: false,
               },
             },
           },
