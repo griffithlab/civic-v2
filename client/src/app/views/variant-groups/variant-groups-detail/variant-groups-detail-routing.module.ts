@@ -10,6 +10,8 @@ import { VariantGroupsRevisionsModule } from './variant-groups-revisions/variant
 import { VariantGroupsRevisionsPage } from './variant-groups-revisions/variant-groups-revisions.page';
 import { VariantGroupsSummaryModule } from './variant-groups-summary/variant-groups-summary.module';
 import { VariantGroupsSummaryPage } from './variant-groups-summary/variant-groups-summary.page';
+import { VariantGroupsEventsModule } from './variant-groups-events/variant-groups-events.module';
+import { VariantGroupsEventsPage } from './variant-groups-events/variant-groups-events.page';
 
 const routes: Routes = [
   {
@@ -45,6 +47,13 @@ const routes: Routes = [
         data: {
           breadcrumb: 'Flags'
         }
+      },
+      {
+        path: 'events',
+        component: VariantGroupsEventsPage,
+        data: {
+          breadcrumb: 'Events'
+        }
       }
     ]
   }
@@ -57,6 +66,7 @@ const routes: Routes = [
     VariantGroupsCommentsModule,
     VariantGroupsRevisionsModule,
     VariantGroupsFlagsModule,
+    VariantGroupsEventsModule
   ],
   exports: [RouterModule],
 })
