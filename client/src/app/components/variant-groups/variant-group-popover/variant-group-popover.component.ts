@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Maybe, VariantGroupPopoverFieldsFragment, VariantGroupPopoverGQL } from '@app/generated/civic.apollo';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-variant-group-popover',
@@ -6,10 +9,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./variant-group-popover.component.less']
 })
 export class CvcVariantGroupPopoverComponent implements OnInit {
+  @Input() variantGroupId!: number
 
-  constructor() { }
+  variantGroup$?: Observable<Maybe<VariantGroupPopoverFieldsFragment>>
+
+  constructor(private gql: VariantGroupPopoverGQL) { }
 
   ngOnInit(): void {
+    if (this.variantGroupId === undefined) {
+      throw new Error("Must pass a variant group ID into the variant group popover component.")
+    }
+
+    this.variantGroup$ = this.gql.watch({ variantGroupId: this.variantGroupId })
+      .valueChanges
+      .pipe(map(({ data }) => data.variantGroup));
   }
 
 }

@@ -1145,6 +1145,7 @@ type BrowseVariantGroup {
   evidenceItemCount: Int!
   geneNames: [String!]!
   id: Int!
+  link: String!
   name: String!
   variantCount: Int!
   variantNames: [String!]!
@@ -6935,6 +6936,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     """
     status: RevisionStatus
   ): RevisionConnection!
+  sources: [Source!]!
 
   """
   List and filter variants.

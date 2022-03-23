@@ -39,6 +39,7 @@ query BrowseVariantGroups(
 fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
   id
   name
+  link
   geneNames
   variantNames
   variantCount

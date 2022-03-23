@@ -691,6 +691,7 @@ export type BrowseVariantGroup = {
   evidenceItemCount: Scalars['Int'];
   geneNames: Array<Scalars['String']>;
   id: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
   variantCount: Scalars['Int'];
   variantNames: Array<Scalars['String']>;
@@ -4126,6 +4127,7 @@ export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevision
   name: Scalars['String'];
   /** List and filter revisions. */
   revisions: RevisionConnection;
+  sources: Array<Source>;
   /** List and filter variants. */
   variants: VariantConnection;
 };
@@ -5660,6 +5662,37 @@ export type UserBrowseTableRowFieldsFragment = (
   ) }
 );
 
+export type VariantGroupPopoverQueryVariables = Exact<{
+  variantGroupId: Scalars['Int'];
+}>;
+
+
+export type VariantGroupPopoverQuery = (
+  { __typename: 'Query' }
+  & { variantGroup?: Maybe<(
+    { __typename: 'VariantGroup' }
+    & VariantGroupPopoverFieldsFragment
+  )> }
+);
+
+export type VariantGroupPopoverFieldsFragment = (
+  { __typename: 'VariantGroup' }
+  & Pick<VariantGroup, 'id' | 'name' | 'description'>
+  & { variants: (
+    { __typename: 'VariantConnection' }
+    & { edges: Array<(
+      { __typename: 'VariantEdge' }
+      & { node?: Maybe<(
+        { __typename: 'Variant' }
+        & Pick<Variant, 'id' | 'name' | 'link'>
+      )> }
+    )> }
+  ), sources: Array<(
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'citation' | 'sourceType' | 'link'>
+  )> }
+);
+
 export type BrowseVariantGroupsQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -5693,7 +5726,7 @@ export type BrowseVariantGroupsQuery = (
 
 export type BrowseVariantGroupRowFieldsFragment = (
   { __typename: 'BrowseVariantGroup' }
-  & Pick<BrowseVariantGroup, 'id' | 'name' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
+  & Pick<BrowseVariantGroup, 'id' | 'name' | 'link' | 'geneNames' | 'variantNames' | 'variantCount' | 'evidenceItemCount'>
 );
 
 export type VariantTypePopoverQueryVariables = Exact<{
@@ -8415,10 +8448,33 @@ export const UserBrowseTableRowFieldsFragmentDoc = gql`
   mostRecentActionTimestamp
 }
     `;
+export const VariantGroupPopoverFieldsFragmentDoc = gql`
+    fragment variantGroupPopoverFields on VariantGroup {
+  id
+  name
+  description
+  variants {
+    edges {
+      node {
+        id
+        name
+        link
+      }
+    }
+  }
+  sources {
+    id
+    citation
+    sourceType
+    link
+  }
+}
+    `;
 export const BrowseVariantGroupRowFieldsFragmentDoc = gql`
     fragment BrowseVariantGroupRowFields on BrowseVariantGroup {
   id
   name
+  link
   geneNames
   variantNames
   variantCount
@@ -10513,6 +10569,24 @@ export const UsersBrowseDocument = gql`
   export class UsersBrowseGQL extends Apollo.Query<UsersBrowseQuery, UsersBrowseQueryVariables> {
     document = UsersBrowseDocument;
     
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const VariantGroupPopoverDocument = gql`
+    query VariantGroupPopover($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...variantGroupPopoverFields
+  }
+}
+    ${VariantGroupPopoverFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class VariantGroupPopoverGQL extends Apollo.Query<VariantGroupPopoverQuery, VariantGroupPopoverQueryVariables> {
+    document = VariantGroupPopoverDocument;
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
