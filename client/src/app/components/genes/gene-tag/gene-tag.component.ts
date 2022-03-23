@@ -5,6 +5,7 @@ import { Maybe } from '@app/generated/civic.apollo';
 export interface LinkableGene {
   id: number;
   name: string;
+  link: string;
 }
 
 @Component({

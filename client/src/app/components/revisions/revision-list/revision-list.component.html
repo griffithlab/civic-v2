@@ -25,7 +25,7 @@
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Disease">
               <ng-template #itemTemplate let-item>
-                <cvc-disease-tag [disease]="{id: item.id, name: item.displayName}"></cvc-disease-tag>
+                <cvc-disease-tag [disease]="{id: item.id, name: item.displayName, link: item.link}"></cvc-disease-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -34,7 +34,7 @@
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Drugs">
               <ng-template #itemTemplate let-item>
-                <cvc-drug-tag [drug]="{id: item.id, name: item.displayName}"></cvc-drug-tag>
+                <cvc-drug-tag [drug]="{id: item.id, name: item.displayName, link: item.link}"></cvc-drug-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -76,7 +76,7 @@
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Variant Types">
               <ng-template #itemTemplate let-item>
-                <cvc-variant-type-tag [variantType]="{id: item.id, name: item.displayName}"></cvc-variant-type-tag>
+                <cvc-variant-type-tag [variantType]="{id: item.id, name: item.displayName, link: item.link}"></cvc-variant-type-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -85,7 +85,7 @@
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Phenotypes">
               <ng-template #itemTemplate let-item>
-                <cvc-phenotype-tag [phenotype]="{id: item.id, name: item.displayName}"></cvc-phenotype-tag>
+                <cvc-phenotype-tag [phenotype]="{id: item.id, name: item.displayName, link: item.link}"></cvc-phenotype-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -94,7 +94,7 @@
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Variant">
               <ng-template #itemTemplate let-item>
-                <cvc-variant-tag [variant]="{id: item.id, name: item.displayName}"></cvc-variant-tag>
+                <cvc-variant-tag [variant]="{id: item.id, name: item.displayName, link: item.link}"></cvc-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
@@ -103,7 +103,7 @@
               [diffObject]="revision.linkoutData.diffValue"
               entityType="Variants">
               <ng-template #itemTemplate let-item>
-                <cvc-variant-tag [variant]="{id: item.id, name: item.displayName}"></cvc-variant-tag>
+                <cvc-variant-tag [variant]="{id: item.id, name: item.displayName, link: item.link}"></cvc-variant-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>

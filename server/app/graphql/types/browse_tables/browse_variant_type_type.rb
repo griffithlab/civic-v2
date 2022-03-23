@@ -7,6 +7,7 @@ module Types::BrowseTables
     field :name, String, null: false
     field :url, String, null: true
     field :variant_count, Int, null: false
+    field :link, String, null: false
 
     def name
       object.display_name

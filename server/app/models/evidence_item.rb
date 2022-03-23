@@ -55,6 +55,14 @@ class EvidenceItem < ActiveRecord::Base
     "EID#{self.id}"
   end
 
+  def display_name
+    self.name
+  end
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/evidence/#{self.id}")
+  end
+
   def gene
     self.variant.gene
   end

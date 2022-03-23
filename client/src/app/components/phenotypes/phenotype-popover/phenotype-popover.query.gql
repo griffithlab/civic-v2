@@ -6,5 +6,6 @@ query PhenotypePopover($phenotypeId: Int!) {
     hpoId
     assertionCount
     evidenceItemCount
+    link
   }
 }

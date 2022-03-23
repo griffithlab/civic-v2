@@ -94,6 +94,11 @@ export class AssertionsDetailView implements OnDestroy {
         routeName: 'flags',
         iconName: 'civic-flag',
         tabLabel: 'Flags'
+      },
+      {
+        routeName: 'events',
+        iconName: 'civic-event',
+        tabLabel: 'Events'
       }
     ]
   }

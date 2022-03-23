@@ -38,7 +38,11 @@ class Variant < ApplicationRecord
     {
       name: name,
       aliases: variant_aliases.map(&:name)
-    } 
+    }
+  end
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/variants/#{self.id}")
   end
 
   def self.timepoint_query

@@ -14,6 +14,7 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
+import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 @NgModule({
   declarations: [GenesDetailView],
@@ -31,7 +32,8 @@ import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity
     CvcFlaggableModule,
     CvcContributorAvatarsModule,
     CvcSectionNavigationModule,
-    CvcEntitySubscriptionButtonModule
+    CvcEntitySubscriptionButtonModule,
+    CvcEventFeedModule
   ]
 })
 export class GenesDetailModule { }

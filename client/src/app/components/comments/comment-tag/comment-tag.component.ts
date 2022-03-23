@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export interface LinkableComment {
   id: number,
-  name: string
+  name: string,
+  link: string
 }
 
 export interface Subject {

@@ -16,7 +16,6 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
-import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 
@@ -41,7 +40,6 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
     CvcDrugTagModule,
     CvcEntityTableCardModule,
     CvcEvidenceTableModule,
-    CvcEventFeedModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
   ],

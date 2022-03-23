@@ -24,6 +24,7 @@ module Types::Entities
     field :clinvar_ids, [String], null: true
     field :hgvs_descriptions, [String], null: true
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
+    field :link, String, null: false
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)

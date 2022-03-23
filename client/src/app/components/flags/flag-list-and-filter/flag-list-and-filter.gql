@@ -58,6 +58,7 @@ fragment flag on Flag {
   flaggable {
     id
     name
+    link
   }
   flaggingUser {
     id
@@ -79,6 +80,7 @@ fragment flag on Flag {
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {
@@ -99,6 +101,7 @@ fragment flag on Flag {
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {

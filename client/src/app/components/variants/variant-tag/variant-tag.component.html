@@ -1,5 +1,5 @@
 <ng-container *ngIf="linked; else unlinked">
-  <a routerLink="/variants/{{variant.id}}">
+  <a [routerLink]="variant.link">
     <ng-template [ngTemplateOutlet]="tag"></ng-template>
   </a>
 </ng-container>

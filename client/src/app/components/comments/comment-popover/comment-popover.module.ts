@@ -11,6 +11,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcRevisionTagModule } from '@app/components/revisions/revision-tag/revision-tag.module';
 
 @NgModule({
   declarations: [CvcCommentPopoverComponent],
@@ -25,6 +26,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcEvidenceTagModule,
     CvcEvidenceTagModule,
     CvcVariantTagModule,
+    CvcRevisionTagModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [CvcCommentPopoverComponent]

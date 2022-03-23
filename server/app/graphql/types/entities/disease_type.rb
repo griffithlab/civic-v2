@@ -6,6 +6,7 @@ module Types::Entities
     field :doid, Int, null: true
     field :disease_url, String, null: true
     field :disease_aliases, [String], null: false
+    field :link, String, null: false
 
     def disease_aliases
       Loaders::AssociationLoader.for(Disease, :disease_aliases).load(object).then do |disease_aliases|

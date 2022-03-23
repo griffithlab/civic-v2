@@ -6,6 +6,7 @@ module Types::Interfaces
 
     field :id, Int, null: false
     field :name, String, null: false
+    field :link, String, null: false
 
     field :flagged, GraphQL::Types::Boolean, null: false
     field :flags, resolver: Resolvers::Flags

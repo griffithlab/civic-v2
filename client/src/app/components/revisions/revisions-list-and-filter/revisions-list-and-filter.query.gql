@@ -69,30 +69,35 @@ fragment revision on Revision {
           displayName
           displayType
           entityType
+          link
         }
         addedObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
         removedObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
         keptObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
         suggestedObjects {
           id
           displayName
           displayType
           entityType
+          link
         }
       }
       ... on ScalarFieldDiff {
@@ -118,6 +123,7 @@ fragment revision on Revision {
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {
@@ -137,6 +143,7 @@ fragment revision on Revision {
         entityId
         displayName
         tagType
+        link
         __typename
       }
       ... on CommentTextSegment {

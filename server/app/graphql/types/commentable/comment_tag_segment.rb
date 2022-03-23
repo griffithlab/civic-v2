@@ -4,5 +4,6 @@ module Types::Commentable
     field :display_name, GraphQL::Types::String, null: false
     field :tag_type, Types::Commentable::TaggableEntity, null: false
     field :status, Types::EvidenceStatusType, null: true
+    field :link, GraphQL::Types::String, null: false
   end
 end

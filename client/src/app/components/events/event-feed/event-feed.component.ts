@@ -2,13 +2,14 @@ import { Component, Input, OnInit } from "@angular/core";
 import {
   EventAction,
   EventFeedGQL,
+  EventFeedMode,
   EventFeedNodeFragment,
   EventFeedQuery,
   EventFeedQueryVariables,
   Maybe,
+  NotificationOrganizationFragment,
+  NotificationOriginatingUsersFragment,
   PageInfo,
-  SubscribableEntities,
-  SubscribableInput,
   SubscribableQueryInput
 } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
@@ -33,22 +34,21 @@ export class CvcEventFeedComponent implements OnInit {
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
   @Input() tagDisplay: EventDisplayOption = "displayAll"
+  @Input() mode: EventFeedMode = EventFeedMode.Subject
+  @Input() showFilters: boolean = true
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
 
   private initialQueryVars?: EventFeedQueryVariables;
-  private pageSize = 5;
-
-  participantFilter: 'ALL' | number = 'ALL';
-  organizationFilter: 'ALL' | number = 'ALL';
-  actionFilter: 'ALL' | number = 'ALL';
+  private pageSize = 15;
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
   participants$?: Observable<TagLinkableUser[]>;
   organizations$?: Observable<TagLinkableOrganization[]>;
   actions$?: Observable<SelectableAction[]>
+  unfilteredCount$?: Observable<number>
 
   showChildren: boolean = false
 
@@ -61,6 +61,7 @@ export class CvcEventFeedComponent implements OnInit {
       organizationId: this.organizationId,
       originatingUserId: this.userId,
       first: this.pageSize,
+      mode: this.mode
     }
 
     this.queryRef = this.gql.watch(this.initialQueryVars, {});
@@ -73,6 +74,12 @@ export class CvcEventFeedComponent implements OnInit {
     this.events$ = this.results$.pipe(
       map(({ data }) => {
         return data.events.edges.map(e => e.node)
+      })
+    )
+
+    this.unfilteredCount$ = this.results$.pipe(
+      map(({data}) => {
+        return data.events.unfilteredCount
       })
     )
 
@@ -98,31 +105,26 @@ export class CvcEventFeedComponent implements OnInit {
     })
   }
 
-  onParticipantSelected(u: 'ALL' | number) {
+  onOrganizationSelected(s: Maybe<NotificationOrganizationFragment>) {
     this.queryRef.refetch({
-      ...this.initialQueryVars,
-      originatingUserId: u === 'ALL' ? undefined : u
+      organizationId: s?.id
     })
   }
 
-  onOrganizationSelected(o: 'ALL' | number) {
+  onActionSelected(a: Maybe<SelectableAction>) {
     this.queryRef.refetch({
-      ...this.initialQueryVars,
-      organizationId: o === 'ALL' ? undefined : o
+      eventType: a ? a.id : undefined
     })
   }
 
-  //onActionSelected(a: 'ALL' | Maybe<SelectableAction>) {
-  onActionSelected(a: 'ALL' | EventAction) {
-      console.log(a)
+  onOriginatingUserSelected(s: Maybe<NotificationOriginatingUsersFragment>) {
     this.queryRef.refetch({
-      ...this.initialQueryVars,
-      eventType: a === 'ALL'? undefined : a
+      originatingUserId: s?.id
     })
   }
+
 
   onShowChildrenToggle() {
-    console.log(this.showChildren)
     let newSubscribable: Maybe<SubscribableQueryInput>
     if (this.subscribable) {
       newSubscribable = {

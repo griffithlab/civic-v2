@@ -200,13 +200,6 @@
       </nz-space>
     </nz-col>
   </nz-row>
-  <nz-row *nzSpaceItem>
-    <nz-col [nzSpan]="24">
-      <!-- <ngx-json-viewer [json]="evidence"></ngx-json-viewer> -->
-      <cvc-event-feed [subscribable]="subscribable"
-        tagDisplay="hideSubject"></cvc-event-feed>
-    </nz-col>
-  </nz-row>
   <cvc-entity-table-card [cvcTitle]="assertionsCardTitle" *nzSpaceItem>
     <cvc-assertions-table [evidenceId]="evidence.id"></cvc-assertions-table>
   </cvc-entity-table-card>

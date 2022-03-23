@@ -78,6 +78,11 @@ export class GenesDetailView implements OnDestroy {
         routeName: 'flags',
         iconName: 'civic-flag',
         tabLabel: 'Flags'
+      },
+      {
+        routeName: 'events',
+        iconName: 'civic-event',
+        tabLabel: 'Events'
       }
     ]
 

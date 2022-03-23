@@ -28,7 +28,8 @@ module Actions
                   entity_id: referenced_item.id,
                   display_name: referenced_item.name,
                   tag_type: tag_type,
-                  status: self.class.status_value_for_referenced_entity(referenced_item)
+                  status: self.class.status_value_for_referenced_entity(referenced_item),
+                  link: referenced_item.link
                 }
               else
                 split_segment

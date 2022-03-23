@@ -7,5 +7,6 @@ query DrugPopover($drugId: Int!) {
     drugAliases
     assertionCount
     evidenceItemCount
+    link
   }
 }

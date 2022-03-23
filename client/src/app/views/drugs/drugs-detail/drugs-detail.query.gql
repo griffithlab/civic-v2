@@ -7,5 +7,6 @@ query DrugDetail(
     ncitId
     drugUrl
     drugAliases
+    link
   }
 }

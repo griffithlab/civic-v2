@@ -8,6 +8,7 @@ module Types::BrowseTables
     field :url, String, null: false
     field :evidence_count, Int, null: false
     field :assertion_count, Int, null: false
+    field :link, String, null: false
 
     def name
       object.hpo_class

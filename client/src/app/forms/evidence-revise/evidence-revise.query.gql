@@ -9,6 +9,7 @@ fragment RevisableEvidenceFields on EvidenceItem {
   variant {
     id
     name
+    link
   }
   variantOrigin
   description

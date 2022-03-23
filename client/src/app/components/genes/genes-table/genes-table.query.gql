@@ -27,14 +27,17 @@ query BrowseGenes(
         id
         entrezId
         name
+        link
         geneAliases
         diseases {
           name
           id
+          link
         }
         drugs {
           name
           id
+          link
         }
         variantCount
         evidenceItemCount

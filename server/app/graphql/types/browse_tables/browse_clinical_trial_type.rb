@@ -8,6 +8,7 @@ module Types::BrowseTables
     field :evidence_count, Int, null: false
     field :source_count, Int, null: false
     field :url, String, null: true
+    field :link, String, null: false
 
     def url
       ClinicalTrial.url_for(nct_id: object.nct_id)

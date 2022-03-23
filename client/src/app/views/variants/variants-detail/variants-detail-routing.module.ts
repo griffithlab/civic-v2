@@ -9,6 +9,8 @@ import { VariantsRevisionsModule } from './variants-revisions/variants-revisions
 import { VariantsRevisionsPage } from './variants-revisions/variants-revisions.page';
 import { VariantsSummaryModule } from './variants-summary/variants-summary.module';
 import { VariantsSummaryPage } from './variants-summary/variants-summary.page';
+import { VariantsEventsPage } from './variants-events/variants-events.page';
+import { VariantsEventsModule } from './variants-events/variants-events.module';
 
 const routes: Routes = [
   {
@@ -45,6 +47,13 @@ const routes: Routes = [
           breadcrumb: 'Flags',
         },
       },
+      {
+        path: 'events',
+        component: VariantsEventsPage,
+        data: {
+          breadcrumb: 'Events',
+        },
+      },
     ],
   },
 ];
@@ -56,6 +65,7 @@ const routes: Routes = [
     VariantsCommentsModule,
     VariantsRevisionsModule,
     VariantsFlagsModule,
+    VariantsEventsModule,
   ],
   exports: [RouterModule],
 })

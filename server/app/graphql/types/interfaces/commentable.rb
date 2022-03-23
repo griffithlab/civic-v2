@@ -5,6 +5,7 @@ module Types::Interfaces
     description 'A CIViC entity that can have comments on it.'
     field :id, Int, null: false
     field :name, String, null: false
+    field :link, String, null: false
 
     field :comments, resolver: Resolvers::Comments
     field :last_comment_event, Types::Entities::EventType, null: true
@@ -21,7 +22,7 @@ module Types::Interfaces
         when Gene
           Types::Entities::GeneType
         when Revision
-          Types::Entities::RevisionType
+          Types::Revisions::RevisionType
         when Source
           Types::Entities::SourceType
         when Variant

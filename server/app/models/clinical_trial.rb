@@ -8,4 +8,8 @@ class ClinicalTrial < ActiveRecord::Base
       "https://clinicaltrials.gov/ct2/show/#{nct_id}"
     end
   end
+
+  def link
+    Rails.application.routes.url_helpers.url_for("/clinical-trials/#{self.id}")
+  end
 end

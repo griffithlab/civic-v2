@@ -9,5 +9,6 @@ query DiseasePopover($diseaseId: Int!) {
     assertionCount
     evidenceItemCount
     variantCount
+    link
   }
 }
