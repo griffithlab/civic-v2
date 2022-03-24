@@ -9,6 +9,7 @@ class Resolvers::TopLevelEvents < GraphQL::Schema::Resolver
     value 'USER', value: :user
     value 'ORGANIZATION', value: :organization
     value 'SUBJECT', value: :subject
+    value 'UNSCOPED', value: :unscoped
   end
 
   type Types::Entities::EventType.connection_type, null: false

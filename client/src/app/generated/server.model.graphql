@@ -1864,6 +1864,7 @@ option is a no-op when accessing events via a parent.
 enum EventFeedMode {
   ORGANIZATION
   SUBJECT
+  UNSCOPED
   USER
 }
 

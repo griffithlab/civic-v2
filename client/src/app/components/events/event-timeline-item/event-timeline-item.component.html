@@ -43,6 +43,7 @@
       <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [evidence]="subject"></cvc-evidence-tag>
       <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="subject"></cvc-variant-tag>
       <cvc-revision-tag *ngSwitchCase="'Revision'" [revision]="subject"></cvc-revision-tag>
+      <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'" [variantgroup]="subject"></cvc-variant-group-tag>
       <span *ngSwitchCase="'Source'"></span>
       <span *ngSwitchDefault>{{ subject.name }}</span>
     </ng-container>
