@@ -22,23 +22,25 @@ module Types::Connections
 
 
     def mentioning_users
-       User.where(
-         id: Notification.where(
-           notified_user: notified_user,
-           type: 'mention',
-           seen: false
-         ).distinct.select(:originating_user_id),
-       ).sort_by{|u| u.display_name}
+      User.where(
+        id: Notification.where(
+          notified_user: notified_user,
+          type: 'mention',
+          seen: false
+        ).distinct.select(:originating_user_id),
+      ).sort_by{|u| u.display_name}
     end
 
     def originating_users
-       User.where(
-         id: Notification.where(
-           notified_user: notified_user,
-           type: 'subscribed_event',
-           seen: false
-         ).distinct.select(:originating_user_id),
-       ).sort_by{|u| u.display_name}
+      User.where(
+        id: Notification.where(
+          notified_user: notified_user,
+          type: 'subscribed_event',
+          seen: false
+        ).distinct.select(:originating_user_id),
+      )
+      .limit(10)
+      .sort_by{|u| u.display_name}
     end
 
     def event_types
@@ -46,9 +48,9 @@ module Types::Connections
     end
 
     def organizations
-        Organization.where(
-          id: Event.where(id: unscoped_event_ids).distinct.select(:organization_id)
-        ).distinct.sort_by{|s| s.name}
+      Organization.where(
+        id: Event.where(id: unscoped_event_ids).distinct.select(:organization_id)
+       ).distinct.sort_by{|s| s.name}
     end
 
     def notification_subjects
@@ -57,8 +59,9 @@ module Types::Connections
         .reorder(nil)
         .includes(:subject)
         .select("events.subject_id, events.subject_type, count(distinct(events.id)) as occurance_count")
+        .order("occurance_count DESC")
+        .limit(10)
         .map {|e|  { subject: e.subject, occurance_count: e.occurance_count } }
-        .sort_by {|s| -s[:occurance_count] }
     end
 
     def unread_count
