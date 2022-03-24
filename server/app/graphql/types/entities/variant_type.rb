@@ -34,7 +34,7 @@ module Types::Entities
       Loaders::AssociationLoader.for(Variant, :evidence_items).load(object)
     end
 
-    def five_prime_coordinates
+    def three_prime_coordinates
       {
         representative_transcript: object.representative_transcript,
         chromosome: object.chromosome,
@@ -45,7 +45,7 @@ module Types::Entities
       }
     end
 
-    def three_prime_coordinates
+    def five_prime_coordinates
       {
         representative_transcript: object.representative_transcript2,
         chromosome: object.chromosome2,
