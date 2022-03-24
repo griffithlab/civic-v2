@@ -22,7 +22,7 @@
     </nz-form-item>
     <ng-container *ngIf="this.success">
       <nz-alert nzType="success"
-        nzMessage="SourceSuggestion Submitted"
+        nzMessage="Source Suggestion Submitted"
         [nzDescription]="successMessage"
         nzShowIcon></nz-alert>
       <ng-template #successMessage
@@ -37,10 +37,10 @@
   </ng-template>
 </nz-spin>
 
-<div nz-row>
-  <div nz-col
-    nzSpan="24">
-    <ngx-json-viewer *ngIf="formModel"
-      [json]="formModel"></ngx-json-viewer>
-  </div>
-</div>
+<!-- <div nz-row>
+     <div nz-col
+     nzSpan="24">
+     <ngx-json-viewer *ngIf="formModel"
+     [json]="formModel"></ngx-json-viewer>
+     </div>
+     </div> -->
