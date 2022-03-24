@@ -1,8 +1,8 @@
 <ng-container *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">
   <nz-row [nzGutter]="16">
-    <nz-col nzSpan="18">
+    <nz-col [nzSpan]="this.showFilters ? '18' : '24'">
       <nz-space nzDirection="vertical" style="width: 100%">
-        <nz-card nzTitle="Events" *nzSpaceItem>
+        <nz-card [nzTitle]="this.showFilters ? 'Events' : undefined" *nzSpaceItem>
           <ng-container *ngIf="events$ | ngrxPush as events">
             <nz-row [nzGutter]="16">
               <nz-col nzSpan="24" class="timeline">

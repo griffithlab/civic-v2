@@ -36,12 +36,12 @@ export class CvcEventFeedComponent implements OnInit {
   @Input() tagDisplay: EventDisplayOption = "displayAll"
   @Input() mode: EventFeedMode = EventFeedMode.Subject
   @Input() showFilters: boolean = true
+  @Input() pageSize = 15
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
 
   private initialQueryVars?: EventFeedQueryVariables;
-  private pageSize = 15;
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
@@ -61,7 +61,8 @@ export class CvcEventFeedComponent implements OnInit {
       organizationId: this.organizationId,
       originatingUserId: this.userId,
       first: this.pageSize,
-      mode: this.mode
+      mode: this.mode,
+      showFilters: this.showFilters
     }
 
     this.queryRef = this.gql.watch(this.initialQueryVars, {});
@@ -83,17 +84,19 @@ export class CvcEventFeedComponent implements OnInit {
       })
     )
 
-    this.participants$ = this.results$.pipe(
-      map(({ data }) => data.events.uniqueParticipants)
-    )
+    if(this.showFilters) {
+      this.participants$ = this.results$.pipe(
+        map(({ data }) => data.events.uniqueParticipants)
+      )
 
-    this.organizations$ = this.results$.pipe(
-      map(({ data }) => data.events.participatingOrganizations)
-    )
+      this.organizations$ = this.results$.pipe(
+        map(({ data }) => data.events.participatingOrganizations)
+      )
 
-    this.actions$ = this.results$.pipe(
-      map(({data}) => data.events.eventTypes.map((et) => {return {id: et}}))
-    )
+      this.actions$ = this.results$.pipe(
+        map(({data}) => data.events?.eventTypes?.map((et) => {return {id: et}}) || [])
+      )
+    }
   }
 
   fetchMore(endCursor: string) {
@@ -107,19 +110,22 @@ export class CvcEventFeedComponent implements OnInit {
 
   onOrganizationSelected(s: Maybe<NotificationOrganizationFragment>) {
     this.queryRef.refetch({
-      organizationId: s?.id
+      organizationId: s?.id,
+      showFilters: this.showFilters
     })
   }
 
   onActionSelected(a: Maybe<SelectableAction>) {
     this.queryRef.refetch({
-      eventType: a ? a.id : undefined
+      eventType: a ? a.id : undefined,
+      showFilters: this.showFilters
     })
   }
 
   onOriginatingUserSelected(s: Maybe<NotificationOriginatingUsersFragment>) {
     this.queryRef.refetch({
-      originatingUserId: s?.id
+      originatingUserId: s?.id,
+      showFilters: this.showFilters
     })
   }
 
@@ -145,7 +151,8 @@ export class CvcEventFeedComponent implements OnInit {
 
     this.queryRef.refetch({
       ...this.initialQueryVars,
-      subject: newSubscribable
+      subject: newSubscribable,
+      showFilters: this.showFilters
     })
   }
 }
