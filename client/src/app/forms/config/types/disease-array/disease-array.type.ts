@@ -8,8 +8,8 @@ import { takeUntil } from 'rxjs/operators';
 import { EvidenceState } from '../../states/evidence.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
-    const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
-    return etCtrl ? `${formatEvidenceEnum(etCtrl.value)} Evidence requires a disease to be specified.` : 'Disease is required.';
+  const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
+  return etCtrl ? `${formatEvidenceEnum(etCtrl.value)} Evidence requires a disease to be specified.` : 'Disease is required.';
 };
 
 export const diseaseArrayTypeOption: TypeOption = {
@@ -64,7 +64,7 @@ export const diseaseArrayTypeOption: TypeOption = {
       },
       onDestroy: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to: FormlyTemplateOptions = ffc!.templateOptions!;
-        to.vcSub.unsubscribe();
+        if (to.vcSub) { to.vcSub.unsubscribe(); }
       }
     },
   }
