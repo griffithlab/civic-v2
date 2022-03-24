@@ -59,6 +59,8 @@ module Types::Connections
             raise GraphQL::ExecutionError, "Must provide an organization id when event feed is in Organization mode."
           end
           return Event.where(organization_id: object.arguments[:organization_id])
+        elsif feed_mode == :unscoped
+          Event.all
         #subject mode
         else 
           if !object.arguments[:subject]

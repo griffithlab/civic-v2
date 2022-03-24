@@ -12,6 +12,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcSiteStatsCardComponent } from './site-stats-card.component';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveComponentModule,
     NzStatisticModule,
     NzGridModule,
@@ -28,6 +31,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
     NzButtonModule,
     NzSkeletonModule,
     NzTypographyModule,
+    NzIconModule,
     NgxJsonViewerModule,
   ],
   exports: [

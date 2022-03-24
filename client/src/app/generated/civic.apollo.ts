@@ -1208,6 +1208,7 @@ export type EventEdge = {
 export enum EventFeedMode {
   Organization = 'ORGANIZATION',
   Subject = 'SUBJECT',
+  Unscoped = 'UNSCOPED',
   User = 'USER'
 }
 
@@ -4770,6 +4771,7 @@ export type EventFeedQueryVariables = Exact<{
   organizationId?: Maybe<Scalars['Int']>;
   eventType?: Maybe<EventAction>;
   mode?: Maybe<EventFeedMode>;
+  showFilters: Scalars['Boolean'];
 }>;
 
 
@@ -4783,7 +4785,7 @@ export type EventFeedQuery = (
 
 export type EventFeedFragment = (
   { __typename: 'EventConnection' }
-  & Pick<EventConnection, 'eventTypes' | 'unfilteredCount'>
+  & MakeOptional<Pick<EventConnection, 'eventTypes' | 'unfilteredCount'>, 'eventTypes'>
   & { pageInfo: (
     { __typename: 'PageInfo' }
     & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
@@ -8090,15 +8092,15 @@ export const EventFeedFragmentDoc = gql`
     hasNextPage
     hasPreviousPage
   }
-  eventTypes
+  eventTypes @include(if: $showFilters)
   unfilteredCount
-  uniqueParticipants {
+  uniqueParticipants @include(if: $showFilters) {
     id
     displayName
     role
     profileImagePath(size: 32)
   }
-  participatingOrganizations {
+  participatingOrganizations @include(if: $showFilters) {
     id
     name
     profileImagePath(size: 32)
@@ -10005,7 +10007,7 @@ export const DrugsBrowseDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $showFilters: Boolean!) {
   events(
     subject: $subject
     first: $first

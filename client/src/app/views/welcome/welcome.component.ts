@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventFeedMode } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'app-welcome',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome.component.less']
 })
 export class WelcomeComponent implements OnInit {
+
+  feedMode =  EventFeedMode.Unscoped
 
   constructor() {
   }
