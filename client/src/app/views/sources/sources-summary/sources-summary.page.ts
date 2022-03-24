@@ -7,10 +7,10 @@ import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-sources-summary',
-  templateUrl: './sources-summary.component.html',
-  styleUrls: ['./sources-summary.component.less']
+  templateUrl: './sources-summary.page.html',
+  styleUrls: ['./sources-summary.page.less']
 })
-export class SourcesSummaryComponent implements OnDestroy {
+export class SourcesSummaryPage implements OnDestroy {
   routeSub: Subscription;
   sourceId?: number;
 
@@ -31,7 +31,7 @@ export class SourcesSummaryComponent implements OnDestroy {
       this.loading$ = observable.pipe(
         pluck('loading'),
         startWith(true));
-      
+
       this.source$ = observable.pipe(
           pluck('data', 'source'));
     });

@@ -6,16 +6,18 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { SourcesSummaryComponent } from './sources-summary.component';
+import { SourcesSummaryPage } from './sources-summary.page';
 
 @NgModule({
-  declarations: [SourcesSummaryComponent],
+  declarations: [SourcesSummaryPage],
   imports: [
     CommonModule,
     ReactiveComponentModule,
     NzSpaceModule,
     NzGridModule,
+    NzIconModule,
     CvcEntityTableCardModule,
     CvcEvidenceTableModule,
     CvcSourceSuggestionsTableModule,

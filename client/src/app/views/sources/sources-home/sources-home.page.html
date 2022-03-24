@@ -1,3 +1,15 @@
+<cvc-section-navigation [actionsTpl]="sourcesActions"> </cvc-section-navigation>
+<ng-template #sourcesActions>
+  <ng-container *ngrxLet="viewer$ as viewer">
+    <button routerLink="/sources/add"
+      *ngIf="viewer.signedIn"
+      nz-button
+      nzSize="small">
+      <i nz-icon nzType="plus-circle"></i>
+      Suggest a New Source
+    </button>
+  </ng-container>
+</ng-template>
 <nz-page-header class="site-page-header">
 
   <!--title-->

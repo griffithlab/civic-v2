@@ -4,19 +4,23 @@ import { RouterModule } from '@angular/router';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { SourcesDetailComponent } from './sources-detail.component';
+import { SourcesDetailView } from './sources-detail.view';
 
 @NgModule({
-  declarations: [SourcesDetailComponent],
+  declarations: [SourcesDetailView],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveComponentModule,
     NzPageHeaderModule,
+    NzButtonModule,
+    NzIconModule,
     CvcSectionNavigationModule,
     CvcLinkTagModule,
   ],
-  exports: [SourcesDetailComponent]
+  exports: [SourcesDetailView]
 })
 export class SourcesDetailModule { }
