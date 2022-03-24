@@ -8,11 +8,13 @@ import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sou
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [SourcesHomePage],
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveComponentModule,
     NzPageHeaderModule,
     NzIconModule,

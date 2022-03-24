@@ -12,11 +12,7 @@ const routes: Routes = [
     path: '',
     component: SourcesView,
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: SourcesHomePage,

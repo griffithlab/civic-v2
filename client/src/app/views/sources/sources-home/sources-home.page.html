@@ -5,8 +5,8 @@
       *ngIf="viewer.signedIn"
       nz-button
       nzSize="small">
-      <i nz-icon nzType="plus-circle"></i>
-      Suggest a New Source
+      <i nz-icon
+        nzType="plus-circle"></i> Suggest a New Source
     </button>
   </ng-container>
 </ng-template>
@@ -14,14 +14,15 @@
 
   <!--title-->
   <nz-page-header-title>
-    <i nz-icon nzType="civic:source"></i>
-    Sources
+    <i nz-icon
+      nzType="civic:source"></i> Sources
   </nz-page-header-title>
 
   <!--content-->
   <nz-page-header-content>
     <div nz-row>
-      <div nz-col [nzSpan]="24">
+      <div nz-col
+        [nzSpan]="24">
         <div class="content">
           <cvc-sources-table></cvc-sources-table>
         </div>
