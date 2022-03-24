@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SourceAddPage } from './source-add/source-add.page';
 import { SourcesDetailView } from './sources-detail/sources-detail.view';
 import { SourcesHomePage } from './sources-home/sources-home.page';
-import { SourcesSummaryPage } from './sources-summary/sources-summary.page';
+import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page';
 
 import { SourcesView } from './sources.view';
 
@@ -27,7 +27,7 @@ const routes: Routes = [
       {
         path: 'add',
         data: {
-          breadcrumb: 'Add Source',
+          breadcrumb: 'Submit a Source Suggestion',
         },
         component: SourceAddPage
       },

@@ -6,7 +6,7 @@ import { SourcesView } from './sources.view';
 
 import { SourcesHomeModule } from './sources-home/sources-home.module';
 import { SourcesDetailModule } from './sources-detail/sources-detail.module';
-import { SourcesSummaryModule } from './sources-summary/sources-summary.module';
+import { SourcesSummaryModule } from './sources-detail/sources-summary/sources-summary.module';
 import { SourceAddModule } from './source-add/source-add.module';
 
 @NgModule({
