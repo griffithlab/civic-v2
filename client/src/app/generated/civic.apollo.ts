@@ -5945,7 +5945,7 @@ export type VariantsMenuQuery = (
 
 export type MenuVariantFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
+  & Pick<Variant, 'id' | 'name' | 'link'>
 );
 
 export type BrowseVariantsQueryVariables = Exact<{
@@ -8722,6 +8722,7 @@ export const MenuVariantFragmentDoc = gql`
     fragment menuVariant on Variant {
   id
   name
+  link
 }
     `;
 export const PreviewCommentFragmentDoc = gql`
