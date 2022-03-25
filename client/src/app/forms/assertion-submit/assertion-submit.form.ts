@@ -2,13 +2,35 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceItem, Maybe, NccnGuideline, NullableAmpLevelTypeInput, Organization, SubmitAssertionGQL, SubmitAssertionInput, SubmitAssertionMutation, SubmitAssertionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
+import * as fmt from '@app/forms/config/utilities/input-formatters';
+import {
+    AcmgCode,
+    AmpLevel,
+    AssertionClinicalSignificance,
+    AssertionDirection,
+    AssertionType,
+    DrugInteraction,
+    Maybe,
+    NccnGuideline,
+    Organization,
+    SubmitAssertionGQL,
+    SubmitAssertionInput,
+    SubmitAssertionMutation,
+    SubmitAssertionMutationVariables,
+    VariantOrigin
+} from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
-import { FormDisease, FormDrug, FormEvidence, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
-import * as fmt from '@app/forms/config/utilities/input-formatters';
+import {
+  FormDisease,
+  FormDrug,
+  FormEvidence,
+  FormGene,
+  FormPhenotype,
+  FormVariant
+} from '../forms.interfaces';
 
 interface FormModel {
   fields: {

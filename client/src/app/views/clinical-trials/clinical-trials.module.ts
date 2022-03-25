@@ -14,7 +14,6 @@ import { ClinicalTrialsRoutingModule } from './clinical-trials-routing.module';
 import { ClinicalTrialsComponent } from './clinical-trials.component';
 import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component';
 import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary/clinical-trials-summary.component';
-import { SourcesModule } from '../sources/sources.module';
 import { ClinicalTrialsHomeModule } from './clinical-trials-home/clinical-trials-home.module';
 import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -43,7 +42,6 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     NzGridModule,
     NzToolTipModule,
     NzSpaceModule,
-    SourcesModule,
   ],
 })
 export class ClinicalTrialsModule {}

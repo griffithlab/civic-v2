@@ -6717,6 +6717,23 @@ export type SuggestGeneRevisionMutation = (
   )> }
 );
 
+export type SuggestSourceMutationVariables = Exact<{
+  input: SuggestSourceInput;
+}>;
+
+
+export type SuggestSourceMutation = (
+  { __typename: 'Mutation' }
+  & { suggestSource?: Maybe<(
+    { __typename: 'SuggestSourcePayload' }
+    & Pick<SuggestSourcePayload, 'clientMutationId'>
+    & { sourceSuggestion: (
+      { __typename: 'SourceSuggestion' }
+      & Pick<SourceSuggestion, 'id'>
+    ) }
+  )> }
+);
+
 export type UpdateCoiMutationVariables = Exact<{
   input: UpdateCoiInput;
 }>;
@@ -11818,6 +11835,27 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestSourceDocument = gql`
+    mutation SuggestSource($input: SuggestSourceInput!) {
+  suggestSource(input: $input) {
+    clientMutationId
+    sourceSuggestion {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestSourceGQL extends Apollo.Mutation<SuggestSourceMutation, SuggestSourceMutationVariables> {
+    document = SuggestSourceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

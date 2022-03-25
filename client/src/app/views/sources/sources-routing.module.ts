@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SourcesDetailComponent } from './sources-detail/sources-detail.component';
+import { SourceAddPage } from './source-add/source-add.page';
+import { SourcesDetailView } from './sources-detail/sources-detail.view';
 import { SourcesHomePage } from './sources-home/sources-home.page';
-import { SourcesSummaryComponent } from './sources-summary/sources-summary.component';
+import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page';
 
-import { SourcesComponent } from './sources.component';
+import { SourcesView } from './sources.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: SourcesComponent,
+    component: SourcesView,
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: SourcesHomePage,
@@ -24,8 +21,15 @@ const routes: Routes = [
         }
       },
       {
+        path: 'add',
+        data: {
+          breadcrumb: 'Submit a Source Suggestion',
+        },
+        component: SourceAddPage
+      },
+      {
         path: ':sourceId',
-        component: SourcesDetailComponent,
+        component: SourcesDetailView,
         data: {
           breadcrumb: 'DISPLAYNAME'
         },
@@ -33,7 +37,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'summary', pathMatch: 'full' },
           {
             path: 'summary',
-            component: SourcesSummaryComponent,
+            component: SourcesSummaryPage,
             data: {
               breadcrumb: 'Summary'
             },
@@ -46,6 +50,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class SourcesRoutingModule { }
