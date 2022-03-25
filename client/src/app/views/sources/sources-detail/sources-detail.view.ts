@@ -1,17 +1,25 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Maybe, SourceDetailFieldsFragment, SourceDetailGQL, SourceDetailQuery, SourceDetailQueryVariables } from '@app/generated/civic.apollo';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
+import {
+    Maybe,
+    SourceDetailFieldsFragment,
+    SourceDetailGQL,
+    SourceDetailQuery,
+    SourceDetailQueryVariables
+} from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subscription } from 'rxjs';
 import { pluck, startWith } from "rxjs/operators";
 
 @Component({
   selector: 'cvc-sources-detail',
-  templateUrl: './sources-detail.component.html',
-  styleUrls: ['./sources-detail.component.less']
+  templateUrl: './sources-detail.view.html',
+  styleUrls: ['./sources-detail.view.less']
 })
 
-export class SourcesDetailComponent implements OnDestroy {
+export class SourcesDetailView implements OnDestroy {
+  viewer$?: Observable<Viewer>;
   routeSub: Subscription;
   sourceId?: number;
 
@@ -20,7 +28,12 @@ export class SourcesDetailComponent implements OnDestroy {
   loading$?: Observable<boolean>;
   source$?: Observable<Maybe<SourceDetailFieldsFragment>>
 
-  constructor( private route: ActivatedRoute, private gql: SourceDetailGQL) {
+  constructor(private viewerService: ViewerService,
+              private route: ActivatedRoute,
+              private gql: SourceDetailGQL) {
+
+    this.viewer$ = this.viewerService.viewer$;
+
     this.routeSub = this.route.params.subscribe((params) => {
       this.sourceId = +params.sourceId;
 
@@ -32,7 +45,7 @@ export class SourcesDetailComponent implements OnDestroy {
       this.loading$ = observable.pipe(
         pluck('loading'),
         startWith(true));
-      
+
       this.source$ = observable.pipe(
           pluck('data', 'source'));
     });

@@ -254,6 +254,14 @@
       </li>
     </ul>
 
+    <div nz-row nzJustify="center" nzAlign="bottom">
+      <div nz-col>
+        <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">
+          <img width="100" src="assets/images/cc-zero.png" *ngIf="!isCollapsed"
+            alt="CC0 1.0 Universal (CC0 1.0) Public Domain Dedication Logo" >
+        </a>
+      </div>
+    </div>
   </nz-sider>
   <nz-layout class="right-layout" [ngClass]="{ 'is-collapsed': isCollapsed }">
     <nz-header>

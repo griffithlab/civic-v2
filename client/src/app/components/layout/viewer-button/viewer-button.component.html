@@ -25,7 +25,7 @@
             </a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/assertions/add/submit">
+            <a routerLink="/sources/add">
               Suggest Source
             </a>
           </li>
@@ -44,7 +44,7 @@
       </nz-badge>
       <nz-dropdown-menu #userMenu="nzDropdownMenu">
         <ul nz-menu>
-          <li nz-menu-item>Signed In as <strong>{{viewer.username}}</strong></li>
+          <li nz-menu-item>Signed In as&nbsp;<strong>{{viewer.username}}</strong></li>
           <li nz-menu-divider></li>
           <li nz-menu-item *ngIf="viewer.invalidCoi" (click)="this.coiUpdateModalVisible = true">
             <nz-badge nzColor="orange" [nzShowDot]="true">

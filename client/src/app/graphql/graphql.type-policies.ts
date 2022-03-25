@@ -94,6 +94,7 @@ export const CvcTypePolicies: TypePolicies = {
         'diseaseName',
         'drugName',
         'id',
+        'name',
         'summary',
         'assertionDirection',
         'clinicalSignificance',
