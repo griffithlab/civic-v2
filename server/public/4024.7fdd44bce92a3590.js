@@ -830,6 +830,7 @@
     fragment menuVariant on Variant {
   id
   name
+  link
 }
     `,Dn=v`
     fragment previewComment on CommentBodySegment {
