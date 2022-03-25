@@ -65,23 +65,27 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option :sort_by, type: Types::BrowseTables::AssertionSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|
     case value.column
     when 'ID'
-      scope.order("assertions.id #{value.direction}")
+      scope.reorder("assertions.id #{value.direction}")
+    when 'GENE_NAME'
+      scope.joins(:gene).reorder("genes.name #{value.direction}")
+    when 'VARIANT_NAME'
+      scope.joins(:variant).reorder("variants.name #{value.direction}")
     when 'DISEASE_NAME'
-      scope.joins(:disease).order("diseases.name #{value.direction}")
+      scope.joins(:disease).reorder("diseases.name #{value.direction}")
     when 'DRUG_NAME'
-      scope.joins(:drugs).order("drugs.name #{value.direction}")
+      scope.joins(:drugs).reorder("drugs.name #{value.direction}")
     when 'SUMMARY'
-      scope.order("assertions.summary #{value.direction}")
+      scope.reorder("assertions.summary #{value.direction}")
     when 'ASSERTION_TYPE'
-      scope.order("assertion_type #{value.direction}")
+      scope.reorder("evidence_type #{value.direction}")
     when 'STATUS'
-      scope.order("status #{value.direction}")
+      scope.reorder("status #{value.direction}")
     when 'ASSERTION_DIRECTION'
-      scope.order("assertion_direction #{value.direction}")
+      scope.reorder("evidence_direction #{value.direction}")
     when 'CLINICAL_SIGNIFICANCE'
-      scope.order("clinical_significance #{value.direction}")
+      scope.reorder("clinical_significance #{value.direction}")
     when 'AMP_LEVEL'
-      scope.order("amp_level #{value.direction}")
+      scope.reorder("amp_level #{value.direction}")
     end
   end
 end
