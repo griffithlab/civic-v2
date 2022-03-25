@@ -35,4 +35,5 @@ query VariantsMenu(
 fragment menuVariant on Variant {
   id
   name
+  link
 }
