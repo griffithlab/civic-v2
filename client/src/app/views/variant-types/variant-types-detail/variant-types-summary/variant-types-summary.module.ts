@@ -5,6 +5,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sources-table.module';
+import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 
 @NgModule({
   declarations: [VariantTypesSummaryComponent],
@@ -14,6 +15,7 @@ import { CvcSourcesTableModule } from '@app/components/sources/sources-table/sou
     CvcEntityTableCardModule,
     CvcEvidenceTableModule,
     CvcSourcesTableModule,
+    CvcVariantsTableModule,
   ]
 })
 export class VariantTypesSummaryModule { }
