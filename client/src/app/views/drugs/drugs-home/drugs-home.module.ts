@@ -5,6 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcDrugsTableModule } from '@app/components/drugs/drugs-table/drugs-table.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [DrugsHomePage],
@@ -13,6 +14,7 @@ import { CvcDrugsTableModule } from '@app/components/drugs/drugs-table/drugs-tab
     NzIconModule,
     NzPageHeaderModule,
     NzGridModule,
+    CvcSectionNavigationModule,
     CvcDrugsTableModule,
   ],
   exports: [DrugsHomePage]

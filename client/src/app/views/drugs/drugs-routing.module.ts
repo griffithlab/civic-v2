@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DrugsDetailComponent } from './drugs-detail/drugs-detail.component';
 import { DrugsHomePage } from './drugs-home/drugs-home.page';
-import { DrugsSummaryComponent } from './drugs-summary/drugs-summary.component';
+import { DrugsSummaryComponent } from './drugs-detail/drugs-summary/drugs-summary.component';
 import { DrugsComponent } from './drugs.component';
 
 const routes: Routes = [
