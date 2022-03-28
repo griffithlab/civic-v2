@@ -76,6 +76,9 @@
           },
           {
             "name": "SourceSuggestion"
+          },
+          {
+            "name": "Variant"
           }
         ]
       },
