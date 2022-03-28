@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantTypesHomePage } from './variant-types-home.page';
+import { VariantTypesDetailComponent } from './variant-types-detail.component';
+import { RouterModule } from '@angular/router';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { CvcVariantTypesTableModule } from '@app/components/variant-types/variant-types-table/variant-types-table.module';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
-  declarations: [VariantTypesHomePage],
+  declarations: [VariantTypesDetailComponent],
   imports: [
     CommonModule,
+    RouterModule,
+    ReactiveComponentModule,
     NzPageHeaderModule,
     NzIconModule,
-    NzGridModule,
+    CvcLinkTagModule,
     CvcSectionNavigationModule,
-    CvcVariantTypesTableModule,
-  ],
-  exports: [VariantTypesHomePage]
+  ]
 })
-export class VariantTypesHomeModule { }
+export class VariantTypesDetailModule { }
