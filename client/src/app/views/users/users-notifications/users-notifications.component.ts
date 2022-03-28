@@ -108,7 +108,7 @@ interface Checked { checked: boolean }
     this.notificationSubjects$ = this.results$.pipe(
       map(({data}) => {
         return data.notifications.notificationSubjects.map((ns) => {
-          return { id: `${ns.subject.__typename}:${ns.subject.id}`, subjectWithCount: ns} 
+          return { id: `${ns.subject?.__typename}:${ns.subject?.id}`, subjectWithCount: ns} 
         })
       })
     )
@@ -161,9 +161,9 @@ interface Checked { checked: boolean }
     let orgObj: Maybe<SubscribableInput> = undefined
 
     if (s !== undefined) {
-      let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subjectWithCount.subject.__typename
+      let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subjectWithCount.subject?.__typename
       orgObj = { 
-        id: s.subjectWithCount.subject.id,
+        id: s.subjectWithCount.subject!.id,
         entityType: SubscribableEntities[entityType]
       }
     }
