@@ -22,23 +22,24 @@ module Types::Connections
 
 
     def mentioning_users
-       User.where(
-         id: Notification.where(
-           notified_user: notified_user,
-           type: 'mention',
-           seen: false
-         ).distinct.select(:originating_user_id),
-       ).sort_by{|u| u.display_name}
+      User.where(
+        id: Notification.where(
+          notified_user: notified_user,
+          type: 'mention',
+          seen: false
+        ).distinct.select(:originating_user_id),
+      ).sort_by{|u| u.display_name}
     end
 
     def originating_users
-       User.where(
-         id: Notification.where(
-           notified_user: notified_user,
-           type: 'subscribed_event',
-           seen: false
-         ).distinct.select(:originating_user_id),
-       ).sort_by{|u| u.display_name}
+      popular_user_ids = Notification.where(notified_user: notified_user, seen: false)
+        .group(:originating_user_id)
+        .reorder(nil)
+        .select("notifications.originating_user_id")
+        .order(Arel.sql("count(distinct(notifications.id)) DESC"))
+        .limit(10)
+
+      User.where(id: popular_user_ids).distinct
     end
 
     def event_types
@@ -46,9 +47,18 @@ module Types::Connections
     end
 
     def organizations
-        Organization.where(
-          id: Event.where(id: unscoped_event_ids).distinct.select(:organization_id)
-        ).distinct.sort_by{|s| s.name}
+      popular_org_ids = Notification
+        .where(notified_user: notified_user, seen: false)
+        .joins(:event)
+        .where.not(events: {organization_id: nil })
+        .group('events.organization_id')
+        .reorder(nil)
+        .select("events.organization_id")
+        .order(Arel.sql("count(distinct(notifications.id)) DESC"))
+        .limit(10)
+
+
+      Organization.where(id: popular_org_ids).distinct
     end
 
     def notification_subjects
@@ -57,8 +67,10 @@ module Types::Connections
         .reorder(nil)
         .includes(:subject)
         .select("events.subject_id, events.subject_type, count(distinct(events.id)) as occurance_count")
+        .order("occurance_count DESC")
+        .limit(10)
         .map {|e|  { subject: e.subject, occurance_count: e.occurance_count } }
-        .sort_by {|s| -s[:occurance_count] }
+        .reject { |e| e[:subject].nil? }
     end
 
     def unread_count

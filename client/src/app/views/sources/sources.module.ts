@@ -8,6 +8,7 @@ import { SourcesHomeModule } from './sources-home/sources-home.module';
 import { SourcesDetailModule } from './sources-detail/sources-detail.module';
 import { SourcesSummaryModule } from './sources-detail/sources-summary/sources-summary.module';
 import { SourceAddModule } from './source-add/source-add.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SourceAddModule } from './source-add/source-add.module';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     SourcesRoutingModule,
     SourcesHomeModule,
     SourcesDetailModule,
