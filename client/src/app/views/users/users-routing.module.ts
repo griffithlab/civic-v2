@@ -17,21 +17,17 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-       path: 'home',
-       component: UsersHomePage
+        path: 'home',
+        component: UsersHomePage,
+        data: {
+          displayName: 'Home'
+        }
       },
       {
         path: ':userId',
         component: UsersDetailComponent,
-        data: {
-          breadcrumb: 'DISPLAYNAME'
-        },
+        data: { breadcrumb: 'DISPLAYNAME' },
         children: [
-        //  {path: '', redirectTo: 'badges', pathMatch: 'full'},
-        //  {
-        //    path: 'badges',
-        //    component: UsersBadgesComponent
-        //  },
           {
             path: 'evidence',
             component: UsersEvidenceComponent,
