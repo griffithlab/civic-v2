@@ -22,8 +22,19 @@
       nzMode="inline"
       class="menu-group"
       [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-group>
+        <ul>
+          <li nz-menu-item
+            nzSelected
+            nzMatchRouter>
+            <i nz-icon
+              nzType="home" nzThemes="filled"></i>
+            <span> <a routerLink="/">Home</a> </span>
+          </li>
+        </ul>
+      </li>
       <li nz-menu-group
-        nzTitle="Entities">
+        [nzTitle]="isCollapsed ? 'KNOW' : 'KNOWLEDGEBASE'">
         <ul>
           <li nz-menu-item
             nz-tooltip
@@ -83,8 +94,7 @@
         </ul>
       </li>
 
-      <li nz-menu-group
-        nzTitle="Attributes">
+      <li nz-menu-group>
         <ul>
           <li nz-menu-item
             nz-tooltip
@@ -141,16 +151,6 @@
             <span> <a routerLink="/sources">Sources</a> </span>
           </li>
 
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Source Suggestions' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="file-add"></i>
-            <span> <a routerLink="/source-suggestions">Source Suggestions</a> </span>
-          </li>
 
           <li nz-menu-item
             nz-tooltip
@@ -166,9 +166,18 @@
       </li>
 
       <li nz-menu-group
-        nzTitle="Curation">
+        [nzTitle]="isCollapsed ? 'CURATE' : 'CURATION'">
         <ul>
-
+          <li nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'Source Suggestions' : ''"
+            nzSelected
+            nzMatchRouter>
+            <i nz-icon
+              nzType="file-add"></i>
+            <span> <a routerLink="/curation/queues/pending-souces">Sources Queue</a> </span>
+          </li>
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
@@ -205,7 +214,7 @@
         </ul>
       </li>
       <li nz-menu-group
-        nzTitle="Community">
+        [nzTitle]="isCollapsed ? 'COMM' : 'COMMUNITY'">
         <ul>
 
           <li nz-menu-item
@@ -244,7 +253,7 @@
         </ul>
       </li>
       <li nz-menu-group
-        nzTitle="Resources">
+        [nzTitle]="isCollapsed ? 'RES' : 'RESOURCES'">
         <ul>
           <li nz-menu-item
             nz-tooltip
@@ -324,20 +333,6 @@
     </nz-header>
     <nz-content>
       <router-outlet></router-outlet>
-      <!-- <div nz-row>
-           <div nz-icol nzSpan="12" >
-           <h4>data$:</h4>
-           <ngx-json-viewer *ngIf="(data$ | async) as data" [json]="data" [expanded]="false"></ngx-json-viewer>
-           </div>
-           <div nz-icol nzSpan="12" >
-           <h4>viewer$:</h4>
-           <p>Signed in: {{ signedIn$ | async }}</p>
-           <p>Signed out: {{ signedOut$ | async }}</p>
-           <p>Can curate: {{ canCurate$ | async }}</p>
-           <p>Can moderate: {{ canModerate$ | async }}</p>
-           <ngx-json-viewer *ngIf="(viewer$ | async) as data" [json]="data" [expanded]="false"></ngx-json-viewer>
-           </div>
-           </div> -->
     </nz-content>
   </nz-layout>
 </nz-layout>
