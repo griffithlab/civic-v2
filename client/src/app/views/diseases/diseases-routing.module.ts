@@ -11,11 +11,7 @@ const routes: Routes = [
     path: '',
     component: DiseasesComponent,
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: DiseasesHomePage,
