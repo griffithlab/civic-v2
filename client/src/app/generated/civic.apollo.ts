@@ -1250,7 +1250,7 @@ export type EventSubjectEventsArgs = {
 export type EventSubjectWithCount = {
   __typename: 'EventSubjectWithCount';
   occuranceCount: Scalars['Int'];
-  subject: EventSubject;
+  subject?: Maybe<EventSubject>;
 };
 
 export enum EvidenceClinicalSignificance {
@@ -4029,7 +4029,7 @@ export type ValidationErrors = {
   validationErrors: Array<FieldValidationError>;
 };
 
-export type Variant = Commentable & EventSubject & Flaggable & WithRevisions & {
+export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Variant';
   alleleRegistryId?: Maybe<Scalars['String']>;
   clinvarIds?: Maybe<Array<Scalars['String']>>;
@@ -4859,6 +4859,9 @@ export type EventFeedNodeFragment = (
   ) | (
     { __typename: 'SourceSuggestion' }
     & Pick<SourceSuggestion, 'id' | 'name' | 'link'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name' | 'link'>
   )> }
 );
 
@@ -7506,7 +7509,7 @@ export type NotificationOriginatingUsersFragment = (
 export type NotificationFeedSubjectsFragment = (
   { __typename: 'EventSubjectWithCount' }
   & Pick<EventSubjectWithCount, 'occuranceCount'>
-  & { subject: (
+  & { subject?: Maybe<(
     { __typename: 'Assertion' }
     & Pick<Assertion, 'id' | 'name'>
   ) | (
@@ -7533,7 +7536,7 @@ export type NotificationFeedSubjectsFragment = (
   ) | (
     { __typename: 'VariantGroup' }
     & Pick<VariantGroup, 'id' | 'name'>
-  ) }
+  )> }
 );
 
 export type NotificationNodeFragment = (

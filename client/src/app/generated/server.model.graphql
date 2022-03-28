@@ -1926,7 +1926,7 @@ An event subject paired with a count of how many times that subject has appeared
 """
 type EventSubjectWithCount {
   occuranceCount: Int!
-  subject: EventSubject!
+  subject: EventSubject
 }
 
 enum EvidenceClinicalSignificance {
@@ -6513,7 +6513,7 @@ type ValidationErrors {
   validationErrors: [FieldValidationError!]!
 }
 
-type Variant implements Commentable & EventSubject & Flaggable & WithRevisions {
+type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   alleleRegistryId: String
   clinvarIds: [String!]
 
