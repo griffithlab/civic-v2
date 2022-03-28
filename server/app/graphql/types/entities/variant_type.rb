@@ -6,6 +6,7 @@ module Types::Entities
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::EventOriginObject
 
     field :id, Int, null: false
     field :name, String, null: false
