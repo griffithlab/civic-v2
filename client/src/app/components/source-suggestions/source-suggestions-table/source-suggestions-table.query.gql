@@ -54,9 +54,21 @@ query BrowseSourceSuggestions(
 
 fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   id
-  geneName
-  variantName
-  diseaseName
+  gene {
+    id
+    name
+    link
+  }
+  variant {
+    id
+    name
+    link
+  }
+  disease {
+    id
+    name
+    link
+  }
   source {
     id
     citation

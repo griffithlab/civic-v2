@@ -5421,7 +5421,7 @@ type SourceStub {
 }
 
 type SourceSuggestion implements EventOriginObject & EventSubject {
-  diseaseName: String
+  disease: Disease
 
   """
   List and filter events for an object
@@ -5455,15 +5455,15 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
-  geneName: String
+  gene: Gene
   id: Int!
   initialComment: String!
   link: String!
   name: String!
-  source: Source!
+  source: Source
   status: SourceSuggestionStatus!
-  user: User!
-  variantName: String
+  user: User
+  variant: Variant
 }
 
 """
@@ -6035,9 +6035,9 @@ input SuggestSourceInput {
   sourceId: Int!
 
   """
-  Name of the variant discussed in this source.
+  Internal CIViC ID for the applicable variant, if any.
   """
-  variantName: String
+  variantId: Int
 }
 
 """

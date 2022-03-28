@@ -22,15 +22,15 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
   end
 
   option(:gene_name, type: String) do |scope, value|
-    scope.where('source_suggestions.gene_name ILIKE ?', "#{value}%")
+    scope.joins(:gene).where('genes.name ILIKE ?', "#{value}%")
   end
 
   option(:variant_name, type: String) do |scope, value|
-    scope.where('source_suggestions.variant_name ILIKE ?', "#{value}%")
+    scope.joins(:variant).where('variants.name ILIKE ?', "#{value}%")
   end
 
   option(:disease_name, type: String) do |scope, value|
-    scope.where('source_suggestions.disease_name ILIKE ?', "%#{value}%")
+    scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
   end
 
   option(:comment, type: String) do |scope, value|

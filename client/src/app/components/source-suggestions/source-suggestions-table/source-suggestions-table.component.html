@@ -104,25 +104,29 @@
         {{ suggestion.status | lowercase }}
       </td>
       <td>
-        <cvc-user-tag [user]="suggestion.user"></cvc-user-tag>
+        <cvc-user-tag *ngIf="suggestion.user" [user]="suggestion.user"></cvc-user-tag>
       </td>
       <td>
-        {{ suggestion.source.displayType }}
+        <ng-container *ngIf="suggestion.source">
+          {{ suggestion.source.displayType }}
+        </ng-container>
       </td>
       <td>
-        {{ suggestion.source.citationId}}
+        <ng-container *ngIf="suggestion.source">
+          {{ suggestion.source.citationId}}
+        </ng-container>
       </td>
       <td>
-        <cvc-source-tag [source]="suggestion.source"></cvc-source-tag>
+        <cvc-source-tag *ngIf="suggestion.source" [source]="suggestion.source"></cvc-source-tag>
       </td>
       <td>
-        {{ suggestion.geneName }}
+        <cvc-gene-tag *ngIf="suggestion.gene" [gene]="suggestion.gene"></cvc-gene-tag>
       </td>
       <td>
-        {{ suggestion.variantName }}
+        <cvc-variant-tag *ngIf="suggestion.variant" [variant]="suggestion.variant"></cvc-variant-tag>
       </td>
       <td>
-        {{ suggestion.diseaseName }}
+        <cvc-disease-tag *ngIf="suggestion.disease" [disease]="suggestion.disease"></cvc-disease-tag>
       </td>
       <td>
         {{ suggestion.initialComment }}
