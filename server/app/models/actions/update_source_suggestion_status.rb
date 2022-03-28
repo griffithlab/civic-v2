@@ -2,20 +2,22 @@ class Actions::UpdateSourceSuggestionStatus
   include Actions::Transactional
   include Actions::WithOriginatingOrganization
 
-  attr_reader :source_suggestion, :updating_user, :organization_id, :new_status, :old_status
+  attr_reader :source_suggestion, :updating_user, :organization_id, :new_status, :old_status, :reason
 
-  def initialize(source_suggestion: , updating_user: , organization_id: nil, new_status: )
+  def initialize(source_suggestion: , updating_user: , organization_id: nil, new_status:, reason: )
     @source_suggestion = source_suggestion
     @updating_user = updating_user
     @organization_id = organization_id
     @new_status = new_status
     @old_status = source_suggestion.status
+    @reason = reason
   end
 
   def execute
     if transition_valid?
       source_suggestion.lock!
       source_suggestion.status = new_status
+      source_suggestion.reason = reason
       source_suggestion.save!
       create_event
     else

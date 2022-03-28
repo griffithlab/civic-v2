@@ -14,6 +14,7 @@ module Types::Entities
     field :initial_comment, String, null: false
     field :status, Types::SourceSuggestionStatusType, null: false
     field :link, String, null: false
+    field :reason, String, null: true
 
     def source
       Loaders::AssociationLoader.for(SourceSuggestion, :source).load(object)
@@ -21,6 +22,18 @@ module Types::Entities
 
     def user
       Loaders::AssociationLoader.for(SourceSuggestion, :user).load(object)
+    end
+
+    def gene
+      Loaders::AssociationLoader.for(SourceSuggestion, :gene).load(object)
+    end
+
+    def variant
+      Loaders::AssociationLoader.for(SourceSuggestion, :variant).load(object)
+    end
+
+    def disease
+      Loaders::AssociationLoader.for(SourceSuggestion, :disease).load(object)
     end
 
     def name

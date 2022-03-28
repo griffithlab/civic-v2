@@ -1,17 +1,19 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
-import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus } from "@app/generated/civic.apollo";
+import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus, UpdateSourceSuggestionGQL, UpdateSourceSuggestionMutation, UpdateSourceSuggestionMutationVariables } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
 import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
+import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
+import { NetworkErrorsService } from "@app/core/services/network-errors.service";
 
 @Component({
   selector: 'cvc-source-suggestions-table',
   templateUrl: './source-suggestions-table.component.html',
   styleUrls: ['./source-suggestions-table.component.less']
 })
-export class CvcSourceSuggestionsTableComponent implements OnInit {
+export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   @Input() sourceId: Maybe<number>
   @Input() submitterId: Maybe<number>
 
@@ -22,6 +24,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   isLoading$?: Observable<boolean>;
   sourceSuggestions$?: Observable<Maybe<BrowseSourceSuggestionRowFieldsFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
+  viewer$?: Observable<Viewer>
 
   textInputCallback?: () => void
 
@@ -41,14 +44,27 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   sortColumns: typeof SourceSuggestionsSortColumns = SourceSuggestionsSortColumns
   status: typeof SourceSuggestionStatus = SourceSuggestionStatus
 
-  constructor(private gql: BrowseSourceSuggestionsGQL) {}
+
+  selectedSourceId?: number
+  selectedStatus?: SourceSuggestionStatus
+  showManageForm = false
+
+  constructor(
+    private gql: BrowseSourceSuggestionsGQL,
+    private viewerService: ViewerService,
+    private networkErrorService: NetworkErrorsService,
+    ) { }
+
   ngOnInit() {
+
     this.queryRef = this.gql.watch({
       first: this.pageSize,
       sourceId: this.sourceId,
       submitterId: this.submitterId,
       status: this.status.New
     })
+
+    this.viewer$ = this.viewerService.viewer$
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -107,6 +123,16 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
     this.debouncedQuery.unsubscribe();
   }
 
+  setFormInputs(selectedId: number, selectedStatus: SourceSuggestionStatus): void {
+    this.selectedSourceId = selectedId
+    this.selectedStatus = selectedStatus
+    this.showManageForm = true
+  }
+
+  closePopover() {
+    this.showManageForm = false
+  }
+
   loadMore(cursor: Maybe<string>) {
     this.queryRef?.fetchMore({
       variables: {
@@ -115,4 +141,6 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
       }
     });
   }
+
+ 
 }

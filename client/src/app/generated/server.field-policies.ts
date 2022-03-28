@@ -1091,7 +1091,7 @@ export type SourceStubFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceSuggestionKeySpecifier = ('disease' | 'events' | 'gene' | 'id' | 'initialComment' | 'link' | 'name' | 'source' | 'status' | 'user' | 'variant' | SourceSuggestionKeySpecifier)[];
+export type SourceSuggestionKeySpecifier = ('disease' | 'events' | 'gene' | 'id' | 'initialComment' | 'link' | 'name' | 'reason' | 'source' | 'status' | 'user' | 'variant' | SourceSuggestionKeySpecifier)[];
 export type SourceSuggestionFieldPolicy = {
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1100,6 +1100,7 @@ export type SourceSuggestionFieldPolicy = {
 	initialComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	reason?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,

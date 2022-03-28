@@ -5,7 +5,8 @@ query VariantsMenu(
   $first: Int,
   $last: Int,
   $before: String,
-  $after: String
+  $after: String,
+  $sortBy: VariantMenuSort
   ) {
   variants(
     geneId: $geneId,
@@ -15,6 +16,7 @@ query VariantsMenu(
     last: $last,
     before: $before,
     after: $after,
+    sortBy: $sortBy
     ) {
     totalCount
     pageInfo {

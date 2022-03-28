@@ -4964,6 +4964,7 @@ type Query {
     Left anchored filtering for variant name and aliases.
     """
     name: String
+    sortBy: VariantMenuSort
   ): VariantConnection!
   viewer: User
 }
@@ -5460,6 +5461,7 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
   initialComment: String!
   link: String!
   name: String!
+  reason: String
   source: Source
   status: SourceSuggestionStatus!
   user: User
@@ -6331,6 +6333,11 @@ input UpdateSourceSuggestionStatusInput {
   The user must belong to the organization provided.
   """
   organizationId: Int
+
+  """
+  The justification for marking a source as curated/rejected
+  """
+  reason: String
 }
 
 """
@@ -7149,6 +7156,24 @@ enum VariantGroupsSortColumns {
   NAME
   VARIANT_COUNT
   VARIANT_NAMES
+}
+
+input VariantMenuSort {
+  """
+  Available columns for sorting
+  """
+  column: VariantMenuSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum VariantMenuSortColumns {
+  COORDINATE_END
+  COORDINATE_START
+  NAME
 }
 
 enum VariantOrigin {

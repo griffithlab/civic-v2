@@ -11,6 +11,12 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { CvcUpdateSourceSuggestionFormModule } from '@app/forms/update-source-suggestion/update-source-suggestion.module';
 
 @NgModule({
   declarations: [CvcSourceSuggestionsTableComponent],
@@ -20,12 +26,18 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
     ReactiveComponentModule,
     NzTableModule,
     NzSelectModule,
+    NzToolTipModule,
+    NzIconModule,
+    NzButtonModule,
+    NzPopoverModule,
     CvcClearableInputFilterModule,
     CvcUserTagModule,
     CvcSourceTagModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
-    CvcDiseaseTagModule
+    CvcDiseaseTagModule,
+    CvcFormErrorsAlertModule,
+    CvcUpdateSourceSuggestionFormModule
   ],
   exports: [CvcSourceSuggestionsTableComponent]
 })
