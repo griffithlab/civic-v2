@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CurationDashboardPage } from './curation-dashboard/curation-dashboard.page';
 import { CurationQueuesView } from './curation-queues/curation-queues.view';
+import { PendingAssertionsPage } from './curation-queues/pending-assertions/pending-assertions.page';
+import { PendingEvidencePage } from './curation-queues/pending-evidence/pending-evidence.page';
 import { PendingSourcesPage } from './curation-queues/pending-sources/pending-sources.page';
 import { CurationView } from './curation.view';
 
@@ -30,7 +32,21 @@ const routes: Routes = [
             path: 'pending-sources',
             component: PendingSourcesPage,
             data: {
-              breadcrumb: 'Summary'
+              breadcrumb: 'Pending Source Suggestions'
+            },
+          },
+          {
+            path: 'pending-evidence',
+            component: PendingEvidencePage,
+            data: {
+              breadcrumb: 'Pending Evidence Items'
+            },
+          },
+          {
+            path: 'pending-assertions',
+            component: PendingAssertionsPage,
+            data: {
+              breadcrumb: 'Pending Assertions'
             },
           }
         ]

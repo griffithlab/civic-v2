@@ -5,6 +5,8 @@ import { CurationRoutingModule } from './curation-routing.module';
 import { CurationView } from './curation.view';
 import { CurationQueuesModule } from './curation-queues/curation-queues.module';
 import { PendingSourcesModule } from './curation-queues/pending-sources/pending-sources.module';
+import { PendingEvidenceModule } from './curation-queues/pending-evidence/pending-evidence.module';
+import { PendingAssertionsModule } from './curation-queues/pending-assertions/pending-assertions.module';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import { PendingSourcesModule } from './curation-queues/pending-sources/pending-
     CurationRoutingModule,
     CurationQueuesModule,
     PendingSourcesModule,
+    PendingEvidenceModule,
+    PendingAssertionsModule,
   ]
 })
 export class CurationModule { }

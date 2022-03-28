@@ -20,7 +20,7 @@
     <ul nz-menu
       nzTheme="dark"
       nzMode="inline"
-      class="menu-group"
+      class="sidebar-menu"
       [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-group>
         <ul>
@@ -171,7 +171,7 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Source Suggestions' : ''"
+            [nzTooltipTitle]="isCollapsed ? 'Pending Source Suggestions' : ''"
             nzSelected
             nzMatchRouter>
             <i nz-icon
@@ -181,34 +181,22 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Revisions' : ''"
+            [nzTooltipTitle]="isCollapsed ? 'Pending New Evidence' : ''"
             nzSelected
             nzMatchRouter>
             <i nz-icon
-              nzType="civic-revision"></i>
-            <span> <a routerLink="/revisions">Revisions</a> </span>
+              nzType="file-add"></i>
+            <span> <a routerLink="/curation/queues/pending-evidence">Evidence Queue</a> </span>
           </li>
-
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Comments' : ''"
+            [nzTooltipTitle]="isCollapsed ? 'Pending New Assertions' : ''"
             nzSelected
             nzMatchRouter>
             <i nz-icon
-              nzType="civic-comment"></i>
-            <span> <a routerLink="/comments">Comments</a> </span>
-          </li>
-
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Flags' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="civic-flag"></i>
-            <span> <a routerLink="/flags">Flags</a> </span>
+              nzType="file-add"></i>
+            <span> <a routerLink="/curation/queues/pending-assertions">Assertions Queue</a> </span>
           </li>
 
         </ul>
