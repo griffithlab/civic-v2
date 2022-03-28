@@ -1,24 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClinicalTrialsHomePage } from './clinical-trials-home.page';
+import { ClinicalTrialsDetailComponent } from './clinical-trials-detail.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { CvcClinicalTrialsTableModule } from '@app/components/clinical-trials/clinical-trials-table/clinical-trials-table.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
-  declarations: [ClinicalTrialsHomePage],
+  declarations: [ClinicalTrialsDetailComponent],
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveComponentModule,
-    NzGridModule,
     NzPageHeaderModule,
     NzIconModule,
-    CvcClinicalTrialsTableModule,
+    CvcLinkTagModule,
     CvcSectionNavigationModule,
-  ],
-  exports: [ClinicalTrialsHomePage]
+  ]
 })
-export class ClinicalTrialsHomeModule { }
+export class ClinicalTrialsDetailModule { }
