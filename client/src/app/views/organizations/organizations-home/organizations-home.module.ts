@@ -16,6 +16,5 @@ import { CvcOrganizationsTableModule } from '@app/components/organizations/organ
     NzGridModule,
     CvcOrganizationsTableModule
   ],
-  exports: [OrganizationsHomePage]
 })
 export class OrganizationsHomeModule { }

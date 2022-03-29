@@ -208,17 +208,6 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Community' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="global"></i>
-            <span> <a routerLink="/community" id="main-community">Community</a> </span>
-          </li>
-
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Users' : ''"
             nzSelected
             nzMatchRouter>
@@ -252,19 +241,6 @@
             <i nz-icon
               nzType="download"></i>
             <span> <a routerLink="/releases" id="releases">Data Releases</a> </span>
-          </li>
-
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Statistics' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="bar-chart"></i>
-            <span>
-          <a routerLink="/statistics" id="statistics">Statistics</a>
-        </span>
           </li>
         </ul>
       </li>

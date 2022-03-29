@@ -76,21 +76,21 @@
             </nz-descriptions>
           </div>
           <div *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'"
-            nz-col
-            [nzSpan]="8">
+            nz-col [nzSpan]="8">
             <nz-descriptions nzTitle="Editor Conflict of Interest Statement"
               nzBordered
               [nzExtra]="updateCoi">
               <ng-container *ngIf="user.mostRecentConflictOfInterestStatement">
                 <nz-descriptions-item [nzSpan]="3"
-                  nzTitle="Status">{{
-                                                                      user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }} </nz-descriptions-item>
+                  nzTitle="Status">
+                  {{ user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }}
+                </nz-descriptions-item>
                 <nz-descriptions-item [nzSpan]="2"
-                  nzTitle="Updated">{{
-                                                                       user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }} </nz-descriptions-item>
+                  nzTitle="Updated">{{user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }} </nz-descriptions-item>
                 <nz-descriptions-item [nzSpan]="2"
-                  nzTitle="Expires">{{
-                                                                       user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }} </nz-descriptions-item>
+                  nzTitle="Expires">
+                  {{user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }}
+                </nz-descriptions-item>
                 <nz-descriptions-item [nzSpan]="3"
                   nzTitle="Statement">
                   <ng-container *ngIf="user.mostRecentConflictOfInterestStatement.coiPresent; else noStatement">

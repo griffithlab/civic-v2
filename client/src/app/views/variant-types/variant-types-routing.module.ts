@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VariantTypesDetailComponent } from './variant-types-detail/variant-types-detail.component';
 import { VariantTypesHomePage } from './variant-types-home/variant-types-home.page';
-import { VariantTypesSummaryComponent } from './variant-types-summary/variant-types-summary.component';
+import { VariantTypesSummaryComponent } from './variant-types-detail/variant-types-summary/variant-types-summary.component';
 
 import { VariantTypesComponent } from './variant-types.component';
 

@@ -6,6 +6,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcClinicalTrialsTableModule } from '@app/components/clinical-trials/clinical-trials-table/clinical-trials-table.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [ClinicalTrialsHomePage],
@@ -16,6 +17,7 @@ import { CvcClinicalTrialsTableModule } from '@app/components/clinical-trials/cl
     NzPageHeaderModule,
     NzIconModule,
     CvcClinicalTrialsTableModule,
+    CvcSectionNavigationModule,
   ],
   exports: [ClinicalTrialsHomePage]
 })

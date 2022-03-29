@@ -1,11 +1,13 @@
-<ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
+<ng-container *ngIf="clinicalTrial$ | ngrxPush as t">
+  <cvc-section-navigation [displayName]="t.nctId"> </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
-      <i nz-icon nzType="audit"></i>
-      {{ t.name }}
+      <i nz-icon
+        nzType="audit"></i> {{ t.name }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [href]="t.url" tooltip="View on clinicaltrials.gov">
+      <cvc-link-tag [href]="t.url"
+        tooltip="View on clinicaltrials.gov">
         {{ t.nctId }}
       </cvc-link-tag>
     </nz-page-header-extra>

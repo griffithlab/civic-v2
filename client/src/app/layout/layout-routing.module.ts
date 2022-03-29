@@ -28,17 +28,6 @@ const routes: Routes = [
           breadcrumb: 'Clinical Trials'
         }
       },
-      { path: 'comments', loadChildren: () => import('@app/views/comments/comments.module').then(m => m.CommentsModule),
-        data: {
-          breadcrumb: 'Comments'
-        }
-      },
-      { path: 'community',
-        loadChildren: () => import('@app/views/community/community.module').then(m => m.CommunityModule),
-        data: {
-          breadcrumb: 'Community'
-        }
-      },
       { path: 'diseases',
         loadChildren: () => import('@app/views/diseases/diseases.module').then(m => m.DiseasesModule),
         data: {
@@ -55,12 +44,6 @@ const routes: Routes = [
         loadChildren: () => import('@app/views/evidence/evidence.module').then(m => m.EvidenceModule),
         data: {
           breadcrumb: 'Evidence'
-        }
-      },
-      { path: 'flags',
-        loadChildren: () => import('@app/views/flags/flags.module').then(m => m.FlagsModule),
-        data: {
-          breadcrumb: 'Flags'
         }
       },
       {
@@ -80,12 +63,6 @@ const routes: Routes = [
         loadChildren: () => import('@app/views/phenotypes/phenotypes.module').then(m => m.PhenotypesModule),
         data: {
           breadcrumb: 'Phenotypes'
-        }
-      },
-      { path: 'revisions',
-        loadChildren: () => import('@app/views/revisions/revisions.module').then(m => m.RevisionsModule),
-        data: {
-          breadcrumb: 'Revisions'
         }
       },
       { path: 'sources',
@@ -129,12 +106,6 @@ const routes: Routes = [
         loadChildren: () => import('@app/views/welcome/welcome.module').then(m => m.WelcomeModule),
         data: {
           breadcrumb: 'Welcome to CIViC'
-        }
-      },
-      { path: 'statistics',
-        loadChildren: () => import('@app/views/statistics/statistics.module').then(m => m.StatisticsModule),
-        data: {
-          breadcrumb: 'Statistics'
         }
       },
       { path: 'releases',
