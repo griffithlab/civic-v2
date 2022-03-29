@@ -2,40 +2,28 @@ module Actions
   class SuggestSource
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
-    attr_reader :source, :originating_user, :organization_id, :comment_body, :gene_id, :disease_id, :variant_name, :source_suggestion
+    attr_reader :source, :originating_user, :organization_id, :comment_body, :gene_id, :disease_id, :variant_id, :source_suggestion
 
-    def initialize(source_id:, originating_user:, organization_id:, comment_body:, gene_id: nil, variant_name: nil, disease_id: nil )
+    def initialize(source_id:, originating_user:, organization_id:, comment_body:, gene_id: nil, variant_id: nil, disease_id: nil )
       @source = Source.find(source_id)
       @originating_user = originating_user
       @organization_id = organization_id
       @comment_body = comment_body
       @gene_id = gene_id
-      @variant_name = variant_name
+      @variant_id = variant_id
       @disease_id = disease_id
     end
 
     private
     def execute
-      gene_name = if gene_id
-                    Gene.find(gene_id).name
-                  else
-                    nil
-                  end
-
-      disease_name = if disease_id
-                       Disease.find(disease_id).name
-                     else
-                       nil
-                     end
-
       @source_suggestion = SourceSuggestion.create!(
         user: originating_user,
         source: source,
-        variant_name: variant_name,
+        variant_id: variant_id,
         initial_comment: comment_body,
         status: 'new',
-        gene_name: gene_name,
-        disease_name: disease_name,
+        gene_id: gene_id,
+        disease_id: disease_id,
       )
       create_event(source_suggestion)
       create_comment

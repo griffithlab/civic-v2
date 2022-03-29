@@ -7,6 +7,9 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
   argument :new_status, Types::SourceSuggestionStatusType, required: true,
     description: 'The desired status of the SourceSuggestion.'
 
+  argument :reason, String, required: false,
+    description: 'The justification for marking a source as curated/rejected'
+
   field :source_suggestion, Types::Entities::SourceSuggestionType, null: false,
     description: 'The updated SourceSuggestion.'
 
@@ -35,13 +38,14 @@ class Mutations::UpdateSourceSuggestionStatus < Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(organization_id: nil, new_status:, **_)
+  def resolve(id:, organization_id: nil, new_status:, reason: nil **_)
     if new_status != source_suggestion.status
       cmd = Actions::UpdateSourceSuggestionStatus.new(
         source_suggestion: source_suggestion,
         updating_user: context[:current_user],
         organization_id: organization_id,
-        new_status: new_status
+        new_status: new_status,
+        reason: reason
       )
 
       res = cmd.perform

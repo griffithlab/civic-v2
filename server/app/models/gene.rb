@@ -8,6 +8,7 @@ class Gene < ActiveRecord::Base
   has_many :variants
   has_many :assertions
   has_many :variant_groups
+  has_many :source_suggestions
   has_and_belongs_to_many :sources
   has_and_belongs_to_many :gene_aliases
 

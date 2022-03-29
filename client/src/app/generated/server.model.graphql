@@ -4964,6 +4964,7 @@ type Query {
     Left anchored filtering for variant name and aliases.
     """
     name: String
+    sortBy: VariantMenuSort
   ): VariantConnection!
   viewer: User
 }
@@ -5421,7 +5422,7 @@ type SourceStub {
 }
 
 type SourceSuggestion implements EventOriginObject & EventSubject {
-  diseaseName: String
+  disease: Disease
 
   """
   List and filter events for an object
@@ -5455,15 +5456,16 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
-  geneName: String
+  gene: Gene
   id: Int!
   initialComment: String!
   link: String!
   name: String!
-  source: Source!
+  reason: String
+  source: Source
   status: SourceSuggestionStatus!
-  user: User!
-  variantName: String
+  user: User
+  variant: Variant
 }
 
 """
@@ -6035,9 +6037,9 @@ input SuggestSourceInput {
   sourceId: Int!
 
   """
-  Name of the variant discussed in this source.
+  Internal CIViC ID for the applicable variant, if any.
   """
-  variantName: String
+  variantId: Int
 }
 
 """
@@ -6331,6 +6333,11 @@ input UpdateSourceSuggestionStatusInput {
   The user must belong to the organization provided.
   """
   organizationId: Int
+
+  """
+  The justification for marking a source as curated/rejected
+  """
+  reason: String
 }
 
 """
@@ -7149,6 +7156,24 @@ enum VariantGroupsSortColumns {
   NAME
   VARIANT_COUNT
   VARIANT_NAMES
+}
+
+input VariantMenuSort {
+  """
+  Available columns for sorting
+  """
+  column: VariantMenuSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum VariantMenuSortColumns {
+  COORDINATE_END
+  COORDINATE_START
+  NAME
 }
 
 enum VariantOrigin {
