@@ -44,6 +44,24 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
+          <nz-form-label>Order By</nz-form-label>
+          <nz-form-control>
+            <nz-select (ngModelChange)="onVariantSortOrderChanged($event)"
+              nzSize="small"
+              id="variant-sort-order"
+              name="sortBy"
+              [(ngModel)]="sortBy">
+              <nz-option nzValue="NAME"
+                nzLabel="Variant Name"
+                selected></nz-option>
+              <nz-option nzValue="COORDINATE_START"
+                nzLabel="Start Position"></nz-option>
+              <nz-option nzValue="COORDINATE_END"
+                nzLabel="End Position"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
           <nz-form-label>Show</nz-form-label>
           <nz-form-control>
             <nz-select (ngModelChange)="onVariantStatusFilterChanged($event)"

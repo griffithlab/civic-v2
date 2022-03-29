@@ -7,7 +7,9 @@ import {
   VariantsMenuQuery,
   VariantsMenuQueryVariables,
   VariantDisplayFilter,
-  PageInfo
+  PageInfo,
+  VariantMenuSortColumns,
+  SortDirection
 } from "@app/generated/civic.apollo";
 import { map, debounceTime } from 'rxjs/operators'
 import { Observable, Subject } from 'rxjs';
@@ -30,6 +32,7 @@ export class CvcVariantsMenuComponent implements OnInit {
   pageInfo$?: Observable<PageInfo>;
 
   statusFilter: VariantDisplayFilter = VariantDisplayFilter.WithAcceptedOrSubmitted;
+  sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
   variantNameFilter: Maybe<string>;
 
   private debouncedQuery = new Subject<void>();
@@ -77,6 +80,17 @@ export class CvcVariantsMenuComponent implements OnInit {
     this.refresh();
   }
 
+  onVariantSortOrderChanged(col: VariantMenuSortColumns) {
+    let dir = col == VariantMenuSortColumns.CoordinateEnd ? SortDirection.Desc : SortDirection.Asc
+    this.queryRef$.refetch({
+      sortBy: {
+        column: col,
+        direction: dir
+      }
+    });
+  }
+
+
   refresh() {
     if (this.geneId === undefined) {
       throw new Error('Must pass a gene id into variant menu component.');
@@ -85,6 +99,10 @@ export class CvcVariantsMenuComponent implements OnInit {
       geneId: this.geneId,
       variantName: this.variantNameFilter,
       evidenceStatusFilter: this.statusFilter,
+      sortBy: {
+        column: this.sortBy,
+        direction: SortDirection.Asc
+      }
     });
   }
 

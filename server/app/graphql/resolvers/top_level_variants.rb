@@ -34,4 +34,14 @@ class Resolvers::TopLevelVariants < GraphQL::Schema::Resolver
     scope.where(gene_id: value)
   end
 
+  option :sort_by, type: Types::VariantMenuSortType do |scope, value|
+    case value.column
+    when 'NAME'
+      scope.reorder("variants.name #{value.direction}")
+    when 'COORDINATE_START'
+      scope.reorder("variants.start #{value.direction} NULLS LAST")
+    when 'COORDINATE_END'
+      scope.reorder("variants.stop #{value.direction} NULLS LAST")
+    end
+  end
 end

@@ -11,6 +11,7 @@ class Variant < ApplicationRecord
   has_many :assertions
   has_many :variant_group_variants
   has_many :variant_groups, through: :variant_group_variants
+  has_many :source_suggestions
   has_and_belongs_to_many :variant_aliases
   has_and_belongs_to_many :variant_types
   has_and_belongs_to_many :clinvar_entries

@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -20,6 +20,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() drugId: Maybe<number>
   @Input() sourceId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
+  @Input() status: Maybe<EvidenceStatus>
 
   @Input() displayGeneAndVariant: boolean = true
 
@@ -68,7 +69,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       drugId: this.drugId,
       sourceId: this.sourceId,
       clinicalTrialId: this.clinicalTrialId,
-      cardView: !this.tableView
+      cardView: !this.tableView,
+      status: this.status
     });
 
     let observable = this.queryRef.valueChanges;

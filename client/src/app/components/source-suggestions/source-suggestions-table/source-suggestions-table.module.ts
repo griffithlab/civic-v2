@@ -8,6 +8,15 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { CvcUpdateSourceSuggestionFormModule } from '@app/forms/update-source-suggestion/update-source-suggestion.module';
 
 @NgModule({
   declarations: [CvcSourceSuggestionsTableComponent],
@@ -17,9 +26,18 @@ import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-ta
     ReactiveComponentModule,
     NzTableModule,
     NzSelectModule,
+    NzToolTipModule,
+    NzIconModule,
+    NzButtonModule,
+    NzPopoverModule,
     CvcClearableInputFilterModule,
     CvcUserTagModule,
-    CvcSourceTagModule
+    CvcSourceTagModule,
+    CvcGeneTagModule,
+    CvcVariantTagModule,
+    CvcDiseaseTagModule,
+    CvcFormErrorsAlertModule,
+    CvcUpdateSourceSuggestionFormModule
   ],
   exports: [CvcSourceSuggestionsTableComponent]
 })

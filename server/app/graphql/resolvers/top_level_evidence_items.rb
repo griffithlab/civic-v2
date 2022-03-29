@@ -7,7 +7,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
 
   description 'List and filter evidence items.'
 
-  scope { EvidenceItem.all.order(:id) }
+  scope { EvidenceItem.all.order(:id).where.not(status: 'rejected') }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the evidence item.') do |scope, value|
     scope.where("evidence_items.id = ?", value)
@@ -52,7 +52,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
     scope.where(rating: value)
   end
   option(:status, type: Types::EvidenceStatusType, description: 'Filtering on the evidence status.') do |scope, value|
-    scope.where(status: value)
+    scope.unscope(where: :status).where(status: value)
   end
   option(:phenotype_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC phenotype id') do |scope, value|
     scope.joins(:phenotypes).where('phenotypes.id = ?', value)
