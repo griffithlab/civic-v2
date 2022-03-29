@@ -12,17 +12,17 @@ export class CurationQueuesView implements OnInit {
     this.tabs = [
       {
         routeName: 'pending-sources',
-        iconName: 'civic:source',
+        iconName: 'civic-source',
         tabLabel: 'Sources Queue'
       },
       {
         routeName: 'pending-evidence',
-        iconName: 'civic:evidence',
+        iconName: 'civic-evidence',
         tabLabel: 'Evidence Queue'
       },
       {
         routeName: 'pending-assertions',
-        iconName: 'civic:assertion',
+        iconName: 'civic-assertion',
         tabLabel: 'Assertions Queue'
       },
     ]

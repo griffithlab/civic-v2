@@ -3920,6 +3920,11 @@ type Query {
     sortBy: AssertionSort
 
     """
+    Filtering on the status of the assertion.
+    """
+    status: EvidenceStatus
+
+    """
     Substring filtering on assertion description.
     """
     summary: String
