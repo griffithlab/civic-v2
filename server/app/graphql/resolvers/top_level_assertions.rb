@@ -60,6 +60,9 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:drug_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the assertions based on the internal CIViC drug id') do |scope, value|
     scope.joins(:drugs).where('drugs.id = ?', value)
   end
+  option(:status, type: Types::EvidenceStatusType, description: "Filtering on the status of the assertion.") do |scope, value|
+    scope.unscope(where: :status).where(status: value)
+  end
 
 
   option :sort_by, type: Types::BrowseTables::AssertionSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|

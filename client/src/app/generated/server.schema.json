@@ -17889,6 +17889,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "status",
+                  "description": "Filtering on the status of the assertion.",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "EvidenceStatus",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": "Columm and direction to sort evidence on.",
                   "type": {

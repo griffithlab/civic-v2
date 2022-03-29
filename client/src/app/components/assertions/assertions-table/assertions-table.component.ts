@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatus, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
@@ -18,6 +18,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
   @Input() drugId: Maybe<number>
+  @Input() status: Maybe<EvidenceStatus>
 
   private initialPageSize = 25
   private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
@@ -58,6 +59,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       phenotypeId: this.phenotypeId,
       diseaseId: this.diseaseId,
       drugId: this.drugId,
+      status: this.status,
       cardView: !this.tableView
     });
 

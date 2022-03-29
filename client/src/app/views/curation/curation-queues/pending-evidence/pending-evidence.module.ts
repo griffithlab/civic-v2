@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PendingEvidencePage } from './pending-evidence.page';
+import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 
 
 
@@ -9,7 +10,8 @@ import { PendingEvidencePage } from './pending-evidence.page';
     PendingEvidencePage
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    CvcEvidenceTableModule
   ]
 })
 export class PendingEvidenceModule { }
