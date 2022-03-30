@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
@@ -84,6 +84,10 @@ export class AssertionSubmitForm implements OnDestroy {
     private networkErrorService: NetworkErrorsService
 
   ) {
+
+    let eidCallback = (eids: FormEvidence[]) => {
+      this.formModel.fields.evidenceItems = eids
+    }
 
     this.submitAssertionMutator = new MutatorWithState(networkErrorService)
 
@@ -222,11 +226,12 @@ export class AssertionSubmitForm implements OnDestroy {
           {
             key: 'evidenceItems',
             type: 'multi-field',
-            wrappers: ['form-field'],
+            wrappers: ['form-field', 'evidence-manager' ],
             templateOptions: {
               label: 'Evidence Items',
               helpText: 'Evidence Items that support the assertion.',
-              addText: 'Specify EIDs',
+              addText: 'Add Evidence by ID',
+              eidCallback: eidCallback
             },
             fieldArray: {
               type: 'evidence-input',

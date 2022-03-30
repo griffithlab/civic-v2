@@ -14,7 +14,11 @@ module Types::Interfaces
     field :link, String, null: false
 
     def name
-      "#{object.class.to_s.first}ID#{object.id}"
+      if object.respond_to?(:name)
+        object.name
+      else
+        "#{object.class.to_s.first}ID#{object.id}"
+      end
     end
 
     definition_methods do

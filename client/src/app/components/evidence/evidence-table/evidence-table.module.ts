@@ -21,6 +21,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   declarations: [CvcEvidenceTableComponent],
@@ -36,6 +37,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
     NzTypographyModule,
     NzToolTipModule,
     NzSelectModule,
+    NzCheckboxModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
