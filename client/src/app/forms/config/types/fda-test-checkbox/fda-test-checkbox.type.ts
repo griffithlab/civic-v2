@@ -42,7 +42,7 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
                 to.hidden = false
                 to.required = true;
               } else {
-                ffc.model[ffc.key as string] = false
+                ffc.model[ffc.key as string] = undefined
                 to.hidden = true
               }
             })

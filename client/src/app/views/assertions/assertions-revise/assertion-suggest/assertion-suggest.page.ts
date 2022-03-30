@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cvc-assertions-suggest-page',
   templateUrl: './assertion-suggest.page.html',
   styleUrls: ['./assertion-suggest.page.less']
 })
-export class AssertionSuggestPage implements OnInit {
+export class AssertionSuggestPage implements OnDestroy {
+  assertionId?: number;
+  routeParams$: Subscription;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+    this.routeParams$ = this.route.params.subscribe((params) => {
+      this.assertionId = +params.assertionId;
+    })
+  }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.routeParams$.unsubscribe();
   }
 
 }

@@ -52,8 +52,8 @@ interface FormModel {
     nccnGuideline: Maybe<NccnGuideline>
     nccnGuidelineVersion: Maybe<string>,
     acmgCodes: AcmgCode[],
-    fdaCompanionTest: boolean
-    fdaRegulatoryApproval: boolean
+    fdaCompanionTest: Maybe<boolean>
+    fdaRegulatoryApproval: Maybe<boolean>
     comment: Maybe<string>
     organization: Maybe<Organization>
   }
@@ -287,8 +287,8 @@ export class AssertionSubmitForm implements OnDestroy {
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
           acmgCodeIds: fields.acmgCodes.map(c => c.id),
-          fdaCompanionTest: fields.fdaCompanionTest,
-          fdaRegulatoryApproval: fields.fdaRegulatoryApproval,
+          fdaCompanionTest: fmt.toNullableInput(fields.fdaCompanionTest),
+          fdaRegulatoryApproval: fmt.toNullableInput(fields.fdaRegulatoryApproval),
           evidenceItemIds: fields.evidenceItems.map((e) => e.id)
         }
       }

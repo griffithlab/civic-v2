@@ -93,7 +93,7 @@ import { CvcEvidenceManagerWrapperModule } from '../config/wrappers/with-evidenc
     CvcFdaTestCheckboxTypeModule,
     CvcFormContainerWrapperModule,
     CvcEvidenceInputTypeModule,
-    CvcEvidenceManagerWrapperModule
+    CvcEvidenceManagerWrapperModule,
   ],
   exports: [
     AssertionReviseForm

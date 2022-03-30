@@ -42,7 +42,10 @@ fragment AssertionSummaryFields on Assertion {
     code
     description
   }
-  nccnGuideline
+  nccnGuideline {
+    id
+    name
+  }
   nccnGuidelineVersion
   regulatoryApproval
   regulatoryApprovalLastUpdated
