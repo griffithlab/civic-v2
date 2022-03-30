@@ -7,6 +7,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { FormsModule } from '@angular/forms';
 import { CvcSourceTagModule } from '../source-tag/source-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
 
 @NgModule({
   declarations: [CvcSourcesTableComponent],
@@ -18,6 +19,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzSelectModule,
     CvcClearableInputFilterModule,
     CvcSourceTagModule,
+    CvcPlainTagOverflowModule
   ],
   exports: [CvcSourcesTableComponent]
 })

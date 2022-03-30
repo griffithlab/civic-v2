@@ -95,11 +95,9 @@
         {{ source.name }}
       </td>
       <td>
-        <p nz-typography>
-          <span *ngFor="let author of source.authors; last as isLast">
-                        {{ author }}{{ isLast ? '' : ', ' }}
-                      </span>
-        </p>
+        <cvc-plain-tag-overflow
+        [tags]="source.authors"
+        [matchingText]="authorInput"> </cvc-plain-tag-overflow>
       </td>
       <td>
         {{ source.publicationYear }}
