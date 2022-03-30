@@ -98,6 +98,7 @@
 
           <!-- submit/accept/reject curation events -->
           <nz-descriptions-item nzTitle="Submitted">
+            {{ assertion.submissionEvent.createdAt | timeago }} by
             <cvc-user-tag [user]="assertion.submissionEvent.originatingUser"></cvc-user-tag>
           </nz-descriptions-item>
 
@@ -108,10 +109,12 @@
             <ng-container [ngSwitch]="assertion.rejectionEvent === null">
               <nz-descriptions-item *ngSwitchCase="true"
                 nzTitle="Accepted">
+                {{ assertion.acceptanceEvent.createdAt | timeago }} by
                 <cvc-user-tag [user]="assertion.acceptanceEvent.originatingUser"></cvc-user-tag>
               </nz-descriptions-item>
               <nz-descriptions-item *ngSwitchCase="false"
                 nzTitle="Rejected">
+                {{ assertion.rejectionEvent.createdAt | timeago }} by
                 <cvc-user-tag [user]="assertion.rejectionEvent.originatingUser"></cvc-user-tag>
               </nz-descriptions-item>
             </ng-container>
@@ -225,6 +228,9 @@
               [nzType]="'close-square'"
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#d93026'"></i>
+            <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
+              (last updated {{ assertion.regulatoryApprovalLastUpdated | timeago }})
+            </ng-container>
           </nz-descriptions-item>
 
           <!-- FDA companion test -->
@@ -239,6 +245,9 @@
               [nzType]="'close-square'"
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#d93026'"></i>
+            <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
+              (last updated {{ assertion.fdaCompanionTestLastUpdated | timeago }})
+            </ng-container>
           </nz-descriptions-item>
 
           <!-- NCCN guideline -->

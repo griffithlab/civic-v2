@@ -18,6 +18,8 @@ import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-ca
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -42,6 +44,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
     CvcEvidenceTableModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [AssertionsSummaryPage]
 })
