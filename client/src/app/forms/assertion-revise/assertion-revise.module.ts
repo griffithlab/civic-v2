@@ -43,6 +43,7 @@ import { CvcFdaApprovalCheckboxTypeModule } from '../config/types/fda-approval-c
 import { CvcFdaTestCheckboxTypeModule } from '../config/types/fda-test-checkbox/fda-test-checkbox.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evidence-input.module';
+import { CvcEvidenceManagerWrapperModule } from '../config/wrappers/with-evidence-manager/with-evidence-manager.module';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evide
     CvcFdaApprovalCheckboxTypeModule,
     CvcFdaTestCheckboxTypeModule,
     CvcFormContainerWrapperModule,
-    CvcEvidenceInputTypeModule
+    CvcEvidenceInputTypeModule,
+    CvcEvidenceManagerWrapperModule
   ],
   exports: [
     AssertionReviseForm

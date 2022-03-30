@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClinicalTrialsDetailComponent } from './clinical-trials-detail/clinical-trials-detail.component';
 import { ClinicalTrialsHomePage } from './clinical-trials-home/clinical-trials-home.page';
-import { ClinicalTrialsSummaryComponent } from './clinical-trials-summary/clinical-trials-summary.component';
+import { ClinicalTrialsSummaryComponent } from './clinical-trials-detail/clinical-trials-summary/clinical-trials-summary.component';
 import { ClinicalTrialsComponent } from './clinical-trials.component';
 
 const routes: Routes = [

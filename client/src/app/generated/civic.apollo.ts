@@ -209,6 +209,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   events: EventConnection;
   evidenceItems: Array<EvidenceItem>;
   fdaCompanionTest?: Maybe<Scalars['Boolean']>;
+  fdaCompanionTestLastUpdated?: Maybe<Scalars['ISO8601DateTime']>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -223,6 +224,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   nccnGuidelineVersion?: Maybe<Scalars['String']>;
   phenotypes: Array<Phenotype>;
   regulatoryApproval?: Maybe<Scalars['Boolean']>;
+  regulatoryApprovalLastUpdated?: Maybe<Scalars['ISO8601DateTime']>;
   rejectionEvent?: Maybe<Event>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
@@ -4417,7 +4419,7 @@ export type AssertionPopoverQuery = (
 
 export type AssertionPopoverFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'fdaCompanionTest' | 'regulatoryApproval' | 'drugInteractionType'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
@@ -4497,7 +4499,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -7033,7 +7035,7 @@ export type AssertionSummaryQuery = (
 
 export type AssertionSummaryFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'fdaCompanionTest'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name'>
@@ -7063,18 +7065,21 @@ export type AssertionSummaryFieldsFragment = (
     & Pick<CommentConnection, 'totalCount'>
   ), acceptanceEvent?: Maybe<(
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   )>, submissionEvent: (
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   ), rejectionEvent?: Maybe<(
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
@@ -7920,8 +7925,10 @@ export const AssertionPopoverFragmentDoc = gql`
     code
   }
   nccnGuideline
-  fdaCompanionTest
   regulatoryApproval
+  regulatoryApprovalLastUpdated
+  fdaCompanionTest
+  fdaCompanionTestLastUpdated
   drugs {
     id
     name
@@ -8002,6 +8009,7 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   regulatoryApproval @include(if: $cardView)
   nccnGuideline @include(if: $cardView)
   variantOrigin @include(if: $cardView)
+  status
 }
     `;
 export const ClinicalTrialPopoverFragmentDoc = gql`
@@ -9109,7 +9117,9 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   nccnGuideline
   nccnGuidelineVersion
   regulatoryApproval
+  regulatoryApprovalLastUpdated
   fdaCompanionTest
+  fdaCompanionTestLastUpdated
   flags(state: OPEN) {
     totalCount
   }
@@ -9120,6 +9130,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -9128,6 +9139,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -9136,6 +9148,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName

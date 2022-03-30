@@ -1,0 +1,16 @@
+<ng-container #fieldComponent></ng-container>
+<button nz-button type="button" nzType="default" (click)="handleOpen()">Show Evidence Manager</button>
+<nz-modal 
+   [(nzVisible)]="this.managerVisible"
+   nzCentered
+   nzClosable
+   (nzOnCancel)="handleCancel()"
+   (nzOnOk)="handleOk()"
+   nzOkText="Select Evidence Items"
+   [nzContent]="evidenceManager"
+   nzWidth="100%">
+</nz-modal>
+
+<ng-template #evidenceManager>
+    <cvc-evidence-table mode="select" [initialPageSize]="15" [initialUserFilters]="this.evidenceGridFilters" [initialSelectedEids]="this.alreadySelected" (selectedEids)="onEidSelectionChange($event)"></cvc-evidence-table>
+</ng-template>

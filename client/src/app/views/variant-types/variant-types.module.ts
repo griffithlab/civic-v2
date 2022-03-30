@@ -1,42 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { VariantTypesDetailModule } from './variant-types-detail/variant-types-detail.module';
+import { VariantTypesSummaryModule } from './variant-types-detail/variant-types-summary/variant-types-summary.module';
+import { VariantTypesHomeModule } from './variant-types-home/variant-types-home.module';
 import { VariantTypesRoutingModule } from './variant-types-routing.module';
 import { VariantTypesComponent } from './variant-types.component';
-import { VariantTypesDetailComponent } from './variant-types-detail/variant-types-detail.component';
-import { VariantTypesSummaryComponent } from './variant-types-summary/variant-types-summary.component';
-
-import { NzTableModule } from 'ng-zorro-antd/table';
-
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { VariantTypesHomeModule } from './variant-types-home/variant-types-home.module';
-import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
-import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 
 @NgModule({
-  declarations: [VariantTypesComponent, VariantTypesDetailComponent, VariantTypesSummaryComponent],
+  declarations: [VariantTypesComponent],
   imports: [
     CommonModule,
-    VariantTypesHomeModule,
-    CvcVariantsTableModule,
-    CvcEntityTableCardModule,
-    CvcLinkTagModule,
-    NzIconModule,
-    CvcSectionNavigationModule,
+    RouterModule,
     VariantTypesRoutingModule,
-    NzTableModule,
-    NzPageHeaderModule,
-    ReactiveComponentModule,
-    NzGridModule,
-    NzToolTipModule,
-    NzSpaceModule
+    VariantTypesHomeModule,
+    VariantTypesDetailModule,
+    VariantTypesSummaryModule,
   ]
 })
 export class VariantTypesModule { }

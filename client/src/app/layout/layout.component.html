@@ -21,6 +21,7 @@
       nzTheme="dark"
       nzMode="inline"
       class="sidebar-menu"
+      [ngClass]="{ 'is-collapsed': isCollapsed }"
       [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-group>
         <ul>
@@ -28,7 +29,8 @@
             nzSelected
             nzMatchRouter>
             <i nz-icon
-              nzType="home" nzThemes="filled"></i>
+              nzType="home"
+              nzThemes="filled"></i>
             <span> <a routerLink="/welcome">Home</a> </span>
           </li>
         </ul>
@@ -94,75 +96,71 @@
         </ul>
       </li>
 
-      <li nz-menu-group>
-        <ul>
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Clinical Trials' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="audit"></i>
-            <span> <a routerLink="/clinical-trials">Clinical Trials</a> </span>
-          </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Clinical Trials' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i nz-icon
+          nzType="audit"></i>
+        <span> <a routerLink="/clinical-trials">Clinical Trials</a> </span>
+      </li>
 
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="civic-disease"></i>
-            <span> <a routerLink="/diseases">Diseases</a> </span>
-          </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Diseases' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i nz-icon
+          nzType="civic-disease"></i>
+        <span> <a routerLink="/diseases">Diseases</a> </span>
+      </li>
 
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Drugs' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="civic-intervention"></i>
-            <span> <a routerLink="/drugs">Drugs</a> </span>
-          </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Drugs' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i nz-icon
+          nzType="civic-intervention"></i>
+        <span> <a routerLink="/drugs">Drugs</a> </span>
+      </li>
 
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Phenotypes' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="civic-phenotype"></i>
-            <span> <a routerLink="/phenotypes">Phenotypes</a> </span>
-          </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Phenotypes' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i nz-icon
+          nzType="civic-phenotype"></i>
+        <span> <a routerLink="/phenotypes">Phenotypes</a> </span>
+      </li>
 
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Sources' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="civic-source"></i>
-            <span> <a routerLink="/sources">Sources</a> </span>
-          </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Sources' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i nz-icon
+          nzType="civic-source"></i>
+        <span> <a routerLink="/sources">Sources</a> </span>
+      </li>
 
 
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="civic-varianttype"></i>
-            <span> <a routerLink="/variant-types">Variant Types</a> </span>
-          </li>
-        </ul>
+      <li nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Variant Types' : ''"
+        nzSelected
+        nzMatchRouter>
+        <i nz-icon
+          nzType="civic-varianttype"></i>
+        <span> <a routerLink="/variant-types">Variant Types</a> </span>
       </li>
 
       <li nz-menu-group
@@ -208,17 +206,6 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Community' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="global"></i>
-            <span> <a routerLink="/community" id="main-community">Community</a> </span>
-          </li>
-
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Users' : ''"
             nzSelected
             nzMatchRouter>
@@ -253,22 +240,21 @@
               nzType="download"></i>
             <span> <a routerLink="/releases" id="releases">Data Releases</a> </span>
           </li>
-
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Statistics' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="bar-chart"></i>
-            <span>
-          <a routerLink="/statistics" id="statistics">Statistics</a>
-        </span>
-          </li>
         </ul>
       </li>
     </ul>
+    <div class="cc-notice"
+      [ngClass]="{ 'is-collapsed': isCollapsed }"
+      nz-tooltip
+      nzTooltipPlacement="rightTop"
+      nzTooltipTitle="By marking the work with a CC0 public domain dedication, the creator is giving up their copyright and allowing reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes.">
+      <img src="assets/images/CC0-notice-glyph.svg"
+        class="cc-glyph"
+        alt="CC0 1.0 Universal" />
+      <img src="assets/images/CC0-notice-txt.svg"
+        class="cc-txt"
+        alt="This work has been marked as dedicated to the public domain." />
+    </div>
   </nz-sider>
   <nz-layout class="right-layout"
     [ngClass]="{ 'is-collapsed': isCollapsed }">

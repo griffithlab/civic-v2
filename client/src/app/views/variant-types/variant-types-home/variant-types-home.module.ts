@@ -5,6 +5,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcVariantTypesTableModule } from '@app/components/variant-types/variant-types-table/variant-types-table.module';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [VariantTypesHomePage],
@@ -13,6 +14,7 @@ import { CvcVariantTypesTableModule } from '@app/components/variant-types/varian
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
+    CvcSectionNavigationModule,
     CvcVariantTypesTableModule,
   ],
   exports: [VariantTypesHomePage]
