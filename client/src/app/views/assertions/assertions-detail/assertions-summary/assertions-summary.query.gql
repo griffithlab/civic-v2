@@ -58,6 +58,7 @@ fragment AssertionSummaryFields on Assertion {
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -66,6 +67,7 @@ fragment AssertionSummaryFields on Assertion {
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -74,6 +76,7 @@ fragment AssertionSummaryFields on Assertion {
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName

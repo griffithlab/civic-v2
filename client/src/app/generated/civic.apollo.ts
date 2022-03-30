@@ -7065,18 +7065,21 @@ export type AssertionSummaryFieldsFragment = (
     & Pick<CommentConnection, 'totalCount'>
   ), acceptanceEvent?: Maybe<(
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   )>, submissionEvent: (
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   ), rejectionEvent?: Maybe<(
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
@@ -9126,6 +9129,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -9134,6 +9138,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -9142,6 +9147,7 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName

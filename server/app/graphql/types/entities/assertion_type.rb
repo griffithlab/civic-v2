@@ -76,10 +76,8 @@ module Types::Entities
         regulatory_revisions = revisions.select{|r| r.field_name == 'fda_regulatory_approval' && r.status == 'accepted'}
         if !regulatory_revisions.empty?
           regulatory_revisions.last.updated_at
-        elsif e = object.acceptance_event
-          e.created_at
         else
-          object.submission_event.created_at
+          nil
         end
       end
     end
@@ -89,10 +87,8 @@ module Types::Entities
         regulatory_revisions = revisions.select{|r| r.field_name == 'fda_companion_test' && r.status == 'accepted'}
         if !regulatory_revisions.empty?
           regulatory_revisions.last.updated_at
-        elsif e = object.acceptance_event
-          e.created_at
         else
-          object.submission_event.created_at
+          nil
         end
       end
     end
