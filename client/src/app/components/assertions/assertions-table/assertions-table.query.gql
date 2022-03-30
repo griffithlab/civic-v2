@@ -107,4 +107,5 @@ fragment AssertionBrowseTableRowFields on Assertion {
   regulatoryApproval @include(if: $cardView)
   nccnGuideline @include(if: $cardView)
   variantOrigin @include(if: $cardView)
+  status
 }
