@@ -17,8 +17,10 @@ fragment assertionPopover on Assertion {
     code
   }
   nccnGuideline 
-  fdaCompanionTest
   regulatoryApproval
+  regulatoryApprovalLastUpdated
+  fdaCompanionTest
+  fdaCompanionTestLastUpdated
   drugs {
     id
     name

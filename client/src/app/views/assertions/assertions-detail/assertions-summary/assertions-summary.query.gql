@@ -45,7 +45,9 @@ fragment AssertionSummaryFields on Assertion {
   nccnGuideline
   nccnGuidelineVersion
   regulatoryApproval
+  regulatoryApprovalLastUpdated
   fdaCompanionTest
+  fdaCompanionTestLastUpdated
   flags(state: OPEN) {
     totalCount
   }

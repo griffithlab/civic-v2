@@ -378,6 +378,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   ): EventConnection!
   evidenceItems: [EvidenceItem!]!
   fdaCompanionTest: Boolean
+  fdaCompanionTestLastUpdated: ISO8601DateTime
   flagged: Boolean!
 
   """
@@ -435,6 +436,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   nccnGuidelineVersion: String
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
+  regulatoryApprovalLastUpdated: ISO8601DateTime
   rejectionEvent: Event
 
   """

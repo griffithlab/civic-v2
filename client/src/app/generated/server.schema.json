@@ -1333,6 +1333,18 @@
               "deprecationReason": null
             },
             {
+              "name": "fdaCompanionTestLastUpdated",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ISO8601DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "flagged",
               "description": null,
               "args": [],
@@ -1616,6 +1628,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "regulatoryApprovalLastUpdated",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ISO8601DateTime",
                 "ofType": null
               },
               "isDeprecated": false,
