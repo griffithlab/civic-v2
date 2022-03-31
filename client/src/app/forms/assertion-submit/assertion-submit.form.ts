@@ -267,7 +267,7 @@ export class AssertionSubmitForm implements OnDestroy {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
-              submitLabel: 'Submit Evidence Item Revision',
+              submitLabel: 'Submit Assertion',
               submitSize: 'large'
             }
           }

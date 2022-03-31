@@ -123,7 +123,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
-              submitLabel: 'Submit Evidence Item Revision',
+              submitLabel: 'Create Variant Group',
               submitSize: 'large'
             }
           }
