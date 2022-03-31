@@ -87,9 +87,9 @@ export const CvcTypePolicies: TypePolicies = {
         'diseaseId',
         'drugId',
         'sourceId',
-        'entrezSymbol',
+        'geneSymbol',
         'variantName',
-        'status'
+        'status',
       ]),
       assertions: relayStylePagination([
         'diseaseName',
