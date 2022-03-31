@@ -149,9 +149,7 @@
           <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
         </td>
         <td>
-          <span *ngFor="let alias of variant.aliases; last as isLast">
-            {{ alias.name }}{{ isLast ? '' : ', ' }}
-          </span>
+          <cvc-plain-tag-overflow [tags]="variant.aliases | pluck: 'name'" [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
         </td>
         <td>
           <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName, link: variant.geneLink}"></cvc-gene-tag>
