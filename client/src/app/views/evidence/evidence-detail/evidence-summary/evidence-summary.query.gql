@@ -61,6 +61,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -69,6 +70,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -77,6 +79,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName
