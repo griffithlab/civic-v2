@@ -78,6 +78,7 @@
 
           <!-- submit/accept/reject curation events -->
           <nz-descriptions-item nzTitle="Submitted">
+            {{ evidence.submissionEvent.createdAt | timeago }} by
             <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
           </nz-descriptions-item>
 
@@ -88,10 +89,12 @@
             <ng-container [ngSwitch]="evidence.rejectionEvent === null">
               <nz-descriptions-item *ngSwitchCase="true"
                 nzTitle="Accepted">
+                {{ evidence.acceptanceEvent.createdAt | timeago }} by
                 <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
               </nz-descriptions-item>
               <nz-descriptions-item *ngSwitchCase="false"
                 nzTitle="Rejected">
+                {{ evidence.rejectionEvent.createdAt | timeago }} by
                 <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
               </nz-descriptions-item>
             </ng-container>

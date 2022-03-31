@@ -51,22 +51,22 @@ export class OrganizationsDetailComponent {
             {
                 routeName: 'groups',
                 tabLabel: 'Child Organizations',
-                iconName: 'civic:organization'
+                iconName: 'civic-organization'
             },
             {
                 routeName: 'activity',
                 tabLabel: 'Activity',
-                iconName: 'civic:event'
+                iconName: 'civic-event'
             },
             {
                 routeName: 'evidence',
                 tabLabel: 'Evidence Items',
-                iconName: 'civic:evidence'
+                iconName: 'civic-evidence'
             },
             {
                 routeName: 'assertions',
                 tabLabel: 'Assertions',
-                iconName: 'civic:assertion'
+                iconName: 'civic-assertion'
             },
         ]
     }

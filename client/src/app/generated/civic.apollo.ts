@@ -6251,36 +6251,6 @@ export type EvidenceTypeaheadQuery = (
   )> }
 );
 
-export type EvidenceTransferSearchQueryVariables = Exact<{
-  id?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type EvidenceTransferSearchQuery = (
-  { __typename: 'Query' }
-  & { evidenceItems: (
-    { __typename: 'EvidenceItemConnection' }
-    & Pick<EvidenceItemConnection, 'totalCount'>
-    & { pageInfo: (
-      { __typename: 'PageInfo' }
-      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
-    ), edges: Array<(
-      { __typename: 'EvidenceItemEdge' }
-      & Pick<EvidenceItemEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename: 'EvidenceItem' }
-        & EvidenceTransferSearchFieldsFragment
-      )> }
-    )> }
-  ) }
-);
-
-export type EvidenceTransferSearchFieldsFragment = (
-  { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name'>
-);
-
 export type GeneTypeaheadQueryVariables = Exact<{
   entrezSymbol: Scalars['String'];
 }>;
@@ -7212,18 +7182,21 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<CommentConnection, 'totalCount'>
   ), acceptanceEvent?: Maybe<(
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   )>, submissionEvent: (
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
     ) }
   ), rejectionEvent?: Maybe<(
     { __typename: 'Event' }
+    & Pick<Event, 'createdAt'>
     & { originatingUser: (
       { __typename: 'User' }
       & Pick<User, 'id' | 'displayName' | 'role' | 'profileImagePath'>
@@ -8837,12 +8810,6 @@ export const AddDrugFieldsFragmentDoc = gql`
   }
 }
     `;
-export const EvidenceTransferSearchFieldsFragmentDoc = gql`
-    fragment EvidenceTransferSearchFields on EvidenceItem {
-  id
-  name
-}
-    `;
 export const GeneTypeaheadFieldsFragmentDoc = gql`
     fragment GeneTypeaheadFields on Gene {
   id
@@ -9245,6 +9212,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -9253,6 +9221,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -9261,6 +9230,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -11380,36 +11350,6 @@ export const EvidenceTypeaheadDocument = gql`
   })
   export class EvidenceTypeaheadGQL extends Apollo.Query<EvidenceTypeaheadQuery, EvidenceTypeaheadQueryVariables> {
     document = EvidenceTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const EvidenceTransferSearchDocument = gql`
-    query EvidenceTransferSearch($id: Int, $first: Int) {
-  evidenceItems(id: $id, first: $first) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    edges {
-      cursor
-      node {
-        ...EvidenceTransferSearchFields
-      }
-    }
-  }
-}
-    ${EvidenceTransferSearchFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvidenceTransferSearchGQL extends Apollo.Query<EvidenceTransferSearchQuery, EvidenceTransferSearchQueryVariables> {
-    document = EvidenceTransferSearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

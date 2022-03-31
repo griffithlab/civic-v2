@@ -20,6 +20,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { CvcUserProfileFormModule } from '@app/forms/user-profile/user-profile.module';
 import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module';
 
 @NgModule({
   declarations: [UsersDetailComponent],
@@ -36,6 +38,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzDividerModule,
     NzModalModule,
     NzStatisticModule,
+    NzIconModule,
     CvcUserCoiFormModule,
     CvcUserProfileFormModule,
     CvcPipesModule,
@@ -44,6 +47,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     CvcUserAvatarModule,
     CvcAvatarUploaderModule,
     CvcOrganizationTagModule,
+    CvcStatsCardModule
   ]
 })
 export class UsersDetailModule { }

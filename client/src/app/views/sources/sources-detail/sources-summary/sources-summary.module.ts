@@ -5,9 +5,11 @@ import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/
 import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SourcesSummaryPage } from './sources-summary.page';
 
 @NgModule({
@@ -15,9 +17,13 @@ import { SourcesSummaryPage } from './sources-summary.page';
   imports: [
     CommonModule,
     ReactiveComponentModule,
+    NzGridModule,
     NzSpaceModule,
     NzGridModule,
+    NzSpaceModule,
+    NzTypographyModule,
     NzIconModule,
+    NzDescriptionsModule,
     CvcEntityTableCardModule,
     CvcEvidenceTableModule,
     CvcSourceSuggestionsTableModule,
