@@ -50,11 +50,11 @@ export class UsersDetailComponent implements OnDestroy {
       tabLabel: 'Source Suggestions',
       iconName: 'file-add',
     },
-    {
-      routeName: 'badges',
-      tabLabel: 'Badges',
-      iconName: 'safety-certificate',
-    },
+    // {
+    //   routeName: 'badges',
+    //   tabLabel: 'Badges',
+    //   iconName: 'safety-certificate',
+    // },
   ];
 
   constructor(

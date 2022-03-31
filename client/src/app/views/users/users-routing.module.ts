@@ -29,6 +29,11 @@ const routes: Routes = [
         data: { breadcrumb: 'DISPLAYNAME' },
         children: [
           {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'activity'
+          },
+          {
             path: 'evidence',
             component: UsersEvidenceComponent,
             data: {
