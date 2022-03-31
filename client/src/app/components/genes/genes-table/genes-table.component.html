@@ -122,9 +122,7 @@
           <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
         </td>
         <td>
-          <span *ngFor="let alias of gene.geneAliases; last as isLast">
-            {{ alias }}{{ isLast ? '' : ', ' }}
-          </span>
+          <cvc-plain-tag-overflow [tags]="gene.geneAliases" [matchingText]="aliasInput"></cvc-plain-tag-overflow>
         </td>
         <td>
           <cvc-tag-overflow tagType='disease'

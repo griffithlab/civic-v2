@@ -55,7 +55,7 @@
         {{ organization.eventCount }}
       </td>
       <td>
-        {{ organization.mostRecentEvent?.createdAt }}
+        {{ organization.mostRecentEvent?.createdAt | timeago }}
       </td>
     </tr>
   </tbody>

@@ -14,6 +14,7 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
 import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
 import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
 import { SanitizeHtmlPipe } from './sanitize-html-pipe';
+import { PluckPipe } from './pluck-pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SanitizeHtmlPipe } from './sanitize-html-pipe';
     TypenameToRoutePipe,
     ColorNameForStatusPipe,
     HighlightTypeaheadPipe,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    PluckPipe
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { SanitizeHtmlPipe } from './sanitize-html-pipe';
     TypenameToRoutePipe,
     ColorNameForStatusPipe,
     HighlightTypeaheadPipe,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    PluckPipe
   ],
   providers: [
     SourceTypeDisplayPipe
