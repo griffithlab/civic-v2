@@ -1,62 +1,80 @@
 <ng-container *ngIf="organization$ | ngrxPush as organization">
   <cvc-section-navigation [displayName]="organization.name">
   </cvc-section-navigation>
+
   <nz-page-header class="site-page-header">
+
+    <!-- title -->
     <nz-page-header-title>
-      <nz-space nzDirection="horizontal"
-        nzSize="small">
-        <i nz-icon nzType="civic:organization" *nzSpaceItem></i>
-        <span routerLink="/organizatons/{{organization.id}}" *nzSpaceItem>
-          {{ organization.name }}
-        </span>
-        <cvc-link-tag [href]="organization.url" *nzSpaceItem>
-          Organization Website
-        </cvc-link-tag>
-      </nz-space>
+      <i nz-icon
+        nzType="civic:organization"></i>
+      <span routerLink="/organizations/{{organization.id}}">
+        {{ organization.name }}
+      </span>
     </nz-page-header-title>
 
+    <!-- extra -->
+    <nz-page-header-extra>
+        <cvc-link-tag [href]="organization.url">
+          Organization Website
+        </cvc-link-tag>
+    </nz-page-header-extra>
+
+    <!-- content -->
     <nz-page-header-content>
       <cvc-tab-navigation [tabs]="tabs"></cvc-tab-navigation>
       <div class="content">
-        <nz-space>
-          <nz-row [nzGutter]="16" *nzSpaceItem>
-            <nz-row>
-              <nz-col [nzSpan]="2">
-                <img
-                  nz-image
-                  width="121px"
-                  height="121px"
-                  nzSrc="{{ organization.profileImagePath }}"
-                  alt=""
-                />
-              </nz-col>
-              <nz-col [nzSpan]="18">
-                <nz-row>
-                  <p nz-typography><b>Description: </b>{{ organization.description }}</p>
-                </nz-row>
-                <nz-row *ngIf="organization.subGroups.length == 0; else hasSubGroups" >
-                  <cvc-stats-card [stats]="organization.orgStatsHash" header="Organization Statistics"></cvc-stats-card>
-                </nz-row>
-                <ng-template #hasSubGroups>
-                  <nz-row>
-                    <cvc-stats-card [stats]="organization.orgStatsHash" header="Organization Statistics (Excl. Child Organizations)"></cvc-stats-card>
-                  </nz-row>
-                  <nz-row>
-                    <cvc-stats-card [stats]="organization.orgAndSuborgsStatsHash" header="Organization Statistics (Incl. Child Organizations)"></cvc-stats-card>
-                  </nz-row>
-                </ng-template>
-              </nz-col>
-              <nz-col [nzSpan]="4">
-                <nz-list *ngIf="organization.subGroups.length > 0" nzBordered nzSize="small">
-                  <nz-list-header>Child Organizations: </nz-list-header>
-                  <nz-list-item *ngFor="let suborg of organization.subGroups">
+        <nz-row
+          [nzGutter]="16">
+          <nz-col
+            [nzSpan]="3">
+            <nz-space nzDirection="vertical"
+              nzSize="middle">
+              <nz-avatar *ngIf="organization.profileImagePath; else noAvatar"
+                nz-comment-avatar
+                [nzSrc]="organization.profileImagePath"
+                [nzSize]="128">
+              </nz-avatar>
+              <ng-template #noAvatar>
+                <nz-avatar nz-comment-avatar [nzSize]="128"
+                  [nzText]="organization.name"></nz-avatar>
+              </ng-template>
+            </nz-space>
+          </nz-col>
+          <nz-col [nzSpan]='13'>
+            <nz-descriptions nzBordered nzLayout="vertical">
+              <nz-descriptions-item [nzSpan]="2"
+                nzTitle="Description">
+                {{ organization.description }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-col>
+          <nz-col [nzSpan]="8" *ngIf="organization.subGroups.length >= 0">
+            <nz-descriptions nzBordered nzLayout="vertical">
+              <nz-descriptions-item
+                nzTitle="Child Organizations">
+                <ng-container *ngFor="let suborg of organization.subGroups">
                     <cvc-organization-tag [org]="suborg"></cvc-organization-tag>
-                  </nz-list-item>
-                </nz-list>
-              </nz-col>
-            </nz-row>
-          </nz-row>
-        </nz-space>
+                </ng-container>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col
+            [nzSpan]="24">
+            <nz-divider></nz-divider>
+              <cvc-stats-card *ngIf="organization.subGroups.length == 0; else hasSubGroups"
+                [stats]="organization.orgStatsHash"
+                header="Organization Statistics">
+              </cvc-stats-card>
+            <ng-template #hasSubGroups>
+              <cvc-stats-card [stats]="organization.orgStatsHash" header="Organization Statistics (Excl. Child Organizations)"></cvc-stats-card>
+              <cvc-stats-card [stats]="organization.orgAndSuborgsStatsHash" header="Organization Statistics (Incl. Child Organizations)"></cvc-stats-card>
+            </ng-template>
+          </nz-col>
+        </nz-row>
+
         <router-outlet></router-outlet>
       </div>
     </nz-page-header-content>
