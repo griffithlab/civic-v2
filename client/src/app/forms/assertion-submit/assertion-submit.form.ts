@@ -89,6 +89,14 @@ export class AssertionSubmitForm implements OnDestroy {
       this.formModel.fields.evidenceItems = eids
     }
 
+    let fdaApprovalCallback = (newVal: boolean | undefined) => {
+      this.formModel!.fields.fdaRegulatoryApproval = newVal
+    }
+
+    let fdaCompanionCallback = (newVal: boolean | undefined) => {
+      this.formModel!.fields.fdaCompanionTest = newVal
+    }
+
     this.submitAssertionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
@@ -196,12 +204,16 @@ export class AssertionSubmitForm implements OnDestroy {
           {
             key: 'fdaRegulatoryApproval',
             type: 'fda-approval-checkbox',
-            templateOptions: {}
+            templateOptions: { 
+              modelCallback: fdaApprovalCallback
+            }
           },
           {
             key: 'fdaCompanionTest',
             type: 'fda-test-checkbox',
-            templateOptions: {}
+            templateOptions: { 
+              modelCallback: fdaCompanionCallback
+            }
           },
           {
             key: 'summary',

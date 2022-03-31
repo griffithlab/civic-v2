@@ -47,7 +47,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
   @Input() assertionId: Maybe<number>;
   private destroy$ = new Subject<void>();
 
-  formModel!: FormModel;
+  formModel?: FormModel;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = { formState: new AssertionState() };
@@ -56,7 +56,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
 
   success: boolean = false
   errorMessages: string[] = []
-  loading: boolean = false
+  loading: boolean = true
 
   constructor(
     private suggestAssertionRevisionGQL: SuggestAssertionRevisionGQL,
@@ -64,7 +64,15 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
     private revisableFieldsGQL: AssertionRevisableFieldsGQL
   ) {
     let eidCallback = (eids: FormEvidence[]) => {
-      this.formModel.fields.evidenceItems = eids
+      this.formModel!.fields.evidenceItems = eids
+    }
+
+    let fdaApprovalCallback = (newVal: boolean | undefined) => {
+      this.formModel!.fields.fdaRegulatoryApproval = newVal
+    }
+
+    let fdaCompanionCallback = (newVal: boolean | undefined) => {
+      this.formModel!.fields.fdaCompanionTest = newVal
     }
 
     this.suggestAssertionRevisionMutator = new MutatorWithState(networkErrorService)
@@ -174,12 +182,16 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           {
             key: 'fdaRegulatoryApproval',
             type: 'fda-approval-checkbox',
-            templateOptions: {}
+            templateOptions: { 
+              modelCallback: fdaApprovalCallback
+            }
           },
           {
             key: 'fdaCompanionTest',
             type: 'fda-test-checkbox',
-            templateOptions: {}
+            templateOptions: { 
+              modelCallback: fdaCompanionCallback
+            }
           },
           {
             key: 'summary',
@@ -339,6 +351,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           ({ data: { assertion } }) => {
             if (assertion) {
               this.formModel = this.toFormModel(assertion);
+              this.loading = false
             }
           },
           // error
