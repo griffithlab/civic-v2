@@ -7325,7 +7325,13 @@ export type OrganizationGroupsFieldsFragment = (
   & { orgStatsHash: (
     { __typename: 'Stats' }
     & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
-  ) }
+  ), orgAndSuborgsStatsHash: (
+    { __typename: 'Stats' }
+    & Pick<Stats, 'comments' | 'revisions' | 'appliedRevisions' | 'submittedEvidenceItems' | 'acceptedEvidenceItems' | 'suggestedSources' | 'submittedAssertions' | 'acceptedAssertions'>
+  ), subGroups: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'profileImagePath'>
+  )> }
 );
 
 export type OrganizationMembersQueryVariables = Exact<{
@@ -9349,6 +9355,21 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
     suggestedSources
     submittedAssertions
     acceptedAssertions
+  }
+  orgAndSuborgsStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  subGroups {
+    id
+    name
+    profileImagePath(size: 12)
   }
 }
     `;

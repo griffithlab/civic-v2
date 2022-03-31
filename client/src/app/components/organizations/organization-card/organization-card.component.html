@@ -1,70 +1,55 @@
-<nz-card [nzTitle]="organization.name"
-  [nzExtra]="avatar">
-  <ng-template #avatar>
-    <cvc-organization-avatar [organization]="organization"
-      [size]="64"></cvc-organization-avatar>
+<nz-card *ngIf="inCard; else noCard"[nzTitle]="organization.name">
+  <ng-template [ngTemplateOutlet]="content">
   </ng-template>
-  <div nz-row
-    [nzGutter]="16">
-    <nz-row>
-      <nz-col [nzSpan]="24">
-        <nz-row>
-          <p nz-typography><b>Description: </b>{{ organization.description }}</p>
-        </nz-row>
-        <nz-row>
-          <p nz-typography><b>Organization Statistics</b></p>
-        </nz-row>
-        <nz-row [nzGutter]="16">
-          <nz-col [nzSpan]="2">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.comments | number)!"
-                [nzTitle]="'Comments'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.revisions | number)!"
-                [nzTitle]="'Suggested Revisions'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.appliedRevisions | number)!"
-                [nzTitle]="'Applied Revisions'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.suggestedSources | number)!"
-                [nzTitle]="'Suggested Sources'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.submittedEvidenceItems | number)!"
-                [nzTitle]="'Submitted Evidence'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.acceptedEvidenceItems | number)!"
-                [nzTitle]="'Accepted Evidence'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.submittedAssertions | number)!"
-                [nzTitle]="'Submitted Assertions'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-          <nz-col [nzSpan]="3">
-            <nz-card>
-              <nz-statistic [nzValue]="(organization.orgStatsHash.acceptedAssertions | number)!"
-                [nzTitle]="'Accepted Assertions'"></nz-statistic>
-            </nz-card>
-          </nz-col>
-        </nz-row>
-      </nz-col>
-    </nz-row>
-  </div>
 </nz-card>
+
+<ng-template #noCard>
+  <ng-template [ngTemplateOutlet]="content">
+  </ng-template>
+</ng-template>
+
+<ng-template #content>
+  <nz-row
+    [nzGutter]="16">
+    <nz-col
+      [nzSpan]="3">
+      <nz-space nzDirection="vertical"
+        nzSize="middle">
+        <cvc-organization-avatar [organization]="organization"
+          [size]="128"></cvc-organization-avatar>
+      </nz-space>
+    </nz-col>
+    <nz-col [nzSpan]='13'>
+      <nz-descriptions nzBordered nzLayout="vertical">
+        <nz-descriptions-item [nzSpan]="2"
+          nzTitle="Description">
+          {{ organization.description }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </nz-col>
+    <nz-col [nzSpan]="8" *ngIf="organization.subGroups.length > 0">
+      <nz-descriptions nzBordered nzLayout="vertical">
+        <nz-descriptions-item
+          nzTitle="Child Organizations">
+          <ng-container *ngFor="let suborg of organization.subGroups">
+              <cvc-organization-tag [org]="suborg"></cvc-organization-tag>
+          </ng-container>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </nz-col>
+  </nz-row>
+  <nz-row>
+    <nz-col
+      [nzSpan]="24">
+      <nz-divider></nz-divider>
+        <cvc-stats-card *ngIf="organization.subGroups.length == 0; else hasSubGroups"
+          [stats]="organization.orgStatsHash"
+          header="Organization Statistics">
+        </cvc-stats-card>
+      <ng-template #hasSubGroups>
+        <cvc-stats-card [stats]="organization.orgStatsHash" header="Organization Statistics (Excl. Child Organizations)"></cvc-stats-card>
+        <cvc-stats-card [stats]="organization.orgAndSuborgsStatsHash" header="Organization Statistics (Incl. Child Organizations)"></cvc-stats-card>
+      </ng-template>
+    </nz-col>
+  </nz-row>
+</ng-template>

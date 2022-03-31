@@ -8,6 +8,7 @@ import { OrganizationGroupsFieldsFragment } from "@app/generated/civic.apollo";
 })
 export class CvcOrganizationCardComponent implements OnInit {
     @Input() organization!: OrganizationGroupsFieldsFragment;
+    @Input() inCard: boolean = true
 
     ngOnInit(){
         if(this.organization == undefined) {
