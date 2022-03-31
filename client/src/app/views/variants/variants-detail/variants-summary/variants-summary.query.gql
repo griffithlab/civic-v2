@@ -25,7 +25,9 @@ fragment VariantSummaryFields on Variant {
   variantAliases
   alleleRegistryId
   variantTypes {
-      soid,
+      id
+      link
+      soid
       name
   }
   hgvsDescriptions
