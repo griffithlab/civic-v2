@@ -16,23 +16,26 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
       options: [
         { value: true, label: 'Yes' },
         { value: false, label: 'No' },
+        { value: undefined, label: '' },
       ],
     },
     hooks: {
       onInit: (ffc?: FormlyFieldConfig): void => {
         if(ffc) {
           const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
-          const nccnCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
+          const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
           const st: EntityState = ffc?.options?.formState;
-          if(!nccnCtrl) { return; }
+          if(!etCtrl) { return; }
           if(!to) { return; }
-          to.ncSub = nccnCtrl.valueChanges
+          to.ncSub = etCtrl.valueChanges
             .subscribe((et: Maybe<EntityType>) => {
               if(et && st.allowsFdaApproval(et)) {
                 to.hidden = false
                 to.required = true;
               } else {
-                ffc.model[ffc.key as string] = false
+                ffc.form?.get(ffc.key as string)?.setValue(undefined)
+                to.modelCallback(undefined)
+                ffc.model[ffc.key as string] = undefined
                 to.hidden = true
               }
             })

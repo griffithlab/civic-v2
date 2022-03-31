@@ -220,7 +220,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
-  nccnGuideline?: Maybe<Scalars['String']>;
+  nccnGuideline?: Maybe<NccnGuideline>;
   nccnGuidelineVersion?: Maybe<Scalars['String']>;
   phenotypes: Array<Phenotype>;
   regulatoryApproval?: Maybe<Scalars['Boolean']>;
@@ -354,9 +354,9 @@ export type AssertionFields = {
   /** IDs of evidence items that are included in this Assertion. */
   evidenceItemIds: Array<Scalars['Int']>;
   /** Is an FDA companion test available that pertains to this Assertion. */
-  fdaCompanionTest: Scalars['Boolean'];
+  fdaCompanionTest: NullableBooleanInput;
   /** Does the Assertion have FDA regulatory approval. */
-  fdaRegulatoryApproval: Scalars['Boolean'];
+  fdaRegulatoryApproval: NullableBooleanInput;
   /** The ID of the Gene to which this Assertion belongs */
   geneId: Scalars['Int'];
   /** The internal CIViC ID of the NCCN guideline associated with this Assertion */
@@ -2207,6 +2207,19 @@ export type NullableAreaOfExpertiseTypeInput = {
   unset?: Maybe<Scalars['Boolean']>;
   /** The desired value for the field. Mutually exclusive with unset. */
   value?: Maybe<AreaOfExpertise>;
+};
+
+/**
+ * An input object that represents a field value that can be "unset" or changed to null.
+ * To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+ * This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+ * and the inability to have an input object argument be both required _and_ nullable at the same time.
+ */
+export type NullableBooleanInput = {
+  /** Set to true if you wish to set the field's value to null. */
+  unset?: Maybe<Scalars['Boolean']>;
+  /** The desired value for the field. Mutually exclusive with unset. */
+  value?: Maybe<Scalars['Boolean']>;
 };
 
 /**
@@ -4419,10 +4432,13 @@ export type AssertionPopoverQuery = (
 
 export type AssertionPopoverFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'nccnGuideline' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
   )>, drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name' | 'link'>
@@ -4499,7 +4515,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'nccnGuideline' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -4518,6 +4534,9 @@ export type AssertionBrowseTableRowFieldsFragment = (
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
   )> }
 );
 
@@ -6057,6 +6076,66 @@ export type ViewerNotificationCountQuery = (
   ) }
 );
 
+export type AssertionRevisableFieldsQueryVariables = Exact<{
+  assertionId: Scalars['Int'];
+}>;
+
+
+export type AssertionRevisableFieldsQuery = (
+  { __typename: 'Query' }
+  & { assertion?: Maybe<(
+    { __typename: 'Assertion' }
+    & RevisableAssertionFieldsFragment
+  )> }
+);
+
+export type RevisableAssertionFieldsFragment = (
+  { __typename: 'Assertion' }
+  & Pick<Assertion, 'id' | 'summary' | 'description' | 'variantOrigin' | 'clinicalSignificance' | 'drugInteractionType' | 'assertionDirection' | 'assertionType' | 'ampLevel' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'fdaCompanionTest'>
+  & { variant: (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'name' | 'link'>
+  ), gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name' | 'link'>
+  ), disease?: Maybe<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'doid' | 'name' | 'displayName' | 'link'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'ncitId' | 'name' | 'link'>
+  )>, phenotypes: Array<(
+    { __typename: 'Phenotype' }
+    & Pick<Phenotype, 'id' | 'hpoId' | 'name'>
+  )>, acmgCodes: Array<(
+    { __typename: 'AcmgCode' }
+    & Pick<AcmgCode, 'id' | 'code' | 'description'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
+  )>, evidenceItems: Array<(
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'name' | 'link' | 'status'>
+  )> }
+);
+
+export type SuggestAssertionRevisionMutationVariables = Exact<{
+  input: SuggestAssertionRevisionInput;
+}>;
+
+
+export type SuggestAssertionRevisionMutation = (
+  { __typename: 'Mutation' }
+  & { suggestAssertionRevision?: Maybe<(
+    { __typename: 'SuggestAssertionRevisionPayload' }
+    & Pick<SuggestAssertionRevisionPayload, 'clientMutationId'>
+    & { assertion: (
+      { __typename: 'Assertion' }
+      & Pick<Assertion, 'id'>
+    ) }
+  )> }
+);
+
 export type SubmitAssertionMutationVariables = Exact<{
   input: SubmitAssertionInput;
 }>;
@@ -6974,10 +7053,10 @@ export type AssertionDetailFieldsFragment = (
   & Pick<Assertion, 'id' | 'name' | 'status'>
   & { gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -7005,7 +7084,7 @@ export type AssertionSummaryQuery = (
 
 export type AssertionSummaryFieldsFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuideline' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated'>
+  & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
     & Pick<Disease, 'id' | 'name'>
@@ -7024,6 +7103,9 @@ export type AssertionSummaryFieldsFragment = (
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
+  )>, nccnGuideline?: Maybe<(
+    { __typename: 'NccnGuideline' }
+    & Pick<NccnGuideline, 'id' | 'name'>
   )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -7897,7 +7979,10 @@ export const AssertionPopoverFragmentDoc = gql`
   acmgCodes {
     code
   }
-  nccnGuideline
+  nccnGuideline {
+    id
+    name
+  }
   regulatoryApproval
   regulatoryApprovalLastUpdated
   fdaCompanionTest
@@ -7980,7 +8065,11 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
   }
   fdaCompanionTest @include(if: $cardView)
   regulatoryApproval @include(if: $cardView)
-  nccnGuideline @include(if: $cardView)
+  regulatoryApprovalLastUpdated @include(if: $cardView)
+  nccnGuideline @include(if: $cardView) {
+    id
+    name
+  }
   variantOrigin @include(if: $cardView)
   status
 }
@@ -8768,6 +8857,65 @@ export const MenuVariantFragmentDoc = gql`
   link
 }
     `;
+export const RevisableAssertionFieldsFragmentDoc = gql`
+    fragment RevisableAssertionFields on Assertion {
+  id
+  summary
+  description
+  variant {
+    id
+    name
+    link
+  }
+  gene {
+    id
+    name
+    link
+  }
+  variantOrigin
+  clinicalSignificance
+  disease {
+    id
+    doid
+    name
+    displayName
+    link
+  }
+  drugs {
+    id
+    ncitId
+    name
+    link
+  }
+  drugInteractionType
+  assertionDirection
+  assertionType
+  phenotypes {
+    id
+    hpoId
+    name
+  }
+  ampLevel
+  acmgCodes {
+    id
+    code
+    description
+  }
+  nccnGuideline {
+    id
+    name
+  }
+  nccnGuidelineVersion
+  regulatoryApproval
+  fdaCompanionTest
+  evidenceItems {
+    id
+    name
+    link
+    status
+  }
+}
+    `;
 export const PreviewCommentFragmentDoc = gql`
     fragment previewComment on CommentBodySegment {
   __typename
@@ -9026,10 +9174,12 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
@@ -9081,7 +9231,10 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
     code
     description
   }
-  nccnGuideline
+  nccnGuideline {
+    id
+    name
+  }
   nccnGuidelineVersion
   regulatoryApproval
   regulatoryApprovalLastUpdated
@@ -11133,6 +11286,45 @@ export const ViewerNotificationCountDocument = gql`
   })
   export class ViewerNotificationCountGQL extends Apollo.Query<ViewerNotificationCountQuery, ViewerNotificationCountQueryVariables> {
     document = ViewerNotificationCountDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AssertionRevisableFieldsDocument = gql`
+    query AssertionRevisableFields($assertionId: Int!) {
+  assertion(id: $assertionId) {
+    ...RevisableAssertionFields
+  }
+}
+    ${RevisableAssertionFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AssertionRevisableFieldsGQL extends Apollo.Query<AssertionRevisableFieldsQuery, AssertionRevisableFieldsQueryVariables> {
+    document = AssertionRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestAssertionRevisionDocument = gql`
+    mutation SuggestAssertionRevision($input: SuggestAssertionRevisionInput!) {
+  suggestAssertionRevision(input: $input) {
+    clientMutationId
+    assertion {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestAssertionRevisionGQL extends Apollo.Mutation<SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables> {
+    document = SuggestAssertionRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

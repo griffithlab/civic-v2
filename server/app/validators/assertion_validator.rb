@@ -51,7 +51,7 @@ class AssertionValidator < ActiveModel::Validator
       if !record.nccn_guideline_version.match(/\A\d{1,2}\.\d{4}\z/)
         record.errors.add :nccn_guideline_version, "NCCN guideline version '#{record.nccn_guideline_version}' doesn't match the expected format '<version_number>.<year>'"
       end
-      if !record.nccn_guidline
+      if !record.nccn_guideline
         record.errors.add :nccn_guideline, "NCCN guideline is required when a NCCN guideline version is set."
       end
     end

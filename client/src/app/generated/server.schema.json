@@ -1578,8 +1578,8 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "NccnGuideline",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -2475,8 +2475,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
+                  "kind": "INPUT_OBJECT",
+                  "name": "NullableBooleanInput",
                   "ofType": null
                 }
               },
@@ -2491,8 +2491,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
+                  "kind": "INPUT_OBJECT",
+                  "name": "NullableBooleanInput",
                   "ofType": null
                 }
               },
@@ -16325,6 +16325,41 @@
               "type": {
                 "kind": "ENUM",
                 "name": "AreaOfExpertise",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "NullableBooleanInput",
+          "description": "An input object that represents a field value that can be \"unset\" or changed to null.\nTo change the field's value to null, pass unset as true, otherwise pass in the desired value as value.\nThis is to work around two issues with the GraphQL spec: lack of support for unions in input types\nand the inability to have an input object argument be both required _and_ nullable at the same time.",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "unset",
+              "description": "Set to true if you wish to set the field's value to null.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "value",
+              "description": "The desired value for the field. Mutually exclusive with unset.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "defaultValue": null,

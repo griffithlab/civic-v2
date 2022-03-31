@@ -51,7 +51,7 @@
                 {{ code.code }}<ng-container *ngIf="!last">,&nbsp;</ng-container>
               </span>
             </nz-row>
-            <nz-row *ngIf="assertion.nccnGuideline"><b>NCCN Guideline:&nbsp;</b>{{ assertion.nccnGuideline }}</nz-row>
+            <nz-row *ngIf="assertion.nccnGuideline"><b>NCCN Guideline:&nbsp;</b>{{ assertion.nccnGuideline.name }}</nz-row>
             <nz-row>
               <b>Regulatory Approval:&nbsp;</b>
               <i *ngIf="assertion.regulatoryApproval; else regulatoryApprovalElse"
