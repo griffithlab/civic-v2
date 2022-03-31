@@ -19,6 +19,8 @@ import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module';
+import { CvcOrganizationCardModule } from '@app/components/organizations/organization-card/organization-card.module';
 
 @NgModule({
   declarations: [OrganizationsDetailComponent],
@@ -37,11 +39,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzAvatarModule,
     NzDescriptionsModule,
     NzDividerModule,
-    CvcOrganizationTagModule,
     CvcLinkTagModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
-    CvcStatsCardModule
+    CvcOrganizationCardModule
   ]
 })
 export class OrganizationsDetailModule { }

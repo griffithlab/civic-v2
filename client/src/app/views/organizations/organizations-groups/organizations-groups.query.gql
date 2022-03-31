@@ -24,4 +24,19 @@ fragment OrganizationGroupsFields on Organization {
     submittedAssertions
     acceptedAssertions
   }
+  orgAndSuborgsStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  subGroups {
+    id
+    name
+    profileImagePath(size: 12)
+  }
 } 
