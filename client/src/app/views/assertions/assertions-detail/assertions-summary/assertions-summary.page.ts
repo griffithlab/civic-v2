@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { AssertionSummaryGQL, Maybe, AssertionSummaryQuery, AssertionSummaryQueryVariables, AssertionSummaryFieldsFragment, SubscribableInput, SubscribableEntities } from "@app/generated/civic.apollo";
+import { AssertionSummaryGQL, Maybe, AssertionSummaryQuery, AssertionSummaryQueryVariables, AssertionSummaryFieldsFragment, SubscribableInput, SubscribableEntities, AssertionType } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
 import { Observable } from "rxjs";
@@ -16,6 +16,8 @@ export class AssertionsSummaryPage {
   queryRef: QueryRef<AssertionSummaryQuery, AssertionSummaryQueryVariables>
   loading$: Observable<boolean>
   assertion$: Observable<Maybe<AssertionSummaryFieldsFragment>>
+
+  predisposingAssertionType$ = AssertionType.Predisposing
 
   subscribable: SubscribableInput
 
