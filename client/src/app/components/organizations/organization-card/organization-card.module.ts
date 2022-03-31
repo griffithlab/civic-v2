@@ -13,6 +13,10 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module';
 
 @NgModule({
   declarations: [CvcOrganizationCardComponent],
@@ -23,6 +27,8 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     NzSpaceModule,
     NzTypographyModule,
     NzStatisticModule,
+    NzDescriptionsModule,
+    NzDividerModule,
     CvcClinicalTrialTagModule,
     CvcDiseaseTagModule,
     CvcDrugTagModule,
@@ -30,6 +36,8 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     CvcPhenotypeTagModule,
     CvcOrganizationAvatarModule,
     CvcPipesModule,
+    CvcOrganizationTagModule,
+    CvcStatsCardModule
   ],
   exports: [CvcOrganizationCardComponent]
 })

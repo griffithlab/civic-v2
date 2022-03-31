@@ -7,6 +7,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { CvcUserPopoverModule } from '@app/components/users/user-popover/user-popover.module';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [CvcContributorStackComponent],
@@ -15,7 +16,7 @@ import { CvcUserPopoverModule } from '@app/components/users/user-popover/user-po
     RouterModule,
     NzAvatarModule,
     NzPopoverModule,
-    NzListModule,
+    NzDescriptionsModule,
     CvcPipesModule,
     CvcUserPopoverModule
   ],

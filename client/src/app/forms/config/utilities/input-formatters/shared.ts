@@ -12,7 +12,7 @@ export function toNullableString(str: Maybe<string>): NullableStringInput {
 
 export function toNullableInput<T>(x: Maybe<T>):  { value: Maybe<T>, unset: Maybe<boolean> } {
   let nullable: { value: Maybe<T>, unset: Maybe<boolean> } = { value: undefined, unset: undefined }
-  if(x) {
+  if(x !== undefined) {
     nullable.value = x;
   } else {
     nullable.unset = true;

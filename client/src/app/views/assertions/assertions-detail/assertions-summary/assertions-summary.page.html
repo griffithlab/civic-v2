@@ -50,32 +50,37 @@
         </nz-descriptions>
 
         <!-- AMP/ASO/CAP category, ACMG codes-->
-        <!-- TODO fix display logic for displaying AMP/.. categories & ACMG codes
-             ACMG codes are only applicable for predisposing assertions, should show 'Not Applicable' for all others, or None Provided if predictive type & null
-             ACMG codes are only applicable for non-predisposing assertions, should show Not Applicable otherwise, or None Provided if non-predictive type & null
-        -->
         <nz-descriptions nzLayout="horizontal" *nzSpaceItem
           nzSize="small"
           nzBordered="true">
 
           <!-- AMP/ASO/CAP -->
           <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
-            {{ assertion.ampLevel | formatAmp: 'verbose' }}
+            <ng-container *ngIf="assertion.assertionType != this.predisposingAssertionType$; else notApplicable">
+              {{ assertion.ampLevel | formatAmp: 'verbose' }}
+            </ng-container>
           </nz-descriptions-item>
 
           <!-- ACMG Codes -->
           <nz-descriptions-item nzTitle="ACMG Codes">
-            <ng-container *ngIf="assertion.acmgCodes.length > 0">
-              <ng-container *ngFor="let code of assertion.acmgCodes; let last = last">
-                {{ code.code }}
-                <ng-container *ngIf="!last">,&nbsp;</ng-container>
+            <ng-container *ngIf="assertion.assertionType == this.predisposingAssertionType$; else notApplicable">
+              <ng-container *ngIf="assertion.acmgCodes.length > 0">
+                <ng-container *ngFor="let code of assertion.acmgCodes; let last = last">
+                  {{ code.code }}
+                  <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="assertion.acmgCodes.length == 0">
+                <span nz-typography
+                  nzType="secondary">None provided</span>
               </ng-container>
             </ng-container>
-            <ng-container *ngIf="assertion.acmgCodes.length == 0">
-              <span nz-typography
-                nzType="secondary">None provided</span>
-            </ng-container>
           </nz-descriptions-item>
+
+          <ng-template #notApplicable>
+            <span nz-typography
+              nzType="secondary">Not applicable</span>
+          </ng-template>
         </nz-descriptions>
       </nz-space>
 
@@ -252,7 +257,7 @@
 
           <!-- NCCN guideline -->
           <nz-descriptions-item nzTitle="NCCN Guideline" nzSpan="2">
-            <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline }} ({{ assertion.nccnGuidelineVersion}})</ng-container>
+            <ng-container *ngIf="assertion.nccnGuideline">{{ assertion.nccnGuideline.name }} ({{ assertion.nccnGuidelineVersion}})</ng-container>
             <ng-container *ngIf="!assertion.nccnGuideline">
               <span nz-typography
                 nzType="secondary">None Provided</span>

@@ -3,51 +3,63 @@
   nzDirection="vertical"
   class="space-align-block">
   <h2 *nzSpaceItem>{{ source.title }}</h2>
-  <div nz-row
+  <nz-row
     [nzGutter]="16"
     *nzSpaceItem>
-    <div nz-col
-      [nzSpan]="12">
-      <nz-row>
-        <nz-col [nzSpan]="24">
-          {{ source.abstract }}
-        </nz-col>
-      </nz-row>
-      <nz-row>
-        <nz-col [nzSpan]="24">
-          {{ source.abstract }}
-        </nz-col>
-      </nz-row>
-    </div>
-    <div nz-col
-      [nzSpan]="6">
-      <nz-row><b>Published:&nbsp;</b>{{ source.publicationDate }}</nz-row>
-      <nz-row><b>{{ source.displayType }} ID:&nbsp;</b>{{ source.citationId }}</nz-row>
-      <nz-row><b>Journal:&nbsp;</b>{{ source.fullJournalTitle }}</nz-row>
-      <nz-row>
-        <b>PMC ID:&nbsp;</b>
-        <span *ngIf="source.pmcId; else pmcIdElse">
-          {{ source.pmcId }}
-        </span>
-        <ng-template #pmcIdElse>
-          -
+    <nz-col [nzSpan]="12">
+      <nz-descriptions nzBordered nzLayout="vertical">
+        <nz-descriptions-item nzTitle="Abstract">{{ source.abstract }}</nz-descriptions-item>
+      </nz-descriptions>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-space nzDirection="vertical">
+        <nz-descriptions *nzSpaceItem nzBordered [nzColumn]="1">
+          <nz-descriptions-item nzTitle="Published">{{ source.publicationDate }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="{{source.displayType}} ID">{{ source.citationId }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Journal">{{ source.fullJournalTitle }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="PMC ID">
+            <ng-container *ngIf="source.pmcId; else notAvailable">
+              {{ source.pmcId}}
+            </ng-container>
+          </nz-descriptions-item>
+
+          <ng-container *ngIf="source.clinicalTrials"
+            [ngPlural]="source.clinicalTrials.length">
+            <ng-template ngPluralCase="=0">
+              <nz-descriptions-item nzTitle="Clinicial Trial">
+                <ng-template [ngTemplateOutlet]="notAvailable"></ng-template>
+              </nz-descriptions-item>
+            </ng-template>
+            <ng-template ngPluralCase="=1">
+              <nz-descriptions-item nzTitle="Clinicial Trial">
+                <cvc-clinical-trial-tag [clinicalTrial]="source.clinicalTrials[0]"></cvc-clinical-trial-tag>
+              </nz-descriptions-item>
+            </ng-template>
+            <ng-template ngPluralCase="other">
+              <nz-descriptions-item nzTitle="Clinicial Trials">
+                <ng-container *ngFor="let t of source.clinicalTrials">
+                  <nz-space>
+                    <cvc-clinical-trial-tag *nzSpaceItem [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                  </nz-space>
+                </ng-container>
+              </nz-descriptions-item>
+            </ng-template>
+          </ng-container>
+        </nz-descriptions>
+        <ng-template #notAvailable>
+          <span nz-typography
+            nzType="secondary">
+            Not available
+          </span>
         </ng-template>
-      </nz-row>
-      <nz-row *ngIf="source.clinicalTrials"
-        [ngPlural]="source.clinicalTrials.length">
-        <ng-template ngPluralCase="=0"><b>Clinical Trial:&nbsp;</b> <i>-</i></ng-template>
-        <ng-template ngPluralCase="=1"><b>Clinical Trial:&nbsp;</b></ng-template>
-        <ng-template ngPluralCase="other"><b>Clinical Trials:&nbsp;</b></ng-template>
-        <ng-container *ngFor="let t of source.clinicalTrials">
-          <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-        </ng-container>
-      </nz-row>
-    </div>
-    <div nz-col
-      [nzSpan]="6">
-      <b>Authors:</b> {{ source.authorString }}
-    </div>
-  </div>
+        <nz-descriptions *nzSpaceItem nzBordered [nzColumn]="1" nzLayout="vertical">
+          <nz-descriptions-item nzTitle="Authors">
+            {{source.authorString}}
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-space>
+    </nz-col>
+  </nz-row>
   <!-- evidence table card -->
   <cvc-entity-table-card [cvcTitle]="evidenceCardTitle"
     *nzSpaceItem>

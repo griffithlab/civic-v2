@@ -7,6 +7,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
+import { TimeagoModule } from 'ngx-timeago';
 
 
 
@@ -19,7 +20,8 @@ import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-ov
     NzTableModule,
     CvcClearableInputFilterModule,
     CvcOrganizationTagModule,
-    CvcTagOverflowModule
+    CvcTagOverflowModule,
+    TimeagoModule
   ],
   exports: [CvcOrganizationsTableComponent]
 })

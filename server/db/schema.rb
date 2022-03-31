@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_144033) do
+ActiveRecord::Schema.define(version: 2022_03_31_153354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -927,25 +927,6 @@ ActiveRecord::Schema.define(version: 2022_03_28_144033) do
   SQL
   add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
 
-  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
-      SELECT sources.id,
-      sources.source_type,
-      sources.citation_id,
-      array_agg(concat(authors.last_name, ', ', authors.fore_name)) AS authors,
-      sources.publication_year,
-      sources.journal,
-      sources.title AS name,
-      sources.description,
-      count(DISTINCT evidence_items.id) AS evidence_item_count
-     FROM (((sources
-       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
-       JOIN authors ON ((authors.id = authors_sources.author_id)))
-       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
-  SQL
-  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
-
   create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_genes.id,
       outer_genes.name,
@@ -1047,5 +1028,24 @@ ActiveRecord::Schema.define(version: 2022_03_28_144033) do
     GROUP BY diseases.id, diseases.name, diseases.doid;
   SQL
   add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
+
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) AS authors,
+      sources.publication_year,
+      sources.journal,
+      sources.title,
+      sources.description,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM (((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
 end

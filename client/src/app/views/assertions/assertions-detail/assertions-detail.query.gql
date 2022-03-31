@@ -13,10 +13,12 @@ fragment AssertionDetailFields on Assertion {
     gene {
         id
         name
+      link
     }
     variant {
       id
       name
+      link
     }
     flags(state: OPEN) {
       totalCount

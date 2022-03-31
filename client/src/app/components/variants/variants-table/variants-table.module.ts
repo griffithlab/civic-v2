@@ -13,6 +13,8 @@ import { CvcVariantsTableComponent } from './variants-table.component';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -28,7 +30,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzToolTipModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
-    CvcTagOverflowModule
+    CvcTagOverflowModule,
+    CvcPlainTagOverflowModule,
+    CvcPipesModule
   ],
   exports: [CvcVariantsTableComponent]
 })

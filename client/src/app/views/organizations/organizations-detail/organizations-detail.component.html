@@ -1,141 +1,31 @@
 <ng-container *ngIf="organization$ | ngrxPush as organization">
   <cvc-section-navigation [displayName]="organization.name">
   </cvc-section-navigation>
+
   <nz-page-header class="site-page-header">
+
+    <!-- title -->
     <nz-page-header-title>
-      <nz-space nzDirection="horizontal"
-        nzSize="small">
-        <i nz-icon nzType="civic:organization" *nzSpaceItem></i>
-        <span routerLink="/organizatons/{{organization.id}}" *nzSpaceItem>
-          {{ organization.name }}
-        </span>
-        <cvc-link-tag [href]="organization.url" *nzSpaceItem>
-          Organization Website
-        </cvc-link-tag>
-      </nz-space>
+      <i nz-icon
+        nzType="civic:organization"></i>
+      <span routerLink="/organizations/{{organization.id}}">
+        {{ organization.name }}
+      </span>
     </nz-page-header-title>
 
+    <!-- extra -->
+    <nz-page-header-extra>
+        <cvc-link-tag [href]="organization.url">
+          Organization Website
+        </cvc-link-tag>
+    </nz-page-header-extra>
+
+    <!-- content -->
     <nz-page-header-content>
       <cvc-tab-navigation [tabs]="tabs"></cvc-tab-navigation>
       <div class="content">
-        <nz-space>
-          <nz-row [nzGutter]="16" *nzSpaceItem>
-            <nz-row>
-              <nz-col [nzSpan]="2">
-                <img
-                  nz-image
-                  width="121px"
-                  height="121px"
-                  nzSrc="{{ organization.profileImagePath }}"
-                  alt=""
-                />
-              </nz-col>
-              <nz-col [nzSpan]="18">
-                <nz-row>
-                  <p nz-typography><b>Description: </b>{{ organization.description }}</p>
-                </nz-row>
-                <nz-row>
-                  <p nz-typography><b>Organization Statistics <span *ngIf="organization.subGroups.length > 0">(Excl. Child Organizations)</span></b></p>
-                </nz-row>
-                <nz-row [nzGutter]="16">
-                  <nz-col [nzSpan]="2">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgStatsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                </nz-row>
-                <nz-row>
-                  <p nz-typography *ngIf="organization.subGroups.length > 0"><b>Organization Statistics (Incl. Child Organizations)</b></p>
-                </nz-row>
-                <nz-row  *ngIf="organization.subGroups.length > 0" [nzGutter]="16">
-                  <nz-col [nzSpan]="2">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.comments | number)!" [nzTitle]="'Comments'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.revisions | number)!" [nzTitle]="'Suggested Revisions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.appliedRevisions | number)!" [nzTitle]="'Applied Revisions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.suggestedSources | number)!" [nzTitle]="'Suggested Sources'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.submittedEvidenceItems | number)!" [nzTitle]="'Submitted Evidence'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.acceptedEvidenceItems | number)!" [nzTitle]="'Accepted Evidence'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.submittedAssertions | number)!" [nzTitle]="'Submitted Assertions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                  <nz-col [nzSpan]="3">
-                    <nz-card>
-                      <nz-statistic [nzValue]="(organization.orgAndSuborgsStatsHash.acceptedAssertions | number)!" [nzTitle]="'Accepted Assertions'"></nz-statistic>
-                    </nz-card>
-                  </nz-col>
-                </nz-row>
-              </nz-col>
-              <nz-col [nzSpan]="4">
-                <nz-list *ngIf="organization.subGroups.length > 0" nzBordered nzSize="small">
-                  <nz-list-header>Child Organizations: </nz-list-header>
-                  <nz-list-item *ngFor="let suborg of organization.subGroups">
-                    <cvc-organization-tag [org]="suborg"></cvc-organization-tag>
-                  </nz-list-item>
-                </nz-list>
-              </nz-col>
-            </nz-row>
-          </nz-row>
-        </nz-space>
+        <cvc-organization-card [organization]="organization" [inCard]="false"></cvc-organization-card>
+
         <router-outlet></router-outlet>
       </div>
     </nz-page-header-content>

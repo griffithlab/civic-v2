@@ -16,6 +16,7 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
       options: [
         { value: true, label: 'Yes' },
         { value: false, label: 'No' },
+        { value: undefined, label: '' },
       ],
     },
     hooks: {
@@ -42,7 +43,9 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
                 to.hidden = false
                 to.required = true;
               } else {
-                ffc.model[ffc.key as string] = false
+                ffc.form?.get(ffc.key as string)?.setValue(undefined)
+                to.modelCallback(undefined)
+                ffc.model[ffc.key as string] = undefined
                 to.hidden = true
               }
             })
@@ -52,7 +55,10 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
               if (hasApproval) {
                 to.hidden = false;
                 to.required = true;
+                to.modelCallback(true)
+                ffc.model[ffc.key as string] = true;
               } else {
+                to.modelCallback(false)
                 ffc.model[ffc.key as string] = false;
                 to.hidden = true;
               }

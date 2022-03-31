@@ -35,21 +35,27 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
       const parentModel = this.field.parent?.model
       if (parentModel.gene?.length == 1) {
         this.evidenceGridFilters.geneSymbolInput = parentModel.gene[0].name
+      } else {
+        this.evidenceGridFilters.geneSymbolInput = undefined
       }
       if (parentModel.variant.length == 1) {
         this.evidenceGridFilters.variantNameInput = parentModel.variant[0].name
+      } else  {
+        this.evidenceGridFilters.variantNameInput = undefined
       }
       if (parentModel.evidenceType) {
         this.evidenceGridFilters.evidenceTypeInput = parentModel.evidenceType
+      } else {
+        this.evidenceGridFilters.evidenceTypeInput = undefined
       }
       if (parentModel.disease.length == 1) {
         this.evidenceGridFilters.diseaseNameInput = parentModel.disease[0].name
+      } else {
+        this.evidenceGridFilters.diseaseNameInput = undefined
       }
     }
     if(this.model) {
       this.alreadySelected = this.model.filter((eid: any) => eid)
-      //variant
-      //assertion type
     }
     this.managerVisible = true
   }

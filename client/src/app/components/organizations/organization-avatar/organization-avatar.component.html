@@ -2,5 +2,5 @@
     [nzSrc]="organization.profileImagePath" [nzSize]="size">
 </nz-avatar>
 <ng-template #noAvatar>
-    <nz-avatar nz-comment-avatar [nzText]="organization.name.charAt(0) | uppercase"></nz-avatar>
+    <nz-avatar nz-comment-avatar [nzText]="organization.name" [nzSize]="size"></nz-avatar>
 </ng-template>

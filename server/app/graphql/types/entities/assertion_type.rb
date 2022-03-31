@@ -26,7 +26,7 @@ module Types::Entities
     field :regulatory_approval_last_updated, GraphQL::Types::ISO8601DateTime, null: true
     field :fda_companion_test, GraphQL::Types::Boolean, null: true
     field :fda_companion_test_last_updated, GraphQL::Types::ISO8601DateTime, null: true
-    field :nccn_guideline, String, null: true
+    field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true
     field :nccn_guideline_version, String, null: true
     field :acmg_codes, [Types::Entities::AcmgCodeType], null: false
     field :amp_level, Types::AmpLevelType, null: true
@@ -94,9 +94,7 @@ module Types::Entities
     end
 
     def nccn_guideline
-      Loaders::AssociationLoader.for(Assertion, :nccn_guideline).load(object).then do | nccn_guideline |
-        nccn_guideline&.name
-      end
+      Loaders::AssociationLoader.for(Assertion, :nccn_guideline).load(object)
     end
 
     def submission_event

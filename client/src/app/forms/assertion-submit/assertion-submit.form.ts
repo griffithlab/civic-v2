@@ -52,8 +52,8 @@ interface FormModel {
     nccnGuideline: Maybe<NccnGuideline>
     nccnGuidelineVersion: Maybe<string>,
     acmgCodes: AcmgCode[],
-    fdaCompanionTest: boolean
-    fdaRegulatoryApproval: boolean
+    fdaCompanionTest: Maybe<boolean>
+    fdaRegulatoryApproval: Maybe<boolean>
     comment: Maybe<string>
     organization: Maybe<Organization>
   }
@@ -87,6 +87,14 @@ export class AssertionSubmitForm implements OnDestroy {
 
     let eidCallback = (eids: FormEvidence[]) => {
       this.formModel.fields.evidenceItems = eids
+    }
+
+    let fdaApprovalCallback = (newVal: boolean | undefined) => {
+      this.formModel!.fields.fdaRegulatoryApproval = newVal
+    }
+
+    let fdaCompanionCallback = (newVal: boolean | undefined) => {
+      this.formModel!.fields.fdaCompanionTest = newVal
     }
 
     this.submitAssertionMutator = new MutatorWithState(networkErrorService)
@@ -196,12 +204,16 @@ export class AssertionSubmitForm implements OnDestroy {
           {
             key: 'fdaRegulatoryApproval',
             type: 'fda-approval-checkbox',
-            templateOptions: {}
+            templateOptions: { 
+              modelCallback: fdaApprovalCallback
+            }
           },
           {
             key: 'fdaCompanionTest',
             type: 'fda-test-checkbox',
-            templateOptions: {}
+            templateOptions: { 
+              modelCallback: fdaCompanionCallback
+            }
           },
           {
             key: 'summary',
@@ -287,8 +299,8 @@ export class AssertionSubmitForm implements OnDestroy {
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
           acmgCodeIds: fields.acmgCodes.map(c => c.id),
-          fdaCompanionTest: fields.fdaCompanionTest,
-          fdaRegulatoryApproval: fields.fdaRegulatoryApproval,
+          fdaCompanionTest: fmt.toNullableInput(fields.fdaCompanionTest),
+          fdaRegulatoryApproval: fmt.toNullableInput(fields.fdaRegulatoryApproval),
           evidenceItemIds: fields.evidenceItems.map((e) => e.id)
         }
       }
