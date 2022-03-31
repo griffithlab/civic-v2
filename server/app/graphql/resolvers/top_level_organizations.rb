@@ -8,7 +8,7 @@ class Resolvers::TopLevelOrganizations < GraphQL::Schema::Resolver
 
   description 'List and filter organizations.'
 
-  scope { Organization.all.order(:name) }
+  scope { Organization.order(:name) }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the id of the organization.') do |scope, value |
     scope.where("organizations.id = ?", value)
@@ -21,9 +21,9 @@ class Resolvers::TopLevelOrganizations < GraphQL::Schema::Resolver
   option :sort_by, type: Types::BrowseTables::OrganizationSortType, description: 'Columm and direction to sort evidence on.' do |scope, value|
     case value.column
     when 'ID'
-      scope.order("organizations.id #{value.direction}")
+      scope.reorder("organizations.id #{value.direction}")
     when 'NAME'
-      scope.order("organizations.name #{value.direction}")
+      scope.reorder("organizations.name #{value.direction}")
     end
   end
 end
