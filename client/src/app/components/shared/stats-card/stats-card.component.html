@@ -1,0 +1,47 @@
+<p nz-typography><b>{{header}}</b></p>
+<nz-row nzGutter="8">
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Evidence"
+      [nzValue]="(stats.submittedEvidenceItems | number)!" [nzPrefix]="evidenceIcon" [nzSuffix]="submitted"></nz-statistic>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Evidence"
+      [nzValue]="(stats.acceptedEvidenceItems | number)!" [nzPrefix]="evidenceIcon" [nzSuffix]="accepted"></nz-statistic>
+  </nz-col>
+  <ng-template #evidenceIcon><i nz-icon nzType="civic:evidence"></i></ng-template>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Assertions"
+      [nzValue]="(stats.submittedAssertions | number)!" [nzPrefix]="assertionIcon" [nzSuffix]="submitted"></nz-statistic>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Assertions"
+      [nzValue]="(stats.acceptedAssertions | number)!" [nzPrefix]="assertionIcon" [nzSuffix]="accepted"></nz-statistic>
+  </nz-col>
+  <ng-template #assertionIcon><i nz-icon nzType="civic:assertion"></i></ng-template>
+</nz-row>
+
+<nz-row nzGutter="8">
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Revisions"
+      [nzValue]="(stats.revisions | number)!" [nzPrefix]="revisionIcon" [nzSuffix]="suggested"></nz-statistic>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Revisions"
+      [nzValue]="(stats.appliedRevisions | number)!" [nzPrefix]="revisionIcon" [nzSuffix]="applied"></nz-statistic>
+  </nz-col>
+  <ng-template #revisionIcon><i nz-icon nzType="civic:revision"></i></ng-template>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Comments"
+      [nzValue]="(stats.comments | number)!" [nzPrefix]="commentIcon"></nz-statistic>
+      <ng-template #commentIcon><i nz-icon nzType="civic:comment"></i></ng-template>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Sources"
+      [nzValue]="(stats.suggestedSources | number)!" [nzPrefix]="sourceIcon" [nzSuffix]="suggested"></nz-statistic>
+  </nz-col>
+  <ng-template #sourceIcon><i nz-icon nzType="civic:source"></i></ng-template>
+</nz-row>
+<ng-template #suggested><h5>suggested</h5></ng-template>
+<ng-template #submitted><h5>submitted</h5></ng-template>
+<ng-template #applied><h5>applied</h5></ng-template>
+<ng-template #accepted><h5>accepted</h5></ng-template>

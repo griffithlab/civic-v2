@@ -124,58 +124,7 @@
             [nzSpan]="21"
             [nzOffset]="3">
             <nz-divider></nz-divider>
-            <p nz-typography><b>User Statistics</b></p>
-            <div nz-row
-              [nzGutter]="16">
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.comments | number)!"
-                    [nzTitle]="'Comments'"></nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.revisions | number)!"
-                    [nzTitle]="'Suggested Revisions'"> </nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.appliedRevisions | number)!"
-                    [nzTitle]="'Applied Revisions'"></nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.suggestedSources | number)!"
-                    [nzTitle]="'Suggested Sources'"></nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.submittedEvidenceItems | number)!"
-                    [nzTitle]="'Submitted Evidence'"></nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.acceptedEvidenceItems | number)!"
-                    [nzTitle]="'Accepted Evidence'"></nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.submittedAssertions | number)!"
-                    [nzTitle]="'Submitted Assertions'"></nz-statistic>
-                </nz-card>
-              </div>
-              <div nz-col>
-                <nz-card>
-                  <nz-statistic [nzValue]="(user.statsHash.acceptedAssertions | number)!"
-                    [nzTitle]="'Accepted Assertions'"></nz-statistic>
-                </nz-card>
-              </div>
-            </div>
+            <cvc-stats-card [stats]="user.statsHash" header="User Statistics"></cvc-stats-card>
           </div>
         </div>
       </div>

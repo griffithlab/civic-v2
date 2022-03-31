@@ -15,6 +15,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { CvcOrganizationTagModule } from '@app/components/organizations/organization-tag/organization-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module';
 
 @NgModule({
   declarations: [OrganizationsDetailComponent],
@@ -34,7 +35,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CvcLinkTagModule,
     CvcTabNavigationModule,
     CvcSectionNavigationModule,
-
+    CvcStatsCardModule
   ]
 })
 export class OrganizationsDetailModule { }
