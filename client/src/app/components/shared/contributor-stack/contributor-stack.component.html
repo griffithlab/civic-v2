@@ -6,18 +6,16 @@
     <ng-template #curatorPopover>
       <cvc-user-popover [userId]="u.user.id">
         <ng-template #additionalMetadata>
-          <nz-list nzHeader="Activity">
-            <nz-list-item>
-              Contributions:
+          <nz-descriptions nzBordered nzTitle="Activity" nzSize="small" [nzColumn]="1">
+            <nz-descriptions-item nzTitle="Contributions">
               <ng-container *ngFor="let a of u.uniqueActions; last as isLast">
                 {{a.action | eventVerbiage: 'contributor-card' : a.count }}<ng-container *ngIf="! isLast">, </ng-container>
               </ng-container>
-            </nz-list-item>
-            <nz-list-item>
-              Last Contribution:
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Last Contribution">
               {{u.lastActionDate | date }}
-            </nz-list-item>
-          </nz-list>
+            </nz-descriptions-item>
+          </nz-descriptions>
         </ng-template>
       </cvc-user-popover>
     </ng-template>
