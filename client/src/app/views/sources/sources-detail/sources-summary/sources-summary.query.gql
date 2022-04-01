@@ -8,6 +8,7 @@ query SourceSummary(
 }
 
 fragment SourceSummaryFields on Source {
+  id
   displayType
   title
   abstract

@@ -1,6 +1,7 @@
 module Types::Entities
   class SourceType < Types::BaseObject
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::Commentable
 
     field :id, Int, null: false
     field :name, String, null: false
@@ -32,6 +33,10 @@ module Types::Entities
       else
         "SID#{object.id}"
       end
+    end
+    
+    def link
+      "/sources/#{object.id}"
     end
 
     def publication_date
