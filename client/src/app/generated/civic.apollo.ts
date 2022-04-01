@@ -7933,7 +7933,7 @@ export type VariantSummaryFieldsFragment = (
     & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variantTypes?: Maybe<Array<(
     { __typename: 'VariantType' }
-    & Pick<VariantType, 'soid' | 'name'>
+    & Pick<VariantType, 'id' | 'link' | 'soid' | 'name'>
   )>>, fivePrimeCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
@@ -9838,6 +9838,8 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   variantAliases
   alleleRegistryId
   variantTypes {
+    id
+    link
     soid
     name
   }
