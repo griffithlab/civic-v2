@@ -63,5 +63,16 @@
         {{ t.evidenceCount }}
       </td>
     </tr>
+    <!-- Load More button row -->
+    <ng-container *ngrxLet="pageInfo$ as pageInfo">
+      <tr *ngIf="pageInfo.hasNextPage">
+        <td colspan="4">
+          <button *ngIf="pageInfo.hasNextPage"
+            (click)="loadMore(pageInfo.endCursor)"
+            nz-button
+            nzBlock>Load More</button>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </nz-table>

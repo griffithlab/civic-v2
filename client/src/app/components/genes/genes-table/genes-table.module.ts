@@ -11,6 +11,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcGenesTableComponent],
@@ -23,6 +24,7 @@ import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-over
     NzInputModule,
     NzIconModule,
     NzTypographyModule,
+    NzButtonModule,
     CvcGeneTagModule,
     CvcTagOverflowModule,
     CvcPlainTagOverflowModule
