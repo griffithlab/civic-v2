@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { AmpLevel, AssertionBrowseTableRowFieldsFragment, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatus, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
+import { Observable, Subject  } from 'rxjs';
+import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-assertions-table',
@@ -19,15 +19,22 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() diseaseId: Maybe<number>
   @Input() drugId: Maybe<number>
   @Input() status: Maybe<EvidenceStatus>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
-  private initialPageSize = 25
   private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
   assertions$?: Observable<Maybe<AssertionBrowseTableRowFieldsFragment>[]>
-  totalCount$?: Observable<number>
+  filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
+
+  initialPageSize = 25
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+
+  loadedPages: number = 1
 
   tableView: boolean = true
 
@@ -76,8 +83,23 @@ export class CvcAssertionsTableComponent implements OnInit {
       })
     );
 
-    this.totalCount$ = observable.pipe(
+    this.filteredCount$ = observable.pipe(
       pluck('data', 'assertions', 'totalCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize * this.loadedPages
+          if (this.totalCount && this.visibleCount > this.totalCount) {
+            this.visibleCount = this.totalCount
+          }
+        }
+      }
     )
 
     this.pageInfo$ = observable.pipe(
@@ -92,6 +114,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   }
 
   refresh() {
+    this.loadedPages = 1
     var aid: Maybe<number>
     if (this.aidInput)
       if (this.aidInput.toUpperCase().startsWith('AID')) {
@@ -130,5 +153,7 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.queryRef.fetchMore({variables: {
       after: cursor
     }})
+
+    this.loadedPages += 1
   }
 }

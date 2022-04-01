@@ -335,10 +335,8 @@
   </ng-template>
 
   <!-- assertions table -->
-  <cvc-entity-table-card [cvcTitle]="assertionsCardTitle"
-    *nzSpaceItem>
-    <cvc-assertions-table [variantId]="variant.id"></cvc-assertions-table>
-  </cvc-entity-table-card>
+  <cvc-assertions-table [variantId]="variant.id" [cvcTitleTemplate]="assertionsCardTitle"
+  *nzSpaceItem></cvc-assertions-table>
   <ng-template #assertionsCardTitle>
     <i nz-icon
       nzType="civic:variant"></i> {{ variant.name }} Assertions

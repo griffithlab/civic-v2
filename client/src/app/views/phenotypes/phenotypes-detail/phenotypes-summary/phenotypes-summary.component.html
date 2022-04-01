@@ -3,10 +3,8 @@
   nzDirection="vertical"
   class="space-align-block">
   <!-- assertions table card -->
-  <cvc-entity-table-card [cvcTitle]="assertionsCardTitle"
-    *nzSpaceItem>
-    <cvc-assertions-table [phenotypeId]="phenotypeId"></cvc-assertions-table>
-  </cvc-entity-table-card>
+  <cvc-assertions-table [phenotypeId]="phenotypeId" [cvcTitleTemplate]="assertionsCardTitle"
+  *nzSpaceItem></cvc-assertions-table>
   <ng-template #assertionsCardTitle>
     <i nz-icon
       nzType="civic:phenotype"></i> Phenotype Assertions

@@ -2,9 +2,7 @@
 
   <!-- assertions table card -->
   <span *nzSpaceItem>
-    <cvc-entity-table-card [cvcTitle]="assertionsCardTitle">
-      <cvc-assertions-table [diseaseId]="diseaseId"></cvc-assertions-table>
-    </cvc-entity-table-card>
+    <cvc-assertions-table [diseaseId]="diseaseId" [cvcTitleTemplate]="assertionsCardTitle"></cvc-assertions-table>
     <ng-template #assertionsCardTitle>
       <i nz-icon nzType="civic:disease"></i>
       Disease Assertions

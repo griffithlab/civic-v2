@@ -3,10 +3,7 @@
   nzDirection="vertical"
   class="space-align-block">
   <!-- assertions table card -->
-  <cvc-entity-table-card [cvcTitle]="assertionsCardTitle"
-    *nzSpaceItem>
-    <cvc-assertions-table [drugId]="drugId"></cvc-assertions-table>
-  </cvc-entity-table-card>
+  <cvc-assertions-table *nzSpaceItem[drugId]="drugId" [cvcTitleTemplate]="assertionsCardTitle"></cvc-assertions-table>
   <ng-template #assertionsCardTitle>
     <i nz-icon
       nzType="civic:intervention"></i> Drug Assertions
