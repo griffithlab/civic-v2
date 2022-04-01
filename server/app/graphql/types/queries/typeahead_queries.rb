@@ -76,6 +76,7 @@ module Types::Queries
             .where("drug_aliases.name ILIKE ?", "%#{query_term}%")
             .order("LENGTH(drugs.name) ASC")
             .limit(10-results.size)
+
           return results + secondary_results
         else
           return results
@@ -83,11 +84,18 @@ module Types::Queries
       end
 
       def gene_typeahead(query_term:)
-        scope = Gene.eager_load(:gene_aliases)
-        scope.where("genes.name ILIKE ?", "#{query_term}%")
-          .or(scope.where("gene_aliases.name ILIKE ?", "#{query_term}%"))
-          .order("genes.name")
+        results = Gene.where('genes.name ILIKE ?', "#{query_term}%")
+          .order("LENGTH(genes.name) ASC")
           .limit(10)
+        if results.size < 10
+          secondary_results = Gene.eager_load(:gene_aliases)
+            .where("gene_aliases.name ILIKE ?", "#{query_term}%")
+            .order("LENGTH(genes.name) ASC")
+            .limit(10 - results.size)
+          return results + secondary_results
+        else
+          return results
+        end
       end
 
       def phenotype_typeahead(query_term:)
