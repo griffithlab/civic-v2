@@ -1183,10 +1183,12 @@
   disease {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
@@ -1199,11 +1201,13 @@
   drugs {
     ncitId
     name
+    link
     id
   }
   phenotypes {
     id
     name
+    link
   }
   drugInteractionType
   ampLevel
@@ -1301,11 +1305,13 @@
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
@@ -1319,6 +1325,7 @@
     displayType
     sourceUrl
     ascoAbstractId
+    link
     clinicalTrials {
       nctId
       id
@@ -1328,10 +1335,12 @@
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
