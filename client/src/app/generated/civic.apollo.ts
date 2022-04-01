@@ -3257,7 +3257,7 @@ export type Source = EventSubject & {
   abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
   authorString?: Maybe<Scalars['String']>;
-  citation: Scalars['String'];
+  citation?: Maybe<Scalars['String']>;
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
   displayType: Scalars['String'];
@@ -3265,16 +3265,16 @@ export type Source = EventSubject & {
   events: EventConnection;
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  journal: Scalars['String'];
+  journal?: Maybe<Scalars['String']>;
   link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
-  publicationMonth: Scalars['Int'];
-  publicationYear: Scalars['Int'];
+  publicationMonth?: Maybe<Scalars['Int']>;
+  publicationYear?: Maybe<Scalars['Int']>;
   sourceType: SourceSource;
-  sourceUrl: Scalars['String'];
+  sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -3295,7 +3295,7 @@ export type SourcePopover = EventSubject & {
   abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
   authorString?: Maybe<Scalars['String']>;
-  citation: Scalars['String'];
+  citation?: Maybe<Scalars['String']>;
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
   displayType: Scalars['String'];
@@ -3304,16 +3304,16 @@ export type SourcePopover = EventSubject & {
   evidenceItemCount: Scalars['Int'];
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  journal: Scalars['String'];
+  journal?: Maybe<Scalars['String']>;
   link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
-  publicationMonth: Scalars['Int'];
-  publicationYear: Scalars['Int'];
+  publicationMonth?: Maybe<Scalars['Int']>;
+  publicationYear?: Maybe<Scalars['Int']>;
   sourceType: SourceSource;
-  sourceUrl: Scalars['String'];
+  sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 

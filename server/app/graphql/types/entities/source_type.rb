@@ -5,15 +5,15 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :title, String, null: true
-    field :citation, String, null: false
+    field :citation, String, null: true
     field :citation_id, Int, null: false
     field :source_type, Types::SourceSourceType, null: false
     field :asco_abstract_id, Int, null: true
-    field :source_url, String, null: false
-    field :publication_year, Int, null: false
-    field :publication_month, Int, null: false
+    field :source_url, String, null: true
+    field :publication_year, Int, null: true
+    field :publication_month, Int, null: true
     field :publication_day, Int, null: true
-    field :journal, String, null: false
+    field :journal, String, null: true
     field :full_journal_title, String, null: true
     field :clinical_trials, [Types::Entities::ClinicalTrialType], null: true
     field :abstract, String, null: true
@@ -24,6 +24,14 @@ module Types::Entities
 
     def clinical_trials
       Loaders::AssociationLoader.for(Source, :clinical_trials).load(object)
+    end
+
+    def name
+      if object.title
+        object.title
+      else
+        "SID#{object.id}"
+      end
     end
 
     def publication_date
