@@ -53,19 +53,33 @@ module Types::Queries
       end
 
       def disease_typeahead(query_term:)
-        scope = Disease.eager_load(:disease_aliases)
-        scope.where("diseases.name ILIKE ?", "%#{query_term}%")
-          .or(scope.where("disease_aliases.name ILIKE ?", "%#{query_term}%"))
+        results = Disease.where("diseases.name ILIKE ?", "%#{query_term}%")
           .order("LENGTH(diseases.name) ASC")
           .limit(10)
+        if results.size < 10
+          secondary_results = Disease.eager_load(:disease_aliases)
+            .where("disease_aliases.name ILIKE ?", "%#{query_term}%")
+            .order("LENGTH(diseases.name) ASC")
+            .limit(10-results.size)
+          return results + secondary_results
+        else
+          return results
+        end
       end
 
       def drug_typeahead(query_term:)
-        scope = Drug.eager_load(:drug_aliases)
-        scope.where("drugs.name ILIKE ?", "%#{query_term}%")
-          .or(scope.where("drug_aliases.name ILIKE ?", "%#{query_term}%"))
+        results = Drug.where("drugs.name ILIKE ?", "%#{query_term}%")
           .order("LENGTH(drugs.name) ASC")
           .limit(10)
+        if results.size < 10
+          secondary_results = Drug.eager_load(:drug_aliases)
+            .where("drug_aliases.name ILIKE ?", "%#{query_term}%")
+            .order("LENGTH(drugs.name) ASC")
+            .limit(10-results.size)
+          return results + secondary_results
+        else
+          return results
+        end
       end
 
       def gene_typeahead(query_term:)
