@@ -154,10 +154,10 @@ export class SourceSubmitForm implements OnInit {
     if (model) {
       const fields = model.fields;
       return {
-          variantId: fields.variant[0].id!,
-          geneId: fields.gene[0].id,
+          variantId: fields.variant[0]?.id,
+          geneId: fields.gene[0]?.id,
           sourceId: fields.source[0].id!,
-          diseaseId: fields.disease[0].id,
+          diseaseId: fields.disease[0]?.id,
       comment: fields.comment!,
       organizationId: model?.fields.organization?.id
     }
