@@ -7215,7 +7215,7 @@ type VariantType {
   link: String!
   name: String!
   soid: String!
-  url: String!
+  url: String
 }
 
 type VariantTypePopover {
@@ -7224,7 +7224,7 @@ type VariantTypePopover {
   link: String!
   name: String!
   soid: String!
-  url: String!
+  url: String
   variantCount: Int!
 }
 

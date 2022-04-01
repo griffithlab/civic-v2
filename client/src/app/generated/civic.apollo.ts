@@ -4351,7 +4351,7 @@ export type VariantType = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type VariantTypePopover = {
@@ -4361,7 +4361,7 @@ export type VariantTypePopover = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
   variantCount: Scalars['Int'];
 };
 
@@ -7087,19 +7087,19 @@ export type AssertionSummaryFieldsFragment = (
   & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'alleleRegistryId'>
   ), drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'ncitId' | 'name' | 'id'>
+    & Pick<Drug, 'ncitId' | 'name' | 'link' | 'id'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
@@ -7233,26 +7233,26 @@ export type EvidenceSummaryFieldsFragment = (
   & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'status' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
   & { drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
+    & Pick<Drug, 'id' | 'name' | 'link'>
   )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name'>
   )>, source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId'>
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId' | 'link'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
       & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -9209,10 +9209,12 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   disease {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
@@ -9225,11 +9227,13 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   drugs {
     ncitId
     name
+    link
     id
   }
   phenotypes {
     id
     name
+    link
   }
   drugInteractionType
   ampLevel
@@ -9329,11 +9333,13 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
@@ -9347,6 +9353,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     displayType
     sourceUrl
     ascoAbstractId
+    link
     clinicalTrials {
       nctId
       id
@@ -9356,10 +9363,12 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount

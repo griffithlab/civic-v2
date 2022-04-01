@@ -14,10 +14,12 @@ fragment AssertionSummaryFields on Assertion {
   disease {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
@@ -30,11 +32,13 @@ fragment AssertionSummaryFields on Assertion {
   drugs {
     ncitId
     name
+    link
     id
   }
   phenotypes {
     id
     name
+    link
   }
   drugInteractionType
   ampLevel
