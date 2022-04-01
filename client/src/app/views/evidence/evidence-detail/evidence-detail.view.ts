@@ -15,8 +15,8 @@ import {
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
 import { ActivatedRoute } from '@angular/router';
-import { pluck, startWith } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { pluck, startWith, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
@@ -31,7 +31,6 @@ export class EvidenceDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  revisionsTotal$?: Observable<number>;
   viewer$?: Observable<Viewer>;
 
   errors: string[] = []
@@ -40,13 +39,45 @@ export class EvidenceDetailView implements OnDestroy {
   routeSub: Subscription;
   subscribable?: SubscribableInput;
 
-  tabs: RouteableTab[]
+  tabs$: BehaviorSubject<RouteableTab[]>;
+  destroy$ = new Subject<void>();
+
+  defaultTabs: RouteableTab[] = [
+    {
+      routeName: 'summary',
+      iconName: 'pic-left',
+      tabLabel: 'Summary'
+    },
+    {
+      routeName: 'comments',
+      iconName: 'civic-comment',
+      tabLabel: 'Comments'
+    },
+    {
+      routeName: 'revisions',
+      iconName: 'civic-revision',
+      tabLabel: 'Revisions',
+    },
+    {
+      routeName: 'flags',
+      iconName: 'civic-flag',
+      tabLabel: 'Flags'
+    },
+    {
+      routeName: 'events',
+      iconName: 'civic-event',
+      tabLabel: 'Events'
+    },
+  ]
+
 
   constructor(
     private gql: EvidenceDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
+    this.tabs$ = new BehaviorSubject(this.defaultTabs);
+
     this.routeSub = this.route.params.subscribe((params) => {
       this.queryRef = this.gql.watch({ evidenceId: +params.evidenceId });
 
@@ -62,9 +93,26 @@ export class EvidenceDetailView implements OnDestroy {
 
       this.flagsTotal$ = this.evidence$.pipe(pluck('flags', 'totalCount'));
 
-      this.revisionsTotal$ = this.evidence$.pipe(
-        pluck('revisions', 'totalCount')
-      );
+      this.evidence$.pipe(
+        pluck('revisions', 'totalCount'),
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (count) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: count as number,
+                  ...tab
+                }
+              }
+              else {
+                return tab
+              }
+            }
+          ))
+        }
+      })
 
       this.subscribable = {
         id: +params.evidenceId,
@@ -74,37 +122,12 @@ export class EvidenceDetailView implements OnDestroy {
       this.viewer$ = this.viewerService.viewer$;
     });
 
-    this.tabs = [
-      {
-        routeName: 'summary',
-        iconName: 'pic-left',
-        tabLabel: 'Summary'
-      },
-      {
-        routeName: 'comments',
-        iconName: 'civic-comment',
-        tabLabel: 'Comments'
-      },
-      {
-        routeName: 'revisions',
-        iconName: 'civic-revision',
-        tabLabel: 'Revisions'
-      },
-      {
-        routeName: 'flags',
-        iconName: 'civic-flag',
-        tabLabel: 'Flags'
-      },
-      {
-        routeName: 'events',
-        iconName: 'civic-event',
-        tabLabel: 'Events'
-      },
-    ]
   }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+    this.destroy$.next()
+    this.destroy$.unsubscribe();
   }
 
   onRevertCompleted(res: true | string[]) {

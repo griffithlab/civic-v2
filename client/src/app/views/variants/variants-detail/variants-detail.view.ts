@@ -14,8 +14,8 @@ import {
 } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
 import { VariantDetailQuery } from '@app/generated/civic.apollo';
-import { pluck, startWith } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { pluck, startWith, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 
 @Component({
@@ -30,45 +30,14 @@ export class VariantsDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
-  revisionsTotal$?: Observable<number>;
   viewer$?: Observable<Viewer>;
 
   routeSub: Subscription;
   subscribable?: SubscribableInput;
 
-  tabs: RouteableTab[]
-
-  constructor(
-    private gql: VariantDetailGQL,
-    private viewerService: ViewerService,
-    private route: ActivatedRoute
-  ) {
-    this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ variantId: +params.variantId });
-
-      let observable = this.queryRef.valueChanges;
-
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
-
-      this.variant$ = observable.pipe(pluck('data', 'variant'));
-
-      this.commentsTotal$ = this.variant$.pipe(pluck('comments', 'totalCount'));
-
-      this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'));
-
-      this.revisionsTotal$ = this.variant$.pipe(
-        pluck('revisions', 'totalCount')
-      );
-
-      this.subscribable = {
-        id: +params.variantId,
-        entityType: SubscribableEntities.Variant
-      }
-
-      this.viewer$ = this.viewerService.viewer$;
-    });
-
-    this.tabs = [
+  tabs$: BehaviorSubject<RouteableTab[]>;
+  destroy$ = new Subject<void>();
+  defaultTabs: RouteableTab[] = [
       {
         routeName: 'summary',
         iconName: 'pic-left',
@@ -95,9 +64,60 @@ export class VariantsDetailView implements OnDestroy {
         tabLabel: 'Events'
       }
     ]
+
+  constructor(
+    private gql: VariantDetailGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
+    this.tabs$ = new BehaviorSubject(this.defaultTabs);
+
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.queryRef = this.gql.watch({ variantId: +params.variantId });
+
+      let observable = this.queryRef.valueChanges;
+
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+
+      this.variant$ = observable.pipe(pluck('data', 'variant'));
+
+      this.commentsTotal$ = this.variant$.pipe(pluck('comments', 'totalCount'));
+
+      this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'));
+
+      this.variant$.pipe(
+        pluck('revisions', 'totalCount'),
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (count) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: count as number,
+                  ...tab
+                }
+              }
+              else {
+                return tab
+              }
+            }
+          ))
+        }
+      })
+
+      this.subscribable = {
+        id: +params.variantId,
+        entityType: SubscribableEntities.Variant
+      }
+
+      this.viewer$ = this.viewerService.viewer$;
+    });
   }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

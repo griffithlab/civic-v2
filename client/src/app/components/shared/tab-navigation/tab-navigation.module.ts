@@ -6,6 +6,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 @NgModule({
   declarations: [CvcTabNavigationComponent],
@@ -15,6 +16,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzTabsModule,
     NzGridModule,
     NzIconModule,
+    NzBadgeModule,
     ReactiveComponentModule,
   ],
   exports: [CvcTabNavigationComponent]

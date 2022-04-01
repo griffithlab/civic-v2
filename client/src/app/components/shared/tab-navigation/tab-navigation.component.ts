@@ -6,6 +6,7 @@ export interface RouteableTab {
   routeName: string,
   tabLabel: string,
   iconName: string
+  badgeCount?: number
 }
 
 @Component({

@@ -10,6 +10,7 @@
         <a *nzTabLink nz-tab-link [routerLink]="tab.routeName">
           <i nz-icon [nzType]="tab.iconName"></i>
           {{tab.tabLabel}}
+          <nz-badge nzStandalone [nzCount]="tab.badgeCount" nzTitle="There are {{tab.badgeCount}} outstanding revisions." [nzStyle]="{transform: 'scale(0.75, 0.75) translate(0, -2px)'}"></nz-badge>
         </a>
       </nz-tab>
     </nz-tabset>
