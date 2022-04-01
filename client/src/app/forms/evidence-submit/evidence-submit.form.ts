@@ -205,6 +205,10 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             },
           },
           {
+            key: 'cancel',
+            type: 'cancel-button'
+          },
+          {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {

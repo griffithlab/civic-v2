@@ -334,7 +334,7 @@ export class VariantReviseForm implements OnDestroy {
           },
           {
             key: 'comment',
-            type: 'cvc-comment-textarea',
+            type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
               placeholder: 'Please enter a comment describing your revision to this variant.',
@@ -342,6 +342,13 @@ export class VariantReviseForm implements OnDestroy {
               required: true,
               minLength: 10
             },
+          },
+          {
+            key: 'cancel',
+            type: 'cancel-button',
+            templateOptions: {
+              redirectPath: '../..'
+            }
           },
           {
             key: 'organization',
