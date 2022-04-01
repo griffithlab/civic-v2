@@ -19,11 +19,13 @@ fragment EvidenceSummaryFields on EvidenceItem {
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
@@ -37,6 +39,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     displayType
     sourceUrl
     ascoAbstractId
+    link
     clinicalTrials {
       nctId
       id
@@ -46,10 +49,12 @@ fragment EvidenceSummaryFields on EvidenceItem {
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
