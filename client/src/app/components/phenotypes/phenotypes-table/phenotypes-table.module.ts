@@ -6,6 +6,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcPhenotypeTagModule } from '../phenotype-tag/phenotype-tag.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcPhenotypesTableComponent],
@@ -13,6 +14,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CommonModule,
     ReactiveComponentModule,
     NzTableModule,
+    NzButtonModule,
     CvcClearableInputFilterModule,
     CvcPhenotypeTagModule,
     CvcLinkTagModule,

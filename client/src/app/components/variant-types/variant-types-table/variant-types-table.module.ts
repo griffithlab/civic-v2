@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcVariantTypeTagModule } from '../variant-type-tag/variant-type-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcVariantTypesTableComponent],
@@ -18,6 +19,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     ReactiveComponentModule,
     NzTableModule,
     NzIconModule,
+    NzButtonModule,
     CvcClearableInputFilterModule,
     CvcPhenotypeTagModule,
     CvcLinkTagModule,

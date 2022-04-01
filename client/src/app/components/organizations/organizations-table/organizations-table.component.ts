@@ -30,6 +30,8 @@ export class CvcOrganizationsTableComponent implements OnInit {
 
   sortColumns: typeof OrganizationSortColumns = OrganizationSortColumns
 
+  fetchMorePageSize = 25;
+
   constructor(private gql: OrganizationsBrowseGQL) { }
 
   ngOnInit() {
@@ -78,6 +80,15 @@ export class CvcOrganizationsTableComponent implements OnInit {
 
   onSortChanged(e: SortDirectionEvent) {
     this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
+  }
+
+  loadMore(afterCursor: Maybe<string>):void {
+    this.queryRef?.fetchMore({
+      variables: {
+        first: this.fetchMorePageSize,
+        after: afterCursor
+      },
+    });
   }
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }

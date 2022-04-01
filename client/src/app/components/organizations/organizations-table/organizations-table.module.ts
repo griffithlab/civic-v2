@@ -8,6 +8,7 @@ import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.m
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { TimeagoModule } from 'ngx-timeago';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 
@@ -18,6 +19,7 @@ import { TimeagoModule } from 'ngx-timeago';
     ReactiveComponentModule,
     NzIconModule,
     NzTableModule,
+    NzButtonModule,
     CvcClearableInputFilterModule,
     CvcOrganizationTagModule,
     CvcTagOverflowModule,
