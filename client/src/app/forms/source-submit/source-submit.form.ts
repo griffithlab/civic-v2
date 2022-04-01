@@ -60,14 +60,12 @@ export class SourceSubmitForm implements OnInit {
             type: 'gene-array',
             templateOptions: {
               maxCount: 1,
-              required: true
             }
           },
           {
             key: 'variant',
             type: 'variant-array',
             templateOptions: {
-              required: true,
               maxCount: 1
             }
           },
