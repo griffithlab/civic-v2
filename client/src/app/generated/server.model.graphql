@@ -5326,7 +5326,7 @@ type Source implements EventSubject {
   abstract: String
   ascoAbstractId: Int
   authorString: String
-  citation: String!
+  citation: String
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
   displayType: String!
@@ -5365,16 +5365,16 @@ type Source implements EventSubject {
   ): EventConnection!
   fullJournalTitle: String
   id: Int!
-  journal: String!
+  journal: String
   link: String!
   name: String!
   pmcId: String
   publicationDate: String
   publicationDay: Int
-  publicationMonth: Int!
-  publicationYear: Int!
+  publicationMonth: Int
+  publicationYear: Int
   sourceType: SourceSource!
-  sourceUrl: String!
+  sourceUrl: String
   title: String
 }
 
@@ -5382,7 +5382,7 @@ type SourcePopover implements EventSubject {
   abstract: String
   ascoAbstractId: Int
   authorString: String
-  citation: String!
+  citation: String
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
   displayType: String!
@@ -5422,16 +5422,16 @@ type SourcePopover implements EventSubject {
   evidenceItemCount: Int!
   fullJournalTitle: String
   id: Int!
-  journal: String!
+  journal: String
   link: String!
   name: String!
   pmcId: String
   publicationDate: String
   publicationDay: Int
-  publicationMonth: Int!
-  publicationYear: Int!
+  publicationMonth: Int
+  publicationYear: Int
   sourceType: SourceSource!
-  sourceUrl: String!
+  sourceUrl: String
   title: String
 }
 
