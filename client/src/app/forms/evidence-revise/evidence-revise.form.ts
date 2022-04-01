@@ -279,6 +279,13 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             },
           },
           {
+            key: 'cancel',
+            type: 'cancel-button',
+            templateOptions: {
+              redirectPath: '../..'
+            }
+          },
+          {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {

@@ -33,6 +33,7 @@ import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/ph
 import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -70,7 +71,8 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
     CvcPhenotypeArrayTypeModule,
     CvcDrugInteractionSelectTypeModule,
     CvcVariantArrayTypeModule,
-    CvcFormContainerWrapperModule
+    CvcFormContainerWrapperModule,
+    CvcCancelButtonModule
   ],
   exports: [EvidenceReviseForm]
 })

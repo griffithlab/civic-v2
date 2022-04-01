@@ -242,6 +242,13 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
             },
           },
           {
+            key: 'cancel',
+            type: 'cancel-button',
+            templateOptions: {
+              redirectPath: '../..'
+            }
+          },
+          {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {

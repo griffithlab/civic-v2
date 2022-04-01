@@ -110,13 +110,20 @@ export class GeneReviseForm implements OnInit, OnDestroy {
       },
       {
         key: 'comment',
-        type: 'comment-cvc-textarea',
+        type: 'comment-textarea',
         templateOptions: {
           label: 'Comment',
           placeholder: 'Please enter a comment describing your revision.',
           required: true,
           minLength: 10,
         },
+      },
+      {
+        key: 'cancel',
+        type: 'cancel-button',
+        templateOptions: {
+          redirectPath: '../..'
+        }
       },
     ];
 
