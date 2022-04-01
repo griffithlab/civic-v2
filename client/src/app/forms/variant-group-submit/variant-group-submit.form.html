@@ -4,12 +4,11 @@
   nzLayout="vertical">
  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-  <formly-form [form]="formGroup"
+  <formly-form *ngIf="!this.success" [form]="formGroup"
     [fields]="formFields"
     [model]="formModel"
     (modelChange)="formModel = $event"></formly-form>
 
-  <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 </form>
 
 <ng-template #formMessages>
@@ -28,11 +27,3 @@
     </ng-template>
   </ng-container>
 </ng-template>
-
-<!-- <div nz-row>
-  <div nz-col
-    nzSpan="24">
-    <ngx-json-viewer *ngIf="formModel"
-      [json]="formModel"></ngx-json-viewer>
-  </div>
-</div> -->
