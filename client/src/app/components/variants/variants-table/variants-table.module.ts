@@ -15,6 +15,7 @@ import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -28,6 +29,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzIconModule,
     NzTypographyModule,
     NzToolTipModule,
+    NzButtonModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcTagOverflowModule,

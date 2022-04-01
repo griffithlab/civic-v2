@@ -8,6 +8,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcDiseaseTagModule } from '../cvc-disease-tag/cvc-disease-tag.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcDiseasesTableComponent],
@@ -17,6 +18,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzIconModule,
     NzToolTipModule,
     NzTableModule,
+    NzButtonModule,
     CvcClearableInputFilterModule,
     CvcLinkTagModule,
     CvcDiseaseTagModule,
