@@ -4351,7 +4351,7 @@ export type VariantType = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type VariantTypePopover = {
@@ -4361,7 +4361,7 @@ export type VariantTypePopover = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
   variantCount: Scalars['Int'];
 };
 
