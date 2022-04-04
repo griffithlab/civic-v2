@@ -1,5 +1,11 @@
-<input #profileImage type="file" accept="image/*" style="display: none;"
+<input #profileImage
+  type="file"
+  accept="image/*"
+  style="display: none;"
   (change)="processProfileImage(profileImage.files)">
 
-<button nz-button nzSize="small" (click)="profileImage.click()"><i nz-icon nzType="upload" nzTheme="outline"></i>Upload
-  Image</button>
+<button nz-button
+  nzSize="small"
+  nzType="link"
+  (click)="profileImage.click()">Upload Image
+</button>

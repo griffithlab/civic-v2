@@ -23,7 +23,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzStatisticModule,
     NzTypographyModule,
     NzIconModule,
-    NzGridModule
+    NzGridModule,
+    NzCardModule,
   ],
   exports: [
     CvcStatsCardComponent

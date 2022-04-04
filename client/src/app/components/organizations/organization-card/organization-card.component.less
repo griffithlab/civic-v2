@@ -1,0 +1,29 @@
+:host ::ng-deep {
+  .organization-profile {
+    .ant-card-body {
+      // remove card body padding
+      padding: 0;
+      // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
+      margin-top: 1px;
+    }
+  }
+  .ant-descriptions-view {
+    // removes nz-description container border -
+    // nz-card does provide an nzBordered option, but its label backgrounds
+    // and compact mode are only applied when its borders are toggled on
+    border: none;
+  }
+  .stats-toggle {
+    span {
+      padding-right: 0;
+    }
+  }
+}
+
+.org-avatar,
+.org-name {
+  text-align: center;
+}
+.org-name {
+  font-size: 120%;
+}

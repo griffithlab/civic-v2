@@ -1,6 +1,6 @@
 <nz-space nzSize="middle" *ngIf="(members$ | ngrxPush) as members" nzDirection="vertical" class="space-align-block">
-  <div nz-row [nzGutter]="16" *nzSpaceItem>
-    <div *ngFor="let member of members" nz-col [nzSpan]="2">
+  <div nz-row [nzGutter]="[16, 16]" *nzSpaceItem>
+    <div *ngFor="let member of members" nz-col [nzSpan]="6">
       <cvc-user-card [user]="member.node"></cvc-user-card>
     </div>
   </div>
