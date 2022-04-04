@@ -5306,7 +5306,7 @@ export type PhenotypesBrowseQuery = (
   { __typename: 'Query' }
   & { phenotypes: (
     { __typename: 'BrowsePhenotypeConnection' }
-    & Pick<BrowsePhenotypeConnection, 'totalCount'>
+    & Pick<BrowsePhenotypeConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -10576,6 +10576,7 @@ export const PhenotypesBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage

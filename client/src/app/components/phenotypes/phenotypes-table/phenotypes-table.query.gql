@@ -17,6 +17,7 @@ query PhenotypesBrowse(
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage
