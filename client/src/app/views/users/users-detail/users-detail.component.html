@@ -4,13 +4,13 @@
 
   <nz-page-header class="site-page-header">
     <!-- title -->
-    <nz-page-header-title>
-      <i nz-icon
-        nzType="civic:user"></i>
-      <span routerLink="/user/{{user.id}}">
-        {{ user.name }}
-      </span>
-    </nz-page-header-title>
+    <!-- <nz-page-header-title>
+         <i nz-icon
+         nzType="civic:user"></i>
+         <span routerLink="/user/{{user.id}}">
+         {{ user.name }}
+         </span>
+         </nz-page-header-title> -->
 
     <!--extra-->
     <nz-page-header-content>
@@ -24,21 +24,24 @@
         nzCloseable
         nzMessage="Profile image successfully updated."
         (nzOnClose)="this.updateSuccess = false"></nz-alert>
-      <div class="content">
+      <div class="profile-content">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="3">
-            <nz-space nzDirection="vertical"
-              nzSize="middle">
+            <div class="user-avatar">
               <cvc-user-avatar [user]="user"
-                [size]="128"
-                *nzSpaceItem></cvc-user-avatar>
+                [size]="128"></cvc-user-avatar>
+            </div>
+            <div class="user-name">
+              <span nz-typography>
+              <strong>{{ user.name }}</strong>
+              </span>
               <ng-container *ngIf="this.ownProfile$ | ngrxPush">
-                <cvc-avatar-uploader (uploadComplete)="profileUploadComplete($event)"
-                  *nzSpaceItem></cvc-avatar-uploader>
+                <cvc-avatar-uploader (uploadComplete)="profileUploadComplete($event)">
+                </cvc-avatar-uploader>
               </ng-container>
-            </nz-space>
+            </div>
           </nz-col>
-          <nz-col [nzSpan]='13'>
+          <nz-col [nzSpan]="13">
             <nz-card nzTitle="Profile"
               class="user-profile"
               nzSize="small"
@@ -47,6 +50,7 @@
                 <ng-container *ngIf="this.ownProfile$ | ngrxPush">
                   <button nz-button
                     nzSize="small"
+                    nzType="link"
                     (click)="this.updateProfileModalVisible = true">
                     Edit Profile
                   </button>
@@ -145,6 +149,7 @@
                 <ng-template #updateCoi>
                   <ng-container *ngIf="this.ownProfile$ | ngrxPush">
                     <button nz-button
+                      nzType="link"
                       nzSize="small"
                       (click)="this.updateCoiModalVisible = true">
                       Update COI
@@ -182,12 +187,12 @@
             </nz-card>
 
           </nz-col>
-        </nz-row>
-        <nz-row>
-          <nz-col [nzSpan]="24">
-            <nz-divider></nz-divider>
-            <cvc-stats-card [stats]="user.statsHash"
-              header="User Statistics"></cvc-stats-card>
+          <nz-col [nzSpan]="8">
+            <nz-card nzSize="small"
+              nzTitle="Curation Stats">
+              <cvc-stats-card [stats]="user.statsHash"
+                header="User Statistics"></cvc-stats-card>
+            </nz-card>
           </nz-col>
         </nz-row>
       </div>
@@ -200,7 +205,7 @@
     [nzTitle]="profileModalTitle"
     [nzFooter]="null"
     (nzOnCancel)="this.handleProfileModalCancel()">
-    <ng-template #profileModalTitle><span>Update Profile</span></ng-template>
+    <ng-template #profileModalTitle><span>Edit Profile</span></ng-template>
     <ng-template #profileModalContent>
       <cvc-user-profile-form [user]="user"
         (profileUpdatedEvent)="this.profileUpdated()"></cvc-user-profile-form>
