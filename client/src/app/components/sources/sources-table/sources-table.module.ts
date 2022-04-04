@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CvcSourceTagModule } from '../source-tag/source-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcSourcesTableComponent],
@@ -17,6 +18,7 @@ import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-over
     ReactiveComponentModule,
     NzTableModule,
     NzSelectModule,
+    NzButtonModule,
     CvcClearableInputFilterModule,
     CvcSourceTagModule,
     CvcPlainTagOverflowModule

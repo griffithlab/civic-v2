@@ -1,18 +1,16 @@
 <nz-spin nzTip="Submitting"
   [nzSpinning]="this.loading">
-  <form nz-form
+  <form  nz-form
     [formGroup]="formGroup"
     (ngSubmit)="submitEvidence(formModel)"
     nzLayout="vertical">
     <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-    <formly-form [form]="formGroup"
+    <formly-form *ngIf="!this.success" [form]="formGroup"
       [fields]="formFields"
       [model]="formModel"
       [options]="formOptions"
       (modelChange)="formModel = $event"></formly-form>
-
-    <ng-container *ngTemplateOutlet="formMessages"></ng-container>
   </form>
 
   <ng-template #formMessages>

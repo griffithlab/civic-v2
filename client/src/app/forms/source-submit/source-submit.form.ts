@@ -60,14 +60,12 @@ export class SourceSubmitForm implements OnInit {
             type: 'gene-array',
             templateOptions: {
               maxCount: 1,
-              required: true
             }
           },
           {
             key: 'variant',
             type: 'variant-array',
             templateOptions: {
-              required: true,
               maxCount: 1
             }
           },
@@ -86,6 +84,7 @@ export class SourceSubmitForm implements OnInit {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
               addText: 'Specify a Source',
+              required: true,
               maxCount: 1,
             },
             fieldArray: {
@@ -106,6 +105,10 @@ export class SourceSubmitForm implements OnInit {
               required: true,
               minLength: 10
             },
+          },
+          {
+            key: 'cancel',
+            type: 'cancel-button'
           },
           {
             key: 'organization',
@@ -154,10 +157,10 @@ export class SourceSubmitForm implements OnInit {
     if (model) {
       const fields = model.fields;
       return {
-          variantId: fields.variant[0].id!,
-          geneId: fields.gene[0].id,
+          variantId: fields.variant[0]?.id,
+          geneId: fields.gene[0]?.id,
           sourceId: fields.source[0].id!,
-          diseaseId: fields.disease[0].id,
+          diseaseId: fields.disease[0]?.id,
       comment: fields.comment!,
       organizationId: model?.fields.organization?.id
     }

@@ -924,6 +924,7 @@ export enum CommentableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
+  Source = 'SOURCE',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
@@ -3252,30 +3253,46 @@ export enum SortDirection {
   Desc = 'DESC'
 }
 
-export type Source = EventSubject & {
+export type Source = Commentable & EventSubject & {
   __typename: 'Source';
   abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
   authorString?: Maybe<Scalars['String']>;
-  citation: Scalars['String'];
+  citation?: Maybe<Scalars['String']>;
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   displayType: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  journal: Scalars['String'];
+  journal?: Maybe<Scalars['String']>;
+  lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
-  publicationMonth: Scalars['Int'];
-  publicationYear: Scalars['Int'];
+  publicationMonth?: Maybe<Scalars['Int']>;
+  publicationYear?: Maybe<Scalars['Int']>;
   sourceType: SourceSource;
-  sourceUrl: Scalars['String'];
+  sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+};
+
+
+export type SourceCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  mentionedEntity?: Maybe<TaggableEntityInput>;
+  mentionedRole?: Maybe<UserRole>;
+  mentionedUserId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -3290,31 +3307,47 @@ export type SourceEventsArgs = {
   sortBy?: Maybe<DateSort>;
 };
 
-export type SourcePopover = EventSubject & {
+export type SourcePopover = Commentable & EventSubject & {
   __typename: 'SourcePopover';
   abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
   authorString?: Maybe<Scalars['String']>;
-  citation: Scalars['String'];
+  citation?: Maybe<Scalars['String']>;
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   displayType: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
   evidenceItemCount: Scalars['Int'];
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  journal: Scalars['String'];
+  journal?: Maybe<Scalars['String']>;
+  lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
   publicationDate?: Maybe<Scalars['String']>;
   publicationDay?: Maybe<Scalars['Int']>;
-  publicationMonth: Scalars['Int'];
-  publicationYear: Scalars['Int'];
+  publicationMonth?: Maybe<Scalars['Int']>;
+  publicationYear?: Maybe<Scalars['Int']>;
   sourceType: SourceSource;
-  sourceUrl: Scalars['String'];
+  sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+};
+
+
+export type SourcePopoverCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  mentionedEntity?: Maybe<TaggableEntityInput>;
+  mentionedRole?: Maybe<UserRole>;
+  mentionedUserId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -4351,7 +4384,7 @@ export type VariantType = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type VariantTypePopover = {
@@ -4361,7 +4394,7 @@ export type VariantTypePopover = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
   variantCount: Scalars['Int'];
 };
 
@@ -4695,6 +4728,12 @@ export type CommentPopoverFragment = (
   ) | (
     { __typename: 'Revision' }
     & Pick<Revision, 'id' | 'name' | 'link'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'name' | 'link'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
@@ -7087,19 +7126,19 @@ export type AssertionSummaryFieldsFragment = (
   & Pick<Assertion, 'id' | 'name' | 'summary' | 'description' | 'status' | 'variantOrigin' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'drugInteractionType' | 'ampLevel' | 'nccnGuidelineVersion' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated'>
   & { disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'alleleRegistryId'>
   ), drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'ncitId' | 'name' | 'id'>
+    & Pick<Drug, 'ncitId' | 'name' | 'link' | 'id'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code' | 'description'>
@@ -7233,26 +7272,26 @@ export type EvidenceSummaryFieldsFragment = (
   & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'status' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
   & { drugs: Array<(
     { __typename: 'Drug' }
-    & Pick<Drug, 'id' | 'name'>
+    & Pick<Drug, 'id' | 'name' | 'link'>
   )>, disease?: Maybe<(
     { __typename: 'Disease' }
-    & Pick<Disease, 'id' | 'name'>
+    & Pick<Disease, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
     & Pick<Phenotype, 'id' | 'name'>
   )>, source: (
     { __typename: 'Source' }
-    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId'>
+    & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId' | 'link'>
     & { clinicalTrials?: Maybe<Array<(
       { __typename: 'ClinicalTrial' }
       & Pick<ClinicalTrial, 'nctId' | 'id'>
     )>> }
   ), gene: (
     { __typename: 'Gene' }
-    & Pick<Gene, 'id' | 'name'>
+    & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
     { __typename: 'Variant' }
-    & Pick<Variant, 'id' | 'name'>
+    & Pick<Variant, 'id' | 'name' | 'link'>
   ), flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -7528,7 +7567,7 @@ export type SourceSummaryQuery = (
 
 export type SourceSummaryFieldsFragment = (
   { __typename: 'Source' }
-  & Pick<Source, 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
+  & Pick<Source, 'id' | 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
   & { clinicalTrials?: Maybe<Array<(
     { __typename: 'ClinicalTrial' }
     & Pick<ClinicalTrial, 'nctId' | 'id'>
@@ -7933,7 +7972,7 @@ export type VariantSummaryFieldsFragment = (
     & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
   )>, variantTypes?: Maybe<Array<(
     { __typename: 'VariantType' }
-    & Pick<VariantType, 'soid' | 'name'>
+    & Pick<VariantType, 'id' | 'link' | 'soid' | 'name'>
   )>>, fivePrimeCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
@@ -9209,10 +9248,12 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   disease {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
@@ -9225,11 +9266,13 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   drugs {
     ncitId
     name
+    link
     id
   }
   phenotypes {
     id
     name
+    link
   }
   drugInteractionType
   ampLevel
@@ -9329,11 +9372,13 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
@@ -9347,6 +9392,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
     displayType
     sourceUrl
     ascoAbstractId
+    link
     clinicalTrials {
       nctId
       id
@@ -9356,10 +9402,12 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
@@ -9586,6 +9634,7 @@ export const SourceDetailFieldsFragmentDoc = gql`
     `;
 export const SourceSummaryFieldsFragmentDoc = gql`
     fragment SourceSummaryFields on Source {
+  id
   displayType
   title
   abstract
@@ -9838,6 +9887,8 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   variantAliases
   alleleRegistryId
   variantTypes {
+    id
+    link
     soid
     name
   }

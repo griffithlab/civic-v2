@@ -6,6 +6,7 @@ import { SourcesHomePage } from './sources-home/sources-home.page';
 import { SourcesSummaryPage } from './sources-detail/sources-summary/sources-summary.page';
 
 import { SourcesView } from './sources.view';
+import { SourcesCommentsPage } from './sources-detail/sources-comments/sources-comments.page';
 
 const routes: Routes = [
   {
@@ -40,6 +41,13 @@ const routes: Routes = [
             component: SourcesSummaryPage,
             data: {
               breadcrumb: 'Summary'
+            },
+          },
+          {
+            path: 'comments',
+            component: SourcesCommentsPage,
+            data: {
+              breadcrumb: 'Comments'
             },
           }
         ]

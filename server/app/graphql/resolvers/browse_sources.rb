@@ -30,7 +30,7 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
   end
 
   option(:name, type: String) do |scope, value|
-    scope.where('name ILIKE ?', "%#{value}%")
+    scope.where('title ILIKE ?', "%#{value}%")
   end
 
   option(:clinical_trial_id, type: Int) do |scope, value|
@@ -54,7 +54,7 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
     when "JOURNAL"
       scope.order("journal #{value.direction}")
     when "NAME"
-      scope.order("name #{value.direction}")
+      scope.order("title #{value.direction}")
     when "EVIDENCE_COUNT"
       scope.order("evidence_item_count #{value.direction}")
     end

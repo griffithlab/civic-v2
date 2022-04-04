@@ -104,6 +104,7 @@
         nzAlign="center">
         <nz-select nzAllowClear
           nzPlaceHolder="Choose"
+          [nzDropdownMatchSelectWidth]="false"
           (ngModelChange)="onModelChanged()"
           [(ngModel)]="assertionTypeInput">
           <nz-option nzValue="PREDICTIVE"
@@ -119,6 +120,7 @@
       <th nzWidth="5%"
         nzAlign="center">
         <nz-select nzAllowClear
+          [nzDropdownMatchSelectWidth]="false"
           nzPlaceHolder="Choose"
           (ngModelChange)="onModelChanged()"
           [(ngModel)]="assertionDirectionInput">
@@ -133,6 +135,7 @@
       <th nzWidth="5%"
         nzAlign="center">
         <nz-select nzAllowClear
+          [nzDropdownMatchSelectWidth]="false"
           nzPlaceHolder="Choose"
           (ngModelChange)="onModelChanged()"
           [(ngModel)]="clinicalSignificanceInput">
@@ -179,6 +182,7 @@
       <th nzWidth="5%"
         nzAlign="center">
         <nz-select nzAllowClear
+          [nzDropdownMatchSelectWidth]="false"
           nzPlaceHolder="Choose"
           (ngModelChange)="onModelChanged()"
           [(ngModel)]="ampLevelInput">
@@ -261,5 +265,16 @@
         {{ aid.ampLevel | formatAmp: 'compact' | ifEmpty: '--' }}
       </td>
     </tr>
+    <!-- Load More button row -->
+    <ng-container *ngrxLet="pageInfo$ as pageInfo">
+      <tr *ngIf="pageInfo.hasNextPage">
+        <td colspan="20">
+          <button *ngIf="pageInfo.hasNextPage"
+            (click)="loadMore(pageInfo.endCursor)"
+            nz-button
+            nzBlock>Load More</button>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </nz-table>

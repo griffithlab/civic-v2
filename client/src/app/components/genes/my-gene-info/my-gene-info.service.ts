@@ -12,7 +12,7 @@ export class MyGeneInfoService {
   parse(geneInfo: any): any {
     const srcMap: { [key: string]: string | null; } = {
       kegg: 'http://www.genome.jp/kegg-bin/show_pathway?',
-      reactome: 'http://www.reactome.org/cgi-bin/control_panel_st_id?ST_ID=',
+      reactome: 'https://reactome.org/content/detail/',
       pharmgkb: 'https://www.pharmgkb.org/pathway/',
       humancyc: 'http://humancyc.org/HUMAN/NEW-IMAGE?type=PATHWAY&object=',
       smpdb: 'http://www.smpdb.ca/view/',

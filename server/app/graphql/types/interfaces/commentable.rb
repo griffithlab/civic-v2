@@ -29,6 +29,8 @@ module Types::Interfaces
           Types::Entities::VariantType
         when VariantGroup
           Types::Entities::VariantGroupType
+        when Source
+          Types::Entities::SourceType
         else
           raise "Unexpected Commentable type: #{object.class}"
         end

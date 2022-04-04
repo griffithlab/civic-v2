@@ -27,6 +27,7 @@ import { CvcVariantCoordinatesCardTypeModule } from '@app/forms/config/types/var
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -59,6 +60,7 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
     CvcVariantTypeInputTypeModule,
     CvcEnsemblInputTypeModule,
     CvcTextareaBaseTypeModule,
+    CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],

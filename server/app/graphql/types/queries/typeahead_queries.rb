@@ -53,27 +53,49 @@ module Types::Queries
       end
 
       def disease_typeahead(query_term:)
-        scope = Disease.eager_load(:disease_aliases)
-        scope.where("diseases.name ILIKE ?", "%#{query_term}%")
-          .or(scope.where("disease_aliases.name ILIKE ?", "%#{query_term}%"))
+        results = Disease.where("diseases.name ILIKE ?", "%#{query_term}%")
           .order("LENGTH(diseases.name) ASC")
           .limit(10)
+        if results.size < 10
+          secondary_results = Disease.eager_load(:disease_aliases)
+            .where("disease_aliases.name ILIKE ?", "%#{query_term}%")
+            .order("LENGTH(diseases.name) ASC")
+            .limit(10-results.size)
+          return results + secondary_results
+        else
+          return results
+        end
       end
 
       def drug_typeahead(query_term:)
-        scope = Drug.eager_load(:drug_aliases)
-        scope.where("drugs.name ILIKE ?", "%#{query_term}%")
-          .or(scope.where("drug_aliases.name ILIKE ?", "%#{query_term}%"))
-          .order("drugs.name")
+        results = Drug.where("drugs.name ILIKE ?", "%#{query_term}%")
+          .order("LENGTH(drugs.name) ASC")
           .limit(10)
+        if results.size < 10
+          secondary_results = Drug.eager_load(:drug_aliases)
+            .where("drug_aliases.name ILIKE ?", "%#{query_term}%")
+            .order("LENGTH(drugs.name) ASC")
+            .limit(10-results.size)
+
+          return results + secondary_results
+        else
+          return results
+        end
       end
 
       def gene_typeahead(query_term:)
-        scope = Gene.eager_load(:gene_aliases)
-        scope.where("genes.name ILIKE ?", "#{query_term}%")
-          .or(scope.where("gene_aliases.name ILIKE ?", "#{query_term}%"))
-          .order("genes.name")
+        results = Gene.where('genes.name ILIKE ?', "#{query_term}%")
+          .order("LENGTH(genes.name) ASC")
           .limit(10)
+        if results.size < 10
+          secondary_results = Gene.eager_load(:gene_aliases)
+            .where("gene_aliases.name ILIKE ?", "#{query_term}%")
+            .order("LENGTH(genes.name) ASC")
+            .limit(10 - results.size)
+          return results + secondary_results
+        else
+          return results
+        end
       end
 
       def phenotype_typeahead(query_term:)

@@ -200,15 +200,19 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
               label: 'Comment',
               helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
               placeholder: 'Please enter a comment describing your revision.',
-              required: true,
+              required: false,
               minLength: 10
             },
+          },
+          {
+            key: 'cancel',
+            type: 'cancel-button'
           },
           {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
-              submitLabel: 'Submit Evidence Item Revision',
+              submitLabel: 'Submit Evidence Item',
               submitSize: 'large'
             }
           }
@@ -268,7 +272,7 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
           drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
         },
-      comment: fields.comment,
+      comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
       organizationId: model?.fields.organization?.id
     }
 

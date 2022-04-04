@@ -29,7 +29,9 @@
             }}&nbsp;</span>
         </span>
         <span *ngSwitchCase="'SourceSuggestion'">
-          {{ object.name }}
+          <nz-tag style="cursor: pointer;" [routerLink]="object.link">
+            {{ object.name }}
+          </nz-tag>
           <span nz-typography *ngIf="tagDisplay != 'hideSubject'">{{ event.action | prepositionForSubject
             }}&nbsp;</span>
         </span>
@@ -44,7 +46,7 @@
       <cvc-variant-tag *ngSwitchCase="'Variant'" [variant]="subject"></cvc-variant-tag>
       <cvc-revision-tag *ngSwitchCase="'Revision'" [revision]="subject"></cvc-revision-tag>
       <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'" [variantgroup]="subject"></cvc-variant-group-tag>
-      <span *ngSwitchCase="'Source'"></span>
+      <cvc-source-tag *ngSwitchCase="'Source'" mode="concise" [source]="$any(subject)"></cvc-source-tag>
       <span *ngSwitchDefault>{{ subject.name }}</span>
     </ng-container>
 
