@@ -8,6 +8,8 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [CvcDrugsTableComponent],
@@ -17,6 +19,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzTableModule,
     NzIconModule,
     NzButtonModule,
+    NzCardModule,
+    NzIconModule,
+    NzTypographyModule,
     CvcDrugTagModule,
     CvcLinkTagModule,
     CvcClearableInputFilterModule

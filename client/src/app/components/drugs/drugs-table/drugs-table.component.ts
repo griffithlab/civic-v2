@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Maybe, PageInfo, DrugBrowseTableRowFieldsFragment, DrugsBrowseGQL, DrugsBrowseQuery, DrugsBrowseQueryVariables, DrugSortColumns } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
+import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-drugs-table',
@@ -11,13 +11,15 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
   styleUrls: ['./drugs-table.component.less']
 })
 export class CvcDrugsTableComponent implements OnInit {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
-  private initialPageSize = 25
+  initialPageSize = 25
   private queryRef?: QueryRef<DrugsBrowseQuery, DrugsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
-  totalCount$?: Observable<number>
+  filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
   drugs$?: Observable<Maybe<DrugBrowseTableRowFieldsFragment>[]>
 
@@ -27,6 +29,10 @@ export class CvcDrugsTableComponent implements OnInit {
   textInputCallback?: () => void
 
   sortColumns: typeof DrugSortColumns = DrugSortColumns
+
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+  loadedPages: number = 1
 
   constructor(private gql: DrugsBrowseGQL) {}
 
@@ -48,8 +54,24 @@ export class CvcDrugsTableComponent implements OnInit {
       pluck('loading'), startWith(true)
     );
 
-    this.totalCount$ = observable.pipe(
+    this.filteredCount$ = observable.pipe(
       pluck('data', 'drugs', 'totalCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize * this.loadedPages
+          if (this.totalCount && this.visibleCount > this.totalCount) {
+            this.visibleCount = this.totalCount
+          }
+        }
+      }
     )
 
     this.pageInfo$ = observable.pipe(
