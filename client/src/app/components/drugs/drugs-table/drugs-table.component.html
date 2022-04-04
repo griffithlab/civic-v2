@@ -77,7 +77,7 @@
             <button *ngIf="pageInfo.hasNextPage"
               (click)="loadMore(pageInfo.endCursor)"
               nz-button
-              nzBlock>Load More</button>
+              nzBlock>Load {{this.initialPageSize}} More</button>
           </td>
         </tr>
       </ng-container>

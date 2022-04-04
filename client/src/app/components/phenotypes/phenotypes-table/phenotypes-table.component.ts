@@ -14,7 +14,7 @@ export class CvcPhenotypesTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
-  private initialPageSize = 25
+  initialPageSize = 25
   private queryRef?: QueryRef<PhenotypesBrowseQuery, PhenotypesBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
