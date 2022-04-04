@@ -121,7 +121,7 @@ export class CvcGenesTableComponent implements OnInit {
           this.visibleCount = value
         }
         else {
-          this.visibleCount = this.initialPageSize * this.loadedPages
+          this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
           if (this.visibleCount > value) {
             this.visibleCount = value
           }
