@@ -1,14 +1,14 @@
 <ng-container *ngIf="variantInfo">
     <nz-card nzTitle="MyVariantInfo">
       <nz-card-tab>
-        <nz-tabset nzSize="small" (nzSelectedIndexChange)="tabChange($event)" [nzAnimated]="true">
-          <nz-tab nzTitle="Overview"> </nz-tab>
-          <nz-tab nzTitle="ClinVar"> </nz-tab>
-          <nz-tab nzTitle="gnomAD (2.1.1)"></nz-tab>
-          <nz-tab nzTitle="EXAC (0.3.1)"></nz-tab>
-          <nz-tab nzTitle="CADD"></nz-tab>
-          <nz-tab nzTitle="EGL"></nz-tab>
-          <nz-tab nzTitle="Effect Scores"></nz-tab>
+        <nz-tabset nzSize="small"  [nzAnimated]="true">
+          <nz-tab (nzClick)="tabIndex.next(0)" nzTitle="Overview"> </nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(1)" nzTitle="ClinVar"> </nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(2)" nzTitle="gnomAD (2.1.1)"></nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(3)" nzTitle="EXAC (0.3.1)"></nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(4)" nzTitle="CADD"></nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(5)" nzTitle="EGL"></nz-tab>
+          <nz-tab (nzClick)="tabIndex.next(6)" nzTitle="Effect Scores"></nz-tab>
         </nz-tabset>
       </nz-card-tab>
       <ng-container [ngSwitch]="tabIndex | async" >
