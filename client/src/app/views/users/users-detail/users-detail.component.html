@@ -24,11 +24,10 @@
         nzCloseable
         nzMessage="Profile image successfully updated."
         (nzOnClose)="this.updateSuccess = false"></nz-alert>
-      <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
       <div class="content">
-        <div nz-row
+        <nz-row
           [nzGutter]="16">
-          <div nz-col
+          <nz-col
             [nzSpan]="3">
             <nz-space nzDirection="vertical"
               nzSize="middle">
@@ -40,28 +39,45 @@
                   *nzSpaceItem></cvc-avatar-uploader>
               </ng-container>
             </nz-space>
-          </div>
-          <div nz-col
+          </nz-col>
+          <nz-col
             [nzSpan]='13'>
             <nz-descriptions nzTitle="Profile"
               nzBordered
               [nzExtra]="updateProfile">
+
               <nz-descriptions-item [nzSpan]="2"
-                nzTitle="Username">{{ user.username }}</nz-descriptions-item>
+                nzTitle="Username">
+                {{ user.username }}
+              </nz-descriptions-item>
+
               <nz-descriptions-item [nzSpan]="2"
-                nzTitle="Role">{{user.role | enumToTitle}}</nz-descriptions-item>
+                nzTitle="Role">
+                {{user.role | enumToTitle}}
+              </nz-descriptions-item>
+
               <nz-descriptions-item [nzSpan]="4"
-                nzTitle="Bio">{{user.bio}}</nz-descriptions-item>
+                nzTitle="Bio">
+                {{user.bio}}
+              </nz-descriptions-item>
+
               <nz-descriptions-item [nzSpan]="2"
-                nzTitle="Area of Expertise">{{ user.areaOfExpertise | enumToTitle }} </nz-descriptions-item>
+                nzTitle="Area of Expertise">
+                {{ user.areaOfExpertise | enumToTitle }}
+              </nz-descriptions-item>
+
               <nz-descriptions-item [nzSpan]="2"
-                nzTitle="Country">{{ user.country?.name }}</nz-descriptions-item>
+                nzTitle="Country">
+                {{ user.country?.name }}
+              </nz-descriptions-item>
+
               <nz-descriptions-item *ngIf="user.organizations.length > 0"
                 [nzSpan]="4"
                 nzTitle="Organizations">
                 <cvc-organization-tag *ngFor="let org of user.organizations"
                   [org]="org"></cvc-organization-tag>
               </nz-descriptions-item>
+
               <ng-template #updateProfile>
                 <ng-container *ngIf="this.ownProfile$ | ngrxPush">
                   <button nz-button
@@ -73,10 +89,11 @@
                   </button>
                 </ng-container>
               </ng-template>
+
             </nz-descriptions>
-          </div>
-          <div *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'"
-            nz-col [nzSpan]="8">
+          </nz-col>
+          <nz-col *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'"
+            [nzSpan]="8">
             <nz-descriptions nzTitle="Editor Conflict of Interest Statement"
               nzBordered
               [nzExtra]="updateCoi">
@@ -117,16 +134,18 @@
                 </ng-container>
               </ng-template>
             </nz-descriptions>
-          </div>
-        </div>
-        <div nz-row>
-          <div nz-col
+          </nz-col>
+        </nz-row>
+        <nz-row>
+          <nz-col
             [nzSpan]="24">
             <nz-divider></nz-divider>
-            <cvc-stats-card [stats]="user.statsHash" header="User Statistics"></cvc-stats-card>
-          </div>
-        </div>
+            <cvc-stats-card [stats]="user.statsHash"
+              header="User Statistics"></cvc-stats-card>
+          </nz-col>
+        </nz-row>
       </div>
+      <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
       <router-outlet></router-outlet>
     </nz-page-header-content>
   </nz-page-header>
