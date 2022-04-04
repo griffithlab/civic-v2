@@ -3,15 +3,6 @@
   </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
-    <!-- title -->
-    <!-- <nz-page-header-title>
-         <i nz-icon
-         nzType="civic:user"></i>
-         <span routerLink="/user/{{user.id}}">
-         {{ user.name }}
-         </span>
-         </nz-page-header-title> -->
-
     <!--extra-->
     <nz-page-header-content>
       <nz-alert *ngIf="this.uploadError"
@@ -39,6 +30,38 @@
                 <cvc-avatar-uploader (uploadComplete)="profileUploadComplete($event)">
                 </cvc-avatar-uploader>
               </ng-container>
+            </div>
+            <div class="user-socials">
+              <nz-space nzAlign="center">
+                <ng-container *ngIf="user.twitterHandle">
+                  <a href="http://twitter.com/{{user.twitterHandle}}" target="_blank" *nzSpaceItem>
+                  <i nz-icon
+                    nzType="twitter"
+                    nzTheme="outline"></i>
+                  </a>
+                </ng-container>
+
+                <ng-container *ngIf="user.facebookProfile">
+                  <a href="http://facebook.com/{{user.facebookProfile}}" target="_blank" *nzSpaceItem>
+                  <i nz-icon
+                    nzType="facebook"
+                    nzTheme="outline"></i>
+                  </a>
+                </ng-container>
+
+                <ng-container *ngIf="user.linkedinProfile">
+                  <a href="http://linkedin.com/in/{{user.linkedinProfile}}" target="_blank" *nzSpaceItem>
+                  <i nz-icon
+                    nzType="linkedin"
+                    nzTheme="outline"></i>
+                  </a>
+                </ng-container>
+                <ng-container *ngIf="user.orcid">
+                  <a href="https://orcid.org/{{user.orcid}}" target="_blank" *nzSpaceItem>
+                  <span>ID</span>
+                  </a>
+                </ng-container>
+              </nz-space>
             </div>
           </nz-col>
           <nz-col [nzSpan]="13">
