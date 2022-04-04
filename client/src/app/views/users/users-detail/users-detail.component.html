@@ -53,46 +53,89 @@
                 </ng-container>
               </ng-template>
               <nz-descriptions nzBordered
-                [ngClass]="{ 'is-editor': user.role === 'EDITOR' || user.role === 'ADMIN' }"
+                nzLayout="vertical"
+                [nzColumn]="7"
                 nzSize="small">
 
                 <nz-descriptions-item [nzSpan]="2"
-                  nzTitle="Username">
-                  {{ user.username }}
+                  nzTitle="Name">
+                  {{ user.name }}
                 </nz-descriptions-item>
 
                 <nz-descriptions-item [nzSpan]="2"
+                  nzTitle="User Name">
+                  {{ user.username }}
+                </nz-descriptions-item>
+
+                <nz-descriptions-item [nzSpan]="1"
                   nzTitle="Role">
                   {{user.role | enumToTitle}}
                 </nz-descriptions-item>
 
-                <nz-descriptions-item [nzSpan]="4"
-                  nzTitle="Bio">
-                  {{user.bio}}
-                </nz-descriptions-item>
 
                 <nz-descriptions-item [nzSpan]="2"
                   nzTitle="Area of Expertise">
-                  {{ user.areaOfExpertise | enumToTitle }}
+                  <ng-container *ngIf="user.areaOfExpertise">
+                    {{ user.areaOfExpertise | enumToTitle }}
+                  </ng-container>
+                  <ng-container *ngIf="!user.areaOfExpertise">
+                    <span nz-typography
+                      nzType="secondary">
+                      <i>Unspecified</i>
+                    </span>
+                  </ng-container>
                 </nz-descriptions-item>
 
                 <nz-descriptions-item [nzSpan]="2"
                   nzTitle="Country">
-                  {{ user.country?.name }}
+                  <ng-container *ngIf="user.country">
+                    {{ user.country?.name }}
+                  </ng-container>
+                  <ng-container *ngIf="!user.country">
+                    <span nz-typography
+                      nzType="secondary">
+                      <i>Unspecified</i>
+                    </span>
+                  </ng-container>
                 </nz-descriptions-item>
 
-                <nz-descriptions-item *ngIf="user.organizations.length > 0"
-                  [nzSpan]="4"
+                <nz-descriptions-item [nzSpan]="5"
                   nzTitle="Organizations">
-                  <cvc-organization-tag *ngFor="let org of user.organizations"
-                    [org]="org"></cvc-organization-tag>
+                  <ng-container *ngIf="user.organizations.length > 0">
+                    <cvc-organization-tag *ngFor="let org of user.organizations"
+                      [org]="org"></cvc-organization-tag>
+                  </ng-container>
+                  <ng-container *ngIf="user.organizations.length === 0">
+                    <span nz-typography
+                      nzType="secondary">
+                      <i>User is not a member of any Organizations.</i>
+                    </span>
+                  </ng-container>
                 </nz-descriptions-item>
 
+              </nz-descriptions>
+              <nz-descriptions nzBordered
+                nzLayout="vertical"
+                class="user-bio"
+                nzSize="small">
+                <nz-descriptions-item [nzSpan]="4"
+                  nzTitle="Bio">
+                  <ng-container *ngIf="user.bio">
+                    {{user.bio}}
+                  </ng-container>
+                  <ng-container *ngIf="!user.bio">
+                    <span nz-typography
+                      nzType="secondary">
+                      <i>User has not provided a bio.</i>
+                    </span>
+                  </ng-container>
+                </nz-descriptions-item>
               </nz-descriptions>
               <nz-descriptions nzBordered
                 *ngIf="user.role === 'EDITOR' || user.role === 'ADMIN'"
                 [nzTitle]="coiTitle"
                 [nzExtra]="updateCoi"
+                [nzColumn]="3"
                 class="user-coi"
                 nzSize="small">
 
@@ -109,15 +152,15 @@
                   </ng-container>
                 </ng-template>
                 <ng-container *ngIf="user.mostRecentConflictOfInterestStatement">
-                  <nz-descriptions-item [nzSpan]="3"
+                  <nz-descriptions-item [nzSpan]="1"
                     nzTitle="Status">
                     {{ user.mostRecentConflictOfInterestStatement.coiStatus | enumToTitle }}
                   </nz-descriptions-item>
-                  <nz-descriptions-item [nzSpan]="2"
+                  <nz-descriptions-item [nzSpan]="1"
                     nzTitle="Updated">
                     {{user.mostRecentConflictOfInterestStatement.createdAt | date:"shortDate" }}
                   </nz-descriptions-item>
-                  <nz-descriptions-item [nzSpan]="2"
+                  <nz-descriptions-item [nzSpan]="1"
                     nzTitle="Expires">
                     {{user.mostRecentConflictOfInterestStatement.expiresAt | date:"shortDate" }}
                   </nz-descriptions-item>
