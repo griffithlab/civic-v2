@@ -22,6 +22,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcVariantGroupTagModule } from '../variant-group-tag/variant-group-tag.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 
 
@@ -39,6 +40,9 @@ import { CvcVariantGroupTagModule } from '../variant-group-tag/variant-group-tag
     NzTypographyModule,
     NzToolTipModule,
     NzSelectModule,
+    NzIconModule,
+    NzCardModule,
+    NzTypographyModule,
     CvcClearableInputFilterModule,
     CvcPipesModule,
     CvcGeneTagModule,
