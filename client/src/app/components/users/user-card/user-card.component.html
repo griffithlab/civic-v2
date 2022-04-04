@@ -1,9 +1,38 @@
-<nz-card [nzTitle]="user.displayName" [nzExtra]="avatar">
-    <ng-template #avatar>
-        <cvc-user-avatar [user]="user" [size]="64"></cvc-user-avatar>
+<nz-card [nzTitle]="user.displayName" [nzExtra]="roleTemplate">
+    <cvc-user-avatar [user]="user" [size]="32"></cvc-user-avatar>
+    <nz-descriptions nzBordered nzSize="small" [nzColumn]="1">
+        <nz-descriptions-item nzTitle="ORCID iD">
+            <cvc-link-tag *ngIf="user.orcid; else notProvided" href="https://www.orcid.org/{{user.orcid}}">
+                {{user.orcid}}
+            </cvc-link-tag>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Twitter">
+            <cvc-link-tag *ngIf="user.twitterHandle; else notProvided"
+            href="https://twitter.com/{{user.twitterHandle}}"
+            iconName="twitter">
+                {{user.twitterHandle}}
+            </cvc-link-tag>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Facebook">
+            <cvc-link-tag *ngIf="user.facebookProfile; else notProvided"
+            href="https://www.facebook.com/{{user.facebookProfile}}"
+            iconName="facebook">
+                {{user.facebookProfile}}
+            </cvc-link-tag>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="LinkedIn">
+            <cvc-link-tag *ngIf="user.linkedinProfile; else notProvided"
+            href="https://linkedin.com/in//{{user.linkedinProfile}}"
+            iconName="linkedin">
+                {{user.linkedinProfile}}
+            </cvc-link-tag>
+        </nz-descriptions-item>
+    </nz-descriptions>
+    <ng-template #notProvided>
+        <span nz-typography nzType="secondary">Not provided</span>
     </ng-template>
-    Name: {{user.name}}
-    Role: {{user.role}}
-    ORCID iD: {{user.orcid}}
-     
 </nz-card>
+<ng-template #roleTemplate>
+    <i nz-icon
+    [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i>
+</ng-template>

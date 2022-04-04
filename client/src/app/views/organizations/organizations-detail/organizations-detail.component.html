@@ -4,28 +4,14 @@
 
   <nz-page-header class="site-page-header">
 
-    <!-- title -->
-    <nz-page-header-title>
-      <i nz-icon
-        nzType="civic:organization"></i>
-      <span routerLink="/organizations/{{organization.id}}">
-        {{ organization.name }}
-      </span>
-    </nz-page-header-title>
-
-    <!-- extra -->
-    <nz-page-header-extra>
-        <cvc-link-tag [href]="organization.url">
-          Organization Website
-        </cvc-link-tag>
-    </nz-page-header-extra>
-
     <!-- content -->
     <nz-page-header-content>
-      <cvc-tab-navigation [tabs]="tabs"></cvc-tab-navigation>
+      <div class="detail-content">
+        <cvc-organization-card [organization]="organization"
+          [inCard]="false"></cvc-organization-card>
+      </div>
+      <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"></cvc-tab-navigation>
       <div class="content">
-        <cvc-organization-card [organization]="organization" [inCard]="false"></cvc-organization-card>
-
         <router-outlet></router-outlet>
       </div>
     </nz-page-header-content>

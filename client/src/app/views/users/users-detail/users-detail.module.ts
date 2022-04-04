@@ -22,12 +22,16 @@ import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module';
+import { UsersDetailRoutingModule } from './users-detail-routing.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [UsersDetailComponent],
   imports: [
     CommonModule,
     RouterModule,
+    UsersDetailRoutingModule,
     ReactiveComponentModule,
     NzAlertModule,
     NzGridModule,
@@ -39,6 +43,8 @@ import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card
     NzModalModule,
     NzStatisticModule,
     NzIconModule,
+    NzTypographyModule,
+    NzButtonModule,
     CvcUserCoiFormModule,
     CvcUserProfileFormModule,
     CvcPipesModule,

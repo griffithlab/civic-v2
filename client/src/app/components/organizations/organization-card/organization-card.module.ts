@@ -17,11 +17,16 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { FormsModule } from '@angular/forms';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 
 @NgModule({
   declarations: [CvcOrganizationCardComponent],
   imports: [
     CommonModule,
+    FormsModule,
     NzCardModule,
     NzGridModule,
     NzSpaceModule,
@@ -29,6 +34,8 @@ import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card
     NzStatisticModule,
     NzDescriptionsModule,
     NzDividerModule,
+    NzCheckboxModule,
+    CvcLinkTagModule,
     CvcClinicalTrialTagModule,
     CvcDiseaseTagModule,
     CvcDrugTagModule,
@@ -37,7 +44,8 @@ import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card
     CvcOrganizationAvatarModule,
     CvcPipesModule,
     CvcOrganizationTagModule,
-    CvcStatsCardModule
+    CvcStatsCardModule,
+    CvcTagListModule,
   ],
   exports: [CvcOrganizationCardComponent]
 })
