@@ -5912,7 +5912,7 @@ export type VariantTypesBrowseQuery = (
   { __typename: 'Query' }
   & { variantTypes: (
     { __typename: 'BrowseVariantTypeConnection' }
-    & Pick<BrowseVariantTypeConnection, 'totalCount'>
+    & Pick<BrowseVariantTypeConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -11128,6 +11128,7 @@ export const VariantTypesBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage
