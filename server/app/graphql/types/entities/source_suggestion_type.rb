@@ -41,7 +41,7 @@ module Types::Entities
     end
 
     def link
-      ''
+      "/sources/#{object.source_id}"
     end
   end
 end

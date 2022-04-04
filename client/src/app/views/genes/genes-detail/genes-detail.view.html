@@ -60,7 +60,7 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <cvc-tab-navigation [tabs]="this.tabs">
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>

@@ -9,6 +9,7 @@ import { SourcesDetailModule } from './sources-detail/sources-detail.module';
 import { SourcesSummaryModule } from './sources-detail/sources-summary/sources-summary.module';
 import { SourceAddModule } from './source-add/source-add.module';
 import { RouterModule } from '@angular/router';
+import { SourcesCommentsModule } from './sources-detail/sources-comments/sources-comments.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
     SourcesDetailModule,
     SourcesSummaryModule,
     SourceAddModule,
+    SourcesCommentsModule,
   ],
 })
 export class SourcesModule { }

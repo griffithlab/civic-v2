@@ -924,6 +924,7 @@ export enum CommentableEntities {
   Assertion = 'ASSERTION',
   EvidenceItem = 'EVIDENCE_ITEM',
   Gene = 'GENE',
+  Source = 'SOURCE',
   Variant = 'VARIANT',
   VariantGroup = 'VARIANT_GROUP'
 }
@@ -3252,7 +3253,7 @@ export enum SortDirection {
   Desc = 'DESC'
 }
 
-export type Source = EventSubject & {
+export type Source = Commentable & EventSubject & {
   __typename: 'Source';
   abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
@@ -3260,12 +3261,15 @@ export type Source = EventSubject & {
   citation?: Maybe<Scalars['String']>;
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   displayType: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   journal?: Maybe<Scalars['String']>;
+  lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
@@ -3276,6 +3280,19 @@ export type Source = EventSubject & {
   sourceType: SourceSource;
   sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+};
+
+
+export type SourceCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  mentionedEntity?: Maybe<TaggableEntityInput>;
+  mentionedRole?: Maybe<UserRole>;
+  mentionedUserId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -3290,7 +3307,7 @@ export type SourceEventsArgs = {
   sortBy?: Maybe<DateSort>;
 };
 
-export type SourcePopover = EventSubject & {
+export type SourcePopover = Commentable & EventSubject & {
   __typename: 'SourcePopover';
   abstract?: Maybe<Scalars['String']>;
   ascoAbstractId?: Maybe<Scalars['Int']>;
@@ -3298,6 +3315,8 @@ export type SourcePopover = EventSubject & {
   citation?: Maybe<Scalars['String']>;
   citationId: Scalars['Int'];
   clinicalTrials?: Maybe<Array<ClinicalTrial>>;
+  /** List and filter comments. */
+  comments: CommentConnection;
   displayType: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
@@ -3305,6 +3324,7 @@ export type SourcePopover = EventSubject & {
   fullJournalTitle?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   journal?: Maybe<Scalars['String']>;
+  lastCommentEvent?: Maybe<Event>;
   link: Scalars['String'];
   name: Scalars['String'];
   pmcId?: Maybe<Scalars['String']>;
@@ -3315,6 +3335,19 @@ export type SourcePopover = EventSubject & {
   sourceType: SourceSource;
   sourceUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+};
+
+
+export type SourcePopoverCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  mentionedEntity?: Maybe<TaggableEntityInput>;
+  mentionedRole?: Maybe<UserRole>;
+  mentionedUserId?: Maybe<Scalars['Int']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<DateSort>;
 };
 
 
@@ -4351,7 +4384,7 @@ export type VariantType = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type VariantTypePopover = {
@@ -4361,7 +4394,7 @@ export type VariantTypePopover = {
   link: Scalars['String'];
   name: Scalars['String'];
   soid: Scalars['String'];
-  url: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
   variantCount: Scalars['Int'];
 };
 
@@ -4695,6 +4728,12 @@ export type CommentPopoverFragment = (
   ) | (
     { __typename: 'Revision' }
     & Pick<Revision, 'id' | 'name' | 'link'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'name' | 'link'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'name' | 'link'>
   ) | (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
@@ -7528,7 +7567,7 @@ export type SourceSummaryQuery = (
 
 export type SourceSummaryFieldsFragment = (
   { __typename: 'Source' }
-  & Pick<Source, 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
+  & Pick<Source, 'id' | 'displayType' | 'title' | 'abstract' | 'publicationDate' | 'citationId' | 'fullJournalTitle' | 'pmcId' | 'authorString'>
   & { clinicalTrials?: Maybe<Array<(
     { __typename: 'ClinicalTrial' }
     & Pick<ClinicalTrial, 'nctId' | 'id'>
@@ -9595,6 +9634,7 @@ export const SourceDetailFieldsFragmentDoc = gql`
     `;
 export const SourceSummaryFieldsFragmentDoc = gql`
     fragment SourceSummaryFields on Source {
+  id
   displayType
   title
   abstract

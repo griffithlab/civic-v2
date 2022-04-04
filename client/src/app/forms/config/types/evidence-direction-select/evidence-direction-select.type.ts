@@ -1,11 +1,10 @@
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 import { EvidenceDirection, EvidenceType, Maybe } from '@app/generated/civic.apollo';
 import { TypeOption, ValidationMessageOption, ValidatorOption } from '@ngx-formly/core/lib/services/formly.config';
-import { Subject } from 'rxjs';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { EntityState, EntityType, SelectOption } from '../../states/entity.state';
+import { EntityState, EntityType } from '../../states/entity.state';
 
 const optionText: any = {
   'Evidence': {
@@ -64,7 +63,7 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
     templateOptions: {
       label: 'Evidence Direction',
       placeholder: 'None specified',
-      options: new Subject<SelectOption[]>(),
+      options: [],
     },
     expressionProperties: {
       'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {
@@ -77,21 +76,20 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
     hooks: {
       onInit: (ffc: Maybe<FormlyFieldConfig>): void => {
         const to = ffc!.templateOptions!;
-        const options = to.options as Subject<SelectOption[]>;
         // check for formState, populate with all options if not found
         const st: EntityState = ffc?.options?.formState;
-        if (!st) { options.next([]) }
+        if (!st) { return }
         else {
           to.label = `${st.entityName} Direction`;
           to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event. For predisposing and oncogenic ${st.pluralNames.get(st.entityName)}, directionality is only applied at the assertion level and N/A should be selected here.`;
           // find evidenceType formControl, subscribe to value changes to update options
           const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
           if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
+          to.options = st.getOptionsFromEnums(st.getDirectionOptions(etCtrl.value))
+          ffc!.formControl!.updateValueAndValidity();
           to.vcSubscription = etCtrl.valueChanges
             .subscribe((et: EntityType) => {
-              options.next(
-                st.getOptionsFromEnums(st.getDirectionOptions(et))
-              );
+              to.options = st.getOptionsFromEnums(st.getDirectionOptions(etCtrl.value))
               ffc!.formControl!.updateValueAndValidity();
             });
         }

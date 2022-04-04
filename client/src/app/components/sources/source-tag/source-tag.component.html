@@ -36,5 +36,7 @@
   <i nz-icon
     nzType="civic-source"
     nzTheme="twotone"
-    nzTwotoneColor="#F9BA45"></i> {{ this.displayName }}
+    nzTwotoneColor="#F9BA45"></i> 
+    <ng-container *ngIf="this.mode === 'normal'; else concise">&nbsp;{{this.displayName}}</ng-container>
+    <ng-template #concise>&nbsp;SID{{source.id}}</ng-template>
 </ng-template>

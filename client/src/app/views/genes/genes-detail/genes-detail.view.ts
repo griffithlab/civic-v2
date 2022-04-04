@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { pluck, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { pluck, startWith, takeUntil } from 'rxjs/operators';
 import {
   GeneDetailFieldsFragment,
   GeneDetailGQL,
@@ -25,40 +25,13 @@ export class GenesDetailView implements OnDestroy {
   gene$?: Observable<Maybe<GeneDetailFieldsFragment>>;
   viewer$?: Observable<Viewer>;
   commentsTotal$?: Observable<number>;
-  revisionsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
   routeSub: Subscription;
   subscribable?: SubscribableInput
 
-  tabs: RouteableTab[]
-
-  constructor(
-    private gql: GeneDetailGQL,
-    private viewerService: ViewerService,
-    private route: ActivatedRoute
-  ) {
-    this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ geneId: +params.geneId }).valueChanges;
-
-      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
-
-      this.gene$ = observable.pipe(pluck('data', 'gene'));
-
-      this.commentsTotal$ = this.gene$.pipe(pluck('comments', 'totalCount'));
-
-      this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'));
-
-      this.revisionsTotal$ = this.gene$.pipe(pluck('revisions', 'totalCount'));
-
-      this.subscribable = {
-        id: +params.geneId,
-        entityType: SubscribableEntities.Gene
-      }
-
-      this.viewer$ = this.viewerService.viewer$;
-    });
-
-    this.tabs = [
+  tabs$: BehaviorSubject<RouteableTab[]>;
+  destroy$ = new Subject<void>();
+  defaultTabs: RouteableTab[] = [
       {
         routeName: 'summary',
         iconName: 'pic-left',
@@ -86,6 +59,52 @@ export class GenesDetailView implements OnDestroy {
       }
     ]
 
+  constructor(
+    private gql: GeneDetailGQL,
+    private viewerService: ViewerService,
+    private route: ActivatedRoute
+  ) {
+    this.tabs$ = new BehaviorSubject(this.defaultTabs);
+
+    this.routeSub = this.route.params.subscribe((params) => {
+      let observable = this.gql.watch({ geneId: +params.geneId }).valueChanges;
+
+      this.loading$ = observable.pipe(pluck('loading'), startWith(true));
+
+      this.gene$ = observable.pipe(pluck('data', 'gene'));
+
+      this.commentsTotal$ = this.gene$.pipe(pluck('comments', 'totalCount'));
+
+      this.flagsTotal$ = this.gene$.pipe(pluck('flags', 'totalCount'));
+
+      this.gene$.pipe(
+        pluck('revisions', 'totalCount'),
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (count) => {
+          this.tabs$.next(
+            this.defaultTabs.map((tab) => {
+              if (tab.tabLabel === 'Revisions') {
+                return {
+                  badgeCount: count as number,
+                  ...tab
+                }
+              }
+              else {
+                return tab
+              }
+            }
+          ))
+        }
+      })
+
+      this.subscribable = {
+        id: +params.geneId,
+        entityType: SubscribableEntities.Gene
+      }
+
+      this.viewer$ = this.viewerService.viewer$;
+    });
   }
 
   filterCurators = (u: any): boolean => {
@@ -97,5 +116,7 @@ export class GenesDetailView implements OnDestroy {
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

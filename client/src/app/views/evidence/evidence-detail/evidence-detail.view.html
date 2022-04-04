@@ -83,7 +83,7 @@
         <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
         <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
         <nz-alert *ngIf="this.evidence.status == 'SUBMITTED'" nzBanner nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
-        <cvc-tab-navigation [tabs]="this.tabs">
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>

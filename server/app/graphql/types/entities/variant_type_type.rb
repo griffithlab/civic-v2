@@ -4,7 +4,7 @@ module Types::Entities
     field :name, String, null: false
     field :description, String, null: false
     field :soid, String, null: false
-    field :url, String, null: false
+    field :url, String, null: true
     field :link, String, null: false
 
     def name

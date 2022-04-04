@@ -11,6 +11,7 @@
           <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [enablePopover]="false" [evidence]="c.commentable"></cvc-evidence-tag>
           <cvc-variant-tag *ngSwitchCase="'Variant'" [enablePopover]="false" [variant]="c.commentable"></cvc-variant-tag>
           <cvc-revision-tag *ngSwitchCase="'Revision'" [revision]="c.commentable"></cvc-revision-tag>
+          <cvc-source-tag *ngSwitchCase="'Source'" mode="concise" [source]="$any(c.commentable)"></cvc-source-tag>
           <span *ngSwitchDefault>{{ c.commentable.name }}</span>
         </ng-container>
         {{ c.createdAt | timeago }}

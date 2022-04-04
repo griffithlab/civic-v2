@@ -20,6 +20,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [CvcEventTimelineItemComponent],
@@ -27,9 +29,11 @@ import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant
     CommonModule,
     NzButtonModule,
     NzIconModule,
+    NzTagModule,
     NzToolTipModule,
     NzTypographyModule,
     NzGridModule,
+    RouterModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
     CvcRevisionTagModule,
     CvcUserTagModule,

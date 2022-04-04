@@ -84,6 +84,7 @@ export class SourceSubmitForm implements OnInit {
               label: 'Source',
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
               addText: 'Specify a Source',
+              required: true,
               maxCount: 1,
             },
             fieldArray: {
@@ -104,6 +105,10 @@ export class SourceSubmitForm implements OnInit {
               required: true,
               minLength: 10
             },
+          },
+          {
+            key: 'cancel',
+            type: 'cancel-button'
           },
           {
             key: 'organization',

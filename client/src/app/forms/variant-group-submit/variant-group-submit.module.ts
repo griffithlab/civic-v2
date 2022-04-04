@@ -20,6 +20,7 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
 import { CvcSourceInputTypeModule } from '../config/types/source-input/source-input.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-
     CvcSourceInputTypeModule,
     CvcVariantInputTypeModule,
     CvcSubmitButtonTypeModule,
+    CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
   exports: [
