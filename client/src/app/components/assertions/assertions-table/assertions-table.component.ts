@@ -88,6 +88,7 @@ export class CvcAssertionsTableComponent implements OnInit {
     )
 
     this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
     this.filteredCount$.subscribe(
       value => {
         if (value < this.initialPageSize) {

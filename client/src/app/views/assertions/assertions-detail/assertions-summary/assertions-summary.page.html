@@ -269,11 +269,5 @@
 
     </nz-col>
   </nz-row>
-  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle" *nzSpaceItem>
-    <cvc-evidence-table [assertionId]="assertion.id"></cvc-evidence-table>
-  </cvc-entity-table-card>
-  <ng-template #evidenceCardTitle>
-    <i nz-icon nzType="civic:evidence"></i>
-    {{ assertion.name }} Evidence
-  </ng-template>
+  <cvc-evidence-table [assertionId]="assertion.id" cvcTitle="{{assertion.name}} Evidence" *nzSpaceItem></cvc-evidence-table>
 </nz-space>

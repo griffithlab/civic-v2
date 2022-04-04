@@ -324,23 +324,19 @@
   </nz-row>
 
   <!-- evidence table -->
-  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle"
+  <cvc-evidence-table
+    [variantId]="variant.id"
+    [displayGeneAndVariant]="false"
+    cvcTitle="{{variant.name}} Evidence"
     *nzSpaceItem>
-    <cvc-evidence-table [variantId]="variant.id"
-      [displayGeneAndVariant]="false"></cvc-evidence-table>
-  </cvc-entity-table-card>
-  <ng-template #evidenceCardTitle>
-    <i nz-icon
-      nzType="civic:variant"></i> {{ variant.name }} Evidence
-  </ng-template>
+  </cvc-evidence-table>
 
   <!-- assertions table -->
-  <cvc-assertions-table [variantId]="variant.id" [cvcTitleTemplate]="assertionsCardTitle"
-  *nzSpaceItem></cvc-assertions-table>
-  <ng-template #assertionsCardTitle>
-    <i nz-icon
-      nzType="civic:variant"></i> {{ variant.name }} Assertions
-  </ng-template>
+  <cvc-assertions-table
+    [variantId]="variant.id"
+    cvcTitle="{{variant.name}} Assertions"
+    *nzSpaceItem>
+  </cvc-assertions-table>
 
   <!-- event feed -->
   <nz-row [nzGutter]="16">

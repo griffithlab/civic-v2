@@ -203,9 +203,5 @@
       </nz-space>
     </nz-col>
   </nz-row>
-  <cvc-assertions-table [evidenceId]="evidence.id" [cvcTitleTemplate]="assertionsCardTitle" *nzSpaceItem></cvc-assertions-table>
-  <ng-template #assertionsCardTitle>
-    <i nz-icon nzType="civic:assertion"></i>
-    {{ evidence.name }} Assertions
-  </ng-template>
+  <cvc-assertions-table [evidenceId]="evidence.id" cvcTitle="{{evidence.name}} Assertions" *nzSpaceItem></cvc-assertions-table>
 </nz-space>

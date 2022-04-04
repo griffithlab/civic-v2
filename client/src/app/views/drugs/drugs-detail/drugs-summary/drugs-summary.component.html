@@ -3,19 +3,8 @@
   nzDirection="vertical"
   class="space-align-block">
   <!-- assertions table card -->
-  <cvc-assertions-table *nzSpaceItem[drugId]="drugId" [cvcTitleTemplate]="assertionsCardTitle"></cvc-assertions-table>
-  <ng-template #assertionsCardTitle>
-    <i nz-icon
-      nzType="civic:intervention"></i> Drug Assertions
-  </ng-template>
+  <cvc-assertions-table *nzSpaceItem [drugId]="drugId" cvcTitle="Drug Assertions"></cvc-assertions-table>
 
   <!-- evidence table card -->
-  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle"
-    *nzSpaceItem>
-    <cvc-evidence-table [drugId]="drugId"></cvc-evidence-table>
-  </cvc-entity-table-card>
-  <ng-template #evidenceCardTitle>
-    <i nz-icon
-      nzType="civic:intervention"></i> Drug Evidence
-  </ng-template>
+  <cvc-evidence-table [drugId]="drugId" cvcTitle="Drug Evidence" *nzSpaceItem></cvc-evidence-table>
 </nz-space>

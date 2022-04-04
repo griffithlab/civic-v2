@@ -61,13 +61,9 @@
     </nz-col>
   </nz-row>
   <!-- evidence table card -->
-  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle"
-    *nzSpaceItem>
-    <cvc-evidence-table [sourceId]="sourceId"></cvc-evidence-table>
-  </cvc-entity-table-card>
+  <cvc-evidence-table *nzSpaceItem [sourceId]="sourceId" [cvcTitleTemplate]="evidenceCardTitle"></cvc-evidence-table>
   <ng-template #evidenceCardTitle>
-    <i nz-icon
-      nzType="civic:source"></i> Evidence Items with <i>{{ source.title}}</i>
+    Evidence for <i>{{ source.title}}</i>
   </ng-template>
   <!-- source suggestion table card -->
   <cvc-entity-table-card [cvcTitle]="sourceSuggestionCardTitle"

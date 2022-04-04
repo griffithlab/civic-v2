@@ -277,13 +277,19 @@
 </nz-card>
 
 <ng-template #titleTemplate>
+  <i nz-icon nzType="civic:assertion"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount" nz-typography nzType="secondary">
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
     ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
   </span>
+  <ng-template #noData>
+    <span nz-typography nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
 </ng-template>

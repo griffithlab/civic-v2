@@ -11,7 +11,6 @@ import { PhenotypesSummaryComponent } from './phenotypes-summary.component';
   imports: [
     CommonModule,
     NzSpaceModule,
-    CvcEntityTableCardModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,
   ]

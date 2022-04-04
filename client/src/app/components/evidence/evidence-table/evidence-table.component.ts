@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
+import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 
 
@@ -38,6 +38,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() sourceId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
   @Input() status: Maybe<EvidenceStatus>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
   @Input() initialPageSize: number = 25
 
   @Input() mode: 'normal' | 'select' = 'normal'
@@ -54,8 +56,13 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   isLoading$?: Observable<boolean>
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
-  totalCount$?: Observable<number>
+  filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
+
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+
+  loadedPages: number = 1
 
   tableView: boolean = true
 
@@ -139,8 +146,24 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.totalCount$ = observable.pipe(
+    this.filteredCount$ = observable.pipe(
       pluck('data', 'evidenceItems', 'totalCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize * this.loadedPages
+          if (this.totalCount && this.visibleCount > this.totalCount) {
+            this.visibleCount = this.totalCount
+          }
+        }
+      }
     )
 
     this.pageInfo$ = observable.pipe(
@@ -161,9 +184,12 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         after: afterCursor
       },
     });
+
+    this.loadedPages += 1
   }
 
   refresh() {
+    this.loadedPages = 1
     var eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {

@@ -1,20 +1,10 @@
 <nz-space nzSize="middle" *ngIf="clinicalTrialId" nzDirection="vertical" class="space-align-block">
-  <span *nzSpaceItem>
-    <cvc-entity-table-card [cvcTitle]="sourcesCardTitle">
-      <cvc-sources-table [clinicalTrialId]="clinicalTrialId"></cvc-sources-table>
-    </cvc-entity-table-card>
-    <ng-template #sourcesCardTitle>
-      <i nz-icon nzType="audit"></i>
-      Clinical Trial Sources
-    </ng-template>
-  </span>
-  <span *nzSpaceItem>
-    <cvc-entity-table-card [cvcTitle]="evidenceCardTitle">
-      <cvc-evidence-table [clinicalTrialId]="clinicalTrialId"></cvc-evidence-table>
-    </cvc-entity-table-card>
-    <ng-template #evidenceCardTitle>
-      <i nz-icon nzType="civic:evidence"></i>
-      Clinical Trial Evidence
-    </ng-template>
-  </span>
+  <cvc-entity-table-card [cvcTitle]="sourcesCardTitle" *nzSpaceItem>
+    <cvc-sources-table [clinicalTrialId]="clinicalTrialId"></cvc-sources-table>
+  </cvc-entity-table-card>
+  <ng-template #sourcesCardTitle>
+    <i nz-icon nzType="audit"></i>
+    Clinical Trial Sources
+  </ng-template>
+  <cvc-evidence-table [clinicalTrialId]="clinicalTrialId" cvcTitle="Clinical Trial Evidence" *nzSpaceItem></cvc-evidence-table>
 </nz-space>
