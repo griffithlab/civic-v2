@@ -11,7 +11,7 @@
           <nz-tab (nzClick)="tabIndex.next(6)" nzTitle="Effect Scores"></nz-tab>
         </nz-tabset>
       </nz-card-tab>
-      <ng-container [ngSwitch]="tabIndex" >
+      <ng-container [ngSwitch]="tabIndex | async" >
         <!-- Overview tab -->
         <ng-container *ngSwitchCase="0">
           <div class="tab-padding">
