@@ -18,7 +18,7 @@ module Types::Connections
     end
 
     def filtered_count
-      object.items&.count
+      object.items&.to_a.count
     end
 
     def page_count

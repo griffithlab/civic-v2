@@ -4579,7 +4579,7 @@ export type ClinicalTrialsBrowseQuery = (
   { __typename: 'Query' }
   & { clinicalTrials: (
     { __typename: 'BrowseClinicalTrialConnection' }
-    & Pick<BrowseClinicalTrialConnection, 'totalCount'>
+    & Pick<BrowseClinicalTrialConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -4781,7 +4781,7 @@ export type DrugsBrowseQuery = (
   { __typename: 'Query' }
   & { drugs: (
     { __typename: 'BrowseDrugConnection' }
-    & Pick<BrowseDrugConnection, 'totalCount'>
+    & Pick<BrowseDrugConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -10009,6 +10009,7 @@ export const ClinicalTrialsBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage
@@ -10229,6 +10230,7 @@ export const DrugsBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage

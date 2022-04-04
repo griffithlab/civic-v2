@@ -54,7 +54,7 @@ export class CvcClinicalTrialsTableComponent {
     );
 
     this.filteredCount$ = observable.pipe(
-      pluck('data', 'clinicalTrials', 'totalCount')
+      pluck('data', 'clinicalTrials', 'filteredCount')
     )
 
     this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
@@ -66,11 +66,11 @@ export class CvcClinicalTrialsTableComponent {
         }
         else {
           this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.totalCount && this.visibleCount > this.totalCount) {
-            this.visibleCount = this.totalCount
-          } 
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
         }
-      } 
+      }
     )
 
     this.pageInfo$ = observable.pipe(

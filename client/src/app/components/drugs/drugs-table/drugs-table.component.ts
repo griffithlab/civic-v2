@@ -55,7 +55,7 @@ export class CvcDrugsTableComponent implements OnInit {
     );
 
     this.filteredCount$ = observable.pipe(
-      pluck('data', 'drugs', 'totalCount')
+      pluck('data', 'drugs', 'filteredCount')
     )
 
     this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
@@ -67,8 +67,8 @@ export class CvcDrugsTableComponent implements OnInit {
         }
         else {
           this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.totalCount && this.visibleCount > this.totalCount) {
-            this.visibleCount = this.totalCount
+          if (this.visibleCount > value) {
+            this.visibleCount = value
           }
         }
       }
@@ -83,24 +83,24 @@ export class CvcDrugsTableComponent implements OnInit {
       .subscribe((_) => this.refresh() );
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
-   }
+  }
 
-   onModelChanged() { this.debouncedQuery.next() }
+  onModelChanged() { this.debouncedQuery.next() }
 
-   onSortChanged(e: SortDirectionEvent) {
+  onSortChanged(e: SortDirectionEvent) {
     this.loadedPages = 1
-     this.queryRef?.refetch({
-       sortBy: buildSortParams(e)
-     })
-   }
+    this.queryRef?.refetch({
+      sortBy: buildSortParams(e)
+    })
+  }
 
-   refresh() {
-    this.loadedPages = 1
-     this.queryRef?.refetch({
-       name: this.nameFilter,
-       ncitId: this.ncitIdFilter
-     })
-   }
+  refresh() {
+   this.loadedPages = 1
+    this.queryRef?.refetch({
+      name: this.nameFilter,
+      ncitId: this.ncitIdFilter
+    })
+  }
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 

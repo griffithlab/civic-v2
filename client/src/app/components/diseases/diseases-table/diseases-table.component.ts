@@ -68,10 +68,12 @@ export class CvcDiseasesTableComponent implements OnInit {
     );
 
     this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'browseDiseases', 'totalCount')
+      pluck('data', 'browseDiseases', 'filteredCount')
     )
 
-    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.data$.pipe(
+      pluck('data', 'browseDiseases', 'totalCount')
+    ).pipe(take(1)).subscribe(value => this.totalCount = value);
 
     this.filteredCount$.subscribe(
       value => {
@@ -80,8 +82,8 @@ export class CvcDiseasesTableComponent implements OnInit {
         }
         else {
           this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.totalCount && this.visibleCount > this.totalCount) {
-            this.visibleCount = this.totalCount
+          if (this.visibleCount > value) {
+            this.visibleCount = value
           }
         }
       }
@@ -126,4 +128,6 @@ export class CvcDiseasesTableComponent implements OnInit {
 
     this.loadedPages += 1
   }
+
+
 }
