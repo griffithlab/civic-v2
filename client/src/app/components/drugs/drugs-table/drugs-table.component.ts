@@ -88,12 +88,14 @@ export class CvcDrugsTableComponent implements OnInit {
    onModelChanged() { this.debouncedQuery.next() }
 
    onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
      this.queryRef?.refetch({
        sortBy: buildSortParams(e)
      })
    }
 
    refresh() {
+    this.loadedPages = 1
      this.queryRef?.refetch({
        name: this.nameFilter,
        ncitId: this.ncitIdFilter
@@ -106,6 +108,8 @@ export class CvcDrugsTableComponent implements OnInit {
     this.queryRef?.fetchMore({variables: {
       after: cursor
     }})
+
+    this.loadedPages += 1
   }
 
 }

@@ -82,23 +82,24 @@ export class CvcClinicalTrialsTableComponent {
       .subscribe((_) => this.refresh() );
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
-   }
+  }
 
-   onModelChanged() { this.debouncedQuery.next() }
+  onModelChanged() { this.debouncedQuery.next() }
 
-   onSortChanged(e: SortDirectionEvent) {
-     this.queryRef.refetch({
-       sortBy: buildSortParams(e)
-     })
-   }
-
-   refresh() {
+  onSortChanged(e: SortDirectionEvent) {
     this.loadedPages = 1
-     this.queryRef.refetch({
-       name: this.nameFilter,
-       nctId: this.nctIdFilter
-     })
-   }
+    this.queryRef.refetch({
+      sortBy: buildSortParams(e)
+    })
+  }
+
+  refresh() {
+    this.loadedPages = 1
+    this.queryRef.refetch({
+      name: this.nameFilter,
+      nctId: this.nctIdFilter
+    })
+  }
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 

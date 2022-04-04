@@ -95,6 +95,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   }
 
   refresh() {
+    this.loadedPages = 1
     this.queryRef?.refetch({
       name: this.nameInput,
       geneNames: this.geneNameInput,
@@ -103,6 +104,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
@@ -121,5 +123,7 @@ export class CvcDiseasesTableComponent implements OnInit {
         after: cursor
       }
     });
+
+    this.loadedPages += 1
   }
 }

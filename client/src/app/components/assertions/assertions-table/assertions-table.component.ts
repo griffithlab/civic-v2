@@ -145,6 +145,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
 
