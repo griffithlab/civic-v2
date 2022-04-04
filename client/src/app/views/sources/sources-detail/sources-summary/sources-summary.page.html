@@ -66,11 +66,8 @@
     Evidence for <i>{{ source.title}}</i>
   </ng-template>
   <!-- source suggestion table card -->
-  <cvc-entity-table-card [cvcTitle]="sourceSuggestionCardTitle"
-    *nzSpaceItem>
-    <cvc-source-suggestions-table [sourceId]="sourceId"></cvc-source-suggestions-table>
-  </cvc-entity-table-card>
+  <cvc-source-suggestions-table *nzSpaceItem [sourceId]="sourceId" [cvcTitleTemplate]="sourceSuggestionCardTitle"></cvc-source-suggestions-table>
   <ng-template #sourceSuggestionCardTitle>
-    Source suggestions for <i>{{ source.title}}</i>
+    Source Suggestions for <i>{{ source.title}}</i>
   </ng-template>
 </nz-space>
