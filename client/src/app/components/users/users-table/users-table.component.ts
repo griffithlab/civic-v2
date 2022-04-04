@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Maybe, PageInfo, UsersSortColumns, OrganizationFilter, UserRole, UsersBrowseQuery, UsersBrowseQueryVariables, UsersBrowseGQL, UserBrowseTableRowFieldsFragment, SortDirection } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from 'rxjs';
-import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-users-table',
@@ -12,6 +12,8 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
   styleUrls: ['./users-table.component.less']
 })
 export class CvcUsersTableComponent implements OnInit {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
   private debouncedQuery = new Subject<void>();
   initialPageSize = 25;
@@ -21,8 +23,13 @@ export class CvcUsersTableComponent implements OnInit {
 
   isLoading$?: Observable<boolean>;
   users$?: Observable<Maybe<UserBrowseTableRowFieldsFragment>[]>;
-  totalCount$?: Observable<number>;
+  filteredCount$?: Observable<number>;
   pageInfo$?: Observable<PageInfo>;
+
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+
+  loadedPages: number = 1
 
   textInputCallback?: () => void;
 
@@ -60,8 +67,24 @@ export class CvcUsersTableComponent implements OnInit {
       })
     );
 
-    this.totalCount$ = observable.pipe(
+    this.filteredCount$ = observable.pipe(
       pluck('data', 'users', 'totalCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize + (this.loadedPages - 1) * this.fetchMorePageSize
+          if (this.totalCount && this.visibleCount > this.totalCount) {
+            this.visibleCount = this.totalCount
+          }
+        }
+      }
     )
 
     this.pageInfo$ = observable.pipe(
@@ -76,6 +99,7 @@ export class CvcUsersTableComponent implements OnInit {
   }
 
   refresh() {
+    this.loadedPages = 1
     this.queryRef.refetch({
       userName: this.nameInput ? this.nameInput : undefined,
       orgName: this.orgNameInput? { "name": this.orgNameInput } : undefined ,
@@ -88,6 +112,7 @@ export class CvcUsersTableComponent implements OnInit {
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef.refetch({ sortBy: buildSortParams(e) })
   }
 
@@ -102,5 +127,7 @@ export class CvcUsersTableComponent implements OnInit {
         after: afterCursor
       }
     })
+
+    this.loadedPages += 1
   }
 }
