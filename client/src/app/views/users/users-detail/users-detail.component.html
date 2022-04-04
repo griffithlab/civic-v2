@@ -197,7 +197,9 @@
         </nz-row>
       </div>
       <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"> </cvc-tab-navigation>
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
     </nz-page-header-content>
   </nz-page-header>
   <nz-modal [(nzVisible)]="this.updateProfileModalVisible"
