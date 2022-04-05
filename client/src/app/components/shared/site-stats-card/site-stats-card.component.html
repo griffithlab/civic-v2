@@ -25,6 +25,13 @@
         </a>
       </nz-col>
       <nz-col nzFlex="1">
+        <a routerLink="/evidence">
+          <nz-statistic [nzTitle]="statsType + ' Evidence'"
+            [nzValue]="(stats.evidenceItems[statsTypes[statsType]] | number)!" [nzPrefix]="evidenceIcon"></nz-statistic>
+            <ng-template #evidenceIcon><i nz-icon nzType="civic:evidence"></i></ng-template>
+          </a>
+      </nz-col>
+      <nz-col nzFlex="1">
         <a routerLink="/genes">
           <nz-statistic [nzTitle]="statsType + ' Genes'"
             [nzValue]="(stats.genes[statsTypes[statsType]] | number)!" [nzPrefix]="geneIcon"></nz-statistic>
@@ -39,12 +46,14 @@
           </a>
       </nz-col>
       <nz-col nzFlex="1">
-        <a routerLink="/evidence">
-          <nz-statistic [nzTitle]="statsType + ' Evidence'"
-            [nzValue]="(stats.evidenceItems[statsTypes[statsType]] | number)!" [nzPrefix]="evidenceIcon"></nz-statistic>
-            <ng-template #evidenceIcon><i nz-icon nzType="civic:evidence"></i></ng-template>
+        <a routerLink="/users">
+          <nz-statistic [nzTitle]="statsType + ' Contributors'"
+            [nzValue]="(stats.users[statsTypes[statsType]] | number)!" [nzPrefix]="userIcon"></nz-statistic>
+            <ng-template #userIcon><i nz-icon nzType="civic:user"></i></ng-template>
           </a>
       </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <a routerLink="/diseases">
           <nz-statistic [nzTitle]="statsType + ' Diseases'"
@@ -52,8 +61,6 @@
             <ng-template #diseaseIcon><i nz-icon nzType="civic:disease"></i></ng-template>
           </a>
       </nz-col>
-    </nz-row>
-    <nz-row nzGutter="8">
       <nz-col nzFlex="1">
         <a routerLink="/drugs">
           <nz-statistic [nzTitle]="statsType + ' Drugs'"
@@ -72,13 +79,6 @@
         <nz-statistic [nzTitle]="statsType + ' Revisions'"
           [nzValue]="(stats.revisions[statsTypes[statsType]] | number)!" [nzPrefix]="revisionsIcon"></nz-statistic>
           <ng-template #revisionsIcon><i nz-icon nzType="civic:revision"></i></ng-template>
-      </nz-col>
-      <nz-col nzFlex="1">
-        <a routerLink="/users">
-          <nz-statistic [nzTitle]="statsType + ' Contributors'"
-            [nzValue]="(stats.users[statsTypes[statsType]] | number)!" [nzPrefix]="userIcon"></nz-statistic>
-            <ng-template #userIcon><i nz-icon nzType="civic:user"></i></ng-template>
-          </a>
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Comments'"
