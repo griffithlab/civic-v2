@@ -11,6 +11,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [CvcViewerButtonComponent],
@@ -19,6 +20,7 @@ import { CvcUserCoiFormModule } from '@app/forms/user-coi/user-coi.module';
     ReactiveComponentModule,
     NzDropDownModule,
     RouterModule,
+    NzButtonModule,
     NzSpaceModule,
     NzIconModule,
     NzBadgeModule,

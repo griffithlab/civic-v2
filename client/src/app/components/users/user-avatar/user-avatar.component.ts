@@ -12,7 +12,8 @@ export interface WithProfileImageAndDisplayName {
 })
 export class CvcUserAvatarComponent implements OnInit {
   @Input() user!: WithProfileImageAndDisplayName;
-  @Input() size!: number | "large" | "default" | "small";
+  @Input() size!: number | 'large' | 'default' | 'small';
+  @Input() shape!: 'square' | 'circle';
 
   ngOnInit() {
     if (this.user === undefined) {
