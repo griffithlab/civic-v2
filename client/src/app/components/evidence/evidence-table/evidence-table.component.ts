@@ -159,8 +159,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         }
         else {
           this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
-          if (this.totalCount && this.visibleCount > this.totalCount) {
-            this.visibleCount = this.totalCount
+          if (this.visibleCount > value) {
+            this.visibleCount = value
           }
         }
       }

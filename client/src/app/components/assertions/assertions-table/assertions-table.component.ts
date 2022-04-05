@@ -96,8 +96,8 @@ export class CvcAssertionsTableComponent implements OnInit {
         }
         else {
           this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.totalCount && this.visibleCount > this.totalCount) {
-            this.visibleCount = this.totalCount
+          if (this.visibleCount > value) {
+            this.visibleCount = value
           }
         }
       }

@@ -80,8 +80,8 @@ export class CvcUsersTableComponent implements OnInit {
         }
         else {
           this.visibleCount = this.initialPageSize + (this.loadedPages - 1) * this.fetchMorePageSize
-          if (this.totalCount && this.visibleCount > this.totalCount) {
-            this.visibleCount = this.totalCount
+          if (this.visibleCount > value) {
+            this.visibleCount = value
           }
         }
       }
