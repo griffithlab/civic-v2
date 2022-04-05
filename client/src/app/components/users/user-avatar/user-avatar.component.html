@@ -1,6 +1,7 @@
 <nz-avatar *ngIf="user.profileImagePath; else noAvatar"
   nz-comment-avatar
   [nzSrc]="user.profileImagePath"
+  [nzShape]="shape ? shape : 'circle'"
   [nzSize]="size">
 </nz-avatar>
 <ng-template #noAvatar>
