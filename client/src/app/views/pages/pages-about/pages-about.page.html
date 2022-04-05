@@ -19,22 +19,63 @@
                 <nz-card nzType="inner"
                   nzTitle="Mission Statement"
                   style="width: 100%">
-                  <p>Nam in odio vitae massa hendrerit congue nec ut ante. Integer non felis eu dui posuere finibus et eu tellus. Morbi magna ligula, commodo ac odio nec, consectetur commodo augue. Integer mattis in tellus et pulvinar. Vivamus porta finibus mauris eu suscipit.</p>
+                  <p>
+                    Precision medicine refers to the use of prevention and treatment strategies that are tailored to the unique features of each individual and their disease. In the context of cancer this might involve the identification of specific variants shown to predict response to a targeted therapy. The biomedical literature describing associations between genetic variants and clinically relevant outcomes is large and growing rapidly. Currently variant interpretations exist largely in private or encumbered databases resulting in extensive repetition of effort. Effective precision medicine requires this information to be centralized, debated, and interpreted for application in a clinical setting. CIViC is an open access, open source, community-driven web resource for Clinical Interpretation of Variants in Cancer, available online at <a href="https://www.civicdb.org" target="_blank">civicdb.org</a>. Our goal is to enable precision medicine by providing an educational forum for dissemination of knowledge and active discussion of the clinical significance of cancer genome alterations. For more details and to cite CIViC please refer to the <a href="http://www.nature.com/ng/journal/v49/n2/full/ng.3774.html" target="_blank">CIViC publication</a> in Nature Genetics.
+                  </p>
+                  <p>
+                    All content created in CIViC is, and will continue to be, freely available, without restriction with a <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Public Domain License</a>. Anyone can contribute to CIViC by simply registering for an account. Users join the community with “Curator” level privileges that allow them to comment or propose additions or revisions on any knowledge in CIViC. Proposed additions and revisions are then reviewed by users with “Editor” or “Admin” level privileges before gaining “Accepted” status. Content that has been Submitted but not yet Accepted should be interpreted and used with caution. Community Curators work together with Editors towards comprehensive and accurate interpretations of the clinical relevance of variants in cancer.
+                  </p>
                 </nz-card>
               </nz-col>
-              <nz-col [nzSpan]="8">
-                <nz-card nzType="inner"
-                  nzTitle="Affiliations"
-                  style="width: 100%">
-                  <p>Nam in odio vitae massa hendrerit congue nec ut ante. Integer non felis eu dui posuere finibus et eu tellus. Morbi magna ligula, commodo ac odio nec, consectetur commodo augue. Integer mattis in tellus et pulvinar. Vivamus porta finibus mauris eu suscipit.</p>
-                </nz-card>
-              </nz-col>
-              <nz-col [nzSpan]="8">
+              <nz-col [nzSpan]="10">
                 <nz-card nzType="inner"
                   nzTitle="Funding"
                   style="width: 100%">
-                  <p>Nam in odio vitae massa hendrerit congue nec ut ante. Integer non felis eu dui posuere finibus et eu tellus. Morbi magna ligula, commodo ac odio nec, consectetur commodo augue. Integer mattis in tellus et pulvinar. Vivamus porta finibus mauris eu suscipit.</p>
-
+                  <p>
+                    Malachi Griffith was supported by the National Human Genome Research Institute (NHGRI) of the National Institutes of Health (NIH) under Award Number R00HG007940. Obi Lee Griffith was supported by the National Cancer Institute of the NIH under Award Number K22CA188163. The CIViC project is also supported by the NCI under Award Numbers U24CA237719 to Obi Lee Griffith (with Malachi Griffith as co-PI), including a funding supplement from the Childhood Cancer Data Initiative (CCDI), and previously U01CA209936 (with Malachi Griffith and Elaine R Mardis as co-PIs). CIViC is also supported by the Washington University Institute of Clinical and Translational Sciences grant UL1TR002345 from the National Center for Advancing Translational Sciences (NCATS) of the National Institutes of Health (NIH). CIViC is also supported by Children’s Discovery Institute (CDI) of the St. Louis Children’s Hospital and Washington University School of Medicine. This research benefited from the use of credits from the National Institutes of Health (NIH) Cloud Credits Model Pilot, a component of the NIH Big Data to Knowledge (BD2K) program. Support for the VCF format and integration with Google BigQuery was funded by Google. The content of this website is solely the responsibility of the creators and does not necessarily represent the official views of the National Institutes of Health or other funding sources.
+                  </p>
+                  <nz-table #basicTable [nzData]="funding" [nzFrontPagination]="false" [nzShowPagination]="false">
+                    <thead>
+                      <tr>
+                        <th>Awardee</th>
+                        <th>Awarding Organization</th>
+                        <th>Award Number</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of basicTable.data">
+                        <td>{{data.awardee}}</td>
+                        <td>{{data.org}}</td>
+                        <td>{{data.award}}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </nz-card>
+              </nz-col>
+              <nz-col [nzSpan]="6">
+                <nz-card nzType="inner"
+                  nzTitle="Affiliations"
+                  style="width: 100%">
+                  <nz-space nzDirection="vertical">
+                    <img *nzSpaceItem src="assets/images/nih-nci-logo.png"
+                      alt="NHI - National Cancer Institute"
+                      style="height: 50px">
+                    <img *nzSpaceItem src="assets/images/icts-logo.png"
+                      alt="Washington University - Institute for Clinical and Translational Sciences"
+                      style="height: 50px">
+                    <img *nzSpaceItem src="assets/images/ga4gh-logo.png"
+                      alt="Global Alliance for Genomics & Health"
+                      style="height: 50px">
+                    <img *nzSpaceItem src="assets/images/nih-nhgri-logo.png"
+                      alt="NHI - National Human Genome Research Institute"
+                      style="height: 50px">
+                    <img *nzSpaceItem src="assets/images/wustl-logo.png"
+                      alt="Washington University in St. Louis"
+                      style="height: 50px">
+                    <img *nzSpaceItem src="assets/images/cdi-logo.jpeg"
+                      alt="Washington University - Children's Discovery Institute"
+                      style="height: 50px">
+                  </nz-space>
                 </nz-card>
               </nz-col>
             </nz-row>
