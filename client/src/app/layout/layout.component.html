@@ -157,34 +157,29 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Pending Source Suggestions' : ''"
+            [nzTooltipTitle]="isCollapsed ? 'Activity' : ''"
             nzSelected
             nzMatchRouter>
             <i nz-icon
-              nzType="file-add"></i>
-            <span> <a routerLink="/curation/queues/pending-sources">Sources Queue</a> </span>
+              nzType="civic-event"></i>
+            <span>
+              <a routerLink="/curation/activity">
+                Activity
+              </a>
+            </span>
           </li>
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Pending New Evidence' : ''"
+            [nzTooltipTitle]="isCollapsed ? 'Pending Queues' : ''"
             nzSelected
             nzMatchRouter>
             <i nz-icon
               nzType="file-add"></i>
-            <span> <a routerLink="/curation/queues/pending-evidence">Evidence Queue</a> </span>
+            <span>
+              <a routerLink="/curation/queues">Queues</a>
+            </span>
           </li>
-          <li nz-menu-item
-            nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="isCollapsed ? 'Pending New Assertions' : ''"
-            nzSelected
-            nzMatchRouter>
-            <i nz-icon
-              nzType="file-add"></i>
-            <span> <a routerLink="/curation/queues/pending-assertions">Assertions Queue</a> </span>
-          </li>
-
         </ul>
       </li>
       <li nz-menu-group
