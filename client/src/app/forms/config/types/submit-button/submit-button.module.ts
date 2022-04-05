@@ -5,11 +5,13 @@ import { CvcFormButtonsModule } from '../../components/form-buttons/form-buttons
 import { CvcOrgSelectorBtnGroupModule } from '../../components/org-selector-btn-group/org-selector-btn-group.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormlyModule } from '@ngx-formly/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SubmitButtonComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormlyModule.forChild({ types: [SubmitButtonTypeOption] }),
     NzButtonModule,
     CvcFormButtonsModule,
