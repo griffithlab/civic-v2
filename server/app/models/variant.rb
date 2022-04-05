@@ -37,8 +37,9 @@ class Variant < ApplicationRecord
 
   def search_data
     {
-      name: name,
-      aliases: variant_aliases.map(&:name)
+      name: "#{gene.name} - #{name}",
+      gene: gene.name,
+      aliases: variant_aliases.map(&:name),
     }
   end
 
