@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule, HttpClient } from '@angular/common/http';
@@ -21,6 +21,7 @@ import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert
 import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter';
 import { CvcFormsModule } from './forms/forms.module';
 import { Observable } from 'rxjs';
+import { AppLoadErrorHandler } from './core/utilities/app-reload-handler';
 
 registerLocaleData(en);
 
@@ -55,6 +56,10 @@ function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
   ],
   providers: [
     CookieService,
+    {
+      provide: ErrorHandler,
+      useClass: AppLoadErrorHandler
+    },
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: APP_INITIALIZER,
