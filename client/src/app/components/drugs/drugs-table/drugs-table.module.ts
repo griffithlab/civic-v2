@@ -10,6 +10,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcDrugsTableComponent],
@@ -22,6 +23,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzCardModule,
     NzIconModule,
     NzTypographyModule,
+    NzToolTipModule,
     CvcDrugTagModule,
     CvcLinkTagModule,
     CvcClearableInputFilterModule

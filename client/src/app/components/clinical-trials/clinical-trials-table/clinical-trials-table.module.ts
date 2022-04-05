@@ -9,6 +9,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcClinicalTrialsTableComponent],
@@ -20,6 +21,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzCardModule,
     NzIconModule,
     NzTypographyModule,
+    NzToolTipModule,
     CvcClearableInputFilterModule,
     CvcClinicalTrialTagModule,
   ],
