@@ -1,7 +1,8 @@
 <cvc-form-buttons>
-  <cvc-org-selector-btn-group [(selectedOrg)]="selectedOrg"
+  <cvc-org-selector-btn-group #orgButton [(selectedOrg)]="selectedOrg"
     [nzSize]="to.submitSize">
     <button type="submit"
+      (click)="orgButton.refreshViewer();"
       nz-button
       cvcOrgSelectorBtn
       nzType="primary"

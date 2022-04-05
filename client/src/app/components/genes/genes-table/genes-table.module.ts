@@ -13,6 +13,7 @@ import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-ov
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcGenesTableComponent],
@@ -27,6 +28,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzTypographyModule,
     NzCardModule,
     NzButtonModule,
+    NzToolTipModule,
     CvcGeneTagModule,
     CvcTagOverflowModule,
     CvcPlainTagOverflowModule

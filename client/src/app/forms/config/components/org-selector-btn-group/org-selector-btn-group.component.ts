@@ -51,6 +51,10 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
     this.selectedOrgChange.emit(org);
   }
 
+  refreshViewer() {
+    setTimeout(() => { this.viewerService.refetch(); }, 2500)
+  }
+
   ngOnInit() {
     this.organizations$ = this.viewerService.viewer$
       .pipe(map((v: Viewer) => v.organizations));

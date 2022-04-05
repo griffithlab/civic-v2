@@ -12,6 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcVariantTypesTableComponent],
@@ -24,6 +25,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzButtonModule,
     NzCardModule,
     NzTypographyModule,
+    NzToolTipModule,
     CvcClearableInputFilterModule,
     CvcPhenotypeTagModule,
     CvcLinkTagModule,
