@@ -7,6 +7,7 @@ query AssertionPopover($assertionId: Int!) {
 fragment assertionPopover on Assertion {
   id
   name
+  status
   summary
   assertionType
   assertionDirection

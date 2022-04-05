@@ -7,6 +7,7 @@ query EvidencePopover($evidenceId: Int!) {
 fragment evidencePopover on EvidenceItem {
   id
   name
+  status
   description
   evidenceLevel
   evidenceType

@@ -5,8 +5,14 @@
       id="card-content"
       [nzExtra]="geneAndVariant">
       <ng-template #cardTitle>
-        <i nz-icon
-          nzType="civic:assertion"></i> {{ assertion.name }}
+        <nz-space>
+          <ng-container *nzSpaceItem>
+            <i nz-icon
+              nzType="civic:assertion"></i>
+            {{ assertion.name }}
+          </ng-container>
+          <cvc-status-tag *nzSpaceItem [status]="assertion.status" style="font-weight: normal"></cvc-status-tag>
+        </nz-space>
       </ng-template>
       <ng-template #geneAndVariant>
         <cvc-gene-tag [enablePopover]="false" [gene]="assertion.gene"></cvc-gene-tag>

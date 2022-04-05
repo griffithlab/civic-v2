@@ -17,6 +17,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 
 @NgModule({
   declarations: [CvcAssertionPopoverComponent],
@@ -36,6 +37,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     CvcPhenotypeTagModule,
     CvcDrugTagModule,
     CvcPipesModule,
+    CvcStatusTagModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [CvcAssertionPopoverComponent]
