@@ -17,6 +17,7 @@ query DrugsBrowse(
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage

@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseDiseaseRowFieldsFragment, BrowseDiseasesGQL, BrowseDiseasesQuery, BrowseVariantGroupsGQL, DiseasesSortColumns, Maybe, PageInfo, QueryBrowseDiseasesArgs } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
-import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-diseases-table',
@@ -12,6 +12,8 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
   styleUrls: ['./diseases-table.component.less']
 })
 export class CvcDiseasesTableComponent implements OnInit {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
   private debouncedQuery = new Subject<void>();
 
@@ -28,13 +30,19 @@ export class CvcDiseasesTableComponent implements OnInit {
   geneNameInput: Maybe<string>
   doidInput: Maybe<string>
 
-  pageSize = 25
+  initialPageSize = 25
   sortColumns: typeof DiseasesSortColumns = DiseasesSortColumns
+
+  filteredCount$?: Observable<number>
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+
+  loadedPages: number = 1
 
   constructor(private gql: BrowseDiseasesGQL) {}
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({ first: this.pageSize })
+    this.queryRef = this.gql.watch({ first: this.initialPageSize })
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -59,6 +67,28 @@ export class CvcDiseasesTableComponent implements OnInit {
       pluck('data', 'browseDiseases', 'pageInfo')
     );
 
+    this.filteredCount$ = this.data$.pipe(
+      pluck('data', 'browseDiseases', 'filteredCount')
+    )
+
+    this.data$.pipe(
+      pluck('data', 'browseDiseases', 'totalCount')
+    ).pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize * this.loadedPages
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
+    )
+
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh() );
@@ -67,6 +97,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   }
 
   refresh() {
+    this.loadedPages = 1
     this.queryRef?.refetch({
       name: this.nameInput,
       geneNames: this.geneNameInput,
@@ -75,6 +106,7 @@ export class CvcDiseasesTableComponent implements OnInit {
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
@@ -89,9 +121,13 @@ export class CvcDiseasesTableComponent implements OnInit {
   loadMore(cursor: Maybe<string>) {
     this.queryRef?.fetchMore({
       variables: {
-        first: this.pageSize,
+        first: this.initialPageSize,
         after: cursor
       }
     });
+
+    this.loadedPages += 1
   }
+
+
 }

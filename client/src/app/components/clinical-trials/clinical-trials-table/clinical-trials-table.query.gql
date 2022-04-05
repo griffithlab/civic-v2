@@ -17,6 +17,7 @@ query ClinicalTrialsBrowse(
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage

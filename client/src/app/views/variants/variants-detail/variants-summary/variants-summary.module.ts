@@ -11,7 +11,6 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { CvcMyVariantInfoModule } from '@app/components/variants/my-variant-info/my-variant-info.module';
 import { CvcEmptyRevisableModule } from '@app/components/shared/empty-revisable/empty-revisable.module';
-import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
@@ -42,7 +41,6 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
     CvcLinkTagModule,
     CvcMyVariantInfoModule,
     CvcEmptyRevisableModule,
-    CvcEntityTableCardModule,
     CvcEventFeedModule,
   ],
   exports: [VariantsSummaryPage],

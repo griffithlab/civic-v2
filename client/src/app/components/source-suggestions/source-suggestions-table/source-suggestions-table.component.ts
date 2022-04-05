@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus, UpdateSourceSuggestionGQL, UpdateSourceSuggestionMutation, UpdateSourceSuggestionMutationVariables } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
-import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
 import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
 import { NetworkErrorsService } from "@app/core/services/network-errors.service";
 
@@ -16,6 +16,8 @@ import { NetworkErrorsService } from "@app/core/services/network-errors.service"
 export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   @Input() sourceId: Maybe<number>
   @Input() submitterId: Maybe<number>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
   private debouncedQuery = new Subject<void>();
 
@@ -25,6 +27,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   sourceSuggestions$?: Observable<Maybe<BrowseSourceSuggestionRowFieldsFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
   viewer$?: Observable<Viewer>
+  filteredCount$?: Observable<number>
 
   textInputCallback?: () => void
 
@@ -40,7 +43,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   citationInput: Maybe<string>
   statusInput = SourceSuggestionStatus.New
 
-  pageSize = 25
+  pageSize: number = 25
   sortColumns: typeof SourceSuggestionsSortColumns = SourceSuggestionsSortColumns
   status: typeof SourceSuggestionStatus = SourceSuggestionStatus
 
@@ -48,6 +51,10 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   selectedSourceId?: number
   selectedStatus?: SourceSuggestionStatus
   showManageForm = false
+
+  totalCount?: number
+  visibleCount: number = this.pageSize
+  loadedPages: number = 1
 
   constructor(
     private gql: BrowseSourceSuggestionsGQL,
@@ -89,6 +96,26 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
       pluck('data', 'sourceSuggestions', 'pageInfo')
     );
 
+    this.filteredCount$ = this.data$.pipe(
+      pluck('data', 'sourceSuggestions', 'filteredCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.pageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.pageSize * this.loadedPages
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
+    )
+
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh() );
@@ -97,6 +124,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    this.loadedPages = 1
     this.queryRef?.refetch({
       citationId: this.citationIdInput ? +this.citationIdInput : undefined,
       sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
@@ -112,6 +140,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
@@ -140,6 +169,8 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
         after: cursor
       }
     });
+
+    this.loadedPages += 1
   }
 
  

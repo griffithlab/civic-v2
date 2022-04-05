@@ -3,23 +3,10 @@
   nzDirection="vertical"
   class="space-align-block">
   <!-- assertions table card -->
-  <cvc-entity-table-card [cvcTitle]="assertionsCardTitle"
-    *nzSpaceItem>
-    <cvc-assertions-table [phenotypeId]="phenotypeId"></cvc-assertions-table>
-  </cvc-entity-table-card>
-  <ng-template #assertionsCardTitle>
-    <i nz-icon
-      nzType="civic:phenotype"></i> Phenotype Assertions
-  </ng-template>
+  <cvc-assertions-table [phenotypeId]="phenotypeId" cvcTitle="Phenotype Assertions"
+  *nzSpaceItem></cvc-assertions-table>
 
   <!-- evidence table card -->
-  <cvc-entity-table-card [cvcTitle]="evidenceCardTitle"
-    *nzSpaceItem>
-    <cvc-evidence-table [phenotypeId]="phenotypeId"></cvc-evidence-table>
-  </cvc-entity-table-card>
-  <ng-template #evidenceCardTitle>
-    <i nz-icon
-      nzType="civic:phenotype"></i> Phenotype Evidence
-  </ng-template>
+  <cvc-evidence-table [phenotypeId]="phenotypeId" cvcTitle="Phenotype Evidence" *nzSpaceItem></cvc-evidence-table>
 
 </nz-space>
