@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CurationActivityView } from './curation-activity/curation-activity.view';
 import { CurationQueuesView } from './curation-queues/curation-queues.view';
 import { CurationView } from './curation.view';
 
@@ -11,9 +12,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'activity', pathMatch: 'full' },
       {
         path: 'activity',
+        component: CurationActivityView,
         loadChildren: () => import('@app/views/curation/curation-activity/curation-activity.module').then((m) => m.CurationActivityModule),
         data: {
-          breadcrumb: ''
+          breadcrumb: 'Activity'
         },
       },
       {
