@@ -22,6 +22,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcEvidenceTableComponent],
@@ -38,6 +39,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzToolTipModule,
     NzSelectModule,
     NzCheckboxModule,
+    NzCardModule,
     CvcPipesModule,
     CvcGeneTagModule,
     CvcVariantTagModule,

@@ -17,6 +17,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { CvcUpdateSourceSuggestionFormModule } from '@app/forms/update-source-suggestion/update-source-suggestion.module';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcSourceSuggestionsTableComponent],
@@ -30,6 +32,8 @@ import { CvcUpdateSourceSuggestionFormModule } from '@app/forms/update-source-su
     NzIconModule,
     NzButtonModule,
     NzPopoverModule,
+    NzTypographyModule,
+    NzCardModule,
     CvcClearableInputFilterModule,
     CvcUserTagModule,
     CvcSourceTagModule,

@@ -12,5 +12,12 @@
 </nz-modal>
 
 <ng-template #evidenceManager>
-    <cvc-evidence-table mode="select" [initialPageSize]="15" [initialUserFilters]="this.evidenceGridFilters" [initialSelectedEids]="this.alreadySelected" (selectedEids)="onEidSelectionChange($event)"></cvc-evidence-table>
+    <cvc-evidence-table
+      mode="select"
+      [initialPageSize]="15"
+      [initialUserFilters]="this.evidenceGridFilters"
+      [initialSelectedEids]="this.alreadySelected"
+      (selectedEids)="onEidSelectionChange($event)"
+      cvcTitle="Evidence Manager">
+    </cvc-evidence-table>
 </ng-template>

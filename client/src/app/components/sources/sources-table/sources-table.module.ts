@@ -9,6 +9,9 @@ import { CvcSourceTagModule } from '../source-tag/source-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcSourcesTableComponent],
@@ -18,6 +21,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ReactiveComponentModule,
     NzTableModule,
     NzSelectModule,
+    NzIconModule,
+    NzTypographyModule,
+    NzCardModule,
     NzButtonModule,
     CvcClearableInputFilterModule,
     CvcSourceTagModule,

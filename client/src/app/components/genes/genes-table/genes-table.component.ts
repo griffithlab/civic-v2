@@ -1,10 +1,11 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
   map,
   pluck,
   startWith,
+  take,
 } from 'rxjs/operators';
 
 import { QueryRef } from 'apollo-angular';
@@ -38,6 +39,9 @@ export interface GeneTableRow {
   styleUrls: ['./genes-table.component.less']
 })
 export class CvcGenesTableComponent implements OnInit {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
+
   private initialQueryArgs?: QueryBrowseGenesArgs
   private debouncedQuery = new Subject<void>();
 
@@ -45,7 +49,7 @@ export class CvcGenesTableComponent implements OnInit {
   data$?: Observable<ApolloQueryResult<BrowseGenesQuery>>;
   genes$?: Observable<Maybe<GeneTableRow>[]>;
   isLoading$?: Observable<boolean>;
-  totalCount$?: Observable<number>;
+  filteredCount$?: Observable<number>
   pageCount$?: Observable<number>;
   pageInfo$?: Observable<PageInfo>;
 
@@ -56,8 +60,12 @@ export class CvcGenesTableComponent implements OnInit {
 
   sortColumns: typeof GenesSortColumns = GenesSortColumns
 
+  totalCount?: number
   initialPageSize = 25;
   fetchMorePageSize = 25;
+
+  visibleCount: number = this.initialPageSize
+  loadedPages: number = 1
 
   constructor(private query: BrowseGenesGQL) { }
 
@@ -99,10 +107,27 @@ export class CvcGenesTableComponent implements OnInit {
       pluck('data', 'browseGenes', 'pageInfo')
     );
 
-    this.totalCount$ = this.data$.pipe(
-      pluck('data', 'browseGenes', 'totalCount'),
-      startWith(0),
-    );
+    this.filteredCount$ = this.data$.pipe(
+      pluck('data', 'browseGenes', 'filteredCount')
+    )
+
+    this.data$.pipe(
+      pluck('data', 'browseGenes', 'totalCount')
+    ).pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
+    )
 
     this.pageCount$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'pageCount'),
@@ -112,6 +137,7 @@ export class CvcGenesTableComponent implements OnInit {
     this.debouncedQuery
     .pipe(debounceTime(500))
     .subscribe((_) => {
+      this.loadedPages = 1
       this.queryRef?.refetch({
         entrezSymbol: this.nameInput,
         geneAlias: this.aliasInput,
@@ -128,9 +154,12 @@ export class CvcGenesTableComponent implements OnInit {
         after: afterCursor
       },
     });
+
+    this.loadedPages += 1
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef?.refetch({
       ...this.initialQueryArgs,
       sortBy: buildSortParams(e),

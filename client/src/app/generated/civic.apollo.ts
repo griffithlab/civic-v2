@@ -4612,7 +4612,7 @@ export type ClinicalTrialsBrowseQuery = (
   { __typename: 'Query' }
   & { clinicalTrials: (
     { __typename: 'BrowseClinicalTrialConnection' }
-    & Pick<BrowseClinicalTrialConnection, 'totalCount'>
+    & Pick<BrowseClinicalTrialConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -4820,7 +4820,7 @@ export type DrugsBrowseQuery = (
   { __typename: 'Query' }
   & { drugs: (
     { __typename: 'BrowseDrugConnection' }
-    & Pick<BrowseDrugConnection, 'totalCount'>
+    & Pick<BrowseDrugConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -5345,7 +5345,7 @@ export type PhenotypesBrowseQuery = (
   { __typename: 'Query' }
   & { phenotypes: (
     { __typename: 'BrowsePhenotypeConnection' }
-    & Pick<BrowsePhenotypeConnection, 'totalCount'>
+    & Pick<BrowsePhenotypeConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -5951,7 +5951,7 @@ export type VariantTypesBrowseQuery = (
   { __typename: 'Query' }
   & { variantTypes: (
     { __typename: 'BrowseVariantTypeConnection' }
-    & Pick<BrowseVariantTypeConnection, 'totalCount'>
+    & Pick<BrowseVariantTypeConnection, 'totalCount' | 'filteredCount'>
     & { pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
@@ -10049,6 +10049,7 @@ export const ClinicalTrialsBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage
@@ -10269,6 +10270,7 @@ export const DrugsBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage
@@ -10614,6 +10616,7 @@ export const PhenotypesBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage
@@ -11165,6 +11168,7 @@ export const VariantTypesBrowseDocument = gql`
     sortBy: $sortBy
   ) {
     totalCount
+    filteredCount
     pageInfo {
       hasNextPage
       hasPreviousPage

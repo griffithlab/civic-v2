@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { BrowseVariantGroupRowFieldsFragment, BrowseVariantGroupsGQL, BrowseVariantGroupsQuery, Maybe, PageInfo, QueryBrowseVariantGroupsArgs, VariantGroupsSortColumns } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
-import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-variant-groups-table',
@@ -12,6 +12,8 @@ import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
   styleUrls: ['./variant-groups-table.component.less']
 })
 export class CvcVariantGroupsTableComponent implements OnInit {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
   private debouncedQuery = new Subject<void>();
 
@@ -20,6 +22,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   isLoading$?: Observable<boolean>;
   variantGroups$?: Observable<Maybe<BrowseVariantGroupRowFieldsFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
+  filteredCount$?: Observable<number>
 
   textInputCallback?: () => void
 
@@ -30,6 +33,10 @@ export class CvcVariantGroupsTableComponent implements OnInit {
 
   pageSize = 25
   sortColumns: typeof VariantGroupsSortColumns = VariantGroupsSortColumns
+
+  totalCount?: number
+  visibleCount: number = this.pageSize
+  loadedPages: number = 1
 
   constructor(private gql: BrowseVariantGroupsGQL) {}
 
@@ -59,6 +66,26 @@ export class CvcVariantGroupsTableComponent implements OnInit {
       pluck('data', 'browseVariantGroups', 'pageInfo')
     );
 
+    this.filteredCount$ = this.data$.pipe(
+      pluck('data', 'browseVariantGroups', 'filteredCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.pageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.pageSize * this.loadedPages
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
+    )
+
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => this.refresh() );
@@ -67,6 +94,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   }
 
   refresh() {
+    this.loadedPages = 1
     this.queryRef?.refetch({
       name: this.nameInput,
       geneNames: this.geneNameInput,
@@ -75,6 +103,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef?.refetch({sortBy: buildSortParams(e)})
   }
 
@@ -93,5 +122,7 @@ export class CvcVariantGroupsTableComponent implements OnInit {
         after: cursor
       }
     });
+
+    this.loadedPages += 1
   }
 }

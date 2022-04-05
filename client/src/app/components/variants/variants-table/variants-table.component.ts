@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import {
   BrowseVariantsGQL,
@@ -11,7 +11,7 @@ import {
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map, pluck, startWith, debounceTime } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
 
 export interface VariantTableRow {
   id: number;
@@ -33,6 +33,8 @@ export interface VariantTableRow {
 export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   @Input() variantTypeId: Maybe<number>
   @Input() variantGroupId: Maybe<number>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
   private initialQueryArgs?: QueryBrowseVariantsArgs;
   private debouncedQuery = new Subject<void>();
@@ -41,7 +43,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
   isLoading$?: Observable<boolean>;
   variants$?: Observable<Maybe<VariantTableRow>[]>;
-  totalCount$?: Observable<number>;
+  filteredCount$?: Observable<number>;
   pageCount$?: Observable<number>;
   pageInfo$?: Observable<PageInfo>;
 
@@ -53,6 +55,10 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
 
   initialPageSize = 25;
   sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
+
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+  loadedPages: number = 1
 
   constructor(private query: BrowseVariantsGQL) {}
 
@@ -88,10 +94,25 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
       pluck('data', 'browseVariants', 'pageInfo')
     );
 
-    this.totalCount$ = this.data$.pipe(
-      pluck('data', 'browseVariants', 'totalCount'),
-      startWith(0)
-    );
+    this.filteredCount$ = this.data$.pipe(
+      pluck('data', 'browseVariants', 'filteredCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize * this.loadedPages
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
+    )
 
     this.pageCount$ = this.data$.pipe(
       pluck('data', 'browseVariants', 'pageCount'),
@@ -101,6 +122,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => {
+        this.loadedPages = 1
         this.queryRef?.refetch({
           variantName: this.variantNameInput,
           entrezSymbol: this.geneSymbolInput,
@@ -112,6 +134,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef?.refetch({
       ...this.initialQueryArgs,
       sortBy: buildSortParams(e),
@@ -130,5 +153,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
     this.queryRef?.fetchMore({variables: {
       after: cursor
     }})
+
+    this.loadedPages += 1
   }
 }

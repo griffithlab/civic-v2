@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -22,6 +22,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcAssertionsTableComponent } from './assertions-table.component';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcAssertionsTableComponent],
@@ -37,6 +38,7 @@ import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module'
     NzTypographyModule,
     NzToolTipModule,
     NzSelectModule,
+    NzCardModule,
     CvcClearableInputFilterModule,
     CvcPipesModule,
     CvcGeneTagModule,

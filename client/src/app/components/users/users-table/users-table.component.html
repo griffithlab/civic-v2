@@ -1,118 +1,138 @@
-<nz-table #userTable
-  [nzData]="(users$ | ngrxPush)"
-  [nzLoading]="(isLoading$ | ngrxPush)"
-  [nzFrontPagination]="false"
-  [nzShowPagination]="false">
-  <thead (nzSortOrderChange)="onSortChanged($event)">
-    <tr>
-      <th nzWidth="5%">
-          Username
-      </th>
-      <th nzWidth="15%"
-          [nzColumnKey]="sortColumns.Name"
+<nz-card [nzTitle]="titleTemplate">
+  <nz-table #userTable
+    [nzData]="(users$ | ngrxPush)"
+    [nzLoading]="(isLoading$ | ngrxPush)"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr>
+        <th nzWidth="5%">
+            Username
+        </th>
+        <th nzWidth="15%"
+            [nzColumnKey]="sortColumns.Name"
+            [nzSortFn]="true">
+            Name
+        </th>
+        <th>
+            Organizations
+        </th>
+        <th
+            [nzColumnKey]="sortColumns.Role"
+            [nzSortFn]="true">
+            Role
+        </th>
+        <th>
+            EIDs
+        </th>
+        <th>
+            Revisions
+        </th>
+        <th
+          [nzColumnKey]="sortColumns.LastAction"
           [nzSortFn]="true">
-          Name
-      </th>
-      <th>
-          Organizations
-      </th>
-      <th
-          [nzColumnKey]="sortColumns.Role"
-          [nzSortFn]="true">
-          Role
-      </th>
-      <th>
-          EIDs
-      </th>
-      <th>
-          Revisions
-      </th>
-      <th
-        [nzColumnKey]="sortColumns.LastAction"
-        [nzSortFn]="true">
-          Last Action
-      </th>
-    </tr>
-    <tr>
-      <th></th>
-      <th>
-        <cvc-clearable-input-filter [(inputModel)]="nameInput"
-          placeholderText="Search Name"
-          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-      </th>
-      <th>
-        <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
-          placeholderText="Search Orgs"
-          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-      </th>
-      <th>
-        <nz-select nzAllowClear
-          nzPlaceHolder="All"
-          [nzDropdownMatchSelectWidth]="false"
-          (ngModelChange)="onModelChanged()"
-          [(ngModel)]="roleInput">
-          <nz-option nzValue="ADMIN" nzLabel="ADMIN"></nz-option>
-          <nz-option nzValue="CURATOR" nzLabel="CURATOR"></nz-option>
-          <nz-option nzValue="EDITOR" nzLabel="EDITOR"></nz-option>
-        </nz-select>
-      </th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of userTable.data">
-      <td>
-        <cvc-user-tag [user]="user"></cvc-user-tag>
-      </td>
-      <td>
-        <ng-container *ngIf="user.name; else nameElse">
-          {{ user.name }}
-        </ng-container>
-        <ng-template #nameElse>
-          <i>N/A</i>
-        </ng-template>
-      </td>
-      <td>
-        <p *ngIf="user.organizations.length > 0; else orgElse"
-          nz-typography>
-          <span *ngFor="let org of user.organizations; last as isLast">
-            <cvc-organization-tag [org]="org"></cvc-organization-tag>
-          </span>
-        </p>
-        <ng-template #orgElse>
-          <i>--</i>
-        </ng-template>
-      </td>
-      <td>
-        {{ user.role | enumToTitle }}
-      </td>
-      <td>
-        {{ user.statsHash.submittedEvidenceItems }}
-      </td>
-      <td>
-        {{ user.statsHash.revisions }}
-      </td>
-      <td>
-        <ng-container *ngIf="user.mostRecentActionTimestamp else eventElse">
-          {{ user.mostRecentActionTimestamp | timeago }}
-        </ng-container>
-        <ng-template #eventElse>
-          --
-        </ng-template>
-      </td>
-    </tr>
-    <!-- Load More Button Row -->
-    <ng-container *ngrxLet="pageInfo$ as pageInfo">
-      <tr *ngIf="pageInfo.hasNextPage">
-        <td colspan="20">
-          <button *ngIf="pageInfo.hasNextPage"
-            (click)="loadMore(pageInfo.endCursor)"
-            nz-button
-            nzBlock>Load More</button>
+            Last Action
+        </th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="nameInput"
+            placeholderText="Search Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
+            placeholderText="Search Orgs"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="roleInput">
+            <nz-option nzValue="ADMIN" nzLabel="ADMIN"></nz-option>
+            <nz-option nzValue="CURATOR" nzLabel="CURATOR"></nz-option>
+            <nz-option nzValue="EDITOR" nzLabel="EDITOR"></nz-option>
+          </nz-select>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userTable.data">
+        <td>
+          <cvc-user-tag [user]="user"></cvc-user-tag>
+        </td>
+        <td>
+          <ng-container *ngIf="user.name; else nameElse">
+            {{ user.name }}
+          </ng-container>
+          <ng-template #nameElse>
+            <i>N/A</i>
+          </ng-template>
+        </td>
+        <td>
+          <p *ngIf="user.organizations.length > 0; else orgElse"
+            nz-typography>
+            <span *ngFor="let org of user.organizations; last as isLast">
+              <cvc-organization-tag [org]="org"></cvc-organization-tag>
+            </span>
+          </p>
+          <ng-template #orgElse>
+            <i>--</i>
+          </ng-template>
+        </td>
+        <td>
+          {{ user.role | enumToTitle }}
+        </td>
+        <td>
+          {{ user.statsHash.submittedEvidenceItems }}
+        </td>
+        <td>
+          {{ user.statsHash.revisions }}
+        </td>
+        <td>
+          <ng-container *ngIf="user.mostRecentActionTimestamp else eventElse">
+            {{ user.mostRecentActionTimestamp | timeago }}
+          </ng-container>
+          <ng-template #eventElse>
+            --
+          </ng-template>
         </td>
       </tr>
-    </ng-container>
-  </tbody>
-</nz-table>
+      <!-- Load More Button Row -->
+      <ng-container *ngrxLet="pageInfo$ as pageInfo">
+        <tr *ngIf="pageInfo.hasNextPage">
+          <td colspan="20">
+            <button *ngIf="pageInfo.hasNextPage"
+              (click)="loadMore(pageInfo.endCursor)"
+              nz-button
+              nzBlock>Load {{this.initialPageSize}} More</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<ng-template #titleTemplate>
+  <i nz-icon nzType="civic:user"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+  </span>
+  <ng-template #noData>
+    <span nz-typography nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>

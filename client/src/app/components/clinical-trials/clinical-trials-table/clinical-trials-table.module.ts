@@ -6,6 +6,9 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcClinicalTrialTagModule } from '../clinical-trial-tag/clinical-trial-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [CvcClinicalTrialsTableComponent],
@@ -14,6 +17,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ReactiveComponentModule,
     NzTableModule,
     NzButtonModule,
+    NzCardModule,
+    NzIconModule,
+    NzTypographyModule,
     CvcClearableInputFilterModule,
     CvcClinicalTrialTagModule,
   ],
