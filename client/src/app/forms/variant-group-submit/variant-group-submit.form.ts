@@ -96,6 +96,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
             wrappers: ['form-field'],
             templateOptions: {
               label: 'Variants',
+              required: true,
               helpText: 'Specify the variants that comprise this Variant Group.',
               addText: 'Add a Variant ',
             },
@@ -171,7 +172,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
         description: model.fields.description,
         name: model.fields.name,
         organizationId: model.fields.organization?.id,
-        sourceIds: model.fields.sources.map(s => s.id).filter(isDefined),
+        sourceIds: model.fields.sources ? model.fields.sources.map(s => s.id).filter(isDefined) : [],
         variantIds: model.fields.variants.map(v => v.id).filter(isDefined)
       }
 
