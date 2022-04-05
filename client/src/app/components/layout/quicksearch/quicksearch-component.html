@@ -13,8 +13,7 @@
     <a [routerLink]="urlForResult(res)">
       <nz-auto-option (click)="searchQuery = ''; refresh()" [nzValue]="urlForResult(res)">
         <span>
-          <i nz-icon [nzType]="iconNameForResult(res)"></i>
-          <span innerHTML={{res.name}}></span><br />
+          <i nz-icon [nzType]="iconNameForResult(res)"></i> &nbsp; <span innerHTML={{res.name}}></span><br />
           <span innerHTML={{res.matchingText}}></span>
         </span>
       </nz-auto-option>

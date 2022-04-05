@@ -33,12 +33,13 @@ class Variant < ApplicationRecord
   }, allow_nil: true
 
   searchkick highlight: [:name, :aliases]
-  scope :search_import, -> { includes(:variant_aliases) }
+  scope :search_import, -> { includes(:variant_aliases, :gene) }
 
   def search_data
     {
-      name: name,
-      aliases: variant_aliases.map(&:name)
+      name: "#{gene.name} - #{name}",
+      gene: gene.name,
+      aliases: variant_aliases.map(&:name),
     }
   end
 
