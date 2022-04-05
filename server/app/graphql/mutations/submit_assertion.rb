@@ -33,7 +33,7 @@ class Mutations::SubmitAssertion< Mutations::MutationWithOrg
     return true
   end
 
-  def resolve(fields:, organization_id: nil, comment:)
+  def resolve(fields:, organization_id: nil, comment: nil)
     assertion = InputAdaptors::AssertionInputAdaptor.new(assertion_input_object: fields).perform
 
 

@@ -37,6 +37,7 @@ export const fdaApprovalCheckboxTypeOption: TypeOption = {
                 to.modelCallback(undefined)
                 ffc.model[ffc.key as string] = undefined
                 to.hidden = true
+                to.required = false;
               }
             })
         }

@@ -47,6 +47,7 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
                 to.modelCallback(undefined)
                 ffc.model[ffc.key as string] = undefined
                 to.hidden = true
+                to.required = false;
               }
             })
 
@@ -61,6 +62,7 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
                 to.modelCallback(false)
                 ffc.model[ffc.key as string] = false;
                 to.hidden = true;
+                to.required = false;
               }
             }
           );
