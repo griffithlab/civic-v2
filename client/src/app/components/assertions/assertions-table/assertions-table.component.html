@@ -259,10 +259,18 @@
             [nzType]="aid.clinicalSignificance | evidenceEnumDisplay: 'icon-name'"
             nz-tooltip
             nzTooltipPlacement="top"
-            [nzTooltipTitle]="aid.clinicalSignificanceevidenceEnumDisplay"></i>
+            [nzTooltipTitle]="aid.clinicalSignificance | evidenceEnumDisplay"></i>
         </td>
         <td nzAlign="center">
-          {{ aid.ampLevel | formatAmp: 'compact' | ifEmpty: '--' }}
+          <span *ngIf="aid.ampLevel; else noAmp"
+            nz-tooltip
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="aid.ampLevel | formatAmp: 'verbose'">
+            {{ aid.ampLevel | formatAmp: 'compact' }}
+          </span>
+          <ng-template #noAmp>
+            --
+          </ng-template>
         </td>
       </tr>
       <!-- Load More button row -->
