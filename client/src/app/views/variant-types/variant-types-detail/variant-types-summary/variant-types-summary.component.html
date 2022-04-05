@@ -2,12 +2,5 @@
   *ngIf="variantTypeId"
   nzDirection="vertical"
   class="space-align-block">
-  <cvc-entity-table-card [cvcTitle]="variantTableTitle"
-    *nzSpaceItem>
-    <cvc-variants-table [variantTypeId]="variantTypeId"></cvc-variants-table>
-  </cvc-entity-table-card>
-  <ng-template #variantTableTitle>
-    <i nz-icon
-      nzType="civic-varianttype"></i> Type Variants
-  </ng-template>
+  <cvc-variants-table *nzSpaceItem [variantTypeId]="variantTypeId" cvcTitle="Type Variants"></cvc-variants-table>
 </nz-space>

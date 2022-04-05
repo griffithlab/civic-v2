@@ -16,10 +16,9 @@ export class CvcClearableInputFilterComponent {
   inputVal: Maybe<string>
 
   onModelUpdated() {
-    if (this.inputVal) {
-      this.inputModelChange.emit(this.inputVal)
-    }
-    else {
+    if (this.inputModel != '') { 
+      this.inputModelChange.emit(this.inputModel)
+    } else {
       this.inputModelChange.emit(undefined)
     }
     if (this.onInputChanged) {

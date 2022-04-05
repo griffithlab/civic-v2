@@ -1,67 +1,98 @@
-<nz-table #clinicalTrialsTable
-  [nzData]="(clinicalTrials$ | ngrxPush)"
-  [nzLoading]="(isLoading$ | ngrxPush)"
-  [nzFrontPagination]="false"
-  [nzShowPagination]="false">
+<nz-card [nzTitle]="titleTemplate">
+  <nz-table #clinicalTrialsTable
+    [nzData]="(clinicalTrials$ | ngrxPush)"
+    [nzLoading]="(isLoading$ | ngrxPush)"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
 
-  <thead (nzSortOrderChange)="onSortChanged($event)">
-    <tr>
-      <th nzWidth="15%"
-        [nzColumnKey]="sortColumns.NctId"
-        [nzSortFn]="true">
-        NCT ID
-      </th>
-      <th nzWidth="65%"
-        [nzColumnKey]="sortColumns.Name"
-        [nzSortFn]="true">
-        Name
-      </th>
-      <th nzWidth="10%"
-        nzRight
-        [nzColumnKey]="sortColumns.SourceCount"
-        [nzSortFn]="true"><i nz-icon
-          nzType="civic:source"
-          nz-tooltip
-          nzTooltipTitle="Source count"></i></th>
-      <th nzWidth="10%"
-        nzRight
-        [nzColumnKey]="sortColumns.EvidenceItemCount"
-        [nzSortFn]="true"><i nz-icon
-          nzType="civic:evidence"
-          nz-tooltip
-          nzTooltipTitle="Evidence count"></i></th>
-    </tr>
-    <tr>
-      <th>
-        <cvc-clearable-input-filter [(inputModel)]="nameFilter"
-          placeholderText="Search Name"
-          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-      </th>
-      <th>
-        <cvc-clearable-input-filter [(inputModel)]="nctIdFilter"
-          placeholderText="Search NCT ID"
-          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-      </th>
-      <th>
-      </th>
-      <th>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let t of clinicalTrialsTable.data">
-      <td>
-        <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-      </td>
-      <td>
-        {{ t.name }}
-      </td>
-      <td>
-        {{ t.sourceCount }}
-      </td>
-      <td>
-        {{ t.evidenceCount }}
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr>
+        <th nzWidth="15%"
+          [nzColumnKey]="sortColumns.NctId"
+          [nzSortFn]="true">
+          NCT ID
+        </th>
+        <th nzWidth="65%"
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
+          Name
+        </th>
+        <th nzWidth="10%"
+          nzRight
+          [nzColumnKey]="sortColumns.SourceCount"
+          [nzSortFn]="true"><i nz-icon
+            nzType="civic:source"
+            nz-tooltip
+            nzTooltipTitle="Source count"></i></th>
+        <th nzWidth="10%"
+          nzRight
+          [nzColumnKey]="sortColumns.EvidenceItemCount"
+          [nzSortFn]="true"><i nz-icon
+            nzType="civic:evidence"
+            nz-tooltip
+            nzTooltipTitle="Evidence count"></i></th>
+      </tr>
+      <tr>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="nctIdFilter"
+            placeholderText="Search NCT ID"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="nameFilter"
+            placeholderText="Search Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+        </th>
+        <th>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of clinicalTrialsTable.data">
+        <td>
+          <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
+        </td>
+        <td>
+          {{ t.name }}
+        </td>
+        <td>
+          {{ t.sourceCount }}
+        </td>
+        <td>
+          {{ t.evidenceCount }}
+        </td>
+      </tr>
+      <!-- Load More button row -->
+      <ng-container *ngrxLet="pageInfo$ as pageInfo">
+        <tr *ngIf="pageInfo.hasNextPage">
+          <td colspan="4">
+            <button *ngIf="pageInfo.hasNextPage"
+              (click)="loadMore(pageInfo.endCursor)"
+              nz-button
+              nzBlock>Load {{this.initialPageSize}} More</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<ng-template #titleTemplate>
+  <i nz-icon nzType="audit"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+  </span>
+  <ng-template #noData>
+    <span nz-typography nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>

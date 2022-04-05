@@ -48,6 +48,12 @@
             "name": "Revision"
           },
           {
+            "name": "Source"
+          },
+          {
+            "name": "SourcePopover"
+          },
+          {
             "name": "Variant"
           },
           {

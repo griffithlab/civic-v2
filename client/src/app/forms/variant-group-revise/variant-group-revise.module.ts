@@ -19,6 +19,7 @@ import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant-input.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 
 
@@ -47,6 +48,7 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
     CvcSourceInputTypeModule,
     CvcVariantInputTypeModule,
     CvcSubmitButtonTypeModule,
+    CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantGroupReviseForm]

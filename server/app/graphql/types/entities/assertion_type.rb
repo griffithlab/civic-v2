@@ -23,8 +23,10 @@ module Types::Entities
     field :status, Types::EvidenceStatusType, null: false
     field :variant_origin, Types::VariantOriginType, null: false
     field :regulatory_approval, GraphQL::Types::Boolean, null: true
+    field :regulatory_approval_last_updated, GraphQL::Types::ISO8601DateTime, null: true
     field :fda_companion_test, GraphQL::Types::Boolean, null: true
-    field :nccn_guideline, String, null: true
+    field :fda_companion_test_last_updated, GraphQL::Types::ISO8601DateTime, null: true
+    field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true
     field :nccn_guideline_version, String, null: true
     field :acmg_codes, [Types::Entities::AcmgCodeType], null: false
     field :amp_level, Types::AmpLevelType, null: true
@@ -69,10 +71,30 @@ module Types::Entities
       object.fda_regulatory_approval
     end
 
-    def nccn_guideline
-      Loaders::AssociationLoader.for(Assertion, :nccn_guideline).load(object).then do | nccn_guideline |
-        nccn_guideline&.name
+    def regulatory_approval_last_updated
+      Loaders::AssociationLoader.for(Assertion, :revisions).load(object).then do | revisions |
+        regulatory_revisions = revisions.select{|r| r.field_name == 'fda_regulatory_approval' && r.status == 'accepted'}
+        if !regulatory_revisions.empty?
+          regulatory_revisions.last.updated_at
+        else
+          nil
+        end
       end
+    end
+
+    def fda_companion_test_last_updated
+      Loaders::AssociationLoader.for(Assertion, :revisions).load(object).then do | revisions |
+        regulatory_revisions = revisions.select{|r| r.field_name == 'fda_companion_test' && r.status == 'accepted'}
+        if !regulatory_revisions.empty?
+          regulatory_revisions.last.updated_at
+        else
+          nil
+        end
+      end
+    end
+
+    def nccn_guideline
+      Loaders::AssociationLoader.for(Assertion, :nccn_guideline).load(object)
     end
 
     def submission_event

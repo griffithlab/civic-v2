@@ -32,6 +32,10 @@ module Types::BrowseTables
       end
     end
 
+    def name
+      object.title
+    end
+
     def clinical_trials
       Loaders::AssociationLoader.for(SourceBrowseTableRow, :clinical_trials).load(object)
     end

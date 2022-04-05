@@ -1,9 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, TemplateRef } from '@angular/core';
 import { Maybe, PageInfo, ClinicalTrialsBrowseGQL, ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables, ClinicalTrialSortColumns, BrowseClinicalTrial } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
+import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-clinical-trials-table',
@@ -11,15 +11,20 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
   styleUrls: ['./clinical-trials-table.component.less']
 })
 export class CvcClinicalTrialsTableComponent {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
 
-  private initialPageSize = 25
+  initialPageSize = 25
   private queryRef: QueryRef<ClinicalTrialsBrowseQuery, ClinicalTrialsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
-  totalCount$?: Observable<number>
+  filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
   clinicalTrials$?: Observable<Maybe<BrowseClinicalTrial>[]>
+
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
 
   nctIdFilter: Maybe<string>
   nameFilter: Maybe<string>
@@ -27,6 +32,8 @@ export class CvcClinicalTrialsTableComponent {
   textInputCallback?: () => void
 
   sortColumns: typeof ClinicalTrialSortColumns = ClinicalTrialSortColumns
+
+  loadedPages: number = 1
 
   constructor(private gql: ClinicalTrialsBrowseGQL) {
     this.queryRef = this.gql.watch({
@@ -46,8 +53,24 @@ export class CvcClinicalTrialsTableComponent {
       pluck('loading'), startWith(true)
     );
 
-    this.totalCount$ = observable.pipe(
-      pluck('data', 'clinicalTrials', 'totalCount')
+    this.filteredCount$ = observable.pipe(
+      pluck('data', 'clinicalTrials', 'filteredCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize * this.loadedPages
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
     )
 
     this.pageInfo$ = observable.pipe(
@@ -59,22 +82,24 @@ export class CvcClinicalTrialsTableComponent {
       .subscribe((_) => this.refresh() );
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
-   }
+  }
 
-   onModelChanged() { this.debouncedQuery.next() }
+  onModelChanged() { this.debouncedQuery.next() }
 
-   onSortChanged(e: SortDirectionEvent) {
-     this.queryRef.refetch({
-       sortBy: buildSortParams(e)
-     })
-   }
+  onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
+    this.queryRef.refetch({
+      sortBy: buildSortParams(e)
+    })
+  }
 
-   refresh() {
-     this.queryRef.refetch({
-       name: this.nameFilter,
-       nctId: this.nctIdFilter
-     })
-   }
+  refresh() {
+    this.loadedPages = 1
+    this.queryRef.refetch({
+      name: this.nameFilter,
+      nctId: this.nctIdFilter
+    })
+  }
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
 
@@ -82,6 +107,8 @@ export class CvcClinicalTrialsTableComponent {
     this.queryRef.fetchMore({variables: {
       after: cursor
     }})
+
+    this.loadedPages += 1
   }
 
 }

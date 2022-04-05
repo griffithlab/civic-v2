@@ -1,67 +1,93 @@
-<nz-table #variantTypesTable
-  [nzData]="(variantTypes$ | ngrxPush)"
-  [nzLoading]="(isLoading$ | ngrxPush)"
-  [nzFrontPagination]="false"
-  [nzShowPagination]="false">
+<nz-card [nzTitle]="titleTemplate">
+  <nz-table #variantTypesTable
+    [nzData]="(variantTypes$ | ngrxPush)"
+    [nzLoading]="(isLoading$ | ngrxPush)"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
 
-  <thead (nzSortOrderChange)="onSortChanged($event)">
-    <tr>
-      <th nzWidth="40%"
-        [nzColumnKey]="sortColumns.Name"
-        [nzSortFn]="true">
-        Name
-      </th>
-      <th nzWidth="40%"
-        [nzColumnKey]="sortColumns.Soid"
-        [nzSortFn]="true">
-        SOID
-      </th>
-      <th nzWidth="20%"
-        nzRight
-        [nzColumnKey]="sortColumns.VariantCount"
-        [nzSortFn]="true"><i nz-icon
-          nzType="civic:variant"
-          nz-tooltip
-          nzTooltipTitle="Variant count"></i></th>
-    </tr>
-    <tr>
-      <th>
-        <cvc-clearable-input-filter [(inputModel)]="nameFilter"
-          placeholderText="Search Name"
-          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-      </th>
-      <th>
-        <cvc-clearable-input-filter [(inputModel)]="soidFilter"
-          placeholderText="Search SO ID"
-          [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-      </th>
-      <th>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let t of variantTypesTable.data">
-      <td>
-        <cvc-variant-type-tag [variantType]="t"></cvc-variant-type-tag>
-      </td>
-      <td>
-        <cvc-link-tag [href]="t.url"
-          tooltip="View on sequenceontology.org">
-          {{ t.soid }}
-        </cvc-link-tag>
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr>
+        <th nzWidth="40%"
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
+          Name
+        </th>
+        <th nzWidth="40%"
+          [nzColumnKey]="sortColumns.Soid"
+          [nzSortFn]="true">
+          SOID
+        </th>
+        <th nzWidth="20%"
+          nzRight
+          [nzColumnKey]="sortColumns.VariantCount"
+          [nzSortFn]="true"><i nz-icon
+            nzType="civic:variant"
+            nz-tooltip
+            nzTooltipTitle="Variant count"></i></th>
+      </tr>
+      <tr>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="nameFilter"
+            placeholderText="Search Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="soidFilter"
+            placeholderText="Search SO ID"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of variantTypesTable.data">
+        <td>
+          <cvc-variant-type-tag [variantType]="t"></cvc-variant-type-tag>
+        </td>
+        <td>
+          <cvc-link-tag [href]="t.url"
+            tooltip="View on sequenceontology.org">
+            {{ t.soid }}
+          </cvc-link-tag>
 
-        <ng-template #noSoid>
-          --
-        </ng-template>
-      </td>
-      <td>
-        {{ t.variantCount }}
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
-<ng-container *ngrxLet="pageInfo$ as pageInfo">
-  <button *ngIf="pageInfo.hasNextPage"
-    nz-button
-    (click)="loadMore(pageInfo.endCursor)">Load More</button>
-</ng-container>
+          <ng-template #noSoid>
+            --
+          </ng-template>
+        </td>
+        <td>
+          {{ t.variantCount }}
+        </td>
+      </tr>
+      <!-- Load More button row -->
+      <ng-container *ngrxLet="pageInfo$ as pageInfo">
+        <tr *ngIf="pageInfo.hasNextPage">
+          <td colspan="7">
+            <button *ngIf="pageInfo.hasNextPage"
+              (click)="loadMore(pageInfo.endCursor)"
+              nz-button
+              nzBlock>Load {{this.initialPageSize}} More</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<ng-template #titleTemplate>
+  <i nz-icon nzType="civic:varianttype"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+  </span>
+  <ng-template #noData>
+    <span nz-typography nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>

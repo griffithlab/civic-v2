@@ -13,16 +13,29 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcOrganizationAvatarModule } from '@app/components/organizations/organization-avatar/organization-avatar.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { CvcStatsCardModule } from '@app/components/shared/stats-card/stats-card.module';
+import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { FormsModule } from '@angular/forms';
+import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 
 @NgModule({
   declarations: [CvcOrganizationCardComponent],
   imports: [
     CommonModule,
+    FormsModule,
     NzCardModule,
     NzGridModule,
     NzSpaceModule,
     NzTypographyModule,
     NzStatisticModule,
+    NzDescriptionsModule,
+    NzDividerModule,
+    NzCheckboxModule,
+    CvcLinkTagModule,
     CvcClinicalTrialTagModule,
     CvcDiseaseTagModule,
     CvcDrugTagModule,
@@ -30,6 +43,9 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     CvcPhenotypeTagModule,
     CvcOrganizationAvatarModule,
     CvcPipesModule,
+    CvcOrganizationTagModule,
+    CvcStatsCardModule,
+    CvcTagListModule,
   ],
   exports: [CvcOrganizationCardComponent]
 })

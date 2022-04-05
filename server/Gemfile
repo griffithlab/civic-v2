@@ -8,7 +8,7 @@ gem 'rails', '~> 6.1.3', '>= 6.1.3.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
-gem 'puma', '5.6.2'
+gem 'puma', '5.6.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -60,6 +60,9 @@ gem 'sanitize', '~> 6.0.0'
 gem 'staccato', '~> 0.5.3'
 
 gem 'angular_rails_csrf', '~> 5.0.0'
+
+
+gem 'sidekiq', '~> 6.4.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

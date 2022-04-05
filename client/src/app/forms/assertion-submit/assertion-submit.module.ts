@@ -42,9 +42,9 @@ import { CvcNccnGuidelineInputTypeModule } from '../config/types/nccn-guideline-
 import { CvcFdaApprovalCheckboxTypeModule } from '../config/types/fda-approval-checkbox/fda-approval-checkbox.module';
 import { CvcFdaTestCheckboxTypeModule } from '../config/types/fda-test-checkbox/fda-test-checkbox.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
-import { CvcEvidenceTransferModule } from '../config/types/evidence-transfer/evidence-transfer.module';
-import { CvcEvidenceTransferTmpModule } from '../config/types/evidence-transfer-tmp/evidence-transfer-tmp.module';
 import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evidence-input.module';
+import { CvcEvidenceManagerWrapperModule } from '../config/wrappers/with-evidence-manager/with-evidence-manager.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
   declarations: [
@@ -93,10 +93,10 @@ import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evide
     CvcFdaApprovalCheckboxTypeModule,
     CvcFdaTestCheckboxTypeModule,
     CvcFormContainerWrapperModule,
-    CvcEvidenceTransferModule,
-    CvcEvidenceTransferTmpModule,
     CvcEvidenceInputTypeModule,
     NgxJsonViewerModule,
+    CvcEvidenceManagerWrapperModule,
+    CvcCancelButtonModule
   ],
   exports: [
     AssertionSubmitForm

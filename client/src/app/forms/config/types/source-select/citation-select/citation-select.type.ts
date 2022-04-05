@@ -88,7 +88,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
           return sources.map((s) => {
             return {
               value: s.id,
-              label: s.citation,
+              label: s.citation ? s.citation : s.name,
               source: s
             }
           });

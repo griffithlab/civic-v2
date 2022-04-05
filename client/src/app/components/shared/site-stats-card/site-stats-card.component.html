@@ -63,7 +63,7 @@
       </nz-col>
       <nz-col nzFlex="1">
         <a routerLink="/sources">
-          <nz-statistic [nzTitle]="statsType + ' Publications'"
+          <nz-statistic [nzTitle]="statsType + ' Sources'"
             [nzValue]="(stats.sources[statsTypes[statsType]] | number)!" [nzPrefix]="sourceIcon"></nz-statistic>
             <ng-template #sourceIcon><i nz-icon nzType="civic:source"></i></ng-template>
         </a>

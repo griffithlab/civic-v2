@@ -1,153 +1,176 @@
-<ng-container *ngIf="{ value: data$ | ngrxPush } as data">
-  <nz-table #genesTable
-    [nzData]="(genes$ | ngrxPush)"
-    [nzLoading]="(isLoading$ | ngrxPush)"
-    [nzFrontPagination]="false"
-    [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr>
-        <th nzWidth="10%"
-          [nzColumnKey]="sortColumns.EntrezSymbol"
-          [nzSortFn]="true">
-          Name
-        </th>
-        <th nzWidth="20%">
-          Aliases
-        </th>
-        <th nzWidth="25%">
-          Diseases
-        </th>
-        <th nzWidth="25%">
-          Drugs
-        </th>
-        <th nzWidth="3%"
-          nzRight
-          [nzColumnKey]="sortColumns.VariantCount"
-          [nzSortFn]="true"><i nz-icon
-            nzType="civic:variant"
-            nz-tooltip
-            nzTooltipTitle="Variant count"></i></th>
-        <th nzWidth="3%"
-          nzRight
-          [nzColumnKey]="sortColumns.EvidenceItemCount"
-          [nzSortFn]="true"><i nz-icon
-            nzType="civic:evidence"
-            nz-tooltip
-            nzTooltipTitle="Evidence count"></i></th>
-        <th nzWidth="3%"
-          nzRight
-          [nzColumnKey]="sortColumns.AssertionCount"
-          [nzSortFn]="true"><i nz-icon
-            nzType="civic:assertion"
-            nz-tooltip
-            nzTooltipTitle="Assertion count"></i></th>
-      </tr>
-      <tr>
-        <th>
-          <nz-input-group [nzSuffix]="nameInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search name"
-              [(ngModel)]="nameInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #nameInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="nameInput"
-              (click)="nameInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
-        </th>
-        <th>
-          <nz-input-group [nzSuffix]="aliasInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search alias"
-              [(ngModel)]="aliasInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #aliasInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="aliasInput"
-              (click)="aliasInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
-        </th>
-        <th>
-          <nz-input-group [nzSuffix]="diseaseInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search disease"
-              [(ngModel)]="diseaseInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #diseaseInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="diseaseInput"
-              (click)="diseaseInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
-        </th>
-        <th>
-          <nz-input-group [nzSuffix]="drugInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search drug"
-              [(ngModel)]="drugInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #drugInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="drugInput"
-              (click)="drugInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
-        </th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let gene of genesTable.data">
-        <td>
-          <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
-        </td>
-        <td>
-          <span *ngFor="let alias of gene.geneAliases; last as isLast">
-            {{ alias }}{{ isLast ? '' : ', ' }}
-          </span>
-        </td>
-        <td>
-          <cvc-tag-overflow tagType='disease'
-            [tags]="gene.diseases"
-            [matchingText]="diseaseInput"> </cvc-tag-overflow>
-        </td>
-        <td>
-          <cvc-tag-overflow tagType='drug'
-            [tags]="gene.drugs"
-            [matchingText]="drugInput"> </cvc-tag-overflow>
-        </td>
-        <td nzRight>{{gene.variantCount}}</td>
-        <td nzRight>{{gene.evidenceItemCount}}</td>
-        <td nzRight>{{gene.assertionCount}}</td>
-      </tr>
-      <tr *ngrxLet="pageInfo$ as pageInfo">
-        <button *ngIf="pageInfo.hasNextPage"
-          nz-button
-          nzBlock
-          (click)="loadMore(pageInfo.endCursor)">Load More</button>
-      </tr>
-    </tbody>
-  </nz-table>
-</ng-container>
-<ng-template #loadingTemplate><i nz-icon
-    nzType="loading"></i></ng-template>
+<nz-card [nzTitle]="titleTemplate">
+  <ng-container *ngIf="{ value: data$ | ngrxPush } as data">
+    <nz-table #genesTable
+      [nzData]="(genes$ | ngrxPush)"
+      [nzLoading]="(isLoading$ | ngrxPush)"
+      [nzFrontPagination]="false"
+      [nzShowPagination]="false">
+      <thead (nzSortOrderChange)="onSortChanged($event)">
+        <tr>
+          <th nzWidth="10%"
+            [nzColumnKey]="sortColumns.EntrezSymbol"
+            [nzSortFn]="true">
+            Name
+          </th>
+          <th nzWidth="20%">
+            Aliases
+          </th>
+          <th nzWidth="25%">
+            Diseases
+          </th>
+          <th nzWidth="25%">
+            Drugs
+          </th>
+          <th nzWidth="3%"
+            nzRight
+            [nzColumnKey]="sortColumns.VariantCount"
+            [nzSortFn]="true"><i nz-icon
+              nzType="civic:variant"
+              nz-tooltip
+              nzTooltipTitle="Variant count"></i></th>
+          <th nzWidth="3%"
+            nzRight
+            [nzColumnKey]="sortColumns.EvidenceItemCount"
+            [nzSortFn]="true"><i nz-icon
+              nzType="civic:evidence"
+              nz-tooltip
+              nzTooltipTitle="Evidence count"></i></th>
+          <th nzWidth="3%"
+            nzRight
+            [nzColumnKey]="sortColumns.AssertionCount"
+            [nzSortFn]="true"><i nz-icon
+              nzType="civic:assertion"
+              nz-tooltip
+              nzTooltipTitle="Assertion count"></i></th>
+        </tr>
+        <tr>
+          <th>
+            <nz-input-group [nzSuffix]="nameInputClearTpl">
+              <input type="text"
+                nz-input
+                placeholder="Search name"
+                [(ngModel)]="nameInput"
+                (ngModelChange)="onModelUpdated($event)" />
+            </nz-input-group>
+            <ng-template #nameInputClearTpl>
+              <i nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="nameInput"
+                (click)="nameInput = undefined; onModelUpdated(undefined)"></i>
+            </ng-template>
+          </th>
+          <th>
+            <nz-input-group [nzSuffix]="aliasInputClearTpl">
+              <input type="text"
+                nz-input
+                placeholder="Search alias"
+                [(ngModel)]="aliasInput"
+                (ngModelChange)="onModelUpdated($event)" />
+            </nz-input-group>
+            <ng-template #aliasInputClearTpl>
+              <i nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="aliasInput"
+                (click)="aliasInput = undefined; onModelUpdated(undefined)"></i>
+            </ng-template>
+          </th>
+          <th>
+            <nz-input-group [nzSuffix]="diseaseInputClearTpl">
+              <input type="text"
+                nz-input
+                placeholder="Search disease"
+                [(ngModel)]="diseaseInput"
+                (ngModelChange)="onModelUpdated($event)" />
+            </nz-input-group>
+            <ng-template #diseaseInputClearTpl>
+              <i nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="diseaseInput"
+                (click)="diseaseInput = undefined; onModelUpdated(undefined)"></i>
+            </ng-template>
+          </th>
+          <th>
+            <nz-input-group [nzSuffix]="drugInputClearTpl">
+              <input type="text"
+                nz-input
+                placeholder="Search drug"
+                [(ngModel)]="drugInput"
+                (ngModelChange)="onModelUpdated($event)" />
+            </nz-input-group>
+            <ng-template #drugInputClearTpl>
+              <i nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="drugInput"
+                (click)="drugInput = undefined; onModelUpdated(undefined)"></i>
+            </ng-template>
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gene of genesTable.data">
+          <td>
+            <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
+          </td>
+          <td>
+            <cvc-plain-tag-overflow [tags]="gene.geneAliases" [matchingText]="aliasInput"></cvc-plain-tag-overflow>
+          </td>
+          <td>
+            <cvc-tag-overflow tagType='disease'
+              [tags]="gene.diseases"
+              [matchingText]="diseaseInput"> </cvc-tag-overflow>
+          </td>
+          <td>
+            <cvc-tag-overflow tagType='drug'
+              [tags]="gene.drugs"
+              [matchingText]="drugInput"> </cvc-tag-overflow>
+          </td>
+          <td nzRight>{{gene.variantCount}}</td>
+          <td nzRight>{{gene.evidenceItemCount}}</td>
+          <td nzRight>{{gene.assertionCount}}</td>
+        </tr>
+        <!-- Load More button row -->
+        <ng-container *ngrxLet="pageInfo$ as pageInfo">
+          <tr *ngIf="pageInfo.hasNextPage">
+            <td colspan="7">
+              <button *ngIf="pageInfo.hasNextPage"
+                (click)="loadMore(pageInfo.endCursor)"
+                nz-button
+                nzBlock>Load {{this.fetchMorePageSize}} More</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template #loadingTemplate><i nz-icon
+      nzType="loading"></i></ng-template>
+</nz-card>
+
+<ng-template #titleTemplate>
+  <i nz-icon nzType="civic:gene"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+  </span>
+  <ng-template #noData>
+    <span nz-typography nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>

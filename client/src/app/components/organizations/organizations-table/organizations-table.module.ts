@@ -7,6 +7,10 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcOrganizationTagModule } from '../organization-tag/organization-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
+import { TimeagoModule } from 'ngx-timeago';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 
 
@@ -17,9 +21,14 @@ import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-ov
     ReactiveComponentModule,
     NzIconModule,
     NzTableModule,
+    NzButtonModule,
+    NzCardModule,
+    NzIconModule,
+    NzTypographyModule,
     CvcClearableInputFilterModule,
     CvcOrganizationTagModule,
-    CvcTagOverflowModule
+    CvcTagOverflowModule,
+    TimeagoModule
   ],
   exports: [CvcOrganizationsTableComponent]
 })

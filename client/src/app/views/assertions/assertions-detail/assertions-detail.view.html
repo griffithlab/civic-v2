@@ -103,7 +103,7 @@
           nzBanner
           nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
-        <cvc-tab-navigation [tabs]="this.tabs">
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
               <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>

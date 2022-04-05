@@ -18,10 +18,11 @@ import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clini
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcAssertionsTableModule } from '@app/components/assertions/assertions-table/assertions-table.module';
-import { CvcEntityTableCardModule } from '@app/components/shared/entity-table-card/entity-table-card.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -47,7 +48,7 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
     CvcPhenotypeTagModule,
     CvcDrugTagModule,
     CvcAssertionsTableModule,
-    CvcEntityTableCardModule,
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ]
 })
 export class EvidenceSummaryModule { }

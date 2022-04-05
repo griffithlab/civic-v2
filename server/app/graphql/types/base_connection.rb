@@ -17,7 +17,7 @@ module Types
     end
 
     def page_count
-      my_total_count = filtered_count
+      my_total_count = total_count
       return 1 unless my_total_count&.positive?
       # get total count and create array with total count as first item
       possible_page_sizes = [my_total_count]

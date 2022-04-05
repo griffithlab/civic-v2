@@ -12,9 +12,9 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
   option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
   option(:variant_type_id, type: Int)    { |scope, value| scope.where(int_array_query_for_column('variant_types'), value) }
-  option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "#{value}%") }
-  option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "#{value}%") }
-  option(:variant_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
+  option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
+  option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
+  option(:variant_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
   option(:variant_group_id, type: Int) do |scope, value| 
     scope.where(id: Variant.joins(:variant_groups).where('variant_groups.id = ?', value).distinct)
   end

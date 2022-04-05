@@ -16,9 +16,14 @@ fragment assertionPopover on Assertion {
   acmgCodes {
     code
   }
-  nccnGuideline 
-  fdaCompanionTest
+  nccnGuideline {
+    id
+    name
+  }
   regulatoryApproval
+  regulatoryApprovalLastUpdated
+  fdaCompanionTest
+  fdaCompanionTestLastUpdated
   drugs {
     id
     name

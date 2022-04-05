@@ -2,7 +2,6 @@ import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-e
 import { VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
-import { $enum } from 'ts-enum-util';
 
 const optionText: { [option: string]: string } = {
   'SOMATIC': 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',
@@ -21,10 +20,13 @@ export const variantOriginSelectTypeOption: TypeOption = {
       label: 'Variant Origin',
       placeholder: 'None specified',
       helpText: 'Origin of variant',
-      options: $enum(VariantOrigin)
-        .map((value, key) => {
-          return { value: value, label: formatEvidenceEnum(value) }
-        })
+      options: [
+        {value: VariantOrigin.Somatic, label: formatEvidenceEnum(VariantOrigin.Somatic)},
+        {value: VariantOrigin.RareGermline, label: formatEvidenceEnum(VariantOrigin.RareGermline)},
+        {value: VariantOrigin.CommonGermline, label: formatEvidenceEnum(VariantOrigin.CommonGermline)},
+        {value: VariantOrigin.Unknown, label: formatEvidenceEnum(VariantOrigin.Unknown)},
+        {value: VariantOrigin.Na, label: formatEvidenceEnum(VariantOrigin.Na)},
+      ]
     },
     expressionProperties: {
       'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {

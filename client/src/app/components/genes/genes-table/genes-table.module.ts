@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
+import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcGenesTableComponent],
@@ -22,9 +25,11 @@ import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-ov
     NzInputModule,
     NzIconModule,
     NzTypographyModule,
-
+    NzCardModule,
+    NzButtonModule,
     CvcGeneTagModule,
-    CvcTagOverflowModule
+    CvcTagOverflowModule,
+    CvcPlainTagOverflowModule
   ],
   exports: [CvcGenesTableComponent]
 })

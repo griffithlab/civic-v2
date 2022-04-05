@@ -40,6 +40,7 @@ import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-ar
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -82,6 +83,7 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
     CvcSourceArrayTypeModule,
     CvcSourceSelectModule,
     CvcFormContainerWrapperModule,
+    CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
   exports: [EvidenceSubmitForm],

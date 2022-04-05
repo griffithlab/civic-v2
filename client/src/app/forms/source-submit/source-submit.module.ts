@@ -10,13 +10,13 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcFormErrorsAlertModule } from '../config/components/form-errors-alert/form-errors-alert.module';
+import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 import { CvcCommentTextareaTypeModule } from '../config/types/comment-textarea/comment-textarea.module';
 import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
 import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
-import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { SourceSubmitForm } from './source-submit.form';
 
@@ -40,7 +40,7 @@ import { SourceSubmitForm } from './source-submit.form';
     CvcSourceArrayTypeModule,
     CvcCommentTextareaTypeModule,
     CvcSubmitButtonTypeModule,
-
+    CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
   exports: [

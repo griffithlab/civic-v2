@@ -33,28 +33,28 @@ export class UsersDetailComponent implements OnDestroy {
     {
       routeName: 'activity',
       tabLabel: 'Activity',
-      iconName: 'civic:event',
+      iconName: 'civic-event',
     },
     {
       routeName: 'evidence',
       tabLabel: 'Evidence Items',
-      iconName: 'civic:evidence',
+      iconName: 'civic-evidence',
     },
     {
       routeName: 'assertions',
       tabLabel: 'Assertions',
-      iconName: 'civic:assertion',
+      iconName: 'civic-assertion',
     },
     {
       routeName: 'source-suggestions',
       tabLabel: 'Source Suggestions',
       iconName: 'file-add',
     },
-    {
-      routeName: 'badges',
-      tabLabel: 'Badges',
-      iconName: 'safety-certificate',
-    },
+    // {
+    //   routeName: 'badges',
+    //   tabLabel: 'Badges',
+    //   iconName: 'safety-certificate',
+    // },
   ];
 
   constructor(

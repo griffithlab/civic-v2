@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import {
     Maybe,
@@ -28,6 +29,8 @@ export class SourcesDetailView implements OnDestroy {
   loading$?: Observable<boolean>;
   source$?: Observable<Maybe<SourceDetailFieldsFragment>>
 
+  tabs: RouteableTab[]
+
   constructor(private viewerService: ViewerService,
               private route: ActivatedRoute,
               private gql: SourceDetailGQL) {
@@ -49,6 +52,19 @@ export class SourcesDetailView implements OnDestroy {
       this.source$ = observable.pipe(
           pluck('data', 'source'));
     });
+
+    this.tabs = [
+      {
+        routeName: 'summary',
+        iconName: 'pic-left',
+        tabLabel: 'Summary'
+      },
+      {
+        routeName: 'comments',
+        iconName: 'civic-comment',
+        tabLabel: 'Comments'
+      },
+    ]
   }
   ngOnDestroy() {
     this.routeSub.unsubscribe();

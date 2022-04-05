@@ -57,18 +57,24 @@
           </nz-descriptions-item>
         </ng-template>
 
-        <nz-descriptions-item nzTitle="FDA Companion Test">
-          <i nz-icon *ngIf="assertion.fdaCompanionTest" nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"></i>
-          <i nz-icon *ngIf="!assertion.fdaCompanionTest" nzType="close-square" nzTheme="twotone" nzTwotoneColor="#d93026"></i>
-        </nz-descriptions-item>
-
         <nz-descriptions-item nzTitle="Regulatory Approval">
           <i nz-icon *ngIf="assertion.regulatoryApproval" nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"></i>
           <i nz-icon *ngIf="!assertion.regulatoryApproval" nzType="close-square" nzTheme="twotone" nzTwotoneColor="#d93026"></i>
+          <ng-container *ngIf="assertion.regulatoryApprovalLastUpdated">
+            (last updated {{ assertion.regulatoryApprovalLastUpdated | timeago }})
+          </ng-container>
+        </nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="FDA Companion Test">
+          <i nz-icon *ngIf="assertion.fdaCompanionTest" nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"></i>
+          <i nz-icon *ngIf="!assertion.fdaCompanionTest" nzType="close-square" nzTheme="twotone" nzTwotoneColor="#d93026"></i>
+          <ng-container *ngIf="assertion.fdaCompanionTestLastUpdated">
+            (last updated {{ assertion.fdaCompanionTestLastUpdated | timeago }})
+          </ng-container>
         </nz-descriptions-item>
 
         <nz-descriptions-item nzTitle="NCCN Guideline">
-          {{ assertion.nccnGuideline | ifEmpty: "--" }}
+          {{ assertion.nccnGuideline?.name | ifEmpty: "--" }}
         </nz-descriptions-item>
 
         <nz-descriptions-item nzTitle="Variant Origin">

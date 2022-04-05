@@ -378,6 +378,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   ): EventConnection!
   evidenceItems: [EvidenceItem!]!
   fdaCompanionTest: Boolean
+  fdaCompanionTestLastUpdated: ISO8601DateTime
   flagged: Boolean!
 
   """
@@ -431,10 +432,11 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastSubmittedRevisionEvent: Event
   link: String!
   name: String!
-  nccnGuideline: String
+  nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
   phenotypes: [Phenotype!]!
   regulatoryApproval: Boolean
+  regulatoryApprovalLastUpdated: ISO8601DateTime
   rejectionEvent: Event
 
   """
@@ -617,12 +619,12 @@ input AssertionFields {
   """
   Is an FDA companion test available that pertains to this Assertion.
   """
-  fdaCompanionTest: Boolean!
+  fdaCompanionTest: NullableBooleanInput!
 
   """
   Does the Assertion have FDA regulatory approval.
   """
-  fdaRegulatoryApproval: Boolean!
+  fdaRegulatoryApproval: NullableBooleanInput!
 
   """
   The ID of the Gene to which this Assertion belongs
@@ -1497,6 +1499,7 @@ enum CommentableEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  SOURCE
   VARIANT
   VARIANT_GROUP
 }
@@ -3518,6 +3521,24 @@ To change the field's value to null, pass unset as true, otherwise pass in the d
 This is to work around two issues with the GraphQL spec: lack of support for unions in input types
 and the inability to have an input object argument be both required _and_ nullable at the same time.
 """
+input NullableBooleanInput {
+  """
+  Set to true if you wish to set the field's value to null.
+  """
+  unset: Boolean
+
+  """
+  The desired value for the field. Mutually exclusive with unset.
+  """
+  value: Boolean
+}
+
+"""
+An input object that represents a field value that can be "unset" or changed to null.
+To change the field's value to null, pass unset as true, otherwise pass in the desired value as value.
+This is to work around two issues with the GraphQL spec: lack of support for unions in input types
+and the inability to have an input object argument be both required _and_ nullable at the same time.
+"""
 input NullableDrugInteractionTypeInput {
   """
   Set to true if you wish to set the field's value to null.
@@ -5302,13 +5323,63 @@ enum SortDirection {
   DESC
 }
 
-type Source implements EventSubject {
+type Source implements Commentable & EventSubject {
   abstract: String
   ascoAbstractId: Int
   authorString: String
-  citation: String!
+  citation: String
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
+
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
   displayType: String!
 
   """
@@ -5345,26 +5416,77 @@ type Source implements EventSubject {
   ): EventConnection!
   fullJournalTitle: String
   id: Int!
-  journal: String!
+  journal: String
+  lastCommentEvent: Event
   link: String!
   name: String!
   pmcId: String
   publicationDate: String
   publicationDay: Int
-  publicationMonth: Int!
-  publicationYear: Int!
+  publicationMonth: Int
+  publicationYear: Int
   sourceType: SourceSource!
-  sourceUrl: String!
+  sourceUrl: String
   title: String
 }
 
-type SourcePopover implements EventSubject {
+type SourcePopover implements Commentable & EventSubject {
   abstract: String
   ascoAbstractId: Int
   authorString: String
-  citation: String!
+  citation: String
   citationId: Int!
   clinicalTrials: [ClinicalTrial!]
+
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
   displayType: String!
 
   """
@@ -5402,16 +5524,17 @@ type SourcePopover implements EventSubject {
   evidenceItemCount: Int!
   fullJournalTitle: String
   id: Int!
-  journal: String!
+  journal: String
+  lastCommentEvent: Event
   link: String!
   name: String!
   pmcId: String
   publicationDate: String
   publicationDay: Int
-  publicationMonth: Int!
-  publicationYear: Int!
+  publicationMonth: Int
+  publicationYear: Int
   sourceType: SourceSource!
-  sourceUrl: String!
+  sourceUrl: String
   title: String
 }
 
@@ -7195,7 +7318,7 @@ type VariantType {
   link: String!
   name: String!
   soid: String!
-  url: String!
+  url: String
 }
 
 type VariantTypePopover {
@@ -7204,7 +7327,7 @@ type VariantTypePopover {
   link: String!
   name: String!
   soid: String!
-  url: String!
+  url: String
   variantCount: Int!
 }
 

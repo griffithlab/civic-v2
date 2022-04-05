@@ -105,6 +105,11 @@ fragment AssertionBrowseTableRowFields on Assertion {
   }
   fdaCompanionTest @include(if: $cardView)
   regulatoryApproval @include(if: $cardView)
-  nccnGuideline @include(if: $cardView)
+  regulatoryApprovalLastUpdated @include(if: $cardView)
+  nccnGuideline @include(if: $cardView) {
+    id
+    name
+  }
   variantOrigin @include(if: $cardView)
+  status
 }

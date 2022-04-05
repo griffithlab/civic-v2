@@ -36,6 +36,7 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() source!: SourceWithDisplayName | SourceWithCitation;
   @Input() enablePopover: Maybe<boolean> = true
   @Input() linked: Maybe<boolean> = true
+  @Input() mode: 'normal' | 'concise' = 'normal'
 
   displayName!: string
 

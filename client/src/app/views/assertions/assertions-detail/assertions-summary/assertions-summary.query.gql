@@ -14,10 +14,12 @@ fragment AssertionSummaryFields on Assertion {
   disease {
     id
     name
+    link
   }
   gene {
     id
     name
+    link
   }
   variant {
     id
@@ -30,11 +32,13 @@ fragment AssertionSummaryFields on Assertion {
   drugs {
     ncitId
     name
+    link
     id
   }
   phenotypes {
     id
     name
+    link
   }
   drugInteractionType
   ampLevel
@@ -42,10 +46,15 @@ fragment AssertionSummaryFields on Assertion {
     code
     description
   }
-  nccnGuideline
+  nccnGuideline {
+    id
+    name
+  }
   nccnGuidelineVersion
   regulatoryApproval
+  regulatoryApprovalLastUpdated
   fdaCompanionTest
+  fdaCompanionTestLastUpdated
   flags(state: OPEN) {
     totalCount
   }
@@ -56,6 +65,7 @@ fragment AssertionSummaryFields on Assertion {
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -64,6 +74,7 @@ fragment AssertionSummaryFields on Assertion {
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -72,6 +83,7 @@ fragment AssertionSummaryFields on Assertion {
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName

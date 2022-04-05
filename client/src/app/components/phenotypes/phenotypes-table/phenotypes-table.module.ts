@@ -6,6 +6,10 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
 import { CvcPhenotypeTagModule } from '../phenotype-tag/phenotype-tag.module';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [CvcPhenotypesTableComponent],
@@ -13,6 +17,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
     CommonModule,
     ReactiveComponentModule,
     NzTableModule,
+    NzButtonModule,
+    NzIconModule,
+    NzTypographyModule,
+    NzCardModule,
     CvcClearableInputFilterModule,
     CvcPhenotypeTagModule,
     CvcLinkTagModule,

@@ -140,10 +140,13 @@
                   {{ pathway.name }}
                 </td>
                 <td class="button-col">
-                  <a nz-button href="{{ pathway?.link }}" target="_blank"
+                  <a *ngIf="pathway?.link; else noPathwayLink" nz-button href="{{ pathway?.link }}" target="_blank"
                     nzType="default" nzSize="small">
                     {{ pathway.src}}
                   </a>
+                  <ng-template #noPathwayLink>
+                    {{ pathway.src}}
+                  </ng-template>
                 </td>
               </tr>
             </ng-template>

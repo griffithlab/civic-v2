@@ -19,11 +19,13 @@ fragment EvidenceSummaryFields on EvidenceItem {
   drugs {
     id
     name
+    link
   }
   drugInteractionType
   disease {
     id
     name
+    link
   }
   phenotypes {
     id
@@ -37,6 +39,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     displayType
     sourceUrl
     ascoAbstractId
+    link
     clinicalTrials {
       nctId
       id
@@ -46,10 +49,12 @@ fragment EvidenceSummaryFields on EvidenceItem {
   gene {
     id
     name
+    link
   }
   variant {
     id
     name
+    link
   }
   flags(state: OPEN) {
     totalCount
@@ -61,6 +66,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     totalCount
   }
   acceptanceEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -69,6 +75,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
   }
   submissionEvent {
+    createdAt
     originatingUser {
       id
       displayName
@@ -77,6 +84,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
   }
   rejectionEvent {
+    createdAt
     originatingUser {
       id
       displayName

@@ -19,6 +19,8 @@ module Types::Commentable
         Assertion
       when 'VARIANT_GROUP'
         VariantGroup
+      when 'SOURCE'
+        Source
       else
         raise 'Unknown Enum Value'
       end

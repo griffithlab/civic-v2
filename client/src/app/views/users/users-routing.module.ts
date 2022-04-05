@@ -25,43 +25,14 @@ const routes: Routes = [
       },
       {
         path: ':userId',
-        component: UsersDetailComponent,
         data: { breadcrumb: 'DISPLAYNAME' },
         children: [
           {
-            path: 'evidence',
-            component: UsersEvidenceComponent,
-            data: {
-              breadcrumb: 'Evidence'
-            }
-          },
-          {
-            path: 'assertions',
-            component: UsersAssertionsComponent,
-            data: {
-              breadcrumb: 'Assertions'
-            }
-          },
-          {
-            path: 'activity',
-            component: UsersEventsComponent,
-            data: {
-              breadcrumb: 'Activity'
-            }
-          },
-          {
-            path: 'source-suggestions',
-            component: UsersSourceSuggestionsComponent,
-            data: {
-              breadcrumb: 'Source Suggestions'
-            }
-          },
-          {
-            path: 'notifications',
-            component: UsersNotificationsComponent,
-            data: {
-              breadcrumb: 'Notifications'
-            }
+            path: '',
+            loadChildren: () =>
+              import('@app/views/users/users-detail/users-detail.module').then(
+                (m) => m.UsersDetailModule
+              ),
           },
         ]
       }

@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Maybe, OrganizationBrowseTableRowFieldsFragment, OrganizationsBrowseGQL, OrganizationsBrowseQuery, OrganizationsBrowseQueryVariables, OrganizationSortColumns, PageInfo } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
+import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-organizations-table',
@@ -11,16 +11,24 @@ import { startWith, pluck, map, debounceTime } from 'rxjs/operators';
   styleUrls: ['./organizations-table.component.less']
 })
 export class CvcOrganizationsTableComponent implements OnInit {
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() cvcTitle: Maybe<string>
+
   private initialPageSize = 25
   private queryRef!: QueryRef<OrganizationsBrowseQuery, OrganizationsBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
   organizations$?: Observable<Maybe<OrganizationBrowseTableRowFieldsFragment>[]>
-  totalCount$?: Observable<number>
+  filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
 
   tableView: boolean = true
+
+  totalCount?: number
+  visibleCount: number = this.initialPageSize
+
+  loadedPages: number =  1
 
   textInputCallback?: () => void
 
@@ -29,6 +37,8 @@ export class CvcOrganizationsTableComponent implements OnInit {
   idInput: Maybe<string>
 
   sortColumns: typeof OrganizationSortColumns = OrganizationSortColumns
+
+  fetchMorePageSize = 25;
 
   constructor(private gql: OrganizationsBrowseGQL) { }
 
@@ -51,8 +61,24 @@ export class CvcOrganizationsTableComponent implements OnInit {
       })
     );
 
-    this.totalCount$ = observable.pipe(
+    this.filteredCount$ = observable.pipe(
       pluck('data', 'organizations', 'totalCount')
+    )
+
+    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+
+    this.filteredCount$.subscribe(
+      value => {
+        if (value < this.initialPageSize) {
+          this.visibleCount = value
+        }
+        else {
+          this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
+          if (this.visibleCount > value) {
+            this.visibleCount = value
+          }
+        }
+      }
     )
 
     this.pageInfo$ = observable.pipe(
@@ -67,6 +93,7 @@ export class CvcOrganizationsTableComponent implements OnInit {
   }
 
   refresh() {
+    this.loadedPages = 1
     this.queryRef.refetch({
       orgName: this.orgNameInput,
       id: this.idInput ? +this.idInput : undefined,
@@ -77,7 +104,19 @@ export class CvcOrganizationsTableComponent implements OnInit {
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
     this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
+  }
+
+  loadMore(afterCursor: Maybe<string>):void {
+    this.queryRef?.fetchMore({
+      variables: {
+        first: this.fetchMorePageSize,
+        after: afterCursor
+      },
+    });
+
+    this.loadedPages += 1
   }
 
   ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
