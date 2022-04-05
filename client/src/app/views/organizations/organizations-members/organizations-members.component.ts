@@ -1,9 +1,9 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Maybe, OrganizationMembersQuery, OrganizationMembersFieldsFragment, OrganizationMembersGQL, OrganizationMembersQueryVariables } from "@app/generated/civic.apollo";
+import { Maybe, OrganizationMembersQuery, OrganizationMembersFieldsFragment, OrganizationMembersGQL, OrganizationMembersQueryVariables, PageInfo } from "@app/generated/civic.apollo";
 import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
 import { QueryRef } from "apollo-angular";
-import { pluck, startWith } from "rxjs/operators";
+import { map, pluck, startWith } from "rxjs/operators";
 import { Observable } from 'rxjs';
 
 @Component({
@@ -17,12 +17,18 @@ export class OrganizationsMembersComponent {
   members$: Observable<Maybe<OrganizationMembersFieldsFragment>[]>;
   loading$: Observable<boolean>;
   viewer$: Observable<Viewer>;
+  pageInfo$?: Observable<PageInfo>
+
+  initialPageSize = 20
 
   constructor(private gql: OrganizationMembersGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
 
       const organizationId: number = +this.route.snapshot.params['organizationId'];
 
-      this.queryRef = this.gql.watch({organizationId: organizationId});
+      this.queryRef = this.gql.watch({
+        organizationId: organizationId,
+        first: this.initialPageSize,
+      });
 
       let observable = this.queryRef.valueChanges
 
@@ -31,8 +37,22 @@ export class OrganizationsMembersComponent {
           startWith(true));
 
       this.members$ = observable.pipe(
-      pluck('data', 'organization', 'members', 'edges'));
+        pluck('data', 'users', 'edges'),
+        map((edges) => {
+          return edges.map((e) => e.node)
+        })
+      );
+
+      this.pageInfo$ = observable.pipe(
+        pluck('data', 'users', 'pageInfo')
+      )
 
       this.viewer$ = this.viewerService.viewer$;
+  }
+
+  loadMore(cursor: Maybe<string>) {
+    this.queryRef.fetchMore({variables: {
+      after: cursor
+    }})
   }
 }

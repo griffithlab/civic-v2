@@ -2371,7 +2371,7 @@ export type OrganizationFilter = {
   /** Whether or not to include the organization's subgroup. */
   includeSubgroups?: Maybe<Scalars['Boolean']>;
   /** The organization name. */
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationSort = {
@@ -7457,25 +7457,29 @@ export type OrganizationGroupsFieldsFragment = (
 
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
 }>;
 
 
 export type OrganizationMembersQuery = (
   { __typename: 'Query' }
-  & { organization?: Maybe<(
-    { __typename: 'Organization' }
-    & { members: (
-      { __typename: 'UserConnection' }
-      & { edges: Array<(
-        { __typename: 'UserEdge' }
-        & Pick<UserEdge, 'cursor'>
-        & { node?: Maybe<(
-          { __typename: 'User' }
-          & OrganizationMembersFieldsFragment
-        )> }
+  & { users: (
+    { __typename: 'UserConnection' }
+    & { pageInfo: (
+      { __typename: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<(
+      { __typename: 'UserEdge' }
+      & Pick<UserEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename: 'User' }
+        & OrganizationMembersFieldsFragment
       )> }
-    ) }
-  )> }
+    )> }
+  ) }
 );
 
 export type OrganizationMembersFieldsFragment = (
@@ -9582,7 +9586,7 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   name
   displayName
   username
-  profileImagePath(size: 36)
+  profileImagePath(size: 32)
   role
   url
   areaOfExpertise
@@ -12604,14 +12608,24 @@ export const OrganizationGroupsDocument = gql`
     }
   }
 export const OrganizationMembersDocument = gql`
-    query OrganizationMembers($organizationId: Int!) {
-  organization(id: $organizationId) {
-    members {
-      edges {
-        cursor
-        node {
-          ...OrganizationMembersFields
-        }
+    query OrganizationMembers($organizationId: Int!, $first: Int, $last: Int, $before: String, $after: String) {
+  users(
+    organization: {id: $organizationId}
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...OrganizationMembersFields
       }
     }
   }

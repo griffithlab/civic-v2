@@ -1,7 +1,18 @@
 <nz-space nzSize="middle" *ngIf="(members$ | ngrxPush) as members" nzDirection="vertical" class="space-align-block">
   <div nz-row [nzGutter]="[16, 16]" *nzSpaceItem>
     <div *ngFor="let member of members" nz-col [nzSpan]="6">
-      <cvc-user-card [user]="member.node"></cvc-user-card>
+      <cvc-user-card [user]="member"></cvc-user-card>
     </div>
   </div>
+  <!-- Load More button row -->
+  <ng-container *nzSpaceItem>
+    <ng-container *ngrxLet="pageInfo$ as pageInfo">
+      <ng-container *ngIf="pageInfo.hasNextPage">
+        <button *ngIf="pageInfo.hasNextPage"
+          (click)="loadMore(pageInfo.endCursor)"
+          nz-button
+          nzBlock>Load {{this.initialPageSize}} More</button>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 </nz-space>
