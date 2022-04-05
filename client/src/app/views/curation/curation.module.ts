@@ -8,11 +8,8 @@ import { PendingSourcesModule } from './curation-queues/pending-sources/pending-
 import { PendingEvidenceModule } from './curation-queues/pending-evidence/pending-evidence.module';
 import { PendingAssertionsModule } from './curation-queues/pending-assertions/pending-assertions.module';
 
-
 @NgModule({
-  declarations: [
-    CurationView
-  ],
+  declarations: [CurationView],
   imports: [
     CommonModule,
     CurationRoutingModule,

@@ -7,6 +7,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/ta
     ReactiveComponentModule,
     CurationQueuesRoutingModule,
     NzPageHeaderModule,
+    NzIconModule,
     CvcSectionNavigationModule,
     CvcTabNavigationModule,
   ]

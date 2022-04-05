@@ -6,7 +6,7 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   templateUrl: './curation-queues.view.html',
   styleUrls: ['./curation-queues.view.less']
 })
-export class CurationQueuesView implements OnInit {
+export class CurationQueuesView {
   tabs: RouteableTab[]
   constructor() {
     this.tabs = [
@@ -26,9 +26,6 @@ export class CurationQueuesView implements OnInit {
         tabLabel: 'Assertions Queue'
       },
     ]
-  }
-
-  ngOnInit(): void {
   }
 
 }
