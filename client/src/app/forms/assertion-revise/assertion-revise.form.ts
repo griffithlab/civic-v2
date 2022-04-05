@@ -221,6 +221,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
               label: 'Evidence Items',
               helpText: 'Evidence Items that support the assertion.',
               addText: 'Add Evidence by ID',
+              required: true,
               eidCallback: eidCallback
             },
             fieldArray: {

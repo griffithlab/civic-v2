@@ -243,6 +243,7 @@ export class AssertionSubmitForm implements OnDestroy {
               label: 'Evidence Items',
               helpText: 'Evidence Items that support the assertion.',
               addText: 'Add Evidence by ID',
+              required: true,
               eidCallback: eidCallback
             },
             fieldArray: {
@@ -257,9 +258,8 @@ export class AssertionSubmitForm implements OnDestroy {
             type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
-              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
-              placeholder: 'Please enter a comment describing your revision.',
-              required: true,
+              helpText: 'Please provide any additional comments you wish to make about this assertion. This comment will appear as the first comment in this item\'s comment thread.',
+              placeholder: 'Please enter a comment describing your assertion.',
               minLength: 10
             },
           },
@@ -284,7 +284,7 @@ export class AssertionSubmitForm implements OnDestroy {
     if (model) {
       const fields = model.fields
       return {
-        comment: fields.comment,
+        comment: fields.comment && fields.comment.length != 0 ? fields.comment : undefined,
         organizationId: fields.organization?.id,
         fields: {
           description: fmt.toNullableString(fields.description),
