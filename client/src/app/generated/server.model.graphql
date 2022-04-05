@@ -3753,7 +3753,7 @@ input OrganizationFilter {
   """
   The organization name.
   """
-  name: String!
+  name: String
 }
 
 input OrganizationSort {

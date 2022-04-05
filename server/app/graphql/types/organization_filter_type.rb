@@ -4,7 +4,7 @@ module Types
 
     argument :id, Int, required: false, description: 'The organization ID.'
 
-    argument :name, String, required: true, description: 'The organization name.' 
+    argument :name, String, required: false, description: 'The organization name.'
 
     argument :include_subgroups, Boolean,
       required: false,
