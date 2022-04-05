@@ -1,14 +1,28 @@
 
 query OrganizationMembers(
   $organizationId: Int!
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
 ) {
-  organization(id: $organizationId) {
-    members {
-      edges {
-        cursor
-        node {
-          ...OrganizationMembersFields
-        }
+  users(
+    organization: {id: $organizationId}
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+  ) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...OrganizationMembersFields
       }
     }
   }
@@ -19,7 +33,7 @@ fragment OrganizationMembersFields on User {
   name
   displayName
   username
-  profileImagePath(size:36)
+  profileImagePath(size:32)
   role
   url
   areaOfExpertise
