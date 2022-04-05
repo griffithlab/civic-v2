@@ -4465,7 +4465,7 @@ export type AssertionPopoverQuery = (
 
 export type AssertionPopoverFragment = (
   { __typename: 'Assertion' }
-  & Pick<Assertion, 'id' | 'name' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
+  & Pick<Assertion, 'id' | 'name' | 'status' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
     & Pick<AcmgCode, 'code'>
@@ -4959,7 +4959,7 @@ export type EvidencePopoverQuery = (
 
 export type EvidencePopoverFragment = (
   { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & Pick<EvidenceItem, 'id' | 'name' | 'status' | 'description' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
   & { drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name' | 'link'>
@@ -8015,6 +8015,7 @@ export const AssertionPopoverFragmentDoc = gql`
     fragment assertionPopover on Assertion {
   id
   name
+  status
   summary
   assertionType
   assertionDirection
@@ -8298,6 +8299,7 @@ export const EvidencePopoverFragmentDoc = gql`
     fragment evidencePopover on EvidenceItem {
   id
   name
+  status
   description
   evidenceLevel
   evidenceType
