@@ -9,7 +9,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
       models: [Gene, Variant, EvidenceItem, Assertion, VariantGroup, Revision],
       highlight: { tag: '<strong>' },
       limit: 10,
-      fields: ['id^10', 'name', 'aliases']
+      fields: ['id^10', 'name', 'aliases', 'gene']
     ).with_highlights(multiple: true)
 
     results.map do |res, highlights|
