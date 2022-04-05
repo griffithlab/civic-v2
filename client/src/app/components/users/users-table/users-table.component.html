@@ -22,11 +22,15 @@
             [nzSortFn]="true">
             Role
         </th>
-        <th>
-            EIDs
+        <th nzRight
+          nz-tooltip
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon nzType="civic:evidence"></i>
         </th>
-        <th>
-            Revisions
+        <th nzRight
+          nz-tooltip
+          nzTooltipTitle="Revision Count">
+          <i nz-icon nzType="civic:revision"></i>
         </th>
         <th
           [nzColumnKey]="sortColumns.LastAction"
