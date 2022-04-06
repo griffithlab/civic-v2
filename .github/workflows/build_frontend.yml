@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  build_staging:
+  build_frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
