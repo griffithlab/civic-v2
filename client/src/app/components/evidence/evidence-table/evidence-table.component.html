@@ -319,8 +319,7 @@
             </ng-template>
           </td>
           <td>
-            <p *ngIf="eid.drugs.length > 0; else drugsElse"
-              nz-typography>
+            <div *ngIf="eid.drugs.length > 0; else drugsElse">
               <cvc-tag-list>
                 <span *ngFor="let drug of eid.drugs">
                 <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
@@ -329,7 +328,7 @@
               <span *ngIf="eid.drugs.length > 1">
               ({{ eid.drugInteractionType | titlecase }})
             </span>
-            </p>
+            </div>
             <ng-template #drugsElse>
               <i>N/A</i>
             </ng-template>
