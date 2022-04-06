@@ -41,7 +41,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() status: Maybe<EvidenceStatus>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() initialPageSize: number = 25
+  @Input() initialPageSize: number = 100;
 
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() displayGeneAndVariant: boolean = true
@@ -91,7 +91,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   constructor(private gql: EvidenceBrowseGQL) { }
 
   ngOnInit() {
-
     if (this.initialUserFilters) {
       this.eidInput = this.initialUserFilters.eidInput
       this.diseaseNameInput = this.initialUserFilters.diseaseNameInput

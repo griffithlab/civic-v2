@@ -1,10 +1,11 @@
-<nz-card [nzTitle]="titleTemplate">
+<nz-card [nzTitle]="titleTemplate" cvcAutoHeightCard="40">
   <nz-table #evidenceTable
-    [nzVirtualItemSize]="50"
+    [cvcAutoHeightTable]="30"
+    nzSize="small"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzData]="evidence$ | ngrxPush"
     [nzLoading]="isLoading$ | ngrxPush"
-    [nzScroll]="{ x: '1200px', y: '240px' }"
+    [nzScroll]="{ x: '800px', y: '200px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
 
@@ -327,7 +328,6 @@
             <i nz-icon
               nzType="align-left"
               nz-tooltip
-              nzTooltipTrigger="click"
               nzTooltipPlacement="top"
               [nzTooltipTitle]="eid.description"></i>
           </td>
