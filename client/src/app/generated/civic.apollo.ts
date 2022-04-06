@@ -7485,6 +7485,10 @@ export type OrganizationMembersQuery = (
 export type OrganizationMembersFieldsFragment = (
   { __typename: 'User' }
   & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )> }
 );
 
 export type PhenotypeDetailQueryVariables = Exact<{
@@ -9594,6 +9598,10 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   twitterHandle
   facebookProfile
   linkedinProfile
+  organizations {
+    id
+    name
+  }
 }
     `;
 export const ReleaseFragmentDoc = gql`

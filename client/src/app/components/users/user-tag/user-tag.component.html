@@ -5,7 +5,7 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
+  <nz-tag *ngIf="enablePopover; else noPopover"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="userPopover"
@@ -13,8 +13,9 @@
     nzPopoverPlacement="topCenter">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
+
   <ng-template #userPopover>
-    <cvc-user-popover *ngIf="enablePopover" [userId]="user.id"></cvc-user-popover>
+    <cvc-user-popover [userId]="user.id"></cvc-user-popover>
   </ng-template>
 </ng-template>
 
