@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
+import { NzTableComponent } from 'ng-zorro-antd/table';
 
 
 export interface EvidenceTableUserFilters {
@@ -48,11 +49,12 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Output() selectedEids = new EventEmitter<FormEvidence[]>()
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() initialUserFilters: Maybe<EvidenceTableUserFilters>
+  @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
 
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
-  selectedEvidenceIds = new Map<number,FormEvidence>();
+  selectedEvidenceIds = new Map<number, FormEvidence>();
 
   isLoading$?: Observable<boolean>
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
@@ -90,7 +92,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    if(this.initialUserFilters) {
+    if (this.initialUserFilters) {
       this.eidInput = this.initialUserFilters.eidInput
       this.diseaseNameInput = this.initialUserFilters.diseaseNameInput
       this.drugNameInput = this.initialUserFilters.drugNameInput
@@ -131,7 +133,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       variantName: this.variantNameInput ? this.variantNameInput : undefined,
     });
 
-    this.initialSelectedEids.forEach(eid =>  this.selectedEvidenceIds.set(eid.id, eid))
+    this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
     let observable = this.queryRef.valueChanges;
 
@@ -172,9 +174,18 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.debouncedQuery
       .pipe(debounceTime(500))
-      .subscribe((_) => this.refresh() );
+      .subscribe((_) => this.refresh());
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
+  }
+  //
+  // virtual scroll helpers
+  trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
+    return data.id;
+  }
+
+  scrollToIndex(index: number): void {
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
   }
 
   loadMore(afterCursor: Maybe<string>): void {
@@ -226,9 +237,9 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
-    if(newValue) {
+    if (newValue) {
       this.selectedEvidenceIds.set(eid.id, eid)
-    } else  {
+    } else {
       this.selectedEvidenceIds.delete(eid.id)
     }
     this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
