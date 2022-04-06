@@ -13,11 +13,19 @@ import {
 //
 @Directive({
   // tslint:disable-next-line: directive-selector
-  selector: '[cvc-auto-height-div]',
+  selector: '[cvcAutoHeightDiv]',
 })
 export class CvcAutoHeightDivDirective implements OnInit, AfterViewInit, DoCheck {
   private _offset = 27;
   private divTop = 0;
+
+  @Input()
+  set cvcAutoHeightDiv(v: any) {
+    const value = parseInt(v, 0);
+    if (!isNaN(value) && value >= 0) {
+      this._offset = value;
+    }
+  }
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
@@ -54,11 +62,4 @@ export class CvcAutoHeightDivDirective implements OnInit, AfterViewInit, DoCheck
     }
   }
 
-  @Input()
-  set nsAutoHeightDiv(v: any) {
-    const value = parseInt(v, 0);
-    if (!isNaN(value) && value >= 0) {
-      this._offset = value;
-    }
-  }
 }

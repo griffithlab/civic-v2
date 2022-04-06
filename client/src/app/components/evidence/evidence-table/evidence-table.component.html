@@ -1,4 +1,14 @@
-<nz-card [nzTitle]="titleTemplate" cvcAutoHeightCard="40">
+<nz-card [nzTitle]="titleTemplate"
+  cvcAutoHeightCard="40"
+  [nzExtra]="loadMoreBtn">
+  <ng-template #loadMoreBtn>
+    <ng-container *ngrxLet="pageInfo$ as pageInfo">
+      <button *ngIf="pageInfo.hasNextPage"
+        (click)="loadMore(pageInfo.endCursor)"
+        nz-button
+        nzBlock>Load {{fetchMorePageSize}} More</button>
+    </ng-container>
+  </ng-template>
   <nz-table #evidenceTable
     [cvcAutoHeightTable]="30"
     nzSize="small"
@@ -372,17 +382,6 @@
           </td>
         </tr>
       </ng-template>
-      <!-- Load More button row -->
-      <!-- <ng-container *ngrxLet="pageInfo$ as pageInfo">
-           <tr *ngIf="pageInfo.hasNextPage">
-           <td colspan="20">
-           <button *ngIf="pageInfo.hasNextPage"
-           (click)="loadMore(pageInfo.endCursor)"
-           nz-button
-           nzBlock>Load {{this.fetchMorePageSize}} More</button>
-           </td>
-           </tr>
-           </ng-container> -->
     </tbody>
   </nz-table>
 </nz-card>

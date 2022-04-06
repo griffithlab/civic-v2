@@ -41,7 +41,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() status: Maybe<EvidenceStatus>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() initialPageSize: number = 100;
+  @Input() initialPageSize: number = 25;
 
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() displayGeneAndVariant: boolean = true
