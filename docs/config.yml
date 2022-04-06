@@ -6,15 +6,14 @@ introspection:
 info:
   title: CiVIC 2 API Documentation
   description: Documentation for the CIViC GraphQL API
-  termsOfService: https://www.example.com/terms
   contact:
-    name: Development Team
+    name:  The CIViC Development Team
     email: help@civicdb.org
   license:
-    name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    name: MIT
+    url: https://github.com/griffithlab/civic-v2/blob/main/LICENSE
 
 servers:
-  - url: https://example.com/graphql
+  - url: https://civicdb.org/api/graphql
     description: Production
     production: true
