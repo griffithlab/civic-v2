@@ -8,7 +8,7 @@ jobs:
     uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@main
     with: 
       branch: release
-  deploy-staging:
+  deploy-production:
     uses: griffithlab/civic-v2/.github/workflows/deploy.yml@main
     needs: build-production
     with:
