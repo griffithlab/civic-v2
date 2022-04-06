@@ -34,7 +34,7 @@ jobs:
       - run: yarn install
         working-directory: ./client
 
-      - run: rm public/*.js
+      - run: rm -f public/*.js
         working-directory: ./server
 
       - run: yarn build --prod
