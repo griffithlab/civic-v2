@@ -18,7 +18,7 @@ test:
 
 production:
   <<: *default
-  pool: 20
+  pool: 40
   username: <%=  Rails.application.credentials.dig(:database, :username) %>
   password: <%=  Rails.application.credentials.dig(:database, :password) %>
     
