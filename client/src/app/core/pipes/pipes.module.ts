@@ -15,6 +15,7 @@ import { ColorNameForStatusPipe } from './color-name-for-status-pipe';
 import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
 import { SanitizeHtmlPipe } from './sanitize-html-pipe';
 import { PluckPipe } from './pluck-pipe';
+import { TruncatePipe } from './truncate-pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { PluckPipe } from './pluck-pipe';
     ColorNameForStatusPipe,
     HighlightTypeaheadPipe,
     SanitizeHtmlPipe,
-    PluckPipe
+    PluckPipe,
+    TruncatePipe
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { PluckPipe } from './pluck-pipe';
     ColorNameForStatusPipe,
     HighlightTypeaheadPipe,
     SanitizeHtmlPipe,
-    PluckPipe
+    PluckPipe,
+    TruncatePipe
   ],
   providers: [
     SourceTypeDisplayPipe

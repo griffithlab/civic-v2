@@ -7,6 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcDiseasePopoverComponent],
@@ -17,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzDescriptionsModule,
     NzIconModule,
     NzTypographyModule,
+    CvcPipesModule,
     CvcLinkTagModule
   ],
   exports: [CvcDiseasePopoverComponent]

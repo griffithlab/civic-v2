@@ -30,6 +30,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
   phenotypes {
     id
     name
+    link
   }
   source {
     id
