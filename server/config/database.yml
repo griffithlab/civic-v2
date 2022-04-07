@@ -18,8 +18,9 @@ test:
 
 production:
   <<: *default
-  pool: 20
-  database: civic
+  pool: 40
+  username: <%=  Rails.application.credentials.dig(:database, :username) %>
+  password: <%=  Rails.application.credentials.dig(:database, :password) %>
     
 staging:
   <<: *default

@@ -16,6 +16,9 @@
         <nz-form-control [nzValidateStatus]="errorState">
             <ng-container #fieldComponent></ng-container>
         </nz-form-control>
+        <nz-typography nzType="danger">
+            <formly-validation-message [field]="field"></formly-validation-message>
+        </nz-typography>
         <nz-typography nzType="secondary">
             {{to.optionText}}
         </nz-typography>

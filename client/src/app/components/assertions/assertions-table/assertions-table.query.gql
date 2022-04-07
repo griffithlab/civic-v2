@@ -111,5 +111,6 @@ fragment AssertionBrowseTableRowFields on Assertion {
     name
   }
   variantOrigin @include(if: $cardView)
+  evidenceItemsCount
   status
 }

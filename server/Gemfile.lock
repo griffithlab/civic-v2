@@ -122,6 +122,8 @@ GEM
       faraday (~> 1)
       multi_json
     erubi (1.10.0)
+    et-orbi (1.2.7)
+      tzinfo
     ethon (0.15.0)
       ffi (>= 1.15.0)
     faraday (1.9.3)
@@ -148,6 +150,9 @@ GEM
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
     ffi (1.15.5)
+    fugit (1.5.3)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
     graphiql-rails (1.8.0)
@@ -249,6 +254,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.6.4)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.3)
     rack-cors (1.1.1)
@@ -314,6 +320,8 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     ruby_dig (0.0.2)
+    rufus-scheduler (3.8.1)
+      fugit (~> 1.1, >= 1.1.6)
     sanitize (6.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -343,6 +351,13 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sidekiq-scheduler (3.1.1)
+      e2mmap
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      thwait
+      tilt (>= 1.4.0)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -377,6 +392,8 @@ GEM
       net-ssh (>= 2.8.0)
     staccato (0.5.3)
     thor (1.2.1)
+    thwait (0.2.0)
+      e2mmap
     tilt (2.0.10)
     trestle (0.9.5)
       activemodel (>= 4.2.0)
@@ -456,6 +473,7 @@ DEPENDENCIES
   search_object_graphql (= 0.3.1)
   searchkick (~> 4.5.0)
   sidekiq (~> 6.4.1)
+  sidekiq-scheduler (~> 3.1.1)
   simplecov
   simplecov-lcov
   solargraph

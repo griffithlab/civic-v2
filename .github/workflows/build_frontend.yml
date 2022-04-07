@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  build_staging:
+  build_frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -34,7 +34,7 @@ jobs:
       - run: yarn install
         working-directory: ./client
 
-      - run: rm public/*.js
+      - run: rm -f public/*.js
         working-directory: ./server
 
       - run: yarn build --prod

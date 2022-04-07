@@ -1321,6 +1321,22 @@
               "deprecationReason": null
             },
             {
+              "name": "evidenceItemsCount",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "fdaCompanionTest",
               "description": null,
               "args": [],
@@ -2618,6 +2634,12 @@
             },
             {
               "name": "AMP_LEVEL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EVIDENCE_ITEMS_COUNT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
