@@ -5,28 +5,68 @@
       *ngIf="viewer.signedIn"
       nz-button
       nzSize="small">
-      <i nz-icon nzType="plus-circle"></i>
-      Submit New Evidence
+      <i nz-icon
+        nzType="plus-circle"></i> Submit New Evidence
     </button>
   </ng-container>
 </ng-template>
 <nz-page-header class="site-page-header">
-  <nz-page-header-title>
-    <i nz-icon
-      nzType="civic:evidence"></i> CIViC Evidence
-  </nz-page-header-title>
-  <!-- TODO: refactor card card toggle, components -->
-  <!-- <nz-page-header-extra>
-       Card View
-       <nz-switch [(ngModel)]="tableView"
-       (ngModelChange)="refresh()"></nz-switch> Table View
-       </nz-page-header-extra> -->
-
+  <!-- <nz-avatar nz-page-header-avatar>
+       <i nz-icon class="header-icon"
+       nzType="civic:evidence"></i>
+       </nz-avatar>
+       <nz-page-header-title>
+       Evidence Items
+       </nz-page-header-title>
+       <nz-page-header-subtitle>
+       At the heart of CIViC is the clinical evidence statement. The clinical evidence statement is a piece of information that has been manually curated from trustable medical literature about a variant or genomic ‘event’ that has implications in cancer predisposition, diagnosis (aka molecular classification), prognosis, or predictive response to therapy.
+       </nz-page-header-subtitle> -->
   <nz-page-header-content>
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="civic:evidence"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Evidence Items</h2>
+        <p>The clinical evidence statement is a piece of information that has been manually curated from trustable medical literature about a variant or genomic ‘event’ that has implications in cancer predisposition, diagnosis (aka molecular classification), prognosis, or predictive response to therapy.</p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+        <nz-space nzDirection="vertical">
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            Knowledge Model Docs
+        </a>
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/curating/evidence.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            Curation Docs
+        </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+
     <nz-row *ngIf="tableView">
-      <div nz-col [nzSpan]="24">
+      <div nz-col
+        [nzSpan]="24">
         <div class="content">
-          <cvc-evidence-table cvcTitle="Browse Evidence"></cvc-evidence-table>
+          <cvc-evidence-table cvcTitle="Browse All Evidence"></cvc-evidence-table>
         </div>
       </div>
     </nz-row>
@@ -35,9 +75,9 @@
          nz-row>
          <div nz-col -->
     <!-- [nzSpan]="24"> -->
-        <!-- <ng-container *ngFor="let evidence of evidence$ | ngrxPush"> -->
-        <!-- <cvc-evidence-card [evidence]="evidence"></cvc-evidence-card> -->
-        <!-- </ng-container> -->
+    <!-- <ng-container *ngFor="let evidence of evidence$ | ngrxPush"> -->
+    <!-- <cvc-evidence-card [evidence]="evidence"></cvc-evidence-card> -->
+    <!-- </ng-container> -->
     <!-- </div>
          </div> -->
   </nz-page-header-content>
