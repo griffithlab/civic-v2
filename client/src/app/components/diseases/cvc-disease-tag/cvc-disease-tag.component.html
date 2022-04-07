@@ -33,5 +33,10 @@
 
 <ng-template #tagContent>
   <i nz-icon nzType="civic-disease" nzTheme="twotone" nzTwotoneColor="#E62F76"></i>
-  {{ disease.name }}
+  <ng-container *ngIf="this.truncateLongName; else fullName">
+    {{ disease.name | truncate: 27 }}
+  </ng-container>
+  <ng-template #fullName>
+    {{ disease.name }}
+  </ng-template>
 </ng-template>

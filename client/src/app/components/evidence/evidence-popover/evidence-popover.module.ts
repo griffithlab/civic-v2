@@ -17,6 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -30,6 +31,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     NzDescriptionsModule,
     NzTagModule,
     NzSpaceModule,
+    NzTypographyModule,
     CvcPipesModule,
     CvcDrugTagModule,
     CvcDiseaseTagModule,

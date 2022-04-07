@@ -21,7 +21,10 @@
       <nz-row>
         <nz-col nzSpan="24">
           <div class="popover-text">
-            <p nz-typography>
+            <p nz-typography
+              nzEllipsis
+              nzExpandable
+              [nzEllipsisRows]="4">
               <ng-container *ngIf="evidence.description as desc; else noDescription">
                 {{ desc }}
               </ng-container>
@@ -70,7 +73,7 @@
         <!-- disease -->
         <nz-descriptions-item nzTitle="Disease">
           <ng-container *ngIf="evidence.disease; else noDisease">
-            <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease"></cvc-disease-tag>
+            <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease" [truncateLongName]="true"></cvc-disease-tag>
           </ng-container>
           <ng-template #noDisease>
             N/A
@@ -82,7 +85,7 @@
           nzSpan="2"
           *ngIf="evidence.drugs.length > 0">
           <span *ngFor="let drug of evidence.drugs">
-            <cvc-drug-tag [enablePopover]="false" [drug]="drug"></cvc-drug-tag>
+            <cvc-drug-tag [enablePopover]="false" [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
           </span>
           <ng-container *ngIf="evidence.drugs.length > 1">
             {{evidence.drugInteractionType | titlecase }}
