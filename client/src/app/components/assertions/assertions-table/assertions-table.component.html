@@ -27,7 +27,7 @@
           [nzSortFn]="true">
           Disease
         </th>
-        <th nzWidth="15%"
+        <th nzWidth="12%"
           [nzColumnKey]="sortColumns.DrugName"
           [nzSortFn]="true">
           Drugs
@@ -65,8 +65,15 @@
           [nzColumnKey]="sortColumns.AmpLevel"
           [nzSortFn]="true"
           nzAlign="center"
+          nz-tooltip
           nzTooltipTitle="AMP/ASCO/CAP Category">
           CAT
+        </th>
+        <th nzWidth="3%"
+          [nzColumnKey]="sortColumns.EvidenceItemsCount"
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count"><i nz-icon nzType="civic:evidence"></i>
         </th>
       </tr>
       <tr>
@@ -198,6 +205,7 @@
               nzLabel="Tier III"></nz-option>
           </nz-select>
         </th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -271,6 +279,9 @@
           <ng-template #noAmp>
             --
           </ng-template>
+        </td>
+        <td>
+          {{aid.evidenceItemsCount}}
         </td>
       </tr>
       <!-- Load More button row -->

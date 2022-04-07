@@ -7,7 +7,11 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseVariantType.connection_type, null: false
 
-  scope { VariantBrowseTableRow.all }
+  scope {
+    VariantBrowseTableRow
+      .all
+      .order("evidence_score DESC")
+  }
 
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
   option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
@@ -23,19 +27,19 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
   option :sort_by, type: Types::BrowseTables::VariantsSortType do |scope, value|
     case value.column
     when "variantName"
-      scope.order "name #{value.direction}"
+      scope.reorder "name #{value.direction}"
     when "entrezSymbol"
-      scope.order "gene_name #{value.direction}"
+      scope.reorder "gene_name #{value.direction}"
     when "drugName"
-      scope.order "drug_names #{value.direction}"
+      scope.reorder "drug_names #{value.direction}"
     when "diseaseName"
-      scope.order "disease_names #{value.direction}"
+      scope.reorder "disease_names #{value.direction}"
     when "evidenceItemCount"
-      scope.order "evidence_item_count #{value.direction}"
+      scope.reorder "evidence_item_count #{value.direction}"
     when "assertionCount"
-      scope.order "assertion_count #{value.direction}"
+      scope.reorder "assertion_count #{value.direction}"
     when "evidenceScore"
-      scope.order "evidence_score #{value.direction}"
+      scope.reorder "evidence_score #{value.direction}"
     end
   end
 

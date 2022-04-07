@@ -47,6 +47,9 @@ module Moderated
     } 
   end
 
+  def on_revision_accepted
+  end
+
   #TODO: handle special cases with things happening after change accepted:
   #e.g. update variant score, accepted changes to rejected eids should update
   #status, accepted changes to eid should update assertion status

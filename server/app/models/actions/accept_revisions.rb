@@ -37,6 +37,8 @@ class Actions::AcceptRevisions
         cmd.perform
       end
     end
+
+    subject.on_revision_accepted
   end
 
   def supersede_conflicting_revisions(revision)

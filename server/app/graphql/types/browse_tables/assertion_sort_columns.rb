@@ -11,5 +11,6 @@ module Types::BrowseTables
     value 'ASSERTION_DIRECTION'
     value 'CLINICAL_SIGNIFICANCE'
     value 'AMP_LEVEL'
+    value 'EVIDENCE_ITEMS_COUNT'
   end
 end
