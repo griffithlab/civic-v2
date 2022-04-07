@@ -13,6 +13,7 @@ import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
 export class CvcDrugsTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() truncateLongName: Maybe<boolean> = false
 
   initialPageSize = 25
   private queryRef?: QueryRef<DrugsBrowseQuery, DrugsBrowseQueryVariables>

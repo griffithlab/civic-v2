@@ -7280,7 +7280,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Disease, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, source: (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId' | 'link'>
@@ -9396,6 +9396,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   phenotypes {
     id
     name
+    link
   }
   source {
     id
