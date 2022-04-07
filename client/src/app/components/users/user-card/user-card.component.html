@@ -1,38 +1,64 @@
-<nz-card [nzTitle]="user.displayName" [nzExtra]="roleTemplate">
-    <cvc-user-avatar [user]="user" [size]="32"></cvc-user-avatar>
-    <nz-descriptions nzBordered nzSize="small" [nzColumn]="1">
-        <nz-descriptions-item nzTitle="ORCID iD">
-            <cvc-link-tag *ngIf="user.orcid; else notProvided" href="https://www.orcid.org/{{user.orcid}}">
-                {{user.orcid}}
-            </cvc-link-tag>
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Twitter">
-            <cvc-link-tag *ngIf="user.twitterHandle; else notProvided"
-            href="https://twitter.com/{{user.twitterHandle}}"
-            iconName="twitter">
-                {{user.twitterHandle}}
-            </cvc-link-tag>
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Facebook">
-            <cvc-link-tag *ngIf="user.facebookProfile; else notProvided"
-            href="https://www.facebook.com/{{user.facebookProfile}}"
-            iconName="facebook">
-                {{user.facebookProfile}}
-            </cvc-link-tag>
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="LinkedIn">
-            <cvc-link-tag *ngIf="user.linkedinProfile; else notProvided"
-            href="https://linkedin.com/in//{{user.linkedinProfile}}"
-            iconName="linkedin">
-                {{user.linkedinProfile}}
-            </cvc-link-tag>
-        </nz-descriptions-item>
-    </nz-descriptions>
-    <ng-template #notProvided>
-        <span nz-typography nzType="secondary">Not provided</span>
-    </ng-template>
+<nz-card [nzTitle]="titleTemplate" style="height: 100%">
+    <nz-space nzDirection="vertical" style="width: 100%">
+        <ng-container *nzSpaceItem>
+            <nz-space nzSize="large">
+                <cvc-user-avatar *nzSpaceItem [user]="user" [size]="32"></cvc-user-avatar>
+                <ng-container *nzSpaceItem>
+                    <nz-space nzAlign="center" [nzSplit]="spaceSplit">
+                        <ng-container *ngIf="user.twitterHandle">
+                            <a href="http://twitter.com/{{user.twitterHandle}}" target="_blank" *nzSpaceItem>
+                            <i nz-icon
+                            nzType="twitter"
+                            nzTheme="outline"></i>
+                            </a>
+                        </ng-container>
+
+                        <ng-container *ngIf="user.facebookProfile">
+                            <a href="http://facebook.com/{{user.facebookProfile}}" target="_blank" *nzSpaceItem>
+                            <i nz-icon
+                            nzType="facebook"
+                            nzTheme="outline"></i>
+                            </a>
+                        </ng-container>
+
+                        <ng-container *ngIf="user.linkedinProfile">
+                            <a href="http://linkedin.com/in/{{user.linkedinProfile}}" target="_blank" *nzSpaceItem>
+                            <i nz-icon
+                            nzType="linkedin"
+                            nzTheme="outline"></i>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="user.orcid">
+                            <a href="https://orcid.org/{{user.orcid}}" target="_blank" *nzSpaceItem>
+                            <span>ID</span>
+                            </a>
+                        </ng-container>
+                    </nz-space>
+                    <ng-template #spaceSplit>
+                        <nz-divider nzType="vertical"></nz-divider>
+                    </ng-template>
+                </ng-container>
+            </nz-space>
+        </ng-container>
+        <nz-descriptions *nzSpaceItem nzBordered nzSize="small" [nzColumn]="1" nzLayout="vertical">
+            <nz-descriptions-item nzTitle="Expertise">
+                <ng-container *ngIf="user.areaOfExpertise; else notProvided">
+                    {{user.areaOfExpertise | enumToTitle}}
+                </ng-container>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Organization">
+                <nz-space nzDirection="vertical" [nzSize]="1">
+                    <ng-container *ngFor="let organization of user.organizations"> 
+                        <cvc-organization-tag *nzSpaceItem [org]="organization"></cvc-organization-tag>
+                    </ng-container>
+                </nz-space>
+            </nz-descriptions-item>
+        </nz-descriptions>
+        <ng-template #notProvided>
+            <span nz-typography nzType="secondary">Not provided</span>
+        </ng-template>
+    </nz-space>
 </nz-card>
-<ng-template #roleTemplate>
-    <i nz-icon
-    [nzType]="icon" nzTheme="twotone" nzTwotoneColor="#A0D8F5"></i>
+<ng-template #titleTemplate>
+    <cvc-user-tag [user]="user" [enablePopover]="false" style="font-weight: normal"></cvc-user-tag>
 </ng-template>

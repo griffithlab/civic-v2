@@ -208,6 +208,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   /** List and filter events for an object */
   events: EventConnection;
   evidenceItems: Array<EvidenceItem>;
+  evidenceItemsCount: Scalars['Int'];
   fdaCompanionTest?: Maybe<Scalars['Boolean']>;
   fdaCompanionTestLastUpdated?: Maybe<Scalars['ISO8601DateTime']>;
   flagged: Scalars['Boolean'];
@@ -387,6 +388,7 @@ export enum AssertionSortColumns {
   ClinicalSignificance = 'CLINICAL_SIGNIFICANCE',
   DiseaseName = 'DISEASE_NAME',
   DrugName = 'DRUG_NAME',
+  EvidenceItemsCount = 'EVIDENCE_ITEMS_COUNT',
   GeneName = 'GENE_NAME',
   Id = 'ID',
   Status = 'STATUS',
@@ -4548,7 +4550,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin' | 'evidenceItemsCount' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -7485,6 +7487,10 @@ export type OrganizationMembersQuery = (
 export type OrganizationMembersFieldsFragment = (
   { __typename: 'User' }
   & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )> }
 );
 
 export type PhenotypeDetailQueryVariables = Exact<{
@@ -8121,6 +8127,7 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     name
   }
   variantOrigin @include(if: $cardView)
+  evidenceItemsCount
   status
 }
     `;
@@ -9594,6 +9601,10 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   twitterHandle
   facebookProfile
   linkedinProfile
+  organizations {
+    id
+    name
+  }
 }
     `;
 export const ReleaseFragmentDoc = gql`

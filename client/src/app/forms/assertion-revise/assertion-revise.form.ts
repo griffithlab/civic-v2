@@ -206,6 +206,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           {
             key: 'description',
             type: 'cvc-textarea',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Assertion Statement',
               helpText: 'A complete, original description of this new assertion, limited to one paragraph',
