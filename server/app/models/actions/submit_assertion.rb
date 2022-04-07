@@ -14,6 +14,7 @@ module Actions
     private
     def execute
       assertion.status = 'submitted'
+      assertion.evidence_items_count = assertion.evidence_item_ids.size
       assertion.save!
       assertion.subscribe_user(originating_user)
       create_event

@@ -63,4 +63,9 @@ class Assertion < ActiveRecord::Base
         .distinct
     }
   end
+
+  def on_revision_accepted
+    self.evidence_items_count = self.evidence_items.count
+    self.save!
+  end
 end
