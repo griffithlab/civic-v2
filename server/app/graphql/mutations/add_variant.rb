@@ -32,7 +32,7 @@ class Mutations::AddVariant < Mutations::BaseMutation
     if existing_variant.present?
       return { variant: existing_variant, new: false }
     else
-      new_variant = Variant.create!(name: name, gene_id: gene_id, description: '')
+      new_variant = Variant.create!(name: name, gene_id: gene_id, description: '', civic_actionability_score: 0)
       return { variant: new_variant, new: true }
     end
   end
