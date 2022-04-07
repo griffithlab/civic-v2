@@ -10,7 +10,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   scope {
     Assertion
       .order("evidence_items_count DESC")
-      .where("status != 'rejected'")
+      .where("assertions.status != 'rejected'")
   }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the assertion.') do |scope, value|
