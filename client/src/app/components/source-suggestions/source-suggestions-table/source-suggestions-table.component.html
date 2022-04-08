@@ -1,6 +1,7 @@
 <nz-card [nzTitle]="titleTemplate">
   <ng-container  *ngrxLet="viewer$ as viewer">
     <nz-table #sourceSuggestionsTable
+      nzSize="small"
       [nzData]="(sourceSuggestions$ | ngrxPush)"
       [nzLoading]="(isLoading$ | ngrxPush)"
       [nzFrontPagination]="false"
