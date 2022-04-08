@@ -12,6 +12,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { RouterModule } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [EvidenceHomePage],
@@ -25,6 +26,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzGridModule,
     NzIconModule,
     NzSpaceModule,
+    NzTypographyModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcEvidenceTableModule,
