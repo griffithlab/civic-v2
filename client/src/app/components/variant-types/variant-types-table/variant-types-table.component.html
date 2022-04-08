@@ -1,5 +1,6 @@
 <nz-card [nzTitle]="titleTemplate">
   <nz-table #variantTypesTable
+    nzSize="small"
     [nzData]="(variantTypes$ | ngrxPush)"
     [nzLoading]="(isLoading$ | ngrxPush)"
     [nzFrontPagination]="false"

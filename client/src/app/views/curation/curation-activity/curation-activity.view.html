@@ -3,20 +3,38 @@
 
 <nz-page-header class="site-page-header">
 
-  <!-- title -->
-  <nz-page-header-title>
-    <i nz-icon nzType="civic-event"></i>
-    Curation Activity
-  </nz-page-header-title>
-
-
-  <!-- header action btns, actions menu -->
-  <nz-page-header-extra></nz-page-header-extra>
 
   <nz-page-header-content>
-    <cvc-tab-navigation [tabs]="this.tabs"> </cvc-tab-navigation>
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="civic:event"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Curation Event Timeline</h2>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">All CIViC curation activity is logged and publicly available, thus esablishing the provenance of its assertions, summaries, associations, and acknowledging the work of collaborators.</p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <cvc-tab-navigation [tabs]="this.tabs"> </cvc-tab-navigation>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-col>
+    </nz-row>
   </nz-page-header-content>
 </nz-page-header>
