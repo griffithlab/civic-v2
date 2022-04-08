@@ -12,14 +12,50 @@
 </ng-template>
 <nz-page-header class="site-page-header">
 
-  <!--title-->
-  <nz-page-header-title>
-    <i nz-icon
-      nzType="civic:source"></i> Sources
-  </nz-page-header-title>
-
   <!--content-->
   <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="civic:source"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Associated Sources</h2>
+        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+          Each Evidence Item is associated with a Source which supports the Item's clinical claims. CIViC accepts publications known to PubMed or abstracts published through the American Society of Clinical Oncology.
+        </p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+        <nz-space nzDirection="vertical" class="docs-buttons">
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence/source.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Associated Source Docs
+        </a>
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence/source.html#curating-source"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Source Curation Docs
+        </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
     <div nz-row>
       <div nz-col
         [nzSpan]="24">
