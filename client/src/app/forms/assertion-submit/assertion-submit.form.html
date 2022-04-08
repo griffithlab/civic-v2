@@ -1,4 +1,13 @@
-<nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
+<nz-space nzDirection="vertical">
+<nz-card *nzSpaceItem>
+  <nz-typography>
+    To add an assertion, please complete the following form, provide a short statement supporting its inclusion into the CIViC database, then click the 'Submit Assertion for Inclusion' button.
+    <br/>
+    <br/>
+    <strong>Please ensure that your submission contains no <a href="http://www.hipaa.com/hipaa-protected-health-information-what-does-phi-include/" target="_blank">Protected Health Information</a>, and is your own original work. By contributing to CIViC you agree to release your contributions to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.</strong>
+  </nz-typography>
+</nz-card>
+<nz-spin nzTip="Submitting" [nzSpinning]="this.loading" *nzSpaceItem>
   <form nz-form
     [formGroup]="formGroup"
     (ngSubmit)="submitAssertion(formModel)"
@@ -39,3 +48,4 @@
   </div>
 </div>
  -->
+</nz-space>

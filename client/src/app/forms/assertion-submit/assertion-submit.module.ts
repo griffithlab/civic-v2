@@ -45,6 +45,9 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
 import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evidence-input.module';
 import { CvcEvidenceManagerWrapperModule } from '../config/wrappers/with-evidence-manager/with-evidence-manager.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,10 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcEvidenceInputTypeModule,
     NgxJsonViewerModule,
     CvcEvidenceManagerWrapperModule,
-    CvcCancelButtonModule
+    CvcCancelButtonModule,
+    NzSpaceModule,
+    NzCardModule,
+    NzTypographyModule
   ],
   exports: [
     AssertionSubmitForm
