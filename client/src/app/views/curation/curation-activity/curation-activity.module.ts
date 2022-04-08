@@ -8,6 +8,9 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CurationTimelineModule } from './curation-timeline/curation-timeline.module';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
   declarations: [CurationActivityView],
@@ -17,6 +20,9 @@ import { CurationTimelineModule } from './curation-timeline/curation-timeline.mo
     CurationTimelineModule,
     NzPageHeaderModule,
     NzIconModule,
+    NzSpaceModule,
+    NzTypographyModule,
+    NzGridModule,
     CvcSectionNavigationModule,
     CvcTabNavigationModule,
   ]

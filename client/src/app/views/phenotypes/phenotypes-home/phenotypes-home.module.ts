@@ -6,6 +6,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { PhenotypesHomePage } from './phenotypes-home.page';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [PhenotypesHomePage],
@@ -14,6 +17,9 @@ import { PhenotypesHomePage } from './phenotypes-home.page';
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzTypographyModule,
     CvcSectionNavigationModule,
     CvcPhenotypesTableModule
   ],

@@ -11,19 +11,53 @@
   </ng-container>
 </ng-template>
 <nz-page-header class="site-page-header">
-
-  <!--title-->
-  <nz-page-header-title>
-    <i nz-icon nzType="civic:variantgroup"></i>
-    Variant Groups
-  </nz-page-header-title>
-
   <!--content-->
   <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="civic:variantgroup"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Variant Groups</h2>
+        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">Variant Groups provide user-defined grouping of Variants within and between genes based on unifying characteristics.</p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+        <nz-space nzDirection="vertical" class="docs-buttons">
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/variant_groups.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Variant Group Model Docs
+        </a>
+        <a nz-button
+          href="https://civic.readthedocs.io/en/latest/model/variant_groups.html#curating-variant-groups"
+          target="_blank"
+          nzSize="small"
+          nzBlock
+          *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Variant Group Curation Docs
+        </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+    <!-- variant groups table -->
     <div nz-row>
       <div nz-col [nzSpan]="24">
         <div class="content">
-          <cvc-variant-groups-table cvcTitle="Browse Variant Groups"></cvc-variant-groups-table>
+          <cvc-variant-groups-table cvcTitle="Browse All Variant Groups"></cvc-variant-groups-table>
         </div>
       </div>
     </div>

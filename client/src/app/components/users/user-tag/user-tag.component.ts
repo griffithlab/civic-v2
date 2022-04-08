@@ -26,7 +26,6 @@ export class CvcUserTagComponent implements OnInit {
       throw new Error('cvc-user-tag component requires valid user input.')
     }
 
-    console.log(this.user.role)
     switch(this.user.role) {
       case 'ADMIN':
         this.icon = 'civic-admin';
