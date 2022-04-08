@@ -1,6 +1,7 @@
 <nz-card [nzTitle]="titleTemplate">
   <ng-container *ngIf="{ value: data$ | ngrxPush } as data">
     <nz-table #genesTable
+      nzSize="small"
       [nzData]="(genes$ | ngrxPush)"
       [nzLoading]="(isLoading$ | ngrxPush)"
       [nzFrontPagination]="false"
