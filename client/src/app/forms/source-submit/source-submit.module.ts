@@ -6,8 +6,11 @@ import { FormlyModule } from '@ngx-formly/core';
 import {
     NzAlertModule
 } from 'ng-zorro-antd/alert';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcFormErrorsAlertModule } from '../config/components/form-errors-alert/form-errors-alert.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
@@ -41,6 +44,10 @@ import { SourceSubmitForm } from './source-submit.form';
     CvcCommentTextareaTypeModule,
     CvcSubmitButtonTypeModule,
     CvcCancelButtonModule,
+    NzTypographyModule,
+    NzCardModule,
+    NzSpaceModule,
+    RouterModule,
     NgxJsonViewerModule,
   ],
   exports: [

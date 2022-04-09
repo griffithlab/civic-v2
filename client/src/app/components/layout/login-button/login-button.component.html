@@ -3,7 +3,7 @@
   nzType="primary"
   nzValue="small"
   (click)="showAuth()">
-  <span>Sign In</span>
+  <span>Sign In / Sign Up</span>
 </button>
 <nz-modal [(nzVisible)]="authVisible"
   [nzTitle]="loginModalTitle"
@@ -15,7 +15,7 @@
   </ng-container>
 </nz-modal>
 <ng-template #loginModalTitle>
-  Sign In
+  Sign In / Sign Up
 </ng-template>
 
 <ng-template #loginModalFooter>

@@ -38,7 +38,7 @@ export class CvcVariantsMenuComponent implements OnInit {
   private debouncedQuery = new Subject<void>();
   private results$!: Observable<ApolloQueryResult<VariantsMenuQuery>>;
   private initialQueryVars!: VariantsMenuQueryVariables;
-  private pageSize = 40;
+  private pageSize = 50;
 
   constructor(private gql: VariantsMenuGQL) { }
 

@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RouterModule } from '@angular/router';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [AssertionsHomePage],
@@ -24,6 +25,7 @@ import { RouterModule } from '@angular/router';
     NzGridModule,
     NzSwitchModule,
     NzButtonModule,
+    NzSpaceModule,
     CvcAssertionsTableModule,
     CvcSectionNavigationModule
   ],

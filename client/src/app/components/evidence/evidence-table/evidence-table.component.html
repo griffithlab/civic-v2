@@ -1,5 +1,6 @@
 <nz-card [nzTitle]="titleTemplate">
   <nz-table #evidenceTable
+    nzSize="small"
     [nzData]="(evidence$ | ngrxPush)"
     [nzLoading]="(isLoading$ | ngrxPush)"
     [nzFrontPagination]="false"
@@ -292,24 +293,23 @@
         </td>
         <td>
           <ng-container *ngIf="eid.disease; else diseaseElse">
-            <cvc-disease-tag [disease]="eid.disease"></cvc-disease-tag>
+            <cvc-disease-tag [disease]="eid.disease" [truncateLongName]="true"></cvc-disease-tag>
           </ng-container>
           <ng-template #diseaseElse>
             <i>N/A</i>
           </ng-template>
         </td>
         <td>
-          <p *ngIf="eid.drugs.length > 0; else drugsElse"
-            nz-typography>
+          <div *ngIf="eid.drugs.length > 0; else drugsElse">
             <cvc-tag-list>
               <span *ngFor="let drug of eid.drugs">
-                <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                <cvc-drug-tag [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
               </span>
             </cvc-tag-list>
             <span *ngIf="eid.drugs.length > 1">
               ({{ eid.drugInteractionType | titlecase }})
             </span>
-          </p>
+          </div>
           <ng-template #drugsElse>
             <i>N/A</i>
           </ng-template>

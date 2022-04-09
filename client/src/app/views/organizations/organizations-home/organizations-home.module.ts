@@ -6,6 +6,10 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 
 import { OrganizationsHomePage } from './organizations-home.page';
 import { CvcOrganizationsTableModule } from '@app/components/organizations/organizations-table/organizations-table.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 
 @NgModule({
   declarations: [OrganizationsHomePage],
@@ -14,6 +18,10 @@ import { CvcOrganizationsTableModule } from '@app/components/organizations/organ
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzTypographyModule,
+    CvcSectionNavigationModule,
     CvcOrganizationsTableModule
   ],
 })

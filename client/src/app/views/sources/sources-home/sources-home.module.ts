@@ -9,6 +9,8 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RouterModule } from '@angular/router';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [SourcesHomePage],
@@ -20,6 +22,8 @@ import { RouterModule } from '@angular/router';
     NzIconModule,
     NzGridModule,
     NzButtonModule,
+    NzTypographyModule,
+    NzSpaceModule,
     CvcSectionNavigationModule,
     CvcSourcesTableModule,
   ],

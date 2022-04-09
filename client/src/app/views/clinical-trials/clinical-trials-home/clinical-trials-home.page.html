@@ -1,15 +1,49 @@
 <cvc-section-navigation> </cvc-section-navigation>
 <nz-page-header class="site-page-header">
-  <nz-page-header-title>
-    <i nz-icon nzType="audit"></i>
-    Clinical Trials
-  </nz-page-header-title>
 
   <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="audit"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Clinical Trials</h2>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
+          CIViC automatically associates a Clinical Trial to an Evidence Item if its associated Source's PubMed record provides a clinical trial ID. This ID is not directly curatable.
+        </p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+        <nz-space nzDirection="vertical"
+          class="docs-buttons">
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence/clinical_trial.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Clinical Trial Docs
+        </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+
+    <!-- browse table-->
     <div nz-row>
-      <div nz-col [nzSpan]="24">
+      <div nz-col
+        [nzSpan]="24">
         <div class="content">
-          <cvc-clinical-trials-table cvcTitle="Browse Clinical Trials"></cvc-clinical-trials-table>
+          <cvc-clinical-trials-table cvcTitle="Browse All Clinical Trials"></cvc-clinical-trials-table>
         </div>
       </div>
     </div>

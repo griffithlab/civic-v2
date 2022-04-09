@@ -6,6 +6,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcUsersTableModule } from '@app/components/users/users-table/users-table.module';
 import { UsersHomePage } from './users-home.page';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [UsersHomePage],
@@ -14,6 +17,9 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzTypographyModule,
     CvcSectionNavigationModule,
     CvcUsersTableModule,
   ],
