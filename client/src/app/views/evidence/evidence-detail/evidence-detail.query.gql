@@ -1,0 +1,35 @@
+query EvidenceDetail($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ...EvidenceDetailFields
+  }
+}
+
+fragment EvidenceDetailFields on EvidenceItem {
+  id
+  name
+  status
+  variant {
+    id
+    name
+    link
+  }
+  gene {
+    id
+    name
+    link
+  }
+  assertions {
+    id
+    name
+    link
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

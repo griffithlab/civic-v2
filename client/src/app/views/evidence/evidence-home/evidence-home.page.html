@@ -1,0 +1,44 @@
+<cvc-section-navigation [actionsTpl]="evidenceActions"> </cvc-section-navigation>
+<ng-template #evidenceActions>
+  <ng-container *ngrxLet="viewer$ as viewer">
+    <button routerLink="/evidence/add/submit"
+      *ngIf="viewer.signedIn"
+      nz-button
+      nzSize="small">
+      <i nz-icon nzType="plus-circle"></i>
+      Submit New Evidence
+    </button>
+  </ng-container>
+</ng-template>
+<nz-page-header class="site-page-header">
+  <nz-page-header-title>
+    <i nz-icon
+      nzType="civic:evidence"></i> CIViC Evidence
+  </nz-page-header-title>
+  <!-- TODO: refactor card card toggle, components -->
+  <!-- <nz-page-header-extra>
+       Card View
+       <nz-switch [(ngModel)]="tableView"
+       (ngModelChange)="refresh()"></nz-switch> Table View
+       </nz-page-header-extra> -->
+
+  <nz-page-header-content>
+    <nz-row *ngIf="tableView">
+      <div nz-col [nzSpan]="24">
+        <div class="content">
+          <cvc-evidence-table cvcTitle="Browse Evidence"></cvc-evidence-table>
+        </div>
+      </div>
+    </nz-row>
+    <!-- TODO: refactor card card toggle, components -->
+    <!-- <div *ngIf="!tableView"
+         nz-row>
+         <div nz-col -->
+    <!-- [nzSpan]="24"> -->
+        <!-- <ng-container *ngFor="let evidence of evidence$ | ngrxPush"> -->
+        <!-- <cvc-evidence-card [evidence]="evidence"></cvc-evidence-card> -->
+        <!-- </ng-container> -->
+    <!-- </div>
+         </div> -->
+  </nz-page-header-content>
+</nz-page-header>

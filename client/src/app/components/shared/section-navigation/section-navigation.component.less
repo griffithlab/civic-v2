@@ -1,0 +1,61 @@
+@import 'themes/default.less';
+
+:host {
+  display: block;
+}
+
+#nav-container {
+  // pull host to edge of section container so we can easily get its content vert. centered
+  margin-top: -@default-padding-sm;
+  padding: @default-padding-xss @default-padding-xs;
+
+  // override the above default padding
+  // and provide more vertical padding if we're showing the relations container
+  &.has-relations {
+    padding: @default-padding-xs @default-padding-xs;
+  }
+  //same for action btns
+  &.has-actions {
+    padding: @default-padding-xs - 1 @default-padding-xs - 1;
+  }
+
+}
+
+// using ng-deep to select child zorro component elements
+#breadcrumbs ::ng-deep {
+  // switch to dark theme colors
+  .ant-breadcrumb a,
+  .ant-breadcrumb-separator {
+    color: @text-color-secondary-dark;
+  }
+  // same as default, specifying color above seems to interfere with its selector
+  .ant-breadcrumb a:hover {
+    color: @primary-5;
+  }
+}
+
+#action-btns {
+  text-align: right;
+}
+
+#relations-summary {
+  text-align: right;
+
+  & ::ng-deep {
+    .label {
+      color: @text-color-secondary-dark;
+    }
+    nz-space {
+      // remove margin from last tag in list
+      .tags > *:last-child {
+        nz-tag {
+          margin-right: 0;
+        }
+      }
+      // remove right margin from last space-item
+      .ant-space-item:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  }
+}

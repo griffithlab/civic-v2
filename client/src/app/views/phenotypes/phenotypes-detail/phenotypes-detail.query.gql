@@ -1,0 +1,11 @@
+query PhenotypeDetail(
+  $phenotypeId: Int!
+){
+  phenotype(id: $phenotypeId){
+    id
+    name
+    hpoId
+    url
+    link
+  }
+}

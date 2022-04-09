@@ -1,5 +1,5 @@
 # collect & merge model types
-schema: ./src/app/generated/civic.model.graphql
+schema: ./src/app/generated/server.model.graphql
 # collect & merge client queries, mutations, fragments
 documents: ./src/**/*.gql
 extensions:
@@ -7,7 +7,8 @@ extensions:
     config:
       overwrite: true
       # app.module, relative to generated civic.apollo.ts
-      ngModule: ../app.module#AppModule
+      # ngModule: ../app.module#AppModule
+      serviceProvidedInRoot: true
     generates:
       # generate apollo-angular client service
       ./src/app/generated/civic.apollo.ts:
@@ -15,8 +16,21 @@ extensions:
           - typescript
           - typescript-operations
           - typescript-apollo-angular
-          - fragment-matcher
           - add:
               content: /* eslint-disable */
         config:
           apolloClientVersion: 3
+          nonOptionalTypename: true
+          futureProofUnions: true
+          futureProofEnums: true
+          maybeValue: T | undefined
+      ./src/app/generated/server.possible-types.ts:
+        plugins:
+          - fragment-matcher
+        config:
+          apolloClientVersion: 2
+      ./src/app/generated/server.field-policies.ts:
+        plugins:
+          - typescript-apollo-client-helpers
+        config:
+          useTypeImports: true

@@ -1,5 +1,4 @@
 #TODO remove 
-class SuggestedChange < ActiveRecord::Base; end
 
 class MakeEventColumnsNonNullable < ActiveRecord::Migration[6.1]
   def change
@@ -27,7 +26,7 @@ class MakeEventColumnsNonNullable < ActiveRecord::Migration[6.1]
       end
     end
 
-    change_column_null :events, :subject_id, false
-    change_column_null :events, :subject_type, false
+     #change_column_null :events, :subject_id, false
+     #change_column_null :events, :subject_type, false
   end
 end

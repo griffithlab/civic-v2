@@ -1,0 +1,48 @@
+
+query OrganizationMembers(
+  $organizationId: Int!
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  users(
+    organization: {id: $organizationId}
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+  ) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...OrganizationMembersFields
+      }
+    }
+  }
+}
+
+fragment OrganizationMembersFields on User {
+  id
+  name
+  displayName
+  username
+  profileImagePath(size:32)
+  role
+  url
+  areaOfExpertise
+  orcid
+  twitterHandle
+  facebookProfile
+  linkedinProfile
+  organizations {
+    id
+    name
+  }
+} 

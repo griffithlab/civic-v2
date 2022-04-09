@@ -6,7 +6,7 @@ default: &default
 
 development:
   <<: *default
-  database: civic_development
+  database: civicv1_development
 
 test:
   <<: *default
@@ -18,5 +18,13 @@ test:
 
 production:
   <<: *default
+  pool: 40
+  username: <%=  Rails.application.credentials.dig(:database, :username) %>
+  password: <%=  Rails.application.credentials.dig(:database, :password) %>
+    
+staging:
+  <<: *default
   pool: 20
-  database: civic
+  database: civic_staging
+  username: <%=  Rails.application.credentials.dig(:database, :username) %>
+  password: <%=  Rails.application.credentials.dig(:database, :password) %>

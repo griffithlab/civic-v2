@@ -1,0 +1,12 @@
+<nz-space nzSize="middle"
+  *ngIf="phenotypeId"
+  nzDirection="vertical"
+  class="space-align-block">
+  <!-- assertions table card -->
+  <cvc-assertions-table [phenotypeId]="phenotypeId" cvcTitle="Phenotype Assertions"
+  *nzSpaceItem></cvc-assertions-table>
+
+  <!-- evidence table card -->
+  <cvc-evidence-table [phenotypeId]="phenotypeId" cvcTitle="Phenotype Evidence" *nzSpaceItem></cvc-evidence-table>
+
+</nz-space>

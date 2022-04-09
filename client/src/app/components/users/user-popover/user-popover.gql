@@ -1,0 +1,17 @@
+query UserPopover($userId: Int!) {
+  user(id: $userId) {
+    ...popoverUser
+  }
+}
+
+fragment popoverUser on User {
+  id
+  profileImagePath(size: 64)
+  displayName
+  bio
+  role
+  organizations {
+    id
+    name
+  }
+}

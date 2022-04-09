@@ -1,0 +1,13 @@
+query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+
+fragment SourceTypeaheadResult on Source {
+    id
+    name
+    citation
+    citationId
+    sourceType
+}

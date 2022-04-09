@@ -1,0 +1,96 @@
+query EvidenceSummary(
+  $evidenceId: Int!
+) {
+  evidenceItem(id: $evidenceId) {
+    ...EvidenceSummaryFields
+  }
+}
+
+fragment EvidenceSummaryFields on EvidenceItem {
+  id
+  name
+  description
+  status
+  evidenceLevel
+  evidenceType
+  evidenceDirection
+  clinicalSignificance
+  variantOrigin
+  drugs {
+    id
+    name
+    link
+  }
+  drugInteractionType
+  disease {
+    id
+    name
+    link
+  }
+  phenotypes {
+    id
+    name
+    link
+  }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    displayType
+    sourceUrl
+    ascoAbstractId
+    link
+    clinicalTrials {
+      nctId
+      id
+    }
+  }
+  evidenceRating
+  gene {
+    id
+    name
+    link
+  }
+  variant {
+    id
+    name
+    link
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  acceptanceEvent {
+    createdAt
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  submissionEvent {
+    createdAt
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+  rejectionEvent {
+    createdAt
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
+}

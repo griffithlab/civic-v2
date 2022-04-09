@@ -1,0 +1,160 @@
+query Revisions(
+  $subject: ModeratedInput
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $fieldName: String
+  $originatingUserId: Int
+  $resolvingUserId: Int
+  $revisionsetId: String
+  $status: RevisionStatus
+) {
+  revisions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    fieldName: $fieldName
+    originatingUserId: $originatingUserId
+    resolvingUserId: $resolvingUserId
+    subject: $subject
+    status: $status
+    revisionsetId: $revisionsetId
+  ) {
+    totalCount
+    unfilteredCountForSubject
+    uniqueRevisors {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    uniqueResolvers {
+      username
+      id
+      profileImagePath(size: 32)
+    }
+    revisedFieldNames {
+      name
+      displayName
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      endCursor
+      startCursor
+    }
+    edges {
+      node {
+        ...revision
+      }
+    }
+  }
+}
+
+fragment revision on Revision {
+  id
+  revisionsetId
+  createdAt
+  resolvedAt
+  fieldName
+  currentValue
+  suggestedValue
+  linkoutData {
+    name
+    diffValue {
+      ... on ObjectFieldDiff {
+        currentObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+        }
+        addedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+        }
+        removedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+        }
+        keptObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+        }
+        suggestedObjects {
+          id
+          displayName
+          displayType
+          entityType
+          link
+        }
+      }
+      ... on ScalarFieldDiff {
+        left
+        right
+      }
+    }
+  }
+  revisor {
+    id
+    displayName
+    role
+  }
+  resolver {
+    id
+    displayName
+    role
+  }
+  creationComment {
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        link
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
+  }
+  resolutionComment {
+    parsedComment {
+      __typename
+      ... on CommentTagSegment {
+        entityId
+        displayName
+        tagType
+        link
+        __typename
+      }
+      ... on CommentTextSegment {
+        text
+      }
+      ... on User {
+        id
+        displayName
+        role
+      }
+    }
+  }
+  status
+}

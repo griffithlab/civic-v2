@@ -1,6 +1,12 @@
 module Mutations
   class MutationWithOrg < Mutations::BaseMutation
-    argument :organization_id, Int, required: false
+    argument :organization_id, Int, required: false,
+      description: <<~DOC.strip
+        The ID of the organization to credit the user's contributions to.
+        If the user belongs to a single organization or no organizations, this field is not required.
+        This field is required if the user belongs to more than one organization.
+        The user must belong to the organization provided.
+      DOC
 
     def validate_user_org(organization_id)
       if organization_id.present? && !Organization.where(id: organization_id).exists?

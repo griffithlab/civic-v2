@@ -1,6 +1,4 @@
 #TODO remove
-class SuggestedChange < ActiveRecord::Base; end
-
 class RenameClosedToRejected < ActiveRecord::Migration[6.1]
   def up
     SuggestedChange.where(status: 'closed').find_each do |sc|

@@ -1,0 +1,19 @@
+spectaql:
+
+introspection:
+  schemaFile: ./client/src/app/generated/server.model.graphql
+
+info:
+  title: CiVIC 2 API Documentation
+  description: Documentation for the CIViC GraphQL API
+  contact:
+    name:  The CIViC Development Team
+    email: help@civicdb.org
+  license:
+    name: MIT
+    url: https://github.com/griffithlab/civic-v2/blob/main/LICENSE
+
+servers:
+  - url: https://civicdb.org/api/graphql
+    description: Production
+    production: true

@@ -1,0 +1,115 @@
+query UserNotifications(
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String,
+    $notificationReason: NotificationReason
+    $subscriptionId: Int
+    $originatingObject: SubscribableInput
+    $eventType: EventAction
+    $originatingUserId: Int
+    $organizationId: Int
+    $includeRead: Boolean   
+){
+  notifications(
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after
+    notificationReason: $notificationReason
+    subscriptionId: $subscriptionId
+    originatingObject: $originatingObject
+    eventType: $eventType
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    includeRead: $includeRead  
+  ){
+    pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+    }
+    notificationSubjects {
+        ...notificationFeedSubjects
+    }
+    originatingUsers {
+        ...notificationOriginatingUsers
+    }
+    organizations {
+        ...notificationOrganization
+    }
+    eventTypes
+    edges {
+        node {
+            ...notificationNode
+        }
+    }
+  }
+}
+
+fragment notificationOrganization on Organization {
+    id
+    name
+}
+
+fragment notificationOriginatingUsers on User {
+    id
+    displayName
+}
+
+fragment notificationFeedSubjects on EventSubjectWithCount {
+        subject {
+            id
+            __typename
+            name
+        }
+        occuranceCount
+}
+
+fragment notificationNode on Notification {
+    id
+    type
+    event {
+        ...eventFeedNode
+    }
+    seen
+    subscription {
+        id
+        subscribable {
+            id
+            name
+            __typename
+        }
+    }
+}
+
+mutation UpdateNotificationStatus($input: UpdateNotificationStatusInput!) {
+    updateNotificationStatus(input: $input) {
+        notifications {
+            ...notificationNode
+        }
+    }
+}
+
+mutation Unsubscribe($input: UnsubscribeInput!) {
+    unsubscribe(input: $input) {
+        unsubscribedEntities {
+            ...subscribable
+        }
+    }
+}
+
+mutation Subscribe($input: SubscribeInput!) {
+    subscribe(input: $input) {
+        subscriptions {
+            id
+        }
+    }
+}
+
+fragment subscribable on Subscribable {
+    id
+    entityType
+    __typename
+}

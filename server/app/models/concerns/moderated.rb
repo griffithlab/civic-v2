@@ -20,15 +20,11 @@ module Moderated
             as: :subject,
             class_name: 'Event'
 
-    #TODO re-visit this, its wrong
-    has_one :last_updator, through: :last_accepted_revision, source: :originating_user
-
     has_many :events, as: :subject
-    has_one :last_review_event,
-      ->() { where(action: 'revision accepted').includes(:originating_user).order('events.updated_at DESC') },
+    has_one :last_submitted_revision_event,
+      ->() { where(action: 'revision suggested').includes(:originating_user).order('events.updated_at DESC') },
       as: :subject,
       class_name: 'Event'
-    has_one :last_reviewer, through: :last_review_event, source: :originating_user
   end
 
   #TODO: Refactor to use new Revision format
@@ -49,6 +45,9 @@ module Moderated
       has_pending_fields: pending_fields.length > 0, 
       has_pending_evidence: (pending_evidence.length > 0 or self.evidence_items_by_status.submitted_count > 0)
     } 
+  end
+
+  def on_revision_accepted
   end
 
   #TODO: handle special cases with things happening after change accepted:

@@ -1,0 +1,98 @@
+query BrowseSourceSuggestions(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $sortBy: SourceSuggestionsSort
+  $sourceType: SourceSource
+  $citationId: Int
+  $sourceId: Int
+  $geneName: String
+  $variantName: String
+  $diseaseName: String
+  $comment: String
+  $submitter: String
+  $citation: String
+  $submitterId: Int
+  $status: SourceSuggestionStatus
+) {
+  sourceSuggestions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    sourceType: $sourceType
+    citationId: $citationId
+    sourceId: $sourceId
+    geneName: $geneName
+    variantName: $variantName
+    diseaseName: $diseaseName
+    comment: $comment
+    submitter: $submitter
+    citation: $citation
+    submitterId: $submitterId
+    status: $status
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ...BrowseSourceSuggestionRowFields
+      }
+    }
+  }
+}
+
+fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
+  id
+  gene {
+    id
+    name
+    link
+  }
+  variant {
+    id
+    name
+    link
+  }
+  disease {
+    id
+    name
+    link
+  }
+  source {
+    id
+    citation
+    citationId
+    sourceType
+    sourceUrl
+    displayType
+  }
+  user {
+    id
+    displayName
+    role
+    profileImagePath(size: 32)
+  }
+  initialComment
+  status
+  reason
+}
+
+mutation UpdateSourceSuggestionStatus($input: UpdateSourceSuggestionStatusInput!) {
+  updateSourceSuggestionStatus(input: $input) {
+    sourceSuggestion {
+      id
+      status
+    }
+  }
+}

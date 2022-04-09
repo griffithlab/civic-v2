@@ -1,0 +1,39 @@
+query ClinicalTrialsBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $name: String
+  $nctId: String
+  $sortBy: ClinicalTrialSort
+){
+  clinicalTrials(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    nctId: $nctId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    filteredCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        nctId
+        evidenceCount
+        sourceCount
+        link
+      }
+    }
+  }
+}

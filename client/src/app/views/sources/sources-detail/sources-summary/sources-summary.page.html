@@ -1,0 +1,73 @@
+<nz-space nzSize="middle"
+  *ngIf="(source$ | ngrxPush) as source"
+  nzDirection="vertical"
+  class="space-align-block">
+  <h2 *nzSpaceItem>{{ source.title }}</h2>
+  <nz-row
+    [nzGutter]="16"
+    *nzSpaceItem>
+    <nz-col [nzSpan]="12">
+      <nz-descriptions nzBordered nzLayout="vertical">
+        <nz-descriptions-item nzTitle="Abstract">{{ source.abstract }}</nz-descriptions-item>
+      </nz-descriptions>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-space nzDirection="vertical">
+        <nz-descriptions *nzSpaceItem nzBordered [nzColumn]="1">
+          <nz-descriptions-item nzTitle="Published">{{ source.publicationDate }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="{{source.displayType}} ID">{{ source.citationId }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Journal">{{ source.fullJournalTitle }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="PMC ID">
+            <ng-container *ngIf="source.pmcId; else notAvailable">
+              {{ source.pmcId}}
+            </ng-container>
+          </nz-descriptions-item>
+
+          <ng-container *ngIf="source.clinicalTrials"
+            [ngPlural]="source.clinicalTrials.length">
+            <ng-template ngPluralCase="=0">
+              <nz-descriptions-item nzTitle="Clinicial Trial">
+                <ng-template [ngTemplateOutlet]="notAvailable"></ng-template>
+              </nz-descriptions-item>
+            </ng-template>
+            <ng-template ngPluralCase="=1">
+              <nz-descriptions-item nzTitle="Clinicial Trial">
+                <cvc-clinical-trial-tag [clinicalTrial]="source.clinicalTrials[0]"></cvc-clinical-trial-tag>
+              </nz-descriptions-item>
+            </ng-template>
+            <ng-template ngPluralCase="other">
+              <nz-descriptions-item nzTitle="Clinicial Trials">
+                <ng-container *ngFor="let t of source.clinicalTrials">
+                  <nz-space>
+                    <cvc-clinical-trial-tag *nzSpaceItem [clinicalTrial]="t"></cvc-clinical-trial-tag>
+                  </nz-space>
+                </ng-container>
+              </nz-descriptions-item>
+            </ng-template>
+          </ng-container>
+        </nz-descriptions>
+        <ng-template #notAvailable>
+          <span nz-typography
+            nzType="secondary">
+            Not available
+          </span>
+        </ng-template>
+        <nz-descriptions *nzSpaceItem nzBordered [nzColumn]="1" nzLayout="vertical">
+          <nz-descriptions-item nzTitle="Authors">
+            {{source.authorString}}
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-space>
+    </nz-col>
+  </nz-row>
+  <!-- evidence table card -->
+  <cvc-evidence-table *nzSpaceItem [sourceId]="sourceId" [cvcTitleTemplate]="evidenceCardTitle"></cvc-evidence-table>
+  <ng-template #evidenceCardTitle>
+    Evidence for <i>{{ source.title}}</i>
+  </ng-template>
+  <!-- source suggestion table card -->
+  <cvc-source-suggestions-table *nzSpaceItem [sourceId]="sourceId" [cvcTitleTemplate]="sourceSuggestionCardTitle"></cvc-source-suggestions-table>
+  <ng-template #sourceSuggestionCardTitle>
+    Source Suggestions for <i>{{ source.title}}</i>
+  </ng-template>
+</nz-space>

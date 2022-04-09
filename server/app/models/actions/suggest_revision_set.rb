@@ -1,11 +1,11 @@
 class Actions::SuggestRevisionSet
   include Actions::Transactional
 
-  attr_reader :existing_obj, :fields, :originating_user, :organization_id, :revisions, :comment, :revisionset_id
+  attr_reader :existing_obj, :updated_obj, :originating_user, :organization_id, :revisions, :comment, :revisionset_id
 
-  def initialize(existing_obj:, fields:, originating_user:, organization_id:, comment:)
+  def initialize(existing_obj:, updated_obj:, originating_user:, organization_id:, comment:)
     @existing_obj = existing_obj
-    @fields = fields
+    @updated_obj = updated_obj
     @originating_user = originating_user
     @organization_id = organization_id
     @comment = comment
@@ -14,12 +14,14 @@ class Actions::SuggestRevisionSet
   end
 
   def execute
+    updated_obj.validate!
+
     any_changes = false
 
     editable_fields.each do |field_name|
 
       current_value = existing_obj.send(field_name)
-      suggested_value = fields.send(field_name)
+      suggested_value = updated_obj.send(field_name)
 
       change_present = if current_value.is_a?(Array)
                         current_value.sort != suggested_value.sort

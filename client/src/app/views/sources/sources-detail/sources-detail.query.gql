@@ -1,0 +1,15 @@
+query SourceDetail(
+  $sourceId: Int!
+){
+  source(id: $sourceId){
+    ...SourceDetailFields
+  }
+}
+
+fragment SourceDetailFields on Source {
+  id
+  citation
+  sourceUrl
+  displayType
+  citationId
+}

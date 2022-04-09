@@ -1,16 +1,12 @@
+import { Component } from '@angular/core';
 import { NzIconService } from 'ng-zorro-antd/icon';
 
-// TODO: import and add icons at root so available everywhere
-import { iconGene,
-         iconVariant,
-         iconVariantGroup,
-         iconEvidence,
-         iconAssertion,
-         iconSource,
-         iconDrug,
-         iconDisease } from '@app/generated/civic.icons';
+import { fullColorIcons } from '@app/icons-provider.module';
+import { CivicIconLiteral } from './generated/civic.icons';
+import { NavigationEnd, Router } from '@angular/router';
+import { environment } from 'environments/environment';
 
-import { Component } from '@angular/core';
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -19,16 +15,26 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  isCollapsed = false;
-  title = 'main'
-  constructor(private iconService: NzIconService) {
-    this.iconService.addIconLiteral('civic:gene', iconGene.data);
-    this.iconService.addIconLiteral('civic:variant', iconVariant.data);
-    this.iconService.addIconLiteral('civic:variant-group', iconVariantGroup.data);
-    this.iconService.addIconLiteral('civic:evidence', iconEvidence.data);
-    this.iconService.addIconLiteral('civic:assertion', iconAssertion.data);
-    this.iconService.addIconLiteral('civic:source', iconSource.data);
-    this.iconService.addIconLiteral('civic:drug', iconDrug.data);
-    this.iconService.addIconLiteral('civic:disease', iconDisease.data);
+  constructor(private iconService: NzIconService, private router: Router) {
+    this.addIcons(fullColorIcons);
+    if (environment.production) {
+      this.router.events.subscribe(event => {
+        if(event instanceof NavigationEnd) {
+          gtag('config', 'UA-60119642-1', {
+            'page_path':  event.urlAfterRedirects
+          });
+        }
+      })
+    }
+  }
+
+  // TODO: switch to twotone civic custom icons ('civic-[entity]') exclusively.
+  // Registering 'civic:[entity]' full color icons here for backwards compatibility
+  private addIcons(icons: CivicIconLiteral[]): void {
+    icons.forEach((icon: CivicIconLiteral) => {
+      const regex = /Fullcolor/i;
+      const name = 'civic:' + icon.name.replace(regex, '');
+      this.iconService.addIconLiteral(name, icon.data);
+    })
   }
 }

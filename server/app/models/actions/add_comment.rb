@@ -26,8 +26,8 @@ module Actions
         organization: resolve_organization(originating_user, organization_id),
         originating_object: comment
       )
+      #subscribe_user_to_commentable if subscribe_user
       #handle_mentions
-      subscribe_user_to_commentable if subscribe_user
     end
 
     def create_comment
@@ -40,7 +40,7 @@ module Actions
     end
 
     def handle_mentions
-      NotifyMentioned.perform_later(comment.text, comment.user, event)
+      ::CaptureMentionsAndNotify.perform_later(comment, event)
     end
 
     def subscribe_user_to_commentable

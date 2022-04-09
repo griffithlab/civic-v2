@@ -1,0 +1,26 @@
+query VariantGroupPopover($variantGroupId: Int!){
+  variantGroup(id: $variantGroupId) {
+    ... variantGroupPopoverFields
+  }
+}
+
+fragment variantGroupPopoverFields on VariantGroup {
+  id
+  name
+  description
+  variants {
+    edges {
+      node {
+        id
+        name
+        link
+      }
+    }
+  }
+  sources {
+    id
+    citation
+    sourceType
+    link
+  }
+}

@@ -1,0 +1,45 @@
+@import "themes/global-variables.less";
+@import "ng-zorro-antd/style/color/colors.less";
+
+:host {
+  display: block;
+}
+
+.space-container {
+  display: block;
+}
+
+.ant-carousel {
+  border: 1px solid #3e5166;
+  border-radius: @border-radius-md;
+  height: 200px;
+  background-color: @layout-header-background;
+  [nz-carousel-content] {
+    padding-top: 3em;
+    padding-left: 3em;
+    height: 200px;
+    background-color: #2e143e;
+    overflow: hidden;
+    color: #fff;
+    h1 {
+      color: #fff;
+    }
+    h2 {
+      color: #fff;
+    }
+  }
+}
+
+.home-card {
+  border-radius: @border-radius-md;
+}
+
+.header-link {
+  color: white
+}
+
+// .space-align-container {
+//   display: flex;
+//   align-item: flex-start;
+//   flex-wrap: wrap;
+// }

@@ -1,0 +1,50 @@
+query BrowseDiseases(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $sortBy: DiseasesSort
+  $name: String
+  $doid: String
+  $geneNames: String
+){
+  browseDiseases(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    sortBy: $sortBy
+    name: $name
+    doid: $doid
+    geneNames: $geneNames
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    filteredCount
+    pageCount
+    edges {
+      cursor
+      node {
+        ... BrowseDiseaseRowFields
+      }
+    }
+  }
+}
+
+fragment BrowseDiseaseRowFields on BrowseDisease {
+  id
+  name
+  doid
+  diseaseUrl
+  geneNames
+  assertionCount
+  evidenceItemCount
+  variantCount
+  geneCount
+  link
+}

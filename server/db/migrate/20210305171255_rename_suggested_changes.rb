@@ -1,4 +1,3 @@
-class VariantGroup < ApplicationRecord; end
 
 class RenameSuggestedChanges < ActiveRecord::Migration[6.1]
   def up

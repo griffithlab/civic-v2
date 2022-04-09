@@ -1,0 +1,59 @@
+<nz-row nzGutter="8">
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Evidence Submitted"
+      [nzValue]="(stats.submittedEvidenceItems | number)!"
+      [nzPrefix]="evidenceIcon"></nz-statistic>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Evidence Accepted"
+      [nzValue]="(stats.acceptedEvidenceItems | number)!"
+      [nzPrefix]="evidenceIcon"></nz-statistic>
+  </nz-col>
+</nz-row>
+<nz-row>
+  <ng-template #evidenceIcon><i nz-icon
+                               nzType="civic:evidence"></i></ng-template>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Assertions Submitted"
+      [nzValue]="(stats.submittedAssertions | number)!"
+      [nzPrefix]="assertionIcon"></nz-statistic>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Assertions Accepted"
+      [nzValue]="(stats.acceptedAssertions | number)!"
+      [nzPrefix]="assertionIcon"></nz-statistic>
+  </nz-col>
+  <ng-template #assertionIcon><i nz-icon
+                                nzType="civic:assertion"></i></ng-template>
+</nz-row>
+
+<nz-row nzGutter="8">
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Revisions Suggested"
+      [nzValue]="(stats.revisions | number)!"
+      [nzPrefix]="revisionIcon"></nz-statistic>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Revisions Applied"
+      [nzValue]="(stats.appliedRevisions | number)!"
+      [nzPrefix]="revisionIcon"></nz-statistic>
+  </nz-col>
+</nz-row>
+<nz-row>
+  <ng-template #revisionIcon><i nz-icon
+                               nzType="civic:revision"></i></ng-template>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Comments"
+      [nzValue]="(stats.comments | number)!"
+      [nzPrefix]="commentIcon"></nz-statistic>
+    <ng-template #commentIcon><i nz-icon
+                                nzType="civic:comment"></i></ng-template>
+  </nz-col>
+  <nz-col nzFlex="1">
+    <nz-statistic nzTitle="Sources Suggested"
+      [nzValue]="(stats.suggestedSources | number)!"
+      [nzPrefix]="sourceIcon"></nz-statistic>
+  </nz-col>
+  <ng-template #sourceIcon><i nz-icon
+                             nzType="civic:source"></i></ng-template>
+</nz-row>

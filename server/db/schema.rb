@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_17_182919) do
+ActiveRecord::Schema.define(version: 2022_04_07_144259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,34 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.integer "assertion_id", null: false
     t.index ["acmg_code_id", "assertion_id"], name: "index_acmg_codes_assertions_on_acmg_code_id_and_assertion_id"
     t.index ["assertion_id"], name: "index_acmg_codes_assertions_on_assertion_id"
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "advanced_searches", id: :serial, force: :cascade do |t|
@@ -68,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.integer "variant_origin"
     t.bigint "nccn_guideline_id"
     t.boolean "flagged", default: false, null: false
+    t.integer "evidence_items_count"
     t.index ["description"], name: "index_assertions_on_description"
     t.index ["disease_id"], name: "index_assertions_on_disease_id"
     t.index ["drug_interaction_type"], name: "index_assertions_on_drug_interaction_type"
@@ -313,14 +342,24 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.index ["evidence_item_id"], name: "index_drugs_evidence_items_on_evidence_item_id"
   end
 
+  create_table "entity_mentions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "entity_type"
+    t.bigint "entity_id"
+    t.bigint "comment_id"
+    t.index ["comment_id"], name: "index_entity_mentions_on_comment_id"
+    t.index ["entity_type", "entity_id"], name: "index_entity_mentions_on_entity"
+  end
+
   create_table "events", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "action"
     t.text "description"
     t.integer "originating_user_id"
-    t.string "subject_type", null: false
-    t.integer "subject_id", null: false
+    t.string "subject_type"
+    t.integer "subject_id"
     t.text "state_params"
     t.boolean "unlinkable", default: false
     t.integer "organization_id"
@@ -471,11 +510,9 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.text "name"
     t.text "url"
     t.text "description"
-    t.string "profile_image_file_name"
-    t.string "profile_image_content_type"
-    t.bigint "profile_image_file_size"
-    t.datetime "profile_image_updated_at"
     t.integer "parent_id"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "phenotypes", id: :serial, force: :cascade do |t|
@@ -526,6 +563,14 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.index ["updated_at"], name: "index_revisions_on_updated_at"
   end
 
+  create_table "role_mentions", force: :cascade do |t|
+    t.integer "role", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "comment_id"
+    t.index ["comment_id"], name: "index_role_mentions_on_comment_id"
+  end
+
   create_table "source_suggestions", id: :serial, force: :cascade do |t|
     t.integer "source_id"
     t.integer "user_id"
@@ -537,6 +582,9 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "reason"
+    t.integer "gene_id"
+    t.integer "variant_id"
+    t.integer "disease_id"
   end
 
   create_table "sources", id: :serial, force: :cascade do |t|
@@ -553,7 +601,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.integer "publication_day"
     t.text "journal"
     t.string "full_journal_title"
-    t.text "name"
+    t.text "title"
     t.text "status", default: "fully curated", null: false
     t.boolean "is_review"
     t.integer "source_type", null: false
@@ -561,6 +609,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.text "asco_presenter"
     t.index ["asco_abstract_id"], name: "index_sources_on_asco_abstract_id"
     t.index ["asco_presenter"], name: "index_sources_on_asco_presenter"
+    t.index ["citation_id"], name: "index_sources_on_citation_id"
   end
 
   create_table "sources_variant_groups", id: false, force: :cascade do |t|
@@ -611,6 +660,15 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.datetime "updated_at"
   end
 
+  create_table "user_mentions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.index ["comment_id"], name: "index_user_mentions_on_comment_id"
+    t.index ["user_id"], name: "index_user_mentions_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email"
     t.string "name"
@@ -631,14 +689,13 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
     t.boolean "featured_expert", default: false
     t.text "bio"
     t.boolean "signup_complete"
-    t.string "profile_image_file_name"
-    t.string "profile_image_content_type"
-    t.bigint "profile_image_file_size"
-    t.datetime "profile_image_updated_at"
     t.integer "country_id"
+    t.integer "most_recent_organization_id"
+    t.datetime "most_recent_action_timestamp"
     t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["last_seen_at"], name: "index_users_on_last_seen_at"
+    t.index ["most_recent_action_timestamp"], name: "index_users_on_most_recent_action_timestamp"
     t.index ["role"], name: "index_users_on_role"
   end
 
@@ -739,6 +796,8 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
 
   add_foreign_key "acmg_codes_assertions", "acmg_codes"
   add_foreign_key "acmg_codes_assertions", "assertions"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assertions", "nccn_guidelines"
   add_foreign_key "assertions_drugs", "assertions"
   add_foreign_key "assertions_drugs", "drugs"
@@ -759,6 +818,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
   add_foreign_key "domain_expert_tags", "users"
   add_foreign_key "drugs_evidence_items", "drugs"
   add_foreign_key "drugs_evidence_items", "evidence_items"
+  add_foreign_key "entity_mentions", "comments"
   add_foreign_key "events", "organizations"
   add_foreign_key "events", "users", column: "originating_user_id"
   add_foreign_key "evidence_items", "diseases"
@@ -776,8 +836,15 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
   add_foreign_key "notifications", "users", column: "originating_user_id"
   add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "regulatory_agencies", "countries"
+  add_foreign_key "role_mentions", "comments"
+  add_foreign_key "source_suggestions", "diseases"
+  add_foreign_key "source_suggestions", "genes"
+  add_foreign_key "source_suggestions", "variants"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"
+  add_foreign_key "user_mentions", "comments"
+  add_foreign_key "user_mentions", "users"
+  add_foreign_key "users", "organizations", column: "most_recent_organization_id"
   add_foreign_key "variant_aliases_variants", "variant_aliases"
   add_foreign_key "variant_aliases_variants", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
@@ -806,27 +873,142 @@ ActiveRecord::Schema.define(version: 2021_03_17_182919) do
        JOIN evidence_items ei ON (((v.id = ei.variant_id) AND (ei.deleted = false))))
     GROUP BY v.id;
   SQL
-  create_view "gene_browse_views", sql_definition: <<-SQL
-      SELECT genes.id,
-      genes.name,
-      genes.entrez_id,
-      genes.flagged,
+  create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT variant_groups.id,
+      variant_groups.name,
+      array_agg(DISTINCT variants.name) AS variant_names,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM ((((variant_groups
+       JOIN variant_group_variants ON ((variant_group_variants.variant_group_id = variant_groups.id)))
+       JOIN variants ON ((variant_group_variants.variant_id = variants.id)))
+       JOIN genes ON ((variants.gene_id = genes.id)))
+       LEFT JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY variant_groups.id, variant_groups.name;
+  SQL
+  add_index "variant_group_browse_table_rows", ["id"], name: "index_variant_group_browse_table_rows_on_id", unique: true
+
+  create_view "gene_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT outer_genes.id,
+      outer_genes.name,
+      outer_genes.entrez_id,
+      outer_genes.flagged,
       array_agg(DISTINCT gene_aliases.name ORDER BY gene_aliases.name) AS alias_names,
-      array_agg(DISTINCT diseases.name ORDER BY diseases.name) AS disease_names,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
       count(DISTINCT variants.id) AS variant_count,
       count(DISTINCT evidence_items.id) AS evidence_item_count,
-      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
       count(DISTINCT assertions.id) AS assertion_count
-     FROM ((((((((genes
-       LEFT JOIN gene_aliases_genes ON ((gene_aliases_genes.gene_id = genes.id)))
+     FROM ((((((((((genes outer_genes
+       LEFT JOIN gene_aliases_genes ON ((gene_aliases_genes.gene_id = outer_genes.id)))
        LEFT JOIN gene_aliases ON ((gene_aliases.id = gene_aliases_genes.gene_alias_id)))
-       JOIN variants ON ((variants.gene_id = genes.id)))
+       JOIN variants ON ((variants.gene_id = outer_genes.id)))
        JOIN evidence_items ON ((evidence_items.variant_id = variants.id)))
        LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
        LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
        LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
-       LEFT JOIN assertions ON ((assertions.gene_id = genes.id)))
+       LEFT JOIN assertions ON ((assertions.gene_id = outer_genes.id)))
+       LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM (((evidence_items evidence_items_1
+               JOIN variants variants_1 ON ((variants_1.id = evidence_items_1.variant_id)))
+               JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
+               JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
+            WHERE (variants_1.gene_id = outer_genes.id)
+            GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
+       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM ((evidence_items evidence_items_1
+               JOIN variants variants_1 ON ((variants_1.id = evidence_items_1.variant_id)))
+               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE (variants_1.gene_id = outer_genes.id)
+            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY genes.id, genes.name, genes.entrez_id;
+    GROUP BY outer_genes.id, outer_genes.name, outer_genes.entrez_id;
   SQL
+  add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
+
+  create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT outer_variants.id,
+      outer_variants.name,
+      outer_variants.civic_actionability_score AS evidence_score,
+      genes.id AS gene_id,
+      genes.name AS gene_name,
+      array_agg(DISTINCT variant_aliases.name ORDER BY variant_aliases.name) AS alias_names,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      array_agg(DISTINCT variant_types.id) AS variant_types,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM ((((((((((((variants outer_variants
+       LEFT JOIN variant_aliases_variants ON ((variant_aliases_variants.variant_id = outer_variants.id)))
+       LEFT JOIN variant_aliases ON ((variant_aliases.id = variant_aliases_variants.variant_alias_id)))
+       JOIN evidence_items ON ((evidence_items.variant_id = outer_variants.id)))
+       JOIN genes ON ((genes.id = outer_variants.gene_id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN assertions ON ((assertions.variant_id = outer_variants.id)))
+       LEFT JOIN variant_types_variants ON ((variant_types_variants.variant_id = outer_variants.id)))
+       LEFT JOIN variant_types ON ((variant_types_variants.variant_type_id = variant_types.id)))
+       LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM ((evidence_items evidence_items_1
+               JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
+               JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
+            WHERE (evidence_items_1.variant_id = outer_variants.id)
+            GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
+       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM (evidence_items evidence_items_1
+               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE (evidence_items_1.variant_id = outer_variants.id)
+            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY outer_variants.id, outer_variants.name, outer_variants.civic_actionability_score, genes.id, genes.name;
+  SQL
+  add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
+
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.display_name,
+      diseases.doid,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT genes.id) AS gene_count
+     FROM (((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       JOIN variants ON ((variants.id = evidence_items.variant_id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY diseases.id, diseases.name, diseases.doid;
+  SQL
+  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
+
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) AS authors,
+      sources.publication_year,
+      sources.journal,
+      sources.title,
+      sources.description,
+      count(DISTINCT evidence_items.id) AS evidence_item_count
+     FROM (((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title;
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+
 end

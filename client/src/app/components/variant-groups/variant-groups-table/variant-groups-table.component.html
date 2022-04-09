@@ -1,0 +1,116 @@
+<nz-card [nzTitle]="titleTemplate">
+  <ng-container *ngIf="{ value: data$ | ngrxPush } as data">
+    <nz-table #variantGroupsTable
+      [nzData]="(variantGroups$ | ngrxPush)"
+      [nzLoading]="(isLoading$ | ngrxPush)"
+      [nzFrontPagination]="false"
+      [nzShowPagination]="false">
+      <thead (nzSortOrderChange)="onSortChanged($event)">
+        <tr>
+          <th nzWidth="20%"
+            [nzColumnKey]="sortColumns.Name"
+            [nzSortFn]="true">
+            Name
+          </th>
+          <th nzWidth="30%">
+            Variants
+          </th>
+          <th nzWidth="30%">
+            Genes
+          </th>
+          <th nzWidth="10%"
+            [nzColumnKey]="sortColumns.VariantCount"
+            [nzSortFn]="true"
+            nz-tooltip
+            nzTooltipTitle="Variant Count">
+            <i nz-icon nzType="civic:variant"></i>
+          </th>
+          <th nzWidth="10%"
+            [nzColumnKey]="sortColumns.EvidenceItemCount"
+            [nzSortFn]="true"
+            nz-tooltip
+            nzTooltipTitle="Evidence Count">
+            <i nz-icon nzType="civic:evidence"></i>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <cvc-clearable-input-filter [(inputModel)]="nameInput"
+              placeholderText="Name"
+              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+          </th>
+          <th>
+            <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+              placeholderText="Variant Name"
+              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+          </th>
+          <th>
+            <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
+              placeholderText="Gene Name"
+              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+          </th>
+          <th>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vg of variantGroupsTable.data">
+          <td>
+            <cvc-variant-group-tag [variantgroup]="vg"></cvc-variant-group-tag>
+          </td>
+          <td>
+            <p nz-typography>
+              <span *ngFor="let variant of vg.variantNames; last as isLast">
+                          {{ variant }}{{ isLast ? '' : ', ' }}
+                        </span>
+            </p>
+          </td>
+          <td>
+            <p nz-typography>
+              <span *ngFor="let gene of vg.geneNames; last as isLast">
+                          {{ gene }}{{ isLast ? '' : ', ' }}
+                        </span>
+            </p>
+          </td>
+          <td>
+            {{ vg.variantCount }}
+          </td>
+          <td>
+            {{ vg.evidenceItemCount }}
+          </td>
+        </tr>
+        <!-- Load More button row -->
+        <ng-container *ngrxLet="pageInfo$ as pageInfo">
+          <tr *ngIf="pageInfo.hasNextPage">
+            <td colspan="7">
+              <button *ngIf="pageInfo.hasNextPage"
+                (click)="loadMore(pageInfo.endCursor)"
+                nz-button
+                nzBlock>Load {{this.pageSize}} More</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</nz-card>
+
+<ng-template #titleTemplate>
+  <i nz-icon nzType="civic:variantgroup"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
+  </span>
+  <ng-template #noData>
+    <span nz-typography nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>

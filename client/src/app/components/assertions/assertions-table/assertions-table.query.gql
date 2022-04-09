@@ -1,0 +1,116 @@
+query AssertionsBrowse (
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $diseaseName: String
+  $drugName: String
+  $id: Int
+  $summary: String
+  $assertionDirection: EvidenceDirection
+  $clinicalSignificance: EvidenceClinicalSignificance
+  $assertionType: EvidenceType
+  $variantId: Int,
+  $evidenceId: Int,
+  $geneName: String,
+  $variantName: String,
+  $sortBy: AssertionSort
+  $ampLevel: AmpLevel
+  $organizationId: Int,
+  $userId: Int,
+  $phenotypeId: Int,
+  $diseaseId: Int,
+  $drugId: Int,
+  $status: EvidenceStatus,
+  $cardView: Boolean!
+) {
+  assertions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    diseaseName: $diseaseName
+    drugName: $drugName
+    id: $id
+    summary: $summary
+    assertionDirection: $assertionDirection
+    clinicalSignificance: $clinicalSignificance
+    assertionType: $assertionType
+    variantId: $variantId,
+    sortBy: $sortBy,
+    ampLevel: $ampLevel,
+    geneName: $geneName,
+    variantName: $variantName,
+    evidenceId: $evidenceId
+    organizationId: $organizationId
+    userId: $userId,
+    phenotypeId: $phenotypeId
+    drugId: $drugId
+    diseaseId: $diseaseId,
+    status: $status
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...AssertionBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment AssertionBrowseTableRowFields on Assertion {
+  id
+  name
+  link
+  gene {
+    id
+    name
+    link
+  }
+  variant {
+    id
+    name
+    link
+  }
+  disease {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  phenotypes @include(if: $cardView) {
+    id
+    name
+    link
+  }
+  drugInteractionType
+  summary
+  assertionType
+  assertionDirection
+  clinicalSignificance
+  ampLevel
+  acmgCodes @include(if: $cardView) {
+    code
+  }
+  fdaCompanionTest @include(if: $cardView)
+  regulatoryApproval @include(if: $cardView)
+  regulatoryApprovalLastUpdated @include(if: $cardView)
+  nccnGuideline @include(if: $cardView) {
+    id
+    name
+  }
+  variantOrigin @include(if: $cardView)
+  evidenceItemsCount
+  status
+}

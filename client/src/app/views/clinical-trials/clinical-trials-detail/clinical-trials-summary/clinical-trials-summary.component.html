@@ -1,0 +1,4 @@
+<nz-space nzSize="middle" *ngIf="clinicalTrialId" nzDirection="vertical" class="space-align-block">
+  <cvc-sources-table [clinicalTrialId]="clinicalTrialId" cvcTitle="Clinical Trial Sources" *nzSpaceItem></cvc-sources-table>
+  <cvc-evidence-table [clinicalTrialId]="clinicalTrialId" cvcTitle="Clinical Trial Evidence" *nzSpaceItem></cvc-evidence-table>
+</nz-space>

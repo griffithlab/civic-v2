@@ -1,0 +1,23 @@
+query DrugTypeahead($name: String!) {
+  drugTypeahead(queryTerm:$name){
+    id
+    name
+    ncitId
+    drugAliases
+  }
+}
+
+mutation AddDrug($name: String!, $ncitId: String) {
+  addDrug(input: {name: $name, ncitId: $ncitId}) {
+    ...AddDrugFields
+  }
+}
+
+fragment AddDrugFields on AddDrugPayload {
+  new
+  drug {
+    id
+    ncitId
+    name
+  }
+}

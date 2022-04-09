@@ -1,0 +1,24 @@
+
+query SourceSummary(
+  $sourceId: Int!
+) {
+  source(id: $sourceId) {
+      ...SourceSummaryFields
+  }
+}
+
+fragment SourceSummaryFields on Source {
+  id
+  displayType
+  title
+  abstract
+  publicationDate
+  citationId
+  fullJournalTitle
+  pmcId
+  authorString
+  clinicalTrials {
+    nctId
+    id
+  }
+} 

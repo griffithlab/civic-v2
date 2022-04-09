@@ -1,0 +1,53 @@
+/* Default CIViC Theme
+ *
+ * Based on ng-zorro's 'compact' theme, which inherits from its 'default' theme.
+ *
+ * Imported from main /src/styles.less
+ *
+ * Styles in zorro's compact.less, imported into /src/styles.less, only override the default's layout & structural
+ * styles, preserving the defaults. CIViC theme will need to override both structural
+ * and color variables, so we import the zorro color palette functions and
+ * override colors from the zorro's default.less:
+ */
+
+@import 'ng-zorro-antd/style/color/colors.less';
+
+/*
+ * PRIMARY COLOR PALETTE
+ * Primary color palette below copied from default.less. Comment updated lines in
+ * case future updates to the default palette need to be merged.
+ */
+
+// -------- Colors -----------
+@primary-color: @blue-6;
+@info-color: @primary-color;
+@success-color: @green-6;
+@processing-color: @blue-6;
+@error-color: @red-5;
+@highlight-color: @red-5;
+@warning-color: @gold-6;
+@normal-color: #d9d9d9;
+@white: #fff;
+@black: #000;
+
+// Color used by default to control hover and active backgrounds and for
+// alert info backgrounds.
+@primary-1: color(~`colorPalette('@{primary-color}', 1) `); // replace tint(@primary-color, 90%)
+@primary-2: color(~`colorPalette('@{primary-color}', 2) `); // replace tint(@primary-color, 80%)
+@primary-3: color(~`colorPalette('@{primary-color}', 3) `); // unused
+@primary-4: color(~`colorPalette('@{primary-color}', 4) `); // unused
+@primary-5: color(
+  ~`colorPalette('@{primary-color}', 5) `
+); // color used to control the text color in many active and hover states, replace tint(@primary-color, 20%)
+@primary-6: @primary-color; // color used to control the text color of active buttons, don't use, use @primary-color
+@primary-7: color(~`colorPalette('@{primary-color}', 7) `); // replace shade(@primary-color, 5%)
+@primary-8: color(~`colorPalette('@{primary-color}', 8) `); // unused
+@primary-9: color(~`colorPalette('@{primary-color}', 9) `); // unused
+@primary-10: color(~`colorPalette('@{primary-color}', 10) `); // unused
+
+// PUT CUSTOM GLOBALS IN global-variables.less
+@import 'themes/global-variables.less';
+
+.typeahead-match {
+  font-weight: bold;
+}

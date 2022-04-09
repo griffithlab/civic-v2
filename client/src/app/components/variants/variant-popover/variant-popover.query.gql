@@ -1,0 +1,30 @@
+query VariantPopover($variantId: Int!){
+  variant(id: $variantId) {
+    ... variantPopoverFields
+  }
+}
+
+fragment variantPopoverFields on Variant {
+  id
+  name
+  description
+  variantAliases
+  alleleRegistryId
+  evidenceItems {
+    totalCount
+  }
+  gene {
+    id
+    name
+    link
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+}

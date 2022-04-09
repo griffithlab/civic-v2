@@ -2,8 +2,9 @@ module Types::Revisions
   class ModeratedObjectField < Types::BaseObject
     field :id, Int, null: false
     field :display_name, String, null: false
-    field :display_type, String, null: false
+    field :display_type, String, null: true
     field :entity_type, String, null: false
+    field :link, String, null: false
   end
 
   class ScalarFieldType < Types::BaseObject

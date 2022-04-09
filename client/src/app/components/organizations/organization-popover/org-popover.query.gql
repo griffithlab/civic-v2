@@ -1,0 +1,13 @@
+query OrgPopover ($orgId: Int!) {
+  organization(id: $orgId) {
+    ...orgPopover
+  }
+}
+
+fragment orgPopover on Organization {
+  id
+  profileImagePath(size: 64)
+  name
+  description
+  url
+}

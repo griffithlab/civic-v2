@@ -6,6 +6,10 @@ class PortSuggestedChanges < ActiveRecord::Migration[6.1]
 
     revision_id_mapping = {}
 
+    count = SuggestedChange.count
+    puts "Processing #{count} changes"
+    complete = 0
+
     SuggestedChange.find_each do |sc|
       created_revision = false
       revisionset_id = SecureRandom.uuid
@@ -105,6 +109,9 @@ class PortSuggestedChanges < ActiveRecord::Migration[6.1]
       subs_to_delete.destroy_all
       events.each(&:destroy)
       sc.destroy
+      
+      complete += 1
+      puts "Done #{complete}/#{count}" if complete % 500 == 0
     end
 
     event_ids = Event.where(subject_type: 'SuggestedChange').pluck(:id)

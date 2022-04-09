@@ -1,56 +1,73 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HttpClientJsonpModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-
+import { ReactiveComponentModule } from '@ngrx/component';
+import { CookieService } from 'ngx-cookie-service';
+import { civicIcons } from '@app/icons-provider.module';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { LoggerModule, NgxLoggerLevel } from "ngx-logger";
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
-import { IconsProviderModule } from './icons-provider.module';
-
-
-import { GraphQLModule } from '@app/graphql.module';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { GraphQLModule } from '@app/graphql/graphql.module';
+import { environment } from 'environments/environment';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcNetworkErrorAlertModule } from './components/app/network-error-alert/network-error-alert.module';
+import { CivicTimeagoFormatter } from './core/utilities/timeago-formatter';
+import { CvcFormsModule } from './forms/forms.module';
+import { Observable } from 'rxjs';
+import { AppLoadErrorHandler } from './core/utilities/app-reload-handler';
 
 registerLocaleData(en);
 
+function initializeApiFactory(httpClient: HttpClient): () => Observable<any> {
+  return () => httpClient.get("/api/status");
+}
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    GraphQLModule,
     HttpClientModule,
     HttpClientXsrfModule,
-    BrowserAnimationsModule,
-    IconsProviderModule,
+    HttpClientJsonpModule,
     LoggerModule.forRoot({
       timestampFormat: 'mediumTime',
-      level: NgxLoggerLevel.TRACE,
+      level: !environment.production ? NgxLoggerLevel.TRACE : NgxLoggerLevel.OFF,
+      enableSourceMaps: true,
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
-    NzLayoutModule,
-    NzGridModule,
-    NzMenuModule,
-    NzToolTipModule,
-    NzTypographyModule,
-    ReactiveFormsModule,
-    GraphQLModule
+    NgxJsonViewerModule,
+    NzIconModule.forRoot(civicIcons),
+    ReactiveComponentModule,
+    TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: CivicTimeagoFormatter }}),
+    CvcFormsModule,
+    CvcNetworkErrorAlertModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    CookieService,
+    {
+      provide: ErrorHandler,
+      useClass: AppLoadErrorHandler
+    },
+    { provide: NZ_I18N, useValue: en_US },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApiFactory,
+      deps: [HttpClient],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
