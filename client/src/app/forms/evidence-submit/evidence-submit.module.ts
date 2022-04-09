@@ -41,6 +41,9 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -84,6 +87,10 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcSourceSelectModule,
     CvcFormContainerWrapperModule,
     CvcCancelButtonModule,
+    NzCardModule,
+    NzSpaceModule,
+    NzTypographyModule,
+    RouterModule,
     NgxJsonViewerModule,
   ],
   exports: [EvidenceSubmitForm],

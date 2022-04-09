@@ -1,6 +1,7 @@
 <nz-card [nzTitle]="titleTemplate">
   <ng-container *ngIf="{ value: data$ | ngrxPush } as data">
     <nz-table #variantsTable
+      nzSize="small"
       [nzData]="(variants$ | ngrxPush)"
       [nzLoading]="(isLoading$ | ngrxPush)"
       [nzFrontPagination]="false"

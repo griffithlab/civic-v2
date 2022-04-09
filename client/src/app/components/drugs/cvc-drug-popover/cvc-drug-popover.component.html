@@ -5,7 +5,7 @@
       [nzExtra]="linkout">
       <ng-template #cardTitle>
         <i nz-icon nzType="civic-intervention" nzTheme="twotone" nzTwotoneColor="#AC3996"></i>
-        {{ d.name }}
+        {{ d.name | truncate: 50}}
       </ng-template>
       <ng-template #linkout>
         <cvc-link-tag *ngIf="d.ncitId; else noNcitId" [href]="d.drugUrl" tooltip="View on NCI Thesaurus">
@@ -19,6 +19,9 @@
       <nz-descriptions nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
+        <nz-descriptions-item *ngIf="d.name.length > 50" nzTitle="Name" nzSpan="2">
+          {{ d.name }}
+        </nz-descriptions-item>
         <nz-descriptions-item *ngIf="d.drugAliases.length > 0" nzTitle="Aliases" nzSpan="2">
           {{ d.drugAliases.join(', ') }}
         </nz-descriptions-item>

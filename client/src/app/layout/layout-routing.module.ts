@@ -80,7 +80,7 @@ const routes: Routes = [
       { path: 'users',
         loadChildren: () => import('@app/views/users/users.module').then(m => m.UsersModule),
         data: {
-          breadcrumb: 'Users'
+          breadcrumb: 'Contributors'
         }
       },
       { path: 'variant-groups',

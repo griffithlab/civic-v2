@@ -5,7 +5,7 @@
       [nzExtra]="linkout">
       <ng-template #cardTitle>
       <i nz-icon nzType="civic-disease" nzTheme="twotone" nzTwotoneColor="#E62F76"></i>
-         {{ d.name }}
+         {{ d.name | truncate: 50}}
       </ng-template>
       <ng-template #linkout>
         <cvc-link-tag *ngIf="d.doid; else noDoid" [href]="d.diseaseUrl" tooltip="View on disease-ontology.org">
@@ -18,6 +18,9 @@
       <nz-descriptions nzSize="small"
         [nzColumn]="1"
         nzBordered="true">
+        <nz-descriptions-item *ngIf="d.name.length > 50" nzTitle="Name" nzSpan="2">
+          {{ d.name }}
+        </nz-descriptions-item>
         <nz-descriptions-item *ngIf="d.diseaseAliases.length > 0" nzTitle="Aliases" nzSpan="2">
           {{ d.diseaseAliases.join(', ') }}
         </nz-descriptions-item>

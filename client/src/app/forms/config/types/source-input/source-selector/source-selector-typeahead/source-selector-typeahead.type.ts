@@ -66,7 +66,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
         .fetch({
           sourceType: this.to.sourceType,
           partialCitationId: +value
-        })
+        }, { fetchPolicy: 'network-only' })
         .subscribe(({ data: { sourceTypeahead } }) => {
           this.to.optionList = sourceTypeahead.map(s => {
             return { value: s.citationId, label: s.citationId, source: s }

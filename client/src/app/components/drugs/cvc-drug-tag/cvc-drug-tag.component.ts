@@ -16,6 +16,7 @@ export interface LinkableDrug {
 export class CvcDrugTagComponent extends BaseCloseableTag implements OnInit {
   @Input() drug!: LinkableDrug
   @Input() enablePopover: Maybe<boolean> = true
+  @Input() truncateLongName: Maybe<boolean> = false
 
   constructor() { 
     super();

@@ -17,6 +17,7 @@ import { CivicTimeagoFormatter } from "@app/core/utilities/timeago-formatter";
 import { TimeagoFormatter, TimeagoModule } from "ngx-timeago";
 import { NzCardModule } from "ng-zorro-antd/card";
 import { NzTypographyModule } from "ng-zorro-antd/typography";
+import { CvcTagListModule } from "@app/components/shared/tag-list/tag-list.module";
 
 @NgModule({
   declarations: [CvcUsersTableComponent],
@@ -31,6 +32,7 @@ import { NzTypographyModule } from "ng-zorro-antd/typography";
     NzSelectModule,
     NzCardModule,
     NzTypographyModule,
+    CvcTagListModule,
     CvcClearableInputFilterModule,
     CvcLinkTagModule,
     CvcUserTagModule,

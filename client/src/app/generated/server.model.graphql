@@ -377,6 +377,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     sortBy: DateSort
   ): EventConnection!
   evidenceItems: [EvidenceItem!]!
+  evidenceItemsCount: Int!
   fdaCompanionTest: Boolean
   fdaCompanionTestLastUpdated: ISO8601DateTime
   flagged: Boolean!
@@ -681,6 +682,7 @@ enum AssertionSortColumns {
   CLINICAL_SIGNIFICANCE
   DISEASE_NAME
   DRUG_NAME
+  EVIDENCE_ITEMS_COUNT
   GENE_NAME
   ID
   STATUS
