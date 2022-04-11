@@ -211,6 +211,9 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
                 required: false,
                 placeholder: 'Enter a ClinVar ID'
               }
+            },
+            validators: {
+              validation: ['integer']
             }
           },
           {

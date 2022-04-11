@@ -58,10 +58,22 @@ export const defaultValidators: ValidatorOption[] = [
   {
     name: 'integer',
     validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
-      if (fc.value === '' || fc.value === undefined || fc.value === null) {
-        return null;
-      } else {
-        return /^\d+$/.test(fc.value) ? null : { 'integer': true }
+      if (Array.isArray(fc.value)) {
+        for (var value of fc.value) {
+          if (!(value === '' || value === undefined || value === null)) {
+            if (!(/^\d+$/.test(value))) {
+              return {'integer': true}
+            }
+          }
+        }
+        return null
+      }
+      else {
+        if (fc.value === '' || fc.value === undefined || fc.value === null) {
+          return null;
+        } else {
+          return /^\d+$/.test(fc.value) ? null : { 'integer': true }
+        }
       }
     },
   },
