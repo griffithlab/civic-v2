@@ -217,7 +217,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               }
             },
             validators: {
-              validation: ['integer']
+              validation: ['clinvar']
             }
           },
           {

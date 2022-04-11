@@ -49,31 +49,22 @@ export const defaultMessages: ValidationMessageOption[] = [
       return `Value must only contain A, C, T, G, and/or /.`;
     }
   },
-
-
-
+  {
+    name: 'clinvar',
+    message: (_err: any, ffc: FormlyFieldConfig): string => {
+      return `Value must be an integer, NONE, N/A, or NONE FOUND.`;
+    }
+  }
 ];
 
 export const defaultValidators: ValidatorOption[] = [
   {
     name: 'integer',
     validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
-      if (Array.isArray(fc.value)) {
-        for (var value of fc.value) {
-          if (!(value === '' || value === undefined || value === null)) {
-            if (!(/^\d+$/.test(value))) {
-              return {'integer': true}
-            }
-          }
-        }
-        return null
-      }
-      else {
-        if (fc.value === '' || fc.value === undefined || fc.value === null) {
-          return null;
-        } else {
-          return /^\d+$/.test(fc.value) ? null : { 'integer': true }
-        }
+      if (fc.value === '' || fc.value === undefined || fc.value === null) {
+        return null;
+      } else {
+        return /^\d+$/.test(fc.value) ? null : { 'integer': true }
       }
     },
   },
@@ -85,6 +76,19 @@ export const defaultValidators: ValidatorOption[] = [
       } else {
         return /^[ACTG\/]+$/.test(fc.value) ? null : { 'nucleotide': true }
       }
-    },
+    }
+  },
+  {
+    name: 'clinvar',
+    validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
+      for (var value of fc.value) {
+        if (!(value === '' || value === undefined || value === null)) {
+          if ( !(/^\d+$/.test(value) || value == 'NONE' || value == 'N/A' || value == 'NONE FOUND') ) {
+            return {'clinvar': true}
+          }
+        }
+      }
+      return null
+    }
   }
 ];
