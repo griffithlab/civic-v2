@@ -1,17 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PhenotypeTypeaheadGQL, PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
-import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { pluck, takeUntil } from 'rxjs/operators';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
 
 @Component({
   selector: 'cvc-tag-input-type',
@@ -19,35 +12,28 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
   styleUrls: ['./tag-input.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TagInputType extends FieldType implements OnInit{
+export class TagInputType extends FieldType {
   formControl!: FormControl;
 
-  tagVisible: boolean = false
-
-  private destroy$ = new Subject();
-
-  defaultOptions = {
-    templateOptions: {
-      placeholder: 'Enter value',
-    },
-  };
-
-  constructor(
-  ) {
+  constructor() {
     super();
+    this.defaultOptions = {
+      templateOptions: {
+        placeholder: 'Enter value',
+      },
+      modelOptions: {
+        updateOn: 'blur'
+      }
+    };
   }
 
-  handleInputConfirm() {
-    this.tagVisible = true
-  }
-
-  ngOnInit() {
-    if (this.formControl.value) {
-      this.tagVisible = true
-    }
+  onEnter(e: any): void {
+    const input = e.target as HTMLInputElement;
+    this.formControl.setValue(input.value);
   }
 
 }
+
 
 export const TagInputTypeOption: TypeOption = {
   name: 'tag-input',
