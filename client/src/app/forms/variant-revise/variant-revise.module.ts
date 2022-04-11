@@ -29,6 +29,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.module';
+import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -63,6 +64,7 @@ import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.modul
     CvcTextareaBaseTypeModule,
     CvcCancelButtonModule,
     CvcTagInputTypeModule,
+    CvcFormFieldWrapperModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],

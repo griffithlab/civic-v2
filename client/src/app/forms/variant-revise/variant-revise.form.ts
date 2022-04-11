@@ -138,9 +138,10 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           {
             key: 'sources',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
-              label: 'Description Sources',
-              addText: 'Add another Source',
+              label: 'Variant Description Sources',
+              addText: 'Add a Source',
               helpText: 'Add any Sources used as references for this Variant\'s Description above.'
             },
             fieldArray: {
@@ -153,6 +154,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           {
             key: 'variantAliases',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Variant Aliases',
               addText: 'Add an Alias',
@@ -184,6 +186,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           {
             key: 'hgvsDescriptions',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'HGVS Descriptions',
               addText: 'Add an HGVS Description',
@@ -200,6 +203,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           {
             key: 'clinvarIds',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'ClinVar IDs',
               addText: 'Add a ClinVar ID',
@@ -219,6 +223,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           {
             key: 'variantTypes',
             type: 'multi-field',
+            wrappers: ['form-field'],
             templateOptions: {
               label: 'Variant Types',
               addText: 'Add a Variant Type',
