@@ -73,7 +73,7 @@ interface FormModel {
     threePrimeCoordinates?: CoordinateFieldsFragment;
     referenceBases: Maybe<string>;
     variantBases: Maybe<string>;
-    comment: Maybe<string>;
+    comment?: string;
     organization: Maybe<Organization>,
   }
 }
@@ -378,7 +378,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               label: 'Comment',
               placeholder: 'Please enter a comment describing your revision to this variant.',
               helpText: 'Please enter a comment describing your revision to this variant.',
-              required: true,
+              required: false,
               minLength: 10
             },
           },
@@ -497,7 +497,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
           aliases: model.fields.variantAliases,
         },
-        comment: fields.comment,
+        comment: fields.comment == '' ? undefined : fields.comment,
         organizationId: model.fields.organization?.id
       }
     }
