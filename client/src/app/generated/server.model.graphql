@@ -6703,7 +6703,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     sortBy: DateSort
   ): CommentConnection!
-  description: String!
+  description: String
   ensemblVersion: Int
 
   """

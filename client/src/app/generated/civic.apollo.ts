@@ -4090,7 +4090,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   clinvarIds?: Maybe<Array<Scalars['String']>>;
   /** List and filter comments. */
   comments: CommentConnection;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   ensemblVersion?: Maybe<Scalars['Int']>;
   /** List and filter events for an object */
   events: EventConnection;
