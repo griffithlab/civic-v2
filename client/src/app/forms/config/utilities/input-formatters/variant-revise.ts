@@ -28,13 +28,23 @@ export function toClinvarInput(
   };
 }
 
-export function toCoordinateInput(coord: Coordinate): CoordinateInput {
-  return <CoordinateInput>{
-    chromosome: undefinedIfEmpty(coord.chromosome),
-    representativeTranscript: undefinedIfEmpty(coord.representativeTranscript),
-    start: coord.start ? +coord.start: undefined,
-    stop: coord.stop ? +coord.stop: undefined,
-  };
+export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
+  if (coord) {
+    return {
+      chromosome: undefinedIfEmpty(coord.chromosome),
+      representativeTranscript: undefinedIfEmpty(coord.representativeTranscript),
+      start: coord.start ? +coord.start: undefined,
+      stop: coord.stop ? +coord.stop: undefined,
+    };
+  }
+  else {
+    return {
+      chromosome: undefined,
+      representativeTranscript: undefined,
+      start: undefined,
+      stop: undefined,
+    }
+  }
 }
 
 export function toNullableReferenceBuildInput(

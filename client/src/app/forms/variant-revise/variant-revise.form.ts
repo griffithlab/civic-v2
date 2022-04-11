@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   Input,
   OnDestroy,
@@ -10,7 +11,6 @@ import {
 } from '@angular/forms';
 
 import {
-  BehaviorSubject,
   Subject,
 } from 'rxjs';
 
@@ -25,14 +25,18 @@ import {
   RevisableVariantFieldsFragment,
   ReferenceBuild,
   CoordinateFieldsFragment,
+  SuggestVariantRevisionGQL,
+  SuggestVariantRevisionMutation,
+  SuggestVariantRevisionMutationVariables,
 } from '@app/generated/civic.apollo';
 
-import { VariantReviseService } from './variant-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
 import { Chromosomes } from '@app/forms/config/utilities/input-formatters';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
 interface FormSource {
   id?: number;
@@ -53,23 +57,23 @@ interface FormVariantType {
 }
 
 interface FormModel {
-  id: number;
   fields: {
+    id: number;
     name: string;
     variantAliases: string[];
-    description: string;
+    description?: string;
     sources: FormSource[];
     clinvarIds: string[];
     gene: FormGene;
-    referenceBuild: ReferenceBuild;
-    ensemblVersion: number;
-    hgvsDescriptions: Maybe<string[]>;
+    referenceBuild?: ReferenceBuild;
+    ensemblVersion?: number;
+    hgvsDescriptions: string[];
     variantTypes: FormVariantType[];
-    fivePrimeCoordinates: CoordinateFieldsFragment;
-    threePrimeCoordinates: CoordinateFieldsFragment;
+    fivePrimeCoordinates?: CoordinateFieldsFragment;
+    threePrimeCoordinates?: CoordinateFieldsFragment;
     referenceBases: Maybe<string>;
     variantBases: Maybe<string>;
-    comment: string;
+    comment: Maybe<string>;
     organization: Maybe<Organization>,
   }
 }
@@ -79,19 +83,19 @@ interface FormModel {
   templateUrl: './variant-revise.form.html',
   styleUrls: ['./variant-revise.form.less']
 })
-export class VariantReviseForm implements OnDestroy {
+export class VariantReviseForm implements AfterViewInit, OnDestroy {
   @Input() variantId!: number;
-  private destroy$ = new Subject();
-  organizations!: Array<Organization>;
-  mostRecentOrg!: Maybe<Organization>;
+  private destroy$!: Subject<void>;
+
+  suggestRevisionMutator: MutatorWithState<SuggestVariantRevisionGQL, SuggestVariantRevisionMutation, SuggestVariantRevisionMutationVariables>
 
   variantRevisionInput!: SuggestVariantRevisionInput;
 
-  submitError$: BehaviorSubject<string[]>;
-  submitSuccess$: BehaviorSubject<boolean>;
-  isSubmitting$: BehaviorSubject<boolean>;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
-  formModel!: FormModel;
+  formModel: Maybe<FormModel>;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
@@ -101,18 +105,17 @@ export class VariantReviseForm implements OnDestroy {
   markAsTouched!: () => void;
 
   constructor(
-    private revisionService: VariantReviseService,
+    private suggestRevisionGQL: SuggestVariantRevisionGQL,
+    private networkErrorService: NetworkErrorsService,
     private revisableFieldsGQL: VariantRevisableFieldsGQL,
   ) {
 
-    this.submitError$ = this.revisionService.submitError$;
-    this.isSubmitting$ = this.revisionService.isSubmitting$;
-    this.submitSuccess$ = this.revisionService.submitSuccess$;
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
         key: 'fields',
-        wrappers: ['form-info'],
+        wrappers: ['form-container'],
         templateOptions: {
           label: 'Suggest Variant Revision Form',
         },
@@ -156,7 +159,7 @@ export class VariantReviseForm implements OnDestroy {
               helpText: 'List any aliases commonly used to refer to this variant.'
             },
             fieldArray: {
-              type: 'input',
+              type: 'tag-input',
               templateOptions: {
                 required: false,
                 placeholder: 'Add Alias',
@@ -187,9 +190,9 @@ export class VariantReviseForm implements OnDestroy {
               helpText: 'Please specify any HGVS descriptions for this variant.'
             },
             fieldArray: {
-              type: 'input',
+              type: 'tag-input',
               templateOptions: {
-                required: true,
+                required: false,
                 placeholder: 'Enter an HGVS string'
               }
             }
@@ -203,7 +206,7 @@ export class VariantReviseForm implements OnDestroy {
               helpText: 'Specify any corresponding ClinVar identifiers for this variant.'
             },
             fieldArray: {
-              type: 'input',
+              type: 'tag-input',
               templateOptions: {
                 required: false,
                 placeholder: 'Enter a ClinVar ID'
@@ -247,7 +250,33 @@ export class VariantReviseForm implements OnDestroy {
             type: 'cvc-ensembl-input',
           },
           {
-            key: 'fivePrimeCoordinates.chromosome',
+            key: 'threePrimeCoordinates.referenceBases',
+            type: 'input',
+            defaultValue: undefined,
+            templateOptions: {
+              label: 'Reference Bases',
+              helpText: 'The nucleotide(s) of the reference genome affected by the variant. Only used for SNVs and Indels (otherwise leave blank).',
+              required: false,
+            },
+            validators: {
+              validation: ['nucleotide']
+            }
+          },
+          {
+            key: 'threePrimeCoordinates.variantBases',
+            type: 'input',
+            defaultValue: undefined,
+            templateOptions: {
+              label: 'Variant Bases',
+              helpText: 'The nucleotide(s) of the variant allele. Only used for SNVs and Indels (otherwise leave blank).',
+              required: false,
+            },
+            validators: {
+              validation: ['nucleotide']
+            }
+          },
+          {
+            key: 'threePrimeCoordinates.chromosome',
             type: 'select',
             defaultValue: undefined,
             templateOptions: {
@@ -258,29 +287,31 @@ export class VariantReviseForm implements OnDestroy {
             },
           },
           {
-            key: 'fivePrimeCoordinates.start',
+            key: 'threePrimeCoordinates.start',
             type: 'input',
             templateOptions: {
               label: 'Start',
-              helpText: 'Enter the left/first coordinate of this variant. Must be &leq; the Stop coordinate. Coordinate must be compatible with the selected reference build.'
+              helpText: 'Enter the left/first coordinate of this variant. Must be &leq; the Stop coordinate. Coordinate must be compatible with the selected reference build.',
+              required: false,
             },
             validators: {
               validation: ['integer']
             }
           },
           {
-            key: 'fivePrimeCoordinates.stop',
+            key: 'threePrimeCoordinates.stop',
             type: 'input',
             templateOptions: {
               label: 'Stop',
               helpText: 'Provide the right/second coordinate of this variant. Must be &geq; the Start coordinate. Coordinate must be compatible with the selected reference build.',
+              required: false
             },
             validators: {
               validation: ['integer']
             }
           },
           {
-            key: 'fivePrimeCoordinates.representativeTranscript',
+            key: 'threePrimeCoordinates.representativeTranscript',
             type: 'input',
             templateOptions: {
               label: 'Representative Transcript',
@@ -291,7 +322,7 @@ export class VariantReviseForm implements OnDestroy {
             template: '<h3>Secondary Coordinates</h3>',
           },
           {
-            key: 'threePrimeCoordinates.chromosome',
+            key: 'fivePrimeCoordinates.chromosome',
             type: 'select',
             defaultValue: undefined,
             templateOptions: {
@@ -303,7 +334,7 @@ export class VariantReviseForm implements OnDestroy {
             },
           },
           {
-            key: 'threePrimeCoordinates.start',
+            key: 'fivePrimeCoordinates.start',
             type: 'input',
             templateOptions: {
               label: 'Start',
@@ -314,7 +345,7 @@ export class VariantReviseForm implements OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.stop',
+            key: 'fivePrimeCoordinates.stop',
             type: 'input',
             templateOptions: {
               label: 'Stop',
@@ -325,7 +356,7 @@ export class VariantReviseForm implements OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.representativeTranscript',
+            key: 'fivePrimeCoordinates.representativeTranscript',
             type: 'input',
             templateOptions: {
               label: 'Representative Transcript',
@@ -362,17 +393,13 @@ export class VariantReviseForm implements OnDestroy {
       },
     ]
 
-    // reset form upon successful submit
-    this.submitSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(s => {
-        if (s && this.formOptions.resetModel) {
-          this.formOptions.resetModel();
-        }
-      })
   }
 
   ngOnInit(): void {
+    this.destroy$ = new Subject();
+  }
+
+  ngAfterViewInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL.fetch({ variantId: this.variantId })
       .subscribe(
@@ -380,9 +407,6 @@ export class VariantReviseForm implements OnDestroy {
         ({ data: { variant } }) => {
           if (variant) {
             this.formModel = this.toFormModel(variant);
-          }
-          if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
           }
         },
         // error
@@ -392,6 +416,9 @@ export class VariantReviseForm implements OnDestroy {
         },
         // complete
         () => {
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
           // prompt fields to display any errors that exist in loaded variant
           this.formGroup.markAllAsTouched();
           // mark comment field as untouched, we don't want to show an error before the user interacts with the field
@@ -401,55 +428,76 @@ export class VariantReviseForm implements OnDestroy {
 
   }
 
-  submitRevision(formModel: FormModel): void {
-    this.revisionService
-      .suggest(this.toRevisionInput(formModel));
-  }
-
   toFormModel(variant: RevisableVariantFieldsFragment): FormModel {
-    return <FormModel>{
-      id: variant.id,
+    return {
       fields: {
         ...variant,
-        // TODO: probably incorrect - assuming root ref/var bases can be plucked from
-        // fivePrimeCoordinates
         referenceBases: variant.fivePrimeCoordinates?.referenceBases,
         variantBases: variant.fivePrimeCoordinates?.variantBases,
-        comment: this.formModel.fields.comment,
-        organization: this.formModel.fields.organization,
+        comment: this.formModel?.fields.comment,
+        organization: this.formModel?.fields.organization,
       },
     }
   }
 
-  toRevisionInput(model: FormModel): SuggestVariantRevisionInput {
-    const fields = model.fields;
-    return <SuggestVariantRevisionInput>{
-      ...model,
-      fields: {
-        name: fields.name,
-        geneId: fields.gene.id,
-        ensemblVersion: +fields.ensemblVersion,
-        description: fmt.toNullableString(fields.description),
-        clinvarIds: fmt.toClinvarInput(fields.clinvarIds),
-        primaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
-        secondaryCoordinates: fmt.toCoordinateInput(fields.threePrimeCoordinates),
-        referenceBases: fmt.toNullableString(fields.referenceBases),
-        variantBases: fmt.toNullableString(fields.variantBases),
-        referenceBuild: fmt.toNullableReferenceBuildInput(fields.referenceBuild),
-        hgvsDescriptions: fields.hgvsDescriptions,
-        sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
-        variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
-        aliases: model.fields.variantAliases,
-      },
-      comment: model.fields.comment,
-      organizationId: model.fields.organization === undefined ? undefined : model.fields.organization.id
+  submitRevision(formModel: Maybe<FormModel>): void {
+    let input = this.toRevisionInput(formModel)
+    if(input) {
+      let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
+        input: input
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
     }
+  }
+
+
+  toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestVariantRevisionInput> {
+    if (model) {
+      const fields = model.fields;
+      return {
+        id: fields.id,
+        ...model,
+        fields: {
+          name: fields.name,
+          geneId: fields.gene.id,
+          ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
+          description: fmt.toNullableString(fields.description),
+          clinvarIds: fmt.toClinvarInput(fields.clinvarIds),
+          primaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
+          secondaryCoordinates: fmt.toCoordinateInput(fields.threePrimeCoordinates),
+          referenceBases: fmt.toNullableString(fields.referenceBases),
+          variantBases: fmt.toNullableString(fields.variantBases),
+          referenceBuild: fmt.toNullableReferenceBuildInput(fields.referenceBuild),
+          hgvsDescriptions: fields.hgvsDescriptions,
+          sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
+          variantTypeIds: model.fields.variantTypes.map((vt: any) => { return +vt.id }),
+          aliases: model.fields.variantAliases,
+        },
+        comment: fields.comment,
+        organizationId: model.fields.organization?.id
+      }
+    }
+    return undefined
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.revisionService.cleanup();
   }
-
 }

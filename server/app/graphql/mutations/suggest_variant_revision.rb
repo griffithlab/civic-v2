@@ -10,7 +10,7 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
       If no change is desired for a particular field, pass in the current value of that field.
     DOC
 
-  argument :comment, String, required: true,
+  argument :comment, String, required: false,
     validates: { length: { minimum: 10 } },
     description: 'Text describing the reason for the change. Will be attached to the Revision as a comment.'
 

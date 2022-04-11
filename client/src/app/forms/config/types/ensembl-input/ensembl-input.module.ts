@@ -4,6 +4,7 @@ import { ensemblVersionValidator, EnsemblInputType, ensemblInputTypeOption, ense
 import { FormlyModule } from '@ngx-formly/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [EnsemblInputType],
@@ -16,7 +17,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
       validators: [ensemblVersionValidator],
       validationMessages: [ensemblVersionValidationMessage]
     }),
-    NzInputNumberModule,
+    NzInputNumberModule
   ]
 })
 export class CvcEnsemblInputTypeModule { }

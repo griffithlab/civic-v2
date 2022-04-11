@@ -14,7 +14,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { VariantReviseService } from './variant-revise.service';
 import { CvcVariantTypeInputTypeModule } from '@app/forms/config/types/variant-type-input/variant-type-input.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
@@ -22,16 +21,17 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
-import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
 import { CvcVariantCoordinatesCardTypeModule } from '@app/forms/config/types/variant-coordinates-card/variant-coordinates-card.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
-  providers: [VariantReviseService],
   imports: [
     CommonModule,
     RouterModule,
@@ -48,9 +48,10 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     NzIconModule,
     NzButtonModule,
     NzSwitchModule,
+    NzSpinModule,
     CvcSubmitButtonTypeModule,
     CvcOrgSelectorBtnGroupModule,
-    CvcFormInfoWrapperModule,
+    CvcFormContainerWrapperModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcVariantCoordinatesCardTypeModule,
@@ -61,6 +62,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcEnsemblInputTypeModule,
     CvcTextareaBaseTypeModule,
     CvcCancelButtonModule,
+    CvcTagInputTypeModule,
     NgxJsonViewerModule,
   ],
   exports: [VariantReviseForm],

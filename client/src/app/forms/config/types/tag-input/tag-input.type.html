@@ -1,0 +1,10 @@
+<ng-container *ngIf="!tagVisible; else tagItem">
+  <input nz-input
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    (blur)="handleInputConfirm()"
+    (keydown.enter)="handleInputConfirm()" />
+</ng-container>
+<ng-template #tagItem>
+  <nz-tag>{{formControl.value}}</nz-tag>
+</ng-template>

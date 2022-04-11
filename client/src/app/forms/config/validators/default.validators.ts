@@ -43,6 +43,14 @@ export const defaultMessages: ValidationMessageOption[] = [
       return `Value must be an integer.`;
     }
   },
+  {
+    name: 'nucleotide',
+    message: (_err: any, ffc: FormlyFieldConfig): string => {
+      return `Value must only contain A, C, T, G, and/or /.`;
+    }
+  },
+
+
 
 ];
 
@@ -50,11 +58,21 @@ export const defaultValidators: ValidatorOption[] = [
   {
     name: 'integer',
     validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
-      if (fc.value === '' || fc.value === undefined) {
+      if (fc.value === '' || fc.value === undefined || fc.value === null) {
         return null;
       } else {
         return /^\d+$/.test(fc.value) ? null : { 'integer': true }
       }
     },
   },
+  {
+    name: 'nucleotide',
+    validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
+      if (fc.value === '' || fc.value === undefined || fc.value === null) {
+        return null;
+      } else {
+        return /^[ACTG\/]+$/.test(fc.value) ? null : { 'nucleotide': true }
+      }
+    },
+  }
 ];
