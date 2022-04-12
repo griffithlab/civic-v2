@@ -1,5 +1,6 @@
 <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
   <form nz-form
+    *ngIf="formModel"
     [formGroup]="formGroup"
     (ngSubmit)="submitRevision(formModel)"
     nzLayout="vertical">
