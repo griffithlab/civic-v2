@@ -218,9 +218,9 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               placeholder: 'Select Clinvar ID status',
               helpText: 'Specify if Clinvar IDs exist, or if they are not applicable for this variant.',
               options: [
-                { value: 'notApplicable', label: 'Not applicable for this variant' },
-                { value: 'noneFound', label: 'Do not exist for this variant' },
-                { value: 'found', label: 'Were found for this variant' },
+                { value: 'notApplicable', label: 'Clinvar IDs not applicable for this variant' },
+                { value: 'noneFound', label: 'Clinvar IDs not exist for this variant' },
+                { value: 'found', label: 'Clinvar IDs were found for this variant' },
               ]
             }
 
@@ -474,7 +474,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
 
   // remove any values that aren't clinvar IDs
   getClinvarIds(ids: string[]): string[] {
-    if(ids[0] === 'NONE FOUND' || ids[0] === 'NOT APPLICABLE') {
+    if (ids[0] === 'NONE FOUND' || ids[0] === 'NOT APPLICABLE') {
       return [];
     } else {
       return ids;
@@ -521,6 +521,15 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
     }
   }
 
+  setClinvarIds(ids: string[], status: string): string[] {
+    if (status === 'noneFound') {
+      return [];
+    } else if (status === 'notApplicable') {
+      return ['N/A']
+    } else {
+      return ids;
+    }
+  }
 
   toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestVariantRevisionInput> {
     if (model) {
@@ -533,7 +542,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           geneId: fields.gene.id,
           ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
           description: fmt.toNullableString(fields.description),
-          clinvarIds: fmt.toClinvarInput(fields.clinvarIds),
+          clinvarIds: fmt.toClinvarInput(this.setClinvarIds(fields.clinvarIds, fields.clinvarStatus)),
           primaryCoordinates: fmt.toCoordinateInput(fields.threePrimeCoordinates),
           secondaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
           referenceBases: fmt.toNullableString(fields.referenceBases),

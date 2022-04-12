@@ -15,7 +15,7 @@ export function toClinvarInput(
     ids = undefined;
     nf = undefined;
     na = true;
-  } else if (!ids) {
+  } else if (ids && ids.length === 0) {
     ids = undefined;
     na = undefined;
     nf = true;
