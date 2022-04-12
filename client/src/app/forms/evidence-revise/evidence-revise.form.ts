@@ -174,6 +174,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               type: 'variant-input',
               templateOptions: {
                 required: true,
+                allowCreate: false
               },
             },
           },
