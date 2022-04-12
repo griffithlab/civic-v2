@@ -5,10 +5,10 @@ RequestTracer = Struct.new(:path, :referrer, :user_agent, :user_ip, keyword_init
       title = query.selected_operation.selections&.first&.name
 
       SubmitApiAnalytics.perform_later(
-        path: request.path,
-        referrer: request.referer,
-        user_agent: request.user_agent,
-        user_ip: request.remote_ip,
+        path: path,
+        referrer: referrer,
+        user_agent: user_agent,
+        user_ip: user_ip,
         title: title
       )
     end
@@ -26,10 +26,10 @@ class GraphqlAnalyticsTracer
   def self.for_request(req)
     if Analytics.should_submit?(req)
       RequestTracer.new(
-        path: request.path,
-        referrer: request.referer,
-        user_agent: request.user_agent,
-        user_ip: request.remote_ip,
+        path: req.path,
+        referrer: req.referrer,
+        user_agent: req.user_agent,
+        user_ip: req.remote_ip,
       )
     else
       NullTracer

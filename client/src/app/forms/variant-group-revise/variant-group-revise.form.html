@@ -1,4 +1,5 @@
 <form nz-form
+  *ngIf="formModel"
   [formGroup]="formGroup"
   (ngSubmit)="submitVariantGroup(formModel)"
   nzLayout="vertical">

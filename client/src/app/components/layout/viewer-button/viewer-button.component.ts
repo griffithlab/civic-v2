@@ -4,6 +4,7 @@ import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service'
 import { Maybe, ViewerNotificationCountGQL } from '@app/generated/civic.apollo';
 import { startWith, map } from 'rxjs/operators';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'cvc-viewer-button',
@@ -18,12 +19,19 @@ export class CvcViewerButtonComponent {
 
   constructor(private queryService: ViewerService, private unreadCountGql: ViewerNotificationCountGQL) {
     this.viewer$ = this.queryService.viewer$;
-    // this.unreadCount$ = this.unreadCountGql.watch(undefined, {pollInterval: 3000})
-    this.unreadCount$ = this.unreadCountGql.watch(undefined)
-      .valueChanges.pipe(
-        map(({data}) => data.notifications.unreadCount),
-        startWith(0)
-      )
+    if(environment.production) {
+      this.unreadCount$ = this.unreadCountGql.watch(undefined, {pollInterval: 5000})
+        .valueChanges.pipe(
+          map(({data}) => data.notifications.unreadCount),
+          startWith(0)
+        )
+    } else {
+      this.unreadCount$ = this.unreadCountGql.watch(undefined)
+        .valueChanges.pipe(
+          map(({data}) => data.notifications.unreadCount),
+          startWith(0)
+        )
+      }
   }
 
   signOut(): void {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_07_144259) do
+ActiveRecord::Schema.define(version: 2022_04_11_143250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -769,7 +769,7 @@ ActiveRecord::Schema.define(version: 2022_04_07_144259) do
   create_table "variants", id: :serial, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.string "name", null: false
-    t.text "description", null: false
+    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "deleted", default: false
@@ -887,6 +887,29 @@ ActiveRecord::Schema.define(version: 2022_04_07_144259) do
      FROM (variants v
        JOIN evidence_items ei ON (((v.id = ei.variant_id) AND (ei.deleted = false))))
     GROUP BY v.id;
+  SQL
+  create_view "evidence_browse_table_rows", sql_definition: <<-SQL
+      SELECT evidence_items.id,
+      genes.name AS gene_name,
+      variants.name AS variant_name,
+      diseases.name AS disease_name,
+      array_agg(DISTINCT drugs.name ORDER BY drugs.name) AS drug_names,
+      evidence_items.status,
+      evidence_items.description,
+      evidence_items.evidence_direction,
+      evidence_items.evidence_level,
+      evidence_items.rating AS evidence_rating,
+      evidence_items.evidence_type,
+      evidence_items.variant_origin,
+      evidence_items.clinical_significance
+     FROM (((((evidence_items
+       JOIN variants ON ((evidence_items.variant_id = variants.id)))
+       JOIN genes ON ((variants.gene_id = genes.id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY evidence_items.id, evidence_items.status, evidence_items.description, evidence_items.evidence_direction, evidence_items.evidence_level, evidence_items.rating, evidence_items.evidence_type, evidence_items.variant_origin, evidence_items.clinical_significance, genes.name, variants.name, diseases.name;
   SQL
   create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT variant_groups.id,

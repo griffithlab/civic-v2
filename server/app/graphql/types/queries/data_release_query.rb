@@ -37,7 +37,7 @@ module Types::Queries
       def file_or_nil(path, release, filename)
         full_path = File.join(path, "#{release}-#{filename}")
         if File.exist?(full_path)
-          { path:  File.join('/downloads', release, filename) }
+          { path:  File.join('/downloads', release, "#{release}-#{filename}") }
         else
           nil
         end
