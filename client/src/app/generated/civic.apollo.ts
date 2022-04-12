@@ -6639,44 +6639,7 @@ export type SuggestEvidenceItemRevisionMutation = (
     & { evidenceItem: (
       { __typename: 'EvidenceItem' }
       & Pick<EvidenceItem, 'id'>
-      & { revisions: (
-        { __typename: 'RevisionConnection' }
-        & Pick<RevisionConnection, 'totalCount'>
-        & { edges: Array<(
-          { __typename: 'RevisionEdge' }
-          & { node?: Maybe<(
-            { __typename: 'Revision' }
-            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-            & { linkoutData: (
-              { __typename: 'LinkoutData' }
-              & Pick<LinkoutData, 'name'>
-              & { diffValue: (
-                { __typename: 'ObjectFieldDiff' }
-                & { addedObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )>, removedObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )>, keptObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )> }
-              ) | (
-                { __typename: 'ScalarFieldDiff' }
-                & Pick<ScalarFieldDiff, 'left' | 'right'>
-              ) }
-            ), revisor?: Maybe<(
-              { __typename: 'User' }
-              & Pick<User, 'id' | 'name'>
-            )> }
-          )> }
-        )> }
-      ) }
-    ), results: Array<(
-      { __typename: 'RevisionResult' }
-      & Pick<RevisionResult, 'id' | 'fieldName'>
-    )> }
+    ) }
   )> }
 );
 
@@ -11910,57 +11873,6 @@ export const SuggestEvidenceItemRevisionDocument = gql`
     clientMutationId
     evidenceItem {
       id
-      revisions {
-        totalCount
-        edges {
-          node {
-            id
-            revisionsetId
-            createdAt
-            fieldName
-            currentValue
-            suggestedValue
-            linkoutData {
-              name
-              diffValue {
-                ... on ObjectFieldDiff {
-                  addedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  removedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  keptObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                }
-                ... on ScalarFieldDiff {
-                  left
-                  right
-                }
-              }
-            }
-            revisor {
-              id
-              name
-            }
-            status
-          }
-        }
-      }
-    }
-    results {
-      id
-      fieldName
     }
   }
 }
