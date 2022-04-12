@@ -1,7 +1,6 @@
 <div [ngClass]="{ 'hidden': to.hidden === true }">
   <nz-form-item *ngIf="field.fieldGroup?.length === 0">
-    <nz-form-control [nzValidateStatus]="errorState"
-      [nzErrorTip]="errorTpl">
+    <nz-form-control [nzValidateStatus]="errorState">
       <!--
 
       <button nz-button
@@ -15,10 +14,6 @@
         <i nz-icon nzType="plus"></i>
         {{ to.addText }}
       </nz-tag>
-      <ng-template #errorTpl
-        let-control>
-        <formly-validation-message [field]="field"></formly-validation-message>
-      </ng-template>
     </nz-form-control>
   </nz-form-item>
 
