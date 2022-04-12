@@ -34,7 +34,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { $enum } from 'ts-enum-util';
 import { formatReferenceBuildEnum } from '@app/core/utilities/enum-formatters/format-reference-build-enum';
-import { Chromosomes } from '@app/forms/config/utilities/input-formatters';
+import { Chromosomes, ClinvarOptions } from '@app/forms/config/utilities/input-formatters';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 
@@ -63,7 +63,7 @@ interface FormModel {
     variantAliases: string[];
     description?: string;
     sources: FormSource[];
-    clinvarStatus: string;
+    clinvarStatus: ClinvarOptions;
     clinvarIds: string[];
     gene: FormGene;
     referenceBuild?: ReferenceBuild;
@@ -218,9 +218,9 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               placeholder: 'Select Clinvar ID status',
               helpText: 'Specify if Clinvar IDs exist, or if they are not applicable for this variant.',
               options: [
-                { value: 'notApplicable', label: 'Clinvar IDs not applicable for this variant' },
-                { value: 'noneFound', label: 'Clinvar IDs not exist for this variant' },
-                { value: 'found', label: 'Clinvar IDs were found for this variant' },
+                { value: ClinvarOptions.NotApplicable, label: 'Clinvar IDs not applicable for this variant' },
+                { value: ClinvarOptions.NoneFound, label: 'Clinvar IDs do not exist for this variant' },
+                { value: ClinvarOptions.Found, label: 'Clinvar IDs were found for this variant' },
               ]
             }
 
@@ -245,7 +245,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
               validation: ['clinvar']
             },
             hideExpression: (m: any, st: any, ff?: FormlyFieldConfig) => {
-              return ff!.form!.value.clinvarStatus !== 'found';
+              return ff!.form!.value.clinvarStatus !== ClinvarOptions.Found;
             },
           },
           {
@@ -462,19 +462,19 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
   }
 
   // set value for clinvarStatus select
-  getClinvarStatus(ids: string[]): string {
+  getClinvarStatus(ids: string[]): ClinvarOptions {
     if (ids[0] === 'NONE FOUND') {
-      return 'noneFound';
-    } else if (ids[0] === 'NOT APPLICABLE') {
-      return 'notApplicable';
+      return ClinvarOptions.NoneFound;
+    } else if (ids[0] === 'N/A') {
+      return ClinvarOptions.NotApplicable;
     } else {
-      return 'found';
+      return ClinvarOptions.Found;
     }
   }
 
   // remove any values that aren't clinvar IDs
   getClinvarIds(ids: string[]): string[] {
-    if (ids[0] === 'NONE FOUND' || ids[0] === 'NOT APPLICABLE') {
+    if (ids[0] === 'NONE FOUND' || ids[0] === 'N/A') {
       return [];
     } else {
       return ids;
@@ -521,15 +521,6 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
     }
   }
 
-  setClinvarIds(ids: string[], status: string): string[] {
-    if (status === 'noneFound') {
-      return [];
-    } else if (status === 'notApplicable') {
-      return ['N/A']
-    } else {
-      return ids;
-    }
-  }
 
   toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestVariantRevisionInput> {
     if (model) {
@@ -542,7 +533,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           geneId: fields.gene.id,
           ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
           description: fmt.toNullableString(fields.description),
-          clinvarIds: fmt.toClinvarInput(this.setClinvarIds(fields.clinvarIds, fields.clinvarStatus)),
+          clinvarIds: fmt.toClinvarInput(fields.clinvarIds, fields.clinvarStatus),
           primaryCoordinates: fmt.toCoordinateInput(fields.threePrimeCoordinates),
           secondaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
           referenceBases: fmt.toNullableString(fields.referenceBases),

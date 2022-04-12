@@ -52,7 +52,7 @@ export const defaultMessages: ValidationMessageOption[] = [
   {
     name: 'clinvar',
     message: (_err: any, ffc: FormlyFieldConfig): string => {
-      return `Value must be an integer, NONE, N/A, or NONE FOUND.`;
+      return `Value must be an integer.`;
     }
   }
 ];
@@ -83,7 +83,7 @@ export const defaultValidators: ValidatorOption[] = [
     validation: (fc: AbstractControl, ffc: FormlyFieldConfig): ValidationErrors | null => {
       for (var value of fc.value) {
         if (!(value === '' || value === undefined || value === null)) {
-          if ( !(/^\d+$/.test(value) || value == 'NONE' || value == 'N/A' || value == 'NONE FOUND') ) {
+          if ( !(/^\d+$/.test(value)) ) {
             return {'clinvar': true}
           }
         }
