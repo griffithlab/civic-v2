@@ -40,7 +40,9 @@ class Actions::SuggestRevision
     else
       create_revision
       create_event
-      create_comment
+      if !comment.nil?
+        create_comment
+      end
       @revision_created = true
     end
   end

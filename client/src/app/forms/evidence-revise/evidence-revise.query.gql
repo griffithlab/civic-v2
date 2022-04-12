@@ -49,58 +49,6 @@ mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) 
     clientMutationId
     evidenceItem {
       id
-      revisions {
-        totalCount
-        edges {
-          node {
-            id
-            revisionsetId
-            createdAt
-            fieldName
-            currentValue
-            suggestedValue
-            linkoutData {
-              name
-              diffValue {
-                ... on ObjectFieldDiff {
-                  addedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  removedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  keptObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                }
-                ... on ScalarFieldDiff {
-                  left
-                  right
-                }
-              }
-            }
-            revisor {
-              id
-              name
-            }
-            status
-          }
-        }
-      }
-    }
-
-    results {
-      id
-      fieldName
     }
   }
 }

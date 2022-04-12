@@ -6257,7 +6257,7 @@ input SuggestVariantRevisionInput {
   """
   Text describing the reason for the change. Will be attached to the Revision as a comment.
   """
-  comment: String!
+  comment: String
 
   """
   The desired state of the Variant's editable fields if the change were applied.
@@ -6652,7 +6652,7 @@ type ValidationErrors {
 
 type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   alleleRegistryId: String
-  clinvarIds: [String!]
+  clinvarIds: [String!]!
 
   """
   List and filter comments.
@@ -6703,7 +6703,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     sortBy: DateSort
   ): CommentConnection!
-  description: String!
+  description: String
   ensemblVersion: Int
 
   """
@@ -6808,7 +6808,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     state: FlagState
   ): FlagConnection!
   gene: Gene!
-  hgvsDescriptions: [String!]
+  hgvsDescriptions: [String!]!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -6869,8 +6869,8 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   ): RevisionConnection!
   sources: [Source!]!
   threePrimeCoordinates: Coordinate
-  variantAliases: [String!]
-  variantTypes: [VariantType!]
+  variantAliases: [String!]!
+  variantTypes: [VariantType!]!
 }
 
 type VariantAlias {
@@ -6966,7 +6966,7 @@ input VariantFields {
   """
   The Ensembl database version.
   """
-  ensemblVersion: Int!
+  ensemblVersion: NullableIntInput!
 
   """
   The ID of the Gene this Variant corresponds to.

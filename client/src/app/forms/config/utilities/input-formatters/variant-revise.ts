@@ -7,34 +7,54 @@ import {
   ReferenceBuild,
 } from '@app/generated/civic.apollo';
 
-export function toClinvarInput(
-  ids?: string[],
-): ClinvarInput {
-  let na, nf;
-  if (ids && ids.includes('N/A')) {
-    ids = undefined;
-    nf = undefined;
-    na = true;
-  } else if (!ids) {
-    ids = undefined;
-    na = undefined;
-    nf = true;
-  } 
+export enum ClinvarOptions {
+  NotApplicable,
+  NoneFound,
+  Found
+}
 
-  return <ClinvarInput>{
-    ids: ids ? ids.map(id => +id) : undefined,
+export function toClinvarInput( ids: string[], optionValue: ClinvarOptions ): ClinvarInput {
+  let na, nf: Maybe<boolean>;
+  let inputIds: Maybe<string[]>
+
+  if(optionValue == ClinvarOptions.Found) {
+    na = undefined
+    nf = undefined
+    inputIds = ids
+  } else if (optionValue == ClinvarOptions.NoneFound) {
+    nf = true
+    na = undefined
+    inputIds = undefined
+  } else {
+    na = true
+    nf = undefined
+    inputIds = undefined
+  }
+
+  return {
+    ids: inputIds ? inputIds.map(id => +id) : undefined,
     noneFound: nf,
     notApplicable: na
   };
 }
 
-export function toCoordinateInput(coord: Coordinate): CoordinateInput {
-  return <CoordinateInput>{
-    chromosome: undefinedIfEmpty(coord.chromosome),
-    representativeTranscript: undefinedIfEmpty(coord.representativeTranscript),
-    start: coord.start ? +coord.start: undefined,
-    stop: coord.stop ? +coord.stop: undefined,
-  };
+export function toCoordinateInput(coord: Maybe<Coordinate>): CoordinateInput {
+  if (coord) {
+    return {
+      chromosome: undefinedIfEmpty(coord.chromosome),
+      representativeTranscript: undefinedIfEmpty(coord.representativeTranscript),
+      start: coord.start ? +coord.start: undefined,
+      stop: coord.stop ? +coord.stop: undefined,
+    };
+  }
+  else {
+    return {
+      chromosome: undefined,
+      representativeTranscript: undefined,
+      start: undefined,
+      stop: undefined,
+    }
+  }
 }
 
 export function toNullableReferenceBuildInput(
