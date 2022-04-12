@@ -286,7 +286,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             type: 'cvc-ensembl-input',
           },
           {
-            key: 'threePrimeCoordinates.referenceBases',
+            key: 'referenceBases',
             type: 'input',
             defaultValue: undefined,
             templateOptions: {
@@ -299,7 +299,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.variantBases',
+            key: 'variantBases',
             type: 'input',
             defaultValue: undefined,
             templateOptions: {
@@ -487,8 +487,8 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
         ...variant,
         clinvarStatus: this.getClinvarStatus(variant.clinvarIds),
         clinvarIds: this.getClinvarIds(variant.clinvarIds),
-        referenceBases: variant.fivePrimeCoordinates?.referenceBases,
-        variantBases: variant.fivePrimeCoordinates?.variantBases,
+        referenceBases: variant.threePrimeCoordinates?.referenceBases,
+        variantBases: variant.threePrimeCoordinates?.variantBases,
         comment: this.formModel?.fields.comment,
         organization: this.formModel?.fields.organization,
       },
