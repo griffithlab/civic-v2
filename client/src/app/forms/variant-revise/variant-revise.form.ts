@@ -126,6 +126,15 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             hide: true,
           },
           {
+            key: 'name',
+            type: 'input',
+            templateOptions: {
+              label: 'Name',
+              helpText: 'Enter the name of the Variant according to the <a href="https://civic.readthedocs.io/en/latest/model/variants/name.html#curating-variant-names" target="_blank">Variant Curation SOP</a>',
+              required: true,
+            },
+          },
+          {
             key: 'description',
             type: 'cvc-textarea',
             templateOptions: {
