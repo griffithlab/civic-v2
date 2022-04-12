@@ -99,7 +99,8 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
             type: 'variant-array',
             templateOptions: {
               required: true,
-              maxCount: 1
+              maxCount: 1,
+              helpText: 'The most specific description of the variant that the underlying source allows.',
             }
           },
           {

@@ -169,6 +169,8 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               label: 'Variant',
               addText: 'Specify a Variant',
               maxCount: 1,
+              required: true,
+              helpText: 'The most specific description of the variant that the underlying source allows.',
             },
             fieldArray: {
               type: 'variant-input',
@@ -196,6 +198,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
               addText: 'Specify a Source',
               maxCount: 1,
+              required: true,
             },
             fieldArray: {
               type: 'source-input',
