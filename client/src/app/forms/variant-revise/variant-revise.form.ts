@@ -63,6 +63,7 @@ interface FormModel {
     variantAliases: string[];
     description?: string;
     sources: FormSource[];
+    clinvarStatus: string;
     clinvarIds: string[];
     gene: FormGene;
     referenceBuild?: ReferenceBuild;
@@ -210,6 +211,21 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
+            key: 'clinvarStatus',
+            type: 'select',
+            templateOptions: {
+              label: 'Do Clinvar IDs exist for this variant?',
+              placeholder: 'Select Clinvar ID status',
+              helpText: 'Specify if Clinvar IDs exist, or if they are not applicable for this variant.',
+              options: [
+                { value: 'notApplicable', label: 'Not applicable for this variant' },
+                { value: 'noneFound', label: 'Do not exist for this variant' },
+                { value: 'found', label: 'Were found for this variant' },
+              ]
+            }
+
+          },
+          {
             key: 'clinvarIds',
             type: 'multi-field',
             wrappers: ['form-field'],
@@ -227,7 +243,10 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             },
             validators: {
               validation: ['clinvar']
-            }
+            },
+            hideExpression: (m: any, st: any, ff?: FormlyFieldConfig) => {
+              return ff!.form!.value.clinvarStatus !== 'found';
+            },
           },
           {
             key: 'variantTypes',
@@ -433,9 +452,6 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
         },
         // complete
         () => {
-          if (this.formOptions.updateInitialValue) {
-            this.formOptions.updateInitialValue();
-          }
           // prompt fields to display any errors that exist in loaded variant
           this.formGroup.markAllAsTouched();
           // mark comment field as untouched, we don't want to show an error before the user interacts with the field
@@ -445,10 +461,32 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
 
   }
 
+  // set value for clinvarStatus select
+  getClinvarStatus(ids: string[]): string {
+    if (ids[0] === 'NONE FOUND') {
+      return 'noneFound';
+    } else if (ids[0] === 'NOT APPLICABLE') {
+      return 'notApplicable';
+    } else {
+      return 'found';
+    }
+  }
+
+  // remove any values that aren't clinvar IDs
+  getClinvarIds(ids: string[]): string[] {
+    if(ids[0] === 'NONE FOUND' || ids[0] === 'NOT APPLICABLE') {
+      return [];
+    } else {
+      return ids;
+    }
+  }
+
   toFormModel(variant: RevisableVariantFieldsFragment): FormModel {
     return {
       fields: {
         ...variant,
+        clinvarStatus: this.getClinvarStatus(variant.clinvarIds),
+        clinvarIds: this.getClinvarIds(variant.clinvarIds),
         referenceBases: variant.fivePrimeCoordinates?.referenceBases,
         variantBases: variant.fivePrimeCoordinates?.variantBases,
         comment: this.formModel?.fields.comment,
@@ -459,19 +497,19 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
 
   submitRevision(formModel: Maybe<FormModel>): void {
     let input = this.toRevisionInput(formModel)
-    if(input) {
+    if (input) {
       let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
         input: input
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
+        if (res) {
           this.success = true
         }
       })
 
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
-        if(errs) {
+        if (errs) {
           this.errorMessages = errs
           this.success = false
         }
