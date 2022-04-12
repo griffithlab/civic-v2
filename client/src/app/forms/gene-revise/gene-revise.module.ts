@@ -17,27 +17,54 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
+import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
+import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
+import { CvcVariantTypeInputTypeModule } from '../config/types/variant-type-input/variant-type-input.module';
+import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info.module';
 
 @NgModule({
   declarations: [GeneReviseForm],
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveComponentModule,
     ReactiveFormsModule,
+    FormlyModule,
     NgxJsonViewerModule,
+    NzButtonModule,
+    NzCardModule,
+    NzCollapseModule,
     NzFormModule,
     NzAlertModule,
     NzGridModule,
-    NzButtonModule,
-    FormlyModule,
+    NzIconModule,
+    NzSwitchModule,
+    NzSpinModule,
+    CvcSubmitButtonTypeModule,
     CvcOrgSelectorBtnGroupModule,
+    CvcFormContainerWrapperModule,
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
+    CvcVariantCoordinatesCardTypeModule,
     CvcCommentTextareaTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
+    CvcVariantTypeInputTypeModule,
+    CvcEnsemblInputTypeModule,
     CvcTextareaBaseTypeModule,
-    CvcCancelButtonModule
+    CvcCancelButtonModule,
+    CvcFormFieldWrapperModule,
+    NgxJsonViewerModule,
+    CvcFormInfoWrapperModule,
   ],
   exports: [GeneReviseForm]
 })
