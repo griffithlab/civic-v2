@@ -30,7 +30,7 @@ export const ensemblVersionValidator: ValidatorOption = {
       return null;
     } else {
       let versionNum = +c.value;
-      if (versionNum < 76 || versionNum > 150) {
+      if (versionNum < 75 || versionNum > 150) {
         return { 'ensembl-version': true };
       }
       return null;
@@ -41,7 +41,7 @@ export const ensemblVersionValidator: ValidatorOption = {
 export const ensemblVersionValidationMessage: ValidationMessageOption = {
   name: 'ensembl-version',
   message: (_err: any, field: FormlyFieldConfig): string => {
-    return `${field.formControl?.value} is not a valid version of Ensembl. Must be an number between 76 and the latest version of Ensembl.`;
+    return `${field.formControl?.value} is not a valid version of Ensembl. Must be an number between 75 and the latest version of Ensembl.`;
   }
 }
 

@@ -17,7 +17,7 @@ module Types::Revisions
       description: 'List of IDs for the variant types for this Variant'
     argument :reference_build, Types::NullableValueInputType.for(Types::ReferenceBuildType), required: true,
       description: 'The reference build for the genomic coordinates of this Variant.'
-    argument :ensembl_version, Int, required: true,
+    argument :ensembl_version, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,
       description: 'The Ensembl database version.'
     argument :secondary_coordinates, Types::Revisions::CoordinateInputType, required: true,
       description:  "In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null."
