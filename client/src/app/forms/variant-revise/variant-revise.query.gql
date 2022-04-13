@@ -35,15 +35,15 @@ fragment RevisableVariantFields on Variant {
   secondaryCoordinates {
     ... CoordinateFields
   }
+  referenceBases
+  variantBases
 }
 
 fragment CoordinateFields on Coordinate {
   chromosome
-  referenceBases
   representativeTranscript
   start
   stop
-  variantBases
 }
 
 mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {

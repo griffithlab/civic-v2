@@ -4,7 +4,5 @@ module Types::Entities
     field :chromosome, String, null: true
     field :start, Int, null: true
     field :stop, Int, null: true
-    field :reference_bases, String, null: true
-    field :variant_bases, String, null: true
   end
 end

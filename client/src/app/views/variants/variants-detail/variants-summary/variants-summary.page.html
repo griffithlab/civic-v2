@@ -225,13 +225,13 @@
                   <!-- reference bases -->
                   <nz-descriptions-item nzTitle="Ref. Bases"
                     nzColumn="1">
-                    {{ coords.referenceBases | ifEmpty: '--'}}
+                    {{ variant.referenceBases | ifEmpty: '--'}}
                   </nz-descriptions-item>
 
                   <!-- variant bases-->
                   <nz-descriptions-item nzTitle="Var. Bases"
                     nzColumn="1">
-                    {{ coords.variantBases | ifEmpty: '--'}}
+                    {{ variant.variantBases | ifEmpty: '--'}}
                   </nz-descriptions-item>
                 </ng-container>
 

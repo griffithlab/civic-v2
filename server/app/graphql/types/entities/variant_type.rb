@@ -18,6 +18,8 @@ module Types::Entities
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
     field :secondary_coordinates, Types::Entities::CoordinateType, null: true
+    field :reference_bases, String, null: false
+    field :variant_bases, String, null: false
     field :allele_registry_id, String, null: true
     field :evidence_score, Float, null: false
     field :variant_aliases, [String], null: false
@@ -44,8 +46,6 @@ module Types::Entities
           chromosome: object.chromosome,
           start: object.start,
           stop: object.stop,
-          reference_bases: object.reference_bases,
-          variant_bases: object.variant_bases
         }
       end
     end
@@ -59,8 +59,6 @@ module Types::Entities
           chromosome: object.chromosome2,
           start: object.start2,
           stop: object.stop2,
-          reference_bases: nil,
-          variant_bases: nil,
         }
       end
     end

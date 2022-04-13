@@ -40,17 +40,15 @@ fragment VariantSummaryFields on Variant {
       chromosome
       start
       stop
-      referenceBases
-      variantBases
   }
   secondaryCoordinates {
       representativeTranscript
       chromosome
       start
       stop
-      referenceBases
-      variantBases
   }
+  referenceBases
+  variantBases
   flags(state: OPEN) {
     totalCount
   }
