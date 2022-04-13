@@ -10,7 +10,7 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :description, String, null: false
+    field :description, String, null: true
     field :gene, Types::Entities::GeneType, null: false
     field :evidence_items, Types::Entities::EvidenceItemType.connection_type, null: false
     field :sources, [Types::Entities::SourceType], null: false
@@ -20,10 +20,10 @@ module Types::Entities
     field :three_prime_coordinates, Types::Entities::CoordinateType, null: true
     field :allele_registry_id, String, null: true
     field :evidence_score, Float, null: false
-    field :variant_aliases, [String], null: true
-    field :variant_types, [Types::Entities::VariantTypeType], null: true
-    field :clinvar_ids, [String], null: true
-    field :hgvs_descriptions, [String], null: true
+    field :variant_aliases, [String], null: false
+    field :variant_types, [Types::Entities::VariantTypeType], null: false
+    field :clinvar_ids, [String], null: false
+    field :hgvs_descriptions, [String], null: false
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
     field :link, String, null: false
 

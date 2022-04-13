@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_31_153354) do
+ActiveRecord::Schema.define(version: 2022_04_11_143250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2022_03_31_153354) do
     t.integer "variant_origin"
     t.bigint "nccn_guideline_id"
     t.boolean "flagged", default: false, null: false
+    t.integer "evidence_items_count"
     t.index ["description"], name: "index_assertions_on_description"
     t.index ["disease_id"], name: "index_assertions_on_disease_id"
     t.index ["drug_interaction_type"], name: "index_assertions_on_drug_interaction_type"
@@ -768,7 +769,7 @@ ActiveRecord::Schema.define(version: 2022_03_31_153354) do
   create_table "variants", id: :serial, force: :cascade do |t|
     t.integer "gene_id", null: false
     t.string "name", null: false
-    t.text "description", null: false
+    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "deleted", default: false

@@ -16,6 +16,7 @@ export interface LinkableDisease {
 export class CvcDiseaseTagComponent extends BaseCloseableTag implements OnInit {
   @Input() disease!: LinkableDisease
   @Input() enablePopover: Maybe<boolean> = true
+  @Input() truncateLongName: Maybe<boolean> = false
 
   constructor() { 
     super();

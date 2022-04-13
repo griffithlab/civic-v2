@@ -17,7 +17,6 @@
         nzTheme="outline"></i>
     </button>
     <nz-badge [nzCount]="unreadCount"
-      nzShowZero
       [nzOverflowCount]="999"
       [nzStyle]="{ backgroundColor: '#096dd9', color: '#fff1f0',  boxShadow: '0 0 0 1px #1890ff inset' }"
       *nzSpaceItem>
@@ -66,19 +65,20 @@
           nz-button
           nzType="primary"
           nzShape="round"
-          nzSize="small" nzDanger nzBlock>
-          <i nz-icon nzType="exclamation-circle"></i>
-          Please update COI statement
+          nzSize="small"
+          nzDanger
+          nzBlock>
+          <i nz-icon
+            nzType="exclamation-circle"></i> Please update COI statement
         </button>
       </li>
       <li nz-menu-divider
-        *ngIf="viewer.invalidCoi">
-      <li nz-menu-item>
-        <a routerLink="/users/{{viewer.id}}">
-          Your Profile
-        </a>
+        *ngIf="viewer.invalidCoi"></li>
+      <li [routerLink]="['/users', viewer.id]"
+        nz-menu-item>
+        Your Profile
       </li>
-      <li nz-menu-item
+      <li nz-menu-item href="/admin"
         *ngIf="viewer.isAdmin">
         <a href="/admin">
           Admin Console

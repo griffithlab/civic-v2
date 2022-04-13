@@ -1,13 +1,15 @@
 name: Build and deploy docs
-on:
-  push:
-    branches: [main]
+on: 
+  release:
+    types: [published]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2.3.1
+        with:
+          ref: release
 
       - name: Build docs
         run: |

@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TagLinkableOrganization } from "@app/components/organizations/organization-tag/organization-tag.component";
 import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.component";
+import { environment } from "environments/environment";
 
 interface SelectableAction { id: EventAction }
 
@@ -65,7 +66,11 @@ export class CvcEventFeedComponent implements OnInit {
       showFilters: this.showFilters
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryVars, {});
+    if(environment.production) {
+      this.queryRef = this.gql.watch(this.initialQueryVars, {pollInterval: 30000});
+    } else {
+      this.queryRef = this.gql.watch(this.initialQueryVars);
+    }
     this.results$ = this.queryRef.valueChanges;
 
     this.pageInfo$ = this.results$.pipe(

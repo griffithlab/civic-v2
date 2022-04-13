@@ -1,23 +1,5 @@
-<nz-row [nzGutter]="16">
-  <nz-col nzSpan="16">
-    <ng-container *ngIf="geneId; else loadingGene">
-      <cvc-gene-revise-form [geneId]="geneId">
-      </cvc-gene-revise-form>
-    </ng-container>
-    <ng-template #loadingGene>Loading Gene...</ng-template>
-  </nz-col>
-  <nz-col nzSpan="8">
-    <nz-card nzTitle="Instructions"
-      nz-type="inner">
-      <nz-space nzDirection="vertical"
-        style="width: 100%">
-        <nz-skeleton [nzParagraph]="{ rows: 1 }" *nzSpaceItem></nz-skeleton>
-        <nz-skeleton [nzParagraph]="{ rows: 3 }" *nzSpaceItem></nz-skeleton>
-        <nz-skeleton [nzParagraph]="{ rows: 4 }" *nzSpaceItem></nz-skeleton>
-        <nz-skeleton [nzParagraph]="{ rows: 5 }" *nzSpaceItem></nz-skeleton>
-      </nz-space>
-    </nz-card>
-  </nz-col>
-</nz-row>
-
-<ng-template #loadingGene>Loading gene...</ng-template>
+<ng-container *ngIf="geneId; else loadingGene">
+  <cvc-gene-revise-form [geneId]="geneId">
+  </cvc-gene-revise-form>
+</ng-container>
+<ng-template #loadingGene>Loading Gene...</ng-template>

@@ -7,6 +7,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [VariantsHomePage],
@@ -15,6 +18,9 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     NzPageHeaderModule,
     NzGridModule,
     NzIconModule,
+    NzTypographyModule,
+    NzButtonModule,
+    NzSpaceModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcVariantsTableModule,

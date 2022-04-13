@@ -40,7 +40,7 @@ class Assertion < ActiveRecord::Base
     class_name: 'Event'
   has_one :rejector, through: :rejection_event, source: :originating_user
 
-  searchkick highlight: [:id]
+  searchkick highlight: [:id], callbacks: :async
 
   def search_data
     {
@@ -62,5 +62,10 @@ class Assertion < ActiveRecord::Base
         .where('assertions.created_at >= ?', x)
         .distinct
     }
+  end
+
+  def on_revision_accepted
+    self.evidence_items_count = self.evidence_items.count
+    self.save!
   end
 end

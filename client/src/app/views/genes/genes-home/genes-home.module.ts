@@ -6,6 +6,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcGenesTableModule } from '@app/components/genes/genes-table/genes-table.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [GenesHomePage],
@@ -13,7 +16,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     CommonModule,
     CvcSectionNavigationModule,
     CvcGenesTableModule,
+    NzButtonModule,
     NzIconModule,
+    NzSpaceModule,
+    NzTypographyModule,
     NzPageHeaderModule,
     NzGridModule
   ],

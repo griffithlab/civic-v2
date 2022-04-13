@@ -5,7 +5,7 @@ require_relative 'deploy/puma'
 lock "~> 3.16.0"
 
 set :application, "civic"
-set :repo_url, "git@github.com:griffithlab/civic-v2.git"
+set :repo_url, "https://github.com/griffithlab/civic-v2.git"
 
 set :deploy_to, '/var/www/civic/'
 

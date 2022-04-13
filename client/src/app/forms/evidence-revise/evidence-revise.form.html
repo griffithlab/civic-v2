@@ -1,5 +1,6 @@
 <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
   <form nz-form
+    *ngIf="formModel"
     [formGroup]="formGroup"
     (ngSubmit)="submitRevision(formModel)"
     nzLayout="vertical">
@@ -30,7 +31,7 @@
       nzShowIcon></nz-alert>
     <ng-template #successMessage
       nzSize="small">
-      <p>View it on the <a routerLink="../../revisions">Revisions Page</a> or suggest another revision below.</p>
+      <p>View it on the <a routerLink="../../revisions">Revisions Page</a>.</p>
     </ng-template>
   </ng-container>
 </ng-template>

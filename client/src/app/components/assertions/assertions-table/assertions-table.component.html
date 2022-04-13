@@ -1,5 +1,6 @@
 <nz-card [nzTitle]="titleTemplate">
   <nz-table #assertionsTable
+    nzSize="small"
     [nzData]="(assertions$ | ngrxPush)"
     [nzLoading]="(isLoading$ | ngrxPush)"
     [nzFrontPagination]="false"
@@ -27,7 +28,7 @@
           [nzSortFn]="true">
           Disease
         </th>
-        <th nzWidth="15%"
+        <th nzWidth="12%"
           [nzColumnKey]="sortColumns.DrugName"
           [nzSortFn]="true">
           Drugs
@@ -65,8 +66,16 @@
           [nzColumnKey]="sortColumns.AmpLevel"
           [nzSortFn]="true"
           nzAlign="center"
+          nz-tooltip
           nzTooltipTitle="AMP/ASCO/CAP Category">
           CAT
+        </th>
+        <th nzWidth="3%"
+          [nzColumnKey]="sortColumns.EvidenceItemsCount"
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count"><i nz-icon
+            nzType="civic:evidence"></i>
         </th>
       </tr>
       <tr>
@@ -198,6 +207,7 @@
               nzLabel="Tier III"></nz-option>
           </nz-select>
         </th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -213,22 +223,24 @@
         </td>
         <td>
           <ng-container *ngIf="aid.disease.name; else diseaseElse">
-            <cvc-disease-tag [disease]="aid.disease"></cvc-disease-tag>
+            <cvc-disease-tag [disease]="aid.disease"
+              [truncateLongName]="true"></cvc-disease-tag>
           </ng-container>
           <ng-template #diseaseElse>
             <i>N/A</i>
           </ng-template>
         </td>
         <td>
-          <p *ngIf="aid.drugs.length > 0; else drugsElse"
-            nz-typography>
-            <span *ngFor="let drug of aid.drugs; last as isLast">
-                        <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
-                      </span>
+          <div *ngIf="aid.drugs.length > 0; else drugsElse">
+            <cvc-tag-list>
+              <span *ngFor="let drug of aid.drugs; last as isLast">
+                <cvc-drug-tag [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
+              </span>
+            </cvc-tag-list>
             <span *ngIf="aid.drugs.length > 1">
-                        ({{ aid.drugInteractionType | titlecase }})
-                      </span>
-          </p>
+              ({{ aid.drugInteractionType | titlecase }})
+            </span>
+          </div>
           <ng-template #drugsElse>
             <i>N/A</i>
           </ng-template>
@@ -272,6 +284,9 @@
             --
           </ng-template>
         </td>
+        <td>
+          {{aid.evidenceItemsCount}}
+        </td>
       </tr>
       <!-- Load More button row -->
       <ng-container *ngrxLet="pageInfo$ as pageInfo">
@@ -289,18 +304,22 @@
 </nz-card>
 
 <ng-template #titleTemplate>
-  <i nz-icon nzType="civic:assertion"></i>
+  <i nz-icon
+    nzType="civic:assertion"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
   <ng-template #noData>
-    <span nz-typography nzType="secondary">
+    <span nz-typography
+      nzType="secondary">
       (0 total)
     </span>
   </ng-template>

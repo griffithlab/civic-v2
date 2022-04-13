@@ -1,6 +1,7 @@
 <nz-card [nzTitle]="titleTemplate">
   <ng-container  *ngrxLet="viewer$ as viewer">
     <nz-table #sourceSuggestionsTable
+      nzSize="small"
       [nzData]="(sourceSuggestions$ | ngrxPush)"
       [nzLoading]="(isLoading$ | ngrxPush)"
       [nzFrontPagination]="false"
@@ -140,14 +141,19 @@
           <td>
             <cvc-disease-tag *ngIf="suggestion.disease" [disease]="suggestion.disease"></cvc-disease-tag>
           </td>
-          <td>
-            {{ suggestion.initialComment }}
+          <td nzAlign="center"
+            nz-tooltip
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="suggestion.initialComment">
+            <i nz-icon
+              nzType="comment"></i>
           </td>
           <td *ngIf="viewer.signedIn">
             <nz-button-group>
-              <button [disabled]="suggestion.status != status.New" 
+              <!-- <button [disabled]="suggestion.status != status.New"  -->
+              <button [disabled]="true"
                 nz-button nzSize="small" 
-                nz-tooltip nzTooltipTitle="Curate an Evidence Item from this Source Suggestion" >
+                nz-tooltip nzTooltipTitle="(Coming Soon) Curate an Evidence Item from this Source Suggestion" >
                 <i nz-icon nzType="plus"></i>
               </button>
               <button 

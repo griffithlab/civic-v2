@@ -41,4 +41,8 @@ fragment OrganizationMembersFields on User {
   twitterHandle
   facebookProfile
   linkedinProfile
+  organizations {
+    id
+    name
+  }
 } 

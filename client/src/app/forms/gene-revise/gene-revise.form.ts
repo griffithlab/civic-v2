@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -13,29 +13,31 @@ import {
   Maybe,
   SourceSource,
   RevisableGeneFieldsFragment,
+  SuggestGeneRevisionGQL,
+  SuggestGeneRevisionMutation,
+  SuggestGeneRevisionMutationVariables,
 } from '@app/generated/civic.apollo';
 
-import {
-  ViewerService,
-  Viewer,
-} from '@app/core/services/viewer/viewer.service';
-import { GeneSuggestRevisionService } from './gene-revise.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { toNullableString } from '@app/forms/config/utilities/input-formatters';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { ConstantPool } from '@angular/compiler';
 
 export interface FormSource {
-  id: number;
-  sourceType: SourceSource,
-  citationId: number;
-  citation: string;
+  id?: number;
+  sourceType?: SourceSource,
+  citationId?: number;
+  citation?: string;
 }
 
 export interface FormModel {
-  id: number;
-  comment: string;
   fields: {
+    id: number;
     description: string;
     sources: FormSource[];
+    comment: Maybe<string>;
+    organization: Maybe<Organization>;
   };
 }
 
@@ -44,149 +46,188 @@ export interface FormModel {
   templateUrl: './gene-revise.form.html',
   styleUrls: ['./gene-revise.form.less'],
 })
-export class GeneReviseForm implements OnInit, OnDestroy {
+export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
   @Input() geneId!: number;
   private destroy$ = new Subject();
-  organizations!: Array<Organization>;
-  mostRecentOrg!: Maybe<Organization>;
+
+  suggestRevisionMutator: MutatorWithState<SuggestGeneRevisionGQL, SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables>
 
   geneRevisionInput!: SuggestGeneRevisionInput;
 
-  submitError$: BehaviorSubject<string[]>;
-  submitSuccess$: BehaviorSubject<boolean>;
-  isSubmitting$: BehaviorSubject<boolean>;
+  success: boolean = false
+  errorMessages: string[] = []
+  loading: boolean = false
 
-  formModel!: FormModel;
+  formModel: Maybe<FormModel>;
   formGroup: FormGroup = new FormGroup({});
   formFields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {};
 
   constructor(
-    private viewerService: ViewerService,
-    private revisionService: GeneSuggestRevisionService,
+    private suggestRevisionGQL: SuggestGeneRevisionGQL,
+    private networkErrorService: NetworkErrorsService,
     private revisableFieldsGQL: GeneRevisableFieldsGQL
   ) {
-    // subscribing to viewer$ and setting local org, mostRecentOrg
-    // so that mostRecentOrg can be updated by org-selector's selectOrg events
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((v: Viewer) => {
-        this.organizations = v.organizations;
-        this.mostRecentOrg = v.mostRecentOrg;
-      });
-
-    this.submitError$ = this.revisionService.submitError$;
-    this.isSubmitting$ = this.revisionService.isSubmitting$;
-    this.submitSuccess$ = this.revisionService.submitSuccess$;
+    this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
     this.formFields = [
       {
-        key: 'id',
-        type: 'input',
-        hide: true,
-      },
-      {
-        key: 'fields.description',
-        type: 'cvc-textarea',
+        key: 'fields',
+        wrappers: ['form-container'],
         templateOptions: {
-          label: 'Description',
-          placeholder: 'Enter a description for this gene.',
-          required: false,
+          label: 'Suggest Gene Revision Form'
         },
-      },
-      {
-        key: 'fields.sources',
-        type: 'multi-field',
-        templateOptions: {
-          label: 'Sources',
-          addText: 'Add another Source',
-        },
-        fieldArray: {
-          type: 'source-input',
-          templateOptions: {
-            required: true,
+        fieldGroup: [
+          {
+            key: 'id',
+            type: 'input',
+            hide: true,
           },
-        },
-      },
-      {
-        key: 'comment',
-        type: 'comment-textarea',
-        templateOptions: {
-          label: 'Comment',
-          placeholder: 'Please enter a comment describing your revision.',
-          required: true,
-          minLength: 10,
-        },
-      },
-      {
-        key: 'cancel',
-        type: 'cancel-button',
-        templateOptions: {
-          redirectPath: '../..'
-        }
-      },
-    ];
-
-    // reset form upon successful submit
-    this.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((s) => {
-      if (s && this.formOptions.resetModel) {
-        this.formOptions.resetModel();
+          {
+            key: 'description',
+            type: 'cvc-textarea',
+            templateOptions: {
+              label: 'Gene Description',
+              helpText: 'User-defined summary of the clinical relevance of this Gene. By submitting content to CIViC you agree to release it to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" title="CreativeCommons.org CC0 license" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a></p><p>Should include:</p><ul><li>relevance to appropriate cancer(s)</li><li>treatment(s) related specifically to variants affecting this Gene</li></ul><p>May include relevant mechanistic information such as:</p><ul><li>pathway interactions</li><li>functional alterations caused by variants in this Gene (i.e., activating, loss-of-function, etc.)</li><li>normal functions key to its oncogenic properties.</li>',
+              placeholder: 'Enter a description for this gene.',
+              required: false,
+            },
+          },
+          {
+            key: 'sources',
+            type: 'multi-field',
+            wrappers: ['form-field'],
+            templateOptions: {
+              label: 'Gene Description Sources',
+              addText: 'Add a Source',
+              helpText: 'Add any Sources used as references for this Gene\'s Description above.'
+            },
+            fieldArray: {
+              type: 'source-input',
+              templateOptions: {
+                required: true,
+              },
+            },
+          },
+          {
+            key: 'comment',
+            type: 'comment-textarea',
+            templateOptions: {
+              label: 'Comment',
+              placeholder: 'Please enter a comment describing your revision.',
+              required: true,
+              minLength: 10,
+            },
+          },
+          {
+            key: 'cancel',
+            type: 'cancel-button',
+            templateOptions: {
+              redirectPath: '../..'
+            }
+          },
+          {
+            key: 'organization',
+            type: 'org-submit-button',
+            templateOptions: {
+              submitLabel: 'Submit Gene Revision',
+              submitSize: 'large'
+            }
+          }
+        ]
       }
-    });
+    ];
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    console.log(this.geneId)
+  }
+
+  ngAfterViewInit(): void {
     // fetch latest revisable field values, update form fields
     this.revisableFieldsGQL
-      .fetch({ geneId: this.geneId })
-      .subscribe(({ data: { gene } }) => {
-        if (gene) {
-          this.formModel = this.toFormModel(gene);
-        } else {
-          // TODO: handle errors with subscribe({complete, error})
-          console.error('Could not retrieve gene.');
-        }
-        if (this.formOptions.updateInitialValue) {
-          this.formOptions.updateInitialValue();
-        }
-      });
+      .fetch({ geneId: this.geneId }, {fetchPolicy: 'network-only'})
+      .subscribe(
+        ({ data: { gene } }) => {
+          console.log("gene")
+          if (gene) {
+            this.formModel = this.toFormModel(gene);
+          }
+        },
+        // error
+        (error) => {
+          console.error('Error retrieving gene.');
+          console.error(error);
+        },
+        // complete
+        () => {
+          console.log("complete")
+          if (this.formOptions.updateInitialValue) {
+            this.formOptions.updateInitialValue();
+          }
+          // this.formGroup.updateValueAndValidity();
+          // prompt fields to display any errors that exist in loaded evidenceItem
+          this.formGroup.markAllAsTouched();
+          // mark comment field as untouched, we don't want to show an error before the user interacts with the field
+          const commentFc: AbstractControl | null = this.formGroup.get('fields.comment');
+          if (commentFc) { commentFc.markAsUntouched() }
+        });
   }
 
   toFormModel(gene: RevisableGeneFieldsFragment): FormModel {
-    return <FormModel>{
-        id: gene.id,
-        fields: {
-          ...gene
-        },
-        comment: '',
+    return {
+      fields: {
+        ...gene,
+        comment: this.formModel?.fields.comment,
+        organization: this.formModel?.fields.organization
+      },
     }
   }
 
-  selectOrg(org: Organization): void {
-    this.mostRecentOrg = org;
+  submitRevision(formModel: Maybe<FormModel>): void {
+    let input = this.toRevisionInput(formModel)
+    if(input) {
+      let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
+        input: input
+      })
+
+      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+        if(res) {
+          this.success = true
+        }
+      })
+
+      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+        if(errs) {
+          this.errorMessages = errs
+          this.success = false
+        }
+      })
+
+      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+        this.loading = loading
+      })
+    }
   }
 
-  submitRevision(model: any): void {
-    this.revisionService
-      .suggest(this.toRevisionInput(model));
-  }
-
-  toRevisionInput(model: FormModel): SuggestGeneRevisionInput {
-    return <SuggestGeneRevisionInput>{
-      ...model,
-      fields: {
-        description: toNullableString(model.fields.description),
-        sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
-      },
-      organizationId:
-        this.mostRecentOrg === undefined ? undefined : this.mostRecentOrg.id,
-    };
-
+  toRevisionInput(model: Maybe<FormModel>): Maybe<SuggestGeneRevisionInput> {
+    if (model) {
+      const fields = model.fields;
+      return {
+        id: fields.id,
+        comment: fields.comment!,
+        organizationId: fields.organization?.id,
+        fields: {
+          description: toNullableString(model.fields.description),
+          sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
+        }
+      }
+    }
+    return undefined
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.revisionService.cleanup();
   }
 }

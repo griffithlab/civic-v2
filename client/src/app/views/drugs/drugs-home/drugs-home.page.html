@@ -1,16 +1,56 @@
 <cvc-section-navigation> </cvc-section-navigation>
 <nz-page-header class="site-page-header">
-  <nz-page-header-title>
-    <i nz-icon
-      nzType="civic:intervention"></i> Drugs
-  </nz-page-header-title>
 
   <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="civic:intervention"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Drugs</h2>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">CIViC Drugs are associated with Predictive Evidence Types, and describe the sensitivity, resistance or adverse response to treatment. Drugs may also be used to describe more general treatment types and regimes, such as FOLFOX or Radiation.</p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+        <nz-space nzDirection="vertical"
+          class="docs-buttons">
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence/drug.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Drug Attribute Docs
+        </a>
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence/drug.html#curating-drugs"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Drug Curation Docs
+        </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
     <div nz-row>
       <div nz-col
         [nzSpan]="24">
         <div class="content">
-          <cvc-drugs-table cvcTitle="Browse Drugs"></cvc-drugs-table>
+          <cvc-drugs-table cvcTitle="Browse All Drugs"></cvc-drugs-table>
         </div>
       </div>
     </div>

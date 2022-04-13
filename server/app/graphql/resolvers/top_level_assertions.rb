@@ -7,7 +7,11 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
 
   description 'List and filter assertions.'
 
-  scope { Assertion.all.order(:id).where.not(status: 'rejected') }
+  scope {
+    Assertion
+      .order("evidence_items_count DESC")
+      .where("assertions.status != 'rejected'")
+  }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the assertion.') do |scope, value|
     scope.where("assertions.id = ?", value)
@@ -89,6 +93,8 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
       scope.reorder("clinical_significance #{value.direction}")
     when 'AMP_LEVEL'
       scope.reorder("amp_level #{value.direction}")
+    when 'EVIDENCE_ITEMS_COUNT'
+      scope.reorder("evidence_items_count #{value.direction}")
     end
   end
 end

@@ -208,6 +208,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   /** List and filter events for an object */
   events: EventConnection;
   evidenceItems: Array<EvidenceItem>;
+  evidenceItemsCount: Scalars['Int'];
   fdaCompanionTest?: Maybe<Scalars['Boolean']>;
   fdaCompanionTestLastUpdated?: Maybe<Scalars['ISO8601DateTime']>;
   flagged: Scalars['Boolean'];
@@ -387,6 +388,7 @@ export enum AssertionSortColumns {
   ClinicalSignificance = 'CLINICAL_SIGNIFICANCE',
   DiseaseName = 'DISEASE_NAME',
   DrugName = 'DRUG_NAME',
+  EvidenceItemsCount = 'EVIDENCE_ITEMS_COUNT',
   GeneName = 'GENE_NAME',
   Id = 'ID',
   Status = 'STATUS',
@@ -3832,7 +3834,7 @@ export type SuggestVariantRevisionInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Text describing the reason for the change. Will be attached to the Revision as a comment. */
-  comment: Scalars['String'];
+  comment?: Maybe<Scalars['String']>;
   /**
    * The desired state of the Variant's editable fields if the change were applied.
    * If no change is desired for a particular field, pass in the current value of that field.
@@ -4085,10 +4087,10 @@ export type ValidationErrors = {
 export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions & {
   __typename: 'Variant';
   alleleRegistryId?: Maybe<Scalars['String']>;
-  clinvarIds?: Maybe<Array<Scalars['String']>>;
+  clinvarIds: Array<Scalars['String']>;
   /** List and filter comments. */
   comments: CommentConnection;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   ensemblVersion?: Maybe<Scalars['Int']>;
   /** List and filter events for an object */
   events: EventConnection;
@@ -4099,7 +4101,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   /** List and filter flags. */
   flags: FlagConnection;
   gene: Gene;
-  hgvsDescriptions?: Maybe<Array<Scalars['String']>>;
+  hgvsDescriptions: Array<Scalars['String']>;
   id: Scalars['Int'];
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastCommentEvent?: Maybe<Event>;
@@ -4112,8 +4114,8 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   revisions: RevisionConnection;
   sources: Array<Source>;
   threePrimeCoordinates?: Maybe<Coordinate>;
-  variantAliases?: Maybe<Array<Scalars['String']>>;
-  variantTypes?: Maybe<Array<VariantType>>;
+  variantAliases: Array<Scalars['String']>;
+  variantTypes: Array<VariantType>;
 };
 
 
@@ -4223,7 +4225,7 @@ export type VariantFields = {
   /** The Variant's description/summary text. */
   description: NullableStringInput;
   /** The Ensembl database version. */
-  ensemblVersion: Scalars['Int'];
+  ensemblVersion: NullableIntInput;
   /** The ID of the Gene this Variant corresponds to. */
   geneId: Scalars['Int'];
   /** List of HGVS descriptions for the Variant. */
@@ -4548,7 +4550,7 @@ export type AssertionsBrowseQuery = (
 
 export type AssertionBrowseTableRowFieldsFragment = (
   { __typename: 'Assertion' }
-  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin'>
+  & MakeOptional<Pick<Assertion, 'id' | 'name' | 'link' | 'drugInteractionType' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'ampLevel' | 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin' | 'evidenceItemsCount' | 'status'>, 'fdaCompanionTest' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'variantOrigin'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -6637,44 +6639,7 @@ export type SuggestEvidenceItemRevisionMutation = (
     & { evidenceItem: (
       { __typename: 'EvidenceItem' }
       & Pick<EvidenceItem, 'id'>
-      & { revisions: (
-        { __typename: 'RevisionConnection' }
-        & Pick<RevisionConnection, 'totalCount'>
-        & { edges: Array<(
-          { __typename: 'RevisionEdge' }
-          & { node?: Maybe<(
-            { __typename: 'Revision' }
-            & Pick<Revision, 'id' | 'revisionsetId' | 'createdAt' | 'fieldName' | 'currentValue' | 'suggestedValue' | 'status'>
-            & { linkoutData: (
-              { __typename: 'LinkoutData' }
-              & Pick<LinkoutData, 'name'>
-              & { diffValue: (
-                { __typename: 'ObjectFieldDiff' }
-                & { addedObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )>, removedObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )>, keptObjects: Array<(
-                  { __typename: 'ModeratedObjectField' }
-                  & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType'>
-                )> }
-              ) | (
-                { __typename: 'ScalarFieldDiff' }
-                & Pick<ScalarFieldDiff, 'left' | 'right'>
-              ) }
-            ), revisor?: Maybe<(
-              { __typename: 'User' }
-              & Pick<User, 'id' | 'name'>
-            )> }
-          )> }
-        )> }
-      ) }
-    ), results: Array<(
-      { __typename: 'RevisionResult' }
-      & Pick<RevisionResult, 'id' | 'fieldName'>
-    )> }
+    ) }
   )> }
 );
 
@@ -7003,10 +6968,10 @@ export type RevisableVariantFieldsFragment = (
   )>, gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
-  ), variantTypes?: Maybe<Array<(
+  ), variantTypes: Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'name' | 'soid'>
-  )>>, fivePrimeCoordinates?: Maybe<(
+  )>, fivePrimeCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
   )>, threePrimeCoordinates?: Maybe<(
@@ -7278,7 +7243,7 @@ export type EvidenceSummaryFieldsFragment = (
     & Pick<Disease, 'id' | 'name' | 'link'>
   )>, phenotypes: Array<(
     { __typename: 'Phenotype' }
-    & Pick<Phenotype, 'id' | 'name'>
+    & Pick<Phenotype, 'id' | 'name' | 'link'>
   )>, source: (
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'citationId' | 'sourceType' | 'displayType' | 'sourceUrl' | 'ascoAbstractId' | 'link'>
@@ -7485,6 +7450,10 @@ export type OrganizationMembersQuery = (
 export type OrganizationMembersFieldsFragment = (
   { __typename: 'User' }
   & Pick<User, 'id' | 'name' | 'displayName' | 'username' | 'profileImagePath' | 'role' | 'url' | 'areaOfExpertise' | 'orcid' | 'twitterHandle' | 'facebookProfile' | 'linkedinProfile'>
+  & { organizations: Array<(
+    { __typename: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  )> }
 );
 
 export type PhenotypeDetailQueryVariables = Exact<{
@@ -7974,10 +7943,10 @@ export type VariantSummaryFieldsFragment = (
   ), sources: Array<(
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'citation' | 'sourceUrl' | 'displayType' | 'sourceType'>
-  )>, variantTypes?: Maybe<Array<(
+  )>, variantTypes: Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'link' | 'soid' | 'name'>
-  )>>, fivePrimeCoordinates?: Maybe<(
+  )>, fivePrimeCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
   )>, threePrimeCoordinates?: Maybe<(
@@ -8121,6 +8090,7 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     name
   }
   variantOrigin @include(if: $cardView)
+  evidenceItemsCount
   status
 }
     `;
@@ -9389,6 +9359,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
   phenotypes {
     id
     name
+    link
   }
   source {
     id
@@ -9594,6 +9565,10 @@ export const OrganizationMembersFieldsFragmentDoc = gql`
   twitterHandle
   facebookProfile
   linkedinProfile
+  organizations {
+    id
+    name
+  }
 }
     `;
 export const ReleaseFragmentDoc = gql`
@@ -11898,57 +11873,6 @@ export const SuggestEvidenceItemRevisionDocument = gql`
     clientMutationId
     evidenceItem {
       id
-      revisions {
-        totalCount
-        edges {
-          node {
-            id
-            revisionsetId
-            createdAt
-            fieldName
-            currentValue
-            suggestedValue
-            linkoutData {
-              name
-              diffValue {
-                ... on ObjectFieldDiff {
-                  addedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  removedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  keptObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                }
-                ... on ScalarFieldDiff {
-                  left
-                  right
-                }
-              }
-            }
-            revisor {
-              id
-              name
-            }
-            status
-          }
-        }
-      }
-    }
-    results {
-      id
-      fieldName
     }
   }
 }

@@ -10,7 +10,7 @@ class VariantGroup < ActiveRecord::Base
   has_many :sources_variant_groups, class_name: "SourceVariantGroup"
   has_many :sources, through: :sources_variant_groups
 
-  searchkick highlight: [:name]
+  searchkick highlight: [:name], callbacks: :async
 
   def search_data
     {

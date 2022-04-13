@@ -27,13 +27,13 @@ export class CvcUserTagComponent implements OnInit {
     }
 
     switch(this.user.role) {
-      case 'admin':
+      case 'ADMIN':
         this.icon = 'civic-admin';
         break;
-      case 'editor':
+      case 'EDITOR':
         this.icon = 'civic-editor';
         break;
-      case 'curator':
+      case 'CURATOR':
         this.icon = 'civic-curator';
         break;
       default:

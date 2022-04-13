@@ -1,5 +1,6 @@
 <nz-card [nzTitle]="titleTemplate">
   <nz-table #drugsTable
+    nzSize="small"
     [nzData]="(drugs$ | ngrxPush)"
     [nzLoading]="(isLoading$ | ngrxPush)"
     [nzFrontPagination]="false"
@@ -96,7 +97,7 @@
     {{ this.cvcTitle }}
   </ng-container>
   <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
   <ng-template #noData>
     <span nz-typography nzType="secondary">

@@ -90,6 +90,7 @@ export const CvcTypePolicies: TypePolicies = {
         'geneSymbol',
         'variantName',
         'status',
+        'clinicalTrialId'
       ]),
       assertions: relayStylePagination([
         'diseaseName',

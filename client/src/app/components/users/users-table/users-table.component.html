@@ -1,5 +1,6 @@
 <nz-card [nzTitle]="titleTemplate">
   <nz-table #userTable
+    nzSize="small"
     [nzData]="(users$ | ngrxPush)"
     [nzLoading]="(isLoading$ | ngrxPush)"
     [nzFrontPagination]="false"
@@ -7,35 +8,35 @@
     <thead (nzSortOrderChange)="onSortChanged($event)">
       <tr>
         <th nzWidth="5%">
-            Username
+          Username
         </th>
         <th nzWidth="15%"
-            [nzColumnKey]="sortColumns.Name"
-            [nzSortFn]="true">
-            Name
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
+          Name
         </th>
         <th>
-            Organizations
+          Organizations
         </th>
-        <th
-            [nzColumnKey]="sortColumns.Role"
-            [nzSortFn]="true">
-            Role
+        <th [nzColumnKey]="sortColumns.Role"
+          [nzSortFn]="true">
+          Role
         </th>
         <th nzRight
           nz-tooltip
           nzTooltipTitle="Evidence Count">
-          <i nz-icon nzType="civic:evidence"></i>
+          <i nz-icon
+            nzType="civic:evidence"></i>
         </th>
         <th nzRight
           nz-tooltip
           nzTooltipTitle="Revision Count">
-          <i nz-icon nzType="civic:revision"></i>
+          <i nz-icon
+            nzType="civic:revision"></i>
         </th>
-        <th
-          [nzColumnKey]="sortColumns.LastAction"
+        <th [nzColumnKey]="sortColumns.LastAction"
           [nzSortFn]="true">
-            Last Action
+          Last Action
         </th>
       </tr>
       <tr>
@@ -56,9 +57,12 @@
             [nzDropdownMatchSelectWidth]="false"
             (ngModelChange)="onModelChanged()"
             [(ngModel)]="roleInput">
-            <nz-option nzValue="ADMIN" nzLabel="ADMIN"></nz-option>
-            <nz-option nzValue="CURATOR" nzLabel="CURATOR"></nz-option>
-            <nz-option nzValue="EDITOR" nzLabel="EDITOR"></nz-option>
+            <nz-option nzValue="ADMIN"
+              nzLabel="ADMIN"></nz-option>
+            <nz-option nzValue="CURATOR"
+              nzLabel="CURATOR"></nz-option>
+            <nz-option nzValue="EDITOR"
+              nzLabel="EDITOR"></nz-option>
           </nz-select>
         </th>
         <th></th>
@@ -80,12 +84,13 @@
           </ng-template>
         </td>
         <td>
-          <p *ngIf="user.organizations.length > 0; else orgElse"
-            nz-typography>
-            <span *ngFor="let org of user.organizations; last as isLast">
+          <div *ngIf="user.organizations.length > 0; else orgElse">
+            <cvc-tag-list>
+              <span *ngFor="let org of user.organizations; last as isLast">
               <cvc-organization-tag [org]="org"></cvc-organization-tag>
             </span>
-          </p>
+            </cvc-tag-list>
+          </div>
           <ng-template #orgElse>
             <i>--</i>
           </ng-template>
@@ -124,18 +129,22 @@
 </nz-card>
 
 <ng-template #titleTemplate>
-  <i nz-icon nzType="civic:user"></i>
+  <i nz-icon
+    nzType="civic:user"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}} of {{filteredCount}} filtered)
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
   <ng-template #noData>
-    <span nz-typography nzType="secondary">
+    <span nz-typography
+      nzType="secondary">
       (0 total)
     </span>
   </ng-template>
