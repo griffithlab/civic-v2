@@ -14116,7 +14116,7 @@
             },
             {
               "name": "addRemoteCitation",
-              "description": "Add a stub record for an external source that is not yet in CiVIC.\nThis is for adding a new Source inline while performing other curation activities\nsuch as adding new evidence items and is distinct from suggesting a source for curation.\n",
+              "description": "Add a stub record for an external source that is not yet in CIViC.\nThis is for adding a new Source inline while performing other curation activities\nsuch as adding new evidence items and is distinct from suggesting a source for curation.\n",
               "args": [
                 {
                   "name": "input",

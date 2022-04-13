@@ -1,6 +1,6 @@
 class Mutations::AddRemoteCitation < Mutations::BaseMutation
   description <<~DOC
-    Add a stub record for an external source that is not yet in CiVIC.
+    Add a stub record for an external source that is not yet in CIViC.
     This is for adding a new Source inline while performing other curation activities
     such as adding new evidence items and is distinct from suggesting a source for curation.
   DOC
