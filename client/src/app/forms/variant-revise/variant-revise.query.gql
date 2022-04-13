@@ -29,21 +29,21 @@ fragment RevisableVariantFields on Variant {
     name
     soid
   }
-  fivePrimeCoordinates {
+  primaryCoordinates {
     ... CoordinateFields
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     ... CoordinateFields
   }
+  referenceBases
+  variantBases
 }
 
 fragment CoordinateFields on Coordinate {
   chromosome
-  referenceBases
   representativeTranscript
   start
   stop
-  variantBases
 }
 
 mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {

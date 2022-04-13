@@ -1543,11 +1543,9 @@ type Contribution {
 
 type Coordinate {
   chromosome: String
-  referenceBases: String
   representativeTranscript: String
   start: Int
   stop: Int
-  variantBases: String
 }
 
 input CoordinateInput {
@@ -3094,7 +3092,7 @@ type Mutation {
   ): AddDrugPayload
 
   """
-  Add a stub record for an external source that is not yet in CiVIC.
+  Add a stub record for an external source that is not yet in CIViC.
   This is for adding a new Source inline while performing other curation activities
   such as adding new evidence items and is distinct from suggesting a source for curation.
   """
@@ -6760,7 +6758,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     last: Int
   ): EvidenceItemConnection!
   evidenceScore: Float!
-  fivePrimeCoordinates: Coordinate
   flagged: Boolean!
 
   """
@@ -6816,6 +6813,8 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   link: String!
   myVariantInfo: MyVariantInfo
   name: String!
+  primaryCoordinates: Coordinate
+  referenceBases: String!
   referenceBuild: ReferenceBuild
 
   """
@@ -6867,9 +6866,10 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     status: RevisionStatus
   ): RevisionConnection!
+  secondaryCoordinates: Coordinate
   sources: [Source!]!
-  threePrimeCoordinates: Coordinate
   variantAliases: [String!]!
+  variantBases: String!
   variantTypes: [VariantType!]!
 }
 
