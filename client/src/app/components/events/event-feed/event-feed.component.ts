@@ -66,11 +66,8 @@ export class CvcEventFeedComponent implements OnInit {
       showFilters: this.showFilters
     }
 
-    if(environment.production) {
-      this.queryRef = this.gql.watch(this.initialQueryVars, {pollInterval: 30000});
-    } else {
-      this.queryRef = this.gql.watch(this.initialQueryVars);
-    }
+    this.queryRef = this.gql.watch(this.initialQueryVars);
+
     this.results$ = this.queryRef.valueChanges;
 
     this.pageInfo$ = this.results$.pipe(
