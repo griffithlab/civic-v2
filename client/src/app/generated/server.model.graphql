@@ -6760,7 +6760,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     last: Int
   ): EvidenceItemConnection!
   evidenceScore: Float!
-  fivePrimeCoordinates: Coordinate
   flagged: Boolean!
 
   """
@@ -6816,6 +6815,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   link: String!
   myVariantInfo: MyVariantInfo
   name: String!
+  primaryCoordinates: Coordinate
   referenceBuild: ReferenceBuild
 
   """
@@ -6867,8 +6867,8 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     status: RevisionStatus
   ): RevisionConnection!
+  secondaryCoordinates: Coordinate
   sources: [Source!]!
-  threePrimeCoordinates: Coordinate
   variantAliases: [String!]!
   variantTypes: [VariantType!]!
 }

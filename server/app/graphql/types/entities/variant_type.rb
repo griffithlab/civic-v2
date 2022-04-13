@@ -16,8 +16,8 @@ module Types::Entities
     field :sources, [Types::Entities::SourceType], null: false
     field :reference_build, Types::ReferenceBuildType, null: true
     field :ensembl_version, Int, null: true
-    field :five_prime_coordinates, Types::Entities::CoordinateType, null: true
-    field :three_prime_coordinates, Types::Entities::CoordinateType, null: true
+    field :primary_coordinates, Types::Entities::CoordinateType, null: true
+    field :secondary_coordinates, Types::Entities::CoordinateType, null: true
     field :allele_registry_id, String, null: true
     field :evidence_score, Float, null: false
     field :variant_aliases, [String], null: false
@@ -35,26 +35,34 @@ module Types::Entities
       Loaders::AssociationLoader.for(Variant, :evidence_items).load(object)
     end
 
-    def three_prime_coordinates
-      {
-        representative_transcript: object.representative_transcript,
-        chromosome: object.chromosome,
-        start: object.start,
-        stop: object.stop,
-        reference_bases: object.reference_bases,
-        variant_bases: object.variant_bases
-      }
+    def primary_coordinates
+      if (object.representative_transcript.blank? && object.chromosome.blank? && object.start.blank? && object.stop.blank?)
+        return nil
+      else
+        return {
+          representative_transcript: object.representative_transcript,
+          chromosome: object.chromosome,
+          start: object.start,
+          stop: object.stop,
+          reference_bases: object.reference_bases,
+          variant_bases: object.variant_bases
+        }
+      end
     end
 
-    def five_prime_coordinates
-      {
-        representative_transcript: object.representative_transcript2,
-        chromosome: object.chromosome2,
-        start: object.start2,
-        stop: object.stop2,
-        reference_bases: nil,
-        variant_bases: nil,
-      }
+    def secondary_coordinates
+      if (object.representative_transcript2.blank? && object.chromosome2.blank? && object.start2.blank? && object.stop2.blank?)
+        return nil
+      else
+        return {
+          representative_transcript: object.representative_transcript2,
+          chromosome: object.chromosome2,
+          start: object.start2,
+          stop: object.stop2,
+          reference_bases: nil,
+          variant_bases: nil,
+        }
+      end
     end
 
     def evidence_score

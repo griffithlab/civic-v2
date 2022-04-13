@@ -35,7 +35,7 @@ fragment VariantSummaryFields on Variant {
   evidenceScore
   referenceBuild
   ensemblVersion
-  fivePrimeCoordinates {
+  primaryCoordinates {
       representativeTranscript
       chromosome
       start
@@ -43,7 +43,7 @@ fragment VariantSummaryFields on Variant {
       referenceBases
       variantBases
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
       representativeTranscript
       chromosome
       start

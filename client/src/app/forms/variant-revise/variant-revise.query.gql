@@ -29,10 +29,10 @@ fragment RevisableVariantFields on Variant {
     name
     soid
   }
-  fivePrimeCoordinates {
+  primaryCoordinates {
     ... CoordinateFields
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     ... CoordinateFields
   }
 }
