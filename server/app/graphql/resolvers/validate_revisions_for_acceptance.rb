@@ -69,6 +69,7 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
         end
         if !subject.valid?
           subject.errors.each do |attribute, message|
+            attribute = attribute.to_s
             if attribute.ends_with?("_ids")
               formatted_attribute = attribute.singularize.humanize.pluralize
             else
