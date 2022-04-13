@@ -4096,7 +4096,6 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   events: EventConnection;
   evidenceItems: EvidenceItemConnection;
   evidenceScore: Scalars['Float'];
-  fivePrimeCoordinates?: Maybe<Coordinate>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -4109,11 +4108,12 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   link: Scalars['String'];
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
+  primaryCoordinates?: Maybe<Coordinate>;
   referenceBuild?: Maybe<ReferenceBuild>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
+  secondaryCoordinates?: Maybe<Coordinate>;
   sources: Array<Source>;
-  threePrimeCoordinates?: Maybe<Coordinate>;
   variantAliases: Array<Scalars['String']>;
   variantTypes: Array<VariantType>;
 };
@@ -6971,10 +6971,10 @@ export type RevisableVariantFieldsFragment = (
   ), variantTypes: Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'name' | 'soid'>
-  )>, fivePrimeCoordinates?: Maybe<(
+  )>, primaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
-  )>, threePrimeCoordinates?: Maybe<(
+  )>, secondaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
   )> }
@@ -7946,10 +7946,10 @@ export type VariantSummaryFieldsFragment = (
   )>, variantTypes: Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'link' | 'soid' | 'name'>
-  )>, fivePrimeCoordinates?: Maybe<(
+  )>, primaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
-  )>, threePrimeCoordinates?: Maybe<(
+  )>, secondaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
   )>, flags: (
@@ -9179,10 +9179,10 @@ export const RevisableVariantFieldsFragmentDoc = gql`
     name
     soid
   }
-  fivePrimeCoordinates {
+  primaryCoordinates {
     ...CoordinateFields
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     ...CoordinateFields
   }
 }
@@ -9878,7 +9878,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   evidenceScore
   referenceBuild
   ensemblVersion
-  fivePrimeCoordinates {
+  primaryCoordinates {
     representativeTranscript
     chromosome
     start
@@ -9886,7 +9886,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
     referenceBases
     variantBases
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     representativeTranscript
     chromosome
     start

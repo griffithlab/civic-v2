@@ -28968,18 +28968,6 @@
               "deprecationReason": null
             },
             {
-              "name": "fivePrimeCoordinates",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Coordinate",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "flagged",
               "description": null,
               "args": [],
@@ -29245,6 +29233,18 @@
               "deprecationReason": null
             },
             {
+              "name": "primaryCoordinates",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Coordinate",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "referenceBuild",
               "description": null,
               "args": [],
@@ -29382,6 +29382,18 @@
               "deprecationReason": null
             },
             {
+              "name": "secondaryCoordinates",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Coordinate",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sources",
               "description": null,
               "args": [],
@@ -29401,18 +29413,6 @@
                     }
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "threePrimeCoordinates",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Coordinate",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

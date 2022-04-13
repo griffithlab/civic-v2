@@ -1274,7 +1274,7 @@ export type ValidationErrorsFieldPolicy = {
 	genericErrors?: FieldPolicy<any> | FieldReadFunction<any>,
 	validationErrors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'fivePrimeCoordinates' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'myVariantInfo' | 'name' | 'referenceBuild' | 'revisions' | 'sources' | 'threePrimeCoordinates' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
+export type VariantKeySpecifier = ('alleleRegistryId' | 'clinvarIds' | 'comments' | 'description' | 'ensemblVersion' | 'events' | 'evidenceItems' | 'evidenceScore' | 'flagged' | 'flags' | 'gene' | 'hgvsDescriptions' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'myVariantInfo' | 'name' | 'primaryCoordinates' | 'referenceBuild' | 'revisions' | 'secondaryCoordinates' | 'sources' | 'variantAliases' | 'variantTypes' | VariantKeySpecifier)[];
 export type VariantFieldPolicy = {
 	alleleRegistryId?: FieldPolicy<any> | FieldReadFunction<any>,
 	clinvarIds?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1284,7 +1284,6 @@ export type VariantFieldPolicy = {
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceScore?: FieldPolicy<any> | FieldReadFunction<any>,
-	fivePrimeCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	flagged?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
 	gene?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1296,10 +1295,11 @@ export type VariantFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	myVariantInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	primaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	referenceBuild?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>,
+	secondaryCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
-	threePrimeCoordinates?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	variantTypes?: FieldPolicy<any> | FieldReadFunction<any>
 };
