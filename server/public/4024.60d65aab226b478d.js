@@ -1134,21 +1134,21 @@
     name
     soid
   }
-  fivePrimeCoordinates {
+  primaryCoordinates {
     ...CoordinateFields
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     ...CoordinateFields
   }
+  referenceBases
+  variantBases
 }
     ${h`
     fragment CoordinateFields on Coordinate {
   chromosome
-  referenceBases
   representativeTranscript
   start
   stop
-  variantBases
 }
     `}`,Gn=h`
     fragment AssertionDetailFields on Assertion {
@@ -1755,22 +1755,20 @@
   evidenceScore
   referenceBuild
   ensemblVersion
-  fivePrimeCoordinates {
+  primaryCoordinates {
     representativeTranscript
     chromosome
     start
     stop
-    referenceBases
-    variantBases
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     representativeTranscript
     chromosome
     start
     stop
-    referenceBases
-    variantBases
   }
+  referenceBases
+  variantBases
   flags(state: OPEN) {
     totalCount
   }
