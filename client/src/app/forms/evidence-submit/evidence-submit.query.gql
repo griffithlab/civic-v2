@@ -1,3 +1,30 @@
+query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $geneId: Int, $variantId: Int, $diseaseId: Int) {
+  sourceSuggestionValues(geneId: $geneId, variantId: $variantId, diseaseId: $diseaseId, sourceId: $sourceId) {
+    gene {
+      id
+      name
+      link
+    }
+    variant {
+      id
+      name
+      link
+    }
+    disease {
+      id
+      name
+      link
+    }
+    source {
+      id
+      sourceType
+      citationId
+      citation
+      link
+    }
+  }
+}
+
 query EvidenceSubmittableFields($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
     ...SubmittableEvidenceFields
