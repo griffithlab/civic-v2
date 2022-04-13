@@ -963,11 +963,9 @@ export type Contribution = {
 export type Coordinate = {
   __typename: 'Coordinate';
   chromosome?: Maybe<Scalars['String']>;
-  referenceBases?: Maybe<Scalars['String']>;
   representativeTranscript?: Maybe<Scalars['String']>;
   start?: Maybe<Scalars['Int']>;
   stop?: Maybe<Scalars['Int']>;
-  variantBases?: Maybe<Scalars['String']>;
 };
 
 export type CoordinateInput = {
@@ -4109,12 +4107,14 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
   primaryCoordinates?: Maybe<Coordinate>;
+  referenceBases: Scalars['String'];
   referenceBuild?: Maybe<ReferenceBuild>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   secondaryCoordinates?: Maybe<Coordinate>;
   sources: Array<Source>;
   variantAliases: Array<Scalars['String']>;
+  variantBases: Scalars['String'];
   variantTypes: Array<VariantType>;
 };
 
@@ -6966,7 +6966,7 @@ export type VariantRevisableFieldsQuery = (
 
 export type RevisableVariantFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'clinvarIds' | 'ensemblVersion' | 'hgvsDescriptions' | 'referenceBuild'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'clinvarIds' | 'ensemblVersion' | 'hgvsDescriptions' | 'referenceBuild' | 'referenceBases' | 'variantBases'>
   & { sources: Array<(
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
@@ -6987,7 +6987,7 @@ export type RevisableVariantFieldsFragment = (
 
 export type CoordinateFieldsFragment = (
   { __typename: 'Coordinate' }
-  & Pick<Coordinate, 'chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases'>
+  & Pick<Coordinate, 'chromosome' | 'representativeTranscript' | 'start' | 'stop'>
 );
 
 export type SuggestVariantRevisionMutationVariables = Exact<{
@@ -7941,7 +7941,7 @@ export type VariantSummaryQuery = (
 
 export type VariantSummaryFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore' | 'referenceBuild' | 'ensemblVersion'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore' | 'referenceBuild' | 'ensemblVersion' | 'referenceBases' | 'variantBases'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -7953,10 +7953,10 @@ export type VariantSummaryFieldsFragment = (
     & Pick<VariantType, 'id' | 'link' | 'soid' | 'name'>
   )>, primaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
-    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
+    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop'>
   )>, secondaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
-    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
+    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop'>
   )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -9177,11 +9177,9 @@ export const SubmittableVariantGroupFieldsFragmentDoc = gql`
 export const CoordinateFieldsFragmentDoc = gql`
     fragment CoordinateFields on Coordinate {
   chromosome
-  referenceBases
   representativeTranscript
   start
   stop
-  variantBases
 }
     `;
 export const RevisableVariantFieldsFragmentDoc = gql`
@@ -9216,6 +9214,8 @@ export const RevisableVariantFieldsFragmentDoc = gql`
   secondaryCoordinates {
     ...CoordinateFields
   }
+  referenceBases
+  variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
 export const AssertionDetailFieldsFragmentDoc = gql`
@@ -9914,17 +9914,15 @@ export const VariantSummaryFieldsFragmentDoc = gql`
     chromosome
     start
     stop
-    referenceBases
-    variantBases
   }
   secondaryCoordinates {
     representativeTranscript
     chromosome
     start
     stop
-    referenceBases
-    variantBases
   }
+  referenceBases
+  variantBases
   flags(state: OPEN) {
     totalCount
   }

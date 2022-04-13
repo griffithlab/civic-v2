@@ -1543,11 +1543,9 @@ type Contribution {
 
 type Coordinate {
   chromosome: String
-  referenceBases: String
   representativeTranscript: String
   start: Int
   stop: Int
-  variantBases: String
 }
 
 input CoordinateInput {
@@ -6816,6 +6814,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   myVariantInfo: MyVariantInfo
   name: String!
   primaryCoordinates: Coordinate
+  referenceBases: String!
   referenceBuild: ReferenceBuild
 
   """
@@ -6870,6 +6869,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   secondaryCoordinates: Coordinate
   sources: [Source!]!
   variantAliases: [String!]!
+  variantBases: String!
   variantTypes: [VariantType!]!
 }
 
