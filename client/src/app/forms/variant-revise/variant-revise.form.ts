@@ -70,8 +70,8 @@ interface FormModel {
     ensemblVersion?: number;
     hgvsDescriptions: string[];
     variantTypes: FormVariantType[];
-    fivePrimeCoordinates?: CoordinateFieldsFragment;
-    threePrimeCoordinates?: CoordinateFieldsFragment;
+    primaryCoordinates?: CoordinateFieldsFragment;
+    secondaryCoordinates?: CoordinateFieldsFragment;
     referenceBases: Maybe<string>;
     variantBases: Maybe<string>;
     comment?: string;
@@ -286,7 +286,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             type: 'cvc-ensembl-input',
           },
           {
-            key: 'threePrimeCoordinates.referenceBases',
+            key: 'referenceBases',
             type: 'input',
             defaultValue: undefined,
             templateOptions: {
@@ -299,7 +299,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.variantBases',
+            key: 'variantBases',
             type: 'input',
             defaultValue: undefined,
             templateOptions: {
@@ -312,7 +312,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.chromosome',
+            key: 'primaryCoordinates.chromosome',
             type: 'select',
             defaultValue: undefined,
             templateOptions: {
@@ -323,7 +323,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'threePrimeCoordinates.start',
+            key: 'primaryCoordinates.start',
             type: 'input',
             templateOptions: {
               label: 'Start',
@@ -335,7 +335,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.stop',
+            key: 'primaryCoordinates.stop',
             type: 'input',
             templateOptions: {
               label: 'Stop',
@@ -347,7 +347,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'threePrimeCoordinates.representativeTranscript',
+            key: 'primaryCoordinates.representativeTranscript',
             type: 'input',
             templateOptions: {
               label: 'Representative Transcript',
@@ -358,7 +358,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             template: '<h3>Secondary Coordinates</h3>',
           },
           {
-            key: 'fivePrimeCoordinates.chromosome',
+            key: 'secondaryCoordinates.chromosome',
             type: 'select',
             defaultValue: undefined,
             templateOptions: {
@@ -370,7 +370,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'fivePrimeCoordinates.start',
+            key: 'secondaryCoordinates.start',
             type: 'input',
             templateOptions: {
               label: 'Start',
@@ -381,7 +381,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'fivePrimeCoordinates.stop',
+            key: 'secondaryCoordinates.stop',
             type: 'input',
             templateOptions: {
               label: 'Stop',
@@ -392,7 +392,7 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'fivePrimeCoordinates.representativeTranscript',
+            key: 'secondaryCoordinates.representativeTranscript',
             type: 'input',
             templateOptions: {
               label: 'Representative Transcript',
@@ -487,8 +487,8 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
         ...variant,
         clinvarStatus: this.getClinvarStatus(variant.clinvarIds),
         clinvarIds: this.getClinvarIds(variant.clinvarIds),
-        referenceBases: variant.fivePrimeCoordinates?.referenceBases,
-        variantBases: variant.fivePrimeCoordinates?.variantBases,
+        referenceBases: variant.referenceBases,
+        variantBases: variant.variantBases,
         comment: this.formModel?.fields.comment,
         organization: this.formModel?.fields.organization,
       },
@@ -534,8 +534,8 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
           ensemblVersion: fmt.toNullableInput(fields.ensemblVersion),
           description: fmt.toNullableString(fields.description),
           clinvarIds: fmt.toClinvarInput(fields.clinvarIds, fields.clinvarStatus),
-          primaryCoordinates: fmt.toCoordinateInput(fields.threePrimeCoordinates),
-          secondaryCoordinates: fmt.toCoordinateInput(fields.fivePrimeCoordinates),
+          primaryCoordinates: fmt.toCoordinateInput(fields.primaryCoordinates),
+          secondaryCoordinates: fmt.toCoordinateInput(fields.secondaryCoordinates),
           referenceBases: fmt.toNullableString(fields.referenceBases),
           variantBases: fmt.toNullableString(fields.variantBases),
           referenceBuild: fmt.toNullableReferenceBuildInput(fields.referenceBuild),
