@@ -1,8 +1,16 @@
-:host ::ng-deep {
+:host {
+  display: block;
+}
+
+nz-card:first-of-type ::ng-deep {
   .ant-card-body {
     // remove card body padding
     padding: 0;
     // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
     margin-top: 1px;
   }
+}
+
+.filter-row th.ant-table-cell {
+  padding: 1px 4px;
 }

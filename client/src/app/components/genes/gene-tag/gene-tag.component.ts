@@ -16,6 +16,7 @@ export interface LinkableGene {
 export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
   @Input() gene!: LinkableGene;
   @Input() enablePopover: Maybe<boolean> = true
+  @Input() truncateLongName: Maybe<boolean> = false
 
   constructor() {
     super();

@@ -16,6 +16,7 @@ export interface LinkableVariant {
 export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
   @Input() variant!: LinkableVariant;
   @Input() enablePopover: Maybe<boolean> = true
+  @Input() truncateLongName: Maybe<boolean> = false
 
   constructor() { 
     super();
