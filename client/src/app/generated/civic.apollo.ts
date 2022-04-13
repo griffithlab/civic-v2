@@ -1872,7 +1872,7 @@ export type Mutation = {
   /** Add a new drug to the database. */
   addDrug?: Maybe<AddDrugPayload>;
   /**
-   * Add a stub record for an external source that is not yet in CiVIC.
+   * Add a stub record for an external source that is not yet in CIViC.
    * This is for adding a new Source inline while performing other curation activities
    * such as adding new evidence items and is distinct from suggesting a source for curation.
    */
@@ -2518,6 +2518,8 @@ export type Query = {
   source?: Maybe<Source>;
   /** Retrieve popover fields for a specific source. */
   sourcePopover?: Maybe<SourcePopover>;
+  /** Given the parameters in a source suggestion, fetch the values to populate the add evidence form */
+  sourceSuggestionValues: SourceSuggestionValues;
   sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
@@ -2939,6 +2941,14 @@ export type QuerySourceArgs = {
 
 export type QuerySourcePopoverArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QuerySourceSuggestionValuesArgs = {
+  diseaseId?: Maybe<Scalars['Int']>;
+  geneId?: Maybe<Scalars['Int']>;
+  sourceId?: Maybe<Scalars['Int']>;
+  variantId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -3434,6 +3444,14 @@ export enum SourceSuggestionStatus {
   New = 'NEW',
   Rejected = 'REJECTED'
 }
+
+export type SourceSuggestionValues = {
+  __typename: 'SourceSuggestionValues';
+  disease?: Maybe<Disease>;
+  gene?: Maybe<Gene>;
+  source?: Maybe<Source>;
+  variant?: Maybe<Variant>;
+};
 
 export type SourceSuggestionsSort = {
   /** Available columns for sorting */
@@ -6641,6 +6659,34 @@ export type SuggestEvidenceItemRevisionMutation = (
       & Pick<EvidenceItem, 'id'>
     ) }
   )> }
+);
+
+export type EvidenceFieldsFromSourceSuggestionQueryVariables = Exact<{
+  sourceId?: Maybe<Scalars['Int']>;
+  geneId?: Maybe<Scalars['Int']>;
+  variantId?: Maybe<Scalars['Int']>;
+  diseaseId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type EvidenceFieldsFromSourceSuggestionQuery = (
+  { __typename: 'Query' }
+  & { sourceSuggestionValues: (
+    { __typename: 'SourceSuggestionValues' }
+    & { gene?: Maybe<(
+      { __typename: 'Gene' }
+      & Pick<Gene, 'id' | 'name' | 'link'>
+    )>, variant?: Maybe<(
+      { __typename: 'Variant' }
+      & Pick<Variant, 'id' | 'name' | 'link'>
+    )>, disease?: Maybe<(
+      { __typename: 'Disease' }
+      & Pick<Disease, 'id' | 'name' | 'link'>
+    )>, source?: Maybe<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id' | 'sourceType' | 'citationId' | 'citation' | 'link'>
+    )> }
+  ) }
 );
 
 export type EvidenceSubmittableFieldsQueryVariables = Exact<{
@@ -11881,6 +11927,50 @@ export const SuggestEvidenceItemRevisionDocument = gql`
   })
   export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
     document = SuggestEvidenceItemRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceFieldsFromSourceSuggestionDocument = gql`
+    query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $geneId: Int, $variantId: Int, $diseaseId: Int) {
+  sourceSuggestionValues(
+    geneId: $geneId
+    variantId: $variantId
+    diseaseId: $diseaseId
+    sourceId: $sourceId
+  ) {
+    gene {
+      id
+      name
+      link
+    }
+    variant {
+      id
+      name
+      link
+    }
+    disease {
+      id
+      name
+      link
+    }
+    source {
+      id
+      sourceType
+      citationId
+      citation
+      link
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceFieldsFromSourceSuggestionGQL extends Apollo.Query<EvidenceFieldsFromSourceSuggestionQuery, EvidenceFieldsFromSourceSuggestionQueryVariables> {
+    document = EvidenceFieldsFromSourceSuggestionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
