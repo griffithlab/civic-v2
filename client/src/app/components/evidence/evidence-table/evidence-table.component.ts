@@ -1,11 +1,13 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime, take } from 'rxjs/operators';
+import { startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, tap } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
+import { tag } from 'rxjs-spy/cjs/operators';
 
 
 export interface EvidenceTableUserFilters {
@@ -28,40 +30,41 @@ export interface EvidenceTableUserFilters {
   templateUrl: './evidence-table.component.html',
   styleUrls: ['./evidence-table.component.less'],
 })
-export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
-  @Input() variantId: Maybe<number>
+export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() assertionId: Maybe<number>
-  @Input() organizationId: Maybe<number>
-  @Input() userId: Maybe<number>
-  @Input() phenotypeId: Maybe<number>
-  @Input() diseaseId: Maybe<number>
-  @Input() drugId: Maybe<number>
-  @Input() sourceId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatus>
-  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() initialPageSize: number = 25;
-
-  @Input() mode: 'normal' | 'select' = 'normal'
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() diseaseId: Maybe<number>
   @Input() displayGeneAndVariant: boolean = true
-
-  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
+  @Input() drugId: Maybe<number>
+  @Input() initialPageSize: number = 25;
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() initialUserFilters: Maybe<EvidenceTableUserFilters>
+  @Input() mode: 'normal' | 'select' = 'normal'
+  @Input() organizationId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
+  @Input() sourceId: Maybe<number>
+  @Input() status: Maybe<EvidenceStatus>
+  @Input() userId: Maybe<number>
+  @Input() variantId: Maybe<number>
+
+  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
+  selectedEvidenceIds = new Map<number, FormEvidence>();
+
   @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
+  viewport?: CdkVirtualScrollViewport;
 
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
-
-  selectedEvidenceIds = new Map<number, FormEvidence>();
-
   isLoading$?: Observable<boolean>
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
-
   totalCount?: number
+  fetchMorePageSize = 25;
+  isLoadingDelay = 100;
+
   visibleCount: number = this.initialPageSize
 
   loadedPages: number = 1
@@ -70,66 +73,67 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   textInputCallback?: () => void
 
-  fetchMorePageSize = 25;
-
   //filters
-  eidInput: Maybe<string>
+  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  descriptionInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   drugNameInput: Maybe<string>
-  descriptionInput: Maybe<string>
-  evidenceLevelInput: Maybe<EvidenceLevel>
-  evidenceTypeInput: Maybe<EvidenceType>
+  eidInput: Maybe<string>
   evidenceDirectionInput: Maybe<EvidenceDirection>
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
-  variantOriginInput: Maybe<VariantOrigin>
+  evidenceLevelInput: Maybe<EvidenceLevel>
   evidenceRatingInput: Maybe<number>
-  variantNameInput: Maybe<string>
+  evidenceTypeInput: Maybe<EvidenceType>
   geneSymbolInput: Maybe<string>
+  variantNameInput: Maybe<string>
+  variantOriginInput: Maybe<VariantOrigin>
 
   sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
+
+  private destroy$ = new Subject();
 
   constructor(private gql: EvidenceBrowseGQL) { }
 
   ngOnInit() {
     if (this.initialUserFilters) {
-      this.eidInput = this.initialUserFilters.eidInput
+      this.clinicalSignificanceInput = this.initialUserFilters.clinicalSignificanceInput
+      this.descriptionInput = this.initialUserFilters.descriptionInput
       this.diseaseNameInput = this.initialUserFilters.diseaseNameInput
       this.drugNameInput = this.initialUserFilters.drugNameInput
-      this.descriptionInput = this.initialUserFilters.descriptionInput
-      this.evidenceLevelInput = this.initialUserFilters.evidenceLevelInput
-      this.evidenceTypeInput = this.initialUserFilters.evidenceTypeInput
+      this.eidInput = this.initialUserFilters.eidInput
       this.evidenceDirectionInput = this.initialUserFilters.evidenceDirectionInput
-      this.clinicalSignificanceInput = this.initialUserFilters.clinicalSignificanceInput
-      this.variantOriginInput = this.initialUserFilters.variantOriginInput
+      this.evidenceLevelInput = this.initialUserFilters.evidenceLevelInput
       this.evidenceRatingInput = this.initialUserFilters.evidenceRatingInput
-      this.variantNameInput = this.initialUserFilters.variantNameInput
+      this.evidenceTypeInput = this.initialUserFilters.evidenceTypeInput
       this.geneSymbolInput = this.initialUserFilters.geneSymbolInput
+      this.variantNameInput = this.initialUserFilters.variantNameInput
+      this.variantOriginInput = this.initialUserFilters.variantOriginInput
     }
 
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
-      variantId: this.variantId,
+
       assertionId: this.assertionId,
-      organizationId: this.organizationId,
-      userId: this.userId,
-      phenotypeId: this.phenotypeId,
-      diseaseId: this.diseaseId,
-      drugId: this.drugId,
-      sourceId: this.sourceId,
-      clinicalTrialId: this.clinicalTrialId,
       cardView: !this.tableView,
-      status: this.status,
-      diseaseName: this.diseaseNameInput,
-      drugName: this.drugNameInput,
+      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
+      clinicalTrialId: this.clinicalTrialId,
       description: this.descriptionInput,
+      diseaseId: this.diseaseId,
+      diseaseName: this.diseaseNameInput,
+      drugId: this.drugId,
+      drugName: this.drugNameInput,
+      evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
       evidenceLevel: this.evidenceLevelInput ? this.evidenceLevelInput : undefined,
       evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
-      evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
-      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
-      variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
       geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
+      organizationId: this.organizationId,
+      phenotypeId: this.phenotypeId,
+      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+      sourceId: this.sourceId,
+      status: this.status,
+      userId: this.userId,
+      variantId: this.variantId,
       variantName: this.variantNameInput ? this.variantNameInput : undefined,
+      variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
     });
 
     this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
@@ -176,7 +180,9 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       .subscribe((_) => this.refresh());
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
+
   }
+
   //
   // virtual scroll helpers
   trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
@@ -196,6 +202,41 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     });
 
     this.loadedPages += 1
+  }
+
+  ngAfterViewInit(): void {
+    if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
+      this.pageInfo$) {
+
+      this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
+
+      this.viewport.elementScrolled()
+        .pipe(
+          takeUntil(this.destroy$),
+          withLatestFrom(this.pageInfo$),
+          // map scroll event, page info into object
+          map(([_, pageInfo]: [Event, PageInfo]) =>
+            {
+              return {
+                cursor: pageInfo.endCursor,
+                offset: this.viewport!.measureScrollOffset('bottom')
+              }
+            }),
+          //
+          // pair with previous event/cursor
+          pairwise(),
+          // reject events that occur outside scroll target
+          filter(([e1, e2]) => {
+            return (e2.offset < e1.offset && e2.offset < 140)
+          }),
+          // throttle events so we don't cause a lot of loadMore() requests
+          throttleTime(this.isLoadingDelay),
+        ).subscribe(([_, e2]) => {
+          this.loadMore(e2.cursor);
+        });
+    } else {
+      throw new Error('evidence-table unable to find cdkVirtualScrollViewport.');
+    }
   }
 
   refresh() {
