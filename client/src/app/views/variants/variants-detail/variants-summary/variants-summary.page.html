@@ -194,10 +194,10 @@
 
             </nz-descriptions>
 
-            <!-- 3' coordinates -->
-            <ng-container *ngIf="variant.threePrimeCoordinates?.chromosome">
-              <nz-descriptions *ngIf="variant.threePrimeCoordinates as coords"
-                nzTitle="3' Coordinates"
+            <!-- primary / 5' coordinates -->
+            <ng-container *ngIf="variant.primaryCoordinates?.chromosome">
+              <nz-descriptions *ngIf="variant.primaryCoordinates as coords"
+                nzTitle="{{variant.secondaryCoordinates ? '5\' Coordinates' : 'Coordinates'}}"
                 nzLayout="horizontal"
                 nzBordered="true"
                 nzSize="small"
@@ -221,22 +221,24 @@
                   {{ coords.stop }}
                 </nz-descriptions-item>
 
-                <!-- reference bases -->
-                <nz-descriptions-item nzTitle="Ref. Bases"
-                  nzColumn="1">
-                  {{ coords.referenceBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
+                <ng-container *ngIf="!variant.secondaryCoordinates">
+                  <!-- reference bases -->
+                  <nz-descriptions-item nzTitle="Ref. Bases"
+                    nzColumn="1">
+                    {{ variant.referenceBases | ifEmpty: '--'}}
+                  </nz-descriptions-item>
 
-                <!-- variant bases-->
-                <nz-descriptions-item nzTitle="Var. Bases"
-                  nzColumn="1">
-                  {{ coords.variantBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
+                  <!-- variant bases-->
+                  <nz-descriptions-item nzTitle="Var. Bases"
+                    nzColumn="1">
+                    {{ variant.variantBases | ifEmpty: '--'}}
+                  </nz-descriptions-item>
+                </ng-container>
 
                 <!-- representative transcript -->
                 <nz-descriptions-item nzTitle="Transcript"
                   nzColumn="5">
-                  <cvc-link-tag tooltip="View on Esembl"
+                  <cvc-link-tag tooltip="View on Ensembl"
                     [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
                     {{ coords.representativeTranscript }}
                   </cvc-link-tag>
@@ -245,11 +247,10 @@
               </nz-descriptions>
             </ng-container>
             
-            <!-- 5' coordinates -->
-            <ng-container *ngIf="variant.fivePrimeCoordinates?.chromosome">
-              <!-- <ng-container *ngIf="variant.fivePrimeCoordinates?.chromosome; else noCoordinates"> -->
-              <nz-descriptions *ngIf="variant.fivePrimeCoordinates as coords"
-                nzTitle="5' Coordinates"
+            <!-- 3' (secondary) coordinates for fusions-->
+            <ng-container *ngIf="variant.secondaryCoordinates">
+              <nz-descriptions *ngIf="variant.secondaryCoordinates as coords"
+                nzTitle="3' Coordinates"
                 nzLayout="horizontal"
                 nzBordered="true"
                 nzSize="small"
@@ -273,22 +274,10 @@
                   {{ coords.stop }}
                 </nz-descriptions-item>
 
-                <!-- reference bases -->
-                <nz-descriptions-item nzTitle="Ref. Bases"
-                  nzColumn="1">
-                  {{ coords.referenceBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
-
-                <!-- variant bases-->
-                <nz-descriptions-item nzTitle="Var. Bases"
-                  nzColumn="1">
-                  {{ coords.variantBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
-
                 <!-- representative transcript -->
                 <nz-descriptions-item nzTitle="Transcript"
                   nzColumn="5">
-                  <cvc-link-tag tooltip="View on Esembl"
+                  <cvc-link-tag tooltip="View on Ensembl"
                     [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
                     {{ coords.representativeTranscript }}
                   </cvc-link-tag>

@@ -35,22 +35,20 @@ fragment VariantSummaryFields on Variant {
   evidenceScore
   referenceBuild
   ensemblVersion
-  fivePrimeCoordinates {
+  primaryCoordinates {
       representativeTranscript
       chromosome
       start
       stop
-      referenceBases
-      variantBases
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
       representativeTranscript
       chromosome
       start
       stop
-      referenceBases
-      variantBases
   }
+  referenceBases
+  variantBases
   flags(state: OPEN) {
     totalCount
   }
