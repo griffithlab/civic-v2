@@ -150,10 +150,16 @@
           </td>
           <td *ngIf="viewer.signedIn">
             <nz-button-group>
-              <!-- <button [disabled]="suggestion.status != status.New"  -->
-              <button [disabled]="true"
+              <button routerLink="/evidence/add/submit" 
+                [queryParams]="{
+                  geneId: suggestion.gene?.id,
+                  sourceId: suggestion.source?.id,
+                  variantId: suggestion.variant?.id,
+                  diseaseId: suggestion.disease?.id
+                }"
+                [disabled]="suggestion.status != status.New"
                 nz-button nzSize="small" 
-                nz-tooltip nzTooltipTitle="(Coming Soon) Curate an Evidence Item from this Source Suggestion" >
+                nz-tooltip nzTooltipTitle="Curate an Evidence Item from this Source Suggestion" >
                 <i nz-icon nzType="plus"></i>
               </button>
               <button 

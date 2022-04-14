@@ -1,0 +1,27 @@
+<ng-container *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">
+  <nz-row [nzGutter]="16">
+    <nz-col nzSpan="24">
+      <nz-space nzDirection="vertical" style="width: 100%">
+        <nz-card [nzTitle]="undefined" *nzSpaceItem>
+          <ng-container *ngIf="events$ | ngrxPush as events">
+            <nz-row [nzGutter]="16">
+              <nz-col nzSpan="24" class="timeline">
+                <ng-container *ngIf="events.length; else noEvents">
+                  <cvc-event-timeline [events]="events" [tagDisplay]="tagDisplay"></cvc-event-timeline>
+                </ng-container>
+                <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+                  <button nz-button nzType="default" nzSize="small" nzBlock
+                    routerLink="/curation/activity">See Full Activity Feed
+                  </button>
+                </ng-container>
+              </nz-col>
+            </nz-row>
+          </ng-container>
+        </nz-card>
+      </nz-space>
+    </nz-col>
+  </nz-row>
+</ng-container>
+<ng-template #noEvents>
+  <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No Events"></nz-empty>
+</ng-template>

@@ -19,12 +19,14 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { CvcUpdateSourceSuggestionFormModule } from '@app/forms/update-source-suggestion/update-source-suggestion.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [CvcSourceSuggestionsTableComponent],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveComponentModule,
     NzTableModule,
     NzSelectModule,

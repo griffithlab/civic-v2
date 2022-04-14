@@ -17,7 +17,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcSiteStatsCardModule } from '@app/components/shared/site-stats-card/site-stats-card.module';
-import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
+import { CvcHomepageEventFeedModule } from '@app/components/events/homepage-event-feed/homepage-event-feed.module';
 
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed
     NzTypographyModule,
     WelcomeRoutingModule,
     CvcSiteStatsCardModule,
-    CvcEventFeedModule,
+    CvcHomepageEventFeedModule,
     NgxJsonViewerModule,
   ],
   declarations: [

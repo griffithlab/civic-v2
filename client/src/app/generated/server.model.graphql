@@ -4775,6 +4775,11 @@ type Query {
   Retrieve popover fields for a specific source.
   """
   sourcePopover(id: Int!): SourcePopover
+
+  """
+  Given the parameters in a source suggestion, fetch the values to populate the add evidence form
+  """
+  sourceSuggestionValues(diseaseId: Int, geneId: Int, sourceId: Int, variantId: Int): SourceSuggestionValues!
   sourceSuggestions(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -5650,6 +5655,13 @@ enum SourceSuggestionStatus {
   CURATED
   NEW
   REJECTED
+}
+
+type SourceSuggestionValues {
+  disease: Disease
+  gene: Gene
+  source: Source
+  variant: Variant
 }
 
 input SourceSuggestionsSort {
@@ -6814,7 +6826,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   myVariantInfo: MyVariantInfo
   name: String!
   primaryCoordinates: Coordinate
-  referenceBases: String!
+  referenceBases: String
   referenceBuild: ReferenceBuild
 
   """
@@ -6869,7 +6881,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   secondaryCoordinates: Coordinate
   sources: [Source!]!
   variantAliases: [String!]!
-  variantBases: String!
+  variantBases: String
   variantTypes: [VariantType!]!
 }
 
