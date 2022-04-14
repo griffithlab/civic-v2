@@ -6072,20 +6072,25 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
-        & { diseases: Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'id' | 'name' | 'link'>
-        )>, drugs: Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'id' | 'name' | 'link'>
-        )>, aliases: Array<(
-          { __typename: 'VariantAlias' }
-          & Pick<VariantAlias, 'name'>
-        )> }
+        & VariantGridFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type VariantGridFieldsFragment = (
+  { __typename: 'BrowseVariant' }
+  & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
+  & { diseases: Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'link'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'link'>
+  )>, aliases: Array<(
+    { __typename: 'VariantAlias' }
+    & Pick<VariantAlias, 'name'>
+  )> }
 );
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
@@ -8878,6 +8883,32 @@ export const MenuVariantFragmentDoc = gql`
   link
 }
     `;
+export const VariantGridFieldsFragmentDoc = gql`
+    fragment VariantGridFields on BrowseVariant {
+  id
+  name
+  link
+  evidenceScore
+  evidenceItemCount
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+  assertionCount
+}
+    `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
     fragment RevisableAssertionFields on Assertion {
   id
@@ -11258,28 +11289,7 @@ export const BrowseVariantsDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        link
-        evidenceScore
-        evidenceItemCount
-        geneId
-        geneName
-        geneLink
-        diseases {
-          id
-          name
-          link
-        }
-        drugs {
-          id
-          name
-          link
-        }
-        aliases {
-          name
-        }
-        assertionCount
+        ...VariantGridFields
       }
     }
     totalCount
@@ -11287,7 +11297,7 @@ export const BrowseVariantsDocument = gql`
     pageCount
   }
 }
-    `;
+    ${VariantGridFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
