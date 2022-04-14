@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   DrugInteraction,
   EvidenceClinicalSignificance,
   EvidenceDirection,
+  EvidenceFieldsFromSourceSuggestionGQL,
   EvidenceLevel,
   EvidenceType,
   Maybe,
@@ -22,6 +23,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
 import { FormDisease, FormDrug, FormGene, FormPhenotype, FormSource, FormVariant } from '../forms.interfaces';
+import { ActivatedRoute } from '@angular/router';
 
 interface FormModel {
   fields: {
@@ -56,7 +58,7 @@ interface FormModel {
   templateUrl: './evidence-submit.form.html',
   styleUrls: ['./evidence-submit.form.less'],
 })
-export class EvidenceSubmitForm implements OnInit, OnDestroy {
+export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   private destroy$: Subject<void> = new Subject();
 
   formModel!: FormModel;
@@ -66,6 +68,12 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
 
   submitEvidenceMutator: MutatorWithState<SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables>
 
+
+  submittedGeneId: Maybe<number>
+  submittedVariantId: Maybe<number>
+  submittedSourceId: Maybe<number>
+  submittedDiseaseId: Maybe<number>
+
   success: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
@@ -73,7 +81,9 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
 
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
+    private sourceSuggestionGQL: EvidenceFieldsFromSourceSuggestionGQL,
     private networkErrorService: NetworkErrorsService,
+    private route: ActivatedRoute
     ) {
 
     this.submitEvidenceMutator = new MutatorWithState(networkErrorService);
@@ -222,7 +232,68 @@ export class EvidenceSubmitForm implements OnInit, OnDestroy {
     ];
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.route.queryParams.subscribe(params => {
+      let shouldPopulate = false
+      if (params.geneId) {
+        shouldPopulate = true
+        this.submittedGeneId = +params.geneId
+      }
+      if (params.variantId) {
+        shouldPopulate = true
+        this.submittedVariantId = +params.variantId
+      }
+      if (params.sourceId) {
+        shouldPopulate = true
+        this.submittedSourceId = +params.sourceId
+      }
+      if (params.diseaseId) {
+        shouldPopulate = true
+        this.submittedDiseaseId = +params.diseaseId
+      }
+
+      if(shouldPopulate) {
+        this.sourceSuggestionGQL.fetch({
+          geneId: this.submittedGeneId,
+          diseaseId: this.submittedDiseaseId,
+          sourceId: this.submittedSourceId,
+          variantId: this.submittedVariantId
+        }).subscribe(
+          ({data: { sourceSuggestionValues}, loading}) => {
+            this.loading = loading
+            let newModel: any = {fields: {}}
+            if(sourceSuggestionValues.gene) {
+              newModel.fields.gene = [sourceSuggestionValues.gene]
+            }
+            if(sourceSuggestionValues.disease) {
+              newModel.fields.disease = [sourceSuggestionValues.disease]
+            }
+            if(sourceSuggestionValues.variant) {
+              newModel.fields.variant = [sourceSuggestionValues.variant]
+            }
+            if(sourceSuggestionValues.source) {
+              newModel.fields.source = [sourceSuggestionValues.source]
+            }
+
+            if(this.formModel.fields?.organization) {
+              newModel.fields.organization = this.formModel.fields?.organization
+            }
+
+            this.formModel = newModel
+          },
+          (error) => {
+            console.error('Error retrieving source suggestion data.');
+            console.error(error);
+          },
+          //complete
+          () => {
+            if (this.formOptions.updateInitialValue) {
+              this.formOptions.updateInitialValue();
+            }
+            this.formGroup.markAllAsTouched();
+          });
+      }
+    })
   }
 
   submitEvidence(formModel: Maybe<FormModel>): void {
