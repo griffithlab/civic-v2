@@ -18,8 +18,8 @@ module Types::Entities
     field :ensembl_version, Int, null: true
     field :primary_coordinates, Types::Entities::CoordinateType, null: true
     field :secondary_coordinates, Types::Entities::CoordinateType, null: true
-    field :reference_bases, String, null: false
-    field :variant_bases, String, null: false
+    field :reference_bases, String, null: true
+    field :variant_bases, String, null: true
     field :allele_registry_id, String, null: true
     field :evidence_score, Float, null: false
     field :variant_aliases, [String], null: false
@@ -60,6 +60,22 @@ module Types::Entities
           start: object.start2,
           stop: object.stop2,
         }
+      end
+    end
+
+    def variant_bases
+      if (object.variant_bases.blank?)
+        return nil
+      else
+        return object.variant_bases
+      end
+    end
+
+    def reference_bases
+      if (object.reference_bases.blank?)
+        return nil
+      else
+        return object.reference_bases
       end
     end
 
