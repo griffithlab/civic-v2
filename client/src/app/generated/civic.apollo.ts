@@ -4125,14 +4125,14 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
   primaryCoordinates?: Maybe<Coordinate>;
-  referenceBases: Scalars['String'];
+  referenceBases?: Maybe<Scalars['String']>;
   referenceBuild?: Maybe<ReferenceBuild>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
   secondaryCoordinates?: Maybe<Coordinate>;
   sources: Array<Source>;
   variantAliases: Array<Scalars['String']>;
-  variantBases: Scalars['String'];
+  variantBases?: Maybe<Scalars['String']>;
   variantTypes: Array<VariantType>;
 };
 

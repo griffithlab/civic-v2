@@ -6826,7 +6826,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   myVariantInfo: MyVariantInfo
   name: String!
   primaryCoordinates: Coordinate
-  referenceBases: String!
+  referenceBases: String
   referenceBuild: ReferenceBuild
 
   """
@@ -6881,7 +6881,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   secondaryCoordinates: Coordinate
   sources: [Source!]!
   variantAliases: [String!]!
-  variantBases: String!
+  variantBases: String
   variantTypes: [VariantType!]!
 }
 
