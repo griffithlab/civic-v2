@@ -1,4 +1,5 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ApolloQueryResult } from '@apollo/client/core';
 import {
   BrowseVariantsGQL,
@@ -6,12 +7,14 @@ import {
   Maybe,
   PageInfo,
   QueryBrowseVariantsArgs,
+  VariantGridFieldsFragment,
   VariantsSortColumns,
 } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
+import { NzTableComponent } from 'ng-zorro-antd/table';
 
 export interface VariantTableRow {
   id: number;
@@ -36,6 +39,9 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
+  @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>;
+  viewport?: CdkVirtualScrollViewport;
+
   private initialQueryArgs?: QueryBrowseVariantsArgs;
   private debouncedQuery = new Subject<void>();
 
@@ -47,22 +53,27 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   pageCount$?: Observable<number>;
   pageInfo$?: Observable<PageInfo>;
 
+  totalCount?: number
+  initialPageSize = 50;
+  visibleCount: number = this.initialPageSize;
+  loadedPages: number = 1
+  fetchMorePageSize = 25;
+  isLoadingDelay = 100;
+
+  // filters
   variantNameInput: Maybe<string>;
   geneSymbolInput: Maybe<string>;
   diseaseNameInput: Maybe<string>;
   drugNameInput: Maybe<string>;
   variantAliasInput: Maybe<string>;
 
-  initialPageSize = 25;
   sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
 
-  totalCount?: number
-  visibleCount: number = this.initialPageSize
-  loadedPages: number = 1
+  private destroy$ = new Subject();
 
-  constructor(private query: BrowseVariantsGQL) {}
+  constructor(private query: BrowseVariantsGQL) { }
 
-  ngOnInit () {
+  ngOnInit() {
     this.initialQueryArgs = {
       first: this.initialPageSize,
       variantTypeId: this.variantTypeId,
@@ -150,9 +161,11 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   }
 
   loadMore(cursor: Maybe<string>) {
-    this.queryRef?.fetchMore({variables: {
-      after: cursor
-    }})
+    this.queryRef?.fetchMore({
+      variables: {
+        after: cursor
+      }
+    })
 
     this.loadedPages += 1
   }

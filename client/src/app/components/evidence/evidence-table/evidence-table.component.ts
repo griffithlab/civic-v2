@@ -7,7 +7,6 @@ import { Observable, Subject } from 'rxjs';
 import { startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, tap } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
-import { tag } from 'rxjs-spy/cjs/operators';
 
 
 export interface EvidenceTableUserFilters {
@@ -38,7 +37,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   @Input() diseaseId: Maybe<number>
   @Input() displayGeneAndVariant: boolean = true
   @Input() drugId: Maybe<number>
-  @Input() initialPageSize: number = 25;
+  @Input() initialPageSize: number = 50;
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() initialUserFilters: Maybe<EvidenceTableUserFilters>
   @Input() mode: 'normal' | 'select' = 'normal'

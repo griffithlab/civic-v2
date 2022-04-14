@@ -10,6 +10,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module';
 
 @NgModule({
   declarations: [VariantsHomePage],
@@ -24,6 +25,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcVariantsTableModule,
+    CvcAutoHeightDivModule,
   ],
   exports: [VariantsHomePage]
 })
