@@ -1,7 +1,10 @@
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
 <nz-card [nzTitle]="titleTemplate"
-  cvcAutoHeightCard="40">
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
   <nz-table #virtualTable
-    [cvcAutoHeightTable]="20"
+    [cvcAutoHeightTable]="27"
     nzSize="small"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzData]="evidence$ | ngrxPush"

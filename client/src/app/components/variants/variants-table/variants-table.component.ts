@@ -13,19 +13,15 @@ import {
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map, pluck, startWith, debounceTime, take } from 'rxjs/operators';
+import { map, pluck, startWith, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
-export interface VariantTableRow {
-  id: number;
-  name: string;
-  geneName: string;
-  evidenceScore: number;
-  evidenceItemCount: number;
-  assertionCount: number;
-  diseases: WithName[];
-  drugs: WithName[];
-  aliases: WithName[];
+export interface VariantTableUserFilters {
+  variantNameInput: Maybe<string>;
+  geneSymbolInput: Maybe<string>;
+  diseaseNameInput: Maybe<string>;
+  drugNameInput: Maybe<string>;
+  variantAliasInput: Maybe<string>;
 }
 
 @Component({
@@ -47,8 +43,9 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
 
   queryRef?: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
   data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
-  isLoading$?: Observable<boolean>;
-  variants$?: Observable<Maybe<VariantTableRow>[]>;
+  isLoading = false;
+
+  variants$?: Observable<Maybe<VariantGridFieldsFragment>[]>;
   filteredCount$?: Observable<number>;
   pageCount$?: Observable<number>;
   pageInfo$?: Observable<PageInfo>;
@@ -66,6 +63,8 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   diseaseNameInput: Maybe<string>;
   drugNameInput: Maybe<string>;
   variantAliasInput: Maybe<string>;
+
+  textInputCallback?: () => void
 
   sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
 
@@ -92,7 +91,13 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
       })
     );
 
-    this.isLoading$ = this.data$.pipe(pluck('loading'), startWith(true));
+    // handle loading state
+    this.data$
+      .pipe(
+        takeUntil(this.destroy$),
+        pluck('loading'),
+        startWith(true))
+      .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.variants$ = this.data$.pipe(
       pluck('data', 'browseVariants', 'edges'),
@@ -133,6 +138,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
     this.debouncedQuery
       .pipe(debounceTime(500))
       .subscribe((_) => {
+        this.isLoading = true;
         this.loadedPages = 1
         this.queryRef?.refetch({
           variantName: this.variantNameInput,
@@ -142,6 +148,8 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
           variantAlias: this.variantAliasInput
         });
       });
+
+    this.textInputCallback = () => { this.debouncedQuery.next(); }
   }
 
   onSortChanged(e: SortDirectionEvent) {

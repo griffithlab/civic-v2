@@ -143,12 +143,12 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     let observable = this.queryRef.valueChanges;
 
     // handle loading state
-    observable.pipe(
-      takeUntil(this.destroy$),
-      pluck('loading'),
-      startWith(true)
-    )
-    .subscribe((l: boolean) => { this.isLoading = l; });
+    observable
+      .pipe(
+        takeUntil(this.destroy$),
+        pluck('loading'),
+        startWith(true))
+      .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.evidence$ = observable.pipe(
       pluck('data', 'evidenceItems', 'edges'),
@@ -183,7 +183,10 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
     this.debouncedQuery
       .pipe(debounceTime(500))
-      .subscribe((_) => this.refresh());
+      .subscribe((_) => {
+        this.isLoading = true;
+        this.refresh()
+      });
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
 
@@ -223,13 +226,12 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
           // for each elementScrolled event, get latest pageInfo,
           // and return page cursor and scroll offest
           withLatestFrom(this.pageInfo$),
-          map(([_, pageInfo]: [Event, PageInfo]) =>
-            {
-              return {
-                cursor: pageInfo.endCursor,
-                offset: this.viewport!.measureScrollOffset('bottom')
-              }
-            }),
+          map(([_, pageInfo]: [Event, PageInfo]) => {
+            return {
+              cursor: pageInfo.endCursor,
+              offset: this.viewport!.measureScrollOffset('bottom')
+            }
+          }),
           // pair with previous event/cursor
           pairwise(),
           // reject events that occur outside scroll target
@@ -239,7 +241,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
           // throttle events to prevent spamming loadMore() requests
           throttleTime(this.isLoadingDelay),
         ).subscribe(([_, e2]) => {
-          this.loadMore(e2.cursor);
+          // this.loadMore(e2.cursor);
         });
     } else {
       throw new Error('evidence-table unable to find cdkVirtualScrollViewport.');
