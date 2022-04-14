@@ -57,7 +57,10 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
-  isLoading$?: Observable<boolean>
+  // implementing isLoading as var so both watch() and fetchMore() can update loading state.
+  // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
+  isLoading = false;
+
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   filteredCount$?: Observable<number>
   pageInfo$?: Observable<PageInfo>
@@ -140,9 +143,13 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
     let observable = this.queryRef.valueChanges;
 
-    this.isLoading$ = observable.pipe(
-      pluck('loading'), startWith(true)
-    );
+    // handle loading state
+    observable.pipe(
+      takeUntil(this.destroy$),
+      pluck('loading'),
+      startWith(true)
+    )
+    .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.evidence$ = observable.pipe(
       pluck('data', 'evidenceItems', 'edges'),
@@ -194,6 +201,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   loadMore(afterCursor: Maybe<string>): void {
+    this.isLoading = true;
     this.queryRef.fetchMore({
       variables: {
         first: this.fetchMorePageSize,
@@ -213,8 +221,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       this.viewport.elementScrolled()
         .pipe(
           takeUntil(this.destroy$),
+          // for each elementScrolled event, get latest pageInfo,
+          // and return page cursor and scroll offest
           withLatestFrom(this.pageInfo$),
-          // map scroll event, page info into object
           map(([_, pageInfo]: [Event, PageInfo]) =>
             {
               return {
@@ -222,14 +231,13 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
                 offset: this.viewport!.measureScrollOffset('bottom')
               }
             }),
-          //
           // pair with previous event/cursor
           pairwise(),
           // reject events that occur outside scroll target
           filter(([e1, e2]) => {
             return (e2.offset < e1.offset && e2.offset < 140)
           }),
-          // throttle events so we don't cause a lot of loadMore() requests
+          // throttle events to prevent spamming loadMore() requests
           throttleTime(this.isLoadingDelay),
         ).subscribe(([_, e2]) => {
           this.loadMore(e2.cursor);
