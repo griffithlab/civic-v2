@@ -22,6 +22,7 @@
           <th nzWidth="10%"
             [nzColumnKey]="sortColumns.VariantCount"
             [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
             nz-tooltip
             nzTooltipTitle="Variant Count">
             <i nz-icon nzType="civic:variant"></i>
@@ -29,6 +30,7 @@
           <th nzWidth="10%"
             [nzColumnKey]="sortColumns.EvidenceItemCount"
             [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
             nz-tooltip
             nzTooltipTitle="Evidence Count">
             <i nz-icon nzType="civic:evidence"></i>

@@ -23,6 +23,7 @@
         <th nzWidth="8%"
           [nzColumnKey]="sortColumns.GeneCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Gene Count">
           <i nz-icon nzType="civic:gene"></i>
@@ -30,6 +31,7 @@
         <th nzWidth="8%"
           [nzColumnKey]="sortColumns.VariantCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Variant Count">
           <i nz-icon nzType="civic:variant"></i>
@@ -37,6 +39,7 @@
         <th nzWidth="8%"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon nzType="civic:evidence"></i>
@@ -44,6 +47,7 @@
         <th nzWidth="8%"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Assertion Count">
           <i nz-icon nzType="civic:assertion"></i>

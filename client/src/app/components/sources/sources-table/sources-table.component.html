@@ -37,6 +37,7 @@
         <th nzRight
           [nzColumnKey]="sortColumns.EvidenceCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon nzType="civic:evidence"></i>
