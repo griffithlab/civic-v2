@@ -301,7 +301,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
     if (input) {
       let state = this.submitEvidenceMutator.mutate(this.submitEvidenceGQL, {
         input: input
-      },
+      }, {},
       (data) => {
         this.newId = data.submitEvidence.evidenceItem.id;
       })
