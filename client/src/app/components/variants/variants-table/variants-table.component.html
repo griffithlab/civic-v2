@@ -36,6 +36,7 @@
         <th nzWidth="3%"
           nzRight
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           [nzColumnKey]="sortColumns.EvidenceScore"
           nz-tooltip
           nzTooltipTitle="Evidence Score">
@@ -48,6 +49,7 @@
           nzRight
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count"><i nz-icon
                                             nzType="civic:evidence"></i></th>
@@ -55,6 +57,7 @@
           nzRight
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Assertion Count"><i nz-icon
                                              nzType="civic:assertion"></i></th>
