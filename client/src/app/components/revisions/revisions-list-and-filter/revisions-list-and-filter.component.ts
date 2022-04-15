@@ -1,9 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, Organization, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo } from '@app/generated/civic.apollo';
+import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, pluck, startWith } from 'rxjs/operators';
+import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types';
 
 export interface SelectableFieldName {
   id: number
@@ -55,9 +56,16 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
 
   private defaultPageSize = 10
 
+  refetchQuery!: InternalRefetchQueryDescriptor
+
   constructor(
     private gql: RevisionsGQL,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private variantDetailGql: VariantDetailGQL,
+    private variantGroupDetailGql: VariantGroupDetailGQL,
+    private assertionDetailGql: AssertionDetailGQL,
+    private geneDetailGql: GeneDetailGQL,
+    private evidenceDetailGql: EvidenceDetailGQL,
   ) {
   }
 
@@ -109,6 +117,39 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
         pluck('data', 'revisions', 'unfilteredCountForSubject')
       )
     });
+
+    switch (this.entityType) {
+      case ModeratedEntities.Variant: 
+        this.refetchQuery = {
+          query: this.variantDetailGql.document,
+          variables: { variantId: this.id }
+        }
+        return
+      case ModeratedEntities.Assertion:
+        this.refetchQuery = {
+          query: this.assertionDetailGql.document,
+          variables: { assertionId: this.id }
+        }
+        return
+      case ModeratedEntities.EvidenceItem:
+        this.refetchQuery = {
+          query: this.evidenceDetailGql.document,
+          variables: { evidenceId: this.id }
+        }
+        return
+      case ModeratedEntities.Gene:
+        this.refetchQuery = {
+          query: this.geneDetailGql.document,
+          variables: { geneId: this.id }
+        }
+        return
+      case ModeratedEntities.VariantGroup:
+        this.refetchQuery = {
+          query: this.variantGroupDetailGql.document,
+          variables: { variantGroupId: this.id }
+        }
+        return
+    }
   }
 
   ngOnDestroy() {

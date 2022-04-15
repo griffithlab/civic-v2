@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { Mutation} from 'apollo-angular'
-import { EmptyObject } from "apollo-angular/types";
+import { EmptyObject, MutationOptionsAlone } from "apollo-angular/types";
 import { NetworkErrorsService } from "../services/network-errors.service";
 import { finalize, takeUntil } from "rxjs/operators";
 import { ApolloError, FetchResult } from '@apollo/client/core';
@@ -16,7 +16,7 @@ export class MutatorWithState<M extends Mutation<T, V>, T extends {}, V extends 
   constructor(private networkErrorService: NetworkErrorsService) { }
 
   //TODO - define the data callback in terms of M, not any
-  mutate(mutation: M, vars: V, dataCallback?: (data: any) => void): MutationState {
+  mutate(mutation: M, vars: V, options?: MutationOptionsAlone<T, V>, dataCallback?: (data: any) => void): MutationState {
     let destroy$ = new Subject();
 
     let stateVals = {
@@ -28,7 +28,7 @@ export class MutatorWithState<M extends Mutation<T, V>, T extends {}, V extends 
 
   stateVals.isSubmitting$.next(true)
 
-   mutation.mutate(vars)
+   mutation.mutate(vars, options)
       .pipe(
         takeUntil(destroy$),
         finalize(() => { stateVals.isSubmitting$.next(false)})
