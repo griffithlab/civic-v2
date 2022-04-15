@@ -41,7 +41,7 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
     when "EVIDENCE_ITEM_COUNT"
       scope.order("evidence_item_count #{value.direction}")
     when "ASSERTION_COUNT"
-      scope.order("evidence_item_count #{value.direction}")
+      scope.order("assertion_count #{value.direction}")
     when "GENE_COUNT"
       scope.order("gene_count #{value.direction}")
     end
