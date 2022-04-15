@@ -110,7 +110,7 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
 
   addVariant(variantName: string): void  {
     if(variantName && variantName != '' && this.to.geneId) {
-      let state = this.addVariantMutator.mutate(this.addVariantGQL, { name: variantName, geneId: this.to.geneId },
+      let state = this.addVariantMutator.mutate(this.addVariantGQL, { name: variantName, geneId: this.to.geneId }, {},
         (data) => {
           this.field.formControl?.setValue( {id: data.addVariant.variant.id, name: data.addVariant.variant.name})
           this.to.searchString = '';

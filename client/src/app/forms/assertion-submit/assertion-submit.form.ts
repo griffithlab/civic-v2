@@ -318,7 +318,7 @@ export class AssertionSubmitForm implements OnDestroy {
 
       let state = this.submitAssertionMutator.mutate(this.submitAssertionGQL, {
         input: input
-      },
+      }, {},
         (data) => {
           this.newId = data.submitAssertion.assertion.id;
         })
