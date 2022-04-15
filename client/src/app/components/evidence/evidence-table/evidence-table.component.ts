@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import { DrugInteraction, EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
@@ -37,7 +37,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   @Input() diseaseId: Maybe<number>
   @Input() displayGeneAndVariant: boolean = true
   @Input() drugId: Maybe<number>
-  @Input() initialPageSize: number = 50;
+  @Input() initialPageSize: number = 30;
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() initialUserFilters: Maybe<EvidenceTableUserFilters>
   @Input() mode: 'normal' | 'select' = 'normal'
@@ -53,6 +53,8 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
   @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
   viewport?: CdkVirtualScrollViewport;
+
+  DrugInteraction = DrugInteraction;
 
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
@@ -182,9 +184,11 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     );
 
     this.debouncedQuery
-      .pipe(debounceTime(500))
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(500)
+      )
       .subscribe((_) => {
-        this.isLoading = true;
         this.refresh()
       });
 
@@ -241,7 +245,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
           // throttle events to prevent spamming loadMore() requests
           throttleTime(this.isLoadingDelay),
         ).subscribe(([_, e2]) => {
-          // this.loadMore(e2.cursor);
+          this.loadMore(e2.cursor);
         });
     } else {
       throw new Error('evidence-table unable to find cdkVirtualScrollViewport.');
@@ -249,6 +253,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   refresh() {
+    this.isLoading = true;
     this.loadedPages = 1
     var eid: Maybe<number>
     if (this.eidInput)
@@ -294,6 +299,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
   }
 
-  ngOnDestroy() { this.debouncedQuery.unsubscribe(); }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
 
 }

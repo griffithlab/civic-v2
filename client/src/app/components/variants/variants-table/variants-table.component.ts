@@ -41,7 +41,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
   private initialQueryArgs?: QueryBrowseVariantsArgs;
   private debouncedQuery = new Subject<void>();
 
-  queryRef?: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
+  queryRef!: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
   data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
   isLoading = false;
 
@@ -136,20 +136,27 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
     );
 
     this.debouncedQuery
-      .pipe(debounceTime(500))
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(500)
+      )
       .subscribe((_) => {
-        this.isLoading = true;
-        this.loadedPages = 1
-        this.queryRef?.refetch({
-          variantName: this.variantNameInput,
-          entrezSymbol: this.geneSymbolInput,
-          diseaseName: this.diseaseNameInput,
-          drugName: this.drugNameInput,
-          variantAlias: this.variantAliasInput
-        });
+        this.refresh();
       });
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
+  }
+
+  refresh() {
+    this.isLoading = true;
+    this.loadedPages = 1
+    this.queryRef.refetch({
+      diseaseName: this.diseaseNameInput,
+      drugName: this.drugNameInput,
+      variantName: this.variantNameInput ? this.variantNameInput : undefined,
+      variantAlias: this.variantAliasInput ? this.variantAliasInput : undefined,
+      entrezSymbol: this.geneSymbolInput,
+    })
   }
 
   onSortChanged(e: SortDirectionEvent) {
@@ -164,8 +171,13 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
     this.debouncedQuery.next();
   }
 
-  ngOnDestroy() {
-    this.debouncedQuery.unsubscribe();
+  // virtual scroll helpers
+  trackByIndex(_: number, data: VariantGridFieldsFragment): number {
+    return data.id;
+  }
+
+  scrollToIndex(index: number): void {
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
   }
 
   loadMore(cursor: Maybe<string>) {
@@ -177,4 +189,10 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit {
 
     this.loadedPages += 1
   }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.debouncedQuery.unsubscribe();
+  }
+
 }

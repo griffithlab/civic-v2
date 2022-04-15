@@ -3,11 +3,12 @@
   nzSize="small"
   cvcAutoHeightCard="35">
   <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
-  <nz-table #variantsTable
+  <nz-table #virtualTable
     [cvcAutoHeightTable]="27"
     nzSize="small"
     [nzData]="variants$ | ngrxPush"
     [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '100%', y: '600px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
@@ -64,21 +65,8 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="variantAliasInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search aliases"
-              [(ngModel)]="variantAliasInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #variantAliasInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="variantAliasInput"
-              (click)="variantAliasInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="variantAliasInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
           <nz-input-group [nzSuffix]="geneSymbolInputClearTpl">

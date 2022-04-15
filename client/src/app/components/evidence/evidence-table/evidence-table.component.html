@@ -7,18 +7,20 @@
     [cvcAutoHeightTable]="27"
     nzSize="small"
     [nzVirtualForTrackBy]="trackByIndex"
+    [nzVirtualItemSize]="29"
     [nzData]="evidence$ | ngrxPush"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%', y: '600px' }"
+    [nzScroll]="{ x: '400px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-
     <thead (nzSortOrderChange)="onSortChanged($event)">
       <tr>
-        <th nzWidth="25px" nzLeft
+        <th nzWidth="25px"
+          nzLeft
           *ngIf="mode == 'select'">
         </th>
-        <th nzWidth="100px" nzLeft
+        <th nzWidth="100px"
+          nzLeft
           [nzColumnKey]="sortColumns.Id"
           [nzSortFn]="true"
           nz-tooltip
@@ -46,12 +48,12 @@
           [nzSortFn]="true">
           Diseases
         </th>
-        <th nzWidth="300px"
+        <th nzWidth="400px"
           [nzColumnKey]="sortColumns.DrugName"
           [nzSortFn]="true">
           Drugs
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.Description"
           nzAlign="center"
           [nzSortFn]="true"
@@ -59,7 +61,7 @@
           nzTooltipTitle="Evidence Description">
           DESC
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.EvidenceLevel"
           [nzSortFn]="true"
           nzAlign="center"
@@ -67,7 +69,7 @@
           nzTooltipTitle="Evidence Level">
           EL
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.EvidenceType"
           [nzSortFn]="true"
           nzAlign="center"
@@ -75,7 +77,7 @@
           nzTooltipTitle="Evidence Type">
           ET
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.EvidenceDirection"
           [nzSortFn]="true"
           nzAlign="center"
@@ -83,7 +85,7 @@
           nzTooltipTitle="Evidence Direction">
           ED
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.ClinicalSignificance"
           [nzSortFn]="true"
           nzAlign="center"
@@ -91,7 +93,7 @@
           nzTooltipTitle="Clinical Significance">
           CS
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.VariantOrigin"
           [nzSortFn]="true"
           nzAlign="center"
@@ -99,7 +101,7 @@
           nzTooltipTitle="Variant Origin">
           VO
         </th>
-        <th nzWidth="60px"
+        <th nzWidth="60px" nzRight
           [nzColumnKey]="sortColumns.EvidenceRating"
           [nzSortFn]="true"
           nzAlign="center"
@@ -109,7 +111,8 @@
         </th>
       </tr>
       <tr class="filter-row">
-        <th *ngIf="mode == 'select'" nzLeft>
+        <th *ngIf="mode == 'select'"
+          nzLeft>
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="eidInput"
@@ -131,11 +134,11 @@
           <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th nzAlign="center">
+        <th nzAlign="center" nzRight>
           <cvc-clearable-input-filter [(inputModel)]="descriptionInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th nzAlign="center">
+        <th nzAlign="center" nzRight>
           <nz-select nzAllowClear
             nzPlaceHolder="All"
             [nzDropdownMatchSelectWidth]="false"
@@ -153,7 +156,7 @@
               nzLabel="E"></nz-option>
           </nz-select>
         </th>
-        <th nzAlign="center">
+        <th nzAlign="center" nzRight>
           <nz-select nzAllowClear
             nzPlaceHolder="All"
             [nzDropdownMatchSelectWidth]="false"
@@ -173,7 +176,7 @@
               nzLabel="Functional"></nz-option>
           </nz-select>
         </th>
-        <th nzAlign="center">
+        <th nzAlign="center" nzRight>
           <nz-select nzAllowClear
             nzPlaceHolder="All"
             [nzDropdownMatchSelectWidth]="false"
@@ -188,8 +191,7 @@
               nzLabel="N/A"></nz-option>
           </nz-select>
         </th>
-        <th
-          nzAlign="center">
+        <th nzAlign="center" nzRight>
           <nz-select nzAllowClear
             nzPlaceHolder="All"
             [nzDropdownMatchSelectWidth]="false"
@@ -245,8 +247,7 @@
             </nz-option-group>
           </nz-select>
         </th>
-        <th
-          nzAlign="center">
+        <th nzAlign="center" nzRight>
           <nz-select nzAllowClear
             nzPlaceHolder="All"
             [nzDropdownMatchSelectWidth]="false"
@@ -266,8 +267,7 @@
               nzLabel="Germline or Somatic"></nz-option>
           </nz-select>
         </th>
-        <th
-          nzAlign="center">
+        <th nzAlign="center" nzRight>
           <nz-select nzAllowClear
             nzPlaceHolder="All"
             [nzDropdownMatchSelectWidth]="false"
@@ -292,7 +292,8 @@
         let-eid
         let-index="index">
         <tr>
-          <td *ngIf="mode == 'select'" nzLeft>
+          <td *ngIf="mode == 'select'"
+            nzLeft>
             <label nz-checkbox
               [nzChecked]="this.selectedEvidenceIds.has(eid.id)"
               (nzCheckedChange)="onEvidenceCheckboxClicked($event, eid)"></label>
@@ -301,73 +302,77 @@
             <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
           </td>
           <td *ngIf="displayGeneAndVariant">
-            <cvc-gene-tag [gene]="eid.gene" [truncateLongName]="true"></cvc-gene-tag>
+            <cvc-gene-tag [gene]="eid.gene"
+              [truncateLongName]="true"></cvc-gene-tag>
           </td>
           <td *ngIf="displayGeneAndVariant">
-            <cvc-variant-tag [variant]="eid.variant" [truncateLongName]="true"></cvc-variant-tag>
+            <cvc-variant-tag [variant]="eid.variant"
+              [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td>
             <ng-container *ngIf="eid.disease; else diseaseElse">
-              <cvc-disease-tag [disease]="eid.disease" [truncateLongName]="true"></cvc-disease-tag>
+              <cvc-disease-tag [disease]="eid.disease"
+                [truncateLongName]="true"></cvc-disease-tag>
             </ng-container>
             <ng-template #diseaseElse>
               <i>N/A</i>
             </ng-template>
           </td>
-          <td>
+          <td style="white-space: nowrap">
             <div *ngIf="eid.drugs.length > 0; else drugsElse">
               <cvc-tag-list>
-                <span *ngFor="let drug of eid.drugs">
-                  <cvc-drug-tag [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
-                </span>
+                <ng-container *ngIf="eid.drugs.length > 1">
+                  <nz-tag>{{ eid.drugInteractionType.substring(0,3) }}</nz-tag>
+                </ng-container>
+                <ng-container *ngFor="let drug of eid.drugs">
+                  <cvc-drug-tag [drug]="drug"
+                    [truncateLongName]="true"></cvc-drug-tag>
+                </ng-container>
               </cvc-tag-list>
-              <span *ngIf="eid.drugs.length > 1">
-                ({{ eid.drugInteractionType | titlecase }})
-              </span>
             </div>
             <ng-template #drugsElse>
               <i>N/A</i>
             </ng-template>
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             <i nz-icon
               nzType="align-left"
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="eid.description"></i>
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             {{ eid.evidenceLevel }}
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             <i nz-icon
               [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="eid.evidenceType | evidenceEnumDisplay"></i>
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             <i nz-icon
               [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="eid.evidenceDirection | evidenceEnumDisplay"></i>
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             <i nz-icon
               [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="eid.clinicalSignificance | evidenceEnumDisplay"></i>
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             <i nz-icon
               [nzType]="eid.variantOrigin| evidenceEnumDisplay: 'icon-name'"
               nz-tooltip
               nzTooltipPlacement="top"
               [nzTooltipTitle]="eid.variantOrigin | evidenceEnumDisplay"></i>
           </td>
-          <td nzAlign="center">
+          <td nzAlign="center" nzRight>
             {{ eid.evidenceRating }}
             <i nz-icon
               nzType="star"
@@ -390,7 +395,9 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
     ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
   <ng-template #noData>
