@@ -26,7 +26,7 @@ export class EnsemblInputType extends FieldType {
 export const ensemblVersionValidator: ValidatorOption = {
   name: 'ensembl-version',
   validation: (c: AbstractControl, f: FormlyFieldConfig): ValidationErrors | null => {
-    if (c.value === undefined) {
+    if (c.value === undefined || c.value === null) {
       return null;
     } else {
       let versionNum = +c.value;
