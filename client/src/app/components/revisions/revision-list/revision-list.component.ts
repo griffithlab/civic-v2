@@ -1,11 +1,12 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, OnDestroy} from '@angular/core';
-import { AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables, Maybe, Organization, RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables, Revision, ValidateRevisionsForAcceptanceGQL, ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables, ValidationErrorFragment } from '@app/generated/civic.apollo';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { AcceptRevisionGQL, AcceptRevisionMutation, AcceptRevisionMutationVariables, Maybe, Organization, RejectRevisionGQL, RejectRevisionMutation, RejectRevisionMutationVariables, Revision, ValidateRevisionsForAcceptanceGQL, ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables, ValidationErrorFragment, VariantDetailGQL } from '@app/generated/civic.apollo';
+import { Observable, Subject } from 'rxjs';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { MutationState, MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
+import { InternalRefetchQueryDescriptor } from '@apollo/client/core/types';
 
 type SuccessType = false | 'accepted' | 'rejected'
 
@@ -16,6 +17,7 @@ type SuccessType = false | 'accepted' | 'rejected'
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() revisions?: Revision[];
+  @Input() refetchQuery!: InternalRefetchQueryDescriptor
 
   mostRecentOrg!: Maybe<Organization>;
 
@@ -54,7 +56,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
     private networkErrorService: NetworkErrorsService,
     private acceptRevisionsGql: AcceptRevisionGQL,
     private rejectRevisionsGql: RejectRevisionGQL,
-    private validationGql: ValidateRevisionsForAcceptanceGQL
+    private validationGql: ValidateRevisionsForAcceptanceGQL,
   ) {
     this.acceptRevisionsMutator= new MutatorWithState(networkErrorService)
     this.rejectRevisionsMutator = new MutatorWithState(networkErrorService)
@@ -143,7 +145,10 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
           ids: this.selectedRevisionIds,
           organizationId: this.mostRecentOrg?.id,
           comment: this.revisionComment 
-        }
+        },
+      },
+      {
+        refetchQueries: [this.refetchQuery]
       })
       this.setupMutationResultHandlers(state, 'rejected')
     }
@@ -157,6 +162,9 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         organizationId: this.mostRecentOrg?.id,
         comment: this.revisionComment === "" ? undefined : this.revisionComment
       }
+    },
+    {
+      refetchQueries: [this.refetchQuery]
     })
     this.setupMutationResultHandlers(state, 'accepted')
   }
