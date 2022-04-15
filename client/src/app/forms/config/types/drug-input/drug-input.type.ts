@@ -112,7 +112,7 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit, O
 
   addDrug(drugName: string): void  {
     if(drugName && drugName != '') {
-      let state = this.addDrugMutator.mutate(this.addDrugGQL, { name: drugName },
+      let state = this.addDrugMutator.mutate(this.addDrugGQL, { name: drugName }, {},
 
         (data) => {
           this.field.formControl?.setValue( {id: data.addDrug.drug.id, name: data.addDrug.drug.name} )

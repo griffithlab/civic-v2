@@ -129,7 +129,7 @@ export class SourceSubmitForm implements OnInit {
     if (input) {
       let state = this.suggestSourceMutator.mutate(this.suggestSourceGQL, {
         input: input
-      },
+      }, {},
         (data) => {
           this.newId = data.suggestSource.sourceSuggestion.id;
         })
