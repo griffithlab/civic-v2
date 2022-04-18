@@ -19,6 +19,7 @@ export interface Subject {
 export class CvcFlagTagComponent implements OnInit {
   @Input() flag!: LinkableFlag
   @Input() subject?: Subject
+  @Input() enablePopover: Boolean = true
 
   constructor() { }
 
