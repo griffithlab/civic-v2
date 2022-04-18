@@ -5185,6 +5185,46 @@ export type FlagFragment = (
   )> }
 );
 
+export type FlagPopoverQueryVariables = Exact<{
+  flagId: Scalars['Int'];
+}>;
+
+
+export type FlagPopoverQuery = (
+  { __typename: 'Query' }
+  & { flag?: Maybe<(
+    { __typename: 'Flag' }
+    & FlagPopoverFragment
+  )> }
+);
+
+export type FlagPopoverFragment = (
+  { __typename: 'Flag' }
+  & Pick<Flag, 'id' | 'name' | 'state' | 'createdAt'>
+  & { flaggingUser: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  ), flaggable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), openComment: (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  ) }
+);
+
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -8580,6 +8620,27 @@ export const FlagListFragmentDoc = gql`
   }
 }
     ${FlagFragmentDoc}`;
+export const FlagPopoverFragmentDoc = gql`
+    fragment flagPopover on Flag {
+  id
+  name
+  state
+  flaggingUser {
+    id
+    displayName
+    role
+  }
+  flaggable {
+    id
+    link
+    name
+  }
+  createdAt
+  openComment {
+    comment
+  }
+}
+    `;
 export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
@@ -10554,6 +10615,24 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FlagPopoverDocument = gql`
+    query FlagPopover($flagId: Int!) {
+  flag(id: $flagId) {
+    ...flagPopover
+  }
+}
+    ${FlagPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagPopoverGQL extends Apollo.Query<FlagPopoverQuery, FlagPopoverQueryVariables> {
+    document = FlagPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
