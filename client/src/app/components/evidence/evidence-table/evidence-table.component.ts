@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { DrugInteraction, EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -87,6 +87,8 @@ export class CvcEvidenceTableComponent implements
 
   textInputCallback?: () => void
 
+  // showTooltips?: boolean;
+
   //filters
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
   descriptionInput: Maybe<string>
@@ -106,7 +108,7 @@ export class CvcEvidenceTableComponent implements
   private destroy$ = new Subject();
 
   showTbody: boolean = false;
-  constructor(private gql: EvidenceBrowseGQL) { }
+  constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     if (this.initialUserFilters) {
@@ -232,15 +234,19 @@ export class CvcEvidenceTableComponent implements
 
     this.loadedPages += 1
   }
+  // setShowTooltips(b: boolean): void {
+  //   console.log(`toggling tooltips: ${b}`);
+  //   this.showTooltips = b;
+  // }
 
   ngAfterViewInit(): void {
     if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
       this.pageInfo$) {
-
       this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
-      this.viewport.elementScrolled()
+      const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
+
+      scrolled$
         .pipe(
-          takeUntil(this.destroy$),
           // for each elementScrolled event, get latest pageInfo,
           // and return page cursor and scroll offest
           withLatestFrom(this.pageInfo$),
@@ -257,17 +263,30 @@ export class CvcEvidenceTableComponent implements
             return (e2.offset < e1.offset && e2.offset < 140)
           }),
           // throttle events to prevent spamming loadMore() requests
-          throttleTime(this.isLoadingDelay),
-        ).subscribe(([_, e2]) => {
+          throttleTime(this.isLoadingDelay))
+        .subscribe(([_, e2]) => {
           this.loadMore(e2.cursor);
         });
+
+      // TODO: test tooltip (on the description icon) to see if passing showTooltips to  [nzTooltipVisible] works. due to how we've implemented the tags, this doesn't quite work with popovers, which display an empty tooltip if [nzTooltipVisible] is set to false with showTooltips. So we'll need to refactor it to work similarly to the basic tooltip.
+      // scrolled$
+      //   .pipe(
+      //     tap((_) => {
+      //       this.showTooltips = false;
+      //     }),
+      //     debounceTime(500)
+      //   ).subscribe((_) => {
+      //     this.showTooltips = true;
+      //     this.cdr.detectChanges();
+      //   })
 
       // force viewport check after initial render
       const checkSizeSubscription = this.viewport.renderedRangeStream
         .pipe(takeUntil(this.destroy$))
         .subscribe((_) => {
           if (this.viewport) { this.viewport!.checkViewportSize(); }
-          // unsubscribed, as this size check only needs to be done after initial render
+          else { console.error('evidence-table unable to find cdkVirtualScrollViewport for checkViewportSize.'); }
+          // unsubscribe, as this size check only needs to be done after initial render
           checkSizeSubscription.unsubscribe();
         });
     } else {
