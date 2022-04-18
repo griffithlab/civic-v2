@@ -12,7 +12,7 @@ nz-card:first-of-type ::ng-deep {
     // records the table will need to display. setting a universal min-height here
     // will result in some tables with a lot of whitespace, if they're displaying
     // a couple rows (as in the case with some Assertions tables)
-    min-height: 30em;
+    // min-height: 30em;
     // remove card body padding
     padding: 0;
     // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
@@ -27,8 +27,4 @@ tr.filter-row th.ant-table-cell {
 tr.data-row td.ant-table-cell {
   // to ensure uniform row height, cell content will be clipped instead of wrapped
   white-space: nowrap;
-  overflow: hidden;
-  // CSS ellipsis don't work w/ non-text content (like tags), but in the cases where
-  // we display text, it'll show them
-  text-overflow: ellipsis;
 }

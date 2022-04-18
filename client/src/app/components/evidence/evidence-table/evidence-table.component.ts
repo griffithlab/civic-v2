@@ -4,7 +4,7 @@ import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatab
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { tap, startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -273,19 +273,6 @@ export class CvcEvidenceTableComponent implements
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');
     }
-  }
-
-  printViewportDetails() {
-    console.dir(
-      {
-        DataLength: this.viewport!.getDataLength(),
-        OffsetToRenderedContentStart: this.viewport!.getOffsetToRenderedContentStart(),
-        RenderedRange: this.viewport!.getRenderedRange(),
-        ViewportSize: this.viewport!.getViewportSize(),
-        ContentSize: this.viewport!.measureRenderedContentSize(),
-        ScrollOffset: this.viewport!.measureScrollOffset(),
-      }
-    );
   }
 
   refresh() {

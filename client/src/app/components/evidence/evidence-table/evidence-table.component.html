@@ -12,7 +12,7 @@
       [nzVirtualItemSize]="29"
       [nzData]="evidence$ | ngrxPush"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '400px', y: '200px' }"
+      [nzScroll]="{ x: '400px', y: '800px' }"
       [nzFrontPagination]="false"
       [nzShowPagination]="false">
       <thead (nzSortOrderChange)="onSortChanged($event)">
@@ -307,10 +307,10 @@
       only shows the first 15-20 rows -->
       <tbody>
 
-      <!-- this works, but throws three errors before length func non-null -->
-      <!-- <tbody *ngIf="(evidence$ | ngrxPush).length > 0"> -->
+        <!-- this works, but throws three errors before length func non-null -->
+        <!-- <tbody *ngIf="(evidence$ | ngrxPush).length > 0"> -->
 
-      <!-- showTbody set to true in AfterViewInit fills table properly -->
+        <!-- showTbody set to true in AfterViewInit fills table properly -->
         <!-- <tbody *ngIf="showTbody"> -->
         <ng-template nz-virtual-scroll
           let-eid
