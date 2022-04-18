@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked } from '@angular/core';
 import { DrugInteraction, EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { tap, startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -28,7 +28,11 @@ export interface EvidenceTableUserFilters {
   templateUrl: './evidence-table.component.html',
   styleUrls: ['./evidence-table.component.less'],
 })
-export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CvcEvidenceTableComponent implements
+  OnInit,
+  AfterViewInit,
+
+  OnDestroy {
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
   @Input() cvcTitle: Maybe<string>
@@ -51,7 +55,14 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   selectedEvidenceIds = new Map<number, FormEvidence>();
 
   @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
+  // @ViewChild('virtualTable') set content(table: NzTableComponent<EvidenceGridFieldsFragment>) {
+  //   if (table) { // initially setter gets called with undefined
+  //     this.nzTableComponent = table;
+  //   }
+  // }
+  // nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>
   viewport?: CdkVirtualScrollViewport;
+
 
   DrugInteraction = DrugInteraction;
 
@@ -94,6 +105,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
   private destroy$ = new Subject();
 
+  showTbody: boolean = false;
   constructor(private gql: EvidenceBrowseGQL) { }
 
   ngOnInit() {
@@ -147,24 +159,28 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     observable
       .pipe(
         takeUntil(this.destroy$),
-        pluck('loading'),
-        startWith(true))
+        pluck('loading'))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.evidence$ = observable.pipe(
       pluck('data', 'evidenceItems', 'edges'),
       map((edges) => {
         return edges.map((e) => e.node)
-      })
-    );
+      }));
+    // using startWith([]) here and <tbody *ngIf="(evidence$ | ngrxPush).length > 0">,
+    // initial rows are displayed but AfterViewInit fails to find cdkVirtualScroll.
+
 
     this.filteredCount$ = observable.pipe(
       pluck('data', 'evidenceItems', 'totalCount')
     )
 
-    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.filteredCount$.pipe(
+      takeUntil(this.destroy$),
+      take(1),
+    ).subscribe(value => this.totalCount = value);
 
-    this.filteredCount$.subscribe(
+    this.filteredCount$.pipe(takeUntil(this.destroy$)).subscribe(
       value => {
         if (value < this.initialPageSize) {
           this.visibleCount = value
@@ -222,7 +238,6 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       this.pageInfo$) {
 
       this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
-
       this.viewport.elementScrolled()
         .pipe(
           takeUntil(this.destroy$),
@@ -246,9 +261,31 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
         ).subscribe(([_, e2]) => {
           this.loadMore(e2.cursor);
         });
+
+      // force viewport check after initial render
+      const checkSizeSubscription = this.viewport.renderedRangeStream
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((_) => {
+          if (this.viewport) { this.viewport!.checkViewportSize(); }
+          // unsubscribed, as this size check only needs to be done after initial render
+          checkSizeSubscription.unsubscribe();
+        });
     } else {
-      throw new Error('evidence-table unable to find cdkVirtualScrollViewport.');
+      console.error('evidence-table unable to find cdkVirtualScrollViewport.');
     }
+  }
+
+  printViewportDetails() {
+    console.dir(
+      {
+        DataLength: this.viewport!.getDataLength(),
+        OffsetToRenderedContentStart: this.viewport!.getOffsetToRenderedContentStart(),
+        RenderedRange: this.viewport!.getRenderedRange(),
+        ViewportSize: this.viewport!.getViewportSize(),
+        ContentSize: this.viewport!.measureRenderedContentSize(),
+        ScrollOffset: this.viewport!.measureScrollOffset(),
+      }
+    );
   }
 
   refresh() {
