@@ -5439,6 +5439,58 @@ export type ValidationErrorFragment = (
   & Pick<FieldValidationError, 'fieldName' | 'error'>
 );
 
+export type RevisionPopoverQueryVariables = Exact<{
+  revisionId: Scalars['Int'];
+}>;
+
+
+export type RevisionPopoverQuery = (
+  { __typename: 'Query' }
+  & { revision?: Maybe<(
+    { __typename: 'Revision' }
+    & RevisionPopoverFragment
+  )> }
+);
+
+export type RevisionPopoverFragment = (
+  { __typename: 'Revision' }
+  & Pick<Revision, 'id' | 'name' | 'link' | 'status' | 'createdAt'>
+  & { revisor?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  )>, subject: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), linkoutData: (
+    { __typename: 'LinkoutData' }
+    & Pick<LinkoutData, 'name'>
+  ) }
+);
+
 export type RevisionsQueryVariables = Exact<{
   subject?: Maybe<ModeratedInput>;
   first?: Maybe<Scalars['Int']>;
@@ -8605,6 +8657,28 @@ export const ValidationErrorFragmentDoc = gql`
   error
 }
     `;
+export const RevisionPopoverFragmentDoc = gql`
+    fragment revisionPopover on Revision {
+  id
+  name
+  link
+  status
+  revisor {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    link
+    name
+  }
+  createdAt
+  linkoutData {
+    name
+  }
+}
+    `;
 export const RevisionFragmentDoc = gql`
     fragment revision on Revision {
   id
@@ -10726,6 +10800,24 @@ export const ValidateRevisionsForAcceptanceDocument = gql`
   })
   export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
     document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RevisionPopoverDocument = gql`
+    query RevisionPopover($revisionId: Int!) {
+  revision(id: $revisionId) {
+    ...revisionPopover
+  }
+}
+    ${RevisionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RevisionPopoverGQL extends Apollo.Query<RevisionPopoverQuery, RevisionPopoverQueryVariables> {
+    document = RevisionPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
