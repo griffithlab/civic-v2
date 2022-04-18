@@ -4,10 +4,9 @@ import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatab
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, tap } from 'rxjs/operators';
+import { startWith, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
-
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -60,7 +59,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   private debouncedQuery = new Subject<void>();
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
-  isLoading = false;
+  isLoading = true;
 
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   filteredCount$?: Observable<number>

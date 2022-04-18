@@ -2,6 +2,10 @@
   display: block;
 }
 
+::ng-deep .cdk-virtual-scroll-content-wrapper {}
+
+::ng-deep .cdk-virtual-scroll-viewport {}
+
 nz-card:first-of-type ::ng-deep {
   .ant-card-body {
     // TODO: implement ngClass toggle for min-height, depending on how many total
@@ -16,6 +20,15 @@ nz-card:first-of-type ::ng-deep {
   }
 }
 
-.filter-row th.ant-table-cell {
+tr.filter-row th.ant-table-cell {
   padding: 1px 4px;
+}
+
+tr.data-row td.ant-table-cell {
+  // to ensure uniform row height, cell content will be clipped instead of wrapped
+  white-space: nowrap;
+  overflow: hidden;
+  // CSS ellipsis don't work w/ non-text content (like tags), but in the cases where
+  // we display text, it'll show them
+  text-overflow: ellipsis;
 }

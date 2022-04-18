@@ -14,7 +14,7 @@ export interface LinkableEvidence {
   templateUrl: './evidence-tag.component.html',
   styleUrls: ['./evidence-tag.component.less']
 })
-export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit, OnDestroy {
+export class CvcEvidenceTagComponent extends BaseCloseableTag {
   @Input() evidence!: LinkableEvidence
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
@@ -24,16 +24,4 @@ export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit,
   idFunction() {
     return this.evidence.id
   }
-
-  ngOnInit() {
-    console.log(`evidence-tag initialized, id: ${this.evidence.id}`);
-    if (this.evidence === undefined) {
-      throw new Error('cvc-evidence-tag requires LinkableEvidence input, none supplied.')
-    }
-  }
-
-  ngOnDestroy() {
-    console.log(`evidence-tag destroyed, id: ${this.evidence.id}`);
-  }
-
 }

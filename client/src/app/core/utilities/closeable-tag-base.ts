@@ -8,6 +8,7 @@ export abstract class BaseCloseableTag implements OnInit {
     popoverVisible = false
     abstract idFunction(): number
 
+  // TODO: implement as getter/setters to remove ngOnInit
     ngOnInit(): void {
       if(this.onCloseClicked) {
         // If you want the tag to be clickable to close, it cannot also be linkable
