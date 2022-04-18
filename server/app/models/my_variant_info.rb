@@ -161,6 +161,6 @@ class MyVariantInfo
   end
 
   def cache_key(variant)
-    "myvariant_info_#{variant.id}_#{variant.hash}"
+    "myvariant_info_#{variant.id}_#{variant.updated_at}"
   end
 end
