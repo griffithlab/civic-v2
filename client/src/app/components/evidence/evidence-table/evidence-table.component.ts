@@ -67,6 +67,7 @@ export class CvcEvidenceTableComponent implements
 
   DrugInteraction = DrugInteraction;
 
+  @Output() initialTotalCount = new EventEmitter<number>()
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
@@ -182,10 +183,10 @@ export class CvcEvidenceTableComponent implements
       pluck('data', 'evidenceItems', 'totalCount')
     )
 
-    this.filteredCount$.pipe(
-      takeUntil(this.destroy$),
-      take(1),
-    ).subscribe(value => this.totalCount = value);
+    this.filteredCount$.pipe(take(1)).subscribe(value => {
+      this.totalCount = value;
+      this.initialTotalCount.emit(value);
+    });
 
     this.filteredCount$.pipe(takeUntil(this.destroy$)).subscribe(
       value => {
