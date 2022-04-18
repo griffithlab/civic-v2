@@ -1,0 +1,27 @@
+query RevisionPopover($revisionId: Int!) {
+  revision(id: $revisionId) {
+    ...revisionPopover
+  }
+}
+
+
+fragment revisionPopover on Revision {
+  id
+  name
+  link
+  status
+  revisor {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    link
+    name
+  }
+  createdAt
+  linkoutData {
+    name
+  }
+}
