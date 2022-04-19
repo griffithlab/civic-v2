@@ -1849,11 +1849,12 @@ export type ModeratedInput = {
 
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
-  displayName: Scalars['String'];
+  deleted: Scalars['Boolean'];
+  displayName?: Maybe<Scalars['String']>;
   displayType?: Maybe<Scalars['String']>;
   entityType: Scalars['String'];
   id: Scalars['Int'];
-  link: Scalars['String'];
+  link?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -5582,19 +5583,19 @@ export type RevisionFragment = (
       { __typename: 'ObjectFieldDiff' }
       & { currentObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, addedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, removedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, keptObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, suggestedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )> }
     ) | (
       { __typename: 'ScalarFieldDiff' }
@@ -8759,6 +8760,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         addedObjects {
           id
@@ -8766,6 +8768,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         removedObjects {
           id
@@ -8773,6 +8776,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         keptObjects {
           id
@@ -8780,6 +8784,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         suggestedObjects {
           id
@@ -8787,6 +8792,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
       }
       ... on ScalarFieldDiff {

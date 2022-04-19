@@ -16,6 +16,7 @@ import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
 import { SanitizeHtmlPipe } from './sanitize-html-pipe';
 import { PluckPipe } from './pluck-pipe';
 import { TruncatePipe } from './truncate-pipe';
+import { CamelCaseToWordPipe } from './camel-case-to-words-pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { TruncatePipe } from './truncate-pipe';
     HighlightTypeaheadPipe,
     SanitizeHtmlPipe,
     PluckPipe,
-    TruncatePipe
+    TruncatePipe,
+    CamelCaseToWordPipe
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,8 @@ import { TruncatePipe } from './truncate-pipe';
     HighlightTypeaheadPipe,
     SanitizeHtmlPipe,
     PluckPipe,
-    TruncatePipe
+    TruncatePipe,
+    CamelCaseToWordPipe
   ],
   providers: [
     SourceTypeDisplayPipe
