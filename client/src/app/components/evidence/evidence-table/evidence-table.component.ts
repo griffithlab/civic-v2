@@ -1,9 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+
 import { DrugInteraction, EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
@@ -82,6 +83,8 @@ export class CvcEvidenceTableComponent implements
   visibleCount$?: Observable<number>;
   visibleCount: number = this.initialPageSize;
 
+  noMoreRows$: BehaviorSubject<boolean>;
+
   loadedPages: number = 1;
 
   tableView: boolean = true;
@@ -109,7 +112,9 @@ export class CvcEvidenceTableComponent implements
   private destroy$ = new Subject();
 
   showTbody: boolean = false;
-  constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) { }
+  constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
+  }
 
   ngOnInit() {
     if (this.initialUserFilters) {
@@ -248,7 +253,7 @@ export class CvcEvidenceTableComponent implements
           withLatestFrom(this.pageInfo$),
           map(([_, pageInfo]: [Event, PageInfo]) => {
             return {
-              cursor: pageInfo.endCursor,
+              pageInfo: pageInfo,
               offset: this.viewport!.measureScrollOffset('bottom')
             }
           }),
@@ -261,7 +266,18 @@ export class CvcEvidenceTableComponent implements
           // throttle events to prevent spamming loadMore() requests
           throttleTime(this.isLoadingDelay))
         .subscribe(([_, e2]) => {
-          this.loadMore(e2.cursor);
+          if (e2.pageInfo.hasNextPage) {
+            this.loadMore(e2.pageInfo.endCursor);
+          } else {
+            // show 'end of results' msg, hide after an interval
+            this.noMoreRows$.next(true);
+            interval(3000)
+              .pipe(first())
+              .subscribe((_) => {
+                this.noMoreRows$.next(false);
+                this.cdr.detectChanges(); // TODO: figure out why this is required
+              })
+          }
         });
 
       // this.visibleCount$ = this.viewport.

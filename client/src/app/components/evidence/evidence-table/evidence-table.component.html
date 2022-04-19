@@ -448,6 +448,10 @@
     nzType="secondary">
     ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
+  <nz-tag nzColor="warning" *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
   <ng-template #noData>
     <span nz-typography
       nzType="secondary">
