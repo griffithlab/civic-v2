@@ -369,7 +369,11 @@
             </td>
             <td nzAlign="center"
               nzRight>
-              <nz-tag>{{ eid.evidenceLevel }}</nz-tag>
+              <nz-tag nz-tooltip
+                nz-placement="top"
+                [nzTooltipTitle]="eid.evidenceLevel + ' - ' + (eid.evidenceLevel | evidenceLevelDisplay)">
+                {{ eid.evidenceLevel }}
+              </nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>

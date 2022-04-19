@@ -16,12 +16,14 @@ import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
 import { SanitizeHtmlPipe } from './sanitize-html-pipe';
 import { PluckPipe } from './pluck-pipe';
 import { TruncatePipe } from './truncate-pipe';
+import { EvidenceLevelDisplayPipe } from './evidence-level-display.pipe';
 
 @NgModule({
   declarations: [
     AmpFormatPipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
+    EvidenceLevelDisplayPipe,
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
@@ -43,6 +45,7 @@ import { TruncatePipe } from './truncate-pipe';
     AmpFormatPipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
+    EvidenceLevelDisplayPipe,
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,

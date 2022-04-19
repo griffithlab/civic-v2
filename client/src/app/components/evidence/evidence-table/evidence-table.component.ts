@@ -72,38 +72,39 @@ export class CvcEvidenceTableComponent implements
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
   isLoading = true;
 
-  evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
-  filteredCount$?: Observable<number>
-  pageInfo$?: Observable<PageInfo>
-  totalCount?: number
+  evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>;
+  filteredCount$?: Observable<number>;
+
+  pageInfo$?: Observable<PageInfo>;
+  totalCount?: number;
   fetchMorePageSize = 25;
   isLoadingDelay = 100;
+  visibleCount$?: Observable<number>;
+  visibleCount: number = this.initialPageSize;
 
-  visibleCount: number = this.initialPageSize
+  loadedPages: number = 1;
 
-  loadedPages: number = 1
+  tableView: boolean = true;
 
-  tableView: boolean = true
-
-  textInputCallback?: () => void
+  textInputCallback?: () => void;
 
   // showTooltips?: boolean;
 
   //filters
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
-  descriptionInput: Maybe<string>
-  diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
-  eidInput: Maybe<string>
-  evidenceDirectionInput: Maybe<EvidenceDirection>
-  evidenceLevelInput: Maybe<EvidenceLevel>
-  evidenceRatingInput: Maybe<number>
-  evidenceTypeInput: Maybe<EvidenceType>
-  geneSymbolInput: Maybe<string>
-  variantNameInput: Maybe<string>
-  variantOriginInput: Maybe<VariantOrigin>
+  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>;
+  descriptionInput: Maybe<string>;
+  diseaseNameInput: Maybe<string>;
+  drugNameInput: Maybe<string>;
+  eidInput: Maybe<string>;
+  evidenceDirectionInput: Maybe<EvidenceDirection>;
+  evidenceLevelInput: Maybe<EvidenceLevel>;
+  evidenceRatingInput: Maybe<number>;
+  evidenceTypeInput: Maybe<EvidenceType>;
+  geneSymbolInput: Maybe<string>;
+  variantNameInput: Maybe<string>;
+  variantOriginInput: Maybe<VariantOrigin>;
 
-  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
+  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns;
 
   private destroy$ = new Subject();
 
@@ -268,6 +269,8 @@ export class CvcEvidenceTableComponent implements
           this.loadMore(e2.cursor);
         });
 
+      // this.visibleCount$ = this.viewport.
+
       // TODO: test tooltip (on the description icon) to see if passing showTooltips to  [nzTooltipVisible] works. due to how we've implemented the tags, this doesn't quite work with popovers, which display an empty tooltip if [nzTooltipVisible] is set to false with showTooltips. So we'll need to refactor it to work similarly to the basic tooltip.
       // scrolled$
       //   .pipe(
@@ -286,7 +289,7 @@ export class CvcEvidenceTableComponent implements
         .pipe(first())
         .subscribe((_) => {
           if (this.viewport) { this.viewport!.checkViewportSize(); }
-          else { console.error('evidence-table unable to find cdkVirtualScrollViewport for checkViewportSize.'); }
+          else { console.error('evidence-table unable to find cdkVirtualScrollViewport for checkViewportSize() call.'); }
         });
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');
