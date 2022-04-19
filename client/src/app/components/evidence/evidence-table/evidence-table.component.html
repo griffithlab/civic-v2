@@ -360,56 +360,68 @@
             </td>
             <td nzAlign="center"
               nzRight>
-              <i nz-icon
-                nzType="align-left"
-                nz-tooltip
+              <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="eid.description"></i>
+                [nzTooltipTitle]="eid.description">
+                <i nz-icon
+                  nzType="align-left"></i>
+              </nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>
-              {{ eid.evidenceLevel }}
+              <nz-tag>{{ eid.evidenceLevel }}</nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>
-              <i nz-icon
-                [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
-                nz-tooltip
+              <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="eid.evidenceType | evidenceEnumDisplay"></i>
+                [nzTooltipTitle]="eid.evidenceType | evidenceEnumDisplay">
+                <i nz-icon
+                  [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i>
+              </nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>
-              <i nz-icon
-                [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
-                nz-tooltip
+              <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="eid.evidenceDirection | evidenceEnumDisplay"></i>
+                [nzTooltipTitle]="eid.evidenceDirection | evidenceEnumDisplay">
+                <i nz-icon
+                  [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i>
+              </nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>
-              <i nz-icon
-                [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
-                nz-tooltip
+              <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="eid.clinicalSignificance | evidenceEnumDisplay"></i>
+                [nzTooltipTitle]="eid.clinicalSignificance | evidenceEnumDisplay">
+                <i nz-icon
+                  [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i>
+              </nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>
-              <i nz-icon
-                [nzType]="eid.variantOrigin| evidenceEnumDisplay: 'icon-name'"
-                nz-tooltip
+              <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="eid.variantOrigin | evidenceEnumDisplay"></i>
+                [nzTooltipTitle]="eid.variantOrigin | evidenceEnumDisplay">
+                <i nz-icon
+                  [nzType]="eid.variantOrigin| evidenceEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i>
+              </nz-tag>
             </td>
             <td nzAlign="center"
               nzRight>
-              {{ eid.evidenceRating }}
-              <i nz-icon
-                nzType="star"
-                nzTheme="fill"
-                nz-tooltip
-                nzTooltipPlacement="top"></i>
+              <nz-tag nz-tooltip
+                nzTooltipPlacement="top"
+                [nzTooltipTitle]="eid.evidenceRating + ' stars'">
+                {{ eid.evidenceRating }}
+                <i nz-icon
+                  nzType="star"
+                  nzTheme="fill"
+                  class="attribute-icon"></i>
+              </nz-tag>
             </td>
           </tr>
         </ng-template>
