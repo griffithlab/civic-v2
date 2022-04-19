@@ -88,7 +88,7 @@ export class CvcEvidenceTableComponent implements
 
   textInputCallback?: () => void;
 
-  // showTooltips?: boolean;
+  showTooltips = true;
 
   //filters
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>;
@@ -126,7 +126,6 @@ export class CvcEvidenceTableComponent implements
       this.variantNameInput = this.initialUserFilters.variantNameInput
       this.variantOriginInput = this.initialUserFilters.variantOriginInput
     }
-
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
 
@@ -152,7 +151,7 @@ export class CvcEvidenceTableComponent implements
       variantId: this.variantId,
       variantName: this.variantNameInput ? this.variantNameInput : undefined,
       variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-    });
+    }, { fetchPolicy: 'network-only' });
 
     this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
@@ -235,10 +234,6 @@ export class CvcEvidenceTableComponent implements
 
     this.loadedPages += 1
   }
-  // setShowTooltips(b: boolean): void {
-  //   console.log(`toggling tooltips: ${b}`);
-  //   this.showTooltips = b;
-  // }
 
   ngAfterViewInit(): void {
     if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
@@ -271,17 +266,18 @@ export class CvcEvidenceTableComponent implements
 
       // this.visibleCount$ = this.viewport.
 
-      // TODO: test tooltip (on the description icon) to see if passing showTooltips to  [nzTooltipVisible] works. due to how we've implemented the tags, this doesn't quite work with popovers, which display an empty tooltip if [nzTooltipVisible] is set to false with showTooltips. So we'll need to refactor it to work similarly to the basic tooltip.
-      // scrolled$
-      //   .pipe(
-      //     tap((_) => {
-      //       this.showTooltips = false;
-      //     }),
-      //     debounceTime(500)
-      //   ).subscribe((_) => {
-      //     this.showTooltips = true;
-      //     this.cdr.detectChanges();
-      //   })
+      // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
+
+      // toggle tooltips off when scrolling
+      scrolled$
+        .pipe(
+          takeUntil(this.destroy$),
+          tap((_) => { this.showTooltips = false; }), // on scroll even toggle tooltips off
+          debounceTime(500) // wait 500ms, then execute subsribed function
+        ).subscribe((_) => {
+          this.showTooltips = true; // toggle tooltips on
+          this.cdr.detectChanges(); // force refresh
+        })
 
       // force viewport check after initial render
       // NOTE: first() operator automatically unsubscribes
