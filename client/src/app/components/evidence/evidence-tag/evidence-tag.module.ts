@@ -8,8 +8,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcEvidencePopoverModule } from '../evidence-popover/evidence-popover.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
-
-
 @NgModule({
   declarations: [CvcEvidenceTagComponent],
   imports: [

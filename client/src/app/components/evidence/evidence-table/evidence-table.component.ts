@@ -1,11 +1,48 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, AfterContentInit, AfterContentChecked, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef
+} from '@angular/core';
 
-import { DrugInteraction, EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import {
+  EvidenceBrowseGQL,
+  EvidenceBrowseQuery,
+  EvidenceBrowseQueryVariables,
+  EvidenceClinicalSignificance,
+  EvidenceDirection,
+  EvidenceGridFieldsFragment,
+  EvidenceLevel,
+  EvidenceSortColumns,
+  EvidenceStatus,
+  EvidenceType,
+  Maybe,
+  PageInfo,
+  VariantOrigin,
+} from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first } from 'rxjs/operators';
+import {
+  tap,
+  pluck,
+  map,
+  debounceTime,
+  take,
+  takeUntil,
+  pairwise,
+  filter,
+  throttleTime,
+  withLatestFrom,
+  first
+} from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -29,11 +66,7 @@ export interface EvidenceTableUserFilters {
   templateUrl: './evidence-table.component.html',
   styleUrls: ['./evidence-table.component.less'],
 })
-export class CvcEvidenceTableComponent implements
-  OnInit,
-  AfterViewInit,
-
-  OnDestroy {
+export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
   @Input() cvcTitle: Maybe<string>
@@ -56,16 +89,7 @@ export class CvcEvidenceTableComponent implements
   selectedEvidenceIds = new Map<number, FormEvidence>();
 
   @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
-  // @ViewChild('virtualTable') set content(table: NzTableComponent<EvidenceGridFieldsFragment>) {
-  //   if (table) { // initially setter gets called with undefined
-  //     this.nzTableComponent = table;
-  //   }
-  // }
-  // nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>
   viewport?: CdkVirtualScrollViewport;
-
-
-  DrugInteraction = DrugInteraction;
 
   @Output() initialTotalCount = new EventEmitter<number>()
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -132,32 +156,37 @@ export class CvcEvidenceTableComponent implements
       this.variantNameInput = this.initialUserFilters.variantNameInput
       this.variantOriginInput = this.initialUserFilters.variantOriginInput
     }
-    this.queryRef = this.gql.watch({
-      first: this.initialPageSize,
 
-      assertionId: this.assertionId,
-      cardView: !this.tableView,
-      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
-      clinicalTrialId: this.clinicalTrialId,
-      description: this.descriptionInput,
-      diseaseId: this.diseaseId,
-      diseaseName: this.diseaseNameInput,
-      drugId: this.drugId,
-      drugName: this.drugNameInput,
-      evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
-      evidenceLevel: this.evidenceLevelInput ? this.evidenceLevelInput : undefined,
-      evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
-      geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
-      organizationId: this.organizationId,
-      phenotypeId: this.phenotypeId,
-      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
-      sourceId: this.sourceId,
-      status: this.status,
-      userId: this.userId,
-      variantId: this.variantId,
-      variantName: this.variantNameInput ? this.variantNameInput : undefined,
-      variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-    }, { fetchPolicy: 'network-only' });
+    this.queryRef = this.gql.watch(
+      {
+        first: this.initialPageSize,
+
+        assertionId: this.assertionId,
+        cardView: !this.tableView,
+        clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
+        clinicalTrialId: this.clinicalTrialId,
+        description: this.descriptionInput,
+        diseaseId: this.diseaseId,
+        diseaseName: this.diseaseNameInput,
+        drugId: this.drugId,
+        drugName: this.drugNameInput,
+        evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
+        evidenceLevel: this.evidenceLevelInput ? this.evidenceLevelInput : undefined,
+        evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
+        geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
+        organizationId: this.organizationId,
+        phenotypeId: this.phenotypeId,
+        rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+        sourceId: this.sourceId,
+        status: this.status,
+        userId: this.userId,
+        variantId: this.variantId,
+        variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
+      },
+      {
+        fetchPolicy: 'network-only'
+      });
 
     this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
@@ -165,52 +194,41 @@ export class CvcEvidenceTableComponent implements
 
     // handle loading state
     observable
-      .pipe(
-        takeUntil(this.destroy$),
-        pluck('loading'))
+      .pipe(takeUntil(this.destroy$), pluck('loading'))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.evidence$ = observable.pipe(
       pluck('data', 'evidenceItems', 'edges'),
-      map((edges) => {
-        return edges.map((e) => e.node)
-      }));
-    // using startWith([]) here and <tbody *ngIf="(evidence$ | ngrxPush).length > 0">,
-    // initial rows are displayed but AfterViewInit fails to find cdkVirtualScroll.
+      map((edges) => { return edges.map((e) => e.node); }));
 
+    this.filteredCount$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount'));
 
-    this.filteredCount$ = observable.pipe(
-      pluck('data', 'evidenceItems', 'totalCount')
-    )
+    this.filteredCount$
+      .pipe(take(1))
+      .subscribe(value => {
+        this.totalCount = value;
+        this.initialTotalCount.emit(value);
+      });
 
-    this.filteredCount$.pipe(take(1)).subscribe(value => {
-      this.totalCount = value;
-      this.initialTotalCount.emit(value);
-    });
-
-    this.filteredCount$.pipe(takeUntil(this.destroy$)).subscribe(
-      value => {
+    this.filteredCount$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => {
         if (value < this.initialPageSize) {
           this.visibleCount = value
-        }
-        else {
+        } else {
           this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
           if (this.visibleCount > value) {
             this.visibleCount = value
           }
         }
-      }
-    )
+      });
 
-    this.pageInfo$ = observable.pipe(
-      pluck('data', 'evidenceItems', 'pageInfo')
-    );
+    this.pageInfo$ = observable.pipe(pluck('data', 'evidenceItems', 'pageInfo'));
 
     this.debouncedQuery
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(500)
-      )
+        debounceTime(500))
       .subscribe((_) => {
         this.refresh()
       });
@@ -219,7 +237,6 @@ export class CvcEvidenceTableComponent implements
 
   }
 
-  //
   // virtual scroll helpers
   trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
     return data.id;
