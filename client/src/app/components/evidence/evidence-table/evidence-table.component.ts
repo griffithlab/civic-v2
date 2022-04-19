@@ -4,7 +4,7 @@ import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatab
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -281,13 +281,12 @@ export class CvcEvidenceTableComponent implements
       //   })
 
       // force viewport check after initial render
-      const checkSizeSubscription = this.viewport.renderedRangeStream
-        .pipe(takeUntil(this.destroy$))
+      // NOTE: first() operator automatically unsubscribes
+      this.viewport.renderedRangeStream
+        .pipe(first())
         .subscribe((_) => {
           if (this.viewport) { this.viewport!.checkViewportSize(); }
           else { console.error('evidence-table unable to find cdkVirtualScrollViewport for checkViewportSize.'); }
-          // unsubscribe, as this size check only needs to be done after initial render
-          checkSizeSubscription.unsubscribe();
         });
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');
