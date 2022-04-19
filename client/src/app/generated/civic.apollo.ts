@@ -5185,6 +5185,46 @@ export type FlagFragment = (
   )> }
 );
 
+export type FlagPopoverQueryVariables = Exact<{
+  flagId: Scalars['Int'];
+}>;
+
+
+export type FlagPopoverQuery = (
+  { __typename: 'Query' }
+  & { flag?: Maybe<(
+    { __typename: 'Flag' }
+    & FlagPopoverFragment
+  )> }
+);
+
+export type FlagPopoverFragment = (
+  { __typename: 'Flag' }
+  & Pick<Flag, 'id' | 'name' | 'state' | 'createdAt'>
+  & { flaggingUser: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  ), flaggable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), openComment: (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  ) }
+);
+
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -5437,6 +5477,58 @@ export type ValidateRevisionsForAcceptanceQuery = (
 export type ValidationErrorFragment = (
   { __typename: 'FieldValidationError' }
   & Pick<FieldValidationError, 'fieldName' | 'error'>
+);
+
+export type RevisionPopoverQueryVariables = Exact<{
+  revisionId: Scalars['Int'];
+}>;
+
+
+export type RevisionPopoverQuery = (
+  { __typename: 'Query' }
+  & { revision?: Maybe<(
+    { __typename: 'Revision' }
+    & RevisionPopoverFragment
+  )> }
+);
+
+export type RevisionPopoverFragment = (
+  { __typename: 'Revision' }
+  & Pick<Revision, 'id' | 'name' | 'link' | 'status' | 'createdAt'>
+  & { revisor?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  )>, subject: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), linkoutData: (
+    { __typename: 'LinkoutData' }
+    & Pick<LinkoutData, 'name'>
+  ) }
 );
 
 export type RevisionsQueryVariables = Exact<{
@@ -8523,6 +8615,27 @@ export const FlagListFragmentDoc = gql`
   }
 }
     ${FlagFragmentDoc}`;
+export const FlagPopoverFragmentDoc = gql`
+    fragment flagPopover on Flag {
+  id
+  name
+  state
+  flaggingUser {
+    id
+    displayName
+    role
+  }
+  flaggable {
+    id
+    link
+    name
+  }
+  createdAt
+  openComment {
+    comment
+  }
+}
+    `;
 export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
@@ -8603,6 +8716,28 @@ export const ValidationErrorFragmentDoc = gql`
     fragment validationError on FieldValidationError {
   fieldName
   error
+}
+    `;
+export const RevisionPopoverFragmentDoc = gql`
+    fragment revisionPopover on Revision {
+  id
+  name
+  link
+  status
+  revisor {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    link
+    name
+  }
+  createdAt
+  linkoutData {
+    name
+  }
 }
     `;
 export const RevisionFragmentDoc = gql`
@@ -10454,6 +10589,24 @@ export const FlagListDocument = gql`
       super(apollo);
     }
   }
+export const FlagPopoverDocument = gql`
+    query FlagPopover($flagId: Int!) {
+  flag(id: $flagId) {
+    ...flagPopover
+  }
+}
+    ${FlagPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagPopoverGQL extends Apollo.Query<FlagPopoverQuery, FlagPopoverQueryVariables> {
+    document = FlagPopoverDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GenePopoverDocument = gql`
     query GenePopover($geneId: Int!) {
   gene(id: $geneId) {
@@ -10726,6 +10879,24 @@ export const ValidateRevisionsForAcceptanceDocument = gql`
   })
   export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
     document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RevisionPopoverDocument = gql`
+    query RevisionPopover($revisionId: Int!) {
+  revision(id: $revisionId) {
+    ...revisionPopover
+  }
+}
+    ${RevisionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RevisionPopoverGQL extends Apollo.Query<RevisionPopoverQuery, RevisionPopoverQueryVariables> {
+    document = RevisionPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
