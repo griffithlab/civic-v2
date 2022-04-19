@@ -6660,7 +6660,7 @@ export type AddVariantMutation = (
 
 export type AddVariantFieldsFragment = (
   { __typename: 'AddVariantPayload' }
-  & Pick<AddVariantPayload, 'new'>
+  & Pick<AddVariantPayload, 'clientMutationId' | 'new'>
   & { variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
@@ -9201,6 +9201,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     `;
 export const AddVariantFieldsFragmentDoc = gql`
     fragment AddVariantFields on AddVariantPayload {
+  clientMutationId
   new
   variant {
     id

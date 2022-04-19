@@ -1,4 +1,26 @@
-<cvc-section-navigation> </cvc-section-navigation>
+<cvc-section-navigation [actionsTpl]="variantActions"> </cvc-section-navigation>
+<ng-template #variantActions>
+  <ng-container *ngrxLet="viewer$ as viewer">
+    <button routerLink="/variants/add/submit"
+      nz-button
+      *ngIf="viewer.isEditor"
+      nzSize="small"
+      nz-popover
+      nzPopoverTitle="Title"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="addVariantForm"
+      nzPopoverPlacement="bottomRight">
+      <i nz-icon nzType="plus-circle"></i>
+      Submit New Variant
+      <ng-template #addVariantForm>
+        <div class="addVariant">
+          <cvc-variant-submit-form></cvc-variant-submit-form>
+        </div>
+      </ng-template>
+    </button>
+  </ng-container>
+</ng-template>
+
 <nz-page-header class="site-page-header">
 
   <!--content-->

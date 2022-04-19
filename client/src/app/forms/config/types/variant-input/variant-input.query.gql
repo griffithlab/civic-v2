@@ -18,6 +18,7 @@ mutation AddVariant($name: String!, $geneId: Int!) {
 }
 
 fragment AddVariantFields on AddVariantPayload {
+  clientMutationId
   new
   variant {
     id
