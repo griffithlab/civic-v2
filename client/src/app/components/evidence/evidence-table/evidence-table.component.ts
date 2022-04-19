@@ -270,13 +270,15 @@ export class CvcEvidenceTableComponent implements
             this.loadMore(e2.pageInfo.endCursor);
           } else {
             // show 'end of results' msg, hide after an interval
-            this.noMoreRows$.next(true);
-            interval(3000)
-              .pipe(first())
-              .subscribe((_) => {
-                this.noMoreRows$.next(false);
-                this.cdr.detectChanges(); // TODO: figure out why this is required
-              })
+            if (this.noMoreRows$.getValue() === false) {
+              this.noMoreRows$.next(true);
+              interval(3000)
+                .pipe(first())
+                .subscribe((_) => {
+                  this.noMoreRows$.next(false);
+                  this.cdr.detectChanges(); // TODO: figure out why this is required
+                })
+            }
           }
         });
 
