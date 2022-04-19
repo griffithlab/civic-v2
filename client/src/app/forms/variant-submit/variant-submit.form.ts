@@ -115,15 +115,13 @@ export class VariantSubmitForm implements OnDestroy {
 
       let state = this.submitVariantMutator.mutate(this.submitVariantGQL, input, {},
         (data) => {
-          this.newId = data.submitVariant.variant.id;
-          this.isNew = data.submitVariant.new
+          this.newId = data.addVariant.variant.id;
+          this.isNew = data.addVariant.new
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        console.log("sucess 1")
         if (res) {
           this.success = true
-          console.log("success 2")
         }
       })
 

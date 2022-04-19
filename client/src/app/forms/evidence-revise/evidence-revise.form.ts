@@ -170,7 +170,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               addText: 'Specify a Variant',
               maxCount: 1,
               required: true,
-              helpText: 'The most specific description of the variant that the underlying source allows.',
+              helpText: 'The most specific description of the variant that the underlying source allows. If you need to <i>rename the Variant itself</i> please submit a revision to the Variant instead.',
             },
             fieldArray: {
               type: 'variant-input',

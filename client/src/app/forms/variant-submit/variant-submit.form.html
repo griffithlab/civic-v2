@@ -22,7 +22,7 @@
   </nz-form-item>
   <ng-container *ngIf="this.success">
     <nz-alert nzType="success"
-      [nzMessage]="this.isNew ? 'Variant Submitted' : 'Variant already exists'"
+      [nzMessage]="this.isNew ? 'Variant Created' : 'Variant Already Exists'"
       [nzDescription]="successMessage"
       nzShowIcon></nz-alert>
     <ng-template #successMessage
