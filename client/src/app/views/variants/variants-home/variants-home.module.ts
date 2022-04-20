@@ -10,20 +10,29 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { RouterModule } from '@angular/router';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module';
 
 @NgModule({
   declarations: [VariantsHomePage],
   imports: [
     CommonModule,
+    RouterModule,
+    ReactiveComponentModule,
     NzPageHeaderModule,
     NzGridModule,
     NzIconModule,
     NzTypographyModule,
     NzButtonModule,
     NzSpaceModule,
+    NzPopoverModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcVariantsTableModule,
+    CvcSectionNavigationModule,
+    VariantSubmitFormModule,
   ],
   exports: [VariantsHomePage]
 })

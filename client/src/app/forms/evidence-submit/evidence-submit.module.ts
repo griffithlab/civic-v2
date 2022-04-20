@@ -12,8 +12,6 @@ import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-s
 import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
 import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-input.module';
 import { CvcSourceInputTypeModule } from '@app/forms/config/types/source-input/source-input.module';
-import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
-import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { EvidenceSubmitForm } from './evidence-submit.form';
 import { FormlyModule } from '@ngx-formly/core';
@@ -42,6 +40,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcDuplicateEvidenceWarningModule } from '../config/types/duplicate-evidence-warning/duplicate-evidence-warning.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
+import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -60,7 +60,7 @@ import { CvcDuplicateEvidenceWarningModule } from '../config/types/duplicate-evi
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcFormInfoWrapperModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
     CvcDrugInputTypeModule,

@@ -16,6 +16,7 @@ export class CvcViewerButtonComponent {
   unreadCount$: Observable<number>;
 
   coiUpdateModalVisible: boolean = false
+  addVariantModalVisible: boolean = false
 
   constructor(private queryService: ViewerService, private unreadCountGql: ViewerNotificationCountGQL) {
     this.viewer$ = this.queryService.viewer$;

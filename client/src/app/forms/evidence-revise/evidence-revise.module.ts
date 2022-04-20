@@ -18,7 +18,7 @@ import { CvcRatingInputTypeModule } from '../config/types/rating-input/rating-in
 import { CvcDrugInputTypeModule } from '@app/forms/config/types/drug-input/drug-input.module';
 import { CvcPhenotypeInputTypeModule } from '@app/forms/config/types/phenotype-input/phenotype-input.module';
 import { CvcDiseaseInputTypeModule } from '@app/forms/config/types/disease-input/disease-input.module';
-import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
+import { CvcOrgSubmitButtonTypeModule } from '@app/forms/config/types/org-submit-button/org-submit-button.module';
 import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/form-info.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
@@ -54,7 +54,7 @@ import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-fi
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcFormInfoWrapperModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
     CvcDrugInputTypeModule,
