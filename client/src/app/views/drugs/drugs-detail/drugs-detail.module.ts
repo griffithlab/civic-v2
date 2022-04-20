@@ -9,6 +9,9 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [DrugsDetailComponent],
@@ -20,8 +23,11 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
     NzPageHeaderModule,
     NzSpaceModule,
     NzDescriptionsModule,
+    NzTagModule,
+    NzToolTipModule,
     CvcLinkTagModule,
     CvcSectionNavigationModule,
+    CvcPipesModule
   ]
 })
 export class DrugsDetailModule { }

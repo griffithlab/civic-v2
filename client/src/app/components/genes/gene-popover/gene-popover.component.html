@@ -15,9 +15,7 @@
         <nz-descriptions-item nzTitle="Aliases"
           nzSpan="2"
           *ngIf="gene.geneAliases.length > 0">
-          <span *ngFor="let alias of gene.geneAliases; last as isLast">
-            {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
-          </span>
+          <nz-tag *ngFor="let alias of gene.geneAliases">{{ alias }}</nz-tag> 
         </nz-descriptions-item>
 
         <!-- variant count-->

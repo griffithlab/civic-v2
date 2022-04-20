@@ -16,6 +16,7 @@ fragment assertionPopover on Assertion {
   ampLevel
   acmgCodes {
     code
+    description
   }
   nccnGuideline {
     id

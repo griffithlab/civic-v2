@@ -23,7 +23,7 @@
           {{ d.name }}
         </nz-descriptions-item>
         <nz-descriptions-item *ngIf="d.drugAliases.length > 0" nzTitle="Aliases" nzSpan="2">
-          {{ d.drugAliases.join(', ') }}
+          <nz-tag nz-tooltip [nzTooltipTitle]="alias" *ngFor="let alias of d.drugAliases">{{ alias | truncate }}</nz-tag> 
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Assertions"
           nzSpan="2">
