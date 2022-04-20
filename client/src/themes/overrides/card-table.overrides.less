@@ -2,9 +2,11 @@
   display: block;
 }
 
-::ng-deep .cdk-virtual-scroll-content-wrapper {}
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+}
 
-::ng-deep .cdk-virtual-scroll-viewport {}
+::ng-deep .cdk-virtual-scroll-viewport {
+}
 
 nz-card:first-of-type ::ng-deep {
   .ant-card-body {
@@ -20,14 +22,37 @@ nz-card:first-of-type ::ng-deep {
   }
 }
 
+tr.col-header-row th.ant-table-cell {
+  white-space: nowrap;
+}
+
+tr.col-header-row
+  th.ant-table-cell.align-right
+  ::ng-deep
+  .ant-table-column-title {
+  text-align: right;
+}
+
 tr.filter-row th.ant-table-cell {
-  padding: 1px 4px;
+  padding: 3px 4px;
 }
 
 tr.data-row td.ant-table-cell {
-  // to ensure uniform row height, cell content will be clipped instead of wrapped
- white-space: nowrap;
- .anticon.attribute-icon {
-   color: #595959;
- }
+  // to ensure uniform row height, cell content wrapped
+  white-space: nowrap;
+  .anticon.attribute-icon {
+    color: #595959;
+  }
+}
+
+tr.data-row td.align-right {
+  text-align: right;
+}
+
+tr.col-header-row th.ant-table-cell,
+tr.data-row td.ant-table-cell,
+tr.filter-row th.ant-table-cell {
+  .align-right {
+    text-align: right;
+  }
 }

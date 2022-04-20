@@ -137,6 +137,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   private destroy$ = new Subject();
 
   showTbody: boolean = false;
+
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false);
   }
@@ -237,27 +238,6 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
   }
 
-  // virtual scroll helpers
-  trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
-    return data.id;
-  }
-
-  scrollToIndex(index: number): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
-  }
-
-  loadMore(afterCursor: Maybe<string>): void {
-    this.isLoading = true;
-    this.queryRef.fetchMore({
-      variables: {
-        first: this.fetchMorePageSize,
-        after: afterCursor
-      },
-    });
-
-    this.loadedPages += 1
-  }
-
   ngAfterViewInit(): void {
     if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
       this.pageInfo$) {
@@ -300,8 +280,6 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
           }
         });
 
-      // this.visibleCount$ = this.viewport.
-
       // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
 
       // toggle tooltips off when scrolling
@@ -326,7 +304,24 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');
     }
+  } // ngAfterViewInit
+
+  onModelChanged() { this.debouncedQuery.next(); }
+
+  onSortChanged(e: SortDirectionEvent) {
+    this.loadedPages = 1
+    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
+
+  onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
+    if (newValue) {
+      this.selectedEvidenceIds.set(eid.id, eid)
+    } else {
+      this.selectedEvidenceIds.delete(eid.id)
+    }
+    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
+  }
+
 
   refresh() {
     this.isLoading = true;
@@ -359,25 +354,31 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     })
   }
 
-  onModelChanged() { this.debouncedQuery.next(); }
+  loadMore(afterCursor: Maybe<string>): void {
+    this.isLoading = true;
+    this.queryRef.fetchMore({
+      variables: {
+        first: this.fetchMorePageSize,
+        after: afterCursor
+      },
+    });
 
-  onSortChanged(e: SortDirectionEvent) {
-    this.loadedPages = 1
-    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
+    this.loadedPages += 1
   }
 
-  onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
-    if (newValue) {
-      this.selectedEvidenceIds.set(eid.id, eid)
-    } else {
-      this.selectedEvidenceIds.delete(eid.id)
-    }
-    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
+  // virtual scroll helpers
+  trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
+    return data.id;
+  }
+
+  scrollToIndex(index: number): void {
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
+
 
 }

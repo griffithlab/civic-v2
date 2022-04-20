@@ -20,6 +20,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
@@ -35,6 +36,7 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
     NzToolTipModule,
     NzButtonModule,
     NzCardModule,
+    NzTagModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
     CvcTagOverflowModule,

@@ -4,63 +4,70 @@
   cvcAutoHeightCard="35">
   <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
   <nz-table #virtualTable
-    [cvcAutoHeightTable]="27"
     nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
     [nzData]="variants$ | ngrxPush"
     [nzLoading]="isLoading"
     [nzVirtualForTrackBy]="trackByIndex"
-    [nzScroll]="{ x: '100%', y: '600px' }"
+    [nzScroll]="{ x: '400px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr nzLeft>
-        <th nzWidth="10%"
+      <tr class="col-header-row">
+        <th nzWidth="200px"
+          nzLeft
           [nzColumnKey]="sortColumns.VariantName"
           [nzSortFn]="true">
-          Name
+          Variant
         </th>
-        <th nzWidth="10%">
-          Aliases
+        <th nzWidth="200px">
+          Variant Aliases
         </th>
-        <th nzWidth="10%"
+        <th nzWidth="150px"
           [nzColumnKey]="sortColumns.EntrezSymbol"
           [nzSortFn]="true">
           Gene
         </th>
-        <th nzWidth="25%">
+        <th nzWidth="250px">
           Diseases
         </th>
-        <th nzWidth="25%">
+        <th nzWidth="180px">
           Drugs
         </th>
-        <th nzWidth="3%"
+        <th nzWidth="75px"
           nzRight
+          class="align-right"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           [nzColumnKey]="sortColumns.EvidenceScore"
           nz-tooltip
           nzTooltipTitle="Evidence Score">
-          <div style="min-width: 60px; text-align: right;">
-            <i nz-icon
-              nzType="civic:evidence"></i>&nbsp;Score
-          </div>
+          <i nz-icon
+            nzType="civic:evidence"></i> Score
         </th>
-        <th nzWidth="3%"
+        <th nzWidth="75px"
           nzRight
+          class="align-right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Evidence Count"><i nz-icon
-                                            nzType="civic:evidence"></i></th>
-        <th nzWidth="3%"
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon
+            nzType="civic:evidence"></i> Count
+        </th>
+        <th nzWidth="75px"
           nzRight
+          class="align-right"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Assertion Count"><i nz-icon
-                                             nzType="civic:assertion"></i></th>
+          nzTooltipTitle="Assertion Count">
+          <i nz-icon
+            nzType="civic:assertion"></i> Count
+        </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
@@ -72,89 +79,58 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="geneSymbolInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search gene"
-              [(ngModel)]="geneSymbolInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #geneSymbolInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="geneSymbolInput"
-              (click)="geneSymbolInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="diseaseInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search disease"
-              [(ngModel)]="diseaseNameInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #diseaseInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="diseaseNameInput"
-              (click)="diseaseNameInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="drugInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search drug"
-              [(ngModel)]="drugNameInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #drugInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="drugNameInput"
-              (click)="drugNameInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th nzRight></th>
+        <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
       <ng-template nz-virtual-scroll
         let-variant
         let-index="index">
-        <tr>
-          <td>
-            <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-variant-tag [variant]="variant"
+              [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td>
-            <cvc-plain-tag-overflow [tags]="variant.aliases | pluck: 'name'"
+            <cvc-plain-tag-overflow [maxDisplayCount]="1"
+              [tags]="variant.aliases | pluck: 'name'"
               [matchingText]="variantAliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
-            <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName, link: variant.geneLink}"></cvc-gene-tag>
+            <cvc-gene-tag [gene]="{id: variant.geneId, name: variant.geneName, link: variant.geneLink}"
+              [truncateLongName]="true"></cvc-gene-tag>
           </td>
           <td>
             <cvc-tag-overflow tagType="disease"
               [tags]="variant.diseases"
+              [maxDisplayCount]="1"
               [matchingText]="diseaseNameInput"> </cvc-tag-overflow>
           </td>
           <td>
             <cvc-tag-overflow tagType="drug"
               [tags]="variant.drugs"
+              [maxDisplayCount]="1"
               [matchingText]="drugNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight>{{variant.evidenceScore}}</td>
-          <td nzRight>{{variant.evidenceItemCount}}</td>
-          <td nzRight>{{variant.assertionCount}}</td>
+          <td nzRight
+            class="align-right">{{variant.evidenceScore}}</td>
+          <td nzRight
+            class="align-right">{{variant.evidenceItemCount}}</td>
+          <td nzRight
+            class="align-right">{{variant.assertionCount}}</td>
         </tr>
       </ng-template>
     </tbody>
@@ -175,6 +151,12 @@
     nzType="secondary">
     ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
   <ng-template #noData>
     <span nz-typography
       nzType="secondary">
