@@ -1,3 +1,29 @@
+query EventFeedCount(
+    $subject: SubscribableQueryInput
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String,
+    $originatingUserId: Int,
+    $organizationId: Int,
+    $eventType: EventAction,
+    $mode: EventFeedMode,
+) {
+    events (
+        subject: $subject,
+        first: $first,
+        last: $last,
+        before: $before,
+        after: $after,
+        originatingUserId: $originatingUserId,
+        organizationId: $organizationId,
+        eventType: $eventType,
+        mode: $mode
+    ) {
+        unfilteredCount
+    }
+}
+
 query EventFeed (
     $subject: SubscribableQueryInput
     $first: Int,

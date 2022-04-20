@@ -16,6 +16,9 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CvcParticipantListModule } from '@app/components/shared/participant-list/participant-list.module';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcEventFeedComponent],
@@ -33,6 +36,9 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzSpaceModule,
     NzEmptyModule,
     NzAvatarModule,
+    NzSpinModule,
+    NzBadgeModule,
+    NzToolTipModule,
     CvcEventTimelineModule,
     CvcPipesModule,
     CvcParticipantListModule,

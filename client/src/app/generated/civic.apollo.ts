@@ -4861,6 +4861,27 @@ export type DrugBrowseTableRowFieldsFragment = (
   & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount' | 'link'>
 );
 
+export type EventFeedCountQueryVariables = Exact<{
+  subject?: Maybe<SubscribableQueryInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  eventType?: Maybe<EventAction>;
+  mode?: Maybe<EventFeedMode>;
+}>;
+
+
+export type EventFeedCountQuery = (
+  { __typename: 'Query' }
+  & { events: (
+    { __typename: 'EventConnection' }
+    & Pick<EventConnection, 'unfilteredCount'>
+  ) }
+);
+
 export type EventFeedQueryVariables = Exact<{
   subject?: Maybe<SubscribableQueryInput>;
   first?: Maybe<Scalars['Int']>;
@@ -10458,6 +10479,34 @@ export const DrugsBrowseDocument = gql`
   })
   export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
     document = DrugsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EventFeedCountDocument = gql`
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
+    mode: $mode
+  ) {
+    unfilteredCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventFeedCountGQL extends Apollo.Query<EventFeedCountQuery, EventFeedCountQueryVariables> {
+    document = EventFeedCountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
