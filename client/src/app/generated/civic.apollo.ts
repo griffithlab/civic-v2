@@ -4489,7 +4489,7 @@ export type AssertionPopoverFragment = (
   & Pick<Assertion, 'id' | 'name' | 'status' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
-    & Pick<AcmgCode, 'code'>
+    & Pick<AcmgCode, 'code' | 'description'>
   )>, nccnGuideline?: Maybe<(
     { __typename: 'NccnGuideline' }
     & Pick<NccnGuideline, 'id' | 'name'>
@@ -8136,6 +8136,7 @@ export const AssertionPopoverFragmentDoc = gql`
   ampLevel
   acmgCodes {
     code
+    description
   }
   nccnGuideline {
     id
