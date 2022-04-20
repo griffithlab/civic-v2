@@ -106,6 +106,11 @@
           Source Suggestion
         </a>
       </li>
+      <li nz-menu-item *ngIf="viewer.isEditor">
+        <a (click)="this.addVariantModalVisible = true">
+          Variant
+        </a>
+      </li>
       <li nz-menu-item>
         <a routerLink="/variant-groups/add/submit">
           Variant Group
@@ -123,5 +128,16 @@
   <ng-template #coiModalTitle><span>Update your Conflict of Interest Statement</span></ng-template>
   <ng-template #coiModalContent>
     <cvc-user-coi-form (coiUpdatedEvent)="this.coiUpdated()"></cvc-user-coi-form>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="this.addVariantModalVisible"
+  [nzContent]="variantModalContent"
+  [nzTitle]="variantModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="this.addVariantModalVisible = false" >
+  <ng-template #variantModalTitle><span>Add New Variant</span></ng-template>
+  <ng-template #variantModalContent>
+    <cvc-variant-submit-form></cvc-variant-submit-form>
   </ng-template>
 </nz-modal>
