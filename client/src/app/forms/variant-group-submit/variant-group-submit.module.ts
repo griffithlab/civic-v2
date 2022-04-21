@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcSourceInputTypeModule } from '../config/types/source-input/source-input.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
-import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 
 @NgModule({
@@ -46,7 +46,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcFormContainerWrapperModule,
     CvcSourceInputTypeModule,
     CvcVariantInputTypeModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],

@@ -18,6 +18,7 @@ import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cv
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcAssertionPopoverComponent],
@@ -31,6 +32,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
     NzGridModule,
     NzSpaceModule,
     NzTagModule,
+    NzToolTipModule,
     CvcGeneTagModule,
     CvcDiseaseTagModule,
     CvcVariantTagModule,

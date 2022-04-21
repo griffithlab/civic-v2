@@ -57,9 +57,7 @@
 
           <nz-descriptions-item nzTitle="Aliases">
             <ng-container *ngIf="variant.variantAliases.length > 0; else noAliases">
-              <ng-container *ngFor="let alias of variant.variantAliases; last as isLast">
-                {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
-              </ng-container>
+              <nz-tag *ngFor="let alias of variant.variantAliases">{{ alias }}</nz-tag>
             </ng-container>
             <ng-template #noAliases>
               <span nz-typography
@@ -100,9 +98,7 @@
 
           <nz-descriptions-item [nzTitle]="variant.hgvsDescriptions.length > 1 ? 'HGVS Descriptions' : 'HGVS Description'">
             <ng-container *ngIf="variant.hgvsDescriptions.length > 0; else noDescriptions">
-              <ng-container *ngFor="let desc of variant.hgvsDescriptions; last as isLast">
-                {{ desc }}<span *ngIf="!isLast">,&nbsp;</span>
-              </ng-container>
+              <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{ desc }}</nz-tag>
             </ng-container>
             <ng-template #noDescriptions>
               <span nz-typography

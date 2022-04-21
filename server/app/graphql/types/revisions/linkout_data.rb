@@ -85,12 +85,25 @@ module Types::Revisions
           entity_type: obj.class.to_s,
           display_name: obj.display_name,
           display_type: obj.respond_to?(:display_type) ? obj.display_type : nil,
-          link: obj.respond_to?(:link) ? obj.link : ""
+          link: obj.respond_to?(:link) ? obj.link : "",
+          deleted: false
         }
       end
 
       if values.size != set.size
-        raise StandardError.new("Proposed #{field_class.to_s} with ids: #{set.to_a.join(', ')} found only: #{values.map { |x| x[:id] }.join(', ')}")
+        found_ids = values.map { |v| v[:id] }
+        set.each do |id|
+          if !found_ids.include?(id)
+            values << {
+              id: id,
+              entity_type: field_class.to_s,
+              display_name: nil,
+              display_type: nil,
+              link: nil,
+              deleted: true
+            }
+          end
+        end
       end
 
       return values

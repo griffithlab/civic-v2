@@ -17,6 +17,7 @@ import { SanitizeHtmlPipe } from './sanitize-html-pipe';
 import { PluckPipe } from './pluck-pipe';
 import { TruncatePipe } from './truncate-pipe';
 import { EvidenceLevelDisplayPipe } from './evidence-level-display.pipe';
+import { CamelCaseToWordPipe } from './camel-case-to-words-pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { EvidenceLevelDisplayPipe } from './evidence-level-display.pipe';
     HighlightTypeaheadPipe,
     SanitizeHtmlPipe,
     PluckPipe,
-    TruncatePipe
+    TruncatePipe,
+    CamelCaseToWordPipe
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { EvidenceLevelDisplayPipe } from './evidence-level-display.pipe';
     HighlightTypeaheadPipe,
     SanitizeHtmlPipe,
     PluckPipe,
-    TruncatePipe
+    TruncatePipe,
+    CamelCaseToWordPipe
   ],
   providers: [
     SourceTypeDisplayPipe

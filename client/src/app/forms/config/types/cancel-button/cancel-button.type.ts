@@ -9,8 +9,13 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 })
 export class CancelButtonComponent extends FieldType implements OnInit {
   redirectPath: string = '/'
+  callOnClick?: () => void
+
   ngOnInit(): void {
-    if (this.field.templateOptions?.redirectPath) {
+    if (this.field.templateOptions?.onClick) {
+      this.callOnClick = this.field.templateOptions?.onClick
+    }
+    else if (this.field.templateOptions?.redirectPath) {
       this.redirectPath = this.field.templateOptions?.redirectPath
     }
   }

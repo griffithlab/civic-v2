@@ -3040,11 +3040,12 @@ input ModeratedInput {
 }
 
 type ModeratedObjectField {
-  displayName: String!
+  deleted: Boolean!
+  displayName: String
   displayType: String
   entityType: String!
   id: Int!
-  link: String!
+  link: String
 }
 
 type Mutation {

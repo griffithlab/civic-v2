@@ -52,7 +52,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
         // update form model with selected source's id & citation
         const { source } = this.to.optionList.find((opt: any) => opt.value === +e);
         if (source) {
-          this.form.patchValue({ citation: source.citation, id: source.id });
+          this.form.patchValue({ citation: source.citation ? source.citation : source.name, id: source.id });
         } else {
           console.error('Could not find selected citation in list?');
         }

@@ -1849,11 +1849,12 @@ export type ModeratedInput = {
 
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
-  displayName: Scalars['String'];
+  deleted: Scalars['Boolean'];
+  displayName?: Maybe<Scalars['String']>;
   displayType?: Maybe<Scalars['String']>;
   entityType: Scalars['String'];
   id: Scalars['Int'];
-  link: Scalars['String'];
+  link?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -4488,7 +4489,7 @@ export type AssertionPopoverFragment = (
   & Pick<Assertion, 'id' | 'name' | 'status' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
-    & Pick<AcmgCode, 'code'>
+    & Pick<AcmgCode, 'code' | 'description'>
   )>, nccnGuideline?: Maybe<(
     { __typename: 'NccnGuideline' }
     & Pick<NccnGuideline, 'id' | 'name'>
@@ -4858,6 +4859,27 @@ export type DrugsBrowseQuery = (
 export type DrugBrowseTableRowFieldsFragment = (
   { __typename: 'BrowseDrug' }
   & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount' | 'link'>
+);
+
+export type EventFeedCountQueryVariables = Exact<{
+  subject?: Maybe<SubscribableQueryInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  eventType?: Maybe<EventAction>;
+  mode?: Maybe<EventFeedMode>;
+}>;
+
+
+export type EventFeedCountQuery = (
+  { __typename: 'Query' }
+  & { events: (
+    { __typename: 'EventConnection' }
+    & Pick<EventConnection, 'unfilteredCount'>
+  ) }
 );
 
 export type EventFeedQueryVariables = Exact<{
@@ -5587,19 +5609,19 @@ export type RevisionFragment = (
       { __typename: 'ObjectFieldDiff' }
       & { currentObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, addedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, removedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, keptObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, suggestedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )> }
     ) | (
       { __typename: 'ScalarFieldDiff' }
@@ -6670,7 +6692,7 @@ export type AddVariantMutation = (
 
 export type AddVariantFieldsFragment = (
   { __typename: 'AddVariantPayload' }
-  & Pick<AddVariantPayload, 'new'>
+  & Pick<AddVariantPayload, 'clientMutationId' | 'new'>
   & { variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
@@ -8145,6 +8167,7 @@ export const AssertionPopoverFragmentDoc = gql`
   ampLevel
   acmgCodes {
     code
+    description
   }
   nccnGuideline {
     id
@@ -8791,6 +8814,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         addedObjects {
           id
@@ -8798,6 +8822,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         removedObjects {
           id
@@ -8805,6 +8830,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         keptObjects {
           id
@@ -8812,6 +8838,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         suggestedObjects {
           id
@@ -8819,6 +8846,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
       }
       ... on ScalarFieldDiff {
@@ -9259,6 +9287,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     `;
 export const AddVariantFieldsFragmentDoc = gql`
     fragment AddVariantFields on AddVariantPayload {
+  clientMutationId
   new
   variant {
     id
@@ -10510,6 +10539,34 @@ export const DrugsBrowseDocument = gql`
   })
   export class DrugsBrowseGQL extends Apollo.Query<DrugsBrowseQuery, DrugsBrowseQueryVariables> {
     document = DrugsBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EventFeedCountDocument = gql`
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
+    mode: $mode
+  ) {
+    unfilteredCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventFeedCountGQL extends Apollo.Query<EventFeedCountQuery, EventFeedCountQueryVariables> {
+    document = EventFeedCountDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

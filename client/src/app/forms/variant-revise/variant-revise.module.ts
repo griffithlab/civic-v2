@@ -20,8 +20,6 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcSubmitButtonTypeModule } from '@app/forms/config/types/submit-button/submit-button.module';
-import { CvcVariantCoordinatesCardTypeModule } from '@app/forms/config/types/variant-coordinates-card/variant-coordinates-card.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
@@ -30,6 +28,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.module';
 import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
+import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
 
 @NgModule({
   declarations: [VariantReviseForm],
@@ -50,7 +50,7 @@ import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-fi
     NzButtonModule,
     NzSwitchModule,
     NzSpinModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormContainerWrapperModule,
     CvcFormErrorsAlertModule,
