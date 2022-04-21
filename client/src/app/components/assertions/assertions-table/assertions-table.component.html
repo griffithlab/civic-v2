@@ -102,32 +102,26 @@
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="aidInput"
-            placeholderText="Search AID"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            placeholderText="Search Gene"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
-            placeholderText="Search Variant"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
-            placeholderText="Search Disease"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
-            placeholderText="Search Drugs"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzRight>
           <cvc-clearable-input-filter [(inputModel)]="summaryInput"
-            placeholderText="Search"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzRight
@@ -271,7 +265,8 @@
               </cvc-tag-list>
             </div>
             <ng-template #drugsElse>
-              <i>N/A</i>
+              <i nz-typography
+                nzType="secondary">N/A</i>
             </ng-template>
           </td>
           <td nzAlign="center"
@@ -322,7 +317,8 @@
               {{ aid.ampLevel | formatAmp: 'compact' }}
             </nz-tag>
           </td>
-          <td nzRight nzAlign="right">
+          <td nzRight
+            nzAlign="right">
             {{aid.evidenceItemsCount}}
           </td>
         </tr>
