@@ -37,7 +37,7 @@
         </th>
         <th nzWidth="75px"
           nzRight
-          class="align-right"
+          nzAlign="right"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           [nzColumnKey]="sortColumns.EvidenceScore"
@@ -48,7 +48,7 @@
         </th>
         <th nzWidth="75px"
           nzRight
-          class="align-right"
+          nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
@@ -59,7 +59,7 @@
         </th>
         <th nzWidth="75px"
           nzRight
-          class="align-right"
+          nzAlign="right"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
@@ -125,12 +125,9 @@
               [maxDisplayCount]="1"
               [matchingText]="drugNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight
-            class="align-right">{{variant.evidenceScore}}</td>
-          <td nzRight
-            class="align-right">{{variant.evidenceItemCount}}</td>
-          <td nzRight
-            class="align-right">{{variant.assertionCount}}</td>
+          <td nzRight nzAlign="right">{{variant.evidenceScore}}</td>
+          <td nzRight nzAlign="right">{{variant.evidenceItemCount}}</td>
+          <td nzRight nzAlign="right">{{variant.assertionCount}}</td>
         </tr>
       </ng-template>
     </tbody>

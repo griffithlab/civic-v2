@@ -1,6 +1,7 @@
 <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
 
 <nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
   nzSize="small"
   cvcAutoHeightCard="35">
   <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
@@ -45,10 +46,10 @@
             nzTooltipTitle="Variant Name">
             Variant
           </th>
-          <th nzWidth="200px"
+          <th nzWidth="250px"
             [nzColumnKey]="sortColumns.DiseaseName"
             [nzSortFn]="true">
-            Diseases
+            Disease
           </th>
           <th nzWidth="400px"
             [nzColumnKey]="sortColumns.DrugName"
@@ -455,14 +456,21 @@
     nzType="secondary">
     ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
   </span>
-  <nz-tag nzColor="warning" *ngIf="noMoreRows$ | ngrxPush">
-    <i nz-icon nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
-  </nz-tag>
+
+
   <ng-template #noData>
     <span nz-typography
       nzType="secondary">
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

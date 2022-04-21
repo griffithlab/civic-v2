@@ -57,7 +57,8 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
-  @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>;
+  @ViewChild('virtualTable', { static: false })
+  nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>;
   viewport?: CdkVirtualScrollViewport;
 
   private initialQueryArgs?: QueryBrowseVariantsArgs;

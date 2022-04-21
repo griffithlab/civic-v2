@@ -88,7 +88,8 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   @Output() selectedEids = new EventEmitter<FormEvidence[]>()
   selectedEvidenceIds = new Map<number, FormEvidence>();
 
-  @ViewChild('virtualTable', { static: false }) nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
+  @ViewChild('virtualTable', { static: false })
+  nzTableComponent?: NzTableComponent<EvidenceGridFieldsFragment>;
   viewport?: CdkVirtualScrollViewport;
 
   @Output() initialTotalCount = new EventEmitter<number>()
@@ -105,7 +106,6 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   totalCount?: number;
   fetchMorePageSize = 25;
   isLoadingDelay = 100;
-  visibleCount$?: Observable<number>;
   visibleCount: number = this.initialPageSize;
 
   noMoreRows$: BehaviorSubject<boolean>;
@@ -306,6 +306,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     }
   } // ngAfterViewInit
 
+  // filtering, sorting callbacks
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
