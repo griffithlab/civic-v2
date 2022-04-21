@@ -57,9 +57,7 @@
 
           <nz-descriptions-item nzTitle="Aliases">
             <ng-container *ngIf="variant.variantAliases.length > 0; else noAliases">
-              <ng-container *ngFor="let alias of variant.variantAliases; last as isLast">
-                {{ alias }}<span *ngIf="!isLast">,&nbsp;</span>
-              </ng-container>
+              <nz-tag *ngFor="let alias of variant.variantAliases">{{ alias }}</nz-tag>
             </ng-container>
             <ng-template #noAliases>
               <span nz-typography
@@ -100,9 +98,7 @@
 
           <nz-descriptions-item [nzTitle]="variant.hgvsDescriptions.length > 1 ? 'HGVS Descriptions' : 'HGVS Description'">
             <ng-container *ngIf="variant.hgvsDescriptions.length > 0; else noDescriptions">
-              <ng-container *ngFor="let desc of variant.hgvsDescriptions; last as isLast">
-                {{ desc }}<span *ngIf="!isLast">,&nbsp;</span>
-              </ng-container>
+              <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{ desc }}</nz-tag>
             </ng-container>
             <ng-template #noDescriptions>
               <span nz-typography
@@ -194,10 +190,10 @@
 
             </nz-descriptions>
 
-            <!-- 3' coordinates -->
-            <ng-container *ngIf="variant.threePrimeCoordinates?.chromosome">
-              <nz-descriptions *ngIf="variant.threePrimeCoordinates as coords"
-                nzTitle="3' Coordinates"
+            <!-- primary / 5' coordinates -->
+            <ng-container *ngIf="variant.primaryCoordinates?.chromosome">
+              <nz-descriptions *ngIf="variant.primaryCoordinates as coords"
+                nzTitle="{{variant.secondaryCoordinates ? '5\' Coordinates' : 'Coordinates'}}"
                 nzLayout="horizontal"
                 nzBordered="true"
                 nzSize="small"
@@ -221,22 +217,24 @@
                   {{ coords.stop }}
                 </nz-descriptions-item>
 
-                <!-- reference bases -->
-                <nz-descriptions-item nzTitle="Ref. Bases"
-                  nzColumn="1">
-                  {{ coords.referenceBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
+                <ng-container *ngIf="!variant.secondaryCoordinates">
+                  <!-- reference bases -->
+                  <nz-descriptions-item nzTitle="Ref. Bases"
+                    nzColumn="1">
+                    {{ variant.referenceBases | ifEmpty: '--'}}
+                  </nz-descriptions-item>
 
-                <!-- variant bases-->
-                <nz-descriptions-item nzTitle="Var. Bases"
-                  nzColumn="1">
-                  {{ coords.variantBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
+                  <!-- variant bases-->
+                  <nz-descriptions-item nzTitle="Var. Bases"
+                    nzColumn="1">
+                    {{ variant.variantBases | ifEmpty: '--'}}
+                  </nz-descriptions-item>
+                </ng-container>
 
                 <!-- representative transcript -->
                 <nz-descriptions-item nzTitle="Transcript"
                   nzColumn="5">
-                  <cvc-link-tag tooltip="View on Esembl"
+                  <cvc-link-tag tooltip="View on Ensembl"
                     [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
                     {{ coords.representativeTranscript }}
                   </cvc-link-tag>
@@ -245,11 +243,10 @@
               </nz-descriptions>
             </ng-container>
             
-            <!-- 5' coordinates -->
-            <ng-container *ngIf="variant.fivePrimeCoordinates?.chromosome">
-              <!-- <ng-container *ngIf="variant.fivePrimeCoordinates?.chromosome; else noCoordinates"> -->
-              <nz-descriptions *ngIf="variant.fivePrimeCoordinates as coords"
-                nzTitle="5' Coordinates"
+            <!-- 3' (secondary) coordinates for fusions-->
+            <ng-container *ngIf="variant.secondaryCoordinates">
+              <nz-descriptions *ngIf="variant.secondaryCoordinates as coords"
+                nzTitle="3' Coordinates"
                 nzLayout="horizontal"
                 nzBordered="true"
                 nzSize="small"
@@ -273,22 +270,10 @@
                   {{ coords.stop }}
                 </nz-descriptions-item>
 
-                <!-- reference bases -->
-                <nz-descriptions-item nzTitle="Ref. Bases"
-                  nzColumn="1">
-                  {{ coords.referenceBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
-
-                <!-- variant bases-->
-                <nz-descriptions-item nzTitle="Var. Bases"
-                  nzColumn="1">
-                  {{ coords.variantBases | ifEmpty: '--'}}
-                </nz-descriptions-item>
-
                 <!-- representative transcript -->
                 <nz-descriptions-item nzTitle="Transcript"
                   nzColumn="5">
-                  <cvc-link-tag tooltip="View on Esembl"
+                  <cvc-link-tag tooltip="View on Ensembl"
                     [href]="'http://www.ensembl.org/Homo_sapiens/transview?transcript=' + coords.representativeTranscript">
                     {{ coords.representativeTranscript }}
                   </cvc-link-tag>
@@ -312,7 +297,7 @@
           </ng-container>
           <ng-template #noVariantInfo>
             <nz-card nzTitle="MyVariantInfo" >
-              <cvc-empty-revisable notification="Not available, provide HGVS coordinates"> </cvc-empty-revisable>
+              <cvc-empty-revisable notification="Not available, provide Representative Variant Coordinates"> </cvc-empty-revisable>
             </nz-card>
           </ng-template>
         </span>

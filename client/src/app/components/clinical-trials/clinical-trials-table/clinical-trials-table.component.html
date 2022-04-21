@@ -22,6 +22,7 @@
           nzRight
           [nzColumnKey]="sortColumns.SourceCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Source Count">
           <i nz-icon nzType="civic:source"></i>
@@ -30,6 +31,7 @@
           nzRight
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon nzType="civic:evidence"></i>

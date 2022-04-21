@@ -21,6 +21,7 @@
         <th nzWidth="10%"
           nzRight
           [nzColumnKey]="sortColumns.EvidenceItemCount"
+          [nzSortDirections]="['descend', 'ascend', null]"
           [nzSortFn]="true"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
@@ -29,6 +30,7 @@
         <th nzWidth="10%"
           nzRight
           [nzColumnKey]="sortColumns.AssertionCount"
+          [nzSortDirections]="['descend', 'ascend', null]"
           [nzSortFn]="true"
           nz-tooltip
           nzTooltipTitle="Assertion Count">

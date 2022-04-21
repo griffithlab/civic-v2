@@ -963,11 +963,9 @@ export type Contribution = {
 export type Coordinate = {
   __typename: 'Coordinate';
   chromosome?: Maybe<Scalars['String']>;
-  referenceBases?: Maybe<Scalars['String']>;
   representativeTranscript?: Maybe<Scalars['String']>;
   start?: Maybe<Scalars['Int']>;
   stop?: Maybe<Scalars['Int']>;
-  variantBases?: Maybe<Scalars['String']>;
 };
 
 export type CoordinateInput = {
@@ -1851,11 +1849,12 @@ export type ModeratedInput = {
 
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
-  displayName: Scalars['String'];
+  deleted: Scalars['Boolean'];
+  displayName?: Maybe<Scalars['String']>;
   displayType?: Maybe<Scalars['String']>;
   entityType: Scalars['String'];
   id: Scalars['Int'];
-  link: Scalars['String'];
+  link?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -1874,7 +1873,7 @@ export type Mutation = {
   /** Add a new drug to the database. */
   addDrug?: Maybe<AddDrugPayload>;
   /**
-   * Add a stub record for an external source that is not yet in CiVIC.
+   * Add a stub record for an external source that is not yet in CIViC.
    * This is for adding a new Source inline while performing other curation activities
    * such as adding new evidence items and is distinct from suggesting a source for curation.
    */
@@ -2520,6 +2519,8 @@ export type Query = {
   source?: Maybe<Source>;
   /** Retrieve popover fields for a specific source. */
   sourcePopover?: Maybe<SourcePopover>;
+  /** Given the parameters in a source suggestion, fetch the values to populate the add evidence form */
+  sourceSuggestionValues: SourceSuggestionValues;
   sourceSuggestions: SourceSuggestionConnection;
   /** Provide suggestions for sources based on a partial citation ID */
   sourceTypeahead: Array<Source>;
@@ -2941,6 +2942,14 @@ export type QuerySourceArgs = {
 
 export type QuerySourcePopoverArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QuerySourceSuggestionValuesArgs = {
+  diseaseId?: Maybe<Scalars['Int']>;
+  geneId?: Maybe<Scalars['Int']>;
+  sourceId?: Maybe<Scalars['Int']>;
+  variantId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -3436,6 +3445,14 @@ export enum SourceSuggestionStatus {
   New = 'NEW',
   Rejected = 'REJECTED'
 }
+
+export type SourceSuggestionValues = {
+  __typename: 'SourceSuggestionValues';
+  disease?: Maybe<Disease>;
+  gene?: Maybe<Gene>;
+  source?: Maybe<Source>;
+  variant?: Maybe<Variant>;
+};
 
 export type SourceSuggestionsSort = {
   /** Available columns for sorting */
@@ -4096,7 +4113,6 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   events: EventConnection;
   evidenceItems: EvidenceItemConnection;
   evidenceScore: Scalars['Float'];
-  fivePrimeCoordinates?: Maybe<Coordinate>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -4109,12 +4125,15 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   link: Scalars['String'];
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
+  primaryCoordinates?: Maybe<Coordinate>;
+  referenceBases?: Maybe<Scalars['String']>;
   referenceBuild?: Maybe<ReferenceBuild>;
   /** List and filter revisions. */
   revisions: RevisionConnection;
+  secondaryCoordinates?: Maybe<Coordinate>;
   sources: Array<Source>;
-  threePrimeCoordinates?: Maybe<Coordinate>;
   variantAliases: Array<Scalars['String']>;
+  variantBases?: Maybe<Scalars['String']>;
   variantTypes: Array<VariantType>;
 };
 
@@ -4470,7 +4489,7 @@ export type AssertionPopoverFragment = (
   & Pick<Assertion, 'id' | 'name' | 'status' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
-    & Pick<AcmgCode, 'code'>
+    & Pick<AcmgCode, 'code' | 'description'>
   )>, nccnGuideline?: Maybe<(
     { __typename: 'NccnGuideline' }
     & Pick<NccnGuideline, 'id' | 'name'>
@@ -4842,6 +4861,27 @@ export type DrugBrowseTableRowFieldsFragment = (
   & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount' | 'link'>
 );
 
+export type EventFeedCountQueryVariables = Exact<{
+  subject?: Maybe<SubscribableQueryInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  eventType?: Maybe<EventAction>;
+  mode?: Maybe<EventFeedMode>;
+}>;
+
+
+export type EventFeedCountQuery = (
+  { __typename: 'Query' }
+  & { events: (
+    { __typename: 'EventConnection' }
+    & Pick<EventConnection, 'unfilteredCount'>
+  ) }
+);
+
 export type EventFeedQueryVariables = Exact<{
   subject?: Maybe<SubscribableQueryInput>;
   first?: Maybe<Scalars['Int']>;
@@ -5167,6 +5207,46 @@ export type FlagFragment = (
   )> }
 );
 
+export type FlagPopoverQueryVariables = Exact<{
+  flagId: Scalars['Int'];
+}>;
+
+
+export type FlagPopoverQuery = (
+  { __typename: 'Query' }
+  & { flag?: Maybe<(
+    { __typename: 'Flag' }
+    & FlagPopoverFragment
+  )> }
+);
+
+export type FlagPopoverFragment = (
+  { __typename: 'Flag' }
+  & Pick<Flag, 'id' | 'name' | 'state' | 'createdAt'>
+  & { flaggingUser: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  ), flaggable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), openComment: (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  ) }
+);
+
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -5421,6 +5501,58 @@ export type ValidationErrorFragment = (
   & Pick<FieldValidationError, 'fieldName' | 'error'>
 );
 
+export type RevisionPopoverQueryVariables = Exact<{
+  revisionId: Scalars['Int'];
+}>;
+
+
+export type RevisionPopoverQuery = (
+  { __typename: 'Query' }
+  & { revision?: Maybe<(
+    { __typename: 'Revision' }
+    & RevisionPopoverFragment
+  )> }
+);
+
+export type RevisionPopoverFragment = (
+  { __typename: 'Revision' }
+  & Pick<Revision, 'id' | 'name' | 'link' | 'status' | 'createdAt'>
+  & { revisor?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  )>, subject: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), linkoutData: (
+    { __typename: 'LinkoutData' }
+    & Pick<LinkoutData, 'name'>
+  ) }
+);
+
 export type RevisionsQueryVariables = Exact<{
   subject?: Maybe<ModeratedInput>;
   first?: Maybe<Scalars['Int']>;
@@ -5472,19 +5604,19 @@ export type RevisionFragment = (
       { __typename: 'ObjectFieldDiff' }
       & { currentObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, addedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, removedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, keptObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, suggestedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )> }
     ) | (
       { __typename: 'ScalarFieldDiff' }
@@ -6550,7 +6682,7 @@ export type AddVariantMutation = (
 
 export type AddVariantFieldsFragment = (
   { __typename: 'AddVariantPayload' }
-  & Pick<AddVariantPayload, 'new'>
+  & Pick<AddVariantPayload, 'clientMutationId' | 'new'>
   & { variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
@@ -6641,6 +6773,34 @@ export type SuggestEvidenceItemRevisionMutation = (
       & Pick<EvidenceItem, 'id'>
     ) }
   )> }
+);
+
+export type EvidenceFieldsFromSourceSuggestionQueryVariables = Exact<{
+  sourceId?: Maybe<Scalars['Int']>;
+  geneId?: Maybe<Scalars['Int']>;
+  variantId?: Maybe<Scalars['Int']>;
+  diseaseId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type EvidenceFieldsFromSourceSuggestionQuery = (
+  { __typename: 'Query' }
+  & { sourceSuggestionValues: (
+    { __typename: 'SourceSuggestionValues' }
+    & { gene?: Maybe<(
+      { __typename: 'Gene' }
+      & Pick<Gene, 'id' | 'name' | 'link'>
+    )>, variant?: Maybe<(
+      { __typename: 'Variant' }
+      & Pick<Variant, 'id' | 'name' | 'link'>
+    )>, disease?: Maybe<(
+      { __typename: 'Disease' }
+      & Pick<Disease, 'id' | 'name' | 'link'>
+    )>, source?: Maybe<(
+      { __typename: 'Source' }
+      & Pick<Source, 'id' | 'sourceType' | 'citationId' | 'citation' | 'link'>
+    )> }
+  ) }
 );
 
 export type EvidenceSubmittableFieldsQueryVariables = Exact<{
@@ -6961,7 +7121,7 @@ export type VariantRevisableFieldsQuery = (
 
 export type RevisableVariantFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'clinvarIds' | 'ensemblVersion' | 'hgvsDescriptions' | 'referenceBuild'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'clinvarIds' | 'ensemblVersion' | 'hgvsDescriptions' | 'referenceBuild' | 'referenceBases' | 'variantBases'>
   & { sources: Array<(
     { __typename: 'Source' }
     & Pick<Source, 'id' | 'sourceType' | 'citation' | 'citationId'>
@@ -6971,10 +7131,10 @@ export type RevisableVariantFieldsFragment = (
   ), variantTypes: Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'name' | 'soid'>
-  )>, fivePrimeCoordinates?: Maybe<(
+  )>, primaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
-  )>, threePrimeCoordinates?: Maybe<(
+  )>, secondaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
     & CoordinateFieldsFragment
   )> }
@@ -6982,7 +7142,7 @@ export type RevisableVariantFieldsFragment = (
 
 export type CoordinateFieldsFragment = (
   { __typename: 'Coordinate' }
-  & Pick<Coordinate, 'chromosome' | 'referenceBases' | 'representativeTranscript' | 'start' | 'stop' | 'variantBases'>
+  & Pick<Coordinate, 'chromosome' | 'representativeTranscript' | 'start' | 'stop'>
 );
 
 export type SuggestVariantRevisionMutationVariables = Exact<{
@@ -7936,7 +8096,7 @@ export type VariantSummaryQuery = (
 
 export type VariantSummaryFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore' | 'referenceBuild' | 'ensemblVersion'>
+  & Pick<Variant, 'id' | 'name' | 'description' | 'variantAliases' | 'alleleRegistryId' | 'hgvsDescriptions' | 'clinvarIds' | 'evidenceScore' | 'referenceBuild' | 'ensemblVersion' | 'referenceBases' | 'variantBases'>
   & { gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name'>
@@ -7946,12 +8106,12 @@ export type VariantSummaryFieldsFragment = (
   )>, variantTypes: Array<(
     { __typename: 'VariantType' }
     & Pick<VariantType, 'id' | 'link' | 'soid' | 'name'>
-  )>, fivePrimeCoordinates?: Maybe<(
+  )>, primaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
-    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
-  )>, threePrimeCoordinates?: Maybe<(
+    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop'>
+  )>, secondaryCoordinates?: Maybe<(
     { __typename: 'Coordinate' }
-    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop' | 'referenceBases' | 'variantBases'>
+    & Pick<Coordinate, 'representativeTranscript' | 'chromosome' | 'start' | 'stop'>
   )>, flags: (
     { __typename: 'FlagConnection' }
     & Pick<FlagConnection, 'totalCount'>
@@ -7997,6 +8157,7 @@ export const AssertionPopoverFragmentDoc = gql`
   ampLevel
   acmgCodes {
     code
+    description
   }
   nccnGuideline {
     id
@@ -8477,6 +8638,27 @@ export const FlagListFragmentDoc = gql`
   }
 }
     ${FlagFragmentDoc}`;
+export const FlagPopoverFragmentDoc = gql`
+    fragment flagPopover on Flag {
+  id
+  name
+  state
+  flaggingUser {
+    id
+    displayName
+    role
+  }
+  flaggable {
+    id
+    link
+    name
+  }
+  createdAt
+  openComment {
+    comment
+  }
+}
+    `;
 export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
@@ -8559,6 +8741,28 @@ export const ValidationErrorFragmentDoc = gql`
   error
 }
     `;
+export const RevisionPopoverFragmentDoc = gql`
+    fragment revisionPopover on Revision {
+  id
+  name
+  link
+  status
+  revisor {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    link
+    name
+  }
+  createdAt
+  linkoutData {
+    name
+  }
+}
+    `;
 export const RevisionFragmentDoc = gql`
     fragment revision on Revision {
   id
@@ -8578,6 +8782,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         addedObjects {
           id
@@ -8585,6 +8790,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         removedObjects {
           id
@@ -8592,6 +8798,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         keptObjects {
           id
@@ -8599,6 +8806,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         suggestedObjects {
           id
@@ -8606,6 +8814,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
       }
       ... on ScalarFieldDiff {
@@ -9020,6 +9229,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     `;
 export const AddVariantFieldsFragmentDoc = gql`
     fragment AddVariantFields on AddVariantPayload {
+  clientMutationId
   new
   variant {
     id
@@ -9146,11 +9356,9 @@ export const SubmittableVariantGroupFieldsFragmentDoc = gql`
 export const CoordinateFieldsFragmentDoc = gql`
     fragment CoordinateFields on Coordinate {
   chromosome
-  referenceBases
   representativeTranscript
   start
   stop
-  variantBases
 }
     `;
 export const RevisableVariantFieldsFragmentDoc = gql`
@@ -9179,12 +9387,14 @@ export const RevisableVariantFieldsFragmentDoc = gql`
     name
     soid
   }
-  fivePrimeCoordinates {
+  primaryCoordinates {
     ...CoordinateFields
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     ...CoordinateFields
   }
+  referenceBases
+  variantBases
 }
     ${CoordinateFieldsFragmentDoc}`;
 export const AssertionDetailFieldsFragmentDoc = gql`
@@ -9878,22 +10088,20 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   evidenceScore
   referenceBuild
   ensemblVersion
-  fivePrimeCoordinates {
+  primaryCoordinates {
     representativeTranscript
     chromosome
     start
     stop
-    referenceBases
-    variantBases
   }
-  threePrimeCoordinates {
+  secondaryCoordinates {
     representativeTranscript
     chromosome
     start
     stop
-    referenceBases
-    variantBases
   }
+  referenceBases
+  variantBases
   flags(state: OPEN) {
     totalCount
   }
@@ -10278,6 +10486,34 @@ export const DrugsBrowseDocument = gql`
       super(apollo);
     }
   }
+export const EventFeedCountDocument = gql`
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
+    mode: $mode
+  ) {
+    unfilteredCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventFeedCountGQL extends Apollo.Query<EventFeedCountQuery, EventFeedCountQueryVariables> {
+    document = EventFeedCountDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const EventFeedDocument = gql`
     query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $showFilters: Boolean!) {
   events(
@@ -10405,6 +10641,24 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FlagPopoverDocument = gql`
+    query FlagPopover($flagId: Int!) {
+  flag(id: $flagId) {
+    ...flagPopover
+  }
+}
+    ${FlagPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagPopoverGQL extends Apollo.Query<FlagPopoverQuery, FlagPopoverQueryVariables> {
+    document = FlagPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10682,6 +10936,24 @@ export const ValidateRevisionsForAcceptanceDocument = gql`
   })
   export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
     document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RevisionPopoverDocument = gql`
+    query RevisionPopover($revisionId: Int!) {
+  revision(id: $revisionId) {
+    ...revisionPopover
+  }
+}
+    ${RevisionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RevisionPopoverGQL extends Apollo.Query<RevisionPopoverQuery, RevisionPopoverQueryVariables> {
+    document = RevisionPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -11883,6 +12155,50 @@ export const SuggestEvidenceItemRevisionDocument = gql`
   })
   export class SuggestEvidenceItemRevisionGQL extends Apollo.Mutation<SuggestEvidenceItemRevisionMutation, SuggestEvidenceItemRevisionMutationVariables> {
     document = SuggestEvidenceItemRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceFieldsFromSourceSuggestionDocument = gql`
+    query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $geneId: Int, $variantId: Int, $diseaseId: Int) {
+  sourceSuggestionValues(
+    geneId: $geneId
+    variantId: $variantId
+    diseaseId: $diseaseId
+    sourceId: $sourceId
+  ) {
+    gene {
+      id
+      name
+      link
+    }
+    variant {
+      id
+      name
+      link
+    }
+    disease {
+      id
+      name
+      link
+    }
+    source {
+      id
+      sourceType
+      citationId
+      citation
+      link
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceFieldsFromSourceSuggestionGQL extends Apollo.Query<EvidenceFieldsFromSourceSuggestionQuery, EvidenceFieldsFromSourceSuggestionQueryVariables> {
+    document = EvidenceFieldsFromSourceSuggestionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

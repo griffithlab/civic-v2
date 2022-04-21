@@ -20,7 +20,7 @@
           <nz-descriptions-item *ngIf="drug.drugAliases.length > 0"
             nzTitle="Aliases"
             nzSpan="2">
-            {{ drug.drugAliases.join(', ') }}
+            <nz-tag nz-tooltip [nzTooltipTitle]="alias" *ngFor="let alias of drug.drugAliases">{{ alias | truncate }}</nz-tag> 
           </nz-descriptions-item>
         </nz-descriptions>
         <router-outlet></router-outlet>

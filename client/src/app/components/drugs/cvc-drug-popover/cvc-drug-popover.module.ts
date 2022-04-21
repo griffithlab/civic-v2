@@ -9,6 +9,8 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [CvcDrugPopoverComponent],
@@ -20,6 +22,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzDescriptionsModule,
     NzIconModule,
     NzTypographyModule,
+    NzTagModule,
+    NzToolTipModule,
     CvcLinkTagModule,
     CvcPipesModule
   ],

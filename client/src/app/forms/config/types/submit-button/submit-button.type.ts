@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { Maybe, Organization } from '@app/generated/civic.apollo';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
 
 @Component({
@@ -10,17 +9,6 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SubmitButtonComponent extends FieldType {
-  _selectedOrg: Maybe<Organization> = undefined;
-
-  get selectedOrg(): Maybe<Organization> {
-    return this._selectedOrg;
-  }
-
-  set selectedOrg(org: Maybe<Organization>) {
-    this._selectedOrg = org;
-    this.formControl.setValue(org);
-  }
-
   defaultOptions = {
     templateOptions: {
       submitLabel: 'Submit',
@@ -34,6 +22,6 @@ export class SubmitButtonComponent extends FieldType {
 }
 
 export const SubmitButtonTypeOption: TypeOption = {
-  name: 'org-submit-button',
+  name: 'submit-button',
   component: SubmitButtonComponent
 }

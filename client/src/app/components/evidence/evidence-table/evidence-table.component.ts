@@ -49,6 +49,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() initialUserFilters: Maybe<EvidenceTableUserFilters>
 
+  @Output() initialTotalCount = new EventEmitter<number>()
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
@@ -150,7 +151,10 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       pluck('data', 'evidenceItems', 'totalCount')
     )
 
-    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.filteredCount$.pipe(take(1)).subscribe(value => {
+      this.totalCount = value;
+      this.initialTotalCount.emit(value);
+    });
 
     this.filteredCount$.subscribe(
       value => {

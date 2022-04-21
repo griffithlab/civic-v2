@@ -18,7 +18,7 @@ import { CvcCommentTextareaTypeModule } from '../config/types/comment-textarea/c
 import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
 import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
-import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { SourceSubmitForm } from './source-submit.form';
@@ -42,7 +42,7 @@ import { SourceSubmitForm } from './source-submit.form';
     CvcDiseaseArrayTypeModule,
     CvcSourceArrayTypeModule,
     CvcCommentTextareaTypeModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcCancelButtonModule,
     NzTypographyModule,
     NzCardModule,

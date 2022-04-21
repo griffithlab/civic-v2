@@ -48,9 +48,7 @@
 
         <nz-descriptions-item *ngIf="assertion.assertionType == 'PREDISPOSING' else ampLevel" nzTitle="ACMG Codes" nzSpan="2">
           <ng-container *ngIf="assertion.acmgCodes.length > 0; else noAcmg">
-            <ng-container *ngFor="let code of assertion.acmgCodes; last as isLast">
-              {{ code.code }}<span *ngIf="!isLast">, </span>
-            </ng-container>
+            <nz-tag nz-tooltip [nzTooltipTitle]="code.description" *ngFor="let code of assertion.acmgCodes">{{ code.code }}</nz-tag> 
           </ng-container>
           <ng-template #noAcmg>
             --

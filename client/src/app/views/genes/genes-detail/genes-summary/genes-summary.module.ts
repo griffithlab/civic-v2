@@ -14,6 +14,7 @@ import { CvcVariantsMenuModule } from '@app/components/variants/variants-menu/va
 import { CvcMyGeneInfoModule } from '@app/components/genes/my-gene-info/my-gene-info.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [GenesSummaryPage],
@@ -24,6 +25,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
     NzDescriptionsModule,
     NzTypographyModule,
     NzSpaceModule,
+    NzTagModule,
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcLinkTagModule,

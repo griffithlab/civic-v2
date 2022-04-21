@@ -10,7 +10,7 @@ export class ColorNameForStatusPipe implements PipeTransform {
   transform(status: Maybe<EvidenceStatus>): string {
     switch(status) {
       case(EvidenceStatus.Accepted):
-        return 'default'
+        return 'green'
       case(EvidenceStatus.Rejected):
         return 'red'
       case(EvidenceStatus.Submitted):

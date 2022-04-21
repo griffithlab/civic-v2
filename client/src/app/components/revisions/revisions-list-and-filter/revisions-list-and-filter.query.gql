@@ -70,6 +70,7 @@ fragment revision on Revision {
           displayType
           entityType
           link
+          deleted
         }
         addedObjects {
           id
@@ -77,6 +78,7 @@ fragment revision on Revision {
           displayType
           entityType
           link
+          deleted
         }
         removedObjects {
           id
@@ -84,6 +86,7 @@ fragment revision on Revision {
           displayType
           entityType
           link
+          deleted
         }
         keptObjects {
           id
@@ -91,6 +94,7 @@ fragment revision on Revision {
           displayType
           entityType
           link
+          deleted
         }
         suggestedObjects {
           id
@@ -98,6 +102,7 @@ fragment revision on Revision {
           displayType
           entityType
           link
+          deleted
         }
       }
       ... on ScalarFieldDiff {

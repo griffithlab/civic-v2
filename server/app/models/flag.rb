@@ -8,7 +8,7 @@ class Flag < ActiveRecord::Base
   validates :state, inclusion: ['open', 'resolved']
 
   def name
-    "a flag on #{flaggable.name}"
+    "FID#{self.id}"
   end
 
   def link

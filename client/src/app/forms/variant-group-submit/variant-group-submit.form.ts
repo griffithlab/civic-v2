@@ -142,7 +142,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
     if (input) {
       let state = this.submitVariantGroupMutator.mutate(this.submitVariantGroupGQL, {
         input: input
-      },
+      }, {},
       (data) => {
         this.newId = data.submitVariantGroup.variantGroup.id;
       })

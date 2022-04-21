@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   EventAction,
+  EventFeedCountGQL,
   EventFeedGQL,
   EventFeedMode,
   EventFeedNodeFragment,
@@ -14,8 +15,8 @@ import {
 } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { TagLinkableOrganization } from "@app/components/organizations/organization-tag/organization-tag.component";
 import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.component";
 import { environment } from "environments/environment";
@@ -29,7 +30,7 @@ export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displ
   templateUrl: './event-feed.component.html',
   styleUrls: ['./event-feed.component.less'],
 })
-export class CvcEventFeedComponent implements OnInit {
+export class CvcEventFeedComponent implements OnInit, OnDestroy {
   @Input() subscribable?: SubscribableQueryInput;
   @Input() subscribableName?: string;
   @Input() organizationId: Maybe<number>
@@ -38,6 +39,7 @@ export class CvcEventFeedComponent implements OnInit {
   @Input() mode: EventFeedMode = EventFeedMode.Subject
   @Input() showFilters: boolean = true
   @Input() pageSize = 15
+  @Input() pollForNewEvents: boolean = true
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
@@ -50,10 +52,15 @@ export class CvcEventFeedComponent implements OnInit {
   organizations$?: Observable<TagLinkableOrganization[]>;
   actions$?: Observable<SelectableAction[]>
   unfilteredCount$?: Observable<number>
+  loading$?: Observable<boolean>
+
+  newEventCount$?: Observable<number>;
+  originalEventCount?: number;
+  destroy$ = new Subject();
 
   showChildren: boolean = false
 
-  constructor(private gql: EventFeedGQL) {
+  constructor(private gql: EventFeedGQL, private eventCountGql: EventFeedCountGQL) {
   }
 
   ngOnInit() {
@@ -66,11 +73,18 @@ export class CvcEventFeedComponent implements OnInit {
       showFilters: this.showFilters
     }
 
-    if(environment.production) {
-      this.queryRef = this.gql.watch(this.initialQueryVars, {pollInterval: 30000});
-    } else {
-      this.queryRef = this.gql.watch(this.initialQueryVars);
+    this.queryRef = this.gql.watch(this.initialQueryVars);
+
+    if(this.pollForNewEvents && environment.production) {
+      this.newEventCount$ = this.eventCountGql
+        .watch(this.initialQueryVars, {fetchPolicy: 'no-cache', pollInterval: 30000})
+        .valueChanges
+        .pipe(
+          map( ({data}) => data.events.unfilteredCount ),
+          takeUntil(this.destroy$)
+        )
     }
+    
     this.results$ = this.queryRef.valueChanges;
 
     this.pageInfo$ = this.results$.pipe(
@@ -83,11 +97,18 @@ export class CvcEventFeedComponent implements OnInit {
       })
     )
 
+    this.loading$ =  this.results$.pipe(
+      map(({loading}) =>  loading),
+      startWith(true)
+    )
     this.unfilteredCount$ = this.results$.pipe(
       map(({data}) => {
         return data.events.unfilteredCount
       })
     )
+
+    this.unfilteredCount$.pipe(take(1))
+      .subscribe(value => this.originalEventCount = value)
 
     if(this.showFilters) {
       this.participants$ = this.results$.pipe(
@@ -134,6 +155,12 @@ export class CvcEventFeedComponent implements OnInit {
     })
   }
 
+  refresh() {
+    this.queryRef.refetch().then(
+      ({data}) => { this.originalEventCount =  data.events.unfilteredCount }
+    );
+  }
+
 
   onShowChildrenToggle() {
     let newSubscribable: Maybe<SubscribableQueryInput>
@@ -159,5 +186,10 @@ export class CvcEventFeedComponent implements OnInit {
       subject: newSubscribable,
       showFilters: this.showFilters
     })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

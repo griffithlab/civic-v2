@@ -26,7 +26,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { CvcEnsemblInputTypeModule } from '../config/types/ensembl-input/ensembl-input.module';
-import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
 import { CvcVariantTypeInputTypeModule } from '../config/types/variant-type-input/variant-type-input.module';
 import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info.module';
@@ -49,7 +49,7 @@ import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info
     NzIconModule,
     NzSwitchModule,
     NzSpinModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormContainerWrapperModule,
     CvcFormErrorsAlertModule,

@@ -19,6 +19,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -31,6 +32,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
     NzCardModule,
     NzTypographyModule,
     NzIconModule,
+    NzTagModule,
     CvcPipesModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,

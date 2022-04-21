@@ -20,9 +20,7 @@
         <nz-descriptions-item nzTitle="Aliases"
           nzSpan="2"
           *ngIf="variant.variantAliases.length > 0">
-          <span *ngFor="let alias of variant.variantAliases; last as isLast">
-            {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
-          </span>
+          <nz-tag *ngFor="let alias of variant.variantAliases">{{ alias }}</nz-tag> 
         </nz-descriptions-item>
 
         <!-- allele registry-->

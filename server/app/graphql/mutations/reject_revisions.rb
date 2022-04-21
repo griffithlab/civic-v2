@@ -39,11 +39,10 @@ class Mutations::RejectRevisions < Mutations::MutationWithOrg
       @revisions = Revision.where(revisionset_id: revision_set_id, status: 'new')
       if revisions.count == 0
         raise GraphQL::ExecutionError, "Revisions with status 'new' in revision_set_id #{revision_set_id} don't exist."
-      else
       end
-
-      return true
     end
+
+    return true
   end
 
   def authorized?(organization_id: nil, **_)
