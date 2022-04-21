@@ -210,7 +210,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
                 .pipe(first())
                 .subscribe((_) => {
                   this.noMoreRows$.next(false);
-                  this.cdr.detectChanges(); // TODO: figure out why this is required
+                  this.cdr.detectChanges();
                 })
             }
           }
@@ -275,7 +275,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
     this.loadedPages += 1
   }
 
-  // virtual scroll helpers
+  // vir tual scroll helpers
   trackByIndex(_: number, data: VariantGridFieldsFragment): number {
     return data.id;
   }

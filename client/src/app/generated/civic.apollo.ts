@@ -5279,20 +5279,25 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { diseases?: Maybe<Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id' | 'link'>
-        )>>, drugs?: Maybe<Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id' | 'link'>
-        )>> }
+        & GeneBrowseTableRowFieldsFragment
       )> }
     )>, pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
   ) }
+);
+
+export type GeneBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseGene' }
+  & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+  & { diseases?: Maybe<Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'name' | 'id' | 'link'>
+  )>>, drugs?: Maybe<Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'name' | 'id' | 'link'>
+  )>> }
 );
 
 export type QuicksearchQueryVariables = Exact<{
@@ -8661,6 +8666,28 @@ export const GenePopoverFragmentDoc = gql`
   }
 }
     `;
+export const GeneBrowseTableRowFieldsFragmentDoc = gql`
+    fragment GeneBrowseTableRowFields on BrowseGene {
+  id
+  entrezId
+  name
+  link
+  geneAliases
+  diseases {
+    name
+    id
+    link
+  }
+  drugs {
+    name
+    id
+    link
+  }
+  variantCount
+  evidenceItemCount
+  assertionCount
+}
+    `;
 export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
@@ -10672,24 +10699,7 @@ export const BrowseGenesDocument = gql`
     edges {
       cursor
       node {
-        id
-        entrezId
-        name
-        link
-        geneAliases
-        diseases {
-          name
-          id
-          link
-        }
-        drugs {
-          name
-          id
-          link
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
+        ...GeneBrowseTableRowFields
       }
     }
     pageInfo {
@@ -10703,7 +10713,7 @@ export const BrowseGenesDocument = gql`
     pageCount
   }
 }
-    `;
+    ${GeneBrowseTableRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

@@ -14,6 +14,9 @@ import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-over
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
+import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 
 @NgModule({
   declarations: [CvcGenesTableComponent],
@@ -29,6 +32,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzCardModule,
     NzButtonModule,
     NzToolTipModule,
+    NzTagModule,
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
     CvcGeneTagModule,
     CvcTagOverflowModule,
     CvcPlainTagOverflowModule
