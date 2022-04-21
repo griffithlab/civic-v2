@@ -14,7 +14,7 @@ import { CvcOrgSelectorBtnGroupModule } from '../config/components/org-selector-
 import { CvcFormErrorsAlertModule } from '../config/components/form-errors-alert/form-errors-alert.module';
 import { CvcFormButtonsModule } from '../config/components/form-buttons/form-buttons.module';
 import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info.module';
-import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcMultiFieldTypeModule } from '../config/types/multi-field/multi-field.module';
 import { CvcSourceInputTypeModule } from '../config/types/source-input/source-input.module';
 import { CvcDrugInputTypeModule } from '../config/types/drug-input/drug-input.module';
@@ -65,7 +65,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcFormErrorsAlertModule,
     CvcFormButtonsModule,
     CvcFormInfoWrapperModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
     CvcDrugInputTypeModule,

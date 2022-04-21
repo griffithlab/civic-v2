@@ -693,8 +693,9 @@ export type ModerateEvidenceItemPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ModeratedObjectFieldKeySpecifier = ('displayName' | 'displayType' | 'entityType' | 'id' | 'link' | ModeratedObjectFieldKeySpecifier)[];
+export type ModeratedObjectFieldKeySpecifier = ('deleted' | 'displayName' | 'displayType' | 'entityType' | 'id' | 'link' | ModeratedObjectFieldKeySpecifier)[];
 export type ModeratedObjectFieldFieldPolicy = {
+	deleted?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayType?: FieldPolicy<any> | FieldReadFunction<any>,
 	entityType?: FieldPolicy<any> | FieldReadFunction<any>,

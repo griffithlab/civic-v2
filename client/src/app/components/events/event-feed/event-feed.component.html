@@ -1,64 +1,75 @@
-<ng-container *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">
-  <nz-row [nzGutter]="16">
-    <nz-col [nzSpan]="this.showFilters ? '18' : '24'">
-      <nz-space nzDirection="vertical" style="width: 100%">
-        <nz-card [nzTitle]="this.showFilters ? 'Events' : undefined" *nzSpaceItem>
-          <ng-container *ngIf="events$ | ngrxPush as events">
-            <nz-row [nzGutter]="16">
-              <nz-col nzSpan="24" class="timeline">
-                <ng-container *ngIf="events.length; else noEvents">
-                  <cvc-event-timeline [events]="events" [tagDisplay]=tagDisplay></cvc-event-timeline>
+<nz-spin [nzSpinning]="this.loading$ | ngrxPush" nzTip="Loading">
+  <ng-container *ngIf="this.unfilteredCount$ | ngrxPush as count; else noEvents">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="this.showFilters ? '18' : '24'">
+        <nz-space nzDirection="vertical" style="width: 100%">
+          <nz-card [nzTitle]="this.showFilters ? 'Events' : undefined" [nzExtra]="refreshFeed" *nzSpaceItem>
+            <ng-container *ngIf="events$ | ngrxPush as events">
+              <nz-row [nzGutter]="16">
+                <nz-col nzSpan="24" class="timeline">
+                  <ng-container *ngIf="events.length; else noEvents">
+                    <cvc-event-timeline [events]="events" [tagDisplay]=tagDisplay></cvc-event-timeline>
+                  </ng-container>
+                  <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
+                    <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
+                      <button nz-button nzType="default" nzSize="small" nzBlock
+                        (click)="fetchMore(pageInfo.endCursor)">Load More
+                      </button>
+                    </div>
+                  </ng-container>
+                </nz-col>
+              </nz-row>
+            </ng-container>
+            <ng-template #refreshFeed>
+              <ng-container *ngIf="this.pollForNewEvents && this.originalEventCount">
+                <ng-container *ngrxLet="this.newEventCount$ as newCount">
+                  <nz-badge *ngIf="newCount > originalEventCount" [nzCount]="newCount - originalEventCount">
+                    <button nz-button nz-tooltip="Click to Refresh" (click)="refresh()"> New Event(s) </button>
+                  </nz-badge>
                 </ng-container>
-                <ng-container *ngIf="pageInfo$ | ngrxPush as pageInfo">
-                  <div nz-list-load-more *ngIf="pageInfo.hasNextPage">
-                    <button nz-button nzType="default" nzSize="small" nzBlock
-                      (click)="fetchMore(pageInfo.endCursor)">Load More
-                    </button>
-                  </div>
-                </ng-container>
-              </nz-col>
-            </nz-row>
-          </ng-container>
-        </nz-card>
-      </nz-space>
-    </nz-col>
-    <nz-col nzSpan="6">
-      <nz-space nzDirection="vertical" style="width: 100%" *ngIf="showFilters">
-        <span *nzSpaceItem>
-          Show Child Events
-          <nz-switch nzSize="small" [(ngModel)]="showChildren" (ngModelChange)="onShowChildrenToggle()"></nz-switch>
-        </span>
-        <ng-container *nzSpaceItem>
-          <cvc-participant-list listTitle="Action" [participantList]="actions$ | ngrxPush"
-            (participantSelectedEvent)="onActionSelected($event)">
-            <ng-template #itemTemplate let-action>
-              {{ action.id | eventVerbiage: 'action-filter' }}
+              </ng-container>
             </ng-template>
-          </cvc-participant-list>
-          <cvc-participant-list *ngIf="!userId" listTitle="Curator" [participantList]="participants$ | ngrxPush"
-            (participantSelectedEvent)="onOriginatingUserSelected($event)">
-            <ng-template #itemTemplate let-user>
-              <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
-              </nz-avatar>
-              <ng-template #noAvatar>
-                <nz-avatar nz-comment-avatar [nzText]="user.displayName.charAt(0) | uppercase"></nz-avatar>
+          </nz-card>
+        </nz-space>
+      </nz-col>
+      <nz-col nzSpan="6">
+        <nz-space nzDirection="vertical" style="width: 100%" *ngIf="showFilters">
+          <span *nzSpaceItem>
+            Show Child Events
+            <nz-switch nzSize="small" [(ngModel)]="showChildren" (ngModelChange)="onShowChildrenToggle()"></nz-switch>
+          </span>
+          <ng-container *nzSpaceItem>
+            <cvc-participant-list listTitle="Action" [participantList]="actions$ | ngrxPush"
+              (participantSelectedEvent)="onActionSelected($event)">
+              <ng-template #itemTemplate let-action>
+                {{ action.id | eventVerbiage: 'action-filter' }}
               </ng-template>
-              <span>{{user.displayName}}</span>
-            </ng-template>
-          </cvc-participant-list>
-          <cvc-participant-list *ngIf="!organizationId" listTitle="Organization"
-            [participantList]="organizations$ | ngrxPush" (participantSelectedEvent)="onOrganizationSelected($event)">
-            <ng-template #itemTemplate let-organization>
-              <nz-col>
-                {{ organization.name }}
-              </nz-col>
-            </ng-template>
-          </cvc-participant-list>
-        </ng-container>
-      </nz-space>
-    </nz-col>
-  </nz-row>
-</ng-container>
-<ng-template #noEvents>
-  <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No Events"></nz-empty>
-</ng-template>
+            </cvc-participant-list>
+            <cvc-participant-list *ngIf="!userId" listTitle="Curator" [participantList]="participants$ | ngrxPush"
+              (participantSelectedEvent)="onOriginatingUserSelected($event)">
+              <ng-template #itemTemplate let-user>
+                <nz-avatar *ngIf="user.profileImagePath; else noAvatar" nz-comment-avatar [nzSrc]="user.profileImagePath">
+                </nz-avatar>
+                <ng-template #noAvatar>
+                  <nz-avatar nz-comment-avatar [nzText]="user.displayName.charAt(0) | uppercase"></nz-avatar>
+                </ng-template>
+                <span>{{user.displayName}}</span>
+              </ng-template>
+            </cvc-participant-list>
+            <cvc-participant-list *ngIf="!organizationId" listTitle="Organization"
+              [participantList]="organizations$ | ngrxPush" (participantSelectedEvent)="onOrganizationSelected($event)">
+              <ng-template #itemTemplate let-organization>
+                <nz-col>
+                  {{ organization.name }}
+                </nz-col>
+              </ng-template>
+            </cvc-participant-list>
+          </ng-container>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+  </ng-container>
+  <ng-template #noEvents>
+    <nz-empty nzNotFoundImage="simple" nzNotFoundContent="No Events"></nz-empty>
+  </ng-template>
+</nz-spin>

@@ -12,7 +12,7 @@
     nzCustomContent
     [nzLabel]="opt.label"
     [nzValue]="opt.value">
-    {{ opt.source.citation }} ({{ opt.source.citationId }})
+    {{ opt.source.citation ? opt.source.citation :  opt.source.name }} ({{ opt.source.citationId }})
   </nz-option>
 </nz-select>
 <div class="ant-form-item-explain"

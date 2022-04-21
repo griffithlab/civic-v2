@@ -1849,11 +1849,12 @@ export type ModeratedInput = {
 
 export type ModeratedObjectField = {
   __typename: 'ModeratedObjectField';
-  displayName: Scalars['String'];
+  deleted: Scalars['Boolean'];
+  displayName?: Maybe<Scalars['String']>;
   displayType?: Maybe<Scalars['String']>;
   entityType: Scalars['String'];
   id: Scalars['Int'];
-  link: Scalars['String'];
+  link?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -4488,7 +4489,7 @@ export type AssertionPopoverFragment = (
   & Pick<Assertion, 'id' | 'name' | 'status' | 'summary' | 'assertionType' | 'assertionDirection' | 'clinicalSignificance' | 'variantOrigin' | 'ampLevel' | 'regulatoryApproval' | 'regulatoryApprovalLastUpdated' | 'fdaCompanionTest' | 'fdaCompanionTestLastUpdated' | 'drugInteractionType'>
   & { acmgCodes: Array<(
     { __typename: 'AcmgCode' }
-    & Pick<AcmgCode, 'code'>
+    & Pick<AcmgCode, 'code' | 'description'>
   )>, nccnGuideline?: Maybe<(
     { __typename: 'NccnGuideline' }
     & Pick<NccnGuideline, 'id' | 'name'>
@@ -4860,6 +4861,27 @@ export type DrugBrowseTableRowFieldsFragment = (
   & Pick<BrowseDrug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'assertionCount' | 'evidenceCount' | 'link'>
 );
 
+export type EventFeedCountQueryVariables = Exact<{
+  subject?: Maybe<SubscribableQueryInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  originatingUserId?: Maybe<Scalars['Int']>;
+  organizationId?: Maybe<Scalars['Int']>;
+  eventType?: Maybe<EventAction>;
+  mode?: Maybe<EventFeedMode>;
+}>;
+
+
+export type EventFeedCountQuery = (
+  { __typename: 'Query' }
+  & { events: (
+    { __typename: 'EventConnection' }
+    & Pick<EventConnection, 'unfilteredCount'>
+  ) }
+);
+
 export type EventFeedQueryVariables = Exact<{
   subject?: Maybe<SubscribableQueryInput>;
   first?: Maybe<Scalars['Int']>;
@@ -5185,6 +5207,46 @@ export type FlagFragment = (
   )> }
 );
 
+export type FlagPopoverQueryVariables = Exact<{
+  flagId: Scalars['Int'];
+}>;
+
+
+export type FlagPopoverQuery = (
+  { __typename: 'Query' }
+  & { flag?: Maybe<(
+    { __typename: 'Flag' }
+    & FlagPopoverFragment
+  )> }
+);
+
+export type FlagPopoverFragment = (
+  { __typename: 'Flag' }
+  & Pick<Flag, 'id' | 'name' | 'state' | 'createdAt'>
+  & { flaggingUser: (
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  ), flaggable: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), openComment: (
+    { __typename: 'Comment' }
+    & Pick<Comment, 'comment'>
+  ) }
+);
+
 export type GenePopoverQueryVariables = Exact<{
   geneId: Scalars['Int'];
 }>;
@@ -5439,6 +5501,58 @@ export type ValidationErrorFragment = (
   & Pick<FieldValidationError, 'fieldName' | 'error'>
 );
 
+export type RevisionPopoverQueryVariables = Exact<{
+  revisionId: Scalars['Int'];
+}>;
+
+
+export type RevisionPopoverQuery = (
+  { __typename: 'Query' }
+  & { revision?: Maybe<(
+    { __typename: 'Revision' }
+    & RevisionPopoverFragment
+  )> }
+);
+
+export type RevisionPopoverFragment = (
+  { __typename: 'Revision' }
+  & Pick<Revision, 'id' | 'name' | 'link' | 'status' | 'createdAt'>
+  & { revisor?: Maybe<(
+    { __typename: 'User' }
+    & Pick<User, 'id' | 'displayName' | 'role'>
+  )>, subject: (
+    { __typename: 'Assertion' }
+    & Pick<Assertion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'EvidenceItem' }
+    & Pick<EvidenceItem, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Revision' }
+    & Pick<Revision, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Source' }
+    & Pick<Source, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourcePopover' }
+    & Pick<SourcePopover, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'SourceSuggestion' }
+    & Pick<SourceSuggestion, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'Variant' }
+    & Pick<Variant, 'id' | 'link' | 'name'>
+  ) | (
+    { __typename: 'VariantGroup' }
+    & Pick<VariantGroup, 'id' | 'link' | 'name'>
+  ), linkoutData: (
+    { __typename: 'LinkoutData' }
+    & Pick<LinkoutData, 'name'>
+  ) }
+);
+
 export type RevisionsQueryVariables = Exact<{
   subject?: Maybe<ModeratedInput>;
   first?: Maybe<Scalars['Int']>;
@@ -5490,19 +5604,19 @@ export type RevisionFragment = (
       { __typename: 'ObjectFieldDiff' }
       & { currentObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, addedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, removedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, keptObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )>, suggestedObjects: Array<(
         { __typename: 'ModeratedObjectField' }
-        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link'>
+        & Pick<ModeratedObjectField, 'id' | 'displayName' | 'displayType' | 'entityType' | 'link' | 'deleted'>
       )> }
     ) | (
       { __typename: 'ScalarFieldDiff' }
@@ -6568,7 +6682,7 @@ export type AddVariantMutation = (
 
 export type AddVariantFieldsFragment = (
   { __typename: 'AddVariantPayload' }
-  & Pick<AddVariantPayload, 'new'>
+  & Pick<AddVariantPayload, 'clientMutationId' | 'new'>
   & { variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name'>
@@ -8043,6 +8157,7 @@ export const AssertionPopoverFragmentDoc = gql`
   ampLevel
   acmgCodes {
     code
+    description
   }
   nccnGuideline {
     id
@@ -8523,6 +8638,27 @@ export const FlagListFragmentDoc = gql`
   }
 }
     ${FlagFragmentDoc}`;
+export const FlagPopoverFragmentDoc = gql`
+    fragment flagPopover on Flag {
+  id
+  name
+  state
+  flaggingUser {
+    id
+    displayName
+    role
+  }
+  flaggable {
+    id
+    link
+    name
+  }
+  createdAt
+  openComment {
+    comment
+  }
+}
+    `;
 export const GenePopoverFragmentDoc = gql`
     fragment genePopover on Gene {
   id
@@ -8605,6 +8741,28 @@ export const ValidationErrorFragmentDoc = gql`
   error
 }
     `;
+export const RevisionPopoverFragmentDoc = gql`
+    fragment revisionPopover on Revision {
+  id
+  name
+  link
+  status
+  revisor {
+    id
+    displayName
+    role
+  }
+  subject {
+    id
+    link
+    name
+  }
+  createdAt
+  linkoutData {
+    name
+  }
+}
+    `;
 export const RevisionFragmentDoc = gql`
     fragment revision on Revision {
   id
@@ -8624,6 +8782,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         addedObjects {
           id
@@ -8631,6 +8790,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         removedObjects {
           id
@@ -8638,6 +8798,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         keptObjects {
           id
@@ -8645,6 +8806,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
         suggestedObjects {
           id
@@ -8652,6 +8814,7 @@ export const RevisionFragmentDoc = gql`
           displayType
           entityType
           link
+          deleted
         }
       }
       ... on ScalarFieldDiff {
@@ -9066,6 +9229,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     `;
 export const AddVariantFieldsFragmentDoc = gql`
     fragment AddVariantFields on AddVariantPayload {
+  clientMutationId
   new
   variant {
     id
@@ -10322,6 +10486,34 @@ export const DrugsBrowseDocument = gql`
       super(apollo);
     }
   }
+export const EventFeedCountDocument = gql`
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+  events(
+    subject: $subject
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    organizationId: $organizationId
+    eventType: $eventType
+    mode: $mode
+  ) {
+    unfilteredCount
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventFeedCountGQL extends Apollo.Query<EventFeedCountQuery, EventFeedCountQueryVariables> {
+    document = EventFeedCountDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const EventFeedDocument = gql`
     query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $showFilters: Boolean!) {
   events(
@@ -10449,6 +10641,24 @@ export const FlagListDocument = gql`
   })
   export class FlagListGQL extends Apollo.Query<FlagListQuery, FlagListQueryVariables> {
     document = FlagListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const FlagPopoverDocument = gql`
+    query FlagPopover($flagId: Int!) {
+  flag(id: $flagId) {
+    ...flagPopover
+  }
+}
+    ${FlagPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FlagPopoverGQL extends Apollo.Query<FlagPopoverQuery, FlagPopoverQueryVariables> {
+    document = FlagPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10726,6 +10936,24 @@ export const ValidateRevisionsForAcceptanceDocument = gql`
   })
   export class ValidateRevisionsForAcceptanceGQL extends Apollo.Query<ValidateRevisionsForAcceptanceQuery, ValidateRevisionsForAcceptanceQueryVariables> {
     document = ValidateRevisionsForAcceptanceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RevisionPopoverDocument = gql`
+    query RevisionPopover($revisionId: Int!) {
+  revision(id: $revisionId) {
+    ...revisionPopover
+  }
+}
+    ${RevisionPopoverFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RevisionPopoverGQL extends Apollo.Query<RevisionPopoverQuery, RevisionPopoverQueryVariables> {
+    document = RevisionPopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

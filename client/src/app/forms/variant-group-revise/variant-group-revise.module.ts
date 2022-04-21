@@ -15,7 +15,7 @@ import { CvcCommentTextareaTypeModule } from '../config/types/comment-textarea/c
 import { CvcMultiFieldAddBtnTypeModule } from '../config/types/multi-field/multi-field-add-btn/multi-field-add-btn.module';
 import { CvcMultiFieldTypeModule } from '../config/types/multi-field/multi-field.module';
 import { CvcSourceInputTypeModule } from '../config/types/source-input/source-input.module';
-import { CvcSubmitButtonTypeModule } from '../config/types/submit-button/submit-button.module';
+import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantInputTypeModule } from '../config/types/variant-input/variant-input.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
@@ -47,7 +47,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcFormContainerWrapperModule,
     CvcSourceInputTypeModule,
     CvcVariantInputTypeModule,
-    CvcSubmitButtonTypeModule,
+    CvcOrgSubmitButtonTypeModule,
     CvcCancelButtonModule,
     NgxJsonViewerModule,
   ],
