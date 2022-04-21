@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
@@ -11,7 +11,8 @@ export interface LinkableGene {
 @Component({
   selector: 'cvc-gene-tag',
   templateUrl: './gene-tag.component.html',
-  styleUrls: ['./gene-tag.component.less']
+  styleUrls: ['./gene-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
   @Input() gene!: LinkableGene;

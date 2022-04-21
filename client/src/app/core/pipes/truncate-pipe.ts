@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Pipe({
   name: 'truncate',
@@ -12,7 +11,7 @@ export class TruncatePipe implements PipeTransform {
     if (value.length > length) {
       let shortenedString = value.slice(0, length)
       var lastIndex = shortenedString.lastIndexOf(' ');
-      return shortenedString.slice(0, lastIndex + 1) + '...'
+      return shortenedString.slice(0, lastIndex) + '…'
     }
     else {
       return value

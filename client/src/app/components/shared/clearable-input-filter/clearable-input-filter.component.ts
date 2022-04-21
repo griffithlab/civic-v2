@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
 import { Maybe } from "@app/generated/civic.apollo";
 
 @Component({
   selector: 'cvc-clearable-input-filter',
   templateUrl: './clearable-input-filter.component.html',
-  styleUrls: ['./clearable-input-filter.component.less']
+  styleUrls: ['./clearable-input-filter.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcClearableInputFilterComponent {
   @Input() placeholderText?: Maybe<string>
@@ -16,7 +17,7 @@ export class CvcClearableInputFilterComponent {
   inputVal: Maybe<string>
 
   onModelUpdated() {
-    if (this.inputModel != '') { 
+    if (this.inputModel != '') {
       this.inputModelChange.emit(this.inputModel)
     } else {
       this.inputModelChange.emit(undefined)

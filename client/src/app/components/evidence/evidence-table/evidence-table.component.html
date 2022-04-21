@@ -353,7 +353,7 @@
             <div *ngIf="eid.drugs.length > 0; else drugsElse">
               <cvc-tag-list>
                 <ng-container *ngIf="eid.drugs.length > 1">
-                  <nz-tag>{{ eid.drugInteractionType.substring(0,3) }}</nz-tag>
+                  <nz-tag nz-tooltip [nzTooltipTitle]="eid.drugInteractionType | titlecase">{{ eid.drugInteractionType.substring(0,3) }}</nz-tag>
                 </ng-container>
                 <ng-container *ngFor="let drug of eid.drugs">
                   <cvc-drug-tag [drug]="drug"

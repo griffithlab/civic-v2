@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
@@ -11,17 +11,18 @@ export interface LinkableVariant {
 @Component({
   selector: 'cvc-variant-tag',
   templateUrl: './variant-tag.component.html',
-  styleUrls: ['./variant-tag.component.less']
+  styleUrls: ['./variant-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcVariantTagComponent extends BaseCloseableTag implements OnInit {
   @Input() variant!: LinkableVariant;
   @Input() enablePopover: Maybe<boolean> = true
   @Input() truncateLongName: Maybe<boolean> = false
 
-  constructor() { 
+  constructor() {
     super();
   }
-  
+
   idFunction(): number {
     return this.variant.id;
   }

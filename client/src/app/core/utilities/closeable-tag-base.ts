@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 
-@Component({ template: '', })
+@Component({
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export abstract class BaseCloseableTag implements OnInit {
     @Input() onCloseClicked?: (id: number) => void
     @Input() linked?: boolean = true

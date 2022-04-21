@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 
@@ -12,7 +12,8 @@ export interface LinkableEvidence {
 @Component({
   selector: 'cvc-evidence-tag',
   templateUrl: './evidence-tag.component.html',
-  styleUrls: ['./evidence-tag.component.less']
+  styleUrls: ['./evidence-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcEvidenceTagComponent extends BaseCloseableTag {
   @Input() evidence!: LinkableEvidence

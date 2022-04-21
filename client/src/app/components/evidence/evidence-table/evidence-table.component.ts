@@ -8,7 +8,8 @@ import {
   TemplateRef,
   ViewChild,
   AfterViewInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import {
@@ -65,6 +66,7 @@ export interface EvidenceTableUserFilters {
   selector: 'cvc-evidence-table',
   templateUrl: './evidence-table.component.html',
   styleUrls: ['./evidence-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() assertionId: Maybe<number>
