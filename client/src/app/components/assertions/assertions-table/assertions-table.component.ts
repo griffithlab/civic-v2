@@ -206,7 +206,7 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
       scrolled$
         .pipe(
           takeUntil(this.destroy$),
-          tap((_) => { this.showTooltips = false; }), // on scroll even toggle tooltips off
+          tap((_) => { this.showTooltips = false; }), // on scroll event toggle tooltips off
           debounceTime(500) // wait 500ms, then execute subsribed function
         ).subscribe((_) => {
           this.showTooltips = true; // toggle tooltips on
@@ -214,13 +214,10 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
         })
 
       // force viewport check after initial render
-      // NOTE: first() operator automatically unsubscribes
       this.viewport.renderedRangeStream
         .pipe(first())
-        .subscribe((_) => {
-          if (this.viewport) { this.viewport!.checkViewportSize(); }
-          else { console.error('evidence-table unable to find cdkVirtualScrollViewport for checkViewportSize() call.'); }
-        });
+        .subscribe((_) => { this.viewport!.checkViewportSize(); });
+
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');
     }
