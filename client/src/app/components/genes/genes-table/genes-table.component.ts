@@ -173,6 +173,8 @@ export class CvcGenesTableComponent implements OnInit {
           drugName: this.drugInput,
         });
       });
+
+    this.textInputCallback = () => { this.debouncedQuery.next(); }
   } // ngOnInit()
 
   ngAfterViewInit(): void {

@@ -34,103 +34,54 @@
         </th>
         <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.VariantCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Variant Count">
           <i nz-icon
-            nzType="civic:variant"></i>
+            nzType="civic:variant"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon
-            nzType="civic:evidence"></i>
+            nzType="civic:evidence"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Assertion Count">
           <i nz-icon
-            nzType="civic:assertion"></i>
+            nzType="civic:assertion"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
-          <nz-input-group [nzSuffix]="nameInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search name"
-              [(ngModel)]="nameInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #nameInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="nameInput"
-              (click)="nameInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="nameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
-          <nz-input-group [nzSuffix]="aliasInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search alias"
-              [(ngModel)]="aliasInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #aliasInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="aliasInput"
-              (click)="aliasInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="aliasInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="diseaseInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search disease"
-              [(ngModel)]="diseaseInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #diseaseInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="diseaseInput"
-              (click)="diseaseInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="diseaseInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
-          <nz-input-group [nzSuffix]="drugInputClearTpl">
-            <input type="text"
-              nz-input
-              placeholder="Search drug"
-              [(ngModel)]="drugInput"
-              (ngModelChange)="onModelUpdated($event)" />
-          </nz-input-group>
-          <ng-template #drugInputClearTpl>
-            <i nz-icon
-              class="ant-input-clear-icon"
-              nzTheme="fill"
-              nzType="close-circle"
-              *ngIf="drugInput"
-              (click)="drugInput = undefined; onModelUpdated(undefined)"></i>
-          </ng-template>
+          <cvc-clearable-input-filter [(inputModel)]="drugInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
         <th nzRight></th>
@@ -151,17 +102,19 @@
           </td>
           <td>
             <cvc-tag-overflow tagType='disease'
+              [maxDisplayCount]="1"
               [tags]="gene.diseases"
               [matchingText]="diseaseInput"> </cvc-tag-overflow>
           </td>
           <td>
             <cvc-tag-overflow tagType='drug'
+              [maxDisplayCount]="1"
               [tags]="gene.drugs"
               [matchingText]="drugInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight>{{gene.variantCount}}</td>
-          <td nzRight>{{gene.evidenceItemCount}}</td>
-          <td nzRight>{{gene.assertionCount}}</td>
+          <td nzRight nzAlign="right">{{gene.variantCount}}</td>
+          <td nzRight nzAlign="right">{{gene.evidenceItemCount}}</td>
+          <td nzRight nzAlign="right">{{gene.assertionCount}}</td>
         </tr>
       </ng-template>
     </tbody>
