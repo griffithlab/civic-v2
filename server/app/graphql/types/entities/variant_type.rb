@@ -84,15 +84,21 @@ module Types::Entities
     end
 
     def variant_aliases
-      object.variant_aliases.map{|a| a.name}
+      Loaders::AssociationLoader.for(Variant, :variant_aliases).load(object).then do |va|
+        va.map(&:name)
+      end
     end
 
     def clinvar_ids
-      object.clinvar_entries.map{|e| e.clinvar_id}
+      Loaders::AssociationLoader.for(Variant, :clinvar_entries).load(object).then do |clinvar_entries|
+        clinvar_entries.map(&:clinvar_id)
+      end
     end
 
     def hgvs_descriptions
-      object.hgvs_expressions.map{|e| e.expression}
+      Loaders::AssociationLoader.for(Variant, :hgvs_expressions).load(object).then do |hgvs|
+        hgvs.map(&:expression)
+      end
     end
 
     def my_variant_info
