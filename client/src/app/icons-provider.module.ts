@@ -55,6 +55,10 @@ import {
   civicUncertainsignificanceOutline,
   civicPooroutcomeOutline,
 
+  civicCombinationOutline,
+  civicSequentialOutline,
+  civicSubstitutesOutline,
+
   // entity & artifact fullcolor icons
   civicAdminFullcolor,
   civicAssertionFullcolor,
@@ -159,6 +163,9 @@ const iconLiterals = [
   civicUnalteredfunctionOutline,
   civicUncertainsignificanceOutline,
   civicPooroutcomeOutline,
+  civicCombinationOutline,
+  civicSequentialOutline,
+  civicSubstitutesOutline,
   civicAdminOutline,
   civicAssertionOutline,
   civicCommentOutline,
