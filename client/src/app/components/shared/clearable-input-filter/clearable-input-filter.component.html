@@ -1,6 +1,7 @@
 <nz-input-group [nzSuffix]="clearTmpl">
   <input type="text"
     nz-input
+    nzSize="small"
     [placeholder]="placeholderText ? placeholderText : ''"
     [(ngModel)]="inputModel"
     (ngModelChange)="onModelUpdated()" />

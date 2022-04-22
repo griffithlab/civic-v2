@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, ReplaySubject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { ServerError, ServerParseError } from "@apollo/client/core";
-import { Maybe } from "@app/generated/civic.apollo";
 
 @Injectable({ providedIn: 'root' })
 export class NetworkErrorsService {

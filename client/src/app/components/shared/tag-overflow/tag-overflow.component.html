@@ -3,10 +3,10 @@
     [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
     <ng-container [ngSwitch]="tagType">
       <ng-container *ngSwitchCase="'drug'">
-        <cvc-drug-tag [drug]="tag"></cvc-drug-tag>
+        <cvc-drug-tag [drug]="tag" [truncateLongName]="true"></cvc-drug-tag>
       </ng-container>
       <ng-container *ngSwitchCase="'disease'">
-        <cvc-disease-tag [disease]="tag"></cvc-disease-tag>
+        <cvc-disease-tag [disease]="tag" [truncateLongName]="true"></cvc-disease-tag>
       </ng-container>
       <ng-container *ngSwitchCase="'organization'">
         <cvc-organization-tag [org]="tag"></cvc-organization-tag>
@@ -16,7 +16,7 @@
   <div [ngClass]="{'matched-tag': matchedHiddenCount > 0}">
     <nz-tag class="overflow-tag" *ngIf="hiddenCount && hiddenCount > 0" nz-popover [nzPopoverMouseEnterDelay]="0.5" (click)="onOverflowClicked()"
       [nzPopoverContent]="additionalTagPopover" nzPopoverPlacement="top" nzPopoverTrigger="hover">
-      +<span *ngIf="matchedHiddenCount > 0">{{matchedHiddenCount}} of </span>{{this.hiddenCount}} more
+      +<span *ngIf="matchedHiddenCount > 0">{{matchedHiddenCount}} of </span>{{this.hiddenCount}}
     </nz-tag>
   </div>
   <ng-template #additionalTagPopover>
@@ -25,10 +25,10 @@
         [ngClass]="{'matched-tag': matchingText && tag.name.toLowerCase().includes(matchingText)}">
         <ng-container [ngSwitch]="tagType">
           <ng-container *ngSwitchCase="'drug'">
-            <cvc-drug-tag [drug]="tag"></cvc-drug-tag>
+            <cvc-drug-tag [drug]="tag" [truncateLongName]="true"></cvc-drug-tag>
           </ng-container>
           <ng-container *ngSwitchCase="'disease'">
-            <cvc-disease-tag [disease]="tag"></cvc-disease-tag>
+            <cvc-disease-tag [disease]="tag" [truncateLongName]="true"></cvc-disease-tag>
           </ng-container>
           <ng-container *ngSwitchCase="'organization'">
             <cvc-organization-tag [org]="tag"></cvc-organization-tag>

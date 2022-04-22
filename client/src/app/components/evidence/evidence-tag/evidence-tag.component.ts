@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 
@@ -12,9 +12,10 @@ export interface LinkableEvidence {
 @Component({
   selector: 'cvc-evidence-tag',
   templateUrl: './evidence-tag.component.html',
-  styleUrls: ['./evidence-tag.component.less']
+  styleUrls: ['./evidence-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit {
+export class CvcEvidenceTagComponent extends BaseCloseableTag {
   @Input() evidence!: LinkableEvidence
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
@@ -24,11 +25,4 @@ export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit 
   idFunction() {
     return this.evidence.id
   }
-
-  ngOnInit() {
-    if (this.evidence === undefined) {
-      throw new Error('cvc-evidence-tag requires LinkableEvidence input, none supplied.')
-    }
-  }
-
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableAssertion {
@@ -11,7 +11,8 @@ export interface LinkableAssertion {
 @Component({
   selector: 'cvc-assertion-tag',
   templateUrl: './assertion-tag.component.html',
-  styleUrls: ['./assertion-tag.component.less']
+  styleUrls: ['./assertion-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcAssertionTagComponent implements OnInit {
   @Input() assertion!: LinkableAssertion

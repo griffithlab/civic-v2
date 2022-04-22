@@ -5301,20 +5301,25 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { diseases?: Maybe<Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id' | 'link'>
-        )>>, drugs?: Maybe<Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id' | 'link'>
-        )>> }
+        & GeneBrowseTableRowFieldsFragment
       )> }
     )>, pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
   ) }
+);
+
+export type GeneBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseGene' }
+  & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+  & { diseases?: Maybe<Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'name' | 'id' | 'link'>
+  )>>, drugs?: Maybe<Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'name' | 'id' | 'link'>
+  )>> }
 );
 
 export type QuicksearchQueryVariables = Exact<{
@@ -6204,20 +6209,25 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
-        & { diseases: Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'id' | 'name' | 'link'>
-        )>, drugs: Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'id' | 'name' | 'link'>
-        )>, aliases: Array<(
-          { __typename: 'VariantAlias' }
-          & Pick<VariantAlias, 'name'>
-        )> }
+        & VariantGridFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type VariantGridFieldsFragment = (
+  { __typename: 'BrowseVariant' }
+  & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
+  & { diseases: Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'link'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'link'>
+  )>, aliases: Array<(
+    { __typename: 'VariantAlias' }
+    & Pick<VariantAlias, 'name'>
+  )> }
 );
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
@@ -8679,6 +8689,28 @@ export const GenePopoverFragmentDoc = gql`
   }
 }
     `;
+export const GeneBrowseTableRowFieldsFragmentDoc = gql`
+    fragment GeneBrowseTableRowFields on BrowseGene {
+  id
+  entrezId
+  name
+  link
+  geneAliases
+  diseases {
+    name
+    id
+    link
+  }
+  drugs {
+    name
+    id
+    link
+  }
+  variantCount
+  evidenceItemCount
+  assertionCount
+}
+    `;
 export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
@@ -9085,6 +9117,32 @@ export const MenuVariantFragmentDoc = gql`
   id
   name
   link
+}
+    `;
+export const VariantGridFieldsFragmentDoc = gql`
+    fragment VariantGridFields on BrowseVariant {
+  id
+  name
+  link
+  evidenceScore
+  evidenceItemCount
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+  assertionCount
 }
     `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
@@ -10698,24 +10756,7 @@ export const BrowseGenesDocument = gql`
     edges {
       cursor
       node {
-        id
-        entrezId
-        name
-        link
-        geneAliases
-        diseases {
-          name
-          id
-          link
-        }
-        drugs {
-          name
-          id
-          link
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
+        ...GeneBrowseTableRowFields
       }
     }
     pageInfo {
@@ -10729,7 +10770,7 @@ export const BrowseGenesDocument = gql`
     pageCount
   }
 }
-    `;
+    ${GeneBrowseTableRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -11530,28 +11571,7 @@ export const BrowseVariantsDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        link
-        evidenceScore
-        evidenceItemCount
-        geneId
-        geneName
-        geneLink
-        diseases {
-          id
-          name
-          link
-        }
-        drugs {
-          id
-          name
-          link
-        }
-        aliases {
-          name
-        }
-        assertionCount
+        ...VariantGridFields
       }
     }
     totalCount
@@ -11559,7 +11579,7 @@ export const BrowseVariantsDocument = gql`
     pageCount
   }
 }
-    `;
+    ${VariantGridFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

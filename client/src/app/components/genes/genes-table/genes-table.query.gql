@@ -1,47 +1,29 @@
 query BrowseGenes(
-  $entrezSymbol: String,
-  $drugName: String,
-  $geneAlias: String,
-  $diseaseName: String,
-  $sortBy: GenesSort,
-  $first: Int,
-  $last: Int,
-  $before: String,
-  $after: String,
+  $entrezSymbol: String
+  $drugName: String
+  $geneAlias: String
+  $diseaseName: String
+  $sortBy: GenesSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
 ) {
-
   browseGenes(
-    entrezSymbol: $entrezSymbol,
-    drugName: $drugName,
-    geneAlias: $geneAlias,
-    diseaseName: $diseaseName,
-    sortBy: $sortBy,
-    first: $first,
-    last: $last,
-    before: $before,
-    after: $after,
+    entrezSymbol: $entrezSymbol
+    drugName: $drugName
+    geneAlias: $geneAlias
+    diseaseName: $diseaseName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
   ) {
     edges {
       cursor
       node {
-        id
-        entrezId
-        name
-        link
-        geneAliases
-        diseases {
-          name
-          id
-          link
-        }
-        drugs {
-          name
-          id
-          link
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
+        ...GeneBrowseTableRowFields
       }
     }
     pageInfo {
@@ -54,5 +36,25 @@ query BrowseGenes(
     filteredCount
     pageCount
   }
+}
 
+fragment GeneBrowseTableRowFields on BrowseGene {
+  id
+  entrezId
+  name
+  link
+  geneAliases
+  diseases {
+    name
+    id
+    link
+  }
+  drugs {
+    name
+    id
+    link
+  }
+  variantCount
+  evidenceItemCount
+  assertionCount
 }

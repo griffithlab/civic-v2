@@ -20,6 +20,13 @@ export const civicBetteroutcomeOutline: {
   name: 'betteroutcomeOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M194.5 568.3L157.2 531c-15.8-15.8-15.8-41.3 0-56.9l326.3-326.5c15.8-15.8 41.3-15.8 56.9 0l326.3 326.3c15.8 15.8 15.8 41.3 0 56.9l-37.3 37.3c-16 16-42 15.6-57.6-.7L579.3 365.3v482.6c0 22.3-18 40.3-40.3 40.3h-53.7c-22.3 0-40.3-18-40.3-40.3V365.3L252.1 567.6c-15.6 16.5-41.6 16.8-57.6.7z"/></svg>`
 };
+export const civicCombinationOutline: {
+  name: 'combinationOutline';
+  data: string;
+} = {
+  name: 'combinationOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="M448 704c0 106-86 192-192 192S64 810 64 704s86-192 192-192 192 86 192 192zm64-640c-106 0-192 86-192 192s86 192 192 192 192-86 192-192S618 64 512 64zm256 448c-106 0-192 86-192 192s86 192 192 192 192-86 192-192-86-192-192-192z"/></svg>`
+};
 export const civicCommongermlineOutline: {
   name: 'commongermlineOutline';
   data: string;
@@ -188,6 +195,13 @@ export const civicSensitivityresponseOutline: {
   name: 'sensitivityresponseOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M855.4 186.6c-97.6-82.1-248.4-69.7-341.8 25.3-93.4-95.1-244.2-107.6-341.8-25.3-127 106.9-108.4 281.2-17.9 373.5l296.2 301.8c16.9 17.2 39.5 26.8 63.5 26.8 24.1 0 46.6-9.5 63.5-26.7l296.2-301.8c90.3-92.3 109.2-266.5-17.9-373.6z"/></svg>`
 };
+export const civicSequentialOutline: {
+  name: 'sequentialOutline';
+  data: string;
+} = {
+  name: 'sequentialOutline',
+  data: `<svg viewBox="64 64 896 896"><circle cx="192" cy="512" r="128"/><circle cx="512" cy="512" r="128"/><circle cx="832" cy="512" r="128"/></svg>`
+};
 export const civicSignificanceunknownOutline: {
   name: 'significanceunknownOutline';
   data: string;
@@ -201,6 +215,20 @@ export const civicSomaticOutline: {
 } = {
   name: 'somaticOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M623.5 512c0 61.9-49.9 111.9-111.5 111.9s-111.5-50-111.5-111.9S450.4 400.1 512 400.1s111.5 50 111.5 111.9zm161-111.9c-61.6 0-111.5 50-111.5 111.9s49.9 111.9 111.5 111.9S896 573.9 896 512s-49.9-111.9-111.5-111.9zm-545 0c-61.6 0-111.5 50-111.5 111.9s49.9 111.9 111.5 111.9S351 573.9 351 512s-49.9-111.9-111.5-111.9z"/></svg>`
+};
+export const civicSubstitutesOutline: {
+  name: 'substitutesOutline';
+  data: string;
+} = {
+  name: 'substitutesOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="M448 512c0 106-86 192-192 192S64 618 64 512s86-192 192-192 192 86 192 192zm320-192c-106 0-192 86-192 192s86 192 192 192 192-86 192-192-86-192-192-192zm-226.3-88h-59.4v560h59.4V232z"/></svg>`
+};
+export const civicSubstitutionOutline: {
+  name: 'substitutionOutline';
+  data: string;
+} = {
+  name: 'substitutionOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="M448 512c0 106-86 192-192 192S64 618 64 512s86-192 192-192 192 86 192 192zm320-192c-106 0-192 86-192 192s86 192 192 192 192-86 192-192-86-192-192-192zm-226.3-88h-59.4v560h59.4V232z"/></svg>`
 };
 export const civicSupportsOutline: {
   name: 'supportsOutline';
@@ -717,6 +745,7 @@ export const CivicIcon = {
   adverseresponseOutline: 'adverseresponseOutline',
   benignOutline: 'benignOutline',
   betteroutcomeOutline: 'betteroutcomeOutline',
+  combinationOutline: 'combinationOutline',
   commongermlineOutline: 'commongermlineOutline',
   diagnosticOutline: 'diagnosticOutline',
   doesnotsupportOutline: 'doesnotsupportOutline',
@@ -741,8 +770,11 @@ export const CivicIcon = {
   reducedsensitivityOutline: 'reducedsensitivityOutline',
   resistanceOutline: 'resistanceOutline',
   sensitivityresponseOutline: 'sensitivityresponseOutline',
+  sequentialOutline: 'sequentialOutline',
   significanceunknownOutline: 'significanceunknownOutline',
   somaticOutline: 'somaticOutline',
+  substitutesOutline: 'substitutesOutline',
+  substitutionOutline: 'substitutionOutline',
   supportsOutline: 'supportsOutline',
   unalteredfunctionOutline: 'unalteredfunctionOutline',
   uncertainsignificanceOutline: 'uncertainsignificanceOutline',

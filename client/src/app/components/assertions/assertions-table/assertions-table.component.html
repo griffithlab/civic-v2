@@ -1,44 +1,59 @@
-<nz-card [nzTitle]="titleTemplate">
-  <nz-table #assertionsTable
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+<nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+  <nz-table #virtualTable
     nzSize="small"
-    [nzData]="(assertions$ | ngrxPush)"
-    [nzLoading]="(isLoading$ | ngrxPush)"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="assertions$| ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '400px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-
     <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr>
-        <th nzWidth="5%"
+      <tr class="col-header-row">
+        <th nzWidth="100px"
+          nzLeft
           [nzColumnKey]="sortColumns.Id"
           [nzSortFn]="true">
           AID
         </th>
-        <th nzWidth="5%"
+        <th nzWidth="120px"
+          nzLeft
           [nzColumnKey]="sortColumns.GeneName"
           [nzSortFn]="true">
           Gene
         </th>
-        <th nzWidth="10%"
+        <th nzWidth="200px"
+          nzLeft
           [nzColumnKey]="sortColumns.VariantName"
           [nzSortFn]="true">
           Variant
         </th>
-        <th nzWidth="15%"
+        <th nzWidth="250px"
           [nzColumnKey]="sortColumns.DiseaseName"
           [nzSortFn]="true">
           Disease
         </th>
-        <th nzWidth="12%"
+        <th nzWidth="400px"
           [nzColumnKey]="sortColumns.DrugName"
           [nzSortFn]="true">
           Drugs
         </th>
-        <th nzWidth="5%"
+        <th nzWidth="60px"
+          nzRight
           [nzColumnKey]="sortColumns.Summary"
-          [nzSortFn]="true">
-          Summary
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Summary">
+          SUM
         </th>
-        <th nzWidth="5%"
+        <th nzWidth="60px"
+          nzRight
           [nzColumnKey]="sortColumns.AssertionType"
           [nzSortFn]="true"
           nzAlign="center"
@@ -46,7 +61,8 @@
           nzTooltipTitle="Assertion Type">
           AT
         </th>
-        <th nzWidth="5%"
+        <th nzWidth="60px"
+          nzRight
           [nzColumnKey]="sortColumns.AssertionDirection"
           [nzSortFn]="true"
           nzAlign="center"
@@ -54,7 +70,8 @@
           nzTooltipTitle="Assertion Direction">
           AD
         </th>
-        <th nzWidth="5%"
+        <th nzWidth="60px"
+          nzRight
           [nzColumnKey]="sortColumns.ClinicalSignificance"
           [nzSortFn]="true"
           nzAlign="center"
@@ -62,7 +79,8 @@
           nzTooltipTitle="Clinical Significance">
           CS
         </th>
-        <th nzWidth="5%"
+        <th nzWidth="60px"
+          nzRight
           [nzColumnKey]="sortColumns.AmpLevel"
           [nzSortFn]="true"
           nzAlign="center"
@@ -70,51 +88,48 @@
           nzTooltipTitle="AMP/ASCO/CAP Category">
           CAT
         </th>
-        <th nzWidth="3%"
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemsCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count"><i nz-icon
-            nzType="civic:evidence"></i>
+            nzType="civic:evidence"></i> Count
         </th>
       </tr>
-      <tr>
-        <th>
+      <tr class="filter-row">
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="aidInput"
-            placeholderText="Search AID"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            placeholderText="Search Gene"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
-            placeholderText="Search Variant"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
-            placeholderText="Search Disease"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
-            placeholderText="Search Drugs"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzRight>
           <cvc-clearable-input-filter [(inputModel)]="summaryInput"
-            placeholderText="Search Summary"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th nzWidth="5%"
+        <th nzRight
           nzAlign="center">
           <nz-select nzAllowClear
+            nzSize="small"
             [nzDropdownMatchSelectWidth]="false"
-            nzPlaceHolder="Choose"
+            nzPlaceHolder="All"
             (ngModelChange)="onModelChanged()"
             [(ngModel)]="assertionTypeInput">
             <nz-option nzValue="PREDICTIVE"
@@ -127,11 +142,12 @@
               nzLabel="Predisposing"></nz-option>
           </nz-select>
         </th>
-        <th nzWidth="5%"
+        <th nzRight
           nzAlign="center">
           <nz-select nzAllowClear
+            nzSize="small"
             [nzDropdownMatchSelectWidth]="false"
-            nzPlaceHolder="Choose"
+            nzPlaceHolder="All"
             (ngModelChange)="onModelChanged()"
             [(ngModel)]="assertionDirectionInput">
             <nz-option nzValue="SUPPORTS"
@@ -142,11 +158,12 @@
               nzLabel="N/A"></nz-option>
           </nz-select>
         </th>
-        <th nzWidth="5%"
+        <th nzRight
           nzAlign="center">
           <nz-select nzAllowClear
+            nzSize="small"
             [nzDropdownMatchSelectWidth]="false"
-            nzPlaceHolder="Choose"
+            nzPlaceHolder="All"
             (ngModelChange)="onModelChanged()"
             [(ngModel)]="clinicalSignificanceInput">
             <nz-option-group nzLabel="Predictive">
@@ -189,11 +206,12 @@
             </nz-option-group>
           </nz-select>
         </th>
-        <th nzWidth="5%"
+        <th nzRight
           nzAlign="center">
           <nz-select nzAllowClear
+            nzSize="small"
             [nzDropdownMatchSelectWidth]="false"
-            nzPlaceHolder="Choose"
+            nzPlaceHolder="All"
             (ngModelChange)="onModelChanged()"
             [(ngModel)]="ampLevelInput">
             <nz-option nzValue="TIER_I_LEVEL_A"
@@ -208,98 +226,110 @@
               nzLabel="Tier III"></nz-option>
           </nz-select>
         </th>
-        <th></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let aid of assertionsTable.data">
-        <td>
-          <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
-        </td>
-        <td>
-          <cvc-gene-tag [gene]="aid.gene"></cvc-gene-tag>
-        </td>
-        <td>
-          <cvc-variant-tag [variant]="aid.variant"></cvc-variant-tag>
-        </td>
-        <td>
-          <ng-container *ngIf="aid.disease.name; else diseaseElse">
-            <cvc-disease-tag [disease]="aid.disease"
-              [truncateLongName]="true"></cvc-disease-tag>
-          </ng-container>
-          <ng-template #diseaseElse>
-            <i>N/A</i>
-          </ng-template>
-        </td>
-        <td>
-          <div *ngIf="aid.drugs.length > 0; else drugsElse">
-            <cvc-tag-list>
-              <span *ngFor="let drug of aid.drugs; last as isLast">
-                <cvc-drug-tag [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
-              </span>
-            </cvc-tag-list>
-            <span *ngIf="aid.drugs.length > 1">
-              ({{ aid.drugInteractionType | titlecase }})
-            </span>
-          </div>
-          <ng-template #drugsElse>
-            <i>N/A</i>
-          </ng-template>
-        </td>
-        <td nzAlign="center">
-          <i nz-icon
-            nzType="align-left"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="aid.summary"></i>
-        </td>
-        <td nzAlign="center">
-          <i nz-icon
-            [nzType]="aid.assertionType | evidenceEnumDisplay: 'icon-name'"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="aid.assertionType | evidenceEnumDisplay"></i>
-        </td>
-        <td nzAlign="center">
-          <i nz-icon
-            [nzType]="aid.assertionDirection | evidenceEnumDisplay: 'icon-name'"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="aid.assertionDirection | evidenceEnumDisplay"></i>
-        </td>
-        <td nzAlign="center">
-          <i nz-icon
-            [nzType]="aid.clinicalSignificance | evidenceEnumDisplay: 'icon-name'"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="aid.clinicalSignificance | evidenceEnumDisplay"></i>
-        </td>
-        <td nzAlign="center">
-          <span *ngIf="aid.ampLevel; else noAmp"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="aid.ampLevel | formatAmp: 'verbose'">
-            {{ aid.ampLevel | formatAmp: 'compact' }}
-          </span>
-          <ng-template #noAmp>
-            --
-          </ng-template>
-        </td>
-        <td>
-          {{aid.evidenceItemsCount}}
-        </td>
-      </tr>
-      <!-- Load More button row -->
-      <ng-container *ngrxLet="pageInfo$ as pageInfo">
-        <tr *ngIf="pageInfo.hasNextPage">
-          <td colspan="20">
-            <button *ngIf="pageInfo.hasNextPage"
-              (click)="loadMore(pageInfo.endCursor)"
-              nz-button
-              nzBlock>Load {{this.initialPageSize}} More</button>
+      <ng-template nz-virtual-scroll
+        let-aid
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
+          </td>
+          <td nzLeft>
+            <cvc-gene-tag [gene]="aid.gene"></cvc-gene-tag>
+          </td>
+          <td nzLeft>
+            <cvc-variant-tag [variant]="aid.variant"></cvc-variant-tag>
+          </td>
+          <td>
+            <ng-container *ngIf="aid.disease.name; else diseaseElse">
+              <cvc-disease-tag [disease]="aid.disease"
+                [truncateLongName]="true"></cvc-disease-tag>
+            </ng-container>
+            <ng-template #diseaseElse>
+              <i>N/A</i>
+            </ng-template>
+          </td>
+          <td>
+            <div *ngIf="aid.drugs.length > 0; else drugsElse">
+              <cvc-tag-list>
+                <ng-container *ngIf="aid.drugs.length > 1">
+                  <nz-tag nz-tooltip
+                    nzTooltipPlacement="top"
+                    [nzTooltipTitle]="showTooltips ? (aid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                    <i nz-icon
+                      style="color: #ac3996"
+                      [nzType]="aid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
+                      class="attribute-icon"></i>
+                  </nz-tag>
+                </ng-container>
+                <ng-container *ngFor="let drug of aid.drugs">
+                  <cvc-drug-tag [drug]="drug"
+                    [truncateLongName]="true"></cvc-drug-tag>
+                </ng-container>
+              </cvc-tag-list>
+            </div>
+            <ng-template #drugsElse>
+              <i nz-typography
+                nzType="secondary">N/A</i>
+            </ng-template>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="showTooltips ? aid.summary : ''">
+              <i nz-icon
+                nzType="align-left"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="showTooltips ? (aid.assertionType | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="aid.assertionType | evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="showTooltips ? (aid.assertionDirection | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="aid.assertionDirection | evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="aid.clinicalSignificance | evidenceEnumDisplay">
+              <i nz-icon
+                [nzType]="aid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzRight
+            nzAlign="center">
+            <nz-tag *ngIf="aid.ampLevel"
+              nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="aid.ampLevel | formatAmp: 'verbose'">
+              {{ aid.ampLevel | formatAmp: 'compact' }}
+            </nz-tag>
+          </td>
+          <td nzRight
+            nzAlign="right">
+            {{aid.evidenceItemsCount}}
           </td>
         </tr>
-      </ng-container>
+      </ng-template>
     </tbody>
   </nz-table>
 </nz-card>
@@ -324,4 +354,13 @@
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

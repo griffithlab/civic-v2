@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -7,6 +7,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
   selector: 'cvc-network-error-alert',
   templateUrl: './network-error-alert.component.html',
   styleUrls: ['./network-error-alert.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcNetworkErrorAlertComponent {
   errors: NetworkErrorsService;
