@@ -16,16 +16,16 @@
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="onSortChanged($event)">
       <tr class="col-header-row">
-        <th nzWidth="200px"
+        <th nzWidth="250px"
           nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
-        <th nzWidth="400px">
+        <th nzWidth="600px">
           Variants
         </th>
-        <th nzWidth="200px">
+        <th nzWidth="150px">
           Genes
         </th>
         <th nzWidth="75px"
@@ -46,7 +46,7 @@
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
-          <i nz-icon nzType="civic:evidence"></i>
+          <i nz-icon nzType="civic:evidence"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
