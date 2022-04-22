@@ -18,6 +18,7 @@ import { PluckPipe } from './pluck-pipe';
 import { TruncatePipe } from './truncate-pipe';
 import { EvidenceLevelDisplayPipe } from './evidence-level-display.pipe';
 import { CamelCaseToWordPipe } from './camel-case-to-words-pipe';
+import { DrugInteractionEnumDisplayPipe } from './drug-interaction-enum-display.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CamelCaseToWordPipe } from './camel-case-to-words-pipe';
     EvidenceEnumDisplayPipe,
     EvidenceLevelDisplayPipe,
     IfEmptyPipe,
+    DrugInteractionEnumDisplayPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
     PrepositionForSubjectPipe,
@@ -48,6 +50,7 @@ import { CamelCaseToWordPipe } from './camel-case-to-words-pipe';
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
     EvidenceLevelDisplayPipe,
+    DrugInteractionEnumDisplayPipe,
     IfEmptyPipe,
     SourceTypeDisplayPipe,
     ReferenceBuildDisplayPipe,
