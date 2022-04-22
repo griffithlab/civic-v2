@@ -1,9 +1,9 @@
 <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-
 <nz-card [nzTitle]="titleTemplate"
   [nzExtra]="extraTemplate"
   nzSize="small"
   cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="25"

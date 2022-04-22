@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -31,7 +32,8 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
 @Component({
   selector: 'cvc-assertions-table',
   templateUrl: './assertions-table.component.html',
-  styleUrls: ['./assertions-table.component.less']
+  styleUrls: ['./assertions-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   @Input() evidenceId: Maybe<number>

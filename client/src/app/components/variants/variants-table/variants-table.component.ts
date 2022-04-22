@@ -286,7 +286,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
 
   ngOnDestroy() {
     this.destroy$.next();
-    this.debouncedQuery.unsubscribe();
+    this.destroy$.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild, } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import {
@@ -46,7 +46,8 @@ export interface GeneTableRow {
 @Component({
   selector: 'cvc-genes-table',
   templateUrl: './genes-table.component.html',
-  styleUrls: ['./genes-table.component.less']
+  styleUrls: ['./genes-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcGenesTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
@@ -165,7 +166,7 @@ export class CvcGenesTableComponent implements OnInit {
         debounceTime(500))
       .subscribe((_) => {
         this.isLoading = true;
-        this.loadedPages = 1
+        this.loadedPages = 1;
         this.queryRef?.refetch({
           entrezSymbol: this.nameInput,
           geneAlias: this.aliasInput,
@@ -278,6 +279,6 @@ export class CvcGenesTableComponent implements OnInit {
 
   ngOnDestroy() {
     this.destroy$.next();
-    this.debouncedQuery.unsubscribe();
+    this.destroy$.unsubscribe();
   }
 }
