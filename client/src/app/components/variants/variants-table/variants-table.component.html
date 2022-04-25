@@ -1,5 +1,6 @@
 <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
 <nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
   nzSize="small"
   cvcAutoHeightCard="35">
   <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
@@ -33,7 +34,7 @@
           Diseases
         </th>
         <th nzWidth="180px">
-          Drugs
+          Drugs {{ drugNameInput === undefined ? 'undefined' : drugNameInput }}
         </th>
         <th nzWidth="75px"
           nzRight
@@ -148,16 +149,19 @@
     nzType="secondary">
     ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
   </span>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
-    <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
-  </nz-tag>
   <ng-template #noData>
     <span nz-typography
       nzType="secondary">
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

@@ -83,11 +83,11 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
   noMoreRows$: BehaviorSubject<boolean>;
   //
   // filters
-  variantNameInput: Maybe<string>;
-  geneSymbolInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  drugNameInput: Maybe<string>;
-  variantAliasInput: Maybe<string>;
+  variantNameInput: Maybe<string> = '';
+  geneSymbolInput: Maybe<string> = '';
+  diseaseNameInput: Maybe<string> = '';
+  drugNameInput: Maybe<string> = '';
+  variantAliasInput: Maybe<string> = '';
 
   textInputCallback?: () => void
 
@@ -171,7 +171,9 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
         this.refresh();
       });
 
-    this.textInputCallback = () => { this.debouncedQuery.next(); }
+    this.textInputCallback = () => {
+      this.debouncedQuery.next();
+    }
   } // ngOnInit()
 
   ngAfterViewInit(): void {
