@@ -1,9 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
-@Component({
-  template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
+@Component({ template: '', })
 export abstract class BaseCloseableTag implements OnInit {
     @Input() onCloseClicked?: (id: number) => void
     @Input() linked?: boolean = true
@@ -11,7 +8,8 @@ export abstract class BaseCloseableTag implements OnInit {
     popoverVisible = false
     abstract idFunction(): number
 
-  // TODO: implement as getter/setters to remove ngOnInit
+  // TODO: implement as getter/setters to remove ngOnInit depdendency for virtual scroll cache
+  // Low priority as closable tags are not currently used in virtual scroll viewports.
     ngOnInit(): void {
       if(this.onCloseClicked) {
         // If you want the tag to be clickable to close, it cannot also be linkable
