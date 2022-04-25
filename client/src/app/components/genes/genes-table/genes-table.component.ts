@@ -1,32 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild, } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  first,
-  tap,
-  map,
-  pairwise,
-  pluck,
-  startWith,
-  take,
-  takeUntil,
-  throttleTime,
-  withLatestFrom,
-} from 'rxjs/operators';
-
+import {debounceTime, filter, first, tap, map, pairwise, pluck, startWith, take, takeUntil, throttleTime, withLatestFrom,} from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 
-import {
-  BrowseGenesGQL,
-  GeneBrowseTableRowFieldsFragment,
-  QueryBrowseGenesArgs,
-  PageInfo,
-  Maybe,
-  BrowseGenesQuery,
-  GenesSortColumns,
-} from '@app/generated/civic.apollo';
+import {BrowseGenesGQL, GeneBrowseTableRowFieldsFragment, QueryBrowseGenesArgs, PageInfo, Maybe, BrowseGenesQuery, GenesSortColumns,} from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { NzTableComponent } from 'ng-zorro-antd/table';
@@ -122,27 +100,28 @@ export class CvcGenesTableComponent implements OnInit {
         startWith(true))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
-    this.genes$ = this.data$.pipe(
-      pluck('data', 'browseGenes', 'edges'),
-      map((edges) => {
-        return edges.map((e) => { return e.node; })
-      }),
-    );
+    this.genes$ = this.data$
+      .pipe(
+        pluck('data', 'browseGenes', 'edges'),
+        map((edges) => {
+          return edges.map((e) => { return e.node; })
+        }));
 
-    this.pageInfo$ = this.data$.pipe(
-      pluck('data', 'browseGenes', 'pageInfo')
-    );
+    this.pageInfo$ = this.data$
+      .pipe(pluck('data', 'browseGenes', 'pageInfo'));
 
-    this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'browseGenes', 'filteredCount')
-    )
+    this.filteredCount$ = this.data$
+      .pipe(pluck('data', 'browseGenes', 'filteredCount'));
 
-    this.data$.pipe(
-      pluck('data', 'browseGenes', 'totalCount')
-    ).pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.data$
+      .pipe(
+        takeUntil(this.destroy$),
+        pluck('data', 'browseGenes', 'totalCount'),
+        take(1))
+      .subscribe(value => this.totalCount = value);
 
-    this.filteredCount$.subscribe(
-      value => {
+    this.filteredCount$
+      .subscribe(value => {
         if (value < this.initialPageSize) {
           this.visibleCount = value
         }
@@ -152,13 +131,12 @@ export class CvcGenesTableComponent implements OnInit {
             this.visibleCount = value
           }
         }
-      }
-    )
+      });
 
-    this.pageCount$ = this.data$.pipe(
-      pluck('data', 'browseGenes', 'pageCount'),
-      startWith(0),
-    );
+    this.pageCount$ = this.data$
+      .pipe(
+        pluck('data', 'browseGenes', 'pageCount'),
+        startWith(0));
 
     this.debouncedQuery
       .pipe(
@@ -179,8 +157,10 @@ export class CvcGenesTableComponent implements OnInit {
   } // ngOnInit()
 
   ngAfterViewInit(): void {
-    if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
-      this.pageInfo$) {
+    if (this.nzTableComponent
+      && this.nzTableComponent.cdkVirtualScrollViewport
+      && this.pageInfo$) {
+
       this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
       const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
 

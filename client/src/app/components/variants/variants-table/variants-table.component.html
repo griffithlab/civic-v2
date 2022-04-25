@@ -146,7 +146,7 @@
   <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
     nz-typography
     nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
+    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
   </span>
   <nz-tag nzColor="warning"
     *ngIf="noMoreRows$ | ngrxPush">

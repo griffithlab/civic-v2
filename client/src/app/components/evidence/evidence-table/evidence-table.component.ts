@@ -197,7 +197,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
     // handle loading state
     observable
-      .pipe(takeUntil(this.destroy$), pluck('loading'))
+      .pipe(
+        takeUntil(this.destroy$),
+        pluck('loading'))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.evidence$ = observable.pipe(
@@ -207,7 +209,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     this.filteredCount$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount'));
 
     this.filteredCount$
-      .pipe(take(1))
+      .pipe(
+        takeUntil(this.destroy$),
+        take(1))
       .subscribe(value => {
         this.totalCount = value;
         this.initialTotalCount.emit(value);
@@ -325,17 +329,17 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
   refresh() {
     this.isLoading = true;
-    this.loadedPages = 1
+    this.loadedPages = 1;
     var eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
-        eid = +(this.eidInput.toUpperCase().replace('EID', ''))
+        eid = +(this.eidInput.toUpperCase().replace('EID', ''));
       }
       else {
-        eid = +this.eidInput
+        eid = +this.eidInput;
       }
     else {
-      eid = undefined
+      eid = undefined;
     }
     this.queryRef.refetch({
       id: eid,
@@ -351,7 +355,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
       variantName: this.variantNameInput ? this.variantNameInput : undefined,
       cardView: !this.tableView
-    })
+    });
   }
 
   loadMore(afterCursor: Maybe<string>): void {
