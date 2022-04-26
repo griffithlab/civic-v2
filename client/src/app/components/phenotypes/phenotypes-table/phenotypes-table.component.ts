@@ -106,14 +106,15 @@ export class CvcPhenotypesTableComponent implements OnInit, OnDestroy, AfterView
 
     this.pageInfo$ = this.data$
       .pipe(takeUntil(this.destroy$),
-      pluck('data', 'phenotypes', 'pageInfo'));
+        pluck('data', 'phenotypes', 'pageInfo'));
 
     this.debouncedQuery
-      .pipe(debounceTime(500))
+      .pipe(takeUntil(this.destroy$),
+        debounceTime(500))
       .subscribe((_) => this.refresh());
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
-  }
+  } // ngOnInit
 
   ngAfterViewInit(): void {
     if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&

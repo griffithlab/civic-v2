@@ -1,35 +1,45 @@
-<nz-card [nzTitle]="titleTemplate">
-  <nz-table #variantTypesTable
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+<nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+  <nz-table #virtualTable
     nzSize="small"
-    [nzData]="(variantTypes$ | ngrxPush)"
-    [nzLoading]="(isLoading$ | ngrxPush)"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="variantTypes$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '400px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-
     <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr>
-        <th nzWidth="40%"
+      <tr class="col-header-row">
+        <th nzWidth="450px"
+          nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
-        <th nzWidth="40%"
+        <th nzWidth="100%"
           [nzColumnKey]="sortColumns.Soid"
           [nzSortFn]="true">
           SOID
         </th>
-        <th nzWidth="20%"
+        <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.VariantCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Variant Count">
-          <i nz-icon nzType="civic:variant"></i>
+          <i nz-icon nzType="civic:variant"></i> Count
         </th>
       </tr>
-      <tr>
-        <th>
+      <tr class="filter-row">
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="nameFilter"
             placeholderText="Search Name"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
@@ -39,40 +49,33 @@
             placeholderText="Search SO ID"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzRight>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let t of variantTypesTable.data">
-        <td>
-          <cvc-variant-type-tag [variantType]="t"></cvc-variant-type-tag>
-        </td>
-        <td>
-          <cvc-link-tag [href]="t.url"
-            tooltip="View on sequenceontology.org">
-            {{ t.soid }}
-          </cvc-link-tag>
+      <ng-template nz-virtual-scroll
+        let-vartype
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-variant-type-tag [variantType]="vartype"></cvc-variant-type-tag>
+          </td>
+          <td>
+            <cvc-link-tag [href]="vartype.url"
+              tooltip="View on sequenceontology.org">
+              {{ vartype.soid }}
+            </cvc-link-tag>
 
-          <ng-template #noSoid>
-            --
-          </ng-template>
-        </td>
-        <td>
-          {{ t.variantCount }}
-        </td>
-      </tr>
-      <!-- Load More button row -->
-      <ng-container *ngrxLet="pageInfo$ as pageInfo">
-        <tr *ngIf="pageInfo.hasNextPage">
-          <td colspan="7">
-            <button *ngIf="pageInfo.hasNextPage"
-              (click)="loadMore(pageInfo.endCursor)"
-              nz-button
-              nzBlock>Load {{this.initialPageSize}} More</button>
+            <ng-template #noSoid>
+              --
+            </ng-template>
+          </td>
+          <td nzRight nzAlign="right">
+            {{ vartype.variantCount }}
           </td>
         </tr>
-      </ng-container>
+      </ng-template>
     </tbody>
   </nz-table>
 </nz-card>
@@ -86,11 +89,20 @@
     {{ this.cvcTitle }}
   </ng-container>
   <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
+    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
   </span>
   <ng-template #noData>
     <span nz-typography nzType="secondary">
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>
