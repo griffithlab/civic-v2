@@ -27,6 +27,8 @@ export interface SourceWithCitation {
   link: string
 }
 
+type SourceTagInput = SourceWithDisplayName | SourceWithCitation;
+
 @Component({
   selector: 'cvc-source-tag',
   templateUrl: './source-tag.component.html',
@@ -34,7 +36,21 @@ export interface SourceWithCitation {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
-  @Input() source!: SourceWithDisplayName | SourceWithCitation;
+  _source!: SourceTagInput;
+
+  @Input()
+  set source(src: SourceTagInput) {
+    if (!src) { throw new Error('source-tag source input requires SourceWithDisplayName or SourceWithCitation.') }
+    this._source = src;
+    if ('displayName' in this.source) {
+      this.displayName = this.source.displayName
+    } else {
+      this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType) + ': ' + this.source.citation
+    }
+  }
+  get source(): SourceTagInput {
+    return this._source;
+  }
   @Input() enablePopover: Maybe<boolean> = true
   @Input() linked: Maybe<boolean> = true
   @Input() mode: 'normal' | 'concise' = 'normal'
@@ -52,16 +68,5 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   // TODO: implement source Input as setter for display logic, to remove OnInit
   ngOnInit() {
     super.ngOnInit();
-
-    if (this.source === undefined) {
-      throw new Error(
-        'cvc-source-tag requires LinkableSource input, none provided.'
-      );
-    }
-    if ('displayName' in this.source) {
-      this.displayName = this.source.displayName
-    } else {
-      this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType) + ': ' + this.source.citation
-    }
   }
 }
