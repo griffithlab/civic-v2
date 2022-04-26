@@ -212,6 +212,7 @@ export class CvcDrugsTableComponent implements OnInit, OnDestroy, AfterViewInit 
     this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {
+        first: this.fetchMorePagSize,
         after: cursor
       }
     })

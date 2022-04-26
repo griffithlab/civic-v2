@@ -1,44 +1,55 @@
-<nz-card [nzTitle]="titleTemplate">
-  <nz-table #phenotypesTable
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+<nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+  <nz-table #virtualTable
     nzSize="small"
-    [nzData]="(phenotypes$ | ngrxPush)"
-    [nzLoading]="(isLoading$ | ngrxPush)"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="phenotypes$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '400px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-
     <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr>
-        <th nzWidth="40%"
+      <tr class="col-header-row">
+        <th nzWidth="350px"
+          nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
-        <th nzWidth="40%"
+        <th nzWidth="100%"
           [nzColumnKey]="sortColumns.HpoId"
           [nzSortFn]="true">
           HPO ID
         </th>
-        <th nzWidth="10%"
+        <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
-          <i nz-icon nzType="civic:evidence"></i>
+          <i nz-icon nzType="civic:evidence"></i> Count
         </th>
-        <th nzWidth="10%"
+        <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.AssertionCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Assertion Count">
-          <i nz-icon nzType="civic:assertion"></i>
+          <i nz-icon nzType="civic:assertion"></i> Count
         </th>
       </tr>
-      <tr>
-        <th>
+      <tr class="filter-row">
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="hpoNameFilter"
             placeholderText="Search Name"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
@@ -48,43 +59,35 @@
             placeholderText="Search HPO ID"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzRight>
         </th>
-        <th>
+        <th nzRight>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of phenotypesTable.data">
-        <td>
-          <cvc-phenotype-tag [phenotype]="p"></cvc-phenotype-tag>
-        </td>
-        <td>
-          <cvc-link-tag *ngIf="p.hpoId; else noHpo"
-            [href]="p.url"
-            tooltip="View in the HPO">
-            {{ p.hpoId }}
-          </cvc-link-tag>
-          <ng-template #noHpo>--</ng-template>
-        </td>
-        <td>
-          {{ p.evidenceCount }}
-        </td>
-        <td>
-          {{ p.assertionCount }}
-        </td>
-      </tr>
-      <!-- Load More button row -->
-      <ng-container *ngrxLet="pageInfo$ as pageInfo">
-        <tr *ngIf="pageInfo.hasNextPage">
-          <td colspan="7">
-            <button *ngIf="pageInfo.hasNextPage"
-              (click)="loadMore(pageInfo.endCursor)"
-              nz-button
-              nzBlock>Load {{this.initialPageSize}} More</button>
+      <ng-template nz-virtual-scroll
+        let-phenotype
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-phenotype-tag [phenotype]="phenotype"></cvc-phenotype-tag>
+          </td>
+          <td>
+            <cvc-link-tag *ngIf="phenotype.hpoId; else noHpo"
+              [href]="phenotype.url">
+              {{ phenotype.hpoId }}
+            </cvc-link-tag>
+            <ng-template #noHpo>--</ng-template>
+          </td>
+          <td nzRight nzAlign="right">
+            {{ phenotype.evidenceCount }}
+          </td>
+          <td nzRight nzAlign="right">
+            {{ phenotype.assertionCount }}
           </td>
         </tr>
-      </ng-container>
+      </ng-template>
     </tbody>
   </nz-table>
 </nz-card>
@@ -105,4 +108,13 @@
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

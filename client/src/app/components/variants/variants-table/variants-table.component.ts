@@ -1,41 +1,12 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ApolloQueryResult } from '@apollo/client/core';
-import {
-  BrowseVariantsGQL,
-  BrowseVariantsQuery,
-  Maybe,
-  PageInfo,
-  QueryBrowseVariantsArgs,
-  VariantGridFieldsFragment,
-  VariantsSortColumns,
-} from '@app/generated/civic.apollo';
+import { BrowseVariantsGQL, BrowseVariantsQuery, Maybe, PageInfo, QueryBrowseVariantsArgs, VariantGridFieldsFragment, VariantsSortColumns, }
+  from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {
-  tap,
-  map,
-  pluck,
-  startWith,
-  debounceTime,
-  take,
-  takeUntil,
-  withLatestFrom,
-  pairwise,
-  filter,
-  throttleTime,
-  first
-} from 'rxjs/operators';
+import { tap, map, pluck, startWith, debounceTime, take, takeUntil, withLatestFrom, pairwise, filter, throttleTime, first } from 'rxjs/operators';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
 export interface VariantTableUserFilters {
@@ -97,7 +68,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
 
   private destroy$ = new Subject()
 
-  constructor(private query: BrowseVariantsGQL, private cdr: ChangeDetectorRef) {
+  constructor(private gql: BrowseVariantsGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false);
   }
 
@@ -108,7 +79,8 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
       variantGroupId: this.variantGroupId
     };
 
-    this.queryRef = this.query.watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
+    this.queryRef = this.gql
+      .watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
 
     this.data$ = this.queryRef.valueChanges
       .pipe(map((r) => {
