@@ -6,19 +6,16 @@ import { Maybe } from '@app/generated/civic.apollo';
   templateUrl: './link-tag.component.html',
   styleUrls: ['./link-tag.component.less']
 })
-export class CvcLinkTagComponent implements OnInit {
-  @Input() href!: string;
+export class CvcLinkTagComponent {
+  _href!: string;
+  @Input()
+  set href(h: string) {
+    if (!h) throw new Error('link-tag link Input requires string.');
+    this._href = h;
+  }
+  get href(): string { return this._href; }
+
   @Input() tooltip: Maybe<string>;
   @Input() iconName: Maybe<string>
-
-  constructor() { }
-
-  ngOnInit() {
-    if (this.href === undefined) {
-      throw new Error(
-        'cvc-link-tag requires href string input, none supplied.'
-      );
-    }
-  }
 
 }

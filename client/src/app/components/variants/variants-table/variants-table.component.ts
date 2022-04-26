@@ -58,44 +58,44 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
   @Input() cvcTitle: Maybe<string>
 
   @ViewChild('virtualTable', { static: false })
-  nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>;
-  viewport?: CdkVirtualScrollViewport;
+  nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>
+  viewport?: CdkVirtualScrollViewport
 
-  private initialQueryArgs?: QueryBrowseVariantsArgs;
-  private debouncedQuery = new Subject<void>();
+  private initialQueryArgs?: QueryBrowseVariantsArgs
+  private debouncedQuery = new Subject<void>()
 
-  queryRef!: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
-  data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
-  isLoading = false;
+  queryRef!: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>
+  data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>
+  isLoading = false
 
-  variants$?: Observable<Maybe<VariantGridFieldsFragment>[]>;
-  filteredCount$?: Observable<number>;
-  pageCount$?: Observable<number>;
-  pageInfo$?: Observable<PageInfo>;
+  variants$?: Observable<Maybe<VariantGridFieldsFragment>[]>
+  filteredCount$?: Observable<number>
+  pageCount$?: Observable<number>
+  pageInfo$?: Observable<PageInfo>
 
   totalCount?: number
-  initialPageSize = 50;
-  visibleCount: number = this.initialPageSize;
+  initialPageSize = 50
+  visibleCount: number = this.initialPageSize
   loadedPages: number = 1
-  fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  fetchMorePageSize = 25
+  isLoadingDelay = 100
 
   noMoreRows$: BehaviorSubject<boolean>;
 
   // filters
-  variantNameInput: Maybe<string> = '';
-  geneSymbolInput: Maybe<string> = '';
-  diseaseNameInput: Maybe<string> = '';
-  drugNameInput: Maybe<string> = '';
-  variantAliasInput: Maybe<string> = '';
+  variantNameInput: Maybe<string> = ''
+  geneSymbolInput: Maybe<string> = ''
+  diseaseNameInput: Maybe<string> = ''
+  drugNameInput: Maybe<string> = ''
+  variantAliasInput: Maybe<string> = ''
 
   textInputCallback?: () => void
 
-  showTooltips = true;
+  showTooltips = true
 
-  sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
+  sortColumns: typeof VariantsSortColumns = VariantsSortColumns
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject()
 
   constructor(private query: BrowseVariantsGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false);
@@ -110,38 +110,38 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
 
     this.queryRef = this.query.watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
 
-    this.data$ = this.queryRef.valueChanges.pipe(
-      map((r) => {
+    this.data$ = this.queryRef.valueChanges
+      .pipe(map((r) => {
         return {
           data: r.data,
           loading: r.loading,
           networkStatus: r.networkStatus,
         };
-      })
-    );
+      }));
 
     // handle loading state
     this.data$
-      .pipe(
-        takeUntil(this.destroy$),
+      .pipe(takeUntil(this.destroy$),
         pluck('loading'),
         startWith(true))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.variants$ = this.data$
-      .pipe(
+      .pipe(takeUntil(this.destroy$),
         pluck('data', 'browseVariants', 'edges'),
         map((edges) => { return edges.map((e) => e.node); }));
 
-    this.pageInfo$ = this.data$.pipe(
-      pluck('data', 'browseVariants', 'pageInfo')
-    );
+    this.pageInfo$ = this.data$
+      .pipe(takeUntil(this.destroy$),
+        pluck('data', 'browseVariants', 'pageInfo'));
 
     this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'browseVariants', 'filteredCount')
-    )
+      pluck('data', 'browseVariants', 'filteredCount'));
 
-    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.filteredCount$
+      .pipe(takeUntil(this.destroy$),
+        take(1))
+      .subscribe(value => this.totalCount = value);
 
     this.filteredCount$.subscribe(
       value => {
@@ -213,7 +213,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
                 .subscribe((_) => {
                   this.noMoreRows$.next(false);
                   this.cdr.detectChanges();
-                })
+                });
             }
           }
         });
