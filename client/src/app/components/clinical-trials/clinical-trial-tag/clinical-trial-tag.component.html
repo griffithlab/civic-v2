@@ -6,11 +6,11 @@
 
 <ng-template #tag>
   <nz-tag *ngIf="enablePopover; else noPopover"
-  nz-popover
-  [nzPopoverMouseEnterDelay]="0.5"
-  [nzPopoverContent]="clinicalTrialPopover"
-  nzPopoverPlacement="right"
-  nzPopoverTrigger="hover">
+    nz-popover
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="clinicalTrialPopover"
+    nzPopoverPlacement="right"
+    nzPopoverTrigger="hover">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -30,6 +30,7 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon nzType="audit" class="clinical-trial-tag-icon"></i>
-    {{ clinicalTrial.nctId }}
+  <i nz-icon
+    nzType="audit"
+    class="clinical-trial-tag-icon"></i> {{ clinicalTrial.nctId }}
 </ng-template>
