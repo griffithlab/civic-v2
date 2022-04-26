@@ -45,12 +45,12 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
     if ('displayName' in this.source) {
       this.displayName = this.source.displayName
     } else {
-      this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType) + ': ' + this.source.citation
+      this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType)
+        + ': ' + this.source.citation
     }
   }
-  get source(): SourceTagInput {
-    return this._source;
-  }
+  get source(): SourceTagInput { return this._source; }
+
   @Input() enablePopover: Maybe<boolean> = true
   @Input() linked: Maybe<boolean> = true
   @Input() mode: 'normal' | 'concise' = 'normal'
@@ -65,8 +65,4 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
     return this.source.id
   }
 
-  // TODO: implement source Input as setter for display logic, to remove OnInit
-  ngOnInit() {
-    super.ngOnInit();
-  }
 }

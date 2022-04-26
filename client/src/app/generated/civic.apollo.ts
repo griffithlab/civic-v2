@@ -4642,10 +4642,15 @@ export type ClinicalTrialsBrowseQuery = (
       & Pick<BrowseClinicalTrialEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseClinicalTrial' }
-        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
+        & BrowseClinicalTrialsRowFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type BrowseClinicalTrialsRowFieldsFragment = (
+  { __typename: 'BrowseClinicalTrial' }
+  & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
 );
 
 export type CommentListQueryVariables = Exact<{
@@ -8275,6 +8280,16 @@ export const ClinicalTrialPopoverFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const BrowseClinicalTrialsRowFieldsFragmentDoc = gql`
+    fragment BrowseClinicalTrialsRowFields on BrowseClinicalTrial {
+  id
+  name
+  nctId
+  evidenceCount
+  sourceCount
+  link
+}
+    `;
 export const CommentListNodeFragmentDoc = gql`
     fragment commentListNode on Comment {
   id
@@ -10306,17 +10321,12 @@ export const ClinicalTrialsBrowseDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        nctId
-        evidenceCount
-        sourceCount
-        link
+        ...BrowseClinicalTrialsRowFields
       }
     }
   }
 }
-    `;
+    ${BrowseClinicalTrialsRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

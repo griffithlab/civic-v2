@@ -65,7 +65,7 @@ export class CvcSourcesTableComponent implements OnInit, AfterViewInit {
     this.queryRef = this.gql.watch({
       first: this.initialPageSize,
       clinicalTrialId: this.clinicalTrialId
-    })
+    }, { fetchPolicy: 'network-only' });
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -74,8 +74,7 @@ export class CvcSourcesTableComponent implements OnInit, AfterViewInit {
           loading: r.loading,
           networkStatus: r.networkStatus
         }
-      })
-    );
+      }));
 
     // handle loading state
     this.data$

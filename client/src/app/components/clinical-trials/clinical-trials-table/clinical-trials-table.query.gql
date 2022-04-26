@@ -6,7 +6,7 @@ query ClinicalTrialsBrowse(
   $name: String
   $nctId: String
   $sortBy: ClinicalTrialSort
-){
+) {
   clinicalTrials(
     first: $first
     last: $last
@@ -27,13 +27,17 @@ query ClinicalTrialsBrowse(
     edges {
       cursor
       node {
-        id
-        name
-        nctId
-        evidenceCount
-        sourceCount
-        link
+        ...BrowseClinicalTrialsRowFields
       }
     }
   }
+}
+
+fragment BrowseClinicalTrialsRowFields on BrowseClinicalTrial {
+  id
+  name
+  nctId
+  evidenceCount
+  sourceCount
+  link
 }
