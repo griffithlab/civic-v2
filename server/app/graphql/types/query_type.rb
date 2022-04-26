@@ -130,7 +130,7 @@ module Types
       argument :comment_text, String, required: true
     end
 
-
+    field :genes, resolver: Resolvers::TopLevelGenes
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
 
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
