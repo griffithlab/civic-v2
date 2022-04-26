@@ -126,9 +126,9 @@
               [maxDisplayCount]="1"
               [matchingText]="drugNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight nzAlign="right">{{variant.evidenceScore}}</td>
-          <td nzRight nzAlign="right">{{variant.evidenceItemCount}}</td>
-          <td nzRight nzAlign="right">{{variant.assertionCount}}</td>
+          <td nzRight nzAlign="right">{{variant.evidenceScore | number }}</td>
+          <td nzRight nzAlign="right">{{variant.evidenceItemCount | number }}</td>
+          <td nzRight nzAlign="right">{{variant.assertionCount | number }}</td>
         </tr>
       </ng-template>
     </tbody>

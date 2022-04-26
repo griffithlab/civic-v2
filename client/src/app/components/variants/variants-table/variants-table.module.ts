@@ -26,11 +26,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   declarations: [CvcVariantsTableComponent],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveComponentModule,
     NzTableModule,
-    NzFormModule,
-    NzInputModule,
     NzIconModule,
     NzTypographyModule,
     NzToolTipModule,

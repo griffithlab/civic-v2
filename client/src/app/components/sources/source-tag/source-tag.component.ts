@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { SourceTypeDisplayPipe } from '@app/core/pipes/source-type-display.pipe';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe, SourceSource } from '@app/generated/civic.apollo';
@@ -31,6 +31,7 @@ export interface SourceWithCitation {
   selector: 'cvc-source-tag',
   templateUrl: './source-tag.component.html',
   styleUrls: ['./source-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() source!: SourceWithDisplayName | SourceWithCitation;
@@ -42,12 +43,13 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
 
   constructor(private sourceTypeDisplay: SourceTypeDisplayPipe) {
     super();
-   }
-
-  idFunction() { 
-    return this.source.id 
   }
 
+  idFunction() {
+    return this.source.id
+  }
+
+  // TODO: implement source Input as setter for display logic, to remove OnInit
   ngOnInit() {
     super.ngOnInit();
 

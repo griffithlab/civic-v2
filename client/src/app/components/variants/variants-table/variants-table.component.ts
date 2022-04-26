@@ -81,7 +81,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
   isLoadingDelay = 100;
 
   noMoreRows$: BehaviorSubject<boolean>;
-  //
+
   // filters
   variantNameInput: Maybe<string> = '';
   geneSymbolInput: Maybe<string> = '';
@@ -270,6 +270,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
     this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {
+        first: this.fetchMorePageSize,
         after: cursor
       }
     })
