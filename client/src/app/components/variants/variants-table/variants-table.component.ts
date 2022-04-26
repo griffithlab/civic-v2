@@ -237,11 +237,12 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
         .subscribe((_) => { this.viewport!.checkViewportSize(); });
 
     } else {
-      console.error('evidence-table unable to find cdkVirtualScrollViewport.');
+      console.error('variants-table unable to find cdkVirtualScrollViewport.');
     }
   } // ngAfterViewInit
 
   onSortChanged(e: SortDirectionEvent) {
+    this.isLoading = true;
     this.loadedPages = 1
     this.queryRef?.refetch({
       ...this.initialQueryArgs,
@@ -278,7 +279,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
     this.loadedPages += 1
   }
 
-  // vir tual scroll helpers
+  // virtual scroll helpers
   trackByIndex(_: number, data: VariantGridFieldsFragment): number {
     return data.id;
   }
