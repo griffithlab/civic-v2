@@ -19,3 +19,15 @@ RefreshBrowseViews:
   class: RefreshMaterializedViews
   args:
     views: except_genes
+
+GenerateMonthlyTsvs:
+  cron: '20 0 1 * *'
+  description: Update the monthly TSV dumps
+  queue: default
+  class: GenerateMonthlyTsvs
+
+GenerateNightlyTsvs:
+  cron: '0 0 * * *'
+  description: Update the nightly TSV dumps
+  queue: default
+  class: GenerateNightlyTsvs
