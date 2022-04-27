@@ -23,6 +23,8 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -37,6 +39,8 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
     NzTagModule,
     NzIconModule,
     NzDescriptionsModule,
+    NzBadgeModule,
+    NzToolTipModule,
     CvcPipesModule,
     CvcEvidenceRatingModule,
     CvcDiseaseTagModule,

@@ -380,6 +380,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   evidenceItemsCount: Int!
   fdaCompanionTest: Boolean
   fdaCompanionTestLastUpdated: ISO8601DateTime
+  fieldsWithNewRevisions: [String!]!
   flagged: Boolean!
 
   """
@@ -2056,6 +2057,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
   evidenceLevel: EvidenceLevel!
   evidenceRating: Int
   evidenceType: EvidenceType!
+  fieldsWithNewRevisions: [String!]!
   flagged: Boolean!
 
   """
@@ -2691,6 +2693,7 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
     """
     sortBy: DateSort
   ): EventConnection!
+  fieldsWithNewRevisions: [String!]!
   flagged: Boolean!
 
   """
@@ -6771,6 +6774,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     last: Int
   ): EvidenceItemConnection!
   evidenceScore: Float!
+  fieldsWithNewRevisions: [String!]!
   flagged: Boolean!
 
   """
@@ -7116,6 +7120,7 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     """
     sortBy: DateSort
   ): EventConnection!
+  fieldsWithNewRevisions: [String!]!
   flagged: Boolean!
 
   """
@@ -7390,6 +7395,7 @@ enum VariantsSortColumns {
 A CIViC entity that can have revisions proposed to it.
 """
 interface WithRevisions {
+  fieldsWithNewRevisions: [String!]!
   lastAcceptedRevisionEvent: Event
   lastSubmittedRevisionEvent: Event
 

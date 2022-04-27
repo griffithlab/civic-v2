@@ -211,6 +211,7 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   evidenceItemsCount: Scalars['Int'];
   fdaCompanionTest?: Maybe<Scalars['Boolean']>;
   fdaCompanionTestLastUpdated?: Maybe<Scalars['ISO8601DateTime']>;
+  fieldsWithNewRevisions: Array<Scalars['String']>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -1302,6 +1303,7 @@ export type EvidenceItem = Commentable & EventOriginObject & EventSubject & Flag
   evidenceLevel: EvidenceLevel;
   evidenceRating?: Maybe<Scalars['Int']>;
   evidenceType: EvidenceType;
+  fieldsWithNewRevisions: Array<Scalars['String']>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -1631,6 +1633,7 @@ export type Gene = Commentable & EventSubject & Flaggable & WithRevisions & {
   entrezId: Scalars['Int'];
   /** List and filter events for an object */
   events: EventConnection;
+  fieldsWithNewRevisions: Array<Scalars['String']>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -4113,6 +4116,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   events: EventConnection;
   evidenceItems: EvidenceItemConnection;
   evidenceScore: Scalars['Float'];
+  fieldsWithNewRevisions: Array<Scalars['String']>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -4274,6 +4278,7 @@ export type VariantGroup = Commentable & EventSubject & Flaggable & WithRevision
   description: Scalars['String'];
   /** List and filter events for an object */
   events: EventConnection;
+  fieldsWithNewRevisions: Array<Scalars['String']>;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -4451,6 +4456,7 @@ export enum VariantsSortColumns {
 
 /** A CIViC entity that can have revisions proposed to it. */
 export type WithRevisions = {
+  fieldsWithNewRevisions: Array<Scalars['String']>;
   lastAcceptedRevisionEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
   /** List and filter revisions. */
@@ -7404,7 +7410,7 @@ export type EvidenceSummaryQuery = (
 
 export type EvidenceSummaryFieldsFragment = (
   { __typename: 'EvidenceItem' }
-  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'status' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating'>
+  & Pick<EvidenceItem, 'id' | 'name' | 'description' | 'status' | 'evidenceLevel' | 'evidenceType' | 'evidenceDirection' | 'clinicalSignificance' | 'variantOrigin' | 'drugInteractionType' | 'evidenceRating' | 'fieldsWithNewRevisions'>
   & { drugs: Array<(
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name' | 'link'>
@@ -9690,6 +9696,7 @@ export const EvidenceSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
+  fieldsWithNewRevisions
 }
     `;
 export const GeneDetailFieldsFragmentDoc = gql`

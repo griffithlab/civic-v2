@@ -16,6 +16,7 @@ export class EvidenceSummaryPage {
   queryRef: QueryRef<EvidenceSummaryQuery, EvidenceSummaryQueryVariables>
   loading$: Observable<boolean>
   evidence$: Observable<Maybe<EvidenceSummaryFieldsFragment>>
+  fieldsWithNewRevisions$: Observable<String[]>
 
   subscribable: SubscribableInput
 
@@ -45,6 +46,10 @@ export class EvidenceSummaryPage {
 
     this.evidence$ = observable.pipe(
       pluck('data', 'evidenceItem')
+    )
+
+    this.fieldsWithNewRevisions$ = observable.pipe(
+      pluck('data', 'evidenceItem', 'fieldsWithNewRevisions')
     )
 
     this.subscribable = {

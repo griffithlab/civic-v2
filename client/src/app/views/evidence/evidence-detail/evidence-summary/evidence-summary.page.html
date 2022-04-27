@@ -3,6 +3,8 @@
   nzDirection="vertical"
   class="space-align-block">
   <nz-row [nzGutter]="16" *nzSpaceItem>
+    <ng-container *ngrxLet="fieldsWithNewRevisions$ as fieldsWithNewRevisions">
+
 
     <!-- evidence description, source, clinical trials column -->
     <nz-col [nzSpan]="12">
@@ -12,12 +14,18 @@
         <nz-descriptions nzLayout="vertical"
           nzSize="small"
           nzBordered="true" *nzSpaceItem>
-          <nz-descriptions-item nzTitle="Description">
+
+          <nz-descriptions-item [nzTitle]="descriptionTemplate">
             <p nz-typography
               nzEllipsis
               nzExpandable
               [nzEllipsisRows]="14">{{ evidence.description }}</p>
           </nz-descriptions-item>
+          <ng-template #descriptionTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('description')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Description
+          </ng-template>
 
         </nz-descriptions>
 
@@ -28,32 +36,57 @@
           *nzSpaceItem>
 
           <!-- evidence type -->
-          <nz-descriptions-item nzTitle="Type">
+          <nz-descriptions-item [nzTitle]="typeTemplate">
             {{ evidence.evidenceType | evidenceEnumDisplay }}
           </nz-descriptions-item>
+          <ng-template #typeTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('evidence_type')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Type
+          </ng-template>
 
           <!-- evidence direction -->
-          <nz-descriptions-item nzTitle="Direction">
+          <nz-descriptions-item [nzTitle]="directionTemplate">
             {{ evidence.evidenceDirection | evidenceEnumDisplay}}
           </nz-descriptions-item>
+          <ng-template #directionTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('evidence_direction')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Direction
+          </ng-template>
 
           <!-- clinical significance -->
-          <nz-descriptions-item nzTitle="Clinical Significance"
+          <nz-descriptions-item [nzTitle]="significanceTemplate"
             nzSpan="2">
             {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
           </nz-descriptions-item>
+          <ng-template #significanceTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('clinical_significance')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Clinical Significance
+          </ng-template>
 
 
           <!-- evidence level -->
-          <nz-descriptions-item nzTitle="Level">
+          <nz-descriptions-item [nzTitle]="levelTemplate">
             {{ evidence.evidenceLevel }}
           </nz-descriptions-item>
+          <ng-template #levelTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('evidence_level')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Level
+          </ng-template>
 
 
           <!-- evidence rating -->
-          <nz-descriptions-item nzTitle="Rating">
+          <nz-descriptions-item [nzTitle]="ratingTemplate">
             <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
           </nz-descriptions-item>
+          <ng-template #ratingTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('evidence_rating')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Rating
+          </ng-template>
 
 
         </nz-descriptions>
@@ -107,10 +140,15 @@
           nzBordered="true"
           [nzColumn]="1" *nzSpaceItem>
           <!-- source -->
-          <nz-descriptions-item nzTitle="Source"
+          <nz-descriptions-item [nzTitle]="sourceTemplate"
             nzSpan="2">
             <cvc-source-tag [source]="evidence.source"> </cvc-source-tag>
           </nz-descriptions-item>
+          <ng-template #sourceTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('source_id')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Source
+          </ng-template>
 
           <!-- clinical trials -->
           <nz-descriptions-item [nzTitle]="evidence.source.clinicalTrials.length > 1 ? 'Clinical Trials' : 'Clinical Trial'">
@@ -134,19 +172,22 @@
           [nzColumn]="(evidence.disease?.name !== undefined && evidence.phenotypes.length > 0) ? 1 : 2" *nzSpaceItem>
 
           <!-- disease -->
-          <nz-descriptions-item nzTitle="Disease">
+          <nz-descriptions-item [nzTitle]="diseaseTemplate">
             <ng-container *ngIf="evidence.disease">
-              <a routerLink="/diseases/{{evidence.disease.id}}">
-                <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
-              </a>
+              <cvc-disease-tag [disease]="evidence.disease"></cvc-disease-tag>
             </ng-container>
             <span *ngIf="!evidence.disease"
               nz-typography
               nzType="secondary">N/A</span>
           </nz-descriptions-item>
+          <ng-template #diseaseTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('disease_id')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            Disease
+          </ng-template>
 
           <!-- phenotypes -->
-          <nz-descriptions-item [nzTitle]="evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype'">
+          <nz-descriptions-item [nzTitle]="phenotypeTemplate">
             <ng-container *ngIf="evidence.phenotypes.length > 0; else noPhenotypes">
               <cvc-tag-list>
                 <ng-container *ngFor="let ph of evidence.phenotypes">
@@ -159,6 +200,11 @@
                 nzType="secondary">None Specified</span>
             </ng-template>
           </nz-descriptions-item>
+          <ng-template #phenotypeTemplate>
+            <nz-badge *ngIf="fieldsWithNewRevisions.includes('phenotype_ids')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+            </nz-badge>
+            {{ evidence.phenotypes.length > 1 ? 'Phenotypes' : 'Phenotype' }}
+          </ng-template>
         </nz-descriptions>
 
         <!-- drugs -->
@@ -185,6 +231,8 @@
 
             <!-- drug description title template -->
             <ng-template #drugsTitle>
+              <nz-badge *ngIf="fieldsWithNewRevisions.includes('drug_ids')" nzColor="orange" nz-tooltip nzTooltipTitle="This field has open revisions">
+              </nz-badge>
               <ng-container [ngPlural]="evidence.drugs.length">
                 <ng-template ngPluralCase="=0">
                   Drug
@@ -202,6 +250,7 @@
 
       </nz-space>
     </nz-col>
+    </ng-container>
   </nz-row>
   <cvc-assertions-table [evidenceId]="evidence.id" cvcTitle="{{evidence.name}} Assertions" *nzSpaceItem></cvc-assertions-table>
 </nz-space>

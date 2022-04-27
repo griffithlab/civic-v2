@@ -93,4 +93,5 @@ fragment EvidenceSummaryFields on EvidenceItem {
       profileImagePath(size: 32)
     }
   }
+  fieldsWithNewRevisions
 }
