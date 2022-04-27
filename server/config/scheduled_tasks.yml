@@ -1,0 +1,5 @@
+SetAlleleRegistryIds:
+  cron: '0 0 * * *'
+  description: Check for unpopulated allele registry ids and attempt to populate them
+  queue: default
+  class: SetAlleleRegistryIds
