@@ -5,8 +5,8 @@
   cvcAutoHeightCard="35">
   <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
-  <!-- nzScroll x value is set to the height of the rendered nz-table-inner-scroll element, and determines the height of the table before the auto-height directives resize them.  -->
-  <!-- nzScroll y value has something to do with the width of the horizontal scrollable area between nzLeft and nzRight columns, but I have not figured out exactly how they're related. -->
+  <!-- nzScroll x sets the minimum height of the rendered nz-table-inner-scroll element, which determines the height of the table before the auto-height directives resize them.  -->
+  <!-- nzScroll y has something to do with the width of the horizontal scrollable area between nzLeft and nzRight columns, but I have not figured out exactly how they're related. -->
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="25"
