@@ -7225,7 +7225,13 @@ export type AssertionDetailQuery = (
 export type AssertionDetailFieldsFragment = (
   { __typename: 'Assertion' }
   & Pick<Assertion, 'id' | 'name' | 'status'>
-  & { gene: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
@@ -7368,7 +7374,13 @@ export type EvidenceDetailQuery = (
 export type EvidenceDetailFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'name' | 'status'>
-  & { variant: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), gene: (
@@ -9460,6 +9472,11 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   gene {
     id
     name
@@ -9576,6 +9593,11 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   variant {
     id
     name
