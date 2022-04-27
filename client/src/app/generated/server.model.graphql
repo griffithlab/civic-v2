@@ -5556,6 +5556,7 @@ type SourceStub {
 }
 
 type SourceSuggestion implements EventOriginObject & EventSubject {
+  createdAt: ISO8601DateTime!
   disease: Disease
 
   """
@@ -5680,6 +5681,7 @@ input SourceSuggestionsSort {
 enum SourceSuggestionsSortColumns {
   CITATION
   CITATION_ID
+  CREATED_AT
   DISEASE_NAME
   GENE_NAME
   SOURCE_TYPE

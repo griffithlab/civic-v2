@@ -7,5 +7,6 @@ module Types::BrowseTables
     value "GENE_NAME"
     value "VARIANT_NAME"
     value "DISEASE_NAME"
+    value "CREATED_AT"
   end
 end
