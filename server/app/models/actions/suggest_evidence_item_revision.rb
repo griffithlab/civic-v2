@@ -12,6 +12,7 @@ class Actions::SuggestEvidenceItemRevision < Actions::SuggestRevisionSet
       :evidence_direction,
       :phenotype_ids,
       :rating,
+      :drug_interaction_type,
       :drug_ids
     ]
   end
