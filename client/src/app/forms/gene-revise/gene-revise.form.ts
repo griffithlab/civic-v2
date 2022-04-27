@@ -16,13 +16,16 @@ import {
   SuggestGeneRevisionGQL,
   SuggestGeneRevisionMutation,
   SuggestGeneRevisionMutationVariables,
+  ModeratedEntities,
+  RevisionStatus,
+  GeneDetailGQL,
+  RevisionsGQL,
 } from '@app/generated/civic.apollo';
 
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { toNullableString } from '@app/forms/config/utilities/input-formatters';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
-import { ConstantPool } from '@angular/compiler';
 
 export interface FormSource {
   id?: number;
@@ -66,7 +69,9 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private suggestRevisionGQL: SuggestGeneRevisionGQL,
     private networkErrorService: NetworkErrorsService,
-    private revisableFieldsGQL: GeneRevisableFieldsGQL
+    private revisableFieldsGQL: GeneRevisableFieldsGQL,
+    private geneDetailGQL: GeneDetailGQL,
+    private revisionsGQL: RevisionsGQL
   ) {
     this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
 
@@ -189,6 +194,21 @@ export class GeneReviseForm implements OnInit, AfterViewInit, OnDestroy {
     if(input) {
       let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
         input: input
+      },
+      {
+        refetchQueries: [
+          {
+            query: this.geneDetailGQL.document,
+            variables: { geneId: this.geneId }
+          },
+          {
+            query: this.revisionsGQL.document,
+            variables: {
+                subject: {id: this.geneId, entityType: ModeratedEntities.Gene},
+                status: RevisionStatus.New
+              }
+          }
+        ]
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
