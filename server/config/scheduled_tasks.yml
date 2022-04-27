@@ -3,3 +3,19 @@ SetAlleleRegistryIds:
   description: Check for unpopulated allele registry ids and attempt to populate them
   queue: default
   class: SetAlleleRegistryIds
+
+RefreshGeneView:
+  cron: '0 */2 * * *'
+  description: Refresh the gene browse table view (every two hours)
+  queue: default
+  class: RefreshMaterializedViews
+  args:
+    views: genes_only
+
+RefreshBrowseViews:
+  cron: '*/10 * * * *'
+  description: Refresh the other browse table views (every ten minutes)
+  queue: default
+  class: RefreshMaterializedViews
+  args:
+    views: except_genes
