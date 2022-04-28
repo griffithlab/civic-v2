@@ -42,10 +42,15 @@
           [nzSortFn]="true">
           Disease
         </th>
-        <th nzWidth="400px"
+        <th nzWidth="350px"
           [nzColumnKey]="sortColumns.DrugName"
           [nzSortFn]="true">
           Drugs
+        </th>
+        <th nzWidth="40px"
+          nz-tooltip
+          nzTooltipTitle="Drug Interaction Type">
+          DIT
         </th>
         <th nzWidth="60px"
           nzRight
@@ -123,6 +128,7 @@
           <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
+        <th></th>
         <th nzRight>
           <cvc-clearable-input-filter [(inputModel)]="summaryInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
@@ -258,16 +264,6 @@
           <td>
             <div *ngIf="aid.drugs.length > 0; else drugsElse">
               <cvc-tag-list>
-                <ng-container *ngIf="aid.drugs.length > 1">
-                  <nz-tag nz-tooltip
-                    nzTooltipPlacement="top"
-                    [nzTooltipTitle]="showTooltips ? (aid.drugInteractionType | drugInteractionEnumDisplay) : ''">
-                    <i nz-icon
-                      style="color: #ac3996"
-                      [nzType]="aid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
-                      class="attribute-icon"></i>
-                  </nz-tag>
-                </ng-container>
                 <ng-container *ngFor="let drug of aid.drugs">
                   <cvc-drug-tag [drug]="drug"
                     [truncateLongName]="true"></cvc-drug-tag>
@@ -278,6 +274,22 @@
               <i nz-typography
                 nzType="secondary">N/A</i>
             </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="aid.drugInteractionType">
+              <nz-tag nz-tooltip
+                nzTooltipPlacement="top"
+                [nzTooltipTitle]="showTooltips ? (aid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                <i nz-icon
+                  style="color: #ac3996"
+                  [nzType]="aid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i>
+              </nz-tag>
+            </ng-container>
+            <ng-container *ngIf="!aid.drugInteractionType">
+              <i nz-typography
+                nzType="secondary">N/A</i>
+            </ng-container>
           </td>
           <td nzAlign="center"
             nzRight>
