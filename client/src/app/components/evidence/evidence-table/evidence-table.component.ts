@@ -107,7 +107,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   pageInfo$?: Observable<PageInfo>;
   totalCount?: number;
   fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
   visibleCount: number = this.initialPageSize;
 
   noMoreRows$: BehaviorSubject<boolean>;
@@ -197,7 +197,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
     // handle loading state
     observable
-      .pipe(takeUntil(this.destroy$), pluck('loading'))
+      .pipe(
+        takeUntil(this.destroy$),
+        pluck('loading'))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.evidence$ = observable.pipe(
@@ -207,7 +209,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
     this.filteredCount$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount'));
 
     this.filteredCount$
-      .pipe(take(1))
+      .pipe(
+        takeUntil(this.destroy$),
+        take(1))
       .subscribe(value => {
         this.totalCount = value;
         this.initialTotalCount.emit(value);
@@ -247,7 +251,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
 
       scrolled$
-        .pipe(
+        .pipe(takeUntil(this.destroy$),
           // for each elementScrolled event, get latest pageInfo,
           // and return page cursor and scroll offest
           withLatestFrom(this.pageInfo$),
@@ -264,7 +268,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
             return (e2.offset < e1.offset && e2.offset < 140)
           }),
           // throttle events to prevent spamming loadMore() requests
-          throttleTime(this.isLoadingDelay))
+          throttleTime(500))
         .subscribe(([_, e2]) => {
           if (e2.pageInfo.hasNextPage) {
             this.loadMore(e2.pageInfo.endCursor);
@@ -325,17 +329,17 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
 
   refresh() {
     this.isLoading = true;
-    this.loadedPages = 1
+    this.loadedPages = 1;
     var eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
-        eid = +(this.eidInput.toUpperCase().replace('EID', ''))
+        eid = +(this.eidInput.toUpperCase().replace('EID', ''));
       }
       else {
-        eid = +this.eidInput
+        eid = +this.eidInput;
       }
     else {
-      eid = undefined
+      eid = undefined;
     }
     this.queryRef.refetch({
       id: eid,
@@ -351,7 +355,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
       variantName: this.variantNameInput ? this.variantNameInput : undefined,
       cardView: !this.tableView
-    })
+    });
   }
 
   loadMore(afterCursor: Maybe<string>): void {

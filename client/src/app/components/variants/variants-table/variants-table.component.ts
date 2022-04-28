@@ -1,41 +1,12 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ApolloQueryResult } from '@apollo/client/core';
-import {
-  BrowseVariantsGQL,
-  BrowseVariantsQuery,
-  Maybe,
-  PageInfo,
-  QueryBrowseVariantsArgs,
-  VariantGridFieldsFragment,
-  VariantsSortColumns,
-} from '@app/generated/civic.apollo';
+import { BrowseVariantsGQL, BrowseVariantsQuery, Maybe, PageInfo, QueryBrowseVariantsArgs, VariantGridFieldsFragment, VariantsSortColumns, }
+  from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {
-  tap,
-  map,
-  pluck,
-  startWith,
-  debounceTime,
-  take,
-  takeUntil,
-  withLatestFrom,
-  pairwise,
-  filter,
-  throttleTime,
-  first
-} from 'rxjs/operators';
+import { tap, map, pluck, startWith, debounceTime, take, takeUntil, withLatestFrom, pairwise, filter, throttleTime, first } from 'rxjs/operators';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
 export interface VariantTableUserFilters {
@@ -50,6 +21,7 @@ export interface VariantTableUserFilters {
   selector: 'cvc-variants-table',
   templateUrl: './variants-table.component.html',
   styleUrls: ['./variants-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewInit {
   @Input() variantTypeId: Maybe<number>
@@ -58,46 +30,46 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
   @Input() cvcTitle: Maybe<string>
 
   @ViewChild('virtualTable', { static: false })
-  nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>;
-  viewport?: CdkVirtualScrollViewport;
+  nzTableComponent?: NzTableComponent<VariantGridFieldsFragment>
+  viewport?: CdkVirtualScrollViewport
 
-  private initialQueryArgs?: QueryBrowseVariantsArgs;
-  private debouncedQuery = new Subject<void>();
+  private initialQueryArgs?: QueryBrowseVariantsArgs
+  private debouncedQuery = new Subject<void>()
 
-  queryRef!: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>;
-  data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>;
-  isLoading = false;
+  queryRef!: QueryRef<BrowseVariantsQuery, QueryBrowseVariantsArgs>
+  data$?: Observable<ApolloQueryResult<BrowseVariantsQuery>>
+  isLoading = false
 
-  variants$?: Observable<Maybe<VariantGridFieldsFragment>[]>;
-  filteredCount$?: Observable<number>;
-  pageCount$?: Observable<number>;
-  pageInfo$?: Observable<PageInfo>;
+  variants$?: Observable<Maybe<VariantGridFieldsFragment>[]>
+  filteredCount$?: Observable<number>
+  pageCount$?: Observable<number>
+  pageInfo$?: Observable<PageInfo>
 
   totalCount?: number
-  initialPageSize = 50;
-  visibleCount: number = this.initialPageSize;
+  initialPageSize = 50
+  visibleCount: number = this.initialPageSize
   loadedPages: number = 1
-  fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  fetchMorePageSize = 25
+  isLoadingDelay = 300
 
   noMoreRows$: BehaviorSubject<boolean>;
-  //
+
   // filters
-  variantNameInput: Maybe<string>;
-  geneSymbolInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  drugNameInput: Maybe<string>;
-  variantAliasInput: Maybe<string>;
+  variantNameInput: Maybe<string> = ''
+  geneSymbolInput: Maybe<string> = ''
+  diseaseNameInput: Maybe<string> = ''
+  drugNameInput: Maybe<string> = ''
+  variantAliasInput: Maybe<string> = ''
 
   textInputCallback?: () => void
 
-  showTooltips = true;
+  showTooltips = true
 
-  sortColumns: typeof VariantsSortColumns = VariantsSortColumns;
+  sortColumns: typeof VariantsSortColumns = VariantsSortColumns
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject()
 
-  constructor(private query: BrowseVariantsGQL, private cdr: ChangeDetectorRef) {
+  constructor(private gql: BrowseVariantsGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false);
   }
 
@@ -108,43 +80,45 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
       variantGroupId: this.variantGroupId
     };
 
-    this.queryRef = this.query.watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
+    this.queryRef = this.gql
+      .watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
 
-    this.data$ = this.queryRef.valueChanges.pipe(
-      map((r) => {
+    this.data$ = this.queryRef.valueChanges
+      .pipe(map((r) => {
         return {
           data: r.data,
           loading: r.loading,
           networkStatus: r.networkStatus,
         };
-      })
-    );
+      }));
 
     // handle loading state
     this.data$
-      .pipe(
-        takeUntil(this.destroy$),
+      .pipe(takeUntil(this.destroy$),
         pluck('loading'),
         startWith(true))
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.variants$ = this.data$
-      .pipe(
+      .pipe(takeUntil(this.destroy$),
         pluck('data', 'browseVariants', 'edges'),
         map((edges) => { return edges.map((e) => e.node); }));
 
-    this.pageInfo$ = this.data$.pipe(
-      pluck('data', 'browseVariants', 'pageInfo')
-    );
+    this.pageInfo$ = this.data$
+      .pipe(takeUntil(this.destroy$),
+        pluck('data', 'browseVariants', 'pageInfo'));
 
-    this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'browseVariants', 'filteredCount')
-    )
+    this.filteredCount$ = this.data$
+      .pipe(
+        pluck('data', 'browseVariants', 'filteredCount'));
 
-    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
+    this.filteredCount$
+      .pipe(takeUntil(this.destroy$),
+        take(1))
+      .subscribe(value => this.totalCount = value);
 
-    this.filteredCount$.subscribe(
-      value => {
+    this.filteredCount$
+      .subscribe(value => {
         if (value < this.initialPageSize) {
           this.visibleCount = value
         }
@@ -154,19 +128,16 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
             this.visibleCount = value
           }
         }
-      }
-    )
+      });
 
-    this.pageCount$ = this.data$.pipe(
-      pluck('data', 'browseVariants', 'pageCount'),
-      startWith(0)
-    );
+    this.pageCount$ = this.data$
+      .pipe(takeUntil(this.destroy$),
+        pluck('data', 'browseVariants', 'pageCount'),
+        startWith(0));
 
     this.debouncedQuery
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500)
-      )
+      .pipe(takeUntil(this.destroy$),
+        debounceTime(500))
       .subscribe((_) => {
         this.refresh();
       });
@@ -198,7 +169,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
             return (e2.offset < e1.offset && e2.offset < 140)
           }),
           // throttle events to prevent spamming loadMore() requests
-          throttleTime(this.isLoadingDelay))
+          throttleTime(500))
         .subscribe(([_, e2]) => {
           if (e2.pageInfo.hasNextPage) {
             this.loadMore(e2.pageInfo.endCursor);
@@ -211,7 +182,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
                 .subscribe((_) => {
                   this.noMoreRows$.next(false);
                   this.cdr.detectChanges();
-                })
+                });
             }
           }
         });
@@ -235,11 +206,12 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
         .subscribe((_) => { this.viewport!.checkViewportSize(); });
 
     } else {
-      console.error('evidence-table unable to find cdkVirtualScrollViewport.');
+      console.error('variants-table unable to find cdkVirtualScrollViewport.');
     }
   } // ngAfterViewInit
 
   onSortChanged(e: SortDirectionEvent) {
+    this.isLoading = true;
     this.loadedPages = 1
     this.queryRef?.refetch({
       ...this.initialQueryArgs,
@@ -268,6 +240,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
     this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {
+        first: this.fetchMorePageSize,
         after: cursor
       }
     })
@@ -275,7 +248,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
     this.loadedPages += 1
   }
 
-  // vir tual scroll helpers
+  // virtual scroll helpers
   trackByIndex(_: number, data: VariantGridFieldsFragment): number {
     return data.id;
   }

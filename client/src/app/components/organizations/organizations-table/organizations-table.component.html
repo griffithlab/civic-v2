@@ -1,33 +1,45 @@
-<nz-card [nzTitle]="titleTemplate">
-  <nz-table #organizationsTable
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+<nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <!-- nzScroll x value is set to the height of the rendered nz-table-inner-scroll element, and determines the height of the table before the auto-height directives resize them.  -->
+  <!-- nzScroll y value has something to do with the width of the horizontal scrollable area between nzLeft and nzRight columns, but I have not figured out exactly how they're related. -->
+  <nz-table #virtualTable
     nzSize="small"
-    [nzData]="(organizations$ | ngrxPush)"
-    [nzLoading]="(isLoading$ | ngrxPush)"
+    [cvcAutoHeightTable]="29"
+    [nzVirtualItemSize]="29"
+    [nzData]="organizations$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-
     <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr>
-        <th nzWidth="25%"
+      <tr class="col-header-row">
+        <th nzWidth="300px"
+          nzLeft
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
-          Name
+          Organization
         </th>
-        <th>
+        <th nzWidth="100px">
           Members
         </th>
-        <th>
+        <th nzWidth="320px">
           Sub Organizations
         </th>
-        <th>
+        <th nzWidth="80px" nzRight nzAlign="right">
           Actions
         </th>
-        <th>
+        <th nzWidth="125px" nzRight nzAlign="right">
           Last Action
         </th>
       </tr>
       <tr>
-        <th>
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
             placeholderText="Search Name"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
@@ -36,30 +48,35 @@
         </th>
         <th>
         </th>
-        <th>
+        <th nzRight>
         </th>
-        <th>
+        <th nzRight>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let organization of organizationsTable.data">
-        <td>
-          <cvc-organization-tag [org]="organization"></cvc-organization-tag>
-        </td>
-        <td>
-          {{ organization.memberCount }}
-        </td>
-        <td>
-          <cvc-tag-overflow [maxDisplayCount]="3" tagType='organization' [tags]="organization.subGroups"> </cvc-tag-overflow>
-        </td>
-        <td>
-          {{ organization.eventCount }}
-        </td>
-        <td>
-          {{ organization.mostRecentEvent?.createdAt | timeago }}
-        </td>
-      </tr>
+      <ng-template nz-virtual-scroll
+        let-organization
+        let-index="index">
+        <tr class="data-row">
+        <tr>
+          <td nzLeft>
+            <cvc-organization-tag [org]="organization"></cvc-organization-tag>
+          </td>
+          <td>
+            {{ organization.memberCount | number }}
+          </td>
+          <td>
+            <cvc-tag-overflow [maxDisplayCount]="1" tagType='organization' [tags]="organization.subGroups"> </cvc-tag-overflow>
+          </td>
+          <td nzRight nzAlign="right">
+            {{ organization.eventCount | number}}
+          </td>
+          <td nzRight nzAlign="right">
+            {{ organization.mostRecentEvent?.createdAt | timeago }}
+          </td>
+        </tr>
+      </ng-template>
       <!-- Load More button row -->
       <ng-container *ngrxLet="pageInfo$ as pageInfo">
         <tr *ngIf="pageInfo.hasNextPage">
@@ -91,4 +108,13 @@
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

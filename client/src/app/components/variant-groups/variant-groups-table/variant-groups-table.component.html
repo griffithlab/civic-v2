@@ -4,6 +4,9 @@
   nzSize="small"
   cvcAutoHeightCard="35">
   <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <!-- nzScroll x value is set to the height of the rendered nz-table-inner-scroll element, and determines the height of the table before the auto-height directives resize them.  -->
+  <!-- nzScroll y value has something to do with the width of the horizontal scrollable area between nzLeft and nzRight columns, but I have not figured out exactly how they're related. -->
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="25"
@@ -11,7 +14,7 @@
     [nzData]="variantGroups$ | ngrxPush"
     [nzLoading]="isLoading"
     [nzVirtualForTrackBy]="trackByIndex"
-    [nzScroll]="{ x: '400px', y: '800px' }"
+    [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
     <thead (nzSortOrderChange)="onSortChanged($event)">
@@ -36,7 +39,8 @@
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Variant Count">
-          <i nz-icon nzType="civic:variant"></i> Count
+          <i nz-icon
+            nzType="civic:variant"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -46,7 +50,8 @@
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
-          <i nz-icon nzType="civic:evidence"></i> Count
+          <i nz-icon
+            nzType="civic:evidence"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -79,20 +84,27 @@
           <td nzLeft>
             <cvc-variant-group-tag [variantgroup]="vg"></cvc-variant-group-tag>
           </td>
-          <td style="overflow: hidden; text-overflow: ellipsis;">
-            <span *ngFor="let variant of vg.variantNames; last as isLast">
-              {{ variant }}{{ isLast ? '' : ', ' }}
-            </span>
+          <td class="overflow-ellipsis"
+            nz-tooltip
+            [nzTooltipTitle]="showTooltips ? variantNames : ''">
+            <ng-template #variantNames>
+              <ng-container *ngFor="let variant of vg.variantNames; last as isLast">
+                {{ variant }}{{ isLast ? '' : ', ' }}
+              </ng-container>
+            </ng-template>
+            <ng-container [ngTemplateOutlet]="variantNames"></ng-container>
           </td>
           <td>
             <span *ngFor="let gene of vg.geneNames; last as isLast">
               {{ gene }}{{ isLast ? '' : ', ' }}
             </span>
           </td>
-          <td nzRight nzAlign="right">
+          <td nzRight
+            nzAlign="right">
             {{ vg.variantCount }}
           </td>
-          <td nzRight nzAlign="right">
+          <td nzRight
+            nzAlign="right">
             {{ vg.evidenceItemCount }}
           </td>
         </tr>
@@ -102,18 +114,22 @@
 </nz-card>
 
 <ng-template #titleTemplate>
-  <i nz-icon nzType="civic:variantgroup"></i>
+  <i nz-icon
+    nzType="civic:variantgroup"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
   </span>
   <ng-template #noData>
-    <span nz-typography nzType="secondary">
+    <span nz-typography
+      nzType="secondary">
       (0 total)
     </span>
   </ng-template>

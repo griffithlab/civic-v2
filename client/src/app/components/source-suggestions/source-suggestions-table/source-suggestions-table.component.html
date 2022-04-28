@@ -1,130 +1,193 @@
-<nz-card [nzTitle]="titleTemplate">
-  <ng-container  *ngrxLet="viewer$ as viewer">
-    <nz-table #sourceSuggestionsTable
-      nzSize="small"
-      [nzData]="(sourceSuggestions$ | ngrxPush)"
-      [nzLoading]="(isLoading$ | ngrxPush)"
-      [nzFrontPagination]="false"
-      [nzShowPagination]="false">
-      <thead (nzSortOrderChange)="onSortChanged($event)">
-        <tr>
-          <th>
-            Status
-          </th>
-          <th nzWidth="15%" [nzColumnKey]="sortColumns.Submitter"
-            [nzSortFn]="true">
-            Submitter
-          </th>
-          <th [nzColumnKey]="sortColumns.SourceType"
-            [nzSortFn]="true">
-            Source Type
-          </th>
-          <th [nzColumnKey]="sortColumns.CitationId"
-            [nzSortFn]="true">
-            Citation ID
-          </th>
-          <th nzWidth="25%" [nzColumnKey]="sortColumns.Citation"
-            [nzSortFn]="true">
-            Citation
-          </th>
-          <th [nzColumnKey]="sortColumns.GeneName"
-            [nzSortFn]="true">
-            Gene
-          </th>
-          <th [nzColumnKey]="sortColumns.VariantName"
-            [nzSortFn]="true">
-            Variant
-          </th>
-          <th [nzColumnKey]="sortColumns.DiseaseName"
-            [nzSortFn]="true">
-            Disease
-          </th>
-          <th [nzColumnKey]="sortColumns.CreatedAt" 
-            [nzSortDirections]="['descend', 'ascend', null]"
-            nzSortOrder='descend'
-            [nzSortFn]="true">
-            Date Submitted
-          </th>
-          <th>
-            Comment
-          </th>
-          <th nzWidth="5%" *ngIf="viewer.signedIn">
-            Actions
-          </th>
-        </tr>
-        <tr>
-          <th>
-            <nz-select nzAllowClear
-              nzPlaceHolder="Choose"
-              (ngModelChange)="onModelChanged()"
-              [(ngModel)]="statusInput">
-              <nz-option nzValue="NEW"
-                nzLabel="new"></nz-option>
-              <nz-option nzValue="CURATED"
-                nzLabel="curated"></nz-option>
-              <nz-option nzValue="REJECTED"
-                nzLabel="rejected"></nz-option>
-            </nz-select>
-          </th>
-          <th>
-            <cvc-clearable-input-filter *ngIf="!this.submitterId" [(inputModel)]="submitterInput"
-              placeholderText="Submitter"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <nz-select nzAllowClear
-              nzPlaceHolder="Choose"
-              (ngModelChange)="onModelChanged()"
-              [(ngModel)]="sourceTypeInput">
-              <nz-option nzValue="PUBMED"
-                nzLabel="PubMed"></nz-option>
-              <nz-option nzValue="ASCO"
-                nzLabel="ASCO"></nz-option>
-            </nz-select>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="citationIdInput"
-              placeholderText="ID"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="citationInput"
-              placeholderText="Citation"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-              placeholderText="Gene"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
-              placeholderText="Variant"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
-              placeholderText="Disease"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th></th>
-          <th></th>
-          <th *ngIf="viewer.signedIn"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let suggestion of sourceSuggestionsTable.data">
-          <td>
-            {{ suggestion.status | lowercase }}
-            <i 
-            *ngIf="suggestion.reason &&  suggestion.reason !=''"
-            nz-icon 
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+<nz-card [nzTitle]="titleTemplate"
+  *ngrxLet="viewer$ as viewer"
+  [nzExtra]="extraTemplate"
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <nz-table #virtualTable
+    nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzData]="sourceSuggestions$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzScroll]="{ x: '680px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr class="col-header-row">
+        <th nzWidth="100px"
+          nzLeft>
+          Status
+        </th>
+        <th nzWidth="425px"
+          nzLeft
+          [nzColumnKey]="sortColumns.Citation"
+          [nzSortFn]="true">
+          Citation
+        </th>
+        <th nzWidth="24px"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Submitter Comment">
+          <i nz-icon
+            nzType="civic:comment"></i>
+        </th>
+        <th nzWidth="200px"
+          [nzColumnKey]="sortColumns.Submitter"
+          [nzSortFn]="true">
+          Submitter
+        </th>
+        <th nzWidth="80px"
+          [nzColumnKey]="sortColumns.SourceType"
+          [nzSortFn]="true">
+          Type
+        </th>
+        <th nzWidth="80px"
+          [nzColumnKey]="sortColumns.CitationId"
+          [nzSortFn]="true">
+          ID
+        </th>
+        <th nzWidth="120px"
+          [nzColumnKey]="sortColumns.GeneName"
+          [nzSortFn]="true">
+          Gene
+        </th>
+        <th nzWidth="170px"
+          [nzColumnKey]="sortColumns.VariantName"
+          [nzSortFn]="true">
+          Variant
+        </th>
+        <th nzWidth="200px"
+          [nzColumnKey]="sortColumns.DiseaseName"
+          [nzSortFn]="true">
+          Disease
+        </th>
+        <th nzWidth="90px"
+          [nzColumnKey]="sortColumns.CreatedAt" 
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nzSortOrder='descend'
+          [nzSortFn]="true">
+          Submitted
+        </th>
+        <th nzWidth="70px"
+          nzRight
+          nzAlign="center">
+          Actions
+        </th>
+      </tr>
+
+      <!-- FILTER ROW -->
+      <tr class="filter-row">
+        <th nzLeft>
+          <nz-select nzAllowClear
+            nzSize="small"
+            nzPlaceHolder="Any"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="statusInput">
+            <nz-option nzValue="NEW"
+              nzLabel="new"></nz-option>
+            <nz-option nzValue="CURATED"
+              nzLabel="curated"></nz-option>
+            <nz-option nzValue="REJECTED"
+              nzLabel="rejected"></nz-option>
+          </nz-select>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="citationInput"
+            placeholderText="Citation"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th></th>
+        <th>
+          <cvc-clearable-input-filter *ngIf="!this.submitterId"
+            [(inputModel)]="submitterInput"
+            placeholderText="Submitter"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <nz-select nzAllowClear
+            nzSize="small"
+            nzPlaceHolder="Any"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="sourceTypeInput">
+            <nz-option nzValue="PUBMED"
+              nzLabel="PubMed"></nz-option>
+            <nz-option nzValue="ASCO"
+              nzLabel="ASCO"></nz-option>
+          </nz-select>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="citationIdInput"
+            placeholderText="ID"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
+            placeholderText="Gene"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+            placeholderText="Variant"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
+            placeholderText="Disease"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th></th>
+        <th nzRight></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll
+        let-suggestion
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft
+            nzAlign="center">
+            <ng-container [ngSwitch]="suggestion.status | lowercase">
+              <ng-container *ngSwitchCase="'curated'">
+                <nz-tag class="status-tag"
+                  nzColor="green">
+                  {{ suggestion.status | lowercase }}
+                </nz-tag>
+              </ng-container>
+              <ng-container *ngSwitchCase="'new'">
+                <nz-tag class="status-tag"
+                  nzColor="orange">
+                  {{ suggestion.status | lowercase }}
+                </nz-tag>
+              </ng-container>
+              <ng-container *ngSwitchCase="'rejected'">
+                <nz-tag class="status-tag"
+                  nzColor="volcano">
+                  <i *ngIf="suggestion.reason &&  suggestion.reason !=''"
+                    nz-icon
+                    nz-tooltip
+                    [nzTooltipTitle]="showTooltips ? suggestion.reason : ''"
+                    nzType="civic-comment"></i> {{ suggestion.status | lowercase}}
+                </nz-tag>
+              </ng-container>
+            </ng-container>
+          </td>
+          <td nzLeft>
+            <cvc-source-tag *ngIf="suggestion.source"
+              [source]="suggestion.source"></cvc-source-tag>
+          </td>
+          <td nzAlign="center"
             nz-tooltip
-            [nzTooltipTitle]="suggestion.reason"
-            nzType="info-circle"></i>
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="showTooltips ? suggestion.initialComment : ''">
+            <i nz-icon
+              nzType="civic:comment"></i>
           </td>
           <td>
-            <cvc-user-tag *ngIf="suggestion.user" [user]="suggestion.user"></cvc-user-tag>
+            <cvc-user-tag *ngIf="suggestion.user"
+              [user]="suggestion.user"></cvc-user-tag>
           </td>
           <td>
             <ng-container *ngIf="suggestion.source">
@@ -137,90 +200,94 @@
             </ng-container>
           </td>
           <td>
-            <cvc-source-tag *ngIf="suggestion.source" [source]="suggestion.source"></cvc-source-tag>
+            <cvc-gene-tag *ngIf="suggestion.gene"
+              [gene]="suggestion.gene"></cvc-gene-tag>
           </td>
           <td>
-            <cvc-gene-tag *ngIf="suggestion.gene" [gene]="suggestion.gene"></cvc-gene-tag>
+            <cvc-variant-tag *ngIf="suggestion.variant"
+              [variant]="suggestion.variant" [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td>
-            <cvc-variant-tag *ngIf="suggestion.variant" [variant]="suggestion.variant"></cvc-variant-tag>
+            <cvc-disease-tag *ngIf="suggestion.disease"
+              [disease]="suggestion.disease" [truncateLongName]="true"></cvc-disease-tag>
           </td>
-          <td>
-            <cvc-disease-tag *ngIf="suggestion.disease" [disease]="suggestion.disease"></cvc-disease-tag>
-          </td>
-          <td>
+          <td nzAlign="right">
             {{ suggestion.createdAt | date }}
           </td>
-          <td nzAlign="center"
-            nz-tooltip
-            nzTooltipPlacement="top"
-            [nzTooltipTitle]="suggestion.initialComment">
-            <i nz-icon
-              nzType="comment"></i>
-          </td>
-          <td *ngIf="viewer.signedIn">
-            <nz-button-group>
-              <button routerLink="/evidence/add/submit" 
-                [queryParams]="{
-                  geneId: suggestion.gene?.id,
-                  sourceId: suggestion.source?.id,
-                  variantId: suggestion.variant?.id,
-                  diseaseId: suggestion.disease?.id
-                }"
+          <td nzRight
+            nzAlign="center"
+            class="button-cell">
+            <nz-button-group *ngIf="isSignedIn">
+              <button routerLink="/evidence/add/submit"
+                [queryParams]="{geneId: suggestion.gene?.id, sourceId: suggestion.source?.id, variantId: suggestion.variant?.id, diseaseId: suggestion.disease?.id}"
                 [disabled]="suggestion.status != status.New"
-                nz-button nzSize="small" 
-                nz-tooltip nzTooltipTitle="Curate an Evidence Item from this Source Suggestion" >
-                <i nz-icon nzType="plus"></i>
+                nz-button
+                nzSize="small"
+                nz-tooltip
+                nzTooltipTitle="Create Evidence with this Source"
+                [nzTooltipMouseEnterDelay]="0.5">
+                <i nz-icon
+                  nzType="civic-evidence"></i>
               </button>
-              <button 
-              nz-button nzSize="small" 
-              nz-popover
-              nzPopoverTitle="Manage Source Suggestion"
-              nzPopoverPlacement="left"
-              nzPopoverTrigger="click"
-              [nzPopoverContent]="manageSuggestionTemplate"
-              (click)="setFormInputs(suggestion.id, suggestion.status)"
-              >
-                <i nz-icon nzType="edit"></i>
+              <button nz-button
+                nzSize="small"
+                nz-popover
+                nzPopoverTitle="Manage Source Suggestion"
+                nzPopoverPlacement="left"
+                nzPopoverTrigger="click"
+                nz-tooltip
+                nzTooltipTitle="Manage This Source Suggestion"
+                nzTooltipPlacement="top"
+                [nzTooltipMouseEnterDelay]="0.5"
+                [nzPopoverContent]="manageSuggestionTemplate"
+                (click)="setFormInputs(suggestion.id, suggestion.status)">
+                <i nz-icon
+                  nzType="civic-source"></i>
               </button>
             </nz-button-group>
+            <ng-container *ngIf="!isSignedIn">
+              --
+            </ng-container>
           </td>
         </tr>
-        <!-- Load More button row -->
-        <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <tr *ngIf="pageInfo.hasNextPage">
-            <td colspan="10">
-              <button *ngIf="pageInfo.hasNextPage"
-                (click)="loadMore(pageInfo.endCursor)"
-                nz-button
-                nzBlock>Load {{this.pageSize}} More</button>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </nz-table>
-    <ng-template #manageSuggestionTemplate>
-  <cvc-update-source-suggestion-form *ngIf="this.selectedSourceId && this.selectedStatus"
-    [currentStatus]="this.selectedStatus" [sourceSuggestionId]="this.selectedSourceId" >
-  </cvc-update-source-suggestion-form>
-    </ng-template>
-  </ng-container>
+      </ng-template>
+    </tbody>
+  </nz-table>
+  <ng-template #manageSuggestionTemplate>
+    <cvc-update-source-suggestion-form *ngIf="this.selectedSourceId && this.selectedStatus"
+      [currentStatus]="this.selectedStatus"
+      [sourceSuggestionId]="this.selectedSourceId">
+    </cvc-update-source-suggestion-form>
+  </ng-template>
 </nz-card>
 
 <ng-template #titleTemplate>
-  <i nz-icon nzType="civic:source"></i>
+  <i nz-icon
+    nzType="civic:source"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
     ({{totalCount}} new, showing {{visibleCount}} of {{filteredCount}} filtered)
   </span>
   <ng-template #noData>
-    <span nz-typography nzType="secondary">
+    <span nz-typography
+      nzType="secondary">
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>
