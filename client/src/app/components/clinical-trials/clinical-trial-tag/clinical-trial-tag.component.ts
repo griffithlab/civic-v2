@@ -12,17 +12,20 @@ export interface LinkableClinicalTrial {
   templateUrl: './clinical-trial-tag.component.html',
   styleUrls: ['./clinical-trial-tag.component.less']
 })
-export class CvcClinicalTrialTagComponent implements OnInit {
-  @Input() clinicalTrial!: LinkableClinicalTrial
+export class CvcClinicalTrialTagComponent {
+  _clinicalTrial!: LinkableClinicalTrial;
+
+  @Input()
+  set clinicalTrial(trial: LinkableClinicalTrial) {
+    if (!trial) { throw new Error('clinical-trial-tag clinicalTrial Input requires LinkableClinicalTrial.') }
+    this._clinicalTrial = trial;
+  }
+  get clinicalTrial(): LinkableClinicalTrial {
+    return this._clinicalTrial;
+  }
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
   constructor() { }
-
-  ngOnInit() {
-    if (this.clinicalTrial === undefined) {
-      throw new Error('cvc-clinical-trial-tag requires LinkableClinicalTrial input, none supplied.')
-    }
-  }
 
 }

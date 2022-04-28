@@ -10,6 +10,9 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
+import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [CvcClinicalTrialsTableComponent],
@@ -22,8 +25,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzIconModule,
     NzTypographyModule,
     NzToolTipModule,
+    NzTagModule,
     CvcClearableInputFilterModule,
     CvcClinicalTrialTagModule,
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
   ],
   exports: [CvcClinicalTrialsTableComponent]
 })

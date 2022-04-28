@@ -1710,6 +1710,30 @@ export type GeneVariantsArgs = {
   name?: Maybe<Scalars['String']>;
 };
 
+/** The connection type for Gene. */
+export type GeneConnection = {
+  __typename: 'GeneConnection';
+  /** A list of edges. */
+  edges: Array<GeneEdge>;
+  /** A list of nodes. */
+  nodes: Array<Gene>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type GeneEdge = {
+  __typename: 'GeneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Gene>;
+};
+
 /** Fields on a Gene that curators may propose revisions to. */
 export type GeneFields = {
   /** The Gene's description/summary text. */
@@ -2489,6 +2513,8 @@ export type Query = {
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
+  /** List and filter genes. */
+  genes: GeneConnection;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
@@ -2822,6 +2848,14 @@ export type QueryGeneArgs = {
 
 export type QueryGeneTypeaheadArgs = {
   queryTerm: Scalars['String'];
+};
+
+
+export type QueryGenesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -4644,10 +4678,15 @@ export type ClinicalTrialsBrowseQuery = (
       & Pick<BrowseClinicalTrialEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseClinicalTrial' }
-        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
+        & BrowseClinicalTrialsRowFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type BrowseClinicalTrialsRowFieldsFragment = (
+  { __typename: 'BrowseClinicalTrial' }
+  & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
 );
 
 export type CommentListQueryVariables = Exact<{
@@ -8289,6 +8328,16 @@ export const ClinicalTrialPopoverFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const BrowseClinicalTrialsRowFieldsFragmentDoc = gql`
+    fragment BrowseClinicalTrialsRowFields on BrowseClinicalTrial {
+  id
+  name
+  nctId
+  evidenceCount
+  sourceCount
+  link
+}
+    `;
 export const CommentListNodeFragmentDoc = gql`
     fragment commentListNode on Comment {
   id
@@ -10331,17 +10380,12 @@ export const ClinicalTrialsBrowseDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        nctId
-        evidenceCount
-        sourceCount
-        link
+        ...BrowseClinicalTrialsRowFields
       }
     }
   }
 }
-    `;
+    ${BrowseClinicalTrialsRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

@@ -11,6 +11,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
+import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [CvcDiseasesTableComponent],
@@ -24,6 +27,9 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzCardModule,
     NzIconModule,
     NzTypographyModule,
+    NzTagModule,
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,
     CvcLinkTagModule,
     CvcDiseaseTagModule,

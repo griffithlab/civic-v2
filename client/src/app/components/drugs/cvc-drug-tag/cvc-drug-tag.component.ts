@@ -15,23 +15,19 @@ export interface LinkableDrug {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcDrugTagComponent extends BaseCloseableTag implements OnInit {
-  @Input() drug!: LinkableDrug
+  _drug!: LinkableDrug
+  @Input()
+  set drug(d: LinkableDrug) {
+    if (!d) throw new Error('drug-tag drug Input requires LinkableDrug.');
+    this._drug = d;
+  }
+  get drug(): LinkableDrug { return this._drug }
+
   @Input() enablePopover: Maybe<boolean> = true
   @Input() truncateLongName: Maybe<boolean> = false
 
-  constructor() {
-    super();
-  }
-
   idFunction(): number {
     return this.drug.id;
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-    if (this.drug === undefined) {
-      throw new Error('cvc-drug-tag requires LinkableDrug input, none supplied.')
-    }
   }
 
 }

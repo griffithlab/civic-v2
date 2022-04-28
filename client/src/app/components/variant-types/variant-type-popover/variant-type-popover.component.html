@@ -6,8 +6,7 @@
       [nzExtra]="linkout">
       <ng-template #cardTitle>
         <i nz-icon
-          nzType="civic-varianttype"
-          class="variant-type-tag-icon"></i> {{ vt.name }}
+          nzType="civic:varianttype"></i> {{ vt.name }}
       </ng-template>
       <ng-template #linkout>
         <cvc-link-tag *ngIf="vt.soid != 'N/A'"
