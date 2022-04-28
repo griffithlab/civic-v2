@@ -1,17 +1,26 @@
-import { Component, Input, OnInit, TemplateRef, } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild, } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
+  filter,
+  first,
+  tap,
   map,
+  pairwise,
   pluck,
   startWith,
   take,
+  takeUntil,
+  throttleTime,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { QueryRef } from 'apollo-angular';
 
 import {
   BrowseGenesGQL,
+  GeneBrowseTableRowFieldsFragment,
   QueryBrowseGenesArgs,
   PageInfo,
   Maybe,
@@ -20,6 +29,7 @@ import {
 } from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
+import { NzTableComponent } from 'ng-zorro-antd/table';
 
 export interface GeneTableRow {
   id: number
@@ -36,23 +46,35 @@ export interface GeneTableRow {
 @Component({
   selector: 'cvc-genes-table',
   templateUrl: './genes-table.component.html',
-  styleUrls: ['./genes-table.component.less']
+  styleUrls: ['./genes-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcGenesTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
+  @ViewChild('virtualTable', { static: false })
+  nzTableComponent?: NzTableComponent<GeneBrowseTableRowFieldsFragment>;
+  viewport?: CdkVirtualScrollViewport;
+
   private initialQueryArgs?: QueryBrowseGenesArgs
   private debouncedQuery = new Subject<void>();
 
-  queryRef?: QueryRef<BrowseGenesQuery,QueryBrowseGenesArgs>;
+  queryRef?: QueryRef<BrowseGenesQuery, QueryBrowseGenesArgs>;
   data$?: Observable<ApolloQueryResult<BrowseGenesQuery>>;
   genes$?: Observable<Maybe<GeneTableRow>[]>;
-  isLoading$?: Observable<boolean>;
   filteredCount$?: Observable<number>
   pageCount$?: Observable<number>;
   pageInfo$?: Observable<PageInfo>;
 
+  isLoading$?: Observable<boolean>;
+  isLoading = false;
+
+  textInputCallback?: () => void
+
+  showTooltips = true;
+
+  // filters
   diseaseInput: Maybe<string>
   drugInput: Maybe<string>
   nameInput: Maybe<string>
@@ -62,19 +84,26 @@ export class CvcGenesTableComponent implements OnInit {
 
   totalCount?: number
   initialPageSize = 25;
-  fetchMorePageSize = 25;
-
   visibleCount: number = this.initialPageSize
+  fetchMorePageSize = 25;
+  isLoadingDelay = 100;
+
+  noMoreRows$: BehaviorSubject<boolean>;
+
   loadedPages: number = 1
 
-  constructor(private query: BrowseGenesGQL) { }
+  private destroy$ = new Subject();
+
+  constructor(private query: BrowseGenesGQL, private cdr: ChangeDetectorRef) {
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
+  }
 
   ngOnInit() {
     this.initialQueryArgs = {
       first: this.initialPageSize
     }
 
-    this.queryRef = this.query.watch(this.initialQueryArgs);
+    this.queryRef = this.query.watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
 
     this.data$ = this.queryRef.valueChanges.pipe(
       map((r) => {
@@ -85,22 +114,19 @@ export class CvcGenesTableComponent implements OnInit {
         };
       }));
 
-    // loading$ includes a startsWith(true) operator to force an initial value
-    // as the apollo-angular client does not emit this by default
-    // and the code-generated angular service does not provide a means to pass
-    // a `useInitialLoading` option.
-    // See: https://github.com/kamilkisiela/apollo-angular/issues/1189
-    // and keep an eye on: https://github.com/dotansimha/graphql-code-generator/discussions/5729
-    this.isLoading$ = this.data$.pipe(
-      pluck('loading'),
-      startWith(true),
-    );
+    // handle loading state
+    this.data$
+      .pipe(
+        takeUntil(this.destroy$),
+        pluck('loading'),
+        startWith(true))
+      .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.genes$ = this.data$.pipe(
       pluck('data', 'browseGenes', 'edges'),
       map((edges) => {
         return edges.map((e) => { return e.node; })
-      } ),
+      }),
     );
 
     this.pageInfo$ = this.data$.pipe(
@@ -135,19 +161,91 @@ export class CvcGenesTableComponent implements OnInit {
     );
 
     this.debouncedQuery
-    .pipe(debounceTime(500))
-    .subscribe((_) => {
-      this.loadedPages = 1
-      this.queryRef?.refetch({
-        entrezSymbol: this.nameInput,
-        geneAlias: this.aliasInput,
-        diseaseName: this.diseaseInput,
-        drugName: this.drugInput,
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(500))
+      .subscribe((_) => {
+        this.isLoading = true;
+        this.loadedPages = 1;
+        this.queryRef?.refetch({
+          entrezSymbol: this.nameInput,
+          geneAlias: this.aliasInput,
+          diseaseName: this.diseaseInput,
+          drugName: this.drugInput,
+        });
       });
-    });
-  }
 
-  loadMore(afterCursor: Maybe<string>):void {
+    this.textInputCallback = () => { this.debouncedQuery.next(); }
+  } // ngOnInit()
+
+  ngAfterViewInit(): void {
+    if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
+      this.pageInfo$) {
+      this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
+      const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
+
+      scrolled$
+        .pipe(
+          // for each elementScrolled event, get latest pageInfo,
+          // and return page cursor and scroll offest
+          withLatestFrom(this.pageInfo$),
+          map(([_, pageInfo]: [Event, PageInfo]) => {
+            return {
+              pageInfo: pageInfo,
+              offset: this.viewport!.measureScrollOffset('bottom')
+            }
+          }),
+          // pair with previous event/cursor
+          pairwise(),
+          // reject events that occur outside scroll target
+          filter(([e1, e2]) => {
+            return (e2.offset < e1.offset && e2.offset < 140)
+          }),
+          // throttle events to prevent spamming loadMore() requests
+          throttleTime(this.isLoadingDelay))
+        .subscribe(([_, e2]) => {
+          if (e2.pageInfo.hasNextPage) {
+            this.loadMore(e2.pageInfo.endCursor);
+          } else {
+            // show 'end of results' msg, hide after an interval
+            if (this.noMoreRows$.getValue() === false) {
+              this.noMoreRows$.next(true);
+              interval(3000)
+                .pipe(first())
+                .subscribe((_) => {
+                  this.noMoreRows$.next(false);
+                  this.cdr.detectChanges();
+                })
+            }
+          }
+        });
+
+      // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
+
+      // toggle tooltips off when scrolling
+      scrolled$
+        .pipe(
+          takeUntil(this.destroy$),
+          tap((_) => { this.showTooltips = false; }), // on scroll event toggle tooltips off
+          debounceTime(500) // wait 500ms, then execute subsribed function
+        ).subscribe((_) => {
+          this.showTooltips = true; // toggle tooltips on
+          this.cdr.detectChanges(); // force refresh
+        })
+
+      // force viewport check after initial render
+      this.viewport.renderedRangeStream
+        .pipe(first())
+        .subscribe((_) => { this.viewport!.checkViewportSize(); });
+
+    } else {
+      console.error('evidence-table unable to find cdkVirtualScrollViewport.');
+    }
+  } // ngAfterViewInit
+
+
+  loadMore(afterCursor: Maybe<string>): void {
+    this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {
         first: this.fetchMorePageSize,
@@ -168,5 +266,19 @@ export class CvcGenesTableComponent implements OnInit {
 
   onModelUpdated(_: Maybe<string>) {
     this.debouncedQuery.next();
+  }
+
+  // virtual scroll helpers
+  trackByIndex(_: number, data: GeneBrowseTableRowFieldsFragment): number {
+    return data.id;
+  }
+
+  scrollToIndex(index: number): void {
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

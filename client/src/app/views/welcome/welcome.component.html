@@ -115,4 +115,13 @@
       </nz-card>
     </nz-col>
   </nz-row>
+  <ng-container *ngIf="this.release$ | async as release">
+    <nz-row *nzSpaceItem nzAlign="middle" nzJustify="center">
+      <div id="release-info" nz-typography>
+        CIViC {{release.name}} ({{release.published_at | date}}) &bull; 
+        <a [href]="release.html_url" target="_blank">Release Notes</a> &bull; 
+        <a href="https://github.com/griffithlab/civic-v2/releases/" target="_blank">History</a>
+      </div>
+    </nz-row>
+  </ng-container>
 </nz-space>

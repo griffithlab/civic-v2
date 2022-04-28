@@ -2835,6 +2835,51 @@ type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
 }
 
 """
+The connection type for Gene.
+"""
+type GeneConnection {
+  """
+  A list of edges.
+  """
+  edges: [GeneEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [Gene!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type GeneEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Gene
+}
+
+"""
 Fields on a Gene that curators may propose revisions to.
 """
 input GeneFields {
@@ -4547,6 +4592,31 @@ type Query {
   geneTypeahead(queryTerm: String!): [Gene!]!
 
   """
+  List and filter genes.
+  """
+  genes(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): GeneConnection!
+
+  """
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
@@ -5556,6 +5626,7 @@ type SourceStub {
 }
 
 type SourceSuggestion implements EventOriginObject & EventSubject {
+  createdAt: ISO8601DateTime!
   disease: Disease
 
   """
@@ -5680,6 +5751,7 @@ input SourceSuggestionsSort {
 enum SourceSuggestionsSortColumns {
   CITATION
   CITATION_ID
+  CREATED_AT
   DISEASE_NAME
   GENE_NAME
   SOURCE_TYPE

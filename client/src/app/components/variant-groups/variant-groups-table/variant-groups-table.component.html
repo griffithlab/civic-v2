@@ -1,103 +1,104 @@
-<nz-card [nzTitle]="titleTemplate">
-  <ng-container *ngIf="{ value: data$ | ngrxPush } as data">
-    <nz-table #variantGroupsTable
-      nzSize="small"
-      [nzData]="(variantGroups$ | ngrxPush)"
-      [nzLoading]="(isLoading$ | ngrxPush)"
-      [nzFrontPagination]="false"
-      [nzShowPagination]="false">
-      <thead (nzSortOrderChange)="onSortChanged($event)">
-        <tr>
-          <th nzWidth="20%"
-            [nzColumnKey]="sortColumns.Name"
-            [nzSortFn]="true">
-            Name
-          </th>
-          <th nzWidth="30%">
-            Variants
-          </th>
-          <th nzWidth="30%">
-            Genes
-          </th>
-          <th nzWidth="10%"
-            [nzColumnKey]="sortColumns.VariantCount"
-            [nzSortFn]="true"
-            [nzSortDirections]="['descend', 'ascend', null]"
-            nz-tooltip
-            nzTooltipTitle="Variant Count">
-            <i nz-icon nzType="civic:variant"></i>
-          </th>
-          <th nzWidth="10%"
-            [nzColumnKey]="sortColumns.EvidenceItemCount"
-            [nzSortFn]="true"
-            [nzSortDirections]="['descend', 'ascend', null]"
-            nz-tooltip
-            nzTooltipTitle="Evidence Count">
-            <i nz-icon nzType="civic:evidence"></i>
-          </th>
-        </tr>
-        <tr>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="nameInput"
-              placeholderText="Name"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
-              placeholderText="Variant Name"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-            <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-              placeholderText="Gene Name"
-              [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-          </th>
-          <th>
-          </th>
-          <th>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let vg of variantGroupsTable.data">
-          <td>
+<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+<nz-card [nzTitle]="titleTemplate"
+  [nzExtra]="extraTemplate"
+  nzSize="small"
+  cvcAutoHeightCard="35">
+  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+  <nz-table #virtualTable
+    nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="variantGroups$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '400px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr class="col-header-row">
+        <th nzWidth="250px"
+          nzLeft
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
+          Name
+        </th>
+        <th nzWidth="600px">
+          Variants
+        </th>
+        <th nzWidth="150px">
+          Genes
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.VariantCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Variant Count">
+          <i nz-icon nzType="civic:variant"></i> Count
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.EvidenceItemCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon nzType="civic:evidence"></i> Count
+        </th>
+      </tr>
+      <tr class="filter-row">
+        <th nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="nameInput"
+            placeholderText="Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+            placeholderText="Variant Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
+            placeholderText="Gene Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzRight>
+        </th>
+        <th nzRight>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll
+        let-vg
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
             <cvc-variant-group-tag [variantgroup]="vg"></cvc-variant-group-tag>
           </td>
-          <td>
-            <p nz-typography>
-              <span *ngFor="let variant of vg.variantNames; last as isLast">
-                          {{ variant }}{{ isLast ? '' : ', ' }}
-                        </span>
-            </p>
+          <td style="overflow: hidden; text-overflow: ellipsis;">
+            <span *ngFor="let variant of vg.variantNames; last as isLast">
+              {{ variant }}{{ isLast ? '' : ', ' }}
+            </span>
           </td>
           <td>
-            <p nz-typography>
-              <span *ngFor="let gene of vg.geneNames; last as isLast">
-                          {{ gene }}{{ isLast ? '' : ', ' }}
-                        </span>
-            </p>
+            <span *ngFor="let gene of vg.geneNames; last as isLast">
+              {{ gene }}{{ isLast ? '' : ', ' }}
+            </span>
           </td>
-          <td>
+          <td nzRight nzAlign="right">
             {{ vg.variantCount }}
           </td>
-          <td>
+          <td nzRight nzAlign="right">
             {{ vg.evidenceItemCount }}
           </td>
         </tr>
-        <!-- Load More button row -->
-        <ng-container *ngrxLet="pageInfo$ as pageInfo">
-          <tr *ngIf="pageInfo.hasNextPage">
-            <td colspan="7">
-              <button *ngIf="pageInfo.hasNextPage"
-                (click)="loadMore(pageInfo.endCursor)"
-                nz-button
-                nzBlock>Load {{this.pageSize}} More</button>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </nz-table>
-  </ng-container>
+      </ng-template>
+    </tbody>
+  </nz-table>
 </nz-card>
 
 <ng-template #titleTemplate>
@@ -116,4 +117,13 @@
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

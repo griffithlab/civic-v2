@@ -22,6 +22,8 @@ class Variant < ApplicationRecord
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 
+  after_save :update_allele_registry_id
+
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
     message: "only allows A,C,T,G or /"
@@ -57,5 +59,9 @@ class Variant < ApplicationRecord
         .distinct
         .count
     }
+  end
+
+  def update_allele_registry_id
+    SetAlleleRegistryIdSingleVariant.perform_later(self)
   end
 end

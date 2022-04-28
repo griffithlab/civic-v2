@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe } from '@app/generated/civic.apollo';
 
@@ -11,14 +11,15 @@ export interface LinkableDrug {
 @Component({
   selector: 'cvc-drug-tag',
   templateUrl: './cvc-drug-tag.component.html',
-  styleUrls: ['./cvc-drug-tag.component.less']
+  styleUrls: ['./cvc-drug-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcDrugTagComponent extends BaseCloseableTag implements OnInit {
   @Input() drug!: LinkableDrug
   @Input() enablePopover: Maybe<boolean> = true
   @Input() truncateLongName: Maybe<boolean> = false
 
-  constructor() { 
+  constructor() {
     super();
   }
 

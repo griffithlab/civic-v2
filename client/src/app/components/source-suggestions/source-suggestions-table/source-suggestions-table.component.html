@@ -39,6 +39,12 @@
             [nzSortFn]="true">
             Disease
           </th>
+          <th [nzColumnKey]="sortColumns.CreatedAt" 
+            [nzSortDirections]="['descend', 'ascend', null]"
+            nzSortOrder='descend'
+            [nzSortFn]="true">
+            Date Submitted
+          </th>
           <th>
             Comment
           </th>
@@ -102,6 +108,7 @@
               [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
           </th>
           <th></th>
+          <th></th>
           <th *ngIf="viewer.signedIn"></th>
         </tr>
       </thead>
@@ -140,6 +147,9 @@
           </td>
           <td>
             <cvc-disease-tag *ngIf="suggestion.disease" [disease]="suggestion.disease"></cvc-disease-tag>
+          </td>
+          <td>
+            {{ suggestion.createdAt | date }}
           </td>
           <td nzAlign="center"
             nz-tooltip

@@ -3387,6 +3387,7 @@ export type SourceStub = {
 
 export type SourceSuggestion = EventOriginObject & EventSubject & {
   __typename: 'SourceSuggestion';
+  createdAt: Scalars['ISO8601DateTime'];
   disease?: Maybe<Disease>;
   /** List and filter events for an object */
   events: EventConnection;
@@ -3464,6 +3465,7 @@ export type SourceSuggestionsSort = {
 export enum SourceSuggestionsSortColumns {
   Citation = 'CITATION',
   CitationId = 'CITATION_ID',
+  CreatedAt = 'CREATED_AT',
   DiseaseName = 'DISEASE_NAME',
   GeneName = 'GENE_NAME',
   SourceType = 'SOURCE_TYPE',
@@ -5301,20 +5303,25 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { diseases?: Maybe<Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id' | 'link'>
-        )>>, drugs?: Maybe<Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id' | 'link'>
-        )>> }
+        & GeneBrowseTableRowFieldsFragment
       )> }
     )>, pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
   ) }
+);
+
+export type GeneBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseGene' }
+  & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+  & { diseases?: Maybe<Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'name' | 'id' | 'link'>
+  )>>, drugs?: Maybe<Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'name' | 'id' | 'link'>
+  )>> }
 );
 
 export type QuicksearchQueryVariables = Exact<{
@@ -5823,7 +5830,7 @@ export type BrowseSourceSuggestionsQuery = (
 
 export type BrowseSourceSuggestionRowFieldsFragment = (
   { __typename: 'SourceSuggestion' }
-  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason'>
+  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason' | 'createdAt'>
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -6204,20 +6211,25 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
-        & { diseases: Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'id' | 'name' | 'link'>
-        )>, drugs: Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'id' | 'name' | 'link'>
-        )>, aliases: Array<(
-          { __typename: 'VariantAlias' }
-          & Pick<VariantAlias, 'name'>
-        )> }
+        & VariantGridFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type VariantGridFieldsFragment = (
+  { __typename: 'BrowseVariant' }
+  & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
+  & { diseases: Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'link'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'link'>
+  )>, aliases: Array<(
+    { __typename: 'VariantAlias' }
+    & Pick<VariantAlias, 'name'>
+  )> }
 );
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
@@ -7215,7 +7227,13 @@ export type AssertionDetailQuery = (
 export type AssertionDetailFieldsFragment = (
   { __typename: 'Assertion' }
   & Pick<Assertion, 'id' | 'name' | 'status'>
-  & { gene: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
@@ -7358,7 +7376,13 @@ export type EvidenceDetailQuery = (
 export type EvidenceDetailFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'name' | 'status'>
-  & { variant: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), gene: (
@@ -8679,6 +8703,28 @@ export const GenePopoverFragmentDoc = gql`
   }
 }
     `;
+export const GeneBrowseTableRowFieldsFragmentDoc = gql`
+    fragment GeneBrowseTableRowFields on BrowseGene {
+  id
+  entrezId
+  name
+  link
+  geneAliases
+  diseases {
+    name
+    id
+    link
+  }
+  drugs {
+    name
+    id
+    link
+  }
+  variantCount
+  evidenceItemCount
+  assertionCount
+}
+    `;
 export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
@@ -8939,6 +8985,7 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
   initialComment
   status
   reason
+  createdAt
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
@@ -9085,6 +9132,32 @@ export const MenuVariantFragmentDoc = gql`
   id
   name
   link
+}
+    `;
+export const VariantGridFieldsFragmentDoc = gql`
+    fragment VariantGridFields on BrowseVariant {
+  id
+  name
+  link
+  evidenceScore
+  evidenceItemCount
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+  assertionCount
 }
     `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
@@ -9402,6 +9475,11 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   gene {
     id
     name
@@ -9518,6 +9596,11 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   variant {
     id
     name
@@ -10698,24 +10781,7 @@ export const BrowseGenesDocument = gql`
     edges {
       cursor
       node {
-        id
-        entrezId
-        name
-        link
-        geneAliases
-        diseases {
-          name
-          id
-          link
-        }
-        drugs {
-          name
-          id
-          link
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
+        ...GeneBrowseTableRowFields
       }
     }
     pageInfo {
@@ -10729,7 +10795,7 @@ export const BrowseGenesDocument = gql`
     pageCount
   }
 }
-    `;
+    ${GeneBrowseTableRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -11530,28 +11596,7 @@ export const BrowseVariantsDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        link
-        evidenceScore
-        evidenceItemCount
-        geneId
-        geneName
-        geneLink
-        diseases {
-          id
-          name
-          link
-        }
-        drugs {
-          id
-          name
-          link
-        }
-        aliases {
-          name
-        }
-        assertionCount
+        ...VariantGridFields
       }
     }
     totalCount
@@ -11559,7 +11604,7 @@ export const BrowseVariantsDocument = gql`
     pageCount
   }
 }
-    `;
+    ${VariantGridFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

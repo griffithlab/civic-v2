@@ -110,15 +110,16 @@
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
-        <nz-space nzDirection="vertical">
-          <ng-container *ngIf="viewer.canModerate && assertion.status == 'SUBMITTED'">
+        <nz-space nzDirection="vertical" *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
+          <span *nzSpaceItem>
             <cvc-moderate-entity-buttons entityType="Assertion"
+              [rejectOnly]="!viewer.canModerate"
               [entityId]="assertion.id"
               (onModerated)="onModerateCompleted($event)"
-              [viewer]="viewer"
-              *nzSpaceItem>
+              [viewer]="viewer" >
             </cvc-moderate-entity-buttons>
-          </ng-container>
+          </span>
+          <span *nzSpaceItem></span>
         </nz-space>
         <div class="content">
           <router-outlet></router-outlet>
