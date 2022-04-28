@@ -251,7 +251,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
 
       scrolled$
-        .pipe(
+        .pipe(takeUntil(this.destroy$),
           // for each elementScrolled event, get latest pageInfo,
           // and return page cursor and scroll offest
           withLatestFrom(this.pageInfo$),

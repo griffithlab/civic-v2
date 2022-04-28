@@ -23,7 +23,6 @@ export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterVi
 
   private queryRef?: QueryRef<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables>
   data$?: Observable<ApolloQueryResult<VariantTypesBrowseQuery>>
-  private debouncedQuery = new Subject<void>();
 
   isLoading = false
   filteredCount$?: Observable<number>
@@ -42,6 +41,7 @@ export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterVi
 
   showTooltips = true
 
+  private debouncedQuery = new Subject<void>();
   textInputCallback?: () => void
 
   sortColumns: typeof VariantTypeSortColumns = VariantTypeSortColumns
@@ -84,12 +84,7 @@ export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterVi
       .subscribe((l: boolean) => { this.isLoading = l; });
 
     this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'variantTypes', 'filteredCount')
-    )
-
-    this.filteredCount$ = this.data$
-      .pipe(takeUntil(this.destroy$),
-        pluck('data', 'phenotypes', 'filteredCount'));
+      pluck('data', 'variantTypes', 'filteredCount'));
 
     this.filteredCount$
       .pipe(takeUntil(this.destroy$),
@@ -109,7 +104,6 @@ export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterVi
           }
         }
       });
-
 
     this.pageInfo$ = this.data$
       .pipe(takeUntil(this.destroy$),
