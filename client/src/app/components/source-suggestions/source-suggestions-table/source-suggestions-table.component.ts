@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
-import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus, UpdateSourceSuggestionGQL, UpdateSourceSuggestionMutation, UpdateSourceSuggestionMutationVariables } from "@app/generated/civic.apollo";
+import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SortDirection, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus, UpdateSourceSuggestionGQL, UpdateSourceSuggestionMutation, UpdateSourceSuggestionMutationVariables } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable } from "rxjs";
@@ -68,7 +68,11 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy {
       first: this.pageSize,
       sourceId: this.sourceId,
       submitterId: this.submitterId,
-      status: this.status.New
+      status: this.status.New,
+      sortBy: {
+        column: this.sortColumns.CreatedAt,
+        direction: SortDirection.Desc
+      }
     })
 
     this.viewer$ = this.viewerService.viewer$
