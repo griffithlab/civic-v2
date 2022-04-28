@@ -1710,6 +1710,30 @@ export type GeneVariantsArgs = {
   name?: Maybe<Scalars['String']>;
 };
 
+/** The connection type for Gene. */
+export type GeneConnection = {
+  __typename: 'GeneConnection';
+  /** A list of edges. */
+  edges: Array<GeneEdge>;
+  /** A list of nodes. */
+  nodes: Array<Gene>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type GeneEdge = {
+  __typename: 'GeneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Gene>;
+};
+
 /** Fields on a Gene that curators may propose revisions to. */
 export type GeneFields = {
   /** The Gene's description/summary text. */
@@ -2489,6 +2513,8 @@ export type Query = {
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
+  /** List and filter genes. */
+  genes: GeneConnection;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
@@ -2822,6 +2848,14 @@ export type QueryGeneArgs = {
 
 export type QueryGeneTypeaheadArgs = {
   queryTerm: Scalars['String'];
+};
+
+
+export type QueryGenesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -3387,6 +3421,7 @@ export type SourceStub = {
 
 export type SourceSuggestion = EventOriginObject & EventSubject & {
   __typename: 'SourceSuggestion';
+  createdAt: Scalars['ISO8601DateTime'];
   disease?: Maybe<Disease>;
   /** List and filter events for an object */
   events: EventConnection;
@@ -3464,6 +3499,7 @@ export type SourceSuggestionsSort = {
 export enum SourceSuggestionsSortColumns {
   Citation = 'CITATION',
   CitationId = 'CITATION_ID',
+  CreatedAt = 'CREATED_AT',
   DiseaseName = 'DISEASE_NAME',
   GeneName = 'GENE_NAME',
   SourceType = 'SOURCE_TYPE',
@@ -5833,7 +5869,7 @@ export type BrowseSourceSuggestionsQuery = (
 
 export type BrowseSourceSuggestionRowFieldsFragment = (
   { __typename: 'SourceSuggestion' }
-  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason'>
+  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason' | 'createdAt'>
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -7230,7 +7266,13 @@ export type AssertionDetailQuery = (
 export type AssertionDetailFieldsFragment = (
   { __typename: 'Assertion' }
   & Pick<Assertion, 'id' | 'name' | 'status'>
-  & { gene: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
@@ -7373,7 +7415,13 @@ export type EvidenceDetailQuery = (
 export type EvidenceDetailFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'name' | 'status'>
-  & { variant: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), gene: (
@@ -8986,6 +9034,7 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
   initialComment
   status
   reason
+  createdAt
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
@@ -9475,6 +9524,11 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   gene {
     id
     name
@@ -9591,6 +9645,11 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   variant {
     id
     name

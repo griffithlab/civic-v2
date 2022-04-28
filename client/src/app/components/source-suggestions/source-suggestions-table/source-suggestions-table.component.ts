@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus } from "@app/generated/civic.apollo";
+import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SortDirection, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus } from "@app/generated/civic.apollo";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
 import { QueryRef } from "apollo-angular";
 import { Subject, Observable, BehaviorSubject, interval } from "rxjs";
@@ -83,7 +83,11 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
       first: this.initialPageSize,
       sourceId: this.sourceId,
       submitterId: this.submitterId,
-      status: this.status.New
+      status: this.status.New,
+      sortBy: {
+        column: this.sortColumns.CreatedAt,
+        direction: SortDirection.Desc
+      }
     })
 
     // provide viewer signed in

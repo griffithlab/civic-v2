@@ -46,6 +46,12 @@ class Resolvers::ValidateRevisionsForAcceptance < GraphQL::Schema::Resolver
             end
           end
         end
+      else
+        revisors.each do |user|
+          if user.id == context[:current_user]&.id
+            generic_errors << "Users cannot accept their own revisions."
+          end
+        end
       end
 
       revisions.compact.group_by{|r| r.field_name}.each do |field_name, rs|

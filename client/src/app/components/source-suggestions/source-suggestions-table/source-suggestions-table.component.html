@@ -63,6 +63,13 @@
           [nzSortFn]="true">
           Disease
         </th>
+        <th nzWidth="80px;"
+          [nzColumnKey]="sortColumns.CreatedAt" 
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nzSortOrder='descend'
+          [nzSortFn]="true">
+          Date Submitted
+        </th>
         <th nzWidth="70px"
           nzRight
           nzAlign="center">
@@ -131,6 +138,7 @@
             placeholderText="Disease"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
+        <th></th>
         <th nzRight></th>
       </tr>
     </thead>
@@ -202,6 +210,9 @@
           <td>
             <cvc-disease-tag *ngIf="suggestion.disease"
               [disease]="suggestion.disease"></cvc-disease-tag>
+          </td>
+          <td>
+            {{ suggestion.createdAt | date:'shortDate' }}
           </td>
           <td nzRight
             nzAlign="center"
@@ -279,13 +290,4 @@
       nzType="exclamation-circle"></i>
     <span>End of results reached</span>
   </nz-tag>
-  <!-- <div style="width: 200px;">
-       <button *ngrxLet="endCursor$ as endCursor"
-       (click)="loadMore(endCursor)"
-       nz-button
-       nzSize="small">
-       Load {{this.fetchMorePageSize}} More
-       </button>
-       </div> -->
-
 </ng-template>

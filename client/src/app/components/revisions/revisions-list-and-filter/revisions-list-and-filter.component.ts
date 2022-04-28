@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL} from '@app/generated/civic.apollo';
+import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL, VariantSummaryGQL, VariantGroupsSummaryGQL, AssertionSummaryGQL, GenesSummaryGQL, EvidenceSummaryGQL} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, pluck, startWith } from 'rxjs/operators';
@@ -56,16 +56,21 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
 
   private defaultPageSize = 10
 
-  refetchQuery!: InternalRefetchQueryDescriptor
+  refetchQueries: InternalRefetchQueryDescriptor[] = []
 
   constructor(
     private gql: RevisionsGQL,
     private route: ActivatedRoute,
     private variantDetailGql: VariantDetailGQL,
+    private variantSummaryGql: VariantSummaryGQL,
     private variantGroupDetailGql: VariantGroupDetailGQL,
+    private variantGroupSummaryGql: VariantGroupsSummaryGQL,
     private assertionDetailGql: AssertionDetailGQL,
+    private assertionSummaryGql: AssertionSummaryGQL,
     private geneDetailGql: GeneDetailGQL,
+    private geneSummaryGql: GenesSummaryGQL,
     private evidenceDetailGql: EvidenceDetailGQL,
+    private evidenceSummaryGql: EvidenceSummaryGQL
   ) {
   }
 
@@ -120,34 +125,54 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
 
     switch (this.entityType) {
       case ModeratedEntities.Variant: 
-        this.refetchQuery = {
+        this.refetchQueries.push({
           query: this.variantDetailGql.document,
           variables: { variantId: this.id }
-        }
+        })
+        this.refetchQueries.push({
+          query: this.variantSummaryGql.document,
+          variables: { variantId: this.id }
+        })
         return
       case ModeratedEntities.Assertion:
-        this.refetchQuery = {
+        this.refetchQueries.push({
           query: this.assertionDetailGql.document,
           variables: { assertionId: this.id }
-        }
+        })
+        this.refetchQueries.push({
+          query: this.assertionSummaryGql.document,
+          variables: { assertionId: this.id }
+        })
         return
       case ModeratedEntities.EvidenceItem:
-        this.refetchQuery = {
+        this.refetchQueries.push({
           query: this.evidenceDetailGql.document,
           variables: { evidenceId: this.id }
-        }
+        })
+        this.refetchQueries.push({
+          query: this.evidenceSummaryGql.document,
+          variables: { evidenceId: this.id }
+        })
         return
       case ModeratedEntities.Gene:
-        this.refetchQuery = {
+        this.refetchQueries.push({
           query: this.geneDetailGql.document,
           variables: { geneId: this.id }
-        }
+        })
+        this.refetchQueries.push({
+          query: this.geneSummaryGql.document,
+          variables: { geneId: this.id }
+        })
         return
       case ModeratedEntities.VariantGroup:
-        this.refetchQuery = {
+        this.refetchQueries.push({
           query: this.variantGroupDetailGql.document,
           variables: { variantGroupId: this.id }
-        }
+        })
+        this.refetchQueries.push({
+          query: this.variantGroupSummaryGql.document,
+          variables: { variantGroupId: this.id }
+        })
         return
     }
   }
