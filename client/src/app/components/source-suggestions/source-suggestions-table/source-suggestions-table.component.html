@@ -53,22 +53,22 @@
           [nzSortFn]="true">
           Gene
         </th>
-        <th nzWidth="150px"
+        <th nzWidth="170px"
           [nzColumnKey]="sortColumns.VariantName"
           [nzSortFn]="true">
           Variant
         </th>
-        <th nzWidth="250px"
+        <th nzWidth="200px"
           [nzColumnKey]="sortColumns.DiseaseName"
           [nzSortFn]="true">
           Disease
         </th>
-        <th nzWidth="80px;"
+        <th nzWidth="90px"
           [nzColumnKey]="sortColumns.CreatedAt" 
           [nzSortDirections]="['descend', 'ascend', null]"
           nzSortOrder='descend'
           [nzSortFn]="true">
-          Date Submitted
+          Submitted
         </th>
         <th nzWidth="70px"
           nzRight
@@ -205,14 +205,14 @@
           </td>
           <td>
             <cvc-variant-tag *ngIf="suggestion.variant"
-              [variant]="suggestion.variant"></cvc-variant-tag>
+              [variant]="suggestion.variant" [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td>
             <cvc-disease-tag *ngIf="suggestion.disease"
-              [disease]="suggestion.disease"></cvc-disease-tag>
+              [disease]="suggestion.disease" [truncateLongName]="true"></cvc-disease-tag>
           </td>
-          <td>
-            {{ suggestion.createdAt | date:'shortDate' }}
+          <td nzAlign="right">
+            {{ suggestion.createdAt | date }}
           </td>
           <td nzRight
             nzAlign="center"
