@@ -224,8 +224,8 @@
                 nz-button
                 nzSize="small"
                 nz-tooltip
-                nzTooltipTitle="Create Evidence with this Source"
-                [nzTooltipMouseEnterDelay]="0.5">
+                [nzTooltipTitle]="showTooltips ? 'Create Evidence with this Source' : ''"
+                [nzTooltipMouseEnterDelay]="1">
                 <i nz-icon
                   nzType="civic-evidence"></i>
               </button>
@@ -236,9 +236,9 @@
                 nzPopoverPlacement="left"
                 nzPopoverTrigger="click"
                 nz-tooltip
-                nzTooltipTitle="Manage This Source Suggestion"
+                [nzTooltipTitle]="showTooltips ? 'Manage Source Suggestion' : ''"
                 nzTooltipPlacement="top"
-                [nzTooltipMouseEnterDelay]="0.5"
+                [nzTooltipMouseEnterDelay]="1"
                 [nzPopoverContent]="manageSuggestionTemplate"
                 (click)="setFormInputs(suggestion.id, suggestion.status)">
                 <i nz-icon

@@ -280,7 +280,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
                 .pipe(first())
                 .subscribe((_) => {
                   this.noMoreRows$.next(false);
-                  this.cdr.detectChanges(); // TODO: figure out why this is required
+                  this.cdr.detectChanges();
                 })
             }
           }
