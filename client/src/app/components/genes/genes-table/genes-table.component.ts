@@ -61,7 +61,7 @@ export class CvcGenesTableComponent implements OnInit {
   sortColumns: typeof GenesSortColumns = GenesSortColumns
 
   totalCount?: number
-  initialPageSize = 25;
+  initialPageSize = 35;
   visibleCount: number = this.initialPageSize
   fetchMorePageSize = 25;
   isLoadingDelay = 300;

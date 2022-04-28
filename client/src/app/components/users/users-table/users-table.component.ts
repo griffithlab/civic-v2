@@ -21,7 +21,7 @@ export class CvcUsersTableComponent implements OnInit {
   viewport?: CdkVirtualScrollViewport
 
   private debouncedQuery = new Subject<void>();
-  initialPageSize = 25;
+  initialPageSize = 35;
   fetchMorePageSize = 25;
 
   private queryRef!: QueryRef<UsersBrowseQuery, UsersBrowseQueryVariables>;
