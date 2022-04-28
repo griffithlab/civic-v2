@@ -33,7 +33,6 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
   isLoading = false
   sourceSuggestions$?: Observable<Maybe<BrowseSourceSuggestionRowFieldsFragment>[]>;
   pageInfo$?: Observable<PageInfo>
-  endCursor$?: Observable<Maybe<string>>
   viewer$?: Observable<Viewer>
   filteredCount$?: Observable<number>
 
@@ -123,13 +122,6 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
       .pipe(takeUntil(this.destroy$),
         pluck('data', 'sourceSuggestions', 'pageInfo'));
 
-    this.endCursor$ = this.data$
-      .pipe(takeUntil(this.destroy$),
-        pluck('data', 'sourceSuggestions', 'pageInfo', 'endCursor'));
-
-    this.endCursor$.subscribe(c => console.log(`endCursor$: ${c}`));
-    this.pageInfo$.subscribe(pi => console.log(`pageInfo$ endCursor: ${pi.endCursor}`));
-
     this.filteredCount$ = this.data$.pipe(
       pluck('data', 'sourceSuggestions', 'filteredCount')
     )
@@ -185,11 +177,10 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
             return (e2.offset < e1.offset && e2.offset < 140)
           }),
           // throttle events to prevent spamming loadMore() requests
-          throttleTime(200))
+          throttleTime(500))
         .subscribe(([_, e2]) => {
           if (e2.pageInfo.hasNextPage) {
-            this.loadMore('ODU');
-            // this.loadMore(e2.pageInfo.endCursor);
+            this.loadMore(e2.pageInfo.endCursor);
           } else {
             // show 'end of results' msg, hide after an interval
             if (this.noMoreRows$.getValue() === false) {
@@ -221,13 +212,6 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
       this.viewport.renderedRangeStream
         .pipe(first())
         .subscribe((_) => { this.viewport!.checkViewportSize(); });
-
-      this.viewport.renderedRangeStream
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((_) => {
-          console.log(`renderedRangeStream: `);
-          console.log(_);
-        });
 
     } else {
       console.error('source-suggestions-table unable to find cdkVirtualScrollViewport.');
@@ -277,11 +261,12 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
     return data.id
   }
 
-  // scrollToIndex(index: number): void {
-  //   this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
-  // }
+  scrollToIndex(index: number): void {
+    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
+  }
 
   loadMore(cursor: Maybe<string>) {
+    console.log(`endCursor: ${cursor}`);
     this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {

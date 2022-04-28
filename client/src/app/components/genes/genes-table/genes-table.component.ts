@@ -182,7 +182,7 @@ export class CvcGenesTableComponent implements OnInit {
             return (e2.offset < e1.offset && e2.offset < 140)
           }),
           // throttle events to prevent spamming loadMore() requests
-          throttleTime(this.isLoadingDelay))
+          throttleTime(500))
         .subscribe(([_, e2]) => {
           if (e2.pageInfo.hasNextPage) {
             this.loadMore(e2.pageInfo.endCursor);
