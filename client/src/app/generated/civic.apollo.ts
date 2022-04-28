@@ -3387,6 +3387,7 @@ export type SourceStub = {
 
 export type SourceSuggestion = EventOriginObject & EventSubject & {
   __typename: 'SourceSuggestion';
+  createdAt: Scalars['ISO8601DateTime'];
   disease?: Maybe<Disease>;
   /** List and filter events for an object */
   events: EventConnection;
@@ -3464,6 +3465,7 @@ export type SourceSuggestionsSort = {
 export enum SourceSuggestionsSortColumns {
   Citation = 'CITATION',
   CitationId = 'CITATION_ID',
+  CreatedAt = 'CREATED_AT',
   DiseaseName = 'DISEASE_NAME',
   GeneName = 'GENE_NAME',
   SourceType = 'SOURCE_TYPE',
@@ -5828,7 +5830,7 @@ export type BrowseSourceSuggestionsQuery = (
 
 export type BrowseSourceSuggestionRowFieldsFragment = (
   { __typename: 'SourceSuggestion' }
-  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason'>
+  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason' | 'createdAt'>
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -8983,6 +8985,7 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
   initialComment
   status
   reason
+  createdAt
 }
     `;
 export const SourcePopoverFragmentDoc = gql`

@@ -86,6 +86,7 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   initialComment
   status
   reason
+  createdAt
 }
 
 mutation UpdateSourceSuggestionStatus($input: UpdateSourceSuggestionStatusInput!) {
