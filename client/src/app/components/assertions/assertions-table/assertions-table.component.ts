@@ -64,7 +64,7 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   initialPageSize = 25
   totalCount?: number
   fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
   visibleCount: number = this.initialPageSize
   noMoreRows$: BehaviorSubject<boolean>;
 

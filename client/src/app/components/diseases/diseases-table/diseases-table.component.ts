@@ -49,7 +49,7 @@ export class CvcDiseasesTableComponent implements OnInit, AfterViewInit, OnDestr
   filteredCount$?: Observable<number>;
   totalCount?: number;
 
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
 
   loadedPages: number = 1;
 

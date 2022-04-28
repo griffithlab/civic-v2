@@ -63,7 +63,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
   visibleCount = this.initialPageSize
   loadedPages = 1
   fetchMorePageSize = 25
-  isLoadingDelay = 100
+  isLoadingDelay = 300
 
   isSignedIn = false
   showTooltips = true
@@ -266,7 +266,6 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
   }
 
   loadMore(cursor: Maybe<string>) {
-    console.log(`endCursor: ${cursor}`);
     this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {
@@ -282,6 +281,5 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
-
 
 }

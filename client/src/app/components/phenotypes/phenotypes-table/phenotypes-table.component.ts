@@ -31,7 +31,7 @@ export class CvcPhenotypesTableComponent implements OnInit, OnDestroy, AfterView
   phenotypes$?: Observable<Maybe<PhenotypeBrowseTableRowFieldsFragment>[]>
   initialPageSize = 50
   fetchMorePageSize = 25
-  isLoadingDelay = 100
+  isLoadingDelay = 300
   noMoreRows$: BehaviorSubject<boolean>;
 
   // filters

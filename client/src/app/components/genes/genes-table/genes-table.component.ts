@@ -64,7 +64,7 @@ export class CvcGenesTableComponent implements OnInit {
   initialPageSize = 25;
   visibleCount: number = this.initialPageSize
   fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
 
   noMoreRows$: BehaviorSubject<boolean>;
 

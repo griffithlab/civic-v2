@@ -31,7 +31,7 @@ export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterVi
 
   initialPageSize = 50
   fetchMorePageSize = 25
-  isLoadingDelay = 100
+  isLoadingDelay = 300
 
   noMoreRows$: BehaviorSubject<boolean>;
 

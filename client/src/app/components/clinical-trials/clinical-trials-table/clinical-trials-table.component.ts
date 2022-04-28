@@ -36,7 +36,7 @@ export class CvcClinicalTrialsTableComponent implements OnInit, AfterViewInit, O
   visibleCount: number = this.initialPageSize
 
   fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
 
   nctIdFilter: Maybe<string>
   nameFilter: Maybe<string>

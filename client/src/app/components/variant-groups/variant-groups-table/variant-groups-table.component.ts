@@ -49,7 +49,7 @@ export class CvcVariantGroupsTableComponent implements OnInit, AfterViewInit, On
   visibleCount: number = this.pageSize
   loadedPages: number = 1
 
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
 
   noMoreRows$: BehaviorSubject<boolean>;
 

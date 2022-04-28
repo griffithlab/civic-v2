@@ -50,7 +50,7 @@ export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewIn
   visibleCount: number = this.initialPageSize
   loadedPages: number = 1
   fetchMorePageSize = 25
-  isLoadingDelay = 100
+  isLoadingDelay = 300
 
   noMoreRows$: BehaviorSubject<boolean>;
 

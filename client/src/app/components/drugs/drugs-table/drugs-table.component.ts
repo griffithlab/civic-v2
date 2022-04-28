@@ -26,7 +26,7 @@ export class CvcDrugsTableComponent implements OnInit, OnDestroy, AfterViewInit 
   private debouncedQuery = new Subject<void>()
 
   isLoading = false
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
   initialPageSize = 50
   fetchMorePagSize = 25
 

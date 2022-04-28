@@ -107,7 +107,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   pageInfo$?: Observable<PageInfo>;
   totalCount?: number;
   fetchMorePageSize = 25;
-  isLoadingDelay = 100;
+  isLoadingDelay = 300;
   visibleCount: number = this.initialPageSize;
 
   noMoreRows$: BehaviorSubject<boolean>;
