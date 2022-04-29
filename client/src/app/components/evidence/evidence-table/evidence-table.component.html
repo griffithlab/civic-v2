@@ -5,14 +5,15 @@
     [nzExtra]="extraTemplate"
     nzSize="small"
     cvcAutoHeightCard
-  cvcAutoHeightTarget="viewport">
+    cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
-<!-- render table in nz-card w/o autoHeightCard, set card's min/max heights -->
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
 <ng-template #setHeightCard>
-  <div class="card-container" [ngStyle]="{ 'height': cvcHeight }">
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
     <nz-card [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard

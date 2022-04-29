@@ -1,30 +1,9 @@
-import {
-  Directive,
-  ElementRef,
-  Input,
-  OnInit,
-  AfterViewInit,
-  ChangeDetectorRef,
-  NgZone,
-  OnDestroy
-} from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, NgZone, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 
 type AutoHeightTarget = 'parent' | 'viewport' | undefined;
 type AutoHeightOffset = string | number | undefined;
-
-export class ResizedEvent {
-  public newRect: DOMRectReadOnly;
-  public oldRect?: DOMRectReadOnly;
-  public isFirst: boolean;
-
-  public constructor(newRect: DOMRectReadOnly, oldRect: DOMRectReadOnly | undefined) {
-    this.newRect = newRect;
-    this.oldRect = oldRect;
-    this.isFirst = oldRect == null;
-  }
-}
 
 //
 // From zorro-sharper: https://github.com/1-2-3/zorro-sharper/blob/master/README-en_US.md
@@ -35,7 +14,10 @@ export class ResizedEvent {
   selector: '[cvcAutoHeightCard]',
 })
 export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
+  // optional offset value, if provided will be added to height calculation
   private _offset?: AutoHeightOffset = 0;
+  // if 'parent' will use card's parent container for height calculation
+  // if 'viewport', will use browser window for height calculation
   private _target?: AutoHeightTarget = 'parent'
 
   @Input()
@@ -47,40 +29,25 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
   get cvcAutoHeightTarget(): AutoHeightTarget { return this._target }
 
   private resizeObserver: ResizeObserver;
-  private onResized$: Subject<ResizedEvent>;
-  private oldRect?: DOMRectReadOnly;
+  private onResized$: Subject<boolean>;
 
-  constructor(private el: ElementRef, private zone: NgZone) {
+  constructor(private el: ElementRef,
+    private zone: NgZone,
+    private cdr: ChangeDetectorRef
+  ) {
     this.onResized$ = new Subject();
-    this.resizeObserver = new ResizeObserver((entries) => {
-      this.zone.run(() => { this.onResize(entries) })
+    this.resizeObserver = new ResizeObserver((_) => {
+      this.zone.run(() => { this.onResized$.next(true) })
     });
 
     this.onResized$
-      .pipe(throttleTime(100))
+      .pipe(throttleTime(10))
       .subscribe((_) => { this.doAutoSize() });
   }
 
-  private onResize(entries: ResizeObserverEntry[]): void {
-    const domSize = entries[0];
-    const resizedEvent = new ResizedEvent(domSize.contentRect, this.oldRect);
-    this.oldRect = domSize.contentRect;
-    this.onResized$.next(resizedEvent);
-  }
-  /**
-   * 响应浏览器窗体大小变化 ('Responding to browser form size changes')
-   */
-  // @HostListener('resize', ['$event'])
-  // onResize() { this.doAutoSize() }
-
   ngOnInit(): void { this.resizeObserver.observe(this.el.nativeElement) }
 
-  // ngAfterViewInit() {
-  // this.doAutoSize()
-  // }
-
   private doAutoSize() {
-    // setTimeout(() => {
     const card = this.el.nativeElement;
     const cardParentHeight = card.parentElement.clientHeight;
 
@@ -90,7 +57,7 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
 
     const bodyDiv = card.querySelector('.ant-card-body');
     if (bodyDiv) {
-      // set card body height
+      // set card bodyDiv height
       if (this._target === 'parent') {
         const parentOffset = headerDivHeight;
         bodyDiv.style.height = `calc(${cardParentHeight - parentOffset}px)`;
@@ -104,13 +71,13 @@ export class CvcAutoHeightCardDirective implements OnInit, OnDestroy {
         const viewportOffset = bodyTop + headerDivHeight + this._offset;
         bodyDiv.style.height = `calc(100vh - ${viewportOffset}px)`;
       }
-      bodyDiv.style['overflow-y'] = 'auto'; // 自动出竖向滚动条 ('Automatic vertical scroll bar')
+      bodyDiv.style['overflow-y'] = 'auto'; // provides vertical scrollbars if overflow
     } else {
       console.warn(`auto-height-card could not find reference to ant-card-body div.`)
     }
-    // this.cdr.detectChanges();
-    // }, 2);
+    this.cdr.detectChanges();
   }
+
   ngOnDestroy(): void {
     this.onResized$.unsubscribe()
     this.resizeObserver.unobserve(this.el.nativeElement);

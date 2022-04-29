@@ -298,7 +298,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
         ).subscribe((_) => {
           this.showTooltips = true; // toggle tooltips on
           this.cdr.detectChanges(); // force refresh
-        })
+        });
 
       // force viewport check after initial render
       this.viewport.renderedRangeStream
