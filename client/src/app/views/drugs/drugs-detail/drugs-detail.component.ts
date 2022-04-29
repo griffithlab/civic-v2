@@ -12,33 +12,34 @@ import { pluck, startWith } from "rxjs/operators";
 })
 
 export class DrugsDetailComponent implements OnDestroy {
-  routeSub: Subscription;
-  drugId?: number;
-
+  drugId?: number
+  routeSub: Subscription
   queryRef?: QueryRef<DrugDetailQuery, DrugDetailQueryVariables>
-
-  loading$?: Observable<boolean>;
+  loading$?: Observable<boolean>
   drug$?: Observable<Maybe<Drug>>
 
-  constructor( private route: ActivatedRoute, private gql: DrugDetailGQL) {
-    this.routeSub = this.route.params.subscribe((params) => {
-      this.drugId = +params.drugId;
+  constructor(private route: ActivatedRoute, private gql: DrugDetailGQL) {
 
-      this.queryRef = this.gql.watch({
-        drugId: this.drugId
-      })
+    this.routeSub = this.route.params
+      .subscribe((params) => {
+        this.drugId = +params.drugId;
 
-      let observable = this.queryRef.valueChanges
-      this.loading$ = observable.pipe(
-        pluck('loading'),
-        startWith(true));
-      
-      this.drug$ = observable.pipe(
-          pluck('data', 'drug'));
-    });
+        this.queryRef = this.gql
+          .watch({ drugId: this.drugId });
+
+        let observable = this.queryRef.valueChanges;
+
+        this.loading$ = observable
+          .pipe(
+            pluck('loading'),
+            startWith(true));
+
+        this.drug$ = observable
+          .pipe(
+            pluck('data', 'drug'));
+      });
   }
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
+
+  ngOnDestroy() { this.routeSub.unsubscribe() }
 
 }

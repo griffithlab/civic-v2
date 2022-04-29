@@ -2,19 +2,18 @@
   display: block;
 }
 
-::ng-deep .cdk-virtual-scroll-content-wrapper {
+// selectors for debugging table cdk-scroll sizing issues,
+// TODO: remove after dev on these components has stabilized
+::ng-deep .cdk-virtual-scroll-viewport {
+//  border: 1px solid red;
 }
 
-::ng-deep .cdk-virtual-scroll-viewport {
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+// border: 1px solid blue;
 }
 
 nz-card:first-of-type ::ng-deep {
   .ant-card-body {
-    // TODO: implement ngClass toggle for min-height, depending on how many total
-    // records the table will need to display. setting a universal min-height here
-    // will result in some tables with a lot of whitespace, if they're displaying
-    // a couple rows (as in the case with some Assertions tables)
-    // min-height: 30em;
     // remove card body padding
     padding: 0;
     // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border

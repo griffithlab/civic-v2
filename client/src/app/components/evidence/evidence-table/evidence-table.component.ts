@@ -69,6 +69,7 @@ export interface EvidenceTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() cvcHeight: Maybe<string>
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
   @Input() cvcTitle: Maybe<string>
@@ -302,7 +303,9 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
       // force viewport check after initial render
       this.viewport.renderedRangeStream
         .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
+        .subscribe((_) => {
+          this.viewport!.checkViewportSize();
+        });
 
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');

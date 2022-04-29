@@ -10,6 +10,7 @@ import {
 //
 // From zorro-sharper: https://github.com/1-2-3/zorro-sharper/blob/master/README-en_US.md
 //
+// NOTE: cvcAutoHeight directives use the browser *viewport* to calculate their height, so that the components to which they're applied take up any space remaining to the bottom of the viewport - minus _offset
 @Directive({
   // tslint:disable-next-line: directive-selector
   selector: '[cvcAutoHeightCard]',
