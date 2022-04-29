@@ -14,6 +14,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
   styleUrls: ['./drugs-table.component.less']
 })
 export class CvcDrugsTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() cvcHeight: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() truncateLongName: Maybe<boolean> = false
