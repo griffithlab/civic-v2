@@ -1,5 +1,5 @@
 <nz-row id="nav-container"
-  [ngClass]="{ 'has-relations': relationsTpl !== undefined, 'has-actions': actionsTpl !== undefined }">
+  [ngClass]="{ 'has-relations': relationsTpl !== undefined, 'has-actions': actionsTpl !== undefined, 'no-extras': !(relationsTpl || actionsTpl) }">
 
   <!-- breadcrumbs -->
   <nz-col nzSpan="10"
