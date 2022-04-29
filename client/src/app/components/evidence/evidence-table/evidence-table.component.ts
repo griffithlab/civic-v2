@@ -21,7 +21,7 @@ import {
   EvidenceGridFieldsFragment,
   EvidenceLevel,
   EvidenceSortColumns,
-  EvidenceStatus,
+  EvidenceStatusFilter,
   EvidenceType,
   Maybe,
   PageInfo,
@@ -83,7 +83,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   @Input() organizationId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() sourceId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatus>
+  @Input() status: Maybe<EvidenceStatusFilter>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
 

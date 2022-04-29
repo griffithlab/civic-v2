@@ -2326,6 +2326,13 @@ enum EvidenceStatus {
   SUBMITTED
 }
 
+enum EvidenceStatusFilter {
+  ACCEPTED
+  ALL
+  REJECTED
+  SUBMITTED
+}
+
 enum EvidenceType {
   DIAGNOSTIC
   FUNCTIONAL
@@ -3989,7 +3996,7 @@ type Query {
     """
     Filtering on the status of the assertion.
     """
-    status: EvidenceStatus
+    status: EvidenceStatusFilter
 
     """
     Substring filtering on assertion description.
@@ -4507,7 +4514,7 @@ type Query {
     """
     Filtering on the evidence status.
     """
-    status: EvidenceStatus
+    status: EvidenceStatusFilter
 
     """
     Exact match filtering on the ID of the user who submitted the evidence item.

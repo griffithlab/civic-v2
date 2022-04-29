@@ -17,7 +17,7 @@ import {
   AssertionSortColumns,
   EvidenceClinicalSignificance,
   EvidenceDirection,
-  EvidenceStatus,
+  EvidenceStatusFilter,
   EvidenceType,
   Maybe,
   PageInfo
@@ -43,7 +43,7 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
   @Input() drugId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatus>
+  @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
