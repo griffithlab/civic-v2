@@ -1,4 +1,4 @@
-<!-- if cvcHeight not specified, render table without card height container & viewport target -->
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
 <ng-container *ngIf="!cvcHeight; else setHeightCard">
   <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
   <nz-card [nzTitle]="titleTemplate"

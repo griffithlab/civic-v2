@@ -1,9 +1,30 @@
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
 <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-<nz-card [nzTitle]="titleTemplate"
-  *ngrxLet="viewer$ as viewer"
-  [nzExtra]="extraTemplate"
-  nzSize="small"
-  [cvcAutoHeightCard]="35">
+<ng-template #table>
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="25"
@@ -64,7 +85,7 @@
           Disease
         </th>
         <th nzWidth="90px"
-          [nzColumnKey]="sortColumns.CreatedAt" 
+          [nzColumnKey]="sortColumns.CreatedAt"
           [nzSortDirections]="['descend', 'ascend', null]"
           nzSortOrder='descend'
           [nzSortFn]="true">
@@ -253,13 +274,13 @@
       </ng-template>
     </tbody>
   </nz-table>
-  <ng-template #manageSuggestionTemplate>
-    <cvc-update-source-suggestion-form *ngIf="this.selectedSourceId && this.selectedStatus"
-      [currentStatus]="this.selectedStatus"
-      [sourceSuggestionId]="this.selectedSourceId">
-    </cvc-update-source-suggestion-form>
-  </ng-template>
-</nz-card>
+</ng-template>
+<ng-template #manageSuggestionTemplate>
+  <cvc-update-source-suggestion-form *ngIf="this.selectedSourceId && this.selectedStatus"
+    [currentStatus]="this.selectedStatus"
+    [sourceSuggestionId]="this.selectedSourceId">
+  </cvc-update-source-suggestion-form>
+</ng-template>
 
 <ng-template #titleTemplate>
   <i nz-icon
