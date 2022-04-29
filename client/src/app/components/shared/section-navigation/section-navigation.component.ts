@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Injector,
@@ -24,6 +25,7 @@ export interface TitleSegment {
   selector: 'cvc-section-navigation',
   templateUrl: './section-navigation.component.html',
   styleUrls: ['./section-navigation.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcSectionNavigationComponent implements OnInit, OnDestroy {
   @Input() displayName: Maybe<string>;
