@@ -14,6 +14,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
   styleUrls: ['./clinical-trials-table.component.less']
 })
 export class CvcClinicalTrialsTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 

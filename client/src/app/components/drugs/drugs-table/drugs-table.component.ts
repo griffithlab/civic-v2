@@ -27,9 +27,9 @@ export class CvcDrugsTableComponent implements OnInit, OnDestroy, AfterViewInit 
   private debouncedQuery = new Subject<void>()
 
   isLoading = false
-  isLoadingDelay = 300;
-  initialPageSize = 50
-  fetchMorePagSize = 25
+  isLoadingDelay = 300
+  initialPageSize = 35
+  fetchMorePageSize = 25
 
   totalCount?: number;
   visibleCount: number = this.initialPageSize
@@ -213,7 +213,7 @@ export class CvcDrugsTableComponent implements OnInit, OnDestroy, AfterViewInit 
     this.isLoading = true;
     this.queryRef?.fetchMore({
       variables: {
-        first: this.fetchMorePagSize,
+        first: this.fetchMorePageSize,
         after: cursor
       }
     })

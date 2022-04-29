@@ -24,6 +24,7 @@ export interface VariantTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcVariantsTableComponent implements OnDestroy, OnInit, AfterViewInit {
+  @Input() cvcHeight?: number
   @Input() variantTypeId: Maybe<number>
   @Input() variantGroupId: Maybe<number>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
