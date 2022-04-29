@@ -1,49 +1,10 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  EventEmitter,
-  TemplateRef,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
-
-import {
-  EvidenceBrowseGQL,
-  EvidenceBrowseQuery,
-  EvidenceBrowseQueryVariables,
-  EvidenceClinicalSignificance,
-  EvidenceDirection,
-  EvidenceGridFieldsFragment,
-  EvidenceLevel,
-  EvidenceSortColumns,
-  EvidenceStatus,
-  EvidenceType,
-  Maybe,
-  PageInfo,
-  VariantOrigin,
-} from '@app/generated/civic.apollo';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {
-  tap,
-  pluck,
-  map,
-  debounceTime,
-  take,
-  takeUntil,
-  pairwise,
-  filter,
-  throttleTime,
-  withLatestFrom,
-  first
-} from 'rxjs/operators';
+import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
