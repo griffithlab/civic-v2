@@ -4,16 +4,18 @@
   <nz-card [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
     nzSize="small"
-    [cvcAutoHeightCard]="35">
+    cvcAutoHeightCard
+  cvcAutoHeightTarget="viewport">
     <ng-template [ngTemplateOutlet]="table"> </ng-template>
   </nz-card>
 </ng-container>
 
 <!-- render table in nz-card w/o autoHeightCard, set card's min/max heights -->
 <ng-template #setHeightCard>
-  <div [ngStyle]="{ 'height': cvcHeight, 'min-height': '300px'}">
+  <div class="card-container" [ngStyle]="{ 'height': cvcHeight }">
     <nz-card [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
       nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>

@@ -1,30 +1,35 @@
 <div class="summary-container">
   <ng-container *ngIf="drug$ | ngrxPush as drug">
+
     <!-- grid with 8px horizontal gutter, 16px vertical gutter -->
     <nz-row [nzGutter]="[8, 16]">
 
       <!-- summary details -->
-      <nz-col [nzSpan]="24">
+      <nz-col [nzSpan]="12">
         <nz-descriptions nzSize="small"
+          nzLayout="vertical"
           [nzColumn]="1"
           nzBordered="true">
-          <nz-descriptions-item *ngIf="drug.drugAliases.length > 0"
+          <nz-descriptions-item
             nzTitle="Aliases"
-            nzSpan="2">
-            <cvc-tag-list>
+            nzSpan="1">
+            <cvc-tag-list *ngIf="drug.drugAliases.length > 0; else noAliases">
               <nz-tag nz-tooltip
                 [nzTooltipTitle]="alias"
                 *ngFor="let alias of drug.drugAliases">
                 {{ alias | truncate }}
               </nz-tag>
             </cvc-tag-list>
+            <ng-template #noAliases>
+              <i nz-typography nzType="secondary">None specified</i>
+            </ng-template>
           </nz-descriptions-item>
         </nz-descriptions>
       </nz-col>
 
       <!-- evidence table -->
       <nz-col [nzSpan]="24">
-        <cvc-evidence-table [drugId]="drug.id" cvcHeight="250px"
+        <cvc-evidence-table [drugId]="drug.id" cvcHeight="400px"
           cvcTitle="Evidence associated with {{ drug.name }}"></cvc-evidence-table>
       </nz-col>
 
