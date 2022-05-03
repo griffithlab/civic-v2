@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 /**
  * Wraps a set of <cvc-[entity]-tag> elements to apply styles that ensure
@@ -8,7 +8,8 @@ import { Maybe } from '@app/generated/civic.apollo';
   selector: 'cvc-tag-list',
   templateUrl: './tag-list.component.html',
   styleUrls: ['./tag-list.component.less'],
-  host: { '[class.xs]': 'size === "xs" || !size', '[class.sm]': 'size === "sm"'}
+  host: { '[class.xs]': 'size === "xs" || !size', '[class.sm]': 'size === "sm"' },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcTagListComponent implements OnInit {
   @Input() size!: Maybe<'xs' | 'sm'>;

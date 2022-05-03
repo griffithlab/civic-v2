@@ -1,44 +1,78 @@
-<nz-card [nzTitle]="titleTemplate">
-  <nz-table #clinicalTrialsTable
+<!-- if cvcHeight not specified, render table without card height container & viewport target -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
     nzSize="small"
-    [nzData]="(clinicalTrials$ | ngrxPush)"
-    [nzLoading]="(isLoading$ | ngrxPush)"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+<!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <nz-table #virtualTable
+    nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="clinicalTrials$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-
     <thead (nzSortOrderChange)="onSortChanged($event)">
-      <tr>
-        <th nzWidth="15%"
+      <tr class="col-header-row">
+        <th nzWidth="150px"
+          nzLeft
           [nzColumnKey]="sortColumns.NctId"
           [nzSortFn]="true">
           NCT ID
         </th>
-        <th nzWidth="65%"
+        <th nzWidth="600px"
           [nzColumnKey]="sortColumns.Name"
           [nzSortFn]="true">
           Name
         </th>
-        <th nzWidth="10%"
+        <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.SourceCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Source Count">
-          <i nz-icon nzType="civic:source"></i>
+          <i nz-icon
+            nzType="civic:source"></i> Count
         </th>
-        <th nzWidth="10%"
+        <th nzWidth="75px"
           nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
-          <i nz-icon nzType="civic:evidence"></i>
+          <i nz-icon
+            nzType="civic:evidence"></i> Count
         </th>
       </tr>
-      <tr>
-        <th>
+      <tr class="filter-row">
+        <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="nctIdFilter"
             placeholderText="Search NCT ID"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
@@ -48,56 +82,63 @@
             placeholderText="Search Name"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzRight>
         </th>
-        <th>
+        <th nzRight>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let t of clinicalTrialsTable.data">
-        <td>
-          <cvc-clinical-trial-tag [clinicalTrial]="t"></cvc-clinical-trial-tag>
-        </td>
-        <td>
-          {{ t.name }}
-        </td>
-        <td>
-          {{ t.sourceCount }}
-        </td>
-        <td>
-          {{ t.evidenceCount }}
-        </td>
-      </tr>
-      <!-- Load More button row -->
-      <ng-container *ngrxLet="pageInfo$ as pageInfo">
-        <tr *ngIf="pageInfo.hasNextPage">
-          <td colspan="4">
-            <button *ngIf="pageInfo.hasNextPage"
-              (click)="loadMore(pageInfo.endCursor)"
-              nz-button
-              nzBlock>Load {{this.initialPageSize}} More</button>
+      <ng-template nz-virtual-scroll
+        let-trial
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-clinical-trial-tag [clinicalTrial]="trial"></cvc-clinical-trial-tag>
+          </td>
+          <td class="overflow-ellipsis"
+            nz-tooltip
+            [nzTooltipTitle]="showTooltips ? trial.name : ''">
+            {{ trial.name }}
+          </td>
+          <td nzRight nzAlign="right">
+            {{ trial.sourceCount }}
+          </td>
+          <td nzRight nzAlign="right">
+            {{ trial.evidenceCount }}
           </td>
         </tr>
-      </ng-container>
+      </ng-template>
     </tbody>
   </nz-table>
-</nz-card>
+</ng-template>
 
 <ng-template #titleTemplate>
-  <i nz-icon nzType="audit"></i>
+  <i nz-icon nzType="civic:clinicaltrial"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
   </span>
   <ng-template #noData>
-    <span nz-typography nzType="secondary">
+    <span nz-typography
+      nzType="secondary">
       (0 total)
     </span>
   </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
 </ng-template>

@@ -84,7 +84,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
           takeUntil(this.destroy$)
         )
     }
-    
+
     this.results$ = this.queryRef.valueChanges;
 
     this.pageInfo$ = this.results$.pipe(

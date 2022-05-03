@@ -18,6 +18,10 @@ import { TimeagoFormatter, TimeagoModule } from "ngx-timeago";
 import { NzCardModule } from "ng-zorro-antd/card";
 import { NzTypographyModule } from "ng-zorro-antd/typography";
 import { CvcTagListModule } from "@app/components/shared/tag-list/tag-list.module";
+import { NzTagModule } from "ng-zorro-antd/tag";
+import { CvcAutoHeightCardModule } from "@app/directives/auto-height-card/auto-height-card.module";
+import { CvcAutoHeightTableModule } from "@app/directives/auto-height-table/auto-height-table.module";
+import { CvcTagOverflowModule } from "@app/components/shared/tag-overflow/tag-overflow.module";
 
 @NgModule({
   declarations: [CvcUsersTableComponent],
@@ -32,6 +36,10 @@ import { CvcTagListModule } from "@app/components/shared/tag-list/tag-list.modul
     NzSelectModule,
     NzCardModule,
     NzTypographyModule,
+    NzTagModule,
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
+    CvcTagOverflowModule,
     CvcTagListModule,
     CvcClearableInputFilterModule,
     CvcLinkTagModule,

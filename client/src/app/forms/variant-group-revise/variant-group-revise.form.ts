@@ -3,7 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { isDefined } from '@app/core/utilities/defined-typeguard';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { Maybe, Organization, SubmittableVariantGroupFieldsFragment, SuggestVariantGroupRevisionGQL, SuggestVariantGroupRevisionInput, SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables, VariantGroupSubmittableFieldsGQL } from '@app/generated/civic.apollo';
+import { Maybe, ModeratedEntities, Organization, RevisionsGQL, RevisionStatus, SubmittableVariantGroupFieldsFragment, SuggestVariantGroupRevisionGQL, SuggestVariantGroupRevisionInput, SuggestVariantGroupRevisionMutation, SuggestVariantGroupRevisionMutationVariables, VariantGroupDetailGQL, VariantGroupSubmittableFieldsGQL } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -44,7 +44,9 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
   constructor(
     private suggestRevisionGQL: SuggestVariantGroupRevisionGQL,
     private revisableFieldsGQL: VariantGroupSubmittableFieldsGQL,
-    private networkErrorService: NetworkErrorsService
+    private networkErrorService: NetworkErrorsService,
+    private variantGroupDetailGQL: VariantGroupDetailGQL,
+    private revisionsGQL: RevisionsGQL
   ) {
 
     this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
@@ -180,6 +182,21 @@ export class VariantGroupReviseForm implements OnDestroy, AfterViewInit{
     if (input) {
       let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
         input: input
+      },
+      {
+        refetchQueries: [
+          {
+            query: this.variantGroupDetailGQL.document,
+            variables: { variantGroupId: this.variantGroupId }
+          },
+          {
+            query: this.revisionsGQL.document,
+            variables: {
+                subject: {id: this.variantGroupId, entityType: ModeratedEntities.VariantGroup},
+                status: RevisionStatus.New
+              }
+          }
+        ]
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

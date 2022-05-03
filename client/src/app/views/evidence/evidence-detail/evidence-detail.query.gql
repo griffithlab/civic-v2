@@ -8,6 +8,11 @@ fragment EvidenceDetailFields on EvidenceItem {
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   variant {
     id
     name

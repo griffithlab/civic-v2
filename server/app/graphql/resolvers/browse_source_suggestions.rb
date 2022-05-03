@@ -69,6 +69,8 @@ class Resolvers::BrowseSourceSuggestions < GraphQL::Schema::Resolver
       scope.order("variant_name #{value.direction}")
     when "DISEASE_NAME"
       scope.order("disease_name #{value.direction}")
+    when "CREATED_AT"
+      scope.order("source_suggestions.created_at #{value.direction}")
     end
   end
 end

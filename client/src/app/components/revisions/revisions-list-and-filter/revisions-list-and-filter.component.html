@@ -3,7 +3,7 @@
     <nz-col nzSpan="18">
       <nz-space nzDirection="vertical">
         <cvc-revision-list [revisions]="revisions$ | ngrxPush" (revisionSetSelectedEvent)="onRevisionSetSelected($event)" (revisionMutationCompleted)="refresh()" 
-        [refetchQuery]="this.refetchQuery" *nzSpaceItem></cvc-revision-list>
+        [refetchQueries]="this.refetchQueries" *nzSpaceItem></cvc-revision-list>
         <ng-container *ngrxLet="pageInfo$ as pageInfo">
           <ng-container  *ngIf="pageInfo?.hasNextPage">
             <button nz-button nzBlock nzType="default" (click)="loadMore(pageInfo?.endCursor)" *nzSpaceItem>Load More</button>

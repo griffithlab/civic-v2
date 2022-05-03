@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { CvcEvidenceTableModule } from '@app/components/evidence/evidence-table/evidence-table.module';
 import { CvcSourceSuggestionsTableModule } from '@app/components/source-suggestions/source-suggestions-table/source-suggestions-table.module';
+import { CvcAutoHeightDivModule } from '@app/directives/auto-height-div/auto-height-div.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -23,6 +24,7 @@ import { SourcesSummaryPage } from './sources-summary.page';
     NzTypographyModule,
     NzIconModule,
     NzDescriptionsModule,
+    CvcAutoHeightDivModule,
     CvcEvidenceTableModule,
     CvcSourceSuggestionsTableModule,
     CvcClinicalTrialTagModule,

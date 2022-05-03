@@ -5,7 +5,7 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag nz-popover
+  <nz-tag *ngIf="enablePopover; else noPopover" nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
     nzPopoverPlacement="right"

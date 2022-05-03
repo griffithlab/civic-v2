@@ -17,7 +17,7 @@ type SuccessType = false | 'accepted' | 'rejected'
 })
 export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() revisions?: Revision[];
-  @Input() refetchQuery!: InternalRefetchQueryDescriptor
+  @Input() refetchQueries: InternalRefetchQueryDescriptor[] = []
 
   mostRecentOrg!: Maybe<Organization>;
 
@@ -148,7 +148,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
         },
       },
       {
-        refetchQueries: [this.refetchQuery]
+        refetchQueries: this.refetchQueries
       })
       this.setupMutationResultHandlers(state, 'rejected')
     }
@@ -164,7 +164,7 @@ export class RevisionListComponent implements OnInit, OnChanges, OnDestroy {
       }
     },
     {
-      refetchQueries: [this.refetchQuery]
+      refetchQueries: this.refetchQueries
     })
     this.setupMutationResultHandlers(state, 'accepted')
   }

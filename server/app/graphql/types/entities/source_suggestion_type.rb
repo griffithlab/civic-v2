@@ -15,6 +15,7 @@ module Types::Entities
     field :status, Types::SourceSuggestionStatusType, null: false
     field :link, String, null: false
     field :reason, String, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def source
       Loaders::AssociationLoader.for(SourceSuggestion, :source).load(object)

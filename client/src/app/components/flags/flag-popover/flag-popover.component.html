@@ -21,7 +21,7 @@
           <cvc-assertion-tag *ngSwitchCase="'Assertion'" [enablePopover]="false" [assertion]="f.flaggable"></cvc-assertion-tag>
           <cvc-evidence-tag *ngSwitchCase="'EvidenceItem'" [enablePopover]="false" [evidence]="f.flaggable"></cvc-evidence-tag>
           <cvc-variant-tag *ngSwitchCase="'Variant'" [enablePopover]="false" [variant]="f.flaggable"></cvc-variant-tag>
-          <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'" [variantgroup]="f.flaggable"></cvc-variant-group-tag>
+          <cvc-variant-group-tag *ngSwitchCase="'VariantGroup'" [enablePopover]="false" [variantgroup]="f.flaggable"></cvc-variant-group-tag>
           <span *ngSwitchDefault>{{ f.flaggable.name }}</span>
         </ng-container>
       </ng-template>

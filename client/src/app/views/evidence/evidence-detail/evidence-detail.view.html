@@ -90,10 +90,12 @@
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
-        <nz-space nzDirection="vertical">
+        <nz-space nzDirection="vertical" *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
           <span *nzSpaceItem>
-            <cvc-moderate-entity-buttons *ngIf="viewer.canModerate && evidence.status == 'SUBMITTED'" entityType="EvidenceItem" [entityId]="evidence.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
+            <cvc-moderate-entity-buttons [rejectOnly]="!viewer.canModerate" entityType="EvidenceItem" [entityId]="evidence.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
             </cvc-moderate-entity-buttons>
+          </span>
+          <span *nzSpaceItem>
           </span>
         </nz-space>
         <div class="content">
