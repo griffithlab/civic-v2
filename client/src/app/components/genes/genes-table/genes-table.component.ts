@@ -28,6 +28,7 @@ export interface GeneTableRow {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcGenesTableComponent implements OnInit {
+  @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 

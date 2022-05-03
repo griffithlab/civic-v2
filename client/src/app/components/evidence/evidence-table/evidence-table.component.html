@@ -1,12 +1,30 @@
-<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-<nz-card [nzTitle]="titleTemplate"
-  [nzExtra]="extraTemplate"
-  nzSize="small"
-  cvcAutoHeightCard="35">
-  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
+<!-- if cvcHeight not specified, render table without card height container & viewport target -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
-  <!-- nzScroll x sets the minimum height of the rendered nz-table-inner-scroll element, which determines the height of the table before the auto-height directives resize them.  -->
-  <!-- nzScroll y has something to do with the width of the horizontal scrollable area between nzLeft and nzRight columns, but I have not figured out exactly how they're related. -->
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="25"
@@ -376,7 +394,8 @@
               </nz-tag>
             </ng-container>
             <ng-container *ngIf="!eid.drugInteractionType">
-              <i nz-typography nzType="secondary">N/A</i>
+              <i nz-typography
+                nzType="secondary">N/A</i>
             </ng-container>
           </td>
           <td nzAlign="center"
@@ -452,8 +471,9 @@
       </ng-template>
     </tbody>
   </nz-table>
-</nz-card>
+</ng-template>
 
+<!-- card's title template -->
 <ng-template #titleTemplate>
   <i nz-icon
     nzType="civic:evidence"></i>
@@ -469,7 +489,6 @@
     ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
   </span>
 
-
   <ng-template #noData>
     <span nz-typography
       nzType="secondary">
@@ -478,6 +497,7 @@
   </ng-template>
 </ng-template>
 
+<!-- card's extra template -->
 <ng-template #extraTemplate>
   <nz-tag nzColor="warning"
     *ngIf="noMoreRows$ | ngrxPush">

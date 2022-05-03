@@ -14,6 +14,7 @@ import { NzTableComponent } from "ng-zorro-antd/table";
   styleUrls: ['./diseases-table.component.less']
 })
 export class CvcDiseasesTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
@@ -41,7 +42,7 @@ export class CvcDiseasesTableComponent implements OnInit, AfterViewInit, OnDestr
 
   showTooltips = true;
 
-  initialPageSize = 50;
+  initialPageSize = 35;
   visibleCount: number = this.initialPageSize;
   fetchMorePageSize = 25;
   sortColumns: typeof DiseasesSortColumns = DiseasesSortColumns;

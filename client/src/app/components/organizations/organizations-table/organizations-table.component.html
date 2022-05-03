@@ -1,12 +1,28 @@
-<!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
-<nz-card [nzTitle]="titleTemplate"
-  [nzExtra]="extraTemplate"
-  nzSize="small"
-  cvcAutoHeightCard="35">
-  <!-- adjust nz-table's cvcAutoHeightTable to ensure that table's column header rows are not clipped when table is scrolled to bottom -->
-  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
-  <!-- nzScroll x value is set to the height of the rendered nz-table-inner-scroll element, and determines the height of the table before the auto-height directives resize them.  -->
-  <!-- nzScroll y value has something to do with the width of the horizontal scrollable area between nzLeft and nzRight columns, but I have not figured out exactly how they're related. -->
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="29"
@@ -59,23 +75,23 @@
         let-organization
         let-index="index">
         <tr class="data-row">
-        <tr>
-          <td nzLeft>
-            <cvc-organization-tag [org]="organization"></cvc-organization-tag>
-          </td>
-          <td>
-            {{ organization.memberCount | number }}
-          </td>
-          <td>
-            <cvc-tag-overflow [maxDisplayCount]="1" tagType='organization' [tags]="organization.subGroups"> </cvc-tag-overflow>
-          </td>
-          <td nzRight nzAlign="right">
-            {{ organization.eventCount | number}}
-          </td>
-          <td nzRight nzAlign="right">
-            {{ organization.mostRecentEvent?.createdAt | timeago }}
-          </td>
-        </tr>
+          <tr>
+            <td nzLeft>
+              <cvc-organization-tag [org]="organization"></cvc-organization-tag>
+            </td>
+            <td>
+              {{ organization.memberCount | number }}
+            </td>
+            <td>
+              <cvc-tag-overflow [maxDisplayCount]="1" tagType='organization' [tags]="organization.subGroups"> </cvc-tag-overflow>
+            </td>
+            <td nzRight nzAlign="right">
+              {{ organization.eventCount | number}}
+            </td>
+            <td nzRight nzAlign="right">
+              {{ organization.mostRecentEvent?.createdAt | timeago }}
+            </td>
+          </tr>
       </ng-template>
       <!-- Load More button row -->
       <ng-container *ngrxLet="pageInfo$ as pageInfo">
@@ -90,7 +106,7 @@
       </ng-container>
     </tbody>
   </nz-table>
-</nz-card>
+</ng-template>
 
 <ng-template #titleTemplate>
   <i nz-icon nzType="civic:organization"></i>

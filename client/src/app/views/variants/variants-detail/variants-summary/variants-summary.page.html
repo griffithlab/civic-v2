@@ -1,11 +1,7 @@
-<nz-space nzSize="middle"
-  *ngIf="(variant$ | ngrxPush) as variant"
-  nzDirection="vertical"
-  class="space-align-block">
+<ng-container *ngIf="(variant$ | ngrxPush) as variant">
 
   <!-- variant description, details, myvariantinfo row -->
-  <nz-row [nzGutter]="16"
-    *nzSpaceItem>
+  <nz-row [nzGutter]="[8,16]">
 
     <!-- description, details col -->
     <nz-col [nzSpan]="12">
@@ -98,7 +94,9 @@
 
           <nz-descriptions-item [nzTitle]="variant.hgvsDescriptions.length > 1 ? 'HGVS Descriptions' : 'HGVS Description'">
             <ng-container *ngIf="variant.hgvsDescriptions.length > 0; else noDescriptions">
-              <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{ desc }}</nz-tag>
+              <cvc-tag-list>
+                <nz-tag *ngFor="let desc of variant.hgvsDescriptions">{{ desc }}</nz-tag>
+              </cvc-tag-list>
             </ng-container>
             <ng-template #noDescriptions>
               <span nz-typography
@@ -242,7 +240,7 @@
 
               </nz-descriptions>
             </ng-container>
-            
+
             <!-- 3' (secondary) coordinates for fusions-->
             <ng-container *ngIf="variant.secondaryCoordinates">
               <nz-descriptions *ngIf="variant.secondaryCoordinates as coords"
@@ -306,29 +304,31 @@
 
     </nz-col>
 
-  </nz-row>
 
-  <!-- evidence table -->
-  <cvc-evidence-table
-    [variantId]="variant.id"
-    [displayGeneAndVariant]="false"
-    cvcTitle="{{variant.name}} Evidence"
-    *nzSpaceItem>
-  </cvc-evidence-table>
+    <!-- evidence table -->
+    <nz-col nzSpan="24">
+      <cvc-evidence-table
+        [variantId]="variant.id"
+        [displayGeneAndVariant]="false"
+        cvcHeight="300px"
+        cvcTitle="{{variant.name}} Evidence">
+      </cvc-evidence-table>
+    </nz-col>
 
-  <!-- assertions table -->
-  <cvc-assertions-table
-    [variantId]="variant.id"
-    cvcTitle="{{variant.name}} Assertions"
-    *nzSpaceItem>
-  </cvc-assertions-table>
+    <!-- assertions table -->
 
-  <!-- event feed -->
-  <nz-row [nzGutter]="16">
-    <nz-col [nzSpan]="24"
-      *nzSpaceItem>
+    <nz-col nzSpan="24">
+      <cvc-assertions-table
+        [variantId]="variant.id"
+        cvcHeight="200px"
+        cvcTitle="{{variant.name}} Assertions">
+      </cvc-assertions-table>
+    </nz-col>
+
+    <!-- event feed -->
+    <nz-col [nzSpan]="24">
       <cvc-event-feed [subscribable]="subscribable"
         tagDisplay="hideSubject"></cvc-event-feed>
     </nz-col>
   </nz-row>
-</nz-space>
+</ng-container>

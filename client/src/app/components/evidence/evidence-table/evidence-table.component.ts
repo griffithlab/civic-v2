@@ -1,49 +1,10 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  EventEmitter,
-  TemplateRef,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
-
-import {
-  EvidenceBrowseGQL,
-  EvidenceBrowseQuery,
-  EvidenceBrowseQueryVariables,
-  EvidenceClinicalSignificance,
-  EvidenceDirection,
-  EvidenceGridFieldsFragment,
-  EvidenceLevel,
-  EvidenceSortColumns,
-  EvidenceStatus,
-  EvidenceType,
-  Maybe,
-  PageInfo,
-  VariantOrigin,
-} from '@app/generated/civic.apollo';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {
-  tap,
-  pluck,
-  map,
-  debounceTime,
-  take,
-  takeUntil,
-  pairwise,
-  filter,
-  throttleTime,
-  withLatestFrom,
-  first
-} from 'rxjs/operators';
+import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -69,6 +30,7 @@ export interface EvidenceTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() cvcHeight: Maybe<string>
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
   @Input() cvcTitle: Maybe<string>
@@ -297,12 +259,14 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
         ).subscribe((_) => {
           this.showTooltips = true; // toggle tooltips on
           this.cdr.detectChanges(); // force refresh
-        })
+        });
 
       // force viewport check after initial render
       this.viewport.renderedRangeStream
         .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
+        .subscribe((_) => {
+          this.viewport!.checkViewportSize();
+        });
 
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');
