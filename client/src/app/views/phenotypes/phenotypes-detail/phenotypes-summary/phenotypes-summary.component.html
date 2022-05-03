@@ -1,12 +1,16 @@
-<nz-space nzSize="middle"
-  *ngIf="phenotypeId"
-  nzDirection="vertical"
-  class="space-align-block">
+<nz-row *ngIf="phenotypeId"
+  [nzGutter]="[8,16]">
   <!-- assertions table card -->
-  <cvc-assertions-table [phenotypeId]="phenotypeId" cvcTitle="Phenotype Assertions"
-  *nzSpaceItem></cvc-assertions-table>
+  <nz-col [nzSpan]="24">
+    <cvc-assertions-table cvcHeight="400"
+      [phenotypeId]="phenotypeId"
+      cvcTitle="Phenotype Assertions"></cvc-assertions-table>
+  </nz-col>
 
   <!-- evidence table card -->
-  <cvc-evidence-table [phenotypeId]="phenotypeId" cvcTitle="Phenotype Evidence" *nzSpaceItem></cvc-evidence-table>
+  <nz-col [nzSpan]="24">
+    <cvc-evidence-table [phenotypeId]="phenotypeId"
+      cvcTitle="Phenotype Evidence"></cvc-evidence-table>
+  </nz-col>
 
-</nz-space>
+</nz-row>

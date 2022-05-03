@@ -7399,6 +7399,24 @@ export type DrugDetailQuery = (
   )> }
 );
 
+export type DrugsSummaryQueryVariables = Exact<{
+  drugId: Scalars['Int'];
+}>;
+
+
+export type DrugsSummaryQuery = (
+  { __typename: 'Query' }
+  & { drug?: Maybe<(
+    { __typename: 'Drug' }
+    & DrugsSummaryFieldsFragment
+  )> }
+);
+
+export type DrugsSummaryFieldsFragment = (
+  { __typename: 'Drug' }
+  & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases' | 'link'>
+);
+
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
@@ -9638,6 +9656,16 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
+}
+    `;
+export const DrugsSummaryFieldsFragmentDoc = gql`
+    fragment DrugsSummaryFields on Drug {
+  id
+  name
+  ncitId
+  drugUrl
+  drugAliases
+  link
 }
     `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
@@ -12821,6 +12849,24 @@ export const DrugDetailDocument = gql`
   })
   export class DrugDetailGQL extends Apollo.Query<DrugDetailQuery, DrugDetailQueryVariables> {
     document = DrugDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugsSummaryDocument = gql`
+    query DrugsSummary($drugId: Int!) {
+  drug(id: $drugId) {
+    ...DrugsSummaryFields
+  }
+}
+    ${DrugsSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugsSummaryGQL extends Apollo.Query<DrugsSummaryQuery, DrugsSummaryQueryVariables> {
+    document = DrugsSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

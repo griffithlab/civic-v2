@@ -13,6 +13,7 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
   styleUrls: ['./users-table.component.less']
 })
 export class CvcUsersTableComponent implements OnInit {
+  @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
