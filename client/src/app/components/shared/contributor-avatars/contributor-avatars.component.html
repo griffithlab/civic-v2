@@ -1,0 +1,22 @@
+<span class="role-group-label"
+  nz-typography
+  nzType="secondary">Curators:</span>
+<div class="role-group">
+  <ng-container *ngIf="curators$ | ngrxPush as curators; else noCurators" >
+    <cvc-contributor-stack [contributors]="curators"></cvc-contributor-stack>
+  </ng-container>
+  <ng-template #noCurators>
+    None
+  </ng-template>
+</div>
+<span class="role-group-label"
+  nz-typography
+  nzType="secondary">Editors:</span>
+<div class="role-group">
+  <ng-container *ngIf="editors$ | ngrxPush as editors; else noEditors" >
+    <cvc-contributor-stack [contributors]="editors"></cvc-contributor-stack>
+  </ng-container>
+  <ng-template #noEditors>
+    None
+  </ng-template>
+</div>

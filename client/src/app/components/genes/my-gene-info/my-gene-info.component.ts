@@ -4,7 +4,6 @@ import { Component,
          OnInit,
        } from '@angular/core';
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 import { NGXLogger } from 'ngx-logger';
 
@@ -15,7 +14,7 @@ import { MyGeneInfoService } from './my-gene-info.service';
   templateUrl: './my-gene-info.component.html',
   styleUrls: ['./my-gene-info.component.less']
 })
-export class MyGeneInfoComponent implements OnInit, OnChanges {
+export class CvcMyGeneInfoComponent implements OnInit, OnChanges {
   @Input() geneInfo: any;
 
   info: any;

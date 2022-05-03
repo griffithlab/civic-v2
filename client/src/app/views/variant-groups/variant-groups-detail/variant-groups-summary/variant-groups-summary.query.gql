@@ -1,0 +1,29 @@
+query VariantGroupsSummary($variantGroupId: Int!) {
+  variantGroup(id: $variantGroupId) {
+    ...VariantGroupSummaryFields
+  }
+}
+
+fragment VariantGroupSummaryFields on VariantGroup {
+  id
+  name
+  description
+  sources {
+    id
+    link
+    citation
+    sourceUrl
+    displayType
+    sourceType
+  }
+  variants {
+    edges {
+      node {
+        id
+        name
+        link
+        description
+      }
+    }
+  }
+}

@@ -1,9 +1,33 @@
 {
+  "/api/auth": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
   "/api/graphql": {
     "target": "http://localhost:3000",
     "secure": false
   },
+  "/api/*": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/links/*": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
   "/rails": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/sign_in": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/api/sign_out": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/packs/js": {
     "target": "http://localhost:3000",
     "secure": false
   }

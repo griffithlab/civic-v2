@@ -1,0 +1,12 @@
+<nz-alert nzType="error" *ngIf="errors.length === 1"
+  [nzDescription]="errors[0]"
+  nzShowIcon></nz-alert>
+<nz-alert nzType="error" *ngIf="errors.length > 1"
+  [nzDescription]="errorList"
+  nzShowIcon nzMessage="Submit Errors Occured"></nz-alert>
+
+<ng-template #errorList nzSize="small">
+  <ul class="error-list">
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
+</ng-template>

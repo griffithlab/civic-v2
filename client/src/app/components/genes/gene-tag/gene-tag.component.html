@@ -1,0 +1,45 @@
+<ng-container *ngIf="linked; else unlinked">
+  <a [routerLink]="gene.link">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag *ngIf="enablePopover; else noPopover"
+    nz-popover
+    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
+    [nzPopoverContent]="genePopover"
+    nzPopoverTrigger="hover"
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+  <ng-template #genePopover>
+    <cvc-gene-popover [geneId]="gene.id"></cvc-gene-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon
+    nzType="civic-gene"
+    nzTheme="twotone"
+    nzTwotoneColor="#07AFF0"></i>
+  <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
+  <ng-container *ngIf="this.truncateLongName; else fullName">
+    {{ gene.name | truncate: 12 }}
+  </ng-container>
+  <ng-template #fullName>
+    {{ gene.name }}
+  </ng-template>
+</ng-template>

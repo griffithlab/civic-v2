@@ -1,0 +1,51 @@
+query UsersBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $userName: String
+  $orgName: OrganizationFilter
+  $userRole: UserRole
+  $sortBy: UsersSort
+){
+  users(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $userName
+    organization: $orgName
+    role: $userRole
+    sortBy: $sortBy
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ...UserBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment UserBrowseTableRowFields on User {
+  id
+  name
+  displayName
+  organizations {
+    id
+    name
+  }
+  role
+  statsHash {
+    submittedEvidenceItems
+    revisions
+  }
+  mostRecentActionTimestamp
+}

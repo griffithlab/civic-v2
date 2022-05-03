@@ -1,0 +1,508 @@
+<!-- if cvcHeight not specified, render table without card height container & viewport target -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <nz-table #virtualTable
+    nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzData]="evidence$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzScroll]="{ x: '680px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr class="col-header-row">
+        <th nzWidth="25px"
+          nzLeft
+          *ngIf="mode == 'select'">
+        </th>
+        <th nzWidth="100px"
+          nzLeft
+          [nzColumnKey]="sortColumns.Id"
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Evidence ID">
+          EID
+        </th>
+        <th *ngIf="displayGeneAndVariant"
+          nzWidth="120px"
+          [nzColumnKey]="sortColumns.GeneSymbol"
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Entrez Gene Symbol">
+          Gene
+        </th>
+        <th *ngIf="displayGeneAndVariant"
+          nzWidth="200px"
+          [nzColumnKey]="sortColumns.VariantName"
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Variant Name">
+          Variant
+        </th>
+        <th nzWidth="250px"
+          [nzColumnKey]="sortColumns.DiseaseName"
+          [nzSortFn]="true">
+          Disease
+        </th>
+        <th nzWidth="400px"
+          [nzColumnKey]="sortColumns.DrugName"
+          [nzSortFn]="true">
+          Drugs
+        </th>
+        <th nzWidth="40px"
+          nz-tooltip
+          nzTooltipTitle="Drug Interaction Type">
+          DIT
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.Description"
+          nzAlign="center"
+          [nzSortFn]="true"
+          nz-tooltip
+          nzTooltipTitle="Evidence Description">
+          DESC
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.EvidenceLevel"
+          [nzSortFn]="true"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Evidence Level">
+          EL
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.EvidenceType"
+          [nzSortFn]="true"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Evidence Type">
+          ET
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.EvidenceDirection"
+          [nzSortFn]="true"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Evidence Direction">
+          ED
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.ClinicalSignificance"
+          [nzSortFn]="true"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Clinical Significance">
+          CS
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.VariantOrigin"
+          [nzSortFn]="true"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Variant Origin">
+          VO
+        </th>
+        <th nzWidth="60px"
+          nzRight
+          [nzColumnKey]="sortColumns.EvidenceRating"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          [nzSortFn]="true"
+          nzAlign="center"
+          nz-tooltip
+          nzTooltipTitle="Rating">
+          R
+        </th>
+      </tr>
+      <tr class="filter-row">
+        <th *ngIf="mode == 'select'"
+          nzLeft>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="eidInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th *ngIf="displayGeneAndVariant">
+          <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th *ngIf="displayGeneAndVariant">
+          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <cvc-clearable-input-filter [(inputModel)]="descriptionInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="evidenceLevelInput">
+            <nz-option nzValue="A"
+              nzLabel="A"></nz-option>
+            <nz-option nzValue="B"
+              nzLabel="B"></nz-option>
+            <nz-option nzValue="C"
+              nzLabel="C"></nz-option>
+            <nz-option nzValue="D"
+              nzLabel="D"></nz-option>
+            <nz-option nzValue="E"
+              nzLabel="E"></nz-option>
+          </nz-select>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="evidenceTypeInput">
+            <nz-option nzValue="PREDICTIVE"
+              nzLabel="Predictive"></nz-option>
+            <nz-option nzValue="PROGNOSTIC"
+              nzLabel="Prognostic"></nz-option>
+            <nz-option nzValue="DIAGNOSTIC"
+              nzLabel="Diagnostic"></nz-option>
+            <nz-option nzValue="PREDISPOSING"
+              nzLabel="Predisposing"></nz-option>
+            <nz-option nzValue="ONCOGENIC"
+              nzLabel="Oncogenic"></nz-option>
+            <nz-option nzValue="FUNCTIONAL"
+              nzLabel="Functional"></nz-option>
+          </nz-select>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="evidenceDirectionInput">
+            <nz-option nzValue="SUPPORTS"
+              nzLabel="Supports"></nz-option>
+            <nz-option nzValue="DOES_NOT_SUPPORT"
+              nzLabel="Does not Support"></nz-option>
+            <nz-option nzValue="NA"
+              nzLabel="N/A"></nz-option>
+          </nz-select>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="clinicalSignificanceInput">
+            <nz-option-group nzLabel="Predictive">
+              <nz-option nzValue="SENSITIVITYRESPONSE"
+                nzLabel="Sensitivity/Response"></nz-option>
+              <nz-option nzValue="RESISTANCE"
+                nzLabel="Resistance"></nz-option>
+              <nz-option nzValue="ADVERSE_RESPONSE"
+                nzLabel="Adverse Response"></nz-option>
+              <nz-option nzValue="REDUCED SENSITIVITY"
+                nzLabel="Reduced Sensitivity"></nz-option>
+              <nz-option nzValue="NA"
+                nzLabel="N/A"></nz-option>
+            </nz-option-group>
+            <nz-option-group nzLabel="Prognostic">
+              <nz-option nzValue="BETTER_OUTCOME"
+                nzLabel="Better Outcome"></nz-option>
+              <nz-option nzValue="POOR_OUTCOME"
+                nzLabel="Poor Outcome"></nz-option>
+              <nz-option nzValue="NA"
+                nzLabel="N/A"></nz-option>
+            </nz-option-group>
+            <nz-option-group nzLabel="Diagnostic">
+              <nz-option nzValue="POSITIVE"
+                nzLabel="Positive"></nz-option>
+              <nz-option nzValue="NEGATIVE"
+                nzLabel="Negative"></nz-option>
+            </nz-option-group>
+            <nz-option-group nzLabel="Predisposing">
+              <nz-option nzValue="NA"
+                nzLabel="N/A"></nz-option>
+            </nz-option-group>
+            <nz-option-group nzLabel="Oncogenic">
+              <nz-option nzValue="NA"
+                nzLabel="N/A"></nz-option>
+            </nz-option-group>
+            <nz-option-group nzLabel="Functional">
+              <nz-option nzValue="GAIN_OF_FUNCTION"
+                nzLabel="Gain of Function"></nz-option>,
+              <nz-option nzValue="LOSS_OF_FUNCTION"
+                nzLabel="Loss of Function"></nz-option>,
+              <nz-option nzValue="UNALTERED_FUNCTION"
+                nzLabel="Unaltered Function"></nz-option>,
+              <nz-option nzValue="NEOMORPHIC"
+                nzLabel="Neomorphic"></nz-option>,
+              <nz-option nzValue="DOMINANT_NEGATIVE"
+                nzLabel="Dominant Negative"></nz-option>,
+              <nz-option nzValue="UNKNOWN"
+                nzLabel="Unknown"></nz-option>
+            </nz-option-group>
+          </nz-select>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="variantOriginInput">
+            <nz-option nzValue="SOMATIC"
+              nzLabel="Somatic"></nz-option>
+            <nz-option nzValue="RARE_GERMLINE"
+              nzLabel="Rare Germline"></nz-option>
+            <nz-option nzValue="COMMON_GERMLINE"
+              nzLabel="Common Germline"></nz-option>
+            <nz-option nzValue="UNKNOWN"
+              nzLabel="Unkown"></nz-option>
+            <nz-option nzValue="NA"
+              nzLabel="N/A"></nz-option>
+            <nz-option nzValue="GERMLINE_OR_SOMATIC"
+              nzLabel="Germline or Somatic"></nz-option>
+          </nz-select>
+        </th>
+        <th nzAlign="center"
+          nzRight>
+          <nz-select nzAllowClear
+            nzPlaceHolder="All"
+            nzSize="small"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="evidenceRatingInput">
+            <nz-option [nzValue]="1"
+              nzLabel="1"></nz-option>
+            <nz-option [nzValue]="2"
+              nzLabel="2"></nz-option>
+            <nz-option [nzValue]="3"
+              nzLabel="3"></nz-option>
+            <nz-option [nzValue]="4"
+              nzLabel="4"></nz-option>
+            <nz-option [nzValue]="5"
+              nzLabel="5"></nz-option>
+          </nz-select>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll
+        let-eid
+        let-index="index">
+        <tr class="data-row">
+          <td *ngIf="mode == 'select'"
+            nzLeft>
+            <label nz-checkbox
+              [nzChecked]="this.selectedEvidenceIds.has(eid.id)"
+              (nzCheckedChange)="onEvidenceCheckboxClicked($event, eid)"></label>
+          </td>
+          <td nzLeft>
+            <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
+          </td>
+          <td *ngIf="displayGeneAndVariant">
+            <cvc-gene-tag [gene]="eid.gene"
+              [truncateLongName]="true"></cvc-gene-tag>
+          </td>
+          <td *ngIf="displayGeneAndVariant">
+            <cvc-variant-tag [variant]="eid.variant"
+              [truncateLongName]="true"></cvc-variant-tag>
+          </td>
+          <td>
+            <ng-container *ngIf="eid.disease; else diseaseElse">
+              <cvc-disease-tag [disease]="eid.disease"
+                [truncateLongName]="true"></cvc-disease-tag>
+            </ng-container>
+            <ng-template #diseaseElse>
+              <i>N/A</i>
+            </ng-template>
+          </td>
+          <td>
+            <div *ngIf="eid.drugs.length > 0; else drugsElse">
+              <cvc-tag-list>
+                <ng-container *ngFor="let drug of eid.drugs">
+                  <cvc-drug-tag [drug]="drug"
+                    [truncateLongName]="true"></cvc-drug-tag>
+                </ng-container>
+              </cvc-tag-list>
+            </div>
+            <ng-template #drugsElse>
+              <i nz-typography
+                nzType="secondary">N/A</i>
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="eid.drugInteractionType">
+              <nz-tag nz-tooltip
+                nzTooltipPlacement="top"
+                [nzTooltipTitle]="showTooltips ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                <i nz-icon
+                  style="color: #ac3996"
+                  [nzType]="eid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i>
+              </nz-tag>
+            </ng-container>
+            <ng-container *ngIf="!eid.drugInteractionType">
+              <i nz-typography
+                nzType="secondary">N/A</i>
+            </ng-container>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="showTooltips ? eid.description : ''">
+              <i nz-icon
+                nzType="align-left"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nz-placement="top"
+              [nzTooltipTitle]="showTooltips ? eid.evidenceLevel + ' - ' + (eid.evidenceLevel | evidenceLevelDisplay) : ''">
+              {{ eid.evidenceLevel }}
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="showTooltips ? (eid.evidenceType | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="showTooltips ? (eid.evidenceDirection | evidenceEnumDisplay) : ''">
+              <i nz-icon
+                [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="eid.clinicalSignificance | evidenceEnumDisplay">
+              <i nz-icon
+                [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="eid.variantOrigin | evidenceEnumDisplay">
+              <i nz-icon
+                [nzType]="eid.variantOrigin| evidenceEnumDisplay: 'icon-name'"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+          <td nzAlign="center"
+            nzRight>
+            <nz-tag nz-tooltip
+              nzTooltipPlacement="top"
+              [nzTooltipTitle]="eid.evidenceRating + ' stars'">
+              {{ eid.evidenceRating }}
+              <i nz-icon
+                nzType="star"
+                nzTheme="fill"
+                class="attribute-icon"></i>
+            </nz-tag>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<!-- card's title template -->
+<ng-template #titleTemplate>
+  <i nz-icon
+    nzType="civic:evidence"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
+  </span>
+
+  <ng-template #noData>
+    <span nz-typography
+      nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>
+
+<!-- card's extra template -->
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
+</ng-template>

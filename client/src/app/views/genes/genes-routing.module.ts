@@ -1,29 +1,50 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { GenesComponent } from './genes.component';
-import { GenesBrowseComponent } from './genes-browse/genes-browse.component';
-import { GenesDetailComponent } from './genes-detail/genes-detail.component';
+import { GenesView } from './genes.view';
+import { GenesHomeModule } from './genes-home/genes-home.module';
+import { GenesHomePage } from './genes-home/genes-home.page';
 
 const routes: Routes = [
-  { path: '',
-    component: GenesComponent,
+  {
+    path: '',
+    component: GenesView,
     children: [
-      { path: '', redirectTo: 'browse', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'browse',
-        component: GenesBrowseComponent
+        path: 'home',
+        component: GenesHomePage,
+        data: {
+          breadcrumb: 'Home',
+        },
       },
       {
         path: ':geneId',
-        component: GenesDetailComponent
-      }
-    ]
-  }
+        data: { breadcrumb: 'DISPLAYNAME' },
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('@app/views/genes/genes-detail/genes-detail.module').then(
+                (m) => m.GenesDetailModule
+              ),
+          },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/genes/genes-revise/genes-revise.module').then(
+                (m) => m.GenesReviseModule
+              ),
+            data: { breadcrumb: 'Revise' },
+          },
+
+        ]
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), GenesHomeModule],
   exports: [RouterModule]
 })
-export class GenesRoutingModule { }
+export class GenesRoutingModule {}

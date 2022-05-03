@@ -1,0 +1,15 @@
+  mutation  ModerateEvidenceItem($input: ModerateEvidenceItemInput!) {
+   moderateEvidenceItem(input: $input) {
+     evidenceItem {
+       id
+     }
+   }
+  }
+  
+  mutation  ModerateAssertion($input: ModerateAssertionInput!) {
+   moderateAssertion(input: $input) {
+     assertion {
+       id
+     }
+   }
+  }

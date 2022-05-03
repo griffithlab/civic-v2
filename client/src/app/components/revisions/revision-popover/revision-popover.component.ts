@@ -1,0 +1,26 @@
+import { Component, Input, OnInit } from "@angular/core";
+import { RevisionPopoverFragment, RevisionPopoverGQL, Maybe } from "@app/generated/civic.apollo";
+import { pluck } from 'rxjs/operators'
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'cvc-revision-popover',
+  templateUrl: './revision-popover.component.html',
+  styleUrls: ['./revision-popover.component.less']
+})
+export class CvcRevisionPopoverComponent implements OnInit {
+  @Input() revisionId!: number;
+
+  revision$?: Observable<Maybe<RevisionPopoverFragment>>
+
+  constructor(private gql: RevisionPopoverGQL) { }
+
+  ngOnInit() {
+    if (this.revisionId == undefined) {
+      throw new Error("cvc-revision-popover requires valid revisionId input.");
+    }
+    this.revision$ = this.gql.watch({ revisionId: this.revisionId })
+      .valueChanges
+      .pipe(pluck('data', 'revision'))
+  }
+}

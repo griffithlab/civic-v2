@@ -1,0 +1,26 @@
+<ng-container *ngIf="!formControl.value?.id; else drugListItem">
+  <nz-select nzShowSearch
+    nzServerSearch
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzNotFoundContent]="sourceLoader"
+    [nzShowArrow]="to.showArrow"
+    [nzFilterOption]="to.filterOption"
+    (nzOnSearch)="to.onSearch($event)">
+    <ng-container *ngrxLet="this.variantTypes$ as variantTypes">
+      <nz-option *ngFor="let opt of variantTypes"
+        nzCustomContent
+        nzLabel="{{opt.name}} ({{opt.soid}})"
+        [nzValue]="opt">
+        {{ opt.name }} ({{opt.soid }})
+      </nz-option>
+    </ng-container>
+  </nz-select>
+  <ng-template #sourceLoader>
+    No variant type found in CIViC that matches the string provided.
+  </ng-template>
+</ng-container>
+<ng-template #drugListItem>
+  <cvc-variant-type-tag [variantType]="formControl.value"></cvc-variant-type-tag>
+</ng-template>

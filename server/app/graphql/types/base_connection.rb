@@ -3,20 +3,21 @@ module Types
     # add `nodes` and `pageInfo` fields, as well as `edge_type(...)` and `node_nullable(...)` overrides
     include GraphQL::Types::Relay::ConnectionBehaviors
 
-    field :total_count, Int, null: false, description:  'The total number of records of this type, regardless of any filtering.'
-    field :filtered_count, Int, null: false, description: 'The total number of records in this set.'
+    description 'Default connection type.'
+
+    field :total_count, Int, null: false, description:  'The total number of records in this filtered collection.'
     field :page_count, Int, 'Total number of pages, based on filtered count and pagesize.', null: false
 
-    def total_count
-      object.items&.klass.count
-    end
+    edges_nullable(false)
+    edge_nullable(false)
+    node_nullable(false)
 
-    def filtered_count
+    def total_count
       object.items&.count
     end
 
     def page_count
-      my_total_count = filtered_count
+      my_total_count = total_count
       return 1 unless my_total_count&.positive?
       # get total count and create array with total count as first item
       possible_page_sizes = [my_total_count]

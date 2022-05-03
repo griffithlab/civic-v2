@@ -1,0 +1,12 @@
+query VariantTypeDetail(
+  $variantTypeId: Int!
+){
+  variantType(id: $variantTypeId){
+    id
+    name
+    soid
+    description
+    url
+    link
+  }
+}

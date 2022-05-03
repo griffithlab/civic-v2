@@ -20,7 +20,7 @@ module Constants
 
   EVIDENCE_STATUS = ['accepted', 'submitted', 'rejected']
 
-  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A', 'Germline or Somatic']
+  VARIANT_ORIGINS = ['Somatic', 'Rare Germline', 'Common Germline', 'Unknown', 'N/A']
 
   CLINICAL_SIGNIFICANCES = [
     'Sensitivity/Response',
@@ -102,4 +102,13 @@ module Constants
   ]
 
   AMP_LEVELS = ['Tier I - Level A', 'Tier I - Level B', 'Tier II - Level C', 'Tier II - Level D', 'Tier III', 'Tier IV', 'Not Applicable']
+  
+  DB_TYPE_TO_PATH_SEGMENT = {
+    'Assertion' => 'assertions',
+    'EvidenceItem' => 'evidence',
+    'Gene' => 'genes',
+    'Variant' => 'variants',
+    'VariantGroup' => 'variant-groups',
+    'Source' => 'sources',
+  }
 end

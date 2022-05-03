@@ -1,0 +1,8 @@
+<nz-space nzSize="middle" *ngIf="diseaseId" nzDirection="vertical" class="space-align-block">
+
+  <!-- assertions table card -->
+  <cvc-assertions-table [diseaseId]="diseaseId" cvcTitle="Disease Assertions" *nzSpaceItem></cvc-assertions-table>
+
+  <!-- evidence table card -->
+  <cvc-evidence-table [diseaseId]="diseaseId" cvcTitle="Disease Evidence" *nzSpaceItem></cvc-evidence-table>
+</nz-space>

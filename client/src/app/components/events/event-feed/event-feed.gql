@@ -1,0 +1,127 @@
+query EventFeedCount(
+    $subject: SubscribableQueryInput
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String,
+    $originatingUserId: Int,
+    $organizationId: Int,
+    $eventType: EventAction,
+    $mode: EventFeedMode,
+) {
+    events (
+        subject: $subject,
+        first: $first,
+        last: $last,
+        before: $before,
+        after: $after,
+        originatingUserId: $originatingUserId,
+        organizationId: $organizationId,
+        eventType: $eventType,
+        mode: $mode
+    ) {
+        unfilteredCount
+    }
+}
+
+query EventFeed (
+    $subject: SubscribableQueryInput
+    $first: Int,
+    $last: Int,
+    $before: String,
+    $after: String,
+    $originatingUserId: Int,
+    $organizationId: Int,
+    $eventType: EventAction,
+    $mode: EventFeedMode,
+    $showFilters: Boolean!
+){
+events (
+    subject: $subject,
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after,
+    originatingUserId: $originatingUserId,
+    organizationId: $organizationId,
+    eventType: $eventType,
+    mode: $mode
+) { ...eventFeed }
+
+}
+fragment eventFeed on EventConnection {
+    pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+    }
+    eventTypes @include(if: $showFilters)
+    unfilteredCount 
+    uniqueParticipants @include(if: $showFilters) {
+        id
+        displayName
+        role
+        profileImagePath(size: 32)
+    }
+    participatingOrganizations @include(if: $showFilters) {
+        id
+        name
+        profileImagePath(size: 32)
+    }
+    edges {
+        cursor
+        node {
+            ...eventFeedNode
+        }
+    }
+}
+
+fragment eventFeedNode on Event {
+    id
+    action
+    createdAt
+    organization {
+        id
+        name
+        profileImagePath(size: 32)
+    }
+    originatingUser {
+        id
+        username
+        displayName
+        role
+        profileImagePath(size: 32)
+    }
+    subject {
+        name
+        id
+        link
+        ... on Source {
+            citation
+            sourceType
+        }
+        ... on EvidenceItem {
+            status
+        }
+        ... on Assertion {
+            status
+        }
+        __typename
+    }
+    originatingObject {
+        id
+        name
+        link
+        __typename
+        ... on Revision {
+            id
+        }
+        ... on Comment {
+            id
+        }
+        ... on Flag {
+            id
+        }
+    }
+}

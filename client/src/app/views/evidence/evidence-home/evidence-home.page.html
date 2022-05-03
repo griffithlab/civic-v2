@@ -1,0 +1,65 @@
+<cvc-section-navigation [actionsTpl]="evidenceActions"> </cvc-section-navigation>
+<ng-template #evidenceActions>
+  <ng-container *ngrxLet="viewer$ as viewer">
+    <button routerLink="/evidence/add/submit"
+      *ngIf="viewer.signedIn"
+      nz-button
+      nzSize="small">
+      <i nz-icon
+        nzType="plus-circle"></i> Submit New Evidence
+    </button>
+  </ng-container>
+</ng-template>
+<nz-page-header class="site-page-header">
+  <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon
+          nzType="civic:evidence"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>Evidence Items</h2>
+        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">The clinical evidence statement is a piece of information that has been manually curated from trustable medical literature about a variant or genomic ‘event’ that has implications in cancer predisposition, diagnosis (aka molecular classification), prognosis, or predictive response to therapy.</p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+        <nz-space nzDirection="vertical" class="docs-buttons">
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/model/evidence.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Evidence Model Docs
+        </a>
+          <a nz-button
+            href="https://civic.readthedocs.io/en/latest/curating/evidence.html"
+            target="_blank"
+            nzSize="small"
+            nzBlock
+            *nzSpaceItem>
+            <i nz-icon
+              nzType="link"
+              nzTheme="outline"></i>
+            View Evidence Curation Docs
+        </a>
+        </nz-space>
+      </nz-col>
+    </nz-row>
+
+    <nz-row *ngIf="tableView">
+      <div nz-col
+        [nzSpan]="24">
+        <div class="content">
+          <cvc-evidence-table cvcTitle="Browse All Evidence"></cvc-evidence-table>
+        </div>
+      </div>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>

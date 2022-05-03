@@ -1,0 +1,26 @@
+query FlagPopover($flagId: Int!) {
+  flag(id: $flagId) {
+    ...flagPopover
+  }
+}
+
+
+fragment flagPopover on Flag {
+  id
+  name
+  state
+  flaggingUser {
+    id
+    displayName
+    role
+  }
+  flaggable {
+    id
+    link
+    name
+  }
+  createdAt
+  openComment {
+    comment
+  }
+}

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
- #include WithTimepointCounts
+ include WithTimepointCounts
  #include SoftDeletable
 
   has_many :authorizations
@@ -10,21 +10,23 @@ class User < ActiveRecord::Base
     ->() { order('events.created_at DESC') },
     foreign_key: :originating_user_id
 
-  #has_one :most_recent_event,
-    #->() { order('created_at DESC').limit(1) },
-    #class_name: 'Event', foreign_key: :originating_user_id
+  has_one :most_recent_event,
+    ->() { order('created_at DESC').limit(1) },
+    class_name: 'Event', foreign_key: :originating_user_id
   #has_many :domain_expert_tags
   #has_many :badge_awards
   #has_many :badge_claims
   has_many :affiliations
   has_many :organizations, through: :affiliations
   has_many :notifications, foreign_key: :notified_user_id
-  #has_one :most_recent_organization, through: :most_recent_event, source: :organization
-  belongs_to :country
-  #has_many :conflict_of_interest_statements, dependent: :destroy
-  #has_one :most_recent_conflict_of_interest_statement,
-    #->() { order('created_at DESC').limit(1) },
-    #class_name: 'ConflictOfInterestStatement'
+  belongs_to :most_recent_organization, class_name: 'Organization', optional: true
+  belongs_to :country, optional: true
+  has_many :conflict_of_interest_statements, dependent: :destroy
+  has_one :most_recent_conflict_of_interest_statement,
+    ->() { order('created_at DESC').limit(1) },
+    class_name: 'ConflictOfInterestStatement'
+
+  has_many :comment_mentions, foreign_key: :user_id, class_name: 'UserMention'
 
   enum area_of_expertise: ['Patient Advocate', 'Clinical Scientist', 'Research Scientist']
   enum role: ['curator', 'editor', 'admin']
@@ -68,15 +70,18 @@ class User < ActiveRecord::Base
 
   def stats_hash
     #TODO no longer a direct relation from user -> revision
+    r_ids = Event.where(originating_user_id: self.id, action: 'revision suggested').distinct.select(:originating_object_id)
+    e_ids = Event.where(originating_user_id: self.id, action: 'submitted').distinct.select(:subject_id)
+    a_ids = Event.where(originating_user_id: self.id, action: 'assertion submitted').distinct.select(:subject_id)
     {
-      comments: events.where(action: 'commented').count,
-      suggested_changes: suggested_changes.count,
-      applied_changes: suggested_changes.where(status: 'applied').count,
-      submitted_evidence_items: submitted_evidence_items.count,
-      accepted_evidence_items: submitted_evidence_items.where(status: 'accepted').count,
-      suggested_sources: events.where(action: 'publication suggested').count,
-      submitted_assertions: submitted_assertions.count,
-      accepted_assertions: submitted_assertions.where(status: 'accepted').count,
+      'comments': Event.where(originating_user_id: self.id).where(action: 'commented').count,
+      'revisions': r_ids.count,
+      'applied_revisions': Revision.where(id: r_ids, status: 'accepted').count,
+      'submitted_evidence_items': e_ids.count,
+      'accepted_evidence_items': EvidenceItem.where(id: e_ids, status: 'accepted').count,
+      'suggested_sources': Event.where(originating_user_id: self.id).where(action: 'publication suggested').count,
+      'submitted_assertions': a_ids.count,
+      'accepted_assertions': Assertion.where(id: a_ids, status: 'accepted').count,
     }
   end
 
@@ -141,10 +146,7 @@ class User < ActiveRecord::Base
   end
 
   def has_valid_coi_statement?
-    #TODO port over coi model
-    #most_recent_conflict_of_interest_statement.present?
-    #&& !most_recent_conflict_of_interest_statement.expired?
-    true
+    most_recent_conflict_of_interest_statement.present? && !most_recent_conflict_of_interest_statement.expired?
   end
 
   def can_act_for_org?(organization_id: nil)
@@ -158,6 +160,17 @@ class User < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:events)
+        .group('users.id')
+        .select('users.id')
+        .where('events.created_at >= ?', x)
+        .distinct
+        .count
+    }
   end
 
   private

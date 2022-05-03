@@ -1,0 +1,37 @@
+query DataReleases {
+  dataReleases {
+    ...Release
+  }
+}
+
+fragment Release on DataRelease {
+    name
+    geneTsv {
+      filename
+      path
+    }
+    variantTsv {
+      filename
+      path
+    }
+    variantGroupTsv {
+      filename
+      path
+    }
+    evidenceTsv {
+      filename
+      path
+    }
+    assertionTsv {
+      filename
+      path
+    }
+    acceptedVariantsVcf {
+      filename
+      path
+    }
+    acceptedAndSubmittedVariantsVcf {
+      filename
+      path
+    }
+}

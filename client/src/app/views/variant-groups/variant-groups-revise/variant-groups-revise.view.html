@@ -1,0 +1,29 @@
+<ng-container *ngIf="variantGroup$ | async as variantGroup">
+  <cvc-section-navigation [displayName]="variantGroup.name"> </cvc-section-navigation>
+  <nz-page-header class="site-page-header">
+
+    <!-- title -->
+    <nz-page-header-title cvcFlaggableOptions>
+      REVISE
+      <i nz-icon
+        nzType="civic:variantgroup"></i> {{ variantGroup.name }}
+    </nz-page-header-title>
+
+    <nz-page-header-content>
+      <div class="content">
+        <div *ngIf="isSignedIn$ | ngrxPush as isSignedIn; else notSignedIn">
+          <router-outlet></router-outlet>
+        </div>
+        <ng-template #notSignedIn>
+          <nz-row nzSpan="24"
+            nzJustify="center">
+            <div nz-col
+              nzSpan="6">
+              <cvc-login-prompt></cvc-login-prompt>
+            </div>
+          </nz-row>
+        </ng-template>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

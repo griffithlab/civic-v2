@@ -2,14 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AssertionsRoutingModule } from './assertions-routing.module';
-import { AssertionsComponent } from './assertions.component';
-
+import { AssertionsView } from './assertions.view';
+import { AssertionsReviseModule } from './assertions-revise/assertions-revise.module';
 
 @NgModule({
-  declarations: [AssertionsComponent],
+  declarations: [AssertionsView],
   imports: [
     CommonModule,
-    AssertionsRoutingModule
-  ]
+    AssertionsRoutingModule,
+    AssertionsReviseModule,
+  ],
+  exports: [AssertionsView]
 })
 export class AssertionsModule { }

@@ -1,0 +1,44 @@
+query PhenotypesBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $name: String
+  $hpoId: String
+  $sortBy: PhenotypeSort
+){
+  phenotypes(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    name: $name
+    hpoId: $hpoId
+    sortBy: $sortBy
+  ) {
+    totalCount
+    filteredCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...PhenotypeBrowseTableRowFields
+      }
+    }
+  }
+}
+
+fragment PhenotypeBrowseTableRowFields on BrowsePhenotype {
+  id
+  name
+  hpoId
+  url
+  assertionCount
+  evidenceCount
+  link
+}

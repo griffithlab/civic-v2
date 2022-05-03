@@ -1,0 +1,88 @@
+<nz-page-header class="site-page-header">
+
+  <!--title-->
+  <nz-page-header-title>
+   CIViC Help
+  </nz-page-header-title>
+
+  <!--content-->
+  <nz-page-header-content>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="content" style="min-height: 600px">
+          <nz-space nzDirection="vertical" style="width: 100%">
+            <nz-row [nzGutter]="24" *nzSpaceItem>
+              <nz-col [nzSpan]="6">
+                <nz-card nzType="inner" nzTitle="Knowledgebase Documentation" style="width: 100%; height: 100%">
+                  <p>
+                    CIViC provides an educational resource to support better understanding of the current state of precision medicine. It may also provide useful summaries and links to relevant published evidence for the clinical relevance of specific variants.
+                  </p>
+                  <p>
+                    For more information on the CIViC knowledge model, please see <a href="https://docs.civicdb.org/en/latest/model.html" target="_blank">our documentation</a>.
+                  </p>
+                </nz-card>
+              </nz-col>
+              <nz-col [nzSpan]="6">
+                <nz-card nzType="inner" nzTitle="Curation Process Documentation" style="width: 100%; height: 100%">
+                  <p>
+                    CIViC provides an open forum for community contributions. Anyone can create an account to flag problems, add comments, propose revisions to existing content, or submit new evidence, assertions, or summaries. All proposed additions/revisions enter a pending state until considered for acceptance by a CIViC editor. All content contributed and accepted is immediately considered public domain knowledge.
+                  </p>
+                  <p>
+                    For more details on how to contribute please read our <a href="https://docs.civicdb.org/en/latest/curating.html" target="_blank">curating docs</a>.
+                  </p>
+                </nz-card>
+              </nz-col>
+              <nz-col [nzSpan]="6">
+                <nz-card nzType="inner" nzTitle="API Documentation" style="width: 100%; height: 100%">
+                  <p>
+                    CIViC data can be retrieved using the underlying GraphQL API. The API documentation is available on <a href="https://griffithlab.github.io/civic-v2/" target="_blank">GitHub</a>.
+                  </p>
+                  <p>
+                    The GraphiQL user interface found <a href="https://civicdb.org/api/graphiql" target="_blank">here</a> is a good way to get started interacting with the API. You can explore the schema and available queries using the "Docs" explorer found in the upper right.
+                  </p>
+                </nz-card>
+              </nz-col>
+              <nz-col [nzSpan]="6">
+                <nz-card nzType="inner" nzTitle="Tutorials" style="width: 100%; height: 100%">
+                  <p>
+                    We've recorded a few instructional videos to offer overviews of the CIViC application. They are recommended viewing for users wishing to gain a quick understanding of basic CIViC interface elements and workflows.
+                  </p>
+                  <p>
+                    These videos can be found on the <a href="https://www.youtube.com/playlist?list=PLImz36orVFPCQjx6wjMrYW-IPWGk8HrbX" target="_blank">CIViC YouTube channel</a>.
+                  </p>
+                </nz-card>
+              </nz-col>
+            </nz-row>
+            <nz-row [nzGutter]="24"
+              *nzSpaceItem>
+              <nz-col [nzSpan]="8">
+                <nz-card nzType="inner"
+                  nzTitle="News and Updates"
+                  style="width: 100%">
+                  Please follow our Twitter account <a href="https://twitter.com/CIViCdb"
+                    target="_blank">@CIViCdb</a>.
+                </nz-card>
+              </nz-col>
+              <nz-col [nzSpan]="8">
+                <nz-card nzType="inner"
+                  nzTitle="General Inquiries"
+                  style="width: 100%">
+                  Please email <a href="mailto:help@civicdb.org"
+                    target="_blank">help@civicdb.org</a>.
+                </nz-card>
+              </nz-col>
+              <nz-col [nzSpan]="8">
+                <nz-card nzType="inner"
+                  nzTitle="Bug Reports and Feature Requests"
+                  style="width: 100%">
+                  Please create an issue in the <a href="https://github.com/griffithlab/civic-v2/issues"
+                    target="_blank">civic-v2 GitHub repo</a>.
+                </nz-card>
+              </nz-col>
+            </nz-row>
+          </nz-space>
+        </div>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>

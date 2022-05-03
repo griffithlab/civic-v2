@@ -1,6 +1,6 @@
 module Types
   class SourceSourceType < Types::BaseEnum
-    value "PubMed"
-    value "ASCO"
+    value 'PUBMED', value: 'PubMed'
+    value 'ASCO', value: 'ASCO'
   end
 end

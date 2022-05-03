@@ -1,0 +1,36 @@
+<div id="popover-content">
+  <ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
+    <nz-card [nzTitle]="cardTitle" nzBordered="false"
+      id="card-content"
+      [nzExtra]="linkout">
+      <ng-template #cardTitle>
+        <i nz-icon
+          nzType="civic:clinicaltrial"></i> {{ t.nctId }}
+      </ng-template>
+      <ng-template #linkout>
+        <cvc-link-tag [href]="t.url">
+          View on clinicaltrials.gov
+        </cvc-link-tag>
+      </ng-template>
+
+      <nz-descriptions nzSize="small"
+        [nzColumn]="2"
+        nzBordered="true">
+
+        <!-- name -->
+        <nz-descriptions-item nzTitle="Name"
+          nzSpan="2">
+          {{t.name}}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Sources"
+          nzSpan="2">
+          {{t.sourceCount}}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Evidence"
+          nzSpan="2">
+          {{t.evidenceCount}}
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </nz-card>
+  </ng-container>
+</div>

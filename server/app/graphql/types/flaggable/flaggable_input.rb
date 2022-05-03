@@ -13,6 +13,14 @@ module Types::Flaggable
       const = case entity_type
       when 'GENE'
         Gene
+      when 'VARIANT'
+        Variant
+      when 'EVIDENCE_ITEM'
+        EvidenceItem
+      when 'ASSERTION'
+        Assertion
+      when 'VARIANT_GROUP'
+        VariantGroup
       else
         raise 'Unknown Enum Value'
       end

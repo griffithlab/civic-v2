@@ -1,0 +1,5 @@
+<ng-container *ngIf="evidenceId; else loadingEvidence">
+  <cvc-evidence-revise-form [evidenceId]="evidenceId">
+  </cvc-evidence-revise-form>
+</ng-container>
+<ng-template #loadingEvidence>Loading Evidence...</ng-template>

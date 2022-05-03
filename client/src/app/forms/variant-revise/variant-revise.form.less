@@ -1,0 +1,13 @@
+@import 'themes/overrides/form.overrides.less';
+
+:host {
+  display: block;
+}
+
+nz-card:first-of-type ::ng-deep {
+  // remove card body padding
+  .ant-card-body {
+    padding: 0;
+    margin-top: 1px;
+  }
+}

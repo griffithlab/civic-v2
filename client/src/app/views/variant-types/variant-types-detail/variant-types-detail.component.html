@@ -1,0 +1,21 @@
+<ng-container *ngIf="variantType$ | ngrxPush as variantType">
+  <cvc-section-navigation [displayName]="variantType.name"> </cvc-section-navigation>
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <i nz-icon
+        nzType="civic:varianttype"></i> {{ variantType.name }}
+    </nz-page-header-title>
+    <nz-page-header-extra>
+      <cvc-link-tag *ngIf="variantType.url" [href]="variantType.url"
+        tooltip="View on sequenceontology.org">
+        {{ variantType.soid }}
+      </cvc-link-tag>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+      <div class="content">
+        {{ variantType.description }}
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

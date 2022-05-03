@@ -1,14 +1,15 @@
 class OnSiteSubscription < Subscription
   def send_notification(event)
-    Notification.where(
+    conditions = {
       type: :subscribed_event,
       originating_user: event.originating_user,
       notified_user: self.user,
       event: event,
-      seen: false,
-    ).first_or_create.tap do |n|
-      n.subscription = self
-      n.save
+      seen: false
+    }
+
+    if !Notification.where(conditions).exists?
+      Notification.create!(conditions.merge(subscription: self))
     end
   end
 end

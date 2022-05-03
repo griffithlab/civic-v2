@@ -1,0 +1,50 @@
+query UserDetail(
+  $userId: Int!
+) {
+  user(id: $userId) {
+      ...UserDetailFields
+  }
+}
+
+fragment UserDetailFields on User {
+  id
+  name
+  displayName
+  username
+  email
+  profileImagePath(size: 128)
+  role
+  url
+  bio
+  areaOfExpertise
+  orcid
+  twitterHandle
+  facebookProfile
+  linkedinProfile
+  organizations {
+    id
+    name
+  }
+  country {
+    id
+    name
+  }
+  statsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  mostRecentConflictOfInterestStatement {
+    id
+    coiPresent
+    coiStatement
+    coiStatus
+    createdAt
+    expiresAt
+  }
+}

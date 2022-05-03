@@ -1,0 +1,138 @@
+<nz-card class="home-card" nzTitle="Knowledgebase Statistics"
+  class="home-card"
+  [nzExtra]="statsRadioGroup"
+  nzSize="small">
+  <ng-template #statsRadioGroup>
+    <nz-radio-group [(ngModel)]="statsType"
+      nzSize="small">
+      <label nz-radio-button
+        nzValue="Total">Total</label>
+      <label nz-radio-button
+        nzValue="Weekly">Weekly</label>
+      <label nz-radio-button
+        nzValue="Monthly">Monthly</label>
+      <label nz-radio-button
+        nzValue="Yearly">Yearly</label>
+    </nz-radio-group>
+  </ng-template>
+  <ng-container *ngIf="(stats$ | ngrxPush) as stats; else isLoading">
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <a routerLink="/assertions">
+          <nz-statistic [nzTitle]="statsType + ' Assertions'"
+            [nzValue]="(stats.assertions[statsTypes[statsType]] | number)!" [nzPrefix]="assertionIcon"></nz-statistic>
+            <ng-template #assertionIcon><i nz-icon nzType="civic:assertion"></i></ng-template>
+        </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <a routerLink="/evidence">
+          <nz-statistic [nzTitle]="statsType + ' Evidence'"
+            [nzValue]="(stats.evidenceItems[statsTypes[statsType]] | number)!" [nzPrefix]="evidenceIcon"></nz-statistic>
+            <ng-template #evidenceIcon><i nz-icon nzType="civic:evidence"></i></ng-template>
+          </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <a routerLink="/genes">
+          <nz-statistic [nzTitle]="statsType + ' Genes'"
+            [nzValue]="(stats.genes[statsTypes[statsType]] | number)!" [nzPrefix]="geneIcon"></nz-statistic>
+            <ng-template #geneIcon><i nz-icon nzType="civic:gene"></i></ng-template>
+          </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <a routerLink="/variants">
+          <nz-statistic [nzTitle]="statsType + ' Variants'"
+            [nzValue]="(stats.variants[statsTypes[statsType]] | number)!" [nzPrefix]="variantIcon"></nz-statistic>
+            <ng-template #variantIcon><i nz-icon nzType="civic:variant"></i></ng-template>
+          </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <a routerLink="/users">
+          <nz-statistic [nzTitle]="statsType + ' Contributors'"
+            [nzValue]="(stats.users[statsTypes[statsType]] | number)!" [nzPrefix]="userIcon"></nz-statistic>
+            <ng-template #userIcon><i nz-icon nzType="civic:user"></i></ng-template>
+          </a>
+      </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <a routerLink="/diseases">
+          <nz-statistic [nzTitle]="statsType + ' Diseases'"
+            [nzValue]="(stats.diseases[statsTypes[statsType]] | number)!" [nzPrefix]="diseaseIcon"></nz-statistic>
+            <ng-template #diseaseIcon><i nz-icon nzType="civic:disease"></i></ng-template>
+          </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <a routerLink="/drugs">
+          <nz-statistic [nzTitle]="statsType + ' Drugs'"
+            [nzValue]="(stats.drugs[statsTypes[statsType]] | number)!" [nzPrefix]="drugIcon"></nz-statistic>
+            <ng-template #drugIcon><i nz-icon nzType="civic:intervention"></i></ng-template>
+          </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <a routerLink="/sources">
+          <nz-statistic [nzTitle]="statsType + ' Sources'"
+            [nzValue]="(stats.sources[statsTypes[statsType]] | number)!" [nzPrefix]="sourceIcon"></nz-statistic>
+            <ng-template #sourceIcon><i nz-icon nzType="civic:source"></i></ng-template>
+        </a>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="(stats.revisions[statsTypes[statsType]] | number)!" [nzPrefix]="revisionsIcon"></nz-statistic>
+          <ng-template #revisionsIcon><i nz-icon nzType="civic:revision"></i></ng-template>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="(stats.comments[statsTypes[statsType]] | number)!" [nzPrefix]="commentIcon"></nz-statistic>
+          <ng-template #commentIcon><i nz-icon nzType="civic:comment"></i></ng-template>
+      </nz-col>
+
+    </nz-row>
+  </ng-container>
+  <ng-template #isLoading>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row nzGutter="8">
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Publications'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Comments'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+
+    </nz-row>
+  </ng-template>
+</nz-card>

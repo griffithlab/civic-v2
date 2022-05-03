@@ -1,0 +1,12 @@
+query DrugPopover($drugId: Int!) {
+  drugPopover(id: $drugId) {
+    id
+    name
+    drugUrl
+    ncitId
+    drugAliases
+    assertionCount
+    evidenceItemCount
+    link
+  }
+}

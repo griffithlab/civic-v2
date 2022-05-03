@@ -1,82 +1,12 @@
-@import "~ng-zorro-antd/style/color/colors.less";
-
-:host {
-  display: flex;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.alert-container {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
 }
-
-@app-sidebar-width: 170px; // ensure this is kept equal to <nz-sider [nzWidth]> in template
-@app-sidebar-collapsed-width: 80px; // ensure this is kept equal to <nz-sider [nzCollapsedWidth]> in template
-@app-header-height: 64px;
-@app-header-padding: 0 16px;
-
-// SIDER MENU
-
-.app-layout {
-  min-height: 100vh;
-}
-
-nz-sider {
-  width: @app-sidebar-width;
-  overflow: auto;
+.app-container {
+  position: fixed;
+  width: 100%;
   height: 100%;
-  position: fixed;
-  left: 0;
-}
-
-.right-layout {
-  margin-left: @app-sidebar-width;
-  width: 100%;
-  position: relative;
-  transition: all .2s,padding 0s;
-
-  &.is-collapsed {
-    margin-left: @app-sidebar-collapsed-width;
-  }
-}
-
-
-// BRANDING
-.sidebar-logo {
-  height: 90px;
-  img {
-    width: 133px;
-    height: auto;
-    margin: 12px 16px;
-    transition: all .2s;
-  }
-  &.is-collapsed {
-    img {
-      width: 40px;
-      height: auto;
-      margin: 12px 20px;
-      transition: all .2s;
-    }
-  }
-}
-
-// HEADER
-nz-header {
-  height: @app-header-height;
-  padding: @app-header-padding;
-  position: fixed;
-  width: 100%;
-  z-index: 10;
-}
-
-.header-trigger {
-  height: @app-header-height;
-  cursor: pointer;
-  color: @geekblue-2;
-}
-
-// CONTENT
-nz-content {
-  margin-top: @app-header-height;
-  overflow: initial;
-  z-index: 1;
-  background-color: @purple-1;
-  padding: 12px;
+  z-index: 0;
+  overflow-y: auto;
 }

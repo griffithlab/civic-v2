@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { EvidenceRoutingModule } from './evidence-routing.module';
-import { EvidenceComponent } from './evidence.component';
-
+import { EvidenceView } from './evidence.view';
 
 @NgModule({
-  declarations: [EvidenceComponent],
+  declarations: [
+    EvidenceView,
+  ],
   imports: [
     CommonModule,
-    EvidenceRoutingModule
+    EvidenceRoutingModule,
+  ],
+  exports: [
+    EvidenceView,
   ]
 })
 export class EvidenceModule { }

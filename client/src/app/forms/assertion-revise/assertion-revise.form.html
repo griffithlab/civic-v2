@@ -1,0 +1,43 @@
+<nz-spin [nzSpinning]="this.loading">
+  <form nz-form
+    *ngIf="formModel"
+    [formGroup]="formGroup"
+    (ngSubmit)="reviseAssertion(formModel)"
+    nzLayout="vertical">
+    <ng-container *ngTemplateOutlet="formMessages"></ng-container>
+
+    <formly-form *ngIf="!this.success" [form]="formGroup"
+      [fields]="formFields"
+      [model]="formModel"
+      [options]="formOptions"
+      (modelChange)="formModel = $event"></formly-form>
+
+  </form>
+
+  <ng-template #formMessages>
+    <ng-container *ngIf="this.errorMessages.length > 0">
+      <nz-form-item>
+        <cvc-form-errors-alert [errors]="this.errorMessages">
+        </cvc-form-errors-alert>
+      </nz-form-item>
+    </ng-container>
+    <ng-container *ngIf="this.success">
+      <nz-alert nzType="success"
+        nzMessage="Suggested Revision Submitted"
+        [nzDescription]="successMessage"
+        nzShowIcon></nz-alert>
+      <ng-template #successMessage
+        nzSize="small">
+        <p>View it on the <a routerLink="../../revisions">Revisions Page</a>.</p>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+</nz-spin>
+
+<!-- <div nz-row>
+  <div nz-col
+    nzSpan="24">
+    <ngx-json-viewer *ngIf="formModel"
+      [json]="formModel"></ngx-json-viewer>
+  </div>
+</div> -->

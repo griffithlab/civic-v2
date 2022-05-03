@@ -1,0 +1,193 @@
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <nz-table #virtualTable
+    nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="users$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '680px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr class="col-header-row">
+        <th nzWidth="200px"
+          nzLeft>
+          User
+        </th>
+        <th nzWidth="150px"
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
+          Name
+        </th>
+        <th nzWidth="300px">
+          Organizations
+        </th>
+        <th nzWidth="80px"
+          [nzColumnKey]="sortColumns.Role"
+          [nzSortFn]="true">
+          Role
+        </th>
+        <th nzWidth="85px"
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.LastAction"
+          [nzSortFn]="true">
+          Last Action
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon
+            nzType="civic:evidence"></i> Count
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          nz-tooltip
+          nzTooltipTitle="Revision Count">
+          <i nz-icon
+            nzType="civic:revision"></i> Count
+        </th>
+      </tr>
+      <tr class="filter-row">
+        <th nzLeft></th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="nameInput"
+            placeholderText="Search Name"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
+            placeholderText="Search Orgs"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <nz-select nzAllowClear
+            nzSize="small"
+            nzPlaceHolder="Any"
+            [nzDropdownMatchSelectWidth]="false"
+            (ngModelChange)="onModelChanged()"
+            [(ngModel)]="roleInput">
+            <nz-option nzValue="ADMIN"
+              nzLabel="Admin"></nz-option>
+            <nz-option nzValue="CURATOR"
+              nzLabel="Curator"></nz-option>
+            <nz-option nzValue="EDITOR"
+              nzLabel="Editor"></nz-option>
+          </nz-select>
+        </th>
+        <th></th>
+        <th nzRight></th>
+        <th nzRight></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll
+        let-user
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-user-tag [user]="user"></cvc-user-tag>
+          </td>
+          <td class="overflow-ellipsis">
+            <ng-container *ngIf="user.name; else nameElse">
+              {{ user.name }}
+            </ng-container>
+            <ng-template #nameElse>
+              <i nz-typography
+                nzType="secondary">Not specified</i>
+            </ng-template>
+          </td>
+          <td>
+            <div *ngIf="user.organizations.length > 0; else orgElse">
+              <cvc-tag-overflow tagType="organization"
+                [maxDisplayCount]="1"
+                [tags]="user.organizations"
+                [matchingText]="orgNameInput">
+              </cvc-tag-overflow>
+            </div>
+            <ng-template #orgElse>
+              <i nz-typography
+                nzType="secondary">None specified</i>
+            </ng-template>
+          </td>
+          <td>
+            {{ user.role | enumToTitle }}
+          </td>
+          <td nzAlign="right">
+            <ng-container *ngIf="user.mostRecentActionTimestamp else eventElse">
+              {{ user.mostRecentActionTimestamp | timeago }}
+            </ng-container>
+            <ng-template #eventElse>
+              --
+            </ng-template>
+          </td>
+          <td nzRight nzAlign="right">
+            {{ user.statsHash.submittedEvidenceItems }}
+          </td>
+          <td nzRight nzAlign="right">
+            {{ user.statsHash.revisions }}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<ng-template #titleTemplate>
+  <i nz-icon
+    nzType="civic:user"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{totalCount | number }} total, showing {{visibleCount | number}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount | number}} filtered</span>)
+  </span>
+  <ng-template #noData>
+    <span nz-typography
+      nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
+</ng-template>

@@ -7,10 +7,10 @@ class ClinvarEntry < ActiveRecord::Base
   end
 
   def self.get_or_create_by_id(clinvar_id)
-    if found = self.where('lower(clinvar_id) = ?', clinvar_id.downcase).first
+    if found = self.where('lower(clinvar_id) = ?', clinvar_id.to_s.downcase).first
       found
     else
-      self.create(clinvar_id: clinvar_id.upcase)
+      self.create!(clinvar_id: clinvar_id.to_s.upcase)
     end
   end
 end

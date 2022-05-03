@@ -1,0 +1,174 @@
+<!-- if cvcHeight not specified, render table without card height container & viewport target -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <!-- adjust nz-card's cvcAutoHeightCard to equalize padding around this table's container e.g. entity-home's nz-page-header components -->
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+j     nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+<!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <nz-table #virtualTable
+    nzSize="small"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    [nzData]="genes$ | ngrxPush"
+    [nzLoading]="isLoading"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '680px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="onSortChanged($event)">
+      <tr class="col-header-row">
+        <th nzWidth="150px"
+          nzLeft
+          [nzColumnKey]="sortColumns.EntrezSymbol"
+          [nzSortFn]="true">
+          Name
+        </th>
+        <th nzLeft
+          nzWidth="200px">
+          Aliases
+        </th>
+        <th nzWidth="250px">
+          Diseases
+        </th>
+        <th nzWidth="225px">
+          Drugs
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.VariantCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Variant Count">
+          <i nz-icon
+            nzType="civic:variant"></i> Count
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.EvidenceItemCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon
+            nzType="civic:evidence"></i> Count
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.AssertionCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Assertion Count">
+          <i nz-icon
+            nzType="civic:assertion"></i> Count
+        </th>
+      </tr>
+      <tr class="filter-row">
+        <th nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="nameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="aliasInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="diseaseInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th>
+          <cvc-clearable-input-filter [(inputModel)]="drugInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+        </th>
+        <th nzRight></th>
+        <th nzRight></th>
+        <th nzRight></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll
+        let-gene
+        let-index="index">
+        <tr class="data-row">
+          <td nzLeft>
+            <cvc-gene-tag [gene]="gene"></cvc-gene-tag>
+          </td>
+          <td nzLeft>
+            <cvc-plain-tag-overflow [tags]="gene.geneAliases"
+              [matchingText]="aliasInput"></cvc-plain-tag-overflow>
+          </td>
+          <td>
+            <cvc-tag-overflow tagType="disease"
+              [maxDisplayCount]="1"
+              [tags]="gene.diseases"
+              [matchingText]="diseaseInput"> </cvc-tag-overflow>
+          </td>
+          <td>
+            <cvc-tag-overflow tagType='drug'
+              [maxDisplayCount]="1"
+              [tags]="gene.drugs"
+              [matchingText]="drugInput"> </cvc-tag-overflow>
+          </td>
+          <td nzRight nzAlign="right">{{gene.variantCount}}</td>
+          <td nzRight nzAlign="right">{{gene.evidenceItemCount}}</td>
+          <td nzRight nzAlign="right">{{gene.assertionCount}}</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<ng-template #titleTemplate>
+  <i nz-icon
+    nzType="civic:gene"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+    nz-typography
+    nzType="secondary">
+    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
+  </span>
+  <ng-template #noData>
+    <span nz-typography
+      nzType="secondary">
+      (0 total)
+    </span>
+  </ng-template>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <nz-tag nzColor="warning"
+    *ngIf="noMoreRows$ | ngrxPush">
+    <i nz-icon
+      nzType="exclamation-circle"></i>
+    <span>End of results reached</span>
+  </nz-tag>
+</ng-template>

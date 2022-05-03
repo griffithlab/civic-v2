@@ -1,0 +1,12 @@
+query ClinicalTrialDetail(
+  $clinicalTrialId: Int!
+){
+  clinicalTrial(id: $clinicalTrialId){
+    id
+    name
+    nctId
+    description
+    url
+    link
+  }
+}

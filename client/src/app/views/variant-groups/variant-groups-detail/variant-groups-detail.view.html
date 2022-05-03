@@ -1,0 +1,72 @@
+<ng-container *ngIf="variantGroup$ | async as variantGroup">
+  <cvc-section-navigation [displayName]="variantGroup.name">
+  </cvc-section-navigation>
+  <div cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
+
+    <nz-page-header class="site-page-header">
+
+      <!-- title -->
+      <nz-page-header-title cvcFlaggableOptions>
+        <!-- [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"> -->
+        <i nz-icon
+          nzType="civic:variantgroup"></i>
+        {{ variantGroup.name }}
+      </nz-page-header-title>
+
+
+      <!-- header action btns, actions menu -->
+      <nz-page-header-extra *ngrxLet="viewer$ as viewer">
+        <nz-space nzDirection="horizontal"
+          nzSize="small"
+          *ngrxLet="viewer$ as viewer">
+
+          <!-- add revision btn -->
+          <span *nzSpaceItem>
+            <button [routerLink]="['/variant-groups', variantGroup.id, 'revise']"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Revise
+            </button>
+          </span>
+
+          <!-- add flag btn -->
+          <!-- TODO implement as flag form within popover window -->
+          <span *nzSpaceItem>
+            <button routerLink="flags"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
+          </span>
+
+          <span *nzSpaceItem>
+            <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="Variant">
+            </cvc-entity-subscription-button>
+          </span>
+        </nz-space>
+      </nz-page-header-extra>
+
+      <nz-page-header-content>
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
+          <ng-template #tabBarExtraContent>
+            <nz-col id="contributors-col">
+              <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+            </nz-col>
+          </ng-template>
+        </cvc-tab-navigation>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </div>
+</ng-container>
