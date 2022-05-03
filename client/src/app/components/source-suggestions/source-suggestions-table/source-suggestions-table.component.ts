@@ -16,7 +16,7 @@ import { NzTableComponent } from "ng-zorro-antd/table";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() cvcHeight?: number
+  @Input() cvcHeight?: string
   @Input() sourceId: Maybe<number>
   @Input() submitterId: Maybe<number>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
