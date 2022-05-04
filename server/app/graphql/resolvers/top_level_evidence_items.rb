@@ -10,7 +10,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   scope {
     EvidenceItem
       .all
-      .order("evidence_level ASC, rating DESC")
+      .order("evidence_level ASC, rating DESC, id ASC")
       .where.not(status: 'rejected')
   }
 
