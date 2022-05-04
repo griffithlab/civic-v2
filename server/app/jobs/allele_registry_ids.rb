@@ -38,7 +38,7 @@ class AlleleRegistryIds < ApplicationJob
   end
 
   def allele_registry_url(coordinate_string)
-    URI.encode("http://reg.genome.network/allele?hgvs=#{coordinate_string}")
+    "http://reg.genome.network/allele?hgvs=#{CGI.escape(coordinate_string)}"
   end
 
   def allele_registry_username

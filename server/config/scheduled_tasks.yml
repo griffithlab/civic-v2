@@ -4,6 +4,12 @@ SetAlleleRegistryIds:
   queue: default
   class: SetAlleleRegistryIds
 
+UpdateAlleleRegistryIds:
+  cron: '0 0 * * 1'
+  description: Check for unpopulated allele registry ids and prune invalid ones
+  queue: default
+  class: UpdateAlleleRegistryIds
+
 RefreshGeneView:
   cron: '0 */2 * * *'
   description: Refresh the gene browse table view (every two hours)
