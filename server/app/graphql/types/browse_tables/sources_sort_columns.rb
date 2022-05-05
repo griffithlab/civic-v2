@@ -7,5 +7,6 @@ module Types::BrowseTables
     value "JOURNAL"
     value "NAME"
     value "EVIDENCE_COUNT"
+    value "SUGGESTION_COUNT"
   end
 end

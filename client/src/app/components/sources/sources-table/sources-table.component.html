@@ -82,6 +82,16 @@
           <i nz-icon
             nzType="civic:evidence"></i> Count
         </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
+          [nzColumnKey]="sortColumns.SuggestionCount"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          nz-tooltip
+          nzTooltipTitle="Suggestion Count">
+          <i nz-icon nzType="civic-queue"></i> Count
+        </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft></th>
@@ -123,6 +133,7 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
+        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -157,6 +168,8 @@
           </td>
           <td nzAlign="right"
             nzRight>{{source.evidenceItemCount}}</td>
+          <td nzAlign="right"
+            nzRight>{{source.sourceSuggestionCount}}</td>
         </tr>
       </ng-template>
     </tbody>

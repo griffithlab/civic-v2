@@ -57,6 +57,8 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
       scope.order("title #{value.direction}")
     when "EVIDENCE_COUNT"
       scope.order("evidence_item_count #{value.direction}")
+    when "SUGGESTION_COUNT"
+      scope.order("source_suggestion_count #{value.direction}")
     end
   end
 end
