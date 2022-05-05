@@ -26,6 +26,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
 
 @NgModule({
   declarations: [CvcEvidenceTableComponent],
@@ -44,6 +45,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzCheckboxModule,
     NzCardModule,
     NzTagModule,
+    CvcTableScrollModule,
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
     CvcPipesModule,
