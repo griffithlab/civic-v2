@@ -106,5 +106,11 @@ module Types::Entities
     def most_recent_event
       Loaders::AssociationLoader.for(User, :most_recent_event).load(object)
     end
+
+    def stats_hash
+      Rails.cache.fetch("user_stats_#{object.id}", expires_in: 1.hour) do 
+        object.stats_hash
+      end
+    end
   end
 end
