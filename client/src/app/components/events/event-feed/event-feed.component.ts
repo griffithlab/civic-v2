@@ -48,8 +48,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
-  participants$?: Observable<TagLinkableUser[]>;
-  organizations$?: Observable<TagLinkableOrganization[]>;
+  participants$?: Observable<Maybe<TagLinkableUser[]>>;
+  organizations$?: Observable<Maybe<TagLinkableOrganization[]>>;
   actions$?: Observable<SelectableAction[]>
   unfilteredCount$?: Observable<number>
   loading$?: Observable<boolean>
