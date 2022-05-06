@@ -1,12 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first, distinct, distinctUntilChanged, share, startWith } from 'rxjs/operators';
+import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
-import { NzTableComponent } from 'ng-zorro-antd/table';
+import { $D } from 'rxjs-debug';
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -40,7 +39,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() drugId: Maybe<number>
   @Input() initialPageSize: number = 30;
   @Input() initialSelectedEids: FormEvidence[] = []
-  @Input() initialUserFilters: Maybe<EvidenceTableUserFilters>
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() organizationId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
@@ -48,6 +46,15 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() status: Maybe<EvidenceStatus>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
+
+  _initialUserFilters: Maybe<EvidenceTableUserFilters>
+  @Input()
+  set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
+    if (f) { this._initialUserFilters = f; Object.assign(this, f) }
+  }
+  get initialUserFilters(): Maybe<EvidenceTableUserFilters> {
+    return this._initialUserFilters
+  }
 
   @Output() selectedEids = new EventEmitter<FormEvidence[]>()
   selectedEvidenceIds = new Map<number, FormEvidence>();
@@ -110,20 +117,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.initialUserFilters) {
-      this.clinicalSignificanceInput = this.initialUserFilters.clinicalSignificanceInput
-      this.descriptionInput = this.initialUserFilters.descriptionInput
-      this.diseaseNameInput = this.initialUserFilters.diseaseNameInput
-      this.drugNameInput = this.initialUserFilters.drugNameInput
-      this.eidInput = this.initialUserFilters.eidInput
-      this.evidenceDirectionInput = this.initialUserFilters.evidenceDirectionInput
-      this.evidenceLevelInput = this.initialUserFilters.evidenceLevelInput
-      this.evidenceRatingInput = this.initialUserFilters.evidenceRatingInput
-      this.evidenceTypeInput = this.initialUserFilters.evidenceTypeInput
-      this.geneSymbolInput = this.initialUserFilters.geneSymbolInput
-      this.variantNameInput = this.initialUserFilters.variantNameInput
-      this.variantOriginInput = this.initialUserFilters.variantOriginInput
-    }
 
     this.queryRef = this.gql.watch(
       {
@@ -158,7 +151,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
-    let observable = this.queryRef.valueChanges;
+    let observable = $D(this.queryRef.valueChanges)
 
     // handle loading state
     observable
@@ -243,6 +236,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
           }
         }
       });
+
   }
 
   // REFACTORED FUNCTIONS
