@@ -32,8 +32,8 @@ import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.
   declarations: [CvcEvidenceTableComponent],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveComponentModule,
+    FormsModule,
     NzButtonModule,
     NzTableModule,
     NzFormModule,

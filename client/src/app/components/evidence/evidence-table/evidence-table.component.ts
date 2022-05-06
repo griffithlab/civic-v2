@@ -6,6 +6,7 @@ import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { $D } from 'rxjs-debug';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -22,6 +23,7 @@ export interface EvidenceTableUserFilters {
   geneSymbolInput: Maybe<string>
 }
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-evidence-table',
   templateUrl: './evidence-table.component.html',
@@ -117,11 +119,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.queryRef = this.gql.watch(
       {
-        first: this.initialPageSize,
-
         assertionId: this.assertionId,
         cardView: !this.tableView,
         clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
@@ -134,6 +133,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         evidenceDirection: this.evidenceDirectionInput ? this.evidenceDirectionInput : undefined,
         evidenceLevel: this.evidenceLevelInput ? this.evidenceLevelInput : undefined,
         evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
+        first: this.initialPageSize,
         geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
         organizationId: this.organizationId,
         phenotypeId: this.phenotypeId,
