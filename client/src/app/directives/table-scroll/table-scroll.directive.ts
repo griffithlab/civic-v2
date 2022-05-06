@@ -1,17 +1,17 @@
-import { EventEmitter, AfterViewInit, Directive, Input, OnDestroy, Output, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
+import { EventEmitter, AfterViewInit, Directive, Input, OnDestroy, Output, ChangeDetectorRef } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NzTableComponent } from 'ng-zorro-antd/table';
-import { debounce, debounceTime, filter, first, map, pairwise, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { debounceTime, filter, first, map, pairwise, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { asyncScheduler, Observable, Subject } from 'rxjs';
 
 @Directive({
   selector: '[cvcTableScroll]'
 })
 export class TableScrollDirective implements AfterViewInit, OnDestroy {
-  @Output() cvcTableScrollOnLoadMore = new EventEmitter<boolean>()
-  @Output() cvcTableScrollOnScrolled = new EventEmitter<boolean>()
+  @Output() cvcTableScrollOnScrollEnd = new EventEmitter<boolean>()
+  @Output() cvcTableScrollOnScroll = new EventEmitter<boolean>()
 
-  // loadMore will fire when viewport is within targetHeight px of scroll bottom
+  // OnScrollEnd fires when viewport bottom lands within ScrollEndTarget px of
   private _targetHeight: number = 140;
   @Input() cvcTableScrollTargetHeight?: number
   set targetHeight(h: number) { if (h) this._targetHeight = h }
@@ -40,7 +40,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
 
   // observable of all scroll events from viewport
   private scrolled$?: Observable<Event>
-  //
+
   // observable of all rowsRendered events from viewport
   private rendered$?: Observable<any>
 
@@ -52,10 +52,11 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (this.host && this.host.cdkVirtualScrollViewport) {
       this.viewport = this.host.cdkVirtualScrollViewport
+      this.viewport.elementRef.nativeElement.setAttribute('border', '1px solid red')
       this.scrolled$ = this.viewport.elementScrolled()
       this.rendered$ = this.viewport.renderedRangeStream
     } else {
-      throw new Error('cvcTableScrollLoadMore directive could not obtain reference to host cdkVirtualScrollViewport.')
+      throw new Error('cvcTableScroll directive could not obtain reference to host cdkVirtualScrollViewport.')
     }
 
     // after initial rows rendered, force viewport size update
@@ -76,10 +77,10 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         throttleTime(this.onScrollThrottleTime,
           asyncScheduler,
           { leading: true, trailing: true }),
-        tap(_ => this.cvcTableScrollOnScrolled.next(true)),
+        tap(_ => this.cvcTableScrollOnScroll.next(true)),
         debounceTime(this.onScrollDebounceTime),
         takeUntil(this.destroy$))
-      .subscribe(_ => { this.cvcTableScrollOnScrolled.next(false) });
+      .subscribe(_ => { this.cvcTableScrollOnScroll.next(false) });
 
     // emit load more events from OnLoadMore
     this.scrolled$
@@ -98,7 +99,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
         takeUntil(this.destroy$))
-      .subscribe((_) => { this.cvcTableScrollOnLoadMore.next(true) });
+      .subscribe((_) => { this.cvcTableScrollOnScrollEnd.next(true) });
   }
 
   scrollToIndex(index: number): void {

@@ -199,21 +199,20 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.debouncedQuery
       .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500))
+        debounceTime(500),
+        takeUntil(this.destroy$))
       .subscribe((_) => {
         this.refresh()
       });
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
 
-    // for every onScrolled event, invert boolean, share to multicast
+    // for every onScrolled event, invert boolean, share multicast
     this.showTooltips$ = this.onScrolled$
       .pipe(
         map(e => !e),
         distinctUntilChanged(),
-        share(),
-        takeUntil(this.destroy$));
+        share());
 
     // load next page if not the final page of results
     this.onLoadMore$
@@ -247,12 +246,11 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   // REFACTORED FUNCTIONS
-  onLoadMore(): void {
+  onScrollEnd(): void {
     this.onLoadMore$.next();
-    // console.log(`evidence-table onLoadMore(): ${load}`)
   }
 
-  onScrolled(scroll: boolean) {
+  onScroll(scroll: boolean) {
     this.onScrolled$.next(scroll);
     this.cdr.detectChanges();
   }
@@ -273,7 +271,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     }
     this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()))
   }
-
 
   refresh() {
     this.isLoading = true;

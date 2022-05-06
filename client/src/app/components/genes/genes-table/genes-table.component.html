@@ -17,14 +17,14 @@
     <nz-card [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-j     nzSize="small">
+      nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
 </ng-template>
 
 <ng-template #table>
-<!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
   <nz-table #virtualTable
     nzSize="small"
     [cvcAutoHeightTable]="25"
@@ -133,9 +133,12 @@ j     nzSize="small">
               [tags]="gene.drugs"
               [matchingText]="drugInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight nzAlign="right">{{gene.variantCount}}</td>
-          <td nzRight nzAlign="right">{{gene.evidenceItemCount}}</td>
-          <td nzRight nzAlign="right">{{gene.assertionCount}}</td>
+          <td nzRight
+            nzAlign="right">{{gene.variantCount}}</td>
+          <td nzRight
+            nzAlign="right">{{gene.evidenceItemCount}}</td>
+          <td nzRight
+            nzAlign="right">{{gene.assertionCount}}</td>
         </tr>
       </ng-template>
     </tbody>

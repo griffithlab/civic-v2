@@ -29,8 +29,8 @@
     nzSize="small"
     [cvcAutoHeightTable]="25"
     cvcTableScroll
-    (cvcTableScrollOnLoadMore)="onLoadMore()"
-    (cvcTableScrollOnScrolled)="onScrolled($event)"
+    (cvcTableScrollOnScrollEnd)="onScrollEnd()"
+    (cvcTableScrollOnScroll)="onScroll($event)"
     [nzVirtualItemSize]="29"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzData]="evidence$ | ngrxPush"
