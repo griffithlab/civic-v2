@@ -4,15 +4,16 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
 import { debounceTime, filter, first, map, pairwise, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { asyncScheduler, Observable, Subject } from 'rxjs';
 
+export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
+
 @Directive({
   selector: '[cvcTableScroll]'
 })
 export class TableScrollDirective implements AfterViewInit, OnDestroy {
-  @Output() cvcTableScrollOnScrollEnd = new EventEmitter<boolean>()
-  @Output() cvcTableScrollOnScroll = new EventEmitter<boolean>()
+  @Output() cvcTableScrollOnScroll = new EventEmitter<ScrollEvent>()
 
-  // OnScrollEnd fires when viewport bottom lands within ScrollEndTarget px of
-  private _targetHeight: number = 140;
+  // OnScrollEnd fires when viewport bottom lands within ScrollEndTarget px of rendered rows
+  private _targetHeight: number = 140
   @Input() cvcTableScrollTargetHeight?: number
   set targetHeight(h: number) { if (h) this._targetHeight = h }
   get targetHeight(): number { return this._targetHeight }
@@ -52,7 +53,6 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (this.host && this.host.cdkVirtualScrollViewport) {
       this.viewport = this.host.cdkVirtualScrollViewport
-      this.viewport.elementRef.nativeElement.setAttribute('border', '1px solid red')
       this.scrolled$ = this.viewport.elementScrolled()
       this.rendered$ = this.viewport.renderedRangeStream
     } else {
@@ -71,16 +71,19 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
       .pipe(first())
       .subscribe((_) => { this.viewport!.checkViewportSize() });
 
-    // emit 'true' event when scroll starts, 'false' scrollStopDebounce ms after last event
+    // emit 'scroll' event when scroll starts, 'stop' scrollStopDebounce ms after last event
     this.scrolled$
       .pipe(
+        // emits once at initial scroll event, once every throttleTime ms until no events,
+        // then a final event
         throttleTime(this.onScrollThrottleTime,
           asyncScheduler,
           { leading: true, trailing: true }),
-        tap(_ => this.cvcTableScrollOnScroll.next(true)),
+        tap(_ => this.cvcTableScrollOnScroll.next('scroll')),
+        // wait debounceTime ms after last 'scroll' event to emit
         debounceTime(this.onScrollDebounceTime),
         takeUntil(this.destroy$))
-      .subscribe(_ => { this.cvcTableScrollOnScroll.next(false) });
+      .subscribe(_ => { this.cvcTableScrollOnScroll.next('stop') });
 
     // emit load more events from OnLoadMore
     this.scrolled$
@@ -99,7 +102,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
         takeUntil(this.destroy$))
-      .subscribe((_) => { this.cvcTableScrollOnScrollEnd.next(true) });
+      .subscribe((_) => { this.cvcTableScrollOnScroll.next('bottom') });
   }
 
   scrollToIndex(index: number): void {

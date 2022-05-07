@@ -7,6 +7,7 @@ import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, disti
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { $D } from 'rxjs-debug';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -66,7 +67,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   private debouncedQuery = new Subject<void>();
 
   // REFACTORED LOCAL VARS
-  onScrolled$: BehaviorSubject<boolean>
+  onScrolled$: BehaviorSubject<ScrollEvent>
   showTooltips$!: Observable<boolean>
 
   onLoadMore$: Subject<Event>
@@ -114,7 +115,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false);
-    this.onScrolled$ = new BehaviorSubject<boolean>(false);
+    this.onScrolled$ = new BehaviorSubject<ScrollEvent>('stop');
     this.onLoadMore$ = new Subject<Event>();
   }
 
@@ -200,16 +201,17 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
 
-    // for every onScrolled event, invert boolean, share multicast
+    // for every onScrolled event, convert to bool, share multicast
     this.showTooltips$ = this.onScrolled$
       .pipe(
-        map(e => !e),
+        map((e: ScrollEvent) => e === 'stop' ? true : false ), // false on 'scroll', true on 'stop'
         distinctUntilChanged(),
         share());
 
     // load next page if not the final page of results
     this.onLoadMore$
-      .pipe(withLatestFrom(this.pageInfo$),
+      .pipe(
+        withLatestFrom(this.pageInfo$),
         map(([_, pageInfo]: [Event, PageInfo]) => pageInfo),
         takeUntil(this.destroy$))
       .subscribe((pageInfo: PageInfo) => {
@@ -241,12 +243,16 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   // REFACTORED FUNCTIONS
   onScrollEnd(): void {
-    this.onLoadMore$.next();
   }
 
-  onScroll(scroll: boolean) {
-    this.onScrolled$.next(scroll);
-    this.cdr.detectChanges();
+  onScroll(e: ScrollEvent) {
+    if (e === 'scroll' || e === 'stop') {
+      this.onScrolled$.next(e)
+      this.cdr.detectChanges()
+    }
+    else if (e === 'bottom') {
+      this.onLoadMore$.next()
+    }
   }
 
   // filtering, sorting callbacks
