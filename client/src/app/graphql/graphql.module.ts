@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
 import { HttpLink } from 'apollo-angular/http';
-
-import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloModule, APOLLO_OPTIONS, APOLLO_FLAGS } from 'apollo-angular';
 import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { PossibleTypesMap, TypePolicies } from '@apollo/client/cache';
 import { CvcTypePolicies } from './graphql.type-policies';
 
-import {
-  default as result,
-  IntrospectionResultData,
-} from '@app/generated/server.possible-types';
+import result  from '@app/generated/civic.possible-types';
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
@@ -31,14 +27,15 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: analyticsLink.concat(http),
     cache: new InMemoryCache({
-      possibleTypes: introspectionToPossibleTypes(result),
+      possibleTypes: result.possibleTypes,
       typePolicies: typePolicies
     }),
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'cache-first',
         errorPolicy: 'all',
-        notifyOnNetworkStatusChange: false,
+        notifyOnNetworkStatusChange: true,
+        // returnPartialData: true
       },
     },
   };
@@ -48,6 +45,12 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   imports: [ApolloModule],
   providers: [
     {
+      provide: APOLLO_FLAGS,
+      useValue: {
+        useInitialLoading: true, // enable it here
+      },
+    },
+    {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
       deps: [HttpLink],
@@ -55,24 +58,3 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   ],
 })
 export class GraphQLModule { }
-
-/**
- * Extracts `PossibleTypesMap` as accepted by `@apollo/client` from GraphQL introspection query result. From: https://github.com/apollographql/apollo-client/issues/6855
- */
-const introspectionToPossibleTypes = (
-  introspectionResultData: IntrospectionResultData
-): PossibleTypesMap => {
-  const possibleTypes: PossibleTypesMap = {};
-
-  introspectionResultData.__schema.types.forEach((supertype) => {
-    if (supertype.possibleTypes) {
-      possibleTypes[supertype.name] = supertype.possibleTypes.map((subtype) => {
-        return subtype.name;
-      });
-    }
-  });
-
-  return possibleTypes;
-};
-
-export default introspectionToPossibleTypes;
