@@ -1,13 +1,15 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo';
-import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
-import { QueryRef } from 'apollo-angular';
-import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share } from 'rxjs/operators';
-import { FormEvidence } from '@app/forms/forms.interfaces';
-import { $D } from 'rxjs-debug';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
+import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core'
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo'
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
+import { QueryRef } from 'apollo-angular'
+import { BehaviorSubject, interval, Observable, Subject, partition, iif, of } from 'rxjs'
+import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share, startWith, mergeMap, count, filter, scan } from 'rxjs/operators'
+import { isNonNulled } from 'rxjs-etc'
+import { FormEvidence } from '@app/forms/forms.interfaces'
+import { $D } from 'rxjs-debug'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { ApolloQueryResult } from '@apollo/client/core'
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -22,6 +24,12 @@ export interface EvidenceTableUserFilters {
   evidenceRatingInput: Maybe<number>
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
+}
+
+export interface ResultsInfo {
+  pageInfo: PageInfo,
+  totalCount: number,
+  filteredCount?: number
 }
 
 @UntilDestroy()
@@ -66,20 +74,32 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>();
 
-  // REFACTORED LOCAL VARS
-  onScrolled$: BehaviorSubject<ScrollEvent>
-  showTooltips$!: Observable<boolean>
+  // SOURCE STREAMS
+  scrolled$: BehaviorSubject<ScrollEvent>
+  scrolledToBottom$: Subject<Event>
+  filterChanged$: Subject<any>
+  pageLoaded$: BehaviorSubject<number>
+  pagesLoaded$: Observable<number>
 
-  onLoadMore$: Subject<Event>
+  // INTERMEDIATE STREAMS
+  results$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
+  pageInfo$!: Observable<PageInfo>
+
+  // PRESENTATION STREAMS
+  loading$!: Observable<boolean>
+  rows$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
+  scrolling$!: Observable<boolean>
+
+  totalCount$!: Observable<number>
+  visibleCount$!: Observable<number>
+  filteredCount$!: Observable<number>
 
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
-  isLoading = true;
+  // isLoading = true;
 
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>;
-  filteredCount$?: Observable<number>;
 
-  pageInfo$?: Observable<PageInfo>;
   totalCount?: number;
   fetchMorePageSize = 25;
   isLoadingDelay = 300;
@@ -114,9 +134,12 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
-    this.onScrolled$ = new BehaviorSubject<ScrollEvent>('stop');
-    this.onLoadMore$ = new Subject<Event>();
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrolled$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.scrolledToBottom$ = new Subject<Event>()
+    this.pageLoaded$ = new BehaviorSubject<number>(0)
+    this.pagesLoaded$ = this.pageLoaded$.pipe(scan((total, n) => total + n))
+    this.filterChanged$ = new Subject<Event>()
   }
 
   ngOnInit() {
@@ -152,32 +175,57 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
-    let observable = $D(this.queryRef.valueChanges)
+    this.results$ = this.queryRef.valueChanges.pipe(share())
+    this.loading$ = this.results$.pipe(pluck('loading'))
 
-    // handle loading state
-    observable
+    this.rows$ = this.results$
+      .pipe(pluck('data', 'evidenceItems', 'edges'),
+        filter(isNonNulled),
+        map(edges => edges.map((e) => e.node)));
+
+    this.totalCount$ = this.results$
+      .pipe(pluck('data', 'evidenceItems', 'totalCount'),
+        filter(isNonNulled),
+        startWith(0));
+
+    // emit initialTotalCount
+    this.totalCount$
+      .pipe(first())
+      .subscribe(tc => this.initialTotalCount.next(tc))
+
+    this.pageInfo$ = this.results$
+      .pipe(pluck('data', 'evidenceItems', 'pageInfo'),
+        filter(isNonNulled));
+
+    const initialPageSize$ = of(this.initialPageSize)
+    const fetchMorePageSize$ = of(this.fetchMorePageSize)
+    const visibleCountCalc$ = this.pagesLoaded$
       .pipe(
-        takeUntil(this.destroy$),
-        pluck('loading'))
-      .subscribe((l: boolean) => { this.isLoading = l; });
+        withLatestFrom(initialPageSize$),
+        withLatestFrom(fetchMorePageSize$),
+        map(([[loaded, initial], fetch]) => {
+          return { intial: initial, fetch: fetch, loaded: loaded }
+        }));
 
-    this.evidence$ = observable.pipe(
-      pluck('data', 'evidenceItems', 'edges'),
-      map((edges) => { return edges.map((e) => e.node); }));
+    visibleCountCalc$.subscribe((c) => {
+      console.log('---------- visibleCountCalc:')
+      console.log(c)
+    })
+    // this.filteredCount$ = this.totalCount$
+    //   .pipe(withLatestFrom(this.pageLoaded$),
+    //     mergeMap(([tc, fc]) => iif(() => tc < this.initialPageSize, initialPageSize$,)))
+    //       ([tc, fc]: number[]) => { return tc < this.initialPageSize },
+    //       of(([tc, fc]: number[]) => { return this.initialPageSize }),
+    //       of(([tc, fc]: number[]) => { return this.initialPageSize }))
+
+    // map(([tc,fc]) => { return tc }));
+
+    let observable = this.queryRef.valueChanges
 
     this.filteredCount$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount'));
 
     this.filteredCount$
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1))
-      .subscribe(value => {
-        this.totalCount = value;
-        this.initialTotalCount.emit(value);
-      });
-
-    this.filteredCount$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(untilDestroyed(this))
       .subscribe(value => {
         if (value < this.initialPageSize) {
           this.visibleCount = value
@@ -188,8 +236,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
           }
         }
       });
-
-    this.pageInfo$ = observable.pipe(pluck('data', 'evidenceItems', 'pageInfo'));
 
     this.debouncedQuery
       .pipe(
@@ -202,27 +248,29 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.textInputCallback = () => { this.debouncedQuery.next(); }
 
     // for every onScrolled event, convert to bool, share multicast
-    this.showTooltips$ = this.onScrolled$
+    this.scrolling$ = this.scrolled$
       .pipe(
-        map((e: ScrollEvent) => e === 'stop' ? true : false ), // false on 'scroll', true on 'stop'
+        map((e: ScrollEvent) => e === 'stop' ? true : false), // false on 'scroll', true on 'stop'
         distinctUntilChanged(),
         share());
 
     // load next page if not the final page of results
-    this.onLoadMore$
+    this.scrolledToBottom$
       .pipe(
         withLatestFrom(this.pageInfo$),
         map(([_, pageInfo]: [Event, PageInfo]) => pageInfo),
-        takeUntil(this.destroy$))
+        untilDestroyed(this))
       .subscribe((pageInfo: PageInfo) => {
         if (pageInfo.hasNextPage) {
-          this.isLoading = true
           this.queryRef
             .fetchMore({
               variables: {
                 first: this.fetchMorePageSize,
                 after: pageInfo.endCursor
               },
+            })
+            .then((_) => {
+              this.pageLoaded$.next(1)
             });
           this.cdr.detectChanges();
         } else {
@@ -241,17 +289,13 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   }
 
-  // REFACTORED FUNCTIONS
-  onScrollEnd(): void {
-  }
-
   onScroll(e: ScrollEvent) {
     if (e === 'scroll' || e === 'stop') {
-      this.onScrolled$.next(e)
+      this.scrolled$.next(e)
       this.cdr.detectChanges()
     }
     else if (e === 'bottom') {
-      this.onLoadMore$.next()
+      this.scrolledToBottom$.next()
     }
   }
 
@@ -273,7 +317,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.isLoading = true;
     this.loadedPages = 1;
     var eid: Maybe<number>
     if (this.eidInput)
@@ -304,7 +347,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   loadMore(afterCursor: Maybe<string>): void {
-    this.isLoading = true;
     this.queryRef.fetchMore({
       variables: {
         first: this.fetchMorePageSize,
