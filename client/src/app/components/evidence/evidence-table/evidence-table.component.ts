@@ -197,13 +197,12 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       .pipe(pluck('data', 'evidenceItems', 'pageInfo'),
         filter(isNonNulled));
 
-    const initialPageSize$ = of(this.initialPageSize)
-    const fetchMorePageSize$ = of(this.fetchMorePageSize)
     const visibleCountCalc$ = this.pagesLoaded$
       .pipe(
-        withLatestFrom(initialPageSize$),
-        withLatestFrom(fetchMorePageSize$),
-        map(([[loaded, initial], fetch]) => {
+        withLatestFrom(of(this.initialPageSize)),
+        withLatestFrom(of(this.fetchMorePageSize)),
+        map((arr: any[]) => arr.flat()),
+        map(([loaded, initial, fetch]) => {
           return { intial: initial, fetch: fetch, loaded: loaded }
         }));
 
