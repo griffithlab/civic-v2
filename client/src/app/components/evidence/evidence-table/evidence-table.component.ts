@@ -11,6 +11,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { ApolloQueryResult } from '@apollo/client/core'
 
+// TODO: switch to using 'rows' instead of 'counts'
+
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
   diseaseNameInput: Maybe<string>
@@ -26,10 +28,11 @@ export interface EvidenceTableUserFilters {
   geneSymbolInput: Maybe<string>
 }
 
-export interface ResultsInfo {
-  pageInfo: PageInfo,
-  totalCount: number,
-  filteredCount?: number
+export interface RowsInfo {
+  loadedPageCount: number
+  initialRows: number
+  totalRows: number
+  filteredRows?: number
 }
 
 @UntilDestroy()
@@ -37,7 +40,7 @@ export interface ResultsInfo {
   selector: 'cvc-evidence-table',
   templateUrl: './evidence-table.component.html',
   styleUrls: ['./evidence-table.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() cvcHeight: Maybe<string>
@@ -48,7 +51,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() diseaseId: Maybe<number>
   @Input() displayGeneAndVariant: boolean = true
   @Input() drugId: Maybe<number>
-  @Input() initialPageSize: number = 30;
+  @Input() initialPageSize: number = 30
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() organizationId: Maybe<number>
@@ -75,71 +78,74 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   private debouncedQuery = new Subject<void>();
 
   // SOURCE STREAMS
-  scrolled$: BehaviorSubject<ScrollEvent>
+  scrollEvent$: BehaviorSubject<ScrollEvent>
   scrolledToBottom$: Subject<Event>
-  filterChanged$: Subject<any>
-  pageLoaded$: BehaviorSubject<number>
-  pagesLoaded$: Observable<number>
+  filterUpdate$: Subject<any>
+  loadedPage$: BehaviorSubject<number>
 
   // INTERMEDIATE STREAMS
-  results$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
+  result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
   pageInfo$!: Observable<PageInfo>
+  // rowsInfo$!: Observable<RowsInfo>
+  rowsInfo$!: Observable<any> // TODO: replace with RowsInfo when constructing obsverable
+  loadedPageCount$: Observable<number>
 
   // PRESENTATION STREAMS
-  loading$!: Observable<boolean>
-  rows$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
-  scrolling$!: Observable<boolean>
+  isLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
+  isScrolling$!: Observable<boolean>
 
-  totalCount$!: Observable<number>
-  visibleCount$!: Observable<number>
-  filteredCount$!: Observable<number>
+  totalRow$!: Observable<number>
+  visibleRow$!: Observable<number>
+  filteredRow$!: Observable<number>
 
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
   // isLoading = true;
 
-  evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>;
+  evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
 
-  totalCount?: number;
-  fetchMorePageSize = 25;
-  isLoadingDelay = 300;
-  visibleCount: number = this.initialPageSize;
+  totalRows?: number
+  fetchMorePageSize = 25
+  isLoadingDelay = 300
+  visibleRow: number = this.initialPageSize;
 
   noMoreRows$: BehaviorSubject<boolean>;
 
-  loadedPages: number = 1;
+  loadedPages: number = 1
 
-  tableView: boolean = true;
+  tableView: boolean = true
 
-  textInputCallback?: () => void;
+  textInputCallback?: () => void
 
-  showTooltips = true;
+  showTooltips = true
 
   // filters
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>;
-  descriptionInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  drugNameInput: Maybe<string>;
-  eidInput: Maybe<string>;
-  evidenceDirectionInput: Maybe<EvidenceDirection>;
-  evidenceLevelInput: Maybe<EvidenceLevel>;
-  evidenceRatingInput: Maybe<number>;
-  evidenceTypeInput: Maybe<EvidenceType>;
-  geneSymbolInput: Maybe<string>;
-  variantNameInput: Maybe<string>;
-  variantOriginInput: Maybe<VariantOrigin>;
+  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  descriptionInput: Maybe<string>
+  diseaseNameInput: Maybe<string>
+  drugNameInput: Maybe<string>
+  eidInput: Maybe<string>
+  evidenceDirectionInput: Maybe<EvidenceDirection>
+  evidenceLevelInput: Maybe<EvidenceLevel>
+  evidenceRatingInput: Maybe<number>
+  evidenceTypeInput: Maybe<EvidenceType>
+  geneSymbolInput: Maybe<string>
+  variantNameInput: Maybe<string>
+  variantOriginInput: Maybe<VariantOrigin>
 
-  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns;
+  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject()
 
-  constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
+  constructor(private gql: EvidenceBrowseGQL,
+    private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
-    this.scrolled$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.scrolledToBottom$ = new Subject<Event>()
-    this.pageLoaded$ = new BehaviorSubject<number>(0)
-    this.pagesLoaded$ = this.pageLoaded$.pipe(scan((total, n) => total + n))
-    this.filterChanged$ = new Subject<Event>()
+    this.loadedPage$ = new BehaviorSubject<number>(0) // TODO: number -> cursor
+    this.loadedPageCount$ = this.loadedPage$.pipe(scan((total, n) => total + n))
+    this.filterUpdate$ = new Subject<Event>()
   }
 
   ngOnInit() {
@@ -173,45 +179,52 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         fetchPolicy: 'network-only'
       });
 
-    this.initialSelectedEids.forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
+    this.initialSelectedEids
+      .forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
-    this.results$ = this.queryRef.valueChanges.pipe(share())
-    this.loading$ = this.results$.pipe(pluck('loading'))
+    this.result$ = this.queryRef.valueChanges.pipe(share())
+    this.isLoading$ = this.result$.pipe(pluck('loading'))
 
-    this.rows$ = this.results$
+    this.row$ = this.result$
       .pipe(pluck('data', 'evidenceItems', 'edges'),
         filter(isNonNulled),
         map(edges => edges.map((e) => e.node)));
 
-    this.totalCount$ = this.results$
+    this.totalRow$ = this.result$
       .pipe(pluck('data', 'evidenceItems', 'totalCount'),
         filter(isNonNulled),
         startWith(0));
 
     // emit initialTotalCount
-    this.totalCount$
+    this.totalRow$
       .pipe(first())
       .subscribe(tc => this.initialTotalCount.next(tc))
 
-    this.pageInfo$ = this.results$
+    this.pageInfo$ = this.result$
       .pipe(pluck('data', 'evidenceItems', 'pageInfo'),
         filter(isNonNulled));
 
-    const visibleCountCalc$ = this.pagesLoaded$
+    this.rowsInfo$ = this.loadedPageCount$
       .pipe(
         withLatestFrom(of(this.initialPageSize)),
         withLatestFrom(of(this.fetchMorePageSize)),
-        map((arr: any[]) => arr.flat()),
-        map(([loaded, initial, fetch]) => {
-          return { intial: initial, fetch: fetch, loaded: loaded }
+        withLatestFrom(this.totalRow$),
+        map(arr => arr.flat(Infinity)),
+        map(([pagesLoaded, initialRows, fetchRows, totalRows]) => {
+          return {
+            pagesLoaded: pagesLoaded,
+            intialRows: initialRows,
+            fetchRows: fetchRows,
+            totalRows: totalRows,
+          }
         }));
 
-    visibleCountCalc$.subscribe((c) => {
-      console.log('---------- visibleCountCalc:')
+    this.rowsInfo$.subscribe((c) => {
+      console.log('---------- rowsInfo$:')
       console.log(c)
     })
-    // this.filteredCount$ = this.totalCount$
-    //   .pipe(withLatestFrom(this.pageLoaded$),
+    // this.filteredRow$ = this.totalRow$
+    //   .pipe(withLatestFrom(this.loadedPage$),
     //     mergeMap(([tc, fc]) => iif(() => tc < this.initialPageSize, initialPageSize$,)))
     //       ([tc, fc]: number[]) => { return tc < this.initialPageSize },
     //       of(([tc, fc]: number[]) => { return this.initialPageSize }),
@@ -221,17 +234,17 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     let observable = this.queryRef.valueChanges
 
-    this.filteredCount$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount'));
+    this.filteredRow$ = observable.pipe(pluck('data', 'evidenceItems', 'totalRows: '));
 
-    this.filteredCount$
+    this.filteredRow$
       .pipe(untilDestroyed(this))
       .subscribe(value => {
         if (value < this.initialPageSize) {
-          this.visibleCount = value
+          this.visibleRow = value
         } else {
-          this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
-          if (this.visibleCount > value) {
-            this.visibleCount = value
+          this.visibleRow = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
+          if (this.visibleRow > value) {
+            this.visibleRow = value
           }
         }
       });
@@ -247,7 +260,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.textInputCallback = () => { this.debouncedQuery.next(); }
 
     // for every onScrolled event, convert to bool, share multicast
-    this.scrolling$ = this.scrolled$
+    this.isScrolling$ = this.scrollEvent$
       .pipe(
         map((e: ScrollEvent) => e === 'stop' ? true : false), // false on 'scroll', true on 'stop'
         distinctUntilChanged(),
@@ -269,7 +282,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
               },
             })
             .then((_) => {
-              this.pageLoaded$.next(1)
+              this.loadedPage$.next(1)
             });
           this.cdr.detectChanges();
         } else {
@@ -290,7 +303,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   onScroll(e: ScrollEvent) {
     if (e === 'scroll' || e === 'stop') {
-      this.scrolled$.next(e)
+      this.scrollEvent$.next(e)
       this.cdr.detectChanges()
     }
     else if (e === 'bottom') {

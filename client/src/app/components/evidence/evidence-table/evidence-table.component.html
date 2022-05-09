@@ -32,8 +32,8 @@
     (cvcTableScrollOnScroll)="onScroll($event)"
     [nzVirtualItemSize]="29"
     [nzVirtualForTrackBy]="trackByIndex"
-    [nzData]="rows$ | ngrxPush"
-    [nzLoading]="loading$ | ngrxPush"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="isLoading$ | ngrxPush"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
@@ -388,7 +388,7 @@
             <ng-container *ngIf="eid.drugInteractionType">
               <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="(scrolling$ | ngrxPush) ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                [nzTooltipTitle]="(isScrolling$ | ngrxPush) ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
                 <i nz-icon
                   style="color: #ac3996"
                   [nzType]="eid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
@@ -404,7 +404,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="(scrolling$ | ngrxPush) ? eid.description : ''">
+              [nzTooltipTitle]="(isScrolling$ | ngrxPush) ? eid.description : ''">
               <i nz-icon
                 nzType="align-left"></i>
             </nz-tag>
@@ -413,7 +413,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nz-placement="top"
-              [nzTooltipTitle]="(scrolling$ | ngrxPush) ? eid.evidenceLevel + ' - ' + (eid.evidenceLevel | evidenceLevelDisplay) : ''">
+              [nzTooltipTitle]="(isScrolling$ | ngrxPush) ? eid.evidenceLevel + ' - ' + (eid.evidenceLevel | evidenceLevelDisplay) : ''">
               {{ eid.evidenceLevel }}
             </nz-tag>
           </td>
@@ -421,7 +421,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="(scrolling$ | ngrxPush) ? (eid.evidenceType | evidenceEnumDisplay) : ''">
+              [nzTooltipTitle]="(isScrolling$ | ngrxPush) ? (eid.evidenceType | evidenceEnumDisplay) : ''">
               <i nz-icon
                 [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
@@ -431,7 +431,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="(scrolling$ | ngrxPush) ? (eid.evidenceDirection | evidenceEnumDisplay) : ''">
+              [nzTooltipTitle]="(isScrolling$ | ngrxPush) ? (eid.evidenceDirection | evidenceEnumDisplay) : ''">
               <i nz-icon
                 [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
@@ -485,10 +485,13 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
+  <span *ngIf="(rowsInfo$ | ngrxPush) as rowsInfo; else noData"
     nz-typography
     nzType="secondary">
-    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
+    ({{ totalRow$ | ngrxPush | number }} total, showing {{ visibleRow$ | ngrxPush | number }}
+    <ng-container *ngIf="(filteredRow$ | ngrxPush) > 0">
+      of {{ rowsInfo.filteredCount | number }} filtered
+    </ng-container>)
   </span>
   <ng-template #noData>
     <span nz-typography
