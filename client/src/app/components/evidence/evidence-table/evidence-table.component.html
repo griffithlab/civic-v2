@@ -485,12 +485,14 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(rowsInfo$ | ngrxPush) as rowsInfo; else noData"
+  <span *ngIf="(rowsInfo$ | ngrxPush) as resultInfo; else noData"
     nz-typography
     nzType="secondary">
-    ({{ totalRow$ | ngrxPush | number }} total, showing {{ visibleRow$ | ngrxPush | number }}
-    <ng-container *ngIf="(filteredRow$ | ngrxPush) > 0">
-      of {{ rowsInfo.filteredCount | number }} filtered
+    ({{ totalCount$ | ngrxPush | number }} total, showing {{ visibleRow$ | ngrxPush | number }}
+    <ng-container *ngIf="(filteredRow$ | ngrxPush) as filteredRows">
+      <span *ngIf="filteredRows > 0">
+      of {{ filteredRows | number }} filtered
+      </span>
     </ng-container>)
   </span>
   <ng-template #noData>

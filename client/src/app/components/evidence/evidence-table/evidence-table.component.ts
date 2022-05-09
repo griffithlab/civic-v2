@@ -2,8 +2,8 @@ import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef,
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo'
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, interval, Observable, Subject, partition, iif, of } from 'rxjs'
-import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share, startWith, mergeMap, count, filter, scan } from 'rxjs/operators'
+import { BehaviorSubject, interval, Observable, Subject, combineLatest, iif, of, defer } from 'rxjs'
+import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share, startWith, mergeMap, count, filter, scan, switchMap, tap } from 'rxjs/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { FormEvidence } from '@app/forms/forms.interfaces'
 import { $D } from 'rxjs-debug'
@@ -29,10 +29,11 @@ export interface EvidenceTableUserFilters {
 }
 
 export interface RowsInfo {
-  loadedPageCount: number
-  initialRows: number
-  totalRows: number
-  filteredRows?: number
+  pagesLoaded: number
+  initialPageSize: number
+  fetchCount: number
+  totalCount: number
+  filteredCount?: number
 }
 
 @UntilDestroy()
@@ -81,23 +82,23 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   scrollEvent$: BehaviorSubject<ScrollEvent>
   scrolledToBottom$: Subject<Event>
   filterUpdate$: Subject<any>
-  loadedPage$: BehaviorSubject<number>
 
   // INTERMEDIATE STREAMS
   result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
   pageInfo$!: Observable<PageInfo>
   // rowsInfo$!: Observable<RowsInfo>
   rowsInfo$!: Observable<any> // TODO: replace with RowsInfo when constructing obsverable
-  loadedPageCount$: Observable<number>
+  pageLoaded$!: BehaviorSubject<number>
+  pagesLoaded$!: Observable<number>
 
   // PRESENTATION STREAMS
   isLoading$!: Observable<boolean>
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
 
-  totalRow$!: Observable<number>
+  totalCount$!: Observable<number>
   visibleRow$!: Observable<number>
-  filteredRow$!: Observable<number>
+  filteredRow$!: Observable<Maybe<number>>
 
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
@@ -105,14 +106,14 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
 
-  totalRows?: number
-  fetchMorePageSize = 25
+  totalCount?: number
+  fetchCount = 25
   isLoadingDelay = 300
   visibleRow: number = this.initialPageSize;
 
   noMoreRows$: BehaviorSubject<boolean>;
 
-  loadedPages: number = 1
+  pageLoadeds: number = 1
 
   tableView: boolean = true
 
@@ -143,9 +144,13 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.scrolledToBottom$ = new Subject<Event>()
-    this.loadedPage$ = new BehaviorSubject<number>(0) // TODO: number -> cursor
-    this.loadedPageCount$ = this.loadedPage$.pipe(scan((total, n) => total + n))
     this.filterUpdate$ = new Subject<Event>()
+    this.filteredRow$ = new Observable<Maybe<number>>()
+
+    this.pageLoaded$ = new BehaviorSubject<number>(0) // TODO: number -> cursor
+    this.pagesLoaded$ = this.pageLoaded$
+      .pipe(scan((total, n) => total + n),
+        distinctUntilChanged());
   }
 
   ngOnInit() {
@@ -179,6 +184,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         fetchPolicy: 'network-only'
       });
 
+
     this.initialSelectedEids
       .forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
@@ -190,13 +196,18 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         filter(isNonNulled),
         map(edges => edges.map((e) => e.node)));
 
-    this.totalRow$ = this.result$
+    this.totalCount$ = this.result$
       .pipe(pluck('data', 'evidenceItems', 'totalCount'),
         filter(isNonNulled),
-        startWith(0));
+        distinctUntilChanged());
+
+    // evidence-table needs to compute its filteredRows, so setting it to undefined
+    // for browse table queries that return filteredCount (unlike this one),
+    // copy the totalCount$ observable above, then substitute totalCount -> filteredCount
+    this.filteredRow$ = of(undefined)
 
     // emit initialTotalCount
-    this.totalRow$
+    this.totalCount$
       .pipe(first())
       .subscribe(tc => this.initialTotalCount.next(tc))
 
@@ -204,50 +215,76 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       .pipe(pluck('data', 'evidenceItems', 'pageInfo'),
         filter(isNonNulled));
 
-    this.rowsInfo$ = this.loadedPageCount$
-      .pipe(
-        withLatestFrom(of(this.initialPageSize)),
-        withLatestFrom(of(this.fetchMorePageSize)),
-        withLatestFrom(this.totalRow$),
-        map(arr => arr.flat(Infinity)),
-        map(([pagesLoaded, initialRows, fetchRows, totalRows]) => {
-          return {
-            pagesLoaded: pagesLoaded,
-            intialRows: initialRows,
-            fetchRows: fetchRows,
-            totalRows: totalRows,
-          }
-        }));
+    this.pageInfo$
+      .pipe(pluck('endCursor'),
+        distinctUntilChanged(),
+        untilDestroyed(this))
+      .subscribe(() => {
+        console.log('pageInfo$: pageLoaded$.next() called.')
+        this.pageLoaded$.next(1)
+      });
 
-    this.rowsInfo$.subscribe((c) => {
-      console.log('---------- rowsInfo$:')
-      console.log(c)
-    })
-    // this.filteredRow$ = this.totalRow$
-    //   .pipe(withLatestFrom(this.loadedPage$),
-    //     mergeMap(([tc, fc]) => iif(() => tc < this.initialPageSize, initialPageSize$,)))
-    //       ([tc, fc]: number[]) => { return tc < this.initialPageSize },
-    //       of(([tc, fc]: number[]) => { return this.initialPageSize }),
-    //       of(([tc, fc]: number[]) => { return this.initialPageSize }))
+    // testing pagesLoaded$
+    // this.pagesLoaded$
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe((pl) => { console.log(`pagesLoaded$: ${pl}`) })
 
-    // map(([tc,fc]) => { return tc }));
+    const getFilteredRows = (ri: RowsInfo): RowsInfo => {
+      if (ri.totalCount < ri.initialPageSize) {
+        ri.filteredCount = ri.totalCount;
+      } else {
+        ri.filteredCount = ri.initialPageSize + ri.fetchCount * (ri.pagesLoaded - 1)
+        if (ri.filteredCount > ri.totalCount) {
+          ri.filteredCount = ri.totalCount
+        }
+      }
+      return ri;
+    }
+
+    this.rowsInfo$ = $D(
+      combineLatest(
+        this.pagesLoaded$,
+        of(this.initialPageSize),
+        of(this.fetchCount),
+        this.totalCount$,
+        this.filteredRow$)
+        .pipe(
+          map(([pagesLoaded, initialPageSize, fetchCount, totalCount, filteredCount]: any[]): RowsInfo => {
+            return {
+              pagesLoaded: pagesLoaded,
+              initialPageSize: initialPageSize,
+              fetchCount: fetchCount,
+              totalCount: totalCount,
+              filteredCount: filteredCount
+            }
+          }),
+          // if filteredCount provided by GQL response, attach it,
+          // otherwise calculate it
+          switchMap((ri: RowsInfo): Observable<any> => {
+            return iif(
+              () => ri.filteredCount !== undefined, // filteredCount provided ?
+              defer(() => of(ri.filteredCount)), // if true, return provided value
+              defer(() => of(getFilteredRows(ri))), // if false, calculated from RowsInfo
+            )
+          }))
+      , { id: 'rowsInfo$' });
 
     let observable = this.queryRef.valueChanges
 
-    this.filteredRow$ = observable.pipe(pluck('data', 'evidenceItems', 'totalRows: '));
+    // this.filteredRow$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount: '));
 
-    this.filteredRow$
-      .pipe(untilDestroyed(this))
-      .subscribe(value => {
-        if (value < this.initialPageSize) {
-          this.visibleRow = value
-        } else {
-          this.visibleRow = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
-          if (this.visibleRow > value) {
-            this.visibleRow = value
-          }
-        }
-      });
+    // this.filteredRow$
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe(value => {
+    //     if (value < this.initialpagesize) {
+    //       this.visiblerow = value
+    //     } else {
+    //       this.visiblerow = this.initialpagesize + this.fetchmorepagesize * (this.loadedpages - 1)
+    //       if (this.visiblerow > value) {
+    //         this.visiblerow = value
+    //       }
+    //     }
+    //   });
 
     this.debouncedQuery
       .pipe(
@@ -261,15 +298,13 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     // for every onScrolled event, convert to bool, share multicast
     this.isScrolling$ = this.scrollEvent$
-      .pipe(
-        map((e: ScrollEvent) => e === 'stop' ? true : false), // false on 'scroll', true on 'stop'
+      .pipe(map((e: ScrollEvent) => e === 'stop' ? true : false), // false on 'scroll', true on 'stop'
         distinctUntilChanged(),
         share());
 
     // load next page if not the final page of results
     this.scrolledToBottom$
-      .pipe(
-        withLatestFrom(this.pageInfo$),
+      .pipe(withLatestFrom(this.pageInfo$),
         map(([_, pageInfo]: [Event, PageInfo]) => pageInfo),
         untilDestroyed(this))
       .subscribe((pageInfo: PageInfo) => {
@@ -277,12 +312,9 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
           this.queryRef
             .fetchMore({
               variables: {
-                first: this.fetchMorePageSize,
+                first: this.fetchCount,
                 after: pageInfo.endCursor
               },
-            })
-            .then((_) => {
-              this.loadedPage$.next(1)
             });
           this.cdr.detectChanges();
         } else {
@@ -315,7 +347,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.loadedPages = 1
+    this.pageLoadeds = 1
     this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
 
@@ -329,7 +361,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.loadedPages = 1;
+    this.pageLoadeds = 1;
     var eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
@@ -361,12 +393,12 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   loadMore(afterCursor: Maybe<string>): void {
     this.queryRef.fetchMore({
       variables: {
-        first: this.fetchMorePageSize,
+        first: this.fetchCount,
         after: afterCursor
       },
     });
 
-    this.loadedPages += 1
+    this.pageLoadeds += 1
   }
 
   // virtual scroll helpers
