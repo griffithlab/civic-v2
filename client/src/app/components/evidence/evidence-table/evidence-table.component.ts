@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core'
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo'
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo'
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, interval, Observable, Subject, combineLatest, iif, of, defer } from 'rxjs'
+import { BehaviorSubject, interval, Observable, Subject, iif, of, defer, combineLatest } from 'rxjs'
 import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share, startWith, mergeMap, count, filter, scan, switchMap, tap } from 'rxjs/operators'
 import { isNonNulled } from 'rxjs-etc'
 import { FormEvidence } from '@app/forms/forms.interfaces'
@@ -28,12 +28,11 @@ export interface EvidenceTableUserFilters {
   geneSymbolInput: Maybe<string>
 }
 
-export interface RowsInfo {
-  pagesLoaded: number
-  initialPageSize: number
-  fetchCount: number
+export interface CountInfo {
+  initialTotalCount: Maybe<number>
+  visibleCount: number
   totalCount: number
-  filteredCount?: number
+  filteredCount: number
 }
 
 @UntilDestroy()
@@ -71,12 +70,16 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     return this._initialUserFilters
   }
 
-  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
-  selectedEvidenceIds = new Map<number, FormEvidence>();
+  @Output() totalCountChanges = new EventEmitter<number>()
+  _totalCount!: number;
+  initialTotalCount!: number; // for calculating filtered counts
+  set totalCount(tc: number) {
+    this.totalCountChanges.next(tc)
+    this._totalCount = tc
+  }
+  get totalCount(): number { return this._totalCount }
 
-  @Output() initialTotalCount = new EventEmitter<number>()
-  private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
-  private debouncedQuery = new Subject<void>();
+  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -85,9 +88,10 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   // INTERMEDIATE STREAMS
   result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
+  connection$!: Observable<EvidenceItemConnection>
   pageInfo$!: Observable<PageInfo>
   // rowsInfo$!: Observable<RowsInfo>
-  rowsInfo$!: Observable<any> // TODO: replace with RowsInfo when constructing obsverable
+  countInfo$!: Observable<CountInfo>
   pageLoaded$!: BehaviorSubject<number>
   pagesLoaded$!: Observable<number>
 
@@ -97,8 +101,16 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   isScrolling$!: Observable<boolean>
 
   totalCount$!: Observable<number>
-  visibleRow$!: Observable<number>
-  filteredRow$!: Observable<Maybe<number>>
+  initialTotalCount$!: Observable<number>
+  visibleCount$!: Observable<number>
+  filteredCount$!: Observable<Maybe<number>>
+
+  selectedEvidenceIds = new Map<number, FormEvidence>();
+
+  private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
+  private debouncedQuery = new Subject<void>()
+
+  connectionKey = 'evidenceItems' // will be passed to table-counts directive
 
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
@@ -106,7 +118,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
 
-  totalCount?: number
   fetchCount = 25
   isLoadingDelay = 300
   visibleRow: number = this.initialPageSize;
@@ -145,7 +156,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.scrolledToBottom$ = new Subject<Event>()
     this.filterUpdate$ = new Subject<Event>()
-    this.filteredRow$ = new Observable<Maybe<number>>()
 
     this.pageLoaded$ = new BehaviorSubject<number>(0) // TODO: number -> cursor
     this.pagesLoaded$ = this.pageLoaded$
@@ -184,107 +194,74 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         fetchPolicy: 'network-only'
       });
 
-
     this.initialSelectedEids
       .forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
     this.result$ = this.queryRef.valueChanges.pipe(share())
     this.isLoading$ = this.result$.pipe(pluck('loading'))
 
-    this.row$ = this.result$
-      .pipe(pluck('data', 'evidenceItems', 'edges'),
+    this.connection$ = this.result$
+      .pipe(pluck('data', this.connectionKey),
+        filter(isNonNulled)) as Observable<EvidenceItemConnection>
+
+    this.row$ = this.connection$
+      .pipe(pluck('edges'),
         filter(isNonNulled),
         map(edges => edges.map((e) => e.node)));
 
-    this.totalCount$ = this.result$
-      .pipe(pluck('data', 'evidenceItems', 'totalCount'),
-        filter(isNonNulled),
-        distinctUntilChanged());
+    this.totalCount$ = this.connection$
+      .pipe(pluck('totalCount'),
+        filter(isNonNulled))
 
-    // evidence-table needs to compute its filteredRows, so setting it to undefined
-    // for browse table queries that return filteredCount (unlike this one),
-    // copy the totalCount$ observable above, then substitute totalCount -> filteredCount
-    this.filteredRow$ = of(undefined)
-
-    // emit initialTotalCount
+    // update total count to emit counts
     this.totalCount$
+      .pipe(untilDestroyed(this))
+      .subscribe((tc: number) => this.totalCount = tc)
+
+    this.initialTotalCount$ = this.totalCount$.pipe(first())
+
+    this.visibleCount$ = this.row$.pipe(map(rows => rows.length))
+
+    // set initialTotalCount if filteredCount not provided
+    this.connection$
       .pipe(first())
-      .subscribe(tc => this.initialTotalCount.next(tc))
+      .subscribe((c: any) => {
+        if (!!c.filteredCount) this.initialTotalCount = c.totalCount
+      })
 
-    this.pageInfo$ = this.result$
-      .pipe(pluck('data', 'evidenceItems', 'pageInfo'),
-        filter(isNonNulled));
+    this.filteredCount$ = this.connection$
+      .pipe(pluck('filteredCount'))
 
-    this.pageInfo$
-      .pipe(pluck('endCursor'),
+    this.countInfo$ = combineLatest(
+        this.initialTotalCount$,
+        this.totalCount$,
+        this.visibleCount$,
+        this.filteredCount$)
+        .pipe(
+          map(([itc, tc, vc, fc]) => {
+            // If initial total count exists, and it's greater than
+            // the returned total count, set total count to initial total count.
+            // If no filteredCount, set filtered count to total count
+            return {
+              initialTotalCount: itc,
+              totalCount: (itc && tc < itc) ? itc : tc,
+              visibleCount: vc,
+              filteredCount: fc ? fc : tc
+            }
+          }))
+
+    // emit pageLoaded$ event on new result response
+    this.connection$
+      .pipe(pluck('pageInfo', 'endCursor'),
         distinctUntilChanged(),
         untilDestroyed(this))
       .subscribe(() => {
-        console.log('pageInfo$: pageLoaded$.next() called.')
         this.pageLoaded$.next(1)
       });
 
-    // testing pagesLoaded$
-    // this.pagesLoaded$
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe((pl) => { console.log(`pagesLoaded$: ${pl}`) })
-
-    const getFilteredRows = (ri: RowsInfo): RowsInfo => {
-      if (ri.totalCount < ri.initialPageSize) {
-        ri.filteredCount = ri.totalCount;
-      } else {
-        ri.filteredCount = ri.initialPageSize + ri.fetchCount * (ri.pagesLoaded - 1)
-        if (ri.filteredCount > ri.totalCount) {
-          ri.filteredCount = ri.totalCount
-        }
-      }
-      return ri;
-    }
-
-    this.rowsInfo$ = $D(
-      combineLatest(
-        this.pagesLoaded$,
-        of(this.initialPageSize),
-        of(this.fetchCount),
-        this.totalCount$,
-        this.filteredRow$)
-        .pipe(
-          map(([pagesLoaded, initialPageSize, fetchCount, totalCount, filteredCount]: any[]): RowsInfo => {
-            return {
-              pagesLoaded: pagesLoaded,
-              initialPageSize: initialPageSize,
-              fetchCount: fetchCount,
-              totalCount: totalCount,
-              filteredCount: filteredCount
-            }
-          }),
-          // if filteredCount provided by GQL response, attach it,
-          // otherwise calculate it
-          switchMap((ri: RowsInfo): Observable<any> => {
-            return iif(
-              () => ri.filteredCount !== undefined, // filteredCount provided ?
-              defer(() => of(ri.filteredCount)), // if true, return provided value
-              defer(() => of(getFilteredRows(ri))), // if false, calculated from RowsInfo
-            )
-          }))
-      , { id: 'rowsInfo$' });
-
-    let observable = this.queryRef.valueChanges
-
-    // this.filteredRow$ = observable.pipe(pluck('data', 'evidenceItems', 'totalCount: '));
-
-    // this.filteredRow$
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe(value => {
-    //     if (value < this.initialpagesize) {
-    //       this.visiblerow = value
-    //     } else {
-    //       this.visiblerow = this.initialpagesize + this.fetchmorepagesize * (this.loadedpages - 1)
-    //       if (this.visiblerow > value) {
-    //         this.visiblerow = value
-    //       }
-    //     }
-    //   });
+    this.pageInfo$ = this.connection$
+      .pipe(pluck('pageInfo'),
+        filter(isNonNulled));
 
     this.debouncedQuery
       .pipe(

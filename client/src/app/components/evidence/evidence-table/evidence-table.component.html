@@ -485,22 +485,16 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(rowsInfo$ | ngrxPush) as resultInfo; else noData"
-    nz-typography
-    nzType="secondary">
-    ({{ totalCount$ | ngrxPush | number }} total, showing {{ visibleRow$ | ngrxPush | number }}
-    <ng-container *ngIf="(filteredRow$ | ngrxPush) as filteredRows">
-      <span *ngIf="filteredRows > 0">
-      of {{ filteredRows | number }} filtered
-      </span>
-    </ng-container>)
-  </span>
-  <ng-template #noData>
-    <span nz-typography
+  <ng-container *ngIf="countInfo$ | ngrxPush as c">
+    <span
+      nz-typography
       nzType="secondary">
-      (0 total)
-    </span>
-  </ng-template>
+       {{ c.totalCount | number }} total, showing {{ c.visibleCount | number }}
+       <ng-container *ngIf="c.filteredCount < c.totalCount">
+       of {{ c.filteredCount | number }} filtered
+       </ng-container>
+       </span>
+  </ng-container>
 </ng-template>
 
 <!-- card's extra template -->
