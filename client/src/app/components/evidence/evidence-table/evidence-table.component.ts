@@ -7,9 +7,9 @@ import { FormEvidence } from '@app/forms/forms.interfaces'
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, interval, Observable, of, Subject } from 'rxjs'
+import { BehaviorSubject, combineLatest, interval, Observable, of, Subject } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, takeUntil, withLatestFrom } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, shareReplay, takeUntil, withLatestFrom } from 'rxjs/operators'
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -31,6 +31,12 @@ export interface CountInfo {
   visibleCount: number
   totalCount: number
   filteredCount: number
+}
+
+export interface TableInfo {
+  isLoading: boolean
+  tableConnection: Observable<TableCountsConnection>
+  noMoreRows: boolean
 }
 
 @UntilDestroy()
@@ -95,21 +101,15 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   tableConnection$!: Observable<TableCountsConnection>
   fetchVar$!: Observable<FetchVars>
   selectedEvidenceIds = new Map<number, FormEvidence>();
-
+  noMoreRows$: BehaviorSubject<boolean>
+  tableInfo$: any
   queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>()
-
-  // implementing isLoading as var so both watch() and fetchMore() can update loading state.
-  // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
-  // isLoading = true;
 
   evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
 
   fetchCount = 25
   isLoadingDelay = 300
-  visibleRow: number = this.initialPageSize;
-
-  noMoreRows$: BehaviorSubject<boolean>;
 
   pageLoadeds: number = 1
 
@@ -184,7 +184,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'evidenceItems'),
-        filter(isNonNulled)) as Observable<EvidenceItemConnection>
+        filter(isNonNulled),
+      ) as Observable<EvidenceItemConnection>
 
     this.row$ = this.connection$
       .pipe(pluck('edges'),
@@ -200,6 +201,18 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
             filteredCount: undefined,
           }
         }))
+
+    this.tableInfo$ = combineLatest(
+      this.isLoading$,
+      this.tableConnection$,
+      this.noMoreRows$
+    ).pipe(map(([isLoading, tableConnection, noMoreRows]) => {
+      return {
+        isLoading: isLoading,
+        tableConnection: tableConnection,
+        noMoreRows: noMoreRows
+      }
+    }));
 
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
@@ -267,7 +280,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   onModelChanged() { this.debouncedQuery.next(); }
 
   onSortChanged(e: SortDirectionEvent) {
-    this.pageLoadeds = 1
     this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
   }
 
@@ -281,7 +293,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.pageLoadeds = 1;
     var eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
@@ -308,17 +319,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       variantName: this.variantNameInput ? this.variantNameInput : undefined,
       cardView: !this.tableView
     });
-  }
-
-  loadMore(afterCursor: Maybe<string>): void {
-    this.queryRef.fetchMore({
-      variables: {
-        first: this.fetchCount,
-        after: afterCursor
-      },
-    });
-
-    this.pageLoadeds += 1
   }
 
   // virtual scroll helpers
