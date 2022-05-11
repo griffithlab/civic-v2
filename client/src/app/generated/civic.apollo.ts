@@ -618,6 +618,7 @@ export type BrowseSource = {
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
 };
@@ -3521,6 +3522,7 @@ export enum SourcesSortColumns {
   Journal = 'JOURNAL',
   Name = 'NAME',
   SourceType = 'SOURCE_TYPE',
+  SuggestionCount = 'SUGGESTION_COUNT',
   Year = 'YEAR'
 }
 
@@ -5963,7 +5965,7 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'sourceSuggestionCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
 );
 
 export type UserPopoverQueryVariables = Exact<{
@@ -9077,6 +9079,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   authors
   citationId
   evidenceItemCount
+  sourceSuggestionCount
   journal
   name
   publicationYear

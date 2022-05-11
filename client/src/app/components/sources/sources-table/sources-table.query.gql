@@ -49,6 +49,7 @@ fragment BrowseSourceRowFields on BrowseSource {
   authors
   citationId
   evidenceItemCount
+  sourceSuggestionCount
   journal
   name
   publicationYear
