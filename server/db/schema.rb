@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_05_150407) do
+ActiveRecord::Schema.define(version: 2022_05_11_200531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1043,7 +1043,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_150407) do
       count(DISTINCT source_suggestions.id) AS source_suggestion_count
      FROM ((((sources
        LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
-       JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
        LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
        LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
     WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((source_suggestions.status = 'new'::text) OR (source_suggestions.status IS NULL)))

@@ -1,7 +1,7 @@
 class RefreshMaterializedViews < ApplicationJob
 
   def perform(kwargs)
-    views = kwargs['views']
+    views = kwargs.with_indifferent_access['views']
     to_refresh = if views == 'all'
                    [
                      DiseaseBrowseTableRow,
