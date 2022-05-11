@@ -30,6 +30,8 @@
     [cvcAutoHeightTable]="25"
     cvcTableScroll
     (cvcTableScrollOnScroll)="onScroll($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollFetchVars]="fetchVar$ | ngrxPush"
     [nzVirtualItemSize]="29"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzData]="row$ | ngrxPush"

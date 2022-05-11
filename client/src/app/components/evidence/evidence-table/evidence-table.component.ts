@@ -1,18 +1,15 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core'
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo'
-import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
-import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, interval, Observable, Subject, iif, of, defer, combineLatest } from 'rxjs'
-import { pluck, map, debounceTime, take, takeUntil, withLatestFrom, first, distinctUntilChanged, share, startWith, mergeMap, count, filter, scan, switchMap, tap } from 'rxjs/operators'
-import { isNonNulled } from 'rxjs-etc'
-import { FormEvidence } from '@app/forms/forms.interfaces'
-import { $D } from 'rxjs-debug'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
-import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { TableCountsConnection } from '@app/components/shared/table-counts/table-counts.component'
-
-// TODO: switch to using 'rows' instead of 'counts'
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
+import { FetchVars, ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { FormEvidence } from '@app/forms/forms.interfaces'
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { QueryRef } from 'apollo-angular'
+import { BehaviorSubject, interval, Observable, of, Subject } from 'rxjs'
+import { isNonNulled } from 'rxjs-etc'
+import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, takeUntil, withLatestFrom } from 'rxjs/operators'
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -96,10 +93,10 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
   tableConnection$!: Observable<TableCountsConnection>
-
+  fetchVar$!: Observable<FetchVars>
   selectedEvidenceIds = new Map<number, FormEvidence>();
 
-  private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
+  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>()
 
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
@@ -196,17 +193,27 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.tableConnection$ = this.connection$
       .pipe(withLatestFrom(this.row$),
-            map(([{ totalCount }, nodes]): TableCountsConnection => {
-        return {
-          totalCount: totalCount,
-          nodeCount: nodes.length,
-          filteredCount: undefined,
-        }
-      }))
+        map(([{ totalCount }, nodes]): TableCountsConnection => {
+          return {
+            totalCount: totalCount,
+            nodeCount: nodes.length,
+            filteredCount: undefined,
+          }
+        }))
 
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
         filter(isNonNulled));
+
+    this.fetchVar$ = this.pageInfo$
+      .pipe(withLatestFrom(of(this.fetchCount)),
+        map(([pageInfo, fetchCount]) => {
+          return {
+            fetchCount: fetchCount,
+            pageInfo: pageInfo
+          }
+        }));
+
 
     this.debouncedQuery
       .pipe(
@@ -224,7 +231,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         share());
 
-    // load next page if not the final page of results
+    // show 'no more rows' msg when scroll viewport hits bottom
+    // and no more pages remain in the result set
     this.scrolledToBottom$
       .pipe(withLatestFrom(this.pageInfo$),
         map(([_, pageInfo]: [Event, PageInfo]) => pageInfo),
@@ -243,7 +251,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
           }
         }
       });
-
   }
 
   onScroll(e: ScrollEvent) {

@@ -23,7 +23,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
   set targetHeight(h: number) { if (h) this._targetHeight = h }
   get targetHeight(): number { return this._targetHeight }
 
-  @Input() cvcTableScrollQueryRef: Maybe<QueryRef<any>>
+  @Input() cvcTableScrollQueryRef: Maybe<QueryRef<any, any>>
   @Input() cvcTableScrollFetchVars: Maybe<FetchVars>
 
   // call viewport scrollToIndex with provided index value
@@ -118,8 +118,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
 
   loadMore(fv: Maybe<FetchVars>) {
     const [queryRef, fetchCount, hasNextPage, endCursor]
-      =
-      [this.cvcTableScrollQueryRef, fv?.fetchCount, fv?.pageInfo.hasNextPage, fv?.pageInfo.endCursor]
+      = [this.cvcTableScrollQueryRef, fv?.fetchCount, fv?.pageInfo.hasNextPage, fv?.pageInfo.endCursor]
 
     if (!fv && queryRef)
       throw new Error(`table-scroll directive requires FetchVars to fetchMore with provided QueryRef.`)
