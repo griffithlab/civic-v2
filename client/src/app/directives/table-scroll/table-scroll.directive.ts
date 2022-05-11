@@ -3,9 +3,14 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 import { debounceTime, filter, first, map, pairwise, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { asyncScheduler, Observable, Subject } from 'rxjs';
+import { QueryRef } from 'apollo-angular';
+import { Maybe, PageInfo } from '@app/generated/civic.apollo';
 
 export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
-
+export type FetchVars = {
+  fetchCount: number
+  pageInfo: PageInfo
+}
 @Directive({
   selector: '[cvcTableScroll]'
 })
@@ -17,6 +22,9 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
   @Input() cvcTableScrollTargetHeight?: number
   set targetHeight(h: number) { if (h) this._targetHeight = h }
   get targetHeight(): number { return this._targetHeight }
+
+  @Input() cvcTableScrollQueryRef: Maybe<QueryRef<any>>
+  @Input() cvcTableScrollFetchVars: Maybe<FetchVars>
 
   // call viewport scrollToIndex with provided index value
   private _scrollIndex: number = 0
@@ -68,8 +76,8 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
     // This fix calls viewport's check size function once, after initial rows have been rendered,
     // causing the viewport to resize to fit the its new container dimensions.
     this.rendered$
-      .pipe(first())
-      .subscribe((_) => { this.viewport!.checkViewportSize() });
+      .pipe()
+      .subscribe(() => this.viewport!.checkViewportSize());
 
     // emit 'scroll' event when scroll starts, 'stop' scrollStopDebounce ms after last event
     this.scrolled$
@@ -102,12 +110,38 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
         takeUntil(this.destroy$))
-      .subscribe((_) => { this.cvcTableScrollOnScroll.next('bottom') });
+      .subscribe((_) => {
+        this.cvcTableScrollOnScroll.next('bottom')
+        this.loadMore(this.cvcTableScrollFetchVars)
+      });
+  }
+
+  loadMore(fv: Maybe<FetchVars>) {
+    const [queryRef, fetchCount, hasNextPage, endCursor]
+      =
+      [this.cvcTableScrollQueryRef, fv?.fetchCount, fv?.pageInfo.hasNextPage, fv?.pageInfo.endCursor]
+
+    if (!fv && queryRef)
+      throw new Error(`table-scroll directive requires FetchVars to fetchMore with provided QueryRef.`)
+    if (fv && !queryRef)
+      throw new Error(`table-scroll directive requires valid QueryRef when FetchVars provided.`)
+    if (fv && queryRef) {
+      if (hasNextPage) {
+        queryRef
+          .fetchMore({
+            variables: {
+              first: fetchCount,
+              after: endCursor
+            },
+          });
+      }
+    }
   }
 
   scrollToIndex(index: number): void {
-    if (this.host && this.host.cdkVirtualScrollViewport) {
-      this.host.cdkVirtualScrollViewport.scrollToIndex(index);
+    const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
+    if (host && viewport) {
+      viewport.scrollToIndex(index);
     }
   }
 

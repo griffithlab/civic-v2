@@ -41,11 +41,12 @@ export class TableCountsComponent implements OnInit {
     // set total count to initial total count.
     // If no filtered count, set filtered count to current total count
     const itc = this.initialTotalCount
-    return {
+    const counts = {
       totalCount: (itc && tc < itc) ? itc : tc,
       nodeCount: nc,
       filteredCount: fc ? fc : tc
     }
+    return counts
   }
 
   ngOnInit(): void {
