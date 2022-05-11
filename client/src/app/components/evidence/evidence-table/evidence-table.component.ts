@@ -73,7 +73,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   @Output() totalCountChanges = new EventEmitter<number>()
   _totalCount!: number;
-  initialTotalCount!: number; // for calculating filtered counts
   set totalCount(tc: number) {
     this.totalCountChanges.next(tc)
     this._totalCount = tc
@@ -91,22 +90,12 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
   connection$!: Observable<EvidenceItemConnection>
   pageInfo$!: Observable<PageInfo>
-  // rowsInfo$!: Observable<RowsInfo>
-  countInfo$!: Observable<CountInfo>
-  pageLoaded$!: BehaviorSubject<number>
-  pagesLoaded$!: Observable<number>
 
   // PRESENTATION STREAMS
   isLoading$!: Observable<boolean>
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
-
   tableConnection$!: Observable<TableCountsConnection>
-
-  totalCount$!: Observable<number>
-  initialTotalCount$!: Observable<number>
-  visibleCount$!: Observable<number>
-  filteredCount$!: Observable<Maybe<number>>
 
   selectedEvidenceIds = new Map<number, FormEvidence>();
 
@@ -157,11 +146,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.scrolledToBottom$ = new Subject<Event>()
     this.filterUpdate$ = new Subject<Event>()
-
-    this.pageLoaded$ = new BehaviorSubject<number>(0) // TODO: number -> cursor
-    this.pagesLoaded$ = this.pageLoaded$
-      .pipe(scan((total, n) => total + n),
-        distinctUntilChanged());
   }
 
   ngOnInit() {
@@ -210,19 +194,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         filter(isNonNulled),
         map(edges => edges.map((e) => e.node)));
 
-    this.totalCount$ = this.connection$
-      .pipe(pluck('totalCount'),
-        filter(isNonNulled))
-
-    // update total count to emit counts
-    this.totalCount$
-      .pipe(untilDestroyed(this))
-      .subscribe((tc: number) => this.totalCount = tc)
-
-    this.initialTotalCount$ = this.totalCount$.pipe(first())
-
-    this.visibleCount$ = this.row$.pipe(map(rows => rows.length))
-
     this.tableConnection$ = this.connection$
       .pipe(withLatestFrom(this.row$),
             map(([{ totalCount }, nodes]): TableCountsConnection => {
@@ -232,36 +203,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
           filteredCount: undefined,
         }
       }))
-
-    this.filteredCount$ = this.connection$
-      .pipe(pluck('filteredCount'))
-
-    this.countInfo$ = combineLatest(
-      this.initialTotalCount$,
-      this.totalCount$,
-      this.visibleCount$,
-      this.filteredCount$)
-      .pipe(
-        map(([itc, tc, vc, fc]) => {
-          // If initial total count exists, and it's greater than
-          // the returned total count, set total count to initial total count.
-          // If no filteredCount, set filtered count to total count
-          return {
-            initialTotalCount: itc,
-            totalCount: (itc && tc < itc) ? itc : tc,
-            visibleCount: vc,
-            filteredCount: fc ? fc : tc
-          }
-        }))
-
-    // emit pageLoaded$ event on new result response
-    this.connection$
-      .pipe(pluck('pageInfo', 'endCursor'),
-        distinctUntilChanged(),
-        untilDestroyed(this))
-      .subscribe(() => {
-        this.pageLoaded$.next(1)
-      });
 
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
@@ -289,16 +230,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         map(([_, pageInfo]: [Event, PageInfo]) => pageInfo),
         untilDestroyed(this))
       .subscribe((pageInfo: PageInfo) => {
-        if (pageInfo.hasNextPage) {
-          this.queryRef
-            .fetchMore({
-              variables: {
-                first: this.fetchCount,
-                after: pageInfo.endCursor
-              },
-            });
-          this.cdr.detectChanges();
-        } else {
+        if (!pageInfo.hasNextPage) {
           // show 'end of results' msg, hide after an interval
           if (this.noMoreRows$.getValue() === false) {
             this.noMoreRows$.next(true);
