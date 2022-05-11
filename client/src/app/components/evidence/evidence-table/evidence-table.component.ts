@@ -10,6 +10,7 @@ import { $D } from 'rxjs-debug'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { ApolloQueryResult } from '@apollo/client/core'
+import { TableCountsConnection } from '@app/components/shared/table-counts/table-counts.component'
 
 // TODO: switch to using 'rows' instead of 'counts'
 
@@ -100,6 +101,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
 
+  tableConnection$!: Observable<TableCountsConnection>
+
   totalCount$!: Observable<number>
   initialTotalCount$!: Observable<number>
   visibleCount$!: Observable<number>
@@ -109,8 +112,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
   private queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>()
-
-  connectionKey = 'evidenceItems' // will be passed to table-counts directive
 
   // implementing isLoading as var so both watch() and fetchMore() can update loading state.
   // TODO: update to apollo-angular v3 - eliminates the need to manually manage loading state
@@ -201,7 +202,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.result$.pipe(pluck('loading'))
 
     this.connection$ = this.result$
-      .pipe(pluck('data', this.connectionKey),
+      .pipe(pluck('data', 'evidenceItems'),
         filter(isNonNulled)) as Observable<EvidenceItemConnection>
 
     this.row$ = this.connection$
@@ -222,33 +223,36 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
 
     this.visibleCount$ = this.row$.pipe(map(rows => rows.length))
 
-    // set initialTotalCount if filteredCount not provided
-    this.connection$
-      .pipe(first())
-      .subscribe((c: any) => {
-        if (!!c.filteredCount) this.initialTotalCount = c.totalCount
-      })
+    this.tableConnection$ = this.connection$
+      .pipe(withLatestFrom(this.row$),
+            map(([{ totalCount }, nodes]): TableCountsConnection => {
+        return {
+          totalCount: totalCount,
+          nodeCount: nodes.length,
+          filteredCount: undefined,
+        }
+      }))
 
     this.filteredCount$ = this.connection$
       .pipe(pluck('filteredCount'))
 
     this.countInfo$ = combineLatest(
-        this.initialTotalCount$,
-        this.totalCount$,
-        this.visibleCount$,
-        this.filteredCount$)
-        .pipe(
-          map(([itc, tc, vc, fc]) => {
-            // If initial total count exists, and it's greater than
-            // the returned total count, set total count to initial total count.
-            // If no filteredCount, set filtered count to total count
-            return {
-              initialTotalCount: itc,
-              totalCount: (itc && tc < itc) ? itc : tc,
-              visibleCount: vc,
-              filteredCount: fc ? fc : tc
-            }
-          }))
+      this.initialTotalCount$,
+      this.totalCount$,
+      this.visibleCount$,
+      this.filteredCount$)
+      .pipe(
+        map(([itc, tc, vc, fc]) => {
+          // If initial total count exists, and it's greater than
+          // the returned total count, set total count to initial total count.
+          // If no filteredCount, set filtered count to total count
+          return {
+            initialTotalCount: itc,
+            totalCount: (itc && tc < itc) ? itc : tc,
+            visibleCount: vc,
+            filteredCount: fc ? fc : tc
+          }
+        }))
 
     // emit pageLoaded$ event on new result response
     this.connection$

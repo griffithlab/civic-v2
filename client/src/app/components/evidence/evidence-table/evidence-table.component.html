@@ -485,16 +485,10 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <ng-container *ngIf="countInfo$ | ngrxPush as c">
-    <span
-      nz-typography
-      nzType="secondary">
-       {{ c.totalCount | number }} total, showing {{ c.visibleCount | number }}
-       <ng-container *ngIf="c.filteredCount < c.totalCount">
-       of {{ c.filteredCount | number }} filtered
-       </ng-container>
-       </span>
-  </ng-container>
+
+  <span class="table-counts">
+    <cvc-table-counts [cvcConnection]="(tableConnection$ | ngrxPush)"></cvc-table-counts>
+  </span>
 </ng-template>
 
 <!-- card's extra template -->

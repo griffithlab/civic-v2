@@ -2,16 +2,6 @@
   display: block;
 }
 
-// selectors for debugging table cdk-scroll sizing issues,
-// TODO: remove after dev on these components has stabilized
-::ng-deep .cdk-virtual-scroll-viewport {
-//  border: 1px solid red;
-}
-
-::ng-deep .cdk-virtual-scroll-content-wrapper {
-// border: 1px solid blue;
-}
-
 nz-card:first-of-type ::ng-deep {
   .ant-card-body {
     // remove card body padding
@@ -19,6 +9,10 @@ nz-card:first-of-type ::ng-deep {
     // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
     margin-top: 1px;
   }
+}
+
+.table-counts {
+  margin-left: 1rem;
 }
 
 tr.col-header-row th.ant-table-cell {
