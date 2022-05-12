@@ -1,53 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
-import {
-  buildSortParams,
-  SortDirectionEvent,
-} from '@app/core/utilities/datatable-helpers';
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
 import { FormEvidence } from '@app/forms/forms.interfaces';
-import {
-  EvidenceBrowseGQL,
-  EvidenceBrowseQuery,
-  EvidenceBrowseQueryVariables,
-  EvidenceClinicalSignificance,
-  EvidenceDirection,
-  EvidenceGridFieldsFragment,
-  EvidenceItemConnection,
-  EvidenceLevel,
-  EvidenceSortColumns,
-  EvidenceStatus,
-  EvidenceType,
-  Maybe,
-  PageInfo,
-  VariantOrigin,
-} from '@app/generated/civic.apollo';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
-import { BehaviorSubject, interval, Observable, of, Subject } from 'rxjs';
-import { $D } from 'rxjs-debug';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  first,
-  map,
-  pluck,
-  share,
-  skip,
-  take,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, share, skip, take, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>;
@@ -90,16 +51,10 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() userId: Maybe<number>;
   @Input() variantId: Maybe<number>;
 
-  _initialUserFilters: Maybe<EvidenceTableUserFilters>;
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
-    if (f) {
-      this._initialUserFilters = f;
-      Object.assign(this, f);
-    }
-  }
-  get initialUserFilters(): Maybe<EvidenceTableUserFilters> {
-    return this._initialUserFilters;
+    // assign any attributes in filters object to this class
+    if (f) Object.assign(this, f)
   }
 
   @Output() totalCountChanges = new EventEmitter<number>();
@@ -108,9 +63,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.totalCountChanges.next(tc);
     this._totalCount = tc;
   }
-  get totalCount(): number {
-    return this._totalCount;
-  }
+  get totalCount(): number { return this._totalCount }
 
   @Output() selectedEids = new EventEmitter<FormEvidence[]>();
 
@@ -128,9 +81,12 @@ export class CvcEvidenceTableComponent implements OnInit {
   moreLoading$!: Observable<boolean>;
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>;
   isScrolling$!: Observable<boolean>;
-  selectedEvidenceIds = new Map<number, FormEvidence>();
+  scrollIndex$: Subject<number>;
   noMoreRows$: BehaviorSubject<boolean>;
   queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>;
+
+  selectedEvidenceIds = new Map<number, FormEvidence>();
+
   private debouncedQuery = new Subject<void>();
 
   isLoadingDelay = 100;
@@ -161,6 +117,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false);
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop');
     this.filterUpdate$ = new Subject<Event>();
+    this.scrollIndex$ = new Subject<number>();
   }
 
   ngOnInit() {
@@ -214,32 +171,27 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.initialLoading$ = this.result$.pipe(
       pluck('loading'),
       distinctUntilChanged(),
-      take(2)
-    );
+      take(2));
 
     // controls the smaller [Loading...] indicator, better for not distracting
     // users by overlaying the row data they're focusing on
     this.moreLoading$ = this.result$.pipe(
       pluck('loading'),
       distinctUntilChanged(),
-      skip(2)
-    );
+      skip(2));
 
     this.connection$ = this.result$.pipe(
       pluck('data', 'evidenceItems'),
-      filter(isNonNulled)
-    ) as Observable<EvidenceItemConnection>;
+      filter(isNonNulled)) as Observable<EvidenceItemConnection>;
 
     this.row$ = this.connection$.pipe(
       pluck('edges'),
       filter(isNonNulled),
-      map((edges) => edges.map((e) => e.node))
-    );
+      map((edges) => edges.map((e) => e.node)));
 
     this.pageInfo$ = this.connection$.pipe(
       pluck('pageInfo'),
-      filter(isNonNulled)
-    );
+      filter(isNonNulled));
 
     this.debouncedQuery
       .pipe(debounceTime(500), untilDestroyed(this))
@@ -255,8 +207,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.isScrolling$ = this.scrollEvent$.pipe(
       map((e: ScrollEvent) => (e === 'stop' ? true : false)), // false on 'scroll', true on 'stop'
       distinctUntilChanged(),
-      share()
-    );
+      share());
 
     // emit event from noMoreRow$ when scroll viewport hits bottom
     // and no next page exists
@@ -267,23 +218,21 @@ export class CvcEvidenceTableComponent implements OnInit {
         untilDestroyed(this))
       .subscribe((pageInfo: PageInfo) => {
         if (!pageInfo.hasNextPage) {
-          this.noMoreRows$.next(true)
+          this.noMoreRows$.next(true);
           // need to send a followup 'false' here or else
           // ng won't interpret subsequent 'true' events as changes
-          setInterval(() => this.noMoreRows$.next(false), 100)
+          setInterval(() => this.noMoreRows$.next(false), 100);
         }
-      })
+      });
   }
 
   onScroll(e: ScrollEvent) {
-    this.scrollEvent$.next(e);
-    this.cdr.detectChanges();
+    this.scrollEvent$.next(e)
+    this.cdr.detectChanges()
   }
 
   // filtering, sorting callbacks
-  onModelChanged() {
-    this.debouncedQuery.next();
-  }
+  onModelChanged() { this.debouncedQuery.next() }
 
   onSortChanged(e: SortDirectionEvent) {
     this.queryRef.refetch({
@@ -312,29 +261,33 @@ export class CvcEvidenceTableComponent implements OnInit {
     else {
       eid = undefined;
     }
-    this.queryRef.refetch({
-      id: eid,
-      diseaseName: this.diseaseNameInput,
-      drugName: this.drugNameInput,
-      description: this.descriptionInput,
-      evidenceLevel: this.evidenceLevelInput
-        ? this.evidenceLevelInput
-        : undefined,
-      evidenceType: this.evidenceTypeInput ? this.evidenceTypeInput : undefined,
-      evidenceDirection: this.evidenceDirectionInput
-        ? this.evidenceDirectionInput
-        : undefined,
-      clinicalSignificance: this.clinicalSignificanceInput
-        ? this.clinicalSignificanceInput
-        : undefined,
-      variantOrigin: this.variantOriginInput
-        ? this.variantOriginInput
-        : undefined,
-      rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
-      geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
-      variantName: this.variantNameInput ? this.variantNameInput : undefined,
-      cardView: !this.tableView,
-    });
+    this.queryRef
+      .refetch({
+        id: eid,
+        diseaseName: this.diseaseNameInput,
+        drugName: this.drugNameInput,
+        description: this.descriptionInput,
+        evidenceLevel: this.evidenceLevelInput
+          ? this.evidenceLevelInput
+          : undefined,
+        evidenceType: this.evidenceTypeInput
+          ? this.evidenceTypeInput
+          : undefined,
+        evidenceDirection: this.evidenceDirectionInput
+          ? this.evidenceDirectionInput
+          : undefined,
+        clinicalSignificance: this.clinicalSignificanceInput
+          ? this.clinicalSignificanceInput
+          : undefined,
+        variantOrigin: this.variantOriginInput
+          ? this.variantOriginInput
+          : undefined,
+        rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+        geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
+        variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        cardView: !this.tableView,
+      })
+      .then(() => this.scrollIndex$.next(0));
   }
 
   trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {

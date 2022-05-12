@@ -33,6 +33,7 @@
     (cvcTableScrollOnScroll)="onScroll($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
     [nzVirtualItemSize]="29"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzData]="row$ | ngrxPush"
@@ -489,7 +490,7 @@
   </ng-container>
 
   <span class="table-info">
-    <nz-space nzDirection="horizontal">
+    <nz-space nzDirection="horizontal" nzSize="large">
       <cvc-table-counts [cvcTableCountsConnection]="connection$" *nzSpaceItem></cvc-table-counts>
       <ng-container *ngIf="moreLoading$ | ngrxPush">
         <nz-tag nzColor="processing" *nzSpaceItem>

@@ -25,13 +25,15 @@ export class TableScrollDirective implements AfterViewInit {
   @Input() cvcTableScrollFetchCount: Maybe<number> = 25
 
   // call viewport scrollToIndex with provided index value
-  private _scrollIndex: number = 0
-  @Input() cvcTableScrollToIndex?: number
-  set scrollIndex(n: number) {
-    if (n) { this._scrollIndex = n; this.scrollToIndex(n) }
+  @Input()
+  set cvcTableScrollToIndex(n: number) {
+    if (n) this.scrollToIndex(n)
   }
-  get scrollIndex(): number { return this._scrollIndex }
 
+  @Input()
+  set cvcTableScrollToOffset(o: number) {
+    if (o) this.scrollToIndex(o)
+  }
   // OnLoadMore events will only be sent in onLoadThrottleTime ms intervals
   private onLoadThrottleTime: number = 500
 
@@ -138,6 +140,13 @@ export class TableScrollDirective implements AfterViewInit {
     const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
     if (host && viewport) {
       viewport.scrollToIndex(index);
+    }
+  }
+
+  scrollToOffset(offset: number): void {
+    const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
+    if (host && viewport) {
+      viewport.scrollToOffset(offset);
     }
   }
 
