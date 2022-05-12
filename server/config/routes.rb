@@ -19,4 +19,9 @@ Rails.application.routes.draw do
   get 'links/:idtype/:id' => 'links#redirect'
 
   mount GraphiQL::Rails::Engine, at: "/api/graphiql", graphql_path: "/api/graphql"
+
+  
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
+  mount Sidekiq::Web, at: '/jobs', constraints: UserLoggedInConstraint.new
 end

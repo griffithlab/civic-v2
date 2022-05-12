@@ -14,6 +14,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
   styleUrls: ['./phenotypes-table.component.less']
 })
 export class CvcPhenotypesTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 

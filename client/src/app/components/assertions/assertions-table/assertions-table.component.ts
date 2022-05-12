@@ -36,6 +36,7 @@ import { NzTableComponent } from 'ng-zorro-antd/table';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
+  @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
   @Input() organizationId: Maybe<number>

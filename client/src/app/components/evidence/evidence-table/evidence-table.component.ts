@@ -31,19 +31,7 @@ import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatab
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {
-  tap,
-  pluck,
-  map,
-  debounceTime,
-  take,
-  takeUntil,
-  pairwise,
-  filter,
-  throttleTime,
-  withLatestFrom,
-  first
-} from 'rxjs/operators';
+import { tap, pluck, map, debounceTime, take, takeUntil, pairwise, filter, throttleTime, withLatestFrom, first } from 'rxjs/operators';
 import { FormEvidence } from '@app/forms/forms.interfaces';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
@@ -69,6 +57,7 @@ export interface EvidenceTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() cvcHeight: Maybe<string>
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
   @Input() cvcTitle: Maybe<string>
@@ -297,12 +286,14 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
         ).subscribe((_) => {
           this.showTooltips = true; // toggle tooltips on
           this.cdr.detectChanges(); // force refresh
-        })
+        });
 
       // force viewport check after initial render
       this.viewport.renderedRangeStream
         .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
+        .subscribe((_) => {
+          this.viewport!.checkViewportSize();
+        });
 
     } else {
       console.error('evidence-table unable to find cdkVirtualScrollViewport.');

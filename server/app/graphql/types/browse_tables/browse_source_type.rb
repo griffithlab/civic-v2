@@ -10,6 +10,7 @@ module Types::BrowseTables
     field :journal, String, null: true
     field :name, String, null: true
     field :evidence_item_count, Int, null: false
+    field :source_suggestion_count, Int, null: false
     field :citation, String, null: false
     field :display_type, String, null: false
     field :clinical_trials, [Types::Entities::ClinicalTrialType], null: false

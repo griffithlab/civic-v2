@@ -14,6 +14,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
   styleUrls: ['./variant-types-table.component.less']
 })
 export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 

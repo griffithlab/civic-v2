@@ -1026,6 +1026,7 @@ type BrowseSource {
   link: String!
   name: String
   publicationYear: Int
+  sourceSuggestionCount: Int!
   sourceType: SourceSource!
   sourceUrl: String!
 }
@@ -5785,6 +5786,7 @@ enum SourcesSortColumns {
   JOURNAL
   NAME
   SOURCE_TYPE
+  SUGGESTION_COUNT
   YEAR
 }
 

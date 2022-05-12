@@ -618,6 +618,7 @@ export type BrowseSource = {
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
 };
@@ -3528,6 +3529,7 @@ export enum SourcesSortColumns {
   Journal = 'JOURNAL',
   Name = 'NAME',
   SourceType = 'SOURCE_TYPE',
+  SuggestionCount = 'SUGGESTION_COUNT',
   Year = 'YEAR'
 }
 
@@ -5970,7 +5972,7 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'sourceSuggestionCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
 );
 
 export type UserPopoverQueryVariables = Exact<{
@@ -7404,6 +7406,24 @@ export type DrugDetailQuery = (
     { __typename: 'Drug' }
     & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases' | 'link'>
   )> }
+);
+
+export type DrugsSummaryQueryVariables = Exact<{
+  drugId: Scalars['Int'];
+}>;
+
+
+export type DrugsSummaryQuery = (
+  { __typename: 'Query' }
+  & { drug?: Maybe<(
+    { __typename: 'Drug' }
+    & DrugsSummaryFieldsFragment
+  )> }
+);
+
+export type DrugsSummaryFieldsFragment = (
+  { __typename: 'Drug' }
+  & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases' | 'link'>
 );
 
 export type EvidenceDetailQueryVariables = Exact<{
@@ -9066,6 +9086,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   authors
   citationId
   evidenceItemCount
+  sourceSuggestionCount
   journal
   name
   publicationYear
@@ -9645,6 +9666,16 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
+}
+    `;
+export const DrugsSummaryFieldsFragmentDoc = gql`
+    fragment DrugsSummaryFields on Drug {
+  id
+  name
+  ncitId
+  drugUrl
+  drugAliases
+  link
 }
     `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
@@ -12828,6 +12859,24 @@ export const DrugDetailDocument = gql`
   })
   export class DrugDetailGQL extends Apollo.Query<DrugDetailQuery, DrugDetailQueryVariables> {
     document = DrugDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugsSummaryDocument = gql`
+    query DrugsSummary($drugId: Int!) {
+  drug(id: $drugId) {
+    ...DrugsSummaryFields
+  }
+}
+    ${DrugsSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugsSummaryGQL extends Apollo.Query<DrugsSummaryQuery, DrugsSummaryQueryVariables> {
+    document = DrugsSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
