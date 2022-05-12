@@ -40,9 +40,9 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   @Input() cvcTitle: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() diseaseId: Maybe<number>
-  @Input() displayGeneAndVariant: boolean = true
+  @Input() displayGeneAndVariant = true
   @Input() drugId: Maybe<number>
-  @Input() initialPageSize: number = 30
+  @Input() initialPageSize = 30
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() organizationId: Maybe<number>
@@ -97,9 +97,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   fetchCount = 25
   isLoadingDelay = 300
 
-  pageLoadeds: number = 1
-
-  tableView: boolean = true
+  tableView = true
 
   textInputCallback?: () => void
 
@@ -199,7 +197,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
           }
         }));
 
-
     this.debouncedQuery
       .pipe(
         debounceTime(500),
@@ -265,7 +262,7 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    var eid: Maybe<number>
+    let eid: Maybe<number>
     if (this.eidInput)
       if (this.eidInput.toUpperCase().startsWith('EID')) {
         eid = +(this.eidInput.toUpperCase().replace('EID', ''));

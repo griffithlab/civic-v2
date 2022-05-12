@@ -1,5 +1,5 @@
 <span
-  *ngIf="cvcTableCountsInfo as tci"
+  *ngIf="(tableCountsInfo$ | ngrxPush) as tci"
   class="table-counts"
   nz-typography
   nzType="secondary">
