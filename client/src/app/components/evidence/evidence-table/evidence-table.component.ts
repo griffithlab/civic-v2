@@ -88,11 +88,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   fetchVar$!: Observable<FetchVars>
   selectedEvidenceIds = new Map<number, FormEvidence>();
   noMoreRows$: BehaviorSubject<boolean>
-  tableCountsInfo$!: Observable<TableCountsInfo>
   queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>()
-
-  evidence$?: Observable<Maybe<EvidenceGridFieldsFragment>[]>
 
   fetchCount = 25
   isLoadingDelay = 300
@@ -172,17 +169,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       .pipe(pluck('edges'),
         filter(isNonNulled),
         map(edges => edges.map((e) => e.node)));
-
-    this.tableCountsInfo$ = this.connection$
-      .pipe(filter((c) => c.totalCount !== undefined),
-        map((c: EvidenceItemConnection) => {
-          return {
-            hasNextPage: c.pageInfo.hasNextPage,
-            totalCount: c.totalCount,
-            edgeCount: c.edges.length,
-            filteredCount: undefined,
-          }
-        }));
 
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),

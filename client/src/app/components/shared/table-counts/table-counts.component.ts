@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, takeUntil, withLatestFrom } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators';
 
 export type TableCountsInfo = {
   totalCount: number
@@ -30,20 +30,8 @@ export type EntityEdge = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableCountsComponent implements OnInit {
-  tableCountsInfo$!: Observable<TableCountsInfo>
-
-  _counts!: TableCountsInfo
-  @Input()
-  set cvcTableCountsInfo(tc: TableCountsInfo) {
-    if (tc) this._counts = this.setCounts(tc)
-  }
-  get cvcTableCountsInfo(): TableCountsInfo {
-    return this._counts
-  }
-
   @Input() cvcTableCountsConnection!: Observable<EntityConnection>
-
-  @Output() cvcTableCounts = new EventEmitter<TableCountsInfo>()
+  tableCountsInfo$!: Observable<TableCountsInfo>
 
   private initialTotalCount!: number
 
@@ -65,26 +53,6 @@ export class TableCountsComponent implements OnInit {
             filteredCount: fc ? fc : tc
           }
         }));
-  }
-
-  setCounts({
-    totalCount: tc,
-    filteredCount: fc,
-    edgeCount: ec
-  }: TableCountsInfo): TableCountsInfo {
-    // if no filtered count, and an initial total count has
-    // not been set, set it to total count
-    if (!fc && !this.initialTotalCount) this.initialTotalCount = tc
-    const itc = this.initialTotalCount
-    const counts = {
-      edgeCount: ec,
-      // if the current total is less than the initial total,
-      // set total count to initial total count.
-      totalCount: (itc && tc < itc) ? itc : tc,
-      // If no filtered count, set filtered count to current total count
-      filteredCount: fc ? fc : tc
-    }
-    return counts
   }
 
 }
