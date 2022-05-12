@@ -29,6 +29,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 
 @NgModule({
   declarations: [CvcEvidenceTableComponent],
@@ -48,6 +49,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzCardModule,
     NzTagModule,
     NzSpaceModule,
+    CvcNoMoreRowsModule,
     CvcTableCountsModule,
     CvcTableScrollModule,
     CvcAutoHeightCardModule,
