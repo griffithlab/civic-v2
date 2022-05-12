@@ -503,10 +503,5 @@
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
-    <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
-  </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>
