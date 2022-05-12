@@ -132,7 +132,7 @@ module Types
 
     field :genes, resolver: Resolvers::TopLevelGenes
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
-
+    field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
 

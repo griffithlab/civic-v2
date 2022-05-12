@@ -1026,6 +1026,7 @@ type BrowseSource {
   link: String!
   name: String
   publicationYear: Int
+  sourceSuggestionCount: Int!
   sourceType: SourceSource!
   sourceUrl: String!
 }
@@ -2322,6 +2323,13 @@ enum EvidenceSortColumns {
 
 enum EvidenceStatus {
   ACCEPTED
+  REJECTED
+  SUBMITTED
+}
+
+enum EvidenceStatusFilter {
+  ACCEPTED
+  ALL
   REJECTED
   SUBMITTED
 }
@@ -3989,7 +3997,7 @@ type Query {
     """
     Filtering on the status of the assertion.
     """
-    status: EvidenceStatus
+    status: EvidenceStatusFilter
 
     """
     Substring filtering on assertion description.
@@ -4507,7 +4515,7 @@ type Query {
     """
     Filtering on the evidence status.
     """
-    status: EvidenceStatus
+    status: EvidenceStatusFilter
 
     """
     Exact match filtering on the ID of the user who submitted the evidence item.
@@ -4967,6 +4975,36 @@ type Query {
   Find a variant group by CIViC ID
   """
   variantGroup(id: Int!): VariantGroup
+
+  """
+  List and filter variant groups.
+  """
+  variantGroups(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Gene that variant groups are associated with.
+    """
+    geneId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): VariantGroupConnection!
 
   """
   Find a variant type by CIViC ID
@@ -5778,6 +5816,7 @@ enum SourcesSortColumns {
   JOURNAL
   NAME
   SOURCE_TYPE
+  SUGGESTION_COUNT
   YEAR
 }
 
@@ -7326,6 +7365,51 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     """
     name: String
   ): VariantConnection!
+}
+
+"""
+The connection type for VariantGroup.
+"""
+type VariantGroupConnection {
+  """
+  A list of edges.
+  """
+  edges: [VariantGroupEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [VariantGroup!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type VariantGroupEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: VariantGroup
 }
 
 """
