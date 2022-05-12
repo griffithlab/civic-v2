@@ -90,8 +90,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>()
 
-  fetchCount = 25
-  isLoadingDelay = 300
+  isLoadingDelay = 100
 
   tableView = true
 
@@ -149,7 +148,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         variantId: this.variantId,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-      });
+      }, { fetchPolicy: 'network-only' });
 
     this.initialSelectedEids
       .forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
@@ -277,7 +276,6 @@ export class CvcEvidenceTableComponent implements OnInit {
     });
   }
 
-  // virtual scroll helpers
   trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
     return data.id;
   }

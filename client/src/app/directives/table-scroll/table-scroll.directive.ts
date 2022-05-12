@@ -5,36 +5,32 @@ import { debounceTime, filter, first, map, pairwise, takeUntil, tap, throttleTim
 import { asyncScheduler, Observable, Subject } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 
+@UntilDestroy()
 @Directive({
   selector: '[cvcTableScroll]'
 })
-export class TableScrollDirective implements AfterViewInit, OnDestroy {
+export class TableScrollDirective implements AfterViewInit {
   @Output() cvcTableScrollOnScroll = new EventEmitter<ScrollEvent>()
 
-  // OnScrollEnd fires when viewport bottom lands within ScrollEndTarget px of rendered rows
-  private _targetHeight: number = 140
-  @Input() cvcTableScrollTargetHeight?: number
-  set targetHeight(h: number) { if (h) this._targetHeight = h }
-  get targetHeight(): number { return this._targetHeight }
+  // TargetHeight defines the height from the end of the viewport's
+  // currently rendered rows that a 'bottom' scroll event will be emitted
+  @Input() cvcTableScrollTargetHeight: number = 140
 
   @Input() cvcTableScrollQueryRef: Maybe<QueryRef<any, any>>
   @Input() cvcTableScrollPageInfo: Maybe<PageInfo>
+  @Input() cvcTableScrollFetchCount: Maybe<number> = 25
 
   // call viewport scrollToIndex with provided index value
   private _scrollIndex: number = 0
   @Input() cvcTableScrollToIndex?: number
   set scrollIndex(n: number) {
-    if (n) {
-      this._scrollIndex = n
-      this.scrollToIndex(n)
-    }
+    if (n) { this._scrollIndex = n; this.scrollToIndex(n) }
   }
   get scrollIndex(): number { return this._scrollIndex }
-
-  private fetchCount = 25
 
   // OnLoadMore events will only be sent in onLoadThrottleTime ms intervals
   private onLoadThrottleTime: number = 500
@@ -51,8 +47,6 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
 
   // observable of all rowsRendered events from viewport
   private rendered$?: Observable<any>
-
-  private destroy$ = new Subject<boolean>()
 
   constructor(private host: NzTableComponent<any>, private cdr: ChangeDetectorRef) {
   }
@@ -89,7 +83,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         tap(_ => this.cvcTableScrollOnScroll.next('scroll')),
         // wait debounceTime ms after last 'scroll' event to emit
         debounceTime(this.onScrollDebounceTime),
-        takeUntil(this.destroy$))
+        untilDestroyed(this))
       .subscribe(_ => { this.cvcTableScrollOnScroll.next('stop') });
 
     // emit load more events from OnLoadMore
@@ -104,11 +98,11 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         pairwise(),
         // pass only down scroll && bottom offsets within target height
         filter(([offset1, offset2]) => {
-          return (offset2 < offset1 && offset2 < this.targetHeight)
+          return (offset2 < offset1 && offset2 < this.cvcTableScrollTargetHeight)
         }),
         // throttle events to prevent spamming OnLoadMore events
         throttleTime(this.onLoadThrottleTime),
-        takeUntil(this.destroy$))
+        untilDestroyed(this))
       .subscribe((_) => {
         this.cvcTableScrollOnScroll.next('bottom')
         this.loadMore(this.cvcTableScrollPageInfo)
@@ -123,7 +117,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
       throw new Error(`table-scroll directive requires valid QueryRef when PageInfo provided.`)
     if (pi && queryRef) {
       const [fetchCount, hasNextPage, endCursor]
-        = [this.fetchCount, pi.hasNextPage, pi.endCursor]
+        = [this.cvcTableScrollFetchCount, pi.hasNextPage, pi.endCursor]
       if (fetchCount && endCursor) {
         if (hasNextPage) {
           queryRef
@@ -145,11 +139,6 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
     if (host && viewport) {
       viewport.scrollToIndex(index);
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true)
-    this.destroy$.complete()
   }
 
 }
