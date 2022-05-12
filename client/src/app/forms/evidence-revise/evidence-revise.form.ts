@@ -16,6 +16,10 @@ import {
   SuggestEvidenceItemRevisionGQL,
   SuggestEvidenceItemRevisionMutation,
   SuggestEvidenceItemRevisionMutationVariables,
+  EvidenceDetailGQL,
+  RevisionsGQL,
+  RevisionStatus,
+  ModeratedEntities,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -143,7 +147,9 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private suggestRevisionGQL: SuggestEvidenceItemRevisionGQL,
     private networkErrorService: NetworkErrorsService,
-    private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL
+    private revisableFieldsGQL: EvidenceItemRevisableFieldsGQL,
+    private evidenceDetailGQL: EvidenceDetailGQL,
+    private revisionsGQL: RevisionsGQL
   ) {
 
     this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
@@ -356,6 +362,21 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     if(input) {
       let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
         input: input
+      },
+      {
+        refetchQueries: [
+          {
+            query: this.evidenceDetailGQL.document,
+            variables: { evidenceId: this.evidenceId }
+          },
+          {
+            query: this.revisionsGQL.document,
+            variables: {
+                subject: {id: this.evidenceId, entityType: ModeratedEntities.EvidenceItem},
+                status: RevisionStatus.New
+              }
+          }
+        ]
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

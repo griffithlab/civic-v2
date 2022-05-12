@@ -4477,6 +4477,22 @@
               "deprecationReason": null
             },
             {
+              "name": "sourceSuggestionCount",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sourceType",
               "description": null,
               "args": [],
@@ -11162,6 +11178,41 @@
             },
             {
               "name": "REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "EvidenceStatusFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ACCEPTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUBMITTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ALL",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -18116,7 +18167,7 @@
                   "description": "Filtering on the status of the assertion.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "EvidenceStatus",
+                    "name": "EvidenceStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -19977,7 +20028,7 @@
                   "description": "Filtering on the evidence status.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "EvidenceStatus",
+                    "name": "EvidenceStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -24988,6 +25039,22 @@
           "description": null,
           "fields": [
             {
+              "name": "createdAt",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ISO8601DateTime",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "disease",
               "description": null,
               "args": [],
@@ -25611,6 +25678,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "CREATED_AT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -25704,6 +25777,12 @@
             },
             {
               "name": "EVIDENCE_COUNT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUGGESTION_COUNT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

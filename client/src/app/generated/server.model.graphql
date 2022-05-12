@@ -1026,6 +1026,7 @@ type BrowseSource {
   link: String!
   name: String
   publicationYear: Int
+  sourceSuggestionCount: Int!
   sourceType: SourceSource!
   sourceUrl: String!
 }
@@ -2322,6 +2323,13 @@ enum EvidenceSortColumns {
 
 enum EvidenceStatus {
   ACCEPTED
+  REJECTED
+  SUBMITTED
+}
+
+enum EvidenceStatusFilter {
+  ACCEPTED
+  ALL
   REJECTED
   SUBMITTED
 }
@@ -3989,7 +3997,7 @@ type Query {
     """
     Filtering on the status of the assertion.
     """
-    status: EvidenceStatus
+    status: EvidenceStatusFilter
 
     """
     Substring filtering on assertion description.
@@ -4507,7 +4515,7 @@ type Query {
     """
     Filtering on the evidence status.
     """
-    status: EvidenceStatus
+    status: EvidenceStatusFilter
 
     """
     Exact match filtering on the ID of the user who submitted the evidence item.
@@ -5626,6 +5634,7 @@ type SourceStub {
 }
 
 type SourceSuggestion implements EventOriginObject & EventSubject {
+  createdAt: ISO8601DateTime!
   disease: Disease
 
   """
@@ -5750,6 +5759,7 @@ input SourceSuggestionsSort {
 enum SourceSuggestionsSortColumns {
   CITATION
   CITATION_ID
+  CREATED_AT
   DISEASE_NAME
   GENE_NAME
   SOURCE_TYPE
@@ -5776,6 +5786,7 @@ enum SourcesSortColumns {
   JOURNAL
   NAME
   SOURCE_TYPE
+  SUGGESTION_COUNT
   YEAR
 }
 

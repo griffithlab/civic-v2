@@ -28,6 +28,10 @@ import {
   SuggestVariantRevisionGQL,
   SuggestVariantRevisionMutation,
   SuggestVariantRevisionMutationVariables,
+  ModeratedEntities,
+  RevisionStatus,
+  VariantDetailGQL,
+  RevisionsGQL,
 } from '@app/generated/civic.apollo';
 
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -109,6 +113,8 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
     private suggestRevisionGQL: SuggestVariantRevisionGQL,
     private networkErrorService: NetworkErrorsService,
     private revisableFieldsGQL: VariantRevisableFieldsGQL,
+    private variantDetailGQL: VariantDetailGQL,
+    private revisionsGQL: RevisionsGQL
   ) {
 
     this.suggestRevisionMutator = new MutatorWithState(networkErrorService)
@@ -500,6 +506,21 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
     if (input) {
       let state = this.suggestRevisionMutator.mutate(this.suggestRevisionGQL, {
         input: input
+      },
+      {
+        refetchQueries: [
+          {
+            query: this.variantDetailGQL.document,
+            variables: { variantId: this.variantId }
+          },
+          {
+            query: this.revisionsGQL.document,
+            variables: {
+                subject: {id: this.variantId, entityType: ModeratedEntities.Variant},
+                status: RevisionStatus.New
+              }
+          }
+        ]
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { Maybe } from "@app/generated/civic.apollo";
 
 export type SupportedPileupTags = 'drug' | 'disease' | 'organization'
@@ -12,41 +12,60 @@ export type TagInfo = {
 @Component({
   selector: 'cvc-tag-overflow',
   templateUrl: './tag-overflow.component.html',
-  styleUrls: ['./tag-overflow.component.less']
+  styleUrls: ['./tag-overflow.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CvcTagOverflowComponent implements OnInit {
-  @Input() matchingText?: string
-  @Input() tags: Maybe<TagInfo[]>
-  @Input() tagType: Maybe<SupportedPileupTags>
+export class CvcTagOverflowComponent implements OnChanges {
+  @Input() tags: Maybe<TagInfo[]>;
   @Input() maxDisplayCount: number = 2
+  @Input() matchingText?: string
+  @Input() tagType: Maybe<SupportedPileupTags>
+  @Input() thisOne = false;
 
   displayedTags?: TagInfo[]
   hiddenTags?: TagInfo[]
   hiddenCount?: number
   matchedHiddenCount: number = 0
+  constructor(private cdr: ChangeDetectorRef) { }
+  ngOnChanges(_: SimpleChanges): void {
+    // if (this.thisOne) console.log(changes);
 
-  ngOnInit() {
-    this.calculateDisplayedTags()
+    // displayedTags: this.displayedTags,
+    // hiddenTags: this.hiddenTags,
+    // hiddenCount: this.hiddenCount,
+    // matchingText: this.matchingText
+
+    this.calculateDisplayedTags();
   }
 
   calculateDisplayedTags() {
     this.displayedTags = this.tags?.slice(0, this.maxDisplayCount)
     this.hiddenTags = this.tags?.slice(this.maxDisplayCount)
     this.hiddenCount = this.hiddenTags?.length
-    this.matchingText = this.matchingText?.toLowerCase()
 
-    if (this.matchingText && this.hiddenTags) {
-      let text = this.matchingText
-      this.hiddenTags.forEach(t => {
-        if (t.name.toLowerCase().includes(text)) {
-          this.matchedHiddenCount += 1
-        }
-      });
+    if (this.matchingText) {
+      if (this.hiddenTags) {
+        let text = this.matchingText.toLowerCase();
+        this.hiddenTags.forEach(t => {
+          if (t.name.toLowerCase().includes(text)) {
+            this.matchedHiddenCount += 1
+          }
+        });
+
+      }
+    } else {
+      this.matchedHiddenCount = 0;
     }
+
+    this.cdr.detectChanges();
   }
 
-  onOverflowClicked() { 
-    this.maxDisplayCount = this.tags?.length || 0
-    this.calculateDisplayedTags()
-  }
+  // removed the template (click) emitter for onOverflowClicked, since
+  // we're using these overflow components in fixed-height rows
+  // which will clip the additional tags. TODO: delete if we decide
+  // to keep this new behavior
+  // onOverflowClicked() {
+  //   this.maxDisplayCount = this.tags?.length || 0
+  //   this.calculateDisplayedTags()
+  // }
 }

@@ -15,7 +15,14 @@ export interface LinkableEvidence {
   styleUrls: ['./evidence-tag.component.less']
 })
 export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit {
-  @Input() evidence!: LinkableEvidence
+  _evidence!: LinkableEvidence;
+  @Input()
+  set evidence(eid: LinkableEvidence) {
+    if (!eid) { throw new Error('cvc-evidence-tag evidence input requires LinkableEvidence.') }
+    this._evidence = eid;
+  }
+  get evidence(): LinkableEvidence { return this._evidence; }
+
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
@@ -24,11 +31,4 @@ export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit 
   idFunction() {
     return this.evidence.id
   }
-
-  ngOnInit() {
-    if (this.evidence === undefined) {
-      throw new Error('cvc-evidence-tag requires LinkableEvidence input, none supplied.')
-    }
-  }
-
 }

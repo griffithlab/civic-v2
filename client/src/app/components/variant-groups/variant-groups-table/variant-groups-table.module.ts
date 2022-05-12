@@ -23,8 +23,9 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcVariantGroupTagModule } from '../variant-group-tag/variant-group-tag.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
-
-
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
+import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 
 @NgModule({
   declarations: [CvcVariantGroupsTableComponent],
@@ -43,6 +44,9 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzIconModule,
     NzCardModule,
     NzTypographyModule,
+    NzTagModule,
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,
     CvcPipesModule,
     CvcGeneTagModule,

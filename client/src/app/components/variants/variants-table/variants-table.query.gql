@@ -35,32 +35,36 @@ query BrowseVariants(
     edges {
       cursor
       node {
-        id
-        name
-        link
-        evidenceScore
-        evidenceItemCount
-        geneId
-        geneName
-        geneLink
-        diseases {
-          id
-          name
-          link
-        }
-        drugs {
-          id
-          name
-          link
-        }
-        aliases {
-          name
-        }
-        assertionCount
+        ...VariantGridFields
       }
     }
     totalCount
     filteredCount
     pageCount
   }
+}
+
+fragment VariantGridFields on BrowseVariant {
+  id
+  name
+  link
+  evidenceScore
+  evidenceItemCount
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+  assertionCount
 }

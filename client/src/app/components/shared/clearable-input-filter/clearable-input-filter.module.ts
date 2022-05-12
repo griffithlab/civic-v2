@@ -4,12 +4,14 @@ import { CvcClearableInputFilterComponent } from './clearable-input-filter.compo
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
   declarations: [CvcClearableInputFilterComponent],
   imports: [
     CommonModule,
     FormsModule,
+    NzFormModule,
     NzInputModule,
     NzIconModule
   ],

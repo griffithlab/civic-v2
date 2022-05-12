@@ -10,16 +10,19 @@
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="popoverContent"
     nzPopoverTrigger="hover"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #popoverContent>
-    <cvc-variant-popover *ngIf="enablePopover" [variantId]="variant.id"></cvc-variant-popover>
+    <cvc-variant-popover *ngIf="enablePopover"
+      [variantId]="variant.id"></cvc-variant-popover>
   </ng-template>
 </ng-template>
 
 <ng-template #noPopover>
-  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>
@@ -30,5 +33,14 @@
 
 <ng-template #tagContent>
   <i nz-icon
-    nzType="civic-variant" nzTheme="twotone" nzTwotoneColor="#33B358"></i> {{ variant.name }}
+    nzType="civic-variant"
+    nzTheme="twotone"
+    nzTwotoneColor="#33B358"></i>
+  <!-- variant name length mean: 12; mode: 5 (825); max: 68 -->
+  <ng-container *ngIf="truncateLongName; else fullName">
+    {{ variant.name | truncate: 20}}
+  </ng-container>
+  <ng-template #fullName>
+    {{ variant.name }}
+  </ng-template>
 </ng-template>

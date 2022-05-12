@@ -23,6 +23,9 @@ import { CvcAssertionsTableComponent } from './assertions-table.component';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcAssertionsTagModule } from '../assertions-tag/assertions-tag.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
+import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [CvcAssertionsTableComponent],
@@ -39,6 +42,9 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzToolTipModule,
     NzSelectModule,
     NzCardModule,
+    NzTagModule,
+    CvcAutoHeightCardModule,
+    CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,
     CvcPipesModule,
     CvcGeneTagModule,

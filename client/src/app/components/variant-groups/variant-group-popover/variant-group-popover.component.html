@@ -19,7 +19,7 @@
             nzSpan="2"
             *ngIf="variantGroup.variants.edges.length > 0">
             <span *ngFor="let variant of variantGroup.variants.edges">
-              <cvc-variant-tag [variant]="variant.node"></cvc-variant-tag>
+              <cvc-variant-tag [enablePopover]="false" [variant]="variant.node"></cvc-variant-tag>
             </span>
           </nz-descriptions-item>
 
@@ -28,7 +28,7 @@
             nzSpan="2"
             *ngIf="variantGroup.sources.length > 0">
             <span *ngFor="let source of variantGroup.sources">
-              <cvc-source-tag [source]="source"></cvc-source-tag>
+              <cvc-source-tag [enablePopover]="false" [source]="source"></cvc-source-tag>
             </span>
           </nz-descriptions-item>
         </nz-descriptions>

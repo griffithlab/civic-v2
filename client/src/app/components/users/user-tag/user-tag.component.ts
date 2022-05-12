@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface TagLinkableUser {
@@ -10,23 +10,16 @@ export interface TagLinkableUser {
 @Component({
   selector: 'cvc-user-tag',
   templateUrl: './user-tag.component.html',
-  styleUrls: ['./user-tag.component.less']
+  styleUrls: ['./user-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcUserTagComponent implements OnInit {
-  @Input() user!: TagLinkableUser
-  @Input() linked: Maybe<boolean> = true
-  @Input() enablePopover: Maybe<boolean> = true
-
-  icon!: string;
-
-  constructor() { }
-
-  ngOnInit() {
-    if (this.user === undefined) {
-      throw new Error('cvc-user-tag component requires valid user input.')
-    }
-
-    switch(this.user.role) {
+export class CvcUserTagComponent {
+  _user!: TagLinkableUser;
+  @Input()
+  set user(u: TagLinkableUser) {
+    if (!u) throw new Error('user-tag User input requires TagLinkableUser.')
+    this._user = u;
+    switch (u.role) {
       case 'ADMIN':
         this.icon = 'civic-admin';
         break;
@@ -40,4 +33,10 @@ export class CvcUserTagComponent implements OnInit {
         this.icon = 'civic-curator';
     }
   }
+  get user(): TagLinkableUser { return this._user }
+  @Input() linked: Maybe<boolean> = true
+  @Input() enablePopover: Maybe<boolean> = true
+
+  icon!: string;
+
 }

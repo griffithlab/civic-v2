@@ -618,6 +618,7 @@ export type BrowseSource = {
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
 };
@@ -1465,6 +1466,13 @@ export enum EvidenceStatus {
   Submitted = 'SUBMITTED'
 }
 
+export enum EvidenceStatusFilter {
+  Accepted = 'ACCEPTED',
+  All = 'ALL',
+  Rejected = 'REJECTED',
+  Submitted = 'SUBMITTED'
+}
+
 export enum EvidenceType {
   Diagnostic = 'DIAGNOSTIC',
   Functional = 'FUNCTIONAL',
@@ -1708,6 +1716,30 @@ export type GeneVariantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+};
+
+/** The connection type for Gene. */
+export type GeneConnection = {
+  __typename: 'GeneConnection';
+  /** A list of edges. */
+  edges: Array<GeneEdge>;
+  /** A list of nodes. */
+  nodes: Array<Gene>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type GeneEdge = {
+  __typename: 'GeneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Gene>;
 };
 
 /** Fields on a Gene that curators may propose revisions to. */
@@ -2489,6 +2521,8 @@ export type Query = {
   gene?: Maybe<Gene>;
   /** Retrieve gene typeahead fields for a search term. */
   geneTypeahead: Array<Gene>;
+  /** List and filter genes. */
+  genes: GeneConnection;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
@@ -2580,7 +2614,7 @@ export type QueryAssertionsArgs = {
   organizationId?: Maybe<Scalars['Int']>;
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<AssertionSort>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   summary?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
@@ -2789,7 +2823,7 @@ export type QueryEvidenceItemsArgs = {
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   sourceId?: Maybe<Scalars['Int']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
@@ -2822,6 +2856,14 @@ export type QueryGeneArgs = {
 
 export type QueryGeneTypeaheadArgs = {
   queryTerm: Scalars['String'];
+};
+
+
+export type QueryGenesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -3387,6 +3429,7 @@ export type SourceStub = {
 
 export type SourceSuggestion = EventOriginObject & EventSubject & {
   __typename: 'SourceSuggestion';
+  createdAt: Scalars['ISO8601DateTime'];
   disease?: Maybe<Disease>;
   /** List and filter events for an object */
   events: EventConnection;
@@ -3464,6 +3507,7 @@ export type SourceSuggestionsSort = {
 export enum SourceSuggestionsSortColumns {
   Citation = 'CITATION',
   CitationId = 'CITATION_ID',
+  CreatedAt = 'CREATED_AT',
   DiseaseName = 'DISEASE_NAME',
   GeneName = 'GENE_NAME',
   SourceType = 'SOURCE_TYPE',
@@ -3485,6 +3529,7 @@ export enum SourcesSortColumns {
   Journal = 'JOURNAL',
   Name = 'NAME',
   SourceType = 'SOURCE_TYPE',
+  SuggestionCount = 'SUGGESTION_COUNT',
   Year = 'YEAR'
 }
 
@@ -4543,7 +4588,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   phenotypeId?: Maybe<Scalars['Int']>;
   diseaseId?: Maybe<Scalars['Int']>;
   drugId?: Maybe<Scalars['Int']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -4642,10 +4687,15 @@ export type ClinicalTrialsBrowseQuery = (
       & Pick<BrowseClinicalTrialEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseClinicalTrial' }
-        & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
+        & BrowseClinicalTrialsRowFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type BrowseClinicalTrialsRowFieldsFragment = (
+  { __typename: 'BrowseClinicalTrial' }
+  & Pick<BrowseClinicalTrial, 'id' | 'name' | 'nctId' | 'evidenceCount' | 'sourceCount' | 'link'>
 );
 
 export type CommentListQueryVariables = Exact<{
@@ -5059,7 +5109,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   clinicalTrialId?: Maybe<Scalars['Int']>;
   geneSymbol?: Maybe<Scalars['String']>;
   variantName?: Maybe<Scalars['String']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -5301,20 +5351,25 @@ export type BrowseGenesQuery = (
       & Pick<BrowseGeneEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseGene' }
-        & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
-        & { diseases?: Maybe<Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'name' | 'id' | 'link'>
-        )>>, drugs?: Maybe<Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'name' | 'id' | 'link'>
-        )>> }
+        & GeneBrowseTableRowFieldsFragment
       )> }
     )>, pageInfo: (
       { __typename: 'PageInfo' }
       & Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasPreviousPage' | 'hasNextPage'>
     ) }
   ) }
+);
+
+export type GeneBrowseTableRowFieldsFragment = (
+  { __typename: 'BrowseGene' }
+  & Pick<BrowseGene, 'id' | 'entrezId' | 'name' | 'link' | 'geneAliases' | 'variantCount' | 'evidenceItemCount' | 'assertionCount'>
+  & { diseases?: Maybe<Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'name' | 'id' | 'link'>
+  )>>, drugs?: Maybe<Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'name' | 'id' | 'link'>
+  )>> }
 );
 
 export type QuicksearchQueryVariables = Exact<{
@@ -5823,7 +5878,7 @@ export type BrowseSourceSuggestionsQuery = (
 
 export type BrowseSourceSuggestionRowFieldsFragment = (
   { __typename: 'SourceSuggestion' }
-  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason'>
+  & Pick<SourceSuggestion, 'id' | 'initialComment' | 'status' | 'reason' | 'createdAt'>
   & { gene?: Maybe<(
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
@@ -5917,7 +5972,7 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'sourceSuggestionCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
 );
 
 export type UserPopoverQueryVariables = Exact<{
@@ -6204,20 +6259,25 @@ export type BrowseVariantsQuery = (
       & Pick<BrowseVariantEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename: 'BrowseVariant' }
-        & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
-        & { diseases: Array<(
-          { __typename: 'Disease' }
-          & Pick<Disease, 'id' | 'name' | 'link'>
-        )>, drugs: Array<(
-          { __typename: 'Drug' }
-          & Pick<Drug, 'id' | 'name' | 'link'>
-        )>, aliases: Array<(
-          { __typename: 'VariantAlias' }
-          & Pick<VariantAlias, 'name'>
-        )> }
+        & VariantGridFieldsFragment
       )> }
     )> }
   ) }
+);
+
+export type VariantGridFieldsFragment = (
+  { __typename: 'BrowseVariant' }
+  & Pick<BrowseVariant, 'id' | 'name' | 'link' | 'evidenceScore' | 'evidenceItemCount' | 'geneId' | 'geneName' | 'geneLink' | 'assertionCount'>
+  & { diseases: Array<(
+    { __typename: 'Disease' }
+    & Pick<Disease, 'id' | 'name' | 'link'>
+  )>, drugs: Array<(
+    { __typename: 'Drug' }
+    & Pick<Drug, 'id' | 'name' | 'link'>
+  )>, aliases: Array<(
+    { __typename: 'VariantAlias' }
+    & Pick<VariantAlias, 'name'>
+  )> }
 );
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
@@ -7215,7 +7275,13 @@ export type AssertionDetailQuery = (
 export type AssertionDetailFieldsFragment = (
   { __typename: 'Assertion' }
   & Pick<Assertion, 'id' | 'name' | 'status'>
-  & { gene: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), gene: (
     { __typename: 'Gene' }
     & Pick<Gene, 'id' | 'name' | 'link'>
   ), variant: (
@@ -7342,6 +7408,24 @@ export type DrugDetailQuery = (
   )> }
 );
 
+export type DrugsSummaryQueryVariables = Exact<{
+  drugId: Scalars['Int'];
+}>;
+
+
+export type DrugsSummaryQuery = (
+  { __typename: 'Query' }
+  & { drug?: Maybe<(
+    { __typename: 'Drug' }
+    & DrugsSummaryFieldsFragment
+  )> }
+);
+
+export type DrugsSummaryFieldsFragment = (
+  { __typename: 'Drug' }
+  & Pick<Drug, 'id' | 'name' | 'ncitId' | 'drugUrl' | 'drugAliases' | 'link'>
+);
+
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
@@ -7358,7 +7442,13 @@ export type EvidenceDetailQuery = (
 export type EvidenceDetailFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'name' | 'status'>
-  & { variant: (
+  & { submissionEvent: (
+    { __typename: 'Event' }
+    & { originatingUser: (
+      { __typename: 'User' }
+      & Pick<User, 'id'>
+    ) }
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), gene: (
@@ -8265,6 +8355,16 @@ export const ClinicalTrialPopoverFragmentDoc = gql`
   evidenceCount
 }
     `;
+export const BrowseClinicalTrialsRowFieldsFragmentDoc = gql`
+    fragment BrowseClinicalTrialsRowFields on BrowseClinicalTrial {
+  id
+  name
+  nctId
+  evidenceCount
+  sourceCount
+  link
+}
+    `;
 export const CommentListNodeFragmentDoc = gql`
     fragment commentListNode on Comment {
   id
@@ -8679,6 +8779,28 @@ export const GenePopoverFragmentDoc = gql`
   }
 }
     `;
+export const GeneBrowseTableRowFieldsFragmentDoc = gql`
+    fragment GeneBrowseTableRowFields on BrowseGene {
+  id
+  entrezId
+  name
+  link
+  geneAliases
+  diseases {
+    name
+    id
+    link
+  }
+  drugs {
+    name
+    id
+    link
+  }
+  variantCount
+  evidenceItemCount
+  assertionCount
+}
+    `;
 export const QuicksearchResultFragmentDoc = gql`
     fragment QuicksearchResult on SearchResult {
   id
@@ -8939,6 +9061,7 @@ export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
   initialComment
   status
   reason
+  createdAt
 }
     `;
 export const SourcePopoverFragmentDoc = gql`
@@ -8963,6 +9086,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   authors
   citationId
   evidenceItemCount
+  sourceSuggestionCount
   journal
   name
   publicationYear
@@ -9085,6 +9209,32 @@ export const MenuVariantFragmentDoc = gql`
   id
   name
   link
+}
+    `;
+export const VariantGridFieldsFragmentDoc = gql`
+    fragment VariantGridFields on BrowseVariant {
+  id
+  name
+  link
+  evidenceScore
+  evidenceItemCount
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+  assertionCount
 }
     `;
 export const RevisableAssertionFieldsFragmentDoc = gql`
@@ -9402,6 +9552,11 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   gene {
     id
     name
@@ -9513,11 +9668,26 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
   }
 }
     `;
+export const DrugsSummaryFieldsFragmentDoc = gql`
+    fragment DrugsSummaryFields on Drug {
+  id
+  name
+  ncitId
+  drugUrl
+  drugAliases
+  link
+}
+    `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id
   name
   status
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
   variant {
     id
     name
@@ -10151,7 +10321,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatus, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatusFilter, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -10248,17 +10418,12 @@ export const ClinicalTrialsBrowseDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        nctId
-        evidenceCount
-        sourceCount
-        link
+        ...BrowseClinicalTrialsRowFields
       }
     }
   }
 }
-    `;
+    ${BrowseClinicalTrialsRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -10561,7 +10726,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatus, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatusFilter, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last
@@ -10698,24 +10863,7 @@ export const BrowseGenesDocument = gql`
     edges {
       cursor
       node {
-        id
-        entrezId
-        name
-        link
-        geneAliases
-        diseases {
-          name
-          id
-          link
-        }
-        drugs {
-          name
-          id
-          link
-        }
-        variantCount
-        evidenceItemCount
-        assertionCount
+        ...GeneBrowseTableRowFields
       }
     }
     pageInfo {
@@ -10729,7 +10877,7 @@ export const BrowseGenesDocument = gql`
     pageCount
   }
 }
-    `;
+    ${GeneBrowseTableRowFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -11530,28 +11678,7 @@ export const BrowseVariantsDocument = gql`
     edges {
       cursor
       node {
-        id
-        name
-        link
-        evidenceScore
-        evidenceItemCount
-        geneId
-        geneName
-        geneLink
-        diseases {
-          id
-          name
-          link
-        }
-        drugs {
-          id
-          name
-          link
-        }
-        aliases {
-          name
-        }
-        assertionCount
+        ...VariantGridFields
       }
     }
     totalCount
@@ -11559,7 +11686,7 @@ export const BrowseVariantsDocument = gql`
     pageCount
   }
 }
-    `;
+    ${VariantGridFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -12732,6 +12859,24 @@ export const DrugDetailDocument = gql`
   })
   export class DrugDetailGQL extends Apollo.Query<DrugDetailQuery, DrugDetailQueryVariables> {
     document = DrugDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DrugsSummaryDocument = gql`
+    query DrugsSummary($drugId: Int!) {
+  drug(id: $drugId) {
+    ...DrugsSummaryFields
+  }
+}
+    ${DrugsSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DrugsSummaryGQL extends Apollo.Query<DrugsSummaryQuery, DrugsSummaryQueryVariables> {
+    document = DrugsSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

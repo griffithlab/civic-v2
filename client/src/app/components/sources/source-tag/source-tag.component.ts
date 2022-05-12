@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { SourceTypeDisplayPipe } from '@app/core/pipes/source-type-display.pipe';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
 import { Maybe, SourceSource } from '@app/generated/civic.apollo';
@@ -27,13 +27,30 @@ export interface SourceWithCitation {
   link: string
 }
 
+type SourceTagInput = SourceWithDisplayName | SourceWithCitation;
+
 @Component({
   selector: 'cvc-source-tag',
   templateUrl: './source-tag.component.html',
   styleUrls: ['./source-tag.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
-  @Input() source!: SourceWithDisplayName | SourceWithCitation;
+  _source!: SourceTagInput;
+
+  @Input()
+  set source(src: SourceTagInput) {
+    if (!src) { throw new Error('source-tag source input requires SourceWithDisplayName or SourceWithCitation.') }
+    this._source = src;
+    if ('displayName' in this.source) {
+      this.displayName = this.source.displayName
+    } else {
+      this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType)
+        + ': ' + this.source.citation
+    }
+  }
+  get source(): SourceTagInput { return this._source; }
+
   @Input() enablePopover: Maybe<boolean> = true
   @Input() linked: Maybe<boolean> = true
   @Input() mode: 'normal' | 'concise' = 'normal'
@@ -42,24 +59,10 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
 
   constructor(private sourceTypeDisplay: SourceTypeDisplayPipe) {
     super();
-   }
-
-  idFunction() { 
-    return this.source.id 
   }
 
-  ngOnInit() {
-    super.ngOnInit();
-
-    if (this.source === undefined) {
-      throw new Error(
-        'cvc-source-tag requires LinkableSource input, none provided.'
-      );
-    }
-    if ('displayName' in this.source) {
-      this.displayName = this.source.displayName
-    } else {
-      this.displayName = this.sourceTypeDisplay.transform(this.source.sourceType) + ': ' + this.source.citation
-    }
+  idFunction() {
+    return this.source.id
   }
+
 }

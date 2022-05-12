@@ -5,7 +5,7 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
+  <nz-tag *ngIf="enablePopover; else noPopover"
     nz-popover
     [nzPopoverContent]="orgPopover">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>

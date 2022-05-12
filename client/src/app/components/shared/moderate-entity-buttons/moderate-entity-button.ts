@@ -15,6 +15,7 @@ export class CvcModerateEntityButtonsComponent implements OnInit, OnDestroy {
   @Input() viewer!: Viewer
   @Input() entityType!: 'EvidenceItem' | 'Assertion'
   @Input() entityId!: number
+  @Input() rejectOnly: boolean = false
 
   @Output() onModerated = new EventEmitter<EvidenceStatus | string[]>()
 

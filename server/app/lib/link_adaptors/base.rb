@@ -25,5 +25,17 @@ module LinkAdaptors
         base_path
       end
     end
+
+    def permalink_path(opts = {})
+      if opts[:include_domain]
+        "https://civicdb.org#{auto_permalink}"
+      else
+        auto_permalink
+      end
+    end
+    
+    def auto_permalink
+      "/links/#{self.class.name.demodulize.underscore.pluralize}/#{obj.id}"
+    end
   end
 end

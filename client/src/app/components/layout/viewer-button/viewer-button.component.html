@@ -84,6 +84,12 @@
           Admin Console
         </a>
       </li>
+      <li nz-menu-item href="/jobs"
+        *ngIf="viewer.isAdmin">
+        <a href="/jobs">
+          Background Workers
+        </a>
+      </li>
       <li nz-menu-divider></li>
       <li nz-menu-item
         (click)="signOut()">Sign Out</li>

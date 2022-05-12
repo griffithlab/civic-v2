@@ -1,8 +1,66 @@
-:host ::ng-deep {
+:host {
+  display: block;
+}
+
+// selectors for debugging table cdk-scroll sizing issues,
+// TODO: remove after dev on these components has stabilized
+::ng-deep .cdk-virtual-scroll-viewport {
+//  border: 1px solid red;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+// border: 1px solid blue;
+}
+
+nz-card:first-of-type ::ng-deep {
   .ant-card-body {
     // remove card body padding
     padding: 0;
     // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
     margin-top: 1px;
+  }
+}
+
+tr.col-header-row th.ant-table-cell {
+  white-space: nowrap;
+}
+
+tr.col-header-row
+  th.ant-table-cell.align-right
+  ::ng-deep
+  .ant-table-column-title {
+  text-align: right;
+}
+
+tr.filter-row th.ant-table-cell {
+  padding: 3px 4px;
+}
+
+tr.data-row td.ant-table-cell {
+  // to ensure uniform row height, cell content wrapped
+  white-space: nowrap;
+  .anticon.attribute-icon {
+    color: #595959;
+  }
+
+  &.overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.button-cell {
+    padding: 0;
+  }
+}
+
+tr.data-row td.align-right {
+  text-align: right;
+}
+
+tr.col-header-row th.ant-table-cell,
+tr.data-row td.ant-table-cell,
+tr.filter-row th.ant-table-cell {
+  .align-right {
+    text-align: right;
   }
 }

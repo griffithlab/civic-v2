@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, DrugInteraction, Maybe, NccnGuideline, Organization, RevisableAssertionFieldsFragment, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
+import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, DrugInteraction, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
@@ -61,7 +61,9 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
   constructor(
     private suggestAssertionRevisionGQL: SuggestAssertionRevisionGQL,
     private networkErrorService: NetworkErrorsService,
-    private revisableFieldsGQL: AssertionRevisableFieldsGQL
+    private revisableFieldsGQL: AssertionRevisableFieldsGQL,
+    private assertionDetailGQL: AssertionDetailGQL,
+    private revisionsGQL: RevisionsGQL
   ) {
     let eidCallback = (eids: FormEvidence[]) => {
       this.formModel!.fields.evidenceItems = eids
@@ -331,6 +333,21 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
 
       let state = this.suggestAssertionRevisionMutator.mutate(this.suggestAssertionRevisionGQL, {
         input: input
+      },
+      {
+        refetchQueries: [
+          {
+            query: this.assertionDetailGQL.document,
+            variables: { assertionId: this.assertionId }
+          },
+          {
+            query: this.revisionsGQL.document,
+            variables: {
+                subject: {id: this.assertionId, entityType: ModeratedEntities.Assertion},
+                status: RevisionStatus.New
+              }
+          }
+        ]
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

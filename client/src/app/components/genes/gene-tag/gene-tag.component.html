@@ -10,8 +10,8 @@
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="genePopover"
     nzPopoverTrigger="hover"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)"
-    >
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #genePopover>
@@ -20,7 +20,8 @@
 </ng-template>
 
 <ng-template #noPopover>
-    <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>
@@ -31,5 +32,14 @@
 
 <ng-template #tagContent>
   <i nz-icon
-    nzType="civic-gene" nzTheme="twotone" nzTwotoneColor="#07AFF0"></i> {{ gene.name }}
+    nzType="civic-gene"
+    nzTheme="twotone"
+    nzTwotoneColor="#07AFF0"></i>
+  <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
+  <ng-container *ngIf="this.truncateLongName; else fullName">
+    {{ gene.name | truncate: 12 }}
+  </ng-container>
+  <ng-template #fullName>
+    {{ gene.name }}
+  </ng-template>
 </ng-template>
