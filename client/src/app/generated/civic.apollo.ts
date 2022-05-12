@@ -2571,6 +2571,8 @@ export type Query = {
   variant?: Maybe<Variant>;
   /** Find a variant group by CIViC ID */
   variantGroup?: Maybe<VariantGroup>;
+  /** List and filter variant groups. */
+  variantGroups: VariantGroupConnection;
   /** Find a variant type by CIViC ID */
   variantType?: Maybe<VariantType>;
   /** Retrieve popover fields for a specific variant type. */
@@ -3061,6 +3063,15 @@ export type QueryVariantArgs = {
 
 export type QueryVariantGroupArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryVariantGroupsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  geneId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -4393,6 +4404,30 @@ export type VariantGroupVariantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+};
+
+/** The connection type for VariantGroup. */
+export type VariantGroupConnection = {
+  __typename: 'VariantGroupConnection';
+  /** A list of edges. */
+  edges: Array<VariantGroupEdge>;
+  /** A list of nodes. */
+  nodes: Array<VariantGroup>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type VariantGroupEdge = {
+  __typename: 'VariantGroupEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<VariantGroup>;
 };
 
 /** Fields on a VariantGroup that curators may propose revisions to. */
