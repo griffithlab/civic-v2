@@ -1,5 +1,32 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, TemplateRef, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin, } from '@app/generated/civic.apollo';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
+
+import {
+  EvidenceBrowseGQL,
+  EvidenceBrowseQuery,
+  EvidenceBrowseQueryVariables,
+  EvidenceClinicalSignificance,
+  EvidenceDirection,
+  EvidenceGridFieldsFragment,
+  EvidenceLevel,
+  EvidenceSortColumns,
+  EvidenceStatusFilter,
+  EvidenceType,
+  Maybe,
+  PageInfo,
+  VariantOrigin,
+} from '@app/generated/civic.apollo';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { QueryRef } from 'apollo-angular';
@@ -45,7 +72,7 @@ export class CvcEvidenceTableComponent implements OnInit, AfterViewInit, OnDestr
   @Input() organizationId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() sourceId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatus>
+  @Input() status: Maybe<EvidenceStatusFilter>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
 

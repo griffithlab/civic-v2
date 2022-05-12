@@ -1466,6 +1466,13 @@ export enum EvidenceStatus {
   Submitted = 'SUBMITTED'
 }
 
+export enum EvidenceStatusFilter {
+  Accepted = 'ACCEPTED',
+  All = 'ALL',
+  Rejected = 'REJECTED',
+  Submitted = 'SUBMITTED'
+}
+
 export enum EvidenceType {
   Diagnostic = 'DIAGNOSTIC',
   Functional = 'FUNCTIONAL',
@@ -2607,7 +2614,7 @@ export type QueryAssertionsArgs = {
   organizationId?: Maybe<Scalars['Int']>;
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<AssertionSort>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   summary?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
@@ -2816,7 +2823,7 @@ export type QueryEvidenceItemsArgs = {
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   sourceId?: Maybe<Scalars['Int']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
@@ -4581,7 +4588,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   phenotypeId?: Maybe<Scalars['Int']>;
   diseaseId?: Maybe<Scalars['Int']>;
   drugId?: Maybe<Scalars['Int']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -5102,7 +5109,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   clinicalTrialId?: Maybe<Scalars['Int']>;
   geneSymbol?: Maybe<Scalars['String']>;
   variantName?: Maybe<Scalars['String']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -10314,7 +10321,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatus, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatusFilter, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -10719,7 +10726,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatus, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatusFilter, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last

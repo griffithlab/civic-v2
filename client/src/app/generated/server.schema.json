@@ -11187,6 +11187,41 @@
         },
         {
           "kind": "ENUM",
+          "name": "EvidenceStatusFilter",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ACCEPTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUBMITTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "REJECTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ALL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
           "name": "EvidenceType",
           "description": null,
           "fields": null,
@@ -18132,7 +18167,7 @@
                   "description": "Filtering on the status of the assertion.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "EvidenceStatus",
+                    "name": "EvidenceStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,
@@ -19993,7 +20028,7 @@
                   "description": "Filtering on the evidence status.",
                   "type": {
                     "kind": "ENUM",
-                    "name": "EvidenceStatus",
+                    "name": "EvidenceStatusFilter",
                     "ofType": null
                   },
                   "defaultValue": null,

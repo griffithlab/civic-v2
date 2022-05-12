@@ -56,8 +56,12 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:evidence_rating, type: GraphQL::Types::Int, description: 'Filtering on the evidence rating. Valid values: 1, 2, 3, 4, 5') do |scope, value|
     scope.where(rating: value)
   end
-  option(:status, type: Types::EvidenceStatusType, description: 'Filtering on the evidence status.') do |scope, value|
-    scope.unscope(where: :status).where(status: value)
+  option(:status, type: Types::EvidenceStatusFilterType, description: 'Filtering on the evidence status.') do |scope, value|
+    if value != 'ALL'
+      scope.unscope(where: :status).where(status: value)
+    else
+      scope.unscope(where: :status)
+    end
   end
   option(:phenotype_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC phenotype id') do |scope, value|
     scope.joins(:phenotypes).where('phenotypes.id = ?', value)

@@ -10,7 +10,7 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   scope {
     Assertion
       .order("evidence_items_count DESC")
-      .where("assertions.status != 'rejected'")
+      .where.not(status: 'rejected')
   }
 
   option(:id, type: GraphQL::Types::Int, description: 'Exact match filtering on the ID of the assertion.') do |scope, value|
@@ -64,8 +64,12 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:drug_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the assertions based on the internal CIViC drug id') do |scope, value|
     scope.joins(:drugs).where('drugs.id = ?', value)
   end
-  option(:status, type: Types::EvidenceStatusType, description: "Filtering on the status of the assertion.") do |scope, value|
-    scope.unscope(where: :status).where(status: value)
+  option(:status, type: Types::EvidenceStatusFilterType, description: "Filtering on the status of the assertion.") do |scope, value|
+    if value != 'ALL'
+      scope.unscope(where: :status).where(status: value)
+    else
+      scope.unscope(where: :status)
+    end
   end
 
 
