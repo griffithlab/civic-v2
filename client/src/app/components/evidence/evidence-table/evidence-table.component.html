@@ -27,6 +27,7 @@
   <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
   <nz-table #virtualTable
     nzSize="small"
+    [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     cvcTableScroll
     (cvcTableScrollOnScroll)="onScroll($event)"
@@ -488,18 +489,20 @@
   </ng-container>
 
   <span class="table-info">
-    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+    <nz-space nzDirection="horizontal">
+      <cvc-table-counts [cvcTableCountsConnection]="connection$" *nzSpaceItem></cvc-table-counts>
+      <ng-container *ngIf="moreLoading$ | ngrxPush">
+        <nz-tag nzColor="processing" *nzSpaceItem>
+          <i nz-icon nzType="sync" nzSpin></i>
+          <span>Loading…</span>
+        </nz-tag>
+      </ng-container>
+    </nz-space>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
-  <span *ngIf="isLoading$ | ngrxPush">
-      <nz-tag nzColor="processing">
-        <i nz-icon nzType="sync" nzSpin></i>
-        <span>Loading…</span>
-      </nz-tag>
-  </span>
   <nz-tag nzColor="warning"
     *ngIf="noMoreRows$ | ngrxPush">
     <i nz-icon

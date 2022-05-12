@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { TableCountsInfo } from '@app/components/shared/table-counts/table-counts.component'
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
 import { FetchVars, ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { FormEvidence } from '@app/forms/forms.interfaces'
@@ -9,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
 import { BehaviorSubject, interval, Observable, of, Subject } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, takeUntil, withLatestFrom } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, skip, take, withLatestFrom } from 'rxjs/operators'
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -33,7 +32,7 @@ export interface EvidenceTableUserFilters {
   styleUrls: ['./evidence-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
+export class CvcEvidenceTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
   @Input() assertionId: Maybe<number>
   @Input() clinicalTrialId: Maybe<number>
@@ -82,7 +81,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   pageInfo$!: Observable<PageInfo>
 
   // PRESENTATION STREAMS
-  isLoading$!: Observable<boolean>
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
   fetchVar$!: Observable<FetchVars>
@@ -115,8 +115,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   variantOriginInput: Maybe<VariantOrigin>
 
   sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
-
-  private destroy$ = new Subject()
 
   constructor(private gql: EvidenceBrowseGQL,
     private cdr: ChangeDetectorRef) {
@@ -158,7 +156,21 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
       .forEach(eid => this.selectedEvidenceIds.set(eid.id, eid))
 
     this.result$ = this.queryRef.valueChanges.pipe(share())
-    this.isLoading$ = this.result$.pipe(pluck('loading'))
+
+    // for controlling nzTable's loading overlay, which covers the whole table
+    // initialLoading$ only emits the initial two true -> false events
+    this.initialLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        take(2))
+
+    // for controlling the smaller [Loading...] indicator
+    // skips the first two load events, transmits the rest so that it's displayed
+    // for fetchMore and refresh queries
+    this.moreLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        skip(2))
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'evidenceItems'),
@@ -186,8 +198,8 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
     this.debouncedQuery
       .pipe(
         debounceTime(500),
-        takeUntil(this.destroy$))
-      .subscribe((_) => {
+        untilDestroyed(this))
+      .subscribe(() => {
         this.refresh()
       });
 
@@ -280,11 +292,4 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {
     return data.id;
   }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
-
 }
