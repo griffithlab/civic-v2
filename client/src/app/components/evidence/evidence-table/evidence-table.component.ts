@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
-import { FetchVars, ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { FormEvidence } from '@app/forms/forms.interfaces'
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
@@ -85,7 +85,6 @@ export class CvcEvidenceTableComponent implements OnInit {
   moreLoading$!: Observable<boolean>
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
-  fetchVar$!: Observable<FetchVars>
   selectedEvidenceIds = new Map<number, FormEvidence>();
   noMoreRows$: BehaviorSubject<boolean>
   queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
@@ -157,16 +156,15 @@ export class CvcEvidenceTableComponent implements OnInit {
 
     this.result$ = this.queryRef.valueChanges.pipe(share())
 
-    // for controlling nzTable's loading overlay, which covers the whole table
-    // initialLoading$ only emits the initial two true -> false events
+    // for controlling nzTable's loading overlay, which covers the whole table -
+    // good for the initial load as it's hard to miss
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
         take(2))
 
-    // for controlling the smaller [Loading...] indicator
-    // skips the first two load events, transmits the rest so that it's displayed
-    // for fetchMore and refresh queries
+    // controls the smaller [Loading...] indicator, better for not distracting
+    // users by overlaying the row data they're focusing on
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
@@ -185,15 +183,6 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
         filter(isNonNulled));
-
-    this.fetchVar$ = this.pageInfo$
-      .pipe(withLatestFrom(of(this.fetchCount)),
-        map(([pageInfo, fetchCount]) => {
-          return {
-            fetchCount: fetchCount,
-            pageInfo: pageInfo
-          }
-        }));
 
     this.debouncedQuery
       .pipe(

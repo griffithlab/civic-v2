@@ -32,7 +32,7 @@
     cvcTableScroll
     (cvcTableScrollOnScroll)="onScroll($event)"
     [cvcTableScrollQueryRef]="queryRef"
-    [cvcTableScrollFetchVars]="fetchVar$ | ngrxPush"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
     [nzVirtualItemSize]="29"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzData]="row$ | ngrxPush"

@@ -7,10 +7,7 @@ import { QueryRef } from 'apollo-angular';
 import { Maybe, PageInfo } from '@app/generated/civic.apollo';
 
 export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
-export type FetchVars = {
-  fetchCount: number
-  pageInfo: PageInfo
-}
+
 @Directive({
   selector: '[cvcTableScroll]'
 })
@@ -24,7 +21,7 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
   get targetHeight(): number { return this._targetHeight }
 
   @Input() cvcTableScrollQueryRef: Maybe<QueryRef<any, any>>
-  @Input() cvcTableScrollFetchVars: Maybe<FetchVars>
+  @Input() cvcTableScrollPageInfo: Maybe<PageInfo>
 
   // call viewport scrollToIndex with provided index value
   private _scrollIndex: number = 0
@@ -36,6 +33,8 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
     }
   }
   get scrollIndex(): number { return this._scrollIndex }
+
+  private fetchCount = 25
 
   // OnLoadMore events will only be sent in onLoadThrottleTime ms intervals
   private onLoadThrottleTime: number = 500
@@ -112,20 +111,19 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
         takeUntil(this.destroy$))
       .subscribe((_) => {
         this.cvcTableScrollOnScroll.next('bottom')
-        this.loadMore(this.cvcTableScrollFetchVars)
+        this.loadMore(this.cvcTableScrollPageInfo)
       });
   }
 
-  loadMore(fv: Maybe<FetchVars>) {
-    const [queryRef, fetchCount, hasNextPage, endCursor]
-      = [this.cvcTableScrollQueryRef, fv?.fetchCount, fv?.pageInfo.hasNextPage, fv?.pageInfo.endCursor]
-
-    if (!fv && queryRef)
-      throw new Error(`table-scroll directive requires FetchVars to fetchMore with provided QueryRef.`)
-    if (fv && !queryRef)
-      throw new Error(`table-scroll directive requires valid QueryRef when FetchVars provided.`)
-    if (fv && queryRef) {
-      // ensure FetchVars valid
+  loadMore(pi: Maybe<PageInfo>) {
+    const queryRef = this.cvcTableScrollQueryRef
+    if (!pi && queryRef)
+      throw new Error(`table-scroll directive requires PageInfo to use provided QueryRef.`)
+    if (pi && !queryRef)
+      throw new Error(`table-scroll directive requires valid QueryRef when PageInfo provided.`)
+    if (pi && queryRef) {
+      const [fetchCount, hasNextPage, endCursor]
+        = [this.fetchCount, pi.hasNextPage, pi.endCursor]
       if (fetchCount && endCursor) {
         if (hasNextPage) {
           queryRef
@@ -135,9 +133,9 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
                 after: endCursor
               },
             });
-        }
+        } else { return }
       } else {
-        throw new Error(`table-scroll loadeMore() requires valid FetchVars.`)
+        throw new Error(`table-scroll PageInfo invalid.`)
       }
     }
   }
