@@ -487,24 +487,19 @@
     {{ this.cvcTitle }}
   </ng-container>
 
-  <span *ngrxLet="tableInfo$ as ti"
-    class="table-info">
-    <ng-container *ngIf="ti.tableConnection as tableConnection">
-    <span [ngClass]="{ 'hide': ti.isLoading, 'show': !ti.isLoading  }">
-      <cvc-table-counts [cvcConnection]="tableConnection"></cvc-table-counts>
-    </span>
-  </ng-container>
-  <span *ngIf="(isLoading$ | ngrxPush) as isLoading" [ngClass]="{ 'hide': !isLoading, 'show': isLoading  }">
-    <nz-tag nzColor="processing">
-        <i nz-icon nzType="sync" nzSpin></i>
-        <span>Loading…</span>
-    </nz-tag>
-  </span>
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsInfo]="tableCountsInfo$ | ngrxPush"></cvc-table-counts>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
+  <span *ngIf="isLoading$ | ngrxPush">
+      <nz-tag nzColor="processing">
+        <i nz-icon nzType="sync" nzSpin></i>
+        <span>Loading…</span>
+      </nz-tag>
+  </span>
   <nz-tag nzColor="warning"
     *ngIf="noMoreRows$ | ngrxPush">
     <i nz-icon

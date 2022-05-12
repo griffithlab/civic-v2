@@ -125,14 +125,19 @@ export class TableScrollDirective implements AfterViewInit, OnDestroy {
     if (fv && !queryRef)
       throw new Error(`table-scroll directive requires valid QueryRef when FetchVars provided.`)
     if (fv && queryRef) {
-      if (hasNextPage) {
-        queryRef
-          .fetchMore({
-            variables: {
-              first: fetchCount,
-              after: endCursor
-            },
-          });
+      // ensure FetchVars valid
+      if (fetchCount && endCursor) {
+        if (hasNextPage) {
+          queryRef
+            .fetchMore({
+              variables: {
+                first: fetchCount,
+                after: endCursor
+              },
+            });
+        }
+      } else {
+        throw new Error(`table-scroll loadeMore() requires valid FetchVars.`)
       }
     }
   }

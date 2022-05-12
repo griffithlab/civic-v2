@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core'
 import { ApolloQueryResult } from '@apollo/client/core'
-import { TableCountsConnection } from '@app/components/shared/table-counts/table-counts.component'
+import { TableCountsInfo } from '@app/components/shared/table-counts/table-counts.component'
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers'
 import { FetchVars, ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive'
 import { FormEvidence } from '@app/forms/forms.interfaces'
 import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { QueryRef } from 'apollo-angular'
-import { BehaviorSubject, combineLatest, interval, Observable, of, Subject } from 'rxjs'
+import { BehaviorSubject, interval, Observable, of, Subject } from 'rxjs'
 import { isNonNulled } from 'rxjs-etc'
-import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, shareReplay, takeUntil, withLatestFrom } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, filter, first, map, pluck, share, takeUntil, withLatestFrom } from 'rxjs/operators'
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -24,19 +24,6 @@ export interface EvidenceTableUserFilters {
   evidenceRatingInput: Maybe<number>
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
-}
-
-export interface CountInfo {
-  initialTotalCount: Maybe<number>
-  visibleCount: number
-  totalCount: number
-  filteredCount: number
-}
-
-export interface TableInfo {
-  isLoading: boolean
-  tableConnection: Observable<TableCountsConnection>
-  noMoreRows: boolean
 }
 
 @UntilDestroy()
@@ -98,11 +85,10 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
   isLoading$!: Observable<boolean>
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   isScrolling$!: Observable<boolean>
-  tableConnection$!: Observable<TableCountsConnection>
   fetchVar$!: Observable<FetchVars>
   selectedEvidenceIds = new Map<number, FormEvidence>();
   noMoreRows$: BehaviorSubject<boolean>
-  tableInfo$: any
+  tableCountsInfo$!: Observable<TableCountsInfo>
   queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   private debouncedQuery = new Subject<void>()
 
@@ -171,9 +157,6 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         variantId: this.variantId,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         variantOrigin: this.variantOriginInput ? this.variantOriginInput : undefined,
-      },
-      {
-        fetchPolicy: 'network-only'
       });
 
     this.initialSelectedEids
@@ -192,27 +175,16 @@ export class CvcEvidenceTableComponent implements OnInit, OnDestroy {
         filter(isNonNulled),
         map(edges => edges.map((e) => e.node)));
 
-    this.tableConnection$ = this.connection$
-      .pipe(withLatestFrom(this.row$),
-        map(([{ totalCount }, nodes]): TableCountsConnection => {
+    this.tableCountsInfo$ = this.connection$
+      .pipe(filter((c) => c.totalCount !== undefined),
+        map((c: EvidenceItemConnection) => {
           return {
-            totalCount: totalCount,
-            nodeCount: nodes.length,
+            hasNextPage: c.pageInfo.hasNextPage,
+            totalCount: c.totalCount,
+            edgeCount: c.edges.length,
             filteredCount: undefined,
           }
-        }))
-
-    this.tableInfo$ = combineLatest(
-      this.isLoading$,
-      this.tableConnection$,
-      this.noMoreRows$
-    ).pipe(map(([isLoading, tableConnection, noMoreRows]) => {
-      return {
-        isLoading: isLoading,
-        tableConnection: tableConnection,
-        noMoreRows: noMoreRows
-      }
-    }));
+        }));
 
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),

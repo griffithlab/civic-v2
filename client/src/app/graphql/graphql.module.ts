@@ -5,7 +5,7 @@ import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/c
 import { PossibleTypesMap, TypePolicies } from '@apollo/client/cache';
 import { CvcTypePolicies } from './graphql.type-policies';
 
-import result  from '@app/generated/civic.possible-types';
+import result from '@app/generated/civic.possible-types';
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
@@ -32,7 +32,8 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     }),
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'cache-first',
+        fetchPolicy: "cache-and-network",
+        nextFetchPolicy: "cache-first",
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
         // returnPartialData: true

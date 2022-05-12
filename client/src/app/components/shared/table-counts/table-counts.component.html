@@ -1,10 +1,10 @@
 <span
-  *ngIf="cvcConnection"
+  *ngIf="cvcTableCountsInfo as tci"
   class="table-counts"
   nz-typography
   nzType="secondary">
-  {{ cvcConnection.totalCount | number }} total, showing {{ cvcConnection.nodeCount | number }}
-  <ng-container *ngIf="cvcConnection.filteredCount && cvcConnection.filteredCount < cvcConnection.totalCount">
-    of {{ cvcConnection.filteredCount | number }} filtered
+  {{ tci.totalCount | number }} total, showing {{ tci.edgeCount | number }}
+  <ng-container *ngIf="tci.filteredCount && tci.filteredCount < tci.totalCount">
+    of {{ tci.filteredCount | number }} filtered
   </ng-container>
 </span>
