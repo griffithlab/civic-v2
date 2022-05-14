@@ -12,7 +12,6 @@ import { ViewerService } from '@app/core/services/viewer/viewer.service';
 })
 export class LayoutComponent {
   isCollapsed = false;
-  data$!: Observable<any>;
   viewer$!: Observable<User>;
   signedIn$!: Observable<boolean>;
   signedOut$!: Observable<boolean>;
@@ -22,7 +21,6 @@ export class LayoutComponent {
   constructor(private viewerService: ViewerService,) {}
 
   ngOnInit(): void {
-    this.data$ = this.viewerService.data$;
     this.viewer$ = this.viewerService.viewer$;
     this.signedIn$ = this.viewerService.signedIn$;
     this.signedOut$ = this.viewerService.signedOut$;

@@ -5,8 +5,7 @@ import { CoiStatus, Maybe, Organization, User, UserRole, ViewerBaseGQL } from '@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { $D } from "rxjs-debug";
-import { catchError, map, pluck, shareReplay, startWith } from 'rxjs/operators';
+import { map, pluck, shareReplay, startWith } from 'rxjs/operators';
 
 export interface Viewer extends User {
   mostRecentOrg: Maybe<Organization>;
@@ -56,12 +55,12 @@ export class ViewerService {
   ) {
     this.queryRef = this.viewerBaseGQL.watch(undefined, { notifyOnNetworkStatusChange: false });
 
-    this.viewer$ = $D(this.queryRef.valueChanges
-      .pipe(pluck('data', 'viewer'),
+    this.viewer$ = this.queryRef
+      .valueChanges
+      .pipe(
+        pluck('data', 'viewer'),
         map((v: User): Viewer => {
-          console.log('************ viewer$ map()')
-          console.log(v)
-          return {
+          return <Viewer>{
             ...v,
             signedIn: v == null ? false : true,
             signedOut: v == null ? true : false,
@@ -77,17 +76,16 @@ export class ViewerService {
         }),
         startWith(this.initialViewer),
         shareReplay(1),
-        catchError((err) => { throw `error in viewer$: ${err}` }))
-      , { id: 'viewer$' });
+      );
 
-    this.signedIn$ = this.viewer$.pipe(
-      map(v => v.signedIn));
+    this.signedIn$ = this.viewer$
+      .pipe(map(v => v.signedIn))
 
-    this.signedOut$ = this.viewer$.pipe(
-      map(v => v.signedOut));
+    this.signedOut$ = this.viewer$
+      .pipe(map(v => v.signedOut))
 
-    this.isAdmin$ = this.viewer$.pipe(
-      map(v => isAdmin(v)));
+    this.isAdmin$ = this.viewer$
+      .pipe(map(v => isAdmin(v)))
 
     this.isEditor$ = this.viewer$.pipe(
       map(v => isEditor(v)));
