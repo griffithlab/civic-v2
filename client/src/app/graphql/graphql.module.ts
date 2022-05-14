@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { HttpLink } from 'apollo-angular/http';
-import { ApolloModule, APOLLO_OPTIONS, APOLLO_FLAGS } from 'apollo-angular';
+import { TypePolicies } from '@apollo/client/cache';
 import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
-import { PossibleTypesMap, TypePolicies } from '@apollo/client/cache';
+import result from '@app/generated/civic.possible-types';
+import { ApolloModule, APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
 import { CvcTypePolicies } from './graphql.type-policies';
 
-import result from '@app/generated/civic.possible-types';
 
 const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
 
