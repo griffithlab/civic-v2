@@ -57,14 +57,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     if (f) Object.assign(this, f)
   }
 
-  @Output() totalCountChanges = new EventEmitter<number>();
-  _totalCount!: number;
-  set totalCount(tc: number) {
-    this.totalCountChanges.next(tc);
-    this._totalCount = tc;
-  }
-  get totalCount(): number { return this._totalCount }
-
+  @Output() initialTotalCount = new EventEmitter<number>()
   @Output() selectedEids = new EventEmitter<FormEvidence[]>();
 
   // SOURCE STREAMS
@@ -156,15 +149,14 @@ export class CvcEvidenceTableComponent implements OnInit {
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput
           : undefined,
-      },
-      { fetchPolicy: 'network-only' }
+      }
     );
 
     this.initialSelectedEids.forEach((eid) =>
       this.selectedEvidenceIds.set(eid.id, eid)
     );
 
-    this.result$ = this.queryRef.valueChanges.pipe(share());
+    this.result$ = this.queryRef.valueChanges.pipe();
 
     // for controlling nzTable's loading overlay, which covers the whole table -
     // good for the initial load as it's hard to miss
@@ -184,6 +176,12 @@ export class CvcEvidenceTableComponent implements OnInit {
       pluck('data', 'evidenceItems'),
       filter(isNonNulled)) as Observable<EvidenceItemConnection>;
 
+    // emit total counts
+    this.connection$
+      .pipe(map(p => p.totalCount),
+        untilDestroyed(this))
+      .subscribe(tc => this.initialTotalCount.next(tc))
+
     this.row$ = this.connection$.pipe(
       pluck('edges'),
       filter(isNonNulled),
@@ -192,6 +190,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.pageInfo$ = this.connection$.pipe(
       pluck('pageInfo'),
       filter(isNonNulled));
+
 
     this.debouncedQuery
       .pipe(debounceTime(500), untilDestroyed(this))
