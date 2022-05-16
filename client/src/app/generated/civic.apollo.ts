@@ -4713,13 +4713,12 @@ export type EvidenceBrowseQueryVariables = Exact<{
   geneSymbol?: InputMaybe<Scalars['String']>;
   variantName?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<EvidenceStatus>;
-  cardView: Scalars['Boolean'];
 }>;
 
 
-export type EvidenceBrowseQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'EvidenceItemEdge', cursor: string, node?: { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, phenotypes?: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, source?: { __typename: 'Source', id: number, citation?: string | undefined, citationId: number, sourceType: SourceSource, sourceUrl?: string | undefined, link: string, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined }, assertions?: Array<{ __typename: 'Assertion', id: number, name: string, link: string }> } | undefined }> } };
+export type EvidenceBrowseQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'EvidenceItemEdge', cursor: string, node?: { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string } } | undefined }> } };
 
-export type EvidenceGridFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, phenotypes?: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, source?: { __typename: 'Source', id: number, citation?: string | undefined, citationId: number, sourceType: SourceSource, sourceUrl?: string | undefined, link: string, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined }, assertions?: Array<{ __typename: 'Assertion', id: number, name: string, link: string }> };
+export type EvidenceGridFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string } };
 
 export type FlagListQueryVariables = Exact<{
   flaggable?: InputMaybe<FlaggableInput>;
@@ -6109,28 +6108,6 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     link
   }
   variant {
-    id
-    name
-    link
-  }
-  phenotypes @include(if: $cardView) {
-    id
-    name
-    link
-  }
-  source @include(if: $cardView) {
-    id
-    citation
-    citationId
-    sourceType
-    sourceUrl
-    clinicalTrials {
-      nctId
-      id
-    }
-    link
-  }
-  assertions @include(if: $cardView) {
     id
     name
     link
@@ -8227,7 +8204,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatus, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatus) {
   evidenceItems(
     first: $first
     last: $last

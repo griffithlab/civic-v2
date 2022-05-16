@@ -11,18 +11,18 @@ import { isNonNulled } from 'rxjs-etc';
 import { debounceTime, distinctUntilChanged, filter, map, pluck, share, skip, take, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
-  eidInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  drugNameInput: Maybe<string>;
-  descriptionInput: Maybe<string>;
-  evidenceLevelInput: Maybe<EvidenceLevel>;
-  evidenceTypeInput: Maybe<EvidenceType>;
-  evidenceDirectionInput: Maybe<EvidenceDirection>;
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>;
-  variantOriginInput: Maybe<VariantOrigin>;
-  evidenceRatingInput: Maybe<number>;
-  variantNameInput: Maybe<string>;
-  geneSymbolInput: Maybe<string>;
+  eidInput: Maybe<string>
+  diseaseNameInput: Maybe<string>
+  drugNameInput: Maybe<string>
+  descriptionInput: Maybe<string>
+  evidenceLevelInput: Maybe<EvidenceLevel>
+  evidenceTypeInput: Maybe<EvidenceType>
+  evidenceDirectionInput: Maybe<EvidenceDirection>
+  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  variantOriginInput: Maybe<VariantOrigin>
+  evidenceRatingInput: Maybe<number>
+  variantNameInput: Maybe<string>
+  geneSymbolInput: Maybe<string>
 }
 
 @UntilDestroy()
@@ -33,23 +33,23 @@ export interface EvidenceTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvcEvidenceTableComponent implements OnInit {
-  @Input() cvcHeight: Maybe<string>;
-  @Input() assertionId: Maybe<number>;
-  @Input() clinicalTrialId: Maybe<number>;
-  @Input() cvcTitle: Maybe<string>;
-  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>;
-  @Input() diseaseId: Maybe<number>;
-  @Input() displayGeneAndVariant = true;
-  @Input() drugId: Maybe<number>;
-  @Input() initialPageSize = 30;
-  @Input() initialSelectedEids: FormEvidence[] = [];
-  @Input() mode: 'normal' | 'select' = 'normal';
-  @Input() organizationId: Maybe<number>;
-  @Input() phenotypeId: Maybe<number>;
-  @Input() sourceId: Maybe<number>;
-  @Input() status: Maybe<EvidenceStatus>;
-  @Input() userId: Maybe<number>;
-  @Input() variantId: Maybe<number>;
+  @Input() cvcHeight: Maybe<string>
+  @Input() assertionId: Maybe<number>
+  @Input() clinicalTrialId: Maybe<number>
+  @Input() cvcTitle: Maybe<string>
+  @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
+  @Input() diseaseId: Maybe<number>
+  @Input() displayGeneAndVariant = true
+  @Input() drugId: Maybe<number>
+  @Input() initialPageSize = 30
+  @Input() initialSelectedEids: FormEvidence[] = []
+  @Input() mode: 'normal' | 'select' = 'normal'
+  @Input() organizationId: Maybe<number>
+  @Input() phenotypeId: Maybe<number>
+  @Input() sourceId: Maybe<number>
+  @Input() status: Maybe<EvidenceStatus>
+  @Input() userId: Maybe<number>
+  @Input() variantId: Maybe<number>
 
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
@@ -58,66 +58,66 @@ export class CvcEvidenceTableComponent implements OnInit {
   }
 
   @Output() initialTotalCount = new EventEmitter<number>()
-  @Output() selectedEids = new EventEmitter<FormEvidence[]>();
+
+  @Output() selectedEids = new EventEmitter<FormEvidence[]>()
 
   // SOURCE STREAMS
-  scrollEvent$: BehaviorSubject<ScrollEvent>;
-  filterUpdate$: Subject<any>;
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  filterUpdate$: Subject<any>
 
   // INTERMEDIATE STREAMS
-  result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>;
-  connection$!: Observable<EvidenceItemConnection>;
-  pageInfo$!: Observable<PageInfo>;
+  result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
+  connection$!: Observable<EvidenceItemConnection>
+  pageInfo$!: Observable<PageInfo>
 
   // PRESENTATION STREAMS
-  initialLoading$!: Observable<boolean>;
-  moreLoading$!: Observable<boolean>;
-  row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>;
-  isScrolling$!: Observable<boolean>;
-  scrollIndex$: Subject<number>;
-  noMoreRows$: BehaviorSubject<boolean>;
-  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>;
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
+  isScrolling$!: Observable<boolean>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
+  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
 
-  selectedEvidenceIds = new Map<number, FormEvidence>();
+  selectedEvidenceIds = new Map<number, FormEvidence>()
 
-  private debouncedQuery = new Subject<void>();
+  private debouncedQuery = new Subject<void>()
 
-  isLoadingDelay = 100;
+  isLoadingDelay = 100
 
-  tableView = true;
+  tableView = true
 
-  textInputCallback?: () => void;
+  textInputCallback?: () => void
 
-  showTooltips = true;
+  showTooltips = true
 
   // filters
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>;
-  descriptionInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  drugNameInput: Maybe<string>;
-  eidInput: Maybe<string>;
-  evidenceDirectionInput: Maybe<EvidenceDirection>;
-  evidenceLevelInput: Maybe<EvidenceLevel>;
-  evidenceRatingInput: Maybe<number>;
-  evidenceTypeInput: Maybe<EvidenceType>;
-  geneSymbolInput: Maybe<string>;
-  variantNameInput: Maybe<string>;
-  variantOriginInput: Maybe<VariantOrigin>;
+  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  descriptionInput: Maybe<string>
+  diseaseNameInput: Maybe<string>
+  drugNameInput: Maybe<string>
+  eidInput: Maybe<string>
+  evidenceDirectionInput: Maybe<EvidenceDirection>
+  evidenceLevelInput: Maybe<EvidenceLevel>
+  evidenceRatingInput: Maybe<number>
+  evidenceTypeInput: Maybe<EvidenceType>
+  geneSymbolInput: Maybe<string>
+  variantNameInput: Maybe<string>
+  variantOriginInput: Maybe<VariantOrigin>
 
-  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns;
+  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
-    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop');
-    this.filterUpdate$ = new Subject<Event>();
-    this.scrollIndex$ = new Subject<number>();
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.filterUpdate$ = new Subject<Event>()
+    this.scrollIndex$ = new Subject<number>()
   }
 
   ngOnInit() {
     this.queryRef = this.gql.watch(
       {
         assertionId: this.assertionId,
-        cardView: !this.tableView,
         clinicalSignificance: this.clinicalSignificanceInput
           ? this.clinicalSignificanceInput
           : undefined,
@@ -153,28 +153,27 @@ export class CvcEvidenceTableComponent implements OnInit {
     );
 
     this.initialSelectedEids.forEach((eid) =>
-      this.selectedEvidenceIds.set(eid.id, eid)
-    );
+      this.selectedEvidenceIds.set(eid.id, eid))
 
-    this.result$ = this.queryRef.valueChanges.pipe();
+    this.result$ = this.queryRef.valueChanges
 
     // for controlling nzTable's loading overlay, which covers the whole table -
     // good for the initial load as it's hard to miss
-    this.initialLoading$ = this.result$.pipe(
-      pluck('loading'),
-      distinctUntilChanged(),
-      take(2));
+    this.initialLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        take(2));
 
     // controls the smaller [Loading...] indicator, better for not distracting
     // users by overlaying the row data they're focusing on
-    this.moreLoading$ = this.result$.pipe(
-      pluck('loading'),
-      distinctUntilChanged(),
-      skip(2));
+    this.moreLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        skip(2));
 
-    this.connection$ = this.result$.pipe(
-      pluck('data', 'evidenceItems'),
-      filter(isNonNulled)) as Observable<EvidenceItemConnection>;
+    this.connection$ = this.result$
+      .pipe(pluck('data', 'evidenceItems'),
+        filter(isNonNulled)) as Observable<EvidenceItemConnection>;
 
     // emit total counts
     this.connection$
@@ -182,31 +181,29 @@ export class CvcEvidenceTableComponent implements OnInit {
         untilDestroyed(this))
       .subscribe(tc => this.initialTotalCount.next(tc))
 
-    this.row$ = this.connection$.pipe(
-      pluck('edges'),
-      filter(isNonNulled),
-      map((edges) => edges.map((e) => e.node)));
+    this.row$ = this.connection$
+      .pipe(pluck('edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node)));
 
-    this.pageInfo$ = this.connection$.pipe(
-      pluck('pageInfo'),
-      filter(isNonNulled));
+    this.pageInfo$ = this.connection$
+      .pipe(pluck('pageInfo'),
+        filter(isNonNulled));
 
 
     this.debouncedQuery
-      .pipe(debounceTime(500), untilDestroyed(this))
-      .subscribe(() => {
-        this.refresh();
-      });
+      .pipe(debounceTime(500),
+        untilDestroyed(this))
+      .subscribe(() => { this.refresh() })
 
-    this.textInputCallback = () => {
-      this.debouncedQuery.next();
-    };
+    this.textInputCallback = () => this.debouncedQuery.next()
 
     // for every onScrolled event, convert to bool, share multicast
-    this.isScrolling$ = this.scrollEvent$.pipe(
-      map((e: ScrollEvent) => (e === 'stop' ? true : false)), // false on 'scroll', true on 'stop'
-      distinctUntilChanged(),
-      share());
+    // false on 'scroll', true on 'stop'
+    this.isScrolling$ = this.scrollEvent$
+      .pipe(map((e: ScrollEvent) => (e === 'stop' ? true : false)),
+        distinctUntilChanged(),
+        share());
 
     // emit event from noMoreRow$ when scroll viewport hits bottom
     // and no next page exists
@@ -236,7 +233,6 @@ export class CvcEvidenceTableComponent implements OnInit {
   onSortChanged(e: SortDirectionEvent) {
     this.queryRef.refetch({
       sortBy: buildSortParams(e),
-      cardView: !this.tableView,
     });
   }
 
@@ -284,7 +280,6 @@ export class CvcEvidenceTableComponent implements OnInit {
         rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
         geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
-        cardView: !this.tableView,
       })
       .then(() => this.scrollIndex$.next(0));
   }
