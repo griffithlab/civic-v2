@@ -40,7 +40,7 @@
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th nzWidth="25px"
           nzLeft
@@ -391,7 +391,7 @@
             <ng-container *ngIf="eid.drugInteractionType">
               <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="(!isScrolling$ | ngrxPush) ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                [nzTooltipTitle]="!isScrolling ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
                 <i nz-icon
                   style="color: #ac3996"
                   [nzType]="eid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
@@ -407,7 +407,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="(!isScrolling$ | ngrxPush) ? eid.description : ''">
+              [nzTooltipTitle]="!isScrolling ? eid.description : ''">
               <i nz-icon
                 nzType="align-left"></i>
             </nz-tag>
@@ -416,7 +416,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nz-placement="top"
-              [nzTooltipTitle]="(!isScrolling$ | ngrxPush) ? eid.evidenceLevel + ' - ' + (eid.evidenceLevel | evidenceLevelDisplay) : ''">
+              [nzTooltipTitle]="!isScrolling ? eid.evidenceLevel + ' - ' + (eid.evidenceLevel | evidenceLevelDisplay) : ''">
               {{ eid.evidenceLevel }}
             </nz-tag>
           </td>
@@ -424,7 +424,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="(!isScrolling$ | ngrxPush) ? (eid.evidenceType | evidenceEnumDisplay) : ''">
+              [nzTooltipTitle]="!isScrolling ? (eid.evidenceType | evidenceEnumDisplay) : ''">
               <i nz-icon
                 [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
@@ -434,7 +434,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="(!isScrolling$ | ngrxPush) ? (eid.evidenceDirection | evidenceEnumDisplay) : ''">
+              [nzTooltipTitle]="!isScrolling ? (eid.evidenceDirection | evidenceEnumDisplay) : ''">
               <i nz-icon
                 [nzType]="eid.evidenceDirection | evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
@@ -444,7 +444,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="eid.clinicalSignificance | evidenceEnumDisplay">
+              [nzTooltipTitle]="!isScrolling ? (eid.clinicalSignificance | evidenceEnumDisplay) : ''">
               <i nz-icon
                 [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
@@ -454,7 +454,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="eid.variantOrigin | evidenceEnumDisplay">
+              [nzTooltipTitle]="!isScrolling ? (eid.variantOrigin | evidenceEnumDisplay) : ''">
               <i nz-icon
                 [nzType]="eid.variantOrigin| evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
@@ -464,7 +464,7 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="eid.evidenceRating + ' stars'">
+              [nzTooltipTitle]="!isScrolling ? (eid.evidenceRating + ' stars') : ''">
               {{ eid.evidenceRating }}
               <i nz-icon
                 nzType="star"
