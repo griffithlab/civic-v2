@@ -22,7 +22,6 @@ query AssertionsBrowse (
   $diseaseId: Int,
   $drugId: Int,
   $status: EvidenceStatus,
-  $cardView: Boolean!
 ) {
   assertions(
     first: $first
@@ -59,13 +58,13 @@ query AssertionsBrowse (
     edges {
       cursor
       node {
-        ...AssertionBrowseTableRowFields
+        ...AssertionBrowseFields
       }
     }
   }
 }
 
-fragment AssertionBrowseTableRowFields on Assertion {
+fragment AssertionBrowseFields on Assertion {
   id
   name
   link
@@ -89,28 +88,12 @@ fragment AssertionBrowseTableRowFields on Assertion {
     name
     link
   }
-  phenotypes @include(if: $cardView) {
-    id
-    name
-    link
-  }
   drugInteractionType
   summary
   assertionType
   assertionDirection
   clinicalSignificance
   ampLevel
-  acmgCodes @include(if: $cardView) {
-    code
-  }
-  fdaCompanionTest @include(if: $cardView)
-  regulatoryApproval @include(if: $cardView)
-  regulatoryApprovalLastUpdated @include(if: $cardView)
-  nccnGuideline @include(if: $cardView) {
-    id
-    name
-  }
-  variantOrigin @include(if: $cardView)
   evidenceItemsCount
   status
 }

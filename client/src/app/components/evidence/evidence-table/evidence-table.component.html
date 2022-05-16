@@ -30,12 +30,12 @@
     [nzData]="row$ | ngrxPush"
     [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
     cvcTableScroll
     (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
     [cvcTableScrollQueryRef]="queryRef"
     [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
     [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
-    [nzVirtualItemSize]="29"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
@@ -490,9 +490,7 @@
   </ng-container>
 
   <span class="table-info">
-    <nz-space nzDirection="horizontal" nzSize="large">
-      <cvc-table-counts [cvcTableCountsConnection]="connection$" *nzSpaceItem></cvc-table-counts>
-    </nz-space>
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
 </ng-template>
 

@@ -153,8 +153,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput
           : undefined,
-      }
-    );
+      });
 
     this.initialSelectedEids.forEach((eid) =>
       this.selectedEvidenceIds.set(eid.id, eid))

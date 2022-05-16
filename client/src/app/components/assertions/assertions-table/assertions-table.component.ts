@@ -1,41 +1,23 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
-import {
-  AmpLevel,
-  AssertionBrowseTableRowFieldsFragment,
-  AssertionsBrowseGQL,
-  AssertionsBrowseQuery,
-  AssertionsBrowseQueryVariables,
-  AssertionSortColumns,
-  EvidenceClinicalSignificance,
-  EvidenceDirection,
-  EvidenceStatus,
-  EvidenceType,
-  Maybe,
-  PageInfo
-} from '@app/generated/civic.apollo';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
+import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatus, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
-import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { startWith, pluck, tap, map, debounceTime, take, takeUntil, withLatestFrom, pairwise, filter, throttleTime, first } from 'rxjs/operators';
-import { NzTableComponent } from 'ng-zorro-antd/table';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { tag } from 'rxjs-spy/cjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-assertions-table',
   templateUrl: './assertions-table.component.html',
   styleUrls: ['./assertions-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
+export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
@@ -48,17 +30,33 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
-  @ViewChild('virtualTable', { static: false })
-  nzTableComponent?: NzTableComponent<AssertionBrowseTableRowFieldsFragment>;
-  viewport?: CdkVirtualScrollViewport;
+  // SOURCE STREAMS
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  sortChange$: Subject<SortDirectionEvent>
 
-  private queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
+  // INTERMEDIATE STREAMS
+  result$!: Observable<ApolloQueryResult<AssertionsBrowseQuery>>
+  connection$!: Observable<AssertionConnection>
+  pageInfo$!: Observable<PageInfo>
+
+  // PRESENTATION STREAMS
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<AssertionBrowseFieldsFragment>[]>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
+  queryRef!: QueryRef<AssertionsBrowseQuery, AssertionsBrowseQueryVariables>
+
+  // need a static var for scrolling state b/c sub/unsub in
+  // virtual scroll rows degrades performance
+  isScrolling: boolean = false
+
+
   private debouncedQuery = new Subject<void>();
 
   isLoading$?: Observable<boolean>
-  assertions$?: Observable<Maybe<AssertionBrowseTableRowFieldsFragment>[]>
+  assertions$?: Observable<Maybe<AssertionBrowseFieldsFragment>[]>
   filteredCount$?: Observable<number>
-  pageInfo$?: Observable<PageInfo>
 
   isLoading = false;
 
@@ -67,7 +65,6 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   fetchMorePageSize = 25;
   isLoadingDelay = 300;
   visibleCount: number = this.initialPageSize
-  noMoreRows$: BehaviorSubject<boolean>;
 
   loadedPages: number = 1
 
@@ -94,7 +91,10 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   private destroy$ = new Subject();
 
   constructor(private gql: AssertionsBrowseGQL, private cdr: ChangeDetectorRef) {
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.scrollIndex$ = new Subject<number>()
   }
 
   ngOnInit() {
@@ -110,47 +110,44 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
           diseaseId: this.diseaseId,
           drugId: this.drugId,
           status: this.status,
-          cardView: !this.tableView
-        },
-        { fetchPolicy: 'network-only' });
+        });
 
-    let observable = this.queryRef.valueChanges;
+    this.result$ = this.queryRef.valueChanges.pipe(tag('assertions-table_result$'))
 
-    // handle loading state
-    observable
-      .pipe(
-        takeUntil(this.destroy$),
-        pluck('loading'),
-        startWith(true))
-      .subscribe((l: boolean) => { this.isLoading = l; });
+    // for controlling nzTable's loading overlay, which covers the whole table -
+    // good for the initial load as it's hard to miss
+    this.initialLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        take(2));
 
-    this.assertions$ = observable.pipe(
-      pluck('data', 'assertions', 'edges'),
-      map((edges) => {
-        return edges.map((e) => e.node)
-      }));
+    // controls the smaller [Loading...] indicator, better for not distracting
+    // users by overlaying the row data they're focusing on
+    this.moreLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        skip(2));
 
-    this.filteredCount$ = observable.pipe(
-      pluck('data', 'assertions', 'totalCount'));
+    this.connection$ = this.result$
+      .pipe(pluck('data', 'assertions'),
+        filter(isNonNulled)) as Observable<AssertionConnection>;
 
-    this.filteredCount$
-      .pipe(take(1))
-      .subscribe(value => this.totalCount = value);
+    this.row$ = this.connection$
+      .pipe(pluck('edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node)),
+            tag('assertions-table_row$'));
 
-    this.filteredCount$
-      .subscribe(value => {
-        if (value < this.initialPageSize) {
-          this.visibleCount = value
-        } else {
-          this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.visibleCount > value) {
-            this.visibleCount = value
-          }
-        }
+    this.pageInfo$ = this.connection$
+      .pipe(pluck('pageInfo'),
+        filter(isNonNulled));
+
+    // refetch when column sort changes
+    this.sortChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((e: SortDirectionEvent) => {
+        this.queryRef.refetch({ sortBy: buildSortParams(e) });
       });
-
-    this.pageInfo$ = observable.pipe(
-      pluck('data', 'assertions', 'pageInfo'));
 
     this.debouncedQuery
       .pipe(
@@ -159,79 +156,40 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
       .subscribe((_) => this.refresh());
 
     this.textInputCallback = () => { this.debouncedQuery.next(); }
+
+    // for every onScrolled event, convert to bool, share multicast
+    // false on 'scroll', true on 'stop'
+    this.scrollEvent$
+      .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+        distinctUntilChanged(),
+        untilDestroyed(this))
+      .subscribe((e) => {
+        this.isScrolling = e
+        this.cdr.detectChanges()
+      })
+
+    // emit event from noMoreRow$ when scroll viewport hits bottom
+    // and no next page exists
+    this.scrollEvent$
+      .pipe(filter((e) => e === 'bottom'),
+        withLatestFrom(this.pageInfo$),
+        map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
+        untilDestroyed(this))
+      .subscribe((pageInfo: PageInfo) => {
+        if (!pageInfo.hasNextPage) {
+          this.noMoreRows$.next(true);
+          this.cdr.detectChanges()
+
+          // need to send a followup 'false' here or else
+          // ng won't interpret subsequent 'true' events as changes
+          setInterval(() => this.noMoreRows$.next(false));
+        }
+      });
+
   } // ngOnInit()
 
-  ngAfterViewInit(): void {
-    if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
-      this.pageInfo$) {
-      this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
-      const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
-
-      scrolled$
-        .pipe(
-          // for each elementScrolled event, get latest pageInfo,
-          // and return page cursor and scroll offest
-          withLatestFrom(this.pageInfo$),
-          map(([_, pageInfo]: [Event, PageInfo]) => {
-            return {
-              pageInfo: pageInfo,
-              offset: this.viewport!.measureScrollOffset('bottom')
-            }
-          }),
-          // pair with previous event/cursor
-          pairwise(),
-          // reject events that occur outside scroll target
-          filter(([e1, e2]) => {
-            return (e2.offset < e1.offset && e2.offset < 140)
-          }),
-          // throttle events to prevent spamming loadMore() requests
-          throttleTime(500))
-        .subscribe(([_, e2]) => {
-          if (e2.pageInfo.hasNextPage) {
-            this.loadMore(e2.pageInfo.endCursor);
-          } else {
-            // show 'end of results' msg, hide after an interval
-            if (this.noMoreRows$.getValue() === false) {
-              this.noMoreRows$.next(true);
-              interval(3000)
-                .pipe(first())
-                .subscribe((_) => {
-                  this.noMoreRows$.next(false);
-                  this.cdr.detectChanges(); // TODO: figure out why this is required
-                })
-            }
-          }
-        });
-
-      // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
-
-      // toggle tooltips off when scrolling
-      scrolled$
-        .pipe(
-          takeUntil(this.destroy$),
-          tap((_) => { this.showTooltips = false; }), // on scroll event toggle tooltips off
-          debounceTime(500) // wait 500ms, then execute subsribed function
-        ).subscribe((_) => {
-          this.showTooltips = true; // toggle tooltips on
-          this.cdr.detectChanges(); // force refresh
-        })
-
-      // force viewport check after initial render
-      this.viewport.renderedRangeStream
-        .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
-
-    } else {
-      console.error('evidence-table unable to find cdkVirtualScrollViewport.');
-    }
-  } // ngAfterViewInit
   // filtering, sorting callbacks
   onModelChanged() { this.debouncedQuery.next(); }
-
-  onSortChanged(e: SortDirectionEvent) {
-    this.loadedPages = 1
-    this.queryRef.refetch({ sortBy: buildSortParams(e), cardView: !this.tableView })
-  }
 
   // refetch results, replacing current rows
   refresh() {
@@ -259,7 +217,6 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,
       clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
-      cardView: !this.tableView
     })
   }
 
@@ -274,12 +231,8 @@ export class CvcAssertionsTableComponent implements OnInit, AfterViewInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: AssertionBrowseTableRowFieldsFragment): number {
+  trackByIndex(_: number, data: AssertionBrowseFieldsFragment): number {
     return data.id;
-  }
-
-  scrollToIndex(index: number): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
   }
 
   ngOnDestroy() {

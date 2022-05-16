@@ -11,7 +11,7 @@ export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 
 @UntilDestroy()
 @Directive({
-  selector: '[cvcTableScroll]'
+  selector: '[cvcTableScroll]',
 })
 export class TableScrollDirective implements AfterViewInit {
   @Output() cvcTableScrollOnScroll = new EventEmitter<ScrollEvent>()

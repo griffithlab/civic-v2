@@ -4537,13 +4537,12 @@ export type AssertionsBrowseQueryVariables = Exact<{
   diseaseId?: InputMaybe<Scalars['Int']>;
   drugId?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<EvidenceStatus>;
-  cardView: Scalars['Boolean'];
 }>;
 
 
-export type AssertionsBrowseQuery = { __typename: 'Query', assertions: { __typename: 'AssertionConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'AssertionEdge', cursor: string, node?: { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, fdaCompanionTest?: boolean | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, variantOrigin?: VariantOrigin, evidenceItemsCount: number, status: EvidenceStatus, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, phenotypes?: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes?: Array<{ __typename: 'AcmgCode', code: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined } | undefined }> } };
+export type AssertionsBrowseQuery = { __typename: 'Query', assertions: { __typename: 'AssertionConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'AssertionEdge', cursor: string, node?: { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, evidenceItemsCount: number, status: EvidenceStatus, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }> } | undefined }> } };
 
-export type AssertionBrowseTableRowFieldsFragment = { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, fdaCompanionTest?: boolean | undefined, regulatoryApproval?: boolean | undefined, regulatoryApprovalLastUpdated?: any | undefined, variantOrigin?: VariantOrigin, evidenceItemsCount: number, status: EvidenceStatus, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, phenotypes?: Array<{ __typename: 'Phenotype', id: number, name: string, link: string }>, acmgCodes?: Array<{ __typename: 'AcmgCode', code: string }>, nccnGuideline?: { __typename: 'NccnGuideline', id: number, name: string } | undefined };
+export type AssertionBrowseFieldsFragment = { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, evidenceItemsCount: number, status: EvidenceStatus, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }> };
 
 export type ClinicalTrialPopoverQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int'];
@@ -5795,8 +5794,8 @@ export const AssertionPopoverFragmentDoc = gql`
   }
 }
     `;
-export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
-    fragment AssertionBrowseTableRowFields on Assertion {
+export const AssertionBrowseFieldsFragmentDoc = gql`
+    fragment AssertionBrowseFields on Assertion {
   id
   name
   link
@@ -5820,28 +5819,12 @@ export const AssertionBrowseTableRowFieldsFragmentDoc = gql`
     name
     link
   }
-  phenotypes @include(if: $cardView) {
-    id
-    name
-    link
-  }
   drugInteractionType
   summary
   assertionType
   assertionDirection
   clinicalSignificance
   ampLevel
-  acmgCodes @include(if: $cardView) {
-    code
-  }
-  fdaCompanionTest @include(if: $cardView)
-  regulatoryApproval @include(if: $cardView)
-  regulatoryApprovalLastUpdated @include(if: $cardView)
-  nccnGuideline @include(if: $cardView) {
-    id
-    name
-  }
-  variantOrigin @include(if: $cardView)
   evidenceItemsCount
   status
 }
@@ -7799,7 +7782,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatus, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatus) {
   assertions(
     first: $first
     last: $last
@@ -7835,12 +7818,12 @@ export const AssertionsBrowseDocument = gql`
     edges {
       cursor
       node {
-        ...AssertionBrowseTableRowFields
+        ...AssertionBrowseFields
       }
     }
   }
 }
-    ${AssertionBrowseTableRowFieldsFragmentDoc}`;
+    ${AssertionBrowseFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
