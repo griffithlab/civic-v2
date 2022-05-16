@@ -201,9 +201,14 @@ export class CvcEvidenceTableComponent implements OnInit {
     // for every onScrolled event, convert to bool, share multicast
     // false on 'scroll', true on 'stop'
     this.isScrolling$ = this.scrollEvent$
-      .pipe(map((e: ScrollEvent) => (e === 'stop' ? true : false)),
+      .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
         distinctUntilChanged(),
         share());
+
+    // need to call detect change after scroll stop
+    this.scrollEvent$.pipe(untilDestroyed(this)).subscribe((e) => {
+      if(e === 'stop') setInterval(() => this.cdr.detectChanges())
+    })
 
     // emit event from noMoreRow$ when scroll viewport hits bottom
     // and no next page exists
@@ -215,6 +220,8 @@ export class CvcEvidenceTableComponent implements OnInit {
       .subscribe((pageInfo: PageInfo) => {
         if (!pageInfo.hasNextPage) {
           this.noMoreRows$.next(true);
+          this.cdr.detectChanges()
+
           // need to send a followup 'false' here or else
           // ng won't interpret subsequent 'true' events as changes
           setInterval(() => this.noMoreRows$.next(false), 100);
@@ -224,7 +231,7 @@ export class CvcEvidenceTableComponent implements OnInit {
 
   onScroll(e: ScrollEvent) {
     this.scrollEvent$.next(e)
-    this.cdr.detectChanges()
+    if(e === 'stop') this.cdr.detectChanges()
   }
 
   // filtering, sorting callbacks
