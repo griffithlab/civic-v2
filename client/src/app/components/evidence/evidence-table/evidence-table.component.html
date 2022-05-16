@@ -492,17 +492,18 @@
   <span class="table-info">
     <nz-space nzDirection="horizontal" nzSize="large">
       <cvc-table-counts [cvcTableCountsConnection]="connection$" *nzSpaceItem></cvc-table-counts>
-      <ng-container *ngIf="moreLoading$ | ngrxPush">
-        <nz-tag nzColor="processing" *nzSpaceItem>
-          <i nz-icon nzType="sync" nzSpin></i>
-          <span>Loading…</span>
-        </nz-tag>
-      </ng-container>
     </nz-space>
   </span>
 </ng-template>
 
 <!-- card's extra template -->
 <ng-template #extraTemplate>
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i nz-icon
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
+  </nz-tag>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>

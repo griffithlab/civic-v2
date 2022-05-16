@@ -159,7 +159,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.initialSelectedEids.forEach((eid) =>
       this.selectedEvidenceIds.set(eid.id, eid))
 
-    this.result$ = this.queryRef.valueChanges.pipe(tag('result$'))
+    this.result$ = this.queryRef.valueChanges
 
     // for controlling nzTable's loading overlay, which covers the whole table -
     // good for the initial load as it's hard to miss
@@ -172,7 +172,8 @@ export class CvcEvidenceTableComponent implements OnInit {
     // users by overlaying the row data they're focusing on
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
-        distinctUntilChanged());
+        distinctUntilChanged(),
+        skip(2));
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'evidenceItems'),
