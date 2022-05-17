@@ -41,7 +41,6 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() diseaseId: Maybe<number>
   @Input() displayGeneAndVariant = true
   @Input() drugId: Maybe<number>
-  @Input() initialPageSize = 30
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() organizationId: Maybe<number>
@@ -50,7 +49,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() status: Maybe<EvidenceStatus>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
-
+  @Input() initialPageSize = 35
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
     // assign any attributes in filters object to this class
