@@ -11,18 +11,18 @@ import { isNonNulled } from 'rxjs-etc';
 import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
-  eidInput: Maybe<string>
-  diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
-  descriptionInput: Maybe<string>
-  evidenceLevelInput: Maybe<EvidenceLevel>
-  evidenceTypeInput: Maybe<EvidenceType>
-  evidenceDirectionInput: Maybe<EvidenceDirection>
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
-  variantOriginInput: Maybe<VariantOrigin>
-  evidenceRatingInput: Maybe<number>
-  variantNameInput: Maybe<string>
-  geneSymbolInput: Maybe<string>
+  eidInput?: Maybe<string>
+  diseaseNameInput?: Maybe<string>
+  drugNameInput?: Maybe<string>
+  descriptionInput?: Maybe<string>
+  evidenceLevelInput?: Maybe<EvidenceLevel>
+  evidenceTypeInput?: Maybe<EvidenceType>
+  evidenceDirectionInput?: Maybe<EvidenceDirection>
+  clinicalSignificanceInput?: Maybe<EvidenceClinicalSignificance>
+  variantOriginInput?: Maybe<VariantOrigin>
+  evidenceRatingInput?: Maybe<number>
+  variantNameInput?: Maybe<string>
+  geneSymbolInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -83,8 +83,6 @@ export class CvcEvidenceTableComponent implements OnInit {
   // virtual scroll rows degrades performance
   isScrolling: boolean = false
 
-  selectedEvidenceIds = new Map<number, FormEvidence>()
-
   // filters
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
   descriptionInput: Maybe<string>
@@ -100,6 +98,8 @@ export class CvcEvidenceTableComponent implements OnInit {
   variantOriginInput: Maybe<VariantOrigin>
 
   sortColumns = EvidenceSortColumns
+
+  selectedEvidenceIds = new Map<number, FormEvidence>()
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)

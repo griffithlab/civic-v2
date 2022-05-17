@@ -1,14 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
 import { BrowseGeneConnection, BrowseGenesFieldsFragment, BrowseGenesGQL, BrowseGenesQuery, BrowseGenesQueryVariables, GenesSortColumns, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { tag } from 'rxjs-spy/cjs/operators';
 import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
+
+export interface BrowseGenesTableUserFilters {
+  diseaseInput?: Maybe<string>
+  drugInput?: Maybe<string>
+  nameInput?: Maybe<string>
+  aliasInput?: Maybe<string>
+}
 
 @UntilDestroy()
 @Component({
@@ -21,6 +27,12 @@ export class CvcGenesTableComponent implements OnInit {
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() initialPageSize: number = 35
+  @Input()
+  set initialUserFilters(f: Maybe<BrowseGenesTableUserFilters>) {
+    // assign any attributes in filters object to this class
+    if (f) Object.assign(this, f)
+  }
 
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
@@ -43,9 +55,6 @@ export class CvcGenesTableComponent implements OnInit {
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
   isScrolling: boolean = false
-
-  initialPageSize = 35
-  textInputCallback?: () => void
 
   // filters
   diseaseInput: Maybe<string>

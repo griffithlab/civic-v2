@@ -10,11 +10,11 @@ import { isNonNulled } from 'rxjs-etc';
 import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
 
 export interface VariantTableUserFilters {
-  variantNameInput: Maybe<string>;
-  geneSymbolInput: Maybe<string>;
-  diseaseNameInput: Maybe<string>;
-  drugNameInput: Maybe<string>;
-  variantAliasInput: Maybe<string>;
+  variantNameInput?: Maybe<string>
+  geneSymbolInput?: Maybe<string>
+  diseaseNameInput?: Maybe<string>
+  drugNameInput?: Maybe<string>
+  variantAliasInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -83,7 +83,7 @@ export class CvcVariantsTableComponent implements OnInit {
       first: this.initialPageSize,
       variantTypeId: this.variantTypeId,
       variantGroupId: this.variantGroupId
-    };
+    }
 
     this.queryRef = this.gql.watch(this.initialQueryArgs)
 
@@ -127,7 +127,7 @@ export class CvcVariantsTableComponent implements OnInit {
     this.filterChange$
       .pipe(debounceTime(500),
         untilDestroyed(this))
-      .subscribe(() => { this.refresh() })
+      .subscribe(() => { this.refresh() });
 
     // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
@@ -137,7 +137,7 @@ export class CvcVariantsTableComponent implements OnInit {
       .subscribe((e) => {
         this.isScrolling = e
         this.cdr.detectChanges()
-      })
+      });
 
     // emit event from noMoreRow$ if hasNextPage false
     this.scrollEvent$
