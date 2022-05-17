@@ -222,7 +222,8 @@ export class CvcEvidenceTableComponent implements OnInit {
           setInterval(() => this.noMoreRows$.next(false));
         }
       });
-  }
+
+  } // ngOnInit
 
   refresh() {
     let eid: Maybe<number>;
