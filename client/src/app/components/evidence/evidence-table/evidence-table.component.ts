@@ -81,7 +81,7 @@ export class CvcEvidenceTableComponent implements OnInit {
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
-  isScrolling: boolean = false
+  isScrolling = false
 
   // filters
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
