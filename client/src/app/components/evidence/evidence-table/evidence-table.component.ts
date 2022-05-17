@@ -162,6 +162,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         distinctUntilChanged(),
         skip(2));
 
+    // entity relay connection
     this.connection$ = this.result$
       .pipe(pluck('data', 'evidenceItems'),
         filter(isNonNulled)) as Observable<EvidenceItemConnection>;

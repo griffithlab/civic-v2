@@ -26,15 +26,20 @@
 <ng-template #table>
   <nz-table #virtualTable
     nzSize="small"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
-    [nzData]="variantTypes$ | ngrxPush"
-    [nzLoading]="isLoading"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th nzWidth="450px"
           nzLeft
@@ -62,13 +67,11 @@
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="nameFilter"
-            placeholderText="Search Name"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="soidFilter"
-            placeholderText="Search SO ID"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzRight>
         </th>
@@ -111,24 +114,20 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
-    nz-typography
-    nzType="secondary">
-    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
+
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
-  <ng-template #noData>
-    <span nz-typography
-      nzType="secondary">
-      (0 total)
-    </span>
-  </ng-template>
 </ng-template>
 
+<!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
     <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
   </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>
