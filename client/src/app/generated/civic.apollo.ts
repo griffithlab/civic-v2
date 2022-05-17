@@ -5095,7 +5095,7 @@ export type BrowseVariantsQueryVariables = Exact<{
 
 export type BrowseVariantsQuery = { __typename: 'Query', browseVariants: { __typename: 'BrowseVariantConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseVariantEdge', cursor: string, node?: { __typename: 'BrowseVariant', id: number, name: string, link: string, evidenceScore: number, evidenceItemCount: number, geneId: number, geneName: string, geneLink: string, assertionCount: number, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> } | undefined }> } };
 
-export type VariantGridFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, evidenceScore: number, evidenceItemCount: number, geneId: number, geneName: string, geneLink: string, assertionCount: number, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
+export type BrowseVariantsFieldsFragment = { __typename: 'BrowseVariant', id: number, name: string, link: string, evidenceScore: number, evidenceItemCount: number, geneId: number, geneName: string, geneLink: string, assertionCount: number, diseases: Array<{ __typename: 'Disease', id: number, name: string, link: string }>, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, aliases: Array<{ __typename: 'VariantAlias', name: string }> };
 
 export type ViewerBaseQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6672,8 +6672,8 @@ export const MenuVariantFragmentDoc = gql`
   link
 }
     `;
-export const VariantGridFieldsFragmentDoc = gql`
-    fragment VariantGridFields on BrowseVariant {
+export const BrowseVariantsFieldsFragmentDoc = gql`
+    fragment BrowseVariantsFields on BrowseVariant {
   id
   name
   link
@@ -9139,7 +9139,7 @@ export const BrowseVariantsDocument = gql`
     edges {
       cursor
       node {
-        ...VariantGridFields
+        ...BrowseVariantsFields
       }
     }
     totalCount
@@ -9147,7 +9147,7 @@ export const BrowseVariantsDocument = gql`
     pageCount
   }
 }
-    ${VariantGridFieldsFragmentDoc}`;
+    ${BrowseVariantsFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

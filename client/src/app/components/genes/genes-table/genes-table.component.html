@@ -95,19 +95,19 @@
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="nameInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="aliasInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="drugInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
         <th nzRight></th>

@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, share, skip, take, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
   eidInput: Maybe<string>
@@ -225,15 +225,6 @@ export class CvcEvidenceTableComponent implements OnInit {
       });
   }
 
-  onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
-    if (newValue) {
-      this.selectedEvidenceIds.set(eid.id, eid);
-    } else {
-      this.selectedEvidenceIds.delete(eid.id);
-    }
-    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()));
-  }
-
   refresh() {
     let eid: Maybe<number>;
     if (this.eidInput)
@@ -273,6 +264,15 @@ export class CvcEvidenceTableComponent implements OnInit {
       .then(() => this.scrollIndex$.next(0));
 
     this.cdr.detectChanges()
+  }
+
+  onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
+    if (newValue) {
+      this.selectedEvidenceIds.set(eid.id, eid);
+    } else {
+      this.selectedEvidenceIds.delete(eid.id);
+    }
+    this.selectedEids.emit(Array.from(this.selectedEvidenceIds.values()));
   }
 
   trackByIndex(_: number, data: EvidenceGridFieldsFragment): number {

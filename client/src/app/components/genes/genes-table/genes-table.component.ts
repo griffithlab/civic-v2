@@ -25,8 +25,10 @@ export class CvcGenesTableComponent implements OnInit {
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
   sortChange$: Subject<SortDirectionEvent>
+  filterChange$: Subject<void>
 
   // INTERMEDIATE STREAMS
+  queryRef!: QueryRef<BrowseGenesQuery, BrowseGenesQueryVariables>
   result$!: Observable<ApolloQueryResult<BrowseGenesQuery>>
   connection$!: Observable<BrowseGeneConnection>
   pageInfo$!: Observable<PageInfo>
@@ -37,7 +39,6 @@ export class CvcGenesTableComponent implements OnInit {
   row$!: Observable<Maybe<BrowseGenesFieldsFragment>[]>
   scrollIndex$: Subject<number>
   noMoreRows$: BehaviorSubject<boolean>
-  queryRef!: QueryRef<BrowseGenesQuery, BrowseGenesQueryVariables>
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
@@ -59,27 +60,26 @@ export class CvcGenesTableComponent implements OnInit {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.filterChange$ = new Subject<void>()
     this.scrollIndex$ = new Subject<number>()
   }
 
   ngOnInit() {
     this.queryRef = this.query.watch({ first: this.initialPageSize })
 
-    this.result$ = this.queryRef.valueChanges.pipe(tag('genes-table-result$'))
+    this.result$ = this.queryRef.valueChanges
 
-    // for controlling nzTable's loading overlay, which covers the whole table -
-    // good for the initial load as it's hard to miss
+    // toggles table overlay 'Loading...' spinner
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
         take(2));
 
-    // controls the smaller [Loading...] indicator, better for not distracting
-    // users by overlaying the row data they're focusing on
+    // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2))
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'browseGenes'),
@@ -90,6 +90,7 @@ export class CvcGenesTableComponent implements OnInit {
         filter(isNonNulled),
         map((edges) => edges.map((e) => e.node)));
 
+    // provided to table-scroll directive for fetchMore queries
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
         filter(isNonNulled));
@@ -101,15 +102,13 @@ export class CvcGenesTableComponent implements OnInit {
         this.queryRef.refetch({ sortBy: buildSortParams(e) });
       });
 
-    this.debouncedQuery
+    // refresh when filters change
+    this.filterChange$
       .pipe(debounceTime(500),
         untilDestroyed(this))
       .subscribe(() => { this.refresh() })
 
-    this.textInputCallback = () => this.debouncedQuery.next()
-
-    // for every onScrolled event, convert to bool, share multicast
-    // false on 'scroll', true on 'stop'
+    // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
       .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
         distinctUntilChanged(),
@@ -119,8 +118,7 @@ export class CvcGenesTableComponent implements OnInit {
         this.cdr.detectChanges()
       })
 
-    // emit event from noMoreRow$ when scroll viewport hits bottom
-    // and no next page exists
+    // emit event from noMoreRow$ if hasNextPage false
     this.scrollEvent$
       .pipe(filter((e) => e === 'bottom'),
         withLatestFrom(this.pageInfo$),
@@ -138,14 +136,17 @@ export class CvcGenesTableComponent implements OnInit {
       });
   } // ngOnInit()
 
-
   refresh() {
-    this.queryRef.refetch({
-      entrezSymbol: this.nameInput,
-      geneAlias: this.aliasInput,
-      diseaseName: this.diseaseInput,
-      drugName: this.drugInput,
-    });
+    this.queryRef
+      .refetch({
+        entrezSymbol: this.nameInput,
+        geneAlias: this.aliasInput,
+        diseaseName: this.diseaseInput,
+        drugName: this.drugInput,
+      })
+      .then(() => this.scrollIndex$.next(0));
+
+    this.cdr.detectChanges()
   }
 
   onModelUpdated(_: Maybe<string>) {
