@@ -64,27 +64,26 @@ export class CvcEvidenceTableComponent implements OnInit {
   // SOURCE STREAMS
   scrollEvent$: BehaviorSubject<ScrollEvent>
   sortChange$: Subject<SortDirectionEvent>
+  filterChange$: Subject<void>
 
   // INTERMEDIATE STREAMS
+  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
   result$!: Observable<ApolloQueryResult<EvidenceBrowseQuery>>
   connection$!: Observable<EvidenceItemConnection>
-  pageInfo$!: Observable<PageInfo>
 
   // PRESENTATION STREAMS
+  pageInfo$!: Observable<PageInfo>
   initialLoading$!: Observable<boolean>
   moreLoading$!: Observable<boolean>
   row$!: Observable<Maybe<EvidenceGridFieldsFragment>[]>
   scrollIndex$: Subject<number>
   noMoreRows$: BehaviorSubject<boolean>
-  queryRef!: QueryRef<EvidenceBrowseQuery, EvidenceBrowseQueryVariables>
 
   // need a static var for scrolling state b/c sub/unsub in
   // virtual scroll rows degrades performance
   isScrolling: boolean = false
 
   selectedEvidenceIds = new Map<number, FormEvidence>()
-  private debouncedQuery = new Subject<void>()
-  textInputCallback?: () => void
 
   // filters
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
@@ -100,12 +99,13 @@ export class CvcEvidenceTableComponent implements OnInit {
   variantNameInput: Maybe<string>
   variantOriginInput: Maybe<VariantOrigin>
 
-  sortColumns: typeof EvidenceSortColumns = EvidenceSortColumns
+  sortColumns = EvidenceSortColumns
 
   constructor(private gql: EvidenceBrowseGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.filterChange$ = new Subject<void>()
     this.scrollIndex$ = new Subject<number>()
   }
 
@@ -151,15 +151,13 @@ export class CvcEvidenceTableComponent implements OnInit {
 
     this.result$ = this.queryRef.valueChanges
 
-    // for controlling nzTable's loading overlay, which covers the whole table -
-    // good for the initial load as it's hard to miss
+    // toggles table overlay 'Loading...' spinner
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
         take(2));
 
-    // controls the smaller [Loading...] indicator, better for not distracting
-    // users by overlaying the row data they're focusing on
+    // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
@@ -175,11 +173,13 @@ export class CvcEvidenceTableComponent implements OnInit {
         untilDestroyed(this))
       .subscribe(tc => this.initialTotalCount.next(tc))
 
+    // entity row nodes
     this.row$ = this.connection$
       .pipe(pluck('edges'),
         filter(isNonNulled),
         map((edges) => edges.map((e) => e.node)));
 
+    // provided to table-scroll directive for fetchMore queries
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
         filter(isNonNulled));
@@ -191,15 +191,13 @@ export class CvcEvidenceTableComponent implements OnInit {
         this.queryRef.refetch({ sortBy: buildSortParams(e) });
       });
 
-    this.debouncedQuery
+    // refresh when filters change
+    this.filterChange$
       .pipe(debounceTime(500),
         untilDestroyed(this))
       .subscribe(() => { this.refresh() })
 
-    this.textInputCallback = () => this.debouncedQuery.next()
-
-    // for every onScrolled event, convert to bool, share multicast
-    // false on 'scroll', true on 'stop'
+    // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
       .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
         distinctUntilChanged(),
@@ -209,8 +207,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         this.cdr.detectChanges()
       })
 
-    // emit event from noMoreRow$ when scroll viewport hits bottom
-    // and no next page exists
+    // emit event from noMoreRow$ if hasNextPage false
     this.scrollEvent$
       .pipe(filter((e) => e === 'bottom'),
         withLatestFrom(this.pageInfo$),
@@ -227,9 +224,6 @@ export class CvcEvidenceTableComponent implements OnInit {
         }
       });
   }
-
-  // filtering, sorting callbacks
-  onModelChanged() { this.debouncedQuery.next() }
 
   onEvidenceCheckboxClicked(newValue: boolean, eid: FormEvidence) {
     if (newValue) {
@@ -276,10 +270,8 @@ export class CvcEvidenceTableComponent implements OnInit {
         geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
       })
-      .then(() => {
-        console.log(`queryRef refetch() then()`)
-        this.scrollIndex$.next(0)
-      });
+      .then(() => this.scrollIndex$.next(0));
+
     this.cdr.detectChanges()
   }
 
