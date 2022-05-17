@@ -8,7 +8,7 @@ import { ViewerService } from '@app/core/services/viewer/viewer.service';
 @Component({
   selector: 'cvc-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.less']
+  styleUrls: ['./layout.component.less'],
 })
 export class LayoutComponent {
   isCollapsed = false;

@@ -4771,7 +4771,7 @@ export type BrowseGenesQueryVariables = Exact<{
 
 export type BrowseGenesQuery = { __typename: 'Query', browseGenes: { __typename: 'BrowseGeneConnection', totalCount: number, filteredCount: number, pageCount: number, edges: Array<{ __typename: 'BrowseGeneEdge', cursor: string, node?: { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, drugs?: Array<{ __typename: 'Drug', name: string, id: number, link: string }> | undefined } | undefined }>, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean } } };
 
-export type GeneBrowseTableRowFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, drugs?: Array<{ __typename: 'Drug', name: string, id: number, link: string }> | undefined };
+export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, entrezId: number, name: string, link: string, geneAliases?: Array<string> | undefined, variantCount: number, evidenceItemCount: number, assertionCount: number, diseases?: Array<{ __typename: 'Disease', name: string, id: number, link: string }> | undefined, drugs?: Array<{ __typename: 'Drug', name: string, id: number, link: string }> | undefined };
 
 export type QuicksearchQueryVariables = Exact<{
   query: Scalars['String'];
@@ -6241,8 +6241,8 @@ export const GenePopoverFragmentDoc = gql`
   }
 }
     `;
-export const GeneBrowseTableRowFieldsFragmentDoc = gql`
-    fragment GeneBrowseTableRowFields on BrowseGene {
+export const BrowseGenesFieldsFragmentDoc = gql`
+    fragment BrowseGenesFields on BrowseGene {
   id
   entrezId
   name
@@ -8324,7 +8324,7 @@ export const BrowseGenesDocument = gql`
     edges {
       cursor
       node {
-        ...GeneBrowseTableRowFields
+        ...BrowseGenesFields
       }
     }
     pageInfo {
@@ -8338,7 +8338,7 @@ export const BrowseGenesDocument = gql`
     pageCount
   }
 }
-    ${GeneBrowseTableRowFieldsFragmentDoc}`;
+    ${BrowseGenesFieldsFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

@@ -8,7 +8,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { tag } from 'rxjs-spy/cjs/operators';
 import { debounceTime, distinctUntilChanged, filter, map, pluck, share, skip, take, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
@@ -84,16 +83,8 @@ export class CvcEvidenceTableComponent implements OnInit {
   isScrolling: boolean = false
 
   selectedEvidenceIds = new Map<number, FormEvidence>()
-
   private debouncedQuery = new Subject<void>()
-
-  isLoadingDelay = 100
-
-  tableView = true
-
   textInputCallback?: () => void
-
-  showTooltips = true
 
   // filters
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
