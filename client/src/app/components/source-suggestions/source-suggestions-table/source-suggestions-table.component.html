@@ -27,15 +27,20 @@
 <ng-template #table>
   <nz-table #virtualTable
     nzSize="small"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
     [nzVirtualForTrackBy]="trackByIndex"
-    [nzData]="sourceSuggestions$ | ngrxPush"
-    [nzLoading]="isLoading"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th nzWidth="100px"
           nzLeft>
@@ -105,7 +110,7 @@
             nzSize="small"
             nzPlaceHolder="Any"
             [nzDropdownMatchSelectWidth]="false"
-            (ngModelChange)="onModelChanged()"
+            (ngModelChange)="filterChange$.next()"
             [(ngModel)]="statusInput">
             <nz-option nzValue="NEW"
               nzLabel="new"></nz-option>
@@ -117,21 +122,19 @@
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="citationInput"
-            placeholderText="Citation"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th></th>
         <th>
           <cvc-clearable-input-filter *ngIf="!this.submitterId"
             [(inputModel)]="submitterInput"
-            placeholderText="Submitter"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <nz-select nzAllowClear
             nzSize="small"
             nzPlaceHolder="Any"
-            (ngModelChange)="onModelChanged()"
+            (ngModelChange)="filterChange$.next()"
             [(ngModel)]="sourceTypeInput">
             <nz-option nzValue="PUBMED"
               nzLabel="PubMed"></nz-option>
@@ -142,22 +145,22 @@
         <th>
           <cvc-clearable-input-filter [(inputModel)]="citationIdInput"
             placeholderText="ID"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
             placeholderText="Gene"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
             placeholderText="Variant"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
             placeholderText="Disease"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th></th>
         <th nzRight></th>
@@ -189,7 +192,7 @@
                   <i *ngIf="suggestion.reason &&  suggestion.reason !=''"
                     nz-icon
                     nz-tooltip
-                    [nzTooltipTitle]="showTooltips ? suggestion.reason : ''"
+                    [nzTooltipTitle]="!isScrolling ? suggestion.reason : ''"
                     nzType="civic-comment"></i> {{ suggestion.status | lowercase}}
                 </nz-tag>
               </ng-container>
@@ -202,7 +205,7 @@
           <td nzAlign="center"
             nz-tooltip
             nzTooltipPlacement="top"
-            [nzTooltipTitle]="showTooltips ? suggestion.initialComment : ''">
+            [nzTooltipTitle]="!isScrolling ? suggestion.initialComment : ''">
             <i nz-icon
               nzType="civic:comment"></i>
           </td>
@@ -245,7 +248,7 @@
                 nz-button
                 nzSize="small"
                 nz-tooltip
-                [nzTooltipTitle]="showTooltips ? 'Create Evidence with this Source' : ''"
+                [nzTooltipTitle]="!isScrolling ? 'Create Evidence with this Source' : ''"
                 [nzTooltipMouseEnterDelay]="1">
                 <i nz-icon
                   nzType="civic-evidence"></i>
@@ -257,7 +260,7 @@
                 nzPopoverPlacement="left"
                 nzPopoverTrigger="click"
                 nz-tooltip
-                [nzTooltipTitle]="showTooltips ? 'Manage Source Suggestion' : ''"
+                [nzTooltipTitle]="!isScrolling ? 'Manage Source Suggestion' : ''"
                 nzTooltipPlacement="top"
                 [nzTooltipMouseEnterDelay]="1"
                 [nzPopoverContent]="manageSuggestionTemplate"
@@ -282,6 +285,7 @@
   </cvc-update-source-suggestion-form>
 </ng-template>
 
+<!-- card's title template -->
 <ng-template #titleTemplate>
   <i nz-icon
     nzType="civic:source"></i>
@@ -291,24 +295,20 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
-    nz-typography
-    nzType="secondary">
-    ({{totalCount}} new, showing {{visibleCount}} of {{filteredCount}} filtered)
+
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
-  <ng-template #noData>
-    <span nz-typography
-      nzType="secondary">
-      (0 total)
-    </span>
-  </ng-template>
 </ng-template>
 
+<!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
     <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
   </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>
