@@ -145,10 +145,11 @@ export class CvcVariantTypesTableComponent implements OnInit {
   } // ngOnInit
 
   refresh() {
-    this.queryRef?.refetch({
-      name: this.nameFilter,
-      soid: this.soidFilter
-    })
+    this.queryRef
+      .refetch({
+        name: this.nameFilter,
+        soid: this.soidFilter
+      })
       .then(() => this.scrollIndex$.next(0));
 
     this.cdr.detectChanges()

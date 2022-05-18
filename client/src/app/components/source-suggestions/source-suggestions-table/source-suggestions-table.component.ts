@@ -188,18 +188,22 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
 
   } // ngOnInit
   refresh() {
-    this.queryRef?.refetch({
-      citationId: this.citationIdInput ? +this.citationIdInput : undefined,
-      sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
-      sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
-      geneName: this.geneNameInput,
-      variantName: this.variantNameInput,
-      diseaseName: this.diseaseNameInput,
-      comment: this.commentInput,
-      submitter: this.submitterInput,
-      citation: this.citationInput,
-      status: this.statusInput ? this.statusInput : undefined
-    })
+    this.queryRef
+      .refetch({
+        citationId: this.citationIdInput ? +this.citationIdInput : undefined,
+        sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
+        sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
+        geneName: this.geneNameInput,
+        variantName: this.variantNameInput,
+        diseaseName: this.diseaseNameInput,
+        comment: this.commentInput,
+        submitter: this.submitterInput,
+        citation: this.citationInput,
+        status: this.statusInput ? this.statusInput : undefined
+      })
+      .then(() => this.scrollIndex$.next(0));
+
+    this.cdr.detectChanges()
   }
 
 
