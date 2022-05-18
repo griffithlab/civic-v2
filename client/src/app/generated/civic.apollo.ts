@@ -4799,13 +4799,12 @@ export type OrganizationsBrowseQueryVariables = Exact<{
   id?: InputMaybe<Scalars['Int']>;
   orgName?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<OrganizationSort>;
-  cardView: Scalars['Boolean'];
 }>;
 
 
-export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'OrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'OrganizationEdge', cursor: string, node?: { __typename: 'Organization', id: number, name: string, description?: string, profileImagePath?: string | undefined, url: string, memberCount: number, eventCount: number, subGroups: Array<{ __typename: 'Organization', name: string, id: number }>, mostRecentEvent?: { __typename: 'Event', createdAt: any } | undefined, orgStatsHash?: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } } | undefined }> } };
+export type OrganizationsBrowseQuery = { __typename: 'Query', organizations: { __typename: 'OrganizationConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'OrganizationEdge', cursor: string, node?: { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, subGroups: Array<{ __typename: 'Organization', name: string, id: number }>, mostRecentEvent?: { __typename: 'Event', createdAt: any } | undefined } | undefined }> } };
 
-export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'Organization', id: number, name: string, description?: string, profileImagePath?: string | undefined, url: string, memberCount: number, eventCount: number, subGroups: Array<{ __typename: 'Organization', name: string, id: number }>, mostRecentEvent?: { __typename: 'Event', createdAt: any } | undefined, orgStatsHash?: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number } };
+export type OrganizationBrowseTableRowFieldsFragment = { __typename: 'Organization', id: number, name: string, description: string, url: string, memberCount: number, eventCount: number, subGroups: Array<{ __typename: 'Organization', name: string, id: number }>, mostRecentEvent?: { __typename: 'Event', createdAt: any } | undefined };
 
 export type PhenotypePopoverQueryVariables = Exact<{
   phenotypeId: Scalars['Int'];
@@ -6284,8 +6283,7 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
     fragment OrganizationBrowseTableRowFields on Organization {
   id
   name
-  description @include(if: $cardView)
-  profileImagePath(size: 256) @include(if: $cardView)
+  description
   url
   memberCount
   eventCount
@@ -6295,16 +6293,6 @@ export const OrganizationBrowseTableRowFieldsFragmentDoc = gql`
   }
   mostRecentEvent {
     createdAt
-  }
-  orgStatsHash @include(if: $cardView) {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
   }
 }
     `;
@@ -8387,7 +8375,7 @@ export const OrgPopoverDocument = gql`
     }
   }
 export const OrganizationsBrowseDocument = gql`
-    query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $orgName: String, $sortBy: OrganizationSort, $cardView: Boolean!) {
+    query OrganizationsBrowse($first: Int, $last: Int, $before: String, $after: String, $id: Int, $orgName: String, $sortBy: OrganizationSort) {
   organizations(
     first: $first
     last: $last
