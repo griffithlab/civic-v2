@@ -111,4 +111,6 @@ module Constants
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
   }
+
+  CIVICBOT_USER_ID = 385
 end
