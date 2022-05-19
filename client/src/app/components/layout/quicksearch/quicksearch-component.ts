@@ -6,7 +6,6 @@ import { QueryRef } from "apollo-angular";
 import { NzSelectComponent } from "ng-zorro-antd/select";
 import { asyncScheduler, defer, from, iif, Observable, Subject } from "rxjs";
 import { isNonNulled } from "rxjs-etc/dist/esm/util";
-import { tag } from "rxjs-spy/cjs/operators";
 import { distinctUntilChanged, filter, map, skip, switchMap, throttleTime } from "rxjs/operators";
 
 export interface QuicksearchOption {
@@ -59,8 +58,7 @@ export class CvcQuicksearchComponent {
             () => this.queryRef === undefined, // predicate
             defer(() => watchQuery(str)), // true
             defer(() => fetchQuery(str))); // false
-        }),
-        tag('quicksearch onSearch$'));
+        }));
 
     this.isLoading$ = this.response$
       .pipe(map(r => r.loading),
@@ -80,10 +78,10 @@ export class CvcQuicksearchComponent {
         return opts
       }));
 
+    // on option select, navigate to selected entity page, clear select model
     this.onSelect$.subscribe(() => {
-      console.log(this.selectedOpt)
       if (this.selectedOpt) this.router.navigateByUrl(this.urlForResult(this.selectedOpt))
-      this.selectNode.writeValue(undefined);
+      this.selectNode.writeValue(undefined)
     })
 
     // set queryRef with watch(), return its valueChanges observable
