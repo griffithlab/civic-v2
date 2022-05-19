@@ -28,6 +28,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
+import { FormGene } from '../forms.interfaces';
 
 
 interface FormSource {
@@ -118,6 +119,7 @@ interface FormModel {
     evidenceRating: Maybe<number>;
     source: FormSource[];
     variant: FormVariant[];
+    gene: FormGene[];
     variantOrigin: VariantOrigin;
     comment: Maybe<string>,
     organization: Maybe<Organization>
@@ -166,6 +168,14 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             key: 'id',
             type: 'input',
             hide: true
+          },
+          {
+            key: 'gene',
+            type: 'gene-array',
+            templateOptions: {
+              maxCount: 1,
+              required: true
+            }
           },
           {
             key: 'variant',
@@ -345,6 +355,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     return {
       fields: {
         ...evidence,
+        gene: [evidence.gene],
         variant: [evidence.variant],
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],

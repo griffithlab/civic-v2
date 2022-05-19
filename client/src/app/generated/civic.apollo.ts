@@ -6758,7 +6758,7 @@ export type VariantTypeaheadQuery = (
 
 export type VariantTypeaheadFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
+  & Pick<Variant, 'id' | 'name' | 'variantAliases'>
 );
 
 export type AddVariantMutationVariables = Exact<{
@@ -6835,7 +6835,10 @@ export type EvidenceItemRevisableFieldsQuery = (
 export type RevisableEvidenceFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'variantOrigin' | 'description' | 'clinicalSignificance' | 'drugInteractionType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceType' | 'evidenceRating'>
-  & { variant: (
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name' | 'link'>
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), disease?: Maybe<(
@@ -9410,6 +9413,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
   id
   name
+  variantAliases
 }
     `;
 export const AddVariantFieldsFragmentDoc = gql`
@@ -9431,6 +9435,11 @@ export const VariantSelectFieldsFragmentDoc = gql`
 export const RevisableEvidenceFieldsFragmentDoc = gql`
     fragment RevisableEvidenceFields on EvidenceItem {
   id
+  gene {
+    id
+    name
+    link
+  }
   variant {
     id
     name
