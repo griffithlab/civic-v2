@@ -47,7 +47,8 @@ export class CvcHomepageEventFeedComponent implements OnInit {
     this.initialQueryVars = {
       first: this.pageSize,
       mode: this.mode,
-      showFilters: this.showFilters
+      showFilters: this.showFilters,
+      includeAutomatedEvents: false
     }
 
     if(environment.production) {

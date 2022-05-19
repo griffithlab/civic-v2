@@ -7,6 +7,7 @@ query EventFeedCount(
     $originatingUserId: Int,
     $organizationId: Int,
     $eventType: EventAction,
+    $includeAutomatedEvents: Boolean,
     $mode: EventFeedMode,
 ) {
     events (
@@ -18,7 +19,8 @@ query EventFeedCount(
         originatingUserId: $originatingUserId,
         organizationId: $organizationId,
         eventType: $eventType,
-        mode: $mode
+        mode: $mode,
+        includeAutomatedEvents: $includeAutomatedEvents
     ) {
         unfilteredCount
     }
@@ -34,7 +36,8 @@ query EventFeed (
     $organizationId: Int,
     $eventType: EventAction,
     $mode: EventFeedMode,
-    $showFilters: Boolean!
+    $includeAutomatedEvents: Boolean = true,
+    $showFilters: Boolean!,
 ){
 events (
     subject: $subject,
@@ -45,6 +48,7 @@ events (
     originatingUserId: $originatingUserId,
     organizationId: $organizationId,
     eventType: $eventType,
+    includeAutomatedEvents: $includeAutomatedEvents
     mode: $mode
 ) { ...eventFeed }
 
