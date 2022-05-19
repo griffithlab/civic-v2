@@ -72,7 +72,7 @@ export class CvcVariantsMenuComponent implements OnInit {
 
     this.menuVariants$ = this.connection$
       .pipe(map(c => c.edges.map((e) => e.node),
-        filter(isNonNulled)), tag('variants-menu menuVariants$'));
+        filter(isNonNulled)));
 
     this.totalVariants$ = this.connection$
       .pipe(map(c => c.totalCount));
