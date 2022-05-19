@@ -2788,6 +2788,7 @@ export type QueryEventsArgs = {
   before?: Maybe<Scalars['String']>;
   eventType?: Maybe<EventAction>;
   first?: Maybe<Scalars['Int']>;
+  includeAutomatedEvents?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Int']>;
   mode?: Maybe<EventFeedMode>;
   organizationId?: Maybe<Scalars['Int']>;
@@ -4955,6 +4956,7 @@ export type EventFeedCountQueryVariables = Exact<{
   originatingUserId?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
   eventType?: Maybe<EventAction>;
+  includeAutomatedEvents?: Maybe<Scalars['Boolean']>;
   mode?: Maybe<EventFeedMode>;
 }>;
 
@@ -4977,6 +4979,7 @@ export type EventFeedQueryVariables = Exact<{
   organizationId?: Maybe<Scalars['Int']>;
   eventType?: Maybe<EventAction>;
   mode?: Maybe<EventFeedMode>;
+  includeAutomatedEvents?: Maybe<Scalars['Boolean']>;
   showFilters: Scalars['Boolean'];
 }>;
 
@@ -6758,7 +6761,7 @@ export type VariantTypeaheadQuery = (
 
 export type VariantTypeaheadFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
+  & Pick<Variant, 'id' | 'name' | 'variantAliases'>
 );
 
 export type AddVariantMutationVariables = Exact<{
@@ -6835,7 +6838,10 @@ export type EvidenceItemRevisableFieldsQuery = (
 export type RevisableEvidenceFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'variantOrigin' | 'description' | 'clinicalSignificance' | 'drugInteractionType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceType' | 'evidenceRating'>
-  & { variant: (
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name' | 'link'>
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), disease?: Maybe<(
@@ -9410,6 +9416,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
   id
   name
+  variantAliases
 }
     `;
 export const AddVariantFieldsFragmentDoc = gql`
@@ -9431,6 +9438,11 @@ export const VariantSelectFieldsFragmentDoc = gql`
 export const RevisableEvidenceFieldsFragmentDoc = gql`
     fragment RevisableEvidenceFields on EvidenceItem {
   id
+  gene {
+    id
+    name
+    link
+  }
   variant {
     id
     name
@@ -10687,7 +10699,7 @@ export const DrugsBrowseDocument = gql`
     }
   }
 export const EventFeedCountDocument = gql`
-    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $includeAutomatedEvents: Boolean, $mode: EventFeedMode) {
   events(
     subject: $subject
     first: $first
@@ -10698,6 +10710,7 @@ export const EventFeedCountDocument = gql`
     organizationId: $organizationId
     eventType: $eventType
     mode: $mode
+    includeAutomatedEvents: $includeAutomatedEvents
   ) {
     unfilteredCount
   }
@@ -10715,7 +10728,7 @@ export const EventFeedCountDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $showFilters: Boolean!) {
+    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $includeAutomatedEvents: Boolean = true, $showFilters: Boolean!) {
   events(
     subject: $subject
     first: $first
@@ -10725,6 +10738,7 @@ export const EventFeedDocument = gql`
     originatingUserId: $originatingUserId
     organizationId: $organizationId
     eventType: $eventType
+    includeAutomatedEvents: $includeAutomatedEvents
     mode: $mode
   ) {
     ...eventFeed

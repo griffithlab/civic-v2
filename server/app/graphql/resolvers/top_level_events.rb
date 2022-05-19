@@ -42,6 +42,14 @@ class Resolvers::TopLevelEvents < GraphQL::Schema::Resolver
     scope.reorder("events.#{value.column} #{value.direction}")
   end
 
+  option(:include_automated_events, type: Boolean, default_value: true) do |scope, value|
+    if !include_automated_events
+      scope.where.not(originating_user_id: Constants::CIVICBOT_USER_ID)
+    else
+      scope
+    end
+  end
+
   option(:mode, type: EventFeedMode) do |_, _|
     #accesed in connection, yuck
   end

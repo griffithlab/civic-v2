@@ -65,6 +65,10 @@ gem 'angular_rails_csrf', '~> 5.0.0'
 gem 'sidekiq', '~> 6.4.1'
 gem 'sidekiq-cron', '~> 1.4.0'
 
+gem 'aws-sdk-s3', '~> 1.94.0'
+gem 'awesome_nested_set', '~> 3.3.0'
+gem 'obo', '~> 0.1.5'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

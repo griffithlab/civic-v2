@@ -9,6 +9,7 @@ query VariantTypeahead($name: String!, $geneId: Int) {
 fragment VariantTypeaheadFields on Variant {
   id
   name
+  variantAliases
 }
 
 mutation AddVariant($name: String!, $geneId: Int!) {
