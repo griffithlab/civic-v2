@@ -9,14 +9,18 @@ import {
   VariantDisplayFilter,
   PageInfo,
   VariantMenuSortColumns,
-  SortDirection
+  SortDirection,
+  VariantConnection
 } from "@app/generated/civic.apollo";
-import { map, debounceTime } from 'rxjs/operators'
-import { Observable, Subject } from 'rxjs';
+import { map, debounceTime, pluck, distinctUntilChanged, filter } from 'rxjs/operators'
+import { Observable, Observer, Subject } from 'rxjs';
 import { Apollo, QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { isNonNulled } from "rxjs-etc";
+import { tag } from "rxjs-spy/cjs/operators";
 
-
+@UntilDestroy()
 @Component({
   selector: 'cvc-variant-menu',
   templateUrl: './variants-menu.component.html',
@@ -35,10 +39,12 @@ export class CvcVariantsMenuComponent implements OnInit {
   sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
   variantNameFilter: Maybe<string>;
 
-  private debouncedQuery = new Subject<void>();
-  private results$!: Observable<ApolloQueryResult<VariantsMenuQuery>>;
-  private initialQueryVars!: VariantsMenuQueryVariables;
+  private debouncedQuery = new Subject<void>()
+  private result$!: Observable<ApolloQueryResult<VariantsMenuQuery>>
+  connection$!: Observable<VariantConnection>
+  private initialQueryVars!: VariantsMenuQueryVariables
   private pageSize = 50;
+
 
   constructor(private gql: VariantsMenuGQL) { }
 
@@ -54,21 +60,26 @@ export class CvcVariantsMenuComponent implements OnInit {
     };
 
     this.queryRef$ = this.gql.watch(this.initialQueryVars);
-    this.results$ = this.queryRef$.valueChanges;
+    this.result$ = this.queryRef$.valueChanges;
 
-    this.pageInfo$ = this.results$.pipe(
-      map(({ data }) => data.variants.pageInfo)
-    );
+    this.connection$ = this.result$
+      .pipe(map(r => r.data?.variants),
+        filter(isNonNulled)) as Observable<VariantConnection>;
 
-    this.menuVariants$ = this.results$.pipe(
-      map(({ data }) => data.variants.edges.map((e) => e.node))
-    );
+    this.pageInfo$ = this.connection$
+      .pipe(map(c => c.pageInfo),
+        filter(isNonNulled));
 
-    this.totalVariants$ = this.results$
-      .pipe(map(({data}) => data.variants.totalCount));
+    this.menuVariants$ = this.connection$
+      .pipe(map(c => c.edges.map((e) => e.node),
+        filter(isNonNulled)), tag('variants-menu menuVariants$'));
+
+    this.totalVariants$ = this.connection$
+      .pipe(map(c => c.totalCount));
 
     this.debouncedQuery
-      .pipe(debounceTime(500))
+      .pipe(debounceTime(500),
+        untilDestroyed(this))
       .subscribe((_) => this.refresh());
   }
 
