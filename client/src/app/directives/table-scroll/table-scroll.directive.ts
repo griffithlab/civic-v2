@@ -107,7 +107,8 @@ export class TableScrollDirective implements AfterViewInit {
         untilDestroyed(this))
       .subscribe((_) => {
         this.cvcTableScrollOnScroll.next('bottom')
-        this.loadMore(this.cvcTableScrollPageInfo)
+        try { this.loadMore(this.cvcTableScrollPageInfo) }
+        catch (e) { console.error(e) }
       });
   }
 
@@ -140,6 +141,8 @@ export class TableScrollDirective implements AfterViewInit {
     const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
     if (host && viewport) {
       viewport.scrollToIndex(index);
+    } else {
+      throw new Error(`table-scroll scrollToIndex() cannot find host viewport.`)
     }
   }
 
@@ -147,6 +150,8 @@ export class TableScrollDirective implements AfterViewInit {
     const [host, viewport] = [this.host, this.host.cdkVirtualScrollViewport]
     if (host && viewport) {
       viewport.scrollToOffset(offset);
+    } else {
+      throw new Error(`table-scroll scrollToOffset() cannot find host viewport.`)
     }
   }
 

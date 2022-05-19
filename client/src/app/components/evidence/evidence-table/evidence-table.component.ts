@@ -195,7 +195,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.filterChange$
       .pipe(debounceTime(500),
         untilDestroyed(this))
-      .subscribe(() => { this.refresh() })
+      .subscribe(() => { this.refresh() });
 
     // for every onScrolled event, convert to bool & set isScrolling
     this.scrollEvent$
@@ -205,7 +205,7 @@ export class CvcEvidenceTableComponent implements OnInit {
       .subscribe((e) => {
         this.isScrolling = e
         this.cdr.detectChanges()
-      })
+      });
 
     // emit event from noMoreRow$ if hasNextPage false
     this.scrollEvent$

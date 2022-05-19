@@ -112,7 +112,7 @@ export class CvcAssertionsTableComponent implements OnInit {
           status: this.status,
         });
 
-    this.result$ = this.queryRef.valueChanges.pipe(tag('assertions-table_result$'))
+    this.result$ = this.queryRef.valueChanges
 
     // for controlling nzTable's loading overlay, which covers the whole table -
     // good for the initial load as it's hard to miss
@@ -135,8 +135,7 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.row$ = this.connection$
       .pipe(pluck('edges'),
         filter(isNonNulled),
-        map((edges) => edges.map((e) => e.node)),
-            tag('assertions-table_row$'));
+        map((edges) => edges.map((e) => e.node)))
 
     this.pageInfo$ = this.connection$
       .pipe(pluck('pageInfo'),
