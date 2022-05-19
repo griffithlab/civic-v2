@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from "@apollo/client/core";
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { EventAction, UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables, Maybe, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, SubscribableEntities, SubscribableInput, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables, ReadStatus, UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables, SubscribableFragment } from '@app/generated/civic.apollo';
+import { EventAction, Maybe, NotificationConnection, NotificationFeedSubjectsFragment, NotificationNodeFragment, NotificationOrganizationFragment, NotificationOriginatingUsersFragment, NotificationReason, PageInfo, ReadStatus, SubscribableEntities, SubscribableInput, UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables, UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables, UserNotificationsGQL, UserNotificationsQuery, UserNotificationsQueryVariables } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, map, startWith } from 'rxjs/operators';
 
 interface SelectableNotificationReason {
   id: number,
@@ -34,6 +35,8 @@ interface Checked { checked: boolean }
   private queryRef!: QueryRef<UserNotificationsQuery, UserNotificationsQueryVariables>;
   private results$!: Observable<ApolloQueryResult<UserNotificationsQuery>>;
 
+  private connection$!: Observable<NotificationConnection>
+
   private initialQueryVars?: UserNotificationsQueryVariables;
 
   notifications$?: Observable<Maybe<NotificationNodeFragment>[]>;
@@ -53,12 +56,12 @@ interface Checked { checked: boolean }
   allChecked: boolean = false
   someChecked: boolean = false
 
-  updateNotificationStatusMutator: MutatorWithState<UpdateNotificationStatusGQL,UpdateNotificationStatusMutation,UpdateNotificationStatusMutationVariables>;
+  updateNotificationStatusMutator: MutatorWithState<UpdateNotificationStatusGQL, UpdateNotificationStatusMutation, UpdateNotificationStatusMutationVariables>;
   unsubscribeMutator: MutatorWithState<UnsubscribeGQL, UnsubscribeMutation, UnsubscribeMutationVariables>
 
   notificationTypes: SelectableNotificationReason[] = [
-    {id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned'},
-    {id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed'},
+    { id: 1, type: NotificationReason.Mention, iconName: 'notification', displayName: 'Mentioned' },
+    { id: 2, type: NotificationReason.Subscription, iconName: 'book', displayName: 'Subscribed' },
   ]
 
 
@@ -73,30 +76,25 @@ interface Checked { checked: boolean }
       includeRead: this.includeReadInput
     }
 
-    this.queryRef = this.gql.watch(this.initialQueryVars);
-    this.results$ = this.queryRef.valueChanges;
+    this.queryRef = this.gql.watch(this.initialQueryVars)
+    this.results$ = this.queryRef.valueChanges
 
-    this.pageInfo$ = this.results$.pipe(
-      map(({ data }) => data.notifications.pageInfo)
-    )
+    this.connection$ = this.results$
+      .pipe(map(r => r.data?.notifications),
+        filter(isNonNulled)) as Observable<NotificationConnection>
 
-/*     this.notifications$ = this.results$.pipe(
-      map(({ data }) => {
-        return data.notifications.edges.map(e => {
-          if (e.node){
-            this.notificationState.set(e.node, {checked: false} )
-          }
-          return e.node
-        })
-      })
-    ) */
+    this.pageInfo$ = this.connection$
+      .pipe(map(c => c.pageInfo),
+        filter(isNonNulled));
 
     this.notificationStateObservable$ = this.results$.pipe(
-      map(({ data }) => {
+      map(r => r.data),
+      filter(isNonNulled),
+      map(({ notifications }) => {
         let checkedMap = new Map<NotificationNodeFragment, Checked>()
-        data.notifications.edges.forEach(e => {
-          if (e.node){
-            let initialChecked = { checked: false}
+        notifications.edges.forEach(e => {
+          if (e.node) {
+            let initialChecked = { checked: false }
             checkedMap.set(e.node, initialChecked)
             this.notificationState.set(e.node, initialChecked)
           }
@@ -106,31 +104,33 @@ interface Checked { checked: boolean }
     )
 
     this.notificationSubjects$ = this.results$.pipe(
-      map(({data}) => {
-        return data.notifications.notificationSubjects.map((ns) => {
-          return { id: `${ns.subject?.__typename}:${ns.subject?.id}`, subjectWithCount: ns} 
+      map(r => r.data),
+      filter(isNonNulled),
+      map(({ notifications }) => {
+        return notifications.notificationSubjects.map((ns) => {
+          return { id: `${ns.subject?.__typename}:${ns.subject?.id}`, subjectWithCount: ns }
         })
       })
     )
 
     this.originatingUsers$ = this.results$.pipe(
-      map(({data}) => {
+      map(({ data }) => {
         return data.notifications.originatingUsers
       })
     )
 
     this.actions$ = this.results$.pipe(
-      map(({data}) => data.notifications.eventTypes.map((et) => {return {id: et}}))
+      map(({ data }) => data.notifications.eventTypes.map((et) => { return { id: et } }))
     )
 
     this.organizations$ = this.results$.pipe(
-      map(({data}) => {
+      map(({ data }) => {
         return data.notifications.organizations
       })
     )
 
     this.isLoading$ = this.results$.pipe(
-      map(({loading}) => loading),
+      map(({ loading }) => loading),
       startWith(true)
     )
 
@@ -153,16 +153,16 @@ interface Checked { checked: boolean }
 
   onNotificationReasonSelected(r: Maybe<SelectableNotificationReason>) {
     this.queryRef.refetch({
-      notificationReason: r ? r.type: undefined
+      notificationReason: r ? r.type : undefined
     })
   }
-  
+
   onNotificationSubjectSelected(s: Maybe<SelectableNotificationSubject>) {
     let orgObj: Maybe<SubscribableInput> = undefined
 
     if (s !== undefined) {
-      let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> s.subjectWithCount.subject?.__typename
-      orgObj = { 
+      let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities>s.subjectWithCount.subject?.__typename
+      orgObj = {
         id: s.subjectWithCount.subject!.id,
         entityType: SubscribableEntities[entityType]
       }
@@ -191,18 +191,18 @@ interface Checked { checked: boolean }
     })
   }
 
-  markAsRead(id: number){
+  markAsRead(id: number) {
     this.updateNotificationStatusMutator.mutate(this.updateNotificationStatusMuation, {
-      input: { 
+      input: {
         ids: [id],
         newStatus: ReadStatus.Read
       }
     })
   }
 
-  markAsUnread(id: number){
+  markAsUnread(id: number) {
     this.updateNotificationStatusMutator.mutate(this.updateNotificationStatusMuation, {
-      input: { 
+      input: {
         ids: [id],
         newStatus: ReadStatus.Unread
       }
@@ -210,10 +210,10 @@ interface Checked { checked: boolean }
   }
 
   unsubscribe(id: number, typename: string) {
-    let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> typename
+    let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities>typename
     this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
-      input :{
-        subscribables: [{id: id, entityType: SubscribableEntities[entityType]}]
+      input: {
+        subscribables: [{ id: id, entityType: SubscribableEntities[entityType] }]
       }
     })
   }
@@ -263,7 +263,7 @@ interface Checked { checked: boolean }
   getCheckedIds() {
     let ids: number[] = []
     this.notificationState.forEach((checked, notification) => {
-      if(checked.checked) {
+      if (checked.checked) {
         ids.push(notification.id)
       }
     })
@@ -273,9 +273,9 @@ interface Checked { checked: boolean }
 
   checkAll() {
     this.queryRef.refetch().then(() => {
-        this.notificationState.forEach((checkedState, _ ) => { 
-          checkedState.checked = true
-        })
+      this.notificationState.forEach((checkedState, _) => {
+        checkedState.checked = true
+      })
     })
     this.allChecked = true
     this.someChecked = false
@@ -284,9 +284,9 @@ interface Checked { checked: boolean }
 
   uncheckAll() {
     this.queryRef.refetch().then(() => {
-      this.notificationState.forEach((checkedState, _ ) => {
-          checkedState.checked = false
-        })
+      this.notificationState.forEach((checkedState, _) => {
+        checkedState.checked = false
+      })
     })
     this.allChecked = false
     this.someChecked = false
@@ -316,8 +316,8 @@ interface Checked { checked: boolean }
   bulkUnsubscribe() {
     let subscribables: SubscribableInput[] = []
     this.notificationState.forEach((checked, notification) => {
-      if(checked.checked && notification.subscription) {
-        let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities> notification.subscription.subscribable.__typename
+      if (checked.checked && notification.subscription) {
+        let entityType: keyof typeof SubscribableEntities = <keyof typeof SubscribableEntities>notification.subscription.subscribable.__typename
         subscribables.push({
           id: notification.subscription.subscribable.id,
           entityType: SubscribableEntities[entityType]
@@ -326,13 +326,13 @@ interface Checked { checked: boolean }
     })
 
     this.unsubscribeMutator.mutate(this.unsubscribeMutation, {
-      input: {subscribables: subscribables}
-      }).submitSuccess$.subscribe((res) => {
-        if(res) {
-          this.queryRef.refetch()
-        }
-      })
+      input: { subscribables: subscribables }
+    }).submitSuccess$.subscribe((res) => {
+      if (res) {
+        this.queryRef.refetch()
+      }
+    })
 
-      this.uncheckAll();
+    this.uncheckAll();
   }
 }
