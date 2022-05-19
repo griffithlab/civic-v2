@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ClinicalTrialPopoverFragment, ClinicalTrialPopoverGQL, Maybe } from "@app/generated/civic.apollo";
-import { map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
+import { isNonNulled } from "rxjs-etc";
 
 @Component({
   selector: 'cvc-clinical-trial-popover',
@@ -21,6 +22,7 @@ export class CvcClinicalTrialPopoverComponent implements OnInit {
     }
     this.clinicalTrial$ = this.gql.watch({ clinicalTrialId: this.clinicalTrialId })
       .valueChanges
-      .pipe(map(({ data }) => data.clinicalTrials.edges[0]?.node))
+      .pipe(map(({ data }) => data?.clinicalTrials.edges[0]?.node),
+        filter(isNonNulled));
   }
 }
