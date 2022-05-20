@@ -37,7 +37,6 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit {
   private queryRef!: QueryRef<DrugTypeaheadQuery, DrugTypeaheadQueryVariables>
   drugs$?: Observable<DrugTypeaheadOption[]>
 
-  private destroy$ = new Subject();
   success: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
@@ -86,8 +85,7 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit {
               drug: d,
             }
           })
-        }),
-        untilDestroyed(this))
+        }));
   }
 
   ngAfterViewInit() {
@@ -117,20 +115,20 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit {
           this.to.searchLength = 0;
         })
 
-      state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
         if (res) {
           this.success = true
         }
       })
 
-      state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+      state.submitError$.pipe(untilDestroyed(this)).subscribe((errs) => {
         if (errs) {
           this.errorMessages = errs
           this.success = false
         }
       })
 
-      state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+      state.isSubmitting$.pipe(untilDestroyed(this)).subscribe((loading) => {
         this.loading = loading
       })
     }
