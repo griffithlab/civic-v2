@@ -25,7 +25,7 @@ query EvidenceBrowse(
   $clinicalTrialId: Int,
   $geneSymbol: String,
   $variantName: String
-  $status: EvidenceStatus
+  $status: EvidenceStatusFilter
 ) {
   evidenceItems(
     first: $first

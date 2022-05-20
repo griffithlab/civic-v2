@@ -11,7 +11,16 @@
       <nz-option *ngFor="let opt of variants$ | ngrxPush"
         nzCustomContent
         [nzValue]="opt.variant">
-        <span [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
+        <nz-space>
+          <span *nzSpaceItem [innerHtml]="opt.label | highlightTypeahead: this.to.searchString"></span>
+          <span *nzSpaceItem nz-typography nzType="secondary">
+            ID: {{opt.variant.id}}
+            <span *ngIf="opt.variant.variantAliases.length > 0">
+              - Aliases:&nbsp;
+            </span>
+            <span [innerHtml]="opt.variant.variantAliases.join(', ')  | highlightTypeahead: this.to.searchString"></span>
+          </span>
+        </nz-space>
       </nz-option>
   </nz-select>
   <ng-template #sourceLoader>

@@ -37,6 +37,10 @@ module Types::Entities
       Loaders::AssociationLoader.for(Variant, :evidence_items).load(object)
     end
 
+    def variant_types
+      Loaders::AssociationLoader.for(Variant, :variant_types).load(object)
+    end
+
     def primary_coordinates
       if (object.representative_transcript.blank? && object.chromosome.blank? && object.start.blank? && object.stop.blank?)
         return nil

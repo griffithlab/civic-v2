@@ -43,6 +43,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
   @Input() showFilters: boolean = true
   @Input() pageSize = 15
   @Input() pollForNewEvents: boolean = true
+  @Input() includeAutomatedEvents: boolean = true
 
   private queryRef!: QueryRef<EventFeedQuery, EventFeedQueryVariables>;
   private results$!: Observable<ApolloQueryResult<EventFeedQuery>>;
@@ -73,7 +74,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
       originatingUserId: this.userId,
       first: this.pageSize,
       mode: this.mode,
-      showFilters: this.showFilters
+      showFilters: this.showFilters,
+      includeAutomatedEvents: this.includeAutomatedEvents 
     }
 
     this.queryRef = this.gql.watch(this.initialQueryVars);

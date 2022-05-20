@@ -3,7 +3,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
 import { FormEvidence } from '@app/forms/forms.interfaces';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatus, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -46,7 +46,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() organizationId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() sourceId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatus>
+  @Input() status: Maybe<EvidenceStatusFilter>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
   @Input() initialPageSize = 35

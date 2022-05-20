@@ -617,6 +617,7 @@ export type BrowseSource = {
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
 };
@@ -1460,6 +1461,13 @@ export enum EvidenceSortColumns {
 
 export enum EvidenceStatus {
   Accepted = 'ACCEPTED',
+  Rejected = 'REJECTED',
+  Submitted = 'SUBMITTED'
+}
+
+export enum EvidenceStatusFilter {
+  Accepted = 'ACCEPTED',
+  All = 'ALL',
   Rejected = 'REJECTED',
   Submitted = 'SUBMITTED'
 }
@@ -2560,6 +2568,8 @@ export type Query = {
   variant?: Maybe<Variant>;
   /** Find a variant group by CIViC ID */
   variantGroup?: Maybe<VariantGroup>;
+  /** List and filter variant groups. */
+  variantGroups: VariantGroupConnection;
   /** Find a variant type by CIViC ID */
   variantType?: Maybe<VariantType>;
   /** Retrieve popover fields for a specific variant type. */
@@ -2603,7 +2613,7 @@ export type QueryAssertionsArgs = {
   organizationId?: InputMaybe<Scalars['Int']>;
   phenotypeId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<AssertionSort>;
-  status?: InputMaybe<EvidenceStatus>;
+  status?: InputMaybe<EvidenceStatusFilter>;
   summary?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['Int']>;
   variantId?: InputMaybe<Scalars['Int']>;
@@ -2775,6 +2785,7 @@ export type QueryEventsArgs = {
   before?: InputMaybe<Scalars['String']>;
   eventType?: InputMaybe<EventAction>;
   first?: InputMaybe<Scalars['Int']>;
+  includeAutomatedEvents?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   mode?: InputMaybe<EventFeedMode>;
   organizationId?: InputMaybe<Scalars['Int']>;
@@ -2812,7 +2823,7 @@ export type QueryEvidenceItemsArgs = {
   phenotypeId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<EvidenceSort>;
   sourceId?: InputMaybe<Scalars['Int']>;
-  status?: InputMaybe<EvidenceStatus>;
+  status?: InputMaybe<EvidenceStatusFilter>;
   userId?: InputMaybe<Scalars['Int']>;
   variantId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
@@ -3050,6 +3061,15 @@ export type QueryVariantArgs = {
 
 export type QueryVariantGroupArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryVariantGroupsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -3518,6 +3538,7 @@ export enum SourcesSortColumns {
   Journal = 'JOURNAL',
   Name = 'NAME',
   SourceType = 'SOURCE_TYPE',
+  SuggestionCount = 'SUGGESTION_COUNT',
   Year = 'YEAR'
 }
 
@@ -4383,6 +4404,30 @@ export type VariantGroupVariantsArgs = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+/** The connection type for VariantGroup. */
+export type VariantGroupConnection = {
+  __typename: 'VariantGroupConnection';
+  /** A list of edges. */
+  edges: Array<VariantGroupEdge>;
+  /** A list of nodes. */
+  nodes: Array<VariantGroup>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type VariantGroupEdge = {
+  __typename: 'VariantGroupEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<VariantGroup>;
+};
+
 /** Fields on a VariantGroup that curators may propose revisions to. */
 export type VariantGroupFields = {
   /** The VariantGroups's description/summary text. */
@@ -4536,7 +4581,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   phenotypeId?: InputMaybe<Scalars['Int']>;
   diseaseId?: InputMaybe<Scalars['Int']>;
   drugId?: InputMaybe<Scalars['Int']>;
-  status?: InputMaybe<EvidenceStatus>;
+  status?: InputMaybe<EvidenceStatusFilter>;
 }>;
 
 
@@ -4649,6 +4694,7 @@ export type EventFeedCountQueryVariables = Exact<{
   originatingUserId?: InputMaybe<Scalars['Int']>;
   organizationId?: InputMaybe<Scalars['Int']>;
   eventType?: InputMaybe<EventAction>;
+  includeAutomatedEvents?: InputMaybe<Scalars['Boolean']>;
   mode?: InputMaybe<EventFeedMode>;
 }>;
 
@@ -4665,6 +4711,7 @@ export type EventFeedQueryVariables = Exact<{
   organizationId?: InputMaybe<Scalars['Int']>;
   eventType?: InputMaybe<EventAction>;
   mode?: InputMaybe<EventFeedMode>;
+  includeAutomatedEvents?: InputMaybe<Scalars['Boolean']>;
   showFilters: Scalars['Boolean'];
 }>;
 
@@ -4711,7 +4758,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   clinicalTrialId?: InputMaybe<Scalars['Int']>;
   geneSymbol?: InputMaybe<Scalars['String']>;
   variantName?: InputMaybe<Scalars['String']>;
-  status?: InputMaybe<EvidenceStatus>;
+  status?: InputMaybe<EvidenceStatusFilter>;
 }>;
 
 
@@ -4973,9 +5020,9 @@ export type BrowseSourcesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string } | undefined }> } };
+export type BrowseSourcesQuery = { __typename: 'Query', browseSources: { __typename: 'BrowseSourceConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseSourceEdge', cursor: string, node?: { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string } | undefined }> } };
 
-export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string };
+export type BrowseSourceRowFieldsFragment = { __typename: 'BrowseSource', id: number, authors: Array<string>, citationId: number, evidenceItemCount: number, sourceSuggestionCount: number, journal?: string | undefined, name?: string | undefined, publicationYear?: number | undefined, sourceType: SourceSource, citation: string, displayType: string, link: string };
 
 export type UserPopoverQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -5294,9 +5341,9 @@ export type VariantTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type VariantTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string }> } };
+export type VariantTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string> }> } };
 
-export type VariantTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string };
+export type VariantTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string> };
 
 export type AddVariantMutationVariables = Exact<{
   name: Scalars['String'];
@@ -5314,7 +5361,7 @@ export type VariantSelectQueryVariables = Exact<{
 }>;
 
 
-export type VariantSelectQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string }> } };
+export type VariantSelectQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string> }> } };
 
 export type VariantSelectFieldsFragment = { __typename: 'Variant', id: number, name: string };
 
@@ -5330,9 +5377,9 @@ export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } } | undefined };
+export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } } | undefined };
 
-export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } };
+export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } };
 
 export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
   input: SuggestEvidenceItemRevisionInput;
@@ -6536,6 +6583,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   authors
   citationId
   evidenceItemCount
+  sourceSuggestionCount
   journal
   name
   publicationYear
@@ -6824,6 +6872,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
   id
   name
+  variantAliases
 }
     `;
 export const AddVariantFieldsFragmentDoc = gql`
@@ -6845,6 +6894,11 @@ export const VariantSelectFieldsFragmentDoc = gql`
 export const RevisableEvidenceFieldsFragmentDoc = gql`
     fragment RevisableEvidenceFields on EvidenceItem {
   id
+  gene {
+    id
+    name
+    link
+  }
   variant {
     id
     name
@@ -7770,7 +7824,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatus) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatusFilter) {
   assertions(
     first: $first
     last: $last
@@ -8101,7 +8155,7 @@ export const DrugsBrowseDocument = gql`
     }
   }
 export const EventFeedCountDocument = gql`
-    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $includeAutomatedEvents: Boolean, $mode: EventFeedMode) {
   events(
     subject: $subject
     first: $first
@@ -8112,6 +8166,7 @@ export const EventFeedCountDocument = gql`
     organizationId: $organizationId
     eventType: $eventType
     mode: $mode
+    includeAutomatedEvents: $includeAutomatedEvents
   ) {
     unfilteredCount
   }
@@ -8129,7 +8184,7 @@ export const EventFeedCountDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $showFilters: Boolean!) {
+    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $includeAutomatedEvents: Boolean = true, $showFilters: Boolean!) {
   events(
     subject: $subject
     first: $first
@@ -8139,6 +8194,7 @@ export const EventFeedDocument = gql`
     originatingUserId: $originatingUserId
     organizationId: $organizationId
     eventType: $eventType
+    includeAutomatedEvents: $includeAutomatedEvents
     mode: $mode
   ) {
     ...eventFeed
@@ -8175,7 +8231,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatus) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last

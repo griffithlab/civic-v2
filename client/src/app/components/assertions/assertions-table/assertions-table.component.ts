@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, T
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
-import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatus, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { tag } from 'rxjs-spy/cjs/operators';
 import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 @UntilDestroy()
@@ -26,7 +25,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
   @Input() drugId: Maybe<number>
-  @Input() status: Maybe<EvidenceStatus>
+  @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
 
