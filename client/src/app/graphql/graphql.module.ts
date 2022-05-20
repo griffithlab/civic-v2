@@ -7,7 +7,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { CvcTypePolicies } from './graphql.type-policies';
 
 
-const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
+const uri = '/api/graphql'; // <-- URL of the GraphQL server
 
 const typePolicies: TypePolicies = CvcTypePolicies;
 
@@ -32,8 +32,8 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     }),
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: "cache-and-network",
-        nextFetchPolicy: "cache-first",
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
         // returnPartialData: true

@@ -26,3 +26,17 @@ fragment AddVariantFields on AddVariantPayload {
     name
   }
 }
+
+query VariantSelect($name: String!, $geneId: Int) {
+  variants(name: $name, first: 20, geneId: $geneId) {
+    nodes {
+      ... VariantTypeaheadFields
+    }
+  }
+}
+
+
+fragment VariantSelectFields on Variant {
+  id
+  name
+}
