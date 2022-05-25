@@ -618,6 +618,7 @@ export type BrowseSource = {
   link: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   publicationYear?: Maybe<Scalars['Int']>;
+  sourceSuggestionCount: Scalars['Int'];
   sourceType: SourceSource;
   sourceUrl: Scalars['String'];
 };
@@ -1461,6 +1462,13 @@ export enum EvidenceSortColumns {
 
 export enum EvidenceStatus {
   Accepted = 'ACCEPTED',
+  Rejected = 'REJECTED',
+  Submitted = 'SUBMITTED'
+}
+
+export enum EvidenceStatusFilter {
+  Accepted = 'ACCEPTED',
+  All = 'ALL',
   Rejected = 'REJECTED',
   Submitted = 'SUBMITTED'
 }
@@ -2563,6 +2571,8 @@ export type Query = {
   variant?: Maybe<Variant>;
   /** Find a variant group by CIViC ID */
   variantGroup?: Maybe<VariantGroup>;
+  /** List and filter variant groups. */
+  variantGroups: VariantGroupConnection;
   /** Find a variant type by CIViC ID */
   variantType?: Maybe<VariantType>;
   /** Retrieve popover fields for a specific variant type. */
@@ -2606,7 +2616,7 @@ export type QueryAssertionsArgs = {
   organizationId?: Maybe<Scalars['Int']>;
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<AssertionSort>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   summary?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
@@ -2778,6 +2788,7 @@ export type QueryEventsArgs = {
   before?: Maybe<Scalars['String']>;
   eventType?: Maybe<EventAction>;
   first?: Maybe<Scalars['Int']>;
+  includeAutomatedEvents?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Int']>;
   mode?: Maybe<EventFeedMode>;
   organizationId?: Maybe<Scalars['Int']>;
@@ -2815,7 +2826,7 @@ export type QueryEvidenceItemsArgs = {
   phenotypeId?: Maybe<Scalars['Int']>;
   sortBy?: Maybe<EvidenceSort>;
   sourceId?: Maybe<Scalars['Int']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   userId?: Maybe<Scalars['Int']>;
   variantId?: Maybe<Scalars['Int']>;
   variantName?: Maybe<Scalars['String']>;
@@ -3053,6 +3064,15 @@ export type QueryVariantArgs = {
 
 export type QueryVariantGroupArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryVariantGroupsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  geneId?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -3521,6 +3541,7 @@ export enum SourcesSortColumns {
   Journal = 'JOURNAL',
   Name = 'NAME',
   SourceType = 'SOURCE_TYPE',
+  SuggestionCount = 'SUGGESTION_COUNT',
   Year = 'YEAR'
 }
 
@@ -4386,6 +4407,30 @@ export type VariantGroupVariantsArgs = {
   name?: Maybe<Scalars['String']>;
 };
 
+/** The connection type for VariantGroup. */
+export type VariantGroupConnection = {
+  __typename: 'VariantGroupConnection';
+  /** A list of edges. */
+  edges: Array<VariantGroupEdge>;
+  /** A list of nodes. */
+  nodes: Array<VariantGroup>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type VariantGroupEdge = {
+  __typename: 'VariantGroupEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<VariantGroup>;
+};
+
 /** Fields on a VariantGroup that curators may propose revisions to. */
 export type VariantGroupFields = {
   /** The VariantGroups's description/summary text. */
@@ -4579,7 +4624,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   phenotypeId?: Maybe<Scalars['Int']>;
   diseaseId?: Maybe<Scalars['Int']>;
   drugId?: Maybe<Scalars['Int']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -4911,6 +4956,7 @@ export type EventFeedCountQueryVariables = Exact<{
   originatingUserId?: Maybe<Scalars['Int']>;
   organizationId?: Maybe<Scalars['Int']>;
   eventType?: Maybe<EventAction>;
+  includeAutomatedEvents?: Maybe<Scalars['Boolean']>;
   mode?: Maybe<EventFeedMode>;
 }>;
 
@@ -4933,6 +4979,7 @@ export type EventFeedQueryVariables = Exact<{
   organizationId?: Maybe<Scalars['Int']>;
   eventType?: Maybe<EventAction>;
   mode?: Maybe<EventFeedMode>;
+  includeAutomatedEvents?: Maybe<Scalars['Boolean']>;
   showFilters: Scalars['Boolean'];
 }>;
 
@@ -5100,7 +5147,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   clinicalTrialId?: Maybe<Scalars['Int']>;
   geneSymbol?: Maybe<Scalars['String']>;
   variantName?: Maybe<Scalars['String']>;
-  status?: Maybe<EvidenceStatus>;
+  status?: Maybe<EvidenceStatusFilter>;
   cardView: Scalars['Boolean'];
 }>;
 
@@ -5963,7 +6010,7 @@ export type BrowseSourcesQuery = (
 
 export type BrowseSourceRowFieldsFragment = (
   { __typename: 'BrowseSource' }
-  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
+  & Pick<BrowseSource, 'id' | 'authors' | 'citationId' | 'evidenceItemCount' | 'sourceSuggestionCount' | 'journal' | 'name' | 'publicationYear' | 'sourceType' | 'citation' | 'displayType' | 'link'>
 );
 
 export type UserPopoverQueryVariables = Exact<{
@@ -6714,7 +6761,7 @@ export type VariantTypeaheadQuery = (
 
 export type VariantTypeaheadFieldsFragment = (
   { __typename: 'Variant' }
-  & Pick<Variant, 'id' | 'name'>
+  & Pick<Variant, 'id' | 'name' | 'variantAliases'>
 );
 
 export type AddVariantMutationVariables = Exact<{
@@ -6791,7 +6838,10 @@ export type EvidenceItemRevisableFieldsQuery = (
 export type RevisableEvidenceFieldsFragment = (
   { __typename: 'EvidenceItem' }
   & Pick<EvidenceItem, 'id' | 'variantOrigin' | 'description' | 'clinicalSignificance' | 'drugInteractionType' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceType' | 'evidenceRating'>
-  & { variant: (
+  & { gene: (
+    { __typename: 'Gene' }
+    & Pick<Gene, 'id' | 'name' | 'link'>
+  ), variant: (
     { __typename: 'Variant' }
     & Pick<Variant, 'id' | 'name' | 'link'>
   ), disease?: Maybe<(
@@ -9077,6 +9127,7 @@ export const BrowseSourceRowFieldsFragmentDoc = gql`
   authors
   citationId
   evidenceItemCount
+  sourceSuggestionCount
   journal
   name
   publicationYear
@@ -9365,6 +9416,7 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
     fragment VariantTypeaheadFields on Variant {
   id
   name
+  variantAliases
 }
     `;
 export const AddVariantFieldsFragmentDoc = gql`
@@ -9386,6 +9438,11 @@ export const VariantSelectFieldsFragmentDoc = gql`
 export const RevisableEvidenceFieldsFragmentDoc = gql`
     fragment RevisableEvidenceFields on EvidenceItem {
   id
+  gene {
+    id
+    name
+    link
+  }
   variant {
     id
     name
@@ -10311,7 +10368,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatus, $cardView: Boolean!) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatusFilter, $cardView: Boolean!) {
   assertions(
     first: $first
     last: $last
@@ -10642,7 +10699,7 @@ export const DrugsBrowseDocument = gql`
     }
   }
 export const EventFeedCountDocument = gql`
-    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode) {
+    query EventFeedCount($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $includeAutomatedEvents: Boolean, $mode: EventFeedMode) {
   events(
     subject: $subject
     first: $first
@@ -10653,6 +10710,7 @@ export const EventFeedCountDocument = gql`
     organizationId: $organizationId
     eventType: $eventType
     mode: $mode
+    includeAutomatedEvents: $includeAutomatedEvents
   ) {
     unfilteredCount
   }
@@ -10670,7 +10728,7 @@ export const EventFeedCountDocument = gql`
     }
   }
 export const EventFeedDocument = gql`
-    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $showFilters: Boolean!) {
+    query EventFeed($subject: SubscribableQueryInput, $first: Int, $last: Int, $before: String, $after: String, $originatingUserId: Int, $organizationId: Int, $eventType: EventAction, $mode: EventFeedMode, $includeAutomatedEvents: Boolean = true, $showFilters: Boolean!) {
   events(
     subject: $subject
     first: $first
@@ -10680,6 +10738,7 @@ export const EventFeedDocument = gql`
     originatingUserId: $originatingUserId
     organizationId: $organizationId
     eventType: $eventType
+    includeAutomatedEvents: $includeAutomatedEvents
     mode: $mode
   ) {
     ...eventFeed
@@ -10716,7 +10775,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatus, $cardView: Boolean!) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatusFilter, $cardView: Boolean!) {
   evidenceItems(
     first: $first
     last: $last

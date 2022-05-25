@@ -12,7 +12,7 @@ def createUrl2(hostPath, params, login, password)
   params.each { |p|
     i = p.index('=')
     next if i.nil? or (i+1 == p.size)
-    p = p[0..i] + URI::escape(p[i+1..-1])
+    p = p[0..i] + CGI.escape(p[i+1..-1])
     params2 << p
   }
   # build url
@@ -25,7 +25,7 @@ def createUrl2(hostPath, params, login, password)
   identity = Digest::SHA1.hexdigest("#{login}#{password}")
   gbTime = Time.now.to_i.to_s
   token = Digest::SHA1.hexdigest("#{urlCoded}#{identity}#{gbTime}")
-  request = "#{url}&gbLogin=#{URI::escape(login)}&gbTime=#{gbTime}&gbToken=#{URI::escape(token)}"
+  request = "#{url}&gbLogin=#{CGI.escape(login)}&gbTime=#{gbTime}&gbToken=#{CGI.escape(token)}"
   return request
 end
 
@@ -35,7 +35,7 @@ def createUrl(hostPath, params)
   params.each { |p|
     i = p.index('=')
     next if i.nil? or (i+1 == p.size)
-    p = p[0..i] + URI::escape(p[i+1..-1])
+    p = p[0..i] + CGI.escape(p[i+1..-1])
     params2 << p
   }
   # build url

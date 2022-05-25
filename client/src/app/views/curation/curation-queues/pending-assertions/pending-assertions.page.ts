@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EvidenceStatus } from '@app/generated/civic.apollo';
+import { EvidenceStatusFilter } from '@app/generated/civic.apollo';
 
 @Component({
   selector: 'cvc-pending-assertions-page',
@@ -7,7 +7,7 @@ import { EvidenceStatus } from '@app/generated/civic.apollo';
   styleUrls: ['./pending-assertions.page.less']
 })
 export class PendingAssertionsPage implements OnInit {
-  status = EvidenceStatus.Submitted
+  status = EvidenceStatusFilter.Submitted
 
   constructor() { }
 

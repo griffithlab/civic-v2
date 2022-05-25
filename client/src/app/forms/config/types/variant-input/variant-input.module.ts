@@ -10,6 +10,8 @@ import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/for
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [VariantInputType],
@@ -21,6 +23,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzSelectModule,
     NzButtonModule,
     NzIconModule,
+    NzSpaceModule,
+    NzTypographyModule,
     CvcVariantTagModule,
     CvcFormErrorsAlertModule,
     CvcPipesModule

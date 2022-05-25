@@ -35,6 +35,7 @@ import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module';
+import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -74,7 +75,8 @@ import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-fi
     CvcVariantArrayTypeModule,
     CvcFormContainerWrapperModule,
     CvcFormFieldWrapperModule,
-    CvcCancelButtonModule
+    CvcCancelButtonModule,
+    CvcGeneArrayTypeModule
   ],
   exports: [EvidenceReviseForm]
 })
