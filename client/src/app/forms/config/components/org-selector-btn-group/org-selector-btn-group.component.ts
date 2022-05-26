@@ -1,26 +1,16 @@
 import {
-  Component,
-  Input,
-  ContentChild,
-  Output,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  AfterViewInit,
+  AfterViewInit, Component, ContentChild, EventEmitter, Input, OnDestroy,
+  OnInit, Output
 } from '@angular/core';
-
-import {
-  Subject,
-  Observable,
-} from 'rxjs';
-import { map, pluck, takeUntil, tap } from 'rxjs/operators';
-
-import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
-import { ButtonMutation, CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 import { NzButtonType } from 'ng-zorro-antd/button';
 import { BooleanInput } from 'ng-zorro-antd/core/types';
-import { tag } from 'rxjs-spy/cjs/operators';
+import {
+  Observable, Subject
+} from 'rxjs';
+import { map, pluck, takeUntil, tap } from 'rxjs/operators';
+import { ButtonMutation, CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 
 @Component({
   selector: 'cvc-org-selector-btn-group',
@@ -46,8 +36,8 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, O
 
   constructor(private viewerService: ViewerService) {
     this.isDisabled$ = new Subject<boolean>()
-    this.isDisabled$.asObservable()
-      // .pipe(tag('org-selector-btn-group isDisabled$')).subscribe();
+    // this.isDisabled$.asObservable()
+    // .pipe(tag('org-selector-btn-group isDisabled$')).subscribe();
   }
 
   selectOrg(org: any): void {
@@ -76,18 +66,22 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, O
   }
 
   ngAfterViewInit() {
+    // subscribe to org-selector-btn.directive's domChange @Output,
+    // emit mutation events from the appropriate Subjects
+    // TODO: handle classList mutations
     if (this.button && this.button.domChange) {
-      this.button.domChange.subscribe((m: ButtonMutation) => {
-        if (m.type === 'disabled' && typeof m.change === 'boolean') {
-          this.isDisabled$.next(m.change)
-          console.log(m)
-        }
-      })
+      this.button.domChange
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((m: ButtonMutation) => {
+          if (m.type === 'disabled' && typeof m.change === 'boolean') {
+            this.isDisabled$.next(m.change)
+          }
+        });
     }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 }
