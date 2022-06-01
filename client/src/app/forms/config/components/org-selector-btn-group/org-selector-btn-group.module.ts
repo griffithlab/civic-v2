@@ -6,11 +6,13 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   declarations: [CvcOrgSelectorBtnDirective, CvcOrgSelectorBtnGroupComponent],
   imports: [
     CommonModule,
+    ReactiveComponentModule,
     NzButtonModule,
     NzAvatarModule,
     NzDropDownModule,

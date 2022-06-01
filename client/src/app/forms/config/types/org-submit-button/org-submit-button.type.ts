@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import { FieldType } from '@ngx-formly/core';
+import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-org-submit-button-type',
@@ -9,9 +11,8 @@ import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
   styleUrls: ['./org-submit-button.type.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrgSubmitButtonComponent extends FieldType {
+export class OrgSubmitButtonComponent extends FieldType implements AfterViewInit, OnDestroy {
   _selectedOrg: Maybe<Organization> = undefined;
-
   get selectedOrg(): Maybe<Organization> {
     return this._selectedOrg;
   }
@@ -21,15 +22,32 @@ export class OrgSubmitButtonComponent extends FieldType {
     this.formControl.setValue(org);
   }
 
-  defaultOptions = {
-    templateOptions: {
-      submitLabel: 'Submit',
-      submitSize: 'small'
+  private destroy$ = new Subject()
+
+  constructor(private cdr: ChangeDetectorRef) {
+    super()
+
+    this.defaultOptions = {
+      templateOptions: {
+        submitLabel: 'Submit',
+        submitSize: 'small'
+      }
     }
   }
 
-  constructor() {
-    super();
+  ngAfterViewInit() {
+    // NOTE: this subscription forces the field to update on
+    // form.statusChanges. Even given that this type uses OnPush,
+    // it doesn't seem like this should be required.
+    this.form.statusChanges
+      .pipe(distinctUntilChanged(),
+        takeUntil(this.destroy$))
+      .subscribe(() => this.cdr.detectChanges())
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }
 
