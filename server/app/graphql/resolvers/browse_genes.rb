@@ -13,6 +13,9 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
   option(:gene_alias, type: String)    { |scope, value| scope.where(array_query_for_column('alias_names'), "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
+  option(:search_scope, type: Types::AdvancedSearch::GeneSearchFilterType) do |scope, value|
+    scope.where('gene_browse_table_rows.id' => AdvancedSearches::Gene.new(query: value).results)
+  end
 
   option :sort_by, type: Types::BrowseTables::GenesSortType do |scope, value|
     case value.column

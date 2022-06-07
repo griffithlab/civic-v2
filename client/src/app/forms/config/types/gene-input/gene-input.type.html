@@ -9,7 +9,6 @@
     [nzFilterOption]="to.filterOption"
     (nzOnSearch)="to.onSearch($event)">
     <ng-container *ngrxLet="this.genes$ as genes">
-      {{genes | json}}
       <nz-option *ngFor="let opt of genes"
         nzCustomContent
         [nzLabel]="opt.tooltip"

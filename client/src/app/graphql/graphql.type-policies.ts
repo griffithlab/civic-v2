@@ -17,6 +17,7 @@ export const CvcTypePolicies: TypePolicies = {
         'drugName',
         'geneAlias',
         'diseaseName',
+        'searchScope'
       ]),
       browseVariants: relayStylePagination([
         'variantName',

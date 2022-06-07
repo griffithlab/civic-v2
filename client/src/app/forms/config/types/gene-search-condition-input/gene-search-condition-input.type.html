@@ -1,0 +1,5 @@
+<nz-select nzPlaceHolder="Field Name" [nzOptions]="fieldOptions" [(ngModel)]="selectedField" (ngModelChange)="onFieldSelected($event)">
+</nz-select>
+<ng-container *ngFor="let geneField of this.field.fieldGroup">
+  <formly-field *ngIf="selectedFieldFormConfig?.key == geneField.key" [field]="geneField"></formly-field>
+</ng-container>

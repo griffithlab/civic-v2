@@ -2646,6 +2646,7 @@ export type QueryBrowseGenesArgs = {
   first?: Maybe<Scalars['Int']>;
   geneAlias?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
+  searchScope?: Maybe<GeneSearchFilter>;
   sortBy?: Maybe<GenesSort>;
 };
 
@@ -5372,6 +5373,7 @@ export type BrowseGenesQueryVariables = Exact<{
   geneAlias?: Maybe<Scalars['String']>;
   diseaseName?: Maybe<Scalars['String']>;
   sortBy?: Maybe<GenesSort>;
+  searchScope?: Maybe<GeneSearchFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
@@ -7064,6 +7066,24 @@ export type SuggestGeneRevisionMutation = (
       & Pick<RevisionResult, 'id' | 'fieldName'>
     )> }
   )> }
+);
+
+export type GeneAdvancedSearchQueryVariables = Exact<{
+  query: GeneSearchFilter;
+}>;
+
+
+export type GeneAdvancedSearchQuery = (
+  { __typename: 'Query' }
+  & { searchGenes: (
+    { __typename: 'AdvancedSearchResult' }
+    & AdvancedSearchPermalinkFragment
+  ) }
+);
+
+export type AdvancedSearchPermalinkFragment = (
+  { __typename: 'AdvancedSearchResult' }
+  & Pick<AdvancedSearchResult, 'permalinkId'>
 );
 
 export type SuggestSourceMutationVariables = Exact<{
@@ -9530,6 +9550,11 @@ export const RevisableGeneFieldsFragmentDoc = gql`
   }
 }
     `;
+export const AdvancedSearchPermalinkFragmentDoc = gql`
+    fragment AdvancedSearchPermalink on AdvancedSearchResult {
+  permalinkId
+}
+    `;
 export const SubmittableVariantGroupFieldsFragmentDoc = gql`
     fragment SubmittableVariantGroupFields on VariantGroup {
   id
@@ -10897,12 +10922,13 @@ export const GenePopoverDocument = gql`
     }
   }
 export const BrowseGenesDocument = gql`
-    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseGenes($entrezSymbol: String, $drugName: String, $geneAlias: String, $diseaseName: String, $sortBy: GenesSort, $searchScope: GeneSearchFilter, $first: Int, $last: Int, $before: String, $after: String) {
   browseGenes(
     entrezSymbol: $entrezSymbol
     drugName: $drugName
     geneAlias: $geneAlias
     diseaseName: $diseaseName
+    searchScope: $searchScope
     sortBy: $sortBy
     first: $first
     last: $last
@@ -12544,6 +12570,24 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GeneAdvancedSearchDocument = gql`
+    query GeneAdvancedSearch($query: GeneSearchFilter!) {
+  searchGenes(query: $query, createPermalink: true) {
+    ...AdvancedSearchPermalink
+  }
+}
+    ${AdvancedSearchPermalinkFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GeneAdvancedSearchGQL extends Apollo.Query<GeneAdvancedSearchQuery, GeneAdvancedSearchQueryVariables> {
+    document = GeneAdvancedSearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
