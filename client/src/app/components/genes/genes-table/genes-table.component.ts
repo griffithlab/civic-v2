@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import {debounceTime, filter, first, tap, map, pairwise, pluck, startWith, take, takeUntil, throttleTime, withLatestFrom,} from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 
-import {BrowseGenesGQL, GeneBrowseTableRowFieldsFragment, QueryBrowseGenesArgs, PageInfo, Maybe, BrowseGenesQuery, GenesSortColumns,} from '@app/generated/civic.apollo';
+import {BrowseGenesGQL, GeneBrowseTableRowFieldsFragment, QueryBrowseGenesArgs, PageInfo, Maybe, BrowseGenesQuery, GenesSortColumns, GeneSearchFilter,} from '@app/generated/civic.apollo';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
 import { NzTableComponent } from 'ng-zorro-antd/table';
@@ -31,6 +31,22 @@ export class CvcGenesTableComponent implements OnInit {
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() set advancedSearchFilter(value: Maybe<GeneSearchFilter>) {
+    this._advancedSearchFilter = value
+    if(this.queryRef) {
+      this.queryRef.setVariables({
+        first: this.initialPageSize,
+        searchScope: value
+      })
+      this.queryRef.refetch();
+    }
+
+  }
+  get advancedSearchFilter(): Maybe<GeneSearchFilter> {
+    return this._advancedSearchFilter
+  }
+
+  private _advancedSearchFilter: Maybe<GeneSearchFilter>
 
   @ViewChild('virtualTable', { static: false })
   nzTableComponent?: NzTableComponent<GeneBrowseTableRowFieldsFragment>;
@@ -79,7 +95,8 @@ export class CvcGenesTableComponent implements OnInit {
 
   ngOnInit() {
     this.initialQueryArgs = {
-      first: this.initialPageSize
+      first: this.initialPageSize,
+      searchScope: this.advancedSearchFilter
     }
 
     this.queryRef = this.query.watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
@@ -151,6 +168,7 @@ export class CvcGenesTableComponent implements OnInit {
           geneAlias: this.aliasInput,
           diseaseName: this.diseaseInput,
           drugName: this.drugInput,
+          searchScope: this.advancedSearchFilter
         });
       });
 

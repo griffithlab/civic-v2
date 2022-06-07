@@ -4,6 +4,7 @@ query BrowseGenes(
   $geneAlias: String
   $diseaseName: String
   $sortBy: GenesSort
+  $searchScope: GeneSearchFilter
   $first: Int
   $last: Int
   $before: String
@@ -14,6 +15,7 @@ query BrowseGenes(
     drugName: $drugName
     geneAlias: $geneAlias
     diseaseName: $diseaseName
+    searchScope: $searchScope
     sortBy: $sortBy
     first: $first
     last: $last

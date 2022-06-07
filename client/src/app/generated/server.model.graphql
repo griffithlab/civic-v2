@@ -4069,6 +4069,7 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+    searchScope: GeneSearchFilter
     sortBy: GenesSort
   ): BrowseGeneConnection!
   browseSources(
