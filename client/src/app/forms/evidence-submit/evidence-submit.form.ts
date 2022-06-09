@@ -346,7 +346,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: +fields.evidenceRating,
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
-          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
+          drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
         },
       comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
       organizationId: model?.fields.organization?.id

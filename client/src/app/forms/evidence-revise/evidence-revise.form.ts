@@ -428,7 +428,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: fields.evidenceRating!,
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
-          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType)
+          drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
         },
         organizationId: model.fields.organization?.id
 
