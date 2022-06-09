@@ -1,5 +1,6 @@
 <ng-container *ngIf="!formControl.value; else tagItem">
   <input nz-input
+    autofocus="focus"
     [formControl]="formControl"
     [formlyAttributes]="field"
     (keydown.enter)="onEnter($event)"/>

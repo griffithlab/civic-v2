@@ -10,6 +10,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcFormFieldWrapperModule } from '../../wrappers/form-field/form-field.module';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
 @NgModule({
   declarations: [AcmgCodeInputType],
@@ -23,7 +24,8 @@ import { CvcFormFieldWrapperModule } from '../../wrappers/form-field/form-field.
     NzSpaceModule,
     CvcPipesModule,
     FormlyModule.forChild({types: [acmgCodeSelectTypeOption],}),
-    CvcFormFieldWrapperModule
+    CvcFormFieldWrapperModule,
+    CvcAutofocusModule
   ]
 })
 export class CvcAcmgCodeSelectTypeModule { }
