@@ -18425,6 +18425,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "searchScope",
+                  "description": null,
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "GeneSearchFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "sortBy",
                   "description": null,
                   "type": {

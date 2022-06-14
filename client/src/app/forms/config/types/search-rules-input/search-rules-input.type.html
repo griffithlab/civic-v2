@@ -1,0 +1,42 @@
+<div [ngClass]="{ 'hidden': to.hidden === true }">
+  <nz-form-item *ngIf="field.fieldGroup?.length === 0">
+    <nz-form-control [nzValidateStatus]="errorState">
+      <nz-tag class="editable-tag" nzNoAnimation (click)="addField($event)">
+        <i nz-icon nzType="plus"></i>
+        {{ to.addText }}
+      </nz-tag>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item *ngFor="let f of field.fieldGroup; let i = index; let last = last">
+    <div ngClass="field-display">
+      <formly-field [field]="f"></formly-field>
+
+      <ng-container>
+        <div class="field-add-btn" *ngIf="last">
+          <nz-tag
+            class="editable-tag"
+            nzNoAnimation
+            (click)="addField($event)">
+            <i nz-icon nzType="plus"></i>
+            {{ to.addText }}
+          </nz-tag>
+        </div>
+      </ng-container>
+
+      <!-- else display a cancel button (initial model will be null) -->
+      <ng-container *ngIf="!f.model['value']">
+        <div class="field-cancel-btn">
+          <button nz-button
+            nzBlock
+            nzType="default"
+            nzSize="small"
+            nzDanger
+            (click)="remove(i)">
+          <i nz-icon nzType="close"></i>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </nz-form-item>
+</div>
