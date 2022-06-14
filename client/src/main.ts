@@ -8,12 +8,11 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 } else {
-  //we enable RXjs Spy on non production bulds only
+  // enable RXjs Spy on non production bulds only
   const spy = create();
   // deactivate CyclePlugin, which spams console w/
   // an alert about a next cycle in table-scroll.directive.
-  // Re-activate to troubleshoot if a call stack exceeded
-  // error occurs.
+  // Re-activate to troubleshoot if a 'call stack exceeded' error occurs.
   spy.unplug(spy.find(CyclePlugin) as CyclePlugin);
   // we call show for two purposes: first is to log to
   // the console an empty snapshot so we can see that
