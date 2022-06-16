@@ -34,7 +34,7 @@
     "@ngx-formly/core": "^5.10.32",
     "@ngx-formly/ng-zorro-antd": "^0.0",
     "apollo-angular": "^3.0.1",
-    "ng-zorro-antd": "^13.0.1",
+    "ng-zorro-antd": "^13.3.0",
     "ngx-cookie-service": "^13.1.2",
     "ngx-logger": "^5.0.7",
     "ngx-timeago": "^2.0.0",
