@@ -6,6 +6,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
 @NgModule({
   declarations: [VariantTypeInputType],
@@ -15,7 +16,8 @@ import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-t
     FormlyModule.forChild({ types: [VariantTypeInputTypeOption] }),
     ReactiveComponentModule,
     NzSelectModule,
-    CvcVariantTypeTagModule
+    CvcVariantTypeTagModule,
+    CvcAutofocusModule
   ]
 })
 export class CvcVariantTypeInputTypeModule { }

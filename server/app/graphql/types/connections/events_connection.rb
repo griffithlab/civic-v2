@@ -15,7 +15,20 @@ module Types::Connections
       description: 'When filtered on a subject, user, or organization, the total number of events for that subject/user/organization, irregardless of other filters. Returns null when there is no subject, user, or organization.'
 
     def unique_participants
-      User.where(id: unscoped_events_base_query.select(:originating_user_id)).distinct
+      #Users who's originating ids appear in the events query,
+      #joined to events table, limited to only events in the events query
+      #select the user id and the time of the newest relevant event
+      ranked_user_ids = User.where(id: unscoped_events_base_query.select(:originating_user_id))
+        .joins(:events)
+        .where(events: { id: unscoped_events_base_query.select(:id) } )
+        .select("users.id as user_id, max(events.created_at) newest_event_timestamp")
+        .group("users.id")
+
+
+      #users, ranked by most recent relevant event
+      User.joins("INNER JOIN (#{ranked_user_ids.to_sql}) ordered ON ordered.user_id = users.id")
+        .order('ordered.newest_event_timestamp desc')
+        .limit(15)
     end
 
     def event_types

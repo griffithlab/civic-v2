@@ -1,6 +1,7 @@
 <ng-container *ngIf="!formControl.value?.id; else diseaseListItem">
   <nz-select nzShowSearch
     nzServerSearch
+    autofocus="click"
     [formControl]="formControl"
     [formlyAttributes]="field"
     [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"

@@ -6,6 +6,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
     // MultiFieldTypeOption,
 @NgModule({
@@ -16,7 +17,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     ReactiveComponentModule,
     FormlyModule.forChild({ types: [TagInputTypeOption] }),
     NzTagModule,
-    NzInputModule
+    NzInputModule,
+    CvcAutofocusModule
   ]
 })
 export class CvcTagInputTypeModule { }
