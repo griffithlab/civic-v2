@@ -92,7 +92,7 @@ module Types::Queries
             .where("gene_aliases.name ILIKE ?", "#{query_term}%")
             .order("LENGTH(genes.name) ASC")
             .limit(10 - results.size)
-          return results + secondary_results
+          return (results + secondary_results).uniq
         else
           return results
         end

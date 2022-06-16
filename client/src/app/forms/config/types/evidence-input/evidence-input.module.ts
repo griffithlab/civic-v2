@@ -12,6 +12,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { EvidenceInputType, EvidenceInputTypeOption } from './evidence-input.type';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
 @NgModule({
   declarations: [EvidenceInputType],
@@ -28,7 +29,8 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
     NzInputModule,
     CvcEvidenceTagModule,
     CvcFormErrorsAlertModule,
-    CvcPipesModule
+    CvcPipesModule,
+    CvcAutofocusModule
   ],
 })
 export class CvcEvidenceInputTypeModule { }

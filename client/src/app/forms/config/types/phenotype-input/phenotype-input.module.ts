@@ -7,6 +7,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
     // MultiFieldTypeOption,
 @NgModule({
@@ -18,7 +19,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     FormlyModule.forChild({ types: [PhenotypeInputTypeOption] }),
     NzSelectModule,
     CvcPhenotypeTagModule,
-    CvcPipesModule
+    CvcPipesModule,
+    CvcAutofocusModule
   ]
 })
 export class CvcPhenotypeInputTypeModule { }
