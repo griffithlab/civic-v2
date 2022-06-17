@@ -41,6 +41,8 @@ class FrontendRouter
       [ Drug, :id ]
     when /assertions?/
       [ Assertion, :id ]
+    when /sources?/
+      [ Source, :id ]
     when /allele_registry/
       [ Variant, :allele_registry_id, ]
     when /id/
