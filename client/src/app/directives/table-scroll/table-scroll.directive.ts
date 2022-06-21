@@ -1,11 +1,11 @@
-import { EventEmitter, AfterViewInit, Directive, Input, OnDestroy, Output, ChangeDetectorRef } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { NzTableComponent } from 'ng-zorro-antd/table';
-import { debounceTime, filter, first, map, pairwise, takeUntil, tap, throttleTime } from 'rxjs/operators';
-import { asyncScheduler, Observable, Subject } from 'rxjs';
-import { QueryRef } from 'apollo-angular';
+import { AfterViewInit, Directive, EventEmitter, Input, Output } from '@angular/core';
 import { Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { QueryRef } from 'apollo-angular';
+import { NzTableComponent } from 'ng-zorro-antd/table';
+import { asyncScheduler, Observable } from 'rxjs';
+import { debounceTime, filter, first, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 
 export type ScrollEvent = 'scroll' | 'stop' | 'bottom'
 
@@ -27,12 +27,12 @@ export class TableScrollDirective implements AfterViewInit {
   // call viewport scrollToIndex with provided index value
   @Input()
   set cvcTableScrollToIndex(n: number) {
-    if (n) this.scrollToIndex(n)
+    if (n !== undefined) this.scrollToIndex(n)
   }
 
   @Input()
   set cvcTableScrollToOffset(o: number) {
-    if (o) this.scrollToIndex(o)
+    if (o !== undefined) this.scrollToIndex(o)
   }
   // OnLoadMore events will only be sent in onLoadThrottleTime ms intervals
   private onLoadThrottleTime: number = 500
@@ -50,7 +50,7 @@ export class TableScrollDirective implements AfterViewInit {
   // observable of all rowsRendered events from viewport
   private rendered$?: Observable<any>
 
-  constructor(private host: NzTableComponent<any>, private cdr: ChangeDetectorRef) {
+  constructor(private host: NzTableComponent<any>) {
   }
 
   ngAfterViewInit() {
