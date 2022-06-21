@@ -14,7 +14,7 @@
       <ng-container *ngTemplateOutlet="submitButton"></ng-container>
 
       <button type="button" nz-button [nzType]="buttonType" [nzDanger]="this.nzDanger" class="org-dropdown-btn"
-        [disabled]="disabled"
+        [disabled]="isDisabled$ | ngrxPush"
         nz-dropdown [nzDropdownMenu]="orgMenu">
         <nz-space nzDirection="horizontal" [nzSize]="4">
           <span>for</span>

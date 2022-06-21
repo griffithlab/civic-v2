@@ -1,0 +1,15 @@
+query DiseasesSummary($diseaseId: Int!) {
+  disease(id: $diseaseId) {
+    ...DiseasesSummaryFields
+  }
+}
+
+fragment DiseasesSummaryFields on Disease {
+  id
+  name
+  doid
+  diseaseUrl
+  displayName
+  diseaseAliases
+  link
+}

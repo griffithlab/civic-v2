@@ -6,9 +6,9 @@ module LinkAdaptors
     end
 
     def base_path
-      moderated = obj.moderated
-      moderated_adaptor = "LinkAdaptors::#{moderated.class}".constantize.new(moderated)
-      moderated_adaptor.base_path + "/revisions"
+      subject = obj.subject
+      subject_adaptor = "LinkAdaptors::#{subject.class}".constantize.new(subject)
+      subject_adaptor.base_path + "/revisions"
     end
   end
 end

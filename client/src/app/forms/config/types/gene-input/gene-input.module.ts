@@ -9,6 +9,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
 @NgModule({
   declarations: [GeneInputType],
@@ -21,7 +22,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzSpaceModule,
     NzTypographyModule,
     CvcGeneTagModule,
-    CvcPipesModule
+    CvcPipesModule,
+    CvcAutofocusModule
   ]
 })
 export class CvcGeneInputTypeModule { }

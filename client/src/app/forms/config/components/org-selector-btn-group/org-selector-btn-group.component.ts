@@ -1,31 +1,23 @@
 import {
-  Component,
-  Input,
-  ContentChild,
-  Output,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
+  AfterViewInit, Component, ContentChild, EventEmitter, Input, OnDestroy,
+  OnInit, Output
 } from '@angular/core';
-
-import {
-  Subject,
-  Observable,
-} from 'rxjs';
-import { map, pluck, takeUntil, tap } from 'rxjs/operators';
-
-import { ViewerService, Viewer } from '@app/core/services/viewer/viewer.service';
+import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
-import { CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 import { NzButtonType } from 'ng-zorro-antd/button';
 import { BooleanInput } from 'ng-zorro-antd/core/types';
+import {
+  Observable, Subject
+} from 'rxjs';
+import { map, pluck, takeUntil, tap } from 'rxjs/operators';
+import { ButtonMutation, CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 
 @Component({
   selector: 'cvc-org-selector-btn-group',
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less']
 })
-export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
+export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() selectedOrg!: Maybe<Organization>;
   @Output() selectedOrgChange = new EventEmitter<Organization>();
 
@@ -33,17 +25,19 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
   @Input() nzDanger: BooleanInput = false;
   @Input() nzSize: 'large' | 'default' | 'small' = 'small';
 
-  @ContentChild(CvcOrgSelectorBtnDirective, {static: false}) button!: CvcOrgSelectorBtnDirective
+  @ContentChild(CvcOrgSelectorBtnDirective, { static: false }) button?: CvcOrgSelectorBtnDirective
 
   organizations$!: Observable<Organization[]>;
   mostRecentOrg$!: Observable<Maybe<Organization>>;
 
-  private destroy$ = new Subject();
+  isDisabled$: Subject<boolean>
 
-  constructor(private viewerService: ViewerService) { }
+  private destroy$ = new Subject()
 
-  get disabled() {
-    return this.button.disabled;
+  constructor(private viewerService: ViewerService) {
+    this.isDisabled$ = new Subject<boolean>()
+    // this.isDisabled$.asObservable()
+    // .pipe(tag('org-selector-btn-group isDisabled$')).subscribe();
   }
 
   selectOrg(org: any): void {
@@ -71,8 +65,23 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, OnDestroy {
     this.mostRecentOrg$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
+  ngAfterViewInit() {
+    // subscribe to org-selector-btn.directive's domChange @Output,
+    // emit mutation events from the appropriate Subjects
+    // TODO: handle classList mutations
+    if (this.button && this.button.domChange) {
+      this.button.domChange
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((m: ButtonMutation) => {
+          if (m.type === 'disabled' && typeof m.change === 'boolean') {
+            this.isDisabled$.next(m.change)
+          }
+        });
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 }

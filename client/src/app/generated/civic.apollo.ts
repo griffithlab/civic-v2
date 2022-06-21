@@ -5550,6 +5550,24 @@ export type DiseaseDetailQueryVariables = Exact<{
 
 export type DiseaseDetailQuery = { __typename: 'Query', disease?: { __typename: 'Disease', id: number, name: string, doid?: number | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string } | undefined };
 
+export type DiseasesSummaryQueryVariables = Exact<{
+  diseaseId: Scalars['Int'];
+}>;
+
+
+export type DiseasesSummaryQuery = (
+  { __typename: 'Query' }
+  & { disease?: Maybe<(
+    { __typename: 'Disease' }
+    & DiseasesSummaryFieldsFragment
+  )> }
+);
+
+export type DiseasesSummaryFieldsFragment = (
+  { __typename: 'Disease' }
+  & Pick<Disease, 'id' | 'name' | 'doid' | 'diseaseUrl' | 'displayName' | 'diseaseAliases' | 'link'>
+);
+
 export type DrugDetailQueryVariables = Exact<{
   drugId: Scalars['Int'];
 }>;
@@ -7169,6 +7187,17 @@ export const AssertionSummaryFieldsFragmentDoc = gql`
       profileImagePath(size: 32)
     }
   }
+}
+    `;
+export const DiseasesSummaryFieldsFragmentDoc = gql`
+    fragment DiseasesSummaryFields on Disease {
+  id
+  name
+  doid
+  diseaseUrl
+  displayName
+  diseaseAliases
+  link
 }
     `;
 export const DrugsSummaryFieldsFragmentDoc = gql`
@@ -10341,6 +10370,24 @@ export const DiseaseDetailDocument = gql`
   })
   export class DiseaseDetailGQL extends Apollo.Query<DiseaseDetailQuery, DiseaseDetailQueryVariables> {
     document = DiseaseDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiseasesSummaryDocument = gql`
+    query DiseasesSummary($diseaseId: Int!) {
+  disease(id: $diseaseId) {
+    ...DiseasesSummaryFields
+  }
+}
+    ${DiseasesSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiseasesSummaryGQL extends Apollo.Query<DiseasesSummaryQuery, DiseasesSummaryQueryVariables> {
+    document = DiseasesSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

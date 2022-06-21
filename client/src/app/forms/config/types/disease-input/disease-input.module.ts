@@ -12,6 +12,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CvcFormErrorsAlertModule } from '../../components/form-errors-alert/form-errors-alert.module';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
 
 @NgModule({
   declarations: [DiseaseInputType],
@@ -28,7 +29,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcFormErrorsAlertModule,
     NzInputModule,
     FormsModule,
-    CvcPipesModule
+    CvcPipesModule,
+    CvcAutofocusModule
   ],
 })
 export class CvcDiseaseInputTypeModule { }
