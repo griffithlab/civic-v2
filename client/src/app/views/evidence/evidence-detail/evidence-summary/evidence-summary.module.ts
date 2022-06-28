@@ -25,6 +25,7 @@ import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module';
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -52,6 +53,7 @@ import { CvcVariantTagModule } from '@app/components/variants/variant-tag/varian
     CvcAssertionsTableModule,
     CvcGeneTagModule,
     CvcVariantTagModule,
+    CvcAttributeTagModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ]
 })

@@ -27,17 +27,17 @@
 
             <!-- evidence type -->
             <nz-descriptions-item nzTitle="Type">
-              {{ evidence.evidenceType | evidenceEnumDisplay }}
+              <cvc-attribute-tag [cvcAttribute]="evidence.evidenceType"></cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence direction -->
             <nz-descriptions-item nzTitle="Direction">
-              {{ evidence.evidenceDirection | evidenceEnumDisplay}}
+              <cvc-attribute-tag [cvcAttribute]="evidence.evidenceDirection"></cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
-              {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
+              <cvc-attribute-tag [cvcAttribute]="evidence.clinicalSignificance"></cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence level -->
@@ -66,7 +66,7 @@
               <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Variant Origin">
-              {{ evidence.variantOrigin | evidenceEnumDisplay }}
+              <cvc-attribute-tag [cvcAttribute]="evidence.variantOrigin"></cvc-attribute-tag>
             </nz-descriptions-item>
           </nz-descriptions>
         </nz-col>
