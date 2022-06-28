@@ -1,10 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Maybe, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, VariantOrigin } from '@app/generated/civic.apollo';
-import { formatEvidenceEnum } from '../utilities/enum-formatters/format-evidence-enum';
+import { Maybe } from '@app/generated/civic.apollo';
+import { formatEvidenceEnum, InputEnum } from '../utilities/enum-formatters/format-evidence-enum';
 
 export type EnumOutputStyle = 'display-string' | 'icon-name'
-
-export type InputEnum = EvidenceClinicalSignificance | EvidenceDirection | EvidenceType  | VariantOrigin
 
 @Pipe({
   name: 'evidenceEnumDisplay',
