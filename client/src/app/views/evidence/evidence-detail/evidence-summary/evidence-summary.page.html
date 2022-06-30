@@ -37,7 +37,9 @@
 
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
-              <cvc-attribute-tag [cvcAttribute]="evidence.clinicalSignificance"></cvc-attribute-tag>
+              <cvc-attribute-tag [cvcAttribute]="evidence.clinicalSignificance"
+              nz-tooltip
+                [nzTooltipTitle]="evidence.clinicalSignificance | evidenceEnumTooltip: evidence.evidenceType"></cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence level -->

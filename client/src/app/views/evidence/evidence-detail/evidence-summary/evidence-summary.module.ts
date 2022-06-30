@@ -26,6 +26,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [EvidenceSummaryPage],
@@ -40,6 +41,7 @@ import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attr
     NzTagModule,
     NzIconModule,
     NzDescriptionsModule,
+    NzToolTipModule,
     CvcPipesModule,
     CvcEvidenceRatingModule,
     CvcDiseaseTagModule,
