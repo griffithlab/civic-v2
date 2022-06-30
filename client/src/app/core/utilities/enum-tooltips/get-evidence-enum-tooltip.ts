@@ -1,5 +1,7 @@
-import { AssertionType, EvidenceClinicalSignificance, EvidenceType, Maybe } from "@app/generated/civic.apollo";
+import { AssertionType, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, Maybe } from "@app/generated/civic.apollo";
 import { InputEnum } from "../enum-formatters/format-evidence-enum";
+
+export type EnumTooltipContext = EvidenceType | AssertionType
 
 export type AttributeTooltipMap = {
   [key in EvidenceType | AssertionType]?: {
@@ -7,7 +9,8 @@ export type AttributeTooltipMap = {
   }
 }
 
-export const attributeTooltips: AttributeTooltipMap = {
+export const tooltips: AttributeTooltipMap = {
+  // Evidence Item Clinical Significance tooltips
   [EvidenceType.Predictive]: {
     [EvidenceClinicalSignificance.AdverseResponse]:
       'Associated with an adverse response to drug treatment',
@@ -37,7 +40,7 @@ export const attributeTooltips: AttributeTooltipMap = {
       'Clinical Significance is not applicable'
   },
 
-  [EvidenceType.Prognostic]: {
+  [EvidenceType.Predisposing]: {
     [EvidenceClinicalSignificance.Na]:
       'Clinical Significance is not applicable'
   },
@@ -58,8 +61,48 @@ export const attributeTooltips: AttributeTooltipMap = {
   [EvidenceType.Oncogenic]: {
     [EvidenceClinicalSignificance.Na]:
       'Clinical Significance is not applicable'
-  }
+  },
+
+ // Evidence Item Evidence Direction tooltips
+  // [EvidenceType.Predictive]: {
+  //   [EvidenceDirection.Supports]:
+  //     'The experiment or study supports this variant\'s response to a drug',
+  //   [EvidenceDirection.DoesNotSupport]:
+  //     'The experiment or study does not support, or was inconclusive of an interaction between this variant and a drug',
+  // },
+
+  // [EvidenceType.Diagnostic]: {
+  //   [EvidenceDirection.Supports]:
+  //     'The experiment or study supports this variant\'s impact on the diagnosis of disease or subtype',
+  //   [EvidenceDirection.DoesNotSupport]:
+  //     'The experiment or study does not support this variant\'s impact on diagnosis of disease or subtype',
+  // },
+
+  // [EvidenceType.Prognostic]: {
+  //   [EvidenceDirection.Supports]:
+  //     'The experiment or study supports this variant\'s impact on prognostic outcome',
+  //   [EvidenceDirection.DoesNotSupport]:
+  //     'The experiment or study does not support a prognostic association between variant and outcome',
+  // },
+
+  // [EvidenceType.Predisposing]: {
+  //   [EvidenceDirection.Na]:
+  //     'Evidence Direction is not applicable'
+  // },
+
+  // [EvidenceType.Functional]: {
+  //   [EvidenceDirection.Supports]:
+  //     'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
+  //   [EvidenceDirection.DoesNotSupport]:
+  //     'The experiment or study does not support this variant causing alteration or non-alteration of the gene product function',
+  // },
+
+  // [EvidenceType.Oncogenic]: {
+  //   [EvidenceDirection.Na]:
+  //     'Evidence Direction is not applicable for Oncogenic Evidence'
+  // }
 }
+
 export function getEvidenceEnumTooltip(
   value: Maybe<InputEnum>,
   context: Maybe<EvidenceType | AssertionType>
@@ -67,7 +110,7 @@ export function getEvidenceEnumTooltip(
   let tooltip: string | undefined
   if (context) {
     if (value) {
-      const entityTooltips = attributeTooltips[context]
+      const entityTooltips = tooltips[context]
       if (entityTooltips) {
         tooltip = entityTooltips[value]
       } else {
@@ -77,5 +120,6 @@ export function getEvidenceEnumTooltip(
   } else {
     console.warn('getEvidenceEnumTooltip requires EvidenceType or AssertionType context.')
   }
+  console.log(`tooltip for ${value} in context ${context}: ${tooltip}`)
   return tooltip ? tooltip : ''
 }

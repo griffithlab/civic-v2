@@ -1,5 +1,6 @@
 <nz-tag>
   <i nz-icon
-    [nzType]="cvcAttribute | evidenceEnumDisplay: 'icon-name'"></i>
-  {{ cvcAttribute | evidenceEnumDisplay }}
+    [nzType]="cvcAttribute[0] | evidenceEnumDisplay: 'icon-name'"
+    ></i>
+  {{ cvcAttribute[0] | evidenceEnumDisplay }}
 </nz-tag>

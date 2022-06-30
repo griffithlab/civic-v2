@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AssertionType, EvidenceType, Maybe } from '@app/generated/civic.apollo';
+import { Maybe } from '@app/generated/civic.apollo';
 import { InputEnum } from '../utilities/enum-formatters/format-evidence-enum';
-import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-enum-tooltip';
+import { EnumTooltipContext, getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-enum-tooltip';
 
 @Pipe({
   name: 'evidenceEnumTooltip',
@@ -10,8 +10,7 @@ import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(
     value: Maybe<InputEnum>,
-    context: Maybe<EvidenceType | AssertionType>
-  ): string {
+    context: Maybe<EnumTooltipContext>): string {
     return getEvidenceEnumTooltip(value, context)
   }
 }
