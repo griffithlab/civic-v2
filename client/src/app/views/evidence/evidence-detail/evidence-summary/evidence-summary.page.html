@@ -1,6 +1,6 @@
 <ng-container *ngIf="(evidence$ | ngrxPush) as evidence">
   <nz-row [nzGutter]="[8,16]">
-    <!-- LEFT COLUMN: evidence description, source, clinical trials column -->
+    <!-- LEFT COLUMN: evidence description, evidence attributes-->
     <nz-col [nzSpan]="12">
       <nz-row [nzGutter]="[8,8]">
 
@@ -19,10 +19,10 @@
           </nz-descriptions>
         </nz-col>
 
-        <!-- BLOCK: type, direction, level, rating-->
+        <!-- BLOCK: evidence attributes -->
         <nz-col [nzSpan]="24">
           <nz-descriptions nzSize="small"
-            [nzColumn]="2"
+            [nzColumn]="{ xxl: 3, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }"
             nzBordered="true">
 
             <!-- evidence type -->
@@ -37,15 +37,20 @@
 
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
-            <cvc-attribute-tag [cvcAttribute]="[evidence.clinicalSignificance, evidence.evidenceType]" nz-tooltip
+              <cvc-attribute-tag [cvcAttribute]="[evidence.clinicalSignificance, evidence.evidenceType]"
+                nz-tooltip
                 [nzTooltipTitle]="evidence.clinicalSignificance | evidenceEnumTooltip: evidence.evidenceType"></cvc-attribute-tag>
+            </nz-descriptions-item>
+
+            <!-- variant origin -->
+            <nz-descriptions-item nzTitle="Variant Origin">
+              <cvc-attribute-tag [cvcAttribute]="[evidence.variantOrigin, evidence.evidenceType]"></cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence level -->
             <nz-descriptions-item nzTitle="Level">
-              {{ evidence.evidenceLevel }}
+              <nz-tag>{{ evidence.evidenceLevel }}</nz-tag>
             </nz-descriptions-item>
-
 
             <!-- evidence rating -->
             <nz-descriptions-item nzTitle="Rating">
@@ -54,77 +59,12 @@
 
           </nz-descriptions>
         </nz-col>
-
-        <!-- BLOCK: gene, variant, variant origin -->
-        <nz-col [nzSpan]="24">
-          <nz-descriptions nzSize="small"
-            [nzColumn]="2"
-            nzBordered="true">
-            <nz-descriptions-item nzTitle="Gene">
-              <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="Variant">
-              <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="Variant Origin">
-              <cvc-attribute-tag [cvcAttribute]="evidence.variantOrigin"></cvc-attribute-tag>
-            </nz-descriptions-item>
-          </nz-descriptions>
-        </nz-col>
-      </nz-row>
-    </nz-col>
-
-    <!-- RIGHT COLUMN: evidence details column -->
-    <nz-col [nzSpan]="12">
-      <nz-row [nzGutter]="[8,8]">
-        <!-- BLOCK: status, curation events -->
-        <nz-col [nzSpan]="24">
-          <nz-descriptions nzLayout="vertical"
-            nzSize="small"
-            nzBordered="true"
-            class="status-tags">
-
-            <!-- status -->
-            <nz-descriptions-item nzTitle="Status">
-              <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
-            </nz-descriptions-item>
-
-            <!-- submit/accept/reject curation events -->
-            <nz-descriptions-item nzTitle="Submitted">
-              {{ evidence.submissionEvent.createdAt | timeago }} by
-              <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
-            </nz-descriptions-item>
-
-            <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
-            <!-- display accepted/rejected only if either exists -->
-            <ng-container *ngIf="evidence.rejectionEvent !== null || evidence.acceptanceEvent !== null">
-              <!-- show acceptance only if no rejection event exists -->
-              <ng-container [ngSwitch]="evidence.rejectionEvent === null">
-                <nz-descriptions-item *ngSwitchCase="true"
-                  nzTitle="Accepted">
-                  {{ evidence.acceptanceEvent.createdAt | timeago }} by
-                  <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
-                </nz-descriptions-item>
-                <nz-descriptions-item *ngSwitchCase="false"
-                  nzTitle="Rejected">
-                  {{ evidence.rejectionEvent.createdAt | timeago }} by
-                  <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
-                </nz-descriptions-item>
-              </ng-container>
-            </ng-container>
-
-          </nz-descriptions>
-
-        </nz-col>
-
-        <!-- BLOCK: source & clinical trials -->
         <nz-col [nzSpan]="24">
           <nz-descriptions nzSize="small"
             nzBordered="true"
-            [nzColumn]="1">
+            [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- source -->
-            <nz-descriptions-item nzTitle="Source"
-              nzSpan="2">
+            <nz-descriptions-item nzTitle="Source">
               <cvc-source-tag [source]="evidence.source"> </cvc-source-tag>
             </nz-descriptions-item>
 
@@ -143,12 +83,85 @@
           </nz-descriptions>
 
         </nz-col>
+      </nz-row>
+    </nz-col>
 
-        <!-- BLOCK: disease, phenotype -->
+    <!-- RIGHT COLUMN: evidence details column -->
+    <nz-col [nzSpan]="12">
+      <nz-row [nzGutter]="[8,8]">
+        <!-- BLOCK: status, curation events -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions nzLayout="vertical"
+            nzSize="small"
+            [nzColumn]="{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+
+            <!-- status -->
+            <nz-descriptions-item nzTitle="Status">
+              <cvc-status-tag [status]="evidence.status"></cvc-status-tag>
+            </nz-descriptions-item>
+
+            <!-- submit/accept/reject curation events -->
+            <nz-descriptions-item [nzTitle]="submittedTitle">
+              by
+              <cvc-user-tag [user]="evidence.submissionEvent.originatingUser"></cvc-user-tag>
+            </nz-descriptions-item>
+            <ng-template #submittedTitle>
+              Submitted
+              <span nz-typography
+                nzType="secondary">
+                ({{ evidence.submissionEvent.createdAt | timeago }})
+              </span>
+            </ng-template>
+            <!-- TODO logic below is incorrect, see AID1 - must identify the latest accept/reject event, and display that -->
+            <!-- display accepted/rejected only if either exists -->
+            <ng-container *ngIf="evidence.rejectionEvent !== null || evidence.acceptanceEvent !== null">
+              <!-- show acceptance only if no rejection event exists -->
+              <ng-container [ngSwitch]="evidence.rejectionEvent === null">
+                <nz-descriptions-item *ngSwitchCase="true"
+                  [nzTitle]="acceptedTitle">
+                  by
+                  <cvc-user-tag [user]="evidence.acceptanceEvent.originatingUser"></cvc-user-tag>
+                </nz-descriptions-item>
+                <ng-template #acceptedTitle>
+                  Accepted
+                  <span nz-typography
+                    nzType="secondary">
+                ({{ evidence.acceptanceEvent.createdAt| timeago }})
+              </span>
+                </ng-template>
+                <nz-descriptions-item *ngSwitchCase="false"
+                  nzTitle="Rejected">
+                  by
+                  <cvc-user-tag [user]="evidence.rejectionEvent.originatingUser"></cvc-user-tag>
+                </nz-descriptions-item>
+                <ng-template #rejectedTitle>
+                  Rejected
+                  <span nz-typography
+                    nzType="secondary">
+                ({{ evidence.rejectionEvent.createdAt | timeago }})
+              </span>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+
+          </nz-descriptions>
+        </nz-col>
+
+        <!-- BLOCK: evidence linked attributes -->
         <nz-col [nzSpan]="24">
           <nz-descriptions nzSize="small"
             nzBordered="true"
-            [nzColumn]="2">
+            [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
+            <!-- gene -->
+            <nz-descriptions-item nzTitle="Gene">
+              <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
+            </nz-descriptions-item>
+
+            <!-- variant -->
+            <nz-descriptions-item nzTitle="Variant">
+              <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+            </nz-descriptions-item>
 
             <!-- disease -->
             <nz-descriptions-item nzTitle="Disease">
@@ -176,15 +189,8 @@
                   nzType="secondary">None Specified</span>
               </ng-template>
             </nz-descriptions-item>
-          </nz-descriptions>
-        </nz-col>
 
-        <!-- 4TH BLOCK: drugs -->
-        <nz-col [nzSpan]="24">
-          <nz-descriptions nzLayout="horizontal"
-            nzSize="small"
-            nzBordered="true"
-            [nzColumn]="1">
+            <!-- drugs -->
             <nz-descriptions-item [nzTitle]="evidence.drugs.length > 1 ? 'Drugs' : 'Drug'">
               <ng-container [ngPlural]="evidence.drugs.length">
                 <!-- no drug -->
@@ -208,6 +214,8 @@
               nzTitle="Drug Interaction Type">
               {{ evidence.drugInteractionType | titlecase }}
             </nz-descriptions-item>
+
+
           </nz-descriptions>
         </nz-col>
       </nz-row>
