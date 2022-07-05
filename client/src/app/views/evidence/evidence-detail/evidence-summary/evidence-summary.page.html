@@ -27,24 +27,31 @@
 
             <!-- evidence type -->
             <nz-descriptions-item nzTitle="Type">
-              <cvc-attribute-tag [cvcAttribute]="[evidence.evidenceType, evidence.evidenceType]"></cvc-attribute-tag>
+              <cvc-attribute-tag [cvcAttribute]="evidence.evidenceType"
+                [cvcAttributeContext]="evidence.evidenceType"
+                cvcAttributeEntity="EvidenceItem">
+              </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence direction -->
             <nz-descriptions-item nzTitle="Direction">
-              <cvc-attribute-tag [cvcAttribute]="[evidence.evidenceDirection, evidence.evidenceType]"></cvc-attribute-tag>
+              <cvc-attribute-tag [cvcAttribute]="evidence.evidenceDirection"
+                [cvcAttributeContext]="evidence.evidenceType"
+                cvcAttributeEntity="EvidenceItem">
+              </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
-              <cvc-attribute-tag [cvcAttribute]="[evidence.clinicalSignificance, evidence.evidenceType]"
-                nz-tooltip
-                [nzTooltipTitle]="evidence.clinicalSignificance | evidenceEnumTooltip: evidence.evidenceType"></cvc-attribute-tag>
+              <cvc-attribute-tag [cvcAttribute]="evidence.clinicalSignificance"
+                [cvcAttributeContext]="evidence.evidenceType"
+                cvcAttributeEntity="EvidenceItem"> </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- variant origin -->
             <nz-descriptions-item nzTitle="Variant Origin">
-              <cvc-attribute-tag [cvcAttribute]="[evidence.variantOrigin, evidence.evidenceType]"></cvc-attribute-tag>
+              <cvc-attribute-tag [cvcAttribute]="evidence.variantOrigin"
+                cvcAttributeEntity="EvidenceItem"></cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence level -->
