@@ -10,8 +10,9 @@ import { EnumTooltipContext, EnumTooltipEntity, getEvidenceEnumTooltip } from '.
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(
     value: Maybe<InputEnum>,
-    context: Maybe<EnumTooltipContext>,
     entity: Maybe<EnumTooltipEntity>): string {
-    return getEvidenceEnumTooltip(value, context, entity)
+    if(!value) return ''
+    if(!entity) return ''
+    return getEvidenceEnumTooltip(value, entity)
   }
 }

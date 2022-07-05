@@ -1,9 +1,10 @@
 import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceLevel, EvidenceType, Maybe, Scalars, SourceSource, VariantOrigin } from "@app/generated/civic.apollo";
 import { InputEnum } from "../enum-formatters/format-evidence-enum";
+import { Assertion, EvidenceItem, Gene, Variant, VariantGroup } from '@app/generated/civic.apollo';
 
 export type EnumTooltipContext = EvidenceType | AssertionType | undefined
 
-export type EnumTooltipEntity = 'EvidenceItem' | 'Assertion'
+export type EnumTooltipEntity = Assertion | EvidenceItem | Gene | Variant | VariantGroup
 
 export type EnumContextualTooltipMap = {
   [key in EvidenceType | AssertionType]?: {
@@ -180,9 +181,8 @@ export const contextualTooltips: EnumContextualTooltipMap = {
 }
 
 export function getEvidenceEnumTooltip(
-  value: Maybe<InputEnum>,
-  context: Maybe<EvidenceType | AssertionType>,
-  entity: Maybe<EnumTooltipEntity>
+  value: InputEnum,
+  entity: EnumTooltipEntity
 ): string {
 
   const requiresContext = [
@@ -195,19 +195,19 @@ export function getEvidenceEnumTooltip(
   let tooltip: string | undefined
   // if tooltip type does not require context, obtain
   // value from tooltips: EnumTooltipMap
-  console.log(value)
-  if (context) {
-    if (value) {
-      const entityTooltips = contextualTooltips[context]
-      if (entityTooltips) {
-        tooltip = entityTooltips[value]
-      } else {
-        console.warn(`getEvidenceEnumTooltip could not find contextualTooltips for context ${context}`)
-      }
-    }
-  } else {
-    console.warn('getEvidenceEnumTooltip requires EvidenceType or AssertionType context.')
-  }
-  console.log(`tooltip for ${value} in context ${context}: ${tooltip}`)
+  // console.log(value)
+  // if (context) {
+  //   if (value) {
+  //     const entityTooltips = contextualTooltips[context]
+  //     if (entityTooltips) {
+  //       tooltip = entityTooltips[value]
+  //     } else {
+  //       console.warn(`getEvidenceEnumTooltip could not find contextualTooltips for context ${context}`)
+  //     }
+  //   }
+  // } else {
+  //   console.warn('getEvidenceEnumTooltip requires EvidenceType or AssertionType context.')
+  // }
+  // console.log(`tooltip for ${value} in context ${context}: ${tooltip}`)
   return tooltip ? tooltip : ''
 }

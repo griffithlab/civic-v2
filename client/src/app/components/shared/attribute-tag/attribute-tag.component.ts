@@ -11,23 +11,8 @@ export type AttributeTagInput = [InputEnum, EnumTooltipContext, EnumTooltipEntit
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcAttributeTagComponent {
-  attribute!: InputEnum
-  context!: EnumTooltipContext
-  entity!: EnumTooltipEntity
-  @Input()
-  set cvcAttribute(attribute: InputEnum) {
-    if (!attribute) { throw new Error(`cvc-attribute-tag's cvcAttribute Input requires valid InputEnum, none provided.`) }
-    else { this.attribute = attribute }
-  }
-  @Input()
-  set cvcAttributeContext(context: EnumTooltipContext) {
-     this.context = context
-  }
-  @Input()
-  set cvcAttributeEntity(entity: EnumTooltipEntity) {
-    if (!entity) { throw new Error(`cvc-entity-tag's cvcAttributeEntity Input requires valid EnumTooltipEntity, none provided.`) }
-    else { this.entity = entity }
-  }
+  @Input() cvcAttrName!: InputEnum
+  @Input() cvcAttrEntity!: EnumTooltipEntity
 
   @Input() cvcShowLabel: boolean = true
   @Input() cvcShowTooltip: boolean = true

@@ -1,6 +1,7 @@
 <nz-tag
-  nz-tooltip [nzTooltipTitle]="attribute | evidenceEnumTooltip:context:entity">
+  nz-tooltip
+  [nzTooltipTitle]="cvcAttrName | evidenceEnumTooltip: cvcAttrEntity">
   <i nz-icon
-    [nzType]="attribute | evidenceEnumDisplay: 'icon-name'"></i>
-  {{ attribute | evidenceEnumDisplay }}
+    [nzType]="cvcAttrName | evidenceEnumDisplay: 'icon-name'"></i>
+  {{ cvcAttrName | evidenceEnumDisplay }}
 </nz-tag>
