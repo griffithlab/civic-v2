@@ -1,18 +1,22 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Maybe } from '@app/generated/civic.apollo';
-import { InputEnum } from '../utilities/enum-formatters/format-evidence-enum';
-import { EnumTooltipContext, EnumTooltipEntity, getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-enum-tooltip';
+import { getEvidenceEnumTooltip } from '../utilities/enum-tooltips/get-evidence-enum-tooltip';
 
 @Pipe({
-  name: 'evidenceEnumTooltip',
+  name: 'enumTooltip',
   pure: true
 })
 export class EvidenceEnumTooltipPipe implements PipeTransform {
   transform(
-    value: Maybe<InputEnum>,
-    entity: Maybe<EnumTooltipEntity>): string {
+    value: string | symbol | number, // value of attribute
+    name: string | symbol, // name of entity attribute
+    // optional contextual type (evidence/assertionType)
+    contextType: Maybe<symbol>  = undefined,
+    // optional contextual entity ('Assertion' or 'EvidenceType')
+    contextEntity: Maybe<string> = undefined
+  ) {
+    if(!name) return ''
     if(!value) return ''
-    if(!entity) return ''
-    return getEvidenceEnumTooltip(value, entity)
+    return getEvidenceEnumTooltip(name, value, contextType, contextEntity)
   }
 }

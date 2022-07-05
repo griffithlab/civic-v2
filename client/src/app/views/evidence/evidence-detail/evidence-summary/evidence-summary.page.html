@@ -27,31 +27,31 @@
 
             <!-- evidence type -->
             <nz-descriptions-item nzTitle="Type">
-              <cvc-attribute-tag [cvcAttrName]="evidence.evidenceType"
-                [cvcAttrEntity]="evidence">
+              <cvc-attribute-tag cvcAttrName="evidenceType"
+                [cvcAttrValue]="evidence.evidenceType"
+                nz-tooltip
+                [nzTooltipTitle]="evidence.evidenceType | enumTooltip:'evidenceType'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence direction -->
             <nz-descriptions-item nzTitle="Direction">
-              <cvc-attribute-tag [cvcAttrName]="evidence.evidenceDirection"
-                [cvcAttrEntity]="evidence">
+              <cvc-attribute-tag [cvcAttrValue]="evidence.evidenceDirection">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
-              {{ evidence.clinicalSignifiance }}
-              <!-- <cvc-attribute-tag [cvcAttribute]="evidence.clinicalSignificance"
-                            [cvcAttributeContext]="evidence.evidenceType"
-                            cvcAttributeEntity="EvidenceItem"> </cvc-attribute-tag> -->
+              <cvc-attribute-tag [cvcAttrValue]="evidence.clinicalSignificance"
+              nz-tooltip
+              [nzTooltipTitle]="evidence.clinicalSignificance | enumTooltip:'clinicalSignificance':evidence.evidenceType:'EvidenceItem'">
+              </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- variant origin -->
             <nz-descriptions-item nzTitle="Variant Origin">
-              {{ evidence.variantOrigin }}
-              <!-- <cvc-attribute-tag [cvcAttribute]="evidence.variantOrigin"
-                            cvcAttributeEntity="EvidenceItem"></cvc-attribute-tag> -->
+              <cvc-attribute-tag [cvcAttrValue]="evidence.variantOrigin">
+              </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence level -->

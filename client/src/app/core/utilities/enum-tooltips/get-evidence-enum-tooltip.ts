@@ -1,73 +1,43 @@
-import { AssertionClinicalSignificance, AssertionDirection, AssertionType, DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceLevel, EvidenceType, Maybe, Scalars, SourceSource, VariantOrigin } from "@app/generated/civic.apollo";
+import { Assertion, AssertionType, DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceItem, EvidenceLevel, EvidenceType, Gene, Maybe, Scalars, SourceSource, Variant, VariantGroup, VariantOrigin } from "@app/generated/civic.apollo";
 import { InputEnum } from "../enum-formatters/format-evidence-enum";
-import { Assertion, EvidenceItem, Gene, Variant, VariantGroup } from '@app/generated/civic.apollo';
 
-export type EnumTooltipContext = EvidenceType | AssertionType | undefined
+export type TooltipEntity = Assertion
+  | EvidenceItem
+  | Gene
+  | Variant
+  | VariantGroup
 
-export type EnumTooltipEntity = Assertion | EvidenceItem | Gene | Variant | VariantGroup
+export enum EntityType {
+  Assertion = 'Assertion',
+  EvidenceItem = 'EvidenceItem',
+  Gene = 'Gene',
+  Variant = 'Variant',
+  VariantGroup = 'VariantGroup',
+}
 
-export type EnumContextualTooltipMap = {
+// attributes with tooltips that differ based on some context
+export enum ContextualAttribute {
+  evidenceDirection = 'evidenceDirection',
+  assertionDirection = 'assertionDirection',
+  clinicalSignificance = 'clinicalSignificance'
+}
+
+// the different contexts that determine tooltip content
+export type TooltipContext = EvidenceType | AssertionType
+
+
+export type ContextualTooltipMapOld = {
   [key in EvidenceType | AssertionType]?: {
     [key in InputEnum]?: string
   }
 }
 
-export type EnumTooltipMap = {
-  [key in InputEnum]?: string
-}
-
+// map of tooltips for ratings, which are received as numbers, not enum values
 export type RatingTooltipMap = {
   [key: Scalars['Int']]: string
 }
 
-export const tooltips: EnumTooltipMap = {
-  /*
-   * SHARED ATTRIBUTE TOOLTIPS
-   */
-
-  // NOTE: Ratings have their own map, as they're not enums
-
-  // Variant Origin
-  [VariantOrigin.Somatic]: 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',
-  [VariantOrigin.RareGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in less than 1% of the population relevant to this evidence item.',
-  [VariantOrigin.CommonGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item.',
-  [VariantOrigin.Unknown]: 'The variant origin is uncertain based on the available evidence.',
-  [VariantOrigin.Na]: 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
-
-  // Source Source
-  [SourceSource.Pubmed]: 'Evidence item source uses a PubMed publication.',
-  [SourceSource.Asco]: 'Evidence item source uses an ASCO abstract.',
-
-  // Evidence Level
-  [EvidenceLevel.A]: 'Proven/consensus association in human medicine',
-  [EvidenceLevel.B]: 'Clinical trial or other primary patient data supports association',
-  [EvidenceLevel.C]: 'Individual case reports from clinical journals',
-  [EvidenceLevel.D]: 'In vivo or in vitro models support association',
-  [EvidenceLevel.E]: 'Indirect evidence',
-
-  // Drug Interaction Type
-  [DrugInteraction.Combination]: 'The drugs listed were used as part of a combination therapy approach',
-  [DrugInteraction.Sequential]: 'The drugs listed were used at separate timepoints in the same treatment plan',
-  [DrugInteraction.Substitutes]: 'The drugs listed are often considered to be of the same family, or behave similarly in a treatment setting',
-
-  /*
-   * EVIDENCE ITEM ATTRIBUTE TOOLTIPS
-   */
-
-  // Evidence Type
-  [EvidenceType.Diagnostic]: 'Evidence pertains to a variant\'s impact on patient diagnosis (cancer subtype)',
-
-  [EvidenceType.Functional]: 'Evidence pertains to a variant that alters biological function from the reference state',
-  [EvidenceType.Oncogenic]: 'Evidence pertains to a somatic variant\'s involvement in tumor pathogenesis as described by the Hallmarks of Cancer',
-  [EvidenceType.Predictive]: 'Evidence pertains to a variant\'s effect on therapeutic response',
-  [EvidenceType.Predisposing]: 'Evidence pertains to a germline variant\'s role in conferring susceptibility to disease (including pathogenicity evaluations)',
-  [EvidenceType.Prognostic]: 'Evidence pertains to a variant\'s impact on disease progression, severity, or patient survival',
-
-}
-
-/* RATING TOOLTIPS
- * requires its own map b/c ratings are specified as Scalars['Int'], not an enum
- */
+// RATING TOOLTIPS
 export const ratingTooltipMap = {
   1: 'Poor - Claim is not supported well by experimental evidence. Results are not reproducible, or have very small sample size. No follow-up is done to validate novel claims.',
   2: 'Adequate - Evidence is not well supported by experimental data, and little follow-up data is available. Experiments may lack proper controls, have small sample size, or are not statistically convincing.',
@@ -76,7 +46,121 @@ export const ratingTooltipMap = {
   5: 'Excellent - Solid, well supported evidence from a lab or journal with respected academic standing. Experiments are well controlled, and results are clean and reproducible across multiple replicates. Evidence confirmed using separate methods.'
 }
 
-export const contextualTooltips: EnumContextualTooltipMap = {
+// map of tooltips for attributes that do not change
+export type tooltipMap = {
+  [key: string | symbol]: { // attribute name
+    [key: string | symbol]: string // attribute value
+  }
+}
+
+export const tooltips: tooltipMap = {
+  evidenceType: {
+    DIAGNOSTIC: `Evidence pertains to a variant's impact on patient diagnosis (cancer subtype)`,
+
+    FUNCTIONAL: `Evidence pertains to a variant that alters biological function from the reference state`,
+    ONCOGENIC: `Evidence pertains to a somatic variant's involvement in tumor pathogenesis as described by the Hallmarks of Cancer`,
+    PREDICTIVE: `Evidence pertains to a variant's effect on therapeutic response`,
+    PREDISPOSING: `Evidence pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
+    PROGNOSTIC: `Evidence pertains to a variant's impact on disease progression, severity, or patient survival`,
+  },
+  assertionType: {
+    DIAGNOSTIC: `Assertion pertains to a variant's impact on patient diagnosis (cancer subtype)`,
+
+    FUNCTIONAL: `Assertion pertains to a variant that alters biological function from the reference state`,
+    ONCOGENIC: `Assertion pertains to a somatic variant's involvement in tumor pathogenesis as described by the Hallmarks of Cancer`,
+    PREDICTIVE: `Assertion pertains to a variant's effect on therapeutic response`,
+    PREDISPOSING: `Assertion pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
+    PROGNOSTIC: `Assertion pertains to a variant's impact on disease progression, severity, or patient survival`,
+  }
+
+  // Variant Origin
+  // [VariantOrigin.Somatic]: 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',
+  // [VariantOrigin.RareGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in less than 1% of the population relevant to this evidence item.',
+  // [VariantOrigin.CommonGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item.',
+  // [VariantOrigin.Unknown]: 'The variant origin is uncertain based on the available evidence.',
+  // [VariantOrigin.Na]: 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
+
+  // // Source Source
+  // [SourceSource.Pubmed]: 'Evidence item source uses a PubMed publication.',
+  // [SourceSource.Asco]: 'Evidence item source uses an ASCO abstract.',
+
+  // // Evidence Level
+  // [EvidenceLevel.A]: 'Proven/consensus association in human medicine',
+  // [EvidenceLevel.B]: 'Clinical trial or other primary patient data supports association',
+  // [EvidenceLevel.C]: 'Individual case reports from clinical journals',
+  // [EvidenceLevel.D]: 'In vivo or in vitro models support association',
+  // [EvidenceLevel.E]: 'Indirect evidence',
+
+  // // Drug Interaction Type
+  // [DrugInteraction.Combination]: 'The drugs listed were used as part of a combination therapy approach',
+  // [DrugInteraction.Sequential]: 'The drugs listed were used at separate timepoints in the same treatment plan',
+  // [DrugInteraction.Substitutes]: 'The drugs listed are often considered to be of the same family, or behave similarly in a treatment setting',
+
+  // /*
+  //  * EVIDENCE ITEM ATTRIBUTE TOOLTIPS
+  //  */
+
+  // // Evidence Type
+  // [EvidenceType.Diagnostic]: 'Evidence pertains to a variant\'s impact on patient diagnosis (cancer subtype)',
+
+  // [EvidenceType.Functional]: 'Evidence pertains to a variant that alters biological function from the reference state',
+  // [EvidenceType.Oncogenic]: 'Evidence pertains to a somatic variant\'s involvement in tumor pathogenesis as described by the Hallmarks of Cancer',
+  // [EvidenceType.Predictive]: 'Evidence pertains to a variant\'s effect on therapeutic response',
+  // [EvidenceType.Predisposing]: 'Evidence pertains to a germline variant\'s role in conferring susceptibility to disease (including pathogenicity evaluations)',
+  // [EvidenceType.Prognostic]: 'Evidence pertains to a variant\'s impact on disease progression, severity, or patient survival',
+
+}
+
+
+// a map of tooltips that differ based on their display context (entity type, evidence/asssertion type)
+export type ContextualTooltipMap = {
+  [key: string | symbol]: { // TODO: type as [key in ContextualAttribute]?: {
+    [key: string | symbol]: { // TODO: type as [key in TooltipContext]?: {
+      [key: string | symbol]: { // TODO: type as [key in InputEnum]? : {}
+        [key: string | number | symbol]: string // TODO: type as [key in TooltipEntity]
+      }
+    }
+  }
+}
+
+export const contextualTooltips: ContextualTooltipMap = {
+  clinicalSignificance: {
+    PREDICTIVE: {
+      ADVERSE_RESPONSE: {
+        EvidenceItem: 'Associated with an adverse response to drug treatment',
+        Assertion: 'Associated with an adverse response to drug treatment'
+      },
+      REDUCED_SENSITIVITY: {
+        EvidenceItem: 'Response to treatment is lower than seen in other treatment contexts',
+        Assertion: 'Response to treatment is lower than seen in other treatment contexts'
+      },
+      RESISTANCE: {
+        EvidenceItem: 'Associated with clinical or preclinical resistance to treatment',
+        Assertion: 'Associated with clinical or preclinical resistance to treatment'
+      },
+      SENSITIVITYRESPONSE: {
+        EvidenceItem: 'Associated with clinical or preclinical response to treatment',
+        Assertion: 'Associated with a clinical or preclinical response to treatment'
+      },
+      NA: {
+        EvidenceItem: 'Clinical Significance is not applicable',
+        Assertion: 'Clinical Significance is not applicable'
+      }
+    },
+    DIAGNOSTIC: {
+      POSITIVE: {
+        EvidenceItem: 'Associated with diagnosis of disease or subtype',
+        Assertion: 'Associated with diagnosis of disease or subtype'
+      },
+      NEGATIVE: {
+        EvidenceItem: 'Associated with lack of disease or subtype',
+        Assertion: 'Associated with lack of disease or subtype'
+      }
+    }
+  }
+}
+
+export const contextualTooltipsOld: ContextualTooltipMapOld = {
   /*
    * EVIDENCE ITEM CONTEXTUAL ATTRIBUTE TOOLTIPS
    *
@@ -112,7 +196,7 @@ export const contextualTooltips: EnumContextualTooltipMap = {
 
     // Direction
     [EvidenceDirection.Supports]:
-      'The experiment or study supports this variant\'s impact on the diagnosis of disease or subtype',
+      'subtype',
     [EvidenceDirection.DoesNotSupport]:
       'The experiment or study does not support this variant\'s impact on diagnosis of disease or subtype',
 
@@ -181,33 +265,20 @@ export const contextualTooltips: EnumContextualTooltipMap = {
 }
 
 export function getEvidenceEnumTooltip(
-  value: InputEnum,
-  entity: EnumTooltipEntity
+  name: string | symbol,
+  value: string | symbol | number,
+  contextType: Maybe<symbol>,
+  contextEntity: Maybe<string>
 ): string {
 
-  const requiresContext = [
-    EvidenceClinicalSignificance,
-    EvidenceDirection,
-    AssertionClinicalSignificance,
-    AssertionDirection,
-  ]
-
   let tooltip: string | undefined
-  // if tooltip type does not require context, obtain
-  // value from tooltips: EnumTooltipMap
-  // console.log(value)
-  // if (context) {
-  //   if (value) {
-  //     const entityTooltips = contextualTooltips[context]
-  //     if (entityTooltips) {
-  //       tooltip = entityTooltips[value]
-  //     } else {
-  //       console.warn(`getEvidenceEnumTooltip could not find contextualTooltips for context ${context}`)
-  //     }
-  //   }
-  // } else {
-  //   console.warn('getEvidenceEnumTooltip requires EvidenceType or AssertionType context.')
-  // }
-  // console.log(`tooltip for ${value} in context ${context}: ${tooltip}`)
+
+  if (contextType && contextEntity) {
+    tooltip = contextualTooltips[name][contextType][value][contextEntity]
+  }
+  else {
+    tooltip = tooltips[name][value]
+  }
+
   return tooltip ? tooltip : ''
 }
