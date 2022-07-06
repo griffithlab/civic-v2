@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  OrgPopoverFragment,
-  Maybe,
-  OrgPopoverGQL,
-} from '@app/generated/civic.apollo';
-import { map } from 'rxjs/operators';
+import { Maybe, OrgPopoverFragment, OrgPopoverGQL } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-organization-popover',
@@ -26,6 +23,8 @@ export class CvcOrganizationPopoverComponent implements OnInit {
 
     this.org$ = this.gql
       .watch({ orgId: this.orgId })
-      .valueChanges.pipe(map(({ data }) => data.organization));
+      .valueChanges
+      .pipe(map(({ data }) => data?.organization),
+        filter(isNonNulled));
   }
 }

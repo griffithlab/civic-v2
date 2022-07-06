@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { AssertionPopoverFragment, AssertionPopoverGQL, Maybe } from "@app/generated/civic.apollo";
-import { map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
+import { isNonNulled } from "rxjs-etc";
 
 @Component({
   selector: 'cvc-assertion-popover',
@@ -21,6 +22,8 @@ export class CvcAssertionPopoverComponent implements OnInit {
     }
     this.assertion$ = this.gql.watch({ assertionId: this.assertionId })
       .valueChanges
-      .pipe(map(({ data }) => data.assertion))
+      .pipe(map(r => r.data),
+        filter(isNonNulled),
+        map(({ assertion }) => assertion));
   }
 }

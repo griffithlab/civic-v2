@@ -1,16 +1,12 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { VariantTypeTypeaheadGQL, VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
+import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
 import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { pluck, takeUntil } from 'rxjs/operators';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import { Observable } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, map } from 'rxjs/operators';
 
 interface VariantTypeTypeahead {
   id: number,
@@ -23,10 +19,9 @@ interface VariantTypeTypeahead {
   templateUrl: './variant-type-input.type.html',
   styleUrls: ['./variant-type-input.type.less'],
 })
-export class VariantTypeInputType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
+export class VariantTypeInputType extends FieldType implements OnInit, AfterViewInit {
   formControl!: FormControl;
 
-  private destroy$ = new Subject();
   private queryRef?: QueryRef<VariantTypeTypeaheadQuery, VariantTypeTypeaheadQueryVariables>
 
   variantTypes$?: Observable<VariantTypeTypeahead[]>
@@ -35,7 +30,7 @@ export class VariantTypeInputType extends FieldType implements OnInit, AfterView
     templateOptions: {
       placeholder: 'Search Variant Types',
       showArrow: false,
-      onSearch: () => {},
+      onSearch: () => { },
       minLengthSearch: 1,
       optionList: [],
     },
@@ -47,10 +42,11 @@ export class VariantTypeInputType extends FieldType implements OnInit, AfterView
   }
 
   ngOnInit() {
-    this.queryRef = this.variantTypeTypeaheadQuery.watch({name: ''})
+    this.queryRef = this.variantTypeTypeaheadQuery.watch({ name: '' })
 
     this.variantTypes$ = this.queryRef.valueChanges
-      .pipe( takeUntil(this.destroy$), pluck('data', 'variantTypeTypeahead'))
+      .pipe(map(r => r.data?.variantTypeTypeahead),
+        filter(isNonNulled));
   }
 
   ngAfterViewInit() {
@@ -64,13 +60,8 @@ export class VariantTypeInputType extends FieldType implements OnInit, AfterView
         return;
       }
 
-      this.queryRef?.refetch({name: value})
+      this.queryRef?.refetch({ name: value })
     };
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
 

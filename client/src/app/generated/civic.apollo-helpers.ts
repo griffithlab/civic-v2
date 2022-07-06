@@ -745,7 +745,7 @@ export type MutationFieldPolicy = {
 	updateNotificationStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateSourceSuggestionStatus?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MyVariantInfoKeySpecifier = ('caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'myVariantInfoId' | 'phastcons100way' | 'phastcons30way' | 'phyloP100way' | 'phyloP30way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact' | MyVariantInfoKeySpecifier)[];
+export type MyVariantInfoKeySpecifier = ('caddConsequence' | 'caddDetail' | 'caddScore' | 'clinvarClinicalSignificance' | 'clinvarHgvsCoding' | 'clinvarHgvsGenomic' | 'clinvarHgvsNonCoding' | 'clinvarHgvsProtein' | 'clinvarId' | 'clinvarOmim' | 'cosmicId' | 'dbnsfpInterproDomain' | 'dbsnpRsid' | 'eglClass' | 'eglHgvs' | 'eglProtein' | 'eglTranscript' | 'exacAlleleCount' | 'exacAlleleFrequency' | 'exacAlleleNumber' | 'fathmmMklPrediction' | 'fathmmMklScore' | 'fathmmPrediction' | 'fathmmScore' | 'fitconsScore' | 'gerp' | 'gnomadExomeAlleleCount' | 'gnomadExomeAlleleFrequency' | 'gnomadExomeAlleleNumber' | 'gnomadExomeFilter' | 'gnomadGenomeAlleleCount' | 'gnomadGenomeAlleleFrequency' | 'gnomadGenomeAlleleNumber' | 'gnomadGenomeFilter' | 'lrtPrediction' | 'lrtScore' | 'metalrPrediction' | 'metalrScore' | 'metasvmPrediction' | 'metasvmScore' | 'mutationassessorPrediction' | 'mutationassessorScore' | 'mutationtasterPrediction' | 'mutationtasterScore' | 'myVariantInfoId' | 'phastcons30way' | 'phastcons100way' | 'phyloP30way' | 'phyloP100way' | 'polyphen2HdivPrediction' | 'polyphen2HdivScore' | 'polyphen2HvarPrediction' | 'polyphen2HvarScore' | 'proveanPrediction' | 'proveanScore' | 'revelScore' | 'siftPrediction' | 'siftScore' | 'siphy' | 'snpeffSnpEffect' | 'snpeffSnpImpact' | MyVariantInfoKeySpecifier)[];
 export type MyVariantInfoFieldPolicy = {
 	caddConsequence?: FieldPolicy<any> | FieldReadFunction<any>,
 	caddDetail?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -792,10 +792,10 @@ export type MyVariantInfoFieldPolicy = {
 	mutationtasterPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
 	mutationtasterScore?: FieldPolicy<any> | FieldReadFunction<any>,
 	myVariantInfoId?: FieldPolicy<any> | FieldReadFunction<any>,
-	phastcons100way?: FieldPolicy<any> | FieldReadFunction<any>,
 	phastcons30way?: FieldPolicy<any> | FieldReadFunction<any>,
-	phyloP100way?: FieldPolicy<any> | FieldReadFunction<any>,
+	phastcons100way?: FieldPolicy<any> | FieldReadFunction<any>,
 	phyloP30way?: FieldPolicy<any> | FieldReadFunction<any>,
+	phyloP100way?: FieldPolicy<any> | FieldReadFunction<any>,
 	polyphen2HdivPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
 	polyphen2HdivScore?: FieldPolicy<any> | FieldReadFunction<any>,
 	polyphen2HvarPrediction?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1401,7 +1401,7 @@ export type WithRevisionsFieldPolicy = {
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	revisions?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TypedTypePolicies = TypePolicies & {
+export type StrictTypedTypePolicies = {
 	AcceptRevisionsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AcceptRevisionsPayloadKeySpecifier | (() => undefined | AcceptRevisionsPayloadKeySpecifier),
 		fields?: AcceptRevisionsPayloadFieldPolicy,
@@ -1983,3 +1983,4 @@ export type TypedTypePolicies = TypePolicies & {
 		fields?: WithRevisionsFieldPolicy,
 	}
 };
+export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;

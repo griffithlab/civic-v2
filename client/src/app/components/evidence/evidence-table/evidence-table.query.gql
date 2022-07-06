@@ -26,7 +26,6 @@ query EvidenceBrowse(
   $geneSymbol: String,
   $variantName: String
   $status: EvidenceStatusFilter
-  $cardView: Boolean!
 ) {
   evidenceItems(
     first: $first
@@ -93,28 +92,6 @@ fragment EvidenceGridFields on EvidenceItem {
       link
     }
     variant {
-      id
-      name
-      link
-    }
-    phenotypes @include(if: $cardView) {
-      id
-      name
-      link
-    }
-    source @include(if: $cardView)  {
-      id
-      citation
-      citationId
-      sourceType
-      sourceUrl
-      clinicalTrials {
-        nctId
-        id
-      }
-      link
-    }
-    assertions @include(if: $cardView) {
       id
       name
       link

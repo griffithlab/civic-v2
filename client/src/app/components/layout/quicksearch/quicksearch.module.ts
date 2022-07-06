@@ -8,6 +8,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { FormsModule } from '@angular/forms';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @NgModule({
   declarations: [CvcQuicksearchComponent],
@@ -16,6 +18,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     RouterModule,
     ReactiveComponentModule,
+    NzTypographyModule,
+    NzSelectModule,
     NzInputModule,
     NzFormModule,
     NzIconModule,

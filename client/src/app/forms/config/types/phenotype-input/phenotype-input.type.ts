@@ -1,16 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PhenotypeTypeaheadGQL, PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
+import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
 import { QueryRef } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { pluck, takeUntil } from 'rxjs/operators';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import { Observable } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, pluck } from 'rxjs/operators';
 
 interface PhenotypeTypeahead {
   id: number,
@@ -18,15 +15,15 @@ interface PhenotypeTypeahead {
   name: string
 }
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-phenotype-input-type',
   templateUrl: './phenotype-input.type.html',
   styleUrls: ['./phenotype-input.type.less'],
 })
-export class PhenotypeInputType extends FieldType implements OnInit, AfterViewInit, OnDestroy {
+export class PhenotypeInputType extends FieldType implements OnInit, AfterViewInit {
   formControl!: FormControl;
 
-  private destroy$ = new Subject();
   private queryRef?: QueryRef<PhenotypeTypeaheadQuery, PhenotypeTypeaheadQueryVariables>
 
   phenotypes$?: Observable<PhenotypeTypeahead[]>
@@ -35,7 +32,7 @@ export class PhenotypeInputType extends FieldType implements OnInit, AfterViewIn
     templateOptions: {
       placeholder: 'Search Phenotypes',
       showArrow: false,
-      onSearch: () => {},
+      onSearch: () => { },
       minLengthSearch: 1,
       optionList: [],
     },
@@ -48,29 +45,26 @@ export class PhenotypeInputType extends FieldType implements OnInit, AfterViewIn
   }
 
   ngOnInit(): void {
-    this.queryRef = this.phenotypeTypeaheadQuery.watch({name: ''})
+    this.queryRef = this.phenotypeTypeaheadQuery.watch({ name: '' })
 
     this.phenotypes$ = this.queryRef.valueChanges
-      .pipe( takeUntil(this.destroy$), pluck('data', 'phenotypeTypeahead'))
+      .pipe(pluck('data', 'phenotypeTypeahead'),
+        filter(isNonNulled));
   }
 
   ngAfterViewInit(): void {
     this.to.onSearch = (value: string): void => {
       this.to.fieldValue = value;
       this.to.fieldLength = value.length;
-      if ( value.length < this.to.minLengthSearch) {
+      if (value.length < this.to.minLengthSearch) {
         return;
       }
 
       this.to.searchString = value;
-      this.queryRef?.refetch({name: value})
+      this.queryRef?.refetch({ name: value })
     };
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 }
 
 export const PhenotypeInputTypeOption: TypeOption = {
