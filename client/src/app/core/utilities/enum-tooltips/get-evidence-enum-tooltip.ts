@@ -1,52 +1,6 @@
-import { Assertion, AssertionType, DrugInteraction, EvidenceClinicalSignificance, EvidenceDirection, EvidenceItem, EvidenceLevel, EvidenceType, Gene, Maybe, Scalars, SourceSource, Variant, VariantGroup, VariantOrigin } from "@app/generated/civic.apollo";
-import { InputEnum } from "../enum-formatters/format-evidence-enum";
+import { AssertionType, DrugInteraction, EvidenceDirection, EvidenceLevel, EvidenceType, Maybe, VariantOrigin } from '@app/generated/civic.apollo';
 
-export type TooltipEntity = Assertion
-  | EvidenceItem
-  | Gene
-  | Variant
-  | VariantGroup
-
-export enum EntityType {
-  Assertion = 'Assertion',
-  EvidenceItem = 'EvidenceItem',
-  Gene = 'Gene',
-  Variant = 'Variant',
-  VariantGroup = 'VariantGroup',
-}
-
-// attributes with tooltips that differ based on some context
-export enum ContextualAttribute {
-  evidenceDirection = 'evidenceDirection',
-  assertionDirection = 'assertionDirection',
-  clinicalSignificance = 'clinicalSignificance'
-}
-
-// the different contexts that determine tooltip content
-export type TooltipContext = EvidenceType | AssertionType
-
-
-export type ContextualTooltipMapOld = {
-  [key in EvidenceType | AssertionType]?: {
-    [key in InputEnum]?: string
-  }
-}
-
-// map of tooltips for ratings, which are received as numbers, not enum values
-export type RatingTooltipMap = {
-  [key: Scalars['Int']]: string
-}
-
-// RATING TOOLTIPS
-export const ratingTooltipMap = {
-  1: 'Poor - Claim is not supported well by experimental evidence. Results are not reproducible, or have very small sample size. No follow-up is done to validate novel claims.',
-  2: 'Adequate - Evidence is not well supported by experimental data, and little follow-up data is available. Experiments may lack proper controls, have small sample size, or are not statistically convincing.',
-  3: 'Average - Evidence is convincing, but not supported by a breadth of experiments. May be smaller scale projects, or novel results without many follow-up experiments. Discrepancies from expected results are explained and not concerning.',
-  4: 'Strong - Well supported evidence. Experiments are well controlled, and results are convincing. Any discrepancies from expected results are well-explained and not concerning.',
-  5: 'Excellent - Solid, well supported evidence from a lab or journal with respected academic standing. Experiments are well controlled, and results are clean and reproducible across multiple replicates. Evidence confirmed using separate methods.'
-}
-
-// map of tooltips for attributes that do not change
+// map of tooltips for attributes without contextual differences
 export type tooltipMap = {
   [key: string | symbol]: { // attribute name
     [key: string | symbol]: string // attribute value
@@ -55,62 +9,51 @@ export type tooltipMap = {
 
 export const tooltips: tooltipMap = {
   evidenceType: {
-    DIAGNOSTIC: `Evidence pertains to a variant's impact on patient diagnosis (cancer subtype)`,
-
-    FUNCTIONAL: `Evidence pertains to a variant that alters biological function from the reference state`,
-    ONCOGENIC: `Evidence pertains to a somatic variant's involvement in tumor pathogenesis as described by the Hallmarks of Cancer`,
-    PREDICTIVE: `Evidence pertains to a variant's effect on therapeutic response`,
-    PREDISPOSING: `Evidence pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
-    PROGNOSTIC: `Evidence pertains to a variant's impact on disease progression, severity, or patient survival`,
+    [EvidenceType.Diagnostic]: `Evidence pertains to a variant's impact on patient diagnosis (cancer subtype)`,
+    [EvidenceType.Functional]: `Evidence pertains to a variant that alters biological function from the reference state`,
+    [EvidenceType.Oncogenic]: `Evidence pertains to a somatic variant's involvement in tumor pathogenesis as described by the Hallmarks of Cancer`,
+    [EvidenceType.Predictive]: `Evidence pertains to a variant's effect on therapeutic response`,
+    [EvidenceType.Predisposing]: `Evidence pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
+    [EvidenceType.Prognostic]: `Evidence pertains to a variant's impact on disease progression, severity, or patient survival`,
   },
+
   assertionType: {
-    DIAGNOSTIC: `Assertion pertains to a variant's impact on patient diagnosis (cancer subtype)`,
+    [AssertionType.Diagnostic]: `Assertion pertains to a variant's impact on patient diagnosis (cancer subtype)`,
+    [AssertionType.Predictive]: `Assertion pertains to a variant's effect on therapeutic response`,
+    [AssertionType.Predisposing]: `Assertion pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
+    [AssertionType.Prognostic]: `Assertion pertains to a variant's impact on disease progression, severity, or patient survival`,
+  },
 
-    FUNCTIONAL: `Assertion pertains to a variant that alters biological function from the reference state`,
-    ONCOGENIC: `Assertion pertains to a somatic variant's involvement in tumor pathogenesis as described by the Hallmarks of Cancer`,
-    PREDICTIVE: `Assertion pertains to a variant's effect on therapeutic response`,
-    PREDISPOSING: `Assertion pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
-    PROGNOSTIC: `Assertion pertains to a variant's impact on disease progression, severity, or patient survival`,
+  variantOrigin: {
+    [VariantOrigin.Somatic]: 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring',
+    [VariantOrigin.RareGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in less than 1% of the population relevant to this evidence item',
+    [VariantOrigin.CommonGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item',
+    [VariantOrigin.Unknown]: 'The variant origin is uncertain based on the available evidence',
+    [VariantOrigin.Na]: 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin',
+  },
+
+  evidenceLevel: {
+    [EvidenceLevel.A]: 'Proven/consensus association in human medicine',
+    [EvidenceLevel.B]: 'Clinical trial or other primary patient data supports association',
+    [EvidenceLevel.C]: 'Individual case reports from clinical journals',
+    [EvidenceLevel.D]: 'In vivo or in vitro models support association',
+    [EvidenceLevel.E]: 'Indirect evidence',
+  },
+
+  drugInteractionType: {
+    [DrugInteraction.Combination]: 'The drugs listed were used as part of a combination therapy approach',
+    [DrugInteraction.Sequential]: 'The drugs listed were used at separate timepoints in the same treatment plan',
+    [DrugInteraction.Substitutes]: 'The drugs listed are often considered to be of the same family, or behave similarly in a treatment setting',
+  },
+
+  evidenceRating: {
+    1: 'Poor - Claim is not supported well by experimental evidence. Results are not reproducible, or have very small sample size. No follow-up is done to validate novel claims',
+    2: 'Adequate - Evidence is not well supported by experimental data, and little follow-up data is available. Experiments may lack proper controls, have small sample size, or are not statistically convincing',
+    3: 'Average - Evidence is convincing, but not supported by a breadth of experiments. May be smaller scale projects, or novel results without many follow-up experiments. Discrepancies from expected results are explained and not concerning',
+    4: 'Strong - Well supported evidence. Experiments are well controlled, and results are convincing. Any discrepancies from expected results are well-explained and not concerning',
+    5: 'Excellent - Solid, well supported evidence from a lab or journal with respected academic standing. Experiments are well controlled, and results are clean and reproducible across multiple replicates. Evidence confirmed using separate methods'
   }
-
-  // Variant Origin
-  // [VariantOrigin.Somatic]: 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',
-  // [VariantOrigin.RareGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in less than 1% of the population relevant to this evidence item.',
-  // [VariantOrigin.CommonGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item.',
-  // [VariantOrigin.Unknown]: 'The variant origin is uncertain based on the available evidence.',
-  // [VariantOrigin.Na]: 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin.',
-
-  // // Source Source
-  // [SourceSource.Pubmed]: 'Evidence item source uses a PubMed publication.',
-  // [SourceSource.Asco]: 'Evidence item source uses an ASCO abstract.',
-
-  // // Evidence Level
-  // [EvidenceLevel.A]: 'Proven/consensus association in human medicine',
-  // [EvidenceLevel.B]: 'Clinical trial or other primary patient data supports association',
-  // [EvidenceLevel.C]: 'Individual case reports from clinical journals',
-  // [EvidenceLevel.D]: 'In vivo or in vitro models support association',
-  // [EvidenceLevel.E]: 'Indirect evidence',
-
-  // // Drug Interaction Type
-  // [DrugInteraction.Combination]: 'The drugs listed were used as part of a combination therapy approach',
-  // [DrugInteraction.Sequential]: 'The drugs listed were used at separate timepoints in the same treatment plan',
-  // [DrugInteraction.Substitutes]: 'The drugs listed are often considered to be of the same family, or behave similarly in a treatment setting',
-
-  // /*
-  //  * EVIDENCE ITEM ATTRIBUTE TOOLTIPS
-  //  */
-
-  // // Evidence Type
-  // [EvidenceType.Diagnostic]: 'Evidence pertains to a variant\'s impact on patient diagnosis (cancer subtype)',
-
-  // [EvidenceType.Functional]: 'Evidence pertains to a variant that alters biological function from the reference state',
-  // [EvidenceType.Oncogenic]: 'Evidence pertains to a somatic variant\'s involvement in tumor pathogenesis as described by the Hallmarks of Cancer',
-  // [EvidenceType.Predictive]: 'Evidence pertains to a variant\'s effect on therapeutic response',
-  // [EvidenceType.Predisposing]: 'Evidence pertains to a germline variant\'s role in conferring susceptibility to disease (including pathogenicity evaluations)',
-  // [EvidenceType.Prognostic]: 'Evidence pertains to a variant\'s impact on disease progression, severity, or patient survival',
-
 }
-
 
 // a map of tooltips that differ based on their display context (entity type, evidence/asssertion type)
 export type ContextualTooltipMap = {
@@ -124,6 +67,7 @@ export type ContextualTooltipMap = {
 }
 
 export const contextualTooltips: ContextualTooltipMap = {
+  // Clinical Significance
   clinicalSignificance: {
     PREDICTIVE: {
       ADVERSE_RESPONSE: {
@@ -156,111 +100,127 @@ export const contextualTooltips: ContextualTooltipMap = {
         EvidenceItem: 'Associated with lack of disease or subtype',
         Assertion: 'Associated with lack of disease or subtype'
       }
+    },
+    PROGNOSTIC: {
+      BETTER_OUTCOME: {
+        EvidenceItem: 'Demonstrates better than expected clinical outcome',
+        Assertion: 'Demonstrates better than expected clinical outcome',
+      },
+      POOR_OUTCOME: {
+        EvidenceItem: 'Demonstrates worse than expected clinical outcome',
+        Assertion: 'Demonstrates worse than expected clinical outcome',
+      },
+      Na: {
+        EvidenceItem: 'Clinical Significance is not applicable',
+        Assertion: 'Clinical Significance is not applicable'
+      }
+    },
+    PREDISPOSING: {
+      PATHOGENIC: {
+        Assertion: 'Very strong evidence the variant is pathogenic',
+      },
+      LIKELY_PATHOGENIC: {
+        Assertion: 'Strong evidence (>90% certainty) the variant is pathogenic',
+      },
+      BENIGN: {
+        Assertion: 'Very strong evidence the variant is benign',
+      },
+      LIKELY_BENIGN: {
+        Assertion: 'Not expected to have a major effect on disease',
+      },
+      UNCERTAIN_SIGNIFICANCE: {
+        Assertion: 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
+      },
+      Na: {
+        EvidenceItem: 'Clinical Significance is not applicable',
+      }
     }
-  }
-}
-
-export const contextualTooltipsOld: ContextualTooltipMapOld = {
-  /*
-   * EVIDENCE ITEM CONTEXTUAL ATTRIBUTE TOOLTIPS
-   *
-   */
-  /* Predictive Evidence Context */
-  [EvidenceType.Predictive]: {
-    // Clinical Significance
-    [EvidenceClinicalSignificance.AdverseResponse]:
-      'Associated with an adverse response to drug treatment',
-    [EvidenceClinicalSignificance.ReducedSensitivity]:
-      'Response to treatment is lower than seen in other treatment contexts',
-    [EvidenceClinicalSignificance.Resistance]:
-      'Associated with clinical or preclinical resistance to treatment',
-    [EvidenceClinicalSignificance.Sensitivityresponse]:
-      'Associated with clinical or preclinical resistance to treatment',
-    [EvidenceClinicalSignificance.Na]:
-      'Clinical Significance is not applicable',
-
-    // Direction
-    [EvidenceDirection.Supports]:
-      'The experiment or study supports this variant\'s response to a drug',
-    [EvidenceDirection.DoesNotSupport]:
-      'The experiment or study does not support, or was inconclusive of an interaction between this variant and a drug',
   },
-
-  /* Diagnostic Evidence Context */
-  [EvidenceType.Diagnostic]: {
-    // Clinical Signififance
-    [EvidenceClinicalSignificance.Positive]:
-      'Associated with diagnosis of disease or subtype',
-    [EvidenceClinicalSignificance.Negative]:
-      'Associated with lack of disease or subtype',
-
-    // Direction
-    [EvidenceDirection.Supports]:
-      'subtype',
-    [EvidenceDirection.DoesNotSupport]:
-      'The experiment or study does not support this variant\'s impact on diagnosis of disease or subtype',
-
+  evidenceDirection: {
+    PREDICTIVE: {
+      SUPPORTS: {
+        EvidenceItem: 'The experiment or study supports this variant\'s response to a drug',
+      },
+      DOES_NOT_SUPPORT: {
+        EvidenceItem: 'The experiment or study does not support, or was inconclusive of an interaction between this variant and a drug'
+      }
+    },
+    DIAGNOSTIC: {
+      SUPPORTS: {
+        EvidenceItem: 'The experiment or study supports this variant\'s impact on the diagnosis of disease or subtype'
+      },
+      DOES_NOT_SUPPORT: {
+        EvidenceItem: 'The experiment or study does not support this variant\'s impact on diagnosis of disease or subtype'
+      }
+    },
+    PROGNOSTIC: {
+      SUPPORTS: {
+        EvidenceItem: 'The experiment or study supports this variant\'s impact on prognostic outcome'
+      },
+      DOES_NOT_SUPPORT: {
+        EvidenceItem: 'The experiment or study does not support a prognostic association between variant and outcome'
+      }
+    },
+    PREDISPOSING: {
+      Na: {
+        EvidenceItem: 'Evidence Direction is not applicable'
+      },
+    },
+    FUNCTIONAL: {
+      SUPPORTS: {
+        EvidenceItem: 'The experiment or study supports this variant causing alteration or non-alteration of the gene product function'
+      },
+      DOES_NOT_SUPPORT: {
+        EvidenceItem: 'The experiment or study does not support this variant causing alteration or non-alteration of the gene product function'
+      }
+    },
+    ONCOGENIC: {
+      NA: {
+        EvidenceItem: 'Evidence Direction is not applicable for Oncogenic Evidence Type'
+      },
+    }
   },
-
-  /* Prognostic Evidence Context */
-  [EvidenceType.Prognostic]: {
-    // Clinical Significance
-    [EvidenceClinicalSignificance.BetterOutcome]:
-      'Demonstrates better than expected clinical outcome',
-    [EvidenceClinicalSignificance.PoorOutcome]:
-      'Demonstrates worse than expected clinical outcome',
-    [EvidenceClinicalSignificance.Na]:
-      'Clinical Significance is not applicable',
-
-    // Direction
-    [EvidenceDirection.Supports]:
-      'The experiment or study supports this variant\'s impact on prognostic outcome',
-    [EvidenceDirection.DoesNotSupport]:
-      'The experiment or study does not support a prognostic association between variant and outcome',
-
-  },
-
-  /* Predisposing Evidence Context */
-  [EvidenceType.Predisposing]: {
-    // Clinical Significance
-    [EvidenceClinicalSignificance.Na]:
-      'Clinical Significance is not applicable',
-
-    // Direction
-    [EvidenceDirection.Na]:
-      'Evidence Direction is not applicable'
-  },
-
-  /* Functional Evidence Context */
-  [EvidenceType.Functional]: {
-    // Clinical Significance
-    [EvidenceClinicalSignificance.GainOfFunction]:
-      'Sequence variant confers an increase in normal gene function',
-    [EvidenceClinicalSignificance.LossOfFunction]:
-      'Sequence variant confers a diminished or abolished function',
-    [EvidenceClinicalSignificance.UnalteredFunction]:
-      'Gene product of sequence variant is unchanged',
-    [EvidenceClinicalSignificance.Neomorphic]:
-      'Sequence variant creates a novel function',
-    [EvidenceClinicalSignificance.Neomorphic]:
-      'Sequence variant abrogates function of wildtype allele gene product',
-
-    // Direction
-    [EvidenceDirection.Supports]:
-      'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
-    [EvidenceDirection.DoesNotSupport]:
-      'The experiment or study does not support this variant causing alteration or non-alteration of the gene product function',
-  },
-
-  /* Oncogenic Evidence Context */
-  [EvidenceType.Oncogenic]: {
-    // Clinical Significance
-    [EvidenceClinicalSignificance.Na]:
-      'Clinical Significance is not applicable',
-
-    // Direction
-    [EvidenceDirection.Na]:
-      'Evidence Direction is not applicable for Oncogenic Evidence'
+  assertionDirection: {
+    PREDICTIVE: {
+      SUPPORTS: {
+        Assertion: 'The Assertion and associated Evidence Items support this variant\'s response to a drug'
+      },
+      DOES_NOT_SUPPORT: {
+        Assertion: 'The Assertion and associated evidence does not support, or was inconclusive of an interaction between this variant and a drug'
+      }
+    },
+    DIAGNOSTIC: {
+      SUPPORTS: {
+        Assertion: 'The Assertion and associated Evidence Items support this variant\'s impact on the diagnosis of disease or subtype'
+      },
+      DOES_NOT_SUPPORT: {
+        Assertion: 'The Assertion and associated evidence does not support this variant\'s impact on diagnosis of disease or subtype'
+      }
+    },
+    PROGNOSTIC: {
+      SUPPORTS: {
+        Assertion: 'The Assertion and associated Evidence Items support this variant\'s impact on prognostic outcome'
+      },
+      DOES_NOT_SUPPORT: {
+        Assertion: 'The Assertion and associated evidence does not support a prognostic association between variant and outcome'
+      }
+    },
+    PREDISPOSING: {
+      SUPPORTS: {
+        Assertion: 'The Assertion and associated Evidence Items support a variant\'s impact on predisposing outcome'
+      },
+      DOES_NOT_SUPPORT: {
+        Assertion: 'The Assertion and associated evidence does not support a predisposing association between variant and outcome'
+      }
+    },
+    FUNCTIONAL: {
+      SUPPORTS: {
+        Assertion: 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function'
+      },
+      DOES_NOT_SUPPORT: {
+        Assertion: 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function'
+      }
+    },
   },
 }
 

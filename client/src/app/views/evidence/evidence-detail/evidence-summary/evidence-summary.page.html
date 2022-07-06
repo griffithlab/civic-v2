@@ -36,32 +36,42 @@
 
             <!-- evidence direction -->
             <nz-descriptions-item nzTitle="Direction">
-              <cvc-attribute-tag [cvcAttrValue]="evidence.evidenceDirection">
+              <cvc-attribute-tag [cvcAttrValue]="evidence.evidenceDirection"
+                nz-tooltip
+                [nzTooltipTitle]="evidence.evidenceDirection | enumTooltip:'evidenceDirection':evidence.evidenceType:'EvidenceItem'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
               <cvc-attribute-tag [cvcAttrValue]="evidence.clinicalSignificance"
-              nz-tooltip
-              [nzTooltipTitle]="evidence.clinicalSignificance | enumTooltip:'clinicalSignificance':evidence.evidenceType:'EvidenceItem'">
+                nz-tooltip
+                [nzTooltipTitle]="evidence.clinicalSignificance | enumTooltip:'clinicalSignificance':evidence.evidenceType:'EvidenceItem'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- variant origin -->
             <nz-descriptions-item nzTitle="Variant Origin">
-              <cvc-attribute-tag [cvcAttrValue]="evidence.variantOrigin">
+              <cvc-attribute-tag [cvcAttrValue]="evidence.variantOrigin"
+                nz-tooltip
+                [nzTooltipTitle]="evidence.variantOrigin | enumTooltip:'variantOrigin'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
             <!-- evidence level -->
             <nz-descriptions-item nzTitle="Level">
-              <nz-tag>{{ evidence.evidenceLevel }}</nz-tag>
+              <nz-tag nz-tooltip
+                [nzTooltipTitle]="evidence.evidenceLevel | enumTooltip:'evidenceLevel'">
+                <strong>{{ evidence.evidenceLevel  }}</strong>
+              </nz-tag>
             </nz-descriptions-item>
 
             <!-- evidence rating -->
             <nz-descriptions-item nzTitle="Rating">
-              <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
+              <nz-tag nz-tooltip
+                [nzTooltipTitle]="evidence.evidenceRating | enumTooltip:'evidenceRating'">
+                <cvc-evidence-rating [starRating]="evidence.evidenceRating"></cvc-evidence-rating>
+              </nz-tag>
             </nz-descriptions-item>
 
           </nz-descriptions>

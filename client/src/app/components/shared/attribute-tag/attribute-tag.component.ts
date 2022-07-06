@@ -11,6 +11,5 @@ export class CvcAttributeTagComponent {
 
   @Input() cvcShowLabel: boolean = true
   @Input() cvcShowTooltip: boolean = true
-  constructor() { }
-
+  @Input() showIcon: boolean = true
 }
