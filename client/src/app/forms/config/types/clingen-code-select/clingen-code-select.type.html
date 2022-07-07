@@ -1,0 +1,31 @@
+<ng-container *ngIf="!formControl.value?.id; else clingenCodeItem">
+  <nz-select nzShowSearch
+    nzServerSearch
+    autofocus="click"
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzNotFoundContent]="sourceLoader"
+    [nzShowArrow]="to.showArrow"
+    [nzFilterOption]="to.filterOption"
+    (nzOnSearch)="onSearch($event)">
+    <ng-container *ngrxLet="this.codes$ as codes">
+      <nz-option *ngFor="let opt of codes"
+        nzCustomContent
+        [nzLabel]="opt.code"
+        [nzValue]="opt">
+        <nz-space>
+          <span *nzSpaceItem>
+            <span [innerHtml]="opt.code | highlightTypeahead: this.searchVal"></span> - {{ opt.description }}
+          </span>
+        </nz-space>
+      </nz-option>
+    </ng-container>
+  </nz-select>
+  <ng-template #sourceLoader>
+    No ACMG code found in CIViC that matches the string provided.
+  </ng-template>
+</ng-container>
+<ng-template #clingenCodeItem>
+  <nz-tag>{{formControl.value.code}}</nz-tag>
+</ng-template>
