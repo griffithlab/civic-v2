@@ -4,6 +4,7 @@ import { AssertionSummaryGQL, Maybe, AssertionSummaryQuery, AssertionSummaryQuer
 import { QueryRef } from "apollo-angular";
 import { pluck, startWith } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { AssertionState } from "@app/forms/config/states/assertion.state";
 
 @Component({
   selector: 'cvc-assertion-summary',
@@ -17,7 +18,7 @@ export class AssertionsSummaryPage {
   loading$: Observable<boolean>
   assertion$: Observable<Maybe<AssertionSummaryFieldsFragment>>
 
-  predisposingAssertionType$ = AssertionType.Predisposing
+  assertionRules = new AssertionState()
 
   subscribable: SubscribableInput
 

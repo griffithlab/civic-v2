@@ -66,20 +66,35 @@
 
             <!-- AMP/ASO/CAP -->
             <nz-descriptions-item nzTitle="AMP/ASCO/CAP Category">
-              <ng-container *ngIf="assertion.assertionType != this.predisposingAssertionType$; else notApplicable">
+              <ng-container *ngIf="assertionRules.requiresAmpLevel(assertion.assertionType); else notApplicable">
                 <nz-tag>{{ assertion.ampLevel | formatAmp: 'verbose' }}</nz-tag>
               </ng-container>
             </nz-descriptions-item>
 
             <!-- ACMG Codes -->
             <nz-descriptions-item nzTitle="ACMG Codes">
-              <ng-container *ngIf="assertion.assertionType == this.predisposingAssertionType$; else notApplicable">
+              <ng-container *ngIf="assertionRules.requiresAcmgCodes(assertion.assertionType); else notApplicable">
                 <ng-container *ngIf="assertion.acmgCodes.length > 0">
                   <nz-tag nz-tooltip
                     [nzTooltipTitle]="code.description"
                     *ngFor="let code of assertion.acmgCodes">{{ code.code }}</nz-tag>
                 </ng-container>
                 <ng-container *ngIf="assertion.acmgCodes.length == 0">
+                  <span nz-typography
+                    nzType="secondary">None provided</span>
+                </ng-container>
+              </ng-container>
+            </nz-descriptions-item>
+
+            <!-- ClinGen Codes -->
+            <nz-descriptions-item nzTitle="ClinGen/CGC/VICC Codes">
+              <ng-container *ngIf="assertionRules.requiresClingenCodes(assertion.assertionType); else notApplicable">
+                <ng-container *ngIf="assertion.clingenCodes.length > 0">
+                  <nz-tag nz-tooltip
+                    [nzTooltipTitle]="code.description"
+                    *ngFor="let code of assertion.clingenCodes">{{code.code }}</nz-tag>
+                </ng-container>
+                <ng-container *ngIf="assertion.clingenCodes.length == 0">
                   <span nz-typography
                     nzType="secondary">None provided</span>
                 </ng-container>
