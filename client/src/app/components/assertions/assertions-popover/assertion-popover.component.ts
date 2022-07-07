@@ -3,6 +3,7 @@ import { AssertionPopoverFragment, AssertionPopoverGQL, Maybe } from "@app/gener
 import { filter, map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 import { isNonNulled } from "rxjs-etc";
+import { AssertionState } from "@app/forms/config/states/assertion.state";
 
 @Component({
   selector: 'cvc-assertion-popover',
@@ -13,6 +14,8 @@ export class CvcAssertionPopoverComponent implements OnInit {
   @Input() assertionId!: number;
 
   assertion$?: Observable<Maybe<AssertionPopoverFragment>>
+
+  assertionRules = new AssertionState()
 
   constructor(private gql: AssertionPopoverGQL) { }
 

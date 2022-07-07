@@ -29,6 +29,7 @@ module Types::Entities
     field :nccn_guideline, Types::Entities::NccnGuidelineType, null: true
     field :nccn_guideline_version, String, null: true
     field :acmg_codes, [Types::Entities::AcmgCodeType], null: false
+    field :clingen_codes, [Types::Entities::ClingenCodeType], null: false
     field :amp_level, Types::AmpLevelType, null: true
     field :submission_event, Types::Entities::EventType, null: false
     field :acceptance_event, Types::Entities::EventType, null: true
@@ -50,6 +51,10 @@ module Types::Entities
 
     def acmg_codes
       Loaders::AssociationLoader.for(Assertion, :acmg_codes).load(object)
+    end
+
+    def clingen_codes
+      Loaders::AssociationLoader.for(Assertion, :clingen_codes).load(object)
     end
 
     def variant

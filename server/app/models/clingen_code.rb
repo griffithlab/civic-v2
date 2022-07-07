@@ -1,4 +1,4 @@
-class AcmgCode < ActiveRecord::Base
+class ClingenCode < ApplicationRecord
   has_and_belongs_to_many :assertions
 
   def display_name

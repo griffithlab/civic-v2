@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AcmgCode, AcmgCodeTypeaheadGQL, AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { ClingenCode, ClingenCodeTypeaheadGQL, ClingenCodeTypeaheadQuery, ClingenCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
@@ -9,30 +8,29 @@ import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, map } from 'rxjs/operators';
 
-@UntilDestroy()
 @Component({
-  selector: 'cvc-acmg-code-select-type',
-  templateUrl: './acmg-code-select.type.html',
-  styleUrls: ['./acmg-code-select.type.less'],
+  selector: 'cvc-clingen-code-select-type',
+  templateUrl: './clingen-code-select.type.html',
+  styleUrls: ['./clingen-code-select.type.less'],
 })
-export class AcmgCodeInputType extends FieldType implements OnInit {
+export class ClingenCodeInputType extends FieldType implements OnInit {
   formControl!: FormControl;
 
   searchVal = ''
 
-  private queryRef?: QueryRef<AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables>
-  codes$?: Observable<AcmgCode[]>
+  private queryRef?: QueryRef<ClingenCodeTypeaheadQuery, ClingenCodeTypeaheadQueryVariables>
+  codes$?: Observable<ClingenCode[]>
 
-  constructor(private acmgCodeGQL: AcmgCodeTypeaheadGQL) {
+  constructor(private clingenCodeGQL: ClingenCodeTypeaheadGQL){
     super();
   }
 
   ngOnInit(): void {
-    this.queryRef = this.acmgCodeGQL.watch({ code: this.searchVal })
+    this.queryRef = this.clingenCodeGQL.watch({ code: this.searchVal })
     this.codes$ = this.queryRef.valueChanges
       .pipe(map(r => r.data),
         filter(isNonNulled),
-        map(({ acmgCodesTypeahead }) => acmgCodesTypeahead));
+        map(({ clingenCodesTypeahead }) => clingenCodesTypeahead));
   }
 
   onSearch(value: string): void {
@@ -41,10 +39,10 @@ export class AcmgCodeInputType extends FieldType implements OnInit {
   }
 
 }
-export const acmgCodeSelectTypeOption: TypeOption = {
-  name: 'acmg-code-select',
+export const clingenCodeSelectTypeOption: TypeOption = {
+  name: 'clingen-code-select',
   extends: 'select',
-  component: AcmgCodeInputType,
+  component: ClingenCodeInputType,
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {

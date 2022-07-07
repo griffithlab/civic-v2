@@ -18,6 +18,10 @@ fragment assertionPopover on Assertion {
     code
     description
   }
+  clingenCodes {
+    code
+    description
+  }
   nccnGuideline {
     id
     name

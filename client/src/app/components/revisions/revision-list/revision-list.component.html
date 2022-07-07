@@ -60,6 +60,28 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'clingen_code_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="ClinGen/CGC/VICC Code(s)">
+              <ng-template #itemTemplate let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container> -->
+          <ng-container *ngSwitchCase="'acmg_code_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="ACMG/AMP Code(s)">
+              <ng-template #itemTemplate let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'hgvs_expression_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
