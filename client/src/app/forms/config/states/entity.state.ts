@@ -24,6 +24,7 @@ export type ValidEntity = {
   requiresDrug: boolean
   requiresAcmgCodes: boolean
   requiresAmpLevel: boolean
+  requiresClingenCodes: boolean
   allowsFdaApproval: boolean
 }
 
@@ -56,6 +57,7 @@ export interface IEntityState {
   requiresDisease: (et: EntityType) => boolean;
   requiresAcmgCodes: (et: EntityType) => boolean;
   requiresAmpLevel: (et: EntityType) => boolean;
+  requiresClingenCodes: (et: EntityType) => boolean;
   allowsFdaApproval: (et: EntityType) => boolean;
 }
 
@@ -121,6 +123,11 @@ class EntityState implements IEntityState {
   requiresAmpLevel = (at: EntityType): boolean => {
     const state = this.validStates.get(at);
     return state !== undefined ? state.requiresAmpLevel : true;
+  }
+
+  requiresClingenCodes = (et: EntityType): boolean => {
+    const state = this.validStates.get(et);
+    return state !== undefined ? state.requiresClingenCodes : true;
   }
 
   allowsFdaApproval = (et: EntityType): boolean => {
