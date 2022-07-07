@@ -1,20 +1,11 @@
 
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-
+import { Injectable } from '@angular/core';
+import { CoiStatus, Maybe, Organization, User, UserRole, ViewerBaseGQL } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
-
 import { Observable } from 'rxjs';
-import { pluck, map, shareReplay, startWith } from 'rxjs/operators';
-
-import {
-  User,
-  Organization,
-  ViewerBaseGQL,
-  Maybe,
-  UserRole,
-  CoiStatus
-} from '@app/generated/civic.apollo';
+import { map, pluck, shareReplay, startWith } from 'rxjs/operators';
 
 export interface Viewer extends User {
   mostRecentOrg: Maybe<Organization>;
@@ -28,24 +19,13 @@ export interface Viewer extends User {
   invalidCoi: boolean
 }
 
-export const InitialViewer: Viewer = <Viewer>{
-  mostRecentOrg: undefined,
-  signedIn: false,
-  isAdmin: false,
-  isEditor: false,
-  isCurator: false,
-  canCurate: false,
-  canModerate: false,
-  invalidCoi: true,
-}
+@UntilDestroy()
 @Injectable({
   providedIn: 'root'
 })
-export class ViewerService implements OnDestroy {
+export class ViewerService {
   private queryRef!: QueryRef<any, any>;
 
-  data$: Observable<any>;
-  isLoading$: Observable<boolean>;
   viewer$: Observable<Viewer>;
 
   signedIn$: Observable<boolean>;
@@ -58,53 +38,54 @@ export class ViewerService implements OnDestroy {
   canCurate$: Observable<boolean>;
   canModerate$: Observable<boolean>;
 
+  initialViewer: Viewer = <Viewer>{
+    mostRecentOrg: undefined,
+    signedIn: false,
+    isAdmin: false,
+    isEditor: false,
+    isCurator: false,
+    canCurate: false,
+    canModerate: false,
+    invalidCoi: true,
+  }
+
   constructor(
     private viewerBaseGQL: ViewerBaseGQL,
     private http: HttpClient,
   ) {
-    this.queryRef = this.viewerBaseGQL.watch();
-    this.data$ = this.queryRef.valueChanges.pipe(
-      map((r: any) => {
-        return {
-          data: r.data,
-          loading: r.loading,
-          networkStatus: r.networkStatus
-        };
-      }),
-      shareReplay(1));
+    this.queryRef = this.viewerBaseGQL.watch(undefined, { notifyOnNetworkStatusChange: false });
 
-    this.isLoading$ = this.data$.pipe(
-      pluck('loading'),
-      startWith(true));
+    this.viewer$ = this.queryRef
+      .valueChanges
+      .pipe(
+        pluck('data', 'viewer'),
+        map((v: User): Viewer => {
+          return <Viewer>{
+            ...v,
+            signedIn: v == null ? false : true,
+            signedOut: v == null ? true : false,
+            canCurate: canCurate(v),
+            canModerate: canModerate(v),
+            isAdmin: isAdmin(v),
+            isEditor: isEditor(v),
+            isCurator: isCurator(v),
+            organizations: v == null ? [] : v.organizations,
+            mostRecentOrg: v == null ? undefined : mostRecentOrg(v),
+            invalidCoi: isEditor(v) && (!v.mostRecentConflictOfInterestStatement || v.mostRecentConflictOfInterestStatement.coiStatus === CoiStatus.Expired || v.mostRecentConflictOfInterestStatement.coiStatus === CoiStatus.Missing)
+          } as Viewer
+        }),
+        startWith(this.initialViewer),
+        shareReplay(1),
+      );
 
-    this.viewer$ = this.data$.pipe(
-      pluck('data', 'viewer'),
-      map((v: User): Viewer => {
-        return <Viewer>{
-          ...v,
-          signedIn: v === null ? false : true,
-          signedOut: v === null ? true : false,
-          canCurate: canCurate(v),
-          canModerate: canModerate(v),
-          isAdmin: isAdmin(v),
-          isEditor: isEditor(v),
-          isCurator: isCurator(v),
-          organizations: v === null ? [] : v.organizations,
-          mostRecentOrg: v === null ? undefined : mostRecentOrg(v),
-          invalidCoi: isEditor(v) && (!v.mostRecentConflictOfInterestStatement || v.mostRecentConflictOfInterestStatement.coiStatus === CoiStatus.Expired || v.mostRecentConflictOfInterestStatement.coiStatus === CoiStatus.Missing)
-        }
-      }),
-      startWith(InitialViewer),
-      shareReplay(1));
+    this.signedIn$ = this.viewer$
+      .pipe(map(v => v.signedIn))
 
-    this.signedIn$ = this.viewer$.pipe(
-      map(v => v.signedIn));
+    this.signedOut$ = this.viewer$
+      .pipe(map(v => v.signedOut))
 
-    this.signedOut$ = this.viewer$.pipe(
-      map(v => v.signedOut));
-
-    this.isAdmin$ = this.viewer$.pipe(
-      map(v => isAdmin(v)));
+    this.isAdmin$ = this.viewer$
+      .pipe(map(v => isAdmin(v)))
 
     this.isEditor$ = this.viewer$.pipe(
       map(v => isEditor(v)));
@@ -139,7 +120,7 @@ export class ViewerService implements OnDestroy {
       return (v && (v.role === UserRole.Editor || v.role === UserRole.Admin) && v.mostRecentConflictOfInterestStatement && (v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Conflict || v.mostRecentConflictOfInterestStatement?.coiStatus == CoiStatus.Valid)) ? true : false;
     }
 
-    function mostRecentOrg(v: User): Maybe<Organization>{
+    function mostRecentOrg(v: User): Maybe<Organization> {
       if (v.mostRecentOrganizationId) {
         return v.organizations.find(o => o.id === v.mostRecentOrganizationId)
       } else {
@@ -152,16 +133,12 @@ export class ViewerService implements OnDestroy {
   // GET /sign_out with HttpClient, then refetch Viewer
   signOut(): void {
     this.http.get('/api/sign_out')
-      .subscribe(d => {
-        this.refetch();
-      });
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.queryRef.refetch())
   }
 
   refetch(): void {
     this.queryRef.refetch();
-  }
-
-  ngOnDestroy(): void {
   }
 
 }

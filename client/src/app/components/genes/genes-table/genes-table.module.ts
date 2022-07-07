@@ -18,6 +18,9 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
+import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
+import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
+import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 
 @NgModule({
   declarations: [CvcGenesTableComponent],
@@ -25,21 +28,26 @@ import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-
     CommonModule,
     FormsModule,
     ReactiveComponentModule,
-    NzTableModule,
-    NzFormModule,
-    NzInputModule,
-    NzIconModule,
-    NzTypographyModule,
-    NzCardModule,
+
     NzButtonModule,
-    NzToolTipModule,
+    NzCardModule,
+    NzFormModule,
+    NzIconModule,
+    NzInputModule,
+    NzTableModule,
     NzTagModule,
-    CvcClearableInputFilterModule,
+    NzToolTipModule,
+    NzTypographyModule,
+
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
+    CvcClearableInputFilterModule,
     CvcGeneTagModule,
+    CvcNoMoreRowsModule,
+    CvcPlainTagOverflowModule,
+    CvcTableCountsModule,
+    CvcTableScrollModule,
     CvcTagOverflowModule,
-    CvcPlainTagOverflowModule
   ],
   exports: [CvcGenesTableComponent]
 })

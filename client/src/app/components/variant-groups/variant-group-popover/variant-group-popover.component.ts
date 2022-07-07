@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Maybe, VariantGroupPopoverFieldsFragment, VariantGroupPopoverGQL } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-variant-group-popover',
@@ -22,7 +23,9 @@ export class CvcVariantGroupPopoverComponent implements OnInit {
 
     this.variantGroup$ = this.gql.watch({ variantGroupId: this.variantGroupId })
       .valueChanges
-      .pipe(map(({ data }) => data.variantGroup));
+      .pipe(map(({ data }) => data?.variantGroup),
+        filter(isNonNulled));
+
   }
 
 }

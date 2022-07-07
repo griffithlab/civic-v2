@@ -1,47 +1,51 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { FormsModule } from '@angular/forms';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
-
-import { CvcVariantsTableComponent } from './variants-table.component';
+import { NgModule } from '@angular/core';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
-import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
+import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 import { CvcPlainTagOverflowModule } from '@app/components/shared/plain-tag-overflow/plain-tag-overflow.module';
+import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
+import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
-import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
+import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcVariantTagModule } from '../variant-tag/variant-tag.module';
+import { CvcVariantsTableComponent } from './variants-table.component';
 
 @NgModule({
   declarations: [CvcVariantsTableComponent],
   imports: [
     CommonModule,
     ReactiveComponentModule,
-    NzTableModule,
-    NzIconModule,
-    NzTypographyModule,
-    NzToolTipModule,
+
     NzButtonModule,
     NzCardModule,
+    NzIconModule,
+    NzTableModule,
     NzTagModule,
-    CvcGeneTagModule,
-    CvcVariantTagModule,
-    CvcTagOverflowModule,
-    CvcPlainTagOverflowModule,
-    CvcPipesModule,
-    CvcClearableInputFilterModule,
+    NzToolTipModule,
+    NzTypographyModule,
+
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
+    CvcClearableInputFilterModule,
+    CvcGeneTagModule,
+    CvcNoMoreRowsModule,
+    CvcPipesModule,
+    CvcPlainTagOverflowModule,
+    CvcTableCountsModule,
+    CvcTableScrollModule,
+    CvcTagOverflowModule,
+    CvcVariantTagModule,
   ],
   exports: [CvcVariantsTableComponent]
 })

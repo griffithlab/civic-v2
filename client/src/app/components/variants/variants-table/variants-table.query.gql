@@ -35,7 +35,7 @@ query BrowseVariants(
     edges {
       cursor
       node {
-        ...VariantGridFields
+        ...BrowseVariantsFields
       }
     }
     totalCount
@@ -44,7 +44,7 @@ query BrowseVariants(
   }
 }
 
-fragment VariantGridFields on BrowseVariant {
+fragment BrowseVariantsFields on BrowseVariant {
   id
   name
   link

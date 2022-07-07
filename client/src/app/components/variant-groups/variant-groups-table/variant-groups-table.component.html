@@ -27,15 +27,20 @@
 <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
   <nz-table #virtualTable
     nzSize="small"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
-    [nzData]="variantGroups$ | ngrxPush"
-    [nzLoading]="isLoading"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th nzWidth="250px"
           nzLeft
@@ -75,18 +80,15 @@
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="nameInput"
-            placeholderText="Name"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
-            placeholderText="Variant Name"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            placeholderText="Gene Name"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzRight>
         </th>
@@ -104,7 +106,7 @@
           </td>
           <td class="overflow-ellipsis"
             nz-tooltip
-            [nzTooltipTitle]="showTooltips ? variantNames : ''">
+            [nzTooltipTitle]="!isScrolling ? variantNames : ''">
             <ng-template #variantNames>
               <ng-container *ngFor="let variant of vg.variantNames; last as isLast">
                 {{ variant }}{{ isLast ? '' : ', ' }}
@@ -140,24 +142,19 @@
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
-    nz-typography
-    nzType="secondary">
-    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
+
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
-  <ng-template #noData>
-    <span nz-typography
-      nzType="secondary">
-      (0 total)
-    </span>
-  </ng-template>
 </ng-template>
 
 <ng-template #extraTemplate>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
     <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
+  k   nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
   </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>

@@ -50,6 +50,10 @@ export const ampLevelInputTypeOption: TypeOption = {
               to.required = true;
             }
           });
+      },
+      onDestroy:(ffc?: FormlyFieldConfig) : void => {
+        const to: FormlyTemplateOptions = ffc!.templateOptions!
+        to.vcSub.unsubscribe()
       }
     },
     expressionProperties: {

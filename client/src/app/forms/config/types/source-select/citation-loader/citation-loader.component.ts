@@ -1,29 +1,17 @@
-import {
-  AfterContentInit,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApolloError } from '@apollo/client/errors';
-import {
-  CheckRemoteCitationGQL,
-  AddRemoteCitationGQL,
-  Maybe,
-  SourceSource,
-  SourceStub,
-  SourceStubFieldsFragmentDoc
-} from '@app/generated/civic.apollo';
+import { AddRemoteCitationGQL, CheckRemoteCitationGQL, Maybe, SourceSource, SourceStub, SourceStubFieldsFragmentDoc } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize } from 'rxjs/operators';
 import { $enum } from 'ts-enum-util';
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-citation-loader',
   templateUrl: './citation-loader.component.html',
   styleUrls: ['./citation-loader.component.less']
 })
-export class CitationLoaderComponent implements AfterContentInit {
+export class CitationLoaderComponent {
   @Input() model!: any;
   @Output() addCitation = new EventEmitter<any>();
 
@@ -70,11 +58,8 @@ export class CitationLoaderComponent implements AfterContentInit {
         sourceType: this.sourceType,
         citationId: +this.citationId
       })
-      .pipe(finalize(() => {
-        this.isChecking = false;
-        // TODO figure out why this detectChanges call is necessary
-        this.changeDetectorRef.detectChanges();
-      }))
+      .pipe(finalize(() => { this.isChecking = false; this.changeDetectorRef.detectChanges(); }),
+        untilDestroyed(this))
       .subscribe({
         next: ({ data: { remoteCitation } }) => {
           if (remoteCitation !== null) {
@@ -111,7 +96,8 @@ export class CitationLoaderComponent implements AfterContentInit {
         this.isCreating = false;
         // TODO figure out why this detectChanges call is necessary
         this.changeDetectorRef.detectChanges();
-      }))
+      }),
+        untilDestroyed(this))
       .subscribe(
         {
           next: ({ data }): void => {
@@ -128,9 +114,7 @@ export class CitationLoaderComponent implements AfterContentInit {
           complete: (): void => {
             this.createErrors = [];
           }
-        }
-      )
-
+        });
   }
 
   onAcceptSource(e: any): void {
@@ -139,9 +123,5 @@ export class CitationLoaderComponent implements AfterContentInit {
       id: this.sourceStub!.id,
       entityFragment: SourceStubFieldsFragmentDoc
     })
-  }
-
-  ngAfterContentInit(): void {
-    console.log('model');
   }
 }

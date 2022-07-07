@@ -1,230 +1,162 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Maybe, PageInfo, VariantTypeBrowseTableRowFieldsFragment, VariantTypesBrowseGQL, VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables, VariantTypeSortColumns } from '@app/generated/civic.apollo';
-import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
-import { QueryRef } from 'apollo-angular';
-import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { tap, map, pluck, startWith, debounceTime, take, takeUntil, withLatestFrom, pairwise, filter, throttleTime, first } from 'rxjs/operators';
-import { NzTableComponent } from 'ng-zorro-antd/table';
+import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
+import { BrowseVariantTypeConnection, Maybe, PageInfo, VariantTypeBrowseTableRowFieldsFragment, VariantTypesBrowseGQL, VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables, VariantTypeSortColumns } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { QueryRef } from 'apollo-angular';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
 
+export interface VariantTypesTableUserFilters {
+  soidFilter?: Maybe<string>
+  nameFilter?: Maybe<string>
+}
+
+@UntilDestroy()
 @Component({
   selector: 'cvc-variant-types-table',
   templateUrl: './variant-types-table.component.html',
   styleUrls: ['./variant-types-table.component.less']
 })
-export class CvcVariantTypesTableComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CvcVariantTypesTableComponent implements OnInit {
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() initialPageSize = 35
+  @Input()
+  set initialUserFilters(f: Maybe<VariantTypesTableUserFilters>) {
+    // assign any attributes in filters object to this class
+    if (f) Object.assign(this, f)
+  }
 
-  @ViewChild('virtualTable', { static: false })
-  nzTableComponent?: NzTableComponent<VariantTypeBrowseTableRowFieldsFragment>
-  viewport?: CdkVirtualScrollViewport
-
-  private queryRef?: QueryRef<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables>
   data$?: Observable<ApolloQueryResult<VariantTypesBrowseQuery>>
 
-  isLoading = false
-  filteredCount$?: Observable<number>
-  pageInfo$?: Observable<PageInfo>
-  variantTypes$?: Observable<Maybe<VariantTypeBrowseTableRowFieldsFragment>[]>
+  // SOURCE STREAMS
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  sortChange$: Subject<SortDirectionEvent>
+  filterChange$: Subject<void>
 
-  initialPageSize = 50
-  fetchMorePageSize = 25
-  isLoadingDelay = 300
+  // INTERMEDIATE STREAMS
+  queryRef!: QueryRef<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables>
+  result$!: Observable<ApolloQueryResult<VariantTypesBrowseQuery>>
+  connection$!: Observable<BrowseVariantTypeConnection>
 
-  noMoreRows$: BehaviorSubject<boolean>;
+  // PRESENTATION STREAMS
+  pageInfo$!: Observable<PageInfo>
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<VariantTypeBrowseTableRowFieldsFragment>[]>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
+
+  // need a static var for scrolling state b/c sub/unsub in
+  // virtual scroll rows degrades performance
+  isScrolling = false
 
   // filters
   soidFilter: Maybe<string>
   nameFilter: Maybe<string>
 
-  showTooltips = true
-
-  private debouncedQuery = new Subject<void>();
-  textInputCallback?: () => void
-
-  sortColumns: typeof VariantTypeSortColumns = VariantTypeSortColumns
-
-  totalCount?: number
-  visibleCount: number = this.initialPageSize
-  loadedPages: number = 1
-
-  private destroy$ = new Subject()
+  sortColumns = VariantTypeSortColumns
 
   constructor(private gql: VariantTypesBrowseGQL, private cdr: ChangeDetectorRef) {
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.filterChange$ = new Subject<void>()
+    this.scrollIndex$ = new Subject<number>()
   }
 
   ngOnInit() {
-    this.queryRef = this.gql.watch({
-      first: this.initialPageSize
-    }, { fetchPolicy: 'network-only' });
+    this.queryRef = this.gql.watch({ first: this.initialPageSize })
 
-    this.data$ = this.queryRef.valueChanges
-      .pipe(map((r) => {
-        return {
-          data: r.data,
-          loading: r.loading,
-          networkStatus: r.networkStatus,
-        };
-      }));
+    this.result$ = this.queryRef.valueChanges
 
-    this.variantTypes$ = this.data$.pipe(
-      pluck('data', 'variantTypes', 'edges'),
-      map((edges) => {
-        return edges.map((e) => e.node)
-      }));
+    // toggles table overlay 'Loading...' spinner
+    this.initialLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        take(2));
 
-    // handle loading state
-    this.data$
-      .pipe(takeUntil(this.destroy$),
-        pluck('loading'),
-        startWith(true))
-      .subscribe((l: boolean) => { this.isLoading = l; });
+    // toggles table header 'Loading...' tag
+    this.moreLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        skip(2));
 
-    this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'variantTypes', 'filteredCount'));
+    // entity relay connection
+    this.connection$ = this.result$
+      .pipe(pluck('data', 'variantTypes'),
+        filter(isNonNulled)) as Observable<BrowseVariantTypeConnection>;
 
-    this.filteredCount$
-      .pipe(takeUntil(this.destroy$),
-        take(1))
-      .subscribe(value => this.totalCount = value);
+    // entity row nodes
+    this.row$ = this.connection$
+      .pipe(pluck('edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node)));
 
-    this.filteredCount$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(value => {
-        if (value < this.initialPageSize) {
-          this.visibleCount = value
-        }
-        else {
-          this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.visibleCount > value) {
-            this.visibleCount = value
-          }
+    // provided to table-scroll directive for fetchMore queries
+    this.pageInfo$ = this.connection$
+      .pipe(pluck('pageInfo'),
+        filter(isNonNulled));
+
+    // refetch when column sort changes
+    this.sortChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((e: SortDirectionEvent) => {
+        this.queryRef.refetch({ sortBy: buildSortParams(e) });
+      });
+
+    // refresh when filters change
+    this.filterChange$
+      .pipe(debounceTime(500),
+        untilDestroyed(this))
+      .subscribe(() => { this.refresh() })
+
+    // for every onScrolled event, convert to bool & set isScrolling
+    this.scrollEvent$
+      .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+        distinctUntilChanged(),
+        untilDestroyed(this))
+      .subscribe((e) => {
+        this.isScrolling = e
+        this.cdr.detectChanges()
+      })
+
+    // emit event from noMoreRow$ if hasNextPage false
+    this.scrollEvent$
+      .pipe(filter((e) => e === 'bottom'),
+        withLatestFrom(this.pageInfo$),
+        map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
+        untilDestroyed(this))
+      .subscribe((pageInfo: PageInfo) => {
+        if (!pageInfo.hasNextPage) {
+          this.noMoreRows$.next(true);
+          this.cdr.detectChanges()
+
+          // need to send a followup 'false' here or else
+          // ng won't interpret subsequent 'true' events as changes
+          setInterval(() => this.noMoreRows$.next(false));
         }
       });
 
-    this.pageInfo$ = this.data$
-      .pipe(takeUntil(this.destroy$),
-        pluck('data', 'variantTypes', 'pageInfo'));
-
-    this.debouncedQuery
-      .pipe(takeUntil(this.destroy$),
-        debounceTime(500))
-      .subscribe((_) => this.refresh());
-
-    this.textInputCallback = () => { this.debouncedQuery.next(); }
   } // ngOnInit
 
-  ngAfterViewInit(): void {
-    if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
-      this.pageInfo$) {
-      this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
-      const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
-
-      scrolled$
-        .pipe(
-          // for each elementScrolled event, get latest pageInfo,
-          // and return page cursor and scroll offest
-          withLatestFrom(this.pageInfo$),
-          map(([_, pageInfo]: [Event, PageInfo]) => {
-            return {
-              pageInfo: pageInfo,
-              offset: this.viewport!.measureScrollOffset('bottom')
-            }
-          }),
-          // pair with previous event/cursor
-          pairwise(),
-          // reject events that occur outside scroll target
-          filter(([e1, e2]) => {
-            return (e2.offset < e1.offset && e2.offset < 140)
-          }),
-          // throttle events to prevent spamming loadMore() requests
-          throttleTime(500))
-        .subscribe(([_, e2]) => {
-          if (e2.pageInfo.hasNextPage) {
-            this.loadMore(e2.pageInfo.endCursor);
-          } else {
-            // show 'end of results' msg, hide after an interval
-            if (this.noMoreRows$.getValue() === false) {
-              this.noMoreRows$.next(true);
-              interval(3000)
-                .pipe(first())
-                .subscribe((_) => {
-                  this.noMoreRows$.next(false);
-                  this.cdr.detectChanges();
-                });
-            }
-          }
-        });
-
-      // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
-
-      // toggle tooltips off when scrolling
-      scrolled$
-        .pipe(
-          takeUntil(this.destroy$),
-          tap((_) => { this.showTooltips = false; }), // on scroll event toggle tooltips off
-          debounceTime(500) // wait 500ms, then execute subsribed function
-        ).subscribe((_) => {
-          this.showTooltips = true; // toggle tooltips on
-          this.cdr.detectChanges(); // force refresh
-        })
-
-      // force viewport check after initial render
-      this.viewport.renderedRangeStream
-        .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
-
-    } else {
-      console.error('variants-table unable to find cdkVirtualScrollViewport.');
-    }
-  } // ngAfterViewInit
-
-  onModelChanged() { this.debouncedQuery.next() }
-
-  onSortChanged(e: SortDirectionEvent) {
-    this.isLoading = true
-    this.loadedPages = 1
-    this.queryRef?.refetch({
-      sortBy: buildSortParams(e)
-    })
-  }
-
   refresh() {
-    this.isLoading = true
-    this.loadedPages = 1
-    this.queryRef?.refetch({
-      name: this.nameFilter,
-      soid: this.soidFilter
-    })
+    this.queryRef
+      .refetch({
+        name: this.nameFilter,
+        soid: this.soidFilter
+      })
+      .then(() => this.scrollIndex$.next(0));
+
+    this.cdr.detectChanges()
   }
 
-  // virtual scroll helpers
   trackByIndex(_: number, data: VariantTypeBrowseTableRowFieldsFragment): number {
     return data.id;
   }
 
-  scrollToIndex(index: number): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
-  }
-
-  loadMore(cursor: Maybe<string>) {
-    this.isLoading = true
-    this.queryRef?.fetchMore({
-      variables: {
-        first: this.fetchMorePageSize,
-        after: cursor
-      }
-    });
-
-    this.loadedPages += 1
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 }
