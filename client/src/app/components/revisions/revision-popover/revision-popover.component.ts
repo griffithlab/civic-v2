@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { RevisionPopoverFragment, RevisionPopoverGQL, Maybe } from "@app/generated/civic.apollo";
-import { pluck } from 'rxjs/operators'
+import { map, filter } from 'rxjs/operators'
+import { isNonNulled } from 'rxjs-etc';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,6 +22,7 @@ export class CvcRevisionPopoverComponent implements OnInit {
     }
     this.revision$ = this.gql.watch({ revisionId: this.revisionId })
       .valueChanges
-      .pipe(pluck('data', 'revision'))
+      .pipe(map(({ data }) => data?.revision),
+        filter(isNonNulled));
   }
 }

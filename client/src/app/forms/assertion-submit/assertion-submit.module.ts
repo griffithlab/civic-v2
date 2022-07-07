@@ -48,6 +48,7 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-array/clingen-code-array.module';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NgxJsonViewerModule,
     CvcEvidenceManagerWrapperModule,
     CvcCancelButtonModule,
+    CvcClingenCodeArrayTypeModule,
     NzSpaceModule,
     NzCardModule,
     NzTypographyModule

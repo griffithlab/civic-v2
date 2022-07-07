@@ -1,43 +1,68 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef } from "@angular/core";
 import { ApolloQueryResult } from "@apollo/client/core";
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SortDirection, SourceSource, SourceSuggestionsSortColumns, SourceSuggestionStatus } from "@app/generated/civic.apollo";
+import { ViewerService } from "@app/core/services/viewer/viewer.service";
 import { buildSortParams, SortDirectionEvent } from "@app/core/utilities/datatable-helpers";
-import { QueryRef } from "apollo-angular";
-import { Subject, Observable, BehaviorSubject, interval } from "rxjs";
-import { map, pluck, startWith, debounceTime, take, takeUntil, withLatestFrom, pairwise, filter, throttleTime, first, tap } from 'rxjs/operators';
-import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
-import { NzTableComponent } from "ng-zorro-antd/table";
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
+import { BrowseSourceSuggestionRowFieldsFragment, BrowseSourceSuggestionsGQL, BrowseSourceSuggestionsQuery, Maybe, PageInfo, QuerySourceSuggestionsArgs, SortDirection, SourceSource, SourceSuggestionConnection, SourceSuggestionsSortColumns, SourceSuggestionStatus } from "@app/generated/civic.apollo";
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { QueryRef } from 'apollo-angular';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
 
+export interface SourceSuggestionTableFilters {
+  citationIdInput?: Maybe<string>
+  citationInput?: Maybe<string>
+  commentInput?: Maybe<string>
+  diseaseNameInput?: Maybe<string>
+  geneNameInput?: Maybe<string>
+  sourceIdInput?: Maybe<number>
+  sourceTypeInput?: Maybe<SourceSource>
+  submitterInput?: Maybe<string>
+  variantNameInput?: Maybe<string>
+}
+
+@UntilDestroy()
 @Component({
   selector: 'cvc-source-suggestions-table',
   templateUrl: './source-suggestions-table.component.html',
   styleUrls: ['./source-suggestions-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CvcSourceSuggestionsTableComponent implements OnInit {
   @Input() cvcHeight?: string
   @Input() sourceId: Maybe<number>
   @Input() submitterId: Maybe<number>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
+  @Input() initialPageSize = 35
+  @Input()
+  set initialUserFilters(f: Maybe<SourceSuggestionTableFilters>) {
+    // assign any attributes in filters object to this class
+    if (f) Object.assign(this, f)
+  }
 
-  @ViewChild('virtualTable', { static: false })
-  nzTableComponent?: NzTableComponent<BrowseSourceSuggestionRowFieldsFragment>
-  viewport?: CdkVirtualScrollViewport
+  // SOURCE STREAMS
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  sortChange$: Subject<SortDirectionEvent>
+  filterChange$: Subject<void>
 
-  private debouncedQuery = new Subject<void>();
+  // INTERMEDIATE STREAMS
+  queryRef!: QueryRef<BrowseSourceSuggestionsQuery, QuerySourceSuggestionsArgs>
+  result$!: Observable<ApolloQueryResult<BrowseSourceSuggestionsQuery>>
+  connection$!: Observable<SourceSuggestionConnection>
 
-  queryRef?: QueryRef<BrowseSourceSuggestionsQuery, QuerySourceSuggestionsArgs>;
-  data$?: Observable<ApolloQueryResult<BrowseSourceSuggestionsQuery>>;
-  isLoading$?: Observable<boolean>;
-  isLoading = false
-  sourceSuggestions$?: Observable<Maybe<BrowseSourceSuggestionRowFieldsFragment>[]>;
-  pageInfo$?: Observable<PageInfo>
-  viewer$?: Observable<Viewer>
-  filteredCount$?: Observable<number>
+  // PRESENTATION STREAMS
+  pageInfo$!: Observable<PageInfo>
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<BrowseSourceSuggestionRowFieldsFragment>[]>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
 
-  textInputCallback?: () => void
+  // need a static var for scrolling state b/c sub/unsub in
+  // virtual scroll rows degrades performance
+  isScrolling = false
 
   //filters
   citationIdInput: Maybe<string>
@@ -51,31 +76,30 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
   citationInput: Maybe<string>
   statusInput = SourceSuggestionStatus.New
 
-  sortColumns: typeof SourceSuggestionsSortColumns = SourceSuggestionsSortColumns
-  status: typeof SourceSuggestionStatus = SourceSuggestionStatus
-
+  sortColumns = SourceSuggestionsSortColumns
+  status = SourceSuggestionStatus
 
   selectedSourceId?: number
   selectedStatus?: SourceSuggestionStatus
+
   showManageForm = false
 
-  totalCount?: number
-  initialPageSize = 35
-  visibleCount = this.initialPageSize
-  loadedPages = 1
-  fetchMorePageSize = 25
-  isLoadingDelay = 300
-
-  isSignedIn = false
-  showTooltips = true
-  noMoreRows$: BehaviorSubject<boolean>;
-  private destroy$ = new Subject()
+  isSignedIn!: boolean
 
   constructor(private gql: BrowseSourceSuggestionsGQL,
     private viewerService: ViewerService,
     private cdr: ChangeDetectorRef) {
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.filterChange$ = new Subject<void>()
+    this.scrollIndex$ = new Subject<number>()
 
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
+    // provide viewer signed in
+    this.viewerService.viewer$
+      .pipe(map(v => v.signedIn),
+        untilDestroyed(this))
+      .subscribe((si) => this.isSignedIn = si as boolean)
   }
 
   ngOnInit() {
@@ -91,165 +115,97 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
       }
     })
 
-    // provide viewer signed in
-    this.viewerService.viewer$
-      .pipe(takeUntil(this.destroy$),
-        pluck('signedIn'))
-      .subscribe((si) => { this.isSignedIn = si as boolean });
+    this.result$ = this.queryRef.valueChanges
 
-    this.data$ = this.queryRef.valueChanges.pipe(
-      map((r) => {
-        return {
-          data: r.data,
-          loading: r.loading,
-          networkStatus: r.networkStatus
-        }
+    // toggles table overlay 'Loading...' spinner
+    this.initialLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        take(2));
+
+    // toggles table header 'Loading...' tag
+    this.moreLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        skip(2));
+
+    // entity relay connection
+    this.connection$ = this.result$
+      .pipe(pluck('data', 'sourceSuggestions'),
+        filter(isNonNulled)) as Observable<SourceSuggestionConnection>;
+
+    // entity row nodes
+    this.row$ = this.connection$
+      .pipe(pluck('edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node)));
+
+    // provided to table-scroll directive for fetchMore queries
+    this.pageInfo$ = this.connection$
+      .pipe(pluck('pageInfo'),
+        filter(isNonNulled));
+
+    // refetch when column sort changes
+    this.sortChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((e: SortDirectionEvent) => {
+        this.queryRef.refetch({ sortBy: buildSortParams(e) });
+      });
+
+    // refresh when filters change
+    this.filterChange$
+      .pipe(debounceTime(500),
+        untilDestroyed(this))
+      .subscribe(() => { this.refresh() })
+
+    // for every onScrolled event, convert to bool & set isScrolling
+    this.scrollEvent$
+      .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+        distinctUntilChanged(),
+        untilDestroyed(this))
+      .subscribe((e) => {
+        this.isScrolling = e
+        this.cdr.detectChanges()
       })
-    );
 
-    this.isLoading$ = this.data$.pipe(pluck('loading'), startWith(true));
+    // emit event from noMoreRow$ if hasNextPage false
+    this.scrollEvent$
+      .pipe(filter((e) => e === 'bottom'),
+        withLatestFrom(this.pageInfo$),
+        map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
+        untilDestroyed(this))
+      .subscribe((pageInfo: PageInfo) => {
+        if (!pageInfo.hasNextPage) {
+          this.noMoreRows$.next(true);
+          this.cdr.detectChanges()
 
-    // handle loading state
-    this.data$
-      .pipe(takeUntil(this.destroy$),
-        pluck('loading'),
-        startWith(true))
-      .subscribe((l: boolean) => { this.isLoading = l; });
-
-    this.sourceSuggestions$ = this.data$.pipe(
-      pluck('data', 'sourceSuggestions', 'edges'),
-      map((edges) => {
-        return edges.map(e => e.node)
-      })
-    );
-
-    this.pageInfo$ = this.data$
-      .pipe(takeUntil(this.destroy$),
-        pluck('data', 'sourceSuggestions', 'pageInfo'));
-
-    this.filteredCount$ = this.data$.pipe(
-      pluck('data', 'sourceSuggestions', 'filteredCount')
-    )
-
-    this.filteredCount$.pipe(take(1)).subscribe(value => this.totalCount = value);
-
-    this.filteredCount$
-      .subscribe(value => {
-        if (value < this.initialPageSize) {
-          this.visibleCount = value
-        }
-        else {
-          this.visibleCount = this.initialPageSize * this.loadedPages
-          if (this.visibleCount > value) {
-            this.visibleCount = value
-          }
+          // need to send a followup 'false' here or else
+          // ng won't interpret subsequent 'true' events as changes
+          setInterval(() => this.noMoreRows$.next(false));
         }
       });
 
-    this.debouncedQuery
-      .pipe(takeUntil(this.destroy$),
-        debounceTime(500))
-      .subscribe((_) => this.refresh());
 
-    this.textInputCallback = () => { this.debouncedQuery.next(); }
   } // ngOnInit
-
-  ngAfterViewInit(): void {
-    if (this.nzTableComponent && this.nzTableComponent.cdkVirtualScrollViewport &&
-      this.pageInfo$) {
-      this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
-
-      const scrolled$ = this.viewport
-        .elementScrolled();
-
-      scrolled$
-        .pipe(takeUntil(this.destroy$),
-          // for each elementScrolled event, get latest pageInfo,
-          // and return page cursor and scroll offest
-          withLatestFrom(this.pageInfo$),
-          map(([_, pageInfo]: [Event, PageInfo]) => {
-            return {
-              pageInfo: pageInfo,
-              offset: this.viewport!.measureScrollOffset('bottom')
-            }
-          }),
-          // pair with previous event/cursor
-          pairwise(),
-          // reject events that occur outside scroll target
-          filter(([e1, e2]) => {
-            // console.log(`source-suggestions-table scroller$ - e1.offset: ${e1.offset}; e1.offset: ${e2.offset}; scroll target: ${(e2.offset < e1.offset && e2.offset < 140)}`);
-
-            return (e2.offset < e1.offset && e2.offset < 140)
-          }),
-          // throttle events to prevent spamming loadMore() requests
-          throttleTime(500))
-        .subscribe(([_, e2]) => {
-          if (e2.pageInfo.hasNextPage) {
-            this.loadMore(e2.pageInfo.endCursor);
-          } else {
-            // show 'end of results' msg, hide after an interval
-            if (this.noMoreRows$.getValue() === false) {
-              this.noMoreRows$.next(true);
-              interval(3000)
-                .pipe(first())
-                .subscribe((_) => {
-                  this.noMoreRows$.next(false);
-                  this.cdr.detectChanges();
-                });
-            }
-          }
-        });
-
-      // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
-
-      // toggle tooltips off when scrolling
-      scrolled$
-        .pipe(
-          takeUntil(this.destroy$),
-          tap((_) => { this.showTooltips = false; }), // on scroll event toggle tooltips off
-          debounceTime(500) // wait 500ms, then execute subsribed function
-        ).subscribe((_) => {
-          this.showTooltips = true; // toggle tooltips on
-          this.cdr.detectChanges(); // force refresh
-        });
-
-      // force viewport check after initial render
-      this.viewport.renderedRangeStream
-        .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
-
-    } else {
-      console.error('source-suggestions-table unable to find cdkVirtualScrollViewport.');
-    }
-  } // ngAfterViewInit
-
-
   refresh() {
-    this.isLoading = true
-    this.loadedPages = 1
-    this.queryRef?.refetch({
-      citationId: this.citationIdInput ? +this.citationIdInput : undefined,
-      sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
-      sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
-      geneName: this.geneNameInput,
-      variantName: this.variantNameInput,
-      diseaseName: this.diseaseNameInput,
-      comment: this.commentInput,
-      submitter: this.submitterInput,
-      citation: this.citationInput,
-      status: this.statusInput ? this.statusInput : undefined
-    })
+    this.queryRef
+      .refetch({
+        citationId: this.citationIdInput ? +this.citationIdInput : undefined,
+        sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
+        sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
+        geneName: this.geneNameInput,
+        variantName: this.variantNameInput,
+        diseaseName: this.diseaseNameInput,
+        comment: this.commentInput,
+        submitter: this.submitterInput,
+        citation: this.citationInput,
+        status: this.statusInput ? this.statusInput : undefined
+      })
+      .then(() => this.scrollIndex$.next(0));
+
+    this.cdr.detectChanges()
   }
 
-  onSortChanged(e: SortDirectionEvent) {
-    this.isLoading = true
-    this.loadedPages = 1
-    this.queryRef?.refetch({ sortBy: buildSortParams(e) })
-  }
-
-  onModelChanged() {
-    this.debouncedQuery.next()
-  }
 
   setFormInputs(selectedId: number, selectedStatus: SourceSuggestionStatus): void {
     this.selectedSourceId = selectedId
@@ -264,27 +220,6 @@ export class CvcSourceSuggestionsTableComponent implements OnInit, OnDestroy, Af
   // virtual scroll helpers
   trackByIndex(_: number, data: BrowseSourceSuggestionRowFieldsFragment): number {
     return data.id
-  }
-
-  scrollToIndex(index: number): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
-  }
-
-  loadMore(cursor: Maybe<string>) {
-    this.isLoading = true;
-    this.queryRef?.fetchMore({
-      variables: {
-        first: this.fetchMorePageSize,
-        after: cursor
-      }
-    });
-
-    this.loadedPages += 1
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 
 }

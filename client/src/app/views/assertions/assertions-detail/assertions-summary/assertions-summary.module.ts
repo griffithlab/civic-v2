@@ -20,6 +20,9 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CvcAttributeTagModule } from '@app/components/shared/attribute-tag/attribute-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 
 @NgModule({
   declarations: [AssertionsSummaryPage],
@@ -39,11 +42,14 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CvcPipesModule,
     CvcStatusTagModule,
     CvcUserTagModule,
+    CvcVariantTagModule,
+    CvcGeneTagModule,
     CvcTagListModule,
     CvcDrugTagModule,
     CvcEvidenceTableModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
+    CvcAttributeTagModule,
     TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [AssertionsSummaryPage]

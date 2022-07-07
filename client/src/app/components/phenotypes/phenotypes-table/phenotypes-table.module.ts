@@ -14,6 +14,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcAutoHeightCardModule } from '@app/directives/auto-height-card/auto-height-card.module';
 import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto-height-table.module';
+import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
+import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
+import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
 
 @NgModule({
   declarations: [CvcPhenotypesTableComponent],
@@ -27,6 +30,9 @@ import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto
     NzCardModule,
     NzToolTipModule,
     NzTagModule,
+    CvcNoMoreRowsModule,
+    CvcTableScrollModule,
+    CvcTableCountsModule,
     CvcAutoHeightCardModule,
     CvcAutoHeightTableModule,
     CvcClearableInputFilterModule,

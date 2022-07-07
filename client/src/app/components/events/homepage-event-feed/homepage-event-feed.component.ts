@@ -1,21 +1,19 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { ApolloQueryResult } from "@apollo/client/core";
 import {
-  EventAction,
   EventFeedGQL,
   EventFeedMode,
   EventFeedNodeFragment,
   EventFeedQuery,
   EventFeedQueryVariables,
   Maybe,
-  PageInfo,
+  PageInfo
 } from "@app/generated/civic.apollo";
 import { QueryRef } from "apollo-angular";
-import { ApolloQueryResult } from "@apollo/client/core";
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from "environments/environment";
-
-interface SelectableAction { id: EventAction }
+import { Observable } from 'rxjs';
+import { isNonNulled } from "rxjs-etc";
+import { filter, map, pluck } from 'rxjs/operators';
 
 export type EventDisplayOption = "hideSubject" | "hideUser" | "hideOrg" | "displayAll"
 
@@ -51,27 +49,27 @@ export class CvcHomepageEventFeedComponent implements OnInit {
       includeAutomatedEvents: false
     }
 
-    if(environment.production) {
-      this.queryRef = this.gql.watch(this.initialQueryVars, {pollInterval: 30000});
+    if (environment.production) {
+      this.queryRef = this.gql.watch(this.initialQueryVars, { pollInterval: 30000 });
     } else {
       this.queryRef = this.gql.watch(this.initialQueryVars);
     }
-    this.results$ = this.queryRef.valueChanges;
+    this.results$ = this.queryRef.valueChanges
 
-    this.pageInfo$ = this.results$.pipe(
-      map(({ data }) => data.events.pageInfo)
-    )
+    this.pageInfo$ = this.results$
+      .pipe(
+        pluck('data'),
+        filter(isNonNulled),
+        map(({ events }) => events.pageInfo));
 
     this.events$ = this.results$.pipe(
-      map(({ data }) => {
-        return data.events.edges.map(e => e.node)
-      })
-    )
+      pluck('data'),
+      filter(isNonNulled),
+      map(({ events }) => events.edges.map(e => e.node)));
 
     this.unfilteredCount$ = this.results$.pipe(
-      map(({data}) => {
-        return data.events.unfilteredCount
-      })
-    )
+      pluck('data'),
+      filter(isNonNulled),
+      map(({ events }) => events.unfilteredCount ))
   }
 }

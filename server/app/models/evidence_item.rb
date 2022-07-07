@@ -15,7 +15,7 @@ class EvidenceItem < ActiveRecord::Base
   has_and_belongs_to_many :assertions
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
-  enum evidence_type: Constants::EVIDENCE_TYPES
+  enum evidence_type: Constants::EVIDENCE_TYPES, _suffix: true
   enum evidence_level: Constants::EVIDENCE_LEVELS
   enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
   #TODO make this an enum:

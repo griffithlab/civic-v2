@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, DrugInteraction, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
+import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, ClingenCode, DrugInteraction, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
@@ -30,6 +30,7 @@ interface FormModel {
     nccnGuideline: Maybe<NccnGuideline>
     nccnGuidelineVersion: Maybe<string>,
     acmgCodes: AcmgCode[],
+    clingenCodes: ClingenCode[],
     fdaCompanionTest: Maybe<boolean>,
     fdaRegulatoryApproval: Maybe<boolean>,
     comment: Maybe<string>,
@@ -167,6 +168,10 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
             }
           },
           {
+            key: 'clingenCodes',
+            type: 'clingen-code-array',
+          },
+          {
             key: 'phenotypes',
             type: 'phenotype-array',
             templateOptions: {}
@@ -289,6 +294,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
           acmgCodeIds: fields.acmgCodes.map(c => c.id),
+          clingenCodeIds: fields.clingenCodes.map(c => c.id),
           fdaCompanionTest: fmt.toNullableInput(fields.fdaCompanionTest),
           fdaRegulatoryApproval: fmt.toNullableInput(fields.fdaRegulatoryApproval),
           evidenceItemIds: fields.evidenceItems.map(e => e.id)
@@ -319,6 +325,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         nccnGuideline: fields.nccnGuideline,
         nccnGuidelineVersion: fields.nccnGuidelineVersion,
         acmgCodes: fields.acmgCodes,
+        clingenCodes: fields.clingenCodes,
         fdaCompanionTest: fields.fdaCompanionTest,
         fdaRegulatoryApproval: fields.regulatoryApproval,
         comment: this.formModel?.fields.comment,

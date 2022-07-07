@@ -1,26 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, } from '@angular/core';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import {debounceTime, filter, first, tap, map, pairwise, pluck, startWith, take, takeUntil, throttleTime, withLatestFrom,} from 'rxjs/operators';
-import { QueryRef } from 'apollo-angular';
-
-import {BrowseGenesGQL, GeneBrowseTableRowFieldsFragment, QueryBrowseGenesArgs, PageInfo, Maybe, BrowseGenesQuery, GenesSortColumns, GeneSearchFilter,} from '@app/generated/civic.apollo';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { buildSortParams, SortDirectionEvent, WithName } from '@app/core/utilities/datatable-helpers';
-import { NzTableComponent } from 'ng-zorro-antd/table';
+import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
+import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
+import { BrowseGeneConnection, BrowseGenesFieldsFragment, BrowseGenesGQL, BrowseGenesQuery, BrowseGenesQueryVariables, GenesSortColumns, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { QueryRef } from 'apollo-angular';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
 
-export interface GeneTableRow {
-  id: number
-  entrezId: number
-  name: string
-  aliases?: Maybe<WithName[]>
-  diseases?: Maybe<WithName[]>
-  drugs?: Maybe<WithName[]>
-  variantCount: number
-  evidenceItemCount: number
-  assertionCount: number
+export interface BrowseGenesTableUserFilters {
+  diseaseInput?: Maybe<string>
+  drugInput?: Maybe<string>
+  nameInput?: Maybe<string>
+  aliasInput?: Maybe<string>
 }
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-genes-table',
   templateUrl: './genes-table.component.html',
@@ -31,43 +27,34 @@ export class CvcGenesTableComponent implements OnInit {
   @Input() cvcHeight?: number
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
-  @Input() set advancedSearchFilter(value: Maybe<GeneSearchFilter>) {
-    this._advancedSearchFilter = value
-    if(this.queryRef) {
-      this.queryRef.setVariables({
-        first: this.initialPageSize,
-        searchScope: value
-      })
-      this.queryRef.refetch();
-    }
-
-  }
-  get advancedSearchFilter(): Maybe<GeneSearchFilter> {
-    return this._advancedSearchFilter
+  @Input() initialPageSize: number = 35
+  @Input()
+  set initialUserFilters(f: Maybe<BrowseGenesTableUserFilters>) {
+    // assign any attributes in filters object to this class
+    if (f) Object.assign(this, f)
   }
 
-  private _advancedSearchFilter: Maybe<GeneSearchFilter>
+  // SOURCE STREAMS
+  scrollEvent$: BehaviorSubject<ScrollEvent>
+  sortChange$: Subject<SortDirectionEvent>
+  filterChange$: Subject<void>
 
-  @ViewChild('virtualTable', { static: false })
-  nzTableComponent?: NzTableComponent<GeneBrowseTableRowFieldsFragment>;
-  viewport?: CdkVirtualScrollViewport;
+  // INTERMEDIATE STREAMS
+  queryRef!: QueryRef<BrowseGenesQuery, BrowseGenesQueryVariables>
+  result$!: Observable<ApolloQueryResult<BrowseGenesQuery>>
+  connection$!: Observable<BrowseGeneConnection>
+  pageInfo$!: Observable<PageInfo>
 
-  private initialQueryArgs?: QueryBrowseGenesArgs
-  private debouncedQuery = new Subject<void>();
+  // PRESENTATION STREAMS
+  initialLoading$!: Observable<boolean>
+  moreLoading$!: Observable<boolean>
+  row$!: Observable<Maybe<BrowseGenesFieldsFragment>[]>
+  scrollIndex$: Subject<number>
+  noMoreRows$: BehaviorSubject<boolean>
 
-  queryRef?: QueryRef<BrowseGenesQuery, QueryBrowseGenesArgs>;
-  data$?: Observable<ApolloQueryResult<BrowseGenesQuery>>;
-  genes$?: Observable<Maybe<GeneTableRow>[]>;
-  filteredCount$?: Observable<number>
-  pageCount$?: Observable<number>;
-  pageInfo$?: Observable<PageInfo>;
-
-  isLoading$?: Observable<boolean>;
-  isLoading = false;
-
-  textInputCallback?: () => void
-
-  showTooltips = true;
+  // need a static var for scrolling state b/c sub/unsub in
+  // virtual scroll rows degrades performance
+  isScrolling: boolean = false
 
   // filters
   diseaseInput: Maybe<string>
@@ -77,190 +64,98 @@ export class CvcGenesTableComponent implements OnInit {
 
   sortColumns: typeof GenesSortColumns = GenesSortColumns
 
-  totalCount?: number
-  initialPageSize = 35;
-  visibleCount: number = this.initialPageSize
-  fetchMorePageSize = 25;
-  isLoadingDelay = 300;
-
-  noMoreRows$: BehaviorSubject<boolean>;
-
-  loadedPages: number = 1
-
-  private destroy$ = new Subject();
-
+  private debouncedQuery = new Subject<void>()
   constructor(private query: BrowseGenesGQL, private cdr: ChangeDetectorRef) {
-    this.noMoreRows$ = new BehaviorSubject<boolean>(false);
+    this.noMoreRows$ = new BehaviorSubject<boolean>(false)
+    this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
+    this.sortChange$ = new Subject<SortDirectionEvent>()
+    this.filterChange$ = new Subject<void>()
+    this.scrollIndex$ = new Subject<number>()
   }
 
   ngOnInit() {
-    this.initialQueryArgs = {
-      first: this.initialPageSize,
-      searchScope: this.advancedSearchFilter
-    }
+    this.queryRef = this.query.watch({ first: this.initialPageSize })
 
-    this.queryRef = this.query.watch(this.initialQueryArgs, { fetchPolicy: 'network-only' });
+    this.result$ = this.queryRef.valueChanges
 
-    this.data$ = this.queryRef.valueChanges.pipe(
-      map((r) => {
-        return {
-          data: r.data,
-          loading: r.loading,
-          networkStatus: r.networkStatus
-        };
-      }));
+    // toggles table overlay 'Loading...' spinner
+    this.initialLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        take(2));
 
-    // handle loading state
-    this.data$
-      .pipe(
-        takeUntil(this.destroy$),
-        pluck('loading'),
-        startWith(true))
-      .subscribe((l: boolean) => { this.isLoading = l; });
+    // toggles table header 'Loading...' tag
+    this.moreLoading$ = this.result$
+      .pipe(pluck('loading'),
+        distinctUntilChanged(),
+        skip(2))
 
-    this.genes$ = this.data$
-      .pipe(
-        pluck('data', 'browseGenes', 'edges'),
-        map((edges) => {
-          return edges.map((e) => { return e.node; })
-        }));
+    this.connection$ = this.result$
+      .pipe(pluck('data', 'browseGenes'),
+        filter(isNonNulled)) as Observable<BrowseGeneConnection>;
 
-    this.pageInfo$ = this.data$
-      .pipe(pluck('data', 'browseGenes', 'pageInfo'));
+    this.row$ = this.connection$
+      .pipe(pluck('edges'),
+        filter(isNonNulled),
+        map((edges) => edges.map((e) => e.node)));
 
-    this.filteredCount$ = this.data$
-      .pipe(pluck('data', 'browseGenes', 'filteredCount'));
+    // provided to table-scroll directive for fetchMore queries
+    this.pageInfo$ = this.connection$
+      .pipe(pluck('pageInfo'),
+        filter(isNonNulled));
 
-    this.data$
-      .pipe(
-        takeUntil(this.destroy$),
-        pluck('data', 'browseGenes', 'totalCount'),
-        take(1))
-      .subscribe(value => this.totalCount = value);
-
-    this.filteredCount$
-      .subscribe(value => {
-        if (value < this.initialPageSize) {
-          this.visibleCount = value
-        }
-        else {
-          this.visibleCount = this.initialPageSize + this.fetchMorePageSize * (this.loadedPages - 1)
-          if (this.visibleCount > value) {
-            this.visibleCount = value
-          }
-        }
+    // refetch when column sort changes
+    this.sortChange$
+      .pipe(untilDestroyed(this))
+      .subscribe((e: SortDirectionEvent) => {
+        this.queryRef.refetch({ sortBy: buildSortParams(e) });
       });
 
-    this.pageCount$ = this.data$
-      .pipe(
-        pluck('data', 'browseGenes', 'pageCount'),
-        startWith(0));
+    // refresh when filters change
+    this.filterChange$
+      .pipe(debounceTime(500),
+        untilDestroyed(this))
+      .subscribe(() => { this.refresh() })
 
-    this.debouncedQuery
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500))
-      .subscribe((_) => {
-        this.isLoading = true;
-        this.loadedPages = 1;
-        this.queryRef?.refetch({
-          entrezSymbol: this.nameInput,
-          geneAlias: this.aliasInput,
-          diseaseName: this.diseaseInput,
-          drugName: this.drugInput,
-          searchScope: this.advancedSearchFilter
-        });
+    // for every onScrolled event, convert to bool & set isScrolling
+    this.scrollEvent$
+      .pipe(map((e: ScrollEvent) => (e === 'stop' ? false : true)),
+        distinctUntilChanged(),
+        untilDestroyed(this))
+      .subscribe((e) => {
+        this.isScrolling = e
+        this.cdr.detectChanges()
+      })
+
+    // emit event from noMoreRow$ if hasNextPage false
+    this.scrollEvent$
+      .pipe(filter((e) => e === 'bottom'),
+        withLatestFrom(this.pageInfo$),
+        map(([_, pageInfo]: [ScrollEvent, PageInfo]) => pageInfo),
+        untilDestroyed(this))
+      .subscribe((pageInfo: PageInfo) => {
+        if (!pageInfo.hasNextPage) {
+          this.noMoreRows$.next(true);
+          this.cdr.detectChanges()
+
+          // need to send a followup 'false' here or else
+          // ng won't interpret subsequent 'true' events as changes
+          setInterval(() => this.noMoreRows$.next(false));
+        }
       });
-
-    this.textInputCallback = () => { this.debouncedQuery.next(); }
   } // ngOnInit()
 
-  ngAfterViewInit(): void {
-    if (this.nzTableComponent
-      && this.nzTableComponent.cdkVirtualScrollViewport
-      && this.pageInfo$) {
+  refresh() {
+    this.queryRef
+      .refetch({
+        entrezSymbol: this.nameInput,
+        geneAlias: this.aliasInput,
+        diseaseName: this.diseaseInput,
+        drugName: this.drugInput,
+      })
+      .then(() => this.scrollIndex$.next(0));
 
-      this.viewport = this.nzTableComponent.cdkVirtualScrollViewport;
-      const scrolled$ = this.viewport.elementScrolled().pipe(takeUntil(this.destroy$));
-
-      scrolled$
-        .pipe(
-          // for each elementScrolled event, get latest pageInfo,
-          // and return page cursor and scroll offest
-          withLatestFrom(this.pageInfo$),
-          map(([_, pageInfo]: [Event, PageInfo]) => {
-            return {
-              pageInfo: pageInfo,
-              offset: this.viewport!.measureScrollOffset('bottom')
-            }
-          }),
-          // pair with previous event/cursor
-          pairwise(),
-          // reject events that occur outside scroll target
-          filter(([e1, e2]) => {
-            return (e2.offset < e1.offset && e2.offset < 140)
-          }),
-          // throttle events to prevent spamming loadMore() requests
-          throttleTime(500))
-        .subscribe(([_, e2]) => {
-          if (e2.pageInfo.hasNextPage) {
-            this.loadMore(e2.pageInfo.endCursor);
-          } else {
-            // show 'end of results' msg, hide after an interval
-            if (this.noMoreRows$.getValue() === false) {
-              this.noMoreRows$.next(true);
-              interval(3000)
-                .pipe(first())
-                .subscribe((_) => {
-                  this.noMoreRows$.next(false);
-                  this.cdr.detectChanges();
-                })
-            }
-          }
-        });
-
-      // TODO: update tag popovers to work similarly to how base tags now work. Popovers inherit Tooltip base class, so should hopefully also hide themselves automatically if nzTitle is set to an empty string
-
-      // toggle tooltips off when scrolling
-      scrolled$
-        .pipe(
-          takeUntil(this.destroy$),
-          tap((_) => { this.showTooltips = false; }), // on scroll event toggle tooltips off
-          debounceTime(500) // wait 500ms, then execute subsribed function
-        ).subscribe((_) => {
-          this.showTooltips = true; // toggle tooltips on
-          this.cdr.detectChanges(); // force refresh
-        })
-
-      // force viewport check after initial render
-      this.viewport.renderedRangeStream
-        .pipe(first())
-        .subscribe((_) => { this.viewport!.checkViewportSize(); });
-
-    } else {
-      console.error('evidence-table unable to find cdkVirtualScrollViewport.');
-    }
-  } // ngAfterViewInit
-
-
-  loadMore(afterCursor: Maybe<string>): void {
-    this.isLoading = true;
-    this.queryRef?.fetchMore({
-      variables: {
-        first: this.fetchMorePageSize,
-        after: afterCursor
-      },
-    });
-
-    this.loadedPages += 1
-  }
-
-  onSortChanged(e: SortDirectionEvent) {
-    this.loadedPages = 1
-    this.queryRef?.refetch({
-      ...this.initialQueryArgs,
-      sortBy: buildSortParams(e),
-    });
+    this.cdr.detectChanges()
   }
 
   onModelUpdated(_: Maybe<string>) {
@@ -268,16 +163,8 @@ export class CvcGenesTableComponent implements OnInit {
   }
 
   // virtual scroll helpers
-  trackByIndex(_: number, data: GeneBrowseTableRowFieldsFragment): number {
+  trackByIndex(_: number, data: BrowseGenesFieldsFragment): number {
     return data.id;
   }
 
-  scrollToIndex(index: number): void {
-    this.nzTableComponent?.cdkVirtualScrollViewport?.scrollToIndex(index);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 }

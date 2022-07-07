@@ -44,7 +44,6 @@ export const nccnVersionInputTypeOption: TypeOption = {
         if (ffc) {
           const to: Maybe<FormlyTemplateOptions> = ffc.templateOptions;
           to?.ncSub?.unsubscribe();
-
         }
       }
     }
