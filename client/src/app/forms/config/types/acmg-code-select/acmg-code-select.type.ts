@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AcmgCode, AcmgCodeTypeaheadGQL, AcmgCodeTypeaheadQuery, AcmgCodeTypeaheadQueryVariables } from '@app/generated/civic.apollo';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
 import { filter, map } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-acmg-code-select-type',
   templateUrl: './acmg-code-select.type.html',
@@ -47,11 +49,6 @@ export const acmgCodeSelectTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       placeholder: 'None specified.',
-    },
-    modelOptions: {
-      debounce: {
-        default: 500
-      }
     },
   }
 }
