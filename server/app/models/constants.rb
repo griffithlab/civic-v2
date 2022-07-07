@@ -12,7 +12,7 @@ module Constants
   GA_TRACKING_ID='UA-83153043-1'
 
   EVIDENCE_TYPES = [:Diagnostic, :Prognostic, :Predictive, :Predisposing, :Functional, :Oncogenic]
-  ASSERTION_TYPES = [:Diagnostic, :Prognostic, :Predictive, :Predisposing]
+  ASSERTION_TYPES = [:Diagnostic, :Prognostic, :Predictive, :Predisposing, :Oncogenic]
 
   EVIDENCE_LEVELS = [:A, :B, :C, :D, :E]
 
@@ -43,6 +43,11 @@ module Constants
     'Neomorphic',
     'Unknown',
     'Dominant Negative',
+    'Oncogenic',
+    'Likely Oncogenic',
+    'Predisposition',
+    'Protectiveness',
+    'Oncogenicity'
   ]
 
   DRUG_INTERACTION_TYPES = ['Combination', 'Sequential', 'Substitutes']

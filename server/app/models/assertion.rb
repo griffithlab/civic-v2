@@ -19,7 +19,7 @@ class Assertion < ActiveRecord::Base
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   enum amp_level: Constants::AMP_LEVELS
-  enum evidence_type: Constants::ASSERTION_TYPES
+  enum evidence_type: Constants::ASSERTION_TYPES, _suffix: true
   enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
   enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
