@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_11_200531) do
+ActiveRecord::Schema.define(version: 2022_07_06_235555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,15 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
     t.index ["nccn_guideline_id"], name: "index_assertions_on_nccn_guideline_id"
     t.index ["variant_id"], name: "index_assertions_on_variant_id"
     t.index ["variant_origin"], name: "index_assertions_on_variant_origin"
+  end
+
+  create_table "assertions_clingen_codes", id: false, force: :cascade do |t|
+    t.bigint "assertion_id", null: false
+    t.bigint "clingen_code_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["assertion_id"], name: "index_assertions_clingen_codes_on_assertion_id"
+    t.index ["clingen_code_id", "assertion_id"], name: "idx_clingencodes_assertions"
   end
 
   create_table "assertions_drugs", id: false, force: :cascade do |t|
@@ -206,6 +215,13 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
     t.datetime "updated_at"
     t.text "display_name"
     t.index ["name"], name: "index_badges_on_name"
+  end
+
+  create_table "clingen_codes", force: :cascade do |t|
+    t.text "code"
+    t.text "description"
+    t.index ["code"], name: "index_clingen_codes_on_code"
+    t.index ["description"], name: "index_clingen_codes_on_description"
   end
 
   create_table "clinical_trials", id: :serial, force: :cascade do |t|
@@ -812,6 +828,8 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assertions", "nccn_guidelines"
+  add_foreign_key "assertions_clingen_codes", "assertions"
+  add_foreign_key "assertions_clingen_codes", "clingen_codes"
   add_foreign_key "assertions_drugs", "assertions"
   add_foreign_key "assertions_drugs", "drugs"
   add_foreign_key "assertions_evidence_items", "assertions"
