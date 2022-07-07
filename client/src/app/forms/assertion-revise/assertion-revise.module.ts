@@ -45,6 +45,7 @@ import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container
 import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evidence-input.module';
 import { CvcEvidenceManagerWrapperModule } from '../config/wrappers/with-evidence-manager/with-evidence-manager.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
+import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-array/clingen-code-array.module';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-butt
     CvcFormContainerWrapperModule,
     CvcEvidenceInputTypeModule,
     CvcEvidenceManagerWrapperModule,
-    CvcCancelButtonModule
+    CvcCancelButtonModule,
+    CvcClingenCodeArrayTypeModule,
   ],
   exports: [
     AssertionReviseForm
