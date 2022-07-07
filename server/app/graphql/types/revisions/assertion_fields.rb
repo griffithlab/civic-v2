@@ -35,6 +35,8 @@ module Types::Revisions
       description: 'The version of the NCCN Guideline specified'
     argument :acmg_code_ids, [Int], required: true,
       description: 'List of CIViC IDs for the ACMG/AMP codes associated with this Assertion'
+    argument :clingen_code_ids, [Int], required: true,
+      description: 'List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion'
     argument :fda_companion_test, Types::NullableValueInputType.for(GraphQL::Types::Boolean), required: true,
       description: 'Is an FDA companion test available that pertains to this Assertion.'
     argument :fda_regulatory_approval, Types::NullableValueInputType.for(GraphQL::Types::Boolean), required: true,
