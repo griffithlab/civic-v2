@@ -7,6 +7,7 @@ import { DrugInteractionEnumDisplayPipe } from './drug-interaction-enum-display.
 import { EnumToTitlePipe } from './enum-to-title-pipe';
 import { EventVerbiagePipe } from './event-verbiage-pipe';
 import { EvidenceEnumDisplayPipe } from './evidence-enum-display-type';
+import { EvidenceEnumTooltipPipe } from './evidence-enum-tooltip.pipe';
 import { EvidenceLevelDisplayPipe } from './evidence-level-display.pipe';
 import { HighlightTypeaheadPipe } from './highlight-typeahead-pipe';
 import { IconNameForEventActionPipe } from './icon-name-for-event-action-pipe';
@@ -30,6 +31,7 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     EnumToTitlePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
+    EvidenceEnumTooltipPipe,
     EvidenceLevelDisplayPipe,
     HighlightTypeaheadPipe,
     IconNameForEventActionPipe,
@@ -55,6 +57,7 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     EnumToTitlePipe,
     EventVerbiagePipe,
     EvidenceEnumDisplayPipe,
+    EvidenceEnumTooltipPipe,
     EvidenceLevelDisplayPipe,
     HighlightTypeaheadPipe,
     IconNameForEventActionPipe,
