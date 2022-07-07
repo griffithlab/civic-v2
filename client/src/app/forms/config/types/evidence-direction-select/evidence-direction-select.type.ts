@@ -21,14 +21,17 @@ const optionText: any = {
       'DOES_NOT_SUPPORT': 'The experiment or study does not support a prognostic association between variant and outcome'
     },
     'PREDISPOSING': {
-      'NA': 'Evidence Direction is Not Applicable.'
+      'SUPPORTS': 'The Evidence supports a variant\'s impact on predisposing outcome',
+      'DOES_NOT_SUPPORT': 'The Evidence does not support a predisposing association between variant and outcome'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
       'DOES_NOT_SUPPORT': 'The experiment or study does not support this variant causing alteration or non-alteration of the gene product function',
     },
     'ONCOGENIC': {
-      'NA': 'Evidence Direction is Not Applicable for Oncogenic Evidence Type.'
+      'NA': 'Evidence Direction is Not Applicable for Oncogenic Evidence Type.',
+      'SUPPORTS': 'TODO',
+      'DOES_NOT_SUPPORT': 'TODO',
     },
   },
   'Assertion': {
@@ -51,6 +54,10 @@ const optionText: any = {
     'FUNCTIONAL': {
       'SUPPORTS': 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function',
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function',
+    },
+    'ONCOGENIC': {
+      'SUPPORTS': 'TODO',
+      'DOES_NOT_SUPPORT': 'TODO',
     },
   }
 }

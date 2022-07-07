@@ -24,7 +24,8 @@ const optionText: any = {
       'NA': 'Clinical Significance is not applicable.'
     },
     'PREDISPOSING': {
-      'NA': 'Clinical Significance is not applicable.'
+      'PREDISPOSITION': 'TODO',
+      'PROTECTIVENESS': 'TODO'
     },
     'FUNCTIONAL': {
       'GAIN_OF_FUNCTION': 'Sequence variant confers an increase in normal gene function',
@@ -35,7 +36,8 @@ const optionText: any = {
       'UNKNOWN': 'Sequence variant that cannot be precisely defined by the other listed categories',
     },
     'ONCOGENIC': {
-      'NA': 'Clinical Significance is not applicable.'
+      'ONCOGENICITY': 'TODO',
+      'PROTECTIVENESS': 'TODO'
     }
   },
   Assertion: {
@@ -62,6 +64,14 @@ const optionText: any = {
       'LIKELY_BENIGN': 'Not expected to have a major effect on disease',
       'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
     },
+    'ONCOGENIC': {
+      'ONCOGENIC': 'TODO',
+      'LIKELY_ONCOGENIC': 'TODO',
+      'BENIGN': 'Very strong evidence the variant is benign',
+      'LIKELY_BENIGN': 'Not expected to have a major effect on disease',
+      'UNCERTAIN_SIGNIFICANCE': 'TODO',
+
+    }
   }
 }
 
@@ -72,7 +82,7 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Clinical Signficance',
-      helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
+      helpText: 'The impact of the variant.',
       placeholder: 'None specified',
       options: [],
     },
