@@ -21,6 +21,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
+import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module';
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -34,6 +35,7 @@ import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module
     NzTypographyModule,
     NzIconModule,
     NzTagModule,
+    CvcCoordinatesCardModule,
     CvcPipesModule,
     CvcEvidenceTableModule,
     CvcAssertionsTableModule,

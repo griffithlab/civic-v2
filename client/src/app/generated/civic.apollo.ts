@@ -5121,6 +5121,15 @@ export type VariantTypesBrowseQuery = { __typename: 'Query', variantTypes: { __t
 
 export type VariantTypeBrowseTableRowFieldsFragment = { __typename: 'BrowseVariantType', id: number, name: string, soid: string, url?: string | undefined, variantCount: number, link: string };
 
+export type CoordinatesCardQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type CoordinatesCardQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
+
+export type CoordinatesCardFieldsFragment = { __typename: 'Variant', id: number, name: string, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
+
 export type VariantPopoverQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -6723,6 +6732,28 @@ export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
   url
   variantCount
   link
+}
+    `;
+export const CoordinatesCardFieldsFragmentDoc = gql`
+    fragment CoordinatesCardFields on Variant {
+  id
+  name
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  secondaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  referenceBases
+  variantBases
 }
     `;
 export const VariantPopoverFieldsFragmentDoc = gql`
@@ -9170,6 +9201,24 @@ export const VariantTypesBrowseDocument = gql`
   })
   export class VariantTypesBrowseGQL extends Apollo.Query<VariantTypesBrowseQuery, VariantTypesBrowseQueryVariables> {
     document = VariantTypesBrowseDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CoordinatesCardDocument = gql`
+    query CoordinatesCard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...CoordinatesCardFields
+  }
+}
+    ${CoordinatesCardFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CoordinatesCardGQL extends Apollo.Query<CoordinatesCardQuery, CoordinatesCardQueryVariables> {
+    document = CoordinatesCardDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
