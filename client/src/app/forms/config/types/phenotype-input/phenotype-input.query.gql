@@ -1,0 +1,7 @@
+query PhenotypeTypeahead($name: String!) {
+  phenotypeTypeahead(queryTerm: $name) {
+    hpoId
+    id
+    name
+  }
+}

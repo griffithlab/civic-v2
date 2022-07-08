@@ -1,0 +1,16 @@
+<div class="center">
+  <nz-spin [nzSpinning]="this.isSubmitting">
+    <nz-space nzDirection="horizontal" nzSize="large">
+      <ng-container *ngIf="!this.rejectOnly">
+        <cvc-org-selector-btn-group [(selectedOrg)]="this.mostRecentOrg" *nzSpaceItem>
+          <button cvcOrgSelectorBtn nzType="primary" nzSize="large" nz-button
+            (click)="this.moderate(this.evidenceStatuses.Accepted)">Accept {{ this.entityType }}</button>
+        </cvc-org-selector-btn-group>
+      </ng-container>
+      <cvc-org-selector-btn-group nzDanger nzType="primary" [(selectedOrg)]="this.mostRecentOrg" *nzSpaceItem>
+        <button cvcOrgSelectorBtn nzDanger nzType="primary" nzSize="large" nz-button
+          (click)="this.moderate(this.evidenceStatuses.Rejected)">Reject {{ this.entityType }}</button>
+      </cvc-org-selector-btn-group>
+    </nz-space>
+  </nz-spin>
+</div>

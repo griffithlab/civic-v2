@@ -12,7 +12,7 @@ export class MyGeneInfoService {
   parse(geneInfo: any): any {
     const srcMap: { [key: string]: string | null; } = {
       kegg: 'http://www.genome.jp/kegg-bin/show_pathway?',
-      reactome: 'http://www.reactome.org/cgi-bin/control_panel_st_id?ST_ID=',
+      reactome: 'https://reactome.org/content/detail/',
       pharmgkb: 'https://www.pharmgkb.org/pathway/',
       humancyc: 'http://humancyc.org/HUMAN/NEW-IMAGE?type=PATHWAY&object=',
       smpdb: 'http://www.smpdb.ca/view/',
@@ -45,13 +45,13 @@ export class MyGeneInfoService {
     });
     geneInfo.pathway = pathwaysFinal;
     geneInfo.pathwayList = pathwaysFinal.map(p => p.name);
-    geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => { return pd.desc; })
     if (!Array.isArray(geneInfo.alias) && geneInfo.alias) {
       geneInfo.alias = [geneInfo.alias];
     }
     if (!Array.isArray(geneInfo.interpro) && geneInfo.interpro) {
       geneInfo.interpro = [geneInfo.interpro];
     }
+    geneInfo.interproList = geneInfo.interpro.map((pd: ProteinDomain) => { return pd.desc; })
     return geneInfo;
   }
 }

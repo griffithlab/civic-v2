@@ -1,0 +1,10 @@
+<span
+  *ngIf="(tableCountsInfo$ | ngrxPush) as tci"
+  class="table-counts"
+  nz-typography
+  nzType="secondary">
+  {{ tci.totalCount | number }} total, showing {{ tci.edgeCount | number }}
+  <ng-container *ngIf="tci.filteredCount && tci.filteredCount < tci.totalCount">
+    of {{ tci.filteredCount | number }} filtered
+  </ng-container>
+</span>

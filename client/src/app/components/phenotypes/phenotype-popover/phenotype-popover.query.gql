@@ -1,0 +1,11 @@
+query PhenotypePopover($phenotypeId: Int!) {
+  phenotypePopover(id: $phenotypeId) {
+    id
+    name
+    url
+    hpoId
+    assertionCount
+    evidenceItemCount
+    link
+  }
+}

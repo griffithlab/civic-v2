@@ -1,0 +1,53 @@
+@import 'themes/global-variables.less';
+
+:host {
+    display: block;
+}
+  
+.timeline {
+    // timeline's base styles pull it up and left of its container,
+    // this padding adds them back b/c in the event feed card it looks to cramped
+    padding-top: 6px;
+    padding-left: 6px;
+}
+
+.item-icon {
+  font-size: 18px;
+}
+
+.timeline-item {
+  .description, .timestamp {
+    margin-top: 2px;
+  }
+  .description {
+    margin-left: @margin-xs;
+  }
+}
+
+.read-notification {
+  background-color: gray;
+}
+
+// reduce bottom margin on last timeline row
+nz-timeline ::ng-deep ul li:last-child {
+  padding-bottom: 0;
+  .ant-timeline-item-content {
+    min-height: 0;
+    padding-bottom: @padding-sm;
+  }
+}
+
+.timestamp {
+  text-align: right;
+}
+
+.comment-title {
+  padding-right: @default-padding-lg;
+  span {
+    font-weight: normal;
+  }
+}
+
+.comment-card {
+  width: 100%;
+}

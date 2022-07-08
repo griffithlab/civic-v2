@@ -1,0 +1,12 @@
+query DrugDetail(
+  $drugId: Int!
+){
+  drug(id: $drugId){
+    id
+    name
+    ncitId
+    drugUrl
+    drugAliases
+    link
+  }
+}

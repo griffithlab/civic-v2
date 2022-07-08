@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 // zorro imports
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -17,27 +18,19 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 // additional imports
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { TimeagoModule } from 'ngx-timeago';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 
 // cvc imports
 import { IconsProviderModule } from '@app/icons-provider.module';
-
-// gene components
-import { GeneDescriptionComponent } from './gene-description/gene-description.component';
-import { GeneDescriptionRevisionComponent } from './gene-description-revision/gene-description-revision.component';
-import { MyGeneInfoComponent } from './my-gene-info/my-gene-info.component';
-import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sources-revision.component';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 
 @NgModule({
   declarations: [
-    GeneDescriptionComponent,
-    GeneDescriptionRevisionComponent,
-    MyGeneInfoComponent,
-    GeneDescriptionRevisionComponent,
-    GeneSourcesRevisionComponent,
   ],
   imports: [
     CommonModule,
@@ -59,13 +52,12 @@ import { GeneSourcesRevisionComponent } from './gene-sources-revision/gene-sourc
     NzToolTipModule,
     NzTypographyModule,
     NgxJsonViewerModule,
-    TimeagoModule.forChild()
+    NzPopoverModule,
+    NzDividerModule,
+    ReactiveComponentModule,
+    TimeagoModule.forChild({ formatter: {useClass: CivicTimeagoFormatter, provide: TimeagoFormatter} }),
   ],
   exports: [
-    GeneDescriptionComponent,
-    GeneDescriptionRevisionComponent,
-    GeneSourcesRevisionComponent,
-    MyGeneInfoComponent,
   ]
 })
 

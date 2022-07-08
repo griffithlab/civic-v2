@@ -1,0 +1,42 @@
+<!-- create template with just the projected submit button -->
+<ng-template #submitButton><ng-content></ng-content></ng-template>
+
+<ng-container *ngIf="organizations$ | async as organizations" >
+  <!-- if 0 or 1 organization, display button template w/o btn-group wrapper -->
+  <ng-container *ngIf="organizations.length <= 1" >
+    <ng-container *ngTemplateOutlet="submitButton"></ng-container>
+  </ng-container>
+
+  <!-- if multiple organizations, wrap in btn-group w/ selector btn -->
+  <ng-container *ngIf="organizations.length > 1">
+    <nz-button-group [nzSize]="nzSize">
+
+      <ng-container *ngTemplateOutlet="submitButton"></ng-container>
+
+      <button type="button" nz-button [nzType]="buttonType" [nzDanger]="this.nzDanger" class="org-dropdown-btn"
+        [disabled]="isDisabled$ | ngrxPush"
+        nz-dropdown [nzDropdownMenu]="orgMenu">
+        <nz-space nzDirection="horizontal" [nzSize]="4">
+          <span>for</span>
+          <nz-avatar [nzSrc]="selectedOrg?.profileImagePath" [nzSize]="10"
+            [nzShape]="'square'"></nz-avatar>
+          <i nz-icon nzType="down"></i>
+        </nz-space>
+      </button>
+    </nz-button-group>
+  </ng-container>
+
+  <!-- organization dropdown menu template -->
+  <nz-dropdown-menu #orgMenu="nzDropdownMenu">
+    <ul nz-menu>
+      <li *ngFor="let org of organizations"
+        nz-menu-item [nzSelected]="selectedOrg?.id === org.id"
+        (click)="selectOrg(org)">
+        <nz-avatar [nzSrc]="org?.profileImagePath" [nzSize]="10"
+          [nzShape]="'square'"
+          style="background-color:#f0f5ff;"></nz-avatar>
+        {{ org.name }}
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</ng-container>

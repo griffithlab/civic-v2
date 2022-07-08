@@ -1,0 +1,19 @@
+name: Build and deploy production
+
+on: 
+  release:
+    types: [published]
+jobs: 
+  build-production:
+    uses: griffithlab/civic-v2/.github/workflows/build_frontend.yml@main
+    with: 
+      branch: release
+  deploy-production:
+    uses: griffithlab/civic-v2/.github/workflows/deploy.yml@main
+    needs: build-production
+    with:
+      environment: production
+    secrets:
+      SSH_HOST: ${{ secrets.CIVIC_V2_PRODUCTION_SSH_HOST }}
+      SSH_KEY: ${{ secrets.CIVIC_V2_PRODUCTION_SSH_KEY }}
+

@@ -1,0 +1,33 @@
+<ng-container *ngIf="source$ | ngrxPush as source">
+  <cvc-section-navigation [displayName]="source.citation"
+    [actionsTpl]="sourcesActions"> </cvc-section-navigation>
+  <ng-template #sourcesActions>
+    <ng-container *ngrxLet="viewer$ as viewer">
+      <button routerLink="/sources/add"
+        *ngIf="viewer.signedIn"
+        nz-button
+        nzSize="small">
+        <i nz-icon
+          nzType="plus-circle"></i> Suggest a New Source
+      </button>
+    </ng-container>
+  </ng-template>
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <i nz-icon
+        nzType="civic:source"></i> {{ source.citation }}
+    </nz-page-header-title>
+    <nz-page-header-extra>
+      <cvc-link-tag [href]="source.sourceUrl"
+        [tooltip]="'View on ' + source.displayType">
+        {{ source.displayType + ': ' + source.citationId }}
+      </cvc-link-tag>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+        <cvc-tab-navigation [tabs]="this.tabs"></cvc-tab-navigation>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

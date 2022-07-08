@@ -1,0 +1,42 @@
+query VariantTypeahead($name: String!, $geneId: Int) {
+  variants(name: $name, geneId: $geneId, first: 20) {
+    nodes {
+      ... VariantTypeaheadFields
+    }
+  }
+}
+
+fragment VariantTypeaheadFields on Variant {
+  id
+  name
+  variantAliases
+}
+
+mutation AddVariant($name: String!, $geneId: Int!) {
+  addVariant(input: {name: $name, geneId: $geneId}) {
+    ...AddVariantFields
+  }
+}
+
+fragment AddVariantFields on AddVariantPayload {
+  clientMutationId
+  new
+  variant {
+    id
+    name
+  }
+}
+
+query VariantSelect($name: String!, $geneId: Int) {
+  variants(name: $name, first: 20, geneId: $geneId) {
+    nodes {
+      ... VariantTypeaheadFields
+    }
+  }
+}
+
+
+fragment VariantSelectFields on Variant {
+  id
+  name
+}

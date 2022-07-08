@@ -1,0 +1,37 @@
+query AssertionDetail(
+  $assertionId: Int!
+) {
+  assertion(id: $assertionId) {
+      ...AssertionDetailFields
+  }
+}
+
+fragment AssertionDetailFields on Assertion {
+    id
+    name
+    status
+    submissionEvent {
+      originatingUser {
+        id
+      }
+    }
+    gene {
+        id
+        name
+      link
+    }
+    variant {
+      id
+      name
+      link
+    }
+    flags(state: OPEN) {
+      totalCount
+    }
+    revisions(status: NEW) {
+      totalCount
+    }
+    comments {
+      totalCount
+    }
+} 

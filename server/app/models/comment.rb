@@ -1,13 +1,31 @@
 class Comment < ActiveRecord::Base
-  ##include WithTimepointCounts
+  include WithTimepointCounts
   ##before_destroy :mark_events_unlinkable
 
   belongs_to :user
   belongs_to :commentable, ->() { unscope(where: :deleted) }, polymorphic: true
 
+  has_many :events, as: :originating_object
+  has_many :user_mentions
+  has_many :entity_mentions
+  has_many :role_mentions
+
+  has_one :creation_event,
+    ->() { where(action: 'commented') },
+    as: :originating_object,
+    class_name: 'Event'
+
   default_scope -> { order('created_at ASC') }
 
   alias_attribute :text, :comment
+
+  def link
+    if self.commentable_type == 'Revision' or self.commentable_type == 'Flag'
+      self.commentable.link
+    else
+      "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.commentable_type]}/#{self.commentable_id}/comments"
+    end
+  end
 
   private
   def mark_events_unlinkable

@@ -1,0 +1,41 @@
+query CivicStats {
+  timepointStats {
+    assertions {
+      ...TimepointCount
+    }
+    diseases {
+      ...TimepointCount
+    }
+    comments {
+      ...TimepointCount
+    }
+    drugs {
+      ...TimepointCount
+    }
+    evidenceItems {
+      ...TimepointCount
+    }
+    genes {
+      ...TimepointCount
+    }
+    revisions {
+      ...TimepointCount
+    }
+    sources {
+      ...TimepointCount
+    }
+    users {
+      ...TimepointCount
+    }
+    variants {
+      ...TimepointCount
+    }
+  }
+}
+
+fragment TimepointCount on TimePointCounts {
+  allTime
+  newThisMonth
+  newThisWeek
+  newThisYear
+}

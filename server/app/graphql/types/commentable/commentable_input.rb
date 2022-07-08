@@ -11,6 +11,16 @@ module Types::Commentable
       const = case entity_type
       when 'GENE'
         Gene
+      when 'VARIANT'
+        Variant
+      when 'EVIDENCE_ITEM'
+        EvidenceItem
+      when 'ASSERTION'
+        Assertion
+      when 'VARIANT_GROUP'
+        VariantGroup
+      when 'SOURCE'
+        Source
       else
         raise 'Unknown Enum Value'
       end

@@ -1,0 +1,23 @@
+<button
+  nz-button
+  nzType="primary"
+  nzValue="small"
+  (click)="showAuth()">
+  <span>Sign In / Sign Up</span>
+</button>
+<nz-modal [(nzVisible)]="authVisible"
+  [nzTitle]="loginModalTitle"
+  [nzFooter]="loginModalFooter"
+  (nzOnCancel)="handleCancel()" >
+  <ng-container *nzModalContent>
+    <p nzType="secondary">Click on one of the OAuth providers below to sign into CIViC. If you do not not have a CIViC account, one will be created for you based upon the account information your OAuth provider provides.</p>
+    <cvc-auth-options-list></cvc-auth-options-list>
+  </ng-container>
+</nz-modal>
+<ng-template #loginModalTitle>
+  Sign In / Sign Up
+</ng-template>
+
+<ng-template #loginModalFooter>
+  <button nz-button nzType="primary" nzValue="small" (click)="handleCancel()">Cancel</button>
+</ng-template>

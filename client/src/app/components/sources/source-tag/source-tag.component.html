@@ -1,0 +1,42 @@
+<ng-container *ngIf="linked; else unlinked">
+  <a [routerLink]="source.link">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag *ngIf="enablePopover; else noPopover"
+    nz-popover
+    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
+    [nzPopoverContent]="sourcePopover"
+    nzPopoverPlacement="right"
+    nzPopoverTrigger="hover"
+    [(nzPopoverVisible)]="popoverVisible"
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)"
+    >
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+
+  <ng-template #sourcePopover>
+    <cvc-source-popover [sourceId]="source.id"></cvc-source-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon
+    nzType="civic-source"
+    nzTheme="twotone"
+    nzTwotoneColor="#F9BA45"></i> 
+    <ng-container *ngIf="this.mode === 'normal'; else concise">&nbsp;{{this.displayName}}</ng-container>
+    <ng-template #concise>&nbsp;SID{{source.id}}</ng-template>
+</ng-template>

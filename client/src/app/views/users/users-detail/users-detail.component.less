@@ -1,0 +1,71 @@
+@import "themes/overrides/entity-page-header.overrides.less";
+@import 'themes/global-variables.less';
+
+:host ::ng-deep {
+  .user-profile {
+    .ant-card-body {
+      // remove card body padding
+      padding: 0;
+      // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
+      margin-top: 1px;
+    }
+    .ant-descriptions-view {
+      // removes nz-description container border -
+      // nz-card does provide an nzBordered option, but its label backgrounds
+      // and compact mode are only applied when its borders are toggled on
+      border: none;
+    }
+    & nz-descriptions.is-editor {
+      // need to add a bottom border to profile descriptions block if
+      // COI descriptions are displayed beneath it
+      .ant-descriptions-view {
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+    .user-bio {
+      .ant-descriptions-view {
+        border-top: 1px solid #f0f0f0;
+      }
+    }
+    .user-coi {
+      .ant-descriptions-header {
+        margin: 0;
+        padding: 0 12px;
+        border-top: 1px solid #f0f0f0;
+        .ant-descriptions-title {
+          padding: 6px 0;
+          font-weight: normal;
+          font-size: @font-size-base; // @font-size-base
+          font-weight: 500;
+        }
+      }
+      
+      .ant-descriptions-view {
+        // add top border to descriptions block
+        border-top: 1px solid #f0f0f0;
+      }
+    }
+  }
+
+  .profile-content {
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+
+  .content {
+    margin-bottom: 8px;
+  }
+
+  .user-avatar {
+    text-align: center;
+  }
+
+  .user-socials {
+    text-align: center;
+  }
+
+  .user-name {
+    text-align: center;
+    font-size: 120%;
+  }
+}

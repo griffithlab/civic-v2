@@ -1,0 +1,26 @@
+query VariantDetail(
+  $variantId: Int!
+) {
+  variant(id: $variantId) {
+    ...VariantDetailFields
+  }
+}
+
+fragment VariantDetailFields on Variant {
+  id
+  name
+  gene {
+    id
+    name
+  }
+  variantAliases
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+}

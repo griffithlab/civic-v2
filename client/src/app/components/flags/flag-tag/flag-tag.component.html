@@ -1,0 +1,29 @@
+<a [routerLink]="flag.link">
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</a>
+
+<ng-template #tag>
+  <nz-tag *ngIf="enablePopover; else noPopover"
+    nz-popover
+    [nzPopoverMouseEnterDelay]="0.5"
+    [nzPopoverContent]="flagPopover"
+    nzPopoverPlacement="right"
+    nzPopoverTrigger="hover">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+
+  <ng-template #flagPopover>
+    <cvc-flag-popover [flagId]="flag.id"></cvc-flag-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #noPopover>
+  <nz-tag>
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon nzType="civic-flag" nzTheme="twotone" nzTwotoneColor="#E24759"></i>
+  {{ flag.name }}
+</ng-template>

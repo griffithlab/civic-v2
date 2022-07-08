@@ -40,7 +40,9 @@ class Actions::SuggestRevision
     else
       create_revision
       create_event
-      create_comment
+      if !comment.nil?
+        create_comment
+      end
       @revision_created = true
     end
   end
@@ -75,6 +77,9 @@ class Actions::SuggestRevision
       organization_id: organization_id
     )
     cmd.perform
+    if !cmd.succeeded?
+      raise StandardError.new(cmd.errors.join(', '))
+    end
   end
 
   def revision_created?

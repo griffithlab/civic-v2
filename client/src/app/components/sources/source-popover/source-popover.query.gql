@@ -1,0 +1,20 @@
+query SourcePopover($sourceId: Int!) {
+  sourcePopover(id: $sourceId) {
+    ...sourcePopover
+  }
+}
+
+fragment sourcePopover on SourcePopover {
+  id
+  name
+  evidenceItemCount
+  citation
+  citationId
+  displayType
+  sourceUrl
+  clinicalTrials {
+    id
+    nctId
+    link
+  }
+}

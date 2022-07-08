@@ -1,0 +1,13 @@
+query CitationExistenceCheck($sourceType: SourceSource!, $citationId: Int!) {
+  remoteCitation(sourceType: $sourceType, citationId: $citationId)
+}
+
+mutation CreateSourceStub($input: AddRemoteCitationInput!) {
+  addRemoteCitation(input: $input) {
+    newSource {
+      id
+      citationId
+      sourceType
+    }
+  }
+}

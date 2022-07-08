@@ -1,0 +1,70 @@
+query BrowseVariants(
+  $variantName: String
+  $entrezSymbol: String
+  $diseaseName: String
+  $drugName: String
+  $variantAlias: String
+  $variantTypeId: Int
+  $variantGroupId: Int
+  $sortBy: VariantsSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  browseVariants(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    drugName: $drugName
+    variantAlias: $variantAlias
+    variantTypeId: $variantTypeId
+    variantGroupId: $variantGroupId
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...BrowseVariantsFields
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+
+fragment BrowseVariantsFields on BrowseVariant {
+  id
+  name
+  link
+  evidenceScore
+  evidenceItemCount
+  geneId
+  geneName
+  geneLink
+  diseases {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  aliases {
+    name
+  }
+  assertionCount
+}

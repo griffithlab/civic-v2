@@ -1,0 +1,103 @@
+query CommentList(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $originatingUserId: Int
+  $mentionedUserId: Int
+  $mentionedRole: UserRole
+  $mentionedEntity: TaggableEntityInput
+  $subject: CommentableInput
+  $sortBy: DateSort
+) {
+  comments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    originatingUserId: $originatingUserId
+    mentionedUserId: $mentionedUserId
+    mentionedRole: $mentionedRole
+    mentionedEntity: $mentionedEntity
+    subject: $subject
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    uniqueCommenters {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    mentionedUsers {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+    mentionedRoles {
+      displayName
+      entityId
+      tagType
+      link
+    }
+    mentionedEntities {
+      displayName
+      entityId
+      tagType
+      link
+    }
+    unfilteredCountForSubject
+    edges {
+      cursor
+      node {
+        ...commentListNode
+      }
+    }
+  }
+}
+
+fragment commentListNode on Comment {
+  id
+  title
+  comment
+  createdAt
+  commenter {
+    id
+    username
+    displayName
+    name
+    role
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    }
+  }
+  parsedComment {
+    __typename
+    ...on CommentTagSegment {
+      entityId
+      displayName
+      tagType
+      status
+      link
+      __typename
+    }
+    ... on CommentTextSegment {
+      text
+    }
+    ... on User {
+      id
+      displayName
+      role
+    }
+  }
+}

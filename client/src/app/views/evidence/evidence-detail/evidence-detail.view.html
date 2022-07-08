@@ -1,0 +1,107 @@
+<ng-container *ngIf="evidence$ | ngrxPush as evidence">
+  <cvc-section-navigation [displayName]="evidence.name"
+    [relationsTpl]="evidenceRelations">
+  </cvc-section-navigation>
+  <ng-template #evidenceRelations>
+    <nz-space nzDirection="horizontal">
+
+      <!-- parent relations -->
+      <span nz-typography class="label" *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
+      <span class="tags" *nzSpaceItem>
+        <a routerLink="/genes/{{ evidence.gene.id }}">
+          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
+        </a>
+        <a routerLink="/variants/{{ evidence.variant.id }}">
+          <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+        </a>
+      </span>
+
+    </nz-space>
+  </ng-template>
+
+  <div cvcFlaggable
+    [flags]="flagsTotal$ | ngrxPush">
+    <nz-page-header *ngrxLet="viewer$ as viewer "class="site-page-header">
+
+      <!-- title -->
+      <nz-page-header-title cvcFlaggableOptions
+        [ngClass]="{ 'flagged': evidence.flags.totalCount > 0 }">
+
+        <i nz-icon
+          nzType="civic:evidence"></i> {{ evidence.name }}
+      </nz-page-header-title>
+
+      <!-- subtitle -->
+      <nz-page-header-tags>
+        <nz-tag [nzColor]="'red'"
+          *ngIf="false">Flagged</nz-tag>
+      </nz-page-header-tags>
+
+      <!-- header action btns, actions menu -->
+      <nz-page-header-extra>
+        <nz-space nzDirection="horizontal" nzSize="small" >
+          <!-- add revision btn -->
+          <span *nzSpaceItem>
+            <button [routerLink]="['/evidence', evidence.id, 'revise']"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Revise
+            </button>
+          </span>
+
+          <!-- add flag btn -->
+          <!-- TODO implement as flag form within popover window -->
+          <span *nzSpaceItem>
+            <button routerLink="flags"
+              *ngIf="viewer.signedIn"
+              routerLinkActive
+              #rlaComments="routerLinkActive"
+              [nzType]="rlaComments.isActive ? 'primary' : 'default'"
+              nz-button
+              nzSize="small">
+              Flag
+            </button>
+          </span>
+
+          <span *nzSpaceItem>
+            <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="EvidenceItem">
+            </cvc-entity-subscription-button>
+          </span>
+
+          <span *nzSpaceItem>
+            <cvc-revert-entity-button *ngIf="viewer.canModerate && evidence.status !='SUBMITTED'" [viewer]="viewer" entityType="EvidenceItem" [entityId]="evidence.id" (onReverted)="onRevertCompleted($event)">
+            </cvc-revert-entity-button>
+          </span>
+        </nz-space>
+      </nz-page-header-extra>
+
+      <nz-page-header-content>
+        <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+        <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+        <nz-alert *ngIf="this.evidence.status == 'SUBMITTED'" nzBanner nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
+        <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
+          <ng-template #tabBarExtraContent>
+            <nz-col id="contributors-col">
+              <cvc-contributor-avatars [subscribable]="subscribable"></cvc-contributor-avatars>
+            </nz-col>
+          </ng-template>
+        </cvc-tab-navigation>
+        <nz-space nzDirection="vertical" *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
+          <span *nzSpaceItem>
+            <cvc-moderate-entity-buttons [rejectOnly]="!viewer.canModerate" entityType="EvidenceItem" [entityId]="evidence.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
+            </cvc-moderate-entity-buttons>
+          </span>
+          <span *nzSpaceItem>
+          </span>
+        </nz-space>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+  </div>
+</ng-container>

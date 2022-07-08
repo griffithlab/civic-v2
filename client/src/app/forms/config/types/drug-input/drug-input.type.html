@@ -1,0 +1,51 @@
+<ng-container *ngIf="!formControl.value?.id; else drugListItem">
+  <nz-select nzShowSearch
+    nzServerSearch
+    autofocus="click"
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzNotFoundContent]="sourceLoader"
+    [nzDropdownRender]="to.allowCreate ? addDrugTmpl : null"
+    [nzShowArrow]="to.showArrow"
+    [nzFilterOption]="to.filterOption"
+    (nzOnSearch)="to.onSearch($event)">
+    <ng-container *ngrxLet="this.drugs$ as drugs">
+      <nz-option *ngFor="let opt of drugs"
+        nzCustomContent
+        [nzLabel]="opt.tooltip"
+        [nzValue]="opt.drug">
+        <nz-space>
+          <span *nzSpaceItem [innerHtml]=" opt.label | highlightTypeahead: this.to.searchString">
+          </span>
+          <ng-container *ngIf="opt.drug.drugAliases.length > 0">
+            <div *nzSpaceItem>
+              <span 
+              nz-typography 
+              nzType="secondary"
+              [innerHtml]="opt.drug.drugAliases.join(', ') | highlightTypeahead: this.to.searchString" >
+              </span>
+            </div>
+          </ng-container>
+        </nz-space>
+      </nz-option>
+    </ng-container>
+  </nz-select>
+  <ng-template #sourceLoader>
+    No drug found in CIViC that matches the string provided.
+  </ng-template>
+</ng-container>
+<ng-template #drugListItem>
+  <cvc-drug-tag [drug]="formControl.value"></cvc-drug-tag>
+</ng-template>
+
+<ng-template #addDrugTmpl>
+  <ng-container *ngIf="this.displayAdd$ | ngrxPush">
+    <ng-container *ngIf="this.to.searchString !== '' && this.to.searchString.length >= 5">
+        <cvc-form-errors-alert *ngIf="this.errorMessages.length > 0" [errors]="errorMessages"> </cvc-form-errors-alert>
+        <button *ngIf="this.errorMessages.length == 0" nz-button nzSize="small" [nzLoading]="this.loading" (click)="addDrug(to.searchString)">
+          <i nz-icon nzType="plus" nzTheme="outline"></i>No Existing CIViC Drug&nbsp;<strong>{{ to.searchString }}</strong>&nbsp;found. Create A New Drug?
+        </button>
+    </ng-container>
+  </ng-container>
+</ng-template>

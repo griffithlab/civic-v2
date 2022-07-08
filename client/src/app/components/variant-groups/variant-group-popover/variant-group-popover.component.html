@@ -1,0 +1,37 @@
+<div id="popover-content">
+    <ng-container *ngIf="variantGroup$ | ngrxPush as variantGroup">
+      <nz-card [nzTitle]="cardTitle" nzBordered="false"
+        id="card-content">
+        <ng-template #cardTitle>
+          <i nz-icon
+            nzType="civic:variant-group"
+          ></i> {{ variantGroup.name }}
+        </ng-template>
+
+        {{variantGroup.description}}
+
+        <nz-descriptions nzSize="small"
+          [nzColumn]="2"
+          nzBordered="true">
+
+          <!-- Variants -->
+          <nz-descriptions-item nzTitle="Variants"
+            nzSpan="2"
+            *ngIf="variantGroup.variants.edges.length > 0">
+            <span *ngFor="let variant of variantGroup.variants.edges">
+              <cvc-variant-tag [enablePopover]="false" [variant]="variant.node"></cvc-variant-tag>
+            </span>
+          </nz-descriptions-item>
+
+          <!-- Source -->
+          <nz-descriptions-item nzTitle="Sources"
+            nzSpan="2"
+            *ngIf="variantGroup.sources.length > 0">
+            <span *ngFor="let source of variantGroup.sources">
+              <cvc-source-tag [enablePopover]="false" [source]="source"></cvc-source-tag>
+            </span>
+          </nz-descriptions-item>
+        </nz-descriptions>
+      </nz-card>
+    </ng-container>
+  </div>

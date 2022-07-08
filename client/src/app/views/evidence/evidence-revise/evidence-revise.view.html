@@ -1,0 +1,47 @@
+<ng-container *ngIf="evidence$ | async as evidence">
+  <cvc-section-navigation [displayName]="evidence.name"
+    [relationsTpl]="evidenceRelations"> </cvc-section-navigation>
+  <ng-template #evidenceRelations>
+    <nz-space nzDirection="horizontal">
+
+      <!-- parent relations -->
+      <span nz-typography
+        class="label"
+        *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
+      <span *nzSpaceItem
+        class="tags">
+        <a routerLink="/genes/{{ evidence.gene.id }}">
+          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
+        </a>
+        <a routerLink="/variants/{{ evidence.variant.id }}">
+          <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+        </a>
+      </span>
+    </nz-space>
+
+  </ng-template>
+  <nz-page-header class="site-page-header">
+
+    <!-- title -->
+    <nz-page-header-title cvcFlaggableOptions>
+      REVISE
+      <i nz-icon
+        nzType="civic:evidence"></i> {{ evidence.name }}
+    </nz-page-header-title>
+
+    <nz-page-header-content>
+      <div class="content">
+        <div *ngIf="isSignedIn$ | ngrxPush as isSignedIn; else notSignedIn">
+          <router-outlet></router-outlet>
+        </div>
+        <ng-template #notSignedIn>
+          <nz-row nzSpan="24" nzJustify="center">
+            <div nz-col nzSpan="6">
+              <cvc-login-prompt></cvc-login-prompt>
+            </div>
+          </nz-row>
+        </ng-template>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

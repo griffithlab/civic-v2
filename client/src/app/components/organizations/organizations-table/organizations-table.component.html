@@ -1,0 +1,138 @@
+<!-- if cvcHeight not specified, render table with viewport target, without card height container -->
+<ng-container *ngIf="!cvcHeight; else setHeightCard">
+  <nz-card [nzTitle]="titleTemplate"
+    [nzExtra]="extraTemplate"
+    nzSize="small"
+    cvcAutoHeightCard
+    cvcAutoHeightTarget="viewport">
+    <ng-template [ngTemplateOutlet]="table"> </ng-template>
+  </nz-card>
+</ng-container>
+
+<!-- if cvcHeight is specified, render table in container w/ specified height-->
+<ng-template #setHeightCard>
+  <div class="card-container"
+    [ngStyle]="{ 'height': cvcHeight }">
+    <nz-card [nzTitle]="titleTemplate"
+      [nzExtra]="extraTemplate"
+      cvcAutoHeightCard
+      nzSize="small">
+      <ng-template [ngTemplateOutlet]="table"> </ng-template>
+    </nz-card>
+  </div>
+</ng-template>
+
+<ng-template #table>
+  <nz-table #virtualTable
+    nzSize="small"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="initialLoading$ | ngrxPush"
+    [cvcAutoHeightTable]="25"
+    [nzVirtualItemSize]="29"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
+    [nzVirtualForTrackBy]="trackByIndex"
+    [nzScroll]="{ x: '680px', y: '800px' }"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
+      <tr class="col-header-row">
+        <th nzWidth="300px"
+          nzLeft
+          [nzColumnKey]="sortColumns.Name"
+          [nzSortFn]="true">
+          Organization
+        </th>
+        <th nzWidth="100px">
+          Members
+        </th>
+        <th nzWidth="320px">
+          Sub Organizations
+        </th>
+        <th nzWidth="80px"
+          nzRight
+          nzAlign="right">
+          Actions
+        </th>
+        <th nzWidth="125px"
+          nzRight
+          nzAlign="right">
+          Last Action
+        </th>
+      </tr>
+      <tr class="filter-row">
+        <th nzLeft>
+          <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+        </th>
+        <th>
+        </th>
+        <th>
+        </th>
+        <th nzRight>
+        </th>
+        <th nzRight>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template nz-virtual-scroll
+        let-organization
+        let-index="index">
+        <tr class="data-row">
+          <tr>
+            <td nzLeft>
+              <cvc-organization-tag [org]="organization"></cvc-organization-tag>
+            </td>
+            <td>
+              {{ organization.memberCount | number }}
+            </td>
+            <td>
+              <cvc-tag-overflow [maxDisplayCount]="1"
+                tagType='organization'
+                [tags]="organization.subGroups"> </cvc-tag-overflow>
+            </td>
+            <td nzRight
+              nzAlign="right">
+              {{ organization.eventCount | number}}
+            </td>
+            <td nzRight
+              nzAlign="right">
+              {{ organization.mostRecentEvent?.createdAt | timeago }}
+            </td>
+          </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<!-- card's title template -->
+<ng-template #titleTemplate>
+  <i nz-icon
+    nzType="civic:organization"></i>
+  <ng-container *ngIf="this.cvcTitleTemplate">
+    <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
+  </ng-container>
+  <ng-container *ngIf="this.cvcTitle">
+    {{ this.cvcTitle }}
+  </ng-container>
+
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
+  </span>
+</ng-template>
+
+<!-- card's extra template -->
+<ng-template #extraTemplate>
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
+    <i nz-icon
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
+  </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
+</ng-template>

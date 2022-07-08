@@ -1,0 +1,59 @@
+query EvidenceItemRevisableFields($evidenceId: Int!) {
+  evidenceItem(id: $evidenceId) {
+    ... RevisableEvidenceFields
+  }
+}
+
+fragment RevisableEvidenceFields on EvidenceItem {
+  id
+  gene {
+    id
+    name
+    link
+  }
+  variant {
+    id
+    name
+    link
+  }
+  variantOrigin
+  description
+  clinicalSignificance
+  disease {
+    id
+    doid
+    name
+    displayName
+  }
+  drugs {
+    id
+    ncitId
+    name
+  }
+  drugInteractionType
+  evidenceDirection
+  evidenceLevel
+  evidenceType
+  phenotypes {
+    id
+    hpoId
+    name
+  }
+  evidenceRating
+  source {
+    id
+    sourceType
+    citationId
+    citation
+  }
+
+}
+
+mutation SuggestEvidenceItemRevision($input: SuggestEvidenceItemRevisionInput!) {
+  suggestEvidenceItemRevision(input: $input) {
+    clientMutationId
+    evidenceItem {
+      id
+    }
+  }
+}

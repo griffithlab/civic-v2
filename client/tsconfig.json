@@ -22,7 +22,7 @@
     "target": "es2015",
     "module": "ESNext",
     "lib": [
-      "es2018",
+      "es2019",
       "dom",
       "esnext.asynciterable"
     ],

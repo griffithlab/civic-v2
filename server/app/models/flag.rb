@@ -7,16 +7,11 @@ class Flag < ActiveRecord::Base
 
   validates :state, inclusion: ['open', 'resolved']
 
-  #def self.index_scope
-  #  includes(comments: [:user])
-  #end
-
   def name
-    "a flag on #{flaggable.name}"
+    "FID#{self.id}"
   end
 
-  #def self.resolve(user, flag, organization)
-  #  cmd = Actions::ResolveFlag.new(user, flag, organization)
-  #  cmd.perform
-  #end
+  def link
+    "/#{Constants::DB_TYPE_TO_PATH_SEGMENT[self.flaggable_type]}/#{self.flaggable.id}/flags"
+  end
 end

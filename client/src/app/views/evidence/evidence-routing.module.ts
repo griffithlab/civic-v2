@@ -1,12 +1,61 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { EvidenceHomeModule } from './evidence-home/evidence-home.module';
+import { EvidenceHomePage } from './evidence-home/evidence-home.page';
+import { EvidenceView } from './evidence.view';
 
-import { EvidenceComponent } from './evidence.component';
+const routes: Routes = [
+  {
+    path: '',
+    component: EvidenceView,
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: 'home',
+        component: EvidenceHomePage,
+        data: {
+          breadcrumb: 'Home'
+        }
+      },
+      {
+        path: 'add',
+        loadChildren: () =>
+          import('@app/views/evidence/evidence-add/evidence-add.module').then(
+            (m) => m.EvidenceAddModule
+          ),
+        data: { breadcrumb: 'Add' }
+      },
+      {
+        path: ':evidenceId',
+        data: { breadcrumb: 'DISPLAYNAME' },
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-detail/evidence-detail.module').then(
+                (m) => m.EvidenceDetailModule
+              ),
+          },
+          {
+            path: 'revise',
+            loadChildren: () =>
+              import('@app/views/evidence/evidence-revise/evidence-revise.module').then(
+                (m) => m.EvidenceReviseModule
+              ),
+            data: { breadcrumb: 'Revise' }
+          },
+        ]
+      },
 
-const routes: Routes = [{ path: '', component: EvidenceComponent }];
+    ]
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    EvidenceHomeModule
+  ],
   exports: [RouterModule]
 })
 export class EvidenceRoutingModule { }

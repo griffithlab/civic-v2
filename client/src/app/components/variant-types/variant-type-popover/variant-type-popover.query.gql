@@ -1,0 +1,13 @@
+query VariantTypePopover($variantTypeId: Int!) {
+  variantTypePopover(id: $variantTypeId) {
+    ...variantTypePopover
+  }
+}
+
+fragment variantTypePopover on VariantTypePopover {
+  id
+  name
+  url
+  soid
+  variantCount
+}

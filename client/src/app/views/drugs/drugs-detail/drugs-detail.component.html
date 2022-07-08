@@ -1,0 +1,21 @@
+<ng-container *ngIf="drug$ | ngrxPush as drug">
+  <cvc-section-navigation [displayName]="drug.name"> </cvc-section-navigation>
+  <nz-page-header class="site-page-header">
+    <nz-page-header-title>
+      <i nz-icon
+        nzType="civic:intervention"></i>
+      {{ drug.name }}
+    </nz-page-header-title>
+    <nz-page-header-extra *ngIf="drug.ncitId">
+      <cvc-link-tag [href]="drug.drugUrl"
+        tooltip="View in the NCIthesaurus">
+        {{ drug.ncitId }}
+      </cvc-link-tag>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

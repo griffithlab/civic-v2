@@ -1,0 +1,14 @@
+query DiseasePopover($diseaseId: Int!) {
+  diseasePopover(id: $diseaseId) {
+    id
+    name
+    displayName
+    doid
+    diseaseUrl
+    diseaseAliases
+    assertionCount
+    evidenceItemCount
+    variantCount
+    link
+  }
+}

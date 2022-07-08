@@ -2,14 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { VariantGroupsRoutingModule } from './variant-groups-routing.module';
-import { VariantGroupsComponent } from './variant-groups.component';
-
+import { VariantGroupsView } from './variant-groups.view';
+import { VariantGroupsHomeModule } from './variant-groups-home/variant-groups-home.module';
 
 @NgModule({
-  declarations: [VariantGroupsComponent],
+  declarations: [
+    VariantGroupsView,
+  ],
   imports: [
     CommonModule,
-    VariantGroupsRoutingModule
+    VariantGroupsRoutingModule,
+    VariantGroupsHomeModule,
+
+  ],
+  exports: [
+    VariantGroupsView
   ]
 })
 export class VariantGroupsModule { }

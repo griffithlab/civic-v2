@@ -1,42 +1,68 @@
 
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
       }
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": [
-      {
-        "kind": "UNION",
-        "name": "ModeratedField",
-        "possibleTypes": [
-          {
-            "name": "ObjectField"
-          },
-          {
-            "name": "ScalarField"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ModeratedFieldDiff",
-        "possibleTypes": [
-          {
-            "name": "ObjectFieldDiff"
-          },
-          {
-            "name": "ScalarField"
-          }
-        ]
-      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {
+    "CommentBodySegment": [
+      "CommentTagSegment",
+      "CommentTextSegment",
+      "User"
+    ],
+    "Commentable": [
+      "Assertion",
+      "EvidenceItem",
+      "Flag",
+      "Gene",
+      "Revision",
+      "Source",
+      "SourcePopover",
+      "Variant",
+      "VariantGroup"
+    ],
+    "EventOriginObject": [
+      "Assertion",
+      "Comment",
+      "EvidenceItem",
+      "Flag",
+      "Revision",
+      "SourceSuggestion",
+      "Variant"
+    ],
+    "EventSubject": [
+      "Assertion",
+      "EvidenceItem",
+      "Gene",
+      "Revision",
+      "Source",
+      "SourcePopover",
+      "SourceSuggestion",
+      "Variant",
+      "VariantGroup"
+    ],
+    "Flaggable": [
+      "Assertion",
+      "EvidenceItem",
+      "Gene",
+      "Variant",
+      "VariantGroup"
+    ],
+    "ModeratedField": [
+      "ObjectField",
+      "ScalarField"
+    ],
+    "ModeratedFieldDiff": [
+      "ObjectFieldDiff",
+      "ScalarFieldDiff"
+    ],
+    "WithRevisions": [
+      "Assertion",
+      "EvidenceItem",
+      "Gene",
+      "Variant",
+      "VariantGroup"
     ]
   }
 };

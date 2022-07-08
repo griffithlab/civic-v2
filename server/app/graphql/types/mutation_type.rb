@@ -5,13 +5,17 @@ module Types
 
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
-    field :reject_revision, mutation: Mutations::RejectRevision
-    field :accept_revision, mutation: Mutations::AcceptRevision
+    field :suggest_variant_revision, mutation: Mutations::SuggestVariantRevision
+    field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
+    field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision
+    field :suggest_variant_group_revision, mutation: Mutations::SuggestVariantGroupRevision
+    field :reject_revisions, mutation: Mutations::RejectRevisions
+    field :accept_revisions, mutation: Mutations::AcceptRevisions
 
     #subscriptions
     field :subscribe, mutation: Mutations::Subscribe
     field :unsubscribe, mutation: Mutations::Unsubscribe
-    field :mark_notifications_as_read, mutation: Mutations::MarkNotificationsAsRead
+    field :update_notification_status, mutation: Mutations::UpdateNotificationStatus
 
     #flags
     field :flag_entity, mutation: Mutations::FlagEntity
@@ -19,5 +23,30 @@ module Types
 
     #molecular profiles
     field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile
+
+    #sources
+    field :add_remote_citation, mutation: Mutations::AddRemoteCitation
+
+    #source suggestions
+    field :update_source_suggestion_status, mutation: Mutations::UpdateSourceSuggestionStatus
+
+    #users
+    field :edit_user, mutation: Mutations::EditUser
+    field :update_coi, mutation: Mutations::UpdateCoi
+
+    #submission
+    field :submit_evidence, mutation: Mutations::SubmitEvidenceItem
+    field :submit_assertion, mutation: Mutations::SubmitAssertion
+    field :suggest_source, mutation: Mutations::SuggestSource
+    field :submit_variant_group, mutation: Mutations::SubmitVariantGroup
+
+    #moderation
+    field :moderate_evidence_item, mutation: Mutations::ModerateEvidenceItem
+    field :moderate_assertion, mutation: Mutations::ModerateAssertion
+
+    #non-moderated entity creation
+    field :add_disease, mutation: Mutations::AddDisease
+    field :add_drug, mutation: Mutations::AddDrug
+    field :add_variant, mutation: Mutations::AddVariant
   end
 end

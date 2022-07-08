@@ -1,0 +1,25 @@
+# Fetch only fields required for authorization, perms & tag display
+query ViewerBase {
+  viewer {
+    id
+    username
+    role
+    displayName
+    profileImagePath(size: 32)
+    organizations {
+      id
+      name
+      profileImagePath(size: 32)
+    },
+    mostRecentConflictOfInterestStatement {
+      coiStatus
+    }
+    mostRecentOrganizationId
+  }
+}
+
+query ViewerNotificationCount {
+  notifications {
+    unreadCount
+  }
+}

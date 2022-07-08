@@ -1,5 +1,5 @@
 <ng-container *ngIf="geneInfo">
-  <nz-card style="width: 100%;" nzTitle="MyGeneInfo">
+  <nz-card nzTitle="MyGeneInfo">
     <nz-card-tab>
       <nz-tabset nzSize="small" (nzSelectChange)="tabChange($event)" [nzAnimated]="true">
         <nz-tab [nzTitle]="'Overview'"> </nz-tab>
@@ -20,6 +20,32 @@
             <div nz-col [nzSpan]="18">
               {{ info.symbol }} (ID: {{ info._id }})
               <strong style="margin-left: 8px;">UniProtKB ID:</strong> {{ info.uniprot['Swiss-Prot'] }}
+            </div>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="6" class="key-col">
+              Chromosome:
+            </div>
+            <div nz-col [nzSpan]="1">
+              {{ info.genomic_pos_hg19.chr }} 
+            </div>
+            <div nz-col [nzSpan]="2" class="key-col">
+              Strand:
+            </div>
+            <div nz-col [nzSpan]="1">
+              {{ info.genomic_pos_hg19.strand }}
+            </div>
+            <div nz-col [nzSpan]="2" class="key-col">
+              Start:
+            </div>
+            <div nz-col [nzSpan]="2">
+              {{ info.genomic_pos_hg19.start }}
+            </div>
+            <div nz-col [nzSpan]="2" class="key-col">
+              Stop:
+            </div>
+            <div nz-col [nzSpan]="2">
+              {{ info.genomic_pos_hg19.end }}
             </div>
           </div>
           <div nz-row [nzGutter]="8">
@@ -58,7 +84,12 @@
 
       <!-- protein domains tab -->
       <ng-container *ngSwitchCase="2" >
-        <nz-table #proteinDomainsTable [nzData]="info.interpro" nzSize="small">
+        <nz-table #proteinDomainsTable
+          [nzData]="info.interpro"
+          [nzScroll]="{x: '100%', y: '200px'}"
+          [nzFrontPagination]="false"
+          [nzShowPagination]="false"
+          nzSize="small">
           <thead>
             <tr>
               <th>Name</th>
@@ -67,24 +98,31 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let protein of proteinDomainsTable.data">
+            <ng-template nz-virtual-scroll let-interpro let-index="index">
+            <tr>
               <td>
-                {{ protein.short_desc }}
+                {{ interpro.short_desc }}
               </td>
               <td>
-                {{ protein.desc }}
+                {{ interpro.desc }}
               </td>
               <td>
-                {{ protein.id }}
+                {{ interpro.id }}
               </td>
             </tr>
+          </ng-template>
           </tbody>
         </nz-table>
       </ng-container>
 
       <!-- pathways tab -->
       <ng-container *ngSwitchCase="3" >
-        <nz-table #pathwaysTable [nzData]="info.pathway" nzSize="small">
+        <nz-table #pathwaysTable
+          [nzData]="info.pathway"
+          [nzScroll]="{x: '100%', y: '200px'}"
+          [nzFrontPagination]="false"
+          [nzShowPagination]="false"
+          nzSize="small">
           <colgroup>
             <col width="90%">
             <col width="10%">
@@ -96,17 +134,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let pathway of pathwaysTable.data">
-              <td>
-                {{ pathway.name }}
-              </td>
-              <td class="button-col">
-                <a nz-button href="{{ pathway?.link }}" target="_blank"
-                  nzType="default" nzSize="small">
-                  {{ pathway.src}}
-                </a>
-              </td>
-            </tr>
+            <ng-template nz-virtual-scroll let-pathway let-index="index">
+              <tr >
+                <td>
+                  {{ pathway.name }}
+                </td>
+                <td class="button-col">
+                  <a *ngIf="pathway?.link; else noPathwayLink" nz-button href="{{ pathway?.link }}" target="_blank"
+                    nzType="default" nzSize="small">
+                    {{ pathway.src}}
+                  </a>
+                  <ng-template #noPathwayLink>
+                    {{ pathway.src}}
+                  </ng-template>
+                </td>
+              </tr>
+            </ng-template>
           </tbody>
         </nz-table>
       </ng-container>

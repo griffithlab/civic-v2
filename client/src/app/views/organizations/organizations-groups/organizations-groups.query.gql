@@ -1,0 +1,42 @@
+
+query OrganizationGroups(
+  $organizationId: Int!
+) {
+  organization(id: $organizationId) {
+    subGroups {
+      ...OrganizationGroupsFields
+    }
+  }
+}
+
+fragment OrganizationGroupsFields on Organization {
+  id
+  name
+  description
+  profileImagePath(size: 12)
+  orgStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  orgAndSuborgsStatsHash {
+    comments
+    revisions
+    appliedRevisions
+    submittedEvidenceItems
+    acceptedEvidenceItems
+    suggestedSources
+    submittedAssertions
+    acceptedAssertions
+  }
+  subGroups {
+    id
+    name
+    profileImagePath(size: 12)
+  }
+} 

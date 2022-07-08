@@ -1,0 +1,19 @@
+<ng-container *ngIf="organization$ | ngrxPush as organization">
+  <cvc-section-navigation [displayName]="organization.name">
+  </cvc-section-navigation>
+
+  <nz-page-header class="site-page-header">
+
+    <!-- content -->
+    <nz-page-header-content>
+      <div class="detail-content">
+        <cvc-organization-card [organization]="organization"
+          [inCard]="false"></cvc-organization-card>
+      </div>
+      <cvc-tab-navigation [tabs]="tabs$ | ngrxPush"></cvc-tab-navigation>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+</ng-container>

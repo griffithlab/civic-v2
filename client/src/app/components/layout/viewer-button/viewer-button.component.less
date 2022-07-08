@@ -1,0 +1,60 @@
+@import "themes/global-variables.less";
+@import "ng-zorro-antd/style/color/colors.less";
+
+:host {
+  display: inline-block;
+}
+
+.topMenuIcon:hover {
+  cursor: pointer;
+}
+
+.topMenuIcon {
+  font-size: 16px;
+
+  .topBarBadge {
+    margin-right: -10px;
+    margin-top: -16px;
+  }
+  .topMenuSecondary {
+    font-size: 10px;
+    margin-left: 2px;
+  }
+}
+
+@button-background: #0050b3;
+@button-border: #096dd9;
+
+.add-btn {
+  margin-right: 0;
+  background-color: @layout-header-background;
+  border: none;
+  color: #ccc;
+}
+
+.notification-btn {
+  background-color: @layout-header-background;
+  border: 1px solid @button-border;
+}
+
+.viewer-btn {
+  background-color: @button-background;
+  border: none;
+  color: #ccc;
+  padding-left: 5px;
+  padding-right: 10px;
+  cvc-user-avatar {
+    position: relative;
+    top: -1px;
+    left: 1px;
+    ::ng-deep .ant-avatar > img {
+      border-width: 1.5px;
+      border-style: solid;
+      border-color: @button-border;
+      border-radius: 22px;
+    }
+    &.update-coi ::ng-deep .ant-avatar > img {
+      border-color: #f5222d;
+    }
+  }
+}

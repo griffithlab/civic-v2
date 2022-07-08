@@ -1,0 +1,108 @@
+query EvidenceBrowse(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $diseaseName: String
+  $drugName: String
+  $id: Int
+  $description: String
+  $evidenceLevel: EvidenceLevel
+  $evidenceDirection: EvidenceDirection
+  $clinicalSignificance: EvidenceClinicalSignificance
+  $evidenceType: EvidenceType
+  $rating: Int
+  $variantOrigin: VariantOrigin
+  $variantId: Int
+  $assertionId: Int
+  $organizationId: Int
+  $userId: Int
+  $sortBy: EvidenceSort,
+  $phenotypeId: Int,
+  $diseaseId: Int,
+  $drugId: Int,
+  $sourceId: Int,
+  $clinicalTrialId: Int,
+  $geneSymbol: String,
+  $variantName: String
+  $status: EvidenceStatusFilter
+) {
+  evidenceItems(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    diseaseName: $diseaseName
+    drugName: $drugName
+    id: $id
+    description: $description
+    evidenceLevel: $evidenceLevel
+    evidenceDirection: $evidenceDirection
+    clinicalSignificance: $clinicalSignificance
+    evidenceType: $evidenceType
+    evidenceRating: $rating
+    variantOrigin: $variantOrigin
+    variantId: $variantId
+    assertionId: $assertionId
+    organizationId: $organizationId
+    userId: $userId
+    phenotypeId: $phenotypeId
+    diseaseId: $diseaseId
+    drugId: $drugId
+    sourceId: $sourceId
+    clinicalTrialId: $clinicalTrialId,
+    geneSymbol: $geneSymbol,
+    variantName: $variantName,
+    status: $status,
+    sortBy: $sortBy
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        ...EvidenceGridFields
+      }
+    }
+  }
+}
+
+fragment EvidenceGridFields on EvidenceItem {
+    id
+    name
+    link
+    disease {
+      id
+      name
+      link
+    }
+    drugs {
+      id
+      name
+      link
+    }
+    gene {
+      id
+      name
+      link
+    }
+    variant {
+      id
+      name
+      link
+    }
+    status
+    drugInteractionType
+    description
+    evidenceType
+    evidenceDirection
+    evidenceLevel
+    evidenceRating
+    clinicalSignificance
+    variantOrigin
+}

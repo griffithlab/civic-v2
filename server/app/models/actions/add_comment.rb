@@ -25,7 +25,7 @@ module Actions
         organization: resolve_organization(originating_user, organization_id),
         originating_object: comment
       )
-      #handle_mentions
+      handle_mentions
       subscribe_user
     end
 
@@ -39,7 +39,7 @@ module Actions
     end
 
     def handle_mentions
-      NotifyMentioned.perform_later(comment.text, comment.user, event)
+      ::CaptureMentionsAndNotify.perform_later(comment, event)
     end
 
     def subscribe_user
