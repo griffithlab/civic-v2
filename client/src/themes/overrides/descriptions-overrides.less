@@ -1,3 +1,17 @@
-::ng-deep .ant-descriptions-item-label {
-  font-weight: 500;
+@import 'themes/global-variables.less';
+
+:host ::ng-deep nz-descriptions {
+  .ant-descriptions-item-label {
+    font-weight: 500;
+  }
+  .ant-descriptions-header {
+    margin-top: @margin-xs;
+    margin-bottom: @margin-xs;
+    padding-left: @padding-md;
+  }
+  .ant-descriptions-title {
+    font-weight: 500;
+    color: @text-color-secondary;
+    font-size: @font-size-base;
+  }
 }
