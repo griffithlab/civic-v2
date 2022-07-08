@@ -10,6 +10,7 @@ query SourceSummary(
 fragment SourceSummaryFields on Source {
   id
   displayType
+  sourceUrl
   title
   abstract
   publicationDate
@@ -21,4 +22,4 @@ fragment SourceSummaryFields on Source {
     nctId
     id
   }
-} 
+}

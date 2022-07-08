@@ -13,7 +13,11 @@
       <nz-descriptions nzBordered
         [nzColumn]="1">
         <nz-descriptions-item nzTitle="Published">{{ source.publicationDate }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="{{source.displayType}} ID">{{ source.citationId }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="{{source.displayType}} ID">
+        <cvc-link-tag [href]="source.sourceUrl" [tooltip]="'View on ' + source.displayType">
+            {{ source.displayType + ':' + source.citationId }}
+        </cvc-link-tag>
+        </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Journal">{{ source.fullJournalTitle }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="PMC ID">
           <ng-container *ngIf="source.pmcId; else notAvailable">
