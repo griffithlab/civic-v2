@@ -1,9 +1,6 @@
-
-query VariantSummary(
-  $variantId: Int!
-) {
+query VariantSummary($variantId: Int!) {
   variant(id: $variantId) {
-      ...VariantSummaryFields
+    ...VariantSummaryFields
   }
 }
 
@@ -12,23 +9,24 @@ fragment VariantSummaryFields on Variant {
   name
   description
   gene {
-      id
-      name
+    id
+    name
+    link
   }
   sources {
-      id
-      citation
-      sourceUrl
+    id
+    citation
+    sourceUrl
     displayType
-      sourceType
+    sourceType
   }
   variantAliases
   alleleRegistryId
   variantTypes {
-      id
-      link
-      soid
-      name
+    id
+    link
+    soid
+    name
   }
   hgvsDescriptions
   clinvarIds
@@ -36,16 +34,16 @@ fragment VariantSummaryFields on Variant {
   referenceBuild
   ensemblVersion
   primaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
+    representativeTranscript
+    chromosome
+    start
+    stop
   }
   secondaryCoordinates {
-      representativeTranscript
-      chromosome
-      start
-      stop
+    representativeTranscript
+    chromosome
+    start
+    stop
   }
   referenceBases
   variantBases
