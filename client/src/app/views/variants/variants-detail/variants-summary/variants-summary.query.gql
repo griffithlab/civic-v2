@@ -14,12 +14,13 @@ fragment VariantSummaryFields on Variant {
   gene {
       id
       name
+      link
   }
   sources {
       id
       citation
       sourceUrl
-    displayType
+      displayType
       sourceType
   }
   variantAliases
