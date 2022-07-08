@@ -54,6 +54,7 @@ export class CvcSourceTagComponent extends BaseCloseableTag implements OnInit {
   @Input() enablePopover: Maybe<boolean> = true
   @Input() linked: Maybe<boolean> = true
   @Input() mode: 'normal' | 'concise' = 'normal'
+  @Input() truncateLongName: Maybe<boolean> = false
 
   displayName!: string
 

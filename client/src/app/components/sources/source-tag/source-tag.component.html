@@ -12,8 +12,8 @@
     nzPopoverPlacement="right"
     nzPopoverTrigger="hover"
     [(nzPopoverVisible)]="popoverVisible"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)"
-    >
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -23,7 +23,8 @@
 </ng-template>
 
 <ng-template #noPopover>
-  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 </ng-template>
@@ -36,7 +37,16 @@
   <i nz-icon
     nzType="civic-source"
     nzTheme="twotone"
-    nzTwotoneColor="#F9BA45"></i> 
-    <ng-container *ngIf="this.mode === 'normal'; else concise">&nbsp;{{this.displayName}}</ng-container>
-    <ng-template #concise>&nbsp;SID{{source.id}}</ng-template>
+    nzTwotoneColor="#F9BA45"></i>
+  <ng-container *ngIf="this.mode === 'normal'; else concise">
+    <ng-container *ngIf="truncateLongName">
+    {{ this.displayName | truncate: 50}}
+    </ng-container>
+    <ng-container *ngIf="!truncateLongName">
+    {{ this.displayName }}
+    </ng-container>
+  </ng-container>
+  <ng-template #concise>
+    SID:{{source.id}}
+  </ng-template>
 </ng-template>
