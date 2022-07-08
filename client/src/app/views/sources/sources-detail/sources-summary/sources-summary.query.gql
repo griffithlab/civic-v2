@@ -9,6 +9,7 @@ query SourceSummary(
 
 fragment SourceSummaryFields on Source {
   id
+  citation
   displayType
   sourceUrl
   title

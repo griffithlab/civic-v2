@@ -5700,9 +5700,9 @@ export type SourceSummaryQueryVariables = Exact<{
 }>;
 
 
-export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined } | undefined };
+export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined } | undefined };
 
-export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined };
+export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined };
 
 export type UserDetailQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -7563,6 +7563,7 @@ export const SourceDetailFieldsFragmentDoc = gql`
 export const SourceSummaryFieldsFragmentDoc = gql`
     fragment SourceSummaryFields on Source {
   id
+  citation
   displayType
   sourceUrl
   title
