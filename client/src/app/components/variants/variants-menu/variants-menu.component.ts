@@ -87,8 +87,10 @@ export class CvcVariantsMenuComponent implements OnInit {
     this.debouncedQuery.next();
   }
 
-  onVariantStatusFilterChanged(_: VariantDisplayFilter) {
-    this.refresh();
+  onVariantStatusFilterChanged(filter: VariantDisplayFilter) {
+    this.queryRef$.refetch({
+      evidenceStatusFilter: filter
+    })
   }
 
   onVariantSortOrderChanged(col: VariantMenuSortColumns) {
