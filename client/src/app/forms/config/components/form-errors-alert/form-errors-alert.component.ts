@@ -12,6 +12,9 @@ export class CvcFormErrorsAlertComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.errors.length == 1) {
+      this.errors = this.errors[0].split("|")
+    }
   }
 
 }
