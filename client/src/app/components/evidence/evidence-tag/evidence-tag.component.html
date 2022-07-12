@@ -5,7 +5,7 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
+  <nz-tag [ngClass]="{ rejected: evidence.status === 'REJECTED', submitted: evidence.status === 'SUBMITTED', accepted: evidence.status === 'ACCEPTED' }"
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
@@ -27,5 +27,7 @@
   <i nz-icon
     nzType="civic-evidence"
     nzTheme="twotone"
-    nzTwotoneColor="#F68F37"></i> {{ evidence.name }}
+    [nzTwotoneColor]="evidence.status === 'REJECTED' ? '#BBB' : '#F68F37'">
+  </i>
+  {{ evidence.name }}
 </ng-template>

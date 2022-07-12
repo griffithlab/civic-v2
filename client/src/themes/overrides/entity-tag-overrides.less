@@ -1,0 +1,15 @@
+@import 'themes/global-variables.less';
+
+:host ::ng-deep nz-tag {
+  &.rejected {
+    border-color: lighten(@border-color-base, 5%);
+    border-right-width: 5px;
+    background-color: #FFF;
+    color: lighten(@tag-default-color, 60%)
+  }
+  &.submitted{
+    border-right-width: 5px;
+    border-color: #ffe58f;
+  }
+  // no style modifications for accepted status
+}
