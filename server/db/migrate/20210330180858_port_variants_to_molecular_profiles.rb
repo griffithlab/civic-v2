@@ -1,13 +1,13 @@
 class PortVariantsToMolecularProfiles < ActiveRecord::Migration[6.1]
   def up
     Variant.all.each do |v|
-      mp = MolecularProfile.create(name: "#{v.gene.name} #{v.name}")
+      mp = MolecularProfile.create(name: "#GID#{v.gene_id} #VID#{v.id}")
       mp.variants << v
       v.evidence_items.each do |eid|
         eid.molecular_profile = mp
-        eid.save
+        eid.save!(validate: false)
       end
-      mp.save
+      mp.save!
     end
 
     #TODO do we want an event for this?

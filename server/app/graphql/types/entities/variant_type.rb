@@ -7,6 +7,7 @@ module Types::Entities
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::MolecularProfileComponent
 
     field :id, Int, null: false
     field :name, String, null: false

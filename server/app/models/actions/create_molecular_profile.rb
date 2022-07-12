@@ -12,7 +12,7 @@ module Actions
     private
     def execute
       name = parse_name_from_complex_component(structure)
-      mp = MolecularProfile.where(name: name).first_or_create
+      mp = MolecularProfile.where(name: name).first_or_create!
       mp.variants = variants
       mp.save
       @molecular_profile = mp
@@ -52,9 +52,9 @@ module Actions
     end
 
     def parse_name_from_variant_components(components, boolean_operator)
-      variant_names = components.map do |c|
+      variant_names = components.sort_by { |c| c.variant_id }.map do |c|
         variant = Variant.find(c.variant_id)
-        name = "#{variant.gene.name} #{variant.name}"
+        name = "#GID#{variant.gene.id} #VID#{variant.id}"
         if c.not
           name = "NOT #{name}"
         end

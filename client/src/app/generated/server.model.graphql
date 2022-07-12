@@ -2662,7 +2662,7 @@ input FlaggableInput {
   id: Int!
 }
 
-type Gene implements Commentable & EventSubject & Flaggable & WithRevisions {
+type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
   """
   List and filter comments.
   """
@@ -3149,6 +3149,34 @@ type ModeratedObjectField {
   link: String
 }
 
+type MolecularProfile {
+  id: Int!
+
+  """
+  The humman readable name of this profile, including gene and variant names.
+  """
+  name: String!
+
+  """
+  The profile name with its constituent parts as objects, suitable for building tags.
+  """
+  parsedName: [MolecularProfileSegment!]!
+
+  """
+  The profile name as stored, with ids rather than names.
+  """
+  rawName: String!
+}
+
+"""
+A taggable/linkable component of a molecular profile
+"""
+interface MolecularProfileComponent {
+  id: Int!
+  link: String!
+  name: String!
+}
+
 input MolecularProfileComponentInput {
   """
   Boolean operation used to combined the components into a Molecular Profile.
@@ -3164,6 +3192,16 @@ input MolecularProfileComponentInput {
   One or more single Variants that make up the Molecular Profile.
   """
   variantComponents: [VariantComponent!]
+}
+
+"""
+A segment of a molecular profile. Either a string representing a boolean
+operator or a tag component representing a gene or variant
+"""
+union MolecularProfileSegment = Gene | MolecularProfileTextSegment | Variant
+
+type MolecularProfileTextSegment {
+  text: String!
 }
 
 type Mutation {
@@ -4704,6 +4742,11 @@ type Query {
     """
     last: Int
   ): GeneConnection!
+
+  """
+  Find a molecular profile by CIViC ID
+  """
+  molecularProfile(id: Int!): MolecularProfile
 
   """
   Retrieve NCCN Guideline options as a typeahead
@@ -6853,7 +6896,7 @@ type ValidationErrors {
   validationErrors: [FieldValidationError!]!
 }
 
-type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+type Variant implements Commentable & EventOriginObject & EventSubject & Flaggable & MolecularProfileComponent & WithRevisions {
   alleleRegistryId: String
   clinvarIds: [String!]!
 

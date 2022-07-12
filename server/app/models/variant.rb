@@ -65,5 +65,4 @@ class Variant < ApplicationRecord
   def update_allele_registry_id
     SetAlleleRegistryIdSingleVariant.perform_later(self)
   end
->>>>>>> main
 end

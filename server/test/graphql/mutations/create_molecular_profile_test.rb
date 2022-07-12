@@ -19,7 +19,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfileId"]
     mp = MolecularProfile.find(mp_id)
-    assert_equal(mp.name, "BRAF V600E")
+    assert_equal(mp.display_name, "BRAF V600E")
     assert_equal(mp.variants, [@variant])
   end
 
@@ -61,7 +61,45 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
 
     mp_id = response["data"]["createMolecularProfile"]["molecularProfileId"]
     mp = MolecularProfile.find(mp_id)
-    assert_equal(mp.name, "BRAF V600E AND NOT BRAF V600K AND ( VHL W88* OR VHL V87E (c.260T>A) )")
+    assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
+    assert_equal(mp.variants, [@variant, v2, v3, v4])
+  end
+
+  test "ordering should be deterministic, at least in variant components" do
+    v2 = variants(:v600k)
+    v3 = variants(:w88)
+    v4 = variants(:v87e)
+    query_string = <<-GRAPHQL
+    mutation {
+      createMolecularProfile(
+        input: {
+          structure: {
+            variantComponents: [
+              { variantId: #{v2.id}, not: true },
+              { variantId: #{@variant.id}, not: false }
+            ]
+            booleanOperator: AND
+            complexComponents: {
+              variantComponents: [
+                { variantId: #{v4.id}, not: false },
+                { variantId: #{v3.id}, not: false }
+              ]
+              booleanOperator: OR
+            }
+          }
+        }
+      ) {
+        molecularProfileId
+      }
+    }
+    GRAPHQL
+
+
+    response = Civic2Schema.execute(query_string, context: { current_user: users(:curator) })
+
+    mp_id = response["data"]["createMolecularProfile"]["molecularProfileId"]
+    mp = MolecularProfile.find(mp_id)
+    assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
     assert_equal(mp.variants, [@variant, v2, v3, v4])
   end
 end

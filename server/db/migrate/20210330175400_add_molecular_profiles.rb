@@ -2,6 +2,7 @@ class AddMolecularProfiles < ActiveRecord::Migration[6.1]
   def change
     create_table :molecular_profiles do |t|
       t.string :name
+      t.timestamps
     end
     add_index :molecular_profiles, :name
 

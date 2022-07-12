@@ -69,6 +69,11 @@ module Types
       argument :id, Int, required: true
     end
 
+    field :molecular_profile, Types::Entities::MolecularProfileType, null: true do
+      description "Find a molecular profile by CIViC ID"
+      argument :id, Int, required: true
+    end
+
     field :source, Types::Entities::SourceType, null: true do
       description "Find a source by CIViC ID"
       argument :id, Int, required: true
@@ -149,6 +154,10 @@ module Types
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
     field :timepoint_stats, Types::CivicTimepointStats, null: false
+
+    def molecular_profile(id: )
+      MolecularProfile.find_by(id: id)
+    end
 
     def disease(id: )
       Disease.find_by(id: id)
