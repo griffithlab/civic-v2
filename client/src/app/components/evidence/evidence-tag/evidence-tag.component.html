@@ -5,24 +5,18 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover" nz-popover
+  <nz-tag
+    nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover"
-    [nzColor]="evidence.status | colorNameForStatus">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
     <cvc-evidence-popover *ngIf="enablePopover"
       [evidenceId]="evidence.id"></cvc-evidence-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag [nzColor]="evidence.status | colorNameForStatus">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>

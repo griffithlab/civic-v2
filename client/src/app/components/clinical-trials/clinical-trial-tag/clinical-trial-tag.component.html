@@ -5,24 +5,18 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
+  <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="clinicalTrialPopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #clinicalTrialPopover>
     <cvc-clinical-trial-popover [clinicalTrialId]="clinicalTrial.id"></cvc-clinical-trial-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag>
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>

@@ -3,24 +3,18 @@
 </a>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
+  <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="revisionPopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
   <ng-template #revisionPopover>
     <cvc-revision-popover [revisionId]="revision.id"></cvc-revision-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag>
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #tagContent>
