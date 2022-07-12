@@ -1,37 +1,16 @@
-<ng-container *ngIf="variant$ | ngrxPush as variant">
-  <cvc-section-navigation [displayName]="variant.gene.name + ' ' + variant.name"
-    [relationsTpl]="variantRelations">
+<ng-container *ngIf="molecularProfile$ | ngrxPush as mp">
+  <cvc-section-navigation [displayName]="mp.name">
   </cvc-section-navigation>
-  <ng-template #variantRelations>
-    <nz-space nzDirection="horizontal">
-
-      <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem><strong>{{ variant.name }}</strong> Parent:</span>
-      <span *nzSpaceItem class="tags">
-        <a routerLink="/genes/{{ variant.gene.id }}">
-          <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
-        </a>
-      </span>
-
-    </nz-space>
-  </ng-template>
 
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
     <nz-page-header class="site-page-header">
       <!-- title -->
       <nz-page-header-title cvcFlaggableOptions
-        [ngClass]="{ 'flagged': variant.flags.totalCount > 0 }">
+        [ngClass]="{ 'flagged': mp.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:variant"></i> {{ variant.name }}
+          nzType="civic:molecularprofile"></i> {{ mp.name }}
       </nz-page-header-title>
-
-      <!-- subtitle -->
-      <nz-page-header-subtitle *ngIf="variant.variantAliases.length > 0">
-        <span *ngFor="let alias of variant.variantAliases; last as isLast">
-          {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
-        </span>
-      </nz-page-header-subtitle>
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
@@ -41,7 +20,7 @@
 
           <!-- add revision btn -->
           <span *nzSpaceItem>
-            <button [routerLink]="['/variants', variant.id, 'revise']"
+            <button [routerLink]="['/molecular-profiles', mp.id, 'revise']"
               *ngIf="viewer.signedIn"
               routerLinkActive
               #rlaComments="routerLinkActive"

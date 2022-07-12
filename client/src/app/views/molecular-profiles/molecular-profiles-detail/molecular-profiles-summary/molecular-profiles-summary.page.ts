@@ -1,14 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  VariantSummaryGQL,
   Maybe,
-  VariantSummaryQuery,
-  VariantSummaryQueryVariables,
-  VariantSummaryFieldsFragment,
+  MolecularProfileSummaryQuery,
+  MolecularProfileSummaryQueryVariables,
   SubscribableInput,
   SubscribableEntities,
-  MyVariantInfoFieldsFragment,
+  MolecularProfileSummaryFieldsFragment,
+  MolecularProfileSummaryGQL,
 } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { pluck, startWith } from 'rxjs/operators';
@@ -20,44 +19,39 @@ import { Observable } from 'rxjs';
   styleUrls: ['./molecular-profiles-summary.page.less'],
 })
 export class MolecularProfilesSummaryPage {
-  @Input() variantId: Maybe<number>;
+  @Input() molecularProfileId: Maybe<number>;
 
-  queryRef: QueryRef<VariantSummaryQuery, VariantSummaryQueryVariables>;
+  queryRef: QueryRef<MolecularProfileSummaryQuery, MolecularProfileSummaryQueryVariables>;
   loading$: Observable<boolean>;
-  variant$: Observable<Maybe<VariantSummaryFieldsFragment>>;
-  variantInfo$: Observable<Maybe<MyVariantInfoFieldsFragment>>;
+  molecularProfile$: Observable<Maybe<MolecularProfileSummaryFieldsFragment>>;
 
   subscribable: SubscribableInput;
 
-  constructor(private gql: VariantSummaryGQL, private route: ActivatedRoute) {
-    var queryVariantId: number;
-    if (this.variantId) {
-      queryVariantId = this.variantId;
+  constructor(private gql: MolecularProfileSummaryGQL, private route: ActivatedRoute) {
+    var queryMpId: number;
+    if (this.molecularProfileId) {
+      queryMpId = this.molecularProfileId;
     } else {
-      queryVariantId = +this.route.snapshot.params['variantId'];
+      queryMpId = +this.route.snapshot.params['molecularProfileId'];
     }
 
-    if (queryVariantId == undefined) {
+    if (queryMpId == undefined) {
       throw new Error(
-        'Must pass in a variant ID as an input or via the route.'
+        'Must pass in a molecular profile ID as an input or via the route.'
       );
     }
 
-    this.queryRef = this.gql.watch({ variantId: queryVariantId });
+    this.queryRef = this.gql.watch({ mpId: queryMpId });
 
     let observable = this.queryRef.valueChanges;
 
     this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-    this.variant$ = observable.pipe(pluck('data', 'variant'));
-
-    this.variantInfo$ = observable.pipe(
-      pluck('data', 'variant', 'myVariantInfo')
-    );
+    this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'));
 
     this.subscribable = {
-      entityType: SubscribableEntities.Variant,
-      id: queryVariantId,
+      entityType: SubscribableEntities.MolecularProfile,
+      id: queryMpId,
     };
   }
 }

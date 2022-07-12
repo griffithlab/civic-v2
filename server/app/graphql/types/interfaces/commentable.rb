@@ -31,6 +31,8 @@ module Types::Interfaces
           Types::Entities::VariantGroupType
         when Source
           Types::Entities::SourceType
+        when MolecularProfile
+          Types::Entities::MolecularProfile
         else
           raise "Unexpected Commentable type: #{object.class}"
         end

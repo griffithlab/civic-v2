@@ -115,6 +115,8 @@ export class CvcCommentInputForm implements OnDestroy, OnChanges {
         return `AID${id}`;
       case TaggableEntity.Revision:
         return `RID${id}`;
+      case TaggableEntity.MolecularProfile:
+        return `MPID${id}`
       case TaggableEntity.Role:
         return Object.keys(UserRole)[id];
     }

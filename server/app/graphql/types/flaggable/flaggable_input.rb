@@ -21,6 +21,8 @@ module Types::Flaggable
         Assertion
       when 'VARIANT_GROUP'
         VariantGroup
+      when 'MOLECULAR_PROFILE'
+        MolecularProfile
       else
         raise 'Unknown Enum Value'
       end

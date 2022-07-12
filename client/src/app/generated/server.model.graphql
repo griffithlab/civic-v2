@@ -1517,6 +1517,7 @@ enum CommentableEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  MOLECULAR_PROFILE
   SOURCE
   VARIANT
   VARIANT_GROUP
@@ -2643,6 +2644,7 @@ enum FlaggableEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  MOLECULAR_PROFILE
   VARIANT
   VARIANT_GROUP
 }
@@ -3111,6 +3113,7 @@ enum ModeratedEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  MOLECULAR_PROFILE
   VARIANT
   VARIANT_GROUP
 }
@@ -3149,11 +3152,143 @@ type ModeratedObjectField {
   link: String
 }
 
-type MolecularProfile {
-  id: Int!
+type MolecularProfile implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
+  """
+  List and filter comments.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to comments that mention a certain entity
+    """
+    mentionedEntity: TaggableEntityInput
+
+    """
+    Limit to comments that mention a certain user role
+    """
+    mentionedRole: UserRole
+
+    """
+    Limit to comments that mention a certain user
+    """
+    mentionedUserId: Int
+
+    """
+    Limit to comments by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): CommentConnection!
 
   """
-  The humman readable name of this profile, including gene and variant names.
+  List and filter events for an object
+  """
+  events(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    eventType: EventAction
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    organizationId: Int
+    originatingUserId: Int
+
+    """
+    Sort order for the events. Defaults to most recent.
+    """
+    sortBy: DateSort
+  ): EventConnection!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
+  id: Int!
+  lastAcceptedRevisionEvent: Event
+  lastCommentEvent: Event
+  lastSubmittedRevisionEvent: Event
+  link: String!
+
+  """
+  The human readable name of this profile, including gene and variant names.
   """
   name: String!
 
@@ -3166,6 +3301,56 @@ type MolecularProfile {
   The profile name as stored, with ids rather than names.
   """
   rawName: String!
+
+  """
+  List and filter revisions.
+  """
+  revisions(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit to revisions on a particular field.
+    """
+    fieldName: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to revisions by a certain user
+    """
+    originatingUserId: Int
+
+    """
+    Limit to revisions suggested as part of a single Revision Set.
+    """
+    revisionsetId: String
+
+    """
+    Sort order for the comments. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to revisions with a certain status
+    """
+    status: RevisionStatus
+  ): RevisionConnection!
 }
 
 """
@@ -6119,6 +6304,7 @@ enum SubscribableEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  MOLECULAR_PROFILE
   REVISION
   SOURCE_SUGGESTION
   VARIANT
@@ -6553,6 +6739,7 @@ enum TaggableEntity {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  MOLECULAR_PROFILE
   REVISION
   ROLE
   VARIANT

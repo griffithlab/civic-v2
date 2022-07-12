@@ -156,7 +156,7 @@ module Types
     field :timepoint_stats, Types::CivicTimepointStats, null: false
 
     def molecular_profile(id: )
-      MolecularProfile.find_by(id: id)
+      ::MolecularProfile.find_by(id: id)
     end
 
     def disease(id: )

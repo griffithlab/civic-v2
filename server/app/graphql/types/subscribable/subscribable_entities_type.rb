@@ -8,5 +8,6 @@ module Types::Subscribable
     value 'REVISION', value: 'Revision'
     value 'VARIANT_GROUP', value: 'VariantGroup'
     value 'SOURCE_SUGGESTION', value: 'SourceSuggestion'
+    value 'MOLECULAR_PROFILE', value: 'MolecularProfile'
   end
 end

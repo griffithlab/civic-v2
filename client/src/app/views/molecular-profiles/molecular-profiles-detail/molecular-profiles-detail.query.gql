@@ -1,19 +1,12 @@
-query VariantDetail(
-  $variantId: Int!
-) {
-  variant(id: $variantId) {
-    ...VariantDetailFields
+query MolecularProfileDetail($mpId: Int!) {
+  molecularProfile(id: $mpId) {
+    ...MolecularProfileDetailFields
   }
 }
 
-fragment VariantDetailFields on Variant {
+fragment MolecularProfileDetailFields on MolecularProfile {
   id
   name
-  gene {
-    id
-    name
-  }
-  variantAliases
   flags(state: OPEN) {
     totalCount
   }

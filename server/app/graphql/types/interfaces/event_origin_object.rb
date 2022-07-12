@@ -38,6 +38,8 @@ module Types::Interfaces
           Types::Entities::SourceSuggestionType
         when Variant
           Types::Entities::VariantType
+        when MolecularProfile
+          Types::Entities::MolecularProfileType
         else
           raise "Unexpected EventOriginObject type: #{object.class}"
         end

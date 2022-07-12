@@ -1,4 +1,9 @@
 class MolecularProfile < ActiveRecord::Base
+  include Moderated
+  include Subscribable
+  include Flaggable
+  include Commentable
+
   has_and_belongs_to_many :variants
   has_many :evidence_items
 

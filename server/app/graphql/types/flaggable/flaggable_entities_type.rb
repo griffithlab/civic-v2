@@ -6,5 +6,6 @@ module Types::Flaggable
     value 'EVIDENCE_ITEM'
     value 'ASSERTION'
     value 'VARIANT_GROUP'
+    value 'MOLECULAR_PROFILE'
   end
 end

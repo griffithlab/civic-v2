@@ -21,6 +21,8 @@ module Types::Commentable
         VariantGroup
       when 'REVISION'
         Revision
+      when 'MOLECULAR_PROFILE'
+        MolecularProfile
       else
         #it was a role
         nil

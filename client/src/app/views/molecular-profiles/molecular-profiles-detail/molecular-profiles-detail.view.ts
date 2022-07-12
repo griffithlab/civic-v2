@@ -2,18 +2,18 @@ import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Maybe,
+  MolecularProfileDetailFieldsFragment,
+  MolecularProfileDetailGQL,
+  MolecularProfileDetailQuery,
+  MolecularProfileDetailQueryVariables,
   SubscribableEntities,
   SubscribableInput,
-  VariantDetailFieldsFragment,
-  VariantDetailGQL,
-  VariantDetailQueryVariables,
 } from '@app/generated/civic.apollo';
 import {
   Viewer,
   ViewerService,
 } from '@app/core/services/viewer/viewer.service';
 import { QueryRef } from 'apollo-angular';
-import { VariantDetailQuery } from '@app/generated/civic.apollo';
 import { pluck, startWith, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigation.component';
@@ -24,9 +24,9 @@ import { RouteableTab } from '@app/components/shared/tab-navigation/tab-navigati
   styleUrls: ['./molecular-profiles-detail.view.less'],
 })
 export class MolecularProfilesDetailView implements OnDestroy {
-  queryRef?: QueryRef<VariantDetailQuery, VariantDetailQueryVariables>;
+  queryRef?: QueryRef<MolecularProfileDetailQuery, MolecularProfileDetailQueryVariables>;
 
-  variant$?: Observable<Maybe<VariantDetailFieldsFragment>>;
+  molecularProfile$?: Observable<Maybe<MolecularProfileDetailFieldsFragment>>;
   loading$?: Observable<boolean>;
   commentsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
@@ -66,26 +66,26 @@ export class MolecularProfilesDetailView implements OnDestroy {
     ]
 
   constructor(
-    private gql: VariantDetailGQL,
+    private gql: MolecularProfileDetailGQL,
     private viewerService: ViewerService,
     private route: ActivatedRoute
   ) {
     this.tabs$ = new BehaviorSubject(this.defaultTabs);
 
     this.routeSub = this.route.params.subscribe((params) => {
-      this.queryRef = this.gql.watch({ variantId: +params.variantId });
+      this.queryRef = this.gql.watch({ mpId: +params.molecularProfileId });
 
       let observable = this.queryRef.valueChanges;
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-      this.variant$ = observable.pipe(pluck('data', 'variant'));
+      this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'));
 
-      this.commentsTotal$ = this.variant$.pipe(pluck('comments', 'totalCount'));
+      this.commentsTotal$ = this.molecularProfile$.pipe(pluck('comments', 'totalCount'));
 
-      this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'));
+      this.flagsTotal$ = this.molecularProfile$.pipe(pluck('flags', 'totalCount'));
 
-      this.variant$.pipe(
+      this.molecularProfile$.pipe(
         pluck('revisions', 'totalCount'),
         takeUntil(this.destroy$)
       ).subscribe({
@@ -107,8 +107,8 @@ export class MolecularProfilesDetailView implements OnDestroy {
       })
 
       this.subscribable = {
-        id: +params.variantId,
-        entityType: SubscribableEntities.Variant
+        id: +params.molecularProfileId,
+        entityType: SubscribableEntities.MolecularProfile
       }
 
       this.viewer$ = this.viewerService.viewer$;

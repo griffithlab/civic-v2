@@ -21,6 +21,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { MolecularProfilesSummaryPage } from './molecular-profiles-summary.page';
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
 
 @NgModule({
   declarations: [MolecularProfilesSummaryPage],
@@ -43,9 +44,8 @@ import { MolecularProfilesSummaryPage } from './molecular-profiles-summary.page'
     CvcGeneTagModule,
     CvcVariantTypeTagModule,
     CvcLinkTagModule,
-    CvcMyVariantInfoModule,
     CvcEmptyRevisableModule,
-    CvcEventFeedModule,
+    CvcMolecularProfileTagNameModule
   ],
   exports: [MolecularProfilesSummaryPage],
 })
