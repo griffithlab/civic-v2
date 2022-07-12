@@ -22,6 +22,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { MolecularProfilesSummaryPage } from './molecular-profiles-summary.page';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { CvcMolecularProfileVariantCardModule } from '@app/components/molecular-profiles/molecular-profile-variant-card/molecular-profile-variant-card.module';
 
 @NgModule({
   declarations: [MolecularProfilesSummaryPage],
@@ -45,7 +46,8 @@ import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-prof
     CvcVariantTypeTagModule,
     CvcLinkTagModule,
     CvcEmptyRevisableModule,
-    CvcMolecularProfileTagNameModule
+    CvcMolecularProfileTagNameModule,
+    CvcMolecularProfileVariantCardModule
   ],
   exports: [MolecularProfilesSummaryPage],
 })

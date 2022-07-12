@@ -14,6 +14,7 @@ query EvidenceBrowse(
   $rating: Int
   $variantOrigin: VariantOrigin
   $variantId: Int
+  $molecularProfileId: Int
   $assertionId: Int
   $organizationId: Int
   $userId: Int
@@ -43,6 +44,7 @@ query EvidenceBrowse(
     evidenceRating: $rating
     variantOrigin: $variantOrigin
     variantId: $variantId
+    molecularProfileId: $molecularProfileId
     assertionId: $assertionId
     organizationId: $organizationId
     userId: $userId

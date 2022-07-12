@@ -1,6 +1,6 @@
 class PortVariantsToMolecularProfiles < ActiveRecord::Migration[6.1]
   def up
-    Variant.all.each do |v|
+    Variant.find_each do |v|
       mp = MolecularProfile.create(name: "#GID#{v.gene_id} #VID#{v.id}")
       mp.variants << v
       v.evidence_items.each do |eid|

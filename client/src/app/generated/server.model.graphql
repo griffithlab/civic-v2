@@ -433,6 +433,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   link: String!
+  molecularProfile: MolecularProfile!
   name: String!
   nccnGuideline: NccnGuideline
   nccnGuidelineVersion: String
@@ -3154,6 +3155,11 @@ type ModeratedObjectField {
 
 type MolecularProfile implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   """
+  The collection of assertions associated with this molecular profile.
+  """
+  assertions: [Assertion!]!
+
+  """
   List and filter comments.
   """
   comments(
@@ -3351,6 +3357,11 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     status: RevisionStatus
   ): RevisionConnection!
+
+  """
+  The collection of variants included in this molecular profile. Please note the name for their relation to each other.
+  """
+  variants: [Variant!]!
 }
 
 """
@@ -4278,6 +4289,11 @@ type Query {
     last: Int
 
     """
+    Exact match filtering on the ID of the molecular_profile.
+    """
+    molecularProfileId: Int
+
+    """
     Exact match filtering on the ID of the organization the assertion was submitted under.
     """
     organizationId: Int
@@ -4795,6 +4811,11 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+
+    """
+    Exact match filtering on the ID of the molecular profile.
+    """
+    molecularProfileId: Int
 
     """
     Exact match filtering on the ID of the organization the evidence item was submitted under.

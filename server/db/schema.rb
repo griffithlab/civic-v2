@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_11_192437) do
+ActiveRecord::Schema.define(version: 2022_07_12_195529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,10 +97,12 @@ ActiveRecord::Schema.define(version: 2022_07_11_192437) do
     t.bigint "nccn_guideline_id"
     t.boolean "flagged", default: false, null: false
     t.integer "evidence_items_count"
+    t.bigint "molecular_profile_id"
     t.index ["description"], name: "index_assertions_on_description"
     t.index ["disease_id"], name: "index_assertions_on_disease_id"
     t.index ["drug_interaction_type"], name: "index_assertions_on_drug_interaction_type"
     t.index ["gene_id"], name: "index_assertions_on_gene_id"
+    t.index ["molecular_profile_id"], name: "index_assertions_on_molecular_profile_id"
     t.index ["nccn_guideline_id"], name: "index_assertions_on_nccn_guideline_id"
     t.index ["variant_id"], name: "index_assertions_on_variant_id"
     t.index ["variant_origin"], name: "index_assertions_on_variant_origin"
@@ -127,6 +129,12 @@ ActiveRecord::Schema.define(version: 2022_07_11_192437) do
     t.integer "evidence_item_id", null: false
     t.index ["assertion_id", "evidence_item_id"], name: "index_assertion_id_evidence_item_id"
     t.index ["evidence_item_id"], name: "index_assertions_evidence_items_on_evidence_item_id"
+  end
+
+  create_table "assertions_molecular_profiles", id: false, force: :cascade do |t|
+    t.bigint "molecular_profile_id", null: false
+    t.bigint "assertion_id", null: false
+    t.index ["molecular_profile_id", "assertion_id"], name: "idx_molecular_profile_assertion_id"
   end
 
   create_table "assertions_phenotypes", id: false, force: :cascade do |t|
@@ -836,6 +844,8 @@ ActiveRecord::Schema.define(version: 2022_07_11_192437) do
   add_foreign_key "assertions_drugs", "drugs"
   add_foreign_key "assertions_evidence_items", "assertions"
   add_foreign_key "assertions_evidence_items", "evidence_items"
+  add_foreign_key "assertions_molecular_profiles", "assertions"
+  add_foreign_key "assertions_molecular_profiles", "molecular_profiles"
   add_foreign_key "assertions_phenotypes", "assertions"
   add_foreign_key "assertions_phenotypes", "phenotypes"
   add_foreign_key "audits", "users"

@@ -1598,6 +1598,22 @@
               "deprecationReason": null
             },
             {
+              "name": "molecularProfile",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MolecularProfile",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "name",
               "description": null,
               "args": [],
@@ -14444,6 +14460,30 @@
           "description": null,
           "fields": [
             {
+              "name": "assertions",
+              "description": "The collection of assertions associated with this molecular profile.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Assertion",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "comments",
               "description": "List and filter comments.",
               "args": [
@@ -15054,6 +15094,30 @@
                   "kind": "OBJECT",
                   "name": "RevisionConnection",
                   "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "variants",
+              "description": "The collection of variants included in this molecular profile. Please note the name for their relation to each other.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Variant",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -19115,6 +19179,18 @@
                   "deprecationReason": null
                 },
                 {
+                  "name": "molecularProfileId",
+                  "description": "Exact match filtering on the ID of the molecular_profile.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
                   "name": "evidenceId",
                   "description": "Exact match filtering on the ID of evidence underlying the assertion.",
                   "type": {
@@ -21055,6 +21131,18 @@
                 {
                   "name": "variantId",
                   "description": "Exact match filtering on the ID of the variant.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "molecularProfileId",
+                  "description": "Exact match filtering on the ID of the molecular profile.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",

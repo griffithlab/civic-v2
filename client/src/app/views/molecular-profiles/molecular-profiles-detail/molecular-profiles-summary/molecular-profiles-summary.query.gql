@@ -8,6 +8,9 @@ query MolecularProfileSummary($mpId: Int!) {
 fragment MolecularProfileSummaryFields on MolecularProfile {
   id
   name
+  variants {
+    ...VariantMolecularProfileCardFields
+  }
   parsedName {
     __typename
     ... on MolecularProfileTextSegment {
@@ -24,4 +27,42 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
       link
     }
   }
+}
+
+
+fragment VariantMolecularProfileCardFields on Variant {
+  id
+  name
+  description
+  gene {
+      id
+      name
+      link
+  }
+  variantAliases
+  clinvarIds
+  alleleRegistryId
+  variantTypes {
+      id
+      link
+      soid
+      name
+  }
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+      representativeTranscript
+      chromosome
+      start
+      stop
+  }
+  secondaryCoordinates {
+      representativeTranscript
+      chromosome
+      start
+      stop
+  }
+  referenceBases
+  variantBases
+  hgvsDescriptions
 }

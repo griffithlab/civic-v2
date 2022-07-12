@@ -10,6 +10,7 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :variant, Types::Entities::VariantType, null: false
+    field :molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :gene, Types::Entities::GeneType, null: false
     field :clinical_significance, Types::AssertionClinicalSignificanceType, null: false
     field :summary, String, null: false
@@ -59,6 +60,10 @@ module Types::Entities
 
     def variant
       Loaders::RecordLoader.for(Variant).load(object.variant_id)
+    end
+
+    def molecular_profile
+      Loaders::RecordLoader.for(MolecularProfile).load(object.molecular_profile_id)
     end
 
     def gene

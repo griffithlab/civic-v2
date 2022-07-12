@@ -20,6 +20,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
@@ -102,6 +103,7 @@ export class CvcAssertionsTableComponent implements OnInit {
         {
           first: this.initialPageSize,
           variantId: this.variantId,
+          molecularProfileId: this.molecularProfileId,
           evidenceId: this.evidenceId,
           organizationId: this.organizationId,
           userId: this.userId,

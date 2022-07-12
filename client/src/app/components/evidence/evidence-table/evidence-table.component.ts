@@ -49,6 +49,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
   @Input() initialPageSize = 35
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
@@ -139,6 +140,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         status: this.status,
         userId: this.userId,
         variantId: this.variantId,
+        molecularProfileId: this.molecularProfileId,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput

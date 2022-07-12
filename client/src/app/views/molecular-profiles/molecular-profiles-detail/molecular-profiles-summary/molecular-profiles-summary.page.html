@@ -1,5 +1,4 @@
 <ng-container *ngIf="(molecularProfile$ | ngrxPush) as mp">
-
   <nz-row [nzGutter]="[8,16]">
     <nz-col [nzSpan]="24">
       <nz-descriptions nzSize="small" nzBordered="true" [nzColumn]="1" nzLayout="vertical">
@@ -63,31 +62,28 @@
       <nz-row [nzGutter]="[8,8]">
         <!-- variant related entities, attributes -->
         <nz-col [nzSpan]="24">
-          <nz-descriptions nzLayout="horizontal" nzSize="small"
-            [nzColumn]="{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }" nzBordered="true">
-
-          </nz-descriptions>
+          <cvc-mp-variant-card *ngFor="let v of mp.variants" [variant]="v"></cvc-mp-variant-card>
         </nz-col>
       </nz-row>
     </nz-col>
     <!-- END RIGHT COL -->
 
     <!-- evidence table -->
-    <!--     <nz-col nzSpan="24">
-      <cvc-evidence-table [variantId]="variant.id"
+    <nz-col nzSpan="24">
+      <cvc-evidence-table [molecularProfileId]="mp.id"
         [displayGeneAndVariant]="false"
         cvcHeight="300px"
-        cvcTitle="{{variant.name}} Evidence">
+        cvcTitle="Evidence">
       </cvc-evidence-table>
-    </nz-col> -->
+    </nz-col>
 
     <!-- assertions table -->
 
-    <!--     <nz-col nzSpan="24">
-      <cvc-assertions-table [variantId]="variant.id"
+    <nz-col nzSpan="24">
+      <cvc-assertions-table [molecularProfileId]="mp.id"
         cvcHeight="200px"
-        cvcTitle="{{variant.name}} Assertions">
+        cvcTitle="{{mp.name}} Assertions">
       </cvc-assertions-table>
-    </nz-col> -->
+    </nz-col>
   </nz-row>
 </ng-container>

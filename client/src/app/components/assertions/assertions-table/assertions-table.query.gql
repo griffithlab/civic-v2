@@ -11,6 +11,7 @@ query AssertionsBrowse (
   $clinicalSignificance: EvidenceClinicalSignificance
   $assertionType: EvidenceType
   $variantId: Int,
+  $molecularProfileId: Int,
   $evidenceId: Int,
   $geneName: String,
   $variantName: String,
@@ -36,6 +37,7 @@ query AssertionsBrowse (
     clinicalSignificance: $clinicalSignificance
     assertionType: $assertionType
     variantId: $variantId,
+    molecularProfileId: $molecularProfileId,
     sortBy: $sortBy,
     ampLevel: $ampLevel,
     geneName: $geneName,

@@ -13,6 +13,10 @@ module Types::Entities
       description: 'The human readable name of this profile, including gene and variant names.'
     field :parsed_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false, 
       description: 'The profile name with its constituent parts as objects, suitable for building tags.'
+    field :variants, [Types::Entities::VariantType], null: false,
+      description: 'The collection of variants included in this molecular profile. Please note the name for their relation to each other.'
+    field :assertions, [Types::Entities::AssertionType], null: false,
+      description: 'The collection of assertions associated with this molecular profile.'
 
     def raw_name
       object.name
@@ -24,6 +28,14 @@ module Types::Entities
 
     def parsed_name
       object.segments
+    end
+
+    def variants
+      Loaders::AssociationLoader.for(MolecularProfile, :variants).load(object)
+    end
+
+    def assertions
+      Loaders::AssociationLoader.for(MolecularProfile, :assertions).load(object)
     end
   end
 end
