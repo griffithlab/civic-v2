@@ -1,0 +1,34 @@
+:host {
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+}
+
+.cvc-badge {
+  position: absolute;
+  z-index: auto;
+  width: 4px;
+  min-width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  box-shadow: 0 0 0 1px #fff;
+
+  &.badge-revisions {
+    background: #f0673a;
+    top: .5px;
+    right: .5px;
+    transform: translate(50%, -50%);
+  }
+  &.badge-flags {
+    background: #e24759;
+    top: .5px;
+    left: .5px;
+    transform: translate(-50%, -50%);
+  }
+  &.badge-comments {
+    background: #44d8ef;
+    bottom: .5px;
+    right: .5px;
+    transform: translate(50%, 50%);
+  }
+}

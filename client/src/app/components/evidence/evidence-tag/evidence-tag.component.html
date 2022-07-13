@@ -24,10 +24,19 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
-    nzType="civic-evidence"
-    nzTheme="twotone"
-    [nzTwotoneColor]="evidence.status === 'REJECTED' ? '#BBB' : '#F68F37'">
-  </i>
+  <cvc-icon-badges>
+    <i nz-icon
+      nzType="civic-evidence"
+      nzTheme="twotone"
+      [nzTwotoneColor]="evidence.status === 'REJECTED' ? '#BBB' : '#F68F37'">
+    </i>
+  </cvc-icon-badges>
+  <!-- <nz-badge nzDot>
+    <i nz-icon
+      nzType="civic-evidence"
+      nzTheme="twotone"
+      [nzTwotoneColor]="evidence.status === 'REJECTED' ? '#BBB' : '#F68F37'">
+    </i>
+  </nz-badge> -->
   {{ evidence.name }}
 </ng-template>
