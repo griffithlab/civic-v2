@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cvc-icon-badges',
@@ -7,6 +7,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcIconBadgesComponent {
+  @Input() hasRevisions!: boolean
+  @Input() hasFlags!: boolean
+  @Input() hasComments!: boolean
 
   constructor() { }
 
