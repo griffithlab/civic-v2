@@ -18,6 +18,7 @@ module Types
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
+    field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :events, resolver: Resolvers::TopLevelEvents
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions

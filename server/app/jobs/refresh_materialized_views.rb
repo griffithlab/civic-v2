@@ -8,7 +8,8 @@ class RefreshMaterializedViews < ApplicationJob
                      GeneBrowseTableRow,
                      SourceBrowseTableRow,
                      VariantBrowseTableRow,
-                     VariantGroupBrowseTableRow
+                     VariantGroupBrowseTableRow,
+                     MolecularProfileBrowseTableRow
                    ]
                  elsif views == 'gene_only'
                    [
@@ -19,7 +20,8 @@ class RefreshMaterializedViews < ApplicationJob
                      DiseaseBrowseTableRow,
                      SourceBrowseTableRow,
                      VariantBrowseTableRow,
-                     VariantGroupBrowseTableRow
+                     VariantGroupBrowseTableRow,
+                     MolecularProfileBrowseTableRow
                    ]
                  else
                    []

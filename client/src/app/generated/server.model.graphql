@@ -964,6 +964,68 @@ type BrowseGeneEdge {
   node: BrowseGene
 }
 
+type BrowseMolecularProfile {
+  assertionCount: Int!
+  diseases: [LinkableTag!]!
+  drugs: [LinkableTag!]!
+  evidenceItemCount: Int!
+  genes: [LinkableTag!]!
+  id: Int!
+  link: String!
+  name: String!
+  variants: [LinkableTag!]!
+}
+
+"""
+The connection type for BrowseMolecularProfile.
+"""
+type BrowseMolecularProfileConnection {
+  """
+  A list of edges.
+  """
+  edges: [BrowseMolecularProfileEdge!]!
+
+  """
+  The total number of records in this set.
+  """
+  filteredCount: Int!
+
+  """
+  A list of nodes.
+  """
+  nodes: [BrowseMolecularProfile!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records of this type, regardless of any filtering.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type BrowseMolecularProfileEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: BrowseMolecularProfile
+}
+
 type BrowsePhenotype {
   assertionCount: Int!
   evidenceCount: Int!
@@ -3014,6 +3076,12 @@ Represents untyped JSON
 """
 scalar JSON
 
+type LinkableTag {
+  id: Int!
+  link: String!
+  name: String!
+}
+
 type LinkoutData {
   currentValue: ModeratedField!
   diffValue: ModeratedFieldDiff!
@@ -3398,6 +3466,23 @@ union MolecularProfileSegment = Gene | MolecularProfileTextSegment | Variant
 
 type MolecularProfileTextSegment {
   text: String!
+}
+
+input MolecularProfilesSort {
+  """
+  Available columns for sorting
+  """
+  column: MolecularProfilesSortColumns!
+
+  """
+  Sort direction
+  """
+  direction: SortDirection!
+}
+
+enum MolecularProfilesSortColumns {
+  assertionCount
+  evidenceItemCount
 }
 
 type Mutation {
@@ -4385,6 +4470,32 @@ type Query {
     last: Int
     sortBy: GenesSort
   ): BrowseGeneConnection!
+  browseMolecularProfiles(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    diseaseName: String
+    drugName: String
+    entrezSymbol: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+    sortBy: MolecularProfilesSort
+    variantName: String
+  ): BrowseMolecularProfileConnection!
   browseSources(
     """
     Returns the elements in the list that come after the specified cursor.

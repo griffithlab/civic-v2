@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_12_195529) do
+ActiveRecord::Schema.define(version: 2022_07_13_154536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1081,5 +1081,41 @@ ActiveRecord::Schema.define(version: 2022_07_12_195529) do
    HAVING ((count(DISTINCT evidence_items.id) > 0) OR (count(DISTINCT evidence_items.id) > 0));
   SQL
   add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+
+  create_view "molecular_profile_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT outer_mps.id,
+      outer_mps.name,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      json_agg(DISTINCT jsonb_build_object('name', genes.name, 'id', genes.id)) FILTER (WHERE (genes.name IS NOT NULL)) AS genes,
+      json_agg(DISTINCT jsonb_build_object('name', variants.name, 'id', variants.id)) FILTER (WHERE (variants.name IS NOT NULL)) AS variants,
+      json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
+      json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
+      count(DISTINCT assertions.id) AS assertion_count
+     FROM ((((((((((molecular_profiles outer_mps
+       JOIN evidence_items ON ((evidence_items.molecular_profile_id = outer_mps.id)))
+       JOIN molecular_profiles_variants ON ((outer_mps.id = molecular_profiles_variants.molecular_profile_id)))
+       JOIN variants ON ((molecular_profiles_variants.variant_id = variants.id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+       LEFT JOIN diseases ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
+       LEFT JOIN assertions ON ((assertions.molecular_profile_id = outer_mps.id)))
+       LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM ((evidence_items evidence_items_1
+               JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
+               JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
+            WHERE (evidence_items_1.variant_id = variants.id)
+            GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
+       LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
+              count(DISTINCT evidence_items_1.id) AS total
+             FROM (evidence_items evidence_items_1
+               JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
+            WHERE (evidence_items_1.variant_id = variants.id)
+            GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (assertions.status <> 'rejected'::text))
+    GROUP BY outer_mps.id, outer_mps.name, genes.id, genes.name;
+  SQL
+  add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
 
 end
