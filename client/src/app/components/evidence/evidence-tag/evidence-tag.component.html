@@ -5,24 +5,18 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover" nz-popover
+  <nz-tag [ngClass]="{ rejected: evidence.status === 'REJECTED', submitted: evidence.status === 'SUBMITTED', accepted: evidence.status === 'ACCEPTED' }"
+    nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover"
-    [nzColor]="evidence.status | colorNameForStatus">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
     <cvc-evidence-popover *ngIf="enablePopover"
       [evidenceId]="evidence.id"></cvc-evidence-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag [nzColor]="evidence.status | colorNameForStatus">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>
@@ -33,5 +27,7 @@
   <i nz-icon
     nzType="civic-evidence"
     nzTheme="twotone"
-    nzTwotoneColor="#F68F37"></i> {{ evidence.name }}
+    [nzTwotoneColor]="evidence.status === 'REJECTED' ? '#BBB' : '#F68F37'">
+  </i>
+  {{ evidence.name }}
 </ng-template>

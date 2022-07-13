@@ -5,11 +5,11 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
+  <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="genePopover"
-    nzPopoverTrigger="hover"
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
     [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
     (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
@@ -17,13 +17,6 @@
   <ng-template #genePopover>
     <cvc-gene-popover [geneId]="gene.id"></cvc-gene-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>

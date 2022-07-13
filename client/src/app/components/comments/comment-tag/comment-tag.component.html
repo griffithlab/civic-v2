@@ -3,12 +3,12 @@
 </a>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
+  <nz-tag
     nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="commentPopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
