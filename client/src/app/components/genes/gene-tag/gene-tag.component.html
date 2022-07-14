@@ -5,8 +5,7 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
-    nz-popover
+  <nz-tag nz-popover
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="genePopover"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"
@@ -24,10 +23,15 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
-    nzType="civic-gene"
-    nzTheme="twotone"
-    nzTwotoneColor="#07AFF0"></i>
+  <cvc-icon-badges [hasComments]="false"
+    [hasRevisions]="0.2 | devRandomBool"
+    [hasFlags]="0.1 | devRandomBool"
+    [entityColor]="iconColor">
+    <i nz-icon
+      nzType="civic-gene"
+      nzTheme="twotone"
+      nzTwotoneColor="#07AFF0"></i>
+  </cvc-icon-badges>
   <!-- gene name length mean: 8; mode: 12 (15306); max: 25 -->
   <ng-container *ngIf="this.truncateLongName; else fullName">
     {{ gene.name | truncate: 12 }}

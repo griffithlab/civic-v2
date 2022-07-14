@@ -24,10 +24,15 @@
 </ng-template>
 
 <ng-template #tagContent>
+  <cvc-icon-badges [hasComments]="false"
+    [hasRevisions]="0.3 | devRandomBool"
+    [hasFlags]="0.1 | devRandomBool"
+    [entityColor]="iconColor">
   <i nz-icon
     nzType="civic-assertion"
     nzTheme="twotone"
-    [nzTwotoneColor]="assertion.status === 'REJECTED' ? '#BBB' : '#7243B5'">
+      [nzTwotoneColor]="assertion.status === 'REJECTED' ? ('Rejected' | entityColor) : ('Assertion' | entityColor)">
   </i>
+  </cvc-icon-badges>
   {{ assertion.name }}
 </ng-template>

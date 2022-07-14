@@ -8,10 +8,10 @@ import { getEntityColor } from '@app/core/utilities/get-entity-color';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcIconBadgesComponent {
-  @Input() hasRevisions!: boolean
-  @Input() hasFlags!: boolean
-  @Input() hasComments!: boolean
-  @Input() entityColor!: string
+  @Input() hasRevisions: boolean = false
+  @Input() hasFlags: boolean = false
+  @Input() hasComments: boolean = false
+  @Input() entityColor: string = '#AAA'
 
   flagColor = getEntityColor('Flag')
   constructor() {}

@@ -8,6 +8,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { CvcGenePopoverModule } from '../gene-popover/gene-popover.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-badges.module';
 
 @NgModule({
   declarations: [CvcGeneTagComponent],
@@ -20,6 +21,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzBadgeModule,
     CvcPipesModule,
     CvcGenePopoverModule,
+    CvcIconBadgesModule,
   ],
   exports: [CvcGeneTagComponent]
 })

@@ -76,6 +76,7 @@ import { DevRandomBoolPipe } from './dev-rnd-bool.pipe';
     TruncatePipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    EntityColorPipe,
     DevRandomBoolPipe,
   ],
   providers: [

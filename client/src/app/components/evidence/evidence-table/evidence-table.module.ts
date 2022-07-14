@@ -22,6 +22,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -44,6 +45,7 @@ import { CvcEvidenceTableComponent } from './evidence-table.component';
     NzIconModule,
     NzInputModule,
     NzSelectModule,
+    NzSpaceModule,
     NzTableModule,
     NzTagModule,
     NzToolTipModule,
