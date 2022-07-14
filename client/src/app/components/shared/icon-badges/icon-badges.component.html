@@ -1,4 +1,10 @@
 <ng-content></ng-content>
-<div *ngIf="hasRevisions" class="cvc-badge badge-revisions"></div>
-<div *ngIf="hasFlags" class="cvc-badge badge-flags"></div>
-<div *ngIf="hasComments" class="cvc-badge badge-comments"></div>
+<div *ngIf="hasFlags"
+  class="cvc-badge badge-flags"
+  [ngStyle]="{ background: flagColor }"></div>
+<div *ngIf="hasRevisions"
+  class="cvc-badge badge-revisions"
+  [ngStyle]="{ background: entityColor }"></div>
+<div *ngIf="hasComments"
+  class="cvc-badge badge-comments"
+  [ngStyle]="{ background: entityColor }"></div>

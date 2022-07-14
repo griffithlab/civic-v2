@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { getEntityColor } from '@app/core/utilities/get-entity-color';
 
 @Component({
   selector: 'cvc-icon-badges',
@@ -10,7 +11,9 @@ export class CvcIconBadgesComponent {
   @Input() hasRevisions!: boolean
   @Input() hasFlags!: boolean
   @Input() hasComments!: boolean
+  @Input() entityColor!: string
 
-  constructor() { }
+  flagColor = getEntityColor('Flag')
+  constructor() {}
 
 }
