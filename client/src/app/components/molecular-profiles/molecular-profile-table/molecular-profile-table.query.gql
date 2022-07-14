@@ -1,0 +1,67 @@
+query BrowseMolecularProfiles(
+  $variantName: String
+  $entrezSymbol: String
+  $diseaseName: String
+  $drugName: String
+  $sortBy: MolecularProfilesSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  browseMolecularProfiles(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    drugName: $drugName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...BrowseMolecularProfilesFields
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+
+fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
+  id
+  name
+  evidenceItemCount
+  assertionCount
+  drugs {
+    id
+    name
+    link
+  }
+  diseases {
+    id
+    name
+    link
+  }
+  genes {
+    id
+    name
+    link
+  }
+  variants {
+    id
+    name
+    link
+  }
+  link
+}

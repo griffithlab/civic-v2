@@ -574,6 +574,45 @@ export type BrowseGeneEdge = {
   node?: Maybe<BrowseGene>;
 };
 
+export type BrowseMolecularProfile = {
+  __typename: 'BrowseMolecularProfile';
+  assertionCount: Scalars['Int'];
+  diseases: Array<LinkableTag>;
+  drugs: Array<LinkableTag>;
+  evidenceItemCount: Scalars['Int'];
+  genes: Array<LinkableTag>;
+  id: Scalars['Int'];
+  link: Scalars['String'];
+  name: Scalars['String'];
+  variants: Array<LinkableTag>;
+};
+
+/** The connection type for BrowseMolecularProfile. */
+export type BrowseMolecularProfileConnection = {
+  __typename: 'BrowseMolecularProfileConnection';
+  /** A list of edges. */
+  edges: Array<BrowseMolecularProfileEdge>;
+  /** The total number of records in this set. */
+  filteredCount: Scalars['Int'];
+  /** A list of nodes. */
+  nodes: Array<BrowseMolecularProfile>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records of this type, regardless of any filtering. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BrowseMolecularProfileEdge = {
+  __typename: 'BrowseMolecularProfileEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<BrowseMolecularProfile>;
+};
+
 export type BrowsePhenotype = {
   __typename: 'BrowsePhenotype';
   assertionCount: Scalars['Int'];
@@ -1829,6 +1868,13 @@ export enum IntSearchOperator {
   Ne = 'NE'
 }
 
+export type LinkableTag = {
+  __typename: 'LinkableTag';
+  id: Scalars['Int'];
+  link: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type LinkoutData = {
   __typename: 'LinkoutData';
   currentValue: ModeratedField;
@@ -2027,6 +2073,18 @@ export type MolecularProfileTextSegment = {
   __typename: 'MolecularProfileTextSegment';
   text: Scalars['String'];
 };
+
+export type MolecularProfilesSort = {
+  /** Available columns for sorting */
+  column: MolecularProfilesSortColumns;
+  /** Sort direction */
+  direction: SortDirection;
+};
+
+export enum MolecularProfilesSortColumns {
+  AssertionCount = 'assertionCount',
+  EvidenceItemCount = 'evidenceItemCount'
+}
 
 export type Mutation = {
   __typename: 'Mutation';
@@ -2622,6 +2680,7 @@ export type Query = {
   assertions: AssertionConnection;
   browseDiseases: BrowseDiseaseConnection;
   browseGenes: BrowseGeneConnection;
+  browseMolecularProfiles: BrowseMolecularProfileConnection;
   browseSources: BrowseSourceConnection;
   browseVariantGroups: BrowseVariantGroupConnection;
   browseVariants: BrowseVariantConnection;
@@ -2798,6 +2857,19 @@ export type QueryBrowseGenesArgs = {
   geneAlias?: InputMaybe<Scalars['String']>;
   last?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<GenesSort>;
+};
+
+
+export type QueryBrowseMolecularProfilesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  diseaseName?: InputMaybe<Scalars['String']>;
+  drugName?: InputMaybe<Scalars['String']>;
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<MolecularProfilesSort>;
+  variantName?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -5006,6 +5078,23 @@ export type QuicksearchQuery = { __typename: 'Query', search: Array<{ __typename
 
 export type QuicksearchResultFragment = { __typename: 'SearchResult', id: number, resultType: SearchableEntities, name: string, matchingText: string };
 
+export type BrowseMolecularProfilesQueryVariables = Exact<{
+  variantName?: InputMaybe<Scalars['String']>;
+  entrezSymbol?: InputMaybe<Scalars['String']>;
+  diseaseName?: InputMaybe<Scalars['String']>;
+  drugName?: InputMaybe<Scalars['String']>;
+  sortBy?: InputMaybe<MolecularProfilesSort>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, assertionCount: number, link: string, drugs: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }>, genes: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }> } | undefined }> } };
+
+export type BrowseMolecularProfilesFieldsFragment = { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, assertionCount: number, link: string, drugs: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }>, genes: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableTag', id: number, name: string, link: string }> };
+
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
 }>;
@@ -6532,6 +6621,35 @@ export const QuicksearchResultFragmentDoc = gql`
   resultType
   name
   matchingText
+}
+    `;
+export const BrowseMolecularProfilesFieldsFragmentDoc = gql`
+    fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
+  id
+  name
+  evidenceItemCount
+  assertionCount
+  drugs {
+    id
+    name
+    link
+  }
+  diseases {
+    id
+    name
+    link
+  }
+  genes {
+    id
+    name
+    link
+  }
+  variants {
+    id
+    name
+    link
+  }
+  link
 }
     `;
 export const OrgPopoverFragmentDoc = gql`
@@ -8726,6 +8844,48 @@ export const QuicksearchDocument = gql`
   })
   export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
     document = QuicksearchDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const BrowseMolecularProfilesDocument = gql`
+    query BrowseMolecularProfiles($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
+  browseMolecularProfiles(
+    variantName: $variantName
+    entrezSymbol: $entrezSymbol
+    diseaseName: $diseaseName
+    drugName: $drugName
+    sortBy: $sortBy
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      startCursor
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        ...BrowseMolecularProfilesFields
+      }
+    }
+    totalCount
+    filteredCount
+    pageCount
+  }
+}
+    ${BrowseMolecularProfilesFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BrowseMolecularProfilesGQL extends Apollo.Query<BrowseMolecularProfilesQuery, BrowseMolecularProfilesQueryVariables> {
+    document = BrowseMolecularProfilesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

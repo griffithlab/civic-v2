@@ -5,7 +5,6 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CvcVariantsTableModule } from '@app/components/variants/variants-table/variants-table.module';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -15,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module';
+import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profiles/molecular-profile-table/molecular-profile-table.module';
 
 @NgModule({
   declarations: [MolecularProfilesHomePage],
@@ -31,7 +31,7 @@ import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submi
     NzPopoverModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
-    CvcVariantsTableModule,
+    CvcMolecularProfilesTableModule,
     CvcAutoHeightDivModule,
     CvcSectionNavigationModule,
     VariantSubmitFormModule,

@@ -507,8 +507,6 @@ ActiveRecord::Schema.define(version: 2022_07_13_154536) do
 
   create_table "molecular_profiles", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_molecular_profiles_on_name"
   end
 

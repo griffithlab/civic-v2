@@ -1,5 +1,7 @@
 class PortVariantsToMolecularProfiles < ActiveRecord::Migration[6.1]
   def up
+    add_timestamps :molecular_profiles
+
     Variant.find_each do |v|
       mp = MolecularProfile.create(name: "#GID#{v.gene_id} #VID#{v.id}")
       mp.variants << v
