@@ -4785,9 +4785,9 @@ export type EvidenceBrowseQueryVariables = Exact<{
 }>;
 
 
-export type EvidenceBrowseQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'EvidenceItemEdge', cursor: string, node?: { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string } } | undefined }> } };
+export type EvidenceBrowseQuery = { __typename: 'Query', evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'EvidenceItemEdge', cursor: string, node?: { __typename: 'EvidenceItem', id: number, name: string, link: string, flagged: boolean, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string } } | undefined }> } };
 
-export type EvidenceGridFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string } };
+export type EvidenceGridFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, link: string, flagged: boolean, status: EvidenceStatus, drugInteractionType?: DrugInteraction | undefined, description: string, evidenceType: EvidenceType, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceRating?: number | undefined, clinicalSignificance: EvidenceClinicalSignificance, variantOrigin: VariantOrigin, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }>, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string } };
 
 export type FlagListQueryVariables = Exact<{
   flaggable?: InputMaybe<FlaggableInput>;
@@ -6200,6 +6200,7 @@ export const EvidenceGridFieldsFragmentDoc = gql`
     name
     link
   }
+  flagged
   status
   drugInteractionType
   description

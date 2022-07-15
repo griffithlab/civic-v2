@@ -24,9 +24,8 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [hasComments]="false"
-    [hasRevisions]="0.3 | devRandomBool"
-    [hasFlags]="0.1 | devRandomBool"
+  <cvc-icon-badges
+    [flagged]="evidence.flagged"
     [entityColor]="iconColor">
     <i nz-icon
       nzType="civic-evidence"

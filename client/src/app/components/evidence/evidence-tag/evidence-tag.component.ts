@@ -7,6 +7,7 @@ export interface LinkableEvidence {
   id: number,
   name: string,
   status?: EvidenceStatus,
+  flagged?: boolean,
   link: string,
 }
 
