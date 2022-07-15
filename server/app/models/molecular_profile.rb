@@ -5,6 +5,7 @@ class MolecularProfile < ActiveRecord::Base
   include Commentable
 
   has_and_belongs_to_many :variants
+  has_and_belongs_to_many :sources
   has_many :assertions
   has_many :evidence_items
 

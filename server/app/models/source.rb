@@ -6,6 +6,7 @@ class Source < ActiveRecord::Base
   has_many :evidence_items
   has_and_belongs_to_many :genes
   has_and_belongs_to_many :clinical_trials
+  has_and_belongs_to_many :molecular_profiles
   has_many :authors_sources
   has_many :authors, through: :authors_sources
   has_many :variant_groups

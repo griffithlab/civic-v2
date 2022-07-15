@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_14_180729) do
+ActiveRecord::Schema.define(version: 2022_07_15_180539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -509,7 +509,17 @@ ActiveRecord::Schema.define(version: 2022_07_14_180729) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "description"
+    t.index ["description"], name: "index_molecular_profiles_on_description"
     t.index ["name"], name: "index_molecular_profiles_on_name"
+  end
+
+  create_table "molecular_profiles_sources", id: false, force: :cascade do |t|
+    t.bigint "molecular_profile_id", null: false
+    t.bigint "source_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["molecular_profile_id", "source_id"], name: "idx_mp_source_id"
   end
 
   create_table "molecular_profiles_variants", id: false, force: :cascade do |t|
@@ -873,6 +883,8 @@ ActiveRecord::Schema.define(version: 2022_07_14_180729) do
   add_foreign_key "gene_aliases_genes", "genes"
   add_foreign_key "genes_sources", "genes"
   add_foreign_key "genes_sources", "sources"
+  add_foreign_key "molecular_profiles_sources", "molecular_profiles"
+  add_foreign_key "molecular_profiles_sources", "sources"
   add_foreign_key "molecular_profiles_variants", "molecular_profiles"
   add_foreign_key "molecular_profiles_variants", "variants"
   add_foreign_key "notifications", "events"
