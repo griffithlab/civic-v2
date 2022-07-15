@@ -1,15 +1,27 @@
 <ng-container *ngIf="sortedContributors && sortedContributors.length > 0; else noContributors">
-  <a *ngFor="let u of sortedContributors" routerLink="/users/{{u.user.id}}" class="avatar">
-    <nz-avatar [nzSize]="14" nz-popover [nzPopoverMouseEnterDelay]="0.5" [nzPopoverContent]="curatorPopover"
-      nzPopoverTrigger="hover" nzPopoverPlacement="bottomRight" nzIcon="user" [nzSrc]="u.user.profileImagePath"
+  <a *ngFor="let u of sortedContributors"
+    routerLink="/users/{{u.user.id}}"
+    class="avatar">
+    <nz-avatar [nzSize]="14"
+      nz-popover
+      [nzPopoverMouseEnterDelay]="0.5"
+      [nzPopoverContent]="curatorPopover"
+      nzPopoverTrigger="hover"
+      nzPopoverPlacement="bottomRight"
+      nzIcon="user"
+      [nzSrc]="u.user.profileImagePath"
       nzSize="small"></nz-avatar>
     <ng-template #curatorPopover>
       <cvc-user-popover [userId]="u.user.id">
         <ng-template #additionalMetadata>
-          <nz-descriptions nzBordered nzTitle="Activity" nzSize="small" [nzColumn]="1">
+          <nz-descriptions nzBordered
+            nzTitle="Activity"
+            nzSize="small"
+            [nzColumn]="1">
             <nz-descriptions-item nzTitle="Contributions">
               <ng-container *ngFor="let a of u.uniqueActions; last as isLast">
-                {{a.action | eventVerbiage: 'contributor-card' : a.count }}<ng-container *ngIf="! isLast">, </ng-container>
+                {{a.action | eventVerbiage: 'contributor-card' : a.count }}
+                <ng-container *ngIf="! isLast">, </ng-container>
               </ng-container>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Last Contribution">

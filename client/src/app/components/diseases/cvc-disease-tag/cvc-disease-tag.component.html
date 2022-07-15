@@ -5,14 +5,13 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
-    nz-popover
+  <nz-tag nz-popover
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="diseasePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover"
-    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)"
-    >
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
 
@@ -21,18 +20,15 @@
   </ng-template>
 </ng-template>
 
-<ng-template #noPopover>
-  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
-</ng-template>
-
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon nzType="civic-disease" nzTheme="twotone" nzTwotoneColor="#E62F76"></i>
+  <i nz-icon
+    nzType="civic-disease"
+    nzTheme="twotone"
+    nzTwotoneColor="#E62F76"></i>
   <ng-container *ngIf="truncateLongName; else fullName">
     {{ disease.name | truncate: 27 }}
   </ng-container>

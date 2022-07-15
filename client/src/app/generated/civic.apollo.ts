@@ -5460,6 +5460,15 @@ export type VariantTypesBrowseQuery = { __typename: 'Query', variantTypes: { __t
 
 export type VariantTypeBrowseTableRowFieldsFragment = { __typename: 'BrowseVariantType', id: number, name: string, soid: string, url?: string | undefined, variantCount: number, link: string };
 
+export type CoordinatesCardQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type CoordinatesCardQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
+
+export type CoordinatesCardFieldsFragment = { __typename: 'Variant', id: number, name: string, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
+
 export type VariantPopoverQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -5912,6 +5921,13 @@ export type ClinicalTrialDetailQueryVariables = Exact<{
 
 export type ClinicalTrialDetailQuery = { __typename: 'Query', clinicalTrial?: { __typename: 'ClinicalTrial', id: number, name: string, nctId: string, description: string, url?: string | undefined, link: string } | undefined };
 
+export type ClinicalTrialSummaryQueryVariables = Exact<{
+  clinicalTrialId: Scalars['Int'];
+}>;
+
+
+export type ClinicalTrialSummaryQuery = { __typename: 'Query', clinicalTrial?: { __typename: 'ClinicalTrial', id: number, name: string, nctId: string, description: string, url?: string | undefined, link: string } | undefined };
+
 export type DiseaseDetailQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -6059,9 +6075,9 @@ export type SourceSummaryQueryVariables = Exact<{
 }>;
 
 
-export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, displayType: string, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined } | undefined };
+export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined } | undefined };
 
-export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, displayType: string, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined };
+export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined };
 
 export type UserDetailQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -7140,6 +7156,28 @@ export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
   link
 }
     `;
+export const CoordinatesCardFieldsFragmentDoc = gql`
+    fragment CoordinatesCardFields on Variant {
+  id
+  name
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  secondaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  referenceBases
+  variantBases
+}
+    `;
 export const VariantPopoverFieldsFragmentDoc = gql`
     fragment variantPopoverFields on Variant {
   id
@@ -8068,7 +8106,9 @@ export const SourceDetailFieldsFragmentDoc = gql`
 export const SourceSummaryFieldsFragmentDoc = gql`
     fragment SourceSummaryFields on Source {
   id
+  citation
   displayType
+  sourceUrl
   title
   abstract
   publicationDate
@@ -9733,6 +9773,24 @@ export const VariantTypesBrowseDocument = gql`
       super(apollo);
     }
   }
+export const CoordinatesCardDocument = gql`
+    query CoordinatesCard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...CoordinatesCardFields
+  }
+}
+    ${CoordinatesCardFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CoordinatesCardGQL extends Apollo.Query<CoordinatesCardQuery, CoordinatesCardQueryVariables> {
+    document = CoordinatesCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantPopoverDocument = gql`
     query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
@@ -10969,6 +11027,29 @@ export const ClinicalTrialDetailDocument = gql`
   })
   export class ClinicalTrialDetailGQL extends Apollo.Query<ClinicalTrialDetailQuery, ClinicalTrialDetailQueryVariables> {
     document = ClinicalTrialDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ClinicalTrialSummaryDocument = gql`
+    query ClinicalTrialSummary($clinicalTrialId: Int!) {
+  clinicalTrial(id: $clinicalTrialId) {
+    id
+    name
+    nctId
+    description
+    url
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClinicalTrialSummaryGQL extends Apollo.Query<ClinicalTrialSummaryQuery, ClinicalTrialSummaryQueryVariables> {
+    document = ClinicalTrialSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

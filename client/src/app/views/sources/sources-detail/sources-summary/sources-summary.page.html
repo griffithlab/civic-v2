@@ -1,19 +1,48 @@
 <ng-container *ngIf="(source$ | ngrxPush) as source">
-  <nz-row [nzGutter]="[8,16]" cvcAutoHeightDiv>
+  <nz-row [nzGutter]="[8,16]"
+    cvcAutoHeightDiv>
     <nz-col [nzSpan]="24">
-      <h2><i>{{ source.title }}</i></h2>
-    </nz-col>
-    <nz-col [nzSpan]="12">
       <nz-descriptions nzBordered
-        nzLayout="vertical">
-        <nz-descriptions-item nzTitle="Abstract">{{ source.abstract }}</nz-descriptions-item>
+        nzSize="small"
+        nzLayout="vertical"
+        [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Title">
+        <i>{{ source.title}}</i>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Authors">
+          {{source.authorString}}
+        </nz-descriptions-item>
       </nz-descriptions>
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-descriptions nzBordered
+        nzSize="small"
+        nzLayout="vertical"
+        [nzColumn]="1">
+        <nz-descriptions-item nzTitle="Abstract">
+          <p nz-typography
+            nzEllipsis
+            nzExpandable
+            [nzEllipsisRows]="6">
+
+            {{ source.abstract }}
+
+          </p>
+        </nz-descriptions-item>
+
+      </nz-descriptions>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-descriptions nzBordered
+        nzSize="small"
         [nzColumn]="1">
         <nz-descriptions-item nzTitle="Published">{{ source.publicationDate }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="{{source.displayType}} ID">{{ source.citationId }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="{{source.displayType}} ID">
+          <cvc-link-tag [href]="source.sourceUrl"
+            [tooltip]="'View on ' + source.displayType">
+            {{ source.displayType + ':' + source.citationId }}
+          </cvc-link-tag>
+        </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Journal">{{ source.fullJournalTitle }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="PMC ID">
           <ng-container *ngIf="source.pmcId; else notAvailable">
@@ -47,24 +76,18 @@
       <ng-template #notAvailable>
         <span nz-typography
           nzType="secondary">
-          Not available
-        </span>
+                    Not available
+                </span>
       </ng-template>
-      <nz-descriptions nzBordered
-        [nzColumn]="1"
-        nzLayout="vertical">
-        <nz-descriptions-item nzTitle="Authors">
-          {{source.authorString}}
-        </nz-descriptions-item>
-      </nz-descriptions>
     </nz-col>
     <!-- evidence table card -->
     <nz-col [nzSpan]="24">
       <cvc-evidence-table [sourceId]="sourceId"
         cvcHeight="400"
-        [cvcTitleTemplate]="evidenceCardTitle"></cvc-evidence-table>
+        [cvcTitleTemplate]="evidenceCardTitle">
+      </cvc-evidence-table>
       <ng-template #evidenceCardTitle>
-        Evidence for <i>{{ source.title}}</i>
+        Evidence for {{ source.citation}}
       </ng-template>
     </nz-col>
 
@@ -74,7 +97,7 @@
         cvcHeight="400"
         [cvcTitleTemplate]="sourceSuggestionCardTitle"></cvc-source-suggestions-table>
       <ng-template #sourceSuggestionCardTitle>
-        Source Suggestions for <i>{{ source.title}}</i>
+        Source Suggestions for {{ source.citation}}
       </ng-template>
     </nz-col>
   </nz-row>
