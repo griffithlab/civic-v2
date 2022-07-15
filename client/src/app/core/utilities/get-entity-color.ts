@@ -5,6 +5,7 @@ export const EntityColors = new Map<string, string>([
   ['CoordinateSystem', '#1db8a9'],
   ['Disease', '#e62f76'],
   ['Event', '#ffdb00'],
+  // ['EvidenceItem', '#f68f37'],
   ['EvidenceItem', '#1db8a9'],
   ['Gene', '#07aff0'],
   ['Intervention', '#ac3996'],
