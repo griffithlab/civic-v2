@@ -1998,6 +1998,8 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   comments: CommentConnection;
   /** List and filter events for an object */
   events: EventConnection;
+  /** The collection of evidence items associated with this molecular profile. */
+  evidenceItems: EvidenceItemConnection;
   flagged: Scalars['Boolean'];
   /** List and filter flags. */
   flags: FlagConnection;
@@ -2041,6 +2043,14 @@ export type MolecularProfileEventsArgs = {
   organizationId?: InputMaybe<Scalars['Int']>;
   originatingUserId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<DateSort>;
+};
+
+
+export type MolecularProfileEvidenceItemsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -5099,6 +5109,15 @@ export type QuicksearchQuery = { __typename: 'Query', search: Array<{ __typename
 
 export type QuicksearchResultFragment = { __typename: 'SearchResult', id: number, resultType: SearchableEntities, name: string, matchingText: string };
 
+export type MolecularProfilePopoverQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+}>;
+
+
+export type MolecularProfilePopoverQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } } | undefined };
+
+export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProfile', id: number, name: string, parsedName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }>, evidenceItems: { __typename: 'EvidenceItemConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, flags: { __typename: 'FlagConnection', totalCount: number } };
+
 export type BrowseMolecularProfilesQueryVariables = Exact<{
   variantName?: InputMaybe<Scalars['String']>;
   entrezSymbol?: InputMaybe<Scalars['String']>;
@@ -6642,6 +6661,40 @@ export const QuicksearchResultFragmentDoc = gql`
   resultType
   name
   matchingText
+}
+    `;
+export const MolecularProfilePopoverFieldsFragmentDoc = gql`
+    fragment molecularProfilePopoverFields on MolecularProfile {
+  id
+  name
+  parsedName {
+    __typename
+    ... on MolecularProfileTextSegment {
+      text
+    }
+    ... on Gene {
+      id
+      name
+      link
+    }
+    ... on Variant {
+      id
+      name
+      link
+    }
+  }
+  evidenceItems {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
 }
     `;
 export const BrowseMolecularProfilesFieldsFragmentDoc = gql`
@@ -8865,6 +8918,24 @@ export const QuicksearchDocument = gql`
   })
   export class QuicksearchGQL extends Apollo.Query<QuicksearchQuery, QuicksearchQueryVariables> {
     document = QuicksearchDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfilePopoverDocument = gql`
+    query MolecularProfilePopover($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    ...molecularProfilePopoverFields
+  }
+}
+    ${MolecularProfilePopoverFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfilePopoverGQL extends Apollo.Query<MolecularProfilePopoverQuery, MolecularProfilePopoverQueryVariables> {
+    document = MolecularProfilePopoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -1,0 +1,38 @@
+query MolecularProfilePopover($molecularProfileId: Int!){
+  molecularProfile(id: $molecularProfileId) {
+    ... molecularProfilePopoverFields
+  }
+}
+
+fragment molecularProfilePopoverFields on MolecularProfile {
+  id
+  name
+  parsedName {
+    __typename
+    ... on MolecularProfileTextSegment {
+      text
+    }
+    ... on Gene {
+      id
+      name
+      link
+    }
+    ... on Variant {
+      id
+      name
+      link
+    }
+  }
+  evidenceItems {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+}

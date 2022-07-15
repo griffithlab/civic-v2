@@ -110,7 +110,7 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-           {{ mp.name }}
+            <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>
           </td>
           <td>
             <cvc-gene-tag *ngFor="let gene of mp.genes" [gene]="gene"

@@ -3327,6 +3327,31 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     sortBy: DateSort
   ): EventConnection!
+
+  """
+  The collection of evidence items associated with this molecular profile.
+  """
+  evidenceItems(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): EvidenceItemConnection!
   flagged: Boolean!
 
   """
