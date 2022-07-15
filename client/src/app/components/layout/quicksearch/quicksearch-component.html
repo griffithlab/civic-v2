@@ -23,4 +23,11 @@
     <span innerHTML= {{o.result.matchingText}}></span>
     </span>
   </nz-option>
+  <nz-option *ngIf="isLoading$ | ngrxPush"
+    nzDisabled
+    nzCustomContent>
+    <i nz-icon
+      nzType="loading"
+      class="loading-icon"></i> Loading Data...
+  </nz-option>
 </nz-select>

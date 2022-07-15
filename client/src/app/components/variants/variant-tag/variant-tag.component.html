@@ -5,11 +5,10 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover"
-    nz-popover
+  <nz-tag nz-popover
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="popoverContent"
-    nzPopoverTrigger="hover"
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
     [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
     (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
@@ -18,13 +17,6 @@
     <cvc-variant-popover *ngIf="enablePopover"
       [variantId]="variant.id"></cvc-variant-popover>
   </ng-template>
-</ng-template>
-
-<ng-template #noPopover>
-  <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
-    (nzOnClose)="itemClosed($event)">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
 </ng-template>
 
 <ng-template #unlinked>

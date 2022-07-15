@@ -50,13 +50,17 @@
               nzSize="small"
               id="variant-sort-order"
               name="sortBy"
+              style="width: 115px;"
               [(ngModel)]="sortBy">
               <nz-option nzValue="NAME"
                 nzLabel="Variant Name"
+                style="width: 100%"
                 selected></nz-option>
               <nz-option nzValue="COORDINATE_START"
+                style="width: 100%"
                 nzLabel="Start Position"></nz-option>
               <nz-option nzValue="COORDINATE_END"
+                style="width: 100%"
                 nzLabel="End Position"></nz-option>
             </nz-select>
           </nz-form-control>
@@ -68,15 +72,16 @@
               nzSize="small"
               id="status-filter"
               name="statusFilter"
+              style="width: 320px;"
               [(ngModel)]="statusFilter">
-              <nz-option nzValue="WITH_ACCEPTED"
+              <nz-option nzValue="WITH_ACCEPTED" style="width: 100%"
                 nzLabel="Variants with accepted evidence"></nz-option>
-              <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED"
+              <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED" style="width: 100%"
                 nzLabel="Variants with accepted and/or submitted evidence"
                 selected></nz-option>
-              <nz-option nzValue="WITH_SUBMITTED"
+              <nz-option nzValue="WITH_SUBMITTED" style="width: 100%"
                 nzLabel="Variants with submitted evidence"></nz-option>
-              <nz-option nzValue="ALL"
+              <nz-option nzValue="ALL" style="width: 100%"
                 nzLabel="All Variants"></nz-option>
             </nz-select>
           </nz-form-control>

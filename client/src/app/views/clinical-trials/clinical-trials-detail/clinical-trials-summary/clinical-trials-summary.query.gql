@@ -1,4 +1,5 @@
-query ClinicalTrialDetail($clinicalTrialId: Int!){
+
+query ClinicalTrialSummary($clinicalTrialId: Int!){
   clinicalTrial(id: $clinicalTrialId){
     id
     name

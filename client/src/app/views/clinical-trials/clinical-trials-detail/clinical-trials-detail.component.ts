@@ -18,7 +18,7 @@ export class ClinicalTrialsDetailComponent implements OnDestroy {
   queryRef?: QueryRef<ClinicalTrialDetailQuery, ClinicalTrialDetailQueryVariables>
 
   loading$?: Observable<boolean>;
-  clinicalTrial$?: Observable<Maybe<ClinicalTrial>>
+  clinicalTrial$?: Observable<Maybe<Partial<ClinicalTrial>>>
 
   constructor( private route: ActivatedRoute, private gql: ClinicalTrialDetailGQL) {
     this.routeSub = this.route.params.subscribe((params) => {
