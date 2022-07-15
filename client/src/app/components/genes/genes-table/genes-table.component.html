@@ -67,7 +67,9 @@
           nz-tooltip
           nzTooltipTitle="Variant Count">
           <i nz-icon
-            nzType="civic:variant"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Variant' | entityColor"
+            nzType="civic-variant"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -157,7 +159,9 @@
 <!-- card's title template -->
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:gene"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Gene' | entityColor"
+    nzType="civic-gene"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

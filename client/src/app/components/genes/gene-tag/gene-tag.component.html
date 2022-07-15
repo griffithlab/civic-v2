@@ -23,9 +23,8 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [hasComments]="false"
-    [hasRevisions]="0.4 | devRandomBool"
-    [flagged]="0.1 | devRandomBool"
+  <cvc-icon-badges
+    [flagged]="gene.flagged"
     [entityColor]="iconColor">
     <i nz-icon
       nzType="civic-gene"
