@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_154536) do
+ActiveRecord::Schema.define(version: 2022_07_14_180729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -507,6 +507,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_154536) do
 
   create_table "molecular_profiles", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_molecular_profiles_on_name"
   end
 
@@ -1111,7 +1113,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_154536) do
                JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
             WHERE (evidence_items_1.variant_id = variants.id)
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (assertions.status <> 'rejected'::text))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY outer_mps.id, outer_mps.name, genes.id, genes.name;
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true

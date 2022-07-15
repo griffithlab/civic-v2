@@ -729,8 +729,26 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LinkableTagKeySpecifier = ('id' | 'link' | 'name' | LinkableTagKeySpecifier)[];
-export type LinkableTagFieldPolicy = {
+export type LinkableDiseaseKeySpecifier = ('id' | 'link' | 'name' | LinkableDiseaseKeySpecifier)[];
+export type LinkableDiseaseFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LinkableDrugKeySpecifier = ('id' | 'link' | 'name' | LinkableDrugKeySpecifier)[];
+export type LinkableDrugFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LinkableGeneKeySpecifier = ('id' | 'link' | 'name' | LinkableGeneKeySpecifier)[];
+export type LinkableGeneFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type LinkableVariantKeySpecifier = ('id' | 'link' | 'name' | LinkableVariantKeySpecifier)[];
+export type LinkableVariantFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1811,9 +1829,21 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | GeneEdgeKeySpecifier | (() => undefined | GeneEdgeKeySpecifier),
 		fields?: GeneEdgeFieldPolicy,
 	},
-	LinkableTag?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | LinkableTagKeySpecifier | (() => undefined | LinkableTagKeySpecifier),
-		fields?: LinkableTagFieldPolicy,
+	LinkableDisease?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LinkableDiseaseKeySpecifier | (() => undefined | LinkableDiseaseKeySpecifier),
+		fields?: LinkableDiseaseFieldPolicy,
+	},
+	LinkableDrug?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LinkableDrugKeySpecifier | (() => undefined | LinkableDrugKeySpecifier),
+		fields?: LinkableDrugFieldPolicy,
+	},
+	LinkableGene?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LinkableGeneKeySpecifier | (() => undefined | LinkableGeneKeySpecifier),
+		fields?: LinkableGeneFieldPolicy,
+	},
+	LinkableVariant?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LinkableVariantKeySpecifier | (() => undefined | LinkableVariantKeySpecifier),
+		fields?: LinkableVariantFieldPolicy,
 	},
 	LinkoutData?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkoutDataKeySpecifier | (() => undefined | LinkoutDataKeySpecifier),

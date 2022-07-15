@@ -44,7 +44,7 @@
       <tr class="col-header-row">
         <th nzWidth="200px"
           nzLeft>
-          Molecular Profile
+          Name
         </th>
         <th nzWidth="150px">
           Genes
@@ -57,7 +57,7 @@
           Diseases
         </th>
         <th nzWidth="180px">
-          Drugs {{ drugNameInput === undefined ? 'undefined' : drugNameInput }}
+          Drugs
         </th>
         <th nzWidth="75px"
           nzRight
@@ -110,7 +110,7 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            mp.name
+           {{ mp.name }}
           </td>
           <td>
             <cvc-gene-tag *ngFor="let gene of mp.genes" [gene]="gene"

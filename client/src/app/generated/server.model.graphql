@@ -966,14 +966,14 @@ type BrowseGeneEdge {
 
 type BrowseMolecularProfile {
   assertionCount: Int!
-  diseases: [LinkableTag!]!
-  drugs: [LinkableTag!]!
+  diseases: [LinkableDisease!]!
+  drugs: [LinkableDrug!]!
   evidenceItemCount: Int!
-  genes: [LinkableTag!]!
+  genes: [LinkableGene!]!
   id: Int!
   link: String!
   name: String!
-  variants: [LinkableTag!]!
+  variants: [LinkableVariant!]!
 }
 
 """
@@ -3076,7 +3076,25 @@ Represents untyped JSON
 """
 scalar JSON
 
-type LinkableTag {
+type LinkableDisease {
+  id: Int!
+  link: String!
+  name: String!
+}
+
+type LinkableDrug {
+  id: Int!
+  link: String!
+  name: String!
+}
+
+type LinkableGene {
+  id: Int!
+  link: String!
+  name: String!
+}
+
+type LinkableVariant {
   id: Int!
   link: String!
   name: String!

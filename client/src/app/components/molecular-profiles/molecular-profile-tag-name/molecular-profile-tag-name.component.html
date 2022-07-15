@@ -1,7 +1,7 @@
 <ng-container *ngFor="let s of nameSegments">
     <ng-container *ngIf="s.__typename == 'MolecularProfileTextSegment'">
         <span [innerHtml]="s.text">
-        </span>
+        </span>&nbsp;
     </ng-container>
     <ng-container *ngIf="s.__typename == 'Gene'">
         <cvc-gene-tag [gene]="s"></cvc-gene-tag>

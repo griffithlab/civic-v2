@@ -43,22 +43,22 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
   name
   evidenceItemCount
   assertionCount
-  drugs {
-    id
-    name
-    link
-  }
-  diseases {
-    id
-    name
-    link
-  }
   genes {
     id
     name
     link
   }
   variants {
+    id
+    name
+    link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  diseases {
     id
     name
     link
