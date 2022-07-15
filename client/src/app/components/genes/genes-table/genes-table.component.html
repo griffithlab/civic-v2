@@ -78,7 +78,9 @@
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon
-            nzType="civic:evidence"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'EvidenceItem' | entityColor"
+            nzType="civic-evidence"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -89,7 +91,9 @@
           nz-tooltip
           nzTooltipTitle="Assertion Count">
           <i nz-icon
-            nzType="civic:assertion"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Assertion' | entityColor"
+            nzType="civic-assertion"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
