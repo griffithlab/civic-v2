@@ -8,6 +8,12 @@ query MolecularProfileSummary($mpId: Int!) {
 fragment MolecularProfileSummaryFields on MolecularProfile {
   id
   name
+  description
+  sources {
+    id
+    citation
+    link
+  }
   variants {
     ...VariantMolecularProfileCardFields
   }
@@ -33,7 +39,6 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
 fragment VariantMolecularProfileCardFields on Variant {
   id
   name
-  description
   gene {
       id
       name

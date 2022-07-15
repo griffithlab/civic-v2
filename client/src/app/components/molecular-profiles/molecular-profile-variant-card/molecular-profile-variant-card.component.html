@@ -8,22 +8,6 @@
     <nz-row [nzGutter]="[8,16]">
         <nz-col [nzSpan]="24">
             <nz-row [nzGutter]="[8,8]">
-                <!-- variant description block-->
-                <nz-col nzSpan="24">
-                    <nz-descriptions nzLayout="vertical" nzSize="small" nzBordered="true" [nzColumn]="1">
-
-                        <nz-descriptions-item nzTitle="Description">
-                            <p *ngIf="variant.description; else noDescription" nz-typography nzEllipsis nzExpandable
-                                [nzEllipsisRows]="14">{{ variant.description }}</p>
-
-                            <!-- noDescription Tpl -->
-                            <ng-template #noDescription>
-                                <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
-                            </ng-template>
-                        </nz-descriptions-item>
-                    </nz-descriptions>
-                </nz-col>
-
                 <!-- gene attributes block -->
                 <nz-col nzSpan="24">
 

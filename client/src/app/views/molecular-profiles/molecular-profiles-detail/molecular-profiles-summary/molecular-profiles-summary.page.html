@@ -15,17 +15,17 @@
       <nz-row [nzGutter]="[8,8]">
         <!-- variant description block-->
         <nz-col nzSpan="24">
-          <!-- <nz-descriptions nzLayout="vertical"
+          <nz-descriptions nzLayout="vertical"
             nzSize="small"
             nzBordered="true"
             [nzColumn]="1">
 
             <nz-descriptions-item nzTitle="Description">
-              <p *ngIf="variant.description; else noDescription"
+              <p *ngIf="mp.description; else noDescription"
                 nz-typography
                 nzEllipsis
                 nzExpandable
-                [nzEllipsisRows]="14">{{ variant.description }}</p>
+                [nzEllipsisRows]="14">{{ mp.description }}</p>
 
               <ng-template #noDescription>
                 <cvc-empty-revisable notification="No description provided"> </cvc-empty-revisable>
@@ -33,9 +33,9 @@
             </nz-descriptions-item>
 
             <nz-descriptions-item nzTitle="Sources">
-              <ng-container *ngIf="variant.sources.length > 0; else noSources">
+              <ng-container *ngIf="mp.sources.length > 0; else noSources">
                 <cvc-tag-list>
-                  <cvc-source-tag *ngFor="let source of variant.sources"
+                  <cvc-source-tag *ngFor="let source of mp.sources"
                     [source]="source">
                   </cvc-source-tag>
                 </cvc-tag-list>
@@ -46,7 +46,7 @@
               </ng-template>
             </nz-descriptions-item>
 
-          </nz-descriptions>  -->
+          </nz-descriptions>
         </nz-col>
 
         <!-- gene attributes block -->
