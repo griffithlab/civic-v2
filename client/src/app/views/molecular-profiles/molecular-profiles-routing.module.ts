@@ -30,10 +30,10 @@ const routes: Routes = [
           },
           {
             path: 'revise',
-/*             loadChildren: () =>
+             loadChildren: () =>
               import('@app/views/molecular-profiles/molecular-profiles-revise/molecular-profiles-revise.module').then(
                 (m) => m.MolecularProfilesReviseModule
-              ), */
+              ),
             data: { breadcrumb: 'Revise' }
           },
         ]

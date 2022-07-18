@@ -1,0 +1,29 @@
+query MolecularProfileRevisableFields($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    ... RevisableMolecularProfileFields
+  }
+}
+
+fragment RevisableMolecularProfileFields on MolecularProfile {
+  id
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+}
+
+mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevisionInput!) {
+  suggestMolecularProfileRevision(input: $input) {
+    clientMutationId
+    molecularProfile {
+      id
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}

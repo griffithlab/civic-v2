@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ViewerService } from '@app/core/services/viewer/viewer.service';
-import { Maybe, VariantDetailFieldsFragment, VariantDetailGQL } from '@app/generated/civic.apollo';
+import { Maybe, MolecularProfileDetailFieldsFragment, MolecularProfileDetailGQL } from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { map, pluck, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'cvc-variants-revise',
-  templateUrl: './variants-revise.view.html',
-  styleUrls: ['./variants-revise.view.less']
+  selector: 'cvc-molecular-profiles-revise',
+  templateUrl: './molecular-profiles-revise.view.html',
+  styleUrls: ['./molecular-profiles-revise.view.less']
 })
-export class VariantsReviseView implements OnInit, OnDestroy {
+export class MolecularProfilesReviseView implements OnInit, OnDestroy {
   loading$?: Observable<boolean>;
-  variant$?: Observable<Maybe<VariantDetailFieldsFragment>>;
+  molecularProfile$?: Observable<Maybe<MolecularProfileDetailFieldsFragment>>;
   commentsTotal$?: Observable<number>;
   revisionsTotal$?: Observable<number>;
   flagsTotal$?: Observable<number>;
@@ -20,22 +20,22 @@ export class VariantsReviseView implements OnInit, OnDestroy {
   isSignedIn$?: Observable<boolean>;
 
   constructor(
-    private gql: VariantDetailGQL,
+    private gql: MolecularProfileDetailGQL,
     private route: ActivatedRoute,
     private viewerService: ViewerService
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      let observable = this.gql.watch({ variantId: +params.variantId }).valueChanges;
+      let observable = this.gql.watch({ mpId: +params.molecularProfileId }).valueChanges;
 
       this.loading$ = observable.pipe(pluck('loading'), startWith(true));
 
-      this.variant$ = observable.pipe(pluck('data', 'variant'));
+      this.molecularProfile$ = observable.pipe(pluck('data', 'molecularProfile'));
 
-      this.commentsTotal$ = this.variant$.pipe(pluck('comments', 'totalCount'));
+      this.commentsTotal$ = this.molecularProfile$.pipe(pluck('comments', 'totalCount'));
 
-      this.flagsTotal$ = this.variant$.pipe(pluck('flags', 'totalCount'));
+      this.flagsTotal$ = this.molecularProfile$.pipe(pluck('flags', 'totalCount'));
 
-      this.revisionsTotal$ = this.variant$.pipe(pluck('revisions', 'totalCount'));
+      this.revisionsTotal$ = this.molecularProfile$.pipe(pluck('revisions', 'totalCount'));
 
     });
   }

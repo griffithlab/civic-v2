@@ -3,17 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cvc-variants-suggest',
-  templateUrl: './variants-suggest.page.html',
-  styleUrls: ['./variants-suggest.page.less']
+  selector: 'cvc-molecular-profiles-suggest',
+  templateUrl: './molecular-profiles-suggest.page.html',
+  styleUrls: ['./molecular-profiles-suggest.page.less']
 })
-export class VariantsSuggestPage implements OnDestroy {
-  variantId?: number;
+export class MolecularProfilesSuggestPage implements OnDestroy {
+  molecularProfileId?: number;
   routeParams$: Subscription;
 
   constructor(private route: ActivatedRoute) {
     this.routeParams$ = this.route.params.subscribe((params) => {
-      this.variantId = +params.variantId;
+      this.molecularProfileId = +params.molecularProfileId;
     });
   }
 

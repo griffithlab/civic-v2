@@ -5822,6 +5822,22 @@ export type SuggestGeneRevisionMutationVariables = Exact<{
 
 export type SuggestGeneRevisionMutation = { __typename: 'Mutation', suggestGeneRevision?: { __typename: 'SuggestGeneRevisionPayload', clientMutationId?: string | undefined, gene: { __typename: 'Gene', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
 
+export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
+  molecularProfileId: Scalars['Int'];
+}>;
+
+
+export type MolecularProfileRevisableFieldsQuery = { __typename: 'Query', molecularProfile?: { __typename: 'MolecularProfile', id: number, description?: string | undefined, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: number }> } | undefined };
+
+export type RevisableMolecularProfileFieldsFragment = { __typename: 'MolecularProfile', id: number, description?: string | undefined, sources: Array<{ __typename: 'Source', id: number, sourceType: SourceSource, citation?: string | undefined, citationId: number }> };
+
+export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
+  input: SuggestMolecularProfileRevisionInput;
+}>;
+
+
+export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
+
 export type SuggestSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
 }>;
@@ -7484,6 +7500,18 @@ export const SubmittableEvidenceFieldsFragmentDoc = gql`
     `;
 export const RevisableGeneFieldsFragmentDoc = gql`
     fragment RevisableGeneFields on Gene {
+  id
+  description
+  sources {
+    id
+    sourceType
+    citation
+    citationId
+  }
+}
+    `;
+export const RevisableMolecularProfileFieldsFragmentDoc = gql`
+    fragment RevisableMolecularProfileFields on MolecularProfile {
   id
   description
   sources {
@@ -10710,6 +10738,49 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfileRevisableFieldsDocument = gql`
+    query MolecularProfileRevisableFields($molecularProfileId: Int!) {
+  molecularProfile(id: $molecularProfileId) {
+    ...RevisableMolecularProfileFields
+  }
+}
+    ${RevisableMolecularProfileFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfileRevisableFieldsGQL extends Apollo.Query<MolecularProfileRevisableFieldsQuery, MolecularProfileRevisableFieldsQueryVariables> {
+    document = MolecularProfileRevisableFieldsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SuggestMolecularProfileRevisionDocument = gql`
+    mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevisionInput!) {
+  suggestMolecularProfileRevision(input: $input) {
+    clientMutationId
+    molecularProfile {
+      id
+    }
+    results {
+      id
+      fieldName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SuggestMolecularProfileRevisionGQL extends Apollo.Mutation<SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables> {
+    document = SuggestMolecularProfileRevisionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

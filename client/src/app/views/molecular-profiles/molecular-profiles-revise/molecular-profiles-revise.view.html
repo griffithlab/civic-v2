@@ -1,5 +1,5 @@
-<ng-container *ngIf="variant$ | async as variant">
-  <cvc-section-navigation [displayName]="variant.name"> </cvc-section-navigation>
+<ng-container *ngIf="molecularProfile$ | async as mp">
+  <cvc-section-navigation [displayName]="mp.name"> </cvc-section-navigation>
 
   <nz-page-header class="site-page-header">
 
@@ -7,12 +7,12 @@
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
       <i nz-icon
-        nzType="civic:variant"></i> {{ variant.name }}
+        nzType="civic:molecularprofile"></i> {{ mp.name }}
     </nz-page-header-title>
 
     <!-- subtitle -->
     <nz-page-header-subtitle>
-      {{ variant.name}}
+      {{ mp.name}}
     </nz-page-header-subtitle>
 
     <nz-page-header-content>
