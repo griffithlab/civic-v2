@@ -10,7 +10,15 @@ class InputAdaptors::MolecularProfileInputAdaptor
     MolecularProfile.new(
       description: input.description,
       source_ids: input.source_ids,
+      molecular_profile_alias_ids: get_alias_ids(),
       name: name
     )
+  end
+
+  private
+  def get_alias_ids
+    input.aliases.map do |a|
+      MolecularProfileAlias.get_or_create_by_name(a).id
+    end
   end
 end

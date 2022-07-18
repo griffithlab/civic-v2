@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_18_174040) do
+ActiveRecord::Schema.define(version: 2022_07_18_182004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -505,6 +505,18 @@ ActiveRecord::Schema.define(version: 2022_07_18_174040) do
     t.index ["variant_id", "hgvs_expression_id"], name: "idx_variant_id_hgvs_id"
   end
 
+  create_table "molecular_profile_aliases", force: :cascade do |t|
+    t.string "name"
+    t.index ["name"], name: "index_molecular_profile_aliases_on_name"
+  end
+
+  create_table "molecular_profile_aliases_molecular_profiles", id: false, force: :cascade do |t|
+    t.bigint "molecular_profile_alias_id", null: false
+    t.bigint "molecular_profile_id", null: false
+    t.index ["molecular_profile_alias_id", "molecular_profile_id"], name: "idx_mp_alias_id_mp_id_on_mp_alias_join_table"
+    t.index ["molecular_profile_id"], name: "idx_mp_id_on_mp_alias_join_table"
+  end
+
   create_table "molecular_profiles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -884,6 +896,8 @@ ActiveRecord::Schema.define(version: 2022_07_18_174040) do
   add_foreign_key "gene_aliases_genes", "genes"
   add_foreign_key "genes_sources", "genes"
   add_foreign_key "genes_sources", "sources"
+  add_foreign_key "molecular_profile_aliases_molecular_profiles", "molecular_profile_aliases"
+  add_foreign_key "molecular_profile_aliases_molecular_profiles", "molecular_profiles"
   add_foreign_key "molecular_profiles_sources", "molecular_profiles"
   add_foreign_key "molecular_profiles_sources", "sources"
   add_foreign_key "molecular_profiles_variants", "molecular_profiles"

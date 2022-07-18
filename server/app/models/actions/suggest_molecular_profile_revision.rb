@@ -3,6 +3,7 @@ class Actions::SuggestMolecularProfileRevision < Actions::SuggestRevisionSet
     [
       :description,
       :source_ids,
+      :molecular_profile_alias_ids,
     ]
   end
 end

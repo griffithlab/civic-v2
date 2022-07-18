@@ -7,6 +7,7 @@ query MolecularProfileDetail($mpId: Int!) {
 fragment MolecularProfileDetailFields on MolecularProfile {
   id
   name
+  molecularProfileAliases
   flags(state: OPEN) {
     totalCount
   }

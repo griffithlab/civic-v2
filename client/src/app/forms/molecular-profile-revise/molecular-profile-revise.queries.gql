@@ -13,6 +13,7 @@ fragment RevisableMolecularProfileFields on MolecularProfile {
     citation
     citationId
   }
+  molecularProfileAliases
 }
 
 mutation SuggestMolecularProfileRevision($input: SuggestMolecularProfileRevisionInput!) {

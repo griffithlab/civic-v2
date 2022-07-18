@@ -39,6 +39,7 @@ export interface FormModel {
     id: number;
     description?: string;
     sources: FormSource[];
+    molecularProfileAliases: string[]
     comment: Maybe<string>;
     organization: Maybe<Organization>;
   };
@@ -109,6 +110,24 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
               type: 'source-input',
               templateOptions: {
                 required: true,
+              },
+            },
+          },
+          {
+            key: 'molecularProfileAliases',
+            type: 'multi-field',
+            wrappers: ['form-field'],
+            templateOptions: {
+              label: 'MolecularProfile Aliases',
+              addText: 'Add an Alias',
+              helpText: 'List any aliases commonly used to refer to this Molecular Profile.'
+            },
+            fieldArray: {
+              type: 'tag-input',
+              templateOptions: {
+                required: false,
+                placeholder: 'Add Alias',
+                minLength: 3,
               },
             },
           },
@@ -233,6 +252,7 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
         fields: {
           description: toNullableString(model.fields.description),
           sourceIds: model.fields.sources.map((s: any) => { return +s.id }),
+          aliases: model.fields.molecularProfileAliases,
         }
       }
     }

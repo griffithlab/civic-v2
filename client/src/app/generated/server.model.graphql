@@ -3404,6 +3404,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   link: String!
+  molecularProfileAliases: [String!]!
 
   """
   The human readable name of this profile, including gene and variant names.
@@ -3507,6 +3508,11 @@ input MolecularProfileComponentInput {
 Fields on a MolecularProfile that curators may propose revisions to.
 """
 input MolecularProfileFields {
+  """
+  List of aliases or alternate names for the MolecularProfile.
+  """
+  aliases: [String!]!
+
   """
   The MolecularProfile's description/summary text.
   """
@@ -6778,7 +6784,7 @@ input SuggestMolecularProfileRevisionInput {
   comment: String!
 
   """
-  The desired state of the Gene's editable fields if the change were applied.
+  The desired state of the Molecular Profile's editable fields if the change were applied.
   If no change is desired for a particular field, pass in the current value of that field.
   """
   fields: MolecularProfileFields!

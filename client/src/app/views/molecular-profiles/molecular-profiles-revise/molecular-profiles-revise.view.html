@@ -11,8 +11,10 @@
     </nz-page-header-title>
 
     <!-- subtitle -->
-    <nz-page-header-subtitle>
-      {{ mp.name}}
+    <nz-page-header-subtitle *ngIf="mp.molecularProfileAliases.length > 0">
+      <span *ngFor="let alias of mp.molecularProfileAliases; last as isLast">
+        {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
+      </span>
     </nz-page-header-subtitle>
 
     <nz-page-header-content>

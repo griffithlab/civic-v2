@@ -779,7 +779,7 @@ export type ModeratedObjectFieldFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MolecularProfileKeySpecifier = ('assertions' | 'comments' | 'description' | 'events' | 'evidenceItems' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'name' | 'parsedName' | 'rawName' | 'revisions' | 'sources' | 'variants' | MolecularProfileKeySpecifier)[];
+export type MolecularProfileKeySpecifier = ('assertions' | 'comments' | 'description' | 'events' | 'evidenceItems' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfileAliases' | 'name' | 'parsedName' | 'rawName' | 'revisions' | 'sources' | 'variants' | MolecularProfileKeySpecifier)[];
 export type MolecularProfileFieldPolicy = {
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -793,6 +793,7 @@ export type MolecularProfileFieldPolicy = {
 	lastCommentEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastSubmittedRevisionEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfileAliases?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	parsedName?: FieldPolicy<any> | FieldReadFunction<any>,
 	rawName?: FieldPolicy<any> | FieldReadFunction<any>,

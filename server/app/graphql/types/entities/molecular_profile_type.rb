@@ -21,6 +21,7 @@ module Types::Entities
       description: 'The collection of evidence items associated with this molecular profile.'
     field :sources, [Types::Entities::SourceType], null: false
     field :description, String, null: true
+    field :molecular_profile_aliases, [String], null: false
 
     def raw_name
       object.name
@@ -48,6 +49,12 @@ module Types::Entities
 
     def sources
       Loaders::AssociationLoader.for(MolecularProfile, :sources).load(object)
+    end
+
+    def molecular_profile_aliases
+      Loaders::AssociationLoader.for(MolecularProfile, :molecular_profile_aliases).load(object).then do |a|
+        a.map(&:name)
+      end
     end
   end
 end

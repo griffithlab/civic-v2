@@ -6,7 +6,7 @@ class Mutations::SuggestMolecularProfileRevision < Mutations::MutationWithOrg
 
   argument :fields, Types::Revisions::MolecularProfileFields, required: true,
     description: <<~DOC.strip
-      The desired state of the Gene's editable fields if the change were applied.
+      The desired state of the Molecular Profile's editable fields if the change were applied.
       If no change is desired for a particular field, pass in the current value of that field.
     DOC
 

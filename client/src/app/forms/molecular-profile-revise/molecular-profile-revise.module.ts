@@ -30,6 +30,7 @@ import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/
 import { CvcVariantCoordinatesCardTypeModule } from '../config/types/variant-coordinates-card/variant-coordinates-card.module';
 import { CvcVariantTypeInputTypeModule } from '../config/types/variant-type-input/variant-type-input.module';
 import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info.module';
+import { CvcTagInputTypeModule } from '../config/types/tag-input/tag-input.module';
 
 @NgModule({
   declarations: [MolecularProfileReviseForm],
@@ -63,6 +64,7 @@ import { CvcFormInfoWrapperModule } from '../config/wrappers/form-info/form-info
     CvcTextareaBaseTypeModule,
     CvcCancelButtonModule,
     CvcFormFieldWrapperModule,
+    CvcTagInputTypeModule,
     NgxJsonViewerModule,
     CvcFormInfoWrapperModule,
   ],

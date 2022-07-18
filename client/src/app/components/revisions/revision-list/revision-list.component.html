@@ -49,6 +49,17 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'molecular_profile_alias_ids'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Molecular Profile Aliases">
+              <ng-template #itemTemplate let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'clinvar_entry_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"

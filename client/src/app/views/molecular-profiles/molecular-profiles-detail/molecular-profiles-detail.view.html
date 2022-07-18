@@ -12,6 +12,13 @@
           nzType="civic:molecularprofile"></i> {{ mp.name }}
       </nz-page-header-title>
 
+      <!-- subtitle -->
+      <nz-page-header-subtitle *ngIf="mp.molecularProfileAliases.length > 0">
+        <span *ngFor="let alias of mp.molecularProfileAliases; last as isLast">
+          {{alias}}<span *ngIf="!isLast">,&nbsp;</span>
+        </span>
+      </nz-page-header-subtitle>
+
       <!-- header action btns, actions menu -->
       <nz-page-header-extra *ngrxLet="viewer$ as viewer">
         <nz-space nzDirection="horizontal"

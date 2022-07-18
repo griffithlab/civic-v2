@@ -15581,6 +15581,30 @@
               "deprecationReason": null
             },
             {
+              "name": "molecularProfileAliases",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "name",
               "description": "The human readable name of this profile, including gene and variant names.",
               "args": [],
@@ -16011,6 +16035,30 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "Int",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "aliases",
+              "description": "List of aliases or alternate names for the MolecularProfile.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
                       "ofType": null
                     }
                   }
@@ -29540,7 +29588,7 @@
             },
             {
               "name": "fields",
-              "description": "The desired state of the Gene's editable fields if the change were applied.\nIf no change is desired for a particular field, pass in the current value of that field.",
+              "description": "The desired state of the Molecular Profile's editable fields if the change were applied.\nIf no change is desired for a particular field, pass in the current value of that field.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
