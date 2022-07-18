@@ -61,6 +61,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   drugNameInput: Maybe<string>
+  aliasInput: Maybe<string>
 
   private initialQueryArgs?: BrowseMolecularProfilesQueryVariables
 
@@ -158,6 +159,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
         diseaseName: this.diseaseNameInput,
         drugName: this.drugNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        molecularProfileAlias: this.aliasInput ? this.aliasInput : undefined,
         entrezSymbol: this.geneSymbolInput,
       })
       .then(() => this.scrollIndex$.next(0));

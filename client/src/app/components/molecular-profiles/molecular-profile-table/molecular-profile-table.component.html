@@ -46,6 +46,10 @@
           nzLeft>
           Name
         </th>
+        <th nzWidth="200px"
+          nzLeft>
+          Aliases
+        </th>
         <th nzWidth="150px">
           Genes
         </th>
@@ -85,6 +89,10 @@
       <tr class="filter-row">
         <th></th>
         <th>
+          <cvc-clearable-input-filter [(inputModel)]="aliasInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
+        </th>
+        <th>
           <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
@@ -111,6 +119,11 @@
         <tr class="data-row">
           <td nzLeft>
             <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>
+          </td>
+          <td>
+            <cvc-plain-tag-overflow [maxDisplayCount]="1"
+              [tags]="mp.aliases | pluck: 'name'"
+              [matchingText]="aliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
             <cvc-gene-tag *ngFor="let gene of mp.genes" [gene]="gene"

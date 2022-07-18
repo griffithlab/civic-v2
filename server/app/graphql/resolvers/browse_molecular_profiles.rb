@@ -18,6 +18,7 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   option(:entrez_symbol, type: String)  { |scope, value| scope.where(json_name_query_for_column('genes'), "#{value}%") }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
+  option(:molecular_profile_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
 
   option :sort_by, type: Types::BrowseTables::MolecularProfilesSortType do |scope, value|
     case value.column
@@ -31,5 +32,10 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   def json_name_query_for_column(col)
     raise 'Must supply a column name' if col.nil?
     "molecular_profile_browse_table_rows.id IN (select mp.id FROM molecular_profile_browse_table_rows mp, json_array_elements(mp.#{col}) d where d->>'name' ILIKE ?)"
+  end
+
+  def array_query_for_column(col)
+    raise 'Must supply a column name' if col.nil?
+    "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(name) where name ILIKE ?)"
   end
 end

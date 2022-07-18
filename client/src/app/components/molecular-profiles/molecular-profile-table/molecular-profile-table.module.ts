@@ -48,6 +48,7 @@ import { CvcMolecularProfilesTableComponent } from './molecular-profile-table.co
     CvcTagOverflowModule,
     CvcVariantTagModule,
     CvcMolecularProfileTagModule,
+    CvcPlainTagOverflowModule
   ],
   exports: [CvcMolecularProfilesTableComponent]
 })

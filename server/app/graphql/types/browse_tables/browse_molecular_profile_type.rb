@@ -1,5 +1,6 @@
 module Types::BrowseTables
   class BrowseMolecularProfileType < Types::BaseObject
+    connection_type_class(Types::Connections::BrowseTableConnection)
 
     class LinkableTag < Types::BaseObject
       field :id, Int, null: false
@@ -16,7 +17,6 @@ module Types::BrowseTables
     class LinkableDrug < LinkableTag
     end
 
-    connection_type_class(Types::Connections::BrowseTableConnection)
     field :id, Int, null: false
     field :name, String, null: false
     field :diseases, [LinkableDisease], null: false
@@ -26,6 +26,7 @@ module Types::BrowseTables
     field :link, String, null: false
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
+    field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
 
 
     def name
@@ -58,6 +59,12 @@ module Types::BrowseTables
       Array(object.drugs)
         .sort_by { |d| -d['total']}
         .map { |d| { name: d['name'], id: d['id'], link: "/drugs/#{d['id']}"} }
+    end
+
+    def aliases
+      object.alias_names
+        .compact
+        .map { |d| { name: d } }
     end
   end
 end

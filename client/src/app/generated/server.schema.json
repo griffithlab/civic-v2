@@ -4094,6 +4094,30 @@
           "description": null,
           "fields": [
             {
+              "name": "aliases",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "MolecularProfileAlias",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "assertionCount",
               "description": null,
               "args": [],
@@ -15866,6 +15890,33 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "MolecularProfileAlias",
+          "description": null,
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INTERFACE",
           "name": "MolecularProfileComponent",
           "description": "A taggable/linkable component of a molecular profile\n",
@@ -20627,6 +20678,18 @@
                 },
                 {
                   "name": "drugName",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "molecularProfileAlias",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

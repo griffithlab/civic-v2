@@ -3,6 +3,7 @@ query BrowseMolecularProfiles(
   $entrezSymbol: String
   $diseaseName: String
   $drugName: String
+  $molecularProfileAlias: String,
   $sortBy: MolecularProfilesSort
   $first: Int
   $last: Int
@@ -14,6 +15,7 @@ query BrowseMolecularProfiles(
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
     drugName: $drugName
+    molecularProfileAlias: $molecularProfileAlias
     sortBy: $sortBy
     first: $first
     last: $last
@@ -43,6 +45,9 @@ fragment BrowseMolecularProfilesFields on BrowseMolecularProfile {
   name
   evidenceItemCount
   assertionCount
+  aliases {
+    name
+  }
   genes {
     id
     name

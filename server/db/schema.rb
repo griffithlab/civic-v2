@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_18_182004) do
+ActiveRecord::Schema.define(version: 2022_07_18_193405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1113,12 +1113,13 @@ ActiveRecord::Schema.define(version: 2022_07_18_182004) do
       SELECT outer_mps.id,
       outer_mps.name,
       count(DISTINCT evidence_items.id) AS evidence_item_count,
+      array_agg(DISTINCT molecular_profile_aliases.name ORDER BY molecular_profile_aliases.name) AS alias_names,
       json_agg(DISTINCT jsonb_build_object('name', genes.name, 'id', genes.id)) FILTER (WHERE (genes.name IS NOT NULL)) AS genes,
       json_agg(DISTINCT jsonb_build_object('name', variants.name, 'id', variants.id)) FILTER (WHERE (variants.name IS NOT NULL)) AS variants,
       json_agg(DISTINCT jsonb_build_object('name', diseases.name, 'id', diseases.id, 'total', disease_count.total)) FILTER (WHERE (diseases.name IS NOT NULL)) AS diseases,
       json_agg(DISTINCT jsonb_build_object('name', drugs.name, 'id', drugs.id, 'total', drug_count.total)) FILTER (WHERE (drugs.name IS NOT NULL)) AS drugs,
       count(DISTINCT assertions.id) AS assertion_count
-     FROM ((((((((((molecular_profiles outer_mps
+     FROM ((((((((((((molecular_profiles outer_mps
        JOIN evidence_items ON ((evidence_items.molecular_profile_id = outer_mps.id)))
        JOIN molecular_profiles_variants ON ((outer_mps.id = molecular_profiles_variants.molecular_profile_id)))
        JOIN variants ON ((molecular_profiles_variants.variant_id = variants.id)))
@@ -1127,6 +1128,8 @@ ActiveRecord::Schema.define(version: 2022_07_18_182004) do
        LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
        LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
        LEFT JOIN assertions ON ((assertions.molecular_profile_id = outer_mps.id)))
+       LEFT JOIN molecular_profile_aliases_molecular_profiles ON ((molecular_profile_aliases_molecular_profiles.molecular_profile_id = outer_mps.id)))
+       LEFT JOIN molecular_profile_aliases ON ((molecular_profile_aliases.id = molecular_profile_aliases_molecular_profiles.molecular_profile_alias_id)))
        LEFT JOIN LATERAL ( SELECT drugs_1.id AS drug_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM ((evidence_items evidence_items_1

@@ -965,6 +965,7 @@ type BrowseGeneEdge {
 }
 
 type BrowseMolecularProfile {
+  aliases: [MolecularProfileAlias!]!
   assertionCount: Int!
   diseases: [LinkableDisease!]!
   drugs: [LinkableDrug!]!
@@ -3478,6 +3479,10 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
   variants: [Variant!]!
 }
 
+type MolecularProfileAlias {
+  name: String!
+}
+
 """
 A taggable/linkable component of a molecular profile
 """
@@ -4569,6 +4574,7 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+    molecularProfileAlias: String
     sortBy: MolecularProfilesSort
     variantName: String
   ): BrowseMolecularProfileConnection!
