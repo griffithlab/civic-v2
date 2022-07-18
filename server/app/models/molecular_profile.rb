@@ -22,6 +22,10 @@ class MolecularProfile < ActiveRecord::Base
     segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
   end
 
+  def link
+    Rails.application.routes.url_helpers.url_for("/molecular-profiles/#{self.id}")
+  end
+
   def segments
     #TODO - we could batch these queries if it becomes an issue
     @segments ||= name.split(' ').map do |segment|
