@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MolecularProfilesDetailView } from './molecular-profiles-detail.view';
+import { MolecularProfilesRevisionsModule } from './molecular-profiles-revisions/molecular-profiles-revisions.module';
+import { MolecularProfilesRevisionsPage } from './molecular-profiles-revisions/molecular-profiles-revisions.page';
 import { MolecularProfilesSummaryModule } from './molecular-profiles-summary/molecular-profiles-summary.module';
 import { MolecularProfilesSummaryPage } from './molecular-profiles-summary/molecular-profiles-summary.page';
 
@@ -25,13 +27,15 @@ const routes: Routes = [
           breadcrumb: 'Comments',
         },
       },
+*/
       {
         path: 'revisions',
-        component: MolecularProfileRevisionsPage,
+        component: MolecularProfilesRevisionsPage,
         data: {
           breadcrumb: 'Revisions',
         },
       },
+/*
       {
         path: 'flags',
         component: MolecularProfileFlagsPage,
@@ -53,7 +57,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
-    MolecularProfilesSummaryModule
+    MolecularProfilesSummaryModule,
+    MolecularProfilesRevisionsModule,
   ],
   exports: [RouterModule],
 })

@@ -14,6 +14,7 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 import { MolecularProfileDetailRoutingModule } from './molecular-profiles-detail-routing.module';
 import { MolecularProfilesDetailView } from './molecular-profiles-detail.view';
+import { MolecularProfilesRevisionsPage } from './molecular-profiles-revisions/molecular-profiles-revisions.page';
 
 @NgModule({
   declarations: [MolecularProfilesDetailView],

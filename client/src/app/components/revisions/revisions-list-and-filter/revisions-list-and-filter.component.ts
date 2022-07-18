@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL, VariantSummaryGQL, VariantGroupsSummaryGQL, AssertionSummaryGQL, GenesSummaryGQL, EvidenceSummaryGQL} from '@app/generated/civic.apollo';
+import { RevisionsGQL, RevisionsQuery, RevisionsQueryVariables, Maybe, RevisionFragment, ModeratedEntities, RevisionStatus, PageInfo, VariantDetailGQL, AssertionDetailGQL, GeneDetailGQL, EvidenceDetailGQL, VariantGroupDetailGQL, VariantSummaryGQL, VariantGroupsSummaryGQL, AssertionSummaryGQL, GenesSummaryGQL, EvidenceSummaryGQL, MolecularProfileDetailGQL, MolecularProfileSummaryGQL} from '@app/generated/civic.apollo';
 import { Observable, Subscription } from 'rxjs';
 import { QueryRef } from 'apollo-angular';
 import { map, pluck, startWith } from 'rxjs/operators';
@@ -70,7 +70,9 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
     private geneDetailGql: GeneDetailGQL,
     private geneSummaryGql: GenesSummaryGQL,
     private evidenceDetailGql: EvidenceDetailGQL,
-    private evidenceSummaryGql: EvidenceSummaryGQL
+    private evidenceSummaryGql: EvidenceSummaryGQL,
+    private molecularProfileDetailGql: MolecularProfileDetailGQL,
+    private molecularProfileSummaryGql: MolecularProfileSummaryGQL
   ) {
   }
 
@@ -172,6 +174,16 @@ export class RevisionsListAndFilterComponent implements OnDestroy, OnInit {
         this.refetchQueries.push({
           query: this.variantGroupSummaryGql.document,
           variables: { variantGroupId: this.id }
+        })
+        return
+      case ModeratedEntities.MolecularProfile:
+        this.refetchQueries.push({
+          query: this.molecularProfileDetailGql.document,
+          variables: { molecularProfileId: this.id }
+        })
+        this.refetchQueries.push({
+          query: this.molecularProfileSummaryGql.document,
+          variables: { molecularProfileId: this.id }
         })
         return
     }

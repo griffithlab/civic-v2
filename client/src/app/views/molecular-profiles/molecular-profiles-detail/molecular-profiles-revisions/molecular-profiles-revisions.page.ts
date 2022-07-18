@@ -4,12 +4,12 @@ import { ModeratedEntities } from '@app/generated/civic.apollo';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cvc-variants-revisions',
-  templateUrl: './variants-revisions.page.html',
-  styleUrls: ['./variants-revisions.page.less']
+  selector: 'cvc-molecular-profiles-revisions',
+  templateUrl: './molecular-profiles-revisions.page.html',
+  styleUrls: ['./molecular-profiles-revisions.page.less']
 })
-export class VariantsRevisionsPage implements OnDestroy {
-  variantId!: number
+export class MolecularProfilesRevisionsPage implements OnDestroy {
+  molecularProfileId!: number
   entityType!: ModeratedEntities
   
   routeSub: Subscription
@@ -18,8 +18,8 @@ export class VariantsRevisionsPage implements OnDestroy {
     private route: ActivatedRoute
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
-      this.variantId= +params.variantId;
-      this.entityType = ModeratedEntities['Variant']
+      this.molecularProfileId= +params.molecularProfileId;
+      this.entityType = ModeratedEntities['MolecularProfile']
     });
   }
 
