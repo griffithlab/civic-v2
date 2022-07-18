@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantsCommentsPage } from './variants-comments.page';
 import { CvcCommentListModule } from '@app/components/comments/comment-list/comment-list.module';
+import { MolecularProfilesCommentsPage } from './molecular-profiles-comments.page';
 
 @NgModule({
-  declarations: [VariantsCommentsPage],
+  declarations: [MolecularProfilesCommentsPage],
   imports: [
     CommonModule,
     CvcCommentListModule
   ],
-  exports: [VariantsCommentsPage],
+  exports: [MolecularProfilesCommentsPage],
 })
-export class VariantsCommentsModule { }
+export class MolecularProfilesCommentsModule { }
