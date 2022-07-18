@@ -19,7 +19,7 @@ export class MolecularProfilesRevisionsPage implements OnDestroy {
   ) {
     this.routeSub = this.route.params.subscribe((params) => {
       this.molecularProfileId= +params.molecularProfileId;
-      this.entityType = ModeratedEntities['MolecularProfile']
+      this.entityType = ModeratedEntities.MolecularProfile
     });
   }
 

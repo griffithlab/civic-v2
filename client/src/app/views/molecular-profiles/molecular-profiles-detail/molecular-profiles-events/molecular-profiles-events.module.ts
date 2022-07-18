@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VariantsEventsPage } from './variants-events.page';
+import { MolecularProfilesEventsPage } from './molecular-profiles-events.page';
 import { CvcEventFeedModule } from '@app/components/events/event-feed/event-feed.module';
 
 
 @NgModule({
-  declarations: [VariantsEventsPage],
+  declarations: [MolecularProfilesEventsPage],
   imports: [
     CommonModule,
     CvcEventFeedModule
   ],
-  exports: [VariantsEventsPage]
+  exports: [MolecularProfilesEventsPage]
 })
-export class VariantsEventsModule { }
+export class MolecularProfilesEventsModule { }

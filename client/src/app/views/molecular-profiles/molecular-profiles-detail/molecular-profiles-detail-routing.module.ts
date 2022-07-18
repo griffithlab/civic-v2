@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { MolecularProfilesCommentsModule } from './molecular-profiles-comments/molecular-profiles-comments.module';
 import { MolecularProfilesCommentsPage } from './molecular-profiles-comments/molecular-profiles-comments.page';
 import { MolecularProfilesDetailView } from './molecular-profiles-detail.view';
+import { MolecularProfilesEventsModule } from './molecular-profiles-events/molecular-profiles-events.module';
+import { MolecularProfilesEventsPage } from './molecular-profiles-events/molecular-profiles-events.page';
 import { MolecularProfilesFlagsModule } from './molecular-profiles-flags/molecular-profiles-flags.module';
 import { MolecularProfilesFlagsPage } from './molecular-profiles-flags/molecular-profiles-flags.page';
 import { MolecularProfilesRevisionsModule } from './molecular-profiles-revisions/molecular-profiles-revisions.module';
@@ -45,14 +47,13 @@ const routes: Routes = [
           breadcrumb: 'Flags',
         },
       },
-  /*
       {
         path: 'events',
-        component: MolecularProfileEventsPage,
+        component: MolecularProfilesEventsPage,
         data: {
           breadcrumb: 'Events',
         },
-      }, */
+      },
     ],
   },
 ];
@@ -64,6 +65,7 @@ const routes: Routes = [
     MolecularProfilesRevisionsModule,
     MolecularProfilesCommentsModule,
     MolecularProfilesFlagsModule,
+    MolecularProfilesEventsModule,
   ],
   exports: [RouterModule],
 })
