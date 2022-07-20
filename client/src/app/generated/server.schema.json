@@ -711,6 +711,22 @@
               "deprecationReason": null
             },
             {
+              "name": "molecularProfile",
+              "description": "The newly created molecular profile for the new variant.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MolecularProfile",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "new",
               "description": "True if the variant was newly created. False if the returned variant was already in the database.",
               "args": [],

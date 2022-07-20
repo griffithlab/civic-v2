@@ -4,6 +4,10 @@ module Actions
       parse_name_from_complex_component(structure)
     end
 
+    def self.generate_single_variant_mp_name(variant: )
+        "#GID#{variant.gene.id} #VID#{variant.id}"
+    end
+
     private
     def self.parse_name_from_complex_component(complex_component)
       if complex_component.variant_components.present?
@@ -39,7 +43,7 @@ module Actions
     def self.parse_name_from_variant_components(components, boolean_operator)
       variant_names = components.sort_by { |c| c.variant_id }.map do |c|
         variant = Variant.find(c.variant_id)
-        name = "#GID#{variant.gene.id} #VID#{variant.id}"
+        name = generate_single_variant_mp_name(variant: variant)
         if c.not
           name = "NOT #{name}"
         end

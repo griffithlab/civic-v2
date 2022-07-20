@@ -25,6 +25,9 @@ fragment AddVariantFields on AddVariantPayload {
     id
     name
   }
+  molecularProfile {
+    id
+  }
 }
 
 query VariantSelect($name: String!, $geneId: Int) {

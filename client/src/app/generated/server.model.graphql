@@ -250,6 +250,11 @@ type AddVariantPayload {
   clientMutationId: String
 
   """
+  The newly created molecular profile for the new variant.
+  """
+  molecularProfile: MolecularProfile!
+
+  """
   True if the variant was newly created. False if the returned variant was already in the database.
   """
   new: Boolean!

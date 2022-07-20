@@ -29,6 +29,7 @@ module Types::Entities
     field :hgvs_descriptions, [String], null: false
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
     field :link, String, null: false
+    field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
