@@ -28,6 +28,7 @@ class Variant < ApplicationRecord
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 
   after_save :update_allele_registry_id
+  after_commit :reindex_mps
 
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
@@ -68,5 +69,9 @@ class Variant < ApplicationRecord
 
   def update_allele_registry_id
     SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
+  end
+
+  def reindex_mps
+    self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 end

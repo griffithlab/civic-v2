@@ -5370,6 +5370,11 @@ type Query {
     The term to query for
     """
     query: String!
+
+    """
+    The types of objects to search. Omitting this value searches all.
+    """
+    types: [SearchableEntities!]
   ): [SearchResult!]!
   searchByPermalink(permalinkId: String!): AdvancedSearchResult!
   searchGenes(createPermalink: Boolean = false, query: GeneSearchFilter!): AdvancedSearchResult!
@@ -5956,6 +5961,7 @@ enum SearchableEntities {
   ASSERTION
   EVIDENCE_ITEM
   GENE
+  MOLECULAR_PROFILE
   REVISION
   VARIANT
   VARIANT_GROUP

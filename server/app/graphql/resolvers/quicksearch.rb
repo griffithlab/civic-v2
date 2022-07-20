@@ -2,11 +2,26 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   type [Types::Quicksearch::SearchResult], null: false
 
   argument :query, String, required: true, description: 'The term to query for'
+  argument :types, [Types::Quicksearch::SearchableEntities], required: false,
+    description: 'The types of objects to search. Omitting this value searches all.'
 
-  def resolve(query: )
+  def resolve(query:, types: nil)
+    query_targets = if types.blank?
+                      [
+                       Gene, 
+                       Variant,
+                       EvidenceItem,
+                       Assertion,
+                       VariantGroup, 
+                       Revision, 
+                       MolecularProfile
+                      ]
+                    else
+                      types
+                    end
     results = Searchkick.search(
       query,
-      models: [Gene, Variant, EvidenceItem, Assertion, VariantGroup, Revision],
+      models: query_targets,
       highlight: { tag: '<strong>' },
       limit: 10,
       fields: ['id^10', 'name', 'aliases', 'gene']
@@ -16,7 +31,7 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
       {
         id: res.id,
         name: format_name(res.name, highlights),
-        result_type: format_type_name(res),
+        result_type: res.class,
         matching_text: format_highlights(highlights)
       }
     end
@@ -24,25 +39,6 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
 
 
   private
-  def format_type_name(type)
-    case type
-    when Gene
-      'GENE'
-    when Variant
-      'VARIANT'
-    when VariantGroup
-      'VARIANT_GROUP'
-    when EvidenceItem
-      'EVIDENCE_ITEM'
-    when Assertion
-      'ASSERTION'
-    when Revision
-      'REVISION'
-    else
-      raise StandardError.new('Unsupported type for quicksearch')
-    end
-  end
-
   def format_name(name, highlights)
     if highlights[:name]
       highlights[:name].first

@@ -1,5 +1,5 @@
-query Quicksearch($query: String!) {
-  search(query: $query) {
+query Quicksearch($query: String!, $types: [SearchableEntities!]) {
+  search(query: $query, types: $types) {
     ...QuicksearchResult
   }
 }

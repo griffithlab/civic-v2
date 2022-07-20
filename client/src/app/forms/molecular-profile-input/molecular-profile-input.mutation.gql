@@ -27,11 +27,3 @@ query userTypeahead($queryTerm: String!) {
     username
   }
 }
-
-query entityTypeahead($queryTerm: String!) {
-  entityTypeahead(queryTerm: $queryTerm) {
-    entityId
-    tagType
-    displayName
-  }
-}

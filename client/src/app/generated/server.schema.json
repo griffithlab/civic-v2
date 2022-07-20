@@ -23719,6 +23719,26 @@
                   "defaultValue": null,
                   "isDeprecated": false,
                   "deprecationReason": null
+                },
+                {
+                  "name": "types",
+                  "description": "The types of objects to search. Omitting this value searches all.",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "SearchableEntities",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null,
+                  "isDeprecated": false,
+                  "deprecationReason": null
                 }
               ],
               "type": {
@@ -26317,6 +26337,12 @@
             },
             {
               "name": "REVISION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "MOLECULAR_PROFILE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

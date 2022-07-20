@@ -12,6 +12,16 @@ class MolecularProfile < ActiveRecord::Base
 
   validates :name, presence: true
 
+  searchkick highlight: [:name, :aliases], callbacks: :async
+  scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
+
+  def search_data
+    {
+      name: self.display_name,
+      aliases: self.molecular_profile_aliases.map(&:name)
+    }
+  end
+
   GENE_REGEX = /#GID(?<id>\d+)/i
   VARIANT_REGEX = /#VID(?<id>\d+)/i
 
