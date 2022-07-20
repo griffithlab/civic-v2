@@ -1,10 +1,7 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
   OnDestroy,
-  Output,
+  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 
@@ -13,24 +10,24 @@ import {
   Observable
 } from 'rxjs';
 
+
 import {
-  PreviewCommentGQL,
-  PreviewCommentFragment,
-  UserTypeaheadGQL,
-  UserTypeaheadQuery,
-  UserTypeaheadQueryVariables,
   EntityTypeaheadGQL,
   EntityTypeaheadQuery,
   EntityTypeaheadQueryVariables,
   TaggableEntity,
-  UserRole
+  UserRole,
+  PreviewMpNameFragment,
+  PreviewMolecularProfileNameGQL,
+  PreviewMolecularProfileNameQueryVariables,
+  PreviewMolecularProfileNameQuery
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, debounceTime, filter, pluck } from 'rxjs/operators';
 import {QueryRef } from 'apollo-angular';
-import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
-import { MpParseResult, parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
+import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
+import { isNonNulled } from 'rxjs-etc';
 
 
 interface WithDisplayNameAndValue {
@@ -44,47 +41,40 @@ interface WithDisplayNameAndValue {
   styleUrls: ['./molecular-profile-input.form.less'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CvcMolecularProfileInputForm implements OnDestroy, OnChanges {
-  @Input()  comment?: string;
-  @Output() commentChange = new EventEmitter<string>();
-  
+export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
   private destroy$ = new Subject();
+  private debouncedPreview = new Subject();
 
-  previewComment$?: Observable<PreviewCommentFragment[]>
-  previewLoading$?: Observable<boolean>
+  previewQueryRef?: QueryRef<PreviewMolecularProfileNameQuery, PreviewMolecularProfileNameQueryVariables>
+
+  previewMpName$?: Observable<PreviewMpNameFragment[]>
 
   suggestions: WithDisplayNameAndValue[] = [];
-  roleSuggestions = [{displayName: 'admins', value: 'admins'}, {displayName: 'editors', value: 'editors'}]
-  commentText?: string;
 
-  viewer$?: Observable<Viewer>;
+  mpName?: string;
 
+  parseError?: string
 
-  parseResult: MpParseResult | undefined
-
-  private userTypeaheadQueryRef$!: QueryRef<UserTypeaheadQuery, UserTypeaheadQueryVariables>;
   private entityTypeaheadQueryRef$!: QueryRef<EntityTypeaheadQuery, EntityTypeaheadQueryVariables>;
 
-  constructor(private previewCommentGql: PreviewCommentGQL, private userTypeaheadGql: UserTypeaheadGQL, private entityTypeaheadGql: EntityTypeaheadGQL, private viewerService: ViewerService) {
+  constructor(private previewMpGql: PreviewMolecularProfileNameGQL, private entityTypeaheadGql: EntityTypeaheadGQL) {
   }
 
   ngOnInit(): void {
-    this.viewer$ = this.viewerService.viewer$;
+    this.previewQueryRef = this.previewMpGql.watch({})
 
-    this.commentText = this.comment
-
-    this.userTypeaheadQueryRef$ = this.userTypeaheadGql.watch({
-      queryTerm: ''
-    });
-
-    this.userTypeaheadQueryRef$.valueChanges.pipe(
-      map(({data}) => data.userTypeahead),
+    this.previewMpName$ = this.previewQueryRef.valueChanges.pipe(
+      pluck('data'),
+      filter(isNonNulled),
+      map((data) => data.previewMolecularProfileName),
       takeUntil(this.destroy$)
-    ).subscribe((users) => this.suggestions = users.map((u) => {return {displayName: u.username, value: u.username }}))
+    );
 
-    this.entityTypeaheadQueryRef$ = this.entityTypeaheadGql.watch({
-      queryTerm: ''
-    })
+    this.debouncedPreview
+    .pipe(
+      takeUntil(this.destroy$),
+      debounceTime(500))
+    .subscribe((_) => this.refresh());
 
     this.entityTypeaheadQueryRef$.valueChanges.pipe(
       map(({data}) => data.entityTypeahead),
@@ -97,9 +87,6 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnChanges {
     }))
   }
 
-  ngOnChanges() {
-    this.commentText = this.comment;
-  }
 
   autoCompleteValueFor(x: WithDisplayNameAndValue): string {
     return x.value;
@@ -127,7 +114,7 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnChanges {
   }
 
   resetForm(): void {
-    this.commentText = ''
+    this.mpName = ''
   }
 
   ngOnDestroy(): void {
@@ -135,29 +122,29 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  onPreviewButtonClicked() {
-    if (this.commentText) {
-      this.parseResult = parseMolecularProfile(this.commentText)
-/*       this.previewComment$ = this.previewCommentGql.watch({commentText: this.commentText}).valueChanges.pipe(
-        map(({data}) => { return data.previewCommentText })
-      );
-      this.previewLoading$ = this.previewCommentGql.watch({commentText: this.commentText}).valueChanges.pipe(
-        map(({loading}) => { return loading }), startWith(true)
-      ) */
-    }
-  }
-
   onSearchChange({ value, prefix }: MentionOnSearchTypes): void {
     if(prefix === "@") {
-      this.userTypeaheadQueryRef$.refetch({queryTerm: value})
+      //this.userTypeaheadQueryRef$.refetch({queryTerm: value})
     } else if (prefix == '$') {
-      this.suggestions = this.roleSuggestions.filter((role) => role.value.startsWith(value))
     } else {
       this.entityTypeaheadQueryRef$.refetch({queryTerm: value})
     }
   }
 
-  onCommentChanged(e: string): void {
-    this.commentChange.emit(e)
+  onMpNameChanged(e: string): void {
+    this.debouncedPreview.next();
+  }
+
+  refresh() {
+    if(this.mpName && this.mpName.trim() != '') {
+      let res = parseMolecularProfile(this.mpName)
+      if('errorMessage' in res) {
+        this.parseError = res.errorMessage
+      } else {
+        this.previewQueryRef?.refetch({mpStructure: res}).then(() => this.parseError = undefined)
+      }
+    } else {
+      this.parseError = undefined
+    }
   }
 }

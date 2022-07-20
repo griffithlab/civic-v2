@@ -137,7 +137,7 @@ module Types
     end
 
     field :preview_molecular_profile_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false do
-      argument :structure, Types::MolecularProfile::MolecularProfileComponentInput, required: true,
+      argument :structure, Types::MolecularProfile::MolecularProfileComponentInput, required: false,
         validates: { Types::MolecularProfile::MolecularProfileComponentValidator => {} }
     end
 
@@ -270,7 +270,11 @@ module Types
       Actions::FormatCommentText.get_segments(text: comment_text)
     end
 
-    def preview_molecular_profile_name(structure: )
+    def preview_molecular_profile_name(structure: nil)
+      if structure.nil? 
+        return []
+      end
+
       variant_ids = structure.variant_ids.uniq
       variants = Variant.where(id: variant_ids)
 

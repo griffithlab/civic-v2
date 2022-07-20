@@ -40,17 +40,13 @@ class Mutations::AddVariant < Mutations::BaseMutation
       }
 
     else
-      new_variant = Variant.new(name: name, gene_id: gene_id, civic_actionability_score: 0)
-
-      cmd = Actions::CreateMolecularProfile.new(
-        variants: [new_variant]
-      )
+      cmd = Actions::CreateVariant.new(variant_name: name, gene_id: gene_id)
 
       res = cmd.perform
 
       if res.succeeded?
         return {
-          variant: new_variant,
+          variant: res.variant,
           new: true,
           molecular_profile: res.molecular_profile
         }

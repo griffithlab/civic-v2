@@ -30,7 +30,7 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
   end
 
   def resolve(structure: )
-    cmd = Actions::CreateMolecularProfile.new(
+    cmd = Actions::CreateComplexMolecularProfile.new(
       variants: variants,
       structure: structure,
     )

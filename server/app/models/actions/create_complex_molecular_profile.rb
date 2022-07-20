@@ -1,21 +1,13 @@
 module Actions
-  class CreateMolecularProfile
+  class CreateComplexMolecularProfile
     include Actions::Transactional
 
     attr_reader :variants, :structure, :molecular_profile, :mp_name
 
-    def initialize(variants:, structure: nil)
+    def initialize(variants:, structure:)
       @variants = variants
       @structure = structure
-      if structure.nil?
-        if variants.size == 1
-          @mp_name = Actions::GenerateMolecularProfileName.generate_single_variant_mp_name(variant: variants.first)
-        else
-          raise StandardError.new("Must provide a molecular profile structure object for a multi variant mp")
-        end
-      else
-        @mp_name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
-      end
+      @mp_name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
     end
 
     private
@@ -29,11 +21,6 @@ module Actions
       else
         mp = MolecularProfile.where(name: mp_name).first_or_create!
         
-        if variants.size == 1
-          variants.first.single_variant_molecular_profile = mp
-          variants.first.save!
-        end
-
         mp.variants = variants
         mp.save!
 
@@ -41,6 +28,5 @@ module Actions
       end
       #TODO: do we want to subscribe the creating user to the mp?
     end
-
   end
 end

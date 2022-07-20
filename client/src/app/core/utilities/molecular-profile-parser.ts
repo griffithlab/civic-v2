@@ -11,7 +11,7 @@ const variantToken = /^(?<not>NOT\s)?\s*#VID(?<variantId>\d+)$/i;
 const whitespace = /\s+/;
 const exprPlaceholder = 'EXPR';
 
-interface MpParseError {
+export interface MpParseError {
   errorMessage: string;
 }
 

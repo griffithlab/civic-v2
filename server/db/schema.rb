@@ -840,7 +840,7 @@ ActiveRecord::Schema.define(version: 2022_07_20_155942) do
     t.float "civic_actionability_score"
     t.text "allele_registry_id"
     t.boolean "flagged", default: false, null: false
-    t.integer "single_variant_molecular_profile_id", null: false
+    t.integer "single_variant_molecular_profile_id"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"

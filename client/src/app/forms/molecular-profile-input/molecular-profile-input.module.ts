@@ -15,6 +15,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzMentionModule } from 'ng-zorro-antd/mention';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [CvcMolecularProfileInputForm],
@@ -27,11 +30,14 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     NzTabsModule,
     NzFormModule,
     NzSpinModule,
+    NzSpaceModule,
     NzMentionModule,
+    NzAlertModule,
     FormsModule,
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
+    CvcMolecularProfileTagNameModule,
     NgxJsonViewerModule
   ],
   exports: [CvcMolecularProfileInputForm]

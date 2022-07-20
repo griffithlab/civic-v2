@@ -19,7 +19,6 @@ class StoreSingleVariantMpId < ActiveRecord::Migration[6.1]
     remove_index :molecular_profiles, :name
     add_index :molecular_profiles, :name, unique: true
     add_foreign_key :variants, :molecular_profiles, column: :single_variant_molecular_profile_id
-    change_column_null :variants, :single_variant_molecular_profile_id, false
   end
 
   def down

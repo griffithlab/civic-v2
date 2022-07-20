@@ -1,29 +1,26 @@
-query previewComment($commentText: String!) {
-  previewCommentText(commentText: $commentText) {
-    ...previewComment
+query previewMolecularProfileName($mpStructure: MolecularProfileComponentInput) {
+  previewMolecularProfileName(structure: $mpStructure) {
+    ...previewMpName
   }
 }
 
-fragment previewComment on CommentBodySegment {
-  __typename
-  ...on CommentTagSegment {
-    entityId
-    displayName
-    tagType
-    status
+fragment previewMpName on MolecularProfileSegment {
     __typename
-  }
-  ... on CommentTextSegment {
-    text
-    __typename
-  }
-  ... on User {
-    id
-    displayName
-    role
-    __typename
-  }
+    ... on MolecularProfileTextSegment {
+      text
+    }
+    ... on Gene {
+      id
+      name
+      link
+    }
+    ... on Variant {
+      id
+      name
+      link
+    }
 }
+
 
 query userTypeahead($queryTerm: String!) {
   userTypeahead(queryTerm: $queryTerm) {

@@ -23448,13 +23448,9 @@
                   "name": "structure",
                   "description": null,
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "MolecularProfileComponentInput",
-                      "ofType": null
-                    }
+                    "kind": "INPUT_OBJECT",
+                    "name": "MolecularProfileComponentInput",
+                    "ofType": null
                   },
                   "defaultValue": null,
                   "isDeprecated": false,
