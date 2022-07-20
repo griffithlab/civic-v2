@@ -2806,6 +2806,7 @@ export type Query = {
   /** List and filter Phenotypes from the Human Phenotype Ontology. */
   phenotypes: BrowsePhenotypeConnection;
   previewCommentText: Array<CommentBodySegment>;
+  previewMolecularProfileName: Array<MolecularProfileSegment>;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
   /** Find a revision by CIViC ID */
@@ -3227,6 +3228,11 @@ export type QueryPhenotypesArgs = {
 
 export type QueryPreviewCommentTextArgs = {
   commentText: Scalars['String'];
+};
+
+
+export type QueryPreviewMolecularProfileNameArgs = {
+  structure: MolecularProfileComponentInput;
 };
 
 

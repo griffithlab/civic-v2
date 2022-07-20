@@ -136,6 +136,11 @@ module Types
       argument :comment_text, String, required: true
     end
 
+    field :preview_molecular_profile_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false do
+      argument :structure, Types::MolecularProfile::MolecularProfileComponentInput, required: true,
+        validates: { Types::MolecularProfile::MolecularProfileComponentValidator => {} }
+    end
+
     field :genes, resolver: Resolvers::TopLevelGenes
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
@@ -263,6 +268,20 @@ module Types
 
     def preview_comment_text(comment_text:)
       Actions::FormatCommentText.get_segments(text: comment_text)
+    end
+
+    def preview_molecular_profile_name(structure: )
+      variant_ids = structure.variant_ids.uniq
+      variants = Variant.where(id: variant_ids)
+
+      if variants.size !=  variant_ids.size
+        missing = variant_ids - variants.map(&:id)
+        raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+      end
+
+      name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
+
+      ::MolecularProfile.new(name: name).segments
     end
 
     def countries

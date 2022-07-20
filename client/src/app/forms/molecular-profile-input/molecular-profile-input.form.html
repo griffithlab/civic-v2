@@ -1,0 +1,25 @@
+<ng-container *ngrxLet="this.viewer$ as viewer">
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="Write">
+      <nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#', '@', '$']"
+          nzNotFoundContent="No matches..."
+          [nzValueWith]="autoCompleteValueFor"
+          (nzOnSelect)="this.suggestions = []">
+        <textarea
+          nzMentionTrigger
+          nz-input
+          rows="4"
+          style="width: 100%"
+          [(ngModel)]="commentText"
+          (ngModelChange)="onCommentChanged($event)"
+        ></textarea>
+        <ng-container *nzMentionSuggestion="let entity">
+          <span>{{entity.displayName}}</span>
+        </ng-container>
+      </nz-mention>
+    </nz-tab>
+    <nz-tab nzTitle="Preview" (nzClick)="this.onPreviewButtonClicked()">
+      <ngx-json-viewer [json]="this.parseResult"></ngx-json-viewer>
+    </nz-tab>
+  </nz-tabset>
+</ng-container>

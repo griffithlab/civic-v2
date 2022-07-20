@@ -5289,6 +5289,7 @@ type Query {
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!
   previewCommentText(commentText: String!): [CommentBodySegment!]!
+  previewMolecularProfileName(structure: MolecularProfileComponentInput!): [MolecularProfileSegment!]!
 
   """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
