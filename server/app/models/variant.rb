@@ -20,6 +20,9 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :sources
   has_one :evidence_items_by_status
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
+  has_one :single_variant_molecular_profile,
+    ->(variant) { where(name: Actions::GenerateMolecularProfileName.generate_single_variant_mp_name(variant: variant)).first },
+    class_name: 'MolecularProfile'
 
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 
