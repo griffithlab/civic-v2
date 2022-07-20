@@ -28,8 +28,15 @@ module Actions
         end
       else
         mp = MolecularProfile.where(name: mp_name).first_or_create!
+        
+        if variants.size == 1
+          variants.first.single_variant_molecular_profile = mp
+          variants.first.save!
+        end
+
         mp.variants = variants
         mp.save!
+
         @molecular_profile = mp
       end
       #TODO: do we want to subscribe the creating user to the mp?

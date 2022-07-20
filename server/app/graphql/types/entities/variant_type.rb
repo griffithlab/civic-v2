@@ -43,6 +43,10 @@ module Types::Entities
       Loaders::AssociationLoader.for(Variant, :variant_types).load(object)
     end
 
+    def single_variant_molecular_profile
+      Loaders::AssociationLoader.for(Variant, :single_variant_molecular_profile).load(object)
+    end
+
     def primary_coordinates
       if (object.representative_transcript.blank? && object.chromosome.blank? && object.start.blank? && object.stop.blank?)
         return nil

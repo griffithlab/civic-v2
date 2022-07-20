@@ -32466,6 +32466,22 @@
               "deprecationReason": null
             },
             {
+              "name": "singleVariantMolecularProfile",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "MolecularProfile",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sources",
               "description": null,
               "args": [],

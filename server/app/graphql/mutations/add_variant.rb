@@ -32,23 +32,31 @@ class Mutations::AddVariant < Mutations::BaseMutation
       .where('name ILIKE ?', name)
       .first
 
-    return_values = {}
     if existing_variant.present?
-      return_values = { variant: existing_variant, new: false }
-    else
-      new_variant = Variant.create!(name: name, gene_id: gene_id, civic_actionability_score: 0)
-      return_values = { variant: new_variant, new: true}
-    end
-    cmd = Actions::CreateMolecularProfile.new(
-      variants: [ return_values[:variant] ]
-    )
-    res = cmd.perform
+      return { 
+        variant: existing_variant,
+        new: false,
+        molecular_profile: existing_variant.single_variant_molecular_profile
+      }
 
-    if res.succeeded?
-      return_values[:molecular_profile] = res.molecular_profile
-      return return_values
     else
-      raise GraphQL::ExecutionError, res.errors.join(', ')
+      new_variant = Variant.new(name: name, gene_id: gene_id, civic_actionability_score: 0)
+
+      cmd = Actions::CreateMolecularProfile.new(
+        variants: [new_variant]
+      )
+
+      res = cmd.perform
+
+      if res.succeeded?
+        return {
+          variant: new_variant,
+          new: true,
+          molecular_profile: res.molecular_profile
+        }
+      else
+        raise GraphQL::ExecutionError, res.errors.join(', ')
+      end
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_18_193405) do
+ActiveRecord::Schema.define(version: 2022_07_20_155942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,7 +524,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_193405) do
     t.text "description"
     t.boolean "flagged", default: false, null: false
     t.index ["description"], name: "index_molecular_profiles_on_description"
-    t.index ["name"], name: "index_molecular_profiles_on_name"
+    t.index ["name"], name: "index_molecular_profiles_on_name", unique: true
   end
 
   create_table "molecular_profiles_sources", id: false, force: :cascade do |t|
@@ -840,6 +840,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_193405) do
     t.float "civic_actionability_score"
     t.text "allele_registry_id"
     t.boolean "flagged", default: false, null: false
+    t.integer "single_variant_molecular_profile_id", null: false
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -849,6 +850,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_193405) do
     t.index ["name"], name: "index_variants_on_name"
     t.index ["reference_bases"], name: "index_variants_on_reference_bases"
     t.index ["secondary_gene_id"], name: "index_variants_on_secondary_gene_id"
+    t.index ["single_variant_molecular_profile_id"], name: "index_variants_on_single_variant_molecular_profile_id"
     t.index ["start"], name: "index_variants_on_start"
     t.index ["start2"], name: "index_variants_on_start2"
     t.index ["stop"], name: "index_variants_on_stop"
@@ -923,6 +925,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_193405) do
   add_foreign_key "variant_group_variants", "variants"
   add_foreign_key "variants", "genes"
   add_foreign_key "variants", "genes", column: "secondary_gene_id"
+  add_foreign_key "variants", "molecular_profiles", column: "single_variant_molecular_profile_id"
 
   create_view "evidence_items_by_statuses", sql_definition: <<-SQL
       SELECT v.id AS variant_id,
