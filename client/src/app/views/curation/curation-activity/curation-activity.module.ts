@@ -11,6 +11,7 @@ import { CurationTimelineModule } from './curation-timeline/curation-timeline.mo
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CurationActivityView],
@@ -23,6 +24,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzSpaceModule,
     NzTypographyModule,
     NzGridModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcTabNavigationModule,
   ]

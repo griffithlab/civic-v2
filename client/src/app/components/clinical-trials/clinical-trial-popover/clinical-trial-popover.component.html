@@ -1,11 +1,14 @@
 <div id="popover-content">
-  <ng-container *ngIf="clinicalTrial$ | ngrxPush as t" >
-    <nz-card [nzTitle]="cardTitle" nzBordered="false"
+  <ng-container *ngIf="clinicalTrial$ | ngrxPush as t">
+    <nz-card [nzTitle]="cardTitle"
+      nzBordered="false"
       id="card-content"
       [nzExtra]="linkout">
       <ng-template #cardTitle>
         <i nz-icon
-          nzType="civic:clinicaltrial"></i> {{ t.nctId }}
+          nzTheme="twotone"
+          [nzTwotoneColor]="'ClinicalTrial' | entityColor"
+          nzType="civic-clinicaltrial"></i> {{ t.nctId }}
       </ng-template>
       <ng-template #linkout>
         <cvc-link-tag [href]="t.url">

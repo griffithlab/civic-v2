@@ -3,7 +3,9 @@
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <i nz-icon
-        nzType="civic:clinicaltrial"></i> {{ trial.nctId }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'ClinicalTrial' | entityColor"
+        nzType="civic-clinicaltrial"></i> {{ trial.nctId }}
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag [href]="trial.url"

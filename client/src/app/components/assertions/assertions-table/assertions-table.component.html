@@ -390,7 +390,9 @@
 
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:assertion"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Assertion' | entityColor"
+    nzType="civic-assertion"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

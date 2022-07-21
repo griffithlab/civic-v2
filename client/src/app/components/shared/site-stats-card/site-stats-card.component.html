@@ -62,8 +62,12 @@
           <nz-statistic [nzTitle]="statsType + ' Variants'"
             [nzValue]="(stats.variants[statsTypes[statsType]] | number)!"
             [nzPrefix]="variantIcon"></nz-statistic>
-          <ng-template #variantIcon><i nz-icon
-              nzType="civic:variant"></i></ng-template>
+          <ng-template #variantIcon>
+            <i nz-icon
+              nzTheme="twotone"
+              [nzTwotoneColor]="'Variant' | entityColor"
+              nzType="civic-variant"></i>
+          </ng-template>
         </a>
       </nz-col>
       <nz-col nzFlex="1">

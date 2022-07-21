@@ -9,6 +9,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [DrugsHomePage],
@@ -20,6 +21,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzTypographyModule,
     NzSpaceModule,
     NzButtonModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcDrugsTableModule,
   ],

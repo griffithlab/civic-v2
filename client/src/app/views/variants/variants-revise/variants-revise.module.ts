@@ -9,6 +9,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     VariantsReviseRoutingModule,
     NzPageHeaderModule,
     NzIconModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcLoginPromptModule,
     ReactiveComponentModule,

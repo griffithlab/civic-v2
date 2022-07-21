@@ -1,27 +1,31 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenesReviseView } from './genes-revise.view';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { GenesReviseRoutingModule } from './genes-revise-routing.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { GenesReviseRoutingModule } from './genes-revise-routing.module';
+import { GenesReviseView } from './genes-revise.view';
 
 @NgModule({
   declarations: [GenesReviseView],
   imports: [
     CommonModule,
-    GenesReviseRoutingModule,
     RouterModule,
-    CvcSectionNavigationModule,
+    ReactiveComponentModule,
+    GenesReviseRoutingModule,
+
     NzPageHeaderModule,
     NzIconModule,
-    ReactiveComponentModule,
     NzGridModule,
-    CvcLoginPromptModule
+
+    CvcLoginPromptModule,
+    CvcSectionNavigationModule,
+    CvcPipesModule,
   ]
 })
 export class GenesReviseModule { }

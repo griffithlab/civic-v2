@@ -11,6 +11,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RouterModule } from '@angular/router';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [SourcesHomePage],
@@ -18,14 +19,17 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     CommonModule,
     RouterModule,
     ReactiveComponentModule,
+
     NzPageHeaderModule,
     NzIconModule,
     NzGridModule,
     NzButtonModule,
     NzTypographyModule,
     NzSpaceModule,
+
     CvcSectionNavigationModule,
     CvcSourcesTableModule,
+    CvcPipesModule,
   ],
   exports: [SourcesHomePage]
 })
