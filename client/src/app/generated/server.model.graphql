@@ -5369,7 +5369,7 @@ type Query {
     """
     Should matches come back highlighted
     """
-    highlightMatches: Boolean = false
+    highlightMatches: Boolean
 
     """
     The term to query for
