@@ -4623,9 +4623,9 @@ export type AssertionsBrowseQueryVariables = Exact<{
 }>;
 
 
-export type AssertionsBrowseQuery = { __typename: 'Query', assertions: { __typename: 'AssertionConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'AssertionEdge', cursor: string, node?: { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, evidenceItemsCount: number, status: EvidenceStatus, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }> } | undefined }> } };
+export type AssertionsBrowseQuery = { __typename: 'Query', assertions: { __typename: 'AssertionConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | undefined, endCursor?: string | undefined }, edges: Array<{ __typename: 'AssertionEdge', cursor: string, node?: { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, evidenceItemsCount: number, status: EvidenceStatus, flagged: boolean, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }> } | undefined }> } };
 
-export type AssertionBrowseFieldsFragment = { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, evidenceItemsCount: number, status: EvidenceStatus, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }> };
+export type AssertionBrowseFieldsFragment = { __typename: 'Assertion', id: number, name: string, link: string, drugInteractionType?: DrugInteraction | undefined, summary: string, assertionType: AssertionType, assertionDirection: AssertionDirection, clinicalSignificance: AssertionClinicalSignificance, ampLevel?: AmpLevel | undefined, evidenceItemsCount: number, status: EvidenceStatus, flagged: boolean, gene: { __typename: 'Gene', id: number, name: string, link: string }, variant: { __typename: 'Variant', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, name: string, link: string }> };
 
 export type ClinicalTrialPopoverQueryVariables = Exact<{
   clinicalTrialId: Scalars['Int'];
@@ -5166,9 +5166,9 @@ export type VariantsMenuQueryVariables = Exact<{
 }>;
 
 
-export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string } | undefined }> } };
+export type VariantsMenuQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'VariantEdge', cursor: string, node?: { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean } | undefined }> } };
 
-export type MenuVariantFragment = { __typename: 'Variant', id: number, name: string, link: string };
+export type MenuVariantFragment = { __typename: 'Variant', id: number, name: string, link: string, flagged: boolean };
 
 export type BrowseVariantsQueryVariables = Exact<{
   variantName?: InputMaybe<Scalars['String']>;
@@ -5947,6 +5947,7 @@ export const AssertionBrowseFieldsFragmentDoc = gql`
   ampLevel
   evidenceItemsCount
   status
+  flagged
 }
     `;
 export const ClinicalTrialPopoverFragmentDoc = gql`
@@ -6804,6 +6805,7 @@ export const MenuVariantFragmentDoc = gql`
   id
   name
   link
+  flagged
 }
     `;
 export const BrowseVariantsFieldsFragmentDoc = gql`

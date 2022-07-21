@@ -4,9 +4,10 @@ import { getEntityColor } from '@app/core/utilities/get-entity-color';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableVariant {
-  id: number;
-  name: string;
-  link: string;
+  id: number
+  name: string
+  link: string
+  flagged?: boolean
 }
 
 @Component({

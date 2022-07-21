@@ -5,8 +5,9 @@ import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 export interface LinkableAssertion {
   id: number,
   name: string,
-  status?: EvidenceStatus,
   link: string,
+  status?: EvidenceStatus,
+  flagged?: boolean,
 }
 
 @Component({
@@ -18,9 +19,9 @@ export interface LinkableAssertion {
 export class CvcAssertionTagComponent {
   _assertion!: LinkableAssertion
   @Input()
-  set assertion(eid: LinkableAssertion) {
-    if (!eid) { throw new Error('cvc-assertion-tag assertion input requires LinkableAssertion.') }
-    this._assertion = eid;
+  set assertion(assertion: LinkableAssertion) {
+    if (!assertion) { throw new Error('cvc-assertion-tag assertion input requires LinkableAssertion.') }
+    this._assertion = assertion;
   }
   get assertion(): LinkableAssertion { return this._assertion; }
   @Input() linked: Maybe<boolean> = true

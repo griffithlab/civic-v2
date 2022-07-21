@@ -24,9 +24,8 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <cvc-icon-badges [hasComments]="false"
-    [hasRevisions]="0.3 | devRandomBool"
-    [flagged]="0.1 | devRandomBool"
+  <cvc-icon-badges
+    [flagged]="variant.flagged"
     [entityColor]="iconColor">
     <i nz-icon nzType="civic-variant" nzTheme="twotone" nzTwotoneColor="#33B358"></i>
 </cvc-icon-badges>
