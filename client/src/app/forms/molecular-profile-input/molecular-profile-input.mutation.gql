@@ -20,10 +20,3 @@ fragment previewMpName on MolecularProfileSegment {
       link
     }
 }
-
-
-query userTypeahead($queryTerm: String!) {
-  userTypeahead(queryTerm: $queryTerm) {
-    username
-  }
-}

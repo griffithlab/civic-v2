@@ -3265,6 +3265,7 @@ export type QueryRevisionsArgs = {
 
 
 export type QuerySearchArgs = {
+  highlightMatches?: InputMaybe<Scalars['Boolean']>;
   query: Scalars['String'];
   types?: InputMaybe<Array<SearchableEntities>>;
 };
@@ -5180,6 +5181,7 @@ export type BrowseGenesFieldsFragment = { __typename: 'BrowseGene', id: number, 
 export type QuicksearchQueryVariables = Exact<{
   query: Scalars['String'];
   types?: InputMaybe<Array<SearchableEntities> | SearchableEntities>;
+  highlightMatches?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -9100,8 +9102,8 @@ export const BrowseGenesDocument = gql`
     }
   }
 export const QuicksearchDocument = gql`
-    query Quicksearch($query: String!, $types: [SearchableEntities!]) {
-  search(query: $query, types: $types) {
+    query Quicksearch($query: String!, $types: [SearchableEntities!], $highlightMatches: Boolean) {
+  search(query: $query, types: $types, highlightMatches: $highlightMatches) {
     ...QuicksearchResult
   }
 }

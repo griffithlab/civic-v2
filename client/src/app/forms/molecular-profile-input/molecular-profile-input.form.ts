@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -10,17 +11,15 @@ import {
   Observable
 } from 'rxjs';
 
-
 import {
-  EntityTypeaheadGQL,
-  EntityTypeaheadQuery,
-  EntityTypeaheadQueryVariables,
-  TaggableEntity,
-  UserRole,
   PreviewMpNameFragment,
   PreviewMolecularProfileNameGQL,
   PreviewMolecularProfileNameQueryVariables,
-  PreviewMolecularProfileNameQuery
+  PreviewMolecularProfileNameQuery,
+  QuicksearchGQL,
+  QuicksearchQuery,
+  QuicksearchQueryVariables,
+  SearchableEntities
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
@@ -28,6 +27,7 @@ import { map, takeUntil, debounceTime, filter, pluck } from 'rxjs/operators';
 import {QueryRef } from 'apollo-angular';
 import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
 import { isNonNulled } from 'rxjs-etc';
+import { tag } from 'rxjs-spy/cjs/operators';
 
 
 interface WithDisplayNameAndValue {
@@ -46,22 +46,27 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
   private debouncedPreview = new Subject();
 
   previewQueryRef?: QueryRef<PreviewMolecularProfileNameQuery, PreviewMolecularProfileNameQueryVariables>
+  typeaheadQueryRef?: QueryRef<QuicksearchQuery, QuicksearchQueryVariables>
 
   previewMpName$?: Observable<PreviewMpNameFragment[]>
 
-  suggestions: WithDisplayNameAndValue[] = [];
+  suggestions: WithDisplayNameAndValue[] = []
+  loading: boolean = false
 
   mpName?: string;
 
   parseError?: string
+  displayPreview: boolean = false
 
-  private entityTypeaheadQueryRef$!: QueryRef<EntityTypeaheadQuery, EntityTypeaheadQueryVariables>;
-
-  constructor(private previewMpGql: PreviewMolecularProfileNameGQL, private entityTypeaheadGql: EntityTypeaheadGQL) {
+  constructor(private previewMpGql: PreviewMolecularProfileNameGQL, private quicksearchGql: QuicksearchGQL, cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.previewQueryRef = this.previewMpGql.watch({})
+    this.typeaheadQueryRef = this.quicksearchGql.watch({
+      query: 'ZZZZ',
+      types: [SearchableEntities.Variant]
+    })
 
     this.previewMpName$ = this.previewQueryRef.valueChanges.pipe(
       pluck('data'),
@@ -70,47 +75,30 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
       takeUntil(this.destroy$)
     );
 
+    this.typeaheadQueryRef.valueChanges.pipe(
+      pluck('data'),
+      filter(isNonNulled),
+      pluck('search'),
+      filter(isNonNulled),
+      map((search) => search.map(res => {return {displayName: res.name, value: `VID${res.id}`}})),
+      takeUntil(this.destroy$)
+    ).subscribe((res) => this.suggestions = res)
+    
+    this.typeaheadQueryRef.valueChanges.pipe(
+      pluck('loading'),
+      filter(isNonNulled),
+      takeUntil(this.destroy$)
+    ).subscribe((loading) => this.loading = loading)
+
     this.debouncedPreview
     .pipe(
       takeUntil(this.destroy$),
       debounceTime(500))
     .subscribe((_) => this.refresh());
-
-    this.entityTypeaheadQueryRef$.valueChanges.pipe(
-      map(({data}) => data.entityTypeahead),
-      takeUntil(this.destroy$)
-    ).subscribe((tagEntities) => this.suggestions = tagEntities.map((t) => {
-      return {
-        displayName: t.displayName,
-        value: this.tagForEntityTypeAndId(t.tagType, t.entityId) 
-      } 
-    }))
   }
-
 
   autoCompleteValueFor(x: WithDisplayNameAndValue): string {
     return x.value;
-  }
-
-  tagForEntityTypeAndId(entityType: TaggableEntity, id: number): string {
-    switch (entityType) {
-      case (TaggableEntity.Gene):
-        return `GID${id}`;
-      case TaggableEntity.Variant:
-        return `VID${id}`;
-      case TaggableEntity.VariantGroup:
-        return `VGID${id}`;
-      case TaggableEntity.EvidenceItem:
-        return `EID${id}`;
-      case TaggableEntity.Assertion:
-        return `AID${id}`;
-      case TaggableEntity.Revision:
-        return `RID${id}`;
-      case TaggableEntity.MolecularProfile:
-        return `MPID${id}`
-      case TaggableEntity.Role:
-        return Object.keys(UserRole)[id];
-    }
   }
 
   resetForm(): void {
@@ -123,11 +111,8 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
   }
 
   onSearchChange({ value, prefix }: MentionOnSearchTypes): void {
-    if(prefix === "@") {
-      //this.userTypeaheadQueryRef$.refetch({queryTerm: value})
-    } else if (prefix == '$') {
-    } else {
-      this.entityTypeaheadQueryRef$.refetch({queryTerm: value})
+    if(prefix === "#") {
+      this.typeaheadQueryRef?.refetch({query: value, types: [SearchableEntities.Variant]})
     }
   }
 
@@ -139,12 +124,15 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
     if(this.mpName && this.mpName.trim() != '') {
       let res = parseMolecularProfile(this.mpName)
       if('errorMessage' in res) {
-        this.parseError = res.errorMessage
+        this.parseError = res.errorMessage;
+        this.displayPreview = false;
       } else {
-        this.previewQueryRef?.refetch({mpStructure: res}).then(() => this.parseError = undefined)
+        this.parseError = undefined;
+        this.previewQueryRef?.refetch({mpStructure: res}).then(() => this.displayPreview = true);
       }
     } else {
-      this.parseError = undefined
+      this.parseError = undefined;
+      this.displayPreview = false;
     }
   }
 }

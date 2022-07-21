@@ -1,5 +1,5 @@
-query Quicksearch($query: String!, $types: [SearchableEntities!]) {
-  search(query: $query, types: $types) {
+query Quicksearch($query: String!, $types: [SearchableEntities!], $highlightMatches: Boolean) {
+  search(query: $query, types: $types, highlightMatches: $highlightMatches) {
     ...QuicksearchResult
   }
 }

@@ -1,19 +1,21 @@
 <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
-  <cvc-mp-tag-name *ngIf="!this.parseError" [nameSegments]="mpName"></cvc-mp-tag-name>
+  <cvc-mp-tag-name *ngIf="this.displayPreview" [nameSegments]="mpName"></cvc-mp-tag-name>
 </ng-container>
 
 <ng-container *ngIf="parseError">
   {{parseError}}
 </ng-container>
 
-<nz-mention [nzSuggestions]="suggestions" (nzOnSearchChange)="onSearchChange($event)" [nzPrefix]="['#']"
-  nzNotFoundContent="No matches..." [nzValueWith]="autoCompleteValueFor" (nzOnSelect)="this.suggestions = []">
+
+<nz-mention [nzStatus]="this.parseError ? 'warning' : ''" [nzSuggestions]="this.suggestions"
+  (nzOnSearchChange)="onSearchChange($event)" nzPrefix="#" nzNotFoundContent="No matches..."
+  [nzValueWith]="autoCompleteValueFor" (nzOnSelect)="this.suggestions = []">
 
   <textarea nzMentionTrigger nz-input rows="1" style="width: 100%" [(ngModel)]="mpName"
     (ngModelChange)="onMpNameChanged($event)"></textarea>
 
-  <ng-container *nzMentionSuggestion="let entity">
-    <span>{{entity.displayName}}</span>
+  <ng-container *nzMentionSuggestion="let variant">
+    <span>{{variant.displayName}}</span>
   </ng-container>
 
 </nz-mention>

@@ -4,8 +4,10 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
   argument :query, String, required: true, description: 'The term to query for'
   argument :types, [Types::Quicksearch::SearchableEntities], required: false,
     description: 'The types of objects to search. Omitting this value searches all.'
+  argument :highlight_matches, Boolean, required: false,
+    description: 'Should matches come back highlighted'
 
-  def resolve(query:, types: nil)
+  def resolve(query:, types: nil, highlight_matches: false)
     query_targets = if types.blank?
                       [
                        Gene, 
@@ -19,13 +21,20 @@ class Resolvers::Quicksearch < GraphQL::Schema::Resolver
                     else
                       types
                     end
+
+    tag = if highlight_matches
+            { tag: '<strong>' }
+          else
+            { tag: '' }
+          end
+
     results = Searchkick.search(
-      query,
-      models: query_targets,
-      highlight: { tag: '<strong>' },
-      limit: 10,
-      fields: ['id^10', 'name', 'aliases', 'gene']
-    ).with_highlights(multiple: true)
+                  query,
+                  models: query_targets,
+                  highlight: tag,
+                  limit: 10,
+                  fields: ['id^10', 'name', 'aliases', 'gene']
+                ).with_highlights(multiple: true)
 
     results.map do |res, highlights|
       {

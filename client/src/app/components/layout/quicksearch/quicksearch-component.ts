@@ -86,7 +86,7 @@ export class CvcQuicksearchComponent {
 
     // set queryRef with watch(), return its valueChanges observable
     const watchQuery = (str: string) => {
-      this.queryRef = this.gql.watch({ query: str })
+      this.queryRef = this.gql.watch({ query: str, highlightMatches: true })
       return this.queryRef.valueChanges
     }
 

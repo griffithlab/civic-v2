@@ -5367,6 +5367,11 @@ type Query {
   ): RevisionConnection!
   search(
     """
+    Should matches come back highlighted
+    """
+    highlightMatches: Boolean = false
+
+    """
     The term to query for
     """
     query: String!
