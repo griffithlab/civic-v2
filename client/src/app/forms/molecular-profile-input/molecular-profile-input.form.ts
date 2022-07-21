@@ -63,10 +63,10 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.previewQueryRef = this.previewMpGql.watch({})
-    this.typeaheadQueryRef = this.quicksearchGql.watch({
+/*     this.typeaheadQueryRef = this.quicksearchGql.watch({
       query: 'ZZZZ',
       types: [SearchableEntities.Variant]
-    })
+    }) */
 
     this.previewMpName$ = this.previewQueryRef.valueChanges.pipe(
       pluck('data'),
@@ -75,7 +75,7 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
       takeUntil(this.destroy$)
     );
 
-    this.typeaheadQueryRef.valueChanges.pipe(
+/*     this.typeaheadQueryRef.valueChanges.pipe(
       pluck('data'),
       filter(isNonNulled),
       pluck('search'),
@@ -88,7 +88,7 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
       pluck('loading'),
       filter(isNonNulled),
       takeUntil(this.destroy$)
-    ).subscribe((loading) => this.loading = loading)
+    ).subscribe((loading) => this.loading = loading) */
 
     this.debouncedPreview
     .pipe(
@@ -112,7 +112,7 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
 
   onSearchChange({ value, prefix }: MentionOnSearchTypes): void {
     if(prefix === "#") {
-      this.typeaheadQueryRef?.refetch({query: value, types: [SearchableEntities.Variant]})
+     // this.typeaheadQueryRef?.refetch({query: value, types: [SearchableEntities.Variant]})
     }
   }
 
