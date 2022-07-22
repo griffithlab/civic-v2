@@ -28,7 +28,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { FormGene } from '../forms.interfaces';
+import { FormGene, FormVariant } from '../forms.interfaces';
 
 
 interface FormSource {
@@ -54,11 +54,6 @@ interface FormPhenotype {
   id: number;
   hpoId?: string;
   name?: string;
-}
-
-interface FormVariant {
-  id: number;
-  name: string;
 }
 
 /* SuggestEvidenceItemRevisionInput
@@ -355,8 +350,10 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     return {
       fields: {
         ...evidence,
-        gene: [evidence.gene],
-        variant: [evidence.variant],
+        //gene: [evidence.gene],
+        //variant: [evidence.variant],
+        gene: [],
+        variant: [],
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
         disease: [evidence.disease],
@@ -418,7 +415,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          variantId: fields.variant[0].id,
+          molecularProfileId: fields.variant[0].singleVariantMolecularProfileId,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,

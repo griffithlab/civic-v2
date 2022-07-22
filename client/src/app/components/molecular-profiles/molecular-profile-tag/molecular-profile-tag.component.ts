@@ -17,7 +17,9 @@ export interface LinkableMolecularProfile {
 export class CvcMolecularProfileTagComponent extends BaseCloseableTag implements OnInit {
   @Input() molecularProfile!: LinkableMolecularProfile;
   @Input() enablePopover: Maybe<boolean> = true
-  @Input() truncateLongName: Maybe<boolean> = false
+  @Input() truncateLongName: boolean|number = false
+
+  truncationLength: number = 20
 
   constructor() {
     super();
@@ -33,6 +35,9 @@ export class CvcMolecularProfileTagComponent extends BaseCloseableTag implements
       throw new Error(
         'cvc-molecular-profile-tag requires LinkableMolecularProfile input, none supplied.'
       );
+    }
+    if (typeof this.truncateLongName === 'number' ) {
+      this.truncationLength = this.truncateLongName
     }
   }
 }

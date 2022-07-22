@@ -33,6 +33,7 @@ export interface FormGene {
 export interface FormVariant {
   id?: number;
   name: string;
+  singleVariantMolecularProfileId: number,
 }
 
 export interface FormEvidence {

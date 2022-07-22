@@ -3,8 +3,8 @@ module Types::Revisions
     description 'Fields on an EvidenceItem that curators may propose revisions to.'
     argument :description, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "The Evidence Items's description/summary text."
-    argument :variant_id, Int, required: true,
-      description: 'The ID of the Variant to which this EvidenceItem belongs'
+    argument :molecular_profile_id, Int, required: true,
+      description: 'The ID of the Molecular Profile to which this EvidenceItem belongs'
     argument :variant_origin, Types::VariantOriginType, required: true,
       description: 'The Variant Origin for this EvidenceItem.'
     argument :source_id, Int, required: true,

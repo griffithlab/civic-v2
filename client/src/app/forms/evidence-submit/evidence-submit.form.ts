@@ -336,7 +336,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          variantId: fields.variant[0].id!,
+          molecularProfileId: fields.variant[0].singleVariantMolecularProfileId!,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,

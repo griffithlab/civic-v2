@@ -19,6 +19,11 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
     ...VariantMolecularProfileCardFields
   }
   parsedName {
+    ...MolecularProfileParsedName
+  }
+}
+
+fragment MolecularProfileParsedName on MolecularProfileSegment {
     __typename
     ... on MolecularProfileTextSegment {
       text
@@ -33,7 +38,6 @@ fragment MolecularProfileSummaryFields on MolecularProfile {
       name
       link
     }
-  }
 }
 
 

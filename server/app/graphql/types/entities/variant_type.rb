@@ -30,6 +30,7 @@ module Types::Entities
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
     field :link, String, null: false
     field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
+    field :single_variant_molecular_profile_id, Int, null: false
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)

@@ -432,7 +432,6 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     """
     state: FlagState
   ): FlagConnection!
-  gene: Gene!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
@@ -499,7 +498,6 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   status: EvidenceStatus!
   submissionEvent: Event!
   summary: String!
-  variant: Variant!
   variantOrigin: VariantOrigin!
 }
 
@@ -2221,12 +2219,12 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     """
     state: FlagState
   ): FlagConnection!
-  gene: Gene!
   id: Int!
   lastAcceptedRevisionEvent: Event
   lastCommentEvent: Event
   lastSubmittedRevisionEvent: Event
   link: String!
+  molecularProfile: MolecularProfile!
   name: String!
   phenotypes: [Phenotype!]!
   rejectionEvent: Event
@@ -2378,6 +2376,11 @@ input EvidenceItemFields {
   evidenceType: EvidenceType!
 
   """
+  The ID of the Molecular Profile to which this EvidenceItem belongs
+  """
+  molecularProfileId: Int!
+
+  """
   List of IDs of CIViC Phenotype entries for this EvidenceItem. An empty list indicates none.
   """
   phenotypeIds: [Int!]!
@@ -2391,11 +2394,6 @@ input EvidenceItemFields {
   The ID of the Source from which this EvidenceItem was curated.
   """
   sourceId: Int!
-
-  """
-  The ID of the Variant to which this EvidenceItem belongs
-  """
-  variantId: Int!
 
   """
   The Variant Origin for this EvidenceItem.
@@ -7592,6 +7590,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   ): RevisionConnection!
   secondaryCoordinates: Coordinate
   singleVariantMolecularProfile: MolecularProfile!
+  singleVariantMolecularProfileId: Int!
   sources: [Source!]!
   variantAliases: [String!]!
   variantBases: String

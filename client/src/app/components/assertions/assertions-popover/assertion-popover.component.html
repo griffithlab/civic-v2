@@ -3,7 +3,7 @@
     <nz-card [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="geneAndVariant">
+      [nzExtra]="molecularProfile">
       <ng-template #cardTitle>
         <nz-space>
           <ng-container *nzSpaceItem>
@@ -14,9 +14,8 @@
           <cvc-status-tag *nzSpaceItem [status]="assertion.status" style="font-weight: normal"></cvc-status-tag>
         </nz-space>
       </ng-template>
-      <ng-template #geneAndVariant>
-        <cvc-gene-tag [enablePopover]="false" [gene]="assertion.gene"></cvc-gene-tag>
-        <cvc-variant-tag [enablePopover]="false" [variant]="assertion.variant"></cvc-variant-tag>
+      <ng-template #molecularProfile>
+        <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false" [truncateLongName]="true"></cvc-molecular-profile-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
@@ -30,7 +29,17 @@
         </nz-col>
       </nz-row>
 
-      <nz-descriptions nzSize="small"
+      <nz-space nzDirection="vertical" nzSize="small">
+      <nz-descriptions *nzSpaceItem nzSize="small"
+        [nzColumn]="1"
+        nzBordered="true">
+
+        <nz-descriptions-item nzTitle="MP Expression">
+          <cvc-mp-tag-name [nameSegments]="assertion.molecularProfile.parsedName" [enablePopover]="false"></cvc-mp-tag-name>
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-descriptions *nzSpaceItem nzSize="small"
         [nzColumn]="2"
         nzBordered="true">
 
@@ -127,6 +136,7 @@
         </nz-descriptions-item>
 
       </nz-descriptions>
+      </nz-space>
 
       <!-- entity comment, flags, etc. tags -->
       <nz-row id="entity-child-counts">

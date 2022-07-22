@@ -14,6 +14,7 @@ import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-te
 import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 
 @NgModule({
   declarations: [EvidenceReviseView],
@@ -25,8 +26,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzIconModule,
     NzTypographyModule,
     NzSpaceModule,
-    CvcGeneTagModule,
-    CvcVariantTagModule,
+    CvcMolecularProfileTagModule,
     CvcSectionNavigationModule,
     CvcCommentTextareaTypeModule,
     CvcLoginPromptModule,

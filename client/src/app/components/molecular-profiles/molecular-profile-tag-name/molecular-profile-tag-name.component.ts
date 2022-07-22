@@ -8,6 +8,7 @@ import { MolecularProfileSegment } from "@app/generated/civic.apollo";
 })
 export class CvcMolecularProfileTagNameComponent implements OnInit {
     @Input() nameSegments!: MolecularProfileSegment[]
+    @Input() enablePopover: boolean = true
 
     ngOnInit() {
         if(this.nameSegments === undefined) {

@@ -6,16 +6,17 @@ query EvidenceItemRevisableFields($evidenceId: Int!) {
 
 fragment RevisableEvidenceFields on EvidenceItem {
   id
-  gene {
-    id
-    name
-    link
-  }
-  variant {
-    id
-    name
-    link
-  }
+  # gene {
+  #   id
+  #   name
+  #   link
+  # }
+  # variant {
+  #   id
+  #   name
+  #   link
+  #   singleVariantMolecularProfileId
+  # }
   variantOrigin
   description
   clinicalSignificance

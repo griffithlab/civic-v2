@@ -170,14 +170,14 @@
           <nz-descriptions nzSize="small"
             nzBordered="true"
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
-            <!-- gene -->
-            <nz-descriptions-item nzTitle="Gene">
-              <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
+            <!-- molecular profile -->
+            <nz-descriptions-item nzTitle="Molecular Profile">
+              <cvc-molecular-profile-tag [molecularProfile]="evidence.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
-            <!-- variant -->
-            <nz-descriptions-item nzTitle="Variant">
-              <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
+            <!-- molecular profile expression -->
+            <nz-descriptions-item nzTitle="MP Expression">
+              <cvc-mp-tag-name [nameSegments]="evidence.molecularProfile.parsedName"></cvc-mp-tag-name>
             </nz-descriptions-item>
 
             <!-- disease -->

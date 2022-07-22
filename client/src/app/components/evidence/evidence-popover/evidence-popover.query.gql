@@ -31,15 +31,13 @@ fragment evidencePopover on EvidenceItem {
     link
   }
   evidenceRating
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   source {
     id

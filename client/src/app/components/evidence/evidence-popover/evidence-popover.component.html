@@ -3,7 +3,7 @@
     <nz-card [nzTitle]="cardTitle"
       nzBordered="false"
       id="card-content"
-      [nzExtra]="geneAndVariant">
+      [nzExtra]="molecularProfile">
       <ng-template #cardTitle>
         <nz-space>
           <ng-container *nzSpaceItem>
@@ -14,9 +14,8 @@
           <cvc-status-tag *nzSpaceItem [status]="evidence.status" style="font-weight: normal"></cvc-status-tag>
         </nz-space>
       </ng-template>
-      <ng-template #geneAndVariant>
-        <cvc-gene-tag [enablePopover]="false" [gene]="evidence.gene"></cvc-gene-tag>
-        <cvc-variant-tag [enablePopover]="false" [variant]="evidence.variant"></cvc-variant-tag>
+      <ng-template #molecularProfile>
+        <cvc-molecular-profile-tag [molecularProfile]="evidence.molecularProfile" [enablePopover]="false" [truncateLongName]="true"></cvc-molecular-profile-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
@@ -33,75 +32,86 @@
         </nz-col>
       </nz-row>
 
-      <nz-descriptions nzSize="small"
-        [nzColumn]="2"
-        nzBordered="true">
+      <nz-space nzDirection="vertical" nzSize="small">
+        <nz-descriptions *nzSpaceItem nzSize="small"
+          [nzColumn]="1"
+          nzBordered="true">
 
+          <!-- molecular profile -->
+          <nz-descriptions-item nzTitle="MP Expression">
+            <cvc-mp-tag-name [nameSegments]="evidence.molecularProfile.parsedName" [enablePopover]="false"></cvc-mp-tag-name>
+          </nz-descriptions-item>
 
-        <!-- source -->
-        <nz-descriptions-item nzTitle="Source"
-          nzSpan="2">
-          <cvc-source-tag [source]="evidence.source" [enablePopover]="false"></cvc-source-tag>
-        </nz-descriptions-item>
+          <!-- source -->
+          <nz-descriptions-item nzTitle="Source"
+            nzSpan="2">
+            <cvc-source-tag [source]="evidence.source" [enablePopover]="false"></cvc-source-tag>
+          </nz-descriptions-item>
+        </nz-descriptions>
 
-        <!-- evidence level -->
-        <nz-descriptions-item nzTitle="Level">
-          {{ evidence.evidenceLevel }}
-        </nz-descriptions-item>
+        <nz-descriptions *nzSpaceItem nzSize="small"
+          [nzColumn]="2"
+          nzBordered="true">
 
-        <!-- evidence type -->
-        <nz-descriptions-item nzTitle="Type">
-          {{ evidence.evidenceType | evidenceEnumDisplay }}
-        </nz-descriptions-item>
+          <!-- evidence level -->
+          <nz-descriptions-item nzTitle="Level">
+            {{ evidence.evidenceLevel }}
+          </nz-descriptions-item>
 
-        <!-- evidence direction -->
-        <nz-descriptions-item nzTitle="Direction">
-          {{ evidence.evidenceDirection | evidenceEnumDisplay }}
-        </nz-descriptions-item>
+          <!-- evidence type -->
+          <nz-descriptions-item nzTitle="Type">
+            {{ evidence.evidenceType | evidenceEnumDisplay }}
+          </nz-descriptions-item>
 
-        <!-- clinical significance -->
-        <nz-descriptions-item nzTitle="Clinical Significance"
-          nzSpan="2">
-          {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
-        </nz-descriptions-item>
+          <!-- evidence direction -->
+          <nz-descriptions-item nzTitle="Direction">
+            {{ evidence.evidenceDirection | evidenceEnumDisplay }}
+          </nz-descriptions-item>
 
-        <!-- evidence rating -->
-        <nz-descriptions-item nzTitle="Rating">
-          {{ evidence.evidenceRating }}<i nz-icon nzType="star" nzTheme="fill"></i>
-        </nz-descriptions-item>
+          <!-- clinical significance -->
+          <nz-descriptions-item nzTitle="Clinical Significance"
+            nzSpan="2">
+            {{ evidence.clinicalSignificance | evidenceEnumDisplay }}
+          </nz-descriptions-item>
 
-        <!-- disease -->
-        <nz-descriptions-item nzTitle="Disease">
-          <ng-container *ngIf="evidence.disease; else noDisease">
-            <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease" [truncateLongName]="true"></cvc-disease-tag>
-          </ng-container>
-          <ng-template #noDisease>
-            N/A
-          </ng-template>
-        </nz-descriptions-item>
+          <!-- evidence rating -->
+          <nz-descriptions-item nzTitle="Rating">
+            {{ evidence.evidenceRating }}<i nz-icon nzType="star" nzTheme="fill"></i>
+          </nz-descriptions-item>
 
-        <!-- drugs -->
-        <nz-descriptions-item nzTitle="Drugs"
-          nzSpan="2"
-          *ngIf="evidence.drugs.length > 0">
-          <span *ngFor="let drug of evidence.drugs">
-            <cvc-drug-tag [enablePopover]="false" [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
-          </span>
-          <ng-container *ngIf="evidence.drugs.length > 1">
-            {{evidence.drugInteractionType | titlecase }}
-          </ng-container>
-        </nz-descriptions-item>
+          <!-- disease -->
+          <nz-descriptions-item nzTitle="Disease">
+            <ng-container *ngIf="evidence.disease; else noDisease">
+              <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease" [truncateLongName]="true"></cvc-disease-tag>
+            </ng-container>
+            <ng-template #noDisease>
+              N/A
+            </ng-template>
+          </nz-descriptions-item>
 
-        <!-- phenotypes -->
-        <nz-descriptions-item nzTitle="Phenotypes"
-          nzSpan="2"
-          *ngIf="evidence.phenotypes.length > 0">
-          <span *ngFor="let ph of evidence.phenotypes">
-            <cvc-phenotype-tag [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag>
-          </span>
-        </nz-descriptions-item>
+          <!-- drugs -->
+          <nz-descriptions-item nzTitle="Drugs"
+            nzSpan="2"
+            *ngIf="evidence.drugs.length > 0">
+            <span *ngFor="let drug of evidence.drugs">
+              <cvc-drug-tag [enablePopover]="false" [drug]="drug" [truncateLongName]="true"></cvc-drug-tag>
+            </span>
+            <ng-container *ngIf="evidence.drugs.length > 1">
+              {{evidence.drugInteractionType | titlecase }}
+            </ng-container>
+          </nz-descriptions-item>
 
-      </nz-descriptions>
+          <!-- phenotypes -->
+          <nz-descriptions-item nzTitle="Phenotypes"
+            nzSpan="2"
+            *ngIf="evidence.phenotypes.length > 0">
+            <span *ngFor="let ph of evidence.phenotypes">
+              <cvc-phenotype-tag [enablePopover]="false" [phenotype]="ph"></cvc-phenotype-tag>
+            </span>
+          </nz-descriptions-item>
+
+        </nz-descriptions>
+      </nz-space>
 
       <!-- entity comment, flags, etc. tags -->
       <nz-row id="entity-child-counts">

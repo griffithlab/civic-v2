@@ -106,23 +106,6 @@
                 nzType="secondary">Not applicable</span>
             </ng-template>
           </nz-descriptions>
-
-          <!-- allele registry id -->
-          <nz-descriptions-item nzTitle="Allele Registry ID">
-            <a *ngIf="assertion.variant.alleleRegistryId; else noAlleleRegistry"
-              target="_blank"
-              [href]="'https://reg.genome.network/allele/' + assertion.variant.alleleRegistryId + '.html'">
-              <nz-tag nzColor="default">
-                <i nz-icon
-                  nzType='link'
-                  nzTheme='outline'></i>{{ assertion.variant.alleleRegistryId }}
-              </nz-tag>
-            </a>
-            <ng-template #noAlleleRegistry>
-              <span nz-typography
-                nzType="secondary">None provided</span>
-            </ng-template>
-          </nz-descriptions-item>
         </nz-col>
 
       </nz-row>
@@ -200,14 +183,14 @@
             nzBordered="true"
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
 
-            <!-- gene -->
-            <nz-descriptions-item nzTitle="Gene">
-              <cvc-gene-tag [gene]="assertion.gene"></cvc-gene-tag>
+            <!-- molecular profile -->
+            <nz-descriptions-item nzTitle="Molecular Profile">
+              <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
-            <!-- variant -->
-            <nz-descriptions-item nzTitle="Variant">
-              <cvc-variant-tag [variant]="assertion.variant"></cvc-variant-tag>
+            <!-- molecular profile expression -->
+            <nz-descriptions-item nzTitle="MP Expression">
+              <cvc-mp-tag-name [nameSegments]="assertion.molecularProfile.parsedName"></cvc-mp-tag-name>
             </nz-descriptions-item>
 
             <!-- disease -->

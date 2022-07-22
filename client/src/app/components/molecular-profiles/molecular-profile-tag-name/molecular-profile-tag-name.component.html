@@ -4,9 +4,9 @@
         </span>&nbsp;
     </ng-container>
     <ng-container *ngIf="s.__typename == 'Gene'">
-        <cvc-gene-tag [gene]="s"></cvc-gene-tag>
+        <cvc-gene-tag [gene]="s" [enablePopover]="this.enablePopover"></cvc-gene-tag>
     </ng-container>
     <ng-container *ngIf="s.__typename == 'Variant'">
-        <cvc-variant-tag [variant]="s"></cvc-variant-tag>
+        <cvc-variant-tag [variant]="s" [enablePopover]="this.enablePopover"></cvc-variant-tag>
     </ng-container>
 </ng-container>

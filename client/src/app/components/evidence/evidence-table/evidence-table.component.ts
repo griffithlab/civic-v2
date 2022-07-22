@@ -39,7 +39,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() cvcTitle: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() diseaseId: Maybe<number>
-  @Input() displayGeneAndVariant = true
+  @Input() displayMolecularProfile = true
   @Input() drugId: Maybe<number>
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() mode: 'normal' | 'select' = 'normal'

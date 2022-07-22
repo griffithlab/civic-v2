@@ -70,15 +70,13 @@ fragment AssertionBrowseFields on Assertion {
   id
   name
   link
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   disease {
     id

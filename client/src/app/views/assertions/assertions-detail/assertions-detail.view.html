@@ -11,12 +11,7 @@
         *nzSpaceItem>Related to <strong>{{ assertion.name }}</strong>:</span>
       <span *nzSpaceItem
         class="tags">
-        <a routerLink="/genes/{{ assertion.gene.id }}">
-          <cvc-gene-tag [gene]="assertion.gene"></cvc-gene-tag>
-        </a>
-        <a routerLink="/variants/{{ assertion.variant.id }}">
-          <cvc-variant-tag [variant]="assertion.variant"></cvc-variant-tag>
-        </a>
+        <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
 
     </nz-space>

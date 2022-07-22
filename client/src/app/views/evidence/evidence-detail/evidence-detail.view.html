@@ -8,12 +8,7 @@
       <!-- parent relations -->
       <span nz-typography class="label" *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
       <span class="tags" *nzSpaceItem>
-        <a routerLink="/genes/{{ evidence.gene.id }}">
-          <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
-        </a>
-        <a routerLink="/variants/{{ evidence.variant.id }}">
-          <cvc-variant-tag [variant]="evidence.variant"></cvc-variant-tag>
-        </a>
+        <cvc-molecular-profile-tag [molecularProfile]="evidence.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
       </span>
 
     </nz-space>

@@ -13,12 +13,7 @@ fragment EvidenceDetailFields on EvidenceItem {
       id
     }
   }
-  variant {
-    id
-    name
-    link
-  }
-  gene {
+  molecularProfile {
     id
     name
     link
