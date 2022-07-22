@@ -81,11 +81,15 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:clinical_trial_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the CIViC clinical trial id linked to the evidence item\'s source') do |scope, value|
     scope.joins(source: [:clinical_trials]).where('clinical_trials.id = ?', value)
   end
-  option(:gene_symbol, type: GraphQL::Types::String, description: 'Left anchored filtering on Entrez gene symbol') do |scope, value|
-    scope.joins(variant: [:gene]).where('genes.name ILIKE ?', "#{value}%")
-  end
-  option(:variant_name, type: GraphQL::Types::String, description: 'Left anchored filtering on variant name') do |scope, value|
-    scope.joins(:variant).where('variants.name ILIKE ?', "#{value}%")
+  option(:molecular_profile_name, type: GraphQL::Types::String, description: 'Substring filtering on molecular profile name') do |scope, value|
+    results = Searchkick.search(
+                  value,
+                  models: [MolecularProfile],
+                  fields: ['name'],
+                  match: :word_start
+                )
+    ids = results.hits.map { |x| x["_id"] }
+    scope.joins(:molecular_profile).where(molecular_profiles: { id: ids })
   end
 
 
@@ -113,10 +117,6 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
       scope.reorder("clinical_significance #{value.direction}")
     when 'VARIANT_ORIGIN'
       scope.reorder("variant_origin #{value.direction}")
-    when 'VARIANT_NAME'
-      scope.joins(:variant).reorder("variants.name #{value.direction}")
-    when 'GENE_SYMBOL'
-      scope.joins(variant: [:gene]).reorder("genes.name #{value.direction}")
     end
   end
 end

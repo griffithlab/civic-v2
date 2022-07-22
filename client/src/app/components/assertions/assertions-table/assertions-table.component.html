@@ -48,8 +48,7 @@
           AID
         </th>
         <th nzWidth="320px"
-          nzLeft
-          [nzSortFn]="true">
+          nzLeft>
           Molecular Profile
         </th>
         <th nzWidth="250px"
@@ -128,8 +127,8 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
-          <!-- <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter> -->
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
+            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"

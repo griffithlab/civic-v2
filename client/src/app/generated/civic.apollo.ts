@@ -394,11 +394,9 @@ export enum AssertionSortColumns {
   DiseaseName = 'DISEASE_NAME',
   DrugName = 'DRUG_NAME',
   EvidenceItemsCount = 'EVIDENCE_ITEMS_COUNT',
-  GeneName = 'GENE_NAME',
   Id = 'ID',
   Status = 'STATUS',
-  Summary = 'SUMMARY',
-  VariantName = 'VARIANT_NAME'
+  Summary = 'SUMMARY'
 }
 
 export enum AssertionType {
@@ -1527,10 +1525,8 @@ export enum EvidenceSortColumns {
   EvidenceLevel = 'EVIDENCE_LEVEL',
   EvidenceRating = 'EVIDENCE_RATING',
   EvidenceType = 'EVIDENCE_TYPE',
-  GeneSymbol = 'GENE_SYMBOL',
   Id = 'ID',
   Status = 'STATUS',
-  VariantName = 'VARIANT_NAME',
   VariantOrigin = 'VARIANT_ORIGIN'
 }
 
@@ -2877,10 +2873,10 @@ export type QueryAssertionsArgs = {
   drugName?: InputMaybe<Scalars['String']>;
   evidenceId?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
-  geneName?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   molecularProfileId?: InputMaybe<Scalars['Int']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   organizationId?: InputMaybe<Scalars['Int']>;
   phenotypeId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<AssertionSort>;
@@ -3106,10 +3102,10 @@ export type QueryEvidenceItemsArgs = {
   evidenceRating?: InputMaybe<Scalars['Int']>;
   evidenceType?: InputMaybe<EvidenceType>;
   first?: InputMaybe<Scalars['Int']>;
-  geneSymbol?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   molecularProfileId?: InputMaybe<Scalars['Int']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   organizationId?: InputMaybe<Scalars['Int']>;
   phenotypeId?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<EvidenceSort>;
@@ -3117,7 +3113,6 @@ export type QueryEvidenceItemsArgs = {
   status?: InputMaybe<EvidenceStatusFilter>;
   userId?: InputMaybe<Scalars['Int']>;
   variantId?: InputMaybe<Scalars['Int']>;
-  variantName?: InputMaybe<Scalars['String']>;
   variantOrigin?: InputMaybe<VariantOrigin>;
 };
 
@@ -4928,8 +4923,7 @@ export type AssertionsBrowseQueryVariables = Exact<{
   variantId?: InputMaybe<Scalars['Int']>;
   molecularProfileId?: InputMaybe<Scalars['Int']>;
   evidenceId?: InputMaybe<Scalars['Int']>;
-  geneName?: InputMaybe<Scalars['String']>;
-  variantName?: InputMaybe<Scalars['String']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<AssertionSort>;
   ampLevel?: InputMaybe<AmpLevel>;
   organizationId?: InputMaybe<Scalars['Int']>;
@@ -5113,8 +5107,7 @@ export type EvidenceBrowseQueryVariables = Exact<{
   drugId?: InputMaybe<Scalars['Int']>;
   sourceId?: InputMaybe<Scalars['Int']>;
   clinicalTrialId?: InputMaybe<Scalars['Int']>;
-  geneSymbol?: InputMaybe<Scalars['String']>;
-  variantName?: InputMaybe<Scalars['String']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<EvidenceStatusFilter>;
 }>;
 
@@ -8493,7 +8486,7 @@ export const AssertionPopoverDocument = gql`
     }
   }
 export const AssertionsBrowseDocument = gql`
-    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $geneName: String, $variantName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatusFilter) {
+    query AssertionsBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $summary: String, $assertionDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $assertionType: EvidenceType, $variantId: Int, $molecularProfileId: Int, $evidenceId: Int, $molecularProfileName: String, $sortBy: AssertionSort, $ampLevel: AmpLevel, $organizationId: Int, $userId: Int, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $status: EvidenceStatusFilter) {
   assertions(
     first: $first
     last: $last
@@ -8510,8 +8503,7 @@ export const AssertionsBrowseDocument = gql`
     molecularProfileId: $molecularProfileId
     sortBy: $sortBy
     ampLevel: $ampLevel
-    geneName: $geneName
-    variantName: $variantName
+    molecularProfileName: $molecularProfileName
     evidenceId: $evidenceId
     organizationId: $organizationId
     userId: $userId
@@ -8901,7 +8893,7 @@ export const EvidencePopoverDocument = gql`
     }
   }
 export const EvidenceBrowseDocument = gql`
-    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $geneSymbol: String, $variantName: String, $status: EvidenceStatusFilter) {
+    query EvidenceBrowse($first: Int, $last: Int, $before: String, $after: String, $diseaseName: String, $drugName: String, $id: Int, $description: String, $evidenceLevel: EvidenceLevel, $evidenceDirection: EvidenceDirection, $clinicalSignificance: EvidenceClinicalSignificance, $evidenceType: EvidenceType, $rating: Int, $variantOrigin: VariantOrigin, $variantId: Int, $molecularProfileId: Int, $assertionId: Int, $organizationId: Int, $userId: Int, $sortBy: EvidenceSort, $phenotypeId: Int, $diseaseId: Int, $drugId: Int, $sourceId: Int, $clinicalTrialId: Int, $molecularProfileName: String, $status: EvidenceStatusFilter) {
   evidenceItems(
     first: $first
     last: $last
@@ -8927,8 +8919,7 @@ export const EvidenceBrowseDocument = gql`
     drugId: $drugId
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
-    geneSymbol: $geneSymbol
-    variantName: $variantName
+    molecularProfileName: $molecularProfileName
     status: $status
     sortBy: $sortBy
   ) {

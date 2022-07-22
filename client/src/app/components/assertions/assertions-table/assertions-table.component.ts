@@ -82,8 +82,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
-  variantNameInput: Maybe<string>
-  geneNameInput: Maybe<string>
+  molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
 
   sortColumns: typeof AssertionSortColumns = AssertionSortColumns
@@ -209,8 +208,7 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.queryRef.refetch({
       id: aid,
       diseaseName: this.diseaseNameInput,
-      geneName: this.geneNameInput,
-      variantName: this.variantNameInput,
+      molecularProfileName: this.molecularProfileNameInput,
       drugName: this.drugNameInput,
       summary: this.summaryInput,
       assertionType: this.assertionTypeInput ? this.assertionTypeInput : undefined,

@@ -21,7 +21,7 @@ export interface EvidenceTableUserFilters {
   clinicalSignificanceInput?: Maybe<EvidenceClinicalSignificance>
   variantOriginInput?: Maybe<VariantOrigin>
   evidenceRatingInput?: Maybe<number>
-  variantNameInput?: Maybe<string>
+  molecularProfileNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
 }
 
@@ -93,8 +93,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   evidenceLevelInput: Maybe<EvidenceLevel>
   evidenceRatingInput: Maybe<number>
   evidenceTypeInput: Maybe<EvidenceType>
-  geneSymbolInput: Maybe<string>
-  variantNameInput: Maybe<string>
+  molecularProfileNameInput: Maybe<string>
   variantOriginInput: Maybe<VariantOrigin>
 
   sortColumns = EvidenceSortColumns
@@ -132,7 +131,6 @@ export class CvcEvidenceTableComponent implements OnInit {
           ? this.evidenceTypeInput
           : undefined,
         first: this.initialPageSize,
-        geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
         organizationId: this.organizationId,
         phenotypeId: this.phenotypeId,
         rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
@@ -141,7 +139,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         userId: this.userId,
         variantId: this.variantId,
         molecularProfileId: this.molecularProfileId,
-        variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        molecularProfileName: this.molecularProfileNameInput ? this.molecularProfileNameInput : undefined,
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput
           : undefined,
@@ -261,8 +259,7 @@ export class CvcEvidenceTableComponent implements OnInit {
           ? this.variantOriginInput
           : undefined,
         rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
-        geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
-        variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        molecularProfileName: this.molecularProfileNameInput ? this.molecularProfileNameInput : undefined,
       })
       .then(() => this.scrollIndex$.next(0));
 

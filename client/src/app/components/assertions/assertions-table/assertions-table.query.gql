@@ -13,8 +13,7 @@ query AssertionsBrowse (
   $variantId: Int,
   $molecularProfileId: Int,
   $evidenceId: Int,
-  $geneName: String,
-  $variantName: String,
+  $molecularProfileName: String,
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
   $organizationId: Int,
@@ -40,8 +39,7 @@ query AssertionsBrowse (
     molecularProfileId: $molecularProfileId,
     sortBy: $sortBy,
     ampLevel: $ampLevel,
-    geneName: $geneName,
-    variantName: $variantName,
+    molecularProfileName: $molecularProfileName,
     evidenceId: $evidenceId
     organizationId: $organizationId
     userId: $userId,

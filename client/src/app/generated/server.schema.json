@@ -2639,18 +2639,6 @@
               "deprecationReason": null
             },
             {
-              "name": "GENE_NAME",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "VARIANT_NAME",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "DISEASE_NAME",
               "description": null,
               "isDeprecated": false,
@@ -11755,18 +11743,6 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "VARIANT_NAME",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "GENE_SYMBOL",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -20166,8 +20142,8 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "geneName",
-                  "description": "Substring filtering on gene name.",
+                  "name": "molecularProfileName",
+                  "description": "Substring filtering on molecular profile name",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -22421,20 +22397,8 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "geneSymbol",
-                  "description": "Left anchored filtering on Entrez gene symbol",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
-                  "name": "variantName",
-                  "description": "Left anchored filtering on variant name",
+                  "name": "molecularProfileName",
+                  "description": "Substring filtering on molecular profile name",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",

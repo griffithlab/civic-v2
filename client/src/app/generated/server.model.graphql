@@ -695,11 +695,9 @@ enum AssertionSortColumns {
   DISEASE_NAME
   DRUG_NAME
   EVIDENCE_ITEMS_COUNT
-  GENE_NAME
   ID
   STATUS
   SUMMARY
-  VARIANT_NAME
 }
 
 enum AssertionType {
@@ -2430,10 +2428,8 @@ enum EvidenceSortColumns {
   EVIDENCE_LEVEL
   EVIDENCE_RATING
   EVIDENCE_TYPE
-  GENE_SYMBOL
   ID
   STATUS
-  VARIANT_NAME
   VARIANT_ORIGIN
 }
 
@@ -4443,11 +4439,6 @@ type Query {
     first: Int
 
     """
-    Substring filtering on gene name.
-    """
-    geneName: String
-
-    """
     Exact match filtering on the ID of the assertion.
     """
     id: Int
@@ -4461,6 +4452,11 @@ type Query {
     Exact match filtering on the ID of the molecular_profile.
     """
     molecularProfileId: Int
+
+    """
+    Substring filtering on molecular profile name
+    """
+    molecularProfileName: String
 
     """
     Exact match filtering on the ID of the organization the assertion was submitted under.
@@ -4994,11 +4990,6 @@ type Query {
     first: Int
 
     """
-    Left anchored filtering on Entrez gene symbol
-    """
-    geneSymbol: String
-
-    """
     Exact match filtering on the ID of the evidence item.
     """
     id: Int
@@ -5012,6 +5003,11 @@ type Query {
     Exact match filtering on the ID of the molecular profile.
     """
     molecularProfileId: Int
+
+    """
+    Substring filtering on molecular profile name
+    """
+    molecularProfileName: String
 
     """
     Exact match filtering on the ID of the organization the evidence item was submitted under.
@@ -5047,11 +5043,6 @@ type Query {
     Exact match filtering on the ID of the variant.
     """
     variantId: Int
-
-    """
-    Left anchored filtering on variant name
-    """
-    variantName: String
 
     """
     Filtering on the evidence variant origin.

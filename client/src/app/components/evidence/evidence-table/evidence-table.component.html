@@ -56,7 +56,6 @@
         </th>
         <th *ngIf="displayMolecularProfile"
           nzWidth="320px"
-          [nzSortFn]="true"
           nz-tooltip
           nzTooltipTitle="Molecular Profile Name">
           Molecular Profile
@@ -150,8 +149,8 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th *ngIf="displayMolecularProfile">
-          <!-- <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter> -->
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"

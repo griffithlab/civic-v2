@@ -37,8 +37,15 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
   option(:drug_name, type: GraphQL::Types::String, description: 'Substring filtering on drug name.') do |scope, value|
     scope.joins(:drugs).where('drugs.name ILIKE ?', "%#{value}%")
   end
-  option(:gene_name, type: GraphQL::Types::String, description: 'Substring filtering on gene name.') do |scope, value|
-    scope.joins(:gene).where('genes.name ILIKE ?', "%#{value}%")
+  option(:molecular_profile_name, type: GraphQL::Types::String, description: 'Substring filtering on molecular profile name') do |scope, value|
+    results = Searchkick.search(
+                  value,
+                  models: [MolecularProfile],
+                  fields: ['name'],
+                  match: :word_start
+                )
+    ids = results.hits.map { |x| x["_id"] }
+    scope.joins(:molecular_profile).where(molecular_profiles: { id: ids })
   end
   option(:variant_name, type: GraphQL::Types::String, description: 'Substring filtering on variant name.') do |scope, value|
     scope.joins(:variant).where('variants.name ILIKE ?', "%#{value}%")
@@ -80,10 +87,6 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
     case value.column
     when 'ID'
       scope.reorder("assertions.id #{value.direction}")
-    when 'GENE_NAME'
-      scope.joins(:gene).reorder("genes.name #{value.direction}")
-    when 'VARIANT_NAME'
-      scope.joins(:variant).reorder("variants.name #{value.direction}")
     when 'DISEASE_NAME'
       scope.joins(:disease).reorder("diseases.name #{value.direction}")
     when 'DRUG_NAME'

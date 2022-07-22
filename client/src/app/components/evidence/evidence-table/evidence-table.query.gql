@@ -24,8 +24,7 @@ query EvidenceBrowse(
   $drugId: Int,
   $sourceId: Int,
   $clinicalTrialId: Int,
-  $geneSymbol: String,
-  $variantName: String
+  $molecularProfileName: String
   $status: EvidenceStatusFilter
 ) {
   evidenceItems(
@@ -53,8 +52,7 @@ query EvidenceBrowse(
     drugId: $drugId
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId,
-    geneSymbol: $geneSymbol,
-    variantName: $variantName,
+    molecularProfileName: $molecularProfileName,
     status: $status,
     sortBy: $sortBy
   ) {

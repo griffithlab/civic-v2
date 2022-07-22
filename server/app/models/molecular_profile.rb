@@ -12,7 +12,7 @@ class MolecularProfile < ActiveRecord::Base
 
   validates :name, presence: true
 
-  searchkick highlight: [:name, :aliases], callbacks: :async
+  searchkick highlight: [:name, :aliases], callbacks: :async, word_start: [:name]
   scope :search_import, -> { includes(:molecular_profile_aliases, variants: [:gene])}
 
   def search_data
