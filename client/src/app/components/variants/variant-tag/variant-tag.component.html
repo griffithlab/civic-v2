@@ -24,10 +24,11 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
-    nzType="civic-variant"
-    nzTheme="twotone"
-    nzTwotoneColor="#33B358"></i>
+  <cvc-icon-badges
+    [flagged]="variant.flagged"
+    [entityColor]="iconColor">
+    <i nz-icon nzType="civic-variant" nzTheme="twotone" nzTwotoneColor="#33B358"></i>
+</cvc-icon-badges>
   <!-- variant name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
     {{ variant.name | truncate: 20}}

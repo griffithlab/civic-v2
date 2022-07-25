@@ -9,8 +9,10 @@
       <!-- title -->
       <nz-page-header-title cvcFlaggableOptions>
         <!-- [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }"> -->
-        <i nz-icon
-          nzType="civic:variantgroup"></i>
+            <i nz-icon
+              nzTheme="twotone"
+              [nzTwotoneColor]="'VariantGroup' | entityColor"
+              nzType="civic-variantgroup"></i>
         {{ variantGroup.name }}
       </nz-page-header-title>
 

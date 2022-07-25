@@ -8,15 +8,20 @@
         <nz-space>
           <ng-container *nzSpaceItem>
             <i nz-icon
-              nzType="civic:evidence"></i>
-            {{ evidence.name }}
+              nzTheme="twotone"
+              [nzTwotoneColor]="'EvidenceItem' | entityColor"
+              nzType="civic-evidence"></i> {{ evidence.name }}
           </ng-container>
-          <cvc-status-tag *nzSpaceItem [status]="evidence.status" style="font-weight: normal"></cvc-status-tag>
+          <cvc-status-tag *nzSpaceItem
+            [status]="evidence.status"
+            style="font-weight: normal"></cvc-status-tag>
         </nz-space>
       </ng-template>
       <ng-template #geneAndVariant>
-        <cvc-gene-tag [enablePopover]="false" [gene]="evidence.gene"></cvc-gene-tag>
-        <cvc-variant-tag [enablePopover]="false" [variant]="evidence.variant"></cvc-variant-tag>
+        <cvc-gene-tag [enablePopover]="false"
+          [gene]="evidence.gene"></cvc-gene-tag>
+        <cvc-variant-tag [enablePopover]="false"
+          [variant]="evidence.variant"></cvc-variant-tag>
       </ng-template>
       <nz-row>
         <nz-col nzSpan="24">
@@ -41,7 +46,8 @@
         <!-- source -->
         <nz-descriptions-item nzTitle="Source"
           nzSpan="2">
-          <cvc-source-tag [source]="evidence.source" [enablePopover]="false"></cvc-source-tag>
+          <cvc-source-tag [source]="evidence.source"
+            [enablePopover]="false"></cvc-source-tag>
         </nz-descriptions-item>
 
         <!-- evidence level -->
@@ -67,13 +73,17 @@
 
         <!-- evidence rating -->
         <nz-descriptions-item nzTitle="Rating">
-          {{ evidence.evidenceRating }}<i nz-icon nzType="star" nzTheme="fill"></i>
+          {{ evidence.evidenceRating }}<i nz-icon
+            nzType="star"
+            nzTheme="fill"></i>
         </nz-descriptions-item>
 
         <!-- disease -->
         <nz-descriptions-item nzTitle="Disease">
           <ng-container *ngIf="evidence.disease; else noDisease">
-            <cvc-disease-tag [enablePopover]="false" [disease]="evidence.disease" [truncateLongName]="true"></cvc-disease-tag>
+            <cvc-disease-tag [enablePopover]="false"
+              [disease]="evidence.disease"
+              [truncateLongName]="true"></cvc-disease-tag>
           </ng-container>
           <ng-template #noDisease>
             N/A
@@ -107,19 +117,22 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <a routerLink="/evidence/{{evidence.id}}/flags" *nzSpaceItem>
+            <a routerLink="/evidence/{{evidence.id}}/flags"
+              *nzSpaceItem>
               <nz-tag nzColor="red">
                 <i nz-icon
                   nzType="civic-flag"></i> Flags ({{ evidence.flags.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/evidence/{{evidence.id}}/revisions" *nzSpaceItem>
+            <a routerLink="/evidence/{{evidence.id}}/revisions"
+              *nzSpaceItem>
               <nz-tag nzColor="orange">
                 <i nz-icon
                   nzType="civic-revision"></i> Revisions ({{ evidence.revisions.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/evidence/{{evidence.id}}/comments" *nzSpaceItem>
+            <a routerLink="/evidence/{{evidence.id}}/comments"
+              *nzSpaceItem>
               <nz-tag nzColor="blue">
                 <i nz-icon
                   nzType="civic-comment"></i> Comments ({{ evidence.comments.totalCount }})

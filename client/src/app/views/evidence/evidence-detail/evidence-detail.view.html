@@ -6,8 +6,11 @@
     <nz-space nzDirection="horizontal">
 
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
-      <span class="tags" *nzSpaceItem>
+      <span nz-typography
+        class="label"
+        *nzSpaceItem><strong>{{ evidence.name }}</strong> Parents:</span>
+      <span class="tags"
+        *nzSpaceItem>
         <a routerLink="/genes/{{ evidence.gene.id }}">
           <cvc-gene-tag [gene]="evidence.gene"></cvc-gene-tag>
         </a>
@@ -21,14 +24,17 @@
 
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">
-    <nz-page-header *ngrxLet="viewer$ as viewer "class="site-page-header">
+    <nz-page-header *ngrxLet="viewer$ as viewer "
+      class="site-page-header">
 
       <!-- title -->
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': evidence.flags.totalCount > 0 }">
 
         <i nz-icon
-          nzType="civic:evidence"></i> {{ evidence.name }}
+          nzTheme="twotone"
+          [nzTwotoneColor]="'EvidenceItem' | entityColor"
+          nzType="civic-evidence"></i> {{ evidence.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->
@@ -39,7 +45,8 @@
 
       <!-- header action btns, actions menu -->
       <nz-page-header-extra>
-        <nz-space nzDirection="horizontal" nzSize="small" >
+        <nz-space nzDirection="horizontal"
+          nzSize="small">
           <!-- add revision btn -->
           <span *nzSpaceItem>
             <button [routerLink]="['/evidence', evidence.id, 'revise']"
@@ -80,9 +87,22 @@
       </nz-page-header-extra>
 
       <nz-page-header-content>
-        <nz-alert *ngFor="let error of this.errors" nzBanner [nzMessage]="error" nzType="error" nzCloseable (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
-        <nz-alert *ngIf="this.successMessage" nzBanner [nzMessage]="this.successMessage" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
-        <nz-alert *ngIf="this.evidence.status == 'SUBMITTED'" nzBanner nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor." nzType="warning"></nz-alert>
+        <nz-alert *ngFor="let error of this.errors"
+          nzBanner
+          [nzMessage]="error"
+          nzType="error"
+          nzCloseable
+          (nzOnClose)="onErrorBannerClose(error)"></nz-alert>
+        <nz-alert *ngIf="this.successMessage"
+          nzBanner
+          [nzMessage]="this.successMessage"
+          nzType="success"
+          nzCloseable
+          (nzOnClose)="onSuccessBannerClose()"></nz-alert>
+        <nz-alert *ngIf="this.evidence.status == 'SUBMITTED'"
+          nzBanner
+          nzMessage="This Evidence Item is in a 'submitted' state and has not yet been reviewed by an editor."
+          nzType="warning"></nz-alert>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
@@ -90,7 +110,8 @@
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
-        <nz-space nzDirection="vertical" *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
+        <nz-space nzDirection="vertical"
+          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == evidence.submissionEvent?.originatingUser?.id )) && evidence.status == 'SUBMITTED'">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons [rejectOnly]="!viewer.canModerate" entityType="EvidenceItem" [entityId]="evidence.id" (onModerated)="onModerateCompleted($event)" [viewer]="viewer">
             </cvc-moderate-entity-buttons>

@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [EvidenceHomePage],
@@ -27,6 +28,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzIconModule,
     NzSpaceModule,
     NzTypographyModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcEvidenceTableModule,

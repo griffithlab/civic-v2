@@ -17,6 +17,7 @@ import { CvcAutoHeightTableModule } from '@app/directives/auto-height-table/auto
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.module';
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcPhenotypesTableComponent],
@@ -30,6 +31,7 @@ import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-
     NzCardModule,
     NzToolTipModule,
     NzTagModule,
+    CvcPipesModule,
     CvcNoMoreRowsModule,
     CvcTableScrollModule,
     CvcTableCountsModule,

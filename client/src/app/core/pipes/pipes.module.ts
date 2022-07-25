@@ -21,6 +21,8 @@ import { SourceSuggestionStatusEnumDisplay } from './source-suggestion-status-en
 import { SourceTypeDisplayPipe } from './source-type-display.pipe';
 import { TruncatePipe } from './truncate-pipe';
 import { TypenameToRoutePipe } from './typename-to-route-pipe';
+import { EntityColorPipe } from './entity-color.pipe';
+import { DevRandomBoolPipe } from './dev-rnd-bool.pipe';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     SourceTypeDisplayPipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    EntityColorPipe,
+    DevRandomBoolPipe,
   ],
   imports: [
     CommonModule,
@@ -72,6 +76,8 @@ import { TypenameToRoutePipe } from './typename-to-route-pipe';
     TruncatePipe,
     TruncatePipe,
     TypenameToRoutePipe,
+    EntityColorPipe,
+    DevRandomBoolPipe,
   ],
   providers: [
     SourceTypeDisplayPipe

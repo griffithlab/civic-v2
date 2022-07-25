@@ -19,18 +19,24 @@
       <nz-col nzFlex="64px"
         class="header-icon">
         <i nz-icon
-          nzType="civic:source"></i>
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Source' | entityColor"
+          nzType="civic-source"></i>
       </nz-col>
       <nz-col nzFlex="600px"
         class="header-description">
         <h2>Sources</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">
           Each Evidence Item is associated with a Source which supports the Item's clinical claims. CIViC accepts publications known to PubMed or abstracts published through the American Society of Clinical Oncology.
         </p>
       </nz-col>
       <nz-col nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+        <nz-space nzDirection="vertical"
+          class="docs-buttons">
           <a nz-button
             href="https://civic.readthedocs.io/en/latest/model/evidence/source.html"
             target="_blank"

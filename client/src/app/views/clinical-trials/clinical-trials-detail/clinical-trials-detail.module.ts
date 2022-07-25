@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [ClinicalTrialsDetailComponent],
@@ -14,10 +15,13 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     CommonModule,
     RouterModule,
     ReactiveComponentModule,
+
     NzPageHeaderModule,
     NzIconModule,
+
     CvcLinkTagModule,
     CvcSectionNavigationModule,
+    CvcPipesModule,
   ]
 })
 export class ClinicalTrialsDetailModule { }

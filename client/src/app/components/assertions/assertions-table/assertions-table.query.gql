@@ -1,4 +1,4 @@
-query AssertionsBrowse (
+query AssertionsBrowse(
   $first: Int
   $last: Int
   $before: String
@@ -10,18 +10,18 @@ query AssertionsBrowse (
   $assertionDirection: EvidenceDirection
   $clinicalSignificance: EvidenceClinicalSignificance
   $assertionType: EvidenceType
-  $variantId: Int,
-  $evidenceId: Int,
-  $geneName: String,
-  $variantName: String,
+  $variantId: Int
+  $evidenceId: Int
+  $geneName: String
+  $variantName: String
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
-  $organizationId: Int,
-  $userId: Int,
-  $phenotypeId: Int,
-  $diseaseId: Int,
-  $drugId: Int,
-  $status: EvidenceStatusFilter,
+  $organizationId: Int
+  $userId: Int
+  $phenotypeId: Int
+  $diseaseId: Int
+  $drugId: Int
+  $status: EvidenceStatusFilter
 ) {
   assertions(
     first: $first
@@ -35,17 +35,17 @@ query AssertionsBrowse (
     assertionDirection: $assertionDirection
     clinicalSignificance: $clinicalSignificance
     assertionType: $assertionType
-    variantId: $variantId,
-    sortBy: $sortBy,
-    ampLevel: $ampLevel,
-    geneName: $geneName,
-    variantName: $variantName,
+    variantId: $variantId
+    sortBy: $sortBy
+    ampLevel: $ampLevel
+    geneName: $geneName
+    variantName: $variantName
     evidenceId: $evidenceId
     organizationId: $organizationId
-    userId: $userId,
+    userId: $userId
     phenotypeId: $phenotypeId
     drugId: $drugId
-    diseaseId: $diseaseId,
+    diseaseId: $diseaseId
     status: $status
   ) {
     totalCount
@@ -96,4 +96,5 @@ fragment AssertionBrowseFields on Assertion {
   ampLevel
   evidenceItemsCount
   status
+  flagged
 }

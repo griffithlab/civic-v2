@@ -27,9 +27,9 @@
 
 <ng-template #tagContent>
   <i nz-icon
-    nzType="civic-source"
     nzTheme="twotone"
-    nzTwotoneColor="#F9BA45"></i>
+    [nzTwotoneColor]="'Source' | entityColor"
+    nzType="civic-source"></i>
   <ng-container *ngIf="this.mode === 'normal'; else concise">
     <ng-container *ngIf="truncateLongName">
       {{ this.displayName | truncate: 50}}

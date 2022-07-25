@@ -11,6 +11,7 @@ import { CvcEvidenceCardComponent } from './evidence-card.component';
 import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-rating/evidence-rating.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcEvidenceCardComponent],
@@ -19,6 +20,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzCardModule,
     NzGridModule,
     NzSpaceModule,
+    NzIconModule,
     CvcClinicalTrialTagModule,
     CvcDiseaseTagModule,
     CvcDrugTagModule,
