@@ -13,6 +13,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [VariantInputType],
@@ -26,6 +27,7 @@ import { CvcAutofocusModule } from '@app/directives/auto-focus/auto-focus.module
     NzIconModule,
     NzSpaceModule,
     NzTypographyModule,
+    NzEmptyModule,
     CvcVariantTagModule,
     CvcFormErrorsAlertModule,
     CvcPipesModule,

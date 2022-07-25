@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   AddVariantGQL,
@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 interface FormModel {
   fields: {
     gene: FormGene[],
-    variant: string
+    variant: FormVariant[],
   }
 }
 
@@ -29,6 +29,8 @@ interface FormModel {
   styleUrls: ['./variant-submit.form.less'],
 })
 export class VariantSubmitForm implements OnDestroy {
+  @Output() onVariantSelected = new EventEmitter<number>();
+
   private destroy$ = new Subject();
 
   formModel!: FormModel;
@@ -60,7 +62,6 @@ export class VariantSubmitForm implements OnDestroy {
         key: 'fields',
         wrappers: ['form-container'],
         templateOptions: {
-          label: 'Add Variant Form'
         },
         fieldGroup: [
           {
@@ -78,6 +79,15 @@ export class VariantSubmitForm implements OnDestroy {
           },
           {
             key: 'variant',
+            type: 'variant-array',
+            templateOptions: {
+              required: false,
+              canCreate: false,
+              maxCount: 1,
+            }
+          },
+/*           {
+            key: 'variant',
             type: 'cvc-textarea',
             templateOptions: {
               label: 'Variant Name',
@@ -94,11 +104,11 @@ export class VariantSubmitForm implements OnDestroy {
                 required: 'Variant name is required to add a new variant.'
               }
             }
-          },
-          {
+          }, */
+/*           {
             key: 'submit',
             type: 'submit-button'
-          },
+          }, */
         ]
       }
     ];
@@ -106,7 +116,7 @@ export class VariantSubmitForm implements OnDestroy {
 
   submitVariant(model: Maybe<FormModel>): void {
     let geneId = model?.fields.gene[0].id
-    let name = model?.fields.variant
+    let name = model?.fields.variant[0].name
     if (geneId && name) {
       let input = {
         geneId: geneId,
@@ -117,6 +127,7 @@ export class VariantSubmitForm implements OnDestroy {
         (data) => {
           this.newId = data.addVariant.variant.id;
           this.isNew = data.addVariant.new
+          this.onVariantSelected.emit(this.newId);
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -135,6 +146,14 @@ export class VariantSubmitForm implements OnDestroy {
       state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
         this.loading = loading
       })
+    }
+  }
+
+  onFormModelChange(model: FormModel): void {
+    this.formModel = model
+    if(model.fields.variant && model.fields.variant[0]) {
+      this.onVariantSelected.emit(model.fields.variant[0]?.id)
+
     }
   }
 

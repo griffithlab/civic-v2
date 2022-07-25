@@ -1,8 +1,10 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 
@@ -19,7 +21,6 @@ import {
   QuicksearchGQL,
   QuicksearchQuery,
   QuicksearchQueryVariables,
-  SearchableEntities
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
@@ -27,8 +28,6 @@ import { map, takeUntil, debounceTime, filter, pluck } from 'rxjs/operators';
 import {QueryRef } from 'apollo-angular';
 import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
 import { isNonNulled } from 'rxjs-etc';
-import { tag } from 'rxjs-spy/cjs/operators';
-
 
 interface WithDisplayNameAndValue {
   displayName: string
@@ -57,6 +56,10 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
 
   parseError?: string
   displayPreview: boolean = false
+
+  variantFinderVisible: boolean = false
+
+  @ViewChild('mpInputField') mpInputField?: ElementRef;
 
   constructor(private previewMpGql: PreviewMolecularProfileNameGQL, private quicksearchGql: QuicksearchGQL, cdr: ChangeDetectorRef) {
   }
@@ -134,5 +137,16 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
       this.parseError = undefined;
       this.displayPreview = false;
     }
+  }
+
+  onVariantSelected(id: number): void {
+    this.variantFinderVisible = false;
+    if (this.mpName) {
+      this.mpName += ` #VID${id} `;
+    } else {
+      this.mpName = `#VID${id} `;
+    }
+    this.mpInputField?.nativeElement.focus();
+    this.refresh();
   }
 }

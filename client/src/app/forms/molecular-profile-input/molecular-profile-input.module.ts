@@ -18,6 +18,9 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { VariantSubmitFormModule } from '../variant-submit/variant-submit.module';
 
 @NgModule({
   declarations: [CvcMolecularProfileInputForm],
@@ -28,6 +31,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzButtonModule,
     NzCardModule,
     NzFormModule,
+    NzIconModule,
+    NzPopoverModule,
     NzSpaceModule,
     NzMentionModule,
     NzAlertModule,
@@ -36,6 +41,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     CvcOrgSelectorBtnGroupModule,
     CvcFormButtonsModule,
     CvcMolecularProfileTagNameModule,
+    VariantSubmitFormModule,
     NgxJsonViewerModule
   ],
   exports: [CvcMolecularProfileInputForm]
