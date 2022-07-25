@@ -1,0 +1,58 @@
+<ng-container *ngIf="this.selectedMp; else createMp">
+  <cvc-molecular-profile-tag [molecularProfile]="this.selectedMp"></cvc-molecular-profile-tag>
+</ng-container>
+
+<ng-template #createMp>
+  <nz-spin nzTip="Submitting" [nzSpinning]="loading">
+    <nz-form-item *ngIf="this.errorMessages.length > 0">
+      <cvc-form-errors-alert [errors]="this.errorMessages">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+
+    <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
+      <cvc-mp-tag-name *ngIf="this.displayPreview" [nameSegments]="mpName"></cvc-mp-tag-name>
+    </ng-container>
+
+    <ng-container *ngIf="parseError">
+      {{parseError}}
+    </ng-container>
+
+    <nz-mention [nzStatus]="this.parseError ? 'warning' : ''" [nzSuggestions]="this.suggestions"
+      (nzOnSearchChange)="onSearchChange($event)" nzPrefix="#" nzNotFoundContent="No matches..."
+      [nzValueWith]="autoCompleteValueFor" (nzOnSelect)="this.suggestions = []">
+
+      <textarea #mpInputField nz-input rows="1" style="width: 100%" [(ngModel)]="mpName"
+        (ngModelChange)="onMpNameChanged($event)"></textarea>
+
+      <ng-container *nzMentionSuggestion="let variant">
+        <span>{{variant.displayName}}</span>
+      </ng-container>
+
+    </nz-mention>
+
+    <button nz-button nz-popover nzSize="small" [nzPopoverTitle]="variantFinderTitle"
+      [(nzPopoverVisible)]="this.variantFinderVisible" (click)="this.variantFinderVisible = !this.variantFinderVisible"
+      [nzPopoverContent]="variantFinder" [nzPopoverTrigger]="undefined " nzPopoverPlacement="bottom">
+      Find a Variant
+      <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+    </button>
+
+    <button nz-button [disabled]="this.parseError || this.mpName == undefined || this.mpName.trim() == ''"
+      nzSize="small" (click)="submitNewMp()">
+      Select this Molecular Profile
+    </button>
+
+    <ng-template #variantFinderTitle>
+      Find a Variant
+      <span [ngStyle]="{ 'float': 'right' }">
+        <i nz-icon nzType="close" nzTheme="outline" (click)="this.variantFinderVisible = false"></i>
+      </span>
+    </ng-template>
+
+    <ng-template #variantFinder>
+      <cvc-variant-submit-form (onVariantSelected)="onVariantSelected($event)"></cvc-variant-submit-form>
+    </ng-template>
+
+  </nz-spin>
+
+</ng-template>

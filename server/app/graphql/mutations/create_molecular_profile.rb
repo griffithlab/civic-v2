@@ -6,12 +6,8 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
     validates: { Types::MolecularProfile::MolecularProfileComponentValidator => {} },
     description: 'Representation of the constituent parts of the Molecular Profile along with the logic used to combine them.'
 
-  #TODO, make this
-  #field :molecular_profile, Types::Entities::MolcularProfile, null: false,
-  # description: 'The newly created (or already existing) Molecular Profile.'
-
-  field :molecular_profile_id, Int, null: false,
-   description: 'The ID of the newly created (or already existing) Molecular Profile.'
+  field :molecular_profile, Types::Entities::MolecularProfileType, null: false,
+   description: 'The newly created (or already existing) Molecular Profile.'
 
   attr_reader :variants
 
@@ -39,7 +35,7 @@ class Mutations::CreateMolecularProfile < Mutations::BaseMutation
 
     if res.succeeded?
       {
-        molecular_profile_id: res.molecular_profile.id
+        molecular_profile: res.molecular_profile
       }
     else
       raise GraphQL::ExecutionError, res.errors.join(', ')

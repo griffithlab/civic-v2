@@ -8007,15 +8007,15 @@
               "deprecationReason": null
             },
             {
-              "name": "molecularProfileId",
-              "description": "The ID of the newly created (or already existing) Molecular Profile.",
+              "name": "molecularProfile",
+              "description": "The newly created (or already existing) Molecular Profile.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
+                  "kind": "OBJECT",
+                  "name": "MolecularProfile",
                   "ofType": null
                 }
               },

@@ -1048,8 +1048,8 @@ export type CreateMolecularProfilePayload = {
   __typename: 'CreateMolecularProfilePayload';
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The ID of the newly created (or already existing) Molecular Profile. */
-  molecularProfileId: Scalars['Int'];
+  /** The newly created (or already existing) Molecular Profile. */
+  molecularProfile: MolecularProfile;
 };
 
 export type DataRelease = {
@@ -5600,6 +5600,28 @@ export type EntityTypeaheadQueryVariables = Exact<{
 
 export type EntityTypeaheadQuery = { __typename: 'Query', entityTypeahead: Array<{ __typename: 'CommentTagSegment', entityId: number, tagType: TaggableEntity, displayName: string }> };
 
+export type PreviewMolecularProfileNameQueryVariables = Exact<{
+  mpStructure?: InputMaybe<MolecularProfileComponentInput>;
+}>;
+
+
+export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }> };
+
+export type CreateMolecularProfileMutationVariables = Exact<{
+  mpStructure: MolecularProfileComponentInput;
+}>;
+
+
+export type CreateMolecularProfileMutation = { __typename: 'Mutation', createMolecularProfile?: { __typename: 'CreateMolecularProfilePayload', molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } | undefined };
+
+type PreviewMpName_Gene_Fragment = { __typename: 'Gene', id: number, name: string, link: string };
+
+type PreviewMpName_MolecularProfileTextSegment_Fragment = { __typename: 'MolecularProfileTextSegment', text: string };
+
+type PreviewMpName_Variant_Fragment = { __typename: 'Variant', id: number, name: string, link: string };
+
+export type PreviewMpNameFragment = PreviewMpName_Gene_Fragment | PreviewMpName_MolecularProfileTextSegment_Fragment | PreviewMpName_Variant_Fragment;
+
 export type AcmgCodeTypeaheadQueryVariables = Exact<{
   code: Scalars['String'];
 }>;
@@ -5838,21 +5860,6 @@ export type SuggestGeneRevisionMutationVariables = Exact<{
 
 
 export type SuggestGeneRevisionMutation = { __typename: 'Mutation', suggestGeneRevision?: { __typename: 'SuggestGeneRevisionPayload', clientMutationId?: string | undefined, gene: { __typename: 'Gene', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
-
-export type PreviewMolecularProfileNameQueryVariables = Exact<{
-  mpStructure?: InputMaybe<MolecularProfileComponentInput>;
-}>;
-
-
-export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }> };
-
-type PreviewMpName_Gene_Fragment = { __typename: 'Gene', id: number, name: string, link: string };
-
-type PreviewMpName_MolecularProfileTextSegment_Fragment = { __typename: 'MolecularProfileTextSegment', text: string };
-
-type PreviewMpName_Variant_Fragment = { __typename: 'Variant', id: number, name: string, link: string };
-
-export type PreviewMpNameFragment = PreviewMpName_Gene_Fragment | PreviewMpName_MolecularProfileTextSegment_Fragment | PreviewMpName_Variant_Fragment;
 
 export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
@@ -7382,6 +7389,24 @@ export const PreviewCommentFragmentDoc = gql`
   }
 }
     `;
+export const PreviewMpNameFragmentDoc = gql`
+    fragment previewMpName on MolecularProfileSegment {
+  __typename
+  ... on MolecularProfileTextSegment {
+    text
+  }
+  ... on Gene {
+    id
+    name
+    link
+  }
+  ... on Variant {
+    id
+    name
+    link
+  }
+}
+    `;
 export const AddDiseaseFieldsFragmentDoc = gql`
     fragment AddDiseaseFields on AddDiseasePayload {
   new
@@ -7535,24 +7560,6 @@ export const RevisableGeneFieldsFragmentDoc = gql`
     sourceType
     citation
     citationId
-  }
-}
-    `;
-export const PreviewMpNameFragmentDoc = gql`
-    fragment previewMpName on MolecularProfileSegment {
-  __typename
-  ... on MolecularProfileTextSegment {
-    text
-  }
-  ... on Gene {
-    id
-    name
-    link
-  }
-  ... on Variant {
-    id
-    name
-    link
   }
 }
     `;
@@ -10130,6 +10137,46 @@ export const EntityTypeaheadDocument = gql`
       super(apollo);
     }
   }
+export const PreviewMolecularProfileNameDocument = gql`
+    query previewMolecularProfileName($mpStructure: MolecularProfileComponentInput) {
+  previewMolecularProfileName(structure: $mpStructure) {
+    ...previewMpName
+  }
+}
+    ${PreviewMpNameFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PreviewMolecularProfileNameGQL extends Apollo.Query<PreviewMolecularProfileNameQuery, PreviewMolecularProfileNameQueryVariables> {
+    document = PreviewMolecularProfileNameDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateMolecularProfileDocument = gql`
+    mutation createMolecularProfile($mpStructure: MolecularProfileComponentInput!) {
+  createMolecularProfile(input: {structure: $mpStructure}) {
+    molecularProfile {
+      id
+      name
+      link
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateMolecularProfileGQL extends Apollo.Mutation<CreateMolecularProfileMutation, CreateMolecularProfileMutationVariables> {
+    document = CreateMolecularProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const AcmgCodeTypeaheadDocument = gql`
     query AcmgCodeTypeahead($code: String!) {
   acmgCodesTypeahead(queryTerm: $code) {
@@ -10761,24 +10808,6 @@ export const SuggestGeneRevisionDocument = gql`
   })
   export class SuggestGeneRevisionGQL extends Apollo.Mutation<SuggestGeneRevisionMutation, SuggestGeneRevisionMutationVariables> {
     document = SuggestGeneRevisionDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const PreviewMolecularProfileNameDocument = gql`
-    query previewMolecularProfileName($mpStructure: MolecularProfileComponentInput) {
-  previewMolecularProfileName(structure: $mpStructure) {
-    ...previewMpName
-  }
-}
-    ${PreviewMpNameFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PreviewMolecularProfileNameGQL extends Apollo.Query<PreviewMolecularProfileNameQuery, PreviewMolecularProfileNameQueryVariables> {
-    document = PreviewMolecularProfileNameDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
