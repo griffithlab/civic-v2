@@ -190,7 +190,10 @@
         <ng-template #revCardHeaderTitle>
           <nz-space>
             <span *nzSpaceItem>
-              <i nz-icon nzType="civic:revision"></i> RID{{ revision.id }}
+              <i nz-icon
+              nzTheme="twotone"
+              [nzTwotoneColor]="'Revision' | entityColor"
+              nzType="civic-revision"></i> RID{{ revision.id }}
               <span>{{ revision.linkoutData.name }} Updated</span>
             </span>
             <ng-container *ngIf="revision.creationComment">

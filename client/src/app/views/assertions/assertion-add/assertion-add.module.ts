@@ -5,6 +5,7 @@ import { AssertionAddView } from './assertion-add.view';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [AssertionAddView],
@@ -14,6 +15,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     NzPageHeaderModule,
     NzIconModule,
     CvcSectionNavigationModule,
+    CvcPipesModule,
   ]
 })
 export class AssertionAddModule { }

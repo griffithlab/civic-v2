@@ -7,6 +7,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcAssertionsPopoverModule } from '../assertions-popover/assertions-popover.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-badges.module';
 
 @NgModule({
   declarations: [CvcAssertionTagComponent],
@@ -17,7 +18,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     NzPopoverModule,
     NzIconModule,
     CvcAssertionsPopoverModule,
-    CvcPipesModule
+    CvcPipesModule,
+    CvcIconBadgesModule,
   ],
   exports: [CvcAssertionTagComponent]
 })

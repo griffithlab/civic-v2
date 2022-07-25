@@ -6,6 +6,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CvcVariantGroupPopoverModule } from '../variant-group-popover/variant-group-popover.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcIconBadgesModule } from '@app/components/shared/icon-badges/icon-badges.module';
 
 @NgModule({
   declarations: [CvcVariantGroupTagComponent],
@@ -15,7 +17,9 @@ import { CvcVariantGroupPopoverModule } from '../variant-group-popover/variant-g
     NzPopoverModule,
     NzTagModule,
     NzIconModule,
-    CvcVariantGroupPopoverModule
+    CvcVariantGroupPopoverModule,
+    CvcPipesModule,
+    CvcIconBadgesModule,
   ],
   exports: [CvcVariantGroupTagComponent]
 })

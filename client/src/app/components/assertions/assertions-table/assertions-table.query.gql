@@ -1,4 +1,4 @@
-query AssertionsBrowse (
+query AssertionsBrowse(
   $first: Int
   $last: Int
   $before: String
@@ -16,12 +16,12 @@ query AssertionsBrowse (
   $molecularProfileName: String,
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
-  $organizationId: Int,
-  $userId: Int,
-  $phenotypeId: Int,
-  $diseaseId: Int,
-  $drugId: Int,
-  $status: EvidenceStatusFilter,
+  $organizationId: Int
+  $userId: Int
+  $phenotypeId: Int
+  $diseaseId: Int
+  $drugId: Int
+  $status: EvidenceStatusFilter
 ) {
   assertions(
     first: $first
@@ -42,10 +42,10 @@ query AssertionsBrowse (
     molecularProfileName: $molecularProfileName,
     evidenceId: $evidenceId
     organizationId: $organizationId
-    userId: $userId,
+    userId: $userId
     phenotypeId: $phenotypeId
     drugId: $drugId
-    diseaseId: $diseaseId,
+    diseaseId: $diseaseId
     status: $status
   ) {
     totalCount
@@ -94,4 +94,5 @@ fragment AssertionBrowseFields on Assertion {
   ampLevel
   evidenceItemsCount
   status
+  flagged
 }

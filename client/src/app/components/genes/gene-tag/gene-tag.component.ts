@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
+import { getEntityColor } from '@app/core/utilities/get-entity-color';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableGene {
-  id: number;
-  name: string;
-  link: string;
+  id: number
+  name: string
+  link: string
+  flagged?: boolean
 }
 
 @Component({
@@ -19,8 +21,12 @@ export class CvcGeneTagComponent extends BaseCloseableTag implements OnInit {
   @Input() enablePopover: Maybe<boolean> = true
   @Input() truncateLongName: Maybe<boolean> = false
 
+  iconColor: string
+
   constructor() {
-    super();
+    super()
+    this.iconColor = getEntityColor('Gene')
+
   }
 
   idFunction(): number {

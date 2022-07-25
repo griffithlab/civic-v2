@@ -32,6 +32,9 @@
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon nzType="civic-phenotype" nzTheme="twotone" nzTwotoneColor="#2A63B6"></i>
+  <i nz-icon
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Phenotype' | entityColor"
+    nzType="civic-phenotype"></i>
   {{ phenotype.name }}
 </ng-template>

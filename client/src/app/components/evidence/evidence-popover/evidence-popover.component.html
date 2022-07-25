@@ -8,10 +8,13 @@
         <nz-space>
           <ng-container *nzSpaceItem>
             <i nz-icon
-              nzType="civic:evidence"></i>
-            {{ evidence.name }}
+              nzTheme="twotone"
+              [nzTwotoneColor]="'EvidenceItem' | entityColor"
+              nzType="civic-evidence"></i> {{ evidence.name }}
           </ng-container>
-          <cvc-status-tag *nzSpaceItem [status]="evidence.status" style="font-weight: normal"></cvc-status-tag>
+          <cvc-status-tag *nzSpaceItem
+            [status]="evidence.status"
+            style="font-weight: normal"></cvc-status-tag>
         </nz-space>
       </ng-template>
       <ng-template #molecularProfile>
@@ -117,19 +120,22 @@
       <nz-row id="entity-child-counts">
         <nz-col nzSpan="24">
           <nz-space nzSize="small">
-            <a routerLink="/evidence/{{evidence.id}}/flags" *nzSpaceItem>
+            <a routerLink="/evidence/{{evidence.id}}/flags"
+              *nzSpaceItem>
               <nz-tag nzColor="red">
                 <i nz-icon
                   nzType="civic-flag"></i> Flags ({{ evidence.flags.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/evidence/{{evidence.id}}/revisions" *nzSpaceItem>
+            <a routerLink="/evidence/{{evidence.id}}/revisions"
+              *nzSpaceItem>
               <nz-tag nzColor="orange">
                 <i nz-icon
                   nzType="civic-revision"></i> Revisions ({{ evidence.revisions.totalCount }})
               </nz-tag>
             </a>
-            <a routerLink="/evidence/{{evidence.id}}/comments" *nzSpaceItem>
+            <a routerLink="/evidence/{{evidence.id}}/comments"
+              *nzSpaceItem>
               <nz-tag nzColor="blue">
                 <i nz-icon
                   nzType="civic-comment"></i> Comments ({{ evidence.comments.totalCount }})

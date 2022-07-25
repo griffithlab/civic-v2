@@ -17,6 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { RevisionListDiffModule } from '../revision-list-diff/revision-list-diff.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcRevisionPopoverComponent],
@@ -28,6 +29,7 @@ import { RevisionListDiffModule } from '../revision-list-diff/revision-list-diff
     NzIconModule,
     NzSpaceModule,
     NzDescriptionsModule,
+    CvcPipesModule,
     CvcGeneTagModule,
     CvcUserTagModule,
     CvcAssertionsTagModule,
