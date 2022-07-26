@@ -129,6 +129,10 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
 
   resetForm(): void {
     this.mpName = ''
+    this.selectedMp = undefined
+    this.onMolecularProfileSelected.emit(undefined);
+    this.refresh()
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {

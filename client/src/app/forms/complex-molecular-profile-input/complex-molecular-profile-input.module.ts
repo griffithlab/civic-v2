@@ -22,6 +22,7 @@ import { CvcComplexMolecularProfileInputForm } from './complex-molecular-profile
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [CvcComplexMolecularProfileInputForm],
@@ -39,6 +40,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzAlertModule,
     NzSpinModule,
     NzTypographyModule,
+    NzTagModule,
     FormsModule,
     CvcFormErrorsAlertModule,
     CvcOrgSelectorBtnGroupModule,

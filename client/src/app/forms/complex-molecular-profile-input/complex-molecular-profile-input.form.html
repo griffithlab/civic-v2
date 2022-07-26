@@ -1,6 +1,12 @@
 <nz-card>
   <ng-container *ngIf="this.selectedMp; else createMp">
     <cvc-molecular-profile-tag [molecularProfile]="this.selectedMp"></cvc-molecular-profile-tag>
+    <nz-tag class="close-tag">
+      <i nz-icon
+        nzType="close"
+        (click)="resetForm()">
+      </i>
+    </nz-tag>
   </ng-container>
 </nz-card>
 
