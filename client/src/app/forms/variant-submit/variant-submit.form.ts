@@ -78,7 +78,7 @@ export class VariantSubmitForm implements OnDestroy {
             },
             validation: {
               messages: {
-                required: 'Gene is required to add a new variant.'
+                required: 'Gene is required to select a variant.'
               }
             }
           },
