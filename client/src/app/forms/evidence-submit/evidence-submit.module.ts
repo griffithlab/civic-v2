@@ -42,6 +42,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcDuplicateEvidenceWarningModule } from '../config/types/duplicate-evidence-warning/duplicate-evidence-warning.module';
 import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -85,6 +86,7 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
     CvcFormContainerWrapperModule,
     CvcDuplicateEvidenceWarningModule,
     CvcCancelButtonModule,
+    CvcMolecularProfileInputTypeModule,
     NzCardModule,
     NzSpaceModule,
     NzTypographyModule,

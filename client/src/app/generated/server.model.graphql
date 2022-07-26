@@ -1714,9 +1714,9 @@ type CreateMolecularProfilePayload {
   clientMutationId: String
 
   """
-  The ID of the newly created (or already existing) Molecular Profile.
+  The newly created (or already existing) Molecular Profile.
   """
-  molecularProfileId: Int!
+  molecularProfile: MolecularProfile!
 }
 
 type DataRelease {

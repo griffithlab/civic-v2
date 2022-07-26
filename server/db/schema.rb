@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_22_132951) do
+ActiveRecord::Schema.define(version: 2022_07_25_221408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1147,7 +1147,7 @@ ActiveRecord::Schema.define(version: 2022_07_22_132951) do
             WHERE (evidence_items_1.variant_id = variants.id)
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY outer_mps.id, outer_mps.name, genes.id, genes.name;
+    GROUP BY outer_mps.id, outer_mps.name;
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true
 

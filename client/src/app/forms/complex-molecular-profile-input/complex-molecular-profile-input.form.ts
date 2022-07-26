@@ -2,8 +2,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -21,6 +23,9 @@ import {
   QuicksearchGQL,
   QuicksearchQuery,
   QuicksearchQueryVariables,
+  CreateMolecularProfileGQL,
+  CreateMolecularProfileMutation,
+  CreateMolecularProfileMutationVariables,
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
@@ -28,6 +33,10 @@ import { map, takeUntil, debounceTime, filter, pluck } from 'rxjs/operators';
 import {QueryRef } from 'apollo-angular';
 import { parseMolecularProfile } from '@app/core/utilities/molecular-profile-parser';
 import { isNonNulled } from 'rxjs-etc';
+import { SelectedVariant } from '../variant-submit/variant-submit.form';
+import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
+import { NetworkErrorsService } from '@app/core/services/network-errors.service';
+import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component';
 
 interface WithDisplayNameAndValue {
   displayName: string
@@ -35,12 +44,14 @@ interface WithDisplayNameAndValue {
 }
 
 @Component({
-  selector: 'cvc-molecular-profile-input-form',
-  templateUrl: './molecular-profile-input.form.html',
-  styleUrls: ['./molecular-profile-input.form.less'],
+  selector: 'cvc-complex-molecular-profile-input-form',
+  templateUrl: './complex-molecular-profile-input.form.html',
+  styleUrls: ['./complex-molecular-profile-input.form.less'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
+export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
+  @Output() onMolecularProfileSelected = new EventEmitter<number>();
+
   private destroy$ = new Subject();
   private debouncedPreview = new Subject();
 
@@ -51,8 +62,13 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
 
   suggestions: WithDisplayNameAndValue[] = []
   loading: boolean = false
+  errorMessages: string[] = []
 
   mpName?: string;
+
+  createMolecularProfileMutator: MutatorWithState<CreateMolecularProfileGQL, CreateMolecularProfileMutation, CreateMolecularProfileMutationVariables>
+
+  selectedMp?: LinkableMolecularProfile
 
   parseError?: string
   displayPreview: boolean = false
@@ -61,7 +77,14 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
 
   @ViewChild('mpInputField') mpInputField?: ElementRef;
 
-  constructor(private previewMpGql: PreviewMolecularProfileNameGQL, private quicksearchGql: QuicksearchGQL, cdr: ChangeDetectorRef) {
+  constructor(
+    private previewMpGql: PreviewMolecularProfileNameGQL,
+    private quicksearchGql: QuicksearchGQL, 
+    private createMolecularProfileGql: CreateMolecularProfileGQL,
+    private networkErrorService: NetworkErrorsService,
+    private cdr: ChangeDetectorRef
+    ) {
+      this.createMolecularProfileMutator = new MutatorWithState(networkErrorService);
   }
 
   ngOnInit(): void {
@@ -139,14 +162,47 @@ export class CvcMolecularProfileInputForm implements OnDestroy, OnInit {
     }
   }
 
-  onVariantSelected(id: number): void {
+  onVariantSelected(variant: SelectedVariant): void {
     this.variantFinderVisible = false;
     if (this.mpName) {
-      this.mpName += ` #VID${id} `;
+      this.mpName += ` #VID${variant.variantId} `;
     } else {
-      this.mpName = `#VID${id} `;
+      this.mpName = `#VID${variant.variantId} `;
     }
     this.mpInputField?.nativeElement.focus();
     this.refresh();
+  }
+
+  submitNewMp(): void {
+    if(this.mpName && this.mpName.trim() != '') {
+      let res = parseMolecularProfile(this.mpName);
+      if ('errorMessage' in res) {
+        //dont create it
+      } else {
+
+        let state = this.createMolecularProfileMutator.mutate(this.createMolecularProfileGql, {mpStructure: res}, {}, 
+          (data) => {
+            this.onMolecularProfileSelected.emit(data.createMolecularProfile.molecularProfile.id);
+            this.selectedMp = data.createMolecularProfile.molecularProfile;
+            this.cdr.detectChanges();
+          });
+
+          state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {
+            if (errs) {
+              this.errorMessages = errs
+              this.loading = false;
+            }
+          })
+
+          state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.loading = false;
+          })
+
+          state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
+            this.loading = loading
+          })
+
+      }
+    }
   }
 }

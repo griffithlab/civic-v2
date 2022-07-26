@@ -1,0 +1,34 @@
+query previewMolecularProfileName(
+  $mpStructure: MolecularProfileComponentInput
+) {
+  previewMolecularProfileName(structure: $mpStructure) {
+    ...previewMpName
+  }
+}
+
+mutation createMolecularProfile($mpStructure: MolecularProfileComponentInput!) {
+  createMolecularProfile(input: { structure: $mpStructure }) {
+    molecularProfile {
+      id
+      name
+      link
+    }
+  }
+}
+
+fragment previewMpName on MolecularProfileSegment {
+  __typename
+  ... on MolecularProfileTextSegment {
+    text
+  }
+  ... on Gene {
+    id
+    name
+    link
+  }
+  ... on Variant {
+    id
+    name
+    link
+  }
+}

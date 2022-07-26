@@ -23,13 +23,18 @@ interface FormModel {
   }
 }
 
+export interface SelectedVariant {
+  variantId: number,
+  molecularProfileId: number
+}
+
 @Component({
   selector: 'cvc-variant-submit-form',
   templateUrl: './variant-submit.form.html',
   styleUrls: ['./variant-submit.form.less'],
 })
 export class VariantSubmitForm implements OnDestroy {
-  @Output() onVariantSelected = new EventEmitter<number>();
+  @Output() onVariantSelected = new EventEmitter<SelectedVariant>();
 
   private destroy$ = new Subject();
 
@@ -127,7 +132,10 @@ export class VariantSubmitForm implements OnDestroy {
         (data) => {
           this.newId = data.addVariant.variant.id;
           this.isNew = data.addVariant.new
-          this.onVariantSelected.emit(this.newId);
+          this.onVariantSelected.emit({
+            variantId: data.addVariant.variant.id,
+            molecularProfileId: data.addVariant.variant.singleVariantMolecularProfileId
+          });
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -152,8 +160,10 @@ export class VariantSubmitForm implements OnDestroy {
   onFormModelChange(model: FormModel): void {
     this.formModel = model
     if(model.fields.variant && model.fields.variant[0]) {
-      this.onVariantSelected.emit(model.fields.variant[0]?.id)
-
+      this.onVariantSelected.emit({
+        variantId: model.fields.variant[0].id!,
+        molecularProfileId: model.fields.variant[0].singleVariantMolecularProfileId
+      })
     }
   }
 

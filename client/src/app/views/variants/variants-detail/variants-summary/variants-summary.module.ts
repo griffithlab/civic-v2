@@ -22,7 +22,6 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module';
-import { CvcMolecularInputFormModule } from '@app/forms/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -49,7 +48,6 @@ import { CvcMolecularInputFormModule } from '@app/forms/molecular-profile-input/
     CvcMyVariantInfoModule,
     CvcEmptyRevisableModule,
     CvcEventFeedModule,
-    CvcMolecularInputFormModule
   ],
   exports: [VariantsSummaryPage],
 })
