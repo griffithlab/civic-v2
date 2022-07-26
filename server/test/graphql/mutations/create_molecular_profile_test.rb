@@ -8,7 +8,9 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
       createMolecularProfile(
         input: { structure: { variantComponents: [{ variantId: #{@variant.id}, not: false }] } }
       ) {
-        molecularProfileId
+        molecularProfile {
+          id
+        }
       }
     }
     GRAPHQL
@@ -17,7 +19,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
   test "single variant mp" do
     response = Civic2Schema.execute(@query_string, context: { current_user: users(:curator) })
 
-    mp_id = response["data"]["createMolecularProfile"]["molecularProfileId"]
+    mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]['id']
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "BRAF V600E")
     assert_equal(mp.variants, [@variant])
@@ -52,14 +54,16 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
           }
         }
       ) {
-        molecularProfileId
+        molecularProfile {
+          id
+        }
       }
     }
     GRAPHQL
 
     response = Civic2Schema.execute(query_string, context: { current_user: users(:curator) })
 
-    mp_id = response["data"]["createMolecularProfile"]["molecularProfileId"]
+    mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]["id"]
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
     assert_equal(mp.variants, [@variant, v2, v3, v4])
@@ -89,7 +93,9 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
           }
         }
       ) {
-        molecularProfileId
+        molecularProfile {
+         id
+        }
       }
     }
     GRAPHQL
@@ -97,7 +103,7 @@ class CreateMolecularProfileTest < ActiveSupport::TestCase
 
     response = Civic2Schema.execute(query_string, context: { current_user: users(:curator) })
 
-    mp_id = response["data"]["createMolecularProfile"]["molecularProfileId"]
+    mp_id = response["data"]["createMolecularProfile"]["molecularProfile"]['id']
     mp = MolecularProfile.find(mp_id)
     assert_equal(mp.display_name, "NOT BRAF V600K AND BRAF V600E AND ( VHL W88* OR VHL V87E (c.260T>A) )")
     assert_equal(mp.variants, [@variant, v2, v3, v4])
