@@ -1,11 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
-import { Maybe } from '@app/generated/civic.apollo';
+import { Maybe, MolecularProfileSegment } from '@app/generated/civic.apollo';
 
 export interface LinkableMolecularProfile {
   id: number;
   name: string;
   link: string;
+}
+
+export interface LinkableMolecularProfileSegments {
+  id: number;
+  segments: MolecularProfileSegment[];
+  link: string;
+  name?: string
 }
 
 @Component({
@@ -15,7 +22,7 @@ export interface LinkableMolecularProfile {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcMolecularProfileTagComponent extends BaseCloseableTag implements OnInit {
-  @Input() molecularProfile!: LinkableMolecularProfile;
+  @Input() molecularProfile!: LinkableMolecularProfile | LinkableMolecularProfileSegments;
   @Input() enablePopover: Maybe<boolean> = true
   @Input() truncateLongName: boolean|number = false
 
@@ -38,6 +45,16 @@ export class CvcMolecularProfileTagComponent extends BaseCloseableTag implements
     }
     if (typeof this.truncateLongName === 'number' ) {
       this.truncationLength = this.truncateLongName
+    }
+
+    if('segments' in this.molecularProfile) {
+      this.molecularProfile.name = this.molecularProfile.segments.map((s) => {
+        if ('text' in s) {
+          return s.text
+        } else {
+          return s.name
+        }
+      }).join(' ');
     }
   }
 }

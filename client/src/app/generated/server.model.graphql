@@ -3574,6 +3574,14 @@ input MolecularProfileFields {
   sourceIds: [Int!]!
 }
 
+type MolecularProfileNamePreview {
+  """
+  The already existing MP matching this name, if it exists
+  """
+  existingMolecularProfile: MolecularProfile
+  segments: [MolecularProfileSegment!]!
+}
+
 """
 A segment of a molecular profile. Either a string representing a boolean
 operator or a tag component representing a gene or variant
@@ -5329,7 +5337,7 @@ type Query {
     sortBy: PhenotypeSort
   ): BrowsePhenotypeConnection!
   previewCommentText(commentText: String!): [CommentBodySegment!]!
-  previewMolecularProfileName(structure: MolecularProfileComponentInput): [MolecularProfileSegment!]!
+  previewMolecularProfileName(structure: MolecularProfileComponentInput): MolecularProfileNamePreview!
 
   """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.

@@ -136,7 +136,7 @@ module Types
       argument :comment_text, String, required: true
     end
 
-    field :preview_molecular_profile_name, [Types::MolecularProfile::MolecularProfileSegmentType], null: false do
+    field :preview_molecular_profile_name, Types::MolecularProfile::MolecularProfileNamePreviewType, null: false do
       argument :structure, Types::MolecularProfile::MolecularProfileComponentInput, required: false,
         validates: { Types::MolecularProfile::MolecularProfileComponentValidator => {} }
     end
@@ -272,7 +272,10 @@ module Types
 
     def preview_molecular_profile_name(structure: nil)
       if structure.nil? 
-        return []
+        return {
+          segments: [],
+          existing_molecular_profile: nil
+        }
       end
 
       variant_ids = structure.variant_ids.uniq
@@ -285,7 +288,11 @@ module Types
 
       name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
 
-      ::MolecularProfile.new(name: name).segments
+      return {
+        segments: ::MolecularProfile.new(name: name).segments,
+        existing_molecular_profile: ::MolecularProfile.find_by(name: name)
+      }
+
     end
 
     def countries

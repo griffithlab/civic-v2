@@ -2124,6 +2124,13 @@ export type MolecularProfileFields = {
   sourceIds: Array<Scalars['Int']>;
 };
 
+export type MolecularProfileNamePreview = {
+  __typename: 'MolecularProfileNamePreview';
+  /** The already existing MP matching this name, if it exists */
+  existingMolecularProfile?: Maybe<MolecularProfile>;
+  segments: Array<MolecularProfileSegment>;
+};
+
 /**
  * A segment of a molecular profile. Either a string representing a boolean
  * operator or a tag component representing a gene or variant
@@ -2817,7 +2824,7 @@ export type Query = {
   /** List and filter Phenotypes from the Human Phenotype Ontology. */
   phenotypes: BrowsePhenotypeConnection;
   previewCommentText: Array<CommentBodySegment>;
-  previewMolecularProfileName: Array<MolecularProfileSegment>;
+  previewMolecularProfileName: MolecularProfileNamePreview;
   /** Check to see if a citation ID for a source not already in CIViC exists in an external database. */
   remoteCitation?: Maybe<Scalars['String']>;
   /** Find a revision by CIViC ID */
@@ -5620,7 +5627,7 @@ export type PreviewMolecularProfileNameQueryVariables = Exact<{
 }>;
 
 
-export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }> };
+export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: { __typename: 'MolecularProfileNamePreview', existingMolecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, segments: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }> } };
 
 export type CreateMolecularProfileMutationVariables = Exact<{
   mpStructure: MolecularProfileComponentInput;
@@ -10159,7 +10166,14 @@ export const EntityTypeaheadDocument = gql`
 export const PreviewMolecularProfileNameDocument = gql`
     query previewMolecularProfileName($mpStructure: MolecularProfileComponentInput) {
   previewMolecularProfileName(structure: $mpStructure) {
-    ...previewMpName
+    existingMolecularProfile {
+      id
+      name
+      link
+    }
+    segments {
+      ...previewMpName
+    }
   }
 }
     ${PreviewMpNameFragmentDoc}`;

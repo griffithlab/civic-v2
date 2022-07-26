@@ -21,11 +21,20 @@
       <ng-container *nzSpaceItem>
         <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
           <ng-container *ngIf="this.displayPreview; else noPreview">
-            <cvc-mp-tag-name [nameSegments]="mpName"></cvc-mp-tag-name>
-            <button nz-button
-              nzSize="small" (click)="submitNewMp()" style="float: right"> 
-              Select this Molecular Profile 
-            </button>
+            <ng-container *ngIf="previewMpAlreadyExists$ | ngrxPush as existing; else newMp">
+              <cvc-molecular-profile-tag [molecularProfile]="existing"></cvc-molecular-profile-tag>
+              <button nz-button
+                nzSize="small" (click)="submitNewMp()" style="float: right"> 
+                Select this Molecular Profile 
+              </button>
+            </ng-container>
+            <ng-template #newMp>
+              <cvc-mp-tag-name [nameSegments]="mpName"></cvc-mp-tag-name>
+              <button nz-button
+                nzSize="small" (click)="submitNewMp()" style="float: right"> 
+                Create Molecular Profile 
+              </button>
+            </ng-template>
           </ng-container>
         </ng-container>
       </ng-container>

@@ -26,6 +26,7 @@ import {
   CreateMolecularProfileGQL,
   CreateMolecularProfileMutation,
   CreateMolecularProfileMutationVariables,
+  Maybe,
 } from '@app/generated/civic.apollo';
 
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
@@ -37,6 +38,7 @@ import { SelectedVariant } from '../variant-submit/variant-submit.form';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component';
+import { tag } from 'rxjs-spy/cjs/operators';
 
 interface WithDisplayNameAndValue {
   displayName: string
@@ -59,6 +61,7 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
   typeaheadQueryRef?: QueryRef<QuicksearchQuery, QuicksearchQueryVariables>
 
   previewMpName$?: Observable<PreviewMpNameFragment[]>
+  previewMpAlreadyExists$?: Observable<Maybe<LinkableMolecularProfile>>
 
   suggestions: WithDisplayNameAndValue[] = []
   loading: boolean = false
@@ -95,9 +98,18 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
     }) */
 
     this.previewMpName$ = this.previewQueryRef.valueChanges.pipe(
-      pluck('data'),
+      pluck('data', 'previewMolecularProfileName'),
       filter(isNonNulled),
-      map((data) => data.previewMolecularProfileName),
+      map((data) => data.segments),
+      tag("preview segment"),
+      takeUntil(this.destroy$)
+    );
+
+    this.previewMpAlreadyExists$ = this.previewQueryRef.valueChanges.pipe(
+      pluck('data', 'previewMolecularProfileName'),
+      filter(isNonNulled),
+      map((data) => data.existingMolecularProfile),
+      tag("exists"),
       takeUntil(this.destroy$)
     );
 
@@ -119,7 +131,7 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
     this.debouncedPreview
     .pipe(
       takeUntil(this.destroy$),
-      debounceTime(500))
+      debounceTime(300))
     .subscribe((_) => this.refresh());
   }
 

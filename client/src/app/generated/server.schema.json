@@ -16225,6 +16225,53 @@
           "possibleTypes": null
         },
         {
+          "kind": "OBJECT",
+          "name": "MolecularProfileNamePreview",
+          "description": null,
+          "fields": [
+            {
+              "name": "existingMolecularProfile",
+              "description": "The already existing MP matching this name, if it exists",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "MolecularProfile",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "segments",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "UNION",
+                      "name": "MolecularProfileSegment",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "UNION",
           "name": "MolecularProfileSegment",
           "description": "A segment of a molecular profile. Either a string representing a boolean operator or a tag component representing a gene or variant",
@@ -23533,17 +23580,9 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "UNION",
-                      "name": "MolecularProfileSegment",
-                      "ofType": null
-                    }
-                  }
+                  "kind": "OBJECT",
+                  "name": "MolecularProfileNamePreview",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,

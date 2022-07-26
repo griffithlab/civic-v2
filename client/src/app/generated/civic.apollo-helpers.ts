@@ -813,6 +813,11 @@ export type MolecularProfileComponentFieldPolicy = {
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type MolecularProfileNamePreviewKeySpecifier = ('existingMolecularProfile' | 'segments' | MolecularProfileNamePreviewKeySpecifier)[];
+export type MolecularProfileNamePreviewFieldPolicy = {
+	existingMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	segments?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type MolecularProfileTextSegmentKeySpecifier = ('text' | MolecularProfileTextSegmentKeySpecifier)[];
 export type MolecularProfileTextSegmentFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1892,6 +1897,10 @@ export type StrictTypedTypePolicies = {
 	MolecularProfileComponent?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MolecularProfileComponentKeySpecifier | (() => undefined | MolecularProfileComponentKeySpecifier),
 		fields?: MolecularProfileComponentFieldPolicy,
+	},
+	MolecularProfileNamePreview?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | MolecularProfileNamePreviewKeySpecifier | (() => undefined | MolecularProfileNamePreviewKeySpecifier),
+		fields?: MolecularProfileNamePreviewFieldPolicy,
 	},
 	MolecularProfileTextSegment?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MolecularProfileTextSegmentKeySpecifier | (() => undefined | MolecularProfileTextSegmentKeySpecifier),
