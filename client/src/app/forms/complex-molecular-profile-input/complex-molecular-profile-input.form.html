@@ -1,6 +1,8 @@
-<ng-container *ngIf="this.selectedMp; else createMp">
-  <cvc-molecular-profile-tag [molecularProfile]="this.selectedMp"></cvc-molecular-profile-tag>
-</ng-container>
+<nz-card>
+  <ng-container *ngIf="this.selectedMp; else createMp">
+    <cvc-molecular-profile-tag [molecularProfile]="this.selectedMp"></cvc-molecular-profile-tag>
+  </ng-container>
+</nz-card>
 
 <ng-template #createMp>
   <nz-spin nzTip="Submitting" [nzSpinning]="loading">
@@ -9,38 +11,52 @@
       </cvc-form-errors-alert>
     </nz-form-item>
 
-    <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
-      <cvc-mp-tag-name *ngIf="this.displayPreview" [nameSegments]="mpName"></cvc-mp-tag-name>
-    </ng-container>
-
-    <ng-container *ngIf="parseError">
-      {{parseError}}
-    </ng-container>
-
-    <nz-mention [nzStatus]="this.parseError ? 'warning' : ''" [nzSuggestions]="this.suggestions"
-      (nzOnSearchChange)="onSearchChange($event)" nzPrefix="#" nzNotFoundContent="No matches..."
-      [nzValueWith]="autoCompleteValueFor" (nzOnSelect)="this.suggestions = []">
-
-      <textarea #mpInputField nz-input rows="1" style="width: 100%" [(ngModel)]="mpName"
-        (ngModelChange)="onMpNameChanged($event)"></textarea>
-
-      <ng-container *nzMentionSuggestion="let variant">
-        <span>{{variant.displayName}}</span>
+    <nz-space nzDirection="vertical" nzSize="large">
+      <ng-container *nzSpaceItem>
+        <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
+          <ng-container *ngIf="this.displayPreview; else noPreview">
+            <cvc-mp-tag-name [nameSegments]="mpName"></cvc-mp-tag-name>
+            <button nz-button
+              nzSize="small" (click)="submitNewMp()" style="float: right"> 
+              Select this Molecular Profile 
+            </button>
+          </ng-container>
+        </ng-container>
       </ng-container>
 
-    </nz-mention>
+      <ng-template #noPreview>
+        <ng-container *ngIf="parseError">
+          {{parseError}}
+        </ng-container>
+        <ng-container *ngIf="!parseError">
+          <span nz-typography nzType="secondary">
+            Start constructing a complex molecular profile to preview it here
+          </span>
+        </ng-container>
+      </ng-template>
 
-    <button nz-button nz-popover nzSize="small" [nzPopoverTitle]="variantFinderTitle"
-      [(nzPopoverVisible)]="this.variantFinderVisible" (click)="this.variantFinderVisible = !this.variantFinderVisible"
-      [nzPopoverContent]="variantFinder" [nzPopoverTrigger]="undefined " nzPopoverPlacement="bottom">
-      Find a Variant
-      <i nz-icon nzType="caret-down" nzTheme="outline"></i>
-    </button>
 
-    <button nz-button [disabled]="this.parseError || this.mpName == undefined || this.mpName.trim() == ''"
-      nzSize="small" (click)="submitNewMp()">
-      Select this Molecular Profile
-    </button>
+      <nz-mention *nzSpaceItem [nzStatus]="this.parseError ? 'warning' : ''" [nzSuggestions]="this.suggestions"
+        (nzOnSearchChange)="onSearchChange($event)" nzPrefix="#" nzNotFoundContent="No matches..."
+        [nzValueWith]="autoCompleteValueFor" (nzOnSelect)="this.suggestions = []">
+
+        <textarea #mpInputField nz-input rows="1" style="width: 100%" [(ngModel)]="mpName"
+          (ngModelChange)="onMpNameChanged($event)"></textarea>
+
+        <ng-container *nzMentionSuggestion="let variant">
+          <span>{{variant.displayName}}</span>
+        </ng-container>
+
+      </nz-mention>
+
+      <button *nzSpaceItem nz-button nz-popover nzSize="small" [nzPopoverTitle]="variantFinderTitle"
+        [(nzPopoverVisible)]="this.variantFinderVisible" (click)="this.variantFinderVisible = !this.variantFinderVisible"
+        [nzPopoverContent]="variantFinder" [nzPopoverTrigger]="undefined " nzPopoverPlacement="bottom">
+        Find a Variant
+        <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+      </button>
+
+    </nz-space>
 
     <ng-template #variantFinderTitle>
       Find a Variant
