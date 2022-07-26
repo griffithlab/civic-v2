@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceDetailView } from './evidence-detail.view';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -9,7 +8,6 @@ import { CvcFlaggableModule } from '@app/components/flags/flaggable/flaggable.mo
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { EvidenceDetailRoutingModule } from './evidence-detail-routing.module';
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
@@ -20,27 +18,33 @@ import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [EvidenceDetailView],
   imports: [
     CommonModule,
     EvidenceDetailRoutingModule,
-    RouterModule,
     ReactiveComponentModule,
+
+    NzAlertModule,
+    NzButtonModule,
+    NzGridModule,
+    NzIconModule,
+    NzTagModule,
+    NzPageHeaderModule,
     NzSpaceModule,
     NzTypographyModule,
-    NzPageHeaderModule,
-    NzButtonModule,
-    NzTagModule,
-    NzIconModule,
-    NzAlertModule,
-    NzGridModule,
+
     CvcSectionNavigationModule,
     CvcFlaggableModule,
     CvcEntitySubscriptionButtonModule,
-    CvcRevertEntityButtonModule,
+    CvcFlaggableModule,
     CvcModerateEntityButtonsModule,
+    CvcPipesModule,
+    CvcRevertEntityButtonModule,
+    CvcSectionNavigationModule,
     CvcTabNavigationModule,
     CvcContributorAvatarsModule,
     CvcMolecularProfileTagModule,

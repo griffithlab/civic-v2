@@ -6,8 +6,11 @@
     <nz-space nzDirection="horizontal">
 
       <!-- parent relations -->
-      <span nz-typography class="label" *nzSpaceItem><strong>{{ variant.name }}</strong> Parent:</span>
-      <span *nzSpaceItem class="tags">
+      <span nz-typography
+        class="label"
+        *nzSpaceItem><strong>{{ variant.name }}</strong> Parent:</span>
+      <span *nzSpaceItem
+        class="tags">
         <a routerLink="/genes/{{ variant.gene.id }}">
           <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
         </a>
@@ -23,7 +26,9 @@
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': variant.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:variant"></i> {{ variant.name }}
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Variant' | entityColor"
+          nzType="civic-variant"></i> {{ variant.name }}
       </nz-page-header-title>
 
       <!-- subtitle -->

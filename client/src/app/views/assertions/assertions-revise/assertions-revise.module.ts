@@ -13,6 +13,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcLoginPromptModule } from '@app/components/shared/login-prompt/login-prompt.module';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [AssertionsReviseView],
@@ -24,6 +25,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzIconModule,
     NzTypographyModule,
     NzSpaceModule,
+    CvcPipesModule,
     CvcMolecularProfileTagModule,
     CvcSectionNavigationModule,
     CvcCommentTextareaTypeModule,

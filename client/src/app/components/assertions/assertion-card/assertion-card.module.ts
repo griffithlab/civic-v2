@@ -8,6 +8,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [CvcAssertionCardComponent],
@@ -16,6 +17,7 @@ import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/
     NzCardModule,
     NzSpaceModule,
     NzGridModule,
+    NzIconModule,
     CvcDrugTagModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,

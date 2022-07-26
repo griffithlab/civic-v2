@@ -61,7 +61,9 @@
           nz-tooltip
           nzTooltipTitle="Variant Count">
           <i nz-icon
-            nzType="civic:variant"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Variant' | entityColor"
+            nzType="civic-variant"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -107,7 +109,9 @@
 
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:varianttype"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'VariantType' | entityColor"
+    nzType="civic-varianttype"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

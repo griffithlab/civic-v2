@@ -6,6 +6,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [CvcVariantTypePopoverComponent],
@@ -15,6 +16,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzIconModule,
     NzCardModule,
     NzDescriptionsModule,
+    CvcPipesModule,
     CvcLinkTagModule,
   ],
   exports: [CvcVariantTypePopoverComponent]

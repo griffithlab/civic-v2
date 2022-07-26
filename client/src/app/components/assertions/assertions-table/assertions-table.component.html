@@ -117,8 +117,11 @@
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
-          nzTooltipTitle="Evidence Count"><i nz-icon
-                                            nzType="civic:evidence"></i> Count
+          nzTooltipTitle="Evidence Count">
+          <i nz-icon
+            nzTheme="twotone"
+            [nzTwotoneColor]="'EvidenceItem' | entityColor"
+            nzType="civic-evidence"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -372,7 +375,9 @@
 
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:assertion"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Assertion' | entityColor"
+    nzType="civic-assertion"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

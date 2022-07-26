@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
+import { getEntityColor } from '@app/core/utilities/get-entity-color';
 import { EvidenceStatus, Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableEvidence {
   id: number,
   name: string,
   status?: EvidenceStatus,
+  flagged?: boolean,
   link: string,
 }
 
@@ -26,7 +28,12 @@ export class CvcEvidenceTagComponent extends BaseCloseableTag implements OnInit 
   @Input() linked: Maybe<boolean> = true
   @Input() enablePopover: Maybe<boolean> = true
 
-  constructor() { super(); }
+  iconColor: string
+
+  constructor() {
+    super()
+    this.iconColor = getEntityColor('EvidenceItem')
+  }
 
   idFunction() {
     return this.evidence.id

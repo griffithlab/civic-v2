@@ -6,7 +6,9 @@
     <nz-page-header-title cvcFlaggableOptions>
       REVISE
       <i nz-icon
-        nzType="civic:variantgroup"></i> {{ variantGroup.name }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'VariantGroup' | entityColor"
+        nzType="civic-variantgroup"></i> {{ variantGroup.name }}
     </nz-page-header-title>
 
     <nz-page-header-content>

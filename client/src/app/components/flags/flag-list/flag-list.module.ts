@@ -1,37 +1,38 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
-import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
-import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
+import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
+import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
+import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
+import { CvcOrgSelectorBtnGroupModule } from '@app/forms/config/components/org-selector-btn-group/org-selector-btn-group.module';
+import { CvcResolveFlagFormModule } from '@app/forms/flag-resolve/flag-resolve.module';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { FormsModule } from '@angular/forms';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { FlagListComponent } from './flag-list.component';
-import { CvcResolveFlagFormModule } from '@app/forms/flag-resolve/flag-resolve.module';
-import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
-import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
 @NgModule({
   declarations: [FlagListComponent],
@@ -63,6 +64,7 @@ import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comm
     CvcVariantTagModule,
     CvcVariantTypeTagModule,
     CvcStatusTagModule,
+    CvcPipesModule,
     NzButtonModule,
     NzAlertModule,
     ReactiveComponentModule,

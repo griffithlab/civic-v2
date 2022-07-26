@@ -57,7 +57,9 @@
           nz-tooltip
           nzTooltipTitle="Submitter Comment">
           <i nz-icon
-            nzType="civic:comment"></i>
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Comment' | entityColor"
+            nzType="civic-comment"></i>
         </th>
         <th nzWidth="200px"
           [nzColumnKey]="sortColumns.Submitter"
@@ -207,7 +209,9 @@
             nzTooltipPlacement="top"
             [nzTooltipTitle]="!isScrolling ? suggestion.initialComment : ''">
             <i nz-icon
-              nzType="civic:comment"></i>
+              nzTheme="twotone"
+              [nzTwotoneColor]="'Comment' | entityColor"
+              nzType="civic-comment"></i>
           </td>
           <td>
             <cvc-user-tag *ngIf="suggestion.user"
@@ -229,11 +233,13 @@
           </td>
           <td>
             <cvc-variant-tag *ngIf="suggestion.variant"
-              [variant]="suggestion.variant" [truncateLongName]="true"></cvc-variant-tag>
+              [variant]="suggestion.variant"
+              [truncateLongName]="true"></cvc-variant-tag>
           </td>
           <td>
             <cvc-disease-tag *ngIf="suggestion.disease"
-              [disease]="suggestion.disease" [truncateLongName]="true"></cvc-disease-tag>
+              [disease]="suggestion.disease"
+              [truncateLongName]="true"></cvc-disease-tag>
           </td>
           <td nzAlign="right">
             {{ suggestion.createdAt | date }}
@@ -288,7 +294,9 @@
 <!-- card's title template -->
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:source"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Source' | entityColor"
+    nzType="civic-source"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

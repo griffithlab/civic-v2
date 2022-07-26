@@ -3,8 +3,9 @@
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <i nz-icon
-        nzType="civic:intervention"></i>
-      {{ drug.name }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'Intervention' | entityColor"
+        nzType="civic-intervention"></i> {{ drug.name }}
     </nz-page-header-title>
     <nz-page-header-extra *ngIf="drug.ncitId">
       <cvc-link-tag [href]="drug.drugUrl"

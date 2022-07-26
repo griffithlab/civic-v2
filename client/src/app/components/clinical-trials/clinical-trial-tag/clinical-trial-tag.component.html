@@ -5,8 +5,7 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag
-    nz-popover
+  <nz-tag nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="clinicalTrialPopover"
     nzPopoverPlacement="right"
@@ -25,6 +24,8 @@
 
 <ng-template #tagContent>
   <i nz-icon
-    nzType="civic:clinicaltrial"
-    class="clinical-trial-tag-icon"></i> {{ clinicalTrial.nctId }}
+    nzTheme="twotone"
+    [nzTwotoneColor]="'ClinicalTrial' | entityColor"
+    nzType="civic-clinicaltrial"></i>
+   {{ clinicalTrial.nctId }}
 </ng-template>

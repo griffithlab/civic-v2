@@ -18,12 +18,12 @@ query EvidenceBrowse(
   $assertionId: Int
   $organizationId: Int
   $userId: Int
-  $sortBy: EvidenceSort,
-  $phenotypeId: Int,
-  $diseaseId: Int,
-  $drugId: Int,
-  $sourceId: Int,
-  $clinicalTrialId: Int,
+  $sortBy: EvidenceSort
+  $phenotypeId: Int
+  $diseaseId: Int
+  $drugId: Int
+  $sourceId: Int
+  $clinicalTrialId: Int
   $molecularProfileName: String
   $status: EvidenceStatusFilter
 ) {
@@ -51,9 +51,9 @@ query EvidenceBrowse(
     diseaseId: $diseaseId
     drugId: $drugId
     sourceId: $sourceId
-    clinicalTrialId: $clinicalTrialId,
-    molecularProfileName: $molecularProfileName,
-    status: $status,
+    clinicalTrialId: $clinicalTrialId
+    molecularProfileName: $molecularProfileName
+    status: $status
     sortBy: $sortBy
   ) {
     totalCount
@@ -73,34 +73,35 @@ query EvidenceBrowse(
 }
 
 fragment EvidenceGridFields on EvidenceItem {
+  id
+  name
+  link
+  disease {
     id
     name
     link
-    disease {
-      id
-      name
-      link
+  }
+  drugs {
+    id
+    name
+    link
+  }
+  molecularProfile {
+    id
+    name
+    link
+    parsedName {
+      ...MolecularProfileParsedName
     }
-    drugs {
-      id
-      name
-      link
-    }
-    molecularProfile {
-      id
-      name
-      link
-      parsedName {
-        ...MolecularProfileParsedName
-      }
-    }
-    status
-    drugInteractionType
-    description
-    evidenceType
-    evidenceDirection
-    evidenceLevel
-    evidenceRating
-    clinicalSignificance
-    variantOrigin
+  }
+  status
+  flagged
+  drugInteractionType
+  description
+  evidenceType
+  evidenceDirection
+  evidenceLevel
+  evidenceRating
+  clinicalSignificance
+  variantOrigin
 }

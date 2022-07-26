@@ -38,4 +38,5 @@ fragment menuVariant on Variant {
   id
   name
   link
+  flagged
 }

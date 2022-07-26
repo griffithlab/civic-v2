@@ -25,7 +25,9 @@
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': assertion.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:assertion"></i> {{ assertion.name }}
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Assertion' | entityColor"
+          nzType="civic-assertion"></i> {{ assertion.name }}
       </nz-page-header-title>
 
       <!-- header action btns, actions menu -->
@@ -105,7 +107,8 @@
             </nz-col>
           </ng-template>
         </cvc-tab-navigation>
-        <nz-space nzDirection="vertical" *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
+        <nz-space nzDirection="vertical"
+          *ngIf="(viewer.canModerate || (viewer.signedIn && viewer.id == assertion.submissionEvent?.originatingUser?.id )) && assertion.status == 'SUBMITTED'">
           <span *nzSpaceItem>
             <cvc-moderate-entity-buttons entityType="Assertion"
               [rejectOnly]="!viewer.canModerate"
