@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_25_221408) do
+ActiveRecord::Schema.define(version: 2022_07_26_143917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1138,13 +1138,13 @@ ActiveRecord::Schema.define(version: 2022_07_25_221408) do
              FROM ((evidence_items evidence_items_1
                JOIN drugs_evidence_items drugs_evidence_items_1 ON ((drugs_evidence_items_1.evidence_item_id = evidence_items_1.id)))
                JOIN drugs drugs_1 ON ((drugs_1.id = drugs_evidence_items_1.drug_id)))
-            WHERE (evidence_items_1.variant_id = variants.id)
+            WHERE (evidence_items_1.molecular_profile_id = outer_mps.id)
             GROUP BY drugs_1.id) drug_count ON ((drugs.id = drug_count.drug_id)))
        LEFT JOIN LATERAL ( SELECT diseases_1.id AS disease_id,
               count(DISTINCT evidence_items_1.id) AS total
              FROM (evidence_items evidence_items_1
                JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
-            WHERE (evidence_items_1.variant_id = variants.id)
+            WHERE (evidence_items_1.molecular_profile_id = outer_mps.id)
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
     GROUP BY outer_mps.id, outer_mps.name;
