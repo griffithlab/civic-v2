@@ -2946,6 +2946,7 @@ export type QueryBrowseMolecularProfilesArgs = {
   last?: InputMaybe<Scalars['Int']>;
   molecularProfileAlias?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<MolecularProfilesSort>;
+  variantId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
 };
 
@@ -5214,6 +5215,7 @@ export type MolecularProfilePopoverFieldsFragment = { __typename: 'MolecularProf
 
 export type BrowseMolecularProfilesQueryVariables = Exact<{
   variantName?: InputMaybe<Scalars['String']>;
+  variantId?: InputMaybe<Scalars['Int']>;
   entrezSymbol?: InputMaybe<Scalars['String']>;
   diseaseName?: InputMaybe<Scalars['String']>;
   drugName?: InputMaybe<Scalars['String']>;
@@ -9126,9 +9128,10 @@ export const MolecularProfilePopoverDocument = gql`
     }
   }
 export const BrowseMolecularProfilesDocument = gql`
-    query BrowseMolecularProfiles($variantName: String, $entrezSymbol: String, $diseaseName: String, $drugName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
+    query BrowseMolecularProfiles($variantName: String, $variantId: Int, $entrezSymbol: String, $diseaseName: String, $drugName: String, $molecularProfileAlias: String, $sortBy: MolecularProfilesSort, $first: Int, $last: Int, $before: String, $after: String) {
   browseMolecularProfiles(
     variantName: $variantName
+    variantId: $variantId
     entrezSymbol: $entrezSymbol
     diseaseName: $diseaseName
     drugName: $drugName

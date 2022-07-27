@@ -24,10 +24,11 @@ export interface MolecularProfileTableUserFilters {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CvcMolecularProfilesTableComponent implements OnInit {
-  @Input() cvcHeight?: number
+  @Input() cvcHeight?: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
   @Input() initialPageSize: number = 35
+  @Input() variantId: Maybe<number>
   @Input()
   set initialUserFilters(f: Maybe<MolecularProfileTableUserFilters>) {
     // assign any attributes in filters object to this class
@@ -78,6 +79,7 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
   ngOnInit(): void {
     this.initialQueryArgs = {
       first: this.initialPageSize,
+      variantId: this.variantId
     }
 
     this.queryRef = this.gql.watch(this.initialQueryArgs)
