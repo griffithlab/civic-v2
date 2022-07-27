@@ -41,14 +41,6 @@ fragment SubmittableEvidenceFields on EvidenceItem {
   evidenceDirection
   evidenceRating
   drugInteractionType
-  # gene {
-  #   id
-  #   name
-  # }
-  # variant {
-  #   id
-  #   name
-  # }
   source {
     id
     citation

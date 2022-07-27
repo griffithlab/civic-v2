@@ -22,19 +22,16 @@ import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
-import { FormDisease, FormDrug, FormGene, FormMolecularProfile, FormPhenotype, FormSource, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormDrug, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 
 interface FormModel {
   fields: {
     id: number
-    molecularProfile: FormMolecularProfile
+    molecularProfile: number
 
     description: string
     source: FormSource[]
-
-    gene: FormGene[],
-    variant: FormVariant[]
 
     variantOrigin: VariantOrigin
     disease: FormDisease[]
@@ -70,8 +67,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   submitEvidenceMutator: MutatorWithState<SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables>
 
 
-  submittedGeneId: Maybe<number>
-  submittedVariantId: Maybe<number>
+  submittedMpId: Maybe<number>
   submittedSourceId: Maybe<number>
   submittedDiseaseId: Maybe<number>
 
@@ -97,23 +93,6 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           label: 'Add Evidence Item Form',
         },
         fieldGroup: [
-          /*           {
-            key: 'gene',
-            type: 'gene-array',
-            templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
-              required: true,
-              maxCount: 1,
-              helpText: 'The most specific description of the variant that the underlying source allows.',
-            }
-          }, */
           {
             key: 'molecularProfile',
             type: 'molecular-profile-input',
@@ -131,6 +110,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
                 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
               addText: 'Specify a Source',
               maxCount: 1,
+              required: true,
             },
             fieldArray: {
               type: 'source-input',
@@ -170,6 +150,13 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             },
           },
           {
+            key: 'evidenceDirection',
+            type: 'evidence-direction-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
             key: 'clinicalSignificance',
             type: 'clinical-significance-select',
             templateOptions: {
@@ -186,13 +173,6 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           {
             key: 'evidenceLevel',
             type: 'evidence-level-select',
-            templateOptions: {
-              required: true,
-            },
-          },
-          {
-            key: 'evidenceDirection',
-            type: 'evidence-direction-select',
             templateOptions: {
               required: true,
             },
@@ -251,13 +231,9 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe(params => {
       let shouldPopulate = false
-      if (params.geneId) {
+      if (params.molecularProfileId) {
         shouldPopulate = true
-        this.submittedGeneId = +params.geneId
-      }
-      if (params.variantId) {
-        shouldPopulate = true
-        this.submittedVariantId = +params.variantId
+        this.submittedMpId = +params.molecularProfileId
       }
       if (params.sourceId) {
         shouldPopulate = true
@@ -269,24 +245,25 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
       }
 
       if(shouldPopulate) {
+        // TODO update source suggestions to use molecular profiles
         this.sourceSuggestionGQL.fetch({
-          geneId: this.submittedGeneId,
+          //geneId: this.submittedGeneId,
           diseaseId: this.submittedDiseaseId,
           sourceId: this.submittedSourceId,
-          variantId: this.submittedVariantId
+          //variantId: this.submittedVariantId
         }).subscribe(
           ({data: { sourceSuggestionValues}, loading}) => {
             this.loading = loading
             let newModel: any = {fields: {}}
-            if(sourceSuggestionValues.gene) {
-              newModel.fields.gene = [sourceSuggestionValues.gene]
-            }
+            //if(sourceSuggestionValues.gene) {
+            //  newModel.fields.gene = [sourceSuggestionValues.gene]
+            //}
             if(sourceSuggestionValues.disease) {
               newModel.fields.disease = [sourceSuggestionValues.disease]
             }
-            if(sourceSuggestionValues.variant) {
-              newModel.fields.variant = [sourceSuggestionValues.variant]
-            }
+            //if(sourceSuggestionValues.variant) {
+            //  newModel.fields.variant = [sourceSuggestionValues.variant]
+            //}
             if(sourceSuggestionValues.source) {
               newModel.fields.source = [sourceSuggestionValues.source]
             }
@@ -348,7 +325,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          molecularProfileId: fields.variant[0].singleVariantMolecularProfileId!,
+          molecularProfileId: fields.molecularProfile,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
@@ -360,9 +337,9 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
           drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
         },
-      comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
-      organizationId: model?.fields.organization?.id
-    }
+        comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
+        organizationId: model?.fields.organization?.id
+      }
 
     }
     return undefined
