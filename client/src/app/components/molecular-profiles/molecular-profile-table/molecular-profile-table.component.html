@@ -118,7 +118,7 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>
+            <cvc-molecular-profile-tag [molecularProfile]="mp" [truncateLongName]="true"></cvc-molecular-profile-tag>
           </td>
           <td>
             <cvc-plain-tag-overflow [maxDisplayCount]="1"
@@ -126,12 +126,16 @@
               [matchingText]="aliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
-            <cvc-gene-tag *ngFor="let gene of mp.genes" [gene]="gene"
-              [truncateLongName]="true"></cvc-gene-tag>
+            <cvc-tag-overflow tagType="gene"
+              [tags]="mp.genes"
+              [maxDisplayCount]="1"
+              [matchingText]="geneSymbolInput"></cvc-tag-overflow> 
           </td>
           <td nzLeft>
-            <cvc-variant-tag *ngFor="let variant of mp.variants" [variant]="variant"
-              [truncateLongName]="true"></cvc-variant-tag>
+            <cvc-tag-overflow tagType="variant"
+              [tags]="mp.variants"
+              [maxDisplayCount]="1"
+              [matchingText]="variantNameInput"></cvc-tag-overflow> 
           </td>
           <td>
             <cvc-tag-overflow tagType="disease"
