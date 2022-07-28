@@ -19,7 +19,9 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
   option(:drug_name, type: String)     { |scope, value| scope.where(json_name_query_for_column('drugs'), "%#{value}%") }
   option(:molecular_profile_alias, type: String) { |scope, value| scope.where(array_query_for_column('alias_names'), "%#{value}%") }
-  option(:variant_id, type: Int) { |scope, value| scope.where(id: MolecularProfile.joins(:variants).where(variants: { id: value }).select(:id)) }
+  option(:variant_id, type: Int) do |scope, value| 
+    scope.where(id: MolecularProfile.joins(:variants).where(variants: { id: value }).select('molecular_profiles.id')) 
+  end
 
   option :sort_by, type: Types::BrowseTables::MolecularProfilesSortType do |scope, value|
     case value.column
