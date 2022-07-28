@@ -29,8 +29,6 @@ import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease
 import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
 import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
 import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
@@ -79,8 +77,6 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcDrugArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
     CvcDrugInteractionSelectTypeModule,
-    CvcGeneArrayTypeModule,
-    CvcVariantArrayTypeModule,
     CvcSourceArrayTypeModule,
     CvcSourceSelectModule,
     CvcFormContainerWrapperModule,
