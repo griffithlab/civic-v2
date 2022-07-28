@@ -43,7 +43,7 @@ class Mutations::SuggestAssertionRevision < Mutations::MutationWithOrg
       .check_input_for_errors(assertion_input_object: fields)
 
     if input_errors.any?
-      raise GraphQL::ExecutionError, input_errors.join(', ')
+      raise GraphQL::ExecutionError, input_errors.join('|')
     end
 
     return true

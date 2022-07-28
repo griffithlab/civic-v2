@@ -24,8 +24,8 @@ const optionText: any = {
       'NA': 'Clinical Significance is not applicable.'
     },
     'PREDISPOSING': {
-      'PREDISPOSITION': 'TODO',
-      'PROTECTIVENESS': 'TODO'
+      'PREDISPOSITION': 'Germline variant has predisposing potential for cancer, and may fulfill ACMG/AMP criteria supporting pathogenic or benign classification.',
+      'PROTECTIVENESS': 'Germline variant has properties that protect individuals from acquiring cancer.'
     },
     'FUNCTIONAL': {
       'GAIN_OF_FUNCTION': 'Sequence variant confers an increase in normal gene function',
@@ -36,8 +36,8 @@ const optionText: any = {
       'UNKNOWN': 'Sequence variant that cannot be precisely defined by the other listed categories',
     },
     'ONCOGENIC': {
-      'ONCOGENICITY': 'TODO',
-      'PROTECTIVENESS': 'TODO'
+      'ONCOGENICITY': 'Somatic variant has oncogenic potential for driving cancer, and may fulfill ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
+      'PROTECTIVENESS': 'Somatic variant has a protective role and minimizes co-occuring driver variants, tumor malignancy, or other oncogenic tumor properties.'
     }
   },
   Assertion: {
@@ -65,11 +65,11 @@ const optionText: any = {
       'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
     },
     'ONCOGENIC': {
-      'ONCOGENIC': 'TODO',
-      'LIKELY_ONCOGENIC': 'TODO',
-      'BENIGN': 'Very strong evidence the variant is benign',
-      'LIKELY_BENIGN': 'Not expected to have a major effect on disease',
-      'UNCERTAIN_SIGNIFICANCE': 'TODO',
+      'ONCOGENIC': 'Very strong evidence the variant is oncogenic.',
+      'LIKELY_ONCOGENIC': 'Strong evidence the variant is oncogenic.',
+      'BENIGN': 'Very strong evidence the variant does not have oncogenic properties.',
+      'LIKELY_BENIGN': 'Strong evidence the variant does not have oncogenic properties.',
+      'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill guideline criteria for oncogenic/benign, or the evidence is conflicting.',
 
     }
   }
