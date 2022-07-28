@@ -1,24 +1,27 @@
 <ng-container *ngIf="(molecularProfile$ | ngrxPush) as mp">
+  <!-- component layout row -->
   <nz-row [nzGutter]="[8,16]">
+    <!-- molecular profile attributes block -->
     <nz-col [nzSpan]="24">
-      <nz-descriptions nzSize="small" nzBordered="true" [nzColumn]="1" nzLayout="vertical">
-        <nz-descriptions-item nzTitle="MP Expression">
-          <cvc-mp-tag-name [nameSegments]="mp.parsedName"></cvc-mp-tag-name>
-        </nz-descriptions-item>
-      </nz-descriptions>
-    </nz-col>
-  </nz-row>
-  <nz-row [nzGutter]="[8,16]">
-    <!-- LEFT COL -->
-    <nz-col [nzSpan]="12">
-      <!-- left col layout row -->
+
       <nz-row [nzGutter]="[8,8]">
-        <!-- variant description block-->
-        <nz-col nzSpan="24">
-          <nz-descriptions nzLayout="vertical"
-            nzSize="small"
+        <nz-col [nzSpan]="24">
+
+          <nz-descriptions nzSize="small"
             nzBordered="true"
-            [nzColumn]="1">
+            [nzColumn]="1"
+            nzLayout="vertical">
+            <nz-descriptions-item nzTitle="MP Expression"
+              [nzSpan]="1">
+              <cvc-mp-tag-name [nameSegments]="mp.parsedName"></cvc-mp-tag-name>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-col>
+        <nz-col [nzSpan]="24">
+          <nz-descriptions nzSize="small"
+            nzBordered="true"
+            [nzColumn]="2"
+            nzLayout="vertical">
 
             <nz-descriptions-item nzTitle="Description">
               <p *ngIf="mp.description; else noDescription"
@@ -46,18 +49,6 @@
               </ng-template>
             </nz-descriptions-item>
 
-          </nz-descriptions>
-        </nz-col>
-
-
-
-        <!-- molecular profile attributes block -->
-        <nz-col nzSpan="24">
-          <nz-descriptions nzLayout="horizontal"
-            nzSize="small"
-            [nzColumn]="1"
-            nzBordered="true">
-
             <!-- aliases -->
             <nz-descriptions-item nzTitle="Aliases">
               <ng-container *ngIf="mp.molecularProfileAliases.length > 0; else noAliases">
@@ -70,24 +61,22 @@
                   nzType="secondary">None specified</span>
               </ng-template>
             </nz-descriptions-item>
-            </nz-descriptions>
+
+          </nz-descriptions>
+
         </nz-col>
       </nz-row>
-
     </nz-col>
 
-    <!-- RIGHT COLUMN -->
-    <nz-col nzSpan="12">
-      <!-- right col layout row -->
+    <!-- variant cards -->
+    <nz-col nzSpan="24">
       <nz-row [nzGutter]="[8,8]">
-        <!-- variant related entities, attributes -->
-        <nz-col [nzSpan]="24">
-          <cvc-mp-variant-card *ngFor="let v of mp.variants" [variant]="v"></cvc-mp-variant-card>
+        <nz-col [nzSpan]="12"
+          *ngFor="let v of mp.variants">
+          <cvc-mp-variant-card [variant]="v"></cvc-mp-variant-card>
         </nz-col>
       </nz-row>
     </nz-col>
-    <!-- END RIGHT COL -->
-
     <!-- evidence table -->
     <nz-col nzSpan="24">
       <cvc-evidence-table [molecularProfileId]="mp.id"
