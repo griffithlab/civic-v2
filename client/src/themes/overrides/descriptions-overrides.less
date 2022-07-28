@@ -1,3 +1,24 @@
-::ng-deep .ant-descriptions-item-label {
-  font-weight: 500;
+@import 'themes/global-variables.less';
+
+:host ::ng-deep nz-descriptions {
+  // slightly embolden description key values
+  .ant-descriptions-item-label {
+    font-weight: 500;
+  }
+  // reduce title margins, add padding to align with key values
+  .ant-descriptions-header {
+    margin-top: @margin-xs;
+    margin-bottom: @margin-xs;
+    padding-left: @padding-md;
+  }
+  // de-emphasize titles
+  .ant-descriptions-title {
+    font-weight: 500;
+    color: @text-color-secondary;
+    font-size: @font-size-base;
+  }
+  // remove bottom padding from last paragraph
+  .ant-descriptions-item-content p:last-of-type {
+    margin-bottom: 0;
+  }
 }

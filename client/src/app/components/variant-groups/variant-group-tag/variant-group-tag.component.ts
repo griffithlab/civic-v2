@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { getEntityColor } from "@app/core/utilities/get-entity-color";
 import { Maybe } from "@app/generated/civic.apollo";
 
 export interface LinkableVariantgroup {
   id: number,
   name: string,
-  link: string
+  link: string,
+  flagged?: boolean
 }
 
 @Component({
@@ -13,14 +15,21 @@ export interface LinkableVariantgroup {
   styleUrls: ['./variant-group-tag.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CvcVariantGroupTagComponent implements OnInit {
-  @Input() variantgroup!: LinkableVariantgroup;
+export class CvcVariantGroupTagComponent {
+  _variantgroup!: LinkableVariantgroup
+  @Input()
+  set variantgroup(eid: LinkableVariantgroup) {
+    if (!eid) { throw new Error('cvc-variantgroup-tag input requires LinkableVariantgroup.') }
+    this._variantgroup = eid;
+  }
+  get variantgroup(): LinkableVariantgroup { return this._variantgroup; }
   @Input() linked: Maybe<boolean> = true;
   @Input() enablePopover: Maybe<boolean> = true;
 
-  ngOnInit() {
-    if (this.variantgroup === undefined) {
-      throw new Error("Must pass a LinkableVariantgroup into the variantgroup tag component")
-    }
+  iconColor: string
+
+  constructor() {
+    this.iconColor = getEntityColor('VariantGroup')
   }
+
 }

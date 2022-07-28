@@ -1,27 +1,29 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenesHomePage } from './genes-home.page';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NgModule } from '@angular/core';
 import { CvcGenesTableModule } from '@app/components/genes/genes-table/genes-table.module';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { GenesHomePage } from './genes-home.page';
 
 @NgModule({
   declarations: [GenesHomePage],
   imports: [
     CommonModule,
-    CvcSectionNavigationModule,
-    CvcGenesTableModule,
     NzButtonModule,
     NzIconModule,
     NzSpaceModule,
     NzTypographyModule,
     NzPageHeaderModule,
-    NzGridModule
+    NzGridModule,
+    CvcPipesModule,
+    CvcSectionNavigationModule,
+    CvcGenesTableModule,
   ],
   exports: [GenesHomePage]
 })

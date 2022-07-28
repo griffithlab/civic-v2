@@ -1,5 +1,6 @@
 module Types::BrowseTables
   class BrowseGeneType < Types::BaseObject
+    implements Types::Interfaces::Flaggable
     connection_type_class(Types::Connections::BrowseTableConnection)
 
     field :id, Int, null: false

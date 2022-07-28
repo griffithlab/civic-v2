@@ -13,6 +13,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [VariantGroupsDetailView],
@@ -20,11 +22,13 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
     CommonModule,
     ReactiveComponentModule,
     VariantGroupsDetailRoutingModule,
+    NzIconModule,
     NzGridModule,
     NzPageHeaderModule,
     NzButtonModule,
     NzSpaceModule,
     CvcFlaggableModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcEntitySubscriptionButtonModule,
     CvcTabNavigationModule,

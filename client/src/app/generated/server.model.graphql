@@ -899,13 +899,59 @@ type BrowseDrugEdge {
   node: BrowseDrug
 }
 
-type BrowseGene {
+type BrowseGene implements Flaggable {
   assertionCount: Int!
   description: String!
   diseases: [Disease!]
   drugs: [Drug!]
   entrezId: Int!
   evidenceItemCount: Int!
+  flagged: Boolean!
+
+  """
+  List and filter flags.
+  """
+  flags(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Limit to flags added by a certain user
+    """
+    flaggingUserId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Limit to flags resolved by a certain user
+    """
+    resolvingUserId: Int
+
+    """
+    Sort order for the flags. Defaults to most recent.
+    """
+    sortBy: DateSort
+
+    """
+    Limit to flags in a particular state
+    """
+    state: FlagState
+  ): FlagConnection!
   geneAliases: [String!]
   id: Int!
   link: String!

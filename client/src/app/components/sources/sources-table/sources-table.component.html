@@ -15,7 +15,7 @@
   <div class="card-container"
     [ngStyle]="{ 'height': cvcHeight }">
     <nz-card [nzTitle]="titleTemplate"
-j     [nzExtra]="extraTemplate"
+      [nzExtra]="extraTemplate"
       cvcAutoHeightCard
       nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
@@ -85,7 +85,9 @@ j     [nzExtra]="extraTemplate"
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon
-            nzType="civic:evidence"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'EvidenceItem' | entityColor"
+            nzType="civic-evidence"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -95,7 +97,10 @@ j     [nzExtra]="extraTemplate"
           [nzSortDirections]="['descend', 'ascend', null]"
           nz-tooltip
           nzTooltipTitle="Suggestion Count">
-          <i nz-icon nzType="civic:queue"></i> Count
+          <i nz-icon
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Queue' | entityColor"
+            nzType="civic-queue"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
@@ -144,7 +149,8 @@ j     [nzExtra]="extraTemplate"
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-source-tag [source]="source"></cvc-source-tag>
+            <cvc-source-tag [source]="source"
+              [truncateLongName]="true"></cvc-source-tag>
           </td>
           <td class="overflow-ellipsis"
             nz-tooltip
@@ -180,7 +186,9 @@ j     [nzExtra]="extraTemplate"
 
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:source"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'Source' | entityColor"
+    nzType="civic-source"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

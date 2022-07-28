@@ -10,6 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcSectionNavigationModule } from '@app/components/shared/section-navigation/section-navigation.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [OrganizationsHomePage],
@@ -21,6 +22,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
     NzButtonModule,
     NzSpaceModule,
     NzTypographyModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcOrganizationsTableModule
   ],

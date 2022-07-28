@@ -21,7 +21,7 @@ class Mutations::SubmitEvidenceItem< Mutations::MutationWithOrg
     input_errors = InputAdaptors::EvidenceItemInputAdaptor.check_input_for_errors(evidence_input_object: fields)
 
     if input_errors.any?
-      raise GraphQL::ExecutionError, input_errors.join(', ')
+      raise GraphQL::ExecutionError, input_errors.join('|')
     end
 
     return true

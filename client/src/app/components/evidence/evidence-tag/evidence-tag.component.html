@@ -5,12 +5,12 @@
 </ng-container>
 
 <ng-template #tag>
-  <nz-tag *ngIf="enablePopover; else noPopover" nz-popover
+  <nz-tag [ngClass]="{ rejected: evidence.status === 'REJECTED', submitted: evidence.status === 'SUBMITTED', accepted: evidence.status === 'ACCEPTED' }"
+    nz-popover
     [nzPopoverMouseEnterDelay]="0.5"
     [nzPopoverContent]="evidencePopover"
     nzPopoverPlacement="right"
-    nzPopoverTrigger="hover"
-    [nzColor]="evidence.status | colorNameForStatus">
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>
   <ng-template #evidencePopover>
@@ -19,19 +19,19 @@
   </ng-template>
 </ng-template>
 
-<ng-template #noPopover>
-  <nz-tag [nzColor]="evidence.status | colorNameForStatus">
-    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
-  </nz-tag>
-</ng-template>
-
 <ng-template #unlinked>
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </ng-template>
 
 <ng-template #tagContent>
-  <i nz-icon
-    nzType="civic-evidence"
-    nzTheme="twotone"
-    nzTwotoneColor="#F68F37"></i> {{ evidence.name }}
+  <cvc-icon-badges
+    [flagged]="evidence.flagged"
+    [entityColor]="iconColor">
+    <i nz-icon
+      nzType="civic-evidence"
+      nzTheme="twotone"
+      [nzTwotoneColor]="evidence.status === 'REJECTED' ? ('Rejected' | entityColor) : ('EvidenceItem' | entityColor)">
+    </i>
+  </cvc-icon-badges>
+  {{ evidence.name }}
 </ng-template>

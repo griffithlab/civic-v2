@@ -21,6 +21,7 @@ import { CvcModerateEntityButtonsModule } from '@app/components/shared/moderate-
 import { CvcTabNavigationModule } from '@app/components/shared/tab-navigation/tab-navigation.module';
 import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-avatars/contributor-avatars.module';
 import { AssertionsDetailRoutingModule } from './assertions-detail-routing.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [AssertionsDetailView],
@@ -37,6 +38,7 @@ import { AssertionsDetailRoutingModule } from './assertions-detail-routing.modul
     NzIconModule,
     NzAlertModule,
     NzGridModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcFlaggableModule,

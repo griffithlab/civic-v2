@@ -44,6 +44,7 @@
     ],
     "Flaggable": [
       "Assertion",
+      "BrowseGene",
       "EvidenceItem",
       "Gene",
       "Variant",

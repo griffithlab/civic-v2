@@ -9,7 +9,9 @@
       <nz-page-header-title cvcFlaggableOptions
         [ngClass]="{ 'flagged': gene.flags.totalCount > 0 }">
         <i nz-icon
-          nzType="civic:gene"></i>
+          nzTheme="twotone"
+          [nzTwotoneColor]="'Gene' | entityColor"
+          nzType="civic-gene"></i>
         {{ gene.name }}
       </nz-page-header-title>
 

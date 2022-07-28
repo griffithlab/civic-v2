@@ -3,10 +3,14 @@
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <i nz-icon
-        nzType="civic:varianttype"></i> {{ variantType.name }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'VariantType' | entityColor"
+        nzType="civic-varianttype"></i>
+      {{ variantType.name }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag *ngIf="variantType.url" [href]="variantType.url"
+      <cvc-link-tag *ngIf="variantType.url"
+        [href]="variantType.url"
         tooltip="View on sequenceontology.org">
         {{ variantType.soid }}
       </cvc-link-tag>

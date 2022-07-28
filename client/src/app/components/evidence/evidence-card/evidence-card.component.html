@@ -1,15 +1,25 @@
 <nz-space nzDirection="vertical">
-  <nz-row [nzGutter]="16" *nzSpaceItem>
+  <nz-row [nzGutter]="16"
+    *nzSpaceItem>
     <nz-col [nzSpan]="24">
       <nz-card [nzTitle]="evidenceTitle"
         style="width: 100%">
         <ng-template #evidenceTitle>
+
           <i nz-icon
-            nzType="civic:evidence"></i> {{ evidence.name }}
+            nzTheme="twotone"
+            [nzTwotoneColor]="'EvidenceItem' | entityColor"
+            nzType="civic-evidence"></i> {{ evidence.name }}
+
           <i nz-icon
-            nzType="civic:gene"></i> {{ evidence.gene.name }}
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Gene' | entityColor"
+            nzType="civic-gene"></i> {{ evidence.gene.name }}
+
           <i nz-icon
-            nzType="civic:variant"></i> {{ evidence.variant.name }}
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Variant' | entityColor"
+            nzType="civic-variant"></i> {{ evidence.variant.name }}
         </ng-template>
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="8">
@@ -18,7 +28,9 @@
               <b>Supports Assertions:&nbsp;</b>
               <ng-container *ngFor="let assertion of evidence.assertions">
                 <i nz-icon
-                  nzType="civic:assertion"></i>{{ assertion.name }}
+                  nzTheme="twotone"
+                  [nzTwotoneColor]="'Assertion' | entityColor"
+                  nzType="civic-assertion"></i>{{ assertion.name }}
               </ng-container>
             </nz-row>
           </nz-col>

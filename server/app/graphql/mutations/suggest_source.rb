@@ -48,7 +48,7 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
     end
 
     if errors.any?
-      raise GraphQL::ExecutionError, errors.join(', ')
+      raise GraphQL::ExecutionError, errors.join('|')
     end
 
     return true

@@ -12,6 +12,7 @@ import { CvcSectionNavigationModule } from '@app/components/shared/section-navig
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RouterModule } from '@angular/router';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [AssertionsHomePage],
@@ -26,6 +27,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzSwitchModule,
     NzButtonModule,
     NzSpaceModule,
+    CvcPipesModule,
     CvcAssertionsTableModule,
     CvcSectionNavigationModule
   ],

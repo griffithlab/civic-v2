@@ -45,6 +45,7 @@ fragment BrowseGenesFields on BrowseGene {
   entrezId
   name
   link
+  flagged
   geneAliases
   diseases {
     name

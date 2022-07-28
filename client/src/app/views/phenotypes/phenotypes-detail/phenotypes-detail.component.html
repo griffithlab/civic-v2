@@ -3,7 +3,9 @@
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <i nz-icon
-        nzType="civic:phenotype"></i> {{ phenotype.name }}
+        nzTheme="twotone"
+        [nzTwotoneColor]="'Phenotype' | entityColor"
+        nzType="civic-phenotype"></i> {{ phenotype.name }}
     </nz-page-header-title>
     <nz-page-header-extra>
       <cvc-link-tag [href]="phenotype.url"
