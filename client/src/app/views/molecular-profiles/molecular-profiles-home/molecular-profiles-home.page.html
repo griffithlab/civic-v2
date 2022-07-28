@@ -11,8 +11,8 @@
       nzPopoverTrigger="click"
       [nzPopoverContent]="addVariantForm"
       nzPopoverPlacement="bottomRight">
-      <i nz-icon nzType="plus-circle"></i>
-      Submit New Variant
+      <i nz-icon
+        nzType="plus-circle"></i> Submit New Variant
       <ng-template #addVariantForm>
         <div class="addVariant">
           <cvc-variant-submit-form></cvc-variant-submit-form>
@@ -31,16 +31,22 @@
       <nz-col nzFlex="64px"
         class="header-icon">
         <i nz-icon
-          nzType="civic:molecularprofile"></i>
+          nzTheme="twotone"
+          [nzTwotoneColor]="'MolecularProfile' | entityColor"
+          nzType="civic-molecularprofile"></i>
       </nz-col>
       <nz-col nzFlex="600px"
         class="header-description">
         <h2>Molecular Profiles</h2>
-        <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="2">CIViC molecular profiles are... .</p>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">CIViC molecular profiles are... .</p>
       </nz-col>
       <nz-col nzFlex="auto"
         class="header-links">
-        <nz-space nzDirection="vertical" class="docs-buttons">
+        <nz-space nzDirection="vertical"
+          class="docs-buttons">
           <a nz-button
             href="https://civic.readthedocs.io/en/latest/model/molecular_profiles.html"
             target="_blank"

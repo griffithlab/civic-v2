@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
+import { getEntityColor } from '@app/core/utilities/get-entity-color';
 import { Maybe, MolecularProfileSegment } from '@app/generated/civic.apollo';
 
 export interface LinkableMolecularProfile {
@@ -28,8 +29,10 @@ export class CvcMolecularProfileTagComponent extends BaseCloseableTag implements
 
   truncationLength: number = 20
 
+  iconColor: string
   constructor() {
     super();
+    this.iconColor = getEntityColor('MolecularProfile')
   }
 
   idFunction(): number {
