@@ -26,6 +26,7 @@ export const EntityColors = new Map<string, string>([
   // user types
   ['Curator', '#a0d8f5'],
   ['Editor', '#58a0c4'],
+  ['Admin', '#58a0c4'],
   ['Organization', '#3d7b99'],
 
   // entity state colors
