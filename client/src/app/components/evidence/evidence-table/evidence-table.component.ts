@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
   eidInput?: Maybe<string>
@@ -154,7 +154,7 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true));
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
