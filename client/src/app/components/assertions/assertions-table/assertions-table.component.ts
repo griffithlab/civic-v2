@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -119,14 +119,14 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // controls the smaller [Loading...] indicator, better for not distracting
     // users by overlaying the row data they're focusing on
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'assertions'),

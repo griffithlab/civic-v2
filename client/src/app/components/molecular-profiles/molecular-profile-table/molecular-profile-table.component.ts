@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 export interface MolecularProfileTableUserFilters {
   variantNameInput?: Maybe<string>
@@ -90,13 +90,13 @@ export class CvcMolecularProfilesTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'browseMolecularProfiles'),

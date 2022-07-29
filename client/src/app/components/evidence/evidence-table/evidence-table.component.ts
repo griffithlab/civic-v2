@@ -154,13 +154,13 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        takeWhile(l => l !== false, true));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     // entity relay connection
     this.connection$ = this.result$
