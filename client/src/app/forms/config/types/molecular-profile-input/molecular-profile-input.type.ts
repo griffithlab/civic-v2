@@ -16,7 +16,7 @@ export class MolecularProfileInputType extends FieldType {
   mpId?: number;
 
   onVariantSelected(v: SelectedVariant): void {
-    this.field.formControl!.setValue(v.molecularProfileId);
+    this.field.formControl!.setValue(v.molecularProfile);
   }
 
   onMpSelected(id: number): void {

@@ -28,9 +28,8 @@ import {
   FormDisease,
   FormDrug,
   FormEvidence,
-  FormGene,
+  FormMolecularProfile,
   FormPhenotype,
-  FormVariant
 } from '../forms.interfaces';
 
 interface FormModel {
@@ -38,8 +37,7 @@ interface FormModel {
     id: number
     description: string
     summary: string
-    variant: FormVariant[]
-    gene: FormGene[]
+    molecularProfile: FormMolecularProfile
     variantOrigin: VariantOrigin
     evidenceType: AssertionType
     clinicalSignificance: AssertionClinicalSignificance
@@ -110,21 +108,14 @@ export class AssertionSubmitForm implements OnDestroy {
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
+              label: 'Molecular Profile',
+              helpText: 'lorem ipsum',
               required: true,
-              maxCount: 1,
-              allowCreate: false
-            }
+              allowCreate: false,
+            },
           },
           {
             key: 'variantOrigin',
@@ -295,8 +286,7 @@ export class AssertionSubmitForm implements OnDestroy {
         fields: {
           description: fmt.toNullableString(fields.description),
           summary: fmt.toNullableString(fields.summary),
-          variantId: fields.variant[0].id!,
-          geneId: fields.gene[0].id!,
+          molecularProfileId: fields.molecularProfile.id,
           variantOrigin: fields.variantOrigin,
           assertionType: fields.evidenceType,
           clinicalSignificance: fields.clinicalSignificance,

@@ -32,8 +32,6 @@ import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease
 import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
 import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
 import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { CvcAmpLevelInputTypeModule } from '../config/types/amp-level-input/amp-level-input.module';
 import { CvcAcmgCodeArrayTypeModule } from '../config/types/acmg-code-array/acmg-code-array.module';
@@ -49,6 +47,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-array/clingen-code-array.module';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [
@@ -78,6 +77,7 @@ import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-arra
     CvcDiseaseInputTypeModule,
     CvcTextareaBaseTypeModule,
     CvcCommentTextareaTypeModule,
+    CvcMolecularProfileInputTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
     CvcClinicalSignificanceSelectModule,
@@ -87,8 +87,6 @@ import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-arra
     CvcDrugArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
     CvcDrugInteractionSelectTypeModule,
-    CvcGeneArrayTypeModule,
-    CvcVariantArrayTypeModule,
     CvcSourceArrayTypeModule,
     CvcAmpLevelInputTypeModule,
     CvcAcmgCodeArrayTypeModule,

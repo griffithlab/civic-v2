@@ -10,8 +10,7 @@ class InputAdaptors::AssertionInputAdaptor
     Assertion.new(
       description: input.description,
       summary: input.summary,
-      variant_id: input.variant_id,
-      gene_id: input.gene_id,
+      molecular_profile_id: input.molecular_profile_id,
       variant_origin: input.variant_origin,
       evidence_type: input.assertion_type,
       clinical_significance: input.clinical_significance,
@@ -68,12 +67,8 @@ class InputAdaptors::AssertionInputAdaptor
       errors << "Provided ClinGen code ids: #{fields.clingen_code_ids.join(', ')} but only #{existing_clingen_ids.join(', ')} exist."
     end
 
-    if !Variant.where(id: fields.variant_id).exists?
-      errors << "Provided variant id: #{fields.variant_id} is not found."
-    end
-
-    if !Gene.where(id: fields.gene_id).exists?
-      errors << "Provided gene id: #{fields.gene_id} is not found."
+    if !MolecularProfile.where(id: fields.molecular_profile_id).exists?
+      errors << "Provided molecular profile id: #{fields.molecular_profile_id} is not found."
     end
 
     return errors

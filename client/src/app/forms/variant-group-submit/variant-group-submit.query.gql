@@ -13,7 +13,11 @@ fragment SubmittableVariantGroupFields on VariantGroup {
       id
       name
       link
-      singleVariantMolecularProfileId
+      singleVariantMolecularProfile {
+        id
+        name
+        link
+      }
     }
   }
   sources {

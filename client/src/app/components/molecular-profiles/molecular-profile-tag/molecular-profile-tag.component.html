@@ -35,7 +35,7 @@
   <i nz-icon
     nzType="civic-molecularprofile"
     nzTheme="twotone"
-    nzTwotoneColor="#33B358"></i>
+    [nzTwotoneColor]="iconColor" ></i>
   <!-- molecular profile name length mean: 12; mode: 5 (825); max: 68 -->
   <ng-container *ngIf="truncateLongName; else fullName">
     {{ molecularProfile.name! | truncate: this.truncationLength}}

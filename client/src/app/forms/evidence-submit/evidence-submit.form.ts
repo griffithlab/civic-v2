@@ -28,7 +28,7 @@ import { ActivatedRoute } from '@angular/router';
 interface FormModel {
   fields: {
     id: number
-    molecularProfile: number
+    molecularProfile: FormMolecularProfile
 
     description: string
     source: FormSource[]
@@ -100,6 +100,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
               label: 'Molecular Profile',
               helpText: 'lorem ipsum',
               required: true,
+              allowCreate: true,
             },
           },
           {
@@ -327,7 +328,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          molecularProfileId: fields.molecularProfile,
+          molecularProfileId: fields.molecularProfile.id,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,

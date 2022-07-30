@@ -15,6 +15,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { VariantSubmitFormModule } from '@app/forms/variant-submit/variant-submit.module';
 import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profiles/molecular-profile-table/molecular-profile-table.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 
 @NgModule({
   declarations: [MolecularProfilesHomePage],
@@ -29,6 +30,7 @@ import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profi
     NzButtonModule,
     NzSpaceModule,
     NzPopoverModule,
+    CvcPipesModule,
     CvcSectionNavigationModule,
     CvcGeneTagModule,
     CvcMolecularProfilesTableModule,

@@ -5,10 +5,8 @@ module Types::Revisions
       description: "A detailed description of the Assertion including practice guidelines and approved tests."
     argument :summary, Types::NullableValueInputType.for(GraphQL::Types::String), required: true,
       description: "A brief single sentence statement summarizing the clinical significance of this Assertion."
-    argument :variant_id, Int, required: true,
-      description: 'The ID of the Variant to which this Assertion belongs'
-    argument :gene_id, Int, required: true,
-      description: 'The ID of the Gene to which this Assertion belongs'
+    argument :molecular_profile_id, Int, required: true,
+      description: 'The ID of the Molecular Profile to which this Assertion belongs'
     argument :variant_origin, Types::VariantOriginType, required: true,
       description: 'The Variant Origin for this Assertion.'
     argument :assertion_type, Types::AssertionTypeType, required: true,

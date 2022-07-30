@@ -28,41 +28,15 @@ import { takeUntil } from 'rxjs/operators';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { FormGene, FormVariant } from '../forms.interfaces';
-
-
-interface FormSource {
-  id?: number;
-  sourceType?: SourceSource;
-  citationId?: number;
-  citation?: string;
-}
-
-interface FormDisease {
-  id: number;
-  doid?: number;
-  displayName: string;
-}
-
-interface FormDrug {
-  id?: number;
-  ncitId?: string;
-  name?: string;
-}
-
-interface FormPhenotype {
-  id: number;
-  hpoId?: string;
-  name?: string;
-}
+import { FormDisease, FormDrug, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
 
 /* SuggestEvidenceItemRevisionInput
  *
  * description: NullableStringInput!
  * The Evidence Items's description/summary text.
  *
- * variantId: Int!
- * The ID of the Variant to which this EvidenceItem belongs
+ * molecularProfileId: Int!
+ * The ID of the Molecular Profile to which this EvidenceItem belongs
  *
  * variantOrigin: VariantOrigin!
  * The Variant Origin for this EvidenceItem.
@@ -113,9 +87,8 @@ interface FormModel {
     phenotypes: FormPhenotype[];
     evidenceRating: Maybe<number>;
     source: FormSource[];
-    variant: FormVariant[];
-    gene: FormGene[];
     variantOrigin: VariantOrigin;
+    molecularProfile: FormMolecularProfile;
     comment: Maybe<string>,
     organization: Maybe<Organization>
   };
@@ -165,30 +138,14 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             hide: true
           },
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'multi-field',
-            wrappers: ['form-field'],
-            templateOptions: {
-              label: 'Variant',
-              addText: 'Specify a Variant',
-              maxCount: 1,
+              label: 'Molecular Profile',
+              helpText: 'lorem ipsum',
               required: true,
-              helpText: 'The most specific description of the variant that the underlying source allows. If you need to <i>rename the Variant itself</i> please submit a revision to the Variant instead.',
-            },
-            fieldArray: {
-              type: 'variant-input',
-              templateOptions: {
-                required: true,
-                allowCreate: false
-              },
+              nzSelectedIndex: 2,
+              allowCreate: true
             },
           },
           {
@@ -234,6 +191,13 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             },
           },
           {
+            key: 'evidenceDirection',
+            type: 'evidence-direction-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
             key: 'clinicalSignificance',
             type: 'clinical-significance-select',
             templateOptions: {
@@ -253,13 +217,6 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             templateOptions: {
               required: true,
             }
-          },
-          {
-            key: 'evidenceDirection',
-            type: 'evidence-direction-select',
-            templateOptions: {
-              required: true,
-            },
           },
           {
             key: 'drugs',
@@ -350,10 +307,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
     return {
       fields: {
         ...evidence,
-        //gene: [evidence.gene],
-        //variant: [evidence.variant],
-        gene: [],
-        variant: [],
+        molecularProfile: evidence.molecularProfile,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
         drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
         disease: [evidence.disease],
@@ -415,7 +369,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          molecularProfileId: fields.variant[0].singleVariantMolecularProfileId,
+          molecularProfileId: fields.molecularProfile.id,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,

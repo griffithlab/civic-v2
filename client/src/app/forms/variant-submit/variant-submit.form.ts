@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   AddVariantGQL,
@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { FormGene, FormVariant } from '../forms.interfaces';
+import { FormGene, FormMolecularProfile, FormVariant } from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ interface FormModel {
 
 export interface SelectedVariant {
   variantId: number,
-  molecularProfileId: number
+  molecularProfile: FormMolecularProfile
 }
 
 @Component({
@@ -33,14 +33,15 @@ export interface SelectedVariant {
   templateUrl: './variant-submit.form.html',
   styleUrls: ['./variant-submit.form.less'],
 })
-export class VariantSubmitForm implements OnDestroy {
+export class VariantSubmitForm implements OnDestroy, OnInit {
   @Output() onVariantSelected = new EventEmitter<SelectedVariant>();
+  @Input() allowCreate: boolean = true;
 
   private destroy$ = new Subject();
 
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[];
+  formFields: FormlyFieldConfig[] = [];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   submitVariantMutator: MutatorWithState<AddVariantGQL, AddVariantMutation, AddVariantMutationVariables>
@@ -61,7 +62,9 @@ export class VariantSubmitForm implements OnDestroy {
     ) {
 
     this.submitVariantMutator = new MutatorWithState(networkErrorService);
+  }
 
+  ngOnInit() {
     this.formFields = [
       {
         key: 'fields',
@@ -87,33 +90,10 @@ export class VariantSubmitForm implements OnDestroy {
             type: 'variant-array',
             templateOptions: {
               required: false,
-              canCreate: false,
               maxCount: 1,
+              allowCreate: this.allowCreate,
             }
           },
-/*           {
-            key: 'variant',
-            type: 'cvc-textarea',
-            templateOptions: {
-              label: 'Variant Name',
-              helpText: 'The name of the variant to add',
-              placeholder: 'Enter variant name',
-              required: true,
-              autosize: {
-                minRows: 1,
-                maxRows: 1
-              }
-            },
-            validation: {
-              messages: {
-                required: 'Variant name is required to add a new variant.'
-              }
-            }
-          }, */
-/*           {
-            key: 'submit',
-            type: 'submit-button'
-          }, */
         ]
       }
     ];
@@ -134,7 +114,7 @@ export class VariantSubmitForm implements OnDestroy {
           this.isNew = data.addVariant.new
           this.onVariantSelected.emit({
             variantId: data.addVariant.variant.id,
-            molecularProfileId: data.addVariant.variant.singleVariantMolecularProfileId
+            molecularProfile: data.addVariant.variant.singleVariantMolecularProfile
           });
         })
 
@@ -162,7 +142,7 @@ export class VariantSubmitForm implements OnDestroy {
     if(model.fields.variant && model.fields.variant[0]) {
       this.onVariantSelected.emit({
         variantId: model.fields.variant[0].id!,
-        molecularProfileId: model.fields.variant[0].singleVariantMolecularProfileId
+        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile
       })
     }
   }

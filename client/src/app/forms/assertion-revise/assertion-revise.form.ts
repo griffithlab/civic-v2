@@ -6,7 +6,7 @@ import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDetailGQL, 
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
-import { FormDisease, FormDrug, FormEvidence, FormGene, FormPhenotype, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormDrug, FormEvidence, FormMolecularProfile, FormPhenotype  } from '../forms.interfaces';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { takeUntil } from 'rxjs/operators';
 
@@ -15,8 +15,7 @@ interface FormModel {
     id: number
     description: string
     summary: string
-    variant: FormVariant[]
-    gene: FormGene[]
+    molecularProfile: FormMolecularProfile,
     variantOrigin: VariantOrigin
     evidenceType: AssertionType
     clinicalSignificance: AssertionClinicalSignificance
@@ -89,21 +88,15 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
+              label: 'Molecular Profile',
+              helpText: 'lorem ipsum',
               required: true,
-              maxCount: 1,
-              allowCreate: false
-            }
+              nzSelectedIndex: 2,
+              allowCreate: false,
+            },
           },
           {
             key: 'variantOrigin',
@@ -280,8 +273,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         fields: {
           description: fmt.toNullableString(fields.description),
           summary: fmt.toNullableString(fields.summary),
-          variantId: fields.variant[0].id!,
-          geneId: fields.gene[0].id!,
+          molecularProfileId: fields.molecularProfile.id,
           variantOrigin: fields.variantOrigin,
           assertionType: fields.evidenceType,
           clinicalSignificance: fields.clinicalSignificance,
@@ -310,10 +302,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         id: fields.id,
         description: fields.description,
         summary: fields.summary,
-        //variant: [fields.variant],
-        //gene: [fields.gene],
-        gene: [],
-        variant: [],
+        molecularProfile: fields.molecularProfile,
         variantOrigin: fields.variantOrigin,
         evidenceType: fields.assertionType,
         clinicalSignificance: fields.clinicalSignificance,

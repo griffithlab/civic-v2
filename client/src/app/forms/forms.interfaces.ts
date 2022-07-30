@@ -38,7 +38,7 @@ export interface FormMolecularProfile {
 export interface FormVariant {
   id?: number;
   name: string;
-  singleVariantMolecularProfileId: number,
+  singleVariantMolecularProfile: FormMolecularProfile,
 }
 
 export interface FormEvidence {

@@ -24,7 +24,7 @@
 </ng-template>
 
 <ng-template #table>
-<!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
   <nz-table #virtualTable
     nzSize="small"
     [nzData]="row$ | ngrxPush"
@@ -46,8 +46,7 @@
           nzLeft>
           Name
         </th>
-        <th nzWidth="200px"
-          nzLeft>
+        <th nzWidth="100px">
           Aliases
         </th>
         <th nzWidth="150px">
@@ -72,7 +71,9 @@
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon
-            nzType="civic:evidence"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'EvidenceItem' | entityColor"
+            nzType="civic-evidence"></i> Count
         </th>
         <th nzWidth="75px"
           nzRight
@@ -83,33 +84,39 @@
           nz-tooltip
           nzTooltipTitle="Assertion Count">
           <i nz-icon
-            nzType="civic:assertion"></i> Count
+            nzTheme="twotone"
+            [nzTwotoneColor]="'Assertion' | entityColor"
+            nzType="civic-assertion"></i> Count
         </th>
       </tr>
       <tr class="filter-row">
-        <th></th>
-        <th>
+        <th nzWidth="200px"
+          nzLeft>
+        </th>
+        <th nzWidth="100px">
           <cvc-clearable-input-filter [(inputModel)]="aliasInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzWidth="150px">
           <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th nzLeft>
+        <th nzWidth="200px">
           <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzWidth="250px">
           <cvc-clearable-input-filter [(inputModel)]="diseaseNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th>
+        <th nzWidth="180px">
           <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th nzRight></th>
-        <th nzRight></th>
+        <th nzWidth="75px"
+          nzRight></th>
+        <th nzWidth="75px"
+          nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -118,24 +125,26 @@
         let-index="index">
         <tr class="data-row">
           <td nzLeft>
-            <cvc-molecular-profile-tag [molecularProfile]="mp" [truncateLongName]="true"></cvc-molecular-profile-tag>
+            <cvc-molecular-profile-tag [molecularProfile]="mp"
+              [truncateLongName]="true"></cvc-molecular-profile-tag>
           </td>
           <td>
             <cvc-plain-tag-overflow [maxDisplayCount]="1"
               [tags]="mp.aliases | pluck: 'name'"
+              [maxDisplayCount]="1"
               [matchingText]="aliasInput"></cvc-plain-tag-overflow>
           </td>
           <td>
             <cvc-tag-overflow tagType="gene"
               [tags]="mp.genes"
               [maxDisplayCount]="1"
-              [matchingText]="geneSymbolInput"></cvc-tag-overflow> 
+              [matchingText]="geneSymbolInput"></cvc-tag-overflow>
           </td>
-          <td nzLeft>
+          <td>
             <cvc-tag-overflow tagType="variant"
               [tags]="mp.variants"
               [maxDisplayCount]="1"
-              [matchingText]="variantNameInput"></cvc-tag-overflow> 
+              [matchingText]="variantNameInput"></cvc-tag-overflow>
           </td>
           <td>
             <cvc-tag-overflow tagType="disease"
@@ -149,8 +158,10 @@
               [maxDisplayCount]="1"
               [matchingText]="drugNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
-          <td nzRight nzAlign="right">{{ mp.assertionCount | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
+          <td nzRight
+            nzAlign="right">{{ mp.assertionCount | number }}</td>
         </tr>
       </ng-template>
     </tbody>
@@ -159,7 +170,9 @@
 
 <ng-template #titleTemplate>
   <i nz-icon
-    nzType="civic:molecularprofile"></i>
+    nzTheme="twotone"
+    [nzTwotoneColor]="'MolecularProfile' | entityColor"
+    nzType="civic-molecularprofile"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
