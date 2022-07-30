@@ -5782,9 +5782,9 @@ export type VariantTypeaheadQueryVariables = Exact<{
 }>;
 
 
-export type VariantTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number }> } };
+export type VariantTypeaheadQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> } };
 
-export type VariantTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number };
+export type VariantTypeaheadFieldsFragment = { __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } };
 
 export type AddVariantMutationVariables = Exact<{
   name: Scalars['String'];
@@ -5792,9 +5792,9 @@ export type AddVariantMutationVariables = Exact<{
 }>;
 
 
-export type AddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number } } | undefined };
+export type AddVariantMutation = { __typename: 'Mutation', addVariant?: { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } } | undefined };
 
-export type AddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number } };
+export type AddVariantFieldsFragment = { __typename: 'AddVariantPayload', clientMutationId?: string | undefined, new: boolean, variant: { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } } };
 
 export type VariantSelectQueryVariables = Exact<{
   name: Scalars['String'];
@@ -5802,9 +5802,9 @@ export type VariantSelectQueryVariables = Exact<{
 }>;
 
 
-export type VariantSelectQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number }> } };
+export type VariantSelectQuery = { __typename: 'Query', variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, variantAliases: Array<string>, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> } };
 
-export type VariantSelectFieldsFragment = { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number };
+export type VariantSelectFieldsFragment = { __typename: 'Variant', id: number, name: string, singleVariantMolecularProfileId: number, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } };
 
 export type VariantTypeTypeaheadQueryVariables = Exact<{
   name: Scalars['String'];
@@ -5818,9 +5818,9 @@ export type EvidenceItemRevisableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } } | undefined };
+export type EvidenceItemRevisableFieldsQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } } | undefined };
 
-export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } };
+export type RevisableEvidenceFieldsFragment = { __typename: 'EvidenceItem', id: number, variantOrigin: VariantOrigin, description: string, clinicalSignificance: EvidenceClinicalSignificance, drugInteractionType?: DrugInteraction | undefined, evidenceDirection: EvidenceDirection, evidenceLevel: EvidenceLevel, evidenceType: EvidenceType, evidenceRating?: number | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, disease?: { __typename: 'Disease', id: number, doid?: number | undefined, name: string, displayName: string } | undefined, drugs: Array<{ __typename: 'Drug', id: number, ncitId?: string | undefined, name: string }>, phenotypes: Array<{ __typename: 'Phenotype', id: number, hpoId: string, name: string }>, source: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined } };
 
 export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
   input: SuggestEvidenceItemRevisionInput;
@@ -5946,9 +5946,9 @@ export type VariantGroupSubmittableFieldsQueryVariables = Exact<{
 }>;
 
 
-export type VariantGroupSubmittableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfileId: number }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> } | undefined };
+export type VariantGroupSubmittableFieldsQuery = { __typename: 'Query', variantGroup?: { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> } | undefined };
 
-export type SubmittableVariantGroupFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfileId: number }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> };
+export type SubmittableVariantGroupFieldsFragment = { __typename: 'VariantGroup', id: number, name: string, description: string, variants: { __typename: 'VariantConnection', nodes: Array<{ __typename: 'Variant', id: number, name: string, link: string, singleVariantMolecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string } }> }, sources: Array<{ __typename: 'Source', id: number, link: string, citation?: string | undefined, sourceType: SourceSource }> };
 
 export type SubmitVariantGroupMutationVariables = Exact<{
   input: SubmitVariantGroupInput;
@@ -7494,6 +7494,11 @@ export const VariantTypeaheadFieldsFragmentDoc = gql`
   name
   variantAliases
   singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+  }
 }
     `;
 export const AddVariantFieldsFragmentDoc = gql`
@@ -7504,6 +7509,11 @@ export const AddVariantFieldsFragmentDoc = gql`
     id
     name
     singleVariantMolecularProfileId
+    singleVariantMolecularProfile {
+      id
+      name
+      link
+    }
   }
 }
     `;
@@ -7512,11 +7522,21 @@ export const VariantSelectFieldsFragmentDoc = gql`
   id
   name
   singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+  }
 }
     `;
 export const RevisableEvidenceFieldsFragmentDoc = gql`
     fragment RevisableEvidenceFields on EvidenceItem {
   id
+  molecularProfile {
+    id
+    name
+    link
+  }
   variantOrigin
   description
   clinicalSignificance
@@ -7614,7 +7634,11 @@ export const SubmittableVariantGroupFieldsFragmentDoc = gql`
       id
       name
       link
-      singleVariantMolecularProfileId
+      singleVariantMolecularProfile {
+        id
+        name
+        link
+      }
     }
   }
   sources {

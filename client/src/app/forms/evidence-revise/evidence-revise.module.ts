@@ -31,11 +31,10 @@ import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease
 import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
 import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
 import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 import { CvcFormFieldWrapperModule } from '../config/wrappers/form-field/form-field.module';
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [EvidenceReviseForm],
@@ -72,11 +71,10 @@ import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.mo
     CvcDrugArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
     CvcDrugInteractionSelectTypeModule,
-    CvcVariantArrayTypeModule,
     CvcFormContainerWrapperModule,
     CvcFormFieldWrapperModule,
     CvcCancelButtonModule,
-    CvcGeneArrayTypeModule
+    CvcMolecularProfileInputTypeModule,
   ],
   exports: [EvidenceReviseForm]
 })

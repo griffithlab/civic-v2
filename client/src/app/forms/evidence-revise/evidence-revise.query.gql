@@ -17,6 +17,11 @@ fragment RevisableEvidenceFields on EvidenceItem {
   #   link
   #   singleVariantMolecularProfileId
   # }
+  molecularProfile {
+    id
+    name
+    link
+  }
   variantOrigin
   description
   clinicalSignificance

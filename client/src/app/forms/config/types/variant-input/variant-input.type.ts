@@ -9,7 +9,7 @@ import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { filter, map, pluck } from 'rxjs/operators';
+import { filter, map, pluck, skip } from 'rxjs/operators';
 
 interface VariantSelectOption {
   value: number;
@@ -77,11 +77,12 @@ export class VariantInputType extends FieldType implements OnInit, AfterViewInit
   ngOnInit(): void {
     this.callbackSub = this.field?.formControl?.valueChanges.subscribe((v) => this.onVariantSelected.emit(v.id))
 
-    this.queryRef = this.variantTypeaheadQuery.watch({ name: 'a' });
+    this.queryRef = this.variantTypeaheadQuery.watch({ name: 'a', geneId: this.to.geneId });
     // no need to unsubscribe variants$ as ngrxLet in the template does this automatically
     this.variants$ = this.queryRef
       .valueChanges
       .pipe(
+        skip(1),
         pluck('data', 'variants', 'nodes'),
         filter(isNonNulled),
         map((variants: VariantSelectFieldsFragment[]): VariantSelectOption[] => {

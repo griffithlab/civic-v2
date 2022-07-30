@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { FormGene, FormVariant } from '../forms.interfaces';
+import { FormGene, FormMolecularProfile, FormVariant } from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ interface FormModel {
 
 export interface SelectedVariant {
   variantId: number,
-  molecularProfileId: number
+  molecularProfile: FormMolecularProfile
 }
 
 @Component({
@@ -134,7 +134,7 @@ export class VariantSubmitForm implements OnDestroy {
           this.isNew = data.addVariant.new
           this.onVariantSelected.emit({
             variantId: data.addVariant.variant.id,
-            molecularProfileId: data.addVariant.variant.singleVariantMolecularProfileId
+            molecularProfile: data.addVariant.variant.singleVariantMolecularProfile
           });
         })
 
@@ -162,7 +162,7 @@ export class VariantSubmitForm implements OnDestroy {
     if(model.fields.variant && model.fields.variant[0]) {
       this.onVariantSelected.emit({
         variantId: model.fields.variant[0].id!,
-        molecularProfileId: model.fields.variant[0].singleVariantMolecularProfileId
+        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile
       })
     }
   }
