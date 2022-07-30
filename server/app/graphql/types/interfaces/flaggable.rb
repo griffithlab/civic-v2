@@ -24,6 +24,8 @@ module Types::Interfaces
           Types::Entities::AssertionType
         when VariantGroup
           Types::Entities::VariantGroupType
+        when MolecularProfile
+          Types::Entities::MolecularProfileType
         else
           raise "Unexpected Flaggable type: #{object.class}"
         end

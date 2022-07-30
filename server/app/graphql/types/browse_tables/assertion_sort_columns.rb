@@ -1,8 +1,6 @@
 module Types::BrowseTables
   class AssertionSortColumns < Types::BaseEnum
     value 'ID'
-    value 'GENE_NAME'
-    value 'VARIANT_NAME'
     value 'DISEASE_NAME'
     value 'SUMMARY'
     value 'DRUG_NAME'

@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, takeUntil, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -20,6 +20,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() cvcHeight: Maybe<string>
   @Input() evidenceId: Maybe<number>
   @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
   @Input() organizationId: Maybe<number>
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
@@ -81,8 +82,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
-  variantNameInput: Maybe<string>
-  geneNameInput: Maybe<string>
+  molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
 
   sortColumns: typeof AssertionSortColumns = AssertionSortColumns
@@ -102,6 +102,7 @@ export class CvcAssertionsTableComponent implements OnInit {
         {
           first: this.initialPageSize,
           variantId: this.variantId,
+          molecularProfileId: this.molecularProfileId,
           evidenceId: this.evidenceId,
           organizationId: this.organizationId,
           userId: this.userId,
@@ -118,14 +119,14 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // controls the smaller [Loading...] indicator, better for not distracting
     // users by overlaying the row data they're focusing on
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'assertions'),
@@ -207,8 +208,7 @@ export class CvcAssertionsTableComponent implements OnInit {
     this.queryRef.refetch({
       id: aid,
       diseaseName: this.diseaseNameInput,
-      geneName: this.geneNameInput,
-      variantName: this.variantNameInput,
+      molecularProfileName: this.molecularProfileNameInput,
       drugName: this.drugNameInput,
       summary: this.summaryInput,
       assertionType: this.assertionTypeInput ? this.assertionTypeInput : undefined,

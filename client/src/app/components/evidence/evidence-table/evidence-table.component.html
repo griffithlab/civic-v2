@@ -54,21 +54,11 @@
           nzTooltipTitle="Evidence ID">
           EID
         </th>
-        <th *ngIf="displayGeneAndVariant"
-          nzWidth="120px"
-          [nzColumnKey]="sortColumns.GeneSymbol"
-          [nzSortFn]="true"
+        <th *ngIf="displayMolecularProfile"
+          nzWidth="320px"
           nz-tooltip
-          nzTooltipTitle="Entrez Gene Symbol">
-          Gene
-        </th>
-        <th *ngIf="displayGeneAndVariant"
-          nzWidth="200px"
-          [nzColumnKey]="sortColumns.VariantName"
-          [nzSortFn]="true"
-          nz-tooltip
-          nzTooltipTitle="Variant Name">
-          Variant
+          nzTooltipTitle="Molecular Profile Name">
+          Molecular Profile
         </th>
         <th nzWidth="250px"
           [nzColumnKey]="sortColumns.DiseaseName"
@@ -158,12 +148,8 @@
           <cvc-clearable-input-filter [(inputModel)]="eidInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th *ngIf="displayGeneAndVariant">
-          <cvc-clearable-input-filter [(inputModel)]="geneSymbolInput"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
-        </th>
-        <th *ngIf="displayGeneAndVariant">
-          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+        <th *ngIf="displayMolecularProfile">
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -364,13 +350,8 @@
           <td nzLeft>
             <cvc-evidence-tag [evidence]="eid"></cvc-evidence-tag>
           </td>
-          <td *ngIf="displayGeneAndVariant">
-            <cvc-gene-tag [gene]="eid.gene"
-              [truncateLongName]="true"></cvc-gene-tag>
-          </td>
-          <td *ngIf="displayGeneAndVariant">
-            <cvc-variant-tag [variant]="eid.variant"
-              [truncateLongName]="true"></cvc-variant-tag>
+          <td *ngIf="displayMolecularProfile">
+            <cvc-molecular-profile-tag [molecularProfile]="eid.molecularProfile" [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="eid.disease; else diseaseElse">

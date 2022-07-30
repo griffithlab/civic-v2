@@ -1,0 +1,89 @@
+<nz-card>
+  <ng-container *ngIf="this.selectedMp; else createMp">
+    <cvc-molecular-profile-tag [molecularProfile]="this.selectedMp"></cvc-molecular-profile-tag>
+    <nz-tag class="close-tag">
+      <i nz-icon
+        nzType="close"
+        (click)="resetForm()">
+      </i>
+    </nz-tag>
+  </ng-container>
+</nz-card>
+
+<ng-template #createMp>
+  <nz-spin nzTip="Submitting" [nzSpinning]="loading">
+    <nz-form-item *ngIf="this.errorMessages.length > 0">
+      <cvc-form-errors-alert [errors]="this.errorMessages">
+      </cvc-form-errors-alert>
+    </nz-form-item>
+
+    <nz-space nzDirection="vertical" nzSize="large">
+      <ng-container *nzSpaceItem>
+        <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
+          <ng-container *ngIf="this.displayPreview; else noPreview">
+            <ng-container *ngIf="previewMpAlreadyExists$ | ngrxPush as existing; else newMp">
+              <cvc-molecular-profile-tag [molecularProfile]="existing"></cvc-molecular-profile-tag>
+              <button nz-button
+                nzSize="small" (click)="submitNewMp()" style="float: right"> 
+                Select this Molecular Profile 
+              </button>
+            </ng-container>
+            <ng-template #newMp>
+              <cvc-mp-tag-name [nameSegments]="mpName"></cvc-mp-tag-name>
+              <button nz-button
+                nzSize="small" (click)="submitNewMp()" style="float: right"> 
+                Create Molecular Profile 
+              </button>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #noPreview>
+        <ng-container *ngIf="parseError">
+          {{parseError}}
+        </ng-container>
+        <ng-container *ngIf="!parseError">
+          <span nz-typography nzType="secondary">
+            Start constructing a complex molecular profile to preview it here
+          </span>
+        </ng-container>
+      </ng-template>
+
+
+      <nz-mention *nzSpaceItem [nzStatus]="this.parseError ? 'warning' : ''" [nzSuggestions]="this.suggestions"
+        (nzOnSearchChange)="onSearchChange($event)" nzPrefix="#" nzNotFoundContent="No matches..."
+        [nzValueWith]="autoCompleteValueFor" (nzOnSelect)="this.suggestions = []">
+
+        <textarea #mpInputField nz-input rows="1" style="width: 100%" [(ngModel)]="mpName"
+          (ngModelChange)="onMpNameChanged($event)"></textarea>
+
+        <ng-container *nzMentionSuggestion="let variant">
+          <span>{{variant.displayName}}</span>
+        </ng-container>
+
+      </nz-mention>
+
+      <button *nzSpaceItem nz-button nz-popover nzSize="small" [nzPopoverTitle]="variantFinderTitle"
+        [(nzPopoverVisible)]="this.variantFinderVisible" (click)="this.variantFinderVisible = !this.variantFinderVisible"
+        [nzPopoverContent]="variantFinder" [nzPopoverTrigger]="undefined " nzPopoverPlacement="bottom">
+        Find a Variant
+        <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+      </button>
+
+    </nz-space>
+
+    <ng-template #variantFinderTitle>
+      Find a Variant
+      <span [ngStyle]="{ 'float': 'right' }">
+        <i nz-icon nzType="close" nzTheme="outline" (click)="this.variantFinderVisible = false"></i>
+      </span>
+    </ng-template>
+
+    <ng-template #variantFinder>
+      <cvc-variant-submit-form (onVariantSelected)="onVariantSelected($event)"></cvc-variant-submit-form>
+    </ng-template>
+
+  </nz-spin>
+
+</ng-template>

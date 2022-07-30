@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EnumToTitlePipe implements PipeTransform {
   transform(enum_text: string) : string {
+
     if (enum_text) {
       let str = enum_text.toLowerCase()
         .replace(/_/g, ' ')

@@ -16,15 +16,13 @@ fragment AssertionSummaryFields on Assertion {
     name
     link
   }
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    alleleRegistryId
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   assertionType
   assertionDirection

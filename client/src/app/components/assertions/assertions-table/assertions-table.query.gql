@@ -10,10 +10,10 @@ query AssertionsBrowse(
   $assertionDirection: EvidenceDirection
   $clinicalSignificance: EvidenceClinicalSignificance
   $assertionType: EvidenceType
-  $variantId: Int
-  $evidenceId: Int
-  $geneName: String
-  $variantName: String
+  $variantId: Int,
+  $molecularProfileId: Int,
+  $evidenceId: Int,
+  $molecularProfileName: String,
   $sortBy: AssertionSort
   $ampLevel: AmpLevel
   $organizationId: Int
@@ -35,11 +35,11 @@ query AssertionsBrowse(
     assertionDirection: $assertionDirection
     clinicalSignificance: $clinicalSignificance
     assertionType: $assertionType
-    variantId: $variantId
-    sortBy: $sortBy
-    ampLevel: $ampLevel
-    geneName: $geneName
-    variantName: $variantName
+    variantId: $variantId,
+    molecularProfileId: $molecularProfileId,
+    sortBy: $sortBy,
+    ampLevel: $ampLevel,
+    molecularProfileName: $molecularProfileName,
     evidenceId: $evidenceId
     organizationId: $organizationId
     userId: $userId
@@ -68,15 +68,13 @@ fragment AssertionBrowseFields on Assertion {
   id
   name
   link
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   disease {
     id

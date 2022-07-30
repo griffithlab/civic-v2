@@ -18,6 +18,7 @@ module Types
     field :browseSources, resolver: Resolvers::BrowseSources
     field :browseVariantGroups, resolver: Resolvers::BrowseVariantGroups
     field :browseDiseases, resolver: Resolvers::BrowseDiseases
+    field :browseMolecularProfiles, resolver: Resolvers::BrowseMolecularProfiles
     field :events, resolver: Resolvers::TopLevelEvents
     field :phenotypes, resolver: Resolvers::Phenotypes
     field :source_suggestions, resolver: Resolvers::BrowseSourceSuggestions
@@ -66,6 +67,11 @@ module Types
 
     field :assertion, Types::Entities::AssertionType, null: true do
       description "Find an assertion by CIViC ID"
+      argument :id, Int, required: true
+    end
+
+    field :molecular_profile, Types::Entities::MolecularProfileType, null: true do
+      description "Find a molecular profile by CIViC ID"
       argument :id, Int, required: true
     end
 
@@ -130,6 +136,11 @@ module Types
       argument :comment_text, String, required: true
     end
 
+    field :preview_molecular_profile_name, Types::MolecularProfile::MolecularProfileNamePreviewType, null: false do
+      argument :structure, Types::MolecularProfile::MolecularProfileComponentInput, required: false,
+        validates: { Types::MolecularProfile::MolecularProfileComponentValidator => {} }
+    end
+
     field :genes, resolver: Resolvers::TopLevelGenes
     field :variants, resolver: Resolvers::TopLevelVariants, max_page_size: 50
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
@@ -149,6 +160,10 @@ module Types
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
     field :timepoint_stats, Types::CivicTimepointStats, null: false
+
+    def molecular_profile(id: )
+      ::MolecularProfile.find_by(id: id)
+    end
 
     def disease(id: )
       Disease.find_by(id: id)
@@ -253,6 +268,31 @@ module Types
 
     def preview_comment_text(comment_text:)
       Actions::FormatCommentText.get_segments(text: comment_text)
+    end
+
+    def preview_molecular_profile_name(structure: nil)
+      if structure.nil? 
+        return {
+          segments: [],
+          existing_molecular_profile: nil
+        }
+      end
+
+      variant_ids = structure.variant_ids.uniq
+      variants = Variant.where(id: variant_ids)
+
+      if variants.size !=  variant_ids.size
+        missing = variant_ids - variants.map(&:id)
+        raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+      end
+
+      name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
+
+      return {
+        segments: ::MolecularProfile.new(name: name).segments,
+        existing_molecular_profile: ::MolecularProfile.find_by(name: name)
+      }
+
     end
 
     def countries

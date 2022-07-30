@@ -22,6 +22,7 @@ import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
 import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-card/coordinates-card.module';
+import { CvcMolecularProfilesTableModule } from '@app/components/molecular-profiles/molecular-profile-table/molecular-profile-table.module';
 
 @NgModule({
   declarations: [VariantsSummaryPage],
@@ -37,8 +38,6 @@ import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-c
     NzTagModule,
     CvcCoordinatesCardModule,
     CvcPipesModule,
-    CvcEvidenceTableModule,
-    CvcAssertionsTableModule,
     CvcTagListModule,
     CvcUserTagModule,
     CvcSourceTagModule,
@@ -48,6 +47,7 @@ import { CvcCoordinatesCardModule } from '@app/components/variants/coordinates-c
     CvcMyVariantInfoModule,
     CvcEmptyRevisableModule,
     CvcEventFeedModule,
+    CvcMolecularProfilesTableModule
   ],
   exports: [VariantsSummaryPage],
 })

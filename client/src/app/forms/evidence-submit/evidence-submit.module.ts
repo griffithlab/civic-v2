@@ -29,8 +29,6 @@ import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease
 import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
 import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
 import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
@@ -42,6 +40,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcDuplicateEvidenceWarningModule } from '../config/types/duplicate-evidence-warning/duplicate-evidence-warning.module';
 import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [EvidenceSubmitForm],
@@ -78,13 +77,12 @@ import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textare
     CvcDrugArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
     CvcDrugInteractionSelectTypeModule,
-    CvcGeneArrayTypeModule,
-    CvcVariantArrayTypeModule,
     CvcSourceArrayTypeModule,
     CvcSourceSelectModule,
     CvcFormContainerWrapperModule,
     CvcDuplicateEvidenceWarningModule,
     CvcCancelButtonModule,
+    CvcMolecularProfileInputTypeModule,
     NzCardModule,
     NzSpaceModule,
     NzTypographyModule,

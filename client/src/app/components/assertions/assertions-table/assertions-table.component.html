@@ -47,17 +47,9 @@
           [nzSortFn]="true">
           AID
         </th>
-        <th nzWidth="120px"
-          nzLeft
-          [nzColumnKey]="sortColumns.GeneName"
-          [nzSortFn]="true">
-          Gene
-        </th>
-        <th nzWidth="200px"
-          nzLeft
-          [nzColumnKey]="sortColumns.VariantName"
-          [nzSortFn]="true">
-          Variant
+        <th nzWidth="320px"
+          nzLeft>
+          Molecular Profile
         </th>
         <th nzWidth="250px"
           [nzColumnKey]="sortColumns.DiseaseName"
@@ -138,11 +130,7 @@
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
-        </th>
-        <th nzLeft>
-          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
             [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -286,10 +274,7 @@
             <cvc-assertion-tag [assertion]="aid"></cvc-assertion-tag>
           </td>
           <td nzLeft>
-            <cvc-gene-tag [gene]="aid.gene"></cvc-gene-tag>
-          </td>
-          <td nzLeft>
-            <cvc-variant-tag [variant]="aid.variant"></cvc-variant-tag>
+            <cvc-molecular-profile-tag [molecularProfile]="aid.molecularProfile" [truncateLongName]="40"></cvc-molecular-profile-tag>
           </td>
           <td>
             <ng-container *ngIf="aid.disease.name; else diseaseElse">

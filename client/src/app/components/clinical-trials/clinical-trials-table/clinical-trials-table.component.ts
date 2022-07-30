@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, first, map, pairwise, pluck, skip, startWith, take, takeUntil, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, map, pairwise, pluck, skip, startWith, take, takeUntil, takeWhile, tap, throttleTime, withLatestFrom } from 'rxjs/operators';
 
 export interface ClinicalTrialsTableUserFilters {
   nctIdFilter?: Maybe<string>
@@ -76,13 +76,13 @@ export class CvcClinicalTrialsTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     this.connection$ = this.result$
       .pipe(pluck('data', 'clinicalTrials'),

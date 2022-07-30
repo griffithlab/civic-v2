@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CvcEvidencePopoverComponent } from './evidence-popover.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { CvcGeneTagModule } from '@app/components/genes/gene-tag/gene-tag.module';
-import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { RouterModule } from '@angular/router';
@@ -18,6 +16,8 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcSourceTagModule } from '@app/components/sources/source-tag/source-tag.module';
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -35,11 +35,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     CvcPipesModule,
     CvcDrugTagModule,
     CvcDiseaseTagModule,
-    CvcGeneTagModule,
-    CvcVariantTagModule,
     CvcPhenotypeTagModule,
     CvcSourceTagModule,
-    CvcStatusTagModule
+    CvcStatusTagModule,
+    CvcMolecularProfileTagModule,
+    CvcMolecularProfileTagNameModule,
   ],
   exports: [CvcEvidencePopoverComponent]
 })

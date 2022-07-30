@@ -22,6 +22,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcVariantGroupTagModule } from '@app/components/variant-groups/variant-group-tag/variant-group-tag.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { RouterModule } from '@angular/router';
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 
 @NgModule({
   declarations: [CvcEventTimelineItemComponent],
@@ -46,7 +47,8 @@ import { RouterModule } from '@angular/router';
     CvcVariantTagModule,
     CvcOrganizationTagModule,
     CvcSourceTagModule,
-    CvcVariantGroupTagModule
+    CvcVariantGroupTagModule,
+    CvcMolecularProfileTagModule,
   ],
   exports: [CvcEventTimelineItemComponent]
 })

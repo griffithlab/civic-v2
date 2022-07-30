@@ -9,12 +9,12 @@ export const EntityColors = new Map<string, string>([
   ['EvidenceItem', '#2a63b6'],
   ['Gene', '#07aff0'],
   ['Intervention', '#ac3996'],
-  ['MolecularProfile', '#b2d44a'],
+  ['MolecularProfile', '#33b358'],
   ['Phenotype', '#1db8a9'],
   ['Source', '#f9ba45'],
-  ['Variant', '#33b358'],
-  ['VariantGroup', '#33b358'],
-  ['VariantType', '#33b358'],
+  ['Variant', '#74d34c'],
+  ['VariantGroup', '#74d34c'],
+  ['VariantType', '#74d34c'],
 
   // artifacts
   ['Comment', '#44d8ef'],
@@ -26,6 +26,7 @@ export const EntityColors = new Map<string, string>([
   // user types
   ['Curator', '#a0d8f5'],
   ['Editor', '#58a0c4'],
+  ['Admin', '#58a0c4'],
   ['Organization', '#3d7b99'],
 
   // entity state colors

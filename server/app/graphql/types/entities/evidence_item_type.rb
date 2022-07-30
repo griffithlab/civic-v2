@@ -9,8 +9,7 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :variant, Types::Entities::VariantType, null: false
-    field :gene, Types::Entities::GeneType, null: false
+    field :molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
@@ -44,22 +43,16 @@ module Types::Entities
       object.rating
     end
 
+    def molecular_profile
+      Loaders::RecordLoader.for(MolecularProfile).load(object.molecular_profile_id)
+    end
+
     def phenotypes
       Loaders::AssociationLoader.for(EvidenceItem, :phenotypes).load(object)
     end
 
     def source
       Loaders::RecordLoader.for(Source).load(object.source_id)
-    end
-
-    def variant
-      Loaders::RecordLoader.for(Variant).load(object.variant_id)
-    end
-
-    def gene
-      Loaders::AssociationLoader.for(EvidenceItem, :variant).load(object).then do |variant|
-        Loaders::AssociationLoader.for(Variant, :gene).load(variant)
-      end
     end
 
     def assertions

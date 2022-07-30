@@ -7,5 +7,6 @@ module Types::Commentable
     value 'ASSERTION'
     value 'REVISION'
     value 'ROLE'
+    value 'MOLECULAR_PROFILE'
   end
 end

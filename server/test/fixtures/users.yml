@@ -1,0 +1,14 @@
+curator:
+  username: curator
+  name: curator
+  role: curator
+
+editor:
+  username: editor
+  name: editor
+  role: editor
+
+admin:
+  username: admin
+  name: admin
+  role: admin
