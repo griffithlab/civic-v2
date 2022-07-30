@@ -29,7 +29,7 @@
         <!-- allele registry-->
         <nz-descriptions-item nzTitle="Allele Registry ID"
           nzSpan="2"
-          *ngIf="variant.alleleRegistryId">
+          *ngIf="variant.alleleRegistryId != 'unregistered'">
           <cvc-link-tag href="https://reg.genome.network/allele/{{variant.alleleRegistryId}}.html"
             tooltip="View on the ClinGen Allele Registry">
             {{variant.alleleRegistryId}}
