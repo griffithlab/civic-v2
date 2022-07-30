@@ -28,11 +28,13 @@ module Types::Entities
     end
 
     def name
-      object.display_name
+      Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
+        segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+      end
     end
 
     def parsed_name
-      object.segments
+      Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id)
     end
 
     def variants

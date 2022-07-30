@@ -37,7 +37,7 @@ module Loaders
       ids.each do |id|
         if mp = mps[id]
           segments = mp.map { |s| s.call(resolved_genes, resolved_variants) }
-          fulfill(id, segments.join(' '))
+          fulfill(id, segments)
         else
           fulfill(id, nil)
         end
