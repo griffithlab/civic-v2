@@ -11,7 +11,5 @@ module Types::BrowseTables
     value 'EVIDENCE_DIRECTION'
     value 'CLINICAL_SIGNIFICANCE'
     value 'VARIANT_ORIGIN'
-    value 'VARIANT_NAME'
-    value 'GENE_SYMBOL'
   end
 end

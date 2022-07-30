@@ -9,8 +9,7 @@ module Types::Entities
 
     field :id, Int, null: false
     field :name, String, null: false
-    field :variant, Types::Entities::VariantType, null: false
-    field :gene, Types::Entities::GeneType, null: false
+    field :molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :clinical_significance, Types::AssertionClinicalSignificanceType, null: false
     field :summary, String, null: false
     field :description, String, null: false
@@ -57,12 +56,8 @@ module Types::Entities
       Loaders::AssociationLoader.for(Assertion, :clingen_codes).load(object)
     end
 
-    def variant
-      Loaders::RecordLoader.for(Variant).load(object.variant_id)
-    end
-
-    def gene
-      Loaders::RecordLoader.for(Gene).load(object.gene_id)
+    def molecular_profile
+      Loaders::RecordLoader.for(MolecularProfile).load(object.molecular_profile_id)
     end
 
     def assertion_direction

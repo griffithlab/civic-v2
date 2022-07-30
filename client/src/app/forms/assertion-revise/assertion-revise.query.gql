@@ -8,16 +8,17 @@ fragment RevisableAssertionFields on Assertion {
   id
   summary
   description
-  variant {
-    id
-    name
-    link
-  }
-  gene {
-    id
-    name
-    link
-  }
+  # variant {
+  #   id
+  #   name
+  #   link
+  #   singleVariantMolecularProfileId
+  # }
+  # gene {
+  #   id
+  #   name
+  #   link
+  # }
   variantOrigin
   clinicalSignificance
   disease {

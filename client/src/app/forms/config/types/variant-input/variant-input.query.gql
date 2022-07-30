@@ -10,6 +10,12 @@ fragment VariantTypeaheadFields on Variant {
   id
   name
   variantAliases
+  singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+  }
 }
 
 mutation AddVariant($name: String!, $geneId: Int!) {
@@ -24,6 +30,12 @@ fragment AddVariantFields on AddVariantPayload {
   variant {
     id
     name
+    singleVariantMolecularProfileId
+    singleVariantMolecularProfile {
+      id
+      name
+      link
+    }
   }
 }
 
@@ -39,4 +51,10 @@ query VariantSelect($name: String!, $geneId: Int) {
 fragment VariantSelectFields on Variant {
   id
   name
+  singleVariantMolecularProfileId
+  singleVariantMolecularProfile {
+    id
+    name
+    link
+  }
 }

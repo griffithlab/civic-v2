@@ -16,6 +16,7 @@
       "EvidenceItem",
       "Flag",
       "Gene",
+      "MolecularProfile",
       "Revision",
       "Source",
       "SourcePopover",
@@ -27,6 +28,7 @@
       "Comment",
       "EvidenceItem",
       "Flag",
+      "MolecularProfile",
       "Revision",
       "SourceSuggestion",
       "Variant"
@@ -35,6 +37,7 @@
       "Assertion",
       "EvidenceItem",
       "Gene",
+      "MolecularProfile",
       "Revision",
       "Source",
       "SourcePopover",
@@ -47,6 +50,7 @@
       "BrowseGene",
       "EvidenceItem",
       "Gene",
+      "MolecularProfile",
       "Variant",
       "VariantGroup"
     ],
@@ -58,10 +62,20 @@
       "ObjectFieldDiff",
       "ScalarFieldDiff"
     ],
+    "MolecularProfileComponent": [
+      "Gene",
+      "Variant"
+    ],
+    "MolecularProfileSegment": [
+      "Gene",
+      "MolecularProfileTextSegment",
+      "Variant"
+    ],
     "WithRevisions": [
       "Assertion",
       "EvidenceItem",
       "Gene",
+      "MolecularProfile",
       "Variant",
       "VariantGroup"
     ]

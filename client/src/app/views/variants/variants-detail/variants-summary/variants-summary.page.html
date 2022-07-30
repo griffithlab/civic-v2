@@ -184,26 +184,10 @@
 
     <!-- evidence table -->
     <nz-col nzSpan="24">
-      <cvc-evidence-table [variantId]="variant.id"
-        [displayGeneAndVariant]="false"
+      <cvc-molecular-profiles-table [variantId]="variant.id"
         cvcHeight="300px"
-        cvcTitle="{{variant.name}} Evidence">
-      </cvc-evidence-table>
-    </nz-col>
-
-    <!-- assertions table -->
-
-    <nz-col nzSpan="24">
-      <cvc-assertions-table [variantId]="variant.id"
-        cvcHeight="200px"
-        cvcTitle="{{variant.name}} Assertions">
-      </cvc-assertions-table>
-    </nz-col>
-
-    <!-- event feed -->
-    <nz-col [nzSpan]="24">
-      <cvc-event-feed [subscribable]="subscribable"
-        tagDisplay="hideSubject"></cvc-event-feed>
+        cvcTitle="{{variant.name}} Molecular Profiles">
+      </cvc-molecular-profiles-table>
     </nz-col>
   </nz-row>
 </ng-container>

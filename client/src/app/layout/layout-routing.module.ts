@@ -22,6 +22,12 @@ const routes: Routes = [
           breadcrumb: 'Assertions'
         }
       },
+      { path: 'molecular-profiles',
+        loadChildren: () => import('@app/views/molecular-profiles/molecular-profiles.module').then(m => m.MolecularProfilesModule ),
+        data: {
+          breadcrumb: 'Molecular Profiles'
+        }
+      },
       { path: 'clinical-trials' ,
         loadChildren: () => import('@app/views/clinical-trials/clinical-trials.module').then(m => m.ClinicalTrialsModule),
         data: {

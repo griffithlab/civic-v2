@@ -4,6 +4,7 @@ module Types::Entities
     implements Types::Interfaces::Flaggable
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
+    implements Types::Interfaces::MolecularProfileComponent
 
     field :id, Int, null: false
     field :entrez_id, Int, null: false

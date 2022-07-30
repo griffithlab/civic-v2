@@ -22,18 +22,16 @@ import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { takeUntil } from 'rxjs/operators';
-import { FormDisease, FormDrug, FormGene, FormPhenotype, FormSource, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormDrug, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 
 interface FormModel {
   fields: {
     id: number
+    molecularProfile: FormMolecularProfile
 
     description: string
     source: FormSource[]
-
-    gene: FormGene[],
-    variant: FormVariant[]
 
     variantOrigin: VariantOrigin
     disease: FormDisease[]
@@ -69,8 +67,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   submitEvidenceMutator: MutatorWithState<SubmitEvidenceItemGQL, SubmitEvidenceItemMutation, SubmitEvidenceItemMutationVariables>
 
 
-  submittedGeneId: Maybe<number>
-  submittedVariantId: Maybe<number>
+  submittedMpId: Maybe<number>
   submittedSourceId: Maybe<number>
   submittedDiseaseId: Maybe<number>
 
@@ -93,25 +90,17 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         key: 'fields',
         wrappers: ['form-container'],
         templateOptions: {
-          label: 'Add Evidence Item Form'
+          label: 'Add Evidence Item Form',
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-              required: true
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
+              label: 'Molecular Profile',
+              helpText: 'lorem ipsum',
               required: true,
-              maxCount: 1,
-              helpText: 'The most specific description of the variant that the underlying source allows.',
-            }
+            },
           },
           {
             key: 'source',
@@ -119,9 +108,11 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             wrappers: ['form-field'],
             templateOptions: {
               label: 'Source',
-              helpText: 'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
+              helpText:
+                'CIViC accepts PubMed or ASCO Abstracts sources. Please provide the source of the support for your evidence here.',
               addText: 'Specify a Source',
               maxCount: 1,
+              required: true,
             },
             fieldArray: {
               type: 'source-input',
@@ -133,24 +124,25 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'duplicate-evidence-warning',
-            type: 'duplicate-evidence-warning'
+            type: 'duplicate-evidence-warning',
           },
           {
             key: 'description',
             type: 'cvc-textarea',
             templateOptions: {
               label: 'Evidence Statement',
-              helpText: 'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
+              helpText:
+                'Your original description of evidence from published literature detailing the association or lack of association between a variant and its predictive, prognostic, diagnostic, predisposing, functional or oncogenic value. Data constituting personal or identifying information should not be entered (e.g. <a href="https://www.hipaajournal.com/what-is-protected-health-information/" target="_blank">protected health information (PHI) as defined by HIPAA</a> in the U.S. and/or comparable laws in your jurisdiction).',
               placeholder: 'No description provided',
-              required: true
-            }
+              required: true,
+            },
           },
           {
             key: 'variantOrigin',
             type: 'variant-origin-select',
             templateOptions: {
               required: true,
-            }
+            },
           },
           {
             key: 'evidenceType',
@@ -160,29 +152,29 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             },
           },
           {
+            key: 'evidenceDirection',
+            type: 'evidence-direction-select',
+            templateOptions: {
+              required: true,
+            },
+          },
+          {
             key: 'clinicalSignificance',
             type: 'clinical-significance-select',
             templateOptions: {
-              required: true
-            }
+              required: true,
+            },
           },
           {
             key: 'disease',
             type: 'disease-array',
             templateOptions: {
               maxCount: 1,
-            }
+            },
           },
           {
             key: 'evidenceLevel',
             type: 'evidence-level-select',
-            templateOptions: {
-              required: true,
-            }
-          },
-          {
-            key: 'evidenceDirection',
-            type: 'evidence-direction-select',
             templateOptions: {
               required: true,
             },
@@ -193,7 +185,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           },
           {
             key: 'drugInteractionType',
-            type: 'drug-interaction-select'
+            type: 'drug-interaction-select',
           },
           {
             key: 'phenotypes',
@@ -205,7 +197,8 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             templateOptions: {
               required: true,
               label: 'Rating',
-              helpText: 'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
+              helpText:
+                'Please rate your evidence on a scale of one to five stars. Use the star rating descriptions for guidance.',
             },
           },
           {
@@ -213,39 +206,36 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             type: 'comment-textarea',
             templateOptions: {
               label: 'Comment',
-              helpText: 'Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item\'s comment thread.',
+              helpText:
+                "Please provide any additional comments you wish to make about this evidence item. This comment will appear as the first comment in this item's comment thread.",
               placeholder: 'Please enter a comment describing your revision.',
               required: false,
-              minLength: 10
+              minLength: 10,
             },
           },
           {
             key: 'cancel',
-            type: 'cancel-button'
+            type: 'cancel-button',
           },
           {
             key: 'organization',
             type: 'org-submit-button',
             templateOptions: {
               submitLabel: 'Submit Evidence Item',
-              submitSize: 'large'
-            }
-          }
-        ]
-      }
+              submitSize: 'large',
+            },
+          },
+        ],
+      },
     ];
   }
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe(params => {
       let shouldPopulate = false
-      if (params.geneId) {
+      if (params.molecularProfileId) {
         shouldPopulate = true
-        this.submittedGeneId = +params.geneId
-      }
-      if (params.variantId) {
-        shouldPopulate = true
-        this.submittedVariantId = +params.variantId
+        this.submittedMpId = +params.molecularProfileId
       }
       if (params.sourceId) {
         shouldPopulate = true
@@ -257,24 +247,25 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
       }
 
       if(shouldPopulate) {
+        // TODO update source suggestions to use molecular profiles
         this.sourceSuggestionGQL.fetch({
-          geneId: this.submittedGeneId,
+          //geneId: this.submittedGeneId,
           diseaseId: this.submittedDiseaseId,
           sourceId: this.submittedSourceId,
-          variantId: this.submittedVariantId
+          //variantId: this.submittedVariantId
         }).subscribe(
           ({data: { sourceSuggestionValues}, loading}) => {
             this.loading = loading
             let newModel: any = {fields: {}}
-            if(sourceSuggestionValues.gene) {
-              newModel.fields.gene = [sourceSuggestionValues.gene]
-            }
+            //if(sourceSuggestionValues.gene) {
+            //  newModel.fields.gene = [sourceSuggestionValues.gene]
+            //}
             if(sourceSuggestionValues.disease) {
               newModel.fields.disease = [sourceSuggestionValues.disease]
             }
-            if(sourceSuggestionValues.variant) {
-              newModel.fields.variant = [sourceSuggestionValues.variant]
-            }
+            //if(sourceSuggestionValues.variant) {
+            //  newModel.fields.variant = [sourceSuggestionValues.variant]
+            //}
             if(sourceSuggestionValues.source) {
               newModel.fields.source = [sourceSuggestionValues.source]
             }
@@ -336,7 +327,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         fields: {
           variantOrigin: fields.variantOrigin,
           description: fmt.toNullableString(fields.description),
-          variantId: fields.variant[0].id!,
+          molecularProfileId: fields.molecularProfile.id,
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
@@ -348,9 +339,9 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
           drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
         },
-      comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
-      organizationId: model?.fields.organization?.id
-    }
+        comment: fields.comment && fields.comment.length > 0 ? fields.comment : undefined,
+        organizationId: model?.fields.organization?.id
+      }
 
     }
     return undefined

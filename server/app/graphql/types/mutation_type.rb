@@ -6,6 +6,7 @@ module Types
     #revisions
     field :suggest_gene_revision, mutation: Mutations::SuggestGeneRevision
     field :suggest_variant_revision, mutation: Mutations::SuggestVariantRevision
+    field :suggest_molecular_profile_revision, mutation: Mutations::SuggestMolecularProfileRevision
     field :suggest_evidence_item_revision, mutation: Mutations::SuggestEvidenceItemRevision
     field :suggest_assertion_revision, mutation: Mutations::SuggestAssertionRevision
     field :suggest_variant_group_revision, mutation: Mutations::SuggestVariantGroupRevision
@@ -20,6 +21,9 @@ module Types
     #flags
     field :flag_entity, mutation: Mutations::FlagEntity
     field :resolve_flag, mutation: Mutations::ResolveFlag
+
+    #molecular profiles
+    field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile
 
     #sources
     field :add_remote_citation, mutation: Mutations::AddRemoteCitation

@@ -27,6 +27,14 @@ export const CvcTypePolicies: TypePolicies = {
         'variantTypeId',
         'variantGroupId'
       ]),
+      browseMolecularProfiles: relayStylePagination([
+        'variantName',
+        'entrezSymbol',
+        'diseaseName',
+        'drugName',
+        'molecularProfileAlias',
+        'variantId'
+      ]),
       browseVariantGroups: relayStylePagination([
         'name',
         'geneNames',
@@ -81,6 +89,7 @@ export const CvcTypePolicies: TypePolicies = {
         'evidenceRating',
         'variantOrigin',
         'variantId',
+        'molecularProfileId',
         'assertionId',
         'organizationId',
         'userId',
@@ -103,6 +112,7 @@ export const CvcTypePolicies: TypePolicies = {
         'clinicalSignificance',
         'assertionType',
         'variantId',
+        'molecularProfileId',
         'ampLevel',
         'geneName',
         'variantName',

@@ -15,12 +15,7 @@ fragment AssertionDetailFields on Assertion {
         id
       }
     }
-    gene {
-        id
-        name
-      link
-    }
-    variant {
+    molecularProfile {
       id
       name
       link

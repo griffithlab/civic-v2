@@ -1,10 +1,11 @@
 module Types::Quicksearch
   class SearchableEntities < Types::BaseEnum
-    value 'GENE'
-    value 'VARIANT'
-    value 'EVIDENCE_ITEM'
-    value 'ASSERTION'
-    value 'VARIANT_GROUP'
-    value 'REVISION'
+    value 'GENE', value: Gene
+    value 'VARIANT', value: Variant
+    value 'EVIDENCE_ITEM', value: EvidenceItem
+    value 'ASSERTION', value: Assertion
+    value 'VARIANT_GROUP', value: VariantGroup
+    value 'REVISION', value: Revision
+    value 'MOLECULAR_PROFILE', value: MolecularProfile
   end
 end

@@ -8,7 +8,7 @@ class InputAdaptors::EvidenceItemInputAdaptor
 
   def perform
     EvidenceItem.new(
-      variant_id: input.variant_id,
+      molecular_profile_id: input.molecular_profile_id,
       variant_origin: input.variant_origin,
       source_id: input.source_id,
       evidence_type: input.evidence_type,
@@ -46,8 +46,8 @@ class InputAdaptors::EvidenceItemInputAdaptor
       errors << "Provided disease id: #{fields.disease_id} is not found."
     end
 
-    if !Variant.find(fields.variant_id)
-      errors << "Provided variant id: #{fields.variant_id} is not found."
+    if !MolecularProfile.find(fields.molecular_profile_id)
+      errors << "Provided molecular profile id: #{fields.molecular_profile_id} is not found."
     end
 
     return errors

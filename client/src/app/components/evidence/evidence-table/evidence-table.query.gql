@@ -14,6 +14,7 @@ query EvidenceBrowse(
   $rating: Int
   $variantOrigin: VariantOrigin
   $variantId: Int
+  $molecularProfileId: Int
   $assertionId: Int
   $organizationId: Int
   $userId: Int
@@ -23,8 +24,7 @@ query EvidenceBrowse(
   $drugId: Int
   $sourceId: Int
   $clinicalTrialId: Int
-  $geneSymbol: String
-  $variantName: String
+  $molecularProfileName: String
   $status: EvidenceStatusFilter
 ) {
   evidenceItems(
@@ -43,6 +43,7 @@ query EvidenceBrowse(
     evidenceRating: $rating
     variantOrigin: $variantOrigin
     variantId: $variantId
+    molecularProfileId: $molecularProfileId
     assertionId: $assertionId
     organizationId: $organizationId
     userId: $userId
@@ -51,8 +52,7 @@ query EvidenceBrowse(
     drugId: $drugId
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
-    geneSymbol: $geneSymbol
-    variantName: $variantName
+    molecularProfileName: $molecularProfileName
     status: $status
     sortBy: $sortBy
   ) {
@@ -86,18 +86,16 @@ fragment EvidenceGridFields on EvidenceItem {
     name
     link
   }
-  gene {
+  molecularProfile {
     id
     name
     link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
-  variant {
-    id
-    name
-    link
-  }
-  flagged
   status
+  flagged
   drugInteractionType
   description
   evidenceType

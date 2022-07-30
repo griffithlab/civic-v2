@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BaseCloseableTag } from '@app/core/utilities/closeable-tag-base';
+import { getEntityColor } from '@app/core/utilities/get-entity-color';
 import { Maybe } from '@app/generated/civic.apollo';
 
 export interface LinkableVariantType {
@@ -30,4 +31,9 @@ export class CvcVariantTypeTagComponent extends BaseCloseableTag implements OnIn
     return this.variantType.id
   }
 
+  iconColor: string
+  constructor() {
+    super()
+    this.iconColor = getEntityColor('VariantType')
+  }
 }

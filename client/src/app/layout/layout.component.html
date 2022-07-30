@@ -51,6 +51,17 @@
           <li nz-menu-item
             nz-tooltip
             nzTooltipPlacement="right"
+            [nzTooltipTitle]="isCollapsed ? 'Molecular Profiles' : ''"
+            nzSelected
+            nzMatchRouter>
+            <i nz-icon
+              nzType="civic-molecularprofile"></i>
+            <span> <a routerLink="/molecular-profiles">Molecular Profiles</a> </span>
+          </li>
+
+          <li nz-menu-item
+            nz-tooltip
+            nzTooltipPlacement="right"
             [nzTooltipTitle]="isCollapsed ? 'Genes' : ''"
             nzSelected
             nzMatchRouter>

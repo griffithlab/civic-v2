@@ -1,6 +1,7 @@
 <nz-spin nzTip="Submitting" [nzSpinning]="this.loading">
   <form  nz-form
     [formGroup]="formGroup"
+    style="width: 400px;"
     (ngSubmit)="submitVariant(formModel)"
     nzLayout="vertical">
 
@@ -10,7 +11,7 @@
       [fields]="formFields"
       [model]="formModel"
       [options]="formOptions"
-      (modelChange)="formModel = $event">
+      (modelChange)="onFormModelChange($event)">
     </formly-form>
   </form>
 </nz-spin>

@@ -7,6 +7,7 @@ module Types::Entities
     implements Types::Interfaces::WithRevisions
     implements Types::Interfaces::EventSubject
     implements Types::Interfaces::EventOriginObject
+    implements Types::Interfaces::MolecularProfileComponent
 
     field :id, Int, null: false
     field :name, String, null: false
@@ -28,6 +29,8 @@ module Types::Entities
     field :hgvs_descriptions, [String], null: false
     field :my_variant_info, Types::Entities::MyVariantInfoType, null: true
     field :link, String, null: false
+    field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
+    field :single_variant_molecular_profile_id, Int, null: false
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
@@ -39,6 +42,10 @@ module Types::Entities
 
     def variant_types
       Loaders::AssociationLoader.for(Variant, :variant_types).load(object)
+    end
+
+    def single_variant_molecular_profile
+      Loaders::AssociationLoader.for(Variant, :single_variant_molecular_profile).load(object)
     end
 
     def primary_coordinates

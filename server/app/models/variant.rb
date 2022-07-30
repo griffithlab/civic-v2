@@ -9,6 +9,7 @@ class Variant < ApplicationRecord
   belongs_to :secondary_gene, class_name: 'Gene', optional: true
   has_many :evidence_items
   has_many :assertions
+  has_and_belongs_to_many :molecular_profiles
   has_many :variant_group_variants
   has_many :variant_groups, through: :variant_group_variants
   has_many :source_suggestions
@@ -20,9 +21,14 @@ class Variant < ApplicationRecord
   has_one :evidence_items_by_status
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
+  belongs_to :single_variant_molecular_profile, 
+    class_name: "MolecularProfile",
+    foreign_key: :single_variant_molecular_profile_id 
+
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
 
   after_save :update_allele_registry_id
+  after_commit :reindex_mps
 
   validates :reference_bases, format: {
     with: /\A[ACTG]+\z|\A[ACTG]+\/[ACTG]+\z/,
@@ -62,6 +68,10 @@ class Variant < ApplicationRecord
   end
 
   def update_allele_registry_id
-    SetAlleleRegistryIdSingleVariant.perform_later(self)
+    SetAlleleRegistryIdSingleVariant.perform_later(self) if Rails.env.production?
+  end
+
+  def reindex_mps
+    self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
 end

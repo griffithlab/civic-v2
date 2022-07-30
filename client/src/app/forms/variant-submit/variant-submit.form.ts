@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   AddVariantGQL,
@@ -12,15 +12,20 @@ import { Subject } from 'rxjs';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { FormGene, FormVariant } from '../forms.interfaces';
+import { FormGene, FormMolecularProfile, FormVariant } from '../forms.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
 interface FormModel {
   fields: {
     gene: FormGene[],
-    variant: string
+    variant: FormVariant[],
   }
+}
+
+export interface SelectedVariant {
+  variantId: number,
+  molecularProfile: FormMolecularProfile
 }
 
 @Component({
@@ -29,6 +34,8 @@ interface FormModel {
   styleUrls: ['./variant-submit.form.less'],
 })
 export class VariantSubmitForm implements OnDestroy {
+  @Output() onVariantSelected = new EventEmitter<SelectedVariant>();
+
   private destroy$ = new Subject();
 
   formModel!: FormModel;
@@ -60,7 +67,6 @@ export class VariantSubmitForm implements OnDestroy {
         key: 'fields',
         wrappers: ['form-container'],
         templateOptions: {
-          label: 'Add Variant Form'
         },
         fieldGroup: [
           {
@@ -72,11 +78,20 @@ export class VariantSubmitForm implements OnDestroy {
             },
             validation: {
               messages: {
-                required: 'Gene is required to add a new variant.'
+                required: 'Gene is required to select a variant.'
               }
             }
           },
           {
+            key: 'variant',
+            type: 'variant-array',
+            templateOptions: {
+              required: false,
+              canCreate: false,
+              maxCount: 1,
+            }
+          },
+/*           {
             key: 'variant',
             type: 'cvc-textarea',
             templateOptions: {
@@ -94,11 +109,11 @@ export class VariantSubmitForm implements OnDestroy {
                 required: 'Variant name is required to add a new variant.'
               }
             }
-          },
-          {
+          }, */
+/*           {
             key: 'submit',
             type: 'submit-button'
-          },
+          }, */
         ]
       }
     ];
@@ -106,7 +121,7 @@ export class VariantSubmitForm implements OnDestroy {
 
   submitVariant(model: Maybe<FormModel>): void {
     let geneId = model?.fields.gene[0].id
-    let name = model?.fields.variant
+    let name = model?.fields.variant[0].name
     if (geneId && name) {
       let input = {
         geneId: geneId,
@@ -117,6 +132,10 @@ export class VariantSubmitForm implements OnDestroy {
         (data) => {
           this.newId = data.addVariant.variant.id;
           this.isNew = data.addVariant.new
+          this.onVariantSelected.emit({
+            variantId: data.addVariant.variant.id,
+            molecularProfile: data.addVariant.variant.singleVariantMolecularProfile
+          });
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
@@ -134,6 +153,16 @@ export class VariantSubmitForm implements OnDestroy {
 
       state.isSubmitting$.pipe(takeUntil(this.destroy$)).subscribe((loading) => {
         this.loading = loading
+      })
+    }
+  }
+
+  onFormModelChange(model: FormModel): void {
+    this.formModel = model
+    if(model.fields.variant && model.fields.variant[0]) {
+      this.onVariantSelected.emit({
+        variantId: model.fields.variant[0].id!,
+        molecularProfile: model.fields.variant[0].singleVariantMolecularProfile
       })
     }
   }

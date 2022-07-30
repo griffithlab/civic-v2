@@ -1,6 +1,7 @@
 <ng-container *ngIf="!formControl.value?.id; else geneListItem">
   <nz-select #focusInput nzShowSearch
     nzServerSearch
+    style="width: 300px;"
     autofocus="click"
     [formControl]="formControl"
     [formlyAttributes]="field"

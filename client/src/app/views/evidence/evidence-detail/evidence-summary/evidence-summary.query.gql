@@ -47,15 +47,13 @@ fragment EvidenceSummaryFields on EvidenceItem {
     }
   }
   evidenceRating
-  gene {
+  molecularProfile {
     id
     name
     link
-  }
-  variant {
-    id
-    name
-    link
+    parsedName {
+      ...MolecularProfileParsedName
+    }
   }
   flags(state: OPEN) {
     totalCount

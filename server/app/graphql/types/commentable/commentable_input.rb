@@ -21,6 +21,8 @@ module Types::Commentable
         VariantGroup
       when 'SOURCE'
         Source
+      when 'MOLECULAR_PROFILE'
+        MolecularProfile
       else
         raise 'Unknown Enum Value'
       end

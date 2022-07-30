@@ -1,0 +1,78 @@
+
+query MolecularProfileSummary($mpId: Int!) {
+  molecularProfile(id: $mpId) {
+      ...MolecularProfileSummaryFields
+  }
+}
+
+fragment MolecularProfileSummaryFields on MolecularProfile {
+  id
+  name
+  description
+  molecularProfileAliases
+  sources {
+    id
+    citation
+    link
+  }
+  variants {
+    ...VariantMolecularProfileCardFields
+  }
+  parsedName {
+    ...MolecularProfileParsedName
+  }
+}
+
+fragment MolecularProfileParsedName on MolecularProfileSegment {
+    __typename
+    ... on MolecularProfileTextSegment {
+      text
+    }
+    ... on Gene {
+      id
+      name
+      link
+    }
+    ... on Variant {
+      id
+      name
+      link
+    }
+}
+
+
+fragment VariantMolecularProfileCardFields on Variant {
+  id
+  name
+  gene {
+      id
+      name
+      link
+  }
+  variantAliases
+  clinvarIds
+  alleleRegistryId
+  variantTypes {
+      id
+      link
+      soid
+      name
+  }
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+      representativeTranscript
+      chromosome
+      start
+      stop
+  }
+  secondaryCoordinates {
+      representativeTranscript
+      chromosome
+      start
+      stop
+  }
+  referenceBases
+  variantBases
+  hgvsDescriptions
+}

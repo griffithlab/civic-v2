@@ -26,7 +26,7 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
       clinicalSignificanceInput: undefined,
       variantOriginInput: undefined,
       evidenceRatingInput: undefined,
-      variantNameInput: undefined,
+      molecularProfileNameInput: undefined,
       geneSymbolInput: undefined,
   }
 
@@ -38,10 +38,10 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
       } else {
         this.evidenceGridFilters.geneSymbolInput = undefined
       }
-      if (parentModel.variant.length == 1 && parentModel.variant[0]) {
-        this.evidenceGridFilters.variantNameInput = parentModel.variant[0].name
+      if (parentModel.molecularProfile.length == 1 && parentModel.molecularProfile[0]) {
+        this.evidenceGridFilters.molecularProfileNameInput = parentModel.molecularProfile[0].name
       } else  {
-        this.evidenceGridFilters.variantNameInput = undefined
+        this.evidenceGridFilters.molecularProfileNameInput = undefined
       }
       if (parentModel.evidenceType) {
         this.evidenceGridFilters.evidenceTypeInput = parentModel.evidenceType

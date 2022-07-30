@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { isNonNulled } from 'rxjs-etc';
-import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, take, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, takeWhile, withLatestFrom } from 'rxjs/operators';
 
 export interface EvidenceTableUserFilters {
   eidInput?: Maybe<string>
@@ -21,7 +21,7 @@ export interface EvidenceTableUserFilters {
   clinicalSignificanceInput?: Maybe<EvidenceClinicalSignificance>
   variantOriginInput?: Maybe<VariantOrigin>
   evidenceRatingInput?: Maybe<number>
-  variantNameInput?: Maybe<string>
+  molecularProfileNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
 }
 
@@ -39,7 +39,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() cvcTitle: Maybe<string>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() diseaseId: Maybe<number>
-  @Input() displayGeneAndVariant = true
+  @Input() displayMolecularProfile = true
   @Input() drugId: Maybe<number>
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() mode: 'normal' | 'select' = 'normal'
@@ -49,6 +49,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() userId: Maybe<number>
   @Input() variantId: Maybe<number>
+  @Input() molecularProfileId: Maybe<number>
   @Input() initialPageSize = 35
   @Input()
   set initialUserFilters(f: Maybe<EvidenceTableUserFilters>) {
@@ -92,8 +93,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   evidenceLevelInput: Maybe<EvidenceLevel>
   evidenceRatingInput: Maybe<number>
   evidenceTypeInput: Maybe<EvidenceType>
-  geneSymbolInput: Maybe<string>
-  variantNameInput: Maybe<string>
+  molecularProfileNameInput: Maybe<string>
   variantOriginInput: Maybe<VariantOrigin>
 
   sortColumns = EvidenceSortColumns
@@ -131,7 +131,6 @@ export class CvcEvidenceTableComponent implements OnInit {
           ? this.evidenceTypeInput
           : undefined,
         first: this.initialPageSize,
-        geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
         organizationId: this.organizationId,
         phenotypeId: this.phenotypeId,
         rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
@@ -139,7 +138,8 @@ export class CvcEvidenceTableComponent implements OnInit {
         status: this.status,
         userId: this.userId,
         variantId: this.variantId,
-        variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        molecularProfileId: this.molecularProfileId,
+        molecularProfileName: this.molecularProfileNameInput ? this.molecularProfileNameInput : undefined,
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput
           : undefined,
@@ -154,13 +154,13 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.initialLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        take(2));
+        takeWhile(l => l !== false, true)); // only activate on 1st true/false sequence
 
     // toggles table header 'Loading...' tag
     this.moreLoading$ = this.result$
       .pipe(pluck('loading'),
         distinctUntilChanged(),
-        skip(2));
+        skip(2)); // skip 1st true/false sequence
 
     // entity relay connection
     this.connection$ = this.result$
@@ -259,8 +259,7 @@ export class CvcEvidenceTableComponent implements OnInit {
           ? this.variantOriginInput
           : undefined,
         rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
-        geneSymbol: this.geneSymbolInput ? this.geneSymbolInput : undefined,
-        variantName: this.variantNameInput ? this.variantNameInput : undefined,
+        molecularProfileName: this.molecularProfileNameInput ? this.molecularProfileNameInput : undefined,
       })
       .then(() => this.scrollIndex$.next(0));
 

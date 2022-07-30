@@ -7,7 +7,8 @@ class EvidenceItem < ActiveRecord::Base
   include Moderated
   include WithTimepointCounts
 
-  belongs_to :variant
+  belongs_to :variant, optional: true
+  belongs_to :molecular_profile
   belongs_to :disease, optional: true
   belongs_to :source
   has_and_belongs_to_many :drugs

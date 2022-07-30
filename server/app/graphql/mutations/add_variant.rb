@@ -11,6 +11,9 @@ class Mutations::AddVariant < Mutations::BaseMutation
   field :variant, Types::Entities::VariantType, null: false,
     description: 'The newly created Variant.'
 
+  field :molecular_profile, Types::Entities::MolecularProfileType, null: false,
+    description: "The newly created molecular profile for the new variant."
+
   field :new, Boolean, null: false,
     description: 'True if the variant was newly created. False if the returned variant was already in the database.'
 
@@ -30,10 +33,26 @@ class Mutations::AddVariant < Mutations::BaseMutation
       .first
 
     if existing_variant.present?
-      return { variant: existing_variant, new: false }
+      return { 
+        variant: existing_variant,
+        new: false,
+        molecular_profile: existing_variant.single_variant_molecular_profile
+      }
+
     else
-      new_variant = Variant.create!(name: name, gene_id: gene_id, civic_actionability_score: 0)
-      return { variant: new_variant, new: true }
+      cmd = Actions::CreateVariant.new(variant_name: name, gene_id: gene_id)
+
+      res = cmd.perform
+
+      if res.succeeded?
+        return {
+          variant: res.variant,
+          new: true,
+          molecular_profile: res.molecular_profile
+        }
+      else
+        raise GraphQL::ExecutionError, res.errors.join(', ')
+      end
     end
   end
 end
