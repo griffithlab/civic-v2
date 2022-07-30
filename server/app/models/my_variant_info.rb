@@ -84,7 +84,6 @@ class MyVariantInfo
       'exac_allele_frequency': p.dig('dbnsfp', 'exac', 'adj_af'),
     }
   rescue StandardError => e
-    byebug
   end
 
   def extract_value(p, position, final_key)
