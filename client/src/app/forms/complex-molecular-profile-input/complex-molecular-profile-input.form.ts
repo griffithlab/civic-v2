@@ -55,6 +55,7 @@ interface WithDisplayNameAndValue {
 })
 export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
   @Input() formConfig?: FormlyFieldConfig
+  @Input() allowCreate: boolean = true
   @Output() onMolecularProfileSelected = new EventEmitter<number>();
 
   private destroy$ = new Subject();

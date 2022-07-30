@@ -114,6 +114,7 @@ export class AssertionSubmitForm implements OnDestroy {
               label: 'Molecular Profile',
               helpText: 'lorem ipsum',
               required: true,
+              allowCreate: false,
             },
           },
           {

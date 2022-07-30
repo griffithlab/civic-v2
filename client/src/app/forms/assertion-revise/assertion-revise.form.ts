@@ -95,6 +95,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
               helpText: 'lorem ipsum',
               required: true,
               nzSelectedIndex: 2,
+              allowCreate: false,
             },
           },
           {
