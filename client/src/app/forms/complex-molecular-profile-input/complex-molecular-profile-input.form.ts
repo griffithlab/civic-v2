@@ -41,6 +41,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component';
 import { tag } from 'rxjs-spy/cjs/operators';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormMolecularProfile } from '../forms.interfaces';
 
 interface WithDisplayNameAndValue {
   displayName: string
@@ -56,7 +57,7 @@ interface WithDisplayNameAndValue {
 export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
   @Input() formConfig?: FormlyFieldConfig
   @Input() allowCreate: boolean = true
-  @Output() onMolecularProfileSelected = new EventEmitter<number>();
+  @Output() onMolecularProfileSelected = new EventEmitter<FormMolecularProfile>();
 
   private destroy$ = new Subject();
   private debouncedPreview = new Subject();
@@ -208,7 +209,7 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
 
         let state = this.createMolecularProfileMutator.mutate(this.createMolecularProfileGql, {mpStructure: res}, {}, 
           (data) => {
-            this.onMolecularProfileSelected.emit(data.createMolecularProfile.molecularProfile.id);
+            this.onMolecularProfileSelected.emit(data.createMolecularProfile.molecularProfile);
             this.selectedMp = data.createMolecularProfile.molecularProfile;
             this.cdr.detectChanges();
           });
