@@ -3322,15 +3322,14 @@ export type QuerySourceSuggestionsArgs = {
   comment?: InputMaybe<Scalars['String']>;
   diseaseName?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  geneName?: InputMaybe<Scalars['String']>;
   last?: InputMaybe<Scalars['Int']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   sortBy?: InputMaybe<SourceSuggestionsSort>;
   sourceId?: InputMaybe<Scalars['Int']>;
   sourceType?: InputMaybe<SourceSource>;
   status?: InputMaybe<SourceSuggestionStatus>;
   submitter?: InputMaybe<Scalars['String']>;
   submitterId?: InputMaybe<Scalars['Int']>;
-  variantName?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -3762,16 +3761,15 @@ export type SourceSuggestion = EventOriginObject & EventSubject & {
   disease?: Maybe<Disease>;
   /** List and filter events for an object */
   events: EventConnection;
-  gene?: Maybe<Gene>;
   id: Scalars['Int'];
   initialComment: Scalars['String'];
   link: Scalars['String'];
+  molecularProfile?: Maybe<MolecularProfile>;
   name: Scalars['String'];
   reason?: Maybe<Scalars['String']>;
   source?: Maybe<Source>;
   status: SourceSuggestionStatus;
   user?: Maybe<User>;
-  variant?: Maybe<Variant>;
 };
 
 
@@ -3838,10 +3836,8 @@ export enum SourceSuggestionsSortColumns {
   CitationId = 'CITATION_ID',
   CreatedAt = 'CREATED_AT',
   DiseaseName = 'DISEASE_NAME',
-  GeneName = 'GENE_NAME',
   SourceType = 'SOURCE_TYPE',
-  Submitter = 'SUBMITTER',
-  VariantName = 'VARIANT_NAME'
+  Submitter = 'SUBMITTER'
 }
 
 export type SourcesSort = {
@@ -5374,8 +5370,7 @@ export type BrowseSourceSuggestionsQueryVariables = Exact<{
   sourceType?: InputMaybe<SourceSource>;
   citationId?: InputMaybe<Scalars['Int']>;
   sourceId?: InputMaybe<Scalars['Int']>;
-  geneName?: InputMaybe<Scalars['String']>;
-  variantName?: InputMaybe<Scalars['String']>;
+  molecularProfileName?: InputMaybe<Scalars['String']>;
   diseaseName?: InputMaybe<Scalars['String']>;
   comment?: InputMaybe<Scalars['String']>;
   submitter?: InputMaybe<Scalars['String']>;
@@ -5385,9 +5380,9 @@ export type BrowseSourceSuggestionsQueryVariables = Exact<{
 }>;
 
 
-export type BrowseSourceSuggestionsQuery = { __typename: 'Query', sourceSuggestions: { __typename: 'SourceSuggestionConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'SourceSuggestionEdge', cursor: string, node?: { __typename: 'SourceSuggestion', id: number, initialComment: string, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, citation?: string | undefined, citationId: number, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined } | undefined }> } };
+export type BrowseSourceSuggestionsQuery = { __typename: 'Query', sourceSuggestions: { __typename: 'SourceSuggestionConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'SourceSuggestionEdge', cursor: string, node?: { __typename: 'SourceSuggestion', id: number, initialComment: string, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, citation?: string | undefined, citationId: number, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined } | undefined }> } };
 
-export type BrowseSourceSuggestionRowFieldsFragment = { __typename: 'SourceSuggestion', id: number, initialComment: string, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, citation?: string | undefined, citationId: number, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined };
+export type BrowseSourceSuggestionRowFieldsFragment = { __typename: 'SourceSuggestion', id: number, initialComment: string, status: SourceSuggestionStatus, reason?: string | undefined, createdAt: any, molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, citation?: string | undefined, citationId: number, sourceType: SourceSource, sourceUrl?: string | undefined, displayType: string } | undefined, user?: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } | undefined };
 
 export type UpdateSourceSuggestionStatusMutationVariables = Exact<{
   input: UpdateSourceSuggestionStatusInput;
@@ -7108,12 +7103,7 @@ export const TimepointCountFragmentDoc = gql`
 export const BrowseSourceSuggestionRowFieldsFragmentDoc = gql`
     fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
   id
-  gene {
-    id
-    name
-    link
-  }
-  variant {
+  molecularProfile {
     id
     name
     link
@@ -9582,7 +9572,7 @@ export const CivicStatsDocument = gql`
     }
   }
 export const BrowseSourceSuggestionsDocument = gql`
-    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $geneName: String, $variantName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String, $submitterId: Int, $status: SourceSuggestionStatus) {
+    query BrowseSourceSuggestions($first: Int, $last: Int, $before: String, $after: String, $sortBy: SourceSuggestionsSort, $sourceType: SourceSource, $citationId: Int, $sourceId: Int, $molecularProfileName: String, $diseaseName: String, $comment: String, $submitter: String, $citation: String, $submitterId: Int, $status: SourceSuggestionStatus) {
   sourceSuggestions(
     first: $first
     last: $last
@@ -9592,8 +9582,7 @@ export const BrowseSourceSuggestionsDocument = gql`
     sourceType: $sourceType
     citationId: $citationId
     sourceId: $sourceId
-    geneName: $geneName
-    variantName: $variantName
+    molecularProfileName: $molecularProfileName
     diseaseName: $diseaseName
     comment: $comment
     submitter: $submitter
