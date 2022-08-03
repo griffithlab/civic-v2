@@ -41,6 +41,14 @@ export const tooltips: tooltipMap = {
     [EvidenceLevel.E]: 'Indirect evidence',
   },
 
+  evidenceLevelBrief: {
+    [EvidenceLevel.A]: 'Validated association',
+    [EvidenceLevel.B]: 'Clinical evidence',
+    [EvidenceLevel.C]: 'Case Study',
+    [EvidenceLevel.D]: 'Preclinical evidence',
+    [EvidenceLevel.E]: 'Inferential association',
+  },
+
   drugInteractionType: {
     [DrugInteraction.Combination]: 'The drugs listed were used as part of a combination therapy approach',
     [DrugInteraction.Sequential]: 'The drugs listed were used at separate timepoints in the same treatment plan',
