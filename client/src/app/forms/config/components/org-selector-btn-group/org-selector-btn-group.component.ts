@@ -4,7 +4,7 @@ import { Maybe, Organization } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzButtonType } from 'ng-zorro-antd/button';
 import { BooleanInput } from 'ng-zorro-antd/core/types';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, pluck, tap } from 'rxjs/operators';
 import { ButtonMutation, CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 
@@ -28,9 +28,10 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
   mostRecentOrg$!: Observable<Maybe<Organization>>;
 
   isDisabled$: Subject<boolean>
-
+  buttonClass$: BehaviorSubject<string>
   constructor(private viewerService: ViewerService) {
     this.isDisabled$ = new Subject<boolean>()
+    this.buttonClass$ = new BehaviorSubject<string>('org-selector-btn')
     // this.isDisabled$.asObservable()
     // .pipe(tag('org-selector-btn-group isDisabled$')).subscribe();
   }
@@ -64,14 +65,19 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
     // subscribe to org-selector-btn.directive's domChange @Output,
     // emit mutation events from the appropriate Subjects
     // TODO: handle classList mutations
-    if (this.button && this.button.domChange) {
-      this.button.domChange
-        .pipe(untilDestroyed(this))
-        .subscribe((m: ButtonMutation) => {
-          if (m.type === 'disabled' && typeof m.change === 'boolean') {
-            this.isDisabled$.next(m.change)
-          }
-        });
+    if (this.button) {
+      if (this.button.domChange) {
+        this.button.domChange
+          .pipe(untilDestroyed(this))
+          .subscribe((m: ButtonMutation) => {
+            if (m.type === 'disabled' && typeof m.change === 'boolean') {
+              this.isDisabled$.next(m.change)
+            }
+            if(m.type === 'class') {
+              this.buttonClass$.next(m.change)
+            }
+          });
+      }
     }
   }
 
