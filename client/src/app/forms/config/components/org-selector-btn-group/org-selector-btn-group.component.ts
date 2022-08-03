@@ -1,23 +1,20 @@
-import {
-  AfterViewInit, Component, ContentChild, EventEmitter, Input, OnDestroy,
-  OnInit, Output
-} from '@angular/core';
+import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NzButtonType } from 'ng-zorro-antd/button';
 import { BooleanInput } from 'ng-zorro-antd/core/types';
-import {
-  Observable, Subject
-} from 'rxjs';
-import { map, pluck, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, pluck, tap } from 'rxjs/operators';
 import { ButtonMutation, CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
 
+@UntilDestroy()
 @Component({
   selector: 'cvc-org-selector-btn-group',
   templateUrl: './org-selector-btn-group.component.html',
   styleUrls: ['./org-selector-btn-group.component.less']
 })
-export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
   @Input() selectedOrg!: Maybe<Organization>;
   @Output() selectedOrgChange = new EventEmitter<Organization>();
 
@@ -31,8 +28,6 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, O
   mostRecentOrg$!: Observable<Maybe<Organization>>;
 
   isDisabled$: Subject<boolean>
-
-  private destroy$ = new Subject()
 
   constructor(private viewerService: ViewerService) {
     this.isDisabled$ = new Subject<boolean>()
@@ -62,7 +57,7 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, O
           }
         }));
 
-    this.mostRecentOrg$.pipe(takeUntil(this.destroy$)).subscribe();
+    this.mostRecentOrg$.pipe(untilDestroyed(this)).subscribe();
   }
 
   ngAfterViewInit() {
@@ -71,7 +66,7 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, O
     // TODO: handle classList mutations
     if (this.button && this.button.domChange) {
       this.button.domChange
-        .pipe(takeUntil(this.destroy$))
+        .pipe(untilDestroyed(this))
         .subscribe((m: ButtonMutation) => {
           if (m.type === 'disabled' && typeof m.change === 'boolean') {
             this.isDisabled$.next(m.change)
@@ -80,8 +75,4 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit, O
     }
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 }

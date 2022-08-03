@@ -1,18 +1,13 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  OnDestroy,
-  Output
-} from '@angular/core';
-import { from, Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { Directive, ElementRef, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { from, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 export interface ButtonMutation {
   type: 'disabled' | 'classList'
   change: boolean | DOMTokenList
 }
-
+@UntilDestroy()
 @Directive({
   selector: 'button[cvcOrgSelectorBtn]',
 })
@@ -23,8 +18,6 @@ export class CvcOrgSelectorBtnDirective implements OnDestroy {
   private changes: MutationObserver;
   private mutation$!: Observable<MutationRecord>
   private disabledChange$!: Observable<ButtonMutation>
-
-  private destroy$ = new Subject()
 
   constructor(private el: ElementRef) {
     // observe DOM mutations on attributes defined in attributeFilter
@@ -40,7 +33,7 @@ export class CvcOrgSelectorBtnDirective implements OnDestroy {
           }));
 
       this.disabledChange$
-        .pipe(takeUntil(this.destroy$))
+        .pipe(untilDestroyed(this))
         .subscribe((m: ButtonMutation) => {
           this.domChange.emit(m)
         })
@@ -48,7 +41,7 @@ export class CvcOrgSelectorBtnDirective implements OnDestroy {
 
     this.changes.observe(this.el.nativeElement, {
       attributeFilter: ['disabled'],
-      // attributes: true,
+      attributes: true,
       childList: false,
       subtree: false
     });
@@ -57,7 +50,5 @@ export class CvcOrgSelectorBtnDirective implements OnDestroy {
 
   ngOnDestroy(): void {
     this.changes.disconnect();
-    this.destroy$.next()
-    this.destroy$.unsubscribe()
   }
 }
