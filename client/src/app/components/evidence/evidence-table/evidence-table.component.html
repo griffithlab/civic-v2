@@ -382,7 +382,6 @@
                 nzTooltipPlacement="top"
                 [nzTooltipTitle]="!isScrolling ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
                 <i nz-icon
-                  style="color: #ac3996"
                   [nzType]="eid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
                   class="attribute-icon"></i>
               </nz-tag>
@@ -469,10 +468,6 @@
 
 <!-- card's title template -->
 <ng-template #titleTemplate>
-  <i nz-icon
-    nzTheme="twotone"
-    [nzTwotoneColor]="'EvidenceItem' | entityColor"
-    nzType="civic-evidence"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
