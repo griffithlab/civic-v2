@@ -8,12 +8,15 @@
   (nzSelectChange)="clear()"
   [nzSelectedIndex]="this.field.templateOptions?.nzSelectedIndex == undefined ? 0 : this.field.templateOptions?.nzSelectedIndex">
   <nz-tab nzTitle="Simple Molecular Profile">
-    <cvc-variant-submit-form (onVariantSelected)="onVariantSelected($event)"></cvc-variant-submit-form>
+    <cvc-variant-submit-form
+      (onVariantSelected)="onVariantSelected($event)"
+      [allowCreate]="this.field.templateOptions?.allowCreate"></cvc-variant-submit-form>
   </nz-tab>
   <nz-tab nzTitle="Complex Molecular Profile">
     <cvc-complex-molecular-profile-input-form #complexMolecularProfileInputForm
       (onMolecularProfileSelected)="onMpSelected($event)"
-      [formConfig]="field"></cvc-complex-molecular-profile-input-form>
+      [formConfig]="field"
+      [allowCreate]="this.field.templateOptions?.allowCreate"></cvc-complex-molecular-profile-input-form>
   </nz-tab>
  </nz-tabset>
 

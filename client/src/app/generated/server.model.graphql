@@ -640,9 +640,9 @@ input AssertionFields {
   fdaRegulatoryApproval: NullableBooleanInput!
 
   """
-  The ID of the Gene to which this Assertion belongs
+  The ID of the Molecular Profile to which this Assertion belongs
   """
-  geneId: Int!
+  molecularProfileId: Int!
 
   """
   The internal CIViC ID of the NCCN guideline associated with this Assertion
@@ -663,11 +663,6 @@ input AssertionFields {
   A brief single sentence statement summarizing the clinical significance of this Assertion.
   """
   summary: NullableStringInput!
-
-  """
-  The ID of the Variant to which this Assertion belongs
-  """
-  variantId: Int!
 
   """
   The Variant Origin for this Assertion.

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   AddVariantGQL,
@@ -33,14 +33,15 @@ export interface SelectedVariant {
   templateUrl: './variant-submit.form.html',
   styleUrls: ['./variant-submit.form.less'],
 })
-export class VariantSubmitForm implements OnDestroy {
+export class VariantSubmitForm implements OnDestroy, OnInit {
   @Output() onVariantSelected = new EventEmitter<SelectedVariant>();
+  @Input() allowCreate: boolean = true;
 
   private destroy$ = new Subject();
 
   formModel!: FormModel;
   formGroup: FormGroup = new FormGroup({});
-  formFields: FormlyFieldConfig[];
+  formFields: FormlyFieldConfig[] = [];
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   submitVariantMutator: MutatorWithState<AddVariantGQL, AddVariantMutation, AddVariantMutationVariables>
@@ -61,7 +62,9 @@ export class VariantSubmitForm implements OnDestroy {
     ) {
 
     this.submitVariantMutator = new MutatorWithState(networkErrorService);
+  }
 
+  ngOnInit() {
     this.formFields = [
       {
         key: 'fields',
@@ -87,33 +90,10 @@ export class VariantSubmitForm implements OnDestroy {
             type: 'variant-array',
             templateOptions: {
               required: false,
-              canCreate: false,
               maxCount: 1,
+              allowCreate: this.allowCreate,
             }
           },
-/*           {
-            key: 'variant',
-            type: 'cvc-textarea',
-            templateOptions: {
-              label: 'Variant Name',
-              helpText: 'The name of the variant to add',
-              placeholder: 'Enter variant name',
-              required: true,
-              autosize: {
-                minRows: 1,
-                maxRows: 1
-              }
-            },
-            validation: {
-              messages: {
-                required: 'Variant name is required to add a new variant.'
-              }
-            }
-          }, */
-/*           {
-            key: 'submit',
-            type: 'submit-button'
-          }, */
         ]
       }
     ];

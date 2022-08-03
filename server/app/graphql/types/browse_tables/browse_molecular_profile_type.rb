@@ -30,7 +30,9 @@ module Types::BrowseTables
 
 
     def name
-      Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id)
+      Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id).then do |segments|
+        segments.map { |s| s.respond_to?(:name) ? s.name : s }.join(' ')
+      end
     end
 
     def link
