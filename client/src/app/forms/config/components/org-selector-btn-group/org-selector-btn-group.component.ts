@@ -18,10 +18,6 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
   @Input() selectedOrg!: Maybe<Organization>;
   @Output() selectedOrgChange = new EventEmitter<Organization>();
 
-  @Input() buttonType: NzButtonType = 'primary';
-  @Input() nzDanger: BooleanInput = false;
-  @Input() nzSize: 'large' | 'default' | 'small' = 'small';
-
   @ContentChild(CvcOrgSelectorBtnDirective, { static: false }) button?: CvcOrgSelectorBtnDirective
 
   organizations$!: Observable<Organization[]>;
@@ -30,6 +26,7 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
   isDisabled$: Subject<boolean>
   isHidden$: Subject<boolean>
   buttonClass$: BehaviorSubject<string>
+  baseButtonClass = 'org-dropdown-btn'
   constructor(private viewerService: ViewerService) {
     this.isDisabled$ = new Subject<boolean>()
     this.isHidden$ = new Subject<boolean>()
@@ -72,8 +69,8 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
         this.button.domChange
           .pipe(untilDestroyed(this))
           .subscribe((m: ButtonMutation) => {
-            if(m.type === 'class' && typeof m.change === 'string') {
-              this.buttonClass$.next(m.change)
+            if (m.type === 'class' && typeof m.change === 'string') {
+              this.buttonClass$.next(`${this.baseButtonClass} ${m.change}`)
             } else if (m.type === 'disabled' && typeof m.change === 'boolean') {
               this.isDisabled$.next(m.change)
             } else if (m.type === 'hidden' && typeof m.change === 'boolean') {
