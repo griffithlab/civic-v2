@@ -39,7 +39,6 @@ import { SelectedVariant } from '../variant-submit/variant-submit.form';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { LinkableMolecularProfile } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.component';
-import { tag } from 'rxjs-spy/cjs/operators';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormMolecularProfile } from '../forms.interfaces';
 
@@ -106,7 +105,6 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
       pluck('data', 'previewMolecularProfileName'),
       filter(isNonNulled),
       map((data) => data.segments),
-      tag("preview segment"),
       takeUntil(this.destroy$)
     );
 
@@ -114,7 +112,6 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
       pluck('data', 'previewMolecularProfileName'),
       filter(isNonNulled),
       map((data) => data.existingMolecularProfile),
-      tag("exists"),
       takeUntil(this.destroy$)
     );
 
