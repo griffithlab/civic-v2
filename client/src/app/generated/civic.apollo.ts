@@ -3308,9 +3308,8 @@ export type QuerySourcePopoverArgs = {
 
 export type QuerySourceSuggestionValuesArgs = {
   diseaseId?: InputMaybe<Scalars['Int']>;
-  geneId?: InputMaybe<Scalars['Int']>;
+  molecularProfileId?: InputMaybe<Scalars['Int']>;
   sourceId?: InputMaybe<Scalars['Int']>;
-  variantId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -3819,9 +3818,8 @@ export enum SourceSuggestionStatus {
 export type SourceSuggestionValues = {
   __typename: 'SourceSuggestionValues';
   disease?: Maybe<Disease>;
-  gene?: Maybe<Gene>;
+  molecularProfile?: Maybe<MolecularProfile>;
   source?: Maybe<Source>;
-  variant?: Maybe<Variant>;
 };
 
 export type SourceSuggestionsSort = {
@@ -5824,13 +5822,12 @@ export type SuggestEvidenceItemRevisionMutation = { __typename: 'Mutation', sugg
 
 export type EvidenceFieldsFromSourceSuggestionQueryVariables = Exact<{
   sourceId?: InputMaybe<Scalars['Int']>;
-  geneId?: InputMaybe<Scalars['Int']>;
-  variantId?: InputMaybe<Scalars['Int']>;
+  molecularProfileId?: InputMaybe<Scalars['Int']>;
   diseaseId?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type EvidenceFieldsFromSourceSuggestionQuery = { __typename: 'Query', sourceSuggestionValues: { __typename: 'SourceSuggestionValues', gene?: { __typename: 'Gene', id: number, name: string, link: string } | undefined, variant?: { __typename: 'Variant', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined, link: string } | undefined } };
+export type EvidenceFieldsFromSourceSuggestionQuery = { __typename: 'Query', sourceSuggestionValues: { __typename: 'SourceSuggestionValues', molecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, disease?: { __typename: 'Disease', id: number, name: string, link: string } | undefined, source?: { __typename: 'Source', id: number, sourceType: SourceSource, citationId: number, citation?: string | undefined, link: string } | undefined } };
 
 export type EvidenceSubmittableFieldsQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -10653,19 +10650,13 @@ export const SuggestEvidenceItemRevisionDocument = gql`
     }
   }
 export const EvidenceFieldsFromSourceSuggestionDocument = gql`
-    query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $geneId: Int, $variantId: Int, $diseaseId: Int) {
+    query EvidenceFieldsFromSourceSuggestion($sourceId: Int, $molecularProfileId: Int, $diseaseId: Int) {
   sourceSuggestionValues(
-    geneId: $geneId
-    variantId: $variantId
+    molecularProfileId: $molecularProfileId
     diseaseId: $diseaseId
     sourceId: $sourceId
   ) {
-    gene {
-      id
-      name
-      link
-    }
-    variant {
+    molecularProfile {
       id
       name
       link

@@ -232,7 +232,7 @@
             class="button-cell">
             <nz-button-group *ngIf="isSignedIn">
               <button routerLink="/evidence/add/submit"
-                [queryParams]="{geneId: suggestion.gene?.id, sourceId: suggestion.source?.id, variantId: suggestion.variant?.id, diseaseId: suggestion.disease?.id}"
+                [queryParams]="{molecularProfileId: suggestion.molecularProfile?.id, sourceId: suggestion.source?.id, diseaseId: suggestion.disease?.id}"
                 [disabled]="suggestion.status != status.New"
                 nz-button
                 nzSize="small"

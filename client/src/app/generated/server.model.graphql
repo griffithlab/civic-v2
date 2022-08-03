@@ -5436,7 +5436,7 @@ type Query {
   """
   Given the parameters in a source suggestion, fetch the values to populate the add evidence form
   """
-  sourceSuggestionValues(diseaseId: Int, geneId: Int, sourceId: Int, variantId: Int): SourceSuggestionValues!
+  sourceSuggestionValues(diseaseId: Int, molecularProfileId: Int, sourceId: Int): SourceSuggestionValues!
   sourceSuggestions(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -6346,9 +6346,8 @@ enum SourceSuggestionStatus {
 
 type SourceSuggestionValues {
   disease: Disease
-  gene: Gene
+  molecularProfile: MolecularProfile
   source: Source
-  variant: Variant
 }
 
 input SourceSuggestionsSort {
