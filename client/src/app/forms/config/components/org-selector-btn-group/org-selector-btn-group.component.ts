@@ -28,10 +28,12 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
   mostRecentOrg$!: Observable<Maybe<Organization>>;
 
   isDisabled$: Subject<boolean>
+  isHidden$: Subject<boolean>
   buttonClass$: BehaviorSubject<string>
   constructor(private viewerService: ViewerService) {
     this.isDisabled$ = new Subject<boolean>()
-    this.buttonClass$ = new BehaviorSubject<string>('org-selector-btn')
+    this.isHidden$ = new Subject<boolean>()
+    this.buttonClass$ = new BehaviorSubject<string>('')
     // this.isDisabled$.asObservable()
     // .pipe(tag('org-selector-btn-group isDisabled$')).subscribe();
   }
@@ -70,11 +72,12 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
         this.button.domChange
           .pipe(untilDestroyed(this))
           .subscribe((m: ButtonMutation) => {
-            if (m.type === 'disabled' && typeof m.change === 'boolean') {
-              this.isDisabled$.next(m.change)
-            }
-            if(m.type === 'class') {
+            if(m.type === 'class' && typeof m.change === 'string') {
               this.buttonClass$.next(m.change)
+            } else if (m.type === 'disabled' && typeof m.change === 'boolean') {
+              this.isDisabled$.next(m.change)
+            } else if (m.type === 'hidden' && typeof m.change === 'boolean') {
+              this.isHidden$.next(m.change)
             }
           });
       }

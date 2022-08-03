@@ -15,6 +15,7 @@
 
       <button type="button" nz-button
         [ngClass]="buttonClass$ | ngrxPush"
+        [hidden]="isHidden$ | ngrxPush"
         [disabled]="isDisabled$ | ngrxPush"
         nz-dropdown [nzDropdownMenu]="orgMenu">
         <nz-space nzDirection="horizontal" [nzSize]="4">

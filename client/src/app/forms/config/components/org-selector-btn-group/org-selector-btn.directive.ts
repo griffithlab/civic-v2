@@ -5,8 +5,9 @@ import { tag } from 'rxjs-spy/cjs/operators/tag';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
 
 export interface ButtonMutation {
-  type: any
-  change: any
+  type: 'disabled' | 'class' | 'hidden'
+  change: boolean | string
+  key: string
 }
 @UntilDestroy()
 @Directive({
@@ -30,17 +31,23 @@ export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
           // filter(mr => mr.attributeName === 'disabled'),
           map((mr: MutationRecord) => {
             const t = mr.target as HTMLInputElement
-            if (mr.attributeName === 'disabled') {
+            if (mr.attributeName === 'class') {
+              return {
+                type: 'class',
+                change: t.classList.value,
+                key: `${mr.attributeName}:${t.classList.value}`}
+            } else if (mr.attributeName === 'disabled') {
               return {
                 type: 'disabled',
                 change: t.disabled,
                 key: `${mr.attributeName}:${t.disabled}`
               }
-            } else if (mr.attributeName === 'class') {
+            } else if (mr.attributeName === 'hidden') {
               return {
-                type: 'class',
-                change: t.classList.value,
-                key: `${mr.attributeName}:${t.classList.value}`}
+                type: 'hidden',
+                change: t.hidden,
+                key: `${mr.attributeName}:${t.hidden}`
+              }
             } else {
               return {
                 type: mr.attributeName,
@@ -62,6 +69,7 @@ export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
       attributeFilter: [
         'class',
         'disabled',
+        'hidden'
       ],
       attributes: true,
       childList: false,
