@@ -1,5 +1,6 @@
 :host {
   display: inline-block;
+  // fixes the right border on the first button
   ::ng-deep .ant-btn-dangerous.ant-btn-primary:first-child:not(:last-child) {
     border-right-color: #ff4d4f;
   }
@@ -13,6 +14,7 @@
   nz-avatar {
     margin: 0 6px;
   }
+  // fixes the left border on the last button
   &.ant-btn-dangerous:last-child:not(:first-child),
   .ant-btn-dangerous + .ant-btn-dangerous {
     border-left-color: #fd7978;

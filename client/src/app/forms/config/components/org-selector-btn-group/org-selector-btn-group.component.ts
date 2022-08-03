@@ -31,8 +31,6 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
     this.isDisabled$ = new Subject<boolean>()
     this.isHidden$ = new Subject<boolean>()
     this.buttonClass$ = new BehaviorSubject<string>('')
-    // this.isDisabled$.asObservable()
-    // .pipe(tag('org-selector-btn-group isDisabled$')).subscribe();
   }
 
   selectOrg(org: any): void {
@@ -63,7 +61,6 @@ export class CvcOrgSelectorBtnGroupComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // subscribe to org-selector-btn.directive's domChange @Output,
     // emit mutation events from the appropriate Subjects
-    // TODO: handle classList mutations
     if (this.button) {
       if (this.button.domChange) {
         this.button.domChange
