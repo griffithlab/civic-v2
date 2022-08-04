@@ -6904,9 +6904,9 @@ input SuggestSourceInput {
   diseaseId: Int
 
   """
-  Internal CIViC ID for the applicable gene, if any.
+  Internal CIViC ID for the applicable molecular profile, if any.
   """
-  geneId: Int
+  molecularProfileId: Int
 
   """
   The ID of the organization to credit the user's contributions to.
@@ -6920,11 +6920,6 @@ input SuggestSourceInput {
   Internal CIViC ID for the source to suggest. Use the AddRemoteCitation mutation to populate this if needed.
   """
   sourceId: Int!
-
-  """
-  Internal CIViC ID for the applicable variant, if any.
-  """
-  variantId: Int
 }
 
 """

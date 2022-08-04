@@ -29950,20 +29950,8 @@
               "deprecationReason": null
             },
             {
-              "name": "variantId",
-              "description": "Internal CIViC ID for the applicable variant, if any.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "geneId",
-              "description": "Internal CIViC ID for the applicable gene, if any.",
+              "name": "molecularProfileId",
+              "description": "Internal CIViC ID for the applicable molecular profile, if any.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
