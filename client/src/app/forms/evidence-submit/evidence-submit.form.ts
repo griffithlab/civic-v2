@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   DrugInteraction,
@@ -250,23 +250,19 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
       if(shouldPopulate) {
         // TODO update source suggestions to use molecular profiles
         this.sourceSuggestionGQL.fetch({
-          //geneId: this.submittedGeneId,
+          molecularProfileId: this.submittedMpId,
           diseaseId: this.submittedDiseaseId,
           sourceId: this.submittedSourceId,
-          //variantId: this.submittedVariantId
         }).subscribe(
           ({data: { sourceSuggestionValues}, loading}) => {
             this.loading = loading
             let newModel: any = {fields: {}}
-            //if(sourceSuggestionValues.gene) {
-            //  newModel.fields.gene = [sourceSuggestionValues.gene]
-            //}
+            if(sourceSuggestionValues.molecularProfile) {
+              newModel.fields.molecularProfile = [sourceSuggestionValues.molecularProfile]
+            }
             if(sourceSuggestionValues.disease) {
               newModel.fields.disease = [sourceSuggestionValues.disease]
             }
-            //if(sourceSuggestionValues.variant) {
-            //  newModel.fields.variant = [sourceSuggestionValues.variant]
-            //}
             if(sourceSuggestionValues.source) {
               newModel.fields.source = [sourceSuggestionValues.source]
             }

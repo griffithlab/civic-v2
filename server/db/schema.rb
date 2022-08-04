@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_26_143917) do
+ActiveRecord::Schema.define(version: 2022_08_03_133003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -647,6 +647,8 @@ ActiveRecord::Schema.define(version: 2022_07_26_143917) do
     t.integer "gene_id"
     t.integer "variant_id"
     t.integer "disease_id"
+    t.bigint "molecular_profile_id"
+    t.index ["molecular_profile_id"], name: "index_source_suggestions_on_molecular_profile_id"
   end
 
   create_table "sources", id: :serial, force: :cascade do |t|
@@ -913,6 +915,7 @@ ActiveRecord::Schema.define(version: 2022_07_26_143917) do
   add_foreign_key "role_mentions", "comments"
   add_foreign_key "source_suggestions", "diseases"
   add_foreign_key "source_suggestions", "genes"
+  add_foreign_key "source_suggestions", "molecular_profiles"
   add_foreign_key "source_suggestions", "variants"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "suggested_changes", "users"

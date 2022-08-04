@@ -5436,7 +5436,7 @@ type Query {
   """
   Given the parameters in a source suggestion, fetch the values to populate the add evidence form
   """
-  sourceSuggestionValues(diseaseId: Int, geneId: Int, sourceId: Int, variantId: Int): SourceSuggestionValues!
+  sourceSuggestionValues(diseaseId: Int, molecularProfileId: Int, sourceId: Int): SourceSuggestionValues!
   sourceSuggestions(
     """
     Returns the elements in the list that come after the specified cursor.
@@ -5456,19 +5456,18 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
-    geneName: String
 
     """
     Returns the last _n_ elements from the list.
     """
     last: Int
+    molecularProfileName: String
     sortBy: SourceSuggestionsSort
     sourceId: Int
     sourceType: SourceSource
     status: SourceSuggestionStatus
     submitter: String
     submitterId: Int
-    variantName: String
   ): SourceSuggestionConnection!
 
   """
@@ -6278,16 +6277,15 @@ type SourceSuggestion implements EventOriginObject & EventSubject {
     """
     sortBy: DateSort
   ): EventConnection!
-  gene: Gene
   id: Int!
   initialComment: String!
   link: String!
+  molecularProfile: MolecularProfile
   name: String!
   reason: String
   source: Source
   status: SourceSuggestionStatus!
   user: User
-  variant: Variant
 }
 
 """
@@ -6348,9 +6346,8 @@ enum SourceSuggestionStatus {
 
 type SourceSuggestionValues {
   disease: Disease
-  gene: Gene
+  molecularProfile: MolecularProfile
   source: Source
-  variant: Variant
 }
 
 input SourceSuggestionsSort {
@@ -6370,10 +6367,8 @@ enum SourceSuggestionsSortColumns {
   CITATION_ID
   CREATED_AT
   DISEASE_NAME
-  GENE_NAME
   SOURCE_TYPE
   SUBMITTER
-  VARIANT_NAME
 }
 
 input SourcesSort {
@@ -6909,9 +6904,9 @@ input SuggestSourceInput {
   diseaseId: Int
 
   """
-  Internal CIViC ID for the applicable gene, if any.
+  Internal CIViC ID for the applicable molecular profile, if any.
   """
-  geneId: Int
+  molecularProfileId: Int
 
   """
   The ID of the organization to credit the user's contributions to.
@@ -6925,11 +6920,6 @@ input SuggestSourceInput {
   Internal CIViC ID for the source to suggest. Use the AddRemoteCitation mutation to populate this if needed.
   """
   sourceId: Int!
-
-  """
-  Internal CIViC ID for the applicable variant, if any.
-  """
-  variantId: Int
 }
 
 """

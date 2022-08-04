@@ -76,15 +76,8 @@
           [nzSortFn]="true">
           ID
         </th>
-        <th nzWidth="120px"
-          [nzColumnKey]="sortColumns.GeneName"
-          [nzSortFn]="true">
-          Gene
-        </th>
-        <th nzWidth="170px"
-          [nzColumnKey]="sortColumns.VariantName"
-          [nzSortFn]="true">
-          Variant
+        <th nzWidth="290px">
+          Molecular Profile
         </th>
         <th nzWidth="200px"
           [nzColumnKey]="sortColumns.DiseaseName"
@@ -150,13 +143,8 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="geneNameInput"
-            placeholderText="Gene"
-            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
-        </th>
-        <th>
-          <cvc-clearable-input-filter [(inputModel)]="variantNameInput"
-            placeholderText="Variant"
+          <cvc-clearable-input-filter [(inputModel)]="molecularProfileNameInput"
+            placeholderText="Molecular Profile"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -228,13 +216,8 @@
             </ng-container>
           </td>
           <td>
-            <cvc-gene-tag *ngIf="suggestion.gene"
-              [gene]="suggestion.gene"></cvc-gene-tag>
-          </td>
-          <td>
-            <cvc-variant-tag *ngIf="suggestion.variant"
-              [variant]="suggestion.variant"
-              [truncateLongName]="true"></cvc-variant-tag>
+            <cvc-molecular-profile-tag *ngIf="suggestion.molecularProfile"
+              [molecularProfile]="suggestion.molecularProfile"></cvc-molecular-profile-tag>
           </td>
           <td>
             <cvc-disease-tag *ngIf="suggestion.disease"
@@ -249,7 +232,7 @@
             class="button-cell">
             <nz-button-group *ngIf="isSignedIn">
               <button routerLink="/evidence/add/submit"
-                [queryParams]="{geneId: suggestion.gene?.id, sourceId: suggestion.source?.id, variantId: suggestion.variant?.id, diseaseId: suggestion.disease?.id}"
+                [queryParams]="{molecularProfileId: suggestion.molecularProfile?.id, sourceId: suggestion.source?.id, diseaseId: suggestion.disease?.id}"
                 [disabled]="suggestion.status != status.New"
                 nz-button
                 nzSize="small"

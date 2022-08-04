@@ -4,8 +4,6 @@ module Types::BrowseTables
     value "SOURCE_TYPE"
     value "CITATION_ID"
     value "CITATION"
-    value "GENE_NAME"
-    value "VARIANT_NAME"
     value "DISEASE_NAME"
     value "CREATED_AT"
   end

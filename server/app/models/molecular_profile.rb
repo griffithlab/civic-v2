@@ -9,6 +9,7 @@ class MolecularProfile < ActiveRecord::Base
   has_many :assertions
   has_many :evidence_items
   has_and_belongs_to_many :molecular_profile_aliases, join_table: :molecular_profile_aliases_molecular_profiles
+  has_many :source_suggestions
 
   validates :name, presence: true
 

@@ -10,8 +10,7 @@ module Types::Queries
 
       klass.field :source_suggestion_values, Types::SourceSuggestionValuesType, null: false do
         description 'Given the parameters in a source suggestion, fetch the values to populate the add evidence form'
-        argument :gene_id, GraphQL::Types::Int, required: false
-        argument :variant_id, GraphQL::Types::Int, required: false
+        argument :molecular_profile_id, GraphQL::Types::Int, required: false
         argument :disease_id, GraphQL::Types::Int, required: false
         argument :source_id, GraphQL::Types::Int, required: false
       end
@@ -33,10 +32,9 @@ module Types::Queries
         end
       end
 
-      def source_suggestion_values(gene_id: nil, variant_id: nil, disease_id: nil, source_id: nil)
+      def source_suggestion_values(molecular_profile_id: nil, disease_id: nil, source_id: nil)
         {
-          gene: gene_id.present? ? gene(id: gene_id) : nil,
-          variant: variant_id.present? ? variant(id: variant_id) : nil,
+          molecularProfile: molecular_profile_id.present? ? molecular_profile(id: molecular_profile_id) : nil,
           disease: disease_id.present? ? disease(id: disease_id) : nil,
           source: source_id.present? ? source(id: source_id) : nil,
         }

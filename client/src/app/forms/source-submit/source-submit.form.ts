@@ -6,13 +6,12 @@ import { Maybe, Organization, SuggestSourceGQL, SuggestSourceInput, SuggestSourc
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { FormDisease, FormGene, FormSource, FormVariant } from '../forms.interfaces';
+import { FormDisease, FormMolecularProfile, FormSource } from '../forms.interfaces';
 
 interface FormModel {
   fields: {
     id: number,
-    gene: FormGene[],
-    variant: FormVariant[],
+    molecularProfile: FormMolecularProfile,
     disease: FormDisease[],
     source: FormSource[],
     comment: Maybe<string>,
@@ -56,18 +55,14 @@ export class SourceSubmitForm implements OnInit {
         },
         fieldGroup: [
           {
-            key: 'gene',
-            type: 'gene-array',
+            key: 'molecularProfile',
+            type: 'molecular-profile-input',
             templateOptions: {
-              maxCount: 1,
-            }
-          },
-          {
-            key: 'variant',
-            type: 'variant-array',
-            templateOptions: {
-              maxCount: 1
-            }
+              label: 'Molecular Profile',
+              helpText: 'lorem ipsum',
+              required: false,
+              allowCreate: true,
+            },
           },
           {
             key: 'disease',
@@ -157,8 +152,7 @@ export class SourceSubmitForm implements OnInit {
     if (model) {
       const fields = model.fields;
       return {
-          variantId: fields.variant[0]?.id,
-          geneId: fields.gene[0]?.id,
+          molecularProfileId: fields.molecularProfile?.id,
           sourceId: fields.source[0].id!,
           diseaseId: fields.disease[0]?.id,
       comment: fields.comment!,
