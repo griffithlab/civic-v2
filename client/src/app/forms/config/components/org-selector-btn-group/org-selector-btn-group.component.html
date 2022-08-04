@@ -18,12 +18,10 @@
         [hidden]="isHidden$ | ngrxPush"
         [disabled]="isDisabled$ | ngrxPush"
         nz-dropdown [nzDropdownMenu]="orgMenu">
-        <nz-space nzDirection="horizontal" [nzSize]="4">
-          <span>for</span>
-          <nz-avatar [nzSrc]="selectedOrg?.profileImagePath" [nzSize]="10"
-            [nzShape]="'square'"></nz-avatar>
-          <i nz-icon nzType="down"></i>
-        </nz-space>
+        <span>for</span>
+        <nz-avatar [nzSrc]="selectedOrg?.profileImagePath" [nzSize]="10"
+          [nzShape]="'square'"></nz-avatar>
+        <i nz-icon nzType="down"></i>
       </button>
     </nz-button-group>
   </ng-container>

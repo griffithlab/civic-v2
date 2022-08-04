@@ -2,8 +2,6 @@ import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnInit, Ou
 import { Viewer, ViewerService } from '@app/core/services/viewer/viewer.service';
 import { Maybe, Organization } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { NzButtonType } from 'ng-zorro-antd/button';
-import { BooleanInput } from 'ng-zorro-antd/core/types';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, pluck, tap } from 'rxjs/operators';
 import { ButtonMutation, CvcOrgSelectorBtnDirective } from './org-selector-btn.directive';
