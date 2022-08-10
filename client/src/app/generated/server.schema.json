@@ -8181,6 +8181,18 @@
               "deprecationReason": null
             },
             {
+              "name": "molecularProfileTsv",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "DownloadableFile",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "name",
               "description": null,
               "args": [],

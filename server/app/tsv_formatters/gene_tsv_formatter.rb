@@ -21,7 +21,7 @@ class GeneTsvFormatter
       LinkAdaptors::Gene.new(gene).permalink_path(include_domain: true),
       gene.name,
       gene.entrez_id,
-      gene.description.gsub("\n", ' '),
+      gene.description.squish,
       gene.updated_at,
       gene.flagged
     ]

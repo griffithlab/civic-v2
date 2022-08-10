@@ -19,7 +19,7 @@ class VariantGroupTsvFormatter
       variant_group.id,
       LinkAdaptors::VariantGroup.new(variant_group).permalink_path(include_domain: true),
       variant_group.name,
-      variant_group.description.gsub("\n", ' '),
+      variant_group.description.squish,
       variant_group.updated_at,
       variant_group.flagged
     ]

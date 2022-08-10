@@ -1070,6 +1070,7 @@ export type DataRelease = {
   assertionTsv?: Maybe<DownloadableFile>;
   evidenceTsv?: Maybe<DownloadableFile>;
   geneTsv?: Maybe<DownloadableFile>;
+  molecularProfileTsv?: Maybe<DownloadableFile>;
   name: Scalars['String'];
   variantGroupTsv?: Maybe<DownloadableFile>;
   variantTsv?: Maybe<DownloadableFile>;
@@ -6128,9 +6129,9 @@ export type PhenotypeDetailQuery = { __typename: 'Query', phenotype?: { __typena
 export type DataReleasesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DataReleasesQuery = { __typename: 'Query', dataReleases: Array<{ __typename: 'DataRelease', name: string, geneTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, evidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, assertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined }> };
+export type DataReleasesQuery = { __typename: 'Query', dataReleases: Array<{ __typename: 'DataRelease', name: string, geneTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, evidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, molecularProfileTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, assertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined }> };
 
-export type ReleaseFragment = { __typename: 'DataRelease', name: string, geneTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, evidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, assertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined };
+export type ReleaseFragment = { __typename: 'DataRelease', name: string, geneTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, variantGroupTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, evidenceTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, molecularProfileTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, assertionTsv?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined, acceptedAndSubmittedVariantsVcf?: { __typename: 'DownloadableFile', filename: string, path: string } | undefined };
 
 export type SourceDetailQueryVariables = Exact<{
   sourceId: Scalars['Int'];
@@ -8171,6 +8172,10 @@ export const ReleaseFragmentDoc = gql`
     path
   }
   evidenceTsv {
+    filename
+    path
+  }
+  molecularProfileTsv {
     filename
     path
   }

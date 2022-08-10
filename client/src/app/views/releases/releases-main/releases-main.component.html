@@ -52,7 +52,7 @@
       </nz-row>
       <nz-row *nzSpaceItem>
         <p nz-typography>
-          The CIViC server produces nightly and monthly releases that include a subset of all primary entity records (Genes, Variants, Evidence, Variant Groups, and Assertions). Both TSV and VCF versions are provided below - just locate the specific entity type and data format you wish to obtain, then click on the relevant button to download.
+          The CIViC server produces nightly and monthly releases that include a subset of all primary entity records (Genes, Variants, Molecular Profiles, Evidence, Variant Groups, and Assertions). Both TSV and VCF versions are provided below - just locate the specific entity type and data format you wish to obtain, then click on the relevant button to download.
         </p>
         <p nz-typography>
           These records do not contain user profile data, discussion and commentary, data provenance and revision history, or information dynamically obtained from resources external to CIViC (e.g. MyVariant.Info, MyGene.Info). Variant TSV releases only include variant records with accepted evidence records. Variant TSV releases from before August 2020 include all variant records, irregardless of the status of the associated evidence items. Evidence TSV releases only include accepted evidence items and exclude pending or rejected evidence items. Assertion TSV releases only include accepted assertions. Accepted VCF releases include only variants with accepted evidence items and/or accepted assertions. Accepted & Submitted VCF releases include Variants with accepted and/or submitted evidence items and/or assertions.
@@ -85,6 +85,7 @@
                     <th>Date</th>
                     <th>Genes</th>
                     <th>Variants</th>
+                    <th>Molecular Profiles</th>
                     <th>Evidence</th>
                     <th>Variant Groups</th>
                     <th>Assertions</th>
@@ -105,6 +106,12 @@
                       <cvc-link-tag [href]="release.variantTsv.path"
                         iconName="download">
                         Variants TSV
+                      </cvc-link-tag>
+                    </td>
+                    <td *ngIf="release.molecularProfileTsv; else noData">
+                      <cvc-link-tag [href]="release.molecularProfileTsv.path"
+                        iconName="download">
+                        Molecular Profiles TSV
                       </cvc-link-tag>
                     </td>
                     <td *ngIf="release.evidenceTsv; else noData">

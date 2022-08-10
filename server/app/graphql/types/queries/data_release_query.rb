@@ -18,6 +18,7 @@ module Types::Queries
               variant_group_tsv: file_or_nil(release, release_name, 'VariantGroupSummaries.tsv'),
               evidence_tsv: file_or_nil(release, release_name, 'ClinicalEvidenceSummaries.tsv'),
               assertion_tsv: file_or_nil(release, release_name, 'AssertionSummaries.tsv'),
+              molecular_profile_tsv: file_or_nil(release, release_name, 'MolecularProfileSummaries.tsv'),
               accepted_variants_vcf: file_or_nil(release, release_name, 'civic_accepted.vcf'),
               accepted_and_submitted_variants_vcf: file_or_nil(release, release_name, 'civic_accepted_and_submitted.vcf')
             }

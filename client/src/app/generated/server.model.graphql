@@ -1718,6 +1718,7 @@ type DataRelease {
   assertionTsv: DownloadableFile
   evidenceTsv: DownloadableFile
   geneTsv: DownloadableFile
+  molecularProfileTsv: DownloadableFile
   name: String!
   variantGroupTsv: DownloadableFile
   variantTsv: DownloadableFile
