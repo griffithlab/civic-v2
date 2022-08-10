@@ -11,7 +11,7 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
   scope do
     MolecularProfileBrowseTableRow
       .all
-      .order('evidence_item_count DESC')
+      .order('evidence_score DESC')
   end
 
   option(:variant_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('variants'), "#{value}%") }
@@ -29,6 +29,8 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
       scope.reorder "evidence_item_count #{value.direction}"
     when "assertionCount"
       scope.reorder "assertion_count #{value.direction}"
+    when "evidenceScore"
+      scope.reorder "evidence_score #{value.direction}"
     end
   end
 

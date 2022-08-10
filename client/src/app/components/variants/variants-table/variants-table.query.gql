@@ -48,8 +48,6 @@ fragment BrowseVariantsFields on BrowseVariant {
   id
   name
   link
-  evidenceScore
-  evidenceItemCount
   geneId
   geneName
   geneLink
@@ -66,5 +64,4 @@ fragment BrowseVariantsFields on BrowseVariant {
   aliases {
     name
   }
-  assertionCount
 }

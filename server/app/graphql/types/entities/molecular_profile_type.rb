@@ -22,6 +22,7 @@ module Types::Entities
     field :sources, [Types::Entities::SourceType], null: false
     field :description, String, null: true
     field :molecular_profile_aliases, [String], null: false
+    field :evidence_score, Float, null: false
 
     def raw_name
       object.name
