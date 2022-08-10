@@ -1,6 +1,19 @@
 <ng-container *ngIf="molecularProfile$ | ngrxPush as mp">
-  <cvc-section-navigation [displayName]="mp.name">
+  <cvc-section-navigation [displayName]="mp.name" [actionsTpl]="mpActions">
   </cvc-section-navigation>
+
+  <ng-template #mpActions>
+    <ng-container *ngrxLet="viewer$ as viewer">
+      <button routerLink="/evidence/add/submit"
+        [queryParams]="{molecularProfileId: mp.id}"
+        nz-button
+        *ngIf="viewer.canCurate"
+        nzSize="small">
+        <i nz-icon
+          nzType="plus-circle"></i> Add Evidence For This Molecular Profile
+      </button>
+    </ng-container>
+  </ng-template>
 
   <div cvcFlaggable
     [flags]="flagsTotal$ | ngrxPush">

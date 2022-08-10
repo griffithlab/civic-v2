@@ -76,6 +76,8 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
   loading: boolean = false
   newId?: number
 
+  showForm = false;
+
   constructor(
     private submitEvidenceGQL: SubmitEvidenceItemGQL,
     private sourceSuggestionGQL: EvidenceFieldsFromSourceSuggestionGQL,
@@ -258,7 +260,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             this.loading = loading
             let newModel: any = {fields: {}}
             if(sourceSuggestionValues.molecularProfile) {
-              newModel.fields.molecularProfile = [sourceSuggestionValues.molecularProfile]
+              newModel.fields.molecularProfile = sourceSuggestionValues.molecularProfile
             }
             if(sourceSuggestionValues.disease) {
               newModel.fields.disease = [sourceSuggestionValues.disease]
@@ -267,8 +269,9 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
               newModel.fields.source = [sourceSuggestionValues.source]
             }
 
-            if(this.formModel.fields?.organization) {
-              newModel.fields.organization = this.formModel.fields?.organization
+           //if the previously used org was already set in the model, copy it to the new model
+           if(this.formModel?.fields?.organization) {
+              newModel.organization = this.formModel?.fields?.organization
             }
 
             this.formModel = newModel
@@ -283,7 +286,10 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
               this.formOptions.updateInitialValue();
             }
             this.formGroup.markAllAsTouched();
+            this.showForm = true;
           });
+      } else {
+        this.showForm = true;
       }
     })
   }
