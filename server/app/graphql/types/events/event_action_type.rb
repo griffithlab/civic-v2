@@ -19,6 +19,8 @@ module Types::Events
     value 'REQUEUED_SOURCE_SUGGESTION', value: 'requeued source suggestion'
     value 'CURATED_SOURCE_SUGGESTION', value: 'curated source suggestion'
     value 'REJECTED_SOURCE_SUGGESTION', value: 'rejected source suggestion'
+    value 'DEPRECATED_VARIANT', value: 'deprecated variant'
+    value 'DEPRECATED_MOLECULAR_PROFILE', value: 'deprecated molecular profile'
   end
 end
 

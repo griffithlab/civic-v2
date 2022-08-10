@@ -10,6 +10,13 @@ class MolecularProfile < ActiveRecord::Base
   has_many :evidence_items
   has_and_belongs_to_many :molecular_profile_aliases, join_table: :molecular_profile_aliases_molecular_profiles
   has_many :source_suggestions
+  has_and_belongs_to_many :deprecated_variants,
+    ->() { where('variants.deprecated = TRUE') },
+    class_name: 'Variant'
+  has_one :deprecation_event,
+    ->() { where(action: 'deprecated molecular profile').includes(:originating_user) },
+    as: :subject,
+    class_name: 'Event'
 
   validates :name, presence: true
 

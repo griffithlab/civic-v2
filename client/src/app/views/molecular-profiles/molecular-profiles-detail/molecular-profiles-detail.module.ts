@@ -14,7 +14,10 @@ import { CvcContributorAvatarsModule } from '@app/components/shared/contributor-
 import { CvcEntitySubscriptionButtonModule } from '@app/components/shared/entity-subscription-button/entity-subscription-button.module';
 import { MolecularProfileDetailRoutingModule } from './molecular-profiles-detail-routing.module';
 import { MolecularProfilesDetailView } from './molecular-profiles-detail.view';
-import { MolecularProfilesRevisionsPage } from './molecular-profiles-revisions/molecular-profiles-revisions.page';
+import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
+import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 
 @NgModule({
   declarations: [MolecularProfilesDetailView],
@@ -27,12 +30,17 @@ import { MolecularProfilesRevisionsPage } from './molecular-profiles-revisions/m
     NzPageHeaderModule,
     NzSpaceModule,
     NzGridModule,
+    NzAlertModule,
+
     CvcContributorAvatarsModule,
     CvcTabNavigationModule,
     CvcFlaggableModule,
     CvcGeneTagModule,
     CvcSectionNavigationModule,
-    CvcEntitySubscriptionButtonModule
+    CvcEntitySubscriptionButtonModule,
+    CvcVariantTagModule,
+    CvcPipesModule,
+    CvcCommentBodyModule,
   ],
 })
 export class MolecularProfilesDetailModule { }

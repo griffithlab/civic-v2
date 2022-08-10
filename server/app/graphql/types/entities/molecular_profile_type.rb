@@ -22,6 +22,9 @@ module Types::Entities
     field :sources, [Types::Entities::SourceType], null: false
     field :description, String, null: true
     field :molecular_profile_aliases, [String], null: false
+    field :deprecated, Boolean, null: false
+    field :deprecated_variants, [Types::Entities::VariantType], null: false
+    field :deprecation_event, Types::Entities::EventType, null: true
 
     def raw_name
       object.name
@@ -37,8 +40,16 @@ module Types::Entities
       Loaders::MolecularProfileSegmentsLoader.for(MolecularProfile).load(object.id)
     end
 
-    def variants
+    def variant
       Loaders::AssociationLoader.for(MolecularProfile, :variants).load(object)
+    end
+
+    def deprecated_variant
+      Loaders::AssociationLoader.for(MolecularProfile, :deprecated_variants).load(object)
+    end
+
+    def deprecation_event
+      Loaders::AssociationLoader.for(MolecularProfile, :deprecation_event).load(object)
     end
 
     def assertions

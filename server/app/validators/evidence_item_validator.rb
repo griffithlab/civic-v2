@@ -34,6 +34,10 @@ class EvidenceItemValidator < ActiveModel::Validator
     if record.drug_ids.size < 2 && record.drug_interaction_type
       record.errors.add :drug_interaction_type, "Drug interaction type cannot be set unless multiple drugs are specified."
     end
+
+    if record.molecular_profile.deprecated
+      record.errors.add :molecular_profile_id, "Molecular Profile is deprecated."
+    end
   end
 
   def valid_types
