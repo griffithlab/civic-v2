@@ -8,6 +8,16 @@ query MolecularProfileSummary($mpId: Int!) {
 fragment MolecularProfileSummaryFields on MolecularProfile {
   id
   name
+  deprecated
+  deprecationEvent {
+    createdAt
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
   description
   molecularProfileAliases
   sources {

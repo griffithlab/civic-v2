@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EvidenceStatus, FlagState, Maybe, RevisionStatus } from '@app/generated/civic.apollo';
 
-type StatusType  =  EvidenceStatus | RevisionStatus | FlagState
+type StatusType  =  EvidenceStatus | RevisionStatus | FlagState | "DEPRECATED"
 
 @Component({
   selector: 'cvc-status-tag',
@@ -23,7 +23,7 @@ export class CvcStatusTagComponent implements OnInit {
   }
 
   tagStatus?: string;
-  statusColorMap: { [key in EvidenceStatus | RevisionStatus | FlagState]: string} = {
+  statusColorMap: { [key in EvidenceStatus | RevisionStatus | FlagState | "DEPRECATED"]: string} = {
     'ACCEPTED': 'success',
     'REJECTED': 'error',
     'SUBMITTED': 'warning',
@@ -31,6 +31,7 @@ export class CvcStatusTagComponent implements OnInit {
     'SUPERSEDED': 'default',
     'OPEN': 'error',
     'RESOLVED': 'default',
+    'DEPRECATED': 'error',
   }
 
   ngOnInit(): void {

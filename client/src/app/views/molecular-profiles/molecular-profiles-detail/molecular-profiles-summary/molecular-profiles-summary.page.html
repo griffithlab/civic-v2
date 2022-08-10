@@ -1,8 +1,8 @@
 <ng-container *ngIf="(molecularProfile$ | ngrxPush) as mp">
   <!-- component layout row -->
   <nz-row [nzGutter]="[8,16]">
-    <!-- molecular profile attributes block -->
-    <nz-col [nzSpan]="24">
+    <!-- molecular profile attributes block - LEFT COLUMN -->
+    <nz-col [nzSpan]="12">
 
       <nz-row [nzGutter]="[8,8]">
         <nz-col [nzSpan]="24">
@@ -20,7 +20,7 @@
         <nz-col [nzSpan]="24">
           <nz-descriptions nzSize="small"
             nzBordered="true"
-            [nzColumn]="2"
+            [nzColumn]="1"
             nzLayout="vertical">
 
             <nz-descriptions-item nzTitle="Description">
@@ -64,6 +64,40 @@
 
           </nz-descriptions>
 
+        </nz-col>
+      </nz-row>
+    </nz-col>
+    
+    <!-- molecular profile attributes block - RIGHT COLUMN -->
+    <!-- RIGHT COLUMN -->
+    <nz-col nzSpan="12">
+      <!-- right col layout row -->
+      <nz-row [nzGutter]="[8,8]">
+        <!-- variant related entities, attributes -->
+        <nz-col [nzSpan]="24">
+          <nz-descriptions nzLayout="vertical"
+            nzSize="small"
+            [nzColumn]="{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }"
+            nzBordered="true">
+
+            <!-- deprecated status -->
+            <nz-descriptions-item *ngIf="mp.deprecated" nzTitle="Status">
+              <cvc-status-tag status="DEPRECATED"></cvc-status-tag>
+            </nz-descriptions-item>
+
+            <!-- deprecation event -->
+            <nz-descriptions-item *ngIf="mp.deprecated" [nzTitle]="deprecatedTitle">
+              by
+              <cvc-user-tag [user]="mp.deprecationEvent.originatingUser"></cvc-user-tag>
+            </nz-descriptions-item>
+            <ng-template #deprecatedTitle>
+              Deprecated
+              <span nz-typography
+                nzType="secondary">
+                ({{ mp.deprecationEvent.createdAt | timeago }})
+              </span>
+            </ng-template>
+          </nz-descriptions>
         </nz-col>
       </nz-row>
     </nz-col>

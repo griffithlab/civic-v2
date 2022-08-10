@@ -7,6 +7,16 @@ query VariantSummary($variantId: Int!) {
 fragment VariantSummaryFields on Variant {
   id
   name
+  deprecated
+  deprecationEvent {
+    createdAt
+    originatingUser {
+      id
+      displayName
+      role
+      profileImagePath(size: 32)
+    }
+  }
   description
   gene {
     id
