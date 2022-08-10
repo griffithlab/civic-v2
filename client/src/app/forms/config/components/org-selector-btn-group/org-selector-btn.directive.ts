@@ -1,7 +1,6 @@
 import { AfterViewInit, Directive, ElementRef, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { from, Observable } from 'rxjs';
-import { tag } from 'rxjs-spy/cjs/operators/tag';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
 
 export interface ButtonMutation {
@@ -24,7 +23,6 @@ export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
   public initialClass!: string
   constructor(private el: ElementRef) {
     // observe DOM mutations on attributes defined in attributeFilter
-    // TODO: handle classList updates to coordinate nz-button types, styles.
     this.changes = new MutationObserver((mutations: MutationRecord[]) => {
       from(mutations)
         .pipe(
@@ -57,7 +55,6 @@ export class CvcOrgSelectorBtnDirective implements AfterViewInit, OnDestroy {
             }
           }),
           distinctUntilKeyChanged('key'),
-          tag('org-selector-btn.directive from(mutation)'),
           untilDestroyed(this)
         )
         .subscribe(mutation => {
