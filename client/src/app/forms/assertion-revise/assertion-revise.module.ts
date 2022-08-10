@@ -46,6 +46,7 @@ import { CvcEvidenceInputTypeModule } from '../config/types/evidence-input/evide
 import { CvcEvidenceManagerWrapperModule } from '../config/wrappers/with-evidence-manager/with-evidence-manager.module';
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-array/clingen-code-array.module';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [
@@ -84,8 +85,7 @@ import { CvcClingenCodeArrayTypeModule } from '../config/types/clingen-code-arra
     CvcDrugArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
     CvcDrugInteractionSelectTypeModule,
-    CvcGeneArrayTypeModule,
-    CvcVariantArrayTypeModule,
+    CvcMolecularProfileInputTypeModule,
     CvcSourceArrayTypeModule,
     CvcAmpLevelInputTypeModule,
     CvcAcmgCodeArrayTypeModule,

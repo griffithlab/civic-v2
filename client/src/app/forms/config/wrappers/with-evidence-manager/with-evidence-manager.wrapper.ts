@@ -33,13 +33,8 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
   handleOpen() {
     if(this.field.parent?.model) {
       const parentModel = this.field.parent?.model
-      if (parentModel.gene?.length == 1 && parentModel.gene[0]) {
-        this.evidenceGridFilters.geneSymbolInput = parentModel.gene[0].name
-      } else {
-        this.evidenceGridFilters.geneSymbolInput = undefined
-      }
-      if (parentModel.molecularProfile.length == 1 && parentModel.molecularProfile[0]) {
-        this.evidenceGridFilters.molecularProfileNameInput = parentModel.molecularProfile[0].name
+      if (parentModel.molecularProfile) {
+        this.evidenceGridFilters.molecularProfileNameInput = parentModel.molecularProfile.name
       } else  {
         this.evidenceGridFilters.molecularProfileNameInput = undefined
       }

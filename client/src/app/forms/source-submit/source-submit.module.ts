@@ -16,12 +16,11 @@ import { CvcFormErrorsAlertModule } from '../config/components/form-errors-alert
 import { CvcCancelButtonModule } from '../config/types/cancel-button/cancel-button.module';
 import { CvcCommentTextareaTypeModule } from '../config/types/comment-textarea/comment-textarea.module';
 import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
-import { CvcGeneArrayTypeModule } from '../config/types/gene-array/gene-array.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { CvcOrgSubmitButtonTypeModule } from '../config/types/org-submit-button/org-submit-button.module';
-import { CvcVariantArrayTypeModule } from '../config/types/variant-array/variant-array.module';
 import { CvcFormContainerWrapperModule } from '../config/wrappers/form-container/form-container.module';
 import { SourceSubmitForm } from './source-submit.form';
+import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-profile-input/molecular-profile-input.module';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,7 @@ import { SourceSubmitForm } from './source-submit.form';
     NzAlertModule,
     CvcFormContainerWrapperModule,
     CvcFormErrorsAlertModule,
-    CvcGeneArrayTypeModule,
-    CvcVariantArrayTypeModule,
+    CvcMolecularProfileInputTypeModule,
     CvcDiseaseArrayTypeModule,
     CvcSourceArrayTypeModule,
     CvcCommentTextareaTypeModule,

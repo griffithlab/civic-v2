@@ -2249,24 +2249,8 @@
               "deprecationReason": null
             },
             {
-              "name": "variantId",
-              "description": "The ID of the Variant to which this Assertion belongs",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "geneId",
-              "description": "The ID of the Gene to which this Assertion belongs",
+              "name": "molecularProfileId",
+              "description": "The ID of the Molecular Profile to which this Assertion belongs",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -24049,19 +24033,7 @@
               "description": "Given the parameters in a source suggestion, fetch the values to populate the add evidence form",
               "args": [
                 {
-                  "name": "geneId",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
-                  "name": "variantId",
+                  "name": "molecularProfileId",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -24150,19 +24122,7 @@
                   "deprecationReason": null
                 },
                 {
-                  "name": "geneName",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
-                  "name": "variantName",
+                  "name": "molecularProfileName",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -27853,18 +27813,6 @@
               "deprecationReason": null
             },
             {
-              "name": "gene",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Gene",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "id",
               "description": null,
               "args": [],
@@ -27908,6 +27856,18 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "molecularProfile",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "MolecularProfile",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -27975,18 +27935,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "variant",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Variant",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -28218,12 +28166,12 @@
               "deprecationReason": null
             },
             {
-              "name": "gene",
+              "name": "molecularProfile",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Gene",
+                "name": "MolecularProfile",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -28236,18 +28184,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "Source",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "variant",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Variant",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -28330,18 +28266,6 @@
             },
             {
               "name": "CITATION",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "GENE_NAME",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "VARIANT_NAME",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -30038,20 +29962,8 @@
               "deprecationReason": null
             },
             {
-              "name": "variantId",
-              "description": "Internal CIViC ID for the applicable variant, if any.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "geneId",
-              "description": "Internal CIViC ID for the applicable gene, if any.",
+              "name": "molecularProfileId",
+              "description": "Internal CIViC ID for the applicable molecular profile, if any.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",

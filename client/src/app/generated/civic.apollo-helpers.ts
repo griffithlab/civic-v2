@@ -1226,21 +1226,20 @@ export type SourceStubFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	sourceType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceSuggestionKeySpecifier = ('createdAt' | 'disease' | 'events' | 'gene' | 'id' | 'initialComment' | 'link' | 'name' | 'reason' | 'source' | 'status' | 'user' | 'variant' | SourceSuggestionKeySpecifier)[];
+export type SourceSuggestionKeySpecifier = ('createdAt' | 'disease' | 'events' | 'id' | 'initialComment' | 'link' | 'molecularProfile' | 'name' | 'reason' | 'source' | 'status' | 'user' | SourceSuggestionKeySpecifier)[];
 export type SourceSuggestionFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
-	gene?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialComment?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
+	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	reason?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>,
-	variant?: FieldPolicy<any> | FieldReadFunction<any>
+	user?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SourceSuggestionConnectionKeySpecifier = ('edges' | 'filteredCount' | 'nodes' | 'pageCount' | 'pageInfo' | 'totalCount' | SourceSuggestionConnectionKeySpecifier)[];
 export type SourceSuggestionConnectionFieldPolicy = {
@@ -1256,12 +1255,11 @@ export type SourceSuggestionEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceSuggestionValuesKeySpecifier = ('disease' | 'gene' | 'source' | 'variant' | SourceSuggestionValuesKeySpecifier)[];
+export type SourceSuggestionValuesKeySpecifier = ('disease' | 'molecularProfile' | 'source' | SourceSuggestionValuesKeySpecifier)[];
 export type SourceSuggestionValuesFieldPolicy = {
 	disease?: FieldPolicy<any> | FieldReadFunction<any>,
-	gene?: FieldPolicy<any> | FieldReadFunction<any>,
-	source?: FieldPolicy<any> | FieldReadFunction<any>,
-	variant?: FieldPolicy<any> | FieldReadFunction<any>
+	molecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StatsKeySpecifier = ('acceptedAssertions' | 'acceptedEvidenceItems' | 'appliedRevisions' | 'comments' | 'revisions' | 'submittedAssertions' | 'submittedEvidenceItems' | 'suggestedSources' | StatsKeySpecifier)[];
 export type StatsFieldPolicy = {

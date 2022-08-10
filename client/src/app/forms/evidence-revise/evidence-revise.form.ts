@@ -145,6 +145,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               helpText: 'lorem ipsum',
               required: true,
               nzSelectedIndex: 2,
+              allowCreate: true
             },
           },
           {

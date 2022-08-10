@@ -1,6 +1,7 @@
 import { Component, ViewChild} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CvcComplexMolecularProfileInputForm } from '@app/forms/complex-molecular-profile-input/complex-molecular-profile-input.form';
+import { FormMolecularProfile } from '@app/forms/forms.interfaces';
 import { SelectedVariant } from '@app/forms/variant-submit/variant-submit.form';
 import { FieldType} from '@ngx-formly/core';
 import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
@@ -19,8 +20,8 @@ export class MolecularProfileInputType extends FieldType {
     this.field.formControl!.setValue(v.molecularProfile);
   }
 
-  onMpSelected(id: number): void {
-    this.field.formControl!.setValue(id);
+  onMpSelected(mp: FormMolecularProfile): void {
+    this.field.formControl!.setValue(mp);
   }
 
   clear(): void {

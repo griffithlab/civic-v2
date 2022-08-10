@@ -15,11 +15,10 @@ export interface SourceSuggestionTableFilters {
   citationInput?: Maybe<string>
   commentInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  geneNameInput?: Maybe<string>
+  molecularProfileNameInput?: Maybe<string>
   sourceIdInput?: Maybe<number>
   sourceTypeInput?: Maybe<SourceSource>
   submitterInput?: Maybe<string>
-  variantNameInput?: Maybe<string>
 }
 
 @UntilDestroy()
@@ -68,8 +67,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
   citationIdInput: Maybe<string>
   sourceTypeInput: Maybe<SourceSource>
   sourceIdInput: Maybe<number>
-  geneNameInput: Maybe<string>
-  variantNameInput: Maybe<string>
+  molecularProfileNameInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   commentInput: Maybe<string>
   submitterInput: Maybe<string>
@@ -193,8 +191,7 @@ export class CvcSourceSuggestionsTableComponent implements OnInit {
         citationId: this.citationIdInput ? +this.citationIdInput : undefined,
         sourceType: this.sourceTypeInput ? this.sourceTypeInput : undefined,
         sourceId: this.sourceIdInput ? +this.sourceIdInput : undefined,
-        geneName: this.geneNameInput,
-        variantName: this.variantNameInput,
+        molecularProfileName: this.molecularProfileNameInput,
         diseaseName: this.diseaseNameInput,
         comment: this.commentInput,
         submitter: this.submitterInput,

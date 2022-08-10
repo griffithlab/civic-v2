@@ -71,8 +71,6 @@
           nz-tooltip
           nzTooltipTitle="Evidence Score">
           <i nz-icon
-            nzTheme="twotone"
-            [nzTwotoneColor]="'EvidenceItem' | entityColor"
             nzType="civic-evidence"></i> Score
         </th>
         <th nzWidth="75px"
@@ -84,8 +82,6 @@
           nz-tooltip
           nzTooltipTitle="Evidence Count">
           <i nz-icon
-            nzTheme="twotone"
-            [nzTwotoneColor]="'EvidenceItem' | entityColor"
             nzType="civic-evidence"></i> Count
         </th>
         <th nzWidth="75px"
@@ -97,8 +93,6 @@
           nz-tooltip
           nzTooltipTitle="Assertion Count">
           <i nz-icon
-            nzTheme="twotone"
-            [nzTwotoneColor]="'Assertion' | entityColor"
             nzType="civic-assertion"></i> Count
         </th>
       </tr>
@@ -171,10 +165,6 @@
 </ng-template>
 
 <ng-template #titleTemplate>
-  <i nz-icon
-    nzTheme="twotone"
-    [nzTwotoneColor]="'Variant' | entityColor"
-    nzType="civic-variant"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>

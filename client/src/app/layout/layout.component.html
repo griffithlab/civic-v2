@@ -265,7 +265,7 @@
   <nz-layout class="right-layout"
     [ngClass]="{ 'is-collapsed': isCollapsed }">
     <nz-header>
-      <div nz-row>
+      <div nz-row id="header-row">
         <!-- sidebar collapse/show trigger -->
         <div nz-col
           nzFlex="40px">
@@ -275,12 +275,12 @@
           </span>
         </div>
         <div nz-col
-          nzFlex="300px"
+          nzFlex="200px"
           id="header-search">
           <cvc-quicksearch></cvc-quicksearch>
         </div>
         <div nz-col
-          nzFlex="300px"
+          nzFlex="1 0 250px"
           id="header-menu">
           <ul nz-menu
             nzMode="horizontal"
@@ -304,7 +304,7 @@
         </div>
         <!-- header user -->
         <div nz-col
-          nzFlex="auto"
+          nzFlex="1 0 auto"
           id="header-viewer">
           <cvc-login-button *ngIf="signedOut$ | async"></cvc-login-button>
           <cvc-viewer-button *ngIf="signedIn$ | async"></cvc-viewer-button>

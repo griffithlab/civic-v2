@@ -17,11 +17,11 @@ module Loaders
           if gene_match = segment.match(GENE_REGEX)
             gene_id = gene_match[:id].to_i
             resolved_genes[gene_id] = nil
-            ->(genes, vars) { genes[gene_id]&.name }
+            ->(genes, vars) { genes[gene_id] }
           elsif variant_match = segment.match(VARIANT_REGEX)
             variant_id = variant_match[:id].to_i
             resolved_variants[variant_id] = nil
-            ->(genes, vars) { vars[variant_id]&.name }
+            ->(genes, vars) { vars[variant_id] }
           else
             ->(genes, vars) { segment }
           end
@@ -37,7 +37,7 @@ module Loaders
       ids.each do |id|
         if mp = mps[id]
           segments = mp.map { |s| s.call(resolved_genes, resolved_variants) }
-          fulfill(id, segments.join(' '))
+          fulfill(id, segments)
         else
           fulfill(id, nil)
         end

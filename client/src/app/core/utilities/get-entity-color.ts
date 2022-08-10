@@ -30,7 +30,9 @@ export const EntityColors = new Map<string, string>([
   ['Organization', '#3d7b99'],
 
   // entity state colors
-  ['Rejected', '#BBBBBB']
+  ['Rejected', '#BBBBBB'],
+
+  ['Greyscale', '#999999']
 ])
 
 export function getEntityColor(entity: string): string {
