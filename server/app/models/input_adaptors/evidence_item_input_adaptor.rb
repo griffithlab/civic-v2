@@ -46,8 +46,11 @@ class InputAdaptors::EvidenceItemInputAdaptor
       errors << "Provided disease id: #{fields.disease_id} is not found."
     end
 
-    if !MolecularProfile.find(fields.molecular_profile_id)
+    mp = MolecularProfile.find(fields.molecular_profile_id)
+    if !mp
       errors << "Provided molecular profile id: #{fields.molecular_profile_id} is not found."
+    elsif mp.deprecated
+      errors << "Provided molecular profile id: molecular profile is deprecated."
     end
 
     return errors

@@ -31,6 +31,10 @@ module Types::Entities
     field :link, String, null: false
     field :single_variant_molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :single_variant_molecular_profile_id, Int, null: false
+    field :deprecated, Boolean, null: false
+    field :deprecation_reason, Types::DeprecationReasonType, null: true
+    field :deprecation_comment, Types::Entities::CommentType, null: true
+    field :deprecation_event, Types::Entities::EventType, null: true
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
@@ -46,6 +50,14 @@ module Types::Entities
 
     def single_variant_molecular_profile
       Loaders::AssociationLoader.for(Variant, :single_variant_molecular_profile).load(object)
+    end
+
+    def deprecation_comment
+      Loaders::AssociationLoader.for(Variant, :deprecation_comment).load(object)
+    end
+
+    def deprecation_event
+      Loaders::AssociationLoader.for(Variant, :deprecation_event).load(object)
     end
 
     def primary_coordinates

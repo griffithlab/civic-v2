@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_03_133003) do
+ActiveRecord::Schema.define(version: 2022_08_09_185118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -523,6 +523,7 @@ ActiveRecord::Schema.define(version: 2022_08_03_133003) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
     t.boolean "flagged", default: false, null: false
+    t.boolean "deprecated", default: false, null: false
     t.index ["description"], name: "index_molecular_profiles_on_description"
     t.index ["name"], name: "index_molecular_profiles_on_name", unique: true
   end
@@ -843,6 +844,9 @@ ActiveRecord::Schema.define(version: 2022_08_03_133003) do
     t.text "allele_registry_id"
     t.boolean "flagged", default: false, null: false
     t.integer "single_variant_molecular_profile_id"
+    t.boolean "deprecated", default: false, null: false
+    t.integer "deprecation_reason"
+    t.integer "deprecation_comment_id"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -926,6 +930,7 @@ ActiveRecord::Schema.define(version: 2022_08_03_133003) do
   add_foreign_key "variant_aliases_variants", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
+  add_foreign_key "variants", "comments", column: "deprecation_comment_id"
   add_foreign_key "variants", "genes"
   add_foreign_key "variants", "genes", column: "secondary_gene_id"
   add_foreign_key "variants", "molecular_profiles", column: "single_variant_molecular_profile_id"
