@@ -10,13 +10,14 @@
   <nz-spin nzTip="Submitting"
     *nzSpaceItem
     [nzSpinning]="this.loading">
-    <form  nz-form
+    <form nz-form
       [formGroup]="formGroup"
       (ngSubmit)="submitEvidence(formModel)"
       nzLayout="vertical">
       <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-      <formly-form *ngIf="!this.success" [form]="formGroup"
+      <formly-form *ngIf="!this.success"
+        [form]="formGroup"
         [fields]="formFields"
         [model]="formModel"
         [options]="formOptions"
@@ -40,12 +41,12 @@
       </ng-container>
     </ng-template>
   </nz-spin>
-  </nz-space>
-
+</nz-space>
+<!--
   <div nz-row>
     <div nz-col
       nzSpan="24">
       <ngx-json-viewer *ngIf="formModel"
         [json]="formModel"></ngx-json-viewer>
     </div>
-  </div>
+  </div> -->
