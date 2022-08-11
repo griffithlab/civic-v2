@@ -5586,9 +5586,9 @@ export type PreviewCommentQueryVariables = Exact<{
 }>;
 
 
-export type PreviewCommentQuery = { __typename: 'Query', previewCommentText: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> };
+export type PreviewCommentQuery = { __typename: 'Query', previewCommentText: Array<{ __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, status?: EvidenceStatus | undefined } | { __typename: 'CommentTextSegment', text: string } | { __typename: 'User', id: number, displayName: string, role: UserRole }> };
 
-type PreviewComment_CommentTagSegment_Fragment = { __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, status?: EvidenceStatus | undefined };
+type PreviewComment_CommentTagSegment_Fragment = { __typename: 'CommentTagSegment', entityId: number, displayName: string, tagType: TaggableEntity, link: string, status?: EvidenceStatus | undefined };
 
 type PreviewComment_CommentTextSegment_Fragment = { __typename: 'CommentTextSegment', text: string };
 
@@ -7385,6 +7385,7 @@ export const PreviewCommentFragmentDoc = gql`
     entityId
     displayName
     tagType
+    link
     status
     __typename
   }
