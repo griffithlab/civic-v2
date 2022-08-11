@@ -26,7 +26,7 @@ module Actions
                 referenced_items << referenced_item
                 {
                   entity_id: referenced_item.id,
-                  display_name: referenced_item.name,
+                  display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
                   tag_type: tag_type,
                   status: self.class.status_value_for_referenced_entity(referenced_item),
                   link: referenced_item.link
@@ -59,7 +59,7 @@ module Actions
           return referenced_items.map do |referenced_item|
           {
             entity_id: referenced_item.id,
-            display_name: referenced_item.name,
+            display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
             tag_type: tag_type,
             status: status_value_for_referenced_entity(referenced_item)
           }
@@ -86,15 +86,17 @@ module Actions
         [Revision, 'REVISION']
       when 'A'
         [Assertion, 'ASSERTION']
+      when 'MP'
+        [MolecularProfile, 'MOLECULAR_PROFILE']
       end
     end
 
     def self.split_regex
-      @split_regex ||= Regexp.new(/\s*(#(?:a|v|g|vg|e|r)(?:id)?\d+)\b/i)
+      @split_regex ||= Regexp.new(/\s*(#(?:a|v|g|vg|e|r|mp)(?:id)?\d+)\b/i)
     end
 
     def self.scan_regex
-      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r)(?:id)?(?<id>\d+)\b/i)
+      @scan_regex ||= Regexp.new(/#(?<type>a|v|g|vg|e|r|mp)(?:id)?(?<id>\d+)\b/i)
     end
   end
 end
