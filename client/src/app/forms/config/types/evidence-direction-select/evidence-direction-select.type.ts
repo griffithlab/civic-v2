@@ -21,8 +21,8 @@ const optionText: any = {
       'DOES_NOT_SUPPORT': 'The experiment or study does not support a prognostic association between variant and outcome'
     },
     'PREDISPOSING': {
-      'SUPPORTS': 'The evidence supports a pathogenic or a protective role for a germline variant in cancer',
-      'DOES_NOT_SUPPORT': 'The evidence supports a benign (if Clinical Significance is Predisposition) or lack or protective (if Clinical Significance is Protectiveness) role for a germline variant in cancer.'
+      'SUPPORTS': 'The evidence suggests a pathogenic or a protective role for a germline variant in cancer',
+      'DOES_NOT_SUPPORT': 'The evidence does not support an association between the variant and disease causation.'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
@@ -30,8 +30,8 @@ const optionText: any = {
     },
     'ONCOGENIC': {
       'NA': 'Evidence Direction is Not Applicable for Oncogenic Evidence Type.',
-      'SUPPORTS': 'The evidence supports an oncogenic or protective roll for a somatic variant.',
-      'DOES_NOT_SUPPORT': 'The evidence supports a benign (if Clinical Significance is Oncogenicity) or lack or protective (if Clinical Significance is Protectiveness) role for a somatic variant in cancer.',
+      'SUPPORTS': 'The evidence supports an oncogenic or protective role for a somatic variant.',
+      'DOES_NOT_SUPPORT': 'The evidence supports a benign (for Oncogenicity) or lack of protective (for Protectiveness) role for a somatic variant in cancer.',
     },
   },
   'Assertion': {
@@ -88,7 +88,7 @@ export const evidenceDirectionSelectTypeOption: TypeOption = {
         if (!st) { return }
         else {
           to.label = `${st.entityName} Direction`;
-          to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event. For predisposing and oncogenic ${st.pluralNames.get(st.entityName)}, directionality is only applied at the assertion level and N/A should be selected here.`;
+          to.helpText = `An indicator of whether the ${st.entityName} statement supports or refutes the clinical significance of an event.`;
           // find evidenceType formControl, subscribe to value changes to update options
           const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
           if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
