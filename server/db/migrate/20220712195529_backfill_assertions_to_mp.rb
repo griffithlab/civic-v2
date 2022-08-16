@@ -1,11 +1,6 @@
 class BackfillAssertionsToMp < ActiveRecord::Migration[6.1]
   def change
-    #prior to going live, each variant will only have a single MP associated with it
-    Assertion.find_each do |a|
-      mp = a.variant.molecular_profiles.first
-      a.molecular_profile = mp
-      a.save!(validate: false)
-    end
+    #moved to migration script, no-op
   end
 
   def down
