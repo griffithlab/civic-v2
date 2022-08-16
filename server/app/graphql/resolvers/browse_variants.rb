@@ -9,7 +9,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
 
   scope { VariantBrowseTableRow.all }
 
-  option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
+  option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "%#{value}%") }
   option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
   option(:variant_type_id, type: Int)    { |scope, value| scope.where(int_array_query_for_column('variant_types'), value) }
   option(:disease_name, type: String)  { |scope, value| scope.where(json_name_query_for_column('diseases'), "%#{value}%") }
