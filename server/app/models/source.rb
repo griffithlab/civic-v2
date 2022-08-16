@@ -37,17 +37,6 @@ class Source < ActiveRecord::Base
     "#{self.source_type}"
   end
 
-  def author_string
-    if source_type == 'PubMed'
-      authors = authors_sources.reload.reject { |as| as.fore_name.blank? && as.last_name.blank? }.sort_by{ |as| as.author_position }.map do |as|
-        "#{as.fore_name} #{as.last_name}"
-      end
-      authors.join(', ')
-    elsif source_type == 'ASCO'
-      asco_presenter
-    end
-  end
-
   def self.url_for(source:)
     if source.source_type == 'PubMed'
       "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
