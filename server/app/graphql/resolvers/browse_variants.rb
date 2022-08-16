@@ -7,11 +7,7 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
 
   type Types::BrowseTables::BrowseVariantType.connection_type, null: false
 
-  scope {
-    VariantBrowseTableRow
-      .all
-      .order("evidence_score DESC")
-  }
+  scope { VariantBrowseTableRow.all }
 
   option(:variant_name, type: String)  { |scope, value| scope.where("name ILIKE ?", "#{value}%") }
   option(:entrez_symbol, type: String) { |scope, value| scope.where("gene_name ILIKE ?", "#{value}%") }
@@ -34,12 +30,6 @@ class Resolvers::BrowseVariants < GraphQL::Schema::Resolver
       scope.reorder "drug_names #{value.direction}"
     when "diseaseName"
       scope.reorder "disease_names #{value.direction}"
-    when "evidenceItemCount"
-      scope.reorder "evidence_item_count #{value.direction}"
-    when "assertionCount"
-      scope.reorder "assertion_count #{value.direction}"
-    when "evidenceScore"
-      scope.reorder "evidence_score #{value.direction}"
     end
   end
 

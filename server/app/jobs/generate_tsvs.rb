@@ -19,7 +19,14 @@ class GenerateTsvs < ApplicationJob
   end
 
   def tsvs_to_generate
-    [GeneTsvFormatter, VariantTsvFormatter, EvidenceItemTsvFormatter, VariantGroupTsvFormatter, AssertionTsvFormatter]
+    [
+      GeneTsvFormatter,
+      VariantTsvFormatter,
+      EvidenceItemTsvFormatter,
+      VariantGroupTsvFormatter,
+      AssertionTsvFormatter,
+      MolecularProfileTsvFormatter,
+    ]
   end
 
   private
