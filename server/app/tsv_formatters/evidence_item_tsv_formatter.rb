@@ -1,15 +1,14 @@
 class EvidenceItemTsvFormatter
   def self.objects
-    EvidenceItem.eager_load(:disease, :source, :drugs, :phenotypes, variant: [:gene])
+    EvidenceItem.eager_load(:disease, :source, :drugs, :phenotypes, :molecular_profile)
       .where(status: 'accepted')
   end
 
 
   def self.headers
     [
-      'gene',
-      'entrez_id',
-      'variant',
+      'molecular_profile',
+      'molecular_profile_id',
       'disease',
       'doid',
       'phenotypes',
@@ -28,35 +27,18 @@ class EvidenceItemTsvFormatter
       'rating',
       'evidence_status',
       'evidence_id',
-      'variant_id',
-      'gene_id',
-      'chromosome',
-      'start',
-      'stop',
-      'reference_bases',
-      'variant_bases',
-      'representative_transcript',
-      'chromosome2',
-      'start2',
-      'stop2',
-      'representative_transcript2',
-      'ensembl_version',
-      'reference_build',
-      'variant_summary',
       'variant_origin',
       'last_review_date',
       'evidence_civic_url',
-      'variant_civic_url',
-      'gene_civic_url',
+      'molecular_profile_civic_url',
       'is_flagged'
     ]
   end
 
   def self.row_from_object(ei)
     [
-      ei.variant.gene.name,
-      ei.variant.gene.entrez_id,
-      ei.variant.name,
+      ei.molecular_profile.display_name,
+      ei.molecular_profile.id,
       ei.disease.nil? ? "" : ei.disease.name,
       ei.disease.nil? ? "" : ei.disease.doid,
       ei.phenotypes.map(&:hpo_class).join(','),
@@ -75,26 +57,10 @@ class EvidenceItemTsvFormatter
       ei.rating,
       ei.status,
       ei.id,
-      ei.variant.id,
-      ei.variant.gene.id,
-      ei.variant.chromosome,
-      ei.variant.start,
-      ei.variant.stop,
-      ei.variant.reference_bases,
-      ei.variant.variant_bases,
-      ei.variant.representative_transcript,
-      ei.variant.chromosome2,
-      ei.variant.start2,
-      ei.variant.stop2,
-      ei.variant.representative_transcript2,
-      ei.variant.ensembl_version,
-      ei.variant.reference_build,
-      ei.variant.description&.gsub("\n", ' '),
       ei.variant_origin,
       ei.updated_at,
       LinkAdaptors::EvidenceItem.new(ei).permalink_path(include_domain: true),
-      LinkAdaptors::Variant.new(ei.variant).permalink_path(include_domain: true),
-      LinkAdaptors::Gene.new(ei.variant.gene).permalink_path(include_domain: true),
+      LinkAdaptors::MolecularProfile.new(ei.molecular_profile).permalink_path(include_domain: true),
       ei.flagged
     ]
   end

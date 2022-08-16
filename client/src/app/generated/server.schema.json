@@ -4289,6 +4289,22 @@
               "deprecationReason": null
             },
             {
+              "name": "evidenceScore",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "genes",
               "description": null,
               "args": [],
@@ -5268,22 +5284,6 @@
               "deprecationReason": null
             },
             {
-              "name": "assertionCount",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "diseases",
               "description": null,
               "args": [],
@@ -5326,38 +5326,6 @@
                       "ofType": null
                     }
                   }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "evidenceItemCount",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "evidenceScore",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -8202,6 +8170,18 @@
             },
             {
               "name": "geneTsv",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "DownloadableFile",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "molecularProfileTsv",
               "description": null,
               "args": [],
               "type": {
@@ -15492,6 +15472,22 @@
               "deprecationReason": null
             },
             {
+              "name": "evidenceScore",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "flagged",
               "description": null,
               "args": [],
@@ -16367,6 +16363,12 @@
             },
             {
               "name": "assertionCount",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "evidenceScore",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -32093,22 +32095,6 @@
               "deprecationReason": null
             },
             {
-              "name": "evidenceScore",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "flagged",
               "description": null,
               "args": [],
@@ -34753,24 +34739,6 @@
             },
             {
               "name": "drugName",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "evidenceItemCount",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "assertionCount",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "evidenceScore",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

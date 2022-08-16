@@ -10,9 +10,6 @@ module Types::BrowseTables
     field :gene_link, String, null: false
     field :diseases, [Types::Entities::DiseaseType], null: false
     field :drugs, [Types::Entities::DrugType], null: false
-    field :evidence_item_count, Int, null: false
-    field :assertion_count, Int, null: false
-    field :evidence_score, Float, null: false
     field :aliases, [Types::Entities::VariantAliasType], null: false
 
     def link

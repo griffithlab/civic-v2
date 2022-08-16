@@ -7,16 +7,17 @@
       <strong>Please ensure that your submission contains no <a href="http://www.hipaa.com/hipaa-protected-health-information-what-does-phi-include/" target="_blank">Protected Health Information</a>, and is your own original work. By contributing to CIViC you agree to release your contributions to the public domain as described by the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Creative Commons Public Domain Dedication (CC0 1.0 Universal)</a>.</strong>
     </nz-typography>
   </nz-card>
-  <nz-spin nzTip="Submitting"
+  <nz-spin nzTip="Loading"
     *nzSpaceItem
-    [nzSpinning]="this.loading">
-    <form  nz-form
+    [nzSpinning]="this.loading || !this.showForm">
+    <form nz-form *ngIf="this.showForm"
       [formGroup]="formGroup"
       (ngSubmit)="submitEvidence(formModel)"
       nzLayout="vertical">
       <ng-container *ngTemplateOutlet="formMessages"></ng-container>
 
-      <formly-form *ngIf="!this.success" [form]="formGroup"
+      <formly-form *ngIf="!this.success"
+        [form]="formGroup"
         [fields]="formFields"
         [model]="formModel"
         [options]="formOptions"

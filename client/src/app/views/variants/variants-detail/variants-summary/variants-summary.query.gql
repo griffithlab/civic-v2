@@ -30,7 +30,6 @@ fragment VariantSummaryFields on Variant {
   }
   hgvsDescriptions
   clinvarIds
-  evidenceScore
   referenceBuild
   ensemblVersion
   primaryCoordinates {

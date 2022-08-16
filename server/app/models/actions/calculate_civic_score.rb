@@ -1,9 +1,9 @@
 module Actions
   class CalculateCivicScore
-    attr_reader :variant
+    attr_reader :molecular_profile
 
-    def initialize(variant)
-      @variant = variant
+    def initialize(molecular_profile)
+      @molecular_profile = molecular_profile
     end
 
     def perform
@@ -19,7 +19,7 @@ module Actions
     end
 
     def calculate_scores
-      variant.evidence_items.each_with_object({}) do |ei, evidence_scores|
+      molecular_profile.evidence_items.each_with_object({}) do |ei, evidence_scores|
         evidence_scores[ei] = if ei.status == 'accepted'
                                 calculate_score(ei)
                               else

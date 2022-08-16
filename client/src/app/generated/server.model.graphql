@@ -1012,6 +1012,7 @@ type BrowseMolecularProfile {
   diseases: [LinkableDisease!]!
   drugs: [LinkableDrug!]!
   evidenceItemCount: Int!
+  evidenceScore: Float!
   genes: [LinkableGene!]!
   id: Int!
   link: String!
@@ -1198,11 +1199,8 @@ type BrowseSourceEdge {
 
 type BrowseVariant {
   aliases: [VariantAlias!]!
-  assertionCount: Int!
   diseases: [Disease!]!
   drugs: [Drug!]!
-  evidenceItemCount: Int!
-  evidenceScore: Float!
   geneId: Int!
   geneLink: String!
   geneName: String!
@@ -1720,6 +1718,7 @@ type DataRelease {
   assertionTsv: DownloadableFile
   evidenceTsv: DownloadableFile
   geneTsv: DownloadableFile
+  molecularProfileTsv: DownloadableFile
   name: String!
   variantGroupTsv: DownloadableFile
   variantTsv: DownloadableFile
@@ -3394,6 +3393,7 @@ type MolecularProfile implements Commentable & EventOriginObject & EventSubject 
     """
     last: Int
   ): EvidenceItemConnection!
+  evidenceScore: Float!
   flagged: Boolean!
 
   """
@@ -3602,6 +3602,7 @@ input MolecularProfilesSort {
 enum MolecularProfilesSortColumns {
   assertionCount
   evidenceItemCount
+  evidenceScore
 }
 
 type Mutation {
@@ -7511,7 +7512,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
     """
     last: Int
   ): EvidenceItemConnection!
-  evidenceScore: Float!
   flagged: Boolean!
 
   """
@@ -8180,12 +8180,9 @@ input VariantsSort {
 }
 
 enum VariantsSortColumns {
-  assertionCount
   diseaseName
   drugName
   entrezSymbol
-  evidenceItemCount
-  evidenceScore
   variantName
 }
 

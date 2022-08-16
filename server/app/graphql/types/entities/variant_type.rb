@@ -22,7 +22,6 @@ module Types::Entities
     field :reference_bases, String, null: true
     field :variant_bases, String, null: true
     field :allele_registry_id, String, null: true
-    field :evidence_score, Float, null: false
     field :variant_aliases, [String], null: false
     field :variant_types, [Types::Entities::VariantTypeType], null: false
     field :clinvar_ids, [String], null: false
@@ -88,10 +87,6 @@ module Types::Entities
       else
         return object.reference_bases
       end
-    end
-
-    def evidence_score
-      object.civic_actionability_score
     end
 
     def variant_aliases

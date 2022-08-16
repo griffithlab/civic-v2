@@ -27,6 +27,7 @@ module Types::BrowseTables
     field :evidence_item_count, Int, null: false
     field :assertion_count, Int, null: false
     field :aliases, [Types::Entities::MolecularProfileAliasType], null: false
+    field :evidence_score, Float, null: false
 
 
     def name
