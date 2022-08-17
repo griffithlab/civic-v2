@@ -117,20 +117,15 @@
 
             <!-- allele reg. id -->
             <nz-descriptions-item nzTitle="Allele Registry ID">
-              <cvc-link-tag *ngIf="variant.alleleRegistryId; else noAlleleRegistry"
+              <cvc-link-tag *ngIf="variant.alleleRegistryId != 'unregistered'; else noAlleleRegistry"
                 [href]="'https://reg.genome.network/allele/' + variant.alleleRegistryId + '.html'"
                 tooltip="View on ClinGen Allele Registry">
                 {{ variant.alleleRegistryId }}
               </cvc-link-tag>
               <ng-template #noAlleleRegistry>
                 <span nz-typography
-                  nzType="secondary">None provided</span>
+                  nzType="secondary">Unregistered</span>
               </ng-template>
-            </nz-descriptions-item>
-
-            <!-- CIViC Score-->
-            <nz-descriptions-item nzTitle="CIViC Variant Evidence Score">
-              <span nz-typography>{{ variant.evidenceScore | number }}</span>
             </nz-descriptions-item>
 
             <!-- clinvar ids-->

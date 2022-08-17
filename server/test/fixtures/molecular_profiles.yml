@@ -1,8 +1,12 @@
 mp1:
   name: MP1
+  evidence_score: 1.5
 mp2:
   name: MP2
+  evidence_score: 21.5
 mp3:
   name: MP3
+  evidence_score: 50
 mp4:
   name: MP4
+  evidence_score: 101.2

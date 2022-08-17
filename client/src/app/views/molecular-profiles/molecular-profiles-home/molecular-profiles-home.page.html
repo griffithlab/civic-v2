@@ -1,6 +1,6 @@
 <!-- <cvc-section-navigation [actionsTpl]="variantActions"> </cvc-section-navigation> -->
 <cvc-section-navigation> </cvc-section-navigation>
-<ng-template #variantActions>
+<!-- <ng-template #variantActions>
   <ng-container *ngrxLet="viewer$ as viewer">
     <button routerLink="/variants/add/submit"
       nz-button
@@ -20,7 +20,7 @@
       </ng-template>
     </button>
   </ng-container>
-</ng-template>
+</ng-template> -->
 
 <nz-page-header class="site-page-header">
 
@@ -41,7 +41,7 @@
         <p nz-typography
           nzEllipsis
           nzExpandable
-          [nzEllipsisRows]="2">CIViC molecular profiles are... .</p>
+          [nzEllipsisRows]="2">CIViC molecular profiles are complex combinations of one or more CIViC variants across one or more genes. Variants are placed in combinations connected by AND or OR, and mutual exclusivity is supported by NOT. These relationships may be further defined by parenthesis.</p>
       </nz-col>
       <nz-col nzFlex="auto"
         class="header-links">

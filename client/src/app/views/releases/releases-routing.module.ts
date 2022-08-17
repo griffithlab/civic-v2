@@ -11,7 +11,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       {
         path: 'main',
-        component: ReleasesMainComponent
+        component: ReleasesMainComponent,
+        data: { breadcrumb: 'Downloads' },
       }
     ]
   }

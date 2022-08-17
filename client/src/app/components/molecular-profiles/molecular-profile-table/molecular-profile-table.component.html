@@ -65,6 +65,17 @@
         <th nzWidth="75px"
           nzRight
           nzAlign="right"
+          [nzSortFn]="true"
+          [nzSortDirections]="['descend', 'ascend', null]"
+          [nzColumnKey]="sortColumns.EvidenceScore"
+          nz-tooltip
+          nzTooltipTitle="Evidence Score">
+          <i nz-icon
+            nzType="civic-evidence"></i> Score
+        </th>
+        <th nzWidth="75px"
+          nzRight
+          nzAlign="right"
           [nzColumnKey]="sortColumns.EvidenceItemCount"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
@@ -113,6 +124,8 @@
           nzRight></th>
         <th nzWidth="75px"
           nzRight></th>
+        <th nzWidth="75px"
+          nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -154,6 +167,8 @@
               [maxDisplayCount]="1"
               [matchingText]="drugNameInput"> </cvc-tag-overflow>
           </td>
+          <td nzRight
+            nzAlign="right">{{mp.evidenceScore | number }}</td>
           <td nzRight
             nzAlign="right">{{ mp.evidenceItemCount | number }}</td>
           <td nzRight

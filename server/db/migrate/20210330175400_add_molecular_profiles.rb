@@ -13,6 +13,6 @@ class AddMolecularProfiles < ActiveRecord::Migration[6.1]
     add_foreign_key :molecular_profiles_variants, :molecular_profiles
     add_foreign_key :molecular_profiles_variants, :variants
 
-    add_reference :evidence_items, :molecular_profile, index: true
+    add_reference :evidence_items, :molecular_profile, index: true, foreign_key: true
   end
 end

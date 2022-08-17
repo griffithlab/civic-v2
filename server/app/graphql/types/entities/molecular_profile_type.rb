@@ -25,6 +25,7 @@ module Types::Entities
     field :deprecated, Boolean, null: false
     field :deprecated_variants, [Types::Entities::VariantType], null: false
     field :deprecation_event, Types::Entities::EventType, null: true
+    field :evidence_score, Float, null: false
 
     def raw_name
       object.name

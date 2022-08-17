@@ -62,39 +62,6 @@
         <th nzWidth="180px">
           Drugs
         </th>
-        <th nzWidth="75px"
-          nzRight
-          nzAlign="right"
-          [nzSortFn]="true"
-          [nzSortDirections]="['descend', 'ascend', null]"
-          [nzColumnKey]="sortColumns.EvidenceScore"
-          nz-tooltip
-          nzTooltipTitle="Evidence Score">
-          <i nz-icon
-            nzType="civic-evidence"></i> Score
-        </th>
-        <th nzWidth="75px"
-          nzRight
-          nzAlign="right"
-          [nzColumnKey]="sortColumns.EvidenceItemCount"
-          [nzSortFn]="true"
-          [nzSortDirections]="['descend', 'ascend', null]"
-          nz-tooltip
-          nzTooltipTitle="Evidence Count">
-          <i nz-icon
-            nzType="civic-evidence"></i> Count
-        </th>
-        <th nzWidth="75px"
-          nzRight
-          nzAlign="right"
-          [nzColumnKey]="sortColumns.AssertionCount"
-          [nzSortFn]="true"
-          [nzSortDirections]="['descend', 'ascend', null]"
-          nz-tooltip
-          nzTooltipTitle="Assertion Count">
-          <i nz-icon
-            nzType="civic-assertion"></i> Count
-        </th>
       </tr>
       <tr class="filter-row">
         <th nzLeft>
@@ -117,9 +84,6 @@
           <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
-        <th nzRight></th>
-        <th nzRight></th>
-        <th nzRight></th>
       </tr>
     </thead>
     <tbody>
@@ -152,12 +116,6 @@
               [maxDisplayCount]="1"
               [matchingText]="drugNameInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight
-            nzAlign="right">{{variant.evidenceScore | number }}</td>
-          <td nzRight
-            nzAlign="right">{{variant.evidenceItemCount | number }}</td>
-          <td nzRight
-            nzAlign="right">{{variant.assertionCount | number }}</td>
         </tr>
       </ng-template>
     </tbody>

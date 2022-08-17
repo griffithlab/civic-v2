@@ -15,6 +15,7 @@ module Types
     field :variant_group_tsv, DownloadableFile, null: true
     field :evidence_tsv, DownloadableFile, null: true
     field :assertion_tsv, DownloadableFile, null: true
+    field :molecular_profile_tsv, DownloadableFile, null: true
     field :accepted_variants_vcf, DownloadableFile, null: true
     field :accepted_and_submitted_variants_vcf, DownloadableFile, null: true
   end

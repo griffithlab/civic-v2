@@ -19,9 +19,10 @@ module Actions
           raise StandardError.new("Found existing molecular profile with same name #{name} but different variant list")
         end
       else
-        mp = MolecularProfile.where(name: mp_name).first_or_create!
+        mp = MolecularProfile.where(name: mp_name).first_or_initialize
         
         mp.variants = variants
+        mp.evidence_score = 0
         mp.save!
 
         @molecular_profile = mp

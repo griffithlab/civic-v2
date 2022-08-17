@@ -22,6 +22,10 @@ fragment Release on DataRelease {
       filename
       path
     }
+    molecularProfileTsv {
+      filename
+      path
+    }
     assertionTsv {
       filename
       path
