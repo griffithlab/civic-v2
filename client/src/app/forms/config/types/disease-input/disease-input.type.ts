@@ -110,9 +110,11 @@ export class DiseaseInputType extends FieldType implements AfterViewInit, OnInit
       let doid = +this.enteredDoid ? +this.enteredDoid : undefined
       let state = this.addDiseaseMutator.mutate(this.addDiseaseGQL, { name: diseaseName, doid: doid }, {},
         (data) => {
-          this.field.formControl?.setValue({ id: data.addDisease.disease.id, name: data.addDisease.disease.name })
-          this.to.searchString = '';
-          this.to.searchLength = 0;
+          if(data.addDisease) {
+            this.field.formControl?.setValue({ id: data.addDisease.disease.id, name: data.addDisease.disease.name })
+            this.to.searchString = '';
+            this.to.searchLength = 0;
+          }
         })
 
       state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
