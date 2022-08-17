@@ -8,6 +8,7 @@ class MolecularProfile < ActiveRecord::Base
   has_and_belongs_to_many :sources
   has_many :assertions
   has_many :evidence_items
+  has_one :evidence_items_by_status
   has_and_belongs_to_many :molecular_profile_aliases, join_table: :molecular_profile_aliases_molecular_profiles
   has_many :source_suggestions
 
