@@ -146,6 +146,7 @@ module Types
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
