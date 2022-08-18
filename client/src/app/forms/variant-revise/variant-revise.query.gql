@@ -102,6 +102,7 @@ mutation SuggestVariantRevision($input: SuggestVariantRevisionInput!) {
     results {
       id
       fieldName
+      newlyCreated
     }
   }
 }
