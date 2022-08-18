@@ -115,6 +115,7 @@ module Constants
     'Variant' => 'variants',
     'VariantGroup' => 'variant-groups',
     'Source' => 'sources',
+    'MolecularProfile' => 'molecular-profiles'
   }
 
   CIVICBOT_USER_ID = 385

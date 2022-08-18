@@ -1550,6 +1550,7 @@ type CommentTagSegment {
   displayName: String!
   entityId: Int!
   link: String!
+  revisionsetId: String
   status: EvidenceStatus
   tagType: TaggableEntity!
 }
