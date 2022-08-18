@@ -18,7 +18,6 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :clinvar_entries
   has_and_belongs_to_many :hgvs_expressions
   has_and_belongs_to_many :sources
-  has_one :evidence_items_by_status
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   belongs_to :single_variant_molecular_profile, 
