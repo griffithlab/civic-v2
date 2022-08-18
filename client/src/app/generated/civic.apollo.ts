@@ -6096,7 +6096,7 @@ export type SuggestVariantRevisionMutationVariables = Exact<{
 }>;
 
 
-export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
+export type SuggestVariantRevisionMutation = { __typename: 'Mutation', suggestVariantRevision?: { __typename: 'SuggestVariantRevisionPayload', clientMutationId?: string | undefined, variant: { __typename: 'Variant', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string, newlyCreated: boolean }> } | undefined };
 
 export type AssertionDetailQueryVariables = Exact<{
   assertionId: Scalars['Int'];
@@ -11418,6 +11418,7 @@ export const SuggestVariantRevisionDocument = gql`
     results {
       id
       fieldName
+      newlyCreated
     }
   }
 }
