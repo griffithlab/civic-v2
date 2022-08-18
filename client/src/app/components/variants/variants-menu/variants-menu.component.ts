@@ -35,7 +35,6 @@ export class CvcVariantsMenuComponent implements OnInit {
   queryRef$!: QueryRef<VariantsMenuQuery, VariantsMenuQueryVariables>;
   pageInfo$?: Observable<PageInfo>;
 
-  statusFilter: VariantDisplayFilter = VariantDisplayFilter.WithAcceptedOrSubmitted;
   sortBy: VariantMenuSortColumns = VariantMenuSortColumns.Name
   variantNameFilter: Maybe<string>;
 
@@ -55,7 +54,6 @@ export class CvcVariantsMenuComponent implements OnInit {
 
     this.initialQueryVars = {
       geneId: this.geneId,
-      evidenceStatusFilter: this.statusFilter,
       first: this.pageSize,
     };
 
@@ -87,12 +85,6 @@ export class CvcVariantsMenuComponent implements OnInit {
     this.debouncedQuery.next();
   }
 
-  onVariantStatusFilterChanged(filter: VariantDisplayFilter) {
-    this.queryRef$.refetch({
-      evidenceStatusFilter: filter
-    })
-  }
-
   onVariantSortOrderChanged(col: VariantMenuSortColumns) {
     let dir = col == VariantMenuSortColumns.CoordinateEnd ? SortDirection.Desc : SortDirection.Asc
     this.queryRef$.refetch({
@@ -111,7 +103,6 @@ export class CvcVariantsMenuComponent implements OnInit {
     this.queryRef$.refetch({
       geneId: this.geneId,
       variantName: this.variantNameFilter,
-      evidenceStatusFilter: this.statusFilter,
       sortBy: {
         column: this.sortBy,
         direction: SortDirection.Asc

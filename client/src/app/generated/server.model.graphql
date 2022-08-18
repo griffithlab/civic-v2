@@ -2974,11 +2974,6 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     before: String
 
     """
-    Limit variants by the status of attached evidence.
-    """
-    evidenceStatusFilter: VariantDisplayFilter
-
-    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -5659,11 +5654,6 @@ type Query {
     before: String
 
     """
-    Limit variants by the status of attached evidence.
-    """
-    evidenceStatusFilter: VariantDisplayFilter
-
-    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -7677,28 +7667,6 @@ type VariantConnection {
   totalCount: Int!
 }
 
-enum VariantDisplayFilter {
-  """
-  Display all variants regardless of attached evience.
-  """
-  ALL
-
-  """
-  Display only variants which have at least one accepted evidence item.
-  """
-  WITH_ACCEPTED
-
-  """
-  Display only variants which have evidence in either an accepted or submitted state.
-  """
-  WITH_ACCEPTED_OR_SUBMITTED
-
-  """
-  Display variants which have at least one submited evidence item.
-  """
-  WITH_SUBMITTED
-}
-
 """
 An edge in a connection.
 """
@@ -7990,11 +7958,6 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
-
-    """
-    Limit variants by the status of attached evidence.
-    """
-    evidenceStatusFilter: VariantDisplayFilter
 
     """
     Returns the first _n_ elements from the list.

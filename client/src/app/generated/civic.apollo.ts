@@ -3421,7 +3421,6 @@ export type QueryVariantTypesArgs = {
 export type QueryVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -4632,17 +4631,6 @@ export type VariantConnection = {
   totalCount: Scalars['Int'];
 };
 
-export enum VariantDisplayFilter {
-  /** Display all variants regardless of attached evience. */
-  All = 'ALL',
-  /** Display only variants which have at least one accepted evidence item. */
-  WithAccepted = 'WITH_ACCEPTED',
-  /** Display only variants which have evidence in either an accepted or submitted state. */
-  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
-  /** Display variants which have at least one submited evidence item. */
-  WithSubmitted = 'WITH_SUBMITTED'
-}
-
 /** An edge in a connection. */
 export type VariantEdge = {
   __typename: 'VariantEdge';
@@ -4761,7 +4749,6 @@ export type VariantGroupRevisionsArgs = {
 export type VariantGroupVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -5508,7 +5495,6 @@ export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, 
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   before?: InputMaybe<Scalars['String']>;
@@ -9908,11 +9894,10 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($geneId: Int, $variantName: String, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
     geneId: $geneId
     name: $variantName
-    evidenceStatusFilter: $evidenceStatusFilter
     first: $first
     last: $last
     before: $before

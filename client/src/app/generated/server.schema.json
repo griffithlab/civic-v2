@@ -13711,18 +13711,6 @@
               "description": "List and filter variants.",
               "args": [
                 {
-                  "name": "evidenceStatusFilter",
-                  "description": "Limit variants by the status of attached evidence.",
-                  "type": {
-                    "kind": "ENUM",
-                    "name": "VariantDisplayFilter",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
                   "type": {
@@ -24958,18 +24946,6 @@
               "description": "List and filter variants.",
               "args": [
                 {
-                  "name": "evidenceStatusFilter",
-                  "description": "Limit variants by the status of attached evidence.",
-                  "type": {
-                    "kind": "ENUM",
-                    "name": "VariantDisplayFilter",
-                    "ofType": null
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
                   "name": "name",
                   "description": "Left anchored filtering for variant name and aliases.",
                   "type": {
@@ -32848,41 +32824,6 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "VariantDisplayFilter",
-          "description": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "WITH_ACCEPTED",
-              "description": "Display only variants which have at least one accepted evidence item.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "WITH_ACCEPTED_OR_SUBMITTED",
-              "description": "Display only variants which have evidence in either an accepted or submitted state.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "WITH_SUBMITTED",
-              "description": "Display variants which have at least one submited evidence item.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ALL",
-              "description": "Display all variants regardless of attached evience.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
