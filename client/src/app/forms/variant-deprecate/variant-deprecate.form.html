@@ -1,3 +1,31 @@
+<nz-spin [nzSpinning]="this.mpListLoading$ | ngrxPush">
+  <nz-space nzDirection="vertical">
+    <ng-container *ngrxLet="this.mpsToDeprecate$ as mpsToDeprecate">
+      <ng-container *ngIf="mpsToDeprecate.length > 0">
+        <nz-alert *nzSpaceItem nzType="warning" nzMessage="This action will deprecate the following Molecular Profiles:" [nzDescription]="mpsToDeprecateTpl">
+          <ng-template #mpsToDeprecateTpl>
+            <ng-container *ngFor="let mp of mpsToDeprecate">
+              <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>
+            </ng-container>
+          </ng-template>
+        </nz-alert>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngrxLet="this.mpsWithEvidence$ as mpsWithEvidence">
+      <ng-container *ngIf="mpsWithEvidence.length > 0">
+        <nz-alert *nzSpaceItem nzType="error" nzMessage="Cannot deprecate this Variant because the following Molecular Profiles have attached Evidence Items:" [nzDescription]="mpsWithEvidenceTpl">
+          <ng-template #mpsWithEvidenceTpl>
+            <ng-container *ngFor="let mp of mpsWithEvidence">
+              <cvc-molecular-profile-tag [molecularProfile]="mp"></cvc-molecular-profile-tag>
+            </ng-container>
+          </ng-template>
+        </nz-alert>
+      </ng-container>
+    </ng-container>
+  </nz-space>
+</nz-spin>
+
 <nz-card nzType="inner">
   <nz-alert *ngIf="this.success" nzBanner nzMessage="Variant deprecated" nzType="success" nzCloseable (nzOnClose)="onSuccessBannerClose()"></nz-alert>
   <nz-alert *ngIf="errorMessages.length > 0" nzType="error" nzShowIcon [nzDescription]="errorContents" nzMessage="Error Deprecating Variant"> </nz-alert>

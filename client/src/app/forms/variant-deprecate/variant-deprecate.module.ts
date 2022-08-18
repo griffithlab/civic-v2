@@ -24,6 +24,7 @@ import { CvcOrgSelectorBtnGroupModule } from '../config/components/org-selector-
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 
 @NgModule({
   declarations: [VariantDeprecateForm],
@@ -55,6 +56,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     CvcSubmitButtonTypeModule,
     CvcCommentInputFormModule,
     CvcOrgSelectorBtnGroupModule,
+    CvcMolecularProfileTagModule
   ],
   exports: [VariantDeprecateForm],
 })

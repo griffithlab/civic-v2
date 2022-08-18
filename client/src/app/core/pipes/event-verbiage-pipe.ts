@@ -58,8 +58,10 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'reverted evidence item'
       case (EventAction.AssertionReverted):
         return 'reverted assertion'
-      default:
-        throw new Error('Not handling all event action types yet')
+      case (EventAction.DeprecatedVariant):
+        return 'deprecated variant'
+      case (EventAction.DeprecatedMolecularProfile):
+        return 'deprecated molecular profile'
     }
   }
 
@@ -103,8 +105,10 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'evidence item reverted'
       case (EventAction.AssertionReverted): 
         return 'assertion reverted'
-      default:
-        throw new Error('Not handling all event action types yet')
+      case (EventAction.DeprecatedVariant):
+        return 'variant deprecated'
+      case (EventAction.DeprecatedMolecularProfile):
+        return 'molecular profile deprecated'
     }
   }
 
@@ -148,8 +152,10 @@ export class EventVerbiagePipe implements PipeTransform {
         return 'reverted this assertion'
       case (EventAction.Reverted):
         return 'reverted this evidence item'
-      default:
-        throw new Error('Not handling all event action types yet')
+      case (EventAction.DeprecatedVariant):
+        return 'deprecated this variant'
+      case (EventAction.DeprecatedMolecularProfile):
+        return 'deprecated this molecular profile'
     }
 
   }

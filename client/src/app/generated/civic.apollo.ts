@@ -1554,6 +1554,14 @@ export type EvidenceItemFields = {
   variantOrigin: VariantOrigin;
 };
 
+export type EvidenceItemsByStatus = {
+  __typename: 'EvidenceItemsByStatus';
+  acceptedCount: Scalars['Int'];
+  molecularProfileId: Scalars['Int'];
+  rejectedCount: Scalars['Int'];
+  submittedCount: Scalars['Int'];
+};
+
 export enum EvidenceLevel {
   A = 'A',
   B = 'B',
@@ -1836,7 +1844,6 @@ export type GeneRevisionsArgs = {
 export type GeneVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -2052,6 +2059,7 @@ export type MolecularProfile = Commentable & EventOriginObject & EventSubject & 
   description?: Maybe<Scalars['String']>;
   /** List and filter events for an object */
   events: EventConnection;
+  evidenceCountsByStatus: EvidenceItemsByStatus;
   /** The collection of evidence items associated with this molecular profile. */
   evidenceItems: EvidenceItemConnection;
   evidenceScore: Scalars['Float'];
@@ -2154,6 +2162,41 @@ export type MolecularProfileComponentInput = {
   complexComponents?: InputMaybe<Array<MolecularProfileComponentInput>>;
   /** One or more single Variants that make up the Molecular Profile. */
   variantComponents?: InputMaybe<Array<VariantComponent>>;
+};
+
+/** The connection type for MolecularProfile. */
+export type MolecularProfileConnection = {
+  __typename: 'MolecularProfileConnection';
+  /** A list of edges. */
+  edges: Array<MolecularProfileEdge>;
+  /** A list of nodes. */
+  nodes: Array<MolecularProfile>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+export enum MolecularProfileDisplayFilter {
+  /** Display all molecular profiles regardless of attached evidence status. */
+  All = 'ALL',
+  /** Display only molecular profiles which have at least one accepted evidence item. */
+  WithAccepted = 'WITH_ACCEPTED',
+  /** Display only molecular profiles which have evidence in either an accepted or submitted state. */
+  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
+  /** Display molecular profiles which have at least one submited evidence item. */
+  WithSubmitted = 'WITH_SUBMITTED'
+}
+
+/** An edge in a connection. */
+export type MolecularProfileEdge = {
+  __typename: 'MolecularProfileEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<MolecularProfile>;
 };
 
 /** Fields on a MolecularProfile that curators may propose revisions to. */
@@ -2860,6 +2903,8 @@ export type Query = {
   genes: GeneConnection;
   /** Find a molecular profile by CIViC ID */
   molecularProfile?: Maybe<MolecularProfile>;
+  /** List and filter molecular profiles. */
+  molecularProfiles: MolecularProfileConnection;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
@@ -3231,6 +3276,16 @@ export type QueryGenesArgs = {
 
 export type QueryMolecularProfileArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryMolecularProfilesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -5979,7 +6034,7 @@ export type MolecularProfilesForVariantQueryVariables = Exact<{
 }>;
 
 
-export type MolecularProfilesForVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', molecularProfiles: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string }> } | undefined };
+export type MolecularProfilesForVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, molecularProfiles: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string, evidenceCountsByStatus: { __typename: 'EvidenceItemsByStatus', submittedCount: number, acceptedCount: number } }> } | undefined };
 
 export type SuggestVariantGroupRevisionMutationVariables = Exact<{
   input: SuggestVariantGroupRevisionInput;
@@ -11106,10 +11161,15 @@ export const DeprecateVariantDocument = gql`
 export const MolecularProfilesForVariantDocument = gql`
     query MolecularProfilesForVariant($variantId: Int!) {
   variant(id: $variantId) {
+    id
     molecularProfiles {
       id
       name
       link
+      evidenceCountsByStatus {
+        submittedCount
+        acceptedCount
+      }
     }
   }
 }

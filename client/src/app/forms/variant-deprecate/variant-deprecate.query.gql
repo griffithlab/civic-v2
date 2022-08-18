@@ -1,15 +1,17 @@
 mutation DeprecateVariant(
-    $variantId: Int!,
-    $deprecationReason: DeprecationReason!,
-    $comment: String!,
-    $organizationId: Int
+  $variantId: Int!
+  $deprecationReason: DeprecationReason!
+  $comment: String!
+  $organizationId: Int
 ) {
-  deprecateVariant(input: {
-      variantId: $variantId,
-      deprecationReason: $deprecationReason,
-      comment: $comment,
+  deprecateVariant(
+    input: {
+      variantId: $variantId
+      deprecationReason: $deprecationReason
+      comment: $comment
       organizationId: $organizationId
-    }) {
+    }
+  ) {
     newlyDeprecatedMolecularProfiles {
       id
     }
@@ -20,14 +22,17 @@ mutation DeprecateVariant(
   }
 }
 
-query MolecularProfilesForVariant(
-    $variantId: Int!
-) {
-    variant(id: $variantId) {
-        molecularProfiles{
-            id
-            name
-            link
-        }
+query MolecularProfilesForVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    molecularProfiles {
+      id
+      name
+      link
+      evidenceCountsByStatus {
+        submittedCount
+        acceptedCount
+      }
     }
+  }
 }

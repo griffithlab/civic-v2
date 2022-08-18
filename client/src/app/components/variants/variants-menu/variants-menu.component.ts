@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 import {
-  Gene,
   VariantsMenuGQL,
   Maybe,
   MenuVariantFragment,
   VariantsMenuQuery,
   VariantsMenuQueryVariables,
-  VariantDisplayFilter,
   PageInfo,
   VariantMenuSortColumns,
   SortDirection,

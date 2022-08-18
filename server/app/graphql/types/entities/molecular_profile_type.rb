@@ -26,6 +26,7 @@ module Types::Entities
     field :deprecated_variants, [Types::Entities::VariantType], null: false
     field :deprecation_event, Types::Entities::EventType, null: true
     field :evidence_score, Float, null: false
+    field :evidence_counts_by_status, Types::MolecularProfile::EvidenceItemsByStatusType, null: false
 
     def raw_name
       object.name
@@ -68,6 +69,21 @@ module Types::Entities
     def molecular_profile_aliases
       Loaders::AssociationLoader.for(MolecularProfile, :molecular_profile_aliases).load(object).then do |a|
         a.map(&:name)
+      end
+    end
+
+    def evidence_counts_by_status
+      Loaders::AssociationLoader.for(MolecularProfile, :evidence_items_by_status).load(object).then do |status|
+        if status
+          status
+        else
+          {
+            molecular_profile_id: object.id,
+            accepted_count: 0,
+            rejected_count: 0,
+            submitted_count: 0,
+          }
+        end
       end
     end
   end

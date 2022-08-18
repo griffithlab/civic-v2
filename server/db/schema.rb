@@ -1036,27 +1036,6 @@ ActiveRecord::Schema.define(version: 2022_08_16_205024) do
   SQL
   add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
 
-  create_view "evidence_items_by_statuses", sql_definition: <<-SQL
-      SELECT mp.id AS molecular_profile_id,
-      sum(
-          CASE
-              WHEN ((ei.status)::text = 'accepted'::text) THEN 1
-              ELSE 0
-          END) AS accepted_count,
-      sum(
-          CASE
-              WHEN ((ei.status)::text = 'rejected'::text) THEN 1
-              ELSE 0
-          END) AS rejected_count,
-      sum(
-          CASE
-              WHEN ((ei.status)::text = 'submitted'::text) THEN 1
-              ELSE 0
-          END) AS submitted_count
-     FROM (molecular_profiles mp
-       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
-    GROUP BY mp.id;
-  SQL
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
       outer_variants.name,
@@ -1159,4 +1138,25 @@ ActiveRecord::Schema.define(version: 2022_08_16_205024) do
   SQL
   add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
+  create_view "evidence_items_by_statuses", sql_definition: <<-SQL
+      SELECT mp.id AS molecular_profile_id,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'accepted'::text) THEN 1
+              ELSE 0
+          END) AS accepted_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'rejected'::text) THEN 1
+              ELSE 0
+          END) AS rejected_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'submitted'::text) THEN 1
+              ELSE 0
+          END) AS submitted_count
+     FROM (molecular_profiles mp
+       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
+    GROUP BY mp.id;
+  SQL
 end
