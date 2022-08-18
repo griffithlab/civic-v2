@@ -34,6 +34,7 @@ module Types::Entities
     field :deprecation_reason, Types::DeprecationReasonType, null: true
     field :deprecation_comment, Types::Entities::CommentType, null: true
     field :deprecation_event, Types::Entities::EventType, null: true
+    field :molecular_profiles, [Types::Entities::MolecularProfileType], null: false
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)
@@ -45,6 +46,10 @@ module Types::Entities
 
     def variant_types
       Loaders::AssociationLoader.for(Variant, :variant_types).load(object)
+    end
+
+    def molecular_profiles
+      Loaders::AssociationLoader.for(Variant, :molecular_profiles).load(object)
     end
 
     def single_variant_molecular_profile

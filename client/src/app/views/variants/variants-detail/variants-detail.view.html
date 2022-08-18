@@ -71,6 +71,26 @@
             </button>
           </span>
 
+          <!-- deprecate variant btn -->
+          <span *nzSpaceItem>
+            <button
+              nz-button
+              nzSize="small"
+              *ngIf="viewer.isEditor && !variant.deprecated"
+              nz-popover
+              nzPopoverTitle="Deprecate This Variant"
+              nzPopoverTrigger="click"
+              [nzPopoverContent]="deprecateVariantForm"
+              nzPopoverPlacement="bottomRight">
+                Deprecate
+              <ng-template #deprecateVariantForm>
+                <div class="deprecateVariant">
+                  <cvc-variant-deprecate-form [variantId]="variant.id"></cvc-variant-deprecate-form>
+                </div>
+              </ng-template>
+            </button>
+          </span>
+
           <span *nzSpaceItem>
             <cvc-entity-subscription-button *ngIf="viewer.signedIn && subscribable" [viewer]="viewer" [subscribableId]="subscribable.id" typename="Variant">
             </cvc-entity-subscription-button>

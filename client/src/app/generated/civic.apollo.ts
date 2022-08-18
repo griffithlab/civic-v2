@@ -4588,6 +4588,7 @@ export type Variant = Commentable & EventOriginObject & EventSubject & Flaggable
   lastCommentEvent?: Maybe<Event>;
   lastSubmittedRevisionEvent?: Maybe<Event>;
   link: Scalars['String'];
+  molecularProfiles: Array<MolecularProfile>;
   myVariantInfo?: Maybe<MyVariantInfo>;
   name: Scalars['String'];
   primaryCoordinates?: Maybe<Coordinate>;
@@ -5976,6 +5977,23 @@ export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CountriesQuery = { __typename: 'Query', countries: Array<{ __typename: 'Country', id: number, name: string }> };
+
+export type DeprecateVariantMutationVariables = Exact<{
+  variantId: Scalars['Int'];
+  deprecationReason: DeprecationReason;
+  comment: Scalars['String'];
+  organizationId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type DeprecateVariantMutation = { __typename: 'Mutation', deprecateVariant?: { __typename: 'DeprecateVariantPayload', newlyDeprecatedMolecularProfiles?: Array<{ __typename: 'MolecularProfile', id: number }> | undefined, variant?: { __typename: 'Variant', id: number, name: string } | undefined } | undefined };
+
+export type MolecularProfilesForVariantQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type MolecularProfilesForVariantQuery = { __typename: 'Query', variant?: { __typename: 'Variant', molecularProfiles: Array<{ __typename: 'MolecularProfile', id: number, name: string, link: string }> } | undefined };
 
 export type SuggestVariantGroupRevisionMutationVariables = Exact<{
   input: SuggestVariantGroupRevisionInput;
@@ -11069,6 +11087,54 @@ export const CountriesDocument = gql`
   })
   export class CountriesGQL extends Apollo.Query<CountriesQuery, CountriesQueryVariables> {
     document = CountriesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeprecateVariantDocument = gql`
+    mutation DeprecateVariant($variantId: Int!, $deprecationReason: DeprecationReason!, $comment: String!, $organizationId: Int) {
+  deprecateVariant(
+    input: {variantId: $variantId, deprecationReason: $deprecationReason, comment: $comment, organizationId: $organizationId}
+  ) {
+    newlyDeprecatedMolecularProfiles {
+      id
+    }
+    variant {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeprecateVariantGQL extends Apollo.Mutation<DeprecateVariantMutation, DeprecateVariantMutationVariables> {
+    document = DeprecateVariantDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfilesForVariantDocument = gql`
+    query MolecularProfilesForVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    molecularProfiles {
+      id
+      name
+      link
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfilesForVariantGQL extends Apollo.Query<MolecularProfilesForVariantQuery, MolecularProfilesForVariantQueryVariables> {
+    document = MolecularProfilesForVariantDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
