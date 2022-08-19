@@ -6,7 +6,6 @@ import {
   MenuVariantFragment,
   VariantsMenuQuery,
   VariantsMenuQueryVariables,
-  VariantDisplayFilter,
   PageInfo,
   VariantMenuSortColumns,
   SortDirection,

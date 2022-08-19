@@ -1795,7 +1795,6 @@ export type GeneRevisionsArgs = {
 export type GeneVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
