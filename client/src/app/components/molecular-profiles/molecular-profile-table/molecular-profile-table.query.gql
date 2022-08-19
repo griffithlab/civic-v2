@@ -36,7 +36,6 @@ query BrowseMolecularProfiles(
         ...BrowseMolecularProfilesFields
       }
     }
-    totalCount
     filteredCount
     pageCount
   }
