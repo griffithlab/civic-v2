@@ -29,7 +29,9 @@ module Actions
                   display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
                   tag_type: tag_type,
                   status: self.class.status_value_for_referenced_entity(referenced_item),
-                  link: referenced_item.link
+                  deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
+                  link: referenced_item.link,
+                  revisionset_id: referenced_item.respond_to?(:revisionset_id) ? referenced_item.revisionset_id : nil,
                 }
               else
                 split_segment
@@ -51,6 +53,14 @@ module Actions
         nil
       end
     end
+    
+    def self.deprecation_value_for_referenced_entity(item)
+      if item.is_a?(Variant) || item.is_a?(MolecularProfile)
+        item.deprecated
+      else
+        nil
+      end
+    end
 
     def self.typeahead_matches(query_term)
       if match = "##{query_term}".match(self.scan_regex)
@@ -61,7 +71,8 @@ module Actions
             entity_id: referenced_item.id,
             display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
             tag_type: tag_type,
-            status: status_value_for_referenced_entity(referenced_item)
+            status: status_value_for_referenced_entity(referenced_item),
+            deprecated: self.class.deprecation_value_for_referenced_entity(referenced_item),
           }
           end
         else

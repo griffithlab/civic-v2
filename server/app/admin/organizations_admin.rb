@@ -23,6 +23,8 @@ Trestle.resource(:organizations) do
       end
     end
 
+    select :parent_id, [nil] + Organization.all
+
     url_field :url
 
     text_area :description

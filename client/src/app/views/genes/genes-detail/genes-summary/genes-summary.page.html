@@ -91,8 +91,15 @@
 
     <!-- variant menu row -->
     <nz-col [nzSpan]="24">
-      <cvc-variant-menu [geneId]="gene.id"
-        [geneName]="gene.name"></cvc-variant-menu>
+      <nz-tabset nzType="card">
+        <nz-tab nzTitle="Molecular Profiles">
+          <cvc-molecular-profile-menu [geneId]="gene.id"></cvc-molecular-profile-menu>
+        </nz-tab>
+        <nz-tab nzTitle="Variants">
+          <cvc-variant-menu [geneId]="gene.id"
+            [geneName]="gene.name"></cvc-variant-menu>
+        </nz-tab>
+    </nz-tabset>
     </nz-col>
 
   </nz-row>

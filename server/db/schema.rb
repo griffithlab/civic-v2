@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_10_175156) do
+ActiveRecord::Schema.define(version: 2022_08_22_180640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,6 +524,7 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
     t.text "description"
     t.boolean "flagged", default: false, null: false
     t.float "evidence_score", null: false
+    t.boolean "deprecated", default: false, null: false
     t.index ["description"], name: "index_molecular_profiles_on_description"
     t.index ["name"], name: "index_molecular_profiles_on_name", unique: true
   end
@@ -843,6 +844,9 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
     t.text "allele_registry_id"
     t.boolean "flagged", default: false, null: false
     t.integer "single_variant_molecular_profile_id"
+    t.boolean "deprecated", default: false, null: false
+    t.integer "deprecation_reason"
+    t.integer "deprecation_comment_id"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
@@ -926,31 +930,11 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
   add_foreign_key "variant_aliases_variants", "variants"
   add_foreign_key "variant_group_variants", "variant_groups"
   add_foreign_key "variant_group_variants", "variants"
+  add_foreign_key "variants", "comments", column: "deprecation_comment_id"
   add_foreign_key "variants", "genes"
   add_foreign_key "variants", "genes", column: "secondary_gene_id"
   add_foreign_key "variants", "molecular_profiles", column: "single_variant_molecular_profile_id"
 
-  create_view "evidence_items_by_statuses", sql_definition: <<-SQL
-      SELECT v.id AS variant_id,
-      sum(
-          CASE
-              WHEN ((ei.status)::text = 'accepted'::text) THEN 1
-              ELSE 0
-          END) AS accepted_count,
-      sum(
-          CASE
-              WHEN ((ei.status)::text = 'rejected'::text) THEN 1
-              ELSE 0
-          END) AS rejected_count,
-      sum(
-          CASE
-              WHEN ((ei.status)::text = 'submitted'::text) THEN 1
-              ELSE 0
-          END) AS submitted_count
-     FROM (variants v
-       JOIN evidence_items ei ON (((v.id = ei.variant_id) AND (ei.deleted = false))))
-    GROUP BY v.id;
-  SQL
   create_view "evidence_browse_table_rows", sql_definition: <<-SQL
       SELECT evidence_items.id,
       genes.name AS gene_name,
@@ -1056,7 +1040,7 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
       SELECT sources.id,
       sources.source_type,
       sources.citation_id,
-      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) AS authors,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
       sources.publication_year,
       sources.journal,
       sources.title,
@@ -1074,6 +1058,27 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
   SQL
   add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
 
+  create_view "evidence_items_by_statuses", sql_definition: <<-SQL
+      SELECT mp.id AS molecular_profile_id,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'accepted'::text) THEN 1
+              ELSE 0
+          END) AS accepted_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'rejected'::text) THEN 1
+              ELSE 0
+          END) AS rejected_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'submitted'::text) THEN 1
+              ELSE 0
+          END) AS submitted_count
+     FROM (molecular_profiles mp
+       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
+    GROUP BY mp.id;
+  SQL
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
       outer_variants.name,
@@ -1109,7 +1114,7 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
                JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
             WHERE (evidence_items_1.variant_id = outer_variants.id)
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (outer_variants.deprecated = false))
     GROUP BY outer_variants.id, outer_variants.name, genes.id, genes.name;
   SQL
   add_index "variant_browse_table_rows", ["id"], name: "index_variant_browse_table_rows_on_id", unique: true
@@ -1149,7 +1154,7 @@ ActiveRecord::Schema.define(version: 2022_08_10_175156) do
                JOIN diseases diseases_1 ON ((diseases_1.id = evidence_items_1.disease_id)))
             WHERE (evidence_items_1.molecular_profile_id = outer_mps.id)
             GROUP BY diseases_1.id) disease_count ON ((diseases.id = disease_count.disease_id)))
-    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) AND (outer_mps.deprecated = false))
     GROUP BY outer_mps.id, outer_mps.name, outer_mps.evidence_score;
   SQL
   add_index "molecular_profile_browse_table_rows", ["id"], name: "index_molecular_profile_browse_table_rows_on_id", unique: true

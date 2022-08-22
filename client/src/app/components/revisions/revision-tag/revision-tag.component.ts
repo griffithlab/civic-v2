@@ -4,7 +4,8 @@ import { Maybe } from '@app/generated/civic.apollo';
 export interface LinkableRevision {
   id: number,
   name: string,
-  link: string
+  link: string,
+  revisionsetId: string
 }
 
 export interface Subject {

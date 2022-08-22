@@ -16,23 +16,15 @@ export class PrepositionForSubjectPipe implements PipeTransform {
       case (EventAction.RevisionAccepted):
         return 'to'
       case (EventAction.RevisionRejected):
-        return 'to'
+        return 'tou'
       case (EventAction.RevisionSuperseded):
         return 'to'
       case (EventAction.Flagged):
         return 'on'
       case (EventAction.FlagResolved):
         return 'on'
-      case (EventAction.PublicationSuggested):
-        return ''
-      case (EventAction.CuratedSourceSuggestion):
-        return ''
-      case (EventAction.RejectedSourceSuggestion):
-        return ''
-      case (EventAction.RequeuedSourceSuggestion):
-        return ''
       default:
-        throw new Error('Not handling all event action types yet ' + action)
+        return ''
     }
   }
 }

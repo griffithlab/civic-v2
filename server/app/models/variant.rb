@@ -18,14 +18,21 @@ class Variant < ApplicationRecord
   has_and_belongs_to_many :clinvar_entries
   has_and_belongs_to_many :hgvs_expressions
   has_and_belongs_to_many :sources
-  has_one :evidence_items_by_status
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   belongs_to :single_variant_molecular_profile, 
     class_name: "MolecularProfile",
     foreign_key: :single_variant_molecular_profile_id 
 
+  has_one :deprecation_event,
+    ->() { where(action: 'deprecated variant').includes(:originating_user) },
+    as: :subject,
+    class_name: 'Event'
+  has_one :deprecating_user, through: :deprecation_event, source: :originating_user
+  belongs_to :deprecation_comment, class_name: 'Comment', optional: true
+
   enum reference_build: [:GRCh38, :GRCh37, :NCBI36]
+  enum deprecation_reason: ['duplicate', 'invalid_variant', 'other']
 
   after_save :update_allele_registry_id
   after_commit :reindex_mps
@@ -51,16 +58,21 @@ class Variant < ApplicationRecord
     }
   end
 
+  def should_index?
+    !deprecated
+  end
+
   def link
     Rails.application.routes.url_helpers.url_for("/variants/#{self.id}")
   end
 
   def self.timepoint_query
     ->(x) {
-      self.joins(:evidence_items)
+      self.joins(molecular_profiles: [:evidence_items])
         .group('variants.id')
         .select('variants.id')
         .where("evidence_items.status != 'rejected'")
+        .where("variants.deprecated = ?", false)
         .having('MIN(evidence_items.created_at) >= ?', x)
         .distinct
         .count

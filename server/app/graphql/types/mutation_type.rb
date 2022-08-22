@@ -22,6 +22,9 @@ module Types
     field :flag_entity, mutation: Mutations::FlagEntity
     field :resolve_flag, mutation: Mutations::ResolveFlag
 
+    #deprecation
+    field :deprecate_variant, mutation: Mutations::DeprecateVariant
+
     #molecular profiles
     field :create_molecular_profile, mutation: Mutations::CreateMolecularProfile
 

@@ -146,6 +146,7 @@ module Types
     field :variant_groups, resolver: Resolvers::TopLevelVariantGroups
     field :evidence_items, resolver: Resolvers::TopLevelEvidenceItems
     field :assertions, resolver: Resolvers::TopLevelAssertions
+    field :molecular_profiles, resolver: Resolvers::TopLevelMolecularProfiles
 
     field :flags, resolver: Resolvers::TopLevelFlags
 
@@ -274,24 +275,35 @@ module Types
       if structure.nil? 
         return {
           segments: [],
-          existing_molecular_profile: nil
+          existing_molecular_profile: nil,
+          deprecated_variants: []
         }
       end
 
       variant_ids = structure.variant_ids.uniq
-      variants = Variant.where(id: variant_ids)
+      deprecated_variants = Variant.where(id: variant_ids, deprecated: true)
+      if deprecated_variants.exists?
+        return {
+          segments: [],
+          existing_molecular_profile: nil,
+          deprecated_variants: deprecated_variants
+        }
+      else
+        variants = Variant.where(id: variant_ids)
 
-      if variants.size !=  variant_ids.size
-        missing = variant_ids - variants.map(&:id)
-        raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+        if variants.size !=  variant_ids.size
+          missing = variant_ids - variants.map(&:id)
+          raise  GraphQL::ExecutionError, "Variants with ID [#{missing.join(', ')}] were not found."
+        end
+
+        name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
+
+        return {
+          segments: ::MolecularProfile.new(name: name).segments,
+          existing_molecular_profile: ::MolecularProfile.find_by(name: name),
+          deprecated_variants: []
+        }
       end
-
-      name = Actions::GenerateMolecularProfileName.generate_name(structure: structure)
-
-      return {
-        segments: ::MolecularProfile.new(name: name).segments,
-        existing_molecular_profile: ::MolecularProfile.find_by(name: name)
-      }
 
     end
 

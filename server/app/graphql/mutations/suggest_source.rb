@@ -28,8 +28,13 @@ class Mutations::SuggestSource < Mutations::MutationWithOrg
       errors << "Source with ID #{source_id} does not exist in CIViC"
     end
 
-    if molecular_profile_id && !MolecularProfile.where(id: molecular_profile_id).exists?
-      errors << "Molecular Profile with ID #{molecular_profile_id} does not exist in CIViC"
+    if molecular_profile_id
+      mp = MolecularProfile.where(id: molecular_profile_id)
+      if !mp.exists?
+        errors << "Molecular Profile with ID #{molecular_profile_id} does not exist in CIViC"
+      elsif mp.deprecated
+        errors << "Molecuarl Profile with ID #{molecular_profile_id} is deprecated"
+      end
     end
 
     if disease_id && !Disease.where(id: disease_id).exists?

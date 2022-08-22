@@ -9,6 +9,11 @@ query VariantDetail(
 fragment VariantDetailFields on Variant {
   id
   name
+  deprecated
+  deprecationReason
+  deprecationComment {
+    ...commentListNode
+  }
   gene {
     id
     name

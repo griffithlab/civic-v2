@@ -12,3 +12,4 @@ jsonschema
 gspread
 numpy
 ndex2
+ndexutil

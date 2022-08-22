@@ -2,7 +2,7 @@ class MolecularProfileTsvFormatter
   def self.objects
     MolecularProfile.eager_load(:variants, :evidence_items, :assertions, :molecular_profile_aliases)
       .joins(:evidence_items)
-      .where("evidence_items.status != 'rejected'")
+      .where("evidence_items.status = 'accepted'")
   end
 
   def self.headers

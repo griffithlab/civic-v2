@@ -1,4 +1,4 @@
-<a [routerLink]="revision.link">
+<a [routerLink]="revision.link" [queryParams]="{revisionsetId: revision.revisionsetId }">
   <ng-template [ngTemplateOutlet]="tag"></ng-template>
 </a>
 

@@ -34,7 +34,7 @@ module Types::Entities
         "SID#{object.id}"
       end
     end
-    
+
     def link
       "/sources/#{object.id}"
     end
@@ -58,6 +58,23 @@ module Types::Entities
         'Journal of Clinical Oncology'
       else
         object.full_journal_title
+      end
+    end
+
+    def author_string
+      if object.source_type == 'PubMed'
+        Loaders::AssociationLoader.for(Source, :authors_sources).load(object).then do |authors_sources|
+          Promise.all(authors_sources.map { |as| Loaders::AssociationLoader.for(AuthorsSource, :author).load(as) }).then do |authors|
+            authors_sources.sort_by { |as| as.author_position }
+              .map { |as| "#{as.author.fore_name} #{as.author.last_name}" }
+              .reject { |a| a.blank? }
+              .join(', ')
+          end
+        end
+      elsif object.source_type == 'ASCO'
+        object.asco_presenter
+      else
+        raise StandardError.new("Unexpected source type  #{object.source_type}")
       end
     end
   end

@@ -1,0 +1,38 @@
+mutation DeprecateVariant(
+  $variantId: Int!
+  $deprecationReason: DeprecationReason!
+  $comment: String!
+  $organizationId: Int
+) {
+  deprecateVariant(
+    input: {
+      variantId: $variantId
+      deprecationReason: $deprecationReason
+      comment: $comment
+      organizationId: $organizationId
+    }
+  ) {
+    newlyDeprecatedMolecularProfiles {
+      id
+    }
+    variant {
+      id
+      name
+    }
+  }
+}
+
+query MolecularProfilesForVariant($variantId: Int!) {
+  variant(id: $variantId) {
+    id
+    molecularProfiles {
+      id
+      name
+      link
+      evidenceCountsByStatus {
+        submittedCount
+        acceptedCount
+      }
+    }
+  }
+}
