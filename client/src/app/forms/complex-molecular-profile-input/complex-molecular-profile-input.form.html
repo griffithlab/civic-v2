@@ -19,28 +19,36 @@
 
     <nz-space nzDirection="vertical" nzSize="large">
       <ng-container *nzSpaceItem>
-        <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
-          <ng-container *ngIf="this.displayPreview; else noPreview">
-            <ng-container *ngIf="previewMpAlreadyExists$ | ngrxPush as existing; else newMp">
-              <cvc-molecular-profile-tag [molecularProfile]="existing"></cvc-molecular-profile-tag>
-              <button nz-button
-                nzSize="small" (click)="submitNewMp()" style="float: right"> 
-                Select this Molecular Profile 
-              </button>
-            </ng-container>
-            <ng-template #newMp>
-              <cvc-mp-tag-name [nameSegments]="mpName"></cvc-mp-tag-name>
-              <ng-container *ngIf="this.allowCreate; else createNotAllowed">
-                <button nz-button
-                  nzSize="small" (click)="submitNewMp()" style="float: right">
-                  Create Molecular Profile
-                </button>
-              </ng-container>
-              <ng-template #createNotAllowed>
-                <span style="float: right">This Molecular Profile doesn't exist yet. Only existing Molecular Profiles can be used for Assertions. </span>
-              </ng-template>
-            </ng-template>
+        <ng-container *ngrxLet="previewDeprecatedVariants$ as deprecatedVariants">
+          <ng-container *ngIf="deprecatedVariants.length > 0; else validVariants">
+            Can't create Molecular Profile containing deprecated Variants: 
+            <cvc-variant-tag *ngFor="let v of deprecatedVariants" [variant]="v"></cvc-variant-tag>
           </ng-container>
+          <ng-template #validVariants>
+            <ng-container *ngIf="previewMpName$ | ngrxPush as mpName">
+              <ng-container *ngIf="this.displayPreview; else noPreview">
+                <ng-container *ngIf="previewMpAlreadyExists$ | ngrxPush as existing; else newMp">
+                  <cvc-molecular-profile-tag [molecularProfile]="existing"></cvc-molecular-profile-tag>
+                  <button nz-button
+                    nzSize="small" (click)="submitNewMp()" style="float: right"> 
+                    Select this Molecular Profile 
+                  </button>
+                </ng-container>
+                <ng-template #newMp>
+                  <cvc-mp-tag-name [nameSegments]="mpName"></cvc-mp-tag-name>
+                  <ng-container *ngIf="this.allowCreate; else createNotAllowed">
+                    <button nz-button
+                      nzSize="small" (click)="submitNewMp()" style="float: right">
+                      Create Molecular Profile
+                    </button>
+                  </ng-container>
+                  <ng-template #createNotAllowed>
+                    <span style="float: right">This Molecular Profile doesn't exist yet. Only existing Molecular Profiles can be used for Assertions. </span>
+                  </ng-template>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+          </ng-template>
         </ng-container>
       </ng-container>
 

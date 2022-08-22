@@ -3706,6 +3706,8 @@ input MolecularProfileFields {
 }
 
 type MolecularProfileNamePreview {
+  deprecatedVariants: [Variant!]!
+
   """
   The already existing MP matching this name, if it exists
   """

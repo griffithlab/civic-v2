@@ -844,8 +844,9 @@ export type MolecularProfileEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MolecularProfileNamePreviewKeySpecifier = ('existingMolecularProfile' | 'segments' | MolecularProfileNamePreviewKeySpecifier)[];
+export type MolecularProfileNamePreviewKeySpecifier = ('deprecatedVariants' | 'existingMolecularProfile' | 'segments' | MolecularProfileNamePreviewKeySpecifier)[];
 export type MolecularProfileNamePreviewFieldPolicy = {
+	deprecatedVariants?: FieldPolicy<any> | FieldReadFunction<any>,
 	existingMolecularProfile?: FieldPolicy<any> | FieldReadFunction<any>,
 	segments?: FieldPolicy<any> | FieldReadFunction<any>
 };

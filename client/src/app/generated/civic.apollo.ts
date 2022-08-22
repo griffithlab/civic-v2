@@ -2212,6 +2212,7 @@ export type MolecularProfileFields = {
 
 export type MolecularProfileNamePreview = {
   __typename: 'MolecularProfileNamePreview';
+  deprecatedVariants: Array<Variant>;
   /** The already existing MP matching this name, if it exists */
   existingMolecularProfile?: Maybe<MolecularProfile>;
   segments: Array<MolecularProfileSegment>;
@@ -5732,7 +5733,7 @@ export type PreviewMolecularProfileNameQueryVariables = Exact<{
 }>;
 
 
-export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: { __typename: 'MolecularProfileNamePreview', existingMolecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, segments: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }> } };
+export type PreviewMolecularProfileNameQuery = { __typename: 'Query', previewMolecularProfileName: { __typename: 'MolecularProfileNamePreview', existingMolecularProfile?: { __typename: 'MolecularProfile', id: number, name: string, link: string } | undefined, segments: Array<{ __typename: 'Gene', id: number, name: string, link: string } | { __typename: 'MolecularProfileTextSegment', text: string } | { __typename: 'Variant', id: number, name: string, link: string }>, deprecatedVariants: Array<{ __typename: 'Variant', id: number, name: string, link: string }> } };
 
 export type CreateMolecularProfileMutationVariables = Exact<{
   mpStructure: MolecularProfileComponentInput;
@@ -10385,6 +10386,12 @@ export const PreviewMolecularProfileNameDocument = gql`
     }
     segments {
       ...previewMpName
+    }
+    deprecatedVariants {
+      id
+      name
+      link
+      __typename
     }
   }
 }
