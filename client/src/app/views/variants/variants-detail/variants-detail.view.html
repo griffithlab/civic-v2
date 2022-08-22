@@ -76,7 +76,8 @@
             <button
               nz-button
               nzSize="small"
-              *ngIf="viewer.isEditor && !variant.deprecated"
+              *ngIf="viewer.isEditor"
+              [disabled]="variant.deprecated"
               nz-popover
               nzPopoverTitle="Deprecate This Variant"
               nzPopoverTrigger="click"
