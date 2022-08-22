@@ -3,10 +3,6 @@
     [nzExtra]="cardExtra">
 
     <ng-template #cardTitle>
-      <i nz-icon
-        nzTheme="twotone"
-        [nzTwotoneColor]="'Gene' | entityColor"
-        nzType="civic-gene"></i> {{ geneName }} Variants
       <ng-container *ngIf="totalVariants$ | ngrxPush as total">
         <span nz-typography
           nzType="secondary">{{ total }} Total</span>

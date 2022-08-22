@@ -26,7 +26,18 @@ class Resolvers::TopLevelMolecularProfiles < GraphQL::Schema::Resolver
   end
 
   option(:name, type: GraphQL::Types::String, description: 'Left anchored filtering for molecular profile name and aliases.') do |scope, value|
-    scope.left_joins(:molecular_profile_aliases)
-      .where('molecular_profiles.name ILIKE :query OR molecular_profile_aliases.name ILIKE :query', { query: "%#{value}%" })
+    results = Searchkick.search(
+                  value,
+                  models: [MolecularProfile],
+                  fields: ['name'],
+                  match: :word_start
+                )
+    ids = results.hits.map { |x| x["_id"] }
+    scope.where(molecular_profiles: { id: ids })
+  end
+
+  option(:gene_id, type: Int, description: "Filter molecular profiles to the CIViC id of the gene(s) involved.") do |scope, value|
+    scope.joins(variants: [:gene])
+      .where('genes.id = ?', value)
   end
 end
