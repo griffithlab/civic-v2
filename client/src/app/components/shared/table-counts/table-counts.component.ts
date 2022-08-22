@@ -10,10 +10,10 @@ export type TableCountsInfo = {
 
 export type EntityConnection = {
   edges: Array<EntityEdge>
-  nodes: Array<object>
+  nodes?: Array<object>
   pageCount: number
   filteredCount?: number
-  totalCount: number
+  totalCount?: number
   pageInfo: PageInfo
 }
 
@@ -36,9 +36,16 @@ export class TableCountsComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableCountsInfo$ = this.cvcTableCountsConnection
-      .pipe(filter((c) => c.totalCount !== undefined),
+      .pipe(filter((c) => c.totalCount != undefined || c.filteredCount != undefined),
         map((c: EntityConnection) => {
-          const { filteredCount: fc, totalCount: tc, edges } = c
+          console.log(c)
+          const fc = c.filteredCount
+          const tc = c.totalCount
+          const edges = c.edges
+          // Need to provide either filtered count or total count
+          if (fc == undefined && tc == undefined) {
+            console.log("Need to provide either filtered count or total count in the table counts component")
+          }
           // If no filtered count, set filtered count to total count
           const filteredCount = fc == undefined ? tc : fc
           return {
