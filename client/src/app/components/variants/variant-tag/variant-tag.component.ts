@@ -8,6 +8,7 @@ export interface LinkableVariant {
   name: string
   link: string
   flagged?: boolean
+  deprecated?: boolean
 }
 
 @Component({

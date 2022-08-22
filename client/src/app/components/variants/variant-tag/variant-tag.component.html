@@ -6,6 +6,7 @@
 
 <ng-template #tag>
   <nz-tag nz-popover
+    [ngClass]="{ deprecated: variant.deprecated }"
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="popoverContent"
     [nzPopoverTrigger]="enablePopover ? 'hover' : null"

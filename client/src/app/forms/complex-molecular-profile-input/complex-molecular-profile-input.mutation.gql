@@ -10,6 +10,11 @@ query previewMolecularProfileName(
     segments {
       ...previewMpName
     }
+    deprecatedVariants {
+      id
+      name
+      link
+    }
   }
 }
 

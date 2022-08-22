@@ -38,6 +38,7 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
       id
       name
       link
+      deprecated
     }
 }
 

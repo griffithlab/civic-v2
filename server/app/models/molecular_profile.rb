@@ -3,6 +3,7 @@ class MolecularProfile < ActiveRecord::Base
   include Subscribable
   include Flaggable
   include Commentable
+  include WithTimepointCounts
 
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :sources
@@ -11,6 +12,13 @@ class MolecularProfile < ActiveRecord::Base
   has_one :evidence_items_by_status
   has_and_belongs_to_many :molecular_profile_aliases, join_table: :molecular_profile_aliases_molecular_profiles
   has_many :source_suggestions
+  has_and_belongs_to_many :deprecated_variants,
+    ->() { where('variants.deprecated = TRUE') },
+    class_name: 'Variant'
+  has_one :deprecation_event,
+    ->() { where(action: 'deprecated molecular profile').includes(:originating_user) },
+    as: :subject,
+    class_name: 'Event'
 
   validates :name, presence: true
 
@@ -22,6 +30,10 @@ class MolecularProfile < ActiveRecord::Base
       name: self.display_name,
       aliases: self.molecular_profile_aliases.map(&:name)
     }
+  end
+
+  def should_index?
+    !deprecated
   end
 
   GENE_REGEX = /#GID(?<id>\d+)/i
@@ -50,5 +62,18 @@ class MolecularProfile < ActiveRecord::Base
         segment
       end
     end
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:evidence_items)
+        .group('molecular_profiles.id')
+        .select('molecular_profiles.id')
+        .where("evidence_items.status != 'rejected'")
+        .where("molecular_profiles.deprecated = ?", false)
+        .having('MIN(evidence_items.created_at) >= ?', x)
+        .distinct
+        .count
+    }
   end
 end

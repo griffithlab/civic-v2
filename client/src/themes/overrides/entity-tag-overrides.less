@@ -2,10 +2,10 @@
 
 :host ::ng-deep nz-tag {
   // add some width to right border
-  &.rejected, &.submitted, &.accepted {
+  &.rejected, &.submitted, &.accepted, &.deprecated{
     border-right-width: 2px;
   }
-  &.rejected {
+  &.rejected, &.deprecated {
     border-color: lighten(@border-color-base, 5%); // lighten std border color
     background-color: #FFF; // remove background color
     color: lighten(@tag-default-color, 60%) // lighten text color

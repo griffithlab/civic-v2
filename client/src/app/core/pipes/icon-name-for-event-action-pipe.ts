@@ -47,8 +47,10 @@ export class IconNameForEventActionPipe implements PipeTransform {
         return 'civic-evidence'
       case (EventAction.AssertionReverted):
         return 'civic-assertion'
-      default:
-        throw new Error('Not handling all event action types yet' + a)
+      case (EventAction.DeprecatedVariant):
+        return 'civic-variant'
+      case (EventAction.DeprecatedMolecularProfile):
+        return 'civic-molecularprofile'
     }
   }
 }

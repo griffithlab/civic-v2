@@ -7,6 +7,17 @@ query MolecularProfileDetail($mpId: Int!) {
 fragment MolecularProfileDetailFields on MolecularProfile {
   id
   name
+  deprecated
+  deprecatedVariants {
+    deprecationReason
+    deprecationComment {
+      ...commentListNode
+    }
+    id
+    deprecated
+    name
+    link
+  }
   molecularProfileAliases
   flags(state: OPEN) {
     totalCount

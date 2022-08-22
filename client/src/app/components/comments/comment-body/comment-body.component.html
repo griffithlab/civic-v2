@@ -15,7 +15,7 @@
                 <cvc-gene-tag [gene]="{id: c.entityId, name: c.displayName, link: c.link}"></cvc-gene-tag>
             </span>
             <span *ngSwitchCase="'VARIANT'">
-                <cvc-variant-tag [variant]="{id: c.entityId, name: c.displayName, link: c.link}"></cvc-variant-tag>
+                <cvc-variant-tag [variant]="{id: c.entityId, name: c.displayName, link: c.link, deprecated: c.deprecated}"></cvc-variant-tag>
             </span>
             <span *ngSwitchCase="'VARIANT_GROUP'">
                 <cvc-variant-group-tag [variantgroup]="{id: c.entityId, name: c.displayName, link: c.link}"></cvc-variant-group-tag>
@@ -30,7 +30,7 @@
                 <cvc-organization-tag [org]="{id: c.entityId, name: c.displayName}"></cvc-organization-tag>
             </span>
             <span *ngSwitchCase="'MOLECULAR_PROFILE'">
-                <cvc-molecular-profile-tag [molecularProfile]="{id: c.entityId, name: c.displayName, link: c.link}"></cvc-molecular-profile-tag>
+                <cvc-molecular-profile-tag [molecularProfile]="{id: c.entityId, name: c.displayName, link: c.link, deprecated: c.deprecated}"></cvc-molecular-profile-tag>
             </span>
             <span *ngSwitchCase="'ROLE'">
                 <nz-tag><i nz-icon

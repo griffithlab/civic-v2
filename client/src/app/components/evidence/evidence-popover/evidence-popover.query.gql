@@ -35,6 +35,7 @@ fragment evidencePopover on EvidenceItem {
     id
     name
     link
+    deprecated
     parsedName {
       ...MolecularProfileParsedName
     }

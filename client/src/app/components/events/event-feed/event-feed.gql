@@ -114,6 +114,12 @@ fragment eventFeedNode on Event {
         ... on Revision {
             revisionsetId
         }
+        ... on Variant {
+            deprecated
+        }
+        ... on MolecularProfile {
+            deprecated
+        }
         __typename
     }
     originatingObject {
