@@ -1550,6 +1550,7 @@ type CommentTagSegment {
   displayName: String!
   entityId: Int!
   link: String!
+  revisionsetId: String
   status: EvidenceStatus
   tagType: TaggableEntity!
 }
@@ -5361,6 +5362,11 @@ type Query {
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Filter molecular profiles to the CIViC id of the gene(s) involved.
+    """
+    geneId: Int
 
     """
     Returns the last _n_ elements from the list.

@@ -18,7 +18,7 @@
           <nz-tag nzMode="closeable" (nzOnClose)="onSetFilterClearClicked()">Group: {{this.filteredSet}}</nz-tag>
         </nz-row>
       </nz-space>
-      <cvc-participant-list listTitle="Revision Status" [preselectedOption]="this.selectableStatuses[0]" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">
+      <cvc-participant-list listTitle="Revision Status" [preselectedOption]="this.preselectedRevisionStatus" [participantList]="selectableStatuses" (participantSelectedEvent)="onStatusSelected($event)">
         <ng-template #itemTemplate let-status>
           <span>{{status.displayName}}</span>
         </ng-template>

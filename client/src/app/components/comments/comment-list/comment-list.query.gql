@@ -89,6 +89,7 @@ fragment commentListNode on Comment {
       tagType
       status
       link
+      revisionsetId
       __typename
     }
     ... on CommentTextSegment {

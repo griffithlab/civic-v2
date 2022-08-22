@@ -1,0 +1,40 @@
+query MolecularProfileMenu(
+  $geneId: Int,
+  $mpName: String,
+  $first: Int,
+  $last: Int,
+  $before: String,
+  $after: String,
+  $evidenceStatusFilter: MolecularProfileDisplayFilter
+  ) {
+  molecularProfiles(
+    geneId: $geneId,
+    name: $mpName,
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first,
+    last: $last,
+    before: $before,
+    after: $after,
+    ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...menuMolecularProfile
+      }
+    }
+  }
+}
+
+fragment menuMolecularProfile on MolecularProfile {
+  id
+  name
+  link
+  flagged
+}

@@ -9,7 +9,7 @@
     <ng-container *ngIf="c.__typename == 'CommentTagSegment'">
         <ng-container [ngSwitch]="c.tagType">
             <span *ngSwitchCase="'REVISION'">
-                <cvc-revision-tag [revision]="{id: c.entityId, name: c.displayName, link: c.link}"></cvc-revision-tag>
+                <cvc-revision-tag [revision]="{id: c.entityId, name: c.displayName, link: c.link, revisionsetId: c.revisionsetId!}"></cvc-revision-tag>
             </span>
             <span *ngSwitchCase="'GENE'">
                 <cvc-gene-tag [gene]="{id: c.entityId, name: c.displayName, link: c.link}"></cvc-gene-tag>

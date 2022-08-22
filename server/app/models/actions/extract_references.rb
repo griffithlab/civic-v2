@@ -29,7 +29,8 @@ module Actions
                   display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
                   tag_type: tag_type,
                   status: self.class.status_value_for_referenced_entity(referenced_item),
-                  link: referenced_item.link
+                  link: referenced_item.link,
+                  revisionset_id: referenced_item.respond_to?(:revisionset_id) ? referenced_item.revisionset_id : nil,
                 }
               else
                 split_segment
@@ -61,7 +62,7 @@ module Actions
             entity_id: referenced_item.id,
             display_name: referenced_item.respond_to?(:display_name) ? referenced_item.display_name : referenced_item.name,
             tag_type: tag_type,
-            status: status_value_for_referenced_entity(referenced_item)
+            status: status_value_for_referenced_entity(referenced_item),
           }
           end
         else

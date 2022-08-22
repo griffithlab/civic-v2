@@ -15,6 +15,8 @@ import { CvcMyGeneInfoModule } from '@app/components/genes/my-gene-info/my-gene-
 import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag.module';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { CvcMolecularProfilesMenuModule } from '@app/components/molecular-profiles/molecular-profiles-menu/molecular-profiles-menu.module';
 
 @NgModule({
   declarations: [GenesSummaryPage],
@@ -26,6 +28,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzTypographyModule,
     NzSpaceModule,
     NzTagModule,
+    NzTabsModule,
+
     CvcEmptyRevisableModule,
     CvcTagListModule,
     CvcLinkTagModule,
@@ -34,6 +38,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     CvcUserTagModule,
     CvcVariantsMenuModule,
     CvcMyGeneInfoModule,
+    CvcMolecularProfilesMenuModule,
   ],
   exports: [GenesSummaryPage]
 })
