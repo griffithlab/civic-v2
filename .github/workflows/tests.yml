@@ -1,4 +1,4 @@
-name: Server Unit Tests
+name: Tests
 on:
   push:
     branches: [ main, staging ]
@@ -6,8 +6,8 @@ on:
     branches: [ main, staging]
 
 jobs:
-  tests:
-    name: Tests
+  backend_tests:
+    name: Backend Tests
     runs-on: 'ubuntu-latest'
     strategy:
       matrix:
@@ -46,3 +46,25 @@ jobs:
           RAILS_ENV: test
         run: bundle exec rails test
         working-directory: ./server
+
+  frontend_tests:
+    name: Frontend Tests
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - run: npm install -g yarn
+        working-directory: ./client
+
+      - run: yarn install
+        working-directory: ./client
+
+      - run: yarn build
+        working-directory: ./client
