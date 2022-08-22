@@ -1548,6 +1548,7 @@ type CommentEdge {
 }
 
 type CommentTagSegment {
+  deprecated: Boolean
   displayName: String!
   entityId: Int!
   link: String!

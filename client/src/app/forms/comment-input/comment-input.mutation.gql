@@ -12,6 +12,7 @@ fragment previewComment on CommentBodySegment {
     tagType
     link
     status
+    deprecated
     __typename
   }
   ... on CommentTextSegment {

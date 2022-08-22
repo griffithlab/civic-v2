@@ -6,6 +6,7 @@
 
 <ng-template #tag>
   <nz-tag *ngIf="enablePopover; else noPopover"
+    [ngClass]="{ deprecated: molecularProfile.deprecated }"
     nz-popover
     [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
     [nzPopoverContent]="popoverContent"
@@ -22,6 +23,7 @@
 
 <ng-template #noPopover>
   <nz-tag [nzMode]="this.onCloseClicked ? 'closeable' : 'default'"
+    [ngClass]="{ deprecated: molecularProfile.deprecated }"
     (nzOnClose)="itemClosed($event)">
     <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
   </nz-tag>

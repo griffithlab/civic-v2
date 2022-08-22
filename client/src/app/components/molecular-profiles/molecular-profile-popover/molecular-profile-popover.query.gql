@@ -20,6 +20,7 @@ fragment molecularProfilePopoverFields on MolecularProfile {
     ... on Variant {
       id
       name
+      deprecated
       link
     }
   }

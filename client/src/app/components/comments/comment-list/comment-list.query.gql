@@ -88,6 +88,7 @@ fragment commentListNode on Comment {
       displayName
       tagType
       status
+      deprecated
       link
       revisionsetId
       __typename
