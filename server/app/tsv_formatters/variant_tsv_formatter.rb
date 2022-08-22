@@ -1,6 +1,6 @@
 class VariantTsvFormatter
   def self.objects
-    Variant.joins(:evidence_items)
+    Variant.joins(molecular_profiles: [:evidence_items])
       .includes(:gene, :variant_groups, :variant_types, :hgvs_expressions, :variant_aliases)
       .where("evidence_items.status = 'accepted'")
       .distinct

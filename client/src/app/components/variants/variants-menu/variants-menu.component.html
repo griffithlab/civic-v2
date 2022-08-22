@@ -3,10 +3,6 @@
     [nzExtra]="cardExtra">
 
     <ng-template #cardTitle>
-      <i nz-icon
-        nzTheme="twotone"
-        [nzTwotoneColor]="'Gene' | entityColor"
-        nzType="civic-gene"></i> {{ geneName }} Variants
       <ng-container *ngIf="totalVariants$ | ngrxPush as total">
         <span nz-typography
           nzType="secondary">{{ total }} Total</span>
@@ -64,31 +60,6 @@
               <nz-option nzValue="COORDINATE_END"
                 style="width: 100%"
                 nzLabel="End Position"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Show</nz-form-label>
-          <nz-form-control>
-            <nz-select (ngModelChange)="onVariantStatusFilterChanged($event)"
-              nzSize="small"
-              id="status-filter"
-              name="statusFilter"
-              style="width: 320px;"
-              [(ngModel)]="statusFilter">
-              <nz-option nzValue="WITH_ACCEPTED"
-                style="width: 100%"
-                nzLabel="Variants with accepted evidence"></nz-option>
-              <nz-option nzValue="WITH_ACCEPTED_OR_SUBMITTED"
-                style="width: 100%"
-                nzLabel="Variants with accepted and/or submitted evidence"
-                selected></nz-option>
-              <nz-option nzValue="WITH_SUBMITTED"
-                style="width: 100%"
-                nzLabel="Variants with submitted evidence"></nz-option>
-              <nz-option nzValue="ALL"
-                style="width: 100%"
-                nzLabel="All Variants"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>

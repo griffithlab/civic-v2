@@ -2975,11 +2975,6 @@ type Gene implements Commentable & EventSubject & Flaggable & MolecularProfileCo
     before: String
 
     """
-    Limit variants by the status of attached evidence.
-    """
-    evidenceStatusFilter: VariantDisplayFilter
-
-    """
     Returns the first _n_ elements from the list.
     """
     first: Int
@@ -3548,6 +3543,73 @@ input MolecularProfileComponentInput {
   One or more single Variants that make up the Molecular Profile.
   """
   variantComponents: [VariantComponent!]
+}
+
+"""
+The connection type for MolecularProfile.
+"""
+type MolecularProfileConnection {
+  """
+  A list of edges.
+  """
+  edges: [MolecularProfileEdge!]!
+
+  """
+  A list of nodes.
+  """
+  nodes: [MolecularProfile!]!
+
+  """
+  Total number of pages, based on filtered count and pagesize.
+  """
+  pageCount: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  The total number of records in this filtered collection.
+  """
+  totalCount: Int!
+}
+
+enum MolecularProfileDisplayFilter {
+  """
+  Display all molecular profiles regardless of attached evidence status.
+  """
+  ALL
+
+  """
+  Display only molecular profiles which have at least one accepted evidence item.
+  """
+  WITH_ACCEPTED
+
+  """
+  Display only molecular profiles which have evidence in either an accepted or submitted state.
+  """
+  WITH_ACCEPTED_OR_SUBMITTED
+
+  """
+  Display molecular profiles which have at least one submited evidence item.
+  """
+  WITH_SUBMITTED
+}
+
+"""
+An edge in a connection.
+"""
+type MolecularProfileEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: MolecularProfile
 }
 
 """
@@ -5194,6 +5256,46 @@ type Query {
   molecularProfile(id: Int!): MolecularProfile
 
   """
+  List and filter molecular profiles.
+  """
+  molecularProfiles(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Limit molecular profiles by the status of attached evidence.
+    """
+    evidenceStatusFilter: MolecularProfileDisplayFilter
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Filter molecular profiles to the CIViC id of the gene(s) involved.
+    """
+    geneId: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Left anchored filtering for molecular profile name and aliases.
+    """
+    name: String
+  ): MolecularProfileConnection!
+
+  """
   Retrieve NCCN Guideline options as a typeahead
   """
   nccnGuidelinesTypeahead(queryTerm: String!): [NccnGuideline!]!
@@ -5658,11 +5760,6 @@ type Query {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
-
-    """
-    Limit variants by the status of attached evidence.
-    """
-    evidenceStatusFilter: VariantDisplayFilter
 
     """
     Returns the first _n_ elements from the list.
@@ -7678,28 +7775,6 @@ type VariantConnection {
   totalCount: Int!
 }
 
-enum VariantDisplayFilter {
-  """
-  Display all variants regardless of attached evience.
-  """
-  ALL
-
-  """
-  Display only variants which have at least one accepted evidence item.
-  """
-  WITH_ACCEPTED
-
-  """
-  Display only variants which have evidence in either an accepted or submitted state.
-  """
-  WITH_ACCEPTED_OR_SUBMITTED
-
-  """
-  Display variants which have at least one submited evidence item.
-  """
-  WITH_SUBMITTED
-}
-
 """
 An edge in a connection.
 """
@@ -7991,11 +8066,6 @@ type VariantGroup implements Commentable & EventSubject & Flaggable & WithRevisi
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
-
-    """
-    Limit variants by the status of attached evidence.
-    """
-    evidenceStatusFilter: VariantDisplayFilter
 
     """
     Returns the first _n_ elements from the list.

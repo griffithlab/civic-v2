@@ -1796,7 +1796,6 @@ export type GeneRevisionsArgs = {
 export type GeneVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -2111,6 +2110,41 @@ export type MolecularProfileComponentInput = {
   complexComponents?: InputMaybe<Array<MolecularProfileComponentInput>>;
   /** One or more single Variants that make up the Molecular Profile. */
   variantComponents?: InputMaybe<Array<VariantComponent>>;
+};
+
+/** The connection type for MolecularProfile. */
+export type MolecularProfileConnection = {
+  __typename: 'MolecularProfileConnection';
+  /** A list of edges. */
+  edges: Array<MolecularProfileEdge>;
+  /** A list of nodes. */
+  nodes: Array<MolecularProfile>;
+  /** Total number of pages, based on filtered count and pagesize. */
+  pageCount: Scalars['Int'];
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The total number of records in this filtered collection. */
+  totalCount: Scalars['Int'];
+};
+
+export enum MolecularProfileDisplayFilter {
+  /** Display all molecular profiles regardless of attached evidence status. */
+  All = 'ALL',
+  /** Display only molecular profiles which have at least one accepted evidence item. */
+  WithAccepted = 'WITH_ACCEPTED',
+  /** Display only molecular profiles which have evidence in either an accepted or submitted state. */
+  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
+  /** Display molecular profiles which have at least one submited evidence item. */
+  WithSubmitted = 'WITH_SUBMITTED'
+}
+
+/** An edge in a connection. */
+export type MolecularProfileEdge = {
+  __typename: 'MolecularProfileEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<MolecularProfile>;
 };
 
 /** Fields on a MolecularProfile that curators may propose revisions to. */
@@ -2807,6 +2841,8 @@ export type Query = {
   genes: GeneConnection;
   /** Find a molecular profile by CIViC ID */
   molecularProfile?: Maybe<MolecularProfile>;
+  /** List and filter molecular profiles. */
+  molecularProfiles: MolecularProfileConnection;
   /** Retrieve NCCN Guideline options as a typeahead */
   nccnGuidelinesTypeahead: Array<NccnGuideline>;
   /** List and filter notifications for the logged in user. */
@@ -3181,6 +3217,17 @@ export type QueryMolecularProfileArgs = {
 };
 
 
+export type QueryMolecularProfilesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  geneId?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryNccnGuidelinesTypeaheadArgs = {
   queryTerm: Scalars['String'];
 };
@@ -3422,7 +3469,6 @@ export type QueryVariantTypesArgs = {
 export type QueryVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   geneId?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
@@ -4633,17 +4679,6 @@ export type VariantConnection = {
   totalCount: Scalars['Int'];
 };
 
-export enum VariantDisplayFilter {
-  /** Display all variants regardless of attached evience. */
-  All = 'ALL',
-  /** Display only variants which have at least one accepted evidence item. */
-  WithAccepted = 'WITH_ACCEPTED',
-  /** Display only variants which have evidence in either an accepted or submitted state. */
-  WithAcceptedOrSubmitted = 'WITH_ACCEPTED_OR_SUBMITTED',
-  /** Display variants which have at least one submited evidence item. */
-  WithSubmitted = 'WITH_SUBMITTED'
-}
-
 /** An edge in a connection. */
 export type VariantEdge = {
   __typename: 'VariantEdge';
@@ -4762,7 +4797,6 @@ export type VariantGroupRevisionsArgs = {
 export type VariantGroupVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
@@ -5216,9 +5250,24 @@ export type BrowseMolecularProfilesQueryVariables = Exact<{
 }>;
 
 
-export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', totalCount: number, filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, evidenceScore: number, assertionCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, drugs: Array<{ __typename: 'LinkableDrug', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> } | undefined }> } };
+export type BrowseMolecularProfilesQuery = { __typename: 'Query', browseMolecularProfiles: { __typename: 'BrowseMolecularProfileConnection', filteredCount: number, pageCount: number, pageInfo: { __typename: 'PageInfo', endCursor?: string | undefined, hasNextPage: boolean, startCursor?: string | undefined, hasPreviousPage: boolean }, edges: Array<{ __typename: 'BrowseMolecularProfileEdge', cursor: string, node?: { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, evidenceScore: number, assertionCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, drugs: Array<{ __typename: 'LinkableDrug', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> } | undefined }> } };
 
 export type BrowseMolecularProfilesFieldsFragment = { __typename: 'BrowseMolecularProfile', id: number, name: string, evidenceItemCount: number, evidenceScore: number, assertionCount: number, link: string, aliases: Array<{ __typename: 'MolecularProfileAlias', name: string }>, genes: Array<{ __typename: 'LinkableGene', id: number, name: string, link: string }>, variants: Array<{ __typename: 'LinkableVariant', id: number, name: string, link: string }>, drugs: Array<{ __typename: 'LinkableDrug', id: number, name: string, link: string }>, diseases: Array<{ __typename: 'LinkableDisease', id: number, name: string, link: string }> };
+
+export type MolecularProfileMenuQueryVariables = Exact<{
+  geneId?: InputMaybe<Scalars['Int']>;
+  mpName?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  evidenceStatusFilter?: InputMaybe<MolecularProfileDisplayFilter>;
+}>;
+
+
+export type MolecularProfileMenuQuery = { __typename: 'Query', molecularProfiles: { __typename: 'MolecularProfileConnection', totalCount: number, pageInfo: { __typename: 'PageInfo', startCursor?: string | undefined, endCursor?: string | undefined, hasPreviousPage: boolean, hasNextPage: boolean }, edges: Array<{ __typename: 'MolecularProfileEdge', cursor: string, node?: { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean } | undefined }> } };
+
+export type MenuMolecularProfileFragment = { __typename: 'MolecularProfile', id: number, name: string, link: string, flagged: boolean };
 
 export type OrgPopoverQueryVariables = Exact<{
   orgId: Scalars['Int'];
@@ -5509,7 +5558,6 @@ export type VariantPopoverFieldsFragment = { __typename: 'Variant', id: number, 
 export type VariantsMenuQueryVariables = Exact<{
   geneId?: InputMaybe<Scalars['Int']>;
   variantName?: InputMaybe<Scalars['String']>;
-  evidenceStatusFilter?: InputMaybe<VariantDisplayFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   before?: InputMaybe<Scalars['String']>;
@@ -6891,6 +6939,14 @@ export const BrowseMolecularProfilesFieldsFragmentDoc = gql`
     link
   }
   link
+}
+    `;
+export const MenuMolecularProfileFragmentDoc = gql`
+    fragment menuMolecularProfile on MolecularProfile {
+  id
+  name
+  link
+  flagged
 }
     `;
 export const OrgPopoverFragmentDoc = gql`
@@ -9172,7 +9228,6 @@ export const BrowseMolecularProfilesDocument = gql`
         ...BrowseMolecularProfilesFields
       }
     }
-    totalCount
     filteredCount
     pageCount
   }
@@ -9184,6 +9239,44 @@ export const BrowseMolecularProfilesDocument = gql`
   })
   export class BrowseMolecularProfilesGQL extends Apollo.Query<BrowseMolecularProfilesQuery, BrowseMolecularProfilesQueryVariables> {
     document = BrowseMolecularProfilesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MolecularProfileMenuDocument = gql`
+    query MolecularProfileMenu($geneId: Int, $mpName: String, $first: Int, $last: Int, $before: String, $after: String, $evidenceStatusFilter: MolecularProfileDisplayFilter) {
+  molecularProfiles(
+    geneId: $geneId
+    name: $mpName
+    evidenceStatusFilter: $evidenceStatusFilter
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        ...menuMolecularProfile
+      }
+    }
+  }
+}
+    ${MenuMolecularProfileFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MolecularProfileMenuGQL extends Apollo.Query<MolecularProfileMenuQuery, MolecularProfileMenuQueryVariables> {
+    document = MolecularProfileMenuDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -9914,11 +10007,10 @@ export const VariantPopoverDocument = gql`
     }
   }
 export const VariantsMenuDocument = gql`
-    query VariantsMenu($geneId: Int, $variantName: String, $evidenceStatusFilter: VariantDisplayFilter, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
+    query VariantsMenu($geneId: Int, $variantName: String, $first: Int, $last: Int, $before: String, $after: String, $sortBy: VariantMenuSort) {
   variants(
     geneId: $geneId
     name: $variantName
-    evidenceStatusFilter: $evidenceStatusFilter
     first: $first
     last: $last
     before: $before

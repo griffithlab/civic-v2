@@ -1,6 +1,6 @@
 class GeneTsvFormatter
   def self.objects
-    Gene.joins(variants: [:evidence_items]).distinct
+    Gene.joins(variants: { molecular_profiles: [:evidence_items]}).distinct
   end
 
   def self.headers
