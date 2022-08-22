@@ -7,6 +7,7 @@ import {
   Maybe,
   MolecularProfilesForVariantGQL,
   Organization,
+  VariantDetailGQL,
 } from '@app/generated/civic.apollo';
 import { Observable, Subject } from 'rxjs';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
@@ -51,6 +52,7 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
 
   constructor(
     private deprecateVariantGQL: DeprecateVariantGQL,
+    private variantDetailGQL: VariantDetailGQL,
     private mpsForVariantGQL: MolecularProfilesForVariantGQL,
     private networkErrorService: NetworkErrorsService,
     private route: ActivatedRoute,
@@ -102,13 +104,25 @@ export class VariantDeprecateForm implements OnDestroy, OnInit {
         organizationId: this.selectedOrg?.id
       }
 
-     let state = this.deprecateVariantMutator.mutate(this.deprecateVariantGQL, input)
+      let state = this.deprecateVariantMutator.mutate(this.deprecateVariantGQL, 
+        input,
+        {
+          refetchQueries: [
+            {
+              query: this.variantDetailGQL.document,
+              variables: { variantId: this.variantId }
+            },
+          ]
+        }
+      )
+
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res) {
           this.success = true
           this.comment = ''
         }
       })
+
       state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
         if (res.length > 0) {
           this.errorMessages = res
