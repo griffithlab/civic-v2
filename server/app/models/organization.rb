@@ -3,6 +3,7 @@ class Organization < ActiveRecord::Base
   has_many :affiliations
   has_many :users, through: :affiliations
   has_many :groups, :class_name => 'Organization', :foreign_key => 'parent_id'
+  belongs_to :parent, class_name: 'Organization', optional: true
 
   has_one_attached :profile_image
   validates :profile_image, content_type: ['image/png', 'image/jpg', 'image/jpeg'],
