@@ -828,6 +828,7 @@ export type CivicTimepointStats = {
   drugs: TimePointCounts;
   evidenceItems: TimePointCounts;
   genes: TimePointCounts;
+  molecularProfiles: TimePointCounts;
   revisions: TimePointCounts;
   sources: TimePointCounts;
   users: TimePointCounts;
@@ -5469,7 +5470,7 @@ export type ModerateAssertionMutation = { __typename: 'Mutation', moderateAssert
 export type CivicStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CivicStatsQuery = { __typename: 'Query', timepointStats: { __typename: 'CivicTimepointStats', assertions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, diseases: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, comments: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, drugs: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, evidenceItems: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, genes: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, revisions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, sources: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, users: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, variants: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number } } };
+export type CivicStatsQuery = { __typename: 'Query', timepointStats: { __typename: 'CivicTimepointStats', assertions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, diseases: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, drugs: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, evidenceItems: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, genes: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, revisions: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, sources: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, users: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, variants: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, comments: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number }, molecularProfiles: { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number } } };
 
 export type TimepointCountFragment = { __typename: 'TimePointCounts', allTime: number, newThisMonth: number, newThisWeek: number, newThisYear: number };
 
@@ -9728,9 +9729,6 @@ export const CivicStatsDocument = gql`
     diseases {
       ...TimepointCount
     }
-    comments {
-      ...TimepointCount
-    }
     drugs {
       ...TimepointCount
     }
@@ -9750,6 +9748,12 @@ export const CivicStatsDocument = gql`
       ...TimepointCount
     }
     variants {
+      ...TimepointCount
+    }
+    comments {
+      ...TimepointCount
+    }
+    molecularProfiles {
       ...TimepointCount
     }
   }
@@ -10391,7 +10395,6 @@ export const PreviewMolecularProfileNameDocument = gql`
       id
       name
       link
-      __typename
     }
   }
 }

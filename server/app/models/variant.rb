@@ -64,10 +64,11 @@ class Variant < ApplicationRecord
 
   def self.timepoint_query
     ->(x) {
-      self.joins(:evidence_items)
+      self.joins(molecular_profiles: [:evidence_items])
         .group('variants.id')
         .select('variants.id')
         .where("evidence_items.status != 'rejected'")
+        .where("variants.deprecated = ?", false)
         .having('MIN(evidence_items.created_at) >= ?', x)
         .distinct
         .count

@@ -1388,6 +1388,7 @@ type CivicTimepointStats {
   drugs: TimePointCounts!
   evidenceItems: TimePointCounts!
   genes: TimePointCounts!
+  molecularProfiles: TimePointCounts!
   revisions: TimePointCounts!
   sources: TimePointCounts!
   users: TimePointCounts!

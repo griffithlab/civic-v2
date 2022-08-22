@@ -6263,6 +6263,22 @@
               "deprecationReason": null
             },
             {
+              "name": "molecularProfiles",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TimePointCounts",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "revisions",
               "description": null,
               "args": [],

@@ -6,9 +6,6 @@ query CivicStats {
     diseases {
       ...TimepointCount
     }
-    comments {
-      ...TimepointCount
-    }
     drugs {
       ...TimepointCount
     }
@@ -28,6 +25,12 @@ query CivicStats {
       ...TimepointCount
     }
     variants {
+      ...TimepointCount
+    }
+    comments {
+      ...TimepointCount
+    }
+    molecularProfiles {
       ...TimepointCount
     }
   }

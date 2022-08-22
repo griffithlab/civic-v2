@@ -71,15 +71,15 @@
         </a>
       </nz-col>
       <nz-col nzFlex="1">
-        <a routerLink="/users">
-          <nz-statistic [nzTitle]="statsType + ' Contributors'"
-            [nzValue]="(stats.users[statsTypes[statsType]] | number)!"
-            [nzPrefix]="userIcon"></nz-statistic>
-          <ng-template #userIcon>
+        <a routerLink="/molecular-profiles">
+          <nz-statistic [nzTitle]="statsType + ' Molecular Profiles'"
+            [nzValue]="(stats.molecularProfiles[statsTypes[statsType]] | number)!"
+            [nzPrefix]="mpIcon"></nz-statistic>
+          <ng-template #mpIcon>
             <i nz-icon
               nzTheme="twotone"
-              [nzTwotoneColor]="'Curator' | entityColor"
-              nzType="civic-user"></i>
+              [nzTwotoneColor]="'MolecularProfile' | entityColor"
+              nzType="civic-molecularprofile"></i>
           </ng-template>
         </a>
       </nz-col>
@@ -137,15 +137,17 @@
         </ng-template>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Comments'"
-          [nzValue]="(stats.comments[statsTypes[statsType]] | number)!"
-          [nzPrefix]="commentIcon"></nz-statistic>
-        <ng-template #commentIcon>
-          <i nz-icon
-            nzTheme="twotone"
-            [nzTwotoneColor]="'Comment' | entityColor"
-            nzType="civic-comment"></i>
-        </ng-template>
+        <a routerLink="/users">
+          <nz-statistic [nzTitle]="statsType + ' Contributors'"
+            [nzValue]="(stats.users[statsTypes[statsType]] | number)!"
+            [nzPrefix]="userIcon"></nz-statistic>
+          <ng-template #userIcon>
+            <i nz-icon
+              nzTheme="twotone"
+              [nzTwotoneColor]="'Curator' | entityColor"
+              nzType="civic-user"></i>
+          </ng-template>
+        </a>
       </nz-col>
 
     </nz-row>
@@ -153,23 +155,23 @@
   <ng-template #isLoading>
     <nz-row nzGutter="8">
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Diseases'"
+        <nz-statistic [nzTitle]="statsType + ' Assertions'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Publications'"
+        <nz-statistic [nzTitle]="statsType + ' Evidence'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Revisions'"
+        <nz-statistic [nzTitle]="statsType + ' Genes'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Contributors'"
+        <nz-statistic [nzTitle]="statsType + ' Variants'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Comments'"
+        <nz-statistic [nzTitle]="statsType + ' Molecular Profiles'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
     </nz-row>
@@ -179,7 +181,11 @@
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Publications'"
+        <nz-statistic [nzTitle]="statsType + ' Drugs'"
+          [nzValue]="'--'"></nz-statistic>
+      </nz-col>
+      <nz-col nzFlex="1">
+        <nz-statistic [nzTitle]="statsType + ' Sources'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
@@ -188,10 +194,6 @@
       </nz-col>
       <nz-col nzFlex="1">
         <nz-statistic [nzTitle]="statsType + ' Contributors'"
-          [nzValue]="'--'"></nz-statistic>
-      </nz-col>
-      <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Comments'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
 

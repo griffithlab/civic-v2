@@ -3,6 +3,7 @@ class MolecularProfile < ActiveRecord::Base
   include Subscribable
   include Flaggable
   include Commentable
+  include WithTimepointCounts
 
   has_and_belongs_to_many :variants
   has_and_belongs_to_many :sources
@@ -57,5 +58,18 @@ class MolecularProfile < ActiveRecord::Base
         segment
       end
     end
+  end
+
+  def self.timepoint_query
+    ->(x) {
+      self.joins(:evidence_items)
+        .group('molecular_profiles.id')
+        .select('molecular_profiles.id')
+        .where("evidence_items.status != 'rejected'")
+        .where("molecular_profiles.deprecated = ?", false)
+        .having('MIN(evidence_items.created_at) >= ?', x)
+        .distinct
+        .count
+    }
   end
 end
