@@ -32,6 +32,10 @@ class MolecularProfile < ActiveRecord::Base
     }
   end
 
+  def should_index?
+    !deprecated
+  end
+
   GENE_REGEX = /#GID(?<id>\d+)/i
   VARIANT_REGEX = /#VID(?<id>\d+)/i
 

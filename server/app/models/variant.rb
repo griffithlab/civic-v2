@@ -58,6 +58,10 @@ class Variant < ApplicationRecord
     }
   end
 
+  def should_index?
+    !deprecated
+  end
+
   def link
     Rails.application.routes.url_helpers.url_for("/variants/#{self.id}")
   end
