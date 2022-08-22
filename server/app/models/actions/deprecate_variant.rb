@@ -2,7 +2,7 @@ module Actions
   class DeprecateVariant
     include Actions::Transactional
     include Actions::WithOriginatingOrganization
-    attr_reader :deprecating_user, :variant, :deprecated_molecular_profiles, :organization_id, :deprecation_reason, :comment
+    attr_reader :deprecating_user, :variant, :newly_deprecated_molecular_profiles, :organization_id, :deprecation_reason, :comment
 
     def initialize(deprecating_user:, variant:, organization_id: nil, deprecation_reason:, comment:)
       @deprecating_user = deprecating_user
