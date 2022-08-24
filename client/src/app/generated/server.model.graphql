@@ -6419,6 +6419,7 @@ type SourcePopover implements Commentable & EventSubject {
 
 enum SourceSource {
   ASCO
+  ASH
   PUBMED
 }
 
