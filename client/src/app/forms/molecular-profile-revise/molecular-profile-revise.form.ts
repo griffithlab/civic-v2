@@ -30,7 +30,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 export interface FormSource {
   id?: number;
   sourceType?: SourceSource,
-  citationId?: number;
+  citationId?: string;
   citation?: string;
 }
 

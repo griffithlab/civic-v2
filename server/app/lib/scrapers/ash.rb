@@ -3,7 +3,7 @@ require 'uri'
 
 module Scrapers
   class Ash
-    def get_citation_from_doi(doi: )
+    def self.get_citation_from_doi(doi: )
       resp = fetch_ash_page(doi: doi)
       resp.citation
     end
@@ -35,6 +35,7 @@ module Scrapers
       source.journal = resp.journal
       source.title = resp.article_title
       source.full_journal_title = resp.full_journal_title
+      source.description = resp.citation
 
       source.save!
     end

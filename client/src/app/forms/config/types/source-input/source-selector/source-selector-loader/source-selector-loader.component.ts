@@ -55,7 +55,7 @@ export class SourceSelectorLoaderComponent implements AfterContentInit {
     this.existenceCheckQuery
       .fetch({
         sourceType: this.sourceType,
-        citationId: +this.citationId
+        citationId: this.citationId
       })
       .pipe(finalize(() => {
         this.isChecking = false;
@@ -90,7 +90,7 @@ export class SourceSelectorLoaderComponent implements AfterContentInit {
     this.createSourceStubQuery
       .mutate({
         input: {
-          citationId: +this.citationId,
+          citationId: this.citationId,
           sourceType: this.sourceType
         }
       })

@@ -192,7 +192,7 @@ input AddRemoteCitationInput {
   """
   The external id for the source to add.
   """
-  citationId: Int!
+  citationId: String!
 
   """
   A unique identifier for the client performing the mutation.
@@ -5530,7 +5530,7 @@ type Query {
   """
   Check to see if a citation ID for a source not already in CIViC exists in an external database.
   """
-  remoteCitation(citationId: Int!, sourceType: SourceSource!): String
+  remoteCitation(citationId: String!, sourceType: SourceSource!): String
 
   """
   Find a revision by CIViC ID
@@ -6207,7 +6207,7 @@ type Source implements Commentable & EventSubject {
   ascoAbstractId: Int
   authorString: String
   citation: String
-  citationId: Int!
+  citationId: String!
   clinicalTrials: [ClinicalTrial!]
 
   """
@@ -6314,7 +6314,7 @@ type SourcePopover implements Commentable & EventSubject {
   ascoAbstractId: Int
   authorString: String
   citation: String
-  citationId: Int!
+  citationId: String!
   clinicalTrials: [ClinicalTrial!]
 
   """

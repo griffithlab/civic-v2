@@ -7,7 +7,7 @@ module Types::Entities
     field :name, String, null: false
     field :title, String, null: true
     field :citation, String, null: true
-    field :citation_id, Int, null: false
+    field :citation_id, String, null: false
     field :source_type, Types::SourceSourceType, null: false
     field :asco_abstract_id, Int, null: true
     field :source_url, String, null: true
@@ -62,7 +62,7 @@ module Types::Entities
     end
 
     def author_string
-      if object.source_type == 'PubMed'
+      if object.source_type == 'PubMed' || object.source_type == 'ASH'
         Loaders::AssociationLoader.for(Source, :authors_sources).load(object).then do |authors_sources|
           Promise.all(authors_sources.map { |as| Loaders::AssociationLoader.for(AuthorsSource, :author).load(as) }).then do |authors|
             authors_sources.sort_by { |as| as.author_position }
