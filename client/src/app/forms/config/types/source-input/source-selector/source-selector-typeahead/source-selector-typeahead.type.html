@@ -1,21 +1,23 @@
-<nz-select nzShowSearch
-  nzServerSearch
-  autofocus="click"
-  [formControl]="formControl"
-  [formlyAttributes]="field"
-  (ngModelChange)="to.modelChange($event)"
-  [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
-  [nzNotFoundContent]="sourceLoader"
-  [nzShowArrow]="to.showArrow"
-  [nzFilterOption]="to.filterOption"
-  (nzOnSearch)="to.onSearch($event)">
-  <nz-option *ngFor="let opt of to.optionList"
-    nzCustomContent
-    [nzLabel]="opt.label"
-    [nzValue]="opt.value">
-    {{ opt.source.citation ? opt.source.citation :  opt.source.name }} ({{ opt.source.citationId }})
-  </nz-option>
-</nz-select>
+<nz-input-group [nzAddOnBefore]="model.sourceType == 'ASH' ? 'https://doi.org/' : undefined">
+  <nz-select nzShowSearch
+    nzServerSearch
+    autofocus="click"
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    (ngModelChange)="to.modelChange($event)"
+    [nzPlaceHolder]="!to.placeholder ? null : to.placeholder"
+    [nzNotFoundContent]="sourceLoader"
+    [nzShowArrow]="to.showArrow"
+    [nzFilterOption]="to.filterOption"
+    (nzOnSearch)="to.onSearch($event)">
+    <nz-option *ngFor="let opt of to.optionList"
+      nzCustomContent
+      [nzLabel]="opt.label"
+      [nzValue]="opt.value">
+      {{ opt.source.citation ? opt.source.citation :  opt.source.name }} ({{ opt.source.citationId }})
+    </nz-option>
+  </nz-select>
+</nz-input-group>
 <div class="ant-form-item-explain"
   *ngIf="model.citation.length > 0">
   Citation:
