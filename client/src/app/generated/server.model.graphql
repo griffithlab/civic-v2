@@ -4111,6 +4111,11 @@ type MyVariantInfo {
   snpeffSnpImpact: [String!]!
 }
 
+type NameWithCount {
+  count: Int!
+  name: String!
+}
+
 type NccnGuideline {
   id: Int!
   name: String!
@@ -5672,6 +5677,7 @@ type Query {
   """
   subscriptionForEntity(subscribable: SubscribableInput!): Subscription
   timepointStats: CivicTimepointStats!
+  topGenesByVariants: [NameWithCount!]!
   user(id: Int!): User
 
   """

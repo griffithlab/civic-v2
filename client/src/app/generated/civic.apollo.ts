@@ -2536,6 +2536,12 @@ export type MyVariantInfo = {
   snpeffSnpImpact: Array<Scalars['String']>;
 };
 
+export type NameWithCount = {
+  __typename: 'NameWithCount';
+  count: Scalars['Int'];
+  name: Scalars['String'];
+};
+
 export type NccnGuideline = {
   __typename: 'NccnGuideline';
   id: Scalars['Int'];
@@ -2948,6 +2954,7 @@ export type Query = {
   /** Get the active subscription for the entity and logged in user, if any */
   subscriptionForEntity?: Maybe<Subscription>;
   timepointStats: CivicTimepointStats;
+  topGenesByVariants: Array<NameWithCount>;
   user?: Maybe<User>;
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
@@ -6128,6 +6135,11 @@ export type ClinicalTrialSummaryQueryVariables = Exact<{
 
 
 export type ClinicalTrialSummaryQuery = { __typename: 'Query', clinicalTrial?: { __typename: 'ClinicalTrial', id: number, name: string, nctId: string, description: string, url?: string | undefined, link: string } | undefined };
+
+export type TopGenesByVariantsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TopGenesByVariantsQuery = { __typename: 'Query', topGenesByVariants: Array<{ __typename: 'NameWithCount', name: string, count: number }> };
 
 export type DiseaseDetailQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
@@ -11506,6 +11518,25 @@ export const ClinicalTrialSummaryDocument = gql`
   })
   export class ClinicalTrialSummaryGQL extends Apollo.Query<ClinicalTrialSummaryQuery, ClinicalTrialSummaryQueryVariables> {
     document = ClinicalTrialSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TopGenesByVariantsDocument = gql`
+    query TopGenesByVariants {
+  topGenesByVariants {
+    name
+    count
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TopGenesByVariantsGQL extends Apollo.Query<TopGenesByVariantsQuery, TopGenesByVariantsQueryVariables> {
+    document = TopGenesByVariantsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

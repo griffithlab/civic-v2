@@ -1,0 +1,37 @@
+<cvc-section-navigation>
+</cvc-section-navigation>
+
+<nz-page-header class="site-page-header">
+  <nz-page-header-content>
+    <!-- title, description, docs links -->
+    <nz-row class="header-content">
+      <nz-col nzFlex="64px"
+        class="header-icon">
+        <i nz-icon nzType="line-chart"></i>
+      </nz-col>
+      <nz-col nzFlex="600px"
+        class="header-description">
+        <h2>CIViC Curation Statistics</h2>
+        <p nz-typography
+          nzEllipsis
+          nzExpandable
+          [nzEllipsisRows]="2">Look at some neat graphs TODO:fixme</p>
+      </nz-col>
+      <nz-col nzFlex="auto"
+        class="header-links">
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <cvc-tab-navigation [tabs]="this.tabs"> </cvc-tab-navigation>
+      </nz-col>
+    </nz-row>
+    <nz-row>
+      <nz-col [nzSpan]="24">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>

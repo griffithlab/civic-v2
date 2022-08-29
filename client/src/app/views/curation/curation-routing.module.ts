@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CurationActivityView } from './curation-activity/curation-activity.view';
 import { CurationQueuesView } from './curation-queues/curation-queues.view';
+import { CurationStatsView } from './curation-stats/curation-stats.view';
 import { CurationView } from './curation.view';
 
 const routes: Routes = [
@@ -24,6 +25,14 @@ const routes: Routes = [
         loadChildren: () => import('@app/views/curation/curation-queues/curation-queues.module').then((m) => m.CurationQueuesModule),
         data: {
           breadcrumb: 'Queues'
+        },
+      },
+      {
+        path: 'stats',
+        component: CurationStatsView,
+        loadChildren: () => import('@app/views/curation/curation-stats/curation-stats.module').then((m) => m.CurationStatsModule),
+        data: {
+          breadcrumb: 'Statistics'
         },
       }
     ]

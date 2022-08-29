@@ -1,0 +1,6 @@
+query TopGenesByVariants {
+  topGenesByVariants {
+    name
+    count
+  }
+}
