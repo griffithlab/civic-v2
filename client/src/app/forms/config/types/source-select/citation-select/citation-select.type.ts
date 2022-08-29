@@ -76,7 +76,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
   ngOnInit() {
     this.queryRef = this.sourceTypeaheadQuery.watch({
       sourceType: this.model.sourceType,
-      partialCitationId: 9999999
+      partialCitationId: '9999999'
     });
     // NOTE: no need to unsub from sources$ as the template's
     // ngrxLet does so automatically
@@ -107,7 +107,7 @@ export class CitationSelectType extends FieldType implements OnInit, AfterViewIn
       }
       this.queryRef.refetch({
         sourceType: SourceSource.Pubmed,
-        partialCitationId: +value
+        partialCitationId: value
       });
     }
   }

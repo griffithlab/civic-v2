@@ -66,7 +66,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
       this.sourceTypeaheadQuery
         .fetch({
           sourceType: this.to.sourceType,
-          partialCitationId: +value
+          partialCitationId: value
         }, { fetchPolicy: 'network-only' })
         .pipe(map(r => r.data),
           filter(isNonNulled),

@@ -3448,7 +3448,7 @@ export type QuerySourceSuggestionsArgs = {
 
 
 export type QuerySourceTypeaheadArgs = {
-  citationId: Scalars['Int'];
+  citationId: Scalars['String'];
   sourceType: SourceSource;
 };
 
@@ -5831,16 +5831,6 @@ export type PhenotypeTypeaheadQueryVariables = Exact<{
 
 export type PhenotypeTypeaheadQuery = { __typename: 'Query', phenotypeTypeahead: Array<{ __typename: 'Phenotype', hpoId: string, id: number, name: string }> };
 
-export type CitationTypeaheadQueryVariables = Exact<{
-  partialCitationId: Scalars['Int'];
-  sourceType: SourceSource;
-}>;
-
-
-export type CitationTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource }> };
-
-export type SourceTypeaheadResultFragment = { __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource };
-
 export type CitationExistenceCheckQueryVariables = Exact<{
   sourceType: SourceSource;
   citationId: Scalars['String'];
@@ -5855,6 +5845,16 @@ export type CreateSourceStubMutationVariables = Exact<{
 
 
 export type CreateSourceStubMutation = { __typename: 'Mutation', addRemoteCitation?: { __typename: 'AddRemoteCitationPayload', newSource: { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource } } | undefined };
+
+export type CitationTypeaheadQueryVariables = Exact<{
+  partialCitationId: Scalars['String'];
+  sourceType: SourceSource;
+}>;
+
+
+export type CitationTypeaheadQuery = { __typename: 'Query', sourceTypeahead: Array<{ __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource }> };
+
+export type SourceTypeaheadResultFragment = { __typename: 'Source', id: number, name: string, citation?: string | undefined, citationId: string, sourceType: SourceSource };
 
 export type CheckRemoteCitationQueryVariables = Exact<{
   sourceType: SourceSource;
@@ -5874,7 +5874,7 @@ export type AddRemoteCitationMutation = { __typename: 'Mutation', addRemoteCitat
 export type SourceStubFieldsFragment = { __typename: 'SourceStub', id: number, citationId: number, sourceType: SourceSource };
 
 export type SourceTypeaheadQueryVariables = Exact<{
-  partialCitationId: Scalars['Int'];
+  partialCitationId: Scalars['String'];
   sourceType: SourceSource;
 }>;
 
@@ -10642,24 +10642,6 @@ export const PhenotypeTypeaheadDocument = gql`
       super(apollo);
     }
   }
-export const CitationTypeaheadDocument = gql`
-    query CitationTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
-  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
-    ...SourceTypeaheadResult
-  }
-}
-    ${SourceTypeaheadResultFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
-    document = CitationTypeaheadDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const CitationExistenceCheckDocument = gql`
     query CitationExistenceCheck($sourceType: SourceSource!, $citationId: String!) {
   remoteCitation(sourceType: $sourceType, citationId: $citationId)
@@ -10693,6 +10675,24 @@ export const CreateSourceStubDocument = gql`
   })
   export class CreateSourceStubGQL extends Apollo.Mutation<CreateSourceStubMutation, CreateSourceStubMutationVariables> {
     document = CreateSourceStubDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CitationTypeaheadDocument = gql`
+    query CitationTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
+  sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
+    ...SourceTypeaheadResult
+  }
+}
+    ${SourceTypeaheadResultFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CitationTypeaheadGQL extends Apollo.Query<CitationTypeaheadQuery, CitationTypeaheadQueryVariables> {
+    document = CitationTypeaheadDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -10735,7 +10735,7 @@ export const AddRemoteCitationDocument = gql`
     }
   }
 export const SourceTypeaheadDocument = gql`
-    query SourceTypeahead($partialCitationId: Int!, $sourceType: SourceSource!) {
+    query SourceTypeahead($partialCitationId: String!, $sourceType: SourceSource!) {
   sourceTypeahead(citationId: $partialCitationId, sourceType: $sourceType) {
     ...SourceTypeaheadResult
   }
