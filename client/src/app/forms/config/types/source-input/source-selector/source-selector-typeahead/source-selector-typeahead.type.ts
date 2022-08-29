@@ -51,7 +51,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
       // and when source-loader triggers onModelUpdated() & patches the form
       if (this.to.optionList.length > 0) {
         // update form model with selected source's id & citation
-        const { source } = this.to.optionList.find((opt: any) => opt.value === +e);
+        const { source } = this.to.optionList.find((opt: any) => opt.value === e);
         if (source) {
           this.form.patchValue({ citation: source.citation ? source.citation : source.name, id: source.id });
         } else {
