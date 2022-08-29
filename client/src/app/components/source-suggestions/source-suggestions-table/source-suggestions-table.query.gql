@@ -63,6 +63,7 @@ fragment BrowseSourceSuggestionRowFields on SourceSuggestion {
     link
   }
   source {
+    link
     id
     citation
     citationId
