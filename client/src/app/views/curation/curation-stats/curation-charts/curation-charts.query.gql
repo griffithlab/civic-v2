@@ -1,6 +1,11 @@
 query TopGenesByVariants {
   topGenesByVariants {
-    name
-    count
+    counts {
+      name
+      count
+      link
+    }
+    geneCount
+    variantCount
   }
 }

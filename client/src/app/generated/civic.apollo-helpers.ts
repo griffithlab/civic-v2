@@ -746,6 +746,12 @@ export type GeneEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type GenesByVariantsCountsAndTotalsKeySpecifier = ('counts' | 'geneCount' | 'variantCount' | GenesByVariantsCountsAndTotalsKeySpecifier)[];
+export type GenesByVariantsCountsAndTotalsFieldPolicy = {
+	counts?: FieldPolicy<any> | FieldReadFunction<any>,
+	geneCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	variantCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type LinkableDiseaseKeySpecifier = ('id' | 'link' | 'name' | LinkableDiseaseKeySpecifier)[];
 export type LinkableDiseaseFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -952,9 +958,10 @@ export type MyVariantInfoFieldPolicy = {
 	snpeffSnpEffect?: FieldPolicy<any> | FieldReadFunction<any>,
 	snpeffSnpImpact?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type NameWithCountKeySpecifier = ('count' | 'name' | NameWithCountKeySpecifier)[];
+export type NameWithCountKeySpecifier = ('count' | 'link' | 'name' | NameWithCountKeySpecifier)[];
 export type NameWithCountFieldPolicy = {
 	count?: FieldPolicy<any> | FieldReadFunction<any>,
+	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type NccnGuidelineKeySpecifier = ('id' | 'name' | NccnGuidelineKeySpecifier)[];
@@ -1905,6 +1912,10 @@ export type StrictTypedTypePolicies = {
 	GeneEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GeneEdgeKeySpecifier | (() => undefined | GeneEdgeKeySpecifier),
 		fields?: GeneEdgeFieldPolicy,
+	},
+	GenesByVariantsCountsAndTotals?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GenesByVariantsCountsAndTotalsKeySpecifier | (() => undefined | GenesByVariantsCountsAndTotalsKeySpecifier),
+		fields?: GenesByVariantsCountsAndTotalsFieldPolicy,
 	},
 	LinkableDisease?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkableDiseaseKeySpecifier | (() => undefined | LinkableDiseaseKeySpecifier),

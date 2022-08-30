@@ -35,6 +35,7 @@
     "@ngx-formly/ng-zorro-antd": "^0.0",
     "apollo-angular": "^3.0.1",
     "chart.js": "^3.9.1",
+    "chartjs-plugin-datalabels": "^2.1.0",
     "ng-zorro-antd": "^13.3.2",
     "ng2-charts": "3.1.2",
     "ngx-cookie-service": "^13.1.2",

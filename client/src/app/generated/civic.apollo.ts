@@ -1896,6 +1896,13 @@ export type GeneSearchFilter = {
   subFilters?: InputMaybe<Array<GeneSearchFilter>>;
 };
 
+export type GenesByVariantsCountsAndTotals = {
+  __typename: 'GenesByVariantsCountsAndTotals';
+  counts: Array<NameWithCount>;
+  geneCount: Scalars['Int'];
+  variantCount: Scalars['Int'];
+};
+
 export type GenesSort = {
   /** Available columns for sorting */
   column: GenesSortColumns;
@@ -2539,6 +2546,7 @@ export type MyVariantInfo = {
 export type NameWithCount = {
   __typename: 'NameWithCount';
   count: Scalars['Int'];
+  link: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -2954,7 +2962,7 @@ export type Query = {
   /** Get the active subscription for the entity and logged in user, if any */
   subscriptionForEntity?: Maybe<Subscription>;
   timepointStats: CivicTimepointStats;
-  topGenesByVariants: Array<NameWithCount>;
+  topGenesByVariants: GenesByVariantsCountsAndTotals;
   user?: Maybe<User>;
   /** Retrieve user type typeahead fields for a search term. */
   userTypeahead: Array<User>;
@@ -6139,7 +6147,7 @@ export type ClinicalTrialSummaryQuery = { __typename: 'Query', clinicalTrial?: {
 export type TopGenesByVariantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TopGenesByVariantsQuery = { __typename: 'Query', topGenesByVariants: Array<{ __typename: 'NameWithCount', name: string, count: number }> };
+export type TopGenesByVariantsQuery = { __typename: 'Query', topGenesByVariants: { __typename: 'GenesByVariantsCountsAndTotals', geneCount: number, variantCount: number, counts: Array<{ __typename: 'NameWithCount', name: string, count: number, link: string }> } };
 
 export type DiseaseDetailQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
@@ -11526,8 +11534,13 @@ export const ClinicalTrialSummaryDocument = gql`
 export const TopGenesByVariantsDocument = gql`
     query TopGenesByVariants {
   topGenesByVariants {
-    name
-    count
+    counts {
+      name
+      count
+      link
+    }
+    geneCount
+    variantCount
   }
 }
     `;

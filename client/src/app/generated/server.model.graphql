@@ -3134,6 +3134,12 @@ input GeneSearchFilter {
   subFilters: [GeneSearchFilter!]
 }
 
+type GenesByVariantsCountsAndTotals {
+  counts: [NameWithCount!]!
+  geneCount: Int!
+  variantCount: Int!
+}
+
 input GenesSort {
   """
   Available columns for sorting
@@ -4113,6 +4119,7 @@ type MyVariantInfo {
 
 type NameWithCount {
   count: Int!
+  link: String!
   name: String!
 }
 
@@ -5677,7 +5684,7 @@ type Query {
   """
   subscriptionForEntity(subscribable: SubscribableInput!): Subscription
   timepointStats: CivicTimepointStats!
-  topGenesByVariants: [NameWithCount!]!
+  topGenesByVariants: GenesByVariantsCountsAndTotals!
   user(id: Int!): User
 
   """

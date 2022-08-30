@@ -1,7 +1,28 @@
-<div *ngIf="chartData" style="display: block">
-  <canvas baseChart
-    [options]="options"
-    [data]="chartData"
-    type="doughnut">
-  </canvas>
+<div nz-row>
+  <div nz-col nzSpan="14">
+    <div *ngIf="barChartData">
+      <canvas
+        baseChart
+        [options]="barOptions"
+        [data]="barChartData"
+        (chartClick)="chartClicked($event)"
+        type="bar">
+      </canvas>
+    </div>
+  </div>
+  <div nz-col nzSpan="2"></div>
+  <div nz-col nzSpan="8">
+    <div *ngIf="doughnutChartData" style="display: block; width: 300px">
+      <canvas baseChart
+        [options]="doughnutOptions"
+        [data]="doughnutChartData"
+        (chartClick)="chartClicked($event)"
+        type="doughnut">
+      </canvas>
+      <div style="text-align: center; margin-top: -200px">
+        <nz-statistic [nzValue]="this.geneCount" nzTitle="Genes"></nz-statistic>
+        <span nz-typography nzType="secondary">covering<br/>{{this.variantCount}} Variants</span>
+      </div>
+    </div>
+  </div>
 </div>

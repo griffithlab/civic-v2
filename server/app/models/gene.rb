@@ -30,10 +30,10 @@ class Gene < ActiveRecord::Base
 
   def self.timepoint_query
     ->(x) {
-      self.joins(variants: [:evidence_items])
+      self.joins(variants: [molecular_profiles: [:evidence_items]])
         .group('genes.id')
         .select('genes.id')
-        .where("evidence_items.status != 'rejected'")
+        .where("evidence_items.status != 'rejected'").where("variants.deprecated = FALSE").where("molecular_profiles.deprecated = FALSE")
         .having('MIN(evidence_items.created_at) >= ?', x)
         .distinct
         .count

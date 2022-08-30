@@ -73,6 +73,7 @@ class Variant < ApplicationRecord
         .select('variants.id')
         .where("evidence_items.status != 'rejected'")
         .where("variants.deprecated = ?", false)
+        .where("molecular_profiles.deprecated = false")
         .having('MIN(evidence_items.created_at) >= ?', x)
         .distinct
         .count
