@@ -25,7 +25,7 @@ export class CurationChartsPage implements OnInit {
       },
       tooltip: {
         displayColors: false
-      }
+      },
     },
   }
 
@@ -179,11 +179,11 @@ export class CurationChartsPage implements OnInit {
       if(res.data) {
         let dataset = {
           data: res.data.topGenesByVariants.counts.map(g => g.count),
-          backgroundColor: ["#FAFAFA", "#E3E0E5", "#CDC7D0", "#B6ADBB", "#9F94A6", "#897A92", "#72617D", "#5B4768", "#452E53", "#2E143E"].reverse(),
+          backgroundColor: ['#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6', '#a6cee3', "#F0EFEF"],
           borderColor: "#222222",
           borderWidth: 1,
-          hoverBackgroundColor: ["#1B0C25", "#33253B", "#4A3E52", "#625868", "#7A717F", "#918A95", "#A9A3AC", "#C1BDC2", "#D8D6D9", "#F0EFEF"],
-          hoverBorderColor: ["#1B0C25", "#33253B", "#4A3E52", "#625868", "#7A717F", "#918A95", "#A9A3AC", "#C1BDC2", "#D8D6D9", "#F0EFEF"],
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
         }
         this.geneDoughnutChartData = {
           labels: res.data.topGenesByVariants.counts.map(g => g.name),
@@ -203,11 +203,11 @@ export class CurationChartsPage implements OnInit {
       if (res.data) {
         let dataset = {
           data: res.data.evidenceTypeCounts.evidenceTypeCounts.counts.map(t => t.count),
-          backgroundColor: ["#E3E0E5", "#B6ADBB", "#897A92", "#5B4768", "#2E143E"].reverse(),
+          backgroundColor: ['#1f78b4','#33a02c','#e31a1c','#ff7f00', '#6a3d9a'],
           borderColor: "#222222",
           borderWidth: 1,
-          hoverBackgroundColor: ["#1B0C25", "#4A3E52", "#7A717F", "#A9A3AC", "#D8D6D9"],
-          hoverBorderColor: ["#1B0C25", "#4A3E52", "#7A717F", "#A9A3AC", "#D8D6D9"],
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
         }
         this.eidDoughnutChartData = {
           labels: res.data.evidenceTypeCounts.evidenceTypeCounts.counts.map(t => t.name),
@@ -241,11 +241,11 @@ export class CurationChartsPage implements OnInit {
       if (csData) {
         let dataset = {
           data: csData?.counts.counts.map(cs => cs.count),
-          backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
+          backgroundColor: ['#1f78b4','#33a02c','#e31a1c','#ff7f00', '#6a3d9a', '#ffff99'],
           borderColor: "#222222",
           borderWidth: 1,
-          hoverBackgroundColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
-          hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
         }
         this.csDoughnutChartData = {
           labels: csData?.counts.counts.map(cs => cs.name),
@@ -257,11 +257,11 @@ export class CurationChartsPage implements OnInit {
       if (supportData) {
         let dataset = {
           data: supportData?.counts.counts.map(cs => cs.count),
-          backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
+          backgroundColor: '#b2df8a',
           borderColor: "#222222",
           borderWidth: 1,
-          hoverBackgroundColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
-          hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
         }
         this.csSupportBarChartData = {
           labels: supportData?.counts.counts.map(cs => "Supports " + cs.name),
@@ -272,11 +272,11 @@ export class CurationChartsPage implements OnInit {
       if (doesNotSupportData) {
         let dataset = {
           data: doesNotSupportData?.counts.counts.map(cs => cs.count),
-          backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
+          backgroundColor: '#fb9a99',
           borderColor: "#222222",
           borderWidth: 1,
-          hoverBackgroundColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
-          hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
         }
         this.csDoesNotSupportBarChartData = {
           labels: doesNotSupportData?.counts.counts.map(cs => "Does Not Support " + cs.name),
