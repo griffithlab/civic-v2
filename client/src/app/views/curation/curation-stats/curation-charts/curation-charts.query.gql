@@ -5,7 +5,33 @@ query TopGenesByVariants {
       count
       link
     }
-    geneCount
-    variantCount
+    total
+    secondaryTotal
+  }
+}
+
+query EvidenceTypeCounts {
+  evidenceTypeCounts {
+    primaryCounts {
+      counts {
+        name
+        count
+      }
+      total
+    }
+    subsetCounts {
+      ...SubsetCounts
+    }
+  }
+}
+
+fragment SubsetCounts on CountsAndTotalWithKey {
+  key
+  counts {
+    counts {
+      name
+      count
+    }
+    total
   }
 }

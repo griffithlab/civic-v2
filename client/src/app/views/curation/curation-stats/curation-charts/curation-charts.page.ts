@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TopGenesByVariantsGQL } from '@app/generated/civic.apollo';
+import { EvidenceType, EvidenceTypeCountsGQL, Maybe, SubsetCountsFragment, TopGenesByVariantsGQL } from '@app/generated/civic.apollo';
 import { Chart, ChartData, ChartEvent, ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Router } from '@angular/router';
+import { reduce } from 'rxjs/operators';
+import { valueToObjectRepresentation } from '@apollo/client/utilities';
 
 Chart.register(ChartDataLabels);
 
@@ -52,53 +54,125 @@ export class CurationChartsPage implements OnInit {
         grid: {
           display: false
         },
-      }
+        afterFit: function(scaleInstance) {
+          scaleInstance.width = 150
+        }
+      },
     },
     layout: {
       padding: 50
     },
+    //onHover: (event, chartElement) => {
+    //  if (event.native) {
+    //    let target = event.native.currentTarget as HTMLElement
+    //    target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+    //  }
+    //},
   }
 
-  doughnutChartData?: ChartData<'doughnut'>
-  barChartData?: ChartData<'bar'>
+  geneDoughnutChartData?: ChartData<'doughnut'>
+  geneBarChartData?: ChartData<'bar'>
   geneCount?: number
   variantCount?: number
-  links?: string[]
+  links?: Maybe<string>[]
 
-  constructor(private topGenesGql: TopGenesByVariantsGQL, private router: Router) { }
+  eidDoughnutChartData?: ChartData<'doughnut'>
+  eidBarChartData?: ChartData<'bar'>
+  eidCount?: number
+  selectedEvidenceType?: EvidenceType
+  eidClinicalSignificanceCounts?: SubsetCountsFragment[]
+
+  csDoughnutChartData?: ChartData<'doughnut'>
+  csBarChartData?: ChartData<'bar'>
+  eidCountForType?: number
+
+  constructor(
+    private topGenesGql: TopGenesByVariantsGQL,
+    private evidenceTypeCountsGql: EvidenceTypeCountsGQL,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.topGenesGql.fetch().toPromise().then((res) => {
       if(res.data) {
-        let dataset =
-            {
-              data: res.data.topGenesByVariants.counts.map(g => g.count),
-              backgroundColor: ["#FAFAFA", "#E3E0E5", "#CDC7D0", "#B6ADBB", "#9F94A6", "#897A92", "#72617D", "#5B4768", "#452E53", "#2E143E"].reverse(),
-              borderColor: "#222222",
-              borderWidth: 1,
-              hoverBackgroundColor: ["#1B0C25", "#33253B", "#4A3E52", "#625868", "#7A717F", "#918A95", "#A9A3AC", "#C1BDC2", "#D8D6D9", "#F0EFEF"],
-              hoverBorderColor: ["#1B0C25", "#33253B", "#4A3E52", "#625868", "#7A717F", "#918A95", "#A9A3AC", "#C1BDC2", "#D8D6D9", "#F0EFEF"],
-            }
-        this.doughnutChartData = {
+        let dataset = {
+          data: res.data.topGenesByVariants.counts.map(g => g.count),
+          backgroundColor: ["#FAFAFA", "#E3E0E5", "#CDC7D0", "#B6ADBB", "#9F94A6", "#897A92", "#72617D", "#5B4768", "#452E53", "#2E143E"].reverse(),
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: ["#1B0C25", "#33253B", "#4A3E52", "#625868", "#7A717F", "#918A95", "#A9A3AC", "#C1BDC2", "#D8D6D9", "#F0EFEF"],
+          hoverBorderColor: ["#1B0C25", "#33253B", "#4A3E52", "#625868", "#7A717F", "#918A95", "#A9A3AC", "#C1BDC2", "#D8D6D9", "#F0EFEF"],
+        }
+        this.geneDoughnutChartData = {
           labels: res.data.topGenesByVariants.counts.map(g => g.name),
           datasets: [dataset]
         }
-        this.barChartData = {
+        this.geneBarChartData = {
           labels: res.data.topGenesByVariants.counts.map(g => g.name),
-          datasets: [{ ...dataset } ]
-
+          datasets: [dataset]
         }
-        this.geneCount = res.data.topGenesByVariants.geneCount
-        this.variantCount = res.data.topGenesByVariants.variantCount
+        this.geneCount = res.data.topGenesByVariants.total
+        this.variantCount = res.data.topGenesByVariants.secondaryTotal
         this.links = res.data.topGenesByVariants.counts.map(g => g.link)
+      }
+    })
+
+    this.evidenceTypeCountsGql.fetch().toPromise().then((res) => {
+      if (res.data) {
+        let dataset = {
+          data: res.data.evidenceTypeCounts.primaryCounts.counts.map(t => t.count),
+          backgroundColor: ["#E3E0E5", "#B6ADBB", "#897A92", "#5B4768", "#2E143E"].reverse(),
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: ["#1B0C25", "#4A3E52", "#7A717F", "#A9A3AC", "#D8D6D9"],
+          hoverBorderColor: ["#1B0C25", "#4A3E52", "#7A717F", "#A9A3AC", "#D8D6D9"],
+        }
+        this.eidDoughnutChartData = {
+          labels: res.data.evidenceTypeCounts.primaryCounts.counts.map(t => t.name),
+          datasets: [dataset]
+        }
+        this.eidBarChartData = {
+          labels: res.data.evidenceTypeCounts.primaryCounts.counts.map(t => t.name),
+          datasets: [dataset]
+        }
+        this.eidCount = res.data.evidenceTypeCounts.primaryCounts.total
+        this.eidClinicalSignificanceCounts = res.data.evidenceTypeCounts.subsetCounts
       }
     })
   }
 
-  chartClicked({ event, active }: { event?: ChartEvent, active?: any }): void {
+  geneChartClicked({ event, active }: { event?: ChartEvent, active?: any }): void {
     if (this.links) {
       let link = this.links[active[0].index]
-      this.router.navigateByUrl(link)
+      if (link) {
+        this.router.navigateByUrl(link)
+      }
+    }
+  }
+
+  evidenceTypeChartClicked({ event, active }: { event?: ChartEvent, active?: any }): void {
+    if (this.eidDoughnutChartData && this.eidDoughnutChartData.labels) {
+      this.selectedEvidenceType = this.eidDoughnutChartData.labels[active[0].index] as EvidenceType
+      let data = this.eidClinicalSignificanceCounts?.find(cs => cs.key == this.selectedEvidenceType)
+      if (data) {
+        let dataset = {
+          data: data?.counts.counts.map(cs => cs.count),
+          backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+          hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+        }
+        this.csDoughnutChartData = {
+          labels: data?.counts.counts.map(cs => cs.name),
+          datasets: [dataset]
+        }
+        this.csBarChartData = {
+          labels: data?.counts.counts.map(cs => cs.name),
+          datasets: [dataset]
+        }
+        this.eidCountForType = data?.counts.total
+      }
     }
   }
 }
