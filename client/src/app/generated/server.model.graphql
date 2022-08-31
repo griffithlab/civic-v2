@@ -5275,6 +5275,8 @@ type Query {
     """
     variantOrigin: VariantOrigin
   ): EvidenceItemConnection!
+  evidenceLevelCounts: [NameWithCount!]!
+  evidenceRatingCounts: [NameWithCount!]!
   evidenceTypeCounts: EvidenceTypeCounts!
 
   """

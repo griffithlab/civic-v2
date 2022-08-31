@@ -2923,6 +2923,8 @@ export type Query = {
   evidenceItem?: Maybe<EvidenceItem>;
   /** List and filter evidence items. */
   evidenceItems: EvidenceItemConnection;
+  evidenceLevelCounts: Array<NameWithCount>;
+  evidenceRatingCounts: Array<NameWithCount>;
   evidenceTypeCounts: EvidenceTypeCounts;
   /** Find a flag by CIViC ID */
   flag?: Maybe<Flag>;
@@ -6163,6 +6165,16 @@ export type TopGenesByVariantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TopGenesByVariantsQuery = { __typename: 'Query', topGenesByVariants: { __typename: 'CountsAndTotals', total?: number | undefined, secondaryTotal?: number | undefined, counts: Array<{ __typename: 'NameWithCount', name: string, count: number, link?: string | undefined }> } };
+
+export type EvidenceLevelCountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EvidenceLevelCountsQuery = { __typename: 'Query', evidenceLevelCounts: Array<{ __typename: 'NameWithCount', name: string, count: number }> };
+
+export type EvidenceRatingCountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EvidenceRatingCountsQuery = { __typename: 'Query', evidenceRatingCounts: Array<{ __typename: 'NameWithCount', name: string, count: number }> };
 
 export type EvidenceTypeCountsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11584,6 +11596,44 @@ export const TopGenesByVariantsDocument = gql`
   })
   export class TopGenesByVariantsGQL extends Apollo.Query<TopGenesByVariantsQuery, TopGenesByVariantsQueryVariables> {
     document = TopGenesByVariantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceLevelCountsDocument = gql`
+    query EvidenceLevelCounts {
+  evidenceLevelCounts {
+    name
+    count
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceLevelCountsGQL extends Apollo.Query<EvidenceLevelCountsQuery, EvidenceLevelCountsQueryVariables> {
+    document = EvidenceLevelCountsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EvidenceRatingCountsDocument = gql`
+    query EvidenceRatingCounts {
+  evidenceRatingCounts {
+    name
+    count
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvidenceRatingCountsGQL extends Apollo.Query<EvidenceRatingCountsQuery, EvidenceRatingCountsQueryVariables> {
+    document = EvidenceRatingCountsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

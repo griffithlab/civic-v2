@@ -10,6 +10,20 @@ query TopGenesByVariants {
   }
 }
 
+query EvidenceLevelCounts {
+  evidenceLevelCounts {
+    name
+    count
+  }
+}
+
+query EvidenceRatingCounts {
+  evidenceRatingCounts {
+    name
+    count
+  }
+}
+
 query EvidenceTypeCounts {
   evidenceTypeCounts {
     evidenceTypeCounts {

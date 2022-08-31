@@ -28,7 +28,7 @@
 </div>
 
 <div nz-row>
-  <div nz-col nzSpan="14">
+  <div nz-col nzSpan="10">
     <div *ngIf="eidBarChartData">
       <canvas
         baseChart
@@ -39,8 +39,8 @@
       </canvas>
     </div>
   </div>
-  <div nz-col nzSpan="2"></div>
-  <div nz-col nzSpan="8">
+  <div nz-col nzSpan="1"></div>
+  <div nz-col nzSpan="6">
     <div *ngIf="eidDoughnutChartData" style="display: block; width: 300px">
       <canvas baseChart
         [options]="doughnutOptions"
@@ -50,6 +50,34 @@
       </canvas>
       <div style="text-align: center; margin-top: -180px">
         <nz-statistic [nzValue]="this.eidCount" nzTitle="Evidence Items"></nz-statistic>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzSpan="1"></div>
+  <div nz-col nzSpan="6">
+    <div nz-row>
+      <div *ngIf="levelDoughnutchartData" style="display: block; width: 130px;">
+        <canvas baseChart
+          [options]="doughnutOptions"
+          [data]="levelDoughnutchartData"
+          type="doughnut">
+        </canvas>
+        <div style="text-align: center; margin-top: -80px;">
+          <nz-statistic nzValue="Levels" ></nz-statistic>
+        </div>
+      </div>
+    </div>
+    <div nz-row>
+      <div *ngIf="levelDoughnutchartData" style="display: block ; width: 130px; margin-top: 90px;">
+
+        <canvas baseChart
+          [options]="doughnutOptions"
+          [data]="ratingDoughnutchartData"
+          type="doughnut">
+        </canvas>
+        <div style="text-align: center; margin-top: -80px; margin-bottom: 80px;">
+          <nz-statistic nzValue="Ratings" ></nz-statistic>
+        </div>
       </div>
     </div>
   </div>

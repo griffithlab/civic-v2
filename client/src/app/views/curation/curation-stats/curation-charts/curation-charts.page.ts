@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EvidenceType, EvidenceTypeCountsGQL, Maybe, SubsetCountsFragment, TopGenesByVariantsGQL } from '@app/generated/civic.apollo';
+import { EvidenceLevelCountsGQL, EvidenceRatingCountsGQL, EvidenceType, EvidenceTypeCountsGQL, Maybe, SubsetCountsFragment, TopGenesByVariantsGQL } from '@app/generated/civic.apollo';
 import { Chart, ChartData, ChartEvent, ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Router } from '@angular/router';
@@ -168,9 +168,14 @@ export class CurationChartsPage implements OnInit {
   csDoesNotSupportBarChartData?: ChartData<'bar'>
   eidCountForType?: number
 
+  levelDoughnutchartData?: ChartData<'doughnut'>
+  ratingDoughnutchartData?: ChartData<'doughnut'>
+
   constructor(
     private topGenesGql: TopGenesByVariantsGQL,
     private evidenceTypeCountsGql: EvidenceTypeCountsGQL,
+    private evidenceLevelCountsGql: EvidenceLevelCountsGQL,
+    private evidenceRatingCountGql: EvidenceRatingCountsGQL,
     private router: Router,
   ) { }
 
@@ -221,6 +226,42 @@ export class CurationChartsPage implements OnInit {
         this.eidClinicalSignificanceCounts = res.data.evidenceTypeCounts.clinicalSignificanceCounts
         this.eidSupportCounts = res.data.evidenceTypeCounts.supportCounts
         this.eidDoesNotSupportCounts = res.data.evidenceTypeCounts.doesNotSupportCounts
+      }
+    })
+
+    this.evidenceLevelCountsGql.fetch().toPromise().then((res) => {
+      if (res.data) {
+        let dataset = {
+          data: res.data.evidenceLevelCounts.map(t => t.count),
+          backgroundColor: ['#1a9641','#a6d96a','#ffffbf','#fdae61', '#d7191c'],
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
+        }
+
+        this.levelDoughnutchartData = {
+          labels: res.data.evidenceLevelCounts.map(l => l.name),
+          datasets: [dataset]
+        }
+      }
+    })
+
+    this.evidenceRatingCountGql.fetch().toPromise().then((res) => {
+      if (res.data) {
+        let dataset = {
+          data: res.data.evidenceRatingCounts.map(t => t.count),
+          backgroundColor: ['#1a9641','#a6d96a','#ffffbf','#fdae61', '#d7191c'],
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: "#1B0C25",
+          hoverBorderColor: "#1B0C25",
+        }
+
+        this.ratingDoughnutchartData = {
+          labels: res.data.evidenceRatingCounts.map(l => l.name),
+          datasets: [dataset]
+        }
       }
     })
   }

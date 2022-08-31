@@ -28,6 +28,36 @@ module Types::Queries
     def self.included(klass)
       klass.field :top_genes_by_variants, CountsAndTotals, null: false
       klass.field :evidence_type_counts, EvidenceTypeCounts, null: false
+      klass.field :evidence_level_counts, [NameWithCount], null: false
+      klass.field :evidence_rating_counts, [NameWithCount], null: false
+
+      def evidence_level_counts
+        EvidenceItem.joins(:molecular_profile)
+          .where(molecular_profiles: { deprecated: false })
+          .group(:evidence_level)
+          .select("evidence_items.evidence_level, count(distinct(evidence_items.id)) as evidence_count")
+          .map do |eid|
+            {
+              name: eid.evidence_level,
+              count: eid.evidence_count,
+            }
+          end
+      end
+
+      def evidence_rating_counts
+        EvidenceItem.joins(:molecular_profile)
+          .where(molecular_profiles: { deprecated: false })
+          .where.not(rating: nil)
+          .group(:rating)
+          .select("evidence_items.rating, count(distinct(evidence_items.id)) as evidence_count")
+          .map do |eid|
+            {
+              name: eid.rating,
+              count: eid.evidence_count,
+            }
+          end
+      end
+
 
       def top_genes_by_variants
         top_genes = Variant.includes(:gene).joins(molecular_profiles: [:evidence_items])
