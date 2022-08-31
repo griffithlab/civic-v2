@@ -48,7 +48,7 @@ export class CurationChartsPage implements OnInit {
         grid: {
           display: false
         },
-        display: false
+        display: false,
       },
       y: {
         grid: {
@@ -56,18 +56,97 @@ export class CurationChartsPage implements OnInit {
         },
         afterFit: function(scaleInstance) {
           scaleInstance.width = 150
-        }
+        },
       },
     },
     layout: {
       padding: 50
-    },
+    }
+  }
     //onHover: (event, chartElement) => {
     //  if (event.native) {
     //    let target = event.native.currentTarget as HTMLElement
     //    target.style.cursor = chartElement[0] ? 'pointer' : 'default';
     //  }
     //},
+  
+
+  csLeftBarOptions: ChartOptions<'bar'> = {
+    indexAxis: 'y',
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        anchor: 'start',
+        align: 'start'
+      },
+      tooltip: {
+        displayColors: false
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        display: false,
+        reverse: true,
+        min: 0,
+        max: 3000
+      },
+      y: {
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+        afterFit: function(scaleInstance) {
+          scaleInstance.width = 300
+        },
+      },
+    },
+    layout: {
+      padding: { left: 0, right: 0, top: 50, bottom: 0}
+    },
+  }
+
+  csRightBarOptions: ChartOptions<'bar'> = {
+    indexAxis: 'y',
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'end'
+      },
+      tooltip: {
+        displayColors: false
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        display: false,
+        min: 0,
+        max: 3000
+      },
+      y: {
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
+        afterFit: function(scaleInstance) {
+          scaleInstance.width = 300
+        },
+        position: 'right',
+      },
+    },
+    layout: {
+      padding: { left: 0, right: 0, top: 50, bottom: 0}
+    },
   }
 
   geneDoughnutChartData?: ChartData<'doughnut'>
@@ -81,9 +160,12 @@ export class CurationChartsPage implements OnInit {
   eidCount?: number
   selectedEvidenceType?: EvidenceType
   eidClinicalSignificanceCounts?: SubsetCountsFragment[]
+  eidSupportCounts?: SubsetCountsFragment[]
+  eidDoesNotSupportCounts?: SubsetCountsFragment[]
 
   csDoughnutChartData?: ChartData<'doughnut'>
-  csBarChartData?: ChartData<'bar'>
+  csSupportBarChartData?: ChartData<'bar'>
+  csDoesNotSupportBarChartData?: ChartData<'bar'>
   eidCountForType?: number
 
   constructor(
@@ -120,7 +202,7 @@ export class CurationChartsPage implements OnInit {
     this.evidenceTypeCountsGql.fetch().toPromise().then((res) => {
       if (res.data) {
         let dataset = {
-          data: res.data.evidenceTypeCounts.primaryCounts.counts.map(t => t.count),
+          data: res.data.evidenceTypeCounts.evidenceTypeCounts.counts.map(t => t.count),
           backgroundColor: ["#E3E0E5", "#B6ADBB", "#897A92", "#5B4768", "#2E143E"].reverse(),
           borderColor: "#222222",
           borderWidth: 1,
@@ -128,15 +210,17 @@ export class CurationChartsPage implements OnInit {
           hoverBorderColor: ["#1B0C25", "#4A3E52", "#7A717F", "#A9A3AC", "#D8D6D9"],
         }
         this.eidDoughnutChartData = {
-          labels: res.data.evidenceTypeCounts.primaryCounts.counts.map(t => t.name),
+          labels: res.data.evidenceTypeCounts.evidenceTypeCounts.counts.map(t => t.name),
           datasets: [dataset]
         }
         this.eidBarChartData = {
-          labels: res.data.evidenceTypeCounts.primaryCounts.counts.map(t => t.name),
+          labels: res.data.evidenceTypeCounts.evidenceTypeCounts.counts.map(t => t.name),
           datasets: [dataset]
         }
-        this.eidCount = res.data.evidenceTypeCounts.primaryCounts.total
-        this.eidClinicalSignificanceCounts = res.data.evidenceTypeCounts.subsetCounts
+        this.eidCount = res.data.evidenceTypeCounts.evidenceTypeCounts.total
+        this.eidClinicalSignificanceCounts = res.data.evidenceTypeCounts.clinicalSignificanceCounts
+        this.eidSupportCounts = res.data.evidenceTypeCounts.supportCounts
+        this.eidDoesNotSupportCounts = res.data.evidenceTypeCounts.doesNotSupportCounts
       }
     })
   }
@@ -153,10 +237,10 @@ export class CurationChartsPage implements OnInit {
   evidenceTypeChartClicked({ event, active }: { event?: ChartEvent, active?: any }): void {
     if (this.eidDoughnutChartData && this.eidDoughnutChartData.labels) {
       this.selectedEvidenceType = this.eidDoughnutChartData.labels[active[0].index] as EvidenceType
-      let data = this.eidClinicalSignificanceCounts?.find(cs => cs.key == this.selectedEvidenceType)
-      if (data) {
+      let csData = this.eidClinicalSignificanceCounts?.find(cs => cs.key == this.selectedEvidenceType)
+      if (csData) {
         let dataset = {
-          data: data?.counts.counts.map(cs => cs.count),
+          data: csData?.counts.counts.map(cs => cs.count),
           backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
           borderColor: "#222222",
           borderWidth: 1,
@@ -164,14 +248,40 @@ export class CurationChartsPage implements OnInit {
           hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
         }
         this.csDoughnutChartData = {
-          labels: data?.counts.counts.map(cs => cs.name),
+          labels: csData?.counts.counts.map(cs => cs.name),
           datasets: [dataset]
         }
-        this.csBarChartData = {
-          labels: data?.counts.counts.map(cs => cs.name),
+        this.eidCountForType = csData.counts.total
+      }
+      let supportData = this.eidSupportCounts?.find(cs => cs.key == this.selectedEvidenceType)
+      if (supportData) {
+        let dataset = {
+          data: supportData?.counts.counts.map(cs => cs.count),
+          backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+          hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+        }
+        this.csSupportBarChartData = {
+          labels: supportData?.counts.counts.map(cs => "Supports " + cs.name),
           datasets: [dataset]
         }
-        this.eidCountForType = data?.counts.total
+      }
+      let doesNotSupportData = this.eidDoesNotSupportCounts?.find(cs => cs.key == this.selectedEvidenceType)
+      if (doesNotSupportData) {
+        let dataset = {
+          data: doesNotSupportData?.counts.counts.map(cs => cs.count),
+          backgroundColor: ["#FAFAFA", "#CDC7D0", "#9F94A6", "#72617D", "#452E53", "#2E143E"].reverse(),
+          borderColor: "#222222",
+          borderWidth: 1,
+          hoverBackgroundColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+          hoverBorderColor: ["#1B0C25", "#33253B", "#625868", "#918A95", "#C1BDC2", "#F0EFEF"],
+        }
+        this.csDoesNotSupportBarChartData = {
+          labels: doesNotSupportData?.counts.counts.map(cs => "Does Not Support " + cs.name),
+          datasets: [dataset]
+        }
       }
     }
   }

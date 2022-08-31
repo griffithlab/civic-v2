@@ -12,14 +12,20 @@ query TopGenesByVariants {
 
 query EvidenceTypeCounts {
   evidenceTypeCounts {
-    primaryCounts {
+    evidenceTypeCounts {
       counts {
-        name
         count
+        name
       }
       total
     }
-    subsetCounts {
+    clinicalSignificanceCounts {
+      ...SubsetCounts
+    }
+    supportCounts {
+      ...SubsetCounts
+    }
+    doesNotSupportCounts {
       ...SubsetCounts
     }
   }

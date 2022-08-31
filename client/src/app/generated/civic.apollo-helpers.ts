@@ -493,11 +493,6 @@ export type CountsAndTotalsFieldPolicy = {
 	secondaryTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	total?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CountsAndTotalsWithSubsetKeySpecifier = ('primaryCounts' | 'subsetCounts' | CountsAndTotalsWithSubsetKeySpecifier)[];
-export type CountsAndTotalsWithSubsetFieldPolicy = {
-	primaryCounts?: FieldPolicy<any> | FieldReadFunction<any>,
-	subsetCounts?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type CreateMolecularProfilePayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | CreateMolecularProfilePayloadKeySpecifier)[];
 export type CreateMolecularProfilePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -672,6 +667,13 @@ export type EvidenceItemsByStatusFieldPolicy = {
 	molecularProfileId?: FieldPolicy<any> | FieldReadFunction<any>,
 	rejectedCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	submittedCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EvidenceTypeCountsKeySpecifier = ('clinicalSignificanceCounts' | 'doesNotSupportCounts' | 'evidenceTypeCounts' | 'supportCounts' | EvidenceTypeCountsKeySpecifier)[];
+export type EvidenceTypeCountsFieldPolicy = {
+	clinicalSignificanceCounts?: FieldPolicy<any> | FieldReadFunction<any>,
+	doesNotSupportCounts?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceTypeCounts?: FieldPolicy<any> | FieldReadFunction<any>,
+	supportCounts?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type FieldNameKeySpecifier = ('displayName' | 'name' | FieldNameKeySpecifier)[];
 export type FieldNameFieldPolicy = {
@@ -1816,10 +1818,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | CountsAndTotalsKeySpecifier | (() => undefined | CountsAndTotalsKeySpecifier),
 		fields?: CountsAndTotalsFieldPolicy,
 	},
-	CountsAndTotalsWithSubset?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | CountsAndTotalsWithSubsetKeySpecifier | (() => undefined | CountsAndTotalsWithSubsetKeySpecifier),
-		fields?: CountsAndTotalsWithSubsetFieldPolicy,
-	},
 	CreateMolecularProfilePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateMolecularProfilePayloadKeySpecifier | (() => undefined | CreateMolecularProfilePayloadKeySpecifier),
 		fields?: CreateMolecularProfilePayloadFieldPolicy,
@@ -1895,6 +1893,10 @@ export type StrictTypedTypePolicies = {
 	EvidenceItemsByStatus?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EvidenceItemsByStatusKeySpecifier | (() => undefined | EvidenceItemsByStatusKeySpecifier),
 		fields?: EvidenceItemsByStatusFieldPolicy,
+	},
+	EvidenceTypeCounts?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EvidenceTypeCountsKeySpecifier | (() => undefined | EvidenceTypeCountsKeySpecifier),
+		fields?: EvidenceTypeCountsFieldPolicy,
 	},
 	FieldName?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FieldNameKeySpecifier | (() => undefined | FieldNameKeySpecifier),

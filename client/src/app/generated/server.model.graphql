@@ -1693,12 +1693,7 @@ type CountsAndTotalWithKey {
 type CountsAndTotals {
   counts: [NameWithCount!]!
   secondaryTotal: Int
-  total: Int!
-}
-
-type CountsAndTotalsWithSubset {
-  primaryCounts: CountsAndTotals!
-  subsetCounts: [CountsAndTotalWithKey!]!
+  total: Int
 }
 
 """
@@ -2581,6 +2576,13 @@ enum EvidenceType {
   PREDICTIVE
   PREDISPOSING
   PROGNOSTIC
+}
+
+type EvidenceTypeCounts {
+  clinicalSignificanceCounts: [CountsAndTotalWithKey!]!
+  doesNotSupportCounts: [CountsAndTotalWithKey!]!
+  evidenceTypeCounts: CountsAndTotals!
+  supportCounts: [CountsAndTotalWithKey!]!
 }
 
 type FieldName {
@@ -5273,7 +5275,7 @@ type Query {
     """
     variantOrigin: VariantOrigin
   ): EvidenceItemConnection!
-  evidenceTypeCounts: CountsAndTotalsWithSubset!
+  evidenceTypeCounts: EvidenceTypeCounts!
 
   """
   Find a flag by CIViC ID

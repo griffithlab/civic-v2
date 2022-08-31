@@ -56,18 +56,9 @@
 </div>
 
 <div nz-row style="height: 300px">
-  <ng-container *ngIf="csBarChartData && csDoughnutChartData; else noCS">
-    <div nz-col nzSpan="14">
-      <canvas
-        baseChart
-        [options]="barOptions"
-        [data]="csBarChartData"
-        type="bar">
-      </canvas>
-    </div>
-    <div nz-col nzSpan="2"></div>
-    <div nz-col nzSpan="8">
-      <div style="display: block; width: 300px">
+  <ng-container *ngIf="csDoughnutChartData; else noCS">
+    <div nz-col nzSpan="24">
+      <div style="width: 300px; position: relative; margin: 0 auto">
         <canvas
           baseChart
           [options]="doughnutOptions"
@@ -81,6 +72,27 @@
     </div>
   </ng-container>
 </div>
+<div nz-row style="height: 300px">
+  <ng-container *ngIf="csDoesNotSupportBarChartData && csSupportBarChartData">
+    <div nz-col nzSpan="12" style="height: 300px">
+      <canvas
+        baseChart
+        [options]="csLeftBarOptions"
+        [data]="csDoesNotSupportBarChartData"
+        type="bar">
+      </canvas>
+    </div>
+    <div nz-col nzSpan="12" style="height: 300px">
+      <canvas
+        baseChart
+        [options]="csRightBarOptions"
+        [data]="csSupportBarChartData"
+        type="bar">
+      </canvas>
+    </div>
+  </ng-container>
+</div>
+
 <ng-template #noCS>
   <div style="width: 100%; height: 100%; text-align: center; display: flex;
   justify-content: center; align-items: center;">

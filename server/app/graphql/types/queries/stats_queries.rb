@@ -8,7 +8,7 @@ module Types::Queries
 
     class CountsAndTotals < Types::BaseObject
       field :counts, [NameWithCount], null: false
-      field :total, Int, null: false
+      field :total, Int, null: true
       field :secondary_total, Int, null: true
     end
 
@@ -17,15 +17,17 @@ module Types::Queries
       field :counts, CountsAndTotals, null: false
     end
 
-    class CountsAndTotalsWithSubset < Types::BaseObject
-      field :primary_counts, CountsAndTotals, null: false
-      field :subset_counts, [CountsAndTotalWithKey], null: false
+    class EvidenceTypeCounts < Types::BaseObject
+      field :evidence_type_counts, CountsAndTotals, null: false
+      field :clinical_significance_counts, [CountsAndTotalWithKey], null: false
+      field :support_counts, [CountsAndTotalWithKey], null: false
+      field :does_not_support_counts, [CountsAndTotalWithKey], null: false
     end
 
 
     def self.included(klass)
       klass.field :top_genes_by_variants, CountsAndTotals, null: false
-      klass.field :evidence_type_counts, CountsAndTotalsWithSubset, null: false
+      klass.field :evidence_type_counts, EvidenceTypeCounts, null: false
 
       def top_genes_by_variants
         top_genes = Variant.includes(:gene).joins(molecular_profiles: [:evidence_items])
@@ -69,10 +71,11 @@ module Types::Queries
           .select("evidence_items.evidence_type, count(distinct(evidence_items.id)) as evidence_count")
           .order("evidence_count desc")
 
-        counts_for_subset = []
         subset_counts = []
+        support_subset_counts = []
+        does_not_support_subset_counts = []
         counts = []
-        eid_counts_by_type.map do |eid|
+        eid_counts_by_type.each do |eid|
           counts << {
             name: eid.evidence_type,
             count: eid.evidence_count
@@ -82,13 +85,29 @@ module Types::Queries
             .where("molecular_profiles.deprecated = false")
             .where("evidence_items.evidence_type = ?", EvidenceItem.evidence_types[eid.evidence_type])
             .group(:clinical_significance)
-            .select("evidence_items.clinical_significance, count(distinct(evidence_items.id)) as evidence_count")
+            .select("
+              evidence_items.clinical_significance,
+              count(distinct(evidence_items.id)) as evidence_count,
+              count(distinct(evidence_items.id)) filter (where evidence_items.evidence_direction = #{EvidenceItem.evidence_directions['Supports']}) as support_count,
+              count(distinct(evidence_items.id)) filter (where evidence_items.evidence_direction = #{EvidenceItem.evidence_directions['Does Not Support']}) as does_not_support_count
+            ")
             .order("evidence_count desc")
 
-          counts_for_subset = subset.map do |eids_for_type|
-            {
+          counts_for_subset = []
+          support_counts_for_subset = []
+          does_not_support_counts_for_subset = []
+          subset.each do |eids_for_type|
+            counts_for_subset << {
               name: eids_for_type.clinical_significance,
               count: eids_for_type.evidence_count,
+            }
+            support_counts_for_subset << {
+              name: eids_for_type.clinical_significance,
+              count: eids_for_type.support_count,
+            }
+            does_not_support_counts_for_subset << {
+              name: eids_for_type.clinical_significance,
+              count: eids_for_type.does_not_support_count,
             }
           end
           subset_counts << {
@@ -101,14 +120,28 @@ module Types::Queries
               .where("evidence_items.evidence_type = ?", EvidenceItem.evidence_types[eid.evidence_type]).distinct.count
             }
           }
+          support_subset_counts << {
+            key: eid.evidence_type,
+            counts: {
+              counts: support_counts_for_subset,
+            }
+          }
+          does_not_support_subset_counts << {
+            key: eid.evidence_type,
+            counts: {
+              counts: does_not_support_counts_for_subset,
+            }
+          }
         end
 
         {
-          primary_counts: {
+          evidence_type_counts: {
             counts: counts,
             total: EvidenceItem.joins(:molecular_profile).where("evidence_items.status != 'rejected'").where("molecular_profiles.deprecated = false").distinct.count
           },
-          subset_counts: subset_counts
+          clinical_significance_counts: subset_counts,
+          support_counts: support_subset_counts,
+          does_not_support_counts: does_not_support_subset_counts,
         }
       end
     end
