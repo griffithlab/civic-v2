@@ -24,7 +24,7 @@ const optionText: any = {
       'NA': 'Clinical Significance is not applicable.'
     },
     'PREDISPOSING': {
-      'PREDISPOSITION': 'Germline variant has predisposing potential for cancer, and may fulfill ACMG/AMP criteria supporting pathogenic or benign classification.',
+      'PREDISPOSITION': 'Germline variant has predisposing potential for cancer, and may meet select ACMG/AMP criteria supporting pathogenic or benign classification.',
       'PROTECTIVENESS': 'Germline variant has properties that protect individuals from acquiring cancer.'
     },
     'FUNCTIONAL': {
@@ -36,8 +36,8 @@ const optionText: any = {
       'UNKNOWN': 'Sequence variant that cannot be precisely defined by the other listed categories',
     },
     'ONCOGENIC': {
-      'ONCOGENICITY': 'Somatic variant has oncogenic potential for driving cancer, and may fulfill ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
-      'PROTECTIVENESS': 'Somatic variant has a protective role and minimizes co-occuring driver variants, tumor malignancy, or other oncogenic tumor properties.'
+      'ONCOGENICITY': 'Somatic variant has oncogenic potential for driving cancer, and may meet select ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
+      'PROTECTIVENESS': 'Somatic variant has a protective role against tumor malignancy, or other oncogenic tumor properties.'
     }
   },
   Assertion: {
@@ -62,14 +62,14 @@ const optionText: any = {
       'LIKELY_PATHOGENIC': 'Strong evidence (>90% certainty) the variant is pathogenic.',
       'BENIGN': 'Very strong evidence the variant is benign',
       'LIKELY_BENIGN': 'Not expected to have a major effect on disease',
-      'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
+      'UNCERTAIN_SIGNIFICANCE': 'Does not meet the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
     },
     'ONCOGENIC': {
       'ONCOGENIC': 'Very strong evidence the variant is oncogenic.',
       'LIKELY_ONCOGENIC': 'Strong evidence the variant is oncogenic.',
       'BENIGN': 'Very strong evidence the variant does not have oncogenic properties.',
       'LIKELY_BENIGN': 'Strong evidence the variant does not have oncogenic properties.',
-      'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill guideline criteria for oncogenic/benign, or the evidence is conflicting.',
+      'UNCERTAIN_SIGNIFICANCE': 'Does not meet guideline criteria for oncogenic/benign, or the evidence is conflicting.',
 
     }
   }

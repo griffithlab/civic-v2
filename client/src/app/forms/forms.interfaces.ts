@@ -3,7 +3,7 @@ import { EvidenceStatus, SourceSource } from "@app/generated/civic.apollo";
 export interface FormSource {
   id?: number;
   sourceType?: SourceSource;
-  citationId?: number;
+  citationId?: string;
   citation?: string;
 }
 

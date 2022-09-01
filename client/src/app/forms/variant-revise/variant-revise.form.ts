@@ -45,7 +45,7 @@ import { NetworkErrorsService } from '@app/core/services/network-errors.service'
 interface FormSource {
   id?: number;
   sourceType?: SourceSource;
-  citationId?: number;
+  citationId?: string;
   citation?: string;
 }
 
