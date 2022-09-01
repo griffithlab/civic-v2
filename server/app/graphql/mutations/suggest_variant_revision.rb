@@ -63,8 +63,6 @@ class Mutations::SuggestVariantRevision < Mutations::MutationWithOrg
 
   def resolve(fields:, id:, organization_id: nil, comment: nil)
     updated_variant = InputAdaptors::VariantInputAdaptor.new(variant_input_object: fields).perform
-    updated_variant.single_variant_molecular_profile_id = variant.single_variant_molecular_profile_id
-
     cmd = Actions::SuggestVariantRevision.new(
       existing_obj: variant,
       updated_obj: updated_variant,

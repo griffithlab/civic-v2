@@ -215,11 +215,9 @@ export class CvcComplexMolecularProfileInputForm implements OnDestroy, OnInit {
 
         let state = this.createMolecularProfileMutator.mutate(this.createMolecularProfileGql, {mpStructure: res}, {}, 
           (data) => {
-            if(data.createMolecularProfile) {
-              this.onMolecularProfileSelected.emit(data.createMolecularProfile.molecularProfile);
-              this.selectedMp = data.createMolecularProfile.molecularProfile;
-              this.cdr.detectChanges();
-            }
+            this.onMolecularProfileSelected.emit(data.createMolecularProfile.molecularProfile);
+            this.selectedMp = data.createMolecularProfile.molecularProfile;
+            this.cdr.detectChanges();
           });
 
           state.submitError$.pipe(takeUntil(this.destroy$)).subscribe((errs) => {

@@ -317,7 +317,7 @@ export class AssertionSubmitForm implements OnDestroy {
         input: input
       }, {},
         (data) => {
-          this.newId = data.submitAssertion?.assertion.id;
+          this.newId = data.submitAssertion.assertion.id;
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

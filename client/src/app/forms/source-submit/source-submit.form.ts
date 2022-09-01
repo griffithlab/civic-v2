@@ -126,7 +126,7 @@ export class SourceSubmitForm implements OnInit {
         input: input
       }, {},
         (data) => {
-          this.newId = data.suggestSource?.sourceSuggestion.id;
+          this.newId = data.suggestSource.sourceSuggestion.id;
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
