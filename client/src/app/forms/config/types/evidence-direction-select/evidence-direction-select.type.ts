@@ -48,16 +48,16 @@ const optionText: any = {
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support a prognostic association between variant and outcome'
     },
     'PREDISPOSING': {
-      'SUPPORTS': 'The Assertion and associated Evidence Items support a variant\'s impact on predisposing outcome',
-      'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support a predisposing association between variant and outcome'
+      'SUPPORTS': 'The assertion suggests a pathogenic or a protective role for a germline variant in cancer',
+      'DOES_NOT_SUPPORT': 'The assertion does not support an association between the variant and disease causation.'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function',
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function',
     },
     'ONCOGENIC': {
-      'SUPPORTS': 'The Assertion and associated Evidence Items support a variant\'s oncogenic, benign, or uncertain significance',
-      'DOES_NOT_SUPPORT': 'The Assertion and associated Evidence Items do not support a variant\'s oncogenic, benign, or uncertain significance',
+      'SUPPORTS': 'The assertiion supports an oncogenic or protective role for a somatic variant.',
+      'DOES_NOT_SUPPORT': 'The assertion supports a benign (for Oncogenicity) or lack of protective (for Protectiveness) role for a somatic variant in cancer.',
     },
   }
 }
