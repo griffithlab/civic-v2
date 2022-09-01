@@ -16,7 +16,7 @@ export class MutatorWithState<M extends Mutation<T, V>, T extends {}, V extends 
   constructor(private networkErrorService: NetworkErrorsService) { }
 
   //TODO - define the data callback in terms of M, not any
-  mutate(mutation: M, vars: V, options?: MutationOptionsAlone<T, V>, dataCallback?: (data: T) => void): MutationState {
+  mutate(mutation: M, vars: V, options?: MutationOptionsAlone<T, V>, dataCallback?: (data: any) => void): MutationState {
     let destroy$ = new Subject();
 
     let stateVals = {

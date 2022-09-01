@@ -97,7 +97,6 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
   variantRevisionInput!: SuggestVariantRevisionInput;
 
   success: boolean = false
-  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -521,17 +520,11 @@ export class VariantReviseForm implements AfterViewInit, OnDestroy {
                 status: RevisionStatus.New
               }
           }
-        ],
-      },
-      (data) => {
-        if(data.suggestVariantRevision?.results.every(r => r.newlyCreated == false)) {
-          this.noNewRevisions = true
-          this.success = false
-        }       
-      });
+        ]
+      })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        if(res) {
+        if (res) {
           this.success = true
         }
       })

@@ -110,15 +110,12 @@ export class VariantSubmitForm implements OnDestroy, OnInit {
 
       let state = this.submitVariantMutator.mutate(this.submitVariantGQL, input, {},
         (data) => {
-          let addVariantResult = data.addVariant
-          if(addVariantResult) {
-            this.newId = addVariantResult.variant.id;
-            this.isNew = addVariantResult.new
-            this.onVariantSelected.emit({
-              variantId: addVariantResult.variant.id,
-              molecularProfile: addVariantResult.variant.singleVariantMolecularProfile
-            });
-          }
+          this.newId = data.addVariant.variant.id;
+          this.isNew = data.addVariant.new
+          this.onVariantSelected.emit({
+            variantId: data.addVariant.variant.id,
+            molecularProfile: data.addVariant.variant.singleVariantMolecularProfile
+          });
         })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

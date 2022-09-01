@@ -301,7 +301,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
         input: input
       }, {},
       (data) => {
-        this.newId = data.submitEvidence?.evidenceItem.id;
+        this.newId = data.submitEvidence.evidenceItem.id;
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

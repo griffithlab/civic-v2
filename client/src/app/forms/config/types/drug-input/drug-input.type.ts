@@ -110,11 +110,9 @@ export class DrugInputType extends FieldType implements AfterViewInit, OnInit {
       let state = this.addDrugMutator.mutate(this.addDrugGQL, { name: drugName }, {},
 
         (data) => {
-          if(data.addDrug) {
-            this.field.formControl?.setValue({ id: data.addDrug.drug.id, name: data.addDrug.drug.name })
-            this.to.searchString = '';
-            this.to.searchLength = 0;
-          }
+          this.field.formControl?.setValue({ id: data.addDrug.drug.id, name: data.addDrug.drug.name })
+          this.to.searchString = '';
+          this.to.searchLength = 0;
         })
 
       state.submitSuccess$.pipe(untilDestroyed(this)).subscribe((res) => {
