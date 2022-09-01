@@ -15,7 +15,7 @@ export const phenotypeArrayTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Phenotype',
-      helpText: 'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes.</a>',
+      helpText: 'Please provide any <a href="https://hpo.jax.org/app/browse/term/HP:0000118" target="_blank">HPO phenotypes</a>, including <a href="https://hpo.jax.org/app/browse/term/HP:0003674" target="_blank">age of onset</a>.',
       required: false,
       addText: 'Add a Phenotype',
     },

@@ -138,13 +138,13 @@ export const contextualTooltips: ContextualTooltipMap = {
         Assertion: 'Not expected to have a major effect on disease',
       },
       UNCERTAIN_SIGNIFICANCE: {
-        Assertion: 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
+        Assertion: 'Does not meet the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
       },
       Na: {
         EvidenceItem: 'Clinical Significance is not applicable',
       },
       PREDISPOSITION: {
-        EvidenceItem: 'Germline variant has predisposing potential for cancer, and may fulfill ACMG/AMP criteria supporting pathogenic or benign classification.'
+        EvidenceItem: 'Germline variant has predisposing potential for cancer, and may meet ACMG/AMP criteria supporting pathogenic or benign classification.'
       },
       PROTECTIVENESS: {
         EvidenceItem: 'Germline variant has properties that protect individuals from acquiring cancer.'
@@ -152,7 +152,7 @@ export const contextualTooltips: ContextualTooltipMap = {
     },
     ONCOGENIC: {
       ONCOGENICITY: {
-       EvidenceItem: 'Somatic variant has oncogenic potential for driving cancer, and may fulfill ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
+       EvidenceItem: 'Somatic variant has oncogenic potential for driving cancer, and may meet ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
       },
       PROTECTIVENESS: {
         EvidenceItem: 'Somatic variant has a protective role and minimizes co-occuring driver variants, tumor malignancy, or other oncogenic tumor properties.'
@@ -170,7 +170,7 @@ export const contextualTooltips: ContextualTooltipMap = {
         Assertion: 'Strong evidence the variant does not have oncogenic properties.'
       },
       UNCERTAIN_SIGNIFICANCE: {
-        Assertion: 'Does not fullfill guideline criteria for oncogenic/benign, or the evidence is conflicting.'
+        Assertion: 'Does not meet guideline criteria for oncogenic/benign, or the evidence is conflicting.'
       }
     }
   },
