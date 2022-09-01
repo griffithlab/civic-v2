@@ -100,6 +100,11 @@
           nzBanner
           nzMessage="This Assertion is in a 'submitted' state and has not yet been reviewed by an editor."
           nzType="warning"></nz-alert>
+        <nz-alert *ngIf="this.assertion.status == 'REJECTED'"
+          nzBanner
+          nzMessage="This Assertion has been rejected."
+          nzType="error">
+        </nz-alert>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">
