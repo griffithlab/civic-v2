@@ -3,7 +3,7 @@ module Types::Queries
     def self.included(klass)
       klass.field :remote_citation, String, null: true do
         description 'Check to see if a citation ID for a source not already in CIViC exists in an external database.'
-        argument :citation_id, GraphQL::Types::Int, required: true
+        argument :citation_id, GraphQL::Types::String, required: true
         #TODO - rename this or move to a module so its less silly of a typename
         argument :source_type, Types::SourceSourceType, required: true
       end
@@ -21,6 +21,8 @@ module Types::Queries
           Scrapers::Asco.get_citation_from_asco_id(citation_id)
         when 'PubMed'
           Scrapers::PubMed.get_citation_from_pubmed_id(citation_id)
+        when 'ASH'
+          Scrapers::Ash.get_citation_from_doi(doi: citation_id)
         else
           raise GraphQL::ExecutionError, "#{source_type} not found for existence check, non-exhaustive match"
         end

@@ -23,7 +23,7 @@ module Types::Queries
 
       klass.field :source_typeahead, [Types::Entities::SourceType], null: false do
         description 'Provide suggestions for sources based on a partial citation ID'
-        argument :citation_id, GraphQL::Types::Int, required: true
+        argument :citation_id, GraphQL::Types::String, required: true
         argument :source_type, Types::SourceSourceType, required: true
       end
 

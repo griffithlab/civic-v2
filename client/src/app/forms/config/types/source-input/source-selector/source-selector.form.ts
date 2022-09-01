@@ -59,7 +59,6 @@ export class SourceSelectorForm implements OnInit, OnDestroy {
         className: 'citation-id-field',
         type: 'source-selector-typeahead',
         templateOptions: {
-          maxLength: 10,
           required: true,
           triggerParentSubmit: () => { this.onSubmit(); }
         },

@@ -56,7 +56,7 @@ export class CitationLoaderComponent {
     this.existenceCheckQuery
       .fetch({
         sourceType: this.sourceType,
-        citationId: +this.citationId
+        citationId: this.citationId
       })
       .pipe(finalize(() => { this.isChecking = false; this.changeDetectorRef.detectChanges(); }),
         untilDestroyed(this))
@@ -88,7 +88,7 @@ export class CitationLoaderComponent {
     this.createSourceStubQuery
       .mutate({
         input: {
-          citationId: +this.citationId,
+          citationId: this.citationId,
           sourceType: this.sourceType
         }
       })

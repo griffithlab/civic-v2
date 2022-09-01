@@ -11,7 +11,7 @@ class Source < ActiveRecord::Base
   has_many :authors, through: :authors_sources
   has_many :variant_groups
 
-  enum source_type: ['PubMed', 'ASCO']
+  enum source_type: ['PubMed', 'ASCO', 'ASH']
 
   def name
     display_name
@@ -42,6 +42,8 @@ class Source < ActiveRecord::Base
       "http://www.ncbi.nlm.nih.gov/pubmed/#{source.citation_id}"
     elsif source.source_type == 'ASCO'
       "https://meetinglibrary.asco.org/record/#{source.citation_id}/abstract"
+    elsif source.source_type == 'ASH'
+      "https://doi.org/#{source.citation_id}"
     end
   end
 
