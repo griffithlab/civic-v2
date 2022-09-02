@@ -22,7 +22,7 @@ const optionText: any = {
     },
     'PREDISPOSING': {
       'SUPPORTS': 'The evidence suggests a pathogenic or a protective role for a germline variant in cancer',
-      'DOES_NOT_SUPPORT': 'The evidence does not support an association between the variant and disease causation.'
+      'DOES_NOT_SUPPORT': 'The evidence supports a benign (for Predisposition) or lack of protective (for Protectiveness) role for a germline variant in cancer.'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The experiment or study supports this variant causing alteration or non-alteration of the gene product function',
@@ -48,16 +48,16 @@ const optionText: any = {
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support a prognostic association between variant and outcome'
     },
     'PREDISPOSING': {
-      'SUPPORTS': 'The assertion suggests a pathogenic or a protective role for a germline variant in cancer',
-      'DOES_NOT_SUPPORT': 'The assertion does not support an association between the variant and disease causation.'
+      'SUPPORTS': 'The Assertion suggests a pathogenic or a protective role for a germline variant in cancer',
+      'DOES_NOT_SUPPORT': 'The Assertion does not support an association between the variant and disease causation.'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function',
       'DOES_NOT_SUPPORT': 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function',
     },
     'ONCOGENIC': {
-      'SUPPORTS': 'The assertiion supports an oncogenic or protective role for a somatic variant.',
-      'DOES_NOT_SUPPORT': 'The assertion supports a benign (for Oncogenicity) or lack of protective (for Protectiveness) role for a somatic variant in cancer.',
+      'SUPPORTS': 'The Assertion supports an oncogenic or protective role for a somatic variant.',
+      'DOES_NOT_SUPPORT': 'The Assertion does not support an association between the variant and disease causation.',
     },
   }
 }

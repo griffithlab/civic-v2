@@ -37,7 +37,7 @@ const optionText: any = {
     },
     'ONCOGENIC': {
       'ONCOGENICITY': 'Somatic variant has oncogenic potential for driving cancer, and may meet select ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
-      'PROTECTIVENESS': 'Somatic variant has a protective role against tumor malignancy, or other oncogenic tumor properties.'
+      'PROTECTIVENESS': 'Somatic variant has a protective role against cancer.'
     }
   },
   Assertion: {
