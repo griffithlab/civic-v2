@@ -57,6 +57,8 @@ import {
   civicEvidenceFullcolor,
   civicEvidenceOutline,
   civicEvidenceTwotone,
+  civicEvidenceitemOutline,
+  civicEvidenceitemTwotone,
   civicFlagFullcolor,
   civicFlagOutline,
   civicFlagTwotone,
@@ -120,6 +122,8 @@ import {
   civicVarianttypeFullcolor,
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
+  civicLikelyoncogenicOutline,
+  civicProtectiveOutline,
 } from '@app/generated/civic.icons';
 
 const iconLiterals = [
@@ -153,6 +157,8 @@ const iconLiterals = [
   civicEventTwotone,
   civicEvidenceOutline,
   civicEvidenceTwotone,
+  civicEvidenceitemTwotone,
+  civicEvidenceitemTwotone,
   civicFlagOutline,
   civicFlagTwotone,
   civicFunctionalOutline,
@@ -170,6 +176,8 @@ const iconLiterals = [
   civicNegativeOutline,
   civicNeomorphicOutline,
   civicOncogenicOutline,
+  civicLikelyoncogenicOutline,
+  civicProtectiveOutline,
   civicOrganizationOutline,
   civicOrganizationTwotone,
   civicPathogenicOutline,
