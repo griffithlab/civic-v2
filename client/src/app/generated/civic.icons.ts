@@ -118,12 +118,19 @@ export const civicNeomorphicOutline: {
   name: 'neomorphicOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M960 512c0 247.5-200.6 448-448 448S64 759.5 64 512C64 264.7 264.6 64 512 64s448 200.7 448 448zm-448 90.3c-45.9 0-83.1 37.2-83.1 83.1 0 45.9 37.2 83.1 83.1 83.1s83.1-37.2 83.1-83.1c0-45.9-37.2-83.1-83.1-83.1zm-78.9-298.7l13.4 245.7c.6 11.5 10.1 20.5 21.6 20.5h87.7c11.5 0 21-9 21.6-20.5l13.4-245.7c.7-12.4-9.2-22.9-21.6-22.9H454.7c-12.4.1-22.3 10.5-21.6 22.9z"/></svg>`
 };
-export const civicOncogenicOutline: {
-  name: 'oncogenicOutline';
+export const civicOncogenicsignificanceOutline: {
+  name: 'oncogenicsignificanceOutline';
   data: string;
 } = {
-  name: 'oncogenicOutline',
+  name: 'oncogenicsignificanceOutline',
   data: `<svg viewBox="64 64 896 896"><path d="M288 240v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm244 304v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm244-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V212c0-19.9-16.1-36-36-36zM288 480v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H164c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm516-176v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V452c0-19.9-16.1-36-36-36zm-28 304v64h-96v-64h96m28-64H708c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36zm-300 64v64h-96v-64h96m28-64H436c-19.9 0-36 16.1-36 36v120c0 19.9 16.1 36 36 36h152c19.9 0 36-16.1 36-36V692c0-19.9-16.1-36-36-36z"/></svg>`
+};
+export const civicOncogenictypeOutline: {
+  name: 'oncogenictypeOutline';
+  data: string;
+} = {
+  name: 'oncogenictypeOutline',
+  data: `<svg viewBox="64 64 896 896"><path d="M855.4 511.9l77.9-76.3c23.2-22 12.4-61.1-18.1-68.4l-106.2-27 30-105.1c8.5-30.2-20-58.7-50.3-50.3l-105.1 29.9-27.1-106.2c-7.2-30-46.7-41-68.3-18.1L512 169l-76.2-78.5c-21.4-22.6-61.1-12.3-68.3 18.1l-27.1 106.2-105.1-29.9c-30.2-8.5-58.7 20.1-50.3 50.3l30 105-106.2 27.1c-30.5 7.3-41.3 46.4-18.1 68.4l77.9 76.3-77.9 76.3c-23.2 22-12.4 61.1 18.1 68.4L215 683.6l-30 105.1c-8.5 30.2 20 58.7 50.3 50.3l105-30 27.1 106.2c7.5 31.5 46.9 40.7 68.3 18.1l76.2-78 76.2 78c21.2 22.9 61 12.7 68.3-18.1L683.7 809l105.1 29.9c30.2 8.5 58.7-20.1 50.3-50.3l-30.1-105 106.2-27.1c30.5-7.3 41.3-46.4 18.1-68.4l-77.9-76.2z"/></svg>`
 };
 export const civicPathogenicOutline: {
   name: 'pathogenicOutline';
@@ -773,7 +780,8 @@ export const CivicIcon = {
   naOutline: 'naOutline',
   negativeOutline: 'negativeOutline',
   neomorphicOutline: 'neomorphicOutline',
-  oncogenicOutline: 'oncogenicOutline',
+  oncogenicsignificanceOutline: 'oncogenicsignificanceOutline',
+  oncogenictypeOutline: 'oncogenictypeOutline',
   pathogenicOutline: 'pathogenicOutline',
   pooroutcomeOutline: 'pooroutcomeOutline',
   positiveOutline: 'positiveOutline',
