@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AmpLevelCountsGQL, EvidenceLevelCountsGQL, EvidenceRatingCountsGQL, EvidenceStatusCountsGQL, EvidenceType, EvidenceTypeCountsGQL, Maybe, NameWithCount, SubsetCountsFragment, SupportCountsFragment, TopDiseasesByEvidenceGQL, TopGenesByVariantsGQL } from '@app/generated/civic.apollo';
-import { Chart, ChartData, ChartEvent, ChartOptions } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { AmpLevelCountsGQL, EvidenceLevelCountsGQL, EvidenceRatingCountsGQL, EvidenceStatusCountsGQL, EvidenceType, EvidenceTypeCountsGQL, SubsetCountsFragment, SupportCountsFragment, TopDiseasesByEvidenceGQL, TopGenesByVariantsGQL } from '@app/generated/civic.apollo';
 import { Router } from '@angular/router';
-import { reduce } from 'rxjs/operators';
-import { valueToObjectRepresentation } from '@apollo/client/utilities';
-import { Color } from 'd3';
-
-Chart.register(ChartDataLabels);
 
 export interface NameAndValue {
   name: string,
