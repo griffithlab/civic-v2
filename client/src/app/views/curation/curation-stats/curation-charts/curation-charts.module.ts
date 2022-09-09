@@ -6,6 +6,7 @@ import { CurationChartsPage } from './curation-charts.page';
 import { NgChartsModule } from 'ng2-charts';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [CurationChartsPage],
@@ -16,6 +17,7 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     NgChartsModule,
     NzTypographyModule,
     NzStatisticModule,
+    NgxChartsModule,
   ]
 })
 export class CurationChartsModule { }

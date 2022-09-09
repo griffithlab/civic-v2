@@ -2,7 +2,7 @@ query TopGenesByVariants {
   topGenesByVariants {
     counts {
       name
-      count
+      value: count
       link
     }
     total
@@ -10,17 +10,46 @@ query TopGenesByVariants {
   }
 }
 
+query TopDiseasesByEvidence {
+  topDiseasesByEvidence {
+    total
+    counts {
+      name
+      value: count
+      link
+    }
+    secondaryTotal
+  }
+}
+
 query EvidenceLevelCounts {
   evidenceLevelCounts {
     name
-    count
+    value: count
   }
 }
 
 query EvidenceRatingCounts {
   evidenceRatingCounts {
     name
-    count
+    value: count
+  }
+}
+
+query EvidenceStatusCounts {
+  evidenceStatusCounts {
+    name
+    value: count
+  }
+}
+
+query AmpLevelCounts {
+  ampCategoryCounts {
+    total
+    counts {
+      name
+      value: count
+    }
   }
 }
 
@@ -28,7 +57,7 @@ query EvidenceTypeCounts {
   evidenceTypeCounts {
     evidenceTypeCounts {
       counts {
-        count
+        value: count
         name
       }
       total
@@ -37,10 +66,7 @@ query EvidenceTypeCounts {
       ...SubsetCounts
     }
     supportCounts {
-      ...SubsetCounts
-    }
-    doesNotSupportCounts {
-      ...SubsetCounts
+      ...SupportCounts
     }
   }
 }
@@ -50,8 +76,19 @@ fragment SubsetCounts on CountsAndTotalWithKey {
   counts {
     counts {
       name
-      count
+      value: count
     }
     total
+  }
+}
+
+fragment SupportCounts on SeriesWithKey {
+  key
+  series {
+    name: key
+    series: counts {
+      value: count
+      name
+    }
   }
 }

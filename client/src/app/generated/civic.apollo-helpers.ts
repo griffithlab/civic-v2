@@ -493,6 +493,11 @@ export type CountsAndTotalsFieldPolicy = {
 	secondaryTotal?: FieldPolicy<any> | FieldReadFunction<any>,
 	total?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type CountsWithKeyKeySpecifier = ('counts' | 'key' | CountsWithKeyKeySpecifier)[];
+export type CountsWithKeyFieldPolicy = {
+	counts?: FieldPolicy<any> | FieldReadFunction<any>,
+	key?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type CreateMolecularProfilePayloadKeySpecifier = ('clientMutationId' | 'molecularProfile' | CreateMolecularProfilePayloadKeySpecifier)[];
 export type CreateMolecularProfilePayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -614,6 +619,11 @@ export type EventSubjectWithCountFieldPolicy = {
 	occuranceCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	subject?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type EvidenceImpactCountsKeySpecifier = ('evidenceByDisease' | 'evidenceByType' | EvidenceImpactCountsKeySpecifier)[];
+export type EvidenceImpactCountsFieldPolicy = {
+	evidenceByDisease?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceByType?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type EvidenceItemKeySpecifier = ('acceptanceEvent' | 'assertions' | 'clinicalSignificance' | 'comments' | 'description' | 'disease' | 'drugInteractionType' | 'drugs' | 'events' | 'evidenceDirection' | 'evidenceLevel' | 'evidenceRating' | 'evidenceType' | 'flagged' | 'flags' | 'id' | 'lastAcceptedRevisionEvent' | 'lastCommentEvent' | 'lastSubmittedRevisionEvent' | 'link' | 'molecularProfile' | 'name' | 'phenotypes' | 'rejectionEvent' | 'revisions' | 'source' | 'status' | 'submissionEvent' | 'variant' | 'variantHgvs' | 'variantOrigin' | EvidenceItemKeySpecifier)[];
 export type EvidenceItemFieldPolicy = {
 	acceptanceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -668,10 +678,9 @@ export type EvidenceItemsByStatusFieldPolicy = {
 	rejectedCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	submittedCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EvidenceTypeCountsKeySpecifier = ('clinicalSignificanceCounts' | 'doesNotSupportCounts' | 'evidenceTypeCounts' | 'supportCounts' | EvidenceTypeCountsKeySpecifier)[];
+export type EvidenceTypeCountsKeySpecifier = ('clinicalSignificanceCounts' | 'evidenceTypeCounts' | 'supportCounts' | EvidenceTypeCountsKeySpecifier)[];
 export type EvidenceTypeCountsFieldPolicy = {
 	clinicalSignificanceCounts?: FieldPolicy<any> | FieldReadFunction<any>,
-	doesNotSupportCounts?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceTypeCounts?: FieldPolicy<any> | FieldReadFunction<any>,
 	supportCounts?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -970,9 +979,10 @@ export type MyVariantInfoFieldPolicy = {
 	snpeffSnpEffect?: FieldPolicy<any> | FieldReadFunction<any>,
 	snpeffSnpImpact?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type NameWithCountKeySpecifier = ('count' | 'link' | 'name' | NameWithCountKeySpecifier)[];
+export type NameWithCountKeySpecifier = ('count' | 'id' | 'link' | 'name' | NameWithCountKeySpecifier)[];
 export type NameWithCountFieldPolicy = {
 	count?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	link?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -1078,9 +1088,10 @@ export type PhenotypePopoverFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('acmgCodesTypeahead' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseMolecularProfiles' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'entityTypeahead' | 'events' | 'evidenceItem' | 'evidenceItems' | 'evidenceLevelCounts' | 'evidenceRatingCounts' | 'evidenceTypeCounts' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'timepointStats' | 'topGenesByVariants' | 'user' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('acmgCodesTypeahead' | 'ampCategoryCounts' | 'assertion' | 'assertions' | 'browseDiseases' | 'browseGenes' | 'browseMolecularProfiles' | 'browseSources' | 'browseVariantGroups' | 'browseVariants' | 'clingenCodesTypeahead' | 'clinicalTrial' | 'clinicalTrials' | 'comment' | 'comments' | 'contributors' | 'countries' | 'dataReleases' | 'disease' | 'diseasePopover' | 'diseaseTypeahead' | 'drug' | 'drugPopover' | 'drugTypeahead' | 'drugs' | 'entityTypeahead' | 'events' | 'evidenceForGene' | 'evidenceItem' | 'evidenceItems' | 'evidenceLevelCounts' | 'evidenceRatingCounts' | 'evidenceStatusCounts' | 'evidenceTypeCounts' | 'flag' | 'flags' | 'gene' | 'geneTypeahead' | 'genes' | 'molecularProfile' | 'molecularProfiles' | 'nccnGuidelinesTypeahead' | 'notifications' | 'organization' | 'organizations' | 'phenotype' | 'phenotypePopover' | 'phenotypeTypeahead' | 'phenotypes' | 'previewCommentText' | 'previewMolecularProfileName' | 'remoteCitation' | 'revision' | 'revisions' | 'search' | 'searchByPermalink' | 'searchGenes' | 'source' | 'sourcePopover' | 'sourceSuggestionValues' | 'sourceSuggestions' | 'sourceTypeahead' | 'subscriptionForEntity' | 'timepointStats' | 'topDiseasesByEvidence' | 'topGenesByVariants' | 'user' | 'userTypeahead' | 'users' | 'validateRevisionsForAcceptance' | 'variant' | 'variantGroup' | 'variantGroups' | 'variantType' | 'variantTypePopover' | 'variantTypeTypeahead' | 'variantTypes' | 'variants' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	acmgCodesTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
+	ampCategoryCounts?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertion?: FieldPolicy<any> | FieldReadFunction<any>,
 	assertions?: FieldPolicy<any> | FieldReadFunction<any>,
 	browseDiseases?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1106,10 +1117,12 @@ export type QueryFieldPolicy = {
 	drugs?: FieldPolicy<any> | FieldReadFunction<any>,
 	entityTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceForGene?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItem?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceLevelCounts?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceRatingCounts?: FieldPolicy<any> | FieldReadFunction<any>,
+	evidenceStatusCounts?: FieldPolicy<any> | FieldReadFunction<any>,
 	evidenceTypeCounts?: FieldPolicy<any> | FieldReadFunction<any>,
 	flag?: FieldPolicy<any> | FieldReadFunction<any>,
 	flags?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1141,6 +1154,7 @@ export type QueryFieldPolicy = {
 	sourceTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
 	subscriptionForEntity?: FieldPolicy<any> | FieldReadFunction<any>,
 	timepointStats?: FieldPolicy<any> | FieldReadFunction<any>,
+	topDiseasesByEvidence?: FieldPolicy<any> | FieldReadFunction<any>,
 	topGenesByVariants?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	userTypeahead?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1230,6 +1244,11 @@ export type SearchResultFieldPolicy = {
 	matchingText?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	resultType?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SeriesWithKeyKeySpecifier = ('key' | 'series' | SeriesWithKeyKeySpecifier)[];
+export type SeriesWithKeyFieldPolicy = {
+	key?: FieldPolicy<any> | FieldReadFunction<any>,
+	series?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SourceKeySpecifier = ('abstract' | 'ascoAbstractId' | 'authorString' | 'citation' | 'citationId' | 'clinicalTrials' | 'comments' | 'displayType' | 'events' | 'fullJournalTitle' | 'id' | 'journal' | 'lastCommentEvent' | 'link' | 'name' | 'pmcId' | 'publicationDate' | 'publicationDay' | 'publicationMonth' | 'publicationYear' | 'sourceType' | 'sourceUrl' | 'title' | SourceKeySpecifier)[];
 export type SourceFieldPolicy = {
@@ -1820,6 +1839,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | CountsAndTotalsKeySpecifier | (() => undefined | CountsAndTotalsKeySpecifier),
 		fields?: CountsAndTotalsFieldPolicy,
 	},
+	CountsWithKey?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | CountsWithKeyKeySpecifier | (() => undefined | CountsWithKeyKeySpecifier),
+		fields?: CountsWithKeyFieldPolicy,
+	},
 	CreateMolecularProfilePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CreateMolecularProfilePayloadKeySpecifier | (() => undefined | CreateMolecularProfilePayloadKeySpecifier),
 		fields?: CreateMolecularProfilePayloadFieldPolicy,
@@ -1879,6 +1902,10 @@ export type StrictTypedTypePolicies = {
 	EventSubjectWithCount?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventSubjectWithCountKeySpecifier | (() => undefined | EventSubjectWithCountKeySpecifier),
 		fields?: EventSubjectWithCountFieldPolicy,
+	},
+	EvidenceImpactCounts?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EvidenceImpactCountsKeySpecifier | (() => undefined | EvidenceImpactCountsKeySpecifier),
+		fields?: EvidenceImpactCountsFieldPolicy,
 	},
 	EvidenceItem?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EvidenceItemKeySpecifier | (() => undefined | EvidenceItemKeySpecifier),
@@ -2099,6 +2126,10 @@ export type StrictTypedTypePolicies = {
 	SearchResult?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SearchResultKeySpecifier | (() => undefined | SearchResultKeySpecifier),
 		fields?: SearchResultFieldPolicy,
+	},
+	SeriesWithKey?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SeriesWithKeyKeySpecifier | (() => undefined | SeriesWithKeyKeySpecifier),
+		fields?: SeriesWithKeyFieldPolicy,
 	},
 	Source?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SourceKeySpecifier | (() => undefined | SourceKeySpecifier),
