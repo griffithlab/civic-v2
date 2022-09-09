@@ -45,9 +45,21 @@ class InputAdaptors::AssertionInputAdaptor
       errors << "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
     end
 
-    existing_eids = EvidenceItem.where(id: fields.evidence_item_ids).pluck(:id)
+    existing_eids = EvidenceItem.where(id: fields.evidence_item_ids)
     if existing_eids.size != fields.evidence_item_ids.size
-      errors << "Provided evidence item ids: #{fields.evidence_item_ids.join(', ')} but only #{existing_eids.join(', ')} exist."
+      errors << "Provided evidence item ids: #{fields.evidence_item_ids.join(', ')} but only #{existing_eids.map(&:id).join(', ')} exist."
+    end
+
+    invalid_eid = false
+    existing_eids.each do |eid|
+      unless eid.valid?
+        invalid_eid = true
+        errors << "EID#{eid.id} Invalid: #{eid.errors.values.join(", ")}"
+      end
+    end
+
+    if invalid_eid
+      errors << "Please revise Evidence Items to put them in a valid state before including them in an Assertion."
     end
 
     if fields.disease_id && !Disease.where(id: fields.disease_id).exists?

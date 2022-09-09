@@ -5121,6 +5121,15 @@ export type VariantTypesBrowseQuery = { __typename: 'Query', variantTypes: { __t
 
 export type VariantTypeBrowseTableRowFieldsFragment = { __typename: 'BrowseVariantType', id: number, name: string, soid: string, url?: string | undefined, variantCount: number, link: string };
 
+export type CoordinatesCardQueryVariables = Exact<{
+  variantId: Scalars['Int'];
+}>;
+
+
+export type CoordinatesCardQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined } | undefined };
+
+export type CoordinatesCardFieldsFragment = { __typename: 'Variant', id: number, name: string, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined };
+
 export type VariantPopoverQueryVariables = Exact<{
   variantId: Scalars['Int'];
 }>;
@@ -5573,6 +5582,13 @@ export type ClinicalTrialDetailQueryVariables = Exact<{
 
 export type ClinicalTrialDetailQuery = { __typename: 'Query', clinicalTrial?: { __typename: 'ClinicalTrial', id: number, name: string, nctId: string, description: string, url?: string | undefined, link: string } | undefined };
 
+export type ClinicalTrialSummaryQueryVariables = Exact<{
+  clinicalTrialId: Scalars['Int'];
+}>;
+
+
+export type ClinicalTrialSummaryQuery = { __typename: 'Query', clinicalTrial?: { __typename: 'ClinicalTrial', id: number, name: string, nctId: string, description: string, url?: string | undefined, link: string } | undefined };
+
 export type DiseaseDetailQueryVariables = Exact<{
   diseaseId: Scalars['Int'];
 }>;
@@ -5700,9 +5716,9 @@ export type SourceSummaryQueryVariables = Exact<{
 }>;
 
 
-export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, displayType: string, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined } | undefined };
+export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined } | undefined };
 
-export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, displayType: string, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined };
+export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: number, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number }> | undefined };
 
 export type UserDetailQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -5813,9 +5829,9 @@ export type VariantSummaryQueryVariables = Exact<{
 }>;
 
 
-export type VariantSummaryQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, description?: string | undefined, variantAliases: Array<string>, alleleRegistryId?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, evidenceScore: number, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
+export type VariantSummaryQuery = { __typename: 'Query', variant?: { __typename: 'Variant', id: number, name: string, description?: string | undefined, variantAliases: Array<string>, alleleRegistryId?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, evidenceScore: number, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined } | undefined };
 
-export type VariantSummaryFieldsFragment = { __typename: 'Variant', id: number, name: string, description?: string | undefined, variantAliases: Array<string>, alleleRegistryId?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, evidenceScore: number, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
+export type VariantSummaryFieldsFragment = { __typename: 'Variant', id: number, name: string, description?: string | undefined, variantAliases: Array<string>, alleleRegistryId?: string | undefined, hgvsDescriptions: Array<string>, clinvarIds: Array<string>, evidenceScore: number, referenceBuild?: ReferenceBuild | undefined, ensemblVersion?: number | undefined, referenceBases?: string | undefined, variantBases?: string | undefined, gene: { __typename: 'Gene', id: number, name: string, link: string }, sources: Array<{ __typename: 'Source', id: number, citation?: string | undefined, sourceUrl?: string | undefined, displayType: string, sourceType: SourceSource }>, variantTypes: Array<{ __typename: 'VariantType', id: number, link: string, soid: string, name: string }>, primaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, secondaryCoordinates?: { __typename: 'Coordinate', representativeTranscript?: string | undefined, chromosome?: string | undefined, start?: number | undefined, stop?: number | undefined } | undefined, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number }, myVariantInfo?: { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> } | undefined, lastSubmittedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined, lastAcceptedRevisionEvent?: { __typename: 'Event', originatingUser: { __typename: 'User', id: number, displayName: string, role: UserRole, profileImagePath?: string | undefined } } | undefined };
 
 export type MyVariantInfoFieldsFragment = { __typename: 'MyVariantInfo', myVariantInfoId: string, caddConsequence: Array<string>, caddDetail: Array<string>, caddScore?: number | undefined, clinvarClinicalSignificance: Array<string>, clinvarHgvsCoding: Array<string>, clinvarHgvsGenomic: Array<string>, clinvarHgvsNonCoding: Array<string>, clinvarHgvsProtein: Array<string>, clinvarId?: number | undefined, clinvarOmim?: string | undefined, cosmicId?: string | undefined, dbnsfpInterproDomain: Array<string>, dbsnpRsid?: string | undefined, eglClass?: string | undefined, eglHgvs: Array<string>, eglProtein?: string | undefined, eglTranscript?: string | undefined, exacAlleleCount?: number | undefined, exacAlleleFrequency?: number | undefined, exacAlleleNumber?: number | undefined, fathmmMklPrediction?: string | undefined, fathmmMklScore?: number | undefined, fathmmPrediction: Array<string>, fathmmScore: Array<number>, fitconsScore?: number | undefined, gerp?: number | undefined, gnomadExomeAlleleCount?: number | undefined, gnomadExomeAlleleFrequency?: number | undefined, gnomadExomeAlleleNumber?: number | undefined, gnomadExomeFilter?: string | undefined, gnomadGenomeAlleleCount?: number | undefined, gnomadGenomeAlleleFrequency?: number | undefined, gnomadGenomeAlleleNumber?: number | undefined, gnomadGenomeFilter?: string | undefined, lrtPrediction?: string | undefined, lrtScore?: number | undefined, metalrPrediction?: string | undefined, metalrScore?: number | undefined, metasvmPrediction?: string | undefined, metasvmScore?: number | undefined, mutationassessorPrediction: Array<string>, mutationassessorScore: Array<number>, mutationtasterPrediction: Array<string>, mutationtasterScore: Array<number>, phastcons100way?: number | undefined, phastcons30way?: number | undefined, phyloP100way?: number | undefined, phyloP30way?: number | undefined, polyphen2HdivPrediction: Array<string>, polyphen2HdivScore: Array<number>, polyphen2HvarPrediction: Array<string>, polyphen2HvarScore: Array<number>, proveanPrediction: Array<string>, proveanScore: Array<number>, revelScore?: number | undefined, siftPrediction: Array<string>, siftScore: Array<number>, siphy?: number | undefined, snpeffSnpEffect: Array<string>, snpeffSnpImpact: Array<string> };
 
@@ -6718,6 +6734,28 @@ export const VariantTypeBrowseTableRowFieldsFragmentDoc = gql`
   link
 }
     `;
+export const CoordinatesCardFieldsFragmentDoc = gql`
+    fragment CoordinatesCardFields on Variant {
+  id
+  name
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  secondaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  referenceBases
+  variantBases
+}
+    `;
 export const VariantPopoverFieldsFragmentDoc = gql`
     fragment variantPopoverFields on Variant {
   id
@@ -7563,7 +7601,9 @@ export const SourceDetailFieldsFragmentDoc = gql`
 export const SourceSummaryFieldsFragmentDoc = gql`
     fragment SourceSummaryFields on Source {
   id
+  citation
   displayType
+  sourceUrl
   title
   abstract
   publicationDate
@@ -7804,6 +7844,7 @@ export const VariantSummaryFieldsFragmentDoc = gql`
   gene {
     id
     name
+    link
   }
   sources {
     id
@@ -9165,6 +9206,24 @@ export const VariantTypesBrowseDocument = gql`
       super(apollo);
     }
   }
+export const CoordinatesCardDocument = gql`
+    query CoordinatesCard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...CoordinatesCardFields
+  }
+}
+    ${CoordinatesCardFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CoordinatesCardGQL extends Apollo.Query<CoordinatesCardQuery, CoordinatesCardQueryVariables> {
+    document = CoordinatesCardDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const VariantPopoverDocument = gql`
     query VariantPopover($variantId: Int!) {
   variant(id: $variantId) {
@@ -10401,6 +10460,29 @@ export const ClinicalTrialDetailDocument = gql`
   })
   export class ClinicalTrialDetailGQL extends Apollo.Query<ClinicalTrialDetailQuery, ClinicalTrialDetailQueryVariables> {
     document = ClinicalTrialDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ClinicalTrialSummaryDocument = gql`
+    query ClinicalTrialSummary($clinicalTrialId: Int!) {
+  clinicalTrial(id: $clinicalTrialId) {
+    id
+    name
+    nctId
+    description
+    url
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClinicalTrialSummaryGQL extends Apollo.Query<ClinicalTrialSummaryQuery, ClinicalTrialSummaryQueryVariables> {
+    document = ClinicalTrialSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

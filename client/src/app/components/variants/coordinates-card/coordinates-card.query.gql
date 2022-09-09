@@ -1,0 +1,26 @@
+query CoordinatesCard($variantId: Int!) {
+  variant(id: $variantId) {
+    ...CoordinatesCardFields
+  }
+}
+
+fragment CoordinatesCardFields on Variant {
+  id
+  name
+  referenceBuild
+  ensemblVersion
+  primaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  secondaryCoordinates {
+    representativeTranscript
+    chromosome
+    start
+    stop
+  }
+  referenceBases
+  variantBases
+}

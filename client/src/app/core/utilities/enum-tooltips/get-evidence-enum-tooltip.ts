@@ -22,6 +22,7 @@ export const tooltips: tooltipMap = {
     [AssertionType.Predictive]: `Assertion pertains to a variant's effect on therapeutic response`,
     [AssertionType.Predisposing]: `Assertion pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)`,
     [AssertionType.Prognostic]: `Assertion pertains to a variant's impact on disease progression, severity, or patient survival`,
+    [AssertionType.Oncogenic]: `Assertion pertains to a somatic variant's role in driving tumor formation, growth, and other processes related to the Hallmarks of Cancer`,
   },
 
   variantOrigin: {
@@ -129,10 +130,39 @@ export const contextualTooltips: ContextualTooltipMap = {
         Assertion: 'Not expected to have a major effect on disease',
       },
       UNCERTAIN_SIGNIFICANCE: {
-        Assertion: 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
+        Assertion: 'Does not meet the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
       },
       Na: {
         EvidenceItem: 'Clinical Significance is not applicable',
+      },
+      PREDISPOSITION: {
+        EvidenceItem: 'Germline variant has predisposing potential for cancer, and may meet ACMG/AMP criteria supporting pathogenic or benign classification.'
+      },
+      PROTECTIVENESS: {
+        EvidenceItem: 'Germline variant has properties that protect individuals from acquiring cancer.'
+      },
+    },
+    ONCOGENIC: {
+      ONCOGENICITY: {
+       EvidenceItem: 'Somatic variant has oncogenic potential for driving cancer, and may meet ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
+      },
+      PROTECTIVENESS: {
+        EvidenceItem: 'Somatic variant has a protective role and minimizes co-occuring driver variants, tumor malignancy, or other oncogenic tumor properties.'
+      },
+      ONCOGENIC: {
+        Assertion: 'Very strong evidence the variant is oncogenic.'
+      },
+      LIKELY_ONCOGENIC: {
+        Assertion: 'Strong evidence the variant is oncogenic.'
+      },
+      BENIGN: {
+        Assertion: 'Very strong evidence the variant does not have oncogenic properties.'
+      },
+      LIKELY_BENIGN: {
+        Assertion: 'Strong evidence the variant does not have oncogenic properties.'
+      },
+      UNCERTAIN_SIGNIFICANCE: {
+        Assertion: 'Does not meet guideline criteria for oncogenic/benign, or the evidence is conflicting.'
       }
     }
   },
@@ -165,6 +195,12 @@ export const contextualTooltips: ContextualTooltipMap = {
       Na: {
         EvidenceItem: 'Evidence Direction is not applicable'
       },
+      SUPPORTS: {
+        EvidenceItem: 'The evidence supports a pathogenic or a protective role for a germline variant in cancer.'
+      },
+      DOES_NOT_SUPPORT: {
+        EvidenceItem: 'The evidence supports a benign (if Clinical Significance is Predisposition) or lack or protective (if Clinical Significance is Protectiveness) role for a germline variant in cancer.'
+      }
     },
     FUNCTIONAL: {
       SUPPORTS: {
@@ -178,6 +214,13 @@ export const contextualTooltips: ContextualTooltipMap = {
       NA: {
         EvidenceItem: 'Evidence Direction is not applicable for Oncogenic Evidence Type'
       },
+      SUPPORTS: {
+        EvidenceItem: `The evidence supports an oncogenic or protective role for a somatic variant`,
+
+      },
+      DOES_NOT_SUPPORT: {
+        EvidenceItem: `The evidence does not support an oncogenic or protective role for a somatic variant`,
+      }
     }
   },
   assertionDirection: {
@@ -221,6 +264,15 @@ export const contextualTooltips: ContextualTooltipMap = {
         Assertion: 'The Assertion and associated evidence does not support this variant causing alteration or non-alteration of the gene product function'
       }
     },
+    ONCOGENIC: {
+      SUPPORTS: {
+        Assertion: `The Assertion and associated Evidence Items support a variant's oncogenic, benign, or uncertain significance`,
+
+      },
+      DOES_NOT_SUPPORT: {
+        Assertion: `The Assertion and associated Evidence Items do not support a variant's oncogenic, benign, or uncertain significance`,
+      }
+    }
   },
 }
 
