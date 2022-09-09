@@ -23,6 +23,7 @@ class AssertionState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: true,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
       allowsFdaApproval: true
@@ -40,6 +41,7 @@ class AssertionState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
       allowsFdaApproval: false
@@ -58,6 +60,7 @@ class AssertionState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: true,
       allowsFdaApproval: false
@@ -78,7 +81,29 @@ class AssertionState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: true,
+      requiresAmpLevel: false,
+      allowsFdaApproval: false
+    });
+
+    this.validStates.set(AssertionType.Oncogenic, {
+      entityType: AssertionType.Oncogenic,
+      clinicalSignificance: [
+        AssertionClinicalSignificance.Oncogenic,
+        AssertionClinicalSignificance.LikelyOncogenic,
+        AssertionClinicalSignificance.Benign,
+        AssertionClinicalSignificance.LikelyBenign,
+        AssertionClinicalSignificance.UncertainSignificance,
+      ],
+      entityDirection: [
+        AssertionDirection.Supports,
+        AssertionDirection.DoesNotSupport,
+      ],
+      requiresDisease: true,
+      requiresDrug: false,
+      requiresClingenCodes: true,
+      requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
     });

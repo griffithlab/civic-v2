@@ -23,6 +23,7 @@ class EvidenceState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: true,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
@@ -40,6 +41,7 @@ class EvidenceState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
@@ -58,6 +60,7 @@ class EvidenceState extends EntityState {
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
@@ -66,13 +69,16 @@ class EvidenceState extends EntityState {
     this.validStates.set(EvidenceType.Oncogenic, {
       entityType: EvidenceType.Oncogenic,
       clinicalSignificance: [
-        EvidenceClinicalSignificance.Na,
+        EvidenceClinicalSignificance.Oncogenicity,
+        EvidenceClinicalSignificance.Protectiveness,
       ],
       entityDirection: [
-        EvidenceDirection.Na,
+        EvidenceDirection.Supports,
+        EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
@@ -81,13 +87,16 @@ class EvidenceState extends EntityState {
     this.validStates.set(EvidenceType.Predisposing, {
       entityType: EvidenceType.Predisposing,
       clinicalSignificance: [
-        EvidenceClinicalSignificance.Na,
+        EvidenceClinicalSignificance.Predisposition,
+        EvidenceClinicalSignificance.Protectiveness,
       ],
       entityDirection: [
-        EvidenceDirection.Na,
+        EvidenceDirection.Supports,
+        EvidenceDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
+      requiresClingenCodes: false,
       requiresAcmgCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
@@ -110,6 +119,7 @@ class EvidenceState extends EntityState {
       requiresDisease: false,
       requiresDrug: false,
       requiresAcmgCodes: false,
+      requiresClingenCodes: false,
       requiresAmpLevel: false,
       allowsFdaApproval: false
     });

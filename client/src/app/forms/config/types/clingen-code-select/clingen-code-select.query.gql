@@ -1,0 +1,7 @@
+query ClingenCodeTypeahead($code: String!) {
+  clingenCodesTypeahead(queryTerm:  $code){
+    id
+    code
+    description
+  }
+}

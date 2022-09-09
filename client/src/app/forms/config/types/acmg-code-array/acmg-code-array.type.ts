@@ -1,7 +1,10 @@
 import { AbstractControl, FormArray } from '@angular/forms';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
+import { untilDestroyed } from '@ngneat/until-destroy';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { TypeOption } from '@ngx-formly/core/lib/services/formly.config';
+import { isNonNulled } from 'rxjs-etc';
+import { filter } from 'rxjs/operators';
 import { EntityState, EntityType } from '../../states/entity.state';
 
 const requiredValidationMsgFn = (err: any, ffc: FormlyFieldConfig): string => {
@@ -33,14 +36,15 @@ export const acmgCodeArrayTypeOption: TypeOption = {
       }
     },
     hooks: {
-      onInit:(ffc?: FormlyFieldConfig) : void => {
+      onInit: (ffc?: FormlyFieldConfig): void => {
         const to: FormlyTemplateOptions = ffc!.templateOptions!;
         // check for formState, populate with all options if not found
         const st: EntityState = ffc?.options?.formState;
         // find evidenceType formControl, subscribe to value changes to update options
         const etCtrl: AbstractControl | null = ffc?.form ? ffc.form.get('evidenceType') : null;
         if (!etCtrl) { return; } // no evidenceType FormControl found, cannot subscribe
-        to.vcSub = etCtrl.valueChanges
+        to.vcSub = etCtrl
+          .valueChanges
           .subscribe((et: EntityType) => {
             const fc: FormArray = ffc!.formControl! as FormArray;
             if (!st.requiresAcmgCodes(et)) {
@@ -57,6 +61,10 @@ export const acmgCodeArrayTypeOption: TypeOption = {
               to.required = true;
             }
           });
+      },
+      onDestroy: (ffc?: FormlyFieldConfig): void => {
+        const to: FormlyTemplateOptions = ffc!.templateOptions!;
+        to.vcSub.unsubscribe();
       }
     }
   }

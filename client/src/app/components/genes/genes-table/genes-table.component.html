@@ -17,25 +17,30 @@
     <nz-card [nzTitle]="titleTemplate"
       [nzExtra]="extraTemplate"
       cvcAutoHeightCard
-j     nzSize="small">
+      nzSize="small">
       <ng-template [ngTemplateOutlet]="table"> </ng-template>
     </nz-card>
   </div>
 </ng-template>
 
 <ng-template #table>
-<!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
+  <!-- nzVirtualItemSize can be determined by inspecting the row element in Dev tools, and noting the height calculated in its Styles tab. this probably shouldn't change much, if at all. -->
   <nz-table #virtualTable
     nzSize="small"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="initialLoading$ | ngrxPush"
     [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
-    [nzData]="genes$ | ngrxPush"
-    [nzLoading]="isLoading"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th nzWidth="150px"
           nzLeft
@@ -90,19 +95,19 @@ j     nzSize="small">
       <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="nameInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="aliasInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="diseaseInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
           <cvc-clearable-input-filter [(inputModel)]="drugInput"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
         <th nzRight></th>
@@ -133,15 +138,19 @@ j     nzSize="small">
               [tags]="gene.drugs"
               [matchingText]="drugInput"> </cvc-tag-overflow>
           </td>
-          <td nzRight nzAlign="right">{{gene.variantCount}}</td>
-          <td nzRight nzAlign="right">{{gene.evidenceItemCount}}</td>
-          <td nzRight nzAlign="right">{{gene.assertionCount}}</td>
+          <td nzRight
+            nzAlign="right">{{gene.variantCount}}</td>
+          <td nzRight
+            nzAlign="right">{{gene.evidenceItemCount}}</td>
+          <td nzRight
+            nzAlign="right">{{gene.assertionCount}}</td>
         </tr>
       </ng-template>
     </tbody>
   </nz-table>
 </ng-template>
 
+<!-- card's title template -->
 <ng-template #titleTemplate>
   <i nz-icon
     nzType="civic:gene"></i>
@@ -151,24 +160,19 @@ j     nzSize="small">
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData"
-    nz-typography
-    nzType="secondary">
-    ({{ totalCount | number }} total, showing {{ visibleCount | number }}<span *ngIf="totalCount && filteredCount < totalCount"> of {{ filteredCount | number }} filtered</span>)
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
-  <ng-template #noData>
-    <span nz-typography
-      nzType="secondary">
-      (0 total)
-    </span>
-  </ng-template>
 </ng-template>
 
+<!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
     <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
   </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>

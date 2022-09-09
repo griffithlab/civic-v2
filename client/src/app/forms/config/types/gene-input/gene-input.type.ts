@@ -9,8 +9,10 @@ import { GeneTypeaheadFieldsFragment, GeneTypeaheadGQL, GeneTypeaheadQuery, Gene
 import { FieldType } from '@ngx-formly/core';
 import { QueryRef } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
-import { map, pluck, takeUntil } from 'rxjs/operators';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
+import { filter, map, pluck, takeUntil } from 'rxjs/operators';
+import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
+import { isNonNulled } from 'rxjs-etc';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 interface GeneTypeaheadOption {
   value: number,
@@ -18,13 +20,13 @@ interface GeneTypeaheadOption {
   tooltip: string,
   gene: GeneTypeaheadFieldsFragment
 }
-
+@UntilDestroy()
 @Component({
   selector: 'cvc-gene-input',
   templateUrl: './gene-input.type.html',
   styleUrls: ['./gene-input.type.less'],
 })
-export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy, OnInit {
+export class GeneInputType extends FieldType implements AfterViewInit, OnInit {
   formControl!: FormControl;
 
   defaultOptions = {
@@ -40,31 +42,29 @@ export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy
   private queryRef!: QueryRef<GeneTypeaheadQuery, GeneTypeaheadQueryVariables>
   genes$?: Observable<GeneTypeaheadOption[]>
 
-  private destroy$ = new Subject();
-
   constructor(
     private geneTypeaheadQuery: GeneTypeaheadGQL,
   ) { super(); }
 
   ngOnInit() {
-    this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: ""})
+    this.queryRef = this.geneTypeaheadQuery.watch({ entrezSymbol: "" })
 
     this.genes$ = this.queryRef
-    .valueChanges
-    .pipe(takeUntil(this.destroy$),
-      pluck('data', 'geneTypeahead'),
-      map((genes) => {
-        return genes.map((g) => {
-          let aliases = g.geneAliases.length > 0 ? `Aliases: ${g.geneAliases.join(', ')}` : ""
-          return {
-            value: g.id,
-            tooltip: `${g.name} (${g.entrezId}) ${aliases}`,
-            label: `${g.name} (${g.entrezId})`,
-            gene: g,
-          }
+      .valueChanges
+      .pipe(pluck('data', 'geneTypeahead'),
+        filter(isNonNulled),
+        map((genes) => {
+          return genes.map((g) => {
+            let aliases = g.geneAliases.length > 0 ? `Aliases: ${g.geneAliases.join(', ')}` : ""
+            return {
+              value: g.id,
+              tooltip: `${g.name} (${g.entrezId}) ${aliases}`,
+              label: `${g.name} (${g.entrezId})`,
+              gene: g,
+            }
+          })
         })
-      })
-    )
+      )
   }
 
   ngAfterViewInit() {
@@ -73,13 +73,8 @@ export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy
         return;
       }
       this.to.searchString = value;
-      this.queryRef.refetch({entrezSymbol: value})
+      this.queryRef.refetch({ entrezSymbol: value })
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
 }
@@ -87,5 +82,4 @@ export class GeneInputType extends FieldType implements AfterViewInit, OnDestroy
 export const GeneInputTypeOption: TypeOption = {
   name: 'cvc-gene-input',
   component: GeneInputType,
-  // wrappers: ['form-field'],
 }

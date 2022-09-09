@@ -288,6 +288,7 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   ampLevel: AmpLevel
   assertionDirection: AssertionDirection!
   assertionType: AssertionType!
+  clingenCodes: [ClingenCode!]!
   clinicalSignificance: AssertionClinicalSignificance!
 
   """
@@ -501,9 +502,11 @@ enum AssertionClinicalSignificance {
   BENIGN
   BETTER_OUTCOME
   LIKELY_BENIGN
+  LIKELY_ONCOGENIC
   LIKELY_PATHOGENIC
   NA
   NEGATIVE
+  ONCOGENIC
   PATHOGENIC
   POOR_OUTCOME
   POSITIVE
@@ -586,6 +589,11 @@ input AssertionFields {
   The Type of the Assertion
   """
   assertionType: AssertionType!
+
+  """
+  List of CIViC IDs for the ClinGen/CGC/VICC codes associated with this Assertion
+  """
+  clingenCodeIds: [Int!]!
 
   """
   The Clinical Significance of the Assertion
@@ -692,6 +700,7 @@ enum AssertionSortColumns {
 
 enum AssertionType {
   DIAGNOSTIC
+  ONCOGENIC
   PREDICTIVE
   PREDISPOSING
   PROGNOSTIC
@@ -1279,6 +1288,12 @@ type CivicTimepointStats {
   sources: TimePointCounts!
   users: TimePointCounts!
   variants: TimePointCounts!
+}
+
+type ClingenCode {
+  code: String!
+  description: String!
+  id: Int!
 }
 
 type ClinicalTrial {
@@ -1945,9 +1960,12 @@ enum EvidenceClinicalSignificance {
   NA
   NEGATIVE
   NEOMORPHIC
+  ONCOGENICITY
   PATHOGENIC
   POOR_OUTCOME
   POSITIVE
+  PREDISPOSITION
+  PROTECTIVENESS
   REDUCED_SENSITIVITY
   RESISTANCE
   SENSITIVITYRESPONSE
@@ -4155,6 +4173,11 @@ type Query {
     variantName: String
     variantTypeId: Int
   ): BrowseVariantConnection!
+
+  """
+  Retrieve Clingen Code options as a typeahead
+  """
+  clingenCodesTypeahead(queryTerm: String!): [ClingenCode!]!
 
   """
   Find a clinical trial by CIViC ID

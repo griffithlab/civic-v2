@@ -14,5 +14,7 @@ module Types
     value 'BENIGN', value: 'Benign'
     value 'LIKELY_BENIGN', value: 'Likely Benign'
     value 'UNCERTAIN_SIGNIFICANCE', value: 'Uncertain Significance'
+    value 'ONCOGENIC', value: 'Oncogenic'
+    value 'LIKELY_ONCOGENIC', value: 'Likely Oncogenic'
   end
 end

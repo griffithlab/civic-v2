@@ -57,14 +57,14 @@ class EvidenceItemValidator < ActiveModel::Validator
         drug: false
       },
      'Predisposing' => {
-        clinical_significance: ['N/A'],
-        evidence_direction: ['N/A'],
+        clinical_significance: ['Predisposition', 'Protectiveness'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
      'Oncogenic' => {
-        clinical_significance: ['N/A'],
-        evidence_direction: ['N/A'],
+        clinical_significance: ['Oncogenicity', 'Protectiveness'],
+        evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },

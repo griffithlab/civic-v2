@@ -47,6 +47,11 @@ module Types::Queries
         argument :query_term, GraphQL::Types::String, required: true
       end
 
+      klass.field :clingen_codes_typeahead, [Types::Entities::ClingenCodeType], null: false do
+        description "Retrieve Clingen Code options as a typeahead"
+        argument :query_term, GraphQL::Types::String, required: true
+      end
+
       klass.field :nccn_guidelines_typeahead, [Types::Entities::NccnGuidelineType], null: false do
         description "Retrieve NCCN Guideline options as a typeahead"
         argument :query_term, GraphQL::Types::String, required: true
@@ -132,6 +137,13 @@ module Types::Queries
 
       def acmg_codes_typeahead(query_term:)
         AcmgCode.where('code ILIKE ?', "#{query_term}%")
+          .order(:code)
+          .limit(20)
+      end
+
+      def clingen_codes_typeahead(query_term:)
+        ClingenCode.where('code ILIKE ?', "#{query_term}%")
+          .or(ClingenCode.where('description ILIKE ?', "%#{query_term}%"))
           .order(:code)
           .limit(20)
       end

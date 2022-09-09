@@ -6,7 +6,6 @@ query OrganizationsBrowse (
   $id: Int
   $orgName: String
   $sortBy: OrganizationSort
-  $cardView: Boolean!
 ) {
   organizations(
     first: $first
@@ -36,8 +35,8 @@ query OrganizationsBrowse (
 fragment OrganizationBrowseTableRowFields on Organization {
   id
   name
-  description @include(if: $cardView)
-  profileImagePath(size: 256) @include(if: $cardView)
+  description
+  # profileImagePath(size: 256) @include(if: $cardView)
   url
   memberCount
   eventCount
@@ -48,14 +47,14 @@ fragment OrganizationBrowseTableRowFields on Organization {
   mostRecentEvent {
     createdAt
   }
-  orgStatsHash @include(if: $cardView) {
-    comments
-    revisions
-    appliedRevisions
-    submittedEvidenceItems
-    acceptedEvidenceItems
-    suggestedSources
-    submittedAssertions
-    acceptedAssertions
-  }
+  # orgStatsHash @include(if: $cardView) {
+  #   comments
+  #   revisions
+  #   appliedRevisions
+  #   submittedEvidenceItems
+  #   acceptedEvidenceItems
+  #   suggestedSources
+  #   submittedAssertions
+  #   acceptedAssertions
+  # }
 }

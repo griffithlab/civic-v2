@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { DiseasePopover, DiseasePopoverGQL, Maybe } from "@app/generated/civic.apollo";
-import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
+import { isNonNulled } from "rxjs-etc";
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-disease-popover',
@@ -21,6 +22,7 @@ export class CvcDiseasePopoverComponent implements OnInit {
     }
     this.disease$ = this.gql.watch({ diseaseId: this.diseaseId })
       .valueChanges
-      .pipe(map(({ data }) => data.diseasePopover))
+      .pipe(map(({ data }) => data?.diseasePopover),
+        filter(isNonNulled));
   }
 }

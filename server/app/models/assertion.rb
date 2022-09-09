@@ -14,11 +14,12 @@ class Assertion < ActiveRecord::Base
   belongs_to :disease
   belongs_to :nccn_guideline, optional: true
   has_and_belongs_to_many :acmg_codes
+  has_and_belongs_to_many :clingen_codes
   has_and_belongs_to_many :phenotypes
   has_many :comment_mentions, foreign_key: :comment_id, class_name: 'EntityMention'
 
   enum amp_level: Constants::AMP_LEVELS
-  enum evidence_type: Constants::ASSERTION_TYPES
+  enum evidence_type: Constants::ASSERTION_TYPES, _suffix: true
   enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
   enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
