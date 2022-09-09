@@ -7,6 +7,8 @@ import { GenesEventsModule } from './genes-events/genes-events.module';
 import { GenesEventsPage } from './genes-events/genes-events.page';
 import { GenesFlagsModule } from './genes-flags/genes-flags.module';
 import { GenesFlagsPage } from './genes-flags/genes-flags.page';
+import { GenesImpactModule } from './genes-impact/genes-impact.module';
+import { GenesImpactPage } from './genes-impact/genes-impact.page';
 import { GenesRevisionsModule } from './genes-revisions/genes-revisions.module';
 import { GenesRevisionsPage } from './genes-revisions/genes-revisions.page';
 import { GenesSummaryModule } from './genes-summary/genes-summary.module';
@@ -26,6 +28,13 @@ const routes: Routes = [
         component: GenesSummaryPage,
         data: {
           breadcrumb: 'Summary',
+        },
+      },
+      {
+        path: 'impact',
+        component: GenesImpactPage,
+        data: {
+          breadcrumb: 'Impact',
         },
       },
       {
@@ -67,7 +76,8 @@ const routes: Routes = [
     GenesCommentsModule,
     GenesRevisionsModule,
     GenesFlagsModule,
-    GenesEventsModule
+    GenesEventsModule,
+    GenesImpactModule
   ],
   exports: [RouterModule],
 })

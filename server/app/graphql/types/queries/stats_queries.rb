@@ -34,6 +34,11 @@ module Types::Queries
       field :support_counts, [SeriesWithKey], null: false
     end
 
+    class EvidenceImpactCounts < Types::BaseObject
+      field :evidence_by_disease, [NameWithCount], null: false
+      field :evidence_by_type, [NameWithCount], null: false
+    end
+
 
     def self.included(klass)
       klass.field :top_genes_by_variants, CountsAndTotals, null: false
@@ -43,6 +48,56 @@ module Types::Queries
       klass.field :evidence_status_counts, [NameWithCount], null: false
       klass.field :top_diseases_by_evidence, CountsAndTotals, null: false
       klass.field :amp_category_counts, CountsAndTotals, null: false
+      klass.field :evidence_for_gene, EvidenceImpactCounts, null: false do
+        argument :gene_id, GraphQL::Types::Int, required: true
+        argument :disease_id, GraphQL::Types::Int, required: false
+      end
+
+      def evidence_for_gene(gene_id:, disease_id: nil)
+        gene = Gene.find(gene_id)
+        other_disease_count = gene.active_evidence.count
+        disease_cutoff = other_disease_count * 0.05
+
+        eids_by_disease = gene.active_evidence.joins(:disease)
+          .group(:disease_id)
+          .select("evidence_items.disease_id, count(distinct(evidence_items.id)) as evidence_count")
+          .having("count(distinct(evidence_items.id)) > ?", disease_cutoff)
+          .order('evidence_count desc')
+
+        eids_by_type = gene.active_evidence
+          .group(:evidence_type)
+          .select("evidence_items.evidence_type, count(distinct(evidence_items.id)) as evidence_count")
+
+        if disease_id
+          eids_by_type = eids_by_type
+            .where("disease_id = ?", disease_id)
+        end
+
+        disease_counts = eids_by_disease.map do |eid|
+          other_disease_count -= eid.evidence_count
+          {
+            name: eid.disease.name,
+            link: eid.disease.link,
+            count: eid.evidence_count,
+            id: eid.disease.id
+          }
+        end
+        disease_counts << {
+          name: 'Other',
+          count: other_disease_count
+        }
+
+        type_counts = eids_by_type.map do |eid|
+          {
+            name: eid.evidence_type,
+            count: eid.evidence_count
+          }
+        end
+        {
+          evidence_by_disease: disease_counts,
+          evidence_by_type: type_counts
+        }
+      end
 
       def top_diseases_by_evidence
         top_diseases = EvidenceItem.joins(:molecular_profile, :disease)

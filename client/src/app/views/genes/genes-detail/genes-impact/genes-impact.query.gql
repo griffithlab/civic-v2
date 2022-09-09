@@ -1,0 +1,20 @@
+query EvidenceForGene(
+  $geneId: Int!,
+  $diseaseId: Int
+) {
+  evidenceForGene(
+    geneId: $geneId,
+    diseaseId: $diseaseId
+  ) {
+    evidenceByDisease {
+      name
+      value: count
+      link
+      entityId: id
+    }
+    evidenceByType {
+      name
+      value: count
+    }
+  }
+}

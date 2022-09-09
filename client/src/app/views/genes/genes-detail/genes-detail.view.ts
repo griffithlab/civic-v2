@@ -38,6 +38,11 @@ export class GenesDetailView implements OnDestroy {
         tabLabel: 'Summary'
       },
       {
+        routeName: 'impact',
+        iconName: 'exclamation-circle',
+        tabLabel: 'Impact',
+      },
+      {
         routeName: 'comments',
         iconName: 'civic-comment',
         tabLabel: 'Comments'

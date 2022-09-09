@@ -17,6 +17,14 @@ class Gene < ActiveRecord::Base
   searchkick highlight: [:symbol, :aliases], callbacks: :async
   scope :search_import, -> { includes(:gene_aliases) }
 
+  def active_evidence
+    EvidenceItem.joins(molecular_profile: [:variants])
+      .where("evidence_items.status != 'rejected'")
+      .where("variants.deprecated = ?", false)
+      .where("molecular_profiles.deprecated = false")
+      .where("variants.gene_id = ?", self.id)
+  end
+
   def search_data
     {
       name: name,

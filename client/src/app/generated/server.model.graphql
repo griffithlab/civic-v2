@@ -2197,6 +2197,11 @@ enum EvidenceDirection {
   SUPPORTS
 }
 
+type EvidenceImpactCounts {
+  evidenceByDisease: [NameWithCount!]!
+  evidenceByType: [NameWithCount!]!
+}
+
 type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
@@ -5136,6 +5141,7 @@ type Query {
     sortBy: DateSort
     subject: SubscribableQueryInput
   ): EventConnection!
+  evidenceForGene(diseaseId: Int, geneId: Int!): EvidenceImpactCounts!
 
   """
   Find an evidence item by CIViC ID

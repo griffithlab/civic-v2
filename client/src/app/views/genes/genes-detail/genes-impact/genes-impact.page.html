@@ -1,0 +1,19 @@
+<div nz-row *ngIf="this.diseaseData">
+  <ngx-charts-advanced-pie-chart
+    [view]="[1400, 250]"
+    [results]="this.diseaseData"
+    label="Accepted and Submitted Evidence Items"
+    [scheme]="'forest'"
+    (select)="diseaseChartClicked($event)"
+    >
+  </ngx-charts-advanced-pie-chart>
+</div>
+<div nz-row *ngIf="this.typeData">
+  <ngx-charts-advanced-pie-chart
+    [view]="[1400, 250]"
+    [results]="this.typeData"
+    [label]="this.selectedDiseaseName != undefined ? 'Accepted and Submitted Evidence Items for ' + this.selectedDiseaseName : 'Accepted and Submitted Evidence Items'"
+    [scheme]="'forest'"
+    >
+  </ngx-charts-advanced-pie-chart>
+</div>
