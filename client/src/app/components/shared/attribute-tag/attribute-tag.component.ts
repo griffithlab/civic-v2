@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class CvcAttributeTagComponent {
   @Input() cvcAttrValue!: any
+  @Input() iconPropertyType?: 'clinical-significance' | 'type'
 
   @Input() cvcShowLabel: boolean = true
   @Input() cvcShowTooltip: boolean = true

@@ -29,6 +29,7 @@
             <nz-descriptions-item nzTitle="Type">
               <cvc-attribute-tag cvcAttrName="evidenceType"
                 [cvcAttrValue]="evidence.evidenceType"
+                iconPropertyType="type"
                 nz-tooltip
                 [nzTooltipTitle]="evidence.evidenceType | enumTooltip:'evidenceType'">
               </cvc-attribute-tag>
@@ -45,6 +46,7 @@
             <!-- clinical significance -->
             <nz-descriptions-item nzTitle="Clinical Significance">
               <cvc-attribute-tag [cvcAttrValue]="evidence.clinicalSignificance"
+                iconPropertyType="clinical-significance"
                 nz-tooltip
                 [nzTooltipTitle]="evidence.clinicalSignificance | enumTooltip:'clinicalSignificance':evidence.evidenceType:'EvidenceItem'">
               </cvc-attribute-tag>

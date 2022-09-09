@@ -36,6 +36,7 @@
               <cvc-attribute-tag cvcAttrName="assertionType"
                 [cvcAttrValue]="assertion.assertionType"
                 nz-tooltip
+                iconPropertyType="type"
                 [nzTooltipTitle]="assertion.assertionType | enumTooltip:'assertionType'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
@@ -52,6 +53,7 @@
             <nz-descriptions-item nzTitle="Clinical Significance">
               <cvc-attribute-tag [cvcAttrValue]="assertion.clinicalSignificance"
                 nz-tooltip
+                iconPropertyType="clinical-significance"
                 [nzTooltipTitle]="assertion.clinicalSignificance | enumTooltip:'clinicalSignificance':assertion.assertionType:'Assertion'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
