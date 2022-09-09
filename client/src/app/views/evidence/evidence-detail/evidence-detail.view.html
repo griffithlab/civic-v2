@@ -100,6 +100,18 @@
           nzMessage="This Evidence Item has been rejected."
           nzType="error">
         </nz-alert>
+        <nz-alert *ngIf="!this.evidence.valid"
+          nzBanner
+          [nzMessage]="validationErrorTpl"
+          nzType="warning">
+        </nz-alert>
+        <ng-template #validationErrorTpl>
+          This Evidence Item is in an invalid state.
+          <br/>
+          <span nzTypographq *ngFor="let error of this.evidence.validationErrors">
+            <strong>Field</strong>: {{error.fieldName}}. <strong>Error</strong>: {{error.error}}<br/>
+          </span>
+        </ng-template>
         <cvc-tab-navigation [tabs]="this.tabs$ | ngrxPush">
           <ng-template #tabBarExtraContent>
             <nz-col id="contributors-col">

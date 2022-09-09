@@ -7,26 +7,31 @@ query AssertionDetail(
 }
 
 fragment AssertionDetailFields on Assertion {
+  id
+  name
+  status
+  valid
+  validationErrors {
+    fieldName
+    error
+  }
+  submissionEvent {
+    originatingUser {
+      id
+    }
+  }
+  molecularProfile {
     id
     name
-    status
-    submissionEvent {
-      originatingUser {
-        id
-      }
-    }
-    molecularProfile {
-      id
-      name
-      link
-    }
-    flags(state: OPEN) {
-      totalCount
-    }
-    revisions(status: NEW) {
-      totalCount
-    }
-    comments {
-      totalCount
-    }
+    link
+  }
+  flags(state: OPEN) {
+    totalCount
+  }
+  revisions(status: NEW) {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
 } 
