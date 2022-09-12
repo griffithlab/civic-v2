@@ -1,9 +1,9 @@
 <nz-card [nzTitle]="cardTitle" [nzExtra]="gene">
     <ng-template #cardTitle>
-    <i nz-icon nzType="civic:variant"></i> {{ variant.name }}
+        <cvc-variant-tag [variant]="variant"></cvc-variant-tag>
     </ng-template>
     <ng-template #gene>
-        <cvc-gene-tag [enablePopover]="false" [gene]="variant.gene"></cvc-gene-tag>
+        <cvc-gene-tag [gene]="variant.gene"></cvc-gene-tag>
     </ng-template>
     <nz-row [nzGutter]="[8,16]">
         <nz-col [nzSpan]="24">

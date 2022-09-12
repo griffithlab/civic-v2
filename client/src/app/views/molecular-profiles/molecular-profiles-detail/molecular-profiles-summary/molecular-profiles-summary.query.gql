@@ -46,6 +46,7 @@ fragment MolecularProfileParsedName on MolecularProfileSegment {
 fragment VariantMolecularProfileCardFields on Variant {
   id
   name
+  link
   gene {
       id
       name
