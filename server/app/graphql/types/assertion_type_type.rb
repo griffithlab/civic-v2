@@ -4,5 +4,6 @@ module Types
     value 'PROGNOSTIC', value: 'Prognostic'
     value 'PREDICTIVE', value: 'Predictive'
     value 'PREDISPOSING', value: 'Predisposing'
+    value 'ONCOGENIC', value: 'Oncogenic'
   end
 end

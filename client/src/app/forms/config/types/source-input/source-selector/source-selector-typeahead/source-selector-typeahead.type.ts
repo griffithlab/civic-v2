@@ -1,12 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CitationTypeaheadGQL } from '@app/generated/civic.apollo';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FieldType } from '@ngx-formly/core';
+import { TypeOption } from "@ngx-formly/core/lib/services/formly.config";
+import { isNonNulled } from 'rxjs-etc';
+import { filter, map } from 'rxjs/operators';
 
-import {
-  CitationTypeaheadGQL,
-} from '@app/generated/civic.apollo';
-import {TypeOption} from "@ngx-formly/core/lib/services/formly.config";
-
+@UntilDestroy()
 @Component({
   selector: 'cvc-source-selector-typeahead-type',
   templateUrl: './source-selector-typeahead.type.html',
@@ -37,7 +38,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
         // storing its value and length (for various UI conditionals) here
         fieldLength: 0,
         fieldValue: '',
-        optionList: [] as Array<{ value: string; label: string; source: any}>
+        optionList: [] as Array<{ value: string; label: string; source: any }>
       },
     };
   }
@@ -48,7 +49,7 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
     this.to.modelChange = (e: any): void => {
       // this gets called both when an existing source is selected,
       // and when source-loader triggers onModelUpdated() & patches the form
-      if(this.to.optionList.length > 0) {
+      if (this.to.optionList.length > 0) {
         // update form model with selected source's id & citation
         const { source } = this.to.optionList.find((opt: any) => opt.value === +e);
         if (source) {
@@ -61,13 +62,16 @@ export class SourceSelectorTypeaheadType extends FieldType implements AfterViewI
     this.to.onSearch = (value: string): void => {
       this.to.fieldValue = value;
       this.to.fieldLength = value.length;
-      if(value.length < this.to.minLengthSearch || value.length > this.to.maxLength!) { return }
+      if (value.length < this.to.minLengthSearch || value.length > this.to.maxLength!) { return }
       this.sourceTypeaheadQuery
         .fetch({
           sourceType: this.to.sourceType,
           partialCitationId: +value
         }, { fetchPolicy: 'network-only' })
-        .subscribe(({ data: { sourceTypeahead } }) => {
+        .pipe(map(r => r.data),
+          filter(isNonNulled),
+          untilDestroyed(this))
+        .subscribe(({ sourceTypeahead }) => {
           this.to.optionList = sourceTypeahead.map(s => {
             return { value: s.citationId, label: s.citationId, source: s }
           })

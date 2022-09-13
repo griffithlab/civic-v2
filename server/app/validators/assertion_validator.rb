@@ -39,6 +39,10 @@ class AssertionValidator < ActiveModel::Validator
       record.errors.add :acmg_code_ids, "Assertions of type #{record.evidence_type} may not have ACMG codes attached."
     end
 
+    if !validator[:clingen_codes] && record.clingen_code_ids.size > 0
+      record.errors.add :acmg_code_ids, "Assertions of type #{record.evidence_type} may not have ClinGen/CGC/VICC codes attached."
+    end
+
     if !validator[:amp_level] && record.amp_level.present?
       record.errors.add :amp_level, "Assertions of type #{record.evidence_type} may not have an AMP/ASCO/CAP level attached."
     end
@@ -70,6 +74,7 @@ class AssertionValidator < ActiveModel::Validator
         drug: true,
         acmg_codes: false,
         amp_level: true,
+        clingen_codes: false,
         allow_regulatory_approval: true,
       },
      'Diagnostic' => {
@@ -79,6 +84,7 @@ class AssertionValidator < ActiveModel::Validator
         drug: false,
         acmg_codes: false,
         amp_level: true,
+        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      'Prognostic' => {
@@ -88,6 +94,7 @@ class AssertionValidator < ActiveModel::Validator
         drug: false,
         acmg_codes: false,
         amp_level: true,
+        clingen_codes: false,
         allow_regulatory_approval: false,
       },
      'Predisposing' => {
@@ -97,6 +104,17 @@ class AssertionValidator < ActiveModel::Validator
         drug: false,
         acmg_codes: true,
         amp_level: false,
+        clingen_codes: false,
+        allow_regulatory_approval: false,
+      },
+     'Oncogenic' => {
+       clinical_significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain Significance', 'Likely Benign', 'Benign'],
+        evidence_direction: ['Supports', 'Does Not Support'],
+        disease: true,
+        drug: false,
+        acmg_codes: false,
+        amp_level: false,
+        clingen_codes: true,
         allow_regulatory_approval: false,
       },
     }

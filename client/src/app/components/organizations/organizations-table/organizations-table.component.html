@@ -25,15 +25,20 @@
 <ng-template #table>
   <nz-table #virtualTable
     nzSize="small"
-    [cvcAutoHeightTable]="29"
+    [nzData]="row$ | ngrxPush"
+    [nzLoading]="initialLoading$ | ngrxPush"
+    [cvcAutoHeightTable]="25"
     [nzVirtualItemSize]="29"
-    [nzData]="organizations$ | ngrxPush"
-    [nzLoading]="isLoading"
+    cvcTableScroll
+    (cvcTableScrollOnScroll)="scrollEvent$.next($event)"
+    [cvcTableScrollQueryRef]="queryRef"
+    [cvcTableScrollPageInfo]="pageInfo$ | ngrxPush"
+    [cvcTableScrollToIndex]="scrollIndex$ | ngrxPush"
     [nzVirtualForTrackBy]="trackByIndex"
     [nzScroll]="{ x: '680px', y: '800px' }"
     [nzFrontPagination]="false"
     [nzShowPagination]="false">
-    <thead (nzSortOrderChange)="onSortChanged($event)">
+    <thead (nzSortOrderChange)="sortChange$.next($event)">
       <tr class="col-header-row">
         <th nzWidth="300px"
           nzLeft
@@ -47,18 +52,21 @@
         <th nzWidth="320px">
           Sub Organizations
         </th>
-        <th nzWidth="80px" nzRight nzAlign="right">
+        <th nzWidth="80px"
+          nzRight
+          nzAlign="right">
           Actions
         </th>
-        <th nzWidth="125px" nzRight nzAlign="right">
+        <th nzWidth="125px"
+          nzRight
+          nzAlign="right">
           Last Action
         </th>
       </tr>
-      <tr>
+      <tr class="filter-row">
         <th nzLeft>
           <cvc-clearable-input-filter [(inputModel)]="orgNameInput"
-            placeholderText="Search Name"
-            [onInputChanged]="textInputCallback"></cvc-clearable-input-filter>
+            (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
         </th>
@@ -83,54 +91,48 @@
               {{ organization.memberCount | number }}
             </td>
             <td>
-              <cvc-tag-overflow [maxDisplayCount]="1" tagType='organization' [tags]="organization.subGroups"> </cvc-tag-overflow>
+              <cvc-tag-overflow [maxDisplayCount]="1"
+                tagType='organization'
+                [tags]="organization.subGroups"> </cvc-tag-overflow>
             </td>
-            <td nzRight nzAlign="right">
+            <td nzRight
+              nzAlign="right">
               {{ organization.eventCount | number}}
             </td>
-            <td nzRight nzAlign="right">
+            <td nzRight
+              nzAlign="right">
               {{ organization.mostRecentEvent?.createdAt | timeago }}
             </td>
           </tr>
       </ng-template>
-      <!-- Load More button row -->
-      <ng-container *ngrxLet="pageInfo$ as pageInfo">
-        <tr *ngIf="pageInfo.hasNextPage">
-          <td colspan="7">
-            <button *ngIf="pageInfo.hasNextPage"
-              (click)="loadMore(pageInfo.endCursor)"
-              nz-button
-              nzBlock>Load {{this.fetchMorePageSize}} More</button>
-          </td>
-        </tr>
-      </ng-container>
     </tbody>
   </nz-table>
 </ng-template>
 
+<!-- card's title template -->
 <ng-template #titleTemplate>
-  <i nz-icon nzType="civic:organization"></i>
+  <i nz-icon
+    nzType="civic:organization"></i>
   <ng-container *ngIf="this.cvcTitleTemplate">
     <ng-template [ngTemplateOutlet]="cvcTitleTemplate"></ng-template>
   </ng-container>
   <ng-container *ngIf="this.cvcTitle">
     {{ this.cvcTitle }}
   </ng-container>
-  <span *ngIf="(filteredCount$ | ngrxPush) as filteredCount; else noData" nz-typography nzType="secondary">
-    ({{totalCount}} total, showing {{visibleCount}}<span *ngIf="totalCount && filteredCount < totalCount"> of {{filteredCount}} filtered</span>)
+
+  <span class="table-info">
+    <cvc-table-counts [cvcTableCountsConnection]="connection$"></cvc-table-counts>
   </span>
-  <ng-template #noData>
-    <span nz-typography nzType="secondary">
-      (0 total)
-    </span>
-  </ng-template>
 </ng-template>
 
+<!-- card's extra template -->
 <ng-template #extraTemplate>
-  <nz-tag nzColor="warning"
-    *ngIf="noMoreRows$ | ngrxPush">
+  <nz-tag *ngIf="moreLoading$ | ngrxPush"
+    nzColor="processing">
     <i nz-icon
-      nzType="exclamation-circle"></i>
-    <span>End of results reached</span>
+      nzType="sync"
+      nzSpin></i>
+    <span>Loading…</span>
   </nz-tag>
+  <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>

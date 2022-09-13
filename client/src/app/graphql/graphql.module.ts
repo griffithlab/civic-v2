@@ -1,25 +1,21 @@
 import { NgModule } from '@angular/core';
-import { HttpLink } from 'apollo-angular/http';
-
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { TypePolicies } from '@apollo/client/cache';
 import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
-import { PossibleTypesMap, TypePolicies } from '@apollo/client/cache';
-import { CvcTypePolicies } from  './graphql.type-policies';
+import result from '@app/generated/civic.possible-types';
+import { ApolloModule, APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { CvcTypePolicies } from './graphql.type-policies';
 
-import {
-  default as result,
-  IntrospectionResultData,
-} from '@app/generated/server.possible-types';
 
-const uri = '/api/graphql'; // <-- add the URL of the GraphQL server here
+const uri = '/api/graphql'; // <-- URL of the GraphQL server
 
 const typePolicies: TypePolicies = CvcTypePolicies;
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
 
-  let http = httpLink.create({ uri: uri, withCredentials: true})
+  let http = httpLink.create({ uri: uri, withCredentials: true })
 
-  const analyticsLink =  new ApolloLink((operation, forward) => {
+  const analyticsLink = new ApolloLink((operation, forward) => {
     operation.setContext({
       headers: {
         'Civic-Client-Name': 'civic-frontend'
@@ -31,21 +27,30 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: analyticsLink.concat(http),
     cache: new InMemoryCache({
-      possibleTypes: introspectionToPossibleTypes(result),
+      possibleTypes: result.possibleTypes,
       typePolicies: typePolicies
     }),
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'cache-first',
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
         errorPolicy: 'all',
-        notifyOnNetworkStatusChange: false,
+        notifyOnNetworkStatusChange: true,
+        // returnPartialData: true
       },
     },
   };
 }
 
 @NgModule({
+  imports: [ApolloModule],
   providers: [
+    {
+      provide: APOLLO_FLAGS,
+      useValue: {
+        useInitialLoading: true, // enable it here
+      },
+    },
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
@@ -53,25 +58,4 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     },
   ],
 })
-export class GraphQLModule {}
-
-/**
- * Extracts `PossibleTypesMap` as accepted by `@apollo/client` from GraphQL introspection query result. From: https://github.com/apollographql/apollo-client/issues/6855
- */
-const introspectionToPossibleTypes = (
-  introspectionResultData: IntrospectionResultData
-): PossibleTypesMap => {
-  const possibleTypes: PossibleTypesMap = {};
-
-  introspectionResultData.__schema.types.forEach((supertype) => {
-    if (supertype.possibleTypes) {
-      possibleTypes[supertype.name] = supertype.possibleTypes.map((subtype) => {
-        return subtype.name;
-      });
-    }
-  });
-
-  return possibleTypes;
-};
-
-export default introspectionToPossibleTypes;
+export class GraphQLModule { }

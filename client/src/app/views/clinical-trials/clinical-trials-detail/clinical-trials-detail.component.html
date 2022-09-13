@@ -1,21 +1,18 @@
-<ng-container *ngIf="clinicalTrial$ | ngrxPush as t">
-  <cvc-section-navigation [displayName]="t.nctId"> </cvc-section-navigation>
+<ng-container *ngIf="clinicalTrial$ | ngrxPush as trial">
+  <cvc-section-navigation [displayName]="trial.nctId"> </cvc-section-navigation>
   <nz-page-header class="site-page-header">
     <nz-page-header-title>
       <i nz-icon
-        nzType="civic:clinicaltrial"></i> {{ t.name }}
+        nzType="civic:clinicaltrial"></i> {{ trial.nctId }}
     </nz-page-header-title>
     <nz-page-header-extra>
-      <cvc-link-tag [href]="t.url"
+      <cvc-link-tag [href]="trial.url"
         tooltip="View on clinicaltrials.gov">
-        {{ t.nctId }}
+        {{ trial.nctId }}
       </cvc-link-tag>
     </nz-page-header-extra>
     <nz-page-header-content>
-      <div class="content">
-        {{ t.description }}
-        <router-outlet></router-outlet>
-      </div>
+      <router-outlet></router-outlet>
     </nz-page-header-content>
   </nz-page-header>
 </ng-container>

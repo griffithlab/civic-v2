@@ -1,0 +1,24 @@
+// @import "themes/overrides/descriptions-overrides.less";
+
+nz-card:first-of-type ::ng-deep {
+  .ant-card-body {
+    // remove card body padding
+    padding: 0;
+    // card title has a -1 bottom margin for some reason, partially occluding nz-description's top border
+    margin-top: 1px;
+  }
+
+  // remove left & right borders from all descriptions boxes
+  nz-descriptions ::ng-deep .ant-descriptions-view {
+    border-left: none;
+    border-right: none;
+  }
+
+  // remove top & bottom borders from top & bottom descriptions boxes
+  nz-descriptions:first-child ::ng-deep .ant-descriptions-view {
+    border-top: none;
+  }
+  nz-descriptions:last-child ::ng-deep .ant-descriptions-view {
+    border-bottom: none;
+  }
+}

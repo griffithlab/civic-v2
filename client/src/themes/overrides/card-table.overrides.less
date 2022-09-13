@@ -2,16 +2,6 @@
   display: block;
 }
 
-// selectors for debugging table cdk-scroll sizing issues,
-// TODO: remove after dev on these components has stabilized
-::ng-deep .cdk-virtual-scroll-viewport {
-//  border: 1px solid red;
-}
-
-::ng-deep .cdk-virtual-scroll-content-wrapper {
-// border: 1px solid blue;
-}
-
 nz-card:first-of-type ::ng-deep {
   .ant-card-body {
     // remove card body padding
@@ -20,6 +10,12 @@ nz-card:first-of-type ::ng-deep {
     margin-top: 1px;
   }
 }
+
+.table-info{
+  margin-left: .5rem;
+}
+
+
 
 tr.col-header-row th.ant-table-cell {
   white-space: nowrap;

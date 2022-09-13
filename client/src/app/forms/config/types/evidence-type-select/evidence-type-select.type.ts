@@ -6,12 +6,12 @@ import { Subject } from 'rxjs';
 import { EntityState } from '../../states/entity.state';
 
 const optionText: { [option: string]: string } = {
-  "DIAGNOSTIC": "Evidence pertains to a variant's impact on patient diagnosis (cancer subtype)",
-  "PREDICTIVE": "Evidence pertains to a variant's effect on therapeutic response",
-  "PROGNOSTIC": "Evidence pertains to a variant's impact on disease progression, severity, or patient survival",
-  "PREDISPOSING": "Evidence pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations)",
-  "ONCOGENIC": 'Evidence pertains to a somatic variant\'s involvement in tumor pathogenesis as described by the Hallmarks of Cancer',
-  "FUNCTIONAL": 'Evidence pertains to a variant that alters biological function from the reference state',
+  "DIAGNOSTIC": "Evidence pertains to a variant's impact on patient diagnosis (cancer subtype).",
+  "PREDICTIVE": "Evidence pertains to a variant's effect on therapeutic response.",
+  "PROGNOSTIC": "Evidence pertains to a variant's impact on disease progression, severity, or patient survival.",
+  "PREDISPOSING": "Evidence pertains to a germline variant's role in conferring susceptibility to disease (including pathogenicity evaluations).",
+  "ONCOGENIC": 'Evidence pertains to a somatic variant\'s involvement in tumor pathogenesis as described by the Hallmarks of Cancer.',
+  "FUNCTIONAL": 'Evidence pertains to a variant that alters biological function from the reference state.',
 }
 
 export const evidenceTypeSelectTypeOption: TypeOption = {

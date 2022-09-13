@@ -3,7 +3,8 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { CivicStatsGQL, CivicStatsQuery, CivicTimepointStats } from '@app/generated/civic.apollo';
 import { QueryRef } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-site-stats-card',
@@ -34,7 +35,13 @@ export class CvcSiteStatsCardComponent implements OnInit {
     this.statsRef = this.statsGql.watch({});
     this.response$ = this.statsRef.valueChanges;
 
-    this.isLoading$ = this.response$.pipe(map(r => r.loading));
-    this.stats$ = this.response$.pipe(map(r => r.data.timepointStats));
+    this.isLoading$ = this.response$
+      .pipe(pluck('loading'),
+        filter(isNonNulled))
+
+    this.stats$ = this.response$
+      .pipe(
+        pluck('data', 'timepointStats'),
+        filter(isNonNulled))
   }
 }

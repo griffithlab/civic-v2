@@ -20,5 +20,8 @@ module Types
     value 'NEOMORPHIC', value: 'Neomorphic'
     value 'UNKNOWN', value: 'Unknown'
     value 'DOMINANT_NEGATIVE', value: 'Dominant Negative'
+    value 'PREDISPOSITION', value: 'Predisposition'
+    value 'PROTECTIVENESS', value: 'Protectiveness'
+    value 'ONCOGENICITY', value: 'Oncogenicity'
   end
 end

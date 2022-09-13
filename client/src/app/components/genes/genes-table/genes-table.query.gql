@@ -23,7 +23,7 @@ query BrowseGenes(
     edges {
       cursor
       node {
-        ...GeneBrowseTableRowFields
+        ...BrowseGenesFields
       }
     }
     pageInfo {
@@ -38,7 +38,7 @@ query BrowseGenes(
   }
 }
 
-fragment GeneBrowseTableRowFields on BrowseGene {
+fragment BrowseGenesFields on BrowseGene {
   id
   entrezId
   name

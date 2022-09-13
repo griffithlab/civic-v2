@@ -46,6 +46,11 @@ fragment AssertionSummaryFields on Assertion {
     code
     description
   }
+  clingenCodes {
+    id
+    code
+    description
+  }
   nccnGuideline {
     id
     name

@@ -1,22 +1,33 @@
-<nz-input-group nzSize="large" [nzSuffix]="suffixIcon">
-  <input placeholder="Quicksearch" nz-input [(ngModel)]="searchQuery" (ngModelChange)="refresh()"
-      [nzAutocomplete]="auto" 
-      (keyup.enter)="quicksearchSelected($event)"
-    />
-</nz-input-group>
-<ng-template #suffixIcon>
-  <i nz-icon nzType="search"></i>
-</ng-template>
-
-<nz-autocomplete  #auto>
-  <ng-container *ngFor="let res of searchResults$ | ngrxPush">
-    <a [routerLink]="urlForResult(res)">
-      <nz-auto-option (click)="searchQuery = ''; refresh()" [nzValue]="urlForResult(res)">
-        <span>
-          <i nz-icon [nzType]="iconNameForResult(res)"></i> &nbsp; <span innerHTML={{res.name}}></span><br />
-          <span innerHTML={{res.matchingText}}></span>
-        </span>
-      </nz-auto-option>
-    </a>
-  </ng-container>
-</nz-autocomplete>
+<nz-select nzShowSearch
+  nzServerSearch
+  nzAllowClear
+  [(ngModel)]="selectedOpt"
+  (ngModelChange)="onSelect$.next($event)"
+  (nzOnSearch)="onSearch$.next($event)"
+  nzPlaceHolder="Search CIViC"
+  [nzOptionHeightPx]="28"
+  [nzShowArrow]="false"
+  [nzDropdownMatchSelectWidth]="false">
+  <nz-option *ngFor="let o of (option$ | ngrxPush)"
+    nzCustomContent
+    [nzLabel]="o.text"
+    [nzValue]="o.result">
+    <i nz-icon
+      [nzType]="iconNameForResult(o.result)"
+      style="margin-right: .5em"></i>
+    <span innerHTML= {{o.result.name}}></span>
+    <span *ngIf="o.result.matchingText"
+      nz-typography
+      nzType="secondary">
+    &mdash;
+    <span innerHTML= {{o.result.matchingText}}></span>
+    </span>
+  </nz-option>
+  <nz-option *ngIf="isLoading$ | ngrxPush"
+    nzDisabled
+    nzCustomContent>
+    <i nz-icon
+      nzType="loading"
+      class="loading-icon"></i> Loading Data...
+  </nz-option>
+</nz-select>

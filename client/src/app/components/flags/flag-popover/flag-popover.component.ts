@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FlagPopoverFragment, FlagPopoverGQL, Maybe } from "@app/generated/civic.apollo";
-import { pluck } from 'rxjs/operators'
 import { Observable } from 'rxjs';
+import { isNonNulled } from 'rxjs-etc';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-flag-popover',
@@ -21,6 +22,7 @@ export class CvcFlagPopoverComponent implements OnInit {
     }
     this.flag$ = this.gql.watch({ flagId: this.flagId })
       .valueChanges
-      .pipe(pluck('data', 'flag'))
+      .pipe(map(({ data }) => data?.flag),
+        filter(isNonNulled));
   }
 }

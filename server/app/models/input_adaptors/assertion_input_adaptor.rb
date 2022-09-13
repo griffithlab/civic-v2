@@ -25,6 +25,7 @@ class InputAdaptors::AssertionInputAdaptor
       nccn_guideline_id: input.nccn_guideline_id,
       nccn_guideline_version: input.nccn_guideline_version,
       acmg_code_ids: input.acmg_code_ids,
+      clingen_code_ids: input.clingen_code_ids,
       fda_companion_test: input.fda_companion_test,
       fda_regulatory_approval: input.fda_regulatory_approval
     )
@@ -44,9 +45,21 @@ class InputAdaptors::AssertionInputAdaptor
       errors << "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
     end
 
-    existing_eids = EvidenceItem.where(id: fields.evidence_item_ids).pluck(:id)
+    existing_eids = EvidenceItem.where(id: fields.evidence_item_ids)
     if existing_eids.size != fields.evidence_item_ids.size
-      errors << "Provided evidence item ids: #{fields.evidence_item_ids.join(', ')} but only #{existing_eids.join(', ')} exist."
+      errors << "Provided evidence item ids: #{fields.evidence_item_ids.join(', ')} but only #{existing_eids.map(&:id).join(', ')} exist."
+    end
+
+    invalid_eid = false
+    existing_eids.each do |eid|
+      unless eid.valid?
+        invalid_eid = true
+        errors << "EID#{eid.id} Invalid: #{eid.errors.values.join(", ")}"
+      end
+    end
+
+    if invalid_eid
+      errors << "Please revise Evidence Items to put them in a valid state before including them in an Assertion."
     end
 
     if fields.disease_id && !Disease.where(id: fields.disease_id).exists?
@@ -60,6 +73,11 @@ class InputAdaptors::AssertionInputAdaptor
     existing_acmg_ids = AcmgCode.where(id: fields.acmg_code_ids).pluck(:id)
     if existing_acmg_ids.size != fields.acmg_code_ids.size
       errors << "Provided ACMG code ids: #{fields.acmg_code_ids.join(', ')} but only #{existing_acmg_ids.join(', ')} exist."
+    end
+
+    existing_clingen_ids = ClingenCode.where(id: fields.clingen_code_ids).pluck(:id)
+    if existing_clingen_ids.size != fields.clingen_code_ids.size
+      errors << "Provided ClinGen code ids: #{fields.clingen_code_ids.join(', ')} but only #{existing_clingen_ids.join(', ')} exist."
     end
 
     if !Variant.where(id: fields.variant_id).exists?

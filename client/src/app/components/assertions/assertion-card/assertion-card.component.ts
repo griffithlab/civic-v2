@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { AssertionBrowseTableRowFieldsFragment } from "@app/generated/civic.apollo";
+import { AssertionBrowseFieldsFragment } from "@app/generated/civic.apollo";
 
 @Component({
     selector: 'cvc-assertion-card',
@@ -7,7 +7,7 @@ import { AssertionBrowseTableRowFieldsFragment } from "@app/generated/civic.apol
     styleUrls: ['./assertion-card.component.less']
 })
 export class CvcAssertionCardComponent implements OnInit {
-    @Input() assertion!: AssertionBrowseTableRowFieldsFragment;
+    @Input() assertion!: AssertionBrowseFieldsFragment;
 
     ngOnInit(){
         if(this.assertion == undefined) {

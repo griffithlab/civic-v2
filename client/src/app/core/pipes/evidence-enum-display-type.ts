@@ -1,22 +1,31 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Maybe, EvidenceClinicalSignificance, EvidenceDirection, EvidenceType, VariantOrigin } from '@app/generated/civic.apollo';
-import { formatEvidenceEnum } from '../utilities/enum-formatters/format-evidence-enum';
+import { Maybe } from '@app/generated/civic.apollo';
+import { formatEvidenceEnum, InputEnum } from '../utilities/enum-formatters/format-evidence-enum';
 
 export type EnumOutputStyle = 'display-string' | 'icon-name'
-
-export type InputEnum = EvidenceClinicalSignificance | EvidenceDirection | EvidenceType  | VariantOrigin
 
 @Pipe({
   name: 'evidenceEnumDisplay',
   pure: true
 })
 export class EvidenceEnumDisplayPipe implements PipeTransform {
-  transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string') : string {
+  transform(value: Maybe<InputEnum>, context: EnumOutputStyle = 'display-string', propertyType?: 'clinical-significance' | 'type' ) : string {
     if(value === undefined) return ''
     if (context === 'display-string') {
       return formatEvidenceEnum(value);
       // return this.formatString(value)
     } else {
+      if(value  == "PROTECTIVENESS") {
+        return "civic-protective";
+      }
+      console.log(value)
+      console.log(propertyType)
+      if(propertyType == 'type' && value == "ONCOGENIC") {
+        return 'civic-oncogenictype'
+      }
+      if(propertyType == 'clinical-significance' && value == "ONCOGENIC") {
+        return 'civic-oncogenicsignificance'
+      }
       return `civic-${value.replace(/_/g, '').toLowerCase()}`
     }
   }

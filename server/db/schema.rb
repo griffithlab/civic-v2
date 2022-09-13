@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_11_200531) do
+ActiveRecord::Schema.define(version: 2022_07_06_235555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,15 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
     t.index ["nccn_guideline_id"], name: "index_assertions_on_nccn_guideline_id"
     t.index ["variant_id"], name: "index_assertions_on_variant_id"
     t.index ["variant_origin"], name: "index_assertions_on_variant_origin"
+  end
+
+  create_table "assertions_clingen_codes", id: false, force: :cascade do |t|
+    t.bigint "assertion_id", null: false
+    t.bigint "clingen_code_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["assertion_id"], name: "index_assertions_clingen_codes_on_assertion_id"
+    t.index ["clingen_code_id", "assertion_id"], name: "idx_clingencodes_assertions"
   end
 
   create_table "assertions_drugs", id: false, force: :cascade do |t|
@@ -206,6 +215,13 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
     t.datetime "updated_at"
     t.text "display_name"
     t.index ["name"], name: "index_badges_on_name"
+  end
+
+  create_table "clingen_codes", force: :cascade do |t|
+    t.text "code"
+    t.text "description"
+    t.index ["code"], name: "index_clingen_codes_on_code"
+    t.index ["description"], name: "index_clingen_codes_on_description"
   end
 
   create_table "clinical_trials", id: :serial, force: :cascade do |t|
@@ -812,6 +828,8 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assertions", "nccn_guidelines"
+  add_foreign_key "assertions_clingen_codes", "assertions"
+  add_foreign_key "assertions_clingen_codes", "clingen_codes"
   add_foreign_key "assertions_drugs", "assertions"
   add_foreign_key "assertions_drugs", "drugs"
   add_foreign_key "assertions_evidence_items", "assertions"
@@ -968,6 +986,73 @@ ActiveRecord::Schema.define(version: 2022_05_11_200531) do
   SQL
   add_index "gene_browse_table_rows", ["id"], name: "index_gene_browse_table_rows_on_id", unique: true
 
+<<<<<<< HEAD
+=======
+  create_view "disease_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT diseases.id,
+      diseases.name,
+      diseases.display_name,
+      diseases.doid,
+      array_agg(DISTINCT genes.name) AS gene_names,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT variants.id) AS variant_count,
+      count(DISTINCT assertions.id) AS assertion_count,
+      count(DISTINCT genes.id) AS gene_count
+     FROM (((((diseases
+       JOIN evidence_items ON ((diseases.id = evidence_items.disease_id)))
+       LEFT JOIN assertions_evidence_items ON ((assertions_evidence_items.evidence_item_id = evidence_items.id)))
+       LEFT JOIN assertions ON ((assertions_evidence_items.assertion_id = assertions.id)))
+       JOIN variants ON ((variants.id = evidence_items.variant_id)))
+       JOIN genes ON ((genes.id = variants.gene_id)))
+    WHERE ((evidence_items.status)::text <> 'rejected'::text)
+    GROUP BY diseases.id, diseases.name, diseases.doid;
+  SQL
+  add_index "disease_browse_table_rows", ["id"], name: "index_disease_browse_table_rows_on_id", unique: true
+
+  create_view "evidence_items_by_statuses", sql_definition: <<-SQL
+      SELECT mp.id AS molecular_profile_id,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'accepted'::text) THEN 1
+              ELSE 0
+          END) AS accepted_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'rejected'::text) THEN 1
+              ELSE 0
+          END) AS rejected_count,
+      sum(
+          CASE
+              WHEN ((ei.status)::text = 'submitted'::text) THEN 1
+              ELSE 0
+          END) AS submitted_count
+     FROM (molecular_profiles mp
+       JOIN evidence_items ei ON (((mp.id = ei.molecular_profile_id) AND (ei.deleted = false))))
+    GROUP BY mp.id;
+  SQL
+  create_view "source_browse_table_rows", materialized: true, sql_definition: <<-SQL
+      SELECT sources.id,
+      sources.source_type,
+      sources.citation_id,
+      array_agg(DISTINCT concat(authors.last_name, ', ', authors.fore_name)) FILTER (WHERE ((authors.fore_name <> ''::text) OR (authors.last_name <> ''::text))) AS authors,
+      sources.publication_year,
+      sources.journal,
+      sources.title,
+      sources.description,
+      count(DISTINCT evidence_items.id) AS evidence_item_count,
+      count(DISTINCT source_suggestions.id) AS source_suggestion_count
+     FROM ((((sources
+       LEFT JOIN authors_sources ON ((sources.id = authors_sources.source_id)))
+       LEFT JOIN authors ON ((authors.id = authors_sources.author_id)))
+       LEFT JOIN evidence_items ON ((evidence_items.source_id = sources.id)))
+       LEFT JOIN source_suggestions ON ((source_suggestions.source_id = sources.id)))
+    WHERE (((evidence_items.status)::text <> 'rejected'::text) OR ((source_suggestions.status = 'new'::text) OR (source_suggestions.status IS NULL)))
+    GROUP BY sources.id, sources.source_type, sources.publication_year, sources.journal, sources.title
+   HAVING ((count(DISTINCT evidence_items.id) > 0) OR (count(DISTINCT evidence_items.id) > 0));
+  SQL
+  add_index "source_browse_table_rows", ["id"], name: "index_source_browse_table_rows_on_id", unique: true
+
+>>>>>>> 80308ef8 (oncogenic type and significance icons now have different names)
   create_view "variant_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT outer_variants.id,
       outer_variants.name,

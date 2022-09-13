@@ -24,7 +24,8 @@ const optionText: any = {
       'NA': 'Clinical Significance is not applicable.'
     },
     'PREDISPOSING': {
-      'NA': 'Clinical Significance is not applicable.'
+      'PREDISPOSITION': 'Germline variant has predisposing potential for cancer, and may meet select ACMG/AMP criteria supporting pathogenic or benign classification.',
+      'PROTECTIVENESS': 'Germline variant has properties that protect individuals from acquiring cancer.'
     },
     'FUNCTIONAL': {
       'GAIN_OF_FUNCTION': 'Sequence variant confers an increase in normal gene function',
@@ -35,7 +36,8 @@ const optionText: any = {
       'UNKNOWN': 'Sequence variant that cannot be precisely defined by the other listed categories',
     },
     'ONCOGENIC': {
-      'NA': 'Clinical Significance is not applicable.'
+      'ONCOGENICITY': 'Somatic variant has oncogenic potential for driving cancer, and may meet select ClinGen/CGC/VICC criteria supporting pathogenic or benign classification.',
+      'PROTECTIVENESS': 'Somatic variant has a protective role against cancer.'
     }
   },
   Assertion: {
@@ -60,8 +62,16 @@ const optionText: any = {
       'LIKELY_PATHOGENIC': 'Strong evidence (>90% certainty) the variant is pathogenic.',
       'BENIGN': 'Very strong evidence the variant is benign',
       'LIKELY_BENIGN': 'Not expected to have a major effect on disease',
-      'UNCERTAIN_SIGNIFICANCE': 'Does not fullfill the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
+      'UNCERTAIN_SIGNIFICANCE': 'Does not meet the ACMG/AMP criteria for pathogenic/benign, or the evidence is conflicting',
     },
+    'ONCOGENIC': {
+      'ONCOGENIC': 'Very strong evidence the variant is oncogenic.',
+      'LIKELY_ONCOGENIC': 'Strong evidence the variant is oncogenic.',
+      'BENIGN': 'Very strong evidence the variant does not have oncogenic properties.',
+      'LIKELY_BENIGN': 'Strong evidence the variant does not have oncogenic properties.',
+      'UNCERTAIN_SIGNIFICANCE': 'Does not meet guideline criteria for oncogenic/benign, or the evidence is conflicting.',
+
+    }
   }
 }
 
@@ -72,7 +82,7 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
   defaultOptions: {
     templateOptions: {
       label: 'Clinical Signficance',
-      helpText: 'The impact of the variant for predictive, prognostic, diagnostic, or functional evidence types. For predisposing and oncogenic evidence, impact is only applied at the assertion level and N/A should be selected here.',
+      helpText: 'The impact of the variant.',
       placeholder: 'None specified',
       options: [],
     },

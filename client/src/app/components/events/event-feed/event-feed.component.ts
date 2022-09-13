@@ -16,10 +16,13 @@ import {
 import { QueryRef } from "apollo-angular";
 import { ApolloQueryResult } from "@apollo/client/core";
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, take, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, take, takeUntil } from 'rxjs/operators';
 import { TagLinkableOrganization } from "@app/components/organizations/organization-tag/organization-tag.component";
 import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.component";
 import { environment } from "environments/environment";
+import { isNonNulled } from "rxjs-etc";
+import { tag } from "rxjs-spy/cjs/operators";
+import { untilDestroyed } from "@ngneat/until-destroy";
 
 interface SelectableAction { id: EventAction }
 
@@ -49,8 +52,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
   events$?: Observable<Maybe<EventFeedNodeFragment>[]>;
   pageInfo$?: Observable<PageInfo>;
-  participants$?: Observable<TagLinkableUser[]>;
-  organizations$?: Observable<TagLinkableOrganization[]>;
+  participants$?: Observable<Maybe<TagLinkableUser[]>>;
+  organizations$?: Observable<Maybe<TagLinkableOrganization[]>>;
   actions$?: Observable<SelectableAction[]>
   unfilteredCount$?: Observable<number>
   loading$?: Observable<boolean>
@@ -77,42 +80,46 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     this.queryRef = this.gql.watch(this.initialQueryVars);
 
-    if(this.pollForNewEvents && environment.production) {
+    if (this.pollForNewEvents && environment.production) {
       this.newEventCount$ = this.eventCountGql
-        .watch(this.initialQueryVars, {fetchPolicy: 'no-cache', pollInterval: 30000})
+        .watch(this.initialQueryVars, { fetchPolicy: 'no-cache', pollInterval: 30000 })
         .valueChanges
         .pipe(
-          map( ({data}) => data.events.unfilteredCount ),
+          map(({ data }) => data.events.unfilteredCount),
           takeUntil(this.destroy$)
         )
     }
 
-    this.results$ = this.queryRef.valueChanges;
+    this.results$ = this.queryRef.valueChanges
+    // .pipe(tag('event-feed results$'))
 
     this.pageInfo$ = this.results$.pipe(
       map(({ data }) => data.events.pageInfo)
     )
 
-    this.events$ = this.results$.pipe(
-      map(({ data }) => {
-        return data.events.edges.map(e => e.node)
-      })
-    )
+    this.events$ = this.results$
+      .pipe(map(r => r.data),
+        // tag('event-feed events$'),
+        filter(isNonNulled),
+        map(({ events }) => {
+          return events.edges.map(e => e.node)
+        }))
 
-    this.loading$ =  this.results$.pipe(
-      map(({loading}) =>  loading),
-      startWith(true)
-    )
-    this.unfilteredCount$ = this.results$.pipe(
-      map(({data}) => {
-        return data.events.unfilteredCount
-      })
-    )
+    this.loading$ = this.results$.pipe(
+      map(({ loading }) => loading),
+      distinctUntilChanged());
 
-    this.unfilteredCount$.pipe(take(1))
+    this.unfilteredCount$ = this.results$
+      .pipe(map(r => r.data),
+        filter(isNonNulled),
+        map(({ events }) => events.unfilteredCount));
+
+    this.unfilteredCount$
+      .pipe(take(1),
+        untilDestroyed(this))
       .subscribe(value => this.originalEventCount = value)
 
-    if(this.showFilters) {
+    if (this.showFilters) {
       this.participants$ = this.results$.pipe(
         map(({ data }) => data.events.uniqueParticipants)
       )
@@ -122,7 +129,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
       )
 
       this.actions$ = this.results$.pipe(
-        map(({data}) => data.events?.eventTypes?.map((et) => {return {id: et}}) || [])
+        map(({ data }) => data.events?.eventTypes?.map((et) => { return { id: et } }) || [])
       )
     }
   }
@@ -159,7 +166,7 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.queryRef.refetch().then(
-      ({data}) => { this.originalEventCount =  data.events.unfilteredCount }
+      ({ data }) => { this.originalEventCount = data.events.unfilteredCount }
     );
   }
 
