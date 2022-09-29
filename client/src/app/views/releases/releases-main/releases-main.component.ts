@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataReleasesGQL, ReleaseFragment } from '@app/generated/civic.apollo';
 import { Observable } from 'rxjs';
-import { startWith, pluck, map } from 'rxjs/operators';
+import { isNotNullish } from 'rxjs-etc';
+import { startWith, pluck, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cvc-releases-main',
@@ -25,6 +26,7 @@ export class ReleasesMainComponent implements OnInit {
 
     this.releases$ = queryRef.pipe(
       pluck('data'),
+      filter(isNotNullish),
       map((releases) => releases.dataReleases)
     )
   }
