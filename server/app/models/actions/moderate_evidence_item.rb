@@ -26,7 +26,11 @@ module Actions
       end
 
       evidence_item.status = new_status
-      evidence_item.save!
+      if new_status == 'rejected'
+        evidence_item.save(validate: false)
+      else
+        evidence_item.save!
+      end
       evidence_item.subscribe_user(originating_user)
     end
 
