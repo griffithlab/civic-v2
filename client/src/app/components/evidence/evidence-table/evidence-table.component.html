@@ -434,7 +434,7 @@
               nzTooltipPlacement="top"
               [nzTooltipTitle]="!isScrolling ? (eid.evidenceType | evidenceEnumDisplay) : ''">
               <i nz-icon
-                [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name'"
+                [nzType]="eid.evidenceType | evidenceEnumDisplay: 'icon-name':'type'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
@@ -454,7 +454,7 @@
               nzTooltipPlacement="top"
               [nzTooltipTitle]="!isScrolling ? (eid.clinicalSignificance | evidenceEnumDisplay) : ''">
               <i nz-icon
-                [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
+                [nzType]="eid.clinicalSignificance| evidenceEnumDisplay: 'icon-name':'clinical-significance'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>
