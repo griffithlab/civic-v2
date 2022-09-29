@@ -21,8 +21,6 @@ import { TagLinkableOrganization } from "@app/components/organizations/organizat
 import { TagLinkableUser } from "@app/components/users/user-tag/user-tag.component";
 import { environment } from "environments/environment";
 import { isNonNulled } from "rxjs-etc";
-import { tag } from "rxjs-spy/cjs/operators";
-import { untilDestroyed } from "@ngneat/until-destroy";
 
 interface SelectableAction { id: EventAction }
 
@@ -85,7 +83,8 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
         .watch(this.initialQueryVars, { fetchPolicy: 'no-cache', pollInterval: 30000 })
         .valueChanges
         .pipe(
-          map(({ data }) => data.events.unfilteredCount),
+          filter(isNonNulled),
+          map(({ data }) => data?.events?.unfilteredCount),
           takeUntil(this.destroy$)
         )
     }
@@ -99,11 +98,11 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
 
     this.events$ = this.results$
       .pipe(map(r => r.data),
-        // tag('event-feed events$'),
         filter(isNonNulled),
         map(({ events }) => {
-          return events.edges.map(e => e.node)
-        }))
+          return events?.edges.map(e => e.node)
+        }),
+        )
 
     this.loading$ = this.results$.pipe(
       map(({ loading }) => loading),
@@ -115,20 +114,22 @@ export class CvcEventFeedComponent implements OnInit, OnDestroy {
         map(({ events }) => events.unfilteredCount));
 
     this.unfilteredCount$
-      .pipe(take(1),
-        untilDestroyed(this))
+      .pipe(take(1))
       .subscribe(value => this.originalEventCount = value)
 
     if (this.showFilters) {
       this.participants$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events.uniqueParticipants)
       )
 
       this.organizations$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events.participatingOrganizations)
       )
 
       this.actions$ = this.results$.pipe(
+        filter(isNonNulled),
         map(({ data }) => data.events?.eventTypes?.map((et) => { return { id: et } }) || [])
       )
     }
