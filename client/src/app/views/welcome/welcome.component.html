@@ -1,32 +1,37 @@
-<nz-space nzDirection="vertical"
-  nzSize="middle"
-  class="space-container">
+<nz-space nzDirection="vertical" nzSize="middle" class="space-container">
   <nz-row *nzSpaceItem>
     <nz-col [nzSpan]="24">
-      <nz-space nzDirection="vertical"
-        nzSize="middle"
-        class="space-container">
-        <nz-carousel nzAutoPlay nzAutoPlaySpeed="10000"
-          *nzSpaceItem>
+      <nz-space nzDirection="vertical" nzSize="middle" class="space-container">
+        <nz-carousel nzAutoPlay nzAutoPlaySpeed="10000" *nzSpaceItem>
           <div nz-carousel-content>
-            <h1>Welcome to CIViC </h1>
-          <h2>
-            an open-source platform supporting crowdsourced and expert-moderated cancer variant curation.
-          </h2>
+            <h1>Welcome to CIViC</h1>
+            <h2>
+              an open-source platform supporting crowdsourced and
+              expert-moderated cancer variant curation.
+            </h2>
           </div>
           <div nz-carousel-content>
             <h1>
-              Discover supported clinical interpretations <br/>
-            of mutations related to cancer.
-</h1> </div>
+              Discover supported clinical interpretations <br />
+              of mutations related to cancer.
+            </h1>
+          </div>
           <div nz-carousel-content>
             <h1>
-            Participate with colleagues <br/>to add variants
-            and support <br/>for cancer-related mutations.</h1></div>
+              Participate with colleagues <br />to add variants and support
+              <br />for cancer-related mutations.
+            </h1>
+          </div>
           <div nz-carousel-content>
             <h1>
-            <a class="header-link" href="https://civic.readthedocs.io/en/latest/curating/editor.html" target="_blank">Become an Editor! <br/>Help moderate updates to CIViC</a>
-          </h1></div>
+              <a
+                class="header-link"
+                href="https://civic.readthedocs.io/en/latest/curating/editor.html"
+                target="_blank"
+                >Become an Editor! <br />Help moderate updates to CIViC</a
+              >
+            </h1>
+          </div>
         </nz-carousel>
       </nz-space>
     </nz-col>
@@ -36,107 +41,165 @@
       <cvc-site-stats-card></cvc-site-stats-card>
     </nz-col>
   </nz-row>
-  <nz-row [nzGutter]="16"
-    *nzSpaceItem>
+  <nz-row [nzGutter]="16" *nzSpaceItem>
     <nz-col [nzSpan]="12">
-      <nz-card style="height: 100%" nzTitle="News & Events"
+      <nz-card
+        style="height: 100%"
+        nzTitle="News & Events"
         nzSize="small"
-        class="home-card">
+        class="home-card"
+      >
         <nz-list nzItemLayout="vertical">
           <nz-list-item>
             <nz-list-item-meta>
               <nz-list-item-meta-title>
-                <span>CIViC Curation Jamboree & Hackathon</span>
-                <br/>
-                <span nz-typography
-                  nzType="secondary">
-                  July 30th, 2022
+                <span>CIViC Wins ICTR Elevator Pitch Award</span>
+                <br />
+                <span nz-typography nzType="secondary">
+                  September 14th, 2022
                 </span>
               </nz-list-item-meta-title>
             </nz-list-item-meta>
-            We're excited to announce that CIViC, the Compendium of Cancer Genome Aberrations (CCGA), and the ClinGen Somatic Cancer Clinical Domain Working Group are co-hosting a cancer
-            variant interpretation hackathon and curation jamboree on Saturday July 30 (8AM to 5PM) as a pre-meeting of the CGC Annual Meeting 2022.
-            <a href="https://www.eventbrite.com/e/cancer-variant-interpretation-hackathon-and-curation-jamboree-tickets-327320021997" target="_blank">Register now!</a>
+            At this year's
+            <a href="https://itcr.cancer.gov">Informatics Technology for Cancer Research</a>
+            annual <a href="https://itcr2022.org/#abstracts">meeting in St. Louis</a>, CIViC won 1st prize in the Elevator Pitch
+            contest for "Most
+            Potential for Patient Impact". Please check out the award-winning
+            elevator pitch, now featured at the top of the
+            <a href="/pages/about">About CIViC page</a>.
+            <nz-list-item-extra></nz-list-item-extra>
+          </nz-list-item>
+          <nz-list-item>
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <span>CIViC Curation Jamboree & Hackathon</span>
+                <br />
+                <span nz-typography nzType="secondary"> July 30th, 2022 </span>
+              </nz-list-item-meta-title>
+            </nz-list-item-meta>
+            We're excited to announce that CIViC, the Compendium of Cancer
+            Genome Aberrations (CCGA), and the ClinGen Somatic Cancer Clinical
+            Domain Working Group are co-hosting a cancer variant interpretation
+            hackathon and curation jamboree on Saturday July 30 (8AM to 5PM) as
+            a pre-meeting of the CGC Annual Meeting 2022.
+            <a
+              href="https://www.eventbrite.com/e/cancer-variant-interpretation-hackathon-and-curation-jamboree-tickets-327320021997"
+              target="_blank"
+              >Register now!</a
+            >
             <nz-list-item-extra></nz-list-item-extra>
           </nz-list-item>
           <nz-list-item>
             <nz-list-item-meta>
               <nz-list-item-meta-title>
                 <span>Welcome to CIViC 2.0!</span>
-                <br/>
-                <span nz-typography
-                  nzType="secondary">
-                  April 9th, 2022
-                </span>
+                <br />
+                <span nz-typography nzType="secondary"> April 9th, 2022 </span>
               </nz-list-item-meta-title>
             </nz-list-item-meta>
-              CIViC 2.0 features a completely redesigned user interface and a more powerful GraphQL API. 
-              It provides many new ways to browse the knowledgebase while retaining the CIViC knowledge model you are already familiar with. Furthermore, existing links to CIViC entities will continue to function as before.
-              If you have any questions, comments, or would like help adapting an existing integration to our new API, please email us at <a href="mailto:help@civicdb.org">help@civicdb.org</a>.
-              We have also prepared an introductory video tour of the new interface, please <a href="https://www.youtube.com/watch?v=bpVkSP7qvgc" target="_blank">check it out</a>!
-            <nz-list-item-extra style="padding-top: 30px;">
-              <iframe width="250" src="https://www.youtube.com/embed/bpVkSP7qvgc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            CIViC 2.0 features a completely redesigned user interface and a more
+            powerful GraphQL API. It provides many new ways to browse the
+            knowledgebase while retaining the CIViC knowledge model you are
+            already familiar with. Furthermore, existing links to CIViC entities
+            will continue to function as before. If you have any questions,
+            comments, or would like help adapting an existing integration to our
+            new API, please email us at
+            <a href="mailto:help@civicdb.org">help@civicdb.org</a>. We have also
+            prepared an introductory video tour of the new interface, please
+            <a
+              href="https://www.youtube.com/watch?v=bpVkSP7qvgc"
+              target="_blank"
+              >check it out</a
+            >!
+            <nz-list-item-extra style="padding-top: 30px">
+              <iframe
+                width="250"
+                src="https://www.youtube.com/embed/bpVkSP7qvgc"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
             </nz-list-item-extra>
           </nz-list-item>
           <nz-list-item>
             <nz-list-item-meta>
               <nz-list-item-meta-title>
                 <span>Pediatric Cancer Variants</span>
-                <br/>
-                <span nz-typography
-                  nzType="secondary">
+                <br />
+                <span nz-typography nzType="secondary">
                   February 12th, 2021
                 </span>
               </nz-list-item-meta-title>
             </nz-list-item-meta>
-            Through support from the Childhood Cancer Data Initiative (CCDI), we have executed our initial phase of highlighting pediatric cancer variant content. This advanced search query displays childhood relevant data contained in CIViC. Stay tuned for more pediatric-focused features as we launch the first open-access searchable childhood-cancer-specific dataset.
+            Through support from the Childhood Cancer Data Initiative (CCDI), we
+            have executed our initial phase of highlighting pediatric cancer
+            variant content. This advanced search query displays childhood
+            relevant data contained in CIViC. Stay tuned for more
+            pediatric-focused features as we launch the first open-access
+            searchable childhood-cancer-specific dataset.
             <nz-list-item-extra></nz-list-item-extra>
           </nz-list-item>
-          <nz-list-item>
-            <nz-list-item-meta>
-              <nz-list-item-meta-title>
-                <span>Explore CIViC Variants in ProteinPaint</span>
-                <br/>
-                <span nz-typography
-                  nzType="secondary">June 29th, 2020</span>
-              </nz-list-item-meta-title>
-            </nz-list-item-meta>
-              St. Jude's ProteinPaint now incorporates a CIViC variant track, displaying CIViC curated data along with a variety of additional sources, and providing one-click access to CIViC's variant summaries. We've also added ProteinPaint links to our gene summaries.
-            <nz-list-item-extra>
-              <img width="150"
-                alt="logo"
-                src="https://civicdb.org/assets/images/partners/protein-paint-integration.png" />
-            </nz-list-item-extra>
-          </nz-list-item>
         </nz-list>
-
       </nz-card>
     </nz-col>
     <nz-col [nzSpan]="12">
-      <nz-card nzTitle="Live Curation Activity"
+      <nz-card
+        nzTitle="Live Curation Activity"
         style="min-height: 600px"
         nzSize="small"
-        class="home-card">
+        class="home-card"
+      >
         <cvc-homepage-event-feed [pageSize]="12"></cvc-homepage-event-feed>
       </nz-card>
     </nz-col>
   </nz-row>
   <nz-row *nzSpaceItem [nzGutter]="16">
     <nz-col [nzSpan]="24">
-      <nz-card nzTitle="Medical Disclaimer: This resource is intended for purely research purposes. It should not be used for emergencies or medical or professional advice."
+      <nz-card
+        nzTitle="Medical Disclaimer: This resource is intended for purely research purposes. It should not be used for emergencies or medical or professional advice."
         nzSize="small"
-        class="home-card">
-        <p>CIViC is a community-edited forum for discussion and interpretation of peer-reviewed publications pertaining to the clinical relevance of variants (or biomarker alterations) in cancer. These interpretations may include associations between molecular alterations (or lack of alteration) and one or more drugs, diagnoses, prognoses or other treatment decisions. These interpretations of clinical significance (or lack of clinical significance) are purely for research purposes. A finding of no interpretation does not necessarily indicate lack of relevance for any specific variant or biomarker alteration. Interpretations are not presented in ranked order of potential or predicted importance.These interpretations make no promise or guarantee of any clinical benefit (or lack of clinical benefit).</p>
-        <p>The civicdb.org website does not provide any medical or healthcare products, services or advice, and is not for medical emergencies or urgent situations. <strong>IF YOU THINK YOU MAY HAVE A MEDICAL EMERGENCY, CALL YOUR DOCTOR OR 911 IMMEDIATELY</strong>. Information contained on this website is not a substitute for a doctor's medical judgment or advice. We recommend that you discuss your specific, individual health concerns with your doctor or health care professional.</p>
+        class="home-card"
+      >
+        <p>
+          CIViC is a community-edited forum for discussion and interpretation of
+          peer-reviewed publications pertaining to the clinical relevance of
+          variants (or biomarker alterations) in cancer. These interpretations
+          may include associations between molecular alterations (or lack of
+          alteration) and one or more drugs, diagnoses, prognoses or other
+          treatment decisions. These interpretations of clinical significance
+          (or lack of clinical significance) are purely for research purposes. A
+          finding of no interpretation does not necessarily indicate lack of
+          relevance for any specific variant or biomarker alteration.
+          Interpretations are not presented in ranked order of potential or
+          predicted importance.These interpretations make no promise or
+          guarantee of any clinical benefit (or lack of clinical benefit).
+        </p>
+        <p>
+          The civicdb.org website does not provide any medical or healthcare
+          products, services or advice, and is not for medical emergencies or
+          urgent situations.
+          <strong
+            >IF YOU THINK YOU MAY HAVE A MEDICAL EMERGENCY, CALL YOUR DOCTOR OR
+            911 IMMEDIATELY</strong
+          >. Information contained on this website is not a substitute for a
+          doctor's medical judgment or advice. We recommend that you discuss
+          your specific, individual health concerns with your doctor or health
+          care professional.
+        </p>
       </nz-card>
     </nz-col>
   </nz-row>
   <ng-container *ngIf="this.release$ | async as release">
     <nz-row *nzSpaceItem nzAlign="middle" nzJustify="center">
       <div id="release-info" nz-typography>
-        CIViC {{release.name}} ({{release.published_at | date}}) &bull; 
-        <a [href]="release.html_url" target="_blank">Release Notes</a> &bull; 
-        <a href="https://github.com/griffithlab/civic-v2/releases/" target="_blank">History</a>
+        CIViC {{ release.name }} ({{ release.published_at | date }}) &bull;
+        <a [href]="release.html_url" target="_blank">Release Notes</a> &bull;
+        <a
+          href="https://github.com/griffithlab/civic-v2/releases/"
+          target="_blank"
+          >History</a
+        >
       </div>
     </nz-row>
   </ng-container>
