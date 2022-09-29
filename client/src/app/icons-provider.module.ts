@@ -80,6 +80,7 @@ import {
   civicNegativeOutline,
   civicNeomorphicOutline,
   civicOncogenictypeOutline,
+  civicOncogenicityOutline,
   civicOncogenicsignificanceOutline,
   civicOrganizationFullcolor,
   civicOrganizationOutline,
@@ -93,6 +94,7 @@ import {
   civicPredictiveOutline,
   civicPredisposingOutline,
   civicPrognosticOutline,
+  civicProtectivenessOutline,
   civicRaregermlineOutline,
   civicReducedsensitivityOutline,
   civicResistanceOutline,
@@ -124,7 +126,6 @@ import {
   civicVarianttypeOutline,
   civicVarianttypeTwotone,
   civicLikelyoncogenicOutline,
-  civicProtectiveOutline,
 } from '@app/generated/civic.icons';
 
 const iconLiterals = [
@@ -177,9 +178,9 @@ const iconLiterals = [
   civicNegativeOutline,
   civicNeomorphicOutline,
   civicOncogenictypeOutline,
+  civicOncogenicityOutline,
   civicOncogenicsignificanceOutline,
   civicLikelyoncogenicOutline,
-  civicProtectiveOutline,
   civicOrganizationOutline,
   civicOrganizationTwotone,
   civicPathogenicOutline,
@@ -190,6 +191,7 @@ const iconLiterals = [
   civicPredictiveOutline,
   civicPredisposingOutline,
   civicPrognosticOutline,
+  civicProtectivenessOutline,
   civicRaregermlineOutline,
   civicReducedsensitivityOutline,
   civicResistanceOutline,
