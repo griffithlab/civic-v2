@@ -152,6 +152,12 @@
               </ng-template>
             </nz-descriptions-item>
 
+            <nz-descriptions-item *ngIf="variant.openCravatUrl" nzTitle="OpenCRAVAT">
+              <cvc-link-tag [href]="variant.openCravatUrl" tooltip="View on OpenCRAVAT">
+               Variant Report 
+              </cvc-link-tag>
+            </nz-descriptions-item>
+
           </nz-descriptions>
         </nz-col>
         <!-- coordinates -->
