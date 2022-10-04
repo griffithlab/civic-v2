@@ -260,9 +260,6 @@ export const contextualTooltips: ContextualTooltipMap = {
       SUPPORTS: {
         Assertion: 'The Assertion and associated Evidence Items support a variant\'s impact on predisposing outcome'
       },
-      DOES_NOT_SUPPORT: {
-        Assertion: 'The Assertion and associated evidence does not support a predisposing association between variant and outcome'
-      }
     },
     FUNCTIONAL: {
       SUPPORTS: {
@@ -277,9 +274,6 @@ export const contextualTooltips: ContextualTooltipMap = {
         Assertion: `The Assertion and associated Evidence Items support a variant's oncogenic, benign, or uncertain significance`,
 
       },
-      DOES_NOT_SUPPORT: {
-        Assertion: `The Assertion and associated Evidence Items do not support a variant's oncogenic, benign, or uncertain significance`,
-      }
     }
   },
 }

@@ -99,7 +99,7 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Predisposing' => {
        clinical_significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
-        evidence_direction: ['Supports', 'Does Not Support'],
+        evidence_direction: ['Supports'],
         disease: true,
         drug: false,
         acmg_codes: true,
@@ -109,7 +109,7 @@ class AssertionValidator < ActiveModel::Validator
       },
      'Oncogenic' => {
        clinical_significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain', 'Likely Benign', 'Benign'],
-        evidence_direction: ['Supports', 'Does Not Support'],
+        evidence_direction: ['Supports'],
         disease: true,
         drug: false,
         acmg_codes: false,

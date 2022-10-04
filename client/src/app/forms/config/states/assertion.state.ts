@@ -77,7 +77,6 @@ class AssertionState extends EntityState {
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
@@ -98,7 +97,6 @@ class AssertionState extends EntityState {
       ],
       entityDirection: [
         AssertionDirection.Supports,
-        AssertionDirection.DoesNotSupport,
       ],
       requiresDisease: true,
       requiresDrug: false,
