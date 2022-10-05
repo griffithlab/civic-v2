@@ -43,4 +43,30 @@ class Resolvers::BrowseGenes < GraphQL::Schema::Resolver
     raise 'Must supply a column name' if col.nil?
     "gene_browse_table_rows.id IN (select gb.id FROM gene_browse_table_rows gb, json_array_elements(gb.#{col}) d where d->>'name' ILIKE ?)"
   end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.name,
+      ArrayWrapper.wrap(object.alias_names),
+      ArrayWrapper.wrap(object.diseases, field_name: 'name'),
+      ArrayWrapper.wrap(object.drugs, field_name: 'name'),
+      object.variant_count,
+      object.evidence_item_count,
+      object.assertion_count
+    ]
+  end
+
+  def self.table_headers
+    [
+      'id',
+      'name',
+      'aliases',
+      'diseases',
+      'drugs',
+      'variant_count',
+      'evidence_count',
+      'assertion_count'
+    ]
+  end
 end
