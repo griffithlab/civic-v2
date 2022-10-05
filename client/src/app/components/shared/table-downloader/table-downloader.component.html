@@ -1,0 +1,7 @@
+<button nz-button
+  nzSize="small"
+  (click)="this.downloadTable()">
+  <span *ngIf="!(this.downloading | async)"nz-icon nzType="download" nzTheme="outline"></span>
+  <span *ngIf="this.downloading | async" nz-icon nzType="sync" [nzSpin]="true"></span>
+  Download Table
+</button>
