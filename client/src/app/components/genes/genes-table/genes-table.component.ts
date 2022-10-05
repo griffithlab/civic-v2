@@ -65,7 +65,7 @@ export class CvcGenesTableComponent implements OnInit {
   sortColumns: typeof GenesSortColumns = GenesSortColumns
 
   private debouncedQuery = new Subject<void>()
-  constructor(public query: BrowseGenesGQL, private cdr: ChangeDetectorRef) {
+  constructor(private query: BrowseGenesGQL, private cdr: ChangeDetectorRef) {
     this.noMoreRows$ = new BehaviorSubject<boolean>(false)
     this.scrollEvent$ = new BehaviorSubject<ScrollEvent>('stop')
     this.sortChange$ = new Subject<SortDirectionEvent>()

@@ -9,10 +9,9 @@ import { BehaviorSubject } from "rxjs";
   templateUrl: './table-downloader.component.html',
   styleUrls: ['./table-downloader.component.less'],
 })
-export class CvcTableDownloaderComponent<GQL extends  Query<Q,V>, Q extends {}, V extends EmptyObject> {
+export class CvcTableDownloaderComponent<V extends EmptyObject> {
 
   @Input() tableName?: string
-  @Input() gql?: GQL
   @Input() vars?: V
 
   downloading = new BehaviorSubject<boolean>(false)
@@ -20,9 +19,8 @@ export class CvcTableDownloaderComponent<GQL extends  Query<Q,V>, Q extends {}, 
   constructor(private http: HttpClient) {}
 
   downloadTable() {
-    if(this.gql && this.vars) {
+    if(this.vars) {
       let payload = {
-        query: this.gql.document.loc?.source.body,
         variables: this.vars
       }
       this.downloading.next(true);

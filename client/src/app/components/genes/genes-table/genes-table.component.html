@@ -173,6 +173,6 @@
       nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
-  <cvc-table-downloader [gql]="this.query" [vars]="this.queryRef.variables" tableName="genes"></cvc-table-downloader>
+  <cvc-table-downloader [vars]="this.queryRef.variables" tableName="genes"></cvc-table-downloader>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>
