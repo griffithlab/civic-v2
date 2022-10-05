@@ -68,5 +68,8 @@ mutation SuggestAssertionRevision($input: SuggestAssertionRevisionInput!) {
     assertion {
       id
     }
+    results {
+      newlyCreated
+    }
   }
 }

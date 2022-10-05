@@ -5686,7 +5686,7 @@ export type SuggestAssertionRevisionMutationVariables = Exact<{
 }>;
 
 
-export type SuggestAssertionRevisionMutation = { __typename: 'Mutation', suggestAssertionRevision?: { __typename: 'SuggestAssertionRevisionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number } } | undefined };
+export type SuggestAssertionRevisionMutation = { __typename: 'Mutation', suggestAssertionRevision?: { __typename: 'SuggestAssertionRevisionPayload', clientMutationId?: string | undefined, assertion: { __typename: 'Assertion', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
 export type SubmitAssertionMutationVariables = Exact<{
   input: SubmitAssertionInput;
@@ -5934,7 +5934,7 @@ export type SuggestEvidenceItemRevisionMutationVariables = Exact<{
 }>;
 
 
-export type SuggestEvidenceItemRevisionMutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number } } | undefined };
+export type SuggestEvidenceItemRevisionMutation = { __typename: 'Mutation', suggestEvidenceItemRevision?: { __typename: 'SuggestEvidenceItemRevisionPayload', clientMutationId?: string | undefined, evidenceItem: { __typename: 'EvidenceItem', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean }> } | undefined };
 
 export type EvidenceFieldsFromSourceSuggestionQueryVariables = Exact<{
   sourceId?: InputMaybe<Scalars['Int']>;
@@ -5989,7 +5989,7 @@ export type SuggestGeneRevisionMutationVariables = Exact<{
 }>;
 
 
-export type SuggestGeneRevisionMutation = { __typename: 'Mutation', suggestGeneRevision?: { __typename: 'SuggestGeneRevisionPayload', clientMutationId?: string | undefined, gene: { __typename: 'Gene', id: number, revisions: { __typename: 'RevisionConnection', totalCount: number, edges: Array<{ __typename: 'RevisionEdge', node?: { __typename: 'Revision', id: number, revisionsetId: string, createdAt: any, fieldName: string, currentValue?: any | undefined, suggestedValue?: any | undefined, status: RevisionStatus, linkoutData: { __typename: 'LinkoutData', name: string, diffValue: { __typename: 'ObjectFieldDiff', addedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, removedObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }>, keptObjects: Array<{ __typename: 'ModeratedObjectField', id: number, displayName?: string | undefined, displayType?: string | undefined, entityType: string }> } | { __typename: 'ScalarFieldDiff', left: string, right: string } }, revisor?: { __typename: 'User', id: number, name?: string | undefined } | undefined } | undefined }> } }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
+export type SuggestGeneRevisionMutation = { __typename: 'Mutation', suggestGeneRevision?: { __typename: 'SuggestGeneRevisionPayload', clientMutationId?: string | undefined, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
 
 export type MolecularProfileRevisableFieldsQueryVariables = Exact<{
   molecularProfileId: Scalars['Int'];
@@ -6005,7 +6005,7 @@ export type SuggestMolecularProfileRevisionMutationVariables = Exact<{
 }>;
 
 
-export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
+export type SuggestMolecularProfileRevisionMutation = { __typename: 'Mutation', suggestMolecularProfileRevision?: { __typename: 'SuggestMolecularProfileRevisionPayload', clientMutationId?: string | undefined, molecularProfile: { __typename: 'MolecularProfile', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
 
 export type SuggestSourceMutationVariables = Exact<{
   input: SuggestSourceInput;
@@ -6062,7 +6062,7 @@ export type SuggestVariantGroupRevisionMutationVariables = Exact<{
 }>;
 
 
-export type SuggestVariantGroupRevisionMutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', id: number, fieldName: string }> } | undefined };
+export type SuggestVariantGroupRevisionMutation = { __typename: 'Mutation', suggestVariantGroupRevision?: { __typename: 'SuggestVariantGroupRevisionPayload', clientMutationId?: string | undefined, variantGroup: { __typename: 'VariantGroup', id: number }, results: Array<{ __typename: 'RevisionResult', newlyCreated: boolean, id: number, fieldName: string }> } | undefined };
 
 export type VariantGroupSubmittableFieldsQueryVariables = Exact<{
   variantGroupId: Scalars['Int'];
@@ -10285,6 +10285,9 @@ export const SuggestAssertionRevisionDocument = gql`
     assertion {
       id
     }
+    results {
+      newlyCreated
+    }
   }
 }
     `;
@@ -10858,6 +10861,9 @@ export const SuggestEvidenceItemRevisionDocument = gql`
     evidenceItem {
       id
     }
+    results {
+      newlyCreated
+    }
   }
 }
     `;
@@ -11011,57 +11017,8 @@ export const SuggestGeneRevisionDocument = gql`
     mutation SuggestGeneRevision($input: SuggestGeneRevisionInput!) {
   suggestGeneRevision(input: $input) {
     clientMutationId
-    gene {
-      id
-      revisions {
-        totalCount
-        edges {
-          node {
-            id
-            revisionsetId
-            createdAt
-            fieldName
-            currentValue
-            suggestedValue
-            linkoutData {
-              name
-              diffValue {
-                ... on ObjectFieldDiff {
-                  addedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  removedObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                  keptObjects {
-                    id
-                    displayName
-                    displayType
-                    entityType
-                  }
-                }
-                ... on ScalarFieldDiff {
-                  left
-                  right
-                }
-              }
-            }
-            revisor {
-              id
-              name
-            }
-            status
-          }
-        }
-      }
-    }
     results {
+      newlyCreated
       id
       fieldName
     }
@@ -11105,6 +11062,7 @@ export const SuggestMolecularProfileRevisionDocument = gql`
       id
     }
     results {
+      newlyCreated
       id
       fieldName
     }
@@ -11287,6 +11245,7 @@ export const SuggestVariantGroupRevisionDocument = gql`
       id
     }
     results {
+      newlyCreated
       id
       fieldName
     }
