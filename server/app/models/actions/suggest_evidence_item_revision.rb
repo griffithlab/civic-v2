@@ -1,7 +1,7 @@
 class Actions::SuggestEvidenceItemRevision < Actions::SuggestRevisionSet
   def editable_fields
     [
-      :variant_id,
+      :molecular_profile_id,
       :variant_origin,
       :source_id,
       :evidence_type,
