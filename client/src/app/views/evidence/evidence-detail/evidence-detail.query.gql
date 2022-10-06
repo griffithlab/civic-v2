@@ -8,6 +8,11 @@ fragment EvidenceDetailFields on EvidenceItem {
   id
   name
   status
+  valid
+  validationErrors {
+    fieldName
+    error
+  }
   submissionEvent {
     originatingUser {
       id

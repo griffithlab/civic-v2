@@ -8,6 +8,8 @@ module Types::Entities
     implements Types::Interfaces::EventOriginObject
 
     field :id, Int, null: false
+    field :valid, Boolean, null: false
+    field :validation_errors, [Types::FieldValidationErrorType], null: false
     field :name, String, null: false
     field :molecular_profile, Types::Entities::MolecularProfileType, null: false
     field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
@@ -30,6 +32,26 @@ module Types::Entities
     field :acceptance_event, Types::Entities::EventType, null: true
     field :rejection_event, Types::Entities::EventType, null: true
     field :assertions, [Types::Entities::AssertionType], null: false
+
+    def valid
+      object.valid?
+    end
+
+    def validation_errors
+      if !object.valid?
+        object.errors.map do |attribute, message|
+          attribute = attribute.to_s
+          if attribute.ends_with?("_ids")
+            formatted_attribute = attribute.singularize.humanize.pluralize
+          else
+            formatted_attribute = attribute.humanize
+          end
+          { 'field_name': formatted_attribute, 'error':  message }
+        end
+      else
+        []
+      end
+    end
 
     def disease
       Loaders::RecordLoader.for(Disease).load(object.disease_id)

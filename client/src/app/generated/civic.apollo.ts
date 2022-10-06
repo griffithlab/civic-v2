@@ -234,6 +234,8 @@ export type Assertion = Commentable & EventOriginObject & EventSubject & Flaggab
   status: EvidenceStatus;
   submissionEvent: Event;
   summary: Scalars['String'];
+  valid: Scalars['Boolean'];
+  validationErrors: Array<FieldValidationError>;
   variantOrigin: VariantOrigin;
 };
 
@@ -1448,6 +1450,8 @@ export type EvidenceItem = Commentable & EventOriginObject & EventSubject & Flag
   source: Source;
   status: EvidenceStatus;
   submissionEvent: Event;
+  valid: Scalars['Boolean'];
+  validationErrors: Array<FieldValidationError>;
   variant: Variant;
   variantHgvs: Scalars['String'];
   variantOrigin: VariantOrigin;
@@ -6104,9 +6108,9 @@ export type AssertionDetailQueryVariables = Exact<{
 }>;
 
 
-export type AssertionDetailQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type AssertionDetailQuery = { __typename: 'Query', assertion?: { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, valid: boolean, validationErrors: Array<{ __typename: 'FieldValidationError', fieldName: string, error: string }>, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type AssertionDetailFieldsFragment = { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type AssertionDetailFieldsFragment = { __typename: 'Assertion', id: number, name: string, status: EvidenceStatus, valid: boolean, validationErrors: Array<{ __typename: 'FieldValidationError', fieldName: string, error: string }>, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type AssertionSummaryQueryVariables = Exact<{
   assertionId: Scalars['Int'];
@@ -6168,9 +6172,9 @@ export type EvidenceDetailQueryVariables = Exact<{
 }>;
 
 
-export type EvidenceDetailQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
+export type EvidenceDetailQuery = { __typename: 'Query', evidenceItem?: { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, valid: boolean, validationErrors: Array<{ __typename: 'FieldValidationError', fieldName: string, error: string }>, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } } | undefined };
 
-export type EvidenceDetailFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
+export type EvidenceDetailFieldsFragment = { __typename: 'EvidenceItem', id: number, name: string, status: EvidenceStatus, valid: boolean, validationErrors: Array<{ __typename: 'FieldValidationError', fieldName: string, error: string }>, submissionEvent: { __typename: 'Event', originatingUser: { __typename: 'User', id: number } }, molecularProfile: { __typename: 'MolecularProfile', id: number, name: string, link: string }, assertions: Array<{ __typename: 'Assertion', id: number, name: string, link: string }>, flags: { __typename: 'FlagConnection', totalCount: number }, revisions: { __typename: 'RevisionConnection', totalCount: number }, comments: { __typename: 'CommentConnection', totalCount: number } };
 
 export type EvidenceSummaryQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
@@ -7804,6 +7808,11 @@ export const AssertionDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  valid
+  validationErrors {
+    fieldName
+    error
+  }
   submissionEvent {
     originatingUser {
       id
@@ -7944,6 +7953,11 @@ export const EvidenceDetailFieldsFragmentDoc = gql`
   id
   name
   status
+  valid
+  validationErrors {
+    fieldName
+    error
+  }
   submissionEvent {
     originatingUser {
       id
