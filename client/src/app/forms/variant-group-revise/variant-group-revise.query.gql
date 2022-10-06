@@ -5,6 +5,7 @@ mutation SuggestVariantGroupRevision($input: SuggestVariantGroupRevisionInput!) 
       id
     }
     results {
+      newlyCreated
       id
       fieldName
     }

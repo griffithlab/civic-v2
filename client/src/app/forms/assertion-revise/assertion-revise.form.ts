@@ -55,6 +55,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
   suggestAssertionRevisionMutator: MutatorWithState<SuggestAssertionRevisionGQL, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables>
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = true
 
@@ -346,6 +347,12 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
               }
           }
         ]
+      },
+      (data) => {
+        if(data.suggestAssertionRevision?.results.every(r => r.newlyCreated == false)) {
+          this.noNewRevisions = true
+          this.success = false
+         }
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

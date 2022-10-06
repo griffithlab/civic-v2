@@ -111,6 +111,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
   formOptions: FormlyFormOptions = { formState: new EvidenceState() };
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -339,6 +340,12 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
               }
           }
         ]
+      },
+      (data) => {
+       if(data.suggestEvidenceItemRevision?.results.every(r => r.newlyCreated == false)) {
+        this.noNewRevisions = true
+        this.success = false
+       }
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
