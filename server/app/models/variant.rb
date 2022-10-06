@@ -86,4 +86,8 @@ class Variant < ApplicationRecord
   def reindex_mps
     self.molecular_profiles.each { |mp| mp.reindex(mode: :async) }
   end
+
+  def on_revision_accepted
+    GenerateOpenCravatLink.perform_later(self)
+  end
 end
