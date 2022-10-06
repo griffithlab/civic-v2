@@ -93,6 +93,17 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'nccn_guideline_id'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="NCCN Guideline">
+              <ng-template #itemTemplate let-item>
+                <nz-tag>
+                  {{ item.displayName }}
+                </nz-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'hgvs_expression_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
