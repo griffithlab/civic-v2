@@ -57,6 +57,7 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
   suggestRevisionMutator: MutatorWithState<SuggestMolecularProfileRevisionGQL, SuggestMolecularProfileRevisionMutation, SuggestMolecularProfileRevisionMutationVariables>
 
   success: boolean = false
+  noNewRevisions: boolean = false
   errorMessages: string[] = []
   loading: boolean = false
 
@@ -221,6 +222,12 @@ export class MolecularProfileReviseForm implements AfterViewInit, OnDestroy {
               }
           }
         ]
+      },
+      (data) => {
+        if(data.suggestMolecularProfileRevision?.results.every(r => r.newlyCreated == false)) {
+          this.noNewRevisions = true
+          this.success = false
+        }       
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

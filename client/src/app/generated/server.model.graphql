@@ -7759,6 +7759,7 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   molecularProfiles: [MolecularProfile!]!
   myVariantInfo: MyVariantInfo
   name: String!
+  openCravatUrl: String
   primaryCoordinates: Coordinate
   referenceBases: String
   referenceBuild: ReferenceBuild

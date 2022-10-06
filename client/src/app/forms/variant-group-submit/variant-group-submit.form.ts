@@ -144,7 +144,7 @@ export class VariantGroupSubmitForm implements OnDestroy{
         input: input
       }, {},
       (data) => {
-        this.newId = data.submitVariantGroup.variantGroup.id;
+        this.newId = data.submitVariantGroup?.variantGroup.id;
       })
 
       state.submitSuccess$.pipe(takeUntil(this.destroy$)).subscribe((res) => {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_22_180640) do
+ActiveRecord::Schema.define(version: 2022_10_04_170412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -847,6 +847,7 @@ ActiveRecord::Schema.define(version: 2022_08_22_180640) do
     t.boolean "deprecated", default: false, null: false
     t.integer "deprecation_reason"
     t.integer "deprecation_comment_id"
+    t.text "open_cravat_url"
     t.index "lower((name)::text) varchar_pattern_ops", name: "idx_case_insensitive_variant_name"
     t.index "lower((name)::text)", name: "variant_lower_name_idx"
     t.index ["chromosome"], name: "index_variants_on_chromosome"

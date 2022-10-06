@@ -49,7 +49,6 @@ const optionText: any = {
     },
     'PREDISPOSING': {
       'SUPPORTS': 'The Assertion suggests a pathogenic or a protective role for a germline variant in cancer',
-      'DOES_NOT_SUPPORT': 'The Assertion does not support an association between the variant and disease causation.'
     },
     'FUNCTIONAL': {
       'SUPPORTS': 'The Assertion and associated Evidence Items support this variant causing alteration or non-alteration of the gene product function',
@@ -57,7 +56,6 @@ const optionText: any = {
     },
     'ONCOGENIC': {
       'SUPPORTS': 'The Assertion supports an oncogenic or protective role for a somatic variant.',
-      'DOES_NOT_SUPPORT': 'The Assertion does not support an association between the variant and disease causation.',
     },
   }
 }

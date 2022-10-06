@@ -35,6 +35,7 @@ module Types::Entities
     field :deprecation_comment, Types::Entities::CommentType, null: true
     field :deprecation_event, Types::Entities::EventType, null: true
     field :molecular_profiles, [Types::Entities::MolecularProfileType], null: false
+    field :open_cravat_url, String, null: true
 
     def gene
       Loaders::RecordLoader.for(Gene).load(object.gene_id)

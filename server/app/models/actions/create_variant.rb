@@ -5,7 +5,7 @@ module Actions
     attr_reader :variant, :molecular_profile
 
     def initialize(variant_name:, gene_id:)
-      @variant = Variant.new(name: variant_name, gene_id: gene_id, civic_actionability_score: 0)
+      @variant = Variant.new(name: variant_name, gene_id: gene_id)
     end
 
     private
