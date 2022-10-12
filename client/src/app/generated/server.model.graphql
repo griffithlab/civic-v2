@@ -4050,6 +4050,7 @@ type Mutation {
 type MyVariantInfo {
   caddConsequence: [String!]!
   caddDetail: [String!]!
+  caddPhred: Float
   caddScore: Float
   clinvarClinicalSignificance: [String!]!
   clinvarHgvsCoding: [String!]!

@@ -485,7 +485,11 @@
                     </ng-container>
                   </ng-container>
                 </td>
-                <td>{{ variantInfo.caddScore | ifEmpty: '--' }}</td>
+                <td>
+                  {{ variantInfo.caddScore | ifEmpty: '--' }} (raw)
+                  <br/>
+                  {{ variantInfo.caddPhred | ifEmpty: '--' }} (PHRED)
+                </td>
               </tr>
               <tr>
                 <td>FATHMM-MKL</td>
