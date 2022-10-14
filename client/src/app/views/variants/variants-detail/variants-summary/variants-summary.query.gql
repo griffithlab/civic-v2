@@ -82,6 +82,7 @@ fragment MyVariantInfoFields on MyVariantInfo {
   caddConsequence
   caddDetail
   caddScore
+  caddPhred
   clinvarClinicalSignificance
   clinvarHgvsCoding
   clinvarHgvsGenomic
