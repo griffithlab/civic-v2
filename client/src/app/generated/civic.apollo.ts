@@ -6241,9 +6241,9 @@ export type OrganizationGroupsQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', subGroups: Array<{ __typename: 'Organization', id: number, name: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> }> } | undefined };
+export type OrganizationGroupsQuery = { __typename: 'Query', organization?: { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> }> } | undefined };
 
-export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, profileImagePath?: string | undefined }> };
+export type OrganizationGroupsFieldsFragment = { __typename: 'Organization', id: number, name: string, url: string, description: string, profileImagePath?: string | undefined, orgStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, orgAndSuborgsStatsHash: { __typename: 'Stats', comments: number, revisions: number, appliedRevisions: number, submittedEvidenceItems: number, acceptedEvidenceItems: number, suggestedSources: number, submittedAssertions: number, acceptedAssertions: number }, subGroups: Array<{ __typename: 'Organization', id: number, name: string, url: string, profileImagePath?: string | undefined }> };
 
 export type OrganizationMembersQueryVariables = Exact<{
   organizationId: Scalars['Int'];
@@ -8285,6 +8285,7 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
     fragment OrganizationGroupsFields on Organization {
   id
   name
+  url
   description
   profileImagePath(size: 12)
   orgStatsHash {
@@ -8310,6 +8311,7 @@ export const OrganizationGroupsFieldsFragmentDoc = gql`
   subGroups {
     id
     name
+    url
     profileImagePath(size: 12)
   }
 }
@@ -11690,6 +11692,11 @@ export const OrganizationDetailDocument = gql`
 export const OrganizationGroupsDocument = gql`
     query OrganizationGroups($organizationId: Int!) {
   organization(id: $organizationId) {
+    id
+    name
+    url
+    description
+    profileImagePath(size: 256)
     subGroups {
       ...OrganizationGroupsFields
     }
