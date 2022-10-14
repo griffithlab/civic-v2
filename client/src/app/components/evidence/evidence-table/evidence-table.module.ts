@@ -7,6 +7,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
 import { CvcClearableInputFilterModule } from '@app/components/shared/clearable-input-filter/clearable-input-filter.module';
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
+import { CvcTableDownloaderModule } from '@app/components/shared/table-downloader/table-downloader.module';
 import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.module';
 import { CvcTagOverflowModule } from '@app/components/shared/tag-overflow/tag-overflow.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
@@ -63,6 +64,7 @@ import { CvcEvidenceTableComponent } from './evidence-table.component';
     CvcTagListModule,
     CvcTagOverflowModule,
     CvcMolecularProfileTagModule,
+    CvcTableDownloaderModule
   ],
   exports: [CvcEvidenceTableComponent]
 })

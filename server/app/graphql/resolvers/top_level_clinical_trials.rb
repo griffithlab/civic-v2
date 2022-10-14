@@ -36,4 +36,24 @@ class Resolvers::TopLevelClinicalTrials < GraphQL::Schema::Resolver
   option(:sort_by, type: Types::BrowseTables::ClinicalTrialSortType, description: 'Sort order for the clinical trials. Defaults to the highest source count.') do |scope, value|
     scope.reorder("#{value.column} #{value.direction}")
   end
+
+  def self.table_headers
+    [
+      'id',
+      'nct_id',
+      'name',
+      'source_count',
+      'evidence_count'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.nct_id,
+      object.name,
+      object.source_count,
+      object.evidence_count,
+    ]
+  end
 end

@@ -61,5 +61,35 @@ class Resolvers::BrowseSources < GraphQL::Schema::Resolver
       scope.order("source_suggestion_count #{value.direction}")
     end
   end
+
+  def self.table_headers
+    [
+      'id',
+      'citation',
+      'name',
+      'authors',
+      'type',
+      'citation_id',
+      'year',
+      'journal',
+      'evidence_count',
+      'suggestion_count'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.description,
+      object.title,
+      ArrayWrapper.wrap(object.authors),
+      object.source_type,
+      object.citation_id,
+      object.publication_year,
+      object.journal,
+      object.evidence_item_count,
+      object.source_suggestion_count
+    ]
+  end
 end
 

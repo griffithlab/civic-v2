@@ -37,4 +37,24 @@ class Resolvers::TopLevelDrugs < GraphQL::Schema::Resolver
   option(:sort_by, type: Types::BrowseTables::DrugSortType, description: 'Sort order for the drugs. Defaults to the highest evidence item count.') do |scope, value|
     scope.reorder("#{value.column} #{value.direction}")
   end
+
+  def self.table_headers
+    [
+      'id',
+      'name',
+      'ncit_id',
+      'evidence_count',
+      'assertion_count'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.display_name,
+      object.ncit_id,
+      object.evidence_count,
+      object.assertion_count
+    ]
+  end
 end

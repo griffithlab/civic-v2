@@ -133,7 +133,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         first: this.initialPageSize,
         organizationId: this.organizationId,
         phenotypeId: this.phenotypeId,
-        rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+        evidenceRating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
         sourceId: this.sourceId,
         status: this.status,
         userId: this.userId,
@@ -258,7 +258,7 @@ export class CvcEvidenceTableComponent implements OnInit {
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput
           : undefined,
-        rating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
+        evidenceRating: this.evidenceRatingInput ? this.evidenceRatingInput : undefined,
         molecularProfileName: this.molecularProfileNameInput ? this.molecularProfileNameInput : undefined,
       })
       .then(() => this.scrollIndex$.next(0));

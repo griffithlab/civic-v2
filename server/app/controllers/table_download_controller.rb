@@ -4,7 +4,14 @@ class TableDownloadController < ApplicationController
   include WithGraphqlVariables
 
   @@table_resolvers = {
-    genes: Resolvers::BrowseGenes
+    genes: Resolvers::BrowseGenes,
+    evidence: Resolvers::TopLevelEvidenceItems,
+    drugs: Resolvers::TopLevelDrugs,
+    sources: Resolvers::BrowseSources,
+    diseases: Resolvers::BrowseDiseases,
+    molecular_profiles: Resolvers::BrowseMolecularProfiles,
+    clinical_trials: Resolvers::TopLevelClinicalTrials,
+    assertions: Resolvers::TopLevelAssertions
   }
 
   def download
