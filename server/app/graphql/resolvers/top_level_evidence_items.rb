@@ -119,4 +119,38 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
       scope.reorder("variant_origin #{value.direction}")
     end
   end
+
+  def self.table_headers
+    [
+      'id',
+      'molecular_profile',
+      'disease',
+      'drugs',
+      'drug_interaction_type',
+      'statement',
+      'level',
+      'type',
+      'direction',
+      'significance',
+      'variant_origin',
+      'rating'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.molecular_profile&.display_name,
+      object.disease&.display_name,
+      ArrayWrapper.wrap(object.drugs, method_name: :display_name),
+      object.drug_interaction_type,
+      object.description,
+      object.evidence_level,
+      object.evidence_type,
+      object.evidence_direction,
+      object.clinical_significance,
+      object.variant_origin,
+      object.rating
+    ]
+  end
 end

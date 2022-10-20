@@ -107,4 +107,36 @@ class Resolvers::TopLevelAssertions < GraphQL::Schema::Resolver
       scope.reorder("evidence_items_count #{value.direction}")
     end
   end
+
+
+  def self.table_headers
+    [
+      'id',
+      'molecular_profile',
+      'disease',
+      'drugs',
+      'drug_interaction_type',
+      'summary',
+      'type',
+      'direction',
+      'significance',
+      'amp_level',
+      'evidence_count'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.molecular_profile&.display_name,
+      object.disease&.display_name,
+      ArrayWrapper.wrap(object.drugs.compact, method_name: :display_name),
+      object.drug_interaction_type,
+      object.summary,
+      object.evidence_direction,
+      object.evidence_type,
+      object.amp_level,
+      object.evidence_items_count,
+    ]
+  end
 end

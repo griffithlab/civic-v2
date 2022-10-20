@@ -46,5 +46,31 @@ class Resolvers::BrowseDiseases < GraphQL::Schema::Resolver
       scope.order("gene_count #{value.direction}")
     end
   end
+
+  def self.table_headers
+    [
+      'id',
+      'name',
+      'doid',
+      'genes',
+      'gene_count',
+      'variant_count',
+      'evidence_item_count',
+      'assertion_count'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.display_name,
+      object.doid,
+      ArrayWrapper.wrap(object.gene_names),
+      object.gene_count,
+      object.variant_count,
+      object.evidence_item_count,
+      object.assertion_count
+    ]
+  end
 end
 

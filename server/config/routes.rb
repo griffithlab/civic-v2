@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     get '/sign_out' => 'sessions#destroy', as: :signout
     post '/upload_profile_image' => 'profile_images#upload'
 
+    post '/download_table/:table_name' => 'table_download#download'
+
     if Rails.env.development?
       post '/auth/:provider/callback' => 'sessions#create'
     end

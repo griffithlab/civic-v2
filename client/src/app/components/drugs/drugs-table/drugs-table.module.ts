@@ -18,6 +18,7 @@ import { CvcTableScrollModule } from '@app/directives/table-scroll/table-scroll.
 import { CvcTableCountsModule } from '@app/components/shared/table-counts/table-counts.module';
 import { CvcNoMoreRowsModule } from '@app/components/shared/no-more-rows/no-more-rows.module';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
+import { CvcTableDownloaderModule } from '@app/components/shared/table-downloader/table-downloader.module';
 
 @NgModule({
   declarations: [CvcDrugsTableComponent],
@@ -43,6 +44,7 @@ import { CvcPipesModule } from '@app/core/pipes/pipes.module';
     CvcNoMoreRowsModule,
     CvcTableCountsModule,
     CvcTableScrollModule,
+    CvcTableDownloaderModule
   ],
   exports: [CvcDrugsTableComponent]
 })

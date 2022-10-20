@@ -489,5 +489,6 @@
       nzSpin></i>
     <span>Loading…</span>
   </nz-tag>
+  <cvc-table-downloader [vars]="this.queryRef.variables" tableName="evidence"></cvc-table-downloader>
   <cvc-no-more-rows [cvcShowTag]="noMoreRows$ | ngrxPush"></cvc-no-more-rows>
 </ng-template>

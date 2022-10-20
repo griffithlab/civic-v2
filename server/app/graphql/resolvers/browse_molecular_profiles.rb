@@ -43,4 +43,34 @@ class Resolvers::BrowseMolecularProfiles < GraphQL::Schema::Resolver
     raise 'Must supply a column name' if col.nil?
     "EXISTS (SELECT * FROM (SELECT unnest(#{col})) x(name) where name ILIKE ?)"
   end
+
+  def self.table_headers
+    [
+      'id',
+      'name',
+      'aliases',
+      'genes',
+      'variants',
+      'diseases',
+      'drugs',
+      'evidence_score',
+      'evidence_count',
+      'assertion_count'
+    ]
+  end
+
+  def self.to_row(object:)
+    [
+      object.id,
+      object.display_name,
+      ArrayWrapper.wrap(object.alias_names.compact),
+      ArrayWrapper.wrap(object.genes, field_name: 'name'),
+      ArrayWrapper.wrap(object.variants, field_name: 'name'),
+      ArrayWrapper.wrap(object.diseases, field_name: 'name'),
+      ArrayWrapper.wrap(object.drugs, field_name: 'name'),
+      object.evidence_score,
+      object.evidence_item_count,
+      object.assertion_count
+    ]
+  end
 end
