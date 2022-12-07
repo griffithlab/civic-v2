@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row gx-5">
+    <div class="col p4">
+      <h4>Merge Users</h4>
+      <hr/>
+      <%= form_tag(admin.path(:merge, id: instance.id), method: :post) do %>
+        <div class="mb3">
+          <label for="subsuming_user_id">User to merge into:</label>
+          <% users = User.all.map { |u| ["#{u.display_name} (#{u.id})", u.id] } %>
+          <%= select_tag(:subsuming_user_id, options_for_select(users), class: "form-select") %>
+        </div>
+        <div class="mb3">
+          <%= submit_tag("Merge #{instance.display_name} into selected User", class: "btn btn-outline-danger") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
