@@ -40,14 +40,14 @@
             <nz-row><b>Evidence Direction:&nbsp;</b>{{ evidence.evidenceDirection | evidenceEnumDisplay }}</nz-row>
             <nz-row><b>Clinical Significance:&nbsp;</b>{{ evidence.clinicalSignificance | evidenceEnumDisplay }}</nz-row>
             <nz-row><b>Variant Origin:&nbsp;</b>{{ evidence.variantOrigin | evidenceEnumDisplay }}</nz-row>
-            <nz-row [ngPlural]="evidence.drugs.length">
-              <ng-template ngPluralCase="=0"><b>Drug:&nbsp;</b> <i>Not Applicable</i></ng-template>
-              <ng-template ngPluralCase="=1"><b>Drug:&nbsp;</b></ng-template>
-              <ng-template ngPluralCase="other"><b>Drugs:&nbsp;</b></ng-template>
-              <ng-container *ngFor="let drug of evidence.drugs">
-                <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+            <nz-row [ngPlural]="evidence.therapies.length">
+              <ng-template ngPluralCase="=0"><b>Therapy:&nbsp;</b> <i>Not Applicable</i></ng-template>
+              <ng-template ngPluralCase="=1"><b>Therapy:&nbsp;</b></ng-template>
+              <ng-template ngPluralCase="other"><b>Therapies:&nbsp;</b></ng-template>
+              <ng-container *ngFor="let therapy of evidence.therapies">
+                <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
               </ng-container>
-              <ng-container *ngIf="evidence.drugs.length > 1">({{ evidence.drugInteractionType | titlecase }})</ng-container>
+              <ng-container *ngIf="evidence.therapies.length > 1">({{ evidence.therapyInteractionType | titlecase }})</ng-container>
             </nz-row>
           </nz-col>
           <nz-col [nzSpan]="8">

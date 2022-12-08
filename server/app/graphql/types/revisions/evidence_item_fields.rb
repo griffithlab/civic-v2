@@ -24,9 +24,9 @@ module Types::Revisions
     argument :rating, Int, required: true,
       description: 'The rating for this EvidenceItem',
       validates: { inclusion: { in: [1, 2, 3, 4, 5], allow_blank: false } }
-    argument :drug_ids, [Int], required: true,
-      description: 'List of IDs of CIViC Drug entries for this EvidenceItem. An empty list indicates none.'
-    argument :drug_interaction_type, Types::NullableValueInputType.for(Types::DrugInteractionType), required: true,
-      description: 'Drug interaction type for cases where more than one drug ID is provided.'
+    argument :therapy_ids, [Int], required: true,
+      description: 'List of IDs of CIViC Therapy entries for this EvidenceItem. An empty list indicates none.'
+    argument :therapy_interaction_type, Types::NullableValueInputType.for(Types::TherapyInteractionType), required: true,
+      description: 'Therapy interaction type for cases where more than one Therapy ID is provided.'
   end
 end

@@ -35,7 +35,7 @@ export class GeneInputType extends FieldType implements AfterViewInit, OnInit {
       showArrow: false,
       onSearch: () => { },
       minLengthSearch: 1,
-      optionList: [] as Array<{ value: string; label: string; drug: any }>,
+      optionList: [] as Array<{ value: string; label: string; therapy: any }>,
     },
   };
 

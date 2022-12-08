@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
@@ -10,7 +10,6 @@ import {
     AssertionDirection,
     AssertionType,
     ClingenCode,
-    DrugInteraction,
     Maybe,
     NccnGuideline,
     Organization,
@@ -18,6 +17,7 @@ import {
     SubmitAssertionInput,
     SubmitAssertionMutation,
     SubmitAssertionMutationVariables,
+    TherapyInteraction,
     VariantOrigin
 } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -26,7 +26,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AssertionState } from '../config/states/assertion.state';
 import {
   FormDisease,
-  FormDrug,
+  FormTherapy,
   FormEvidence,
   FormMolecularProfile,
   FormPhenotype,
@@ -44,8 +44,8 @@ interface FormModel {
     disease: FormDisease[]
     evidenceDirection: AssertionDirection
     phenotypes: FormPhenotype[]
-    drugs: FormDrug[]
-    drugInteractionType: Maybe<DrugInteraction>
+    therapies: FormTherapy[]
+    therapyInteractionType: Maybe<TherapyInteraction>
     ampLevel: Maybe<AmpLevel>
     evidenceItems: FormEvidence[],
     nccnGuideline: Maybe<NccnGuideline>
@@ -156,15 +156,15 @@ export class AssertionSubmitForm implements OnDestroy {
             }
           },
           {
-            key: 'drugs',
-            type: 'drug-array',
+            key: 'therapies',
+            type: 'therapy-array',
             templateOptions: {
               allowCreate: false
             }
           },
           {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select',
+            key: 'therapyInteractionType',
+            type: 'therapy-interaction-select',
             templateOptions: {}
           },
           {
@@ -293,8 +293,8 @@ export class AssertionSubmitForm implements OnDestroy {
           diseaseId: fmt.toNullableInput(fields.disease[0].id!),
           assertionDirection: fields.evidenceDirection,
           phenotypeIds: fields.phenotypes.map(p => p.id),
-          drugIds: fields.drugs.map(d => d.id),
-          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType),
+          therapyIds: fields.therapies.map(d => d.id),
+          therapyInteractionType: fmt.toNullableInput(fields.therapyInteractionType),
           ampLevel: fmt.toNullableInput(fields.ampLevel),
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),

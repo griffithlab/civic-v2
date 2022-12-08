@@ -10,7 +10,7 @@ const optionText: any = {
     'PREDICTIVE': {
       'SENSITIVITYRESPONSE': 'Associated with a clinical or preclinical response to treatment',
       'RESISTANCE': 'Associated with clinical or preclinical resistance to treatment',
-      'ADVERSE_RESPONSE': 'Associated with an adverse response to drug treatment',
+      'ADVERSE_RESPONSE': 'Associated with an adverse response to theraputic treatment',
       'REDUCED_SENSITIVITY': 'Response to treatment is lower than seen in other treatment contexts',
       'NA': 'Clinical Significance is not applicable.'
     },
@@ -44,7 +44,7 @@ const optionText: any = {
     'PREDICTIVE': {
       'SENSITIVITYRESPONSE': 'Associated with a clinical or preclinical response to treatment',
       'RESISTANCE': 'Associated with clinical or preclinical resistance to treatment',
-      'ADVERSE_RESPONSE': 'Associated with an adverse response to drug treatment',
+      'ADVERSE_RESPONSE': 'Associated with an adverse response to theraputic treatment',
       'REDUCED_SENSITIVITY': 'Response to treatment is lower than seen in other treatment contexts',
       'NA': 'Clinical Significance is not applicable.'
     },

@@ -3,7 +3,7 @@ module Types::BrowseTables
     value 'ID'
     value 'DISEASE_NAME'
     value 'SUMMARY'
-    value 'DRUG_NAME'
+    value 'THERAPY_NAME'
     value 'STATUS'
     value 'ASSERTION_TYPE'
     value 'ASSERTION_DIRECTION'

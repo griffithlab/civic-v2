@@ -1,0 +1,12 @@
+query TherapyDetail(
+  $therapyId: Int!
+){
+  therapy(id: $therapyId){
+    id
+    name
+    ncitId
+    therapyUrl
+    therapyAliases
+    link
+  }
+}

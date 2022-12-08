@@ -22,17 +22,17 @@ class EvidenceItemValidator < ActiveModel::Validator
     end
 
     if validator[:drug] && record.drug_ids.blank?
-      record.errors.add :drug_ids, "Drug(s) required for #{record.evidence_type} evidence type"
+      record.errors.add :drug_ids, "Therapy required for #{record.evidence_type} evidence type"
     elsif !validator[:drug] && !record.drug_ids.blank?
-      record.errors.add :drug_ids, "Drug(s) cannot be set for #{record.evidence_type} evidence type"
+      record.errors.add :drug_ids, "Therapy cannot be set for #{record.evidence_type} evidence type"
     end
 
     if record.drug_ids.size > 1 && !record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Multiple drugs set but no drug interaction type provided"
+      record.errors.add :drug_interaction_type, "Multiple therapies set but no therapy interaction type provided"
     end
 
     if record.drug_ids.size < 2 && record.drug_interaction_type
-      record.errors.add :drug_interaction_type, "Drug interaction type cannot be set unless multiple drugs are specified."
+      record.errors.add :drug_interaction_type, "Therapy interaction type cannot be set unless multiple therapies are specified."
     end
 
     if record.molecular_profile.deprecated

@@ -6,8 +6,8 @@ module Types::Queries
         argument :id, GraphQL::Types::Int, required: true
       end
 
-      klass.field :drug_popover, Types::Popovers::DrugPopoverType, null: true do
-        description "Retrieve popover fields for a specific drug."
+      klass.field :therapy_popover, Types::Popovers::TherapyPopoverType, null: true do
+        description "Retrieve popover fields for a specific therapy."
         argument :id, GraphQL::Types::Int, required: true
       end
 
@@ -31,7 +31,7 @@ module Types::Queries
         Disease.find(id)
       end
 
-      def drug_popover(id:)
+      def therapy_popover(id:)
         Drug.find(id)
       end
 

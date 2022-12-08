@@ -66,14 +66,14 @@
           Disease
         </th>
         <th nzWidth="400px"
-          [nzColumnKey]="sortColumns.DrugName"
+          [nzColumnKey]="sortColumns.TherapyName"
           [nzSortFn]="true">
-          Drugs
+          Therapies
         </th>
         <th nzWidth="40px"
           nz-tooltip
-          nzTooltipTitle="Drug Interaction Type">
-          DIT
+          nzTooltipTitle="Therapy Interaction Type">
+          IT
         </th>
         <th nzWidth="60px"
           nzRight
@@ -157,7 +157,7 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="drugNameInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyNameInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
@@ -363,30 +363,30 @@
             </ng-template>
           </td>
           <td>
-            <div *ngIf="eid.drugs.length > 0; else drugsElse">
+            <div *ngIf="eid.therapies.length > 0; else therapiesElse">
               <cvc-tag-list>
-                <ng-container *ngFor="let drug of eid.drugs">
-                  <cvc-drug-tag [drug]="drug"
-                    [truncateLongName]="true"></cvc-drug-tag>
+                <ng-container *ngFor="let therapy of eid.therapies">
+                  <cvc-therapy-tag [therapy]="therapy"
+                    [truncateLongName]="true"></cvc-therapy-tag>
                 </ng-container>
               </cvc-tag-list>
             </div>
-            <ng-template #drugsElse>
+            <ng-template #therapiesElse>
               <i nz-typography
                 nzType="secondary">N/A</i>
             </ng-template>
           </td>
           <td>
-            <ng-container *ngIf="eid.drugInteractionType">
+            <ng-container *ngIf="eid.therapyInteractionType">
               <nz-tag nz-tooltip
                 nzTooltipPlacement="top"
-                [nzTooltipTitle]="!isScrolling ? (eid.drugInteractionType | drugInteractionEnumDisplay) : ''">
+                [nzTooltipTitle]="!isScrolling ? (eid.therapyInteractionType | therapyInteractionEnumDisplay) : ''">
                 <i nz-icon
-                  [nzType]="eid.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
+                  [nzType]="eid.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
                   class="attribute-icon"></i>
               </nz-tag>
             </ng-container>
-            <ng-container *ngIf="!eid.drugInteractionType">
+            <ng-container *ngIf="!eid.therapyInteractionType">
               <i nz-typography
                 nzType="secondary">N/A</i>
             </ng-container>

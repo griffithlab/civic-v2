@@ -12,7 +12,7 @@ class AssertionTsvFormatter
       'disease',
       'doid',
       'phenotypes',
-      'drugs',
+      'therapies',
       'assertion_type',
       'assertion_direction',
       'clinical_significance',

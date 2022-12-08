@@ -15,7 +15,6 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { TimeagoFormatter, TimeagoModule } from 'ngx-timeago';
 import { CvcUserTagModule } from '@app/components/users/user-tag/user-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcVariantTagModule } from '@app/components/variants/variant-tag/variant-tag.module';
 import { CvcVariantTypeTagModule } from '@app/components/variant-types/variant-type-tag/variant-type-tag.module';
@@ -38,6 +37,7 @@ import { CivicTimeagoFormatter } from '@app/core/utilities/timeago-formatter';
 import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-input.module';
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -68,7 +68,7 @@ import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evid
     CvcRevisionValueDiffModule,
     CvcUserTagModule,
     CvcDiseaseTagModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcPhenotypeTagModule,
     CvcVariantTagModule,
     CvcEvidenceTagModule,

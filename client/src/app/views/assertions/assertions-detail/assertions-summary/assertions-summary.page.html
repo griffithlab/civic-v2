@@ -218,20 +218,20 @@
               </ng-container>
             </nz-descriptions-item>
 
-            <!-- drugs -->
-            <nz-descriptions-item [nzTitle]="assertion.drugs.length > 1 ? 'Drugs' : 'Drug'">
-              <ng-container [ngPlural]="assertion.drugs.length">
-                <!-- no drug -->
+            <!-- therapies -->
+            <nz-descriptions-item [nzTitle]="assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'">
+              <ng-container [ngPlural]="assertion.theraapies.length">
+                <!-- no therapy -->
                 <ng-template ngPluralCase="=0">
                   <span nz-typography
                     nzType="secondary">N/A</span>
                 </ng-template>
 
-                <!-- one or more drugs -->
+                <!-- one or more therapies -->
                 <ng-template ngPluralCase="other">
                   <cvc-tag-list>
-                    <ng-container *ngFor="let drug of assertion.drugs">
-                      <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                    <ng-container *ngFor="let therapy of assertion.therapies">
+                      <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
                     </ng-container>
                   </cvc-tag-list>
                 </ng-template>
@@ -239,12 +239,12 @@
 
             </nz-descriptions-item>
 
-            <nz-descriptions-item *ngIf="assertion.drugInteractionType"
-              nzTitle="Drug Interaction Type">
+            <nz-descriptions-item *ngIf="assertion.therapyInteractionType"
+              nzTitle="Therapy Interaction Type">
               <nz-tag>
                 <i nz-icon
-                  [nzType]="assertion.drugInteractionType | drugInteractionEnumDisplay: 'icon-name'"
-                  class="attribute-icon"></i> {{ assertion.drugInteractionType | titlecase }}
+                  [nzType]="assertion.therapyInteractionType | therapyInteractionEnumDisplay: 'icon-name'"
+                  class="attribute-icon"></i> {{ assertion.therapyInteractionType | titlecase }}
               </nz-tag>
             </nz-descriptions-item>
 

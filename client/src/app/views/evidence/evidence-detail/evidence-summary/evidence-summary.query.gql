@@ -16,12 +16,12 @@ fragment EvidenceSummaryFields on EvidenceItem {
   evidenceDirection
   clinicalSignificance
   variantOrigin
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name

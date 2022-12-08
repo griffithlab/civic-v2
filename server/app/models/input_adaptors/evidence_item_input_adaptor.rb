@@ -19,8 +19,8 @@ class InputAdaptors::EvidenceItemInputAdaptor
       evidence_direction: input.evidence_direction,
       phenotype_ids: input.phenotype_ids,
       rating: input.rating,
-      drug_ids: input.drug_ids,
-      drug_interaction_type: input.drug_interaction_type
+      drug_ids: input.therapy_ids,
+      drug_interaction_type: input.therapy_interaction_type
     )
   end
 
@@ -33,9 +33,9 @@ class InputAdaptors::EvidenceItemInputAdaptor
       errors << "Provided phenotype ids: #{fields.phenotype_ids.join(', ')} but only #{existing_phenotype_ids.join(', ')} exist."
     end
 
-    existing_drug_ids = Drug.where(id: fields.drug_ids).pluck(:id)
-    if existing_drug_ids.size != fields.drug_ids.size
-      errors << "Provided drug ids: #{fields.drug_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
+    existing_drug_ids = Drug.where(id: fields.therapy_ids).pluck(:id)
+    if existing_drug_ids.size != fields.therapy_ids.size
+      errors << "Provided therapy ids: #{fields.therapy_ids.join(', ')} but only #{existing_drug_ids.join(', ')} exist."
     end
 
     if !Source.where(id: fields.source_id).exists?

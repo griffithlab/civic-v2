@@ -1,4 +1,4 @@
-import { AssertionType, DrugInteraction, EvidenceDirection, EvidenceLevel, EvidenceType, Maybe, VariantOrigin } from '@app/generated/civic.apollo';
+import { AssertionType, EvidenceLevel, EvidenceType, Maybe, TherapyInteraction, VariantOrigin } from '@app/generated/civic.apollo';
 
 // map of tooltips for attributes without contextual differences
 export type tooltipMap = {
@@ -49,10 +49,10 @@ export const tooltips: tooltipMap = {
     [EvidenceLevel.E]: 'Inferential association',
   },
 
-  drugInteractionType: {
-    [DrugInteraction.Combination]: 'The drugs listed were used as part of a combination therapy approach',
-    [DrugInteraction.Sequential]: 'The drugs listed were used at separate timepoints in the same treatment plan',
-    [DrugInteraction.Substitutes]: 'The drugs listed are often considered to be of the same family, or behave similarly in a treatment setting',
+  therapyInteractionType: {
+    [TherapyInteraction.Combination]: 'The therapies listed were used as part of a combination therapy approach',
+    [TherapyInteraction.Sequential]: 'The therapies listed were used at separate timepoints in the same treatment plan',
+    [TherapyInteraction.Substitutes]: 'The therapies listed are often considered to be of the same family, or behave similarly in a treatment setting',
   },
 
   evidenceRating: {
@@ -80,8 +80,8 @@ export const contextualTooltips: ContextualTooltipMap = {
   clinicalSignificance: {
     PREDICTIVE: {
       ADVERSE_RESPONSE: {
-        EvidenceItem: 'Associated with an adverse response to drug treatment',
-        Assertion: 'Associated with an adverse response to drug treatment'
+        EvidenceItem: 'Associated with an adverse response to theraputic treatment',
+        Assertion: 'Associated with an adverse response to theraputic treatment'
       },
       REDUCED_SENSITIVITY: {
         EvidenceItem: 'Response to treatment is lower than seen in other treatment contexts',
@@ -177,10 +177,10 @@ export const contextualTooltips: ContextualTooltipMap = {
   evidenceDirection: {
     PREDICTIVE: {
       SUPPORTS: {
-        EvidenceItem: 'The experiment or study supports this variant\'s response to a drug',
+        EvidenceItem: 'The experiment or study supports this variant\'s response to a therapy',
       },
       DOES_NOT_SUPPORT: {
-        EvidenceItem: 'The experiment or study does not support, or was inconclusive of an interaction between this variant and a drug'
+        EvidenceItem: 'The experiment or study does not support, or was inconclusive of an interaction between this variant and a therapy'
       }
     },
     DIAGNOSTIC: {
@@ -234,10 +234,10 @@ export const contextualTooltips: ContextualTooltipMap = {
   assertionDirection: {
     PREDICTIVE: {
       SUPPORTS: {
-        Assertion: 'The Assertion and associated Evidence Items support this variant\'s response to a drug'
+        Assertion: 'The Assertion and associated Evidence Items support this variant\'s response to a therapy'
       },
       DOES_NOT_SUPPORT: {
-        Assertion: 'The Assertion and associated evidence does not support, or was inconclusive of an interaction between this variant and a drug'
+        Assertion: 'The Assertion and associated evidence does not support, or was inconclusive of an interaction between this variant and a therapy'
       }
     },
     DIAGNOSTIC: {

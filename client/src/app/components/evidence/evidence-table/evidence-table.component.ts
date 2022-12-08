@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, filter, map, pluck, skip, takeWhile
 export interface EvidenceTableUserFilters {
   eidInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  drugNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
   descriptionInput?: Maybe<string>
   evidenceLevelInput?: Maybe<EvidenceLevel>
   evidenceTypeInput?: Maybe<EvidenceType>
@@ -40,7 +40,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() diseaseId: Maybe<number>
   @Input() displayMolecularProfile = true
-  @Input() drugId: Maybe<number>
+  @Input() therapyId: Maybe<number>
   @Input() initialSelectedEids: FormEvidence[] = []
   @Input() mode: 'normal' | 'select' = 'normal'
   @Input() organizationId: Maybe<number>
@@ -87,7 +87,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
   descriptionInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   eidInput: Maybe<string>
   evidenceDirectionInput: Maybe<EvidenceDirection>
   evidenceLevelInput: Maybe<EvidenceLevel>
@@ -119,8 +119,8 @@ export class CvcEvidenceTableComponent implements OnInit {
         description: this.descriptionInput,
         diseaseId: this.diseaseId,
         diseaseName: this.diseaseNameInput,
-        drugId: this.drugId,
-        drugName: this.drugNameInput,
+        therapyId: this.therapyId,
+        therapyName: this.therapyNameInput,
         evidenceDirection: this.evidenceDirectionInput
           ? this.evidenceDirectionInput
           : undefined,
@@ -241,7 +241,7 @@ export class CvcEvidenceTableComponent implements OnInit {
       .refetch({
         id: eid,
         diseaseName: this.diseaseNameInput,
-        drugName: this.drugNameInput,
+        therapyName: this.therapyNameInput,
         description: this.descriptionInput,
         evidenceLevel: this.evidenceLevelInput
           ? this.evidenceLevelInput

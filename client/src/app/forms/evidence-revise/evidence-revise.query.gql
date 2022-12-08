@@ -20,12 +20,12 @@ fragment RevisableEvidenceFields on EvidenceItem {
     name
     displayName
   }
-  drugs {
+  therapies {
     id
     ncitId
     name
   }
-  drugInteractionType
+  therapyInteractionType
   evidenceDirection
   evidenceLevel
   evidenceType

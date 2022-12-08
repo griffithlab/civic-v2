@@ -18,7 +18,7 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
   evidenceGridFilters: EvidenceTableUserFilters  = {
       eidInput: undefined,
       diseaseNameInput: undefined,
-      drugNameInput: undefined,
+      therapyNameInput: undefined,
       descriptionInput: undefined,
       evidenceLevelInput: undefined,
       evidenceTypeInput: undefined,

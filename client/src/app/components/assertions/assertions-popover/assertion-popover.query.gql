@@ -30,12 +30,12 @@ fragment assertionPopover on Assertion {
   regulatoryApprovalLastUpdated
   fdaCompanionTest
   fdaCompanionTestLastUpdated
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name

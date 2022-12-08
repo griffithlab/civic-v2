@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, AfterViewInit, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import {
-  DrugInteraction,
   EvidenceClinicalSignificance,
   EvidenceDirection,
   EvidenceLevel,
@@ -20,6 +19,7 @@ import {
   RevisionsGQL,
   RevisionStatus,
   ModeratedEntities,
+  TherapyInteraction,
 } from '@app/generated/civic.apollo';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -28,7 +28,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { EvidenceState } from '@app/forms/config/states/evidence.state';
-import { FormDisease, FormDrug, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
+import { FormDisease, FormTherapy, FormMolecularProfile, FormPhenotype, FormSource } from '../forms.interfaces';
 
 /* SuggestEvidenceItemRevisionInput
  *
@@ -79,8 +79,8 @@ interface FormModel {
     clinicalSignificance: EvidenceClinicalSignificance;
     description: string;
     disease: Maybe<FormDisease>[];
-    drugInteractionType: Maybe<DrugInteraction>;
-    drugs: FormDrug[];
+    therapyInteractionType: Maybe<TherapyInteraction>;
+    therapies: FormTherapy[];
     evidenceDirection: EvidenceDirection;
     evidenceLevel: EvidenceLevel;
     evidenceType: EvidenceType;
@@ -220,12 +220,12 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             }
           },
           {
-            key: 'drugs',
-            type: 'drug-array',
+            key: 'therapies',
+            type: 'therapy-array',
           },
           {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select'
+            key: 'therapyInteractionType',
+            type: 'therapy-interaction-select'
           },
           {
             key: 'phenotypes',
@@ -310,10 +310,10 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
         ...evidence,
         molecularProfile: evidence.molecularProfile,
         source: [evidence.source], // wrapping an array so multi-field will display source properly until we write a single-source option
-        drugs: evidence.drugs.length > 0 ? evidence.drugs : [],
+        therapies: evidence.therapies.length > 0 ? evidence.therapies : [],
         disease: [evidence.disease],
         comment: this.formModel?.fields.comment,
-        drugInteractionType: evidence.drugInteractionType,
+        therapyInteractionType: evidence.therapyInteractionType,
         organization: this.formModel?.fields.organization,
         evidenceRating: evidence.evidenceRating
       },
@@ -385,8 +385,8 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),
           rating: fields.evidenceRating!,
-          drugIds: fields.drugs.map((dr: FormDrug) => { return dr.id! }),
-          drugInteractionType: fmt.toNullableInput(fields.drugs.length > 1 ? fields.drugInteractionType : undefined)
+          therapyIds: fields.therapies.map((dr: FormTherapy) => { return dr.id! }),
+          therapyInteractionType: fmt.toNullableInput(fields.therapies.length > 1 ? fields.therapyInteractionType : undefined)
         },
         organizationId: model.fields.organization?.id
 

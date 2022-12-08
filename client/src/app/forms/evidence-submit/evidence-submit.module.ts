@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcDiseaseInputTypeModule } from '@app/forms/config/types/disease-input/disease-input.module';
-import { CvcDrugInputTypeModule } from '@app/forms/config/types/drug-input/drug-input.module';
+import { CvcTherapyInputTypeModule } from '@app/forms/config/types/therapy-input/therapy-input.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
 import { CvcFormButtonsModule } from '@app/forms/config/components/form-buttons/form-buttons.module';
 import { CvcFormErrorsAlertModule } from '@app/forms/config/components/form-errors-alert/form-errors-alert.module';
@@ -26,9 +26,9 @@ import { RouterModule } from '@angular/router';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
 import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
 import { CvcDiseaseArrayTypeModule } from '../config/types/disease-array/disease-array.module';
-import { CvcDrugArrayTypeModule } from '../config/types/drugs-array/drugs-array.module';
+import { CvcTherapyArrayTypeModule } from '../config/types/therapies-array/therapies-array.module';
 import { CvcPhenotypeArrayTypeModule } from '../config/types/phenotypes-array/phenotypes-array.module';
-import { CvcDrugInteractionSelectTypeModule } from '../config/types/drug-interaction-select/drug-interaction-select.module';
+import { CvcTherapyInteractionSelectTypeModule } from '../config/types/therapy-interaction-select/therapy-interaction-select.module';
 import { CvcSourceArrayTypeModule } from '../config/types/source-array/source-array.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcSourceSelectModule } from '../config/types/source-select/source-select.module';
@@ -62,7 +62,7 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcOrgSubmitButtonTypeModule,
     CvcMultiFieldTypeModule,
     CvcSourceInputTypeModule,
-    CvcDrugInputTypeModule,
+    CvcTherapyInputTypeModule,
     CvcRatingInputTypeModule,
     CvcPhenotypeInputTypeModule,
     CvcDiseaseInputTypeModule,
@@ -74,9 +74,9 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcEvidenceLevelSelectModule,
     CvcEvidenceDirectionSelectModule,
     CvcDiseaseArrayTypeModule,
-    CvcDrugArrayTypeModule,
+    CvcTherapyArrayTypeModule,
     CvcPhenotypeArrayTypeModule,
-    CvcDrugInteractionSelectTypeModule,
+    CvcTherapyInteractionSelectTypeModule,
     CvcSourceArrayTypeModule,
     CvcSourceSelectModule,
     CvcFormContainerWrapperModule,

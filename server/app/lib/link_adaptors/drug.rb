@@ -5,7 +5,7 @@ module LinkAdaptors
     end
 
     def base_path
-      "/drugs/#{obj.id}"
+      "/therapies/#{obj.id}"
     end
   end
 end

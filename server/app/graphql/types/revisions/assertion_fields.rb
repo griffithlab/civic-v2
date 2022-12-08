@@ -19,10 +19,10 @@ module Types::Revisions
       description: 'The evidence direction for this Assertion.'
     argument :phenotype_ids, [Int], required: true,
       description: 'List of IDs of CIViC Phenotype entries for this Assertion. An empty list indicates none.'
-    argument :drug_ids, [Int], required: true,
-      description: 'List of IDs of CIViC Drug entries for this Assertion. An empty list indicates none.'
-    argument :drug_interaction_type, Types::NullableValueInputType.for(Types::DrugInteractionType), required: true,
-      description: 'Drug interaction type for cases where more than one drug ID is provided.'
+    argument :therapy_ids, [Int], required: true,
+      description: 'List of IDs of CIViC Therapy entries for this Assertion. An empty list indicates none.'
+    argument :therapy_interaction_type, Types::NullableValueInputType.for(Types::TherapyInteractionType), required: true,
+      description: 'Therapy interaction type for cases where more than one therapy ID is provided.'
     argument :amp_level, Types::NullableValueInputType.for(Types::AmpLevelType), required: true,
       description: 'The AMP/ASCO/CAP Category for this assertion.'
     argument :evidence_item_ids, [Int], required: true,

@@ -12,7 +12,7 @@ export const fdaTestCheckboxTypeOption: TypeOption = {
     templateOptions: {
       label: 'FDA Companion Test?',
       placeholder: 'None Specified',
-      helpText: 'Select Yes if an FDA approved companion test exists for the variant and drug associated with the Assertion (such as tests listed <a href="https://www.fda.gov/medical-devices/in-vitro-diagnostics/list-cleared-or-approved-companion-diagnostic-devices-in-vitro-and-imaging-tools" target="_blank">here</a>).',
+      helpText: 'Select Yes if an FDA approved companion test exists for the variant and therapy associated with the Assertion (such as tests listed <a href="https://www.fda.gov/medical-devices/in-vitro-diagnostics/list-cleared-or-approved-companion-diagnostic-devices-in-vitro-and-imaging-tools" target="_blank">here</a>).',
       options: [
         { value: true, label: 'Yes' },
         { value: false, label: 'No' },

@@ -14,8 +14,8 @@ module Types::Entities
     field :summary, String, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
-    field :drugs, [Types::Entities::DrugType], null: false
-    field :drug_interaction_type, Types::DrugInteractionType, null: true
+    field :therapies, [Types::Entities::TherapyType], null: false
+    field :therapy_interaction_type, Types::TherapyInteractionType, null: true
     field :assertion_direction, Types::AssertionDirectionType, null: false
     field :assertion_type, Types::AssertionTypeType, null: false
     field :phenotypes, [Types::Entities::PhenotypeType], null: false
@@ -40,8 +40,12 @@ module Types::Entities
       Loaders::RecordLoader.for(Disease).load(object.disease_id)
     end
 
-    def drugs
+    def therapies
       Loaders::AssociationLoader.for(Assertion, :drugs).load(object)
+    end
+
+    def therapy_interaction_type
+      object.drug_interaction_type
     end
 
     def phenotypes

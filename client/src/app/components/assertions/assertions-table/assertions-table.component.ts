@@ -25,7 +25,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   @Input() userId: Maybe<number>
   @Input() phenotypeId: Maybe<number>
   @Input() diseaseId: Maybe<number>
-  @Input() drugId: Maybe<number>
+  @Input() therapyId: Maybe<number>
   @Input() status: Maybe<EvidenceStatusFilter>
   @Input() cvcTitleTemplate: Maybe<TemplateRef<void>>
   @Input() cvcTitle: Maybe<string>
@@ -77,7 +77,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   //filters
   aidInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   summaryInput: Maybe<string>
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
@@ -108,7 +108,7 @@ export class CvcAssertionsTableComponent implements OnInit {
           userId: this.userId,
           phenotypeId: this.phenotypeId,
           diseaseId: this.diseaseId,
-          drugId: this.drugId,
+          therapyId: this.therapyId,
           status: this.status,
         });
 
@@ -209,7 +209,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       id: aid,
       diseaseName: this.diseaseNameInput,
       molecularProfileName: this.molecularProfileNameInput,
-      drugName: this.drugNameInput,
+      therapyName: this.therapyNameInput,
       summary: this.summaryInput,
       assertionType: this.assertionTypeInput ? this.assertionTypeInput : undefined,
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,

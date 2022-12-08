@@ -4,7 +4,7 @@ query EvidenceBrowse(
   $before: String
   $after: String
   $diseaseName: String
-  $drugName: String
+  $therapyName: String
   $id: Int
   $description: String
   $evidenceLevel: EvidenceLevel
@@ -21,7 +21,7 @@ query EvidenceBrowse(
   $sortBy: EvidenceSort
   $phenotypeId: Int
   $diseaseId: Int
-  $drugId: Int
+  $therapyId: Int
   $sourceId: Int
   $clinicalTrialId: Int
   $molecularProfileName: String
@@ -33,7 +33,7 @@ query EvidenceBrowse(
     before: $before
     after: $after
     diseaseName: $diseaseName
-    drugName: $drugName
+    therapyName: $therapyName
     id: $id
     description: $description
     evidenceLevel: $evidenceLevel
@@ -49,7 +49,7 @@ query EvidenceBrowse(
     userId: $userId
     phenotypeId: $phenotypeId
     diseaseId: $diseaseId
-    drugId: $drugId
+    therapyId: $therapyId
     sourceId: $sourceId
     clinicalTrialId: $clinicalTrialId
     molecularProfileName: $molecularProfileName
@@ -81,7 +81,7 @@ fragment EvidenceGridFields on EvidenceItem {
     name
     link
   }
-  drugs {
+  therapies {
     id
     name
     link
@@ -96,7 +96,7 @@ fragment EvidenceGridFields on EvidenceItem {
   }
   status
   flagged
-  drugInteractionType
+  therapyInteractionType
   description
   evidenceType
   evidenceDirection
