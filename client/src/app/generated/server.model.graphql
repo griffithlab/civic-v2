@@ -294,7 +294,6 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
   assertionDirection: AssertionDirection!
   assertionType: AssertionType!
   clingenCodes: [ClingenCode!]!
-  clinicalSignificance: AssertionClinicalSignificance!
 
   """
   List and filter comments.
@@ -493,31 +492,13 @@ type Assertion implements Commentable & EventOriginObject & EventSubject & Flagg
     """
     status: RevisionStatus
   ): RevisionConnection!
+  significance: AssertionSignificance!
   status: EvidenceStatus!
   submissionEvent: Event!
   summary: String!
   therapies: [Therapy!]!
   therapyInteractionType: TherapyInteraction
   variantOrigin: VariantOrigin!
-}
-
-enum AssertionClinicalSignificance {
-  ADVERSE_RESPONSE
-  BENIGN
-  BETTER_OUTCOME
-  LIKELY_BENIGN
-  LIKELY_ONCOGENIC
-  LIKELY_PATHOGENIC
-  NA
-  NEGATIVE
-  ONCOGENIC
-  PATHOGENIC
-  POOR_OUTCOME
-  POSITIVE
-  REDUCED_SENSITIVITY
-  RESISTANCE
-  SENSITIVITYRESPONSE
-  UNCERTAIN_SIGNIFICANCE
 }
 
 """
@@ -600,11 +581,6 @@ input AssertionFields {
   clingenCodeIds: [Int!]!
 
   """
-  The Clinical Significance of the Assertion
-  """
-  clinicalSignificance: AssertionClinicalSignificance!
-
-  """
   A detailed description of the Assertion including practice guidelines and approved tests.
   """
   description: NullableStringInput!
@@ -650,6 +626,11 @@ input AssertionFields {
   phenotypeIds: [Int!]!
 
   """
+  The Clinical Significance of the Assertion
+  """
+  significance: AssertionSignificance!
+
+  """
   A brief single sentence statement summarizing the clinical significance of this Assertion.
   """
   summary: NullableStringInput!
@@ -670,6 +651,25 @@ input AssertionFields {
   variantOrigin: VariantOrigin!
 }
 
+enum AssertionSignificance {
+  ADVERSE_RESPONSE
+  BENIGN
+  BETTER_OUTCOME
+  LIKELY_BENIGN
+  LIKELY_ONCOGENIC
+  LIKELY_PATHOGENIC
+  NA
+  NEGATIVE
+  ONCOGENIC
+  PATHOGENIC
+  POOR_OUTCOME
+  POSITIVE
+  REDUCED_SENSITIVITY
+  RESISTANCE
+  SENSITIVITYRESPONSE
+  UNCERTAIN_SIGNIFICANCE
+}
+
 input AssertionSort {
   """
   Available columns for sorting
@@ -686,10 +686,10 @@ enum AssertionSortColumns {
   AMP_LEVEL
   ASSERTION_DIRECTION
   ASSERTION_TYPE
-  CLINICAL_SIGNIFICANCE
   DISEASE_NAME
   EVIDENCE_ITEMS_COUNT
   ID
+  SIGNIFICANCE
   STATUS
   SUMMARY
   THERAPY_NAME
@@ -2104,32 +2104,6 @@ type EventSubjectWithCount {
   subject: EventSubject
 }
 
-enum EvidenceClinicalSignificance {
-  ADVERSE_RESPONSE
-  BENIGN
-  BETTER_OUTCOME
-  DOMINANT_NEGATIVE
-  GAIN_OF_FUNCTION
-  LIKELY_BENIGN
-  LIKELY_PATHOGENIC
-  LOSS_OF_FUNCTION
-  NA
-  NEGATIVE
-  NEOMORPHIC
-  ONCOGENICITY
-  PATHOGENIC
-  POOR_OUTCOME
-  POSITIVE
-  PREDISPOSITION
-  PROTECTIVENESS
-  REDUCED_SENSITIVITY
-  RESISTANCE
-  SENSITIVITYRESPONSE
-  UNALTERED_FUNCTION
-  UNCERTAIN_SIGNIFICANCE
-  UNKNOWN
-}
-
 enum EvidenceDirection {
   DOES_NOT_SUPPORT
   NA
@@ -2139,7 +2113,6 @@ enum EvidenceDirection {
 type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Flaggable & WithRevisions {
   acceptanceEvent: Event
   assertions: [Assertion!]!
-  clinicalSignificance: EvidenceClinicalSignificance!
 
   """
   List and filter comments.
@@ -2334,6 +2307,7 @@ type EvidenceItem implements Commentable & EventOriginObject & EventSubject & Fl
     """
     status: RevisionStatus
   ): RevisionConnection!
+  significance: EvidenceSignificance!
   source: Source!
   status: EvidenceStatus!
   submissionEvent: Event!
@@ -2393,11 +2367,6 @@ Fields on an EvidenceItem that curators may propose revisions to.
 """
 input EvidenceItemFields {
   """
-  The Clinical Significance of the EvidenceItem
-  """
-  clinicalSignificance: EvidenceClinicalSignificance!
-
-  """
   The Evidence Items's description/summary text.
   """
   description: NullableStringInput!
@@ -2438,6 +2407,11 @@ input EvidenceItemFields {
   rating: Int!
 
   """
+  The Clinical Significance of the EvidenceItem
+  """
+  significance: EvidenceSignificance!
+
+  """
   The ID of the Source from which this EvidenceItem was curated.
   """
   sourceId: Int!
@@ -2473,6 +2447,32 @@ enum EvidenceLevel {
   E
 }
 
+enum EvidenceSignificance {
+  ADVERSE_RESPONSE
+  BENIGN
+  BETTER_OUTCOME
+  DOMINANT_NEGATIVE
+  GAIN_OF_FUNCTION
+  LIKELY_BENIGN
+  LIKELY_PATHOGENIC
+  LOSS_OF_FUNCTION
+  NA
+  NEGATIVE
+  NEOMORPHIC
+  ONCOGENICITY
+  PATHOGENIC
+  POOR_OUTCOME
+  POSITIVE
+  PREDISPOSITION
+  PROTECTIVENESS
+  REDUCED_SENSITIVITY
+  RESISTANCE
+  SENSITIVITYRESPONSE
+  UNALTERED_FUNCTION
+  UNCERTAIN_SIGNIFICANCE
+  UNKNOWN
+}
+
 input EvidenceSort {
   """
   Available columns for sorting
@@ -2486,7 +2486,6 @@ input EvidenceSort {
 }
 
 enum EvidenceSortColumns {
-  CLINICAL_SIGNIFICANCE
   DESCRIPTION
   DISEASE_NAME
   EVIDENCE_DIRECTION
@@ -2494,6 +2493,7 @@ enum EvidenceSortColumns {
   EVIDENCE_RATING
   EVIDENCE_TYPE
   ID
+  SIGNIFICANCE
   STATUS
   THERAPY_NAME
   VARIANT_ORIGIN
@@ -4560,11 +4560,6 @@ type Query {
     before: String
 
     """
-    Filtering on the assertion's clinical significance.
-    """
-    clinicalSignificance: EvidenceClinicalSignificance
-
-    """
     Exact match filtering of the assertions based on the internal CIViC disease id
     """
     diseaseId: Int
@@ -4613,6 +4608,11 @@ type Query {
     Exact match filtering of the assertions based on the internal CIViC phenotype id
     """
     phenotypeId: Int
+
+    """
+    Filtering on the assertion's significance.
+    """
+    significance: EvidenceSignificance
 
     """
     Columm and direction to sort evidence on.
@@ -5027,11 +5027,6 @@ type Query {
     before: String
 
     """
-    Filtering on the evidence clinical significance.
-    """
-    clinicalSignificance: EvidenceClinicalSignificance
-
-    """
     Exact match filtering of the evidence items based on the CIViC clinical trial id linked to the evidence item's source
     """
     clinicalTrialId: Int
@@ -5105,6 +5100,11 @@ type Query {
     Exact match filtering of the evidence items based on the internal CIViC phenotype id
     """
     phenotypeId: Int
+
+    """
+    Filtering on the evidence significance.
+    """
+    significance: EvidenceSignificance
 
     """
     Columm and direction to sort evidence on.

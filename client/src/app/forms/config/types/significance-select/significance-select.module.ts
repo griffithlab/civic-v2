@@ -6,10 +6,10 @@ import { FormlySelectModule } from '@ngx-formly/core/select';
 import { FormlyNzFormFieldModule } from '@ngx-formly/ng-zorro-antd/form-field';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import {
-  clinicalSignificanceSelectTypeOption,
+  SignificanceSelectTypeOption,
   csOptionValidationMessage,
   csOptionValidator
-} from './clinical-significance-select.type';
+} from './significance-select.type';
 
 @NgModule({
   imports: [
@@ -20,10 +20,10 @@ import {
     FormlyNzFormFieldModule,
     FormlySelectModule,
     FormlyModule.forChild({
-      types: [clinicalSignificanceSelectTypeOption],
+      types: [SignificanceSelectTypeOption],
       validators:  [csOptionValidator],
       validationMessages: [csOptionValidationMessage]
     }),
   ]
 })
-export class CvcClinicalSignificanceSelectModule { }
+export class CvcSignificanceSelectModule { }

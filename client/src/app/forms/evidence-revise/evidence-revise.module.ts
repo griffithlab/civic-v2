@@ -23,7 +23,7 @@ import { CvcFormInfoWrapperModule } from '@app/forms/config/wrappers/form-info/f
 import { CvcTextareaBaseTypeModule } from '../config/types/textarea-base/textarea-base.module';
 import { CvcVariantOriginSelectTypeModule } from '../config/types/variant-origin-select/variant-origin-select.module';
 import { CvcEvidenceTypeSelectTypeModule } from '../config/types/evidence-type-select/evidence-type-select.module';
-import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
+import { CvcSignificanceSelectModule } from '../config/types/significance-select/significance-select.module';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CvcEvidenceLevelSelectModule } from '../config/types/evidence-level-select/evidence-level-select.module';
 import { CvcEvidenceDirectionSelectModule } from '../config/types/evidence-direction-select/evidence-direction-select.module';
@@ -64,7 +64,7 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcTextareaBaseTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
-    CvcClinicalSignificanceSelectModule,
+    CvcSignificanceSelectModule,
     CvcEvidenceLevelSelectModule,
     CvcEvidenceDirectionSelectModule,
     CvcDiseaseArrayTypeModule,

@@ -11,7 +11,7 @@ module Types::Revisions
       description: 'The Variant Origin for this Assertion.'
     argument :assertion_type, Types::AssertionTypeType, required: true,
       description: 'The Type of the Assertion'
-    argument :clinical_significance, Types::AssertionClinicalSignificanceType, required: true,
+    argument :significance, Types::AssertionSignificanceType, required: true,
       description: 'The Clinical Significance of the Assertion'
     argument :disease_id, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,
       description: 'The ID of the disease (if applicable) for this Assertion'

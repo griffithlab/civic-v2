@@ -11,7 +11,7 @@ module Types::Revisions
       description: 'The ID of the Source from which this EvidenceItem was curated.'
     argument :evidence_type, Types::EvidenceTypeType, required: true,
       description: 'The Type of the EvidenceItem'
-    argument :clinical_significance, Types::EvidenceClinicalSignificanceType, required: true,
+    argument :significance, Types::EvidenceSignificanceType, required: true,
       description: 'The Clinical Significance of the EvidenceItem'
     argument :disease_id, Types::NullableValueInputType.for(GraphQL::Types::Int), required: true,
       description: 'The ID of the disease (if applicable) for this EvidenceItem'

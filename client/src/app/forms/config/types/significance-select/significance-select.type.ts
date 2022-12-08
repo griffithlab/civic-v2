@@ -1,7 +1,7 @@
 import { TypeOption, ValidationMessageOption, ValidatorOption, } from '@ngx-formly/core/lib/services/formly.config';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { EntityClinicalSignificance, EntityState, EntityType, SelectOption, SelectType } from '../../states/entity.state';
+import { EntitySignificance, EntityState, EntityType, SelectOption, SelectType } from '../../states/entity.state';
 import { Maybe } from '@app/generated/civic.apollo';
 import { formatEvidenceEnum } from '@app/core/utilities/enum-formatters/format-evidence-enum';
 
@@ -75,13 +75,13 @@ const optionText: any = {
   }
 }
 
-export const clinicalSignificanceSelectTypeOption: TypeOption = {
-  name: 'clinical-significance-select',
+export const SignificanceSelectTypeOption: TypeOption = {
+  name: 'significance-select',
   extends: 'select',
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
-      label: 'Clinical Signficance',
+      label: 'Signficance',
       helpText: 'The impact of the variant.',
       placeholder: 'None specified',
       options: [],
@@ -113,8 +113,8 @@ export const clinicalSignificanceSelectTypeOption: TypeOption = {
     },
     expressionProperties: {
       'templateOptions.optionText': (m: any, st: any, ffc?: FormlyFieldConfig) => {
-        if (st.entityName && m.evidenceType && m.clinicalSignificance){
-          return optionText[st.entityName][m.evidenceType][m.clinicalSignificance]
+        if (st.entityName && m.evidenceType && m.significance){
+          return optionText[st.entityName][m.evidenceType][m.significance]
         }
       }
     }
@@ -125,7 +125,7 @@ export const csOptionValidator: ValidatorOption = {
   name: 'cs-option',
   validation: (c: AbstractControl, ffc: FormlyFieldConfig, opt: any): ValidationErrors | null => {
     const st: EntityState = ffc.options?.formState;
-    const cs: EntityClinicalSignificance = c.value;
+    const cs: EntitySignificance = c.value;
     if (!cs || !st) { return null; }
     const et: EntityType = c.parent?.get('evidenceType')?.value;
     if (!et) { return null; }

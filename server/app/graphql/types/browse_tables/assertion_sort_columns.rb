@@ -7,7 +7,7 @@ module Types::BrowseTables
     value 'STATUS'
     value 'ASSERTION_TYPE'
     value 'ASSERTION_DIRECTION'
-    value 'CLINICAL_SIGNIFICANCE'
+    value 'SIGNIFICANCE'
     value 'AMP_LEVEL'
     value 'EVIDENCE_ITEMS_COUNT'
   end

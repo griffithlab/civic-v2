@@ -1,5 +1,5 @@
 module Types
-  class EvidenceClinicalSignificanceType < Types::BaseEnum
+  class EvidenceSignificanceType < Types::BaseEnum
     value 'SENSITIVITYRESPONSE', value: 'Sensitivity/Response'
     value 'RESISTANCE', value: 'Resistance'
     value 'BETTER_OUTCOME', value: 'Better Outcome'

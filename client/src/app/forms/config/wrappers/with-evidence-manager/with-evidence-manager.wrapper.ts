@@ -23,7 +23,7 @@ export class WithEvidenceManagerWrapper extends FieldWrapper {
       evidenceLevelInput: undefined,
       evidenceTypeInput: undefined,
       evidenceDirectionInput: undefined,
-      clinicalSignificanceInput: undefined,
+      SignificanceInput: undefined,
       variantOriginInput: undefined,
       evidenceRatingInput: undefined,
       molecularProfileNameInput: undefined,

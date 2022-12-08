@@ -13,7 +13,7 @@ class InputAdaptors::AssertionInputAdaptor
       molecular_profile_id: input.molecular_profile_id,
       variant_origin: input.variant_origin,
       evidence_type: input.assertion_type,
-      clinical_significance: input.clinical_significance,
+      significance: input.significance,
       disease_id: input.disease_id,
       evidence_direction: input.assertion_direction,
       phenotype_ids: input.phenotype_ids,

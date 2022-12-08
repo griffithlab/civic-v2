@@ -94,12 +94,12 @@
         </th>
         <th nzWidth="60px"
           nzRight
-          [nzColumnKey]="sortColumns.ClinicalSignificance"
+          [nzColumnKey]="sortColumns.Significance"
           [nzSortFn]="true"
           nzAlign="center"
           nz-tooltip
-          nzTooltipTitle="Clinical Significance">
-          CS
+          nzTooltipTitle="Significance">
+          S
         </th>
         <th nzWidth="60px"
           nzRight
@@ -187,7 +187,7 @@
             [nzDropdownMatchSelectWidth]="false"
             nzPlaceHolder="All"
             (ngModelChange)="onModelChanged()"
-            [(ngModel)]="clinicalSignificanceInput">
+            [(ngModel)]="SignificanceInput">
             <nz-option-group nzLabel="Predictive">
               <nz-option nzValue="SENSITIVITYRESPONSE"
                 nzLabel="Sensitivity/Response"></nz-option>
@@ -346,9 +346,9 @@
             nzRight>
             <nz-tag nz-tooltip
               nzTooltipPlacement="top"
-              [nzTooltipTitle]="!isScrolling ? (aid.clinicalSignificance | evidenceEnumDisplay) : ''">
+              [nzTooltipTitle]="!isScrolling ? (aid.significance | evidenceEnumDisplay) : ''">
               <i nz-icon
-                [nzType]="aid.clinicalSignificance| evidenceEnumDisplay: 'icon-name'"
+                [nzType]="aid.significance| evidenceEnumDisplay: 'icon-name'"
                 class="attribute-icon"></i>
             </nz-tag>
           </td>

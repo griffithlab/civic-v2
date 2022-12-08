@@ -1,5 +1,5 @@
 module Types
-  class AssertionClinicalSignificanceType < Types::BaseEnum
+  class AssertionSignificanceType < Types::BaseEnum
     value 'SENSITIVITYRESPONSE', value: 'Sensitivity/Response'
     value 'RESISTANCE', value: 'Resistance'
     value 'ADVERSE_RESPONSE', value: 'Adverse Response'

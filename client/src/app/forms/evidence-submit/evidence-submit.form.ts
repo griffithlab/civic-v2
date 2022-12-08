@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceFieldsFromSourceSuggestionGQL,
   EvidenceLevel,
@@ -38,7 +38,7 @@ interface FormModel {
     therapies: FormTherapy[]
     therapyInteractionType: Maybe<TherapyInteraction>
 
-    clinicalSignificance: EvidenceClinicalSignificance
+    significance: EvidenceSignificance
     evidenceDirection: EvidenceDirection
     evidenceLevel: EvidenceLevel
     evidenceType: EvidenceType
@@ -162,8 +162,8 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true,
             },
@@ -334,7 +334,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),

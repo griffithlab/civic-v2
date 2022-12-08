@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { CvcClinicalSignificanceSelectModule } from '../config/types/clinical-significance-select/clinical-significance-select.module';
+import { CvcSignificanceSelectModule } from '../config/types/significance-select/significance-select.module';
 import { CvcCommentTextareaTypeModule } from '@app/forms/config/types/comment-textarea/comment-textarea.module';
 import { CvcDiseaseInputTypeModule } from '@app/forms/config/types/disease-input/disease-input.module';
 import { CvcTherapyInputTypeModule } from '@app/forms/config/types/therapy-input/therapy-input.module';
@@ -70,7 +70,7 @@ import { CvcMolecularProfileInputTypeModule } from '../config/types/molecular-pr
     CvcCommentTextareaTypeModule,
     CvcVariantOriginSelectTypeModule,
     CvcEvidenceTypeSelectTypeModule,
-    CvcClinicalSignificanceSelectModule,
+    CvcSignificanceSelectModule,
     CvcEvidenceLevelSelectModule,
     CvcEvidenceDirectionSelectModule,
     CvcDiseaseArrayTypeModule,

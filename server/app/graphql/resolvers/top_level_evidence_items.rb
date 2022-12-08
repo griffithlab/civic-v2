@@ -50,8 +50,8 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:evidence_direction, type: Types::EvidenceDirectionType, description: 'Filtering on the evidence direction.') do |scope, value|
     scope.where(evidence_direction: value)
   end
-  option(:clinical_significance, type: Types::EvidenceClinicalSignificanceType, description: 'Filtering on the evidence clinical significance.') do |scope, value|
-    scope.where(clinical_significance: value)
+  option(:significance, type: Types::EvidenceSignificanceType, description: 'Filtering on the evidence significance.') do |scope, value|
+    scope.where(significance: value)
   end
   option(:variant_origin, type: Types::VariantOriginType, description: 'Filtering on the evidence variant origin.') do |scope, value|
     scope.where(variant_origin: value)
@@ -113,8 +113,8 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
       scope.reorder("evidence_type #{value.direction}")
     when 'EVIDENCE_DIRECTION'
       scope.reorder("evidence_direction #{value.direction}")
-    when 'CLINICAL_SIGNIFICANCE'
-      scope.reorder("clinical_significance #{value.direction}")
+    when 'SIGNIFICANCE'
+      scope.reorder("significance #{value.direction}")
     when 'VARIANT_ORIGIN'
       scope.reorder("variant_origin #{value.direction}")
     end

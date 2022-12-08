@@ -9,7 +9,7 @@ module Types::BrowseTables
     value 'STATUS'
     value 'EVIDENCE_TYPE'
     value 'EVIDENCE_DIRECTION'
-    value 'CLINICAL_SIGNIFICANCE'
+    value 'SIGNIFICANCE'
     value 'VARIANT_ORIGIN'
   end
 end

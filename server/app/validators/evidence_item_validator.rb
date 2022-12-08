@@ -7,8 +7,8 @@ class EvidenceItemValidator < ActiveModel::Validator
       return
     end
 
-    if !validator[:clinical_significance].include? record.clinical_significance
-      record.errors.add :clinical_significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.clinical_significance}. Valid values: #{validator[:clinical_significance].join(', ')}"
+    if !validator[:significance].include? record.significance
+      record.errors.add :significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.significance}. Valid values: #{validator[:significance].join(', ')}"
     end
 
     if !validator[:evidence_direction].include? record.evidence_direction
@@ -43,37 +43,37 @@ class EvidenceItemValidator < ActiveModel::Validator
   def valid_types
     @valid_types ||= {
       'Predictive' => {
-        clinical_significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
+        significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: true,
       },
      'Diagnostic' => {
-        clinical_significance: ['Positive', 'Negative'],
+        significance: ['Positive', 'Negative'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
      'Prognostic' => {
-        clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
+        significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
      'Predisposing' => {
-        clinical_significance: ['Predisposition', 'Protectiveness'],
+        significance: ['Predisposition', 'Protectiveness'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
      'Oncogenic' => {
-        clinical_significance: ['Oncogenicity', 'Protectiveness'],
+        significance: ['Oncogenicity', 'Protectiveness'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false
       },
      'Functional' => {
-        clinical_significance: ['Gain of Function', 'Loss of Function', 'Unaltered Function', 'Neomorphic', 'Dominant Negative', 'Unknown'],
+        significance: ['Gain of Function', 'Loss of Function', 'Unaltered Function', 'Neomorphic', 'Dominant Negative', 'Unknown'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: false,
         drug: false

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, T
 import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
-import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceClinicalSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
+import { AmpLevel, AssertionBrowseFieldsFragment, AssertionConnection, AssertionsBrowseGQL, AssertionsBrowseQuery, AssertionsBrowseQueryVariables, AssertionSortColumns, EvidenceSignificance, EvidenceDirection, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -81,7 +81,7 @@ export class CvcAssertionsTableComponent implements OnInit {
   summaryInput: Maybe<string>
   assertionTypeInput: Maybe<EvidenceType>
   assertionDirectionInput: Maybe<EvidenceDirection>
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  SignificanceInput: Maybe<EvidenceSignificance>
   molecularProfileNameInput: Maybe<string>
   ampLevelInput: Maybe<AmpLevel>
 
@@ -213,7 +213,7 @@ export class CvcAssertionsTableComponent implements OnInit {
       summary: this.summaryInput,
       assertionType: this.assertionTypeInput ? this.assertionTypeInput : undefined,
       assertionDirection: this.assertionDirectionInput ? this.assertionDirectionInput : undefined,
-      clinicalSignificance: this.clinicalSignificanceInput ? this.clinicalSignificanceInput : undefined,
+      significance: this.SignificanceInput ? this.SignificanceInput : undefined,
       ampLevel: this.ampLevelInput ? this.ampLevelInput : undefined,
     })
   }

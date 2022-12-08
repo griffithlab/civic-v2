@@ -9,7 +9,7 @@ query EvidenceBrowse(
   $description: String
   $evidenceLevel: EvidenceLevel
   $evidenceDirection: EvidenceDirection
-  $clinicalSignificance: EvidenceClinicalSignificance
+  $significance: EvidenceSignificance
   $evidenceType: EvidenceType
   $rating: Int
   $variantOrigin: VariantOrigin
@@ -38,7 +38,7 @@ query EvidenceBrowse(
     description: $description
     evidenceLevel: $evidenceLevel
     evidenceDirection: $evidenceDirection
-    clinicalSignificance: $clinicalSignificance
+    significance: $significance
     evidenceType: $evidenceType
     evidenceRating: $rating
     variantOrigin: $variantOrigin
@@ -102,6 +102,6 @@ fragment EvidenceGridFields on EvidenceItem {
   evidenceDirection
   evidenceLevel
   evidenceRating
-  clinicalSignificance
+  significance
   variantOrigin
 }

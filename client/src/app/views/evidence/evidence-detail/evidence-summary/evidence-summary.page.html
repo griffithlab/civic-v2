@@ -42,11 +42,11 @@
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
-            <!-- clinical significance -->
-            <nz-descriptions-item nzTitle="Clinical Significance">
-              <cvc-attribute-tag [cvcAttrValue]="evidence.clinicalSignificance"
+            <!-- significance -->
+            <nz-descriptions-item nzTitle="Significance">
+              <cvc-attribute-tag [cvcAttrValue]="evidence.significance"
                 nz-tooltip
-                [nzTooltipTitle]="evidence.clinicalSignificance | enumTooltip:'clinicalSignificance':evidence.evidenceType:'EvidenceItem'">
+                [nzTooltipTitle]="evidence.significance | enumTooltip:'significance':evidence.evidenceType:'EvidenceItem'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 

@@ -26,7 +26,7 @@ fragment AssertionSummaryFields on Assertion {
   }
   assertionType
   assertionDirection
-  clinicalSignificance
+  significance
   therapies {
     ncitId
     name

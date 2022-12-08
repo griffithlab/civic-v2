@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_04_170412) do
+ActiveRecord::Schema.define(version: 2022_12_08_213028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2022_10_04_170412) do
     t.integer "nccn_guideline_old"
     t.text "nccn_guideline_version"
     t.integer "amp_level"
-    t.integer "clinical_significance"
+    t.integer "significance"
     t.integer "gene_id"
     t.integer "variant_id"
     t.integer "disease_id"
@@ -412,13 +412,12 @@ ActiveRecord::Schema.define(version: 2022_10_04_170412) do
     t.integer "evidence_type"
     t.integer "variant_origin"
     t.integer "evidence_direction"
-    t.integer "clinical_significance"
+    t.integer "significance"
     t.boolean "deleted", default: false
     t.datetime "deleted_at"
     t.integer "drug_interaction_type"
     t.boolean "flagged", default: false, null: false
     t.bigint "molecular_profile_id"
-    t.index ["clinical_significance"], name: "index_evidence_items_on_clinical_significance"
     t.index ["deleted"], name: "index_evidence_items_on_deleted"
     t.index ["disease_id"], name: "index_evidence_items_on_disease_id"
     t.index ["drug_interaction_type"], name: "index_evidence_items_on_drug_interaction_type"
@@ -426,6 +425,7 @@ ActiveRecord::Schema.define(version: 2022_10_04_170412) do
     t.index ["evidence_level"], name: "index_evidence_items_on_evidence_level"
     t.index ["evidence_type"], name: "index_evidence_items_on_evidence_type"
     t.index ["molecular_profile_id"], name: "index_evidence_items_on_molecular_profile_id"
+    t.index ["significance"], name: "index_evidence_items_on_significance"
     t.index ["source_id"], name: "index_evidence_items_on_source_id"
     t.index ["status"], name: "index_evidence_items_on_status"
     t.index ["variant_id"], name: "index_evidence_items_on_variant_id"
@@ -949,7 +949,7 @@ ActiveRecord::Schema.define(version: 2022_10_04_170412) do
       evidence_items.rating AS evidence_rating,
       evidence_items.evidence_type,
       evidence_items.variant_origin,
-      evidence_items.clinical_significance
+      evidence_items.significance AS clinical_significance
      FROM (((((evidence_items
        JOIN variants ON ((evidence_items.variant_id = variants.id)))
        JOIN genes ON ((variants.gene_id = genes.id)))
@@ -957,7 +957,7 @@ ActiveRecord::Schema.define(version: 2022_10_04_170412) do
        LEFT JOIN drugs_evidence_items ON ((drugs_evidence_items.evidence_item_id = evidence_items.id)))
        LEFT JOIN drugs ON ((drugs.id = drugs_evidence_items.drug_id)))
     WHERE ((evidence_items.status)::text <> 'rejected'::text)
-    GROUP BY evidence_items.id, evidence_items.status, evidence_items.description, evidence_items.evidence_direction, evidence_items.evidence_level, evidence_items.rating, evidence_items.evidence_type, evidence_items.variant_origin, evidence_items.clinical_significance, genes.name, variants.name, diseases.name;
+    GROUP BY evidence_items.id, evidence_items.status, evidence_items.description, evidence_items.evidence_direction, evidence_items.evidence_level, evidence_items.rating, evidence_items.evidence_type, evidence_items.variant_origin, evidence_items.significance, genes.name, variants.name, diseases.name;
   SQL
   create_view "variant_group_browse_table_rows", materialized: true, sql_definition: <<-SQL
       SELECT variant_groups.id,

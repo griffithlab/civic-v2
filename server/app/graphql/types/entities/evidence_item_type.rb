@@ -10,7 +10,7 @@ module Types::Entities
     field :id, Int, null: false
     field :name, String, null: false
     field :molecular_profile, Types::Entities::MolecularProfileType, null: false
-    field :clinical_significance, Types::EvidenceClinicalSignificanceType, null: false
+    field :significance, Types::EvidenceSignificanceType, null: false
     field :description, String, null: false
     field :disease, Types::Entities::DiseaseType, null: true
     field :therapies, [Types::Entities::TherapyType], null: false

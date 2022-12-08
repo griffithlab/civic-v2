@@ -7,8 +7,8 @@ class AssertionValidator < ActiveModel::Validator
       return
     end
 
-    if !validator[:clinical_significance].include? record.clinical_significance
-      record.errors.add :clinical_significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.clinical_significance}. Valid values: #{validator[:clinical_significance].join(', ')}"
+    if !validator[:significance].include? record.significance
+      record.errors.add :significance, "Not a valid clinical significance for #{record.evidence_type} evidence type: #{record.significance}. Valid values: #{validator[:significance].join(', ')}"
     end
 
     if !validator[:evidence_direction].include? record.evidence_direction
@@ -68,7 +68,7 @@ class AssertionValidator < ActiveModel::Validator
   def valid_types
     @valid_types ||= {
       'Predictive' => {
-        clinical_significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
+        significance: ['Sensitivity/Response', 'Resistance', 'Adverse Response', 'Reduced Sensitivity', 'N/A'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: true,
@@ -78,7 +78,7 @@ class AssertionValidator < ActiveModel::Validator
         allow_regulatory_approval: true,
       },
      'Diagnostic' => {
-        clinical_significance: ['Positive', 'Negative'],
+        significance: ['Positive', 'Negative'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false,
@@ -88,7 +88,7 @@ class AssertionValidator < ActiveModel::Validator
         allow_regulatory_approval: false,
       },
      'Prognostic' => {
-        clinical_significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
+        significance: ['Better Outcome', 'Poor Outcome', 'N/A'],
         evidence_direction: ['Supports', 'Does Not Support'],
         disease: true,
         drug: false,
@@ -98,7 +98,7 @@ class AssertionValidator < ActiveModel::Validator
         allow_regulatory_approval: false,
       },
      'Predisposing' => {
-       clinical_significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
+       significance: ['Pathogenic', 'Likely Pathogenic', 'Benign', 'Likely Benign', 'Uncertain Significance'],
         evidence_direction: ['Supports'],
         disease: true,
         drug: false,
@@ -108,7 +108,7 @@ class AssertionValidator < ActiveModel::Validator
         allow_regulatory_approval: false,
       },
      'Oncogenic' => {
-       clinical_significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain', 'Likely Benign', 'Benign'],
+       significance: ['Oncogenic', 'Likely Oncogenic', 'Uncertain', 'Likely Benign', 'Benign'],
         evidence_direction: ['Supports'],
         disease: true,
         drug: false,

@@ -31,7 +31,7 @@ fragment SubmittableEvidenceFields on EvidenceItem {
   description
   variantOrigin
   evidenceType
-  clinicalSignificance
+  significance
   evidenceLevel
   evidenceDirection
   evidenceRating

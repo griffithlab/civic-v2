@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, AfterViewInit, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import {
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
@@ -47,7 +47,7 @@ import { FormDisease, FormTherapy, FormMolecularProfile, FormPhenotype, FormSour
  * evidenceType: EvidenceType!
  * The Type of the EvidenceItem
  *
- * clinicalSignificance: EvidenceClinicalSignificance!
+ * significance: EvidenceSignificance!
  * The Clinical Significance of the EvidenceItem
  *
  * diseaseId: NullableIntInput!
@@ -76,7 +76,7 @@ import { FormDisease, FormTherapy, FormMolecularProfile, FormPhenotype, FormSour
 interface FormModel {
   fields: {
     id: number;
-    clinicalSignificance: EvidenceClinicalSignificance;
+    significance: EvidenceSignificance;
     description: string;
     disease: Maybe<FormDisease>[];
     therapyInteractionType: Maybe<TherapyInteraction>;
@@ -199,8 +199,8 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true
             }
@@ -380,7 +380,7 @@ export class EvidenceReviseForm implements OnInit, AfterViewInit, OnDestroy {
           sourceId: fields.source[0].id!,
           evidenceType: fields.evidenceType,
           evidenceDirection: fields.evidenceDirection,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           evidenceLevel: fields.evidenceLevel,
           phenotypeIds: fields.phenotypes.map((ph: FormPhenotype) => { return ph.id }),

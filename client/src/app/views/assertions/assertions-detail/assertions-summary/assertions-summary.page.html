@@ -49,10 +49,10 @@
             </nz-descriptions-item>
 
             <!-- clinical significance -->
-            <nz-descriptions-item nzTitle="Clinical Significance">
-              <cvc-attribute-tag [cvcAttrValue]="assertion.clinicalSignificance"
+            <nz-descriptions-item nzTitle="Significance">
+              <cvc-attribute-tag [cvcAttrValue]="assertion.significance"
                 nz-tooltip
-                [nzTooltipTitle]="assertion.clinicalSignificance | enumTooltip:'clinicalSignificance':assertion.assertionType:'Assertion'">
+                [nzTooltipTitle]="assertion.significance | enumTooltip:'significance':assertion.assertionType:'Assertion'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -184,7 +184,7 @@
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
 
             <!-- molecular profile -->
-            <nz-descriptions-item nzTitle="Molecular Profile">
+            <nz-descriptions-item nzTitle="Molecular Profile Name">
               <cvc-molecular-profile-tag [molecularProfile]="assertion.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
@@ -220,7 +220,7 @@
 
             <!-- therapies -->
             <nz-descriptions-item [nzTitle]="assertion.therapies.length > 1 ? 'Therapies' : 'Therapy'">
-              <ng-container [ngPlural]="assertion.theraapies.length">
+              <ng-container [ngPlural]="assertion.therapies.length">
                 <!-- no therapy -->
                 <ng-template ngPluralCase="=0">
                   <span nz-typography

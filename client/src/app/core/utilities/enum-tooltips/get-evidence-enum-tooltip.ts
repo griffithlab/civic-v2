@@ -78,7 +78,7 @@ export type ContextualTooltipMap = {
 
 export const contextualTooltips: ContextualTooltipMap = {
   // Clinical Significance
-  clinicalSignificance: {
+  significance: {
     PREDICTIVE: {
       ADVERSE_RESPONSE: {
         EvidenceItem: 'Associated with an adverse response to theraputic treatment',

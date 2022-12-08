@@ -22,7 +22,7 @@ class Assertion < ActiveRecord::Base
   enum amp_level: Constants::AMP_LEVELS
   enum evidence_type: Constants::ASSERTION_TYPES, _suffix: true
   enum evidence_direction: Constants::EVIDENCE_DIRECTIONS, _suffix: true
-  enum clinical_significance: Constants::CLINICAL_SIGNIFICANCES
+  enum significance: Constants::SIGNIFICANCES
   enum drug_interaction_type: Constants::DRUG_INTERACTION_TYPES
   enum variant_origin: Constants::VARIANT_ORIGINS, _suffix: true
 

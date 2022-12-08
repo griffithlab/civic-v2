@@ -1,9 +1,9 @@
 import { formatEvidenceEnum, InputEnum } from "@app/core/utilities/enum-formatters/format-evidence-enum";
 import {
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceType,
 } from "@app/generated/civic.apollo";
@@ -11,14 +11,14 @@ import { $enum } from "ts-enum-util";
 
 export type EntityType = EvidenceType | AssertionType
 
-export type EntityClinicalSignificance =
-  EvidenceClinicalSignificance | AssertionClinicalSignificance;
+export type EntitySignificance =
+  EvidenceSignificance | AssertionSignificance;
 
 export type EntityDirection = EvidenceDirection | AssertionDirection;
 
 export type ValidEntity = {
   entityType: EntityType
-  clinicalSignificance: EntityClinicalSignificance[]
+  significance: EntitySignificance[]
   entityDirection: EntityDirection[]
   requiresDisease: boolean
   requiresDrug: boolean
@@ -36,7 +36,7 @@ export enum EntityName {
 }
 
 export enum SelectType {
-  CS = 'clinicalSignificance',
+  CS = 'significance',
   ED = 'entityDirection'
 }
 
@@ -49,9 +49,9 @@ export enum SelectType {
 export interface IEntityState {
   validStates: Map<EntityType, ValidEntity>
   getTypeOptions: () => EntityType[];
-  getSignificanceOptions: (et: EntityType) => EntityClinicalSignificance[];
+  getSignificanceOptions: (et: EntityType) => EntitySignificance[];
   getDirectionOptions: (et: EntityType) => EntityDirection[];
-  isValidSignificanceOption: (et: EntityType, cs: EntityClinicalSignificance) => boolean;
+  isValidSignificanceOption: (et: EntityType, cs: EntitySignificance) => boolean;
   isValidDirectionOption: (et: EntityType, cs: EntityDirection) => boolean
   requiresDrug: (et: EntityType) => boolean;
   requiresDisease: (et: EntityType) => boolean;
@@ -82,16 +82,16 @@ class EntityState implements IEntityState {
     }
   }
 
-  getSignificanceOptions = (et: EntityType): EntityClinicalSignificance[] => {
+  getSignificanceOptions = (et: EntityType): EntitySignificance[] => {
     const state = this.validStates.get(et);
-    return state?.clinicalSignificance || [];
+    return state?.significance || [];
   }
 
   isValidSignificanceOption = (et: EntityType,
-    cs: EntityClinicalSignificance): boolean => {
+    cs: EntitySignificance): boolean => {
     const state = this.validStates.get(et);
     if (!state) { return true; }
-    return state.clinicalSignificance.includes(cs);
+    return state.significance.includes(cs);
   }
 
   getDirectionOptions = (et: EntityType): EntityDirection[] => {

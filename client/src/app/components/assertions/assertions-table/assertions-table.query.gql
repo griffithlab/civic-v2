@@ -8,7 +8,7 @@ query AssertionsBrowse(
   $id: Int
   $summary: String
   $assertionDirection: EvidenceDirection
-  $clinicalSignificance: EvidenceClinicalSignificance
+  $significance: EvidenceSignificance
   $assertionType: EvidenceType
   $variantId: Int,
   $molecularProfileId: Int,
@@ -33,7 +33,7 @@ query AssertionsBrowse(
     id: $id
     summary: $summary
     assertionDirection: $assertionDirection
-    clinicalSignificance: $clinicalSignificance
+    significance: $significance
     assertionType: $assertionType
     variantId: $variantId,
     molecularProfileId: $molecularProfileId,
@@ -90,7 +90,7 @@ fragment AssertionBrowseFields on Assertion {
   summary
   assertionType
   assertionDirection
-  clinicalSignificance
+  significance
   ampLevel
   evidenceItemsCount
   status

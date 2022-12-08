@@ -3,7 +3,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { buildSortParams, SortDirectionEvent } from '@app/core/utilities/datatable-helpers';
 import { ScrollEvent } from '@app/directives/table-scroll/table-scroll.directive';
 import { FormEvidence } from '@app/forms/forms.interfaces';
-import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceClinicalSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
+import { EvidenceBrowseGQL, EvidenceBrowseQuery, EvidenceBrowseQueryVariables, EvidenceSignificance, EvidenceDirection, EvidenceGridFieldsFragment, EvidenceItemConnection, EvidenceLevel, EvidenceSortColumns, EvidenceStatusFilter, EvidenceType, Maybe, PageInfo, VariantOrigin } from '@app/generated/civic.apollo';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -18,7 +18,7 @@ export interface EvidenceTableUserFilters {
   evidenceLevelInput?: Maybe<EvidenceLevel>
   evidenceTypeInput?: Maybe<EvidenceType>
   evidenceDirectionInput?: Maybe<EvidenceDirection>
-  clinicalSignificanceInput?: Maybe<EvidenceClinicalSignificance>
+  SignificanceInput?: Maybe<EvidenceSignificance>
   variantOriginInput?: Maybe<VariantOrigin>
   evidenceRatingInput?: Maybe<number>
   molecularProfileNameInput?: Maybe<string>
@@ -84,7 +84,7 @@ export class CvcEvidenceTableComponent implements OnInit {
   isScrolling = false
 
   // filters
-  clinicalSignificanceInput: Maybe<EvidenceClinicalSignificance>
+  SignificanceInput: Maybe<EvidenceSignificance>
   descriptionInput: Maybe<string>
   diseaseNameInput: Maybe<string>
   therapyNameInput: Maybe<string>
@@ -112,8 +112,8 @@ export class CvcEvidenceTableComponent implements OnInit {
     this.queryRef = this.gql.watch(
       {
         assertionId: this.assertionId,
-        clinicalSignificance: this.clinicalSignificanceInput
-          ? this.clinicalSignificanceInput
+        significance: this.SignificanceInput
+          ? this.SignificanceInput
           : undefined,
         clinicalTrialId: this.clinicalTrialId,
         description: this.descriptionInput,
@@ -252,8 +252,8 @@ export class CvcEvidenceTableComponent implements OnInit {
         evidenceDirection: this.evidenceDirectionInput
           ? this.evidenceDirectionInput
           : undefined,
-        clinicalSignificance: this.clinicalSignificanceInput
-          ? this.clinicalSignificanceInput
+        significance: this.SignificanceInput
+          ? this.SignificanceInput
           : undefined,
         variantOrigin: this.variantOriginInput
           ? this.variantOriginInput

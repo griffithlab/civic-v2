@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, ClingenCode, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, TherapyInteraction, VariantOrigin } from '@app/generated/civic.apollo';
+import { AcmgCode, AmpLevel, AssertionSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, ClingenCode, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, TherapyInteraction, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
@@ -18,7 +18,7 @@ interface FormModel {
     molecularProfile: FormMolecularProfile,
     variantOrigin: VariantOrigin
     evidenceType: AssertionType
-    clinicalSignificance: AssertionClinicalSignificance
+    significance: AssertionSignificance
     disease: Maybe<FormDisease>[]
     evidenceDirection: AssertionDirection
     phenotypes: FormPhenotype[]
@@ -131,8 +131,8 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true
             }
@@ -277,7 +277,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           molecularProfileId: fields.molecularProfile.id,
           variantOrigin: fields.variantOrigin,
           assertionType: fields.evidenceType,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           assertionDirection: fields.evidenceDirection,
           phenotypeIds: fields.phenotypes.map(p => p.id),
@@ -306,7 +306,7 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         molecularProfile: fields.molecularProfile,
         variantOrigin: fields.variantOrigin,
         evidenceType: fields.assertionType,
-        clinicalSignificance: fields.clinicalSignificance,
+        significance: fields.significance,
         disease: [fields.disease],
         evidenceDirection: fields.assertionDirection,
         phenotypes: fields.phenotypes,

@@ -6,7 +6,7 @@ import * as fmt from '@app/forms/config/utilities/input-formatters';
 import {
     AcmgCode,
     AmpLevel,
-    AssertionClinicalSignificance,
+    AssertionSignificance,
     AssertionDirection,
     AssertionType,
     ClingenCode,
@@ -40,7 +40,7 @@ interface FormModel {
     molecularProfile: FormMolecularProfile
     variantOrigin: VariantOrigin
     evidenceType: AssertionType
-    clinicalSignificance: AssertionClinicalSignificance
+    significance: AssertionSignificance
     disease: FormDisease[]
     evidenceDirection: AssertionDirection
     phenotypes: FormPhenotype[]
@@ -149,8 +149,8 @@ export class AssertionSubmitForm implements OnDestroy {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true
             }
@@ -289,7 +289,7 @@ export class AssertionSubmitForm implements OnDestroy {
           molecularProfileId: fields.molecularProfile.id,
           variantOrigin: fields.variantOrigin,
           assertionType: fields.evidenceType,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0].id!),
           assertionDirection: fields.evidenceDirection,
           phenotypeIds: fields.phenotypes.map(p => p.id),

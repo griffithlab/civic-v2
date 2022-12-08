@@ -14,7 +14,7 @@ fragment EvidenceSummaryFields on EvidenceItem {
   evidenceLevel
   evidenceType
   evidenceDirection
-  clinicalSignificance
+  significance
   variantOrigin
   therapies {
     id

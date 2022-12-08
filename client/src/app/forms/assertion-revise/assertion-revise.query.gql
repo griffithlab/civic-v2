@@ -14,7 +14,7 @@ fragment RevisableAssertionFields on Assertion {
     link
   }
   variantOrigin
-  clinicalSignificance
+  significance
   disease {
     id
     doid

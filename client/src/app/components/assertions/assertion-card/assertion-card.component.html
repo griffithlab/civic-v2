@@ -25,7 +25,7 @@
           <nz-col [nzSpan]="8">
             <nz-row><b>Assertion Type:&nbsp;</b>{{ assertion.assertionType | evidenceEnumDisplay }}</nz-row>
             <nz-row><b>Assertion Direction:&nbsp;</b>{{ assertion.assertionDirection | evidenceEnumDisplay }}</nz-row>
-            <nz-row><b>Clinical Significance:&nbsp;</b>{{ assertion.clinicalSignificance | evidenceEnumDisplay }}</nz-row>
+            <nz-row><b>Clinical Significance:&nbsp;</b>{{ assertion.significance | evidenceEnumDisplay }}</nz-row>
             <nz-row><b>Variant Origin:&nbsp;</b>{{ assertion.variantOrigin | evidenceEnumDisplay }}</nz-row>
             <nz-row [ngPlural]="assertion.therapies.length">
               <ng-template ngPluralCase="=0"><b>Therapy:&nbsp;</b> <i>Not Applicable</i></ng-template>

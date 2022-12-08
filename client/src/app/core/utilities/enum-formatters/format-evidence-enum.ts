@@ -1,8 +1,8 @@
 import {
-  AssertionClinicalSignificance,
+  AssertionSignificance,
   AssertionDirection,
   AssertionType,
-  EvidenceClinicalSignificance,
+  EvidenceSignificance,
   EvidenceDirection,
   EvidenceLevel,
   EvidenceType,
@@ -12,10 +12,10 @@ import {
 } from '@app/generated/civic.apollo';
 
 export type InputEnum =
-  | EvidenceClinicalSignificance
+  | EvidenceSignificance
   | EvidenceDirection
   | EvidenceType
-  | AssertionClinicalSignificance
+  | AssertionSignificance
   | AssertionDirection
   | AssertionType
   | VariantOrigin
