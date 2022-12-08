@@ -4941,6 +4941,7 @@ export enum VariantMenuSortColumns {
 
 export enum VariantOrigin {
   CommonGermline = 'COMMON_GERMLINE',
+  Mixed = 'MIXED',
   Na = 'NA',
   RareGermline = 'RARE_GERMLINE',
   Somatic = 'SOMATIC',
@@ -6147,22 +6148,6 @@ export type DiseasesSummaryQuery = { __typename: 'Query', disease?: { __typename
 
 export type DiseasesSummaryFieldsFragment = { __typename: 'Disease', id: number, name: string, doid?: number | undefined, diseaseUrl?: string | undefined, displayName: string, diseaseAliases: Array<string>, link: string };
 
-export type TherapyDetailQueryVariables = Exact<{
-  therapyId: Scalars['Int'];
-}>;
-
-
-export type TherapyDetailQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string } | undefined };
-
-export type TherapiesSummaryQueryVariables = Exact<{
-  therapyId: Scalars['Int'];
-}>;
-
-
-export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string } | undefined };
-
-export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string };
-
 export type EvidenceDetailQueryVariables = Exact<{
   evidenceId: Scalars['Int'];
 }>;
@@ -6289,6 +6274,22 @@ export type SourceSummaryQueryVariables = Exact<{
 export type SourceSummaryQuery = { __typename: 'Query', source?: { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined } | undefined };
 
 export type SourceSummaryFieldsFragment = { __typename: 'Source', id: number, citation?: string | undefined, displayType: string, sourceUrl?: string | undefined, title?: string | undefined, abstract?: string | undefined, publicationDate?: string | undefined, citationId: string, fullJournalTitle?: string | undefined, pmcId?: string | undefined, authorString?: string | undefined, clinicalTrials?: Array<{ __typename: 'ClinicalTrial', nctId: string, id: number, link: string }> | undefined };
+
+export type TherapyDetailQueryVariables = Exact<{
+  therapyId: Scalars['Int'];
+}>;
+
+
+export type TherapyDetailQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string } | undefined };
+
+export type TherapiesSummaryQueryVariables = Exact<{
+  therapyId: Scalars['Int'];
+}>;
+
+
+export type TherapiesSummaryQuery = { __typename: 'Query', therapy?: { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string } | undefined };
+
+export type TherapiesSummaryFieldsFragment = { __typename: 'Therapy', id: number, name: string, ncitId?: string | undefined, therapyUrl?: string | undefined, therapyAliases: Array<string>, link: string };
 
 export type UserDetailQueryVariables = Exact<{
   userId: Scalars['Int'];
@@ -7929,16 +7930,6 @@ export const DiseasesSummaryFieldsFragmentDoc = gql`
   link
 }
     `;
-export const TherapiesSummaryFieldsFragmentDoc = gql`
-    fragment TherapiesSummaryFields on Therapy {
-  id
-  name
-  ncitId
-  therapyUrl
-  therapyAliases
-  link
-}
-    `;
 export const EvidenceDetailFieldsFragmentDoc = gql`
     fragment EvidenceDetailFields on EvidenceItem {
   id
@@ -8400,6 +8391,16 @@ export const SourceSummaryFieldsFragmentDoc = gql`
     id
     link
   }
+}
+    `;
+export const TherapiesSummaryFieldsFragmentDoc = gql`
+    fragment TherapiesSummaryFields on Therapy {
+  id
+  name
+  ncitId
+  therapyUrl
+  therapyAliases
+  link
 }
     `;
 export const UserDetailFieldsFragmentDoc = gql`
@@ -11523,47 +11524,6 @@ export const DiseasesSummaryDocument = gql`
       super(apollo);
     }
   }
-export const TherapyDetailDocument = gql`
-    query TherapyDetail($therapyId: Int!) {
-  therapy(id: $therapyId) {
-    id
-    name
-    ncitId
-    therapyUrl
-    therapyAliases
-    link
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class TherapyDetailGQL extends Apollo.Query<TherapyDetailQuery, TherapyDetailQueryVariables> {
-    document = TherapyDetailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const TherapiesSummaryDocument = gql`
-    query TherapiesSummary($therapyId: Int!) {
-  therapy(id: $therapyId) {
-    ...TherapiesSummaryFields
-  }
-}
-    ${TherapiesSummaryFieldsFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class TherapiesSummaryGQL extends Apollo.Query<TherapiesSummaryQuery, TherapiesSummaryQueryVariables> {
-    document = TherapiesSummaryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const EvidenceDetailDocument = gql`
     query EvidenceDetail($evidenceId: Int!) {
   evidenceItem(id: $evidenceId) {
@@ -11821,6 +11781,47 @@ export const SourceSummaryDocument = gql`
   })
   export class SourceSummaryGQL extends Apollo.Query<SourceSummaryQuery, SourceSummaryQueryVariables> {
     document = SourceSummaryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TherapyDetailDocument = gql`
+    query TherapyDetail($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    id
+    name
+    ncitId
+    therapyUrl
+    therapyAliases
+    link
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TherapyDetailGQL extends Apollo.Query<TherapyDetailQuery, TherapyDetailQueryVariables> {
+    document = TherapyDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TherapiesSummaryDocument = gql`
+    query TherapiesSummary($therapyId: Int!) {
+  therapy(id: $therapyId) {
+    ...TherapiesSummaryFields
+  }
+}
+    ${TherapiesSummaryFieldsFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TherapiesSummaryGQL extends Apollo.Query<TherapiesSummaryQuery, TherapiesSummaryQueryVariables> {
+    document = TherapiesSummaryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

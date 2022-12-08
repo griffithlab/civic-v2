@@ -31,6 +31,7 @@ export const tooltips: tooltipMap = {
     [VariantOrigin.CommonGermline]: 'Variant is found in every cell (not restricted to tumor/diseased cells) and is thought to exist in at least 1% of the population relevant to this evidence item',
     [VariantOrigin.Unknown]: 'The variant origin is uncertain based on the available evidence',
     [VariantOrigin.Na]: 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concept of variant origin',
+    [VariantOrigin.Mixed]: 'Variants in the Molecular Profile span multiple Origin types.',
   },
 
   evidenceLevel: {

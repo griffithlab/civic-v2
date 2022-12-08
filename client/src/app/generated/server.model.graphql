@@ -8289,6 +8289,7 @@ enum VariantMenuSortColumns {
 
 enum VariantOrigin {
   COMMON_GERMLINE
+  MIXED
   NA
   RARE_GERMLINE
   SOMATIC
