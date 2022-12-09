@@ -7646,7 +7646,6 @@ type Variant implements Commentable & EventOriginObject & EventSubject & Flaggab
   deprecationComment: Comment
   deprecationEvent: Event
   deprecationReason: DeprecationReason
-  description: String
   ensemblVersion: Int
 
   """
@@ -7900,11 +7899,6 @@ input VariantFields {
   clinvarIds: ClinvarInput!
 
   """
-  The Variant's description/summary text.
-  """
-  description: NullableStringInput!
-
-  """
   The Ensembl database version.
   """
   ensemblVersion: NullableIntInput!
@@ -7943,11 +7937,6 @@ input VariantFields {
   In the case of Fusions these will be the coordinates of the 3' partner, otherwise set the values to null.
   """
   secondaryCoordinates: CoordinateInput!
-
-  """
-  Source IDs cited by the Variant's summary.
-  """
-  sourceIds: [Int!]!
 
   """
   Variant bases for this variant
