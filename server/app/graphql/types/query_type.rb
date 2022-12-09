@@ -45,8 +45,8 @@ module Types
       argument :id, Int, required: true
     end
 
-    field :drug, Types::Entities::DrugType, null: true do
-      description "Find a drug by CIViC ID"
+    field :therapy, Types::Entities::TherapyType, null: true do
+      description "Find a therapy by CIViC ID"
       argument :id, Int, required: true
     end
 
@@ -156,7 +156,7 @@ module Types
 
     field :variant_types, resolver: Resolvers::TopLevelVariantTypes
 
-    field :drugs, resolver: Resolvers::TopLevelDrugs
+    field :therapies, resolver: Resolvers::TopLevelTherapies
 
     field :clinical_trials, resolver: Resolvers::TopLevelClinicalTrials
 
@@ -170,7 +170,7 @@ module Types
       Disease.find_by(id: id)
     end
 
-    def drug(id: )
+    def therapy(id: )
       Drug.find_by(id: id)
     end
 

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Maybe, Organization, OrganizationDetailFieldsFragment, OrganizationDetailGQL, OrganizationDetailQueryVariables } from "@app/generated/civic.apollo";
 import { Viewer, ViewerService } from "@app/core/services/viewer/viewer.service";
@@ -6,8 +6,8 @@ import { QueryRef } from "apollo-angular";
 import {
   OrganizationDetailQuery
 } from '@app/generated/civic.apollo'
-import { pluck, startWith, map } from "rxjs/operators";
-import { Observable } from 'rxjs';
+import { pluck, startWith, map, takeUntil } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigation.component";
 
 @Component({
@@ -17,65 +17,78 @@ import { RouteableTab } from "@app/components/shared/tab-navigation/tab-navigati
 })
 
 
-export class OrganizationsDetailComponent {
-  queryRef: QueryRef<OrganizationDetailQuery, OrganizationDetailQueryVariables>;
+export class OrganizationsDetailComponent implements OnDestroy {
+  queryRef?: QueryRef<OrganizationDetailQuery, OrganizationDetailQueryVariables>;
+  destroy$ = new Subject<void>();
 
-  organization$: Observable<Maybe<OrganizationDetailFieldsFragment>>;
-  loading$: Observable<boolean>;
-  viewer$: Observable<Viewer>;
+  organization$?: Observable<Maybe<OrganizationDetailFieldsFragment>>;
+  loading$?: Observable<boolean>;
+  viewer$?: Observable<Viewer>;
+  routeSub: Subscription;
 
-  tabs$: Observable<RouteableTab[]>;
+  defaultTabs: RouteableTab[] = [
+    {
+      routeName: 'members',
+      tabLabel: 'Members',
+      iconName: 'pic-right'
+    },
+    {
+      routeName: 'activity',
+      tabLabel: 'Activity',
+      iconName: 'civic-event'
+    },
+    {
+      routeName: 'evidence',
+      tabLabel: 'Evidence Items',
+      iconName: 'civic-evidence'
+    },
+    {
+      routeName: 'assertions',
+      tabLabel: 'Assertions',
+      iconName: 'civic-assertion'
+    },
+  ]
+
+  tabs$: BehaviorSubject<RouteableTab[]>
 
   constructor(private gql: OrganizationDetailGQL, private viewerService: ViewerService, private route: ActivatedRoute) {
+    this.tabs$ = new BehaviorSubject(this.defaultTabs)
 
-    const organizationId: number = +this.route.snapshot.params['organizationId'];
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.queryRef = this.gql.watch({ organizationId: +params.organizationId });
 
-    this.queryRef = this.gql.watch({ organizationId: organizationId });
+      let observable = this.queryRef.valueChanges
 
-    let observable = this.queryRef.valueChanges
+      this.loading$ = observable.pipe(
+        pluck('loading'),
+        startWith(true));
 
-    this.loading$ = observable.pipe(
-      pluck('loading'),
-      startWith(true));
+      this.organization$ = observable.pipe(
+        pluck('data', 'organization'));
 
-    this.organization$ = observable.pipe(
-      pluck('data', 'organization'));
+      this.viewer$ = this.viewerService.viewer$;
 
-    this.viewer$ = this.viewerService.viewer$;
-
-    this.tabs$ = this.organization$.pipe(
-      map((org: any) => {
-        const tabs = [
-          {
-            routeName: 'members',
-            tabLabel: 'Members',
-            iconName: 'pic-right'
-          },
-          {
-            routeName: 'activity',
-            tabLabel: 'Activity',
-            iconName: 'civic-event'
-          },
-          {
-            routeName: 'evidence',
-            tabLabel: 'Evidence Items',
-            iconName: 'civic-evidence'
-          },
-          {
-            routeName: 'assertions',
-            tabLabel: 'Assertions',
-            iconName: 'civic-assertion'
-          },
-        ];
-        if (org && org.subGroups.length > 0) {
-          tabs.splice(1, 0, {
-            routeName: 'groups',
-            tabLabel: 'Child Organizations',
-            iconName: 'civic-organization'
-          });
+      this.organization$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (org: Maybe<OrganizationDetailFieldsFragment>) => {
+          if (org && org.subGroups.length > 0) {
+            this.tabs$.next([
+              ... this.defaultTabs,
+              {
+                routeName: 'groups',
+                tabLabel: 'Child Organizations',
+                iconName: 'civic-organization'
+             }]);
+          } else {
+            this.tabs$.next(this.defaultTabs);
+          }
         }
-        return tabs;
       })
-    );
+    })
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+    this.destroy$.next()
+    this.destroy$.unsubscribe();
   }
 }

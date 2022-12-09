@@ -35,7 +35,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:disease_name, type: GraphQL::Types::String, description: 'Substring filtering on disease name.') do |scope, value|
     scope.joins(:disease).where('diseases.name ILIKE ?', "%#{value}%")
   end
-  option(:drug_name, type: GraphQL::Types::String, description: 'Substring filtering on drug name.') do |scope, value|
+  option(:therapy_name, type: GraphQL::Types::String, description: 'Substring filtering on therapy name.') do |scope, value|
     scope.joins(:drugs).where('drugs.name ILIKE ?', "%#{value}%")
   end
   option(:description, type: GraphQL::Types::String, description: 'Substring filtering on evidence item description.') do |scope, value|
@@ -50,8 +50,8 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:evidence_direction, type: Types::EvidenceDirectionType, description: 'Filtering on the evidence direction.') do |scope, value|
     scope.where(evidence_direction: value)
   end
-  option(:clinical_significance, type: Types::EvidenceClinicalSignificanceType, description: 'Filtering on the evidence clinical significance.') do |scope, value|
-    scope.where(clinical_significance: value)
+  option(:significance, type: Types::EvidenceSignificanceType, description: 'Filtering on the evidence significance.') do |scope, value|
+    scope.where(significance: value)
   end
   option(:variant_origin, type: Types::VariantOriginType, description: 'Filtering on the evidence variant origin.') do |scope, value|
     scope.where(variant_origin: value)
@@ -72,7 +72,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
   option(:disease_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC disease id') do |scope, value|
     scope.joins(:disease).where('diseases.id = ?', value)
   end
-  option(:drug_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC drug id') do |scope, value|
+  option(:therapy_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the internal CIViC therapy id') do |scope, value|
     scope.joins(:drugs).where('drugs.id = ?', value)
   end
   option(:source_id, type: GraphQL::Types::Int, description: 'Exact match filtering of the evidence items based on the interal CIViC source id') do |scope, value|
@@ -99,7 +99,7 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
       scope.reorder("id #{value.direction}")
     when 'DISEASE_NAME'
       scope.joins(:disease).reorder("diseases.name #{value.direction}")
-    when 'DRUG_NAME'
+    when 'THERAPY_NAME'
       scope.joins(:drugs).reorder("drugs.name #{value.direction}")
     when 'DESCRIPTION'
       scope.reorder("description #{value.direction}")
@@ -113,8 +113,8 @@ class Resolvers::TopLevelEvidenceItems < GraphQL::Schema::Resolver
       scope.reorder("evidence_type #{value.direction}")
     when 'EVIDENCE_DIRECTION'
       scope.reorder("evidence_direction #{value.direction}")
-    when 'CLINICAL_SIGNIFICANCE'
-      scope.reorder("clinical_significance #{value.direction}")
+    when 'SIGNIFICANCE'
+      scope.reorder("significance #{value.direction}")
     when 'VARIANT_ORIGIN'
       scope.reorder("variant_origin #{value.direction}")
     end

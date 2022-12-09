@@ -11,7 +11,7 @@ fragment assertionPopover on Assertion {
   summary
   assertionType
   assertionDirection
-  clinicalSignificance
+  significance
   variantOrigin
   ampLevel
   acmgCodes {
@@ -30,12 +30,12 @@ fragment assertionPopover on Assertion {
   regulatoryApprovalLastUpdated
   fdaCompanionTest
   fdaCompanionTestLastUpdated
-  drugs {
+  therapies {
     id
     name
     link
   }
-  drugInteractionType
+  therapyInteractionType
   disease {
     id
     name

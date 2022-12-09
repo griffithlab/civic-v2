@@ -1,0 +1,35 @@
+<ng-container *ngIf="linked; else unlinked">
+  <a [routerLink]="therapy.link">
+    <ng-template [ngTemplateOutlet]="tag"></ng-template>
+  </a>
+</ng-container>
+
+<ng-template #tag>
+  <nz-tag
+    nz-popover
+    [nzPopoverMouseEnterDelay]="this.onCloseClicked ? 0 : 0.5"
+    [nzPopoverContent]="therapyPopover"
+    nzPopoverPlacement="right"
+    [nzPopoverTrigger]="enablePopover ? 'hover' : null"
+    [nzMode]="this.onCloseClicked ? 'closeable' : 'default'" (nzOnClose)="itemClosed($event)">
+    <ng-template [ngTemplateOutlet]="tagContent"></ng-template>
+  </nz-tag>
+
+  <ng-template #therapyPopover>
+    <cvc-therapy-popover [therapyId]="therapy.id"></cvc-therapy-popover>
+  </ng-template>
+</ng-template>
+
+<ng-template #unlinked>
+  <ng-template [ngTemplateOutlet]="tag"></ng-template>
+</ng-template>
+
+<ng-template #tagContent>
+  <i nz-icon nzType="civic-intervention" nzTheme="twotone" nzTwotoneColor="#AC3996"></i>
+  <ng-container *ngIf="truncateLongName; else fullName">
+    {{ therapy.name | truncate: 21 }}
+  </ng-container>
+  <ng-template #fullName>
+    {{ therapy.name }}
+  </ng-template>
+</ng-template>

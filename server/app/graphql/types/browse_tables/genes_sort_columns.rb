@@ -1,7 +1,7 @@
 module Types::BrowseTables
   class GenesSortColumns < Types::BaseEnum
     value "entrezSymbol"
-    value "drugName"
+    value "therapyName"
     value "geneAlias"
     value "diseaseName"
     value "variantCount"

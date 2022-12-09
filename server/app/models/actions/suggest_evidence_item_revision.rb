@@ -5,7 +5,7 @@ class Actions::SuggestEvidenceItemRevision < Actions::SuggestRevisionSet
       :variant_origin,
       :source_id,
       :evidence_type,
-      :clinical_significance,
+      :significance,
       :disease_id,
       :description,
       :evidence_level,

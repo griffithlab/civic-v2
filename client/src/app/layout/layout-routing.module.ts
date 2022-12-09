@@ -40,10 +40,10 @@ const routes: Routes = [
           breadcrumb: 'Diseases'
         }
       },
-      { path: 'drugs',
-        loadChildren: () => import('@app/views/drugs/drugs.module').then(m => m.DrugsModule),
+      { path: 'therapies',
+        loadChildren: () => import('@app/views/therapies/therapies.module').then(m => m.TherapiesModule),
         data: {
-          breadcrumb: 'Drugs'
+          breadcrumb: 'Therapies'
         }
       },
       { path: 'evidence',

@@ -81,8 +81,8 @@ Trestle.resource(:evidence_items) do
           select :evidence_direction, evidence_directions
         end
         col(sm: 5) do
-          clinical_significances = EvidenceItem.clinical_significances.keys.map { |clinical_significance| [clinical_significance, clinical_significance] }
-          select :clinical_significance, clinical_significances
+          significances = EvidenceItem.significances.keys.map { |significance| [significance, significance] }
+          select :significance, significances
         end
       end
 

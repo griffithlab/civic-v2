@@ -29,12 +29,21 @@
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>
+          <ng-container *ngSwitchCase="'molecular_profile_id'">
+            <cvc-revision-list-diff
+              [diffObject]="revision.linkoutData.diffValue"
+              entityType="Molecular Profile">
+              <ng-template #itemTemplate let-item>
+                <cvc-molecular-profile-tag [molecularProfile]="{id: item.id, name: item.displayName, link: item.link}"></cvc-molecular-profile-tag>
+              </ng-template>
+            </cvc-revision-list-diff>
+          </ng-container>
           <ng-container *ngSwitchCase="'drug_ids'">
             <cvc-revision-list-diff
               [diffObject]="revision.linkoutData.diffValue"
-              entityType="Drugs">
+              entityType="Therapies">
               <ng-template #itemTemplate let-item>
-                <cvc-drug-tag [drug]="{id: item.id, name: item.displayName, link: item.link}"></cvc-drug-tag>
+                <cvc-therapy-tag [therapy]="{id: item.id, name: item.displayName, link: item.link}"></cvc-therapy-tag>
               </ng-template>
             </cvc-revision-list-diff>
           </ng-container>

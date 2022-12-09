@@ -99,11 +99,11 @@
         </a>
       </nz-col>
       <nz-col nzFlex="1">
-        <a routerLink="/drugs">
-          <nz-statistic [nzTitle]="statsType + ' Drugs'"
-            [nzValue]="(stats.drugs[statsTypes[statsType]] | number)!"
-            [nzPrefix]="drugIcon"></nz-statistic>
-          <ng-template #drugIcon>
+        <a routerLink="/therapies">
+          <nz-statistic [nzTitle]="statsType + ' Therapies'"
+            [nzValue]="(stats.therapies[statsTypes[statsType]] | number)!"
+            [nzPrefix]="therapyIcon"></nz-statistic>
+          <ng-template #therapyIcon>
             <i nz-icon
               nzTheme="twotone"
               [nzTwotoneColor]="'Intervention' | entityColor"
@@ -181,7 +181,7 @@
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">
-        <nz-statistic [nzTitle]="statsType + ' Drugs'"
+        <nz-statistic [nzTitle]="statsType + ' Therapies'"
           [nzValue]="'--'"></nz-statistic>
       </nz-col>
       <nz-col nzFlex="1">

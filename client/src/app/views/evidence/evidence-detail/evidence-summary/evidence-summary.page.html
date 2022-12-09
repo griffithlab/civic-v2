@@ -9,7 +9,7 @@
           <nz-descriptions nzLayout="vertical"
             nzSize="small"
             nzBordered="true">
-            <nz-descriptions-item nzTitle="Description">
+            <nz-descriptions-item nzTitle="Statement">
               <p nz-typography
                 nzEllipsis
                 nzExpandable
@@ -42,11 +42,11 @@
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
-            <!-- clinical significance -->
-            <nz-descriptions-item nzTitle="Clinical Significance">
-              <cvc-attribute-tag [cvcAttrValue]="evidence.clinicalSignificance"
+            <!-- significance -->
+            <nz-descriptions-item nzTitle="Significance">
+              <cvc-attribute-tag [cvcAttrValue]="evidence.significance"
                 nz-tooltip
-                [nzTooltipTitle]="evidence.clinicalSignificance | enumTooltip:'clinicalSignificance':evidence.evidenceType:'EvidenceItem'">
+                [nzTooltipTitle]="evidence.significance | enumTooltip:'significance':evidence.evidenceType:'EvidenceItem'">
               </cvc-attribute-tag>
             </nz-descriptions-item>
 
@@ -172,7 +172,7 @@
             [nzColumn]="{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
             <!-- molecular profile -->
             <nz-descriptions-item nzTitle="Molecular Profile">
-              <cvc-molecular-profile-tag [molecularProfile]="evidence.molecularProfile" [enablePopover]="false"></cvc-molecular-profile-tag>
+              <cvc-molecular-profile-tag [molecularProfile]="evidence.molecularProfile" [enablePopover]="true"></cvc-molecular-profile-tag>
             </nz-descriptions-item>
 
             <!-- molecular profile expression -->
@@ -207,9 +207,9 @@
               </ng-template>
             </nz-descriptions-item>
 
-            <!-- drugs -->
-            <nz-descriptions-item [nzTitle]="evidence.drugs.length > 1 ? 'Drugs' : 'Drug'">
-              <ng-container [ngPlural]="evidence.drugs.length">
+            <!-- therapies -->
+            <nz-descriptions-item [nzTitle]="evidence.therapies.length > 1 ? 'Therapies' : 'Therapy'">
+              <ng-container [ngPlural]="evidence.therapies.length">
                 <!-- no drug -->
                 <ng-template ngPluralCase="=0">
                   <span nz-typography
@@ -219,17 +219,17 @@
                 <!-- one or more drugs -->
                 <ng-template ngPluralCase="other">
                   <cvc-tag-list>
-                    <ng-container *ngFor="let drug of evidence.drugs">
-                      <cvc-drug-tag [drug]="drug"></cvc-drug-tag>
+                    <ng-container *ngFor="let therapy of evidence.therapies">
+                      <cvc-therapy-tag [therapy]="therapy"></cvc-therapy-tag>
                     </ng-container>
                   </cvc-tag-list>
                 </ng-template>
               </ng-container>
 
             </nz-descriptions-item>
-            <nz-descriptions-item *ngIf="evidence.drugInteractionType"
-              nzTitle="Drug Interaction Type">
-              {{ evidence.drugInteractionType | titlecase }}
+            <nz-descriptions-item *ngIf="evidence.therapyInteractionType"
+              nzTitle="Therapy Interaction Type">
+              {{ evidence.therapyInteractionType | titlecase }}
             </nz-descriptions-item>
 
 

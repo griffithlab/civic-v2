@@ -6,7 +6,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { RouterModule } from '@angular/router';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -18,6 +17,7 @@ import { CvcStatusTagModule } from '@app/components/shared/status-tag/status-tag
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CvcMolecularProfileTagNameModule } from '@app/components/molecular-profiles/molecular-profile-tag-name/molecular-profile-tag-name.module';
 import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 
 @NgModule({
   declarations: [CvcEvidencePopoverComponent],
@@ -33,7 +33,7 @@ import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles
     NzSpaceModule,
     NzTypographyModule,
     CvcPipesModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcDiseaseTagModule,
     CvcPhenotypeTagModule,
     CvcSourceTagModule,

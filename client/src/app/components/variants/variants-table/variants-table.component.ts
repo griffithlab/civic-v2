@@ -13,7 +13,7 @@ export interface VariantTableUserFilters {
   variantNameInput?: Maybe<string>
   geneSymbolInput?: Maybe<string>
   diseaseNameInput?: Maybe<string>
-  drugNameInput?: Maybe<string>
+  therapyNameInput?: Maybe<string>
   variantAliasInput?: Maybe<string>
 }
 
@@ -63,7 +63,7 @@ export class CvcVariantsTableComponent implements OnInit {
   variantNameInput: Maybe<string>
   geneSymbolInput: Maybe<string>
   diseaseNameInput: Maybe<string>
-  drugNameInput: Maybe<string>
+  therapyNameInput: Maybe<string>
   variantAliasInput: Maybe<string>
 
   private initialQueryArgs?: BrowseVariantsQueryVariables
@@ -162,7 +162,7 @@ export class CvcVariantsTableComponent implements OnInit {
     this.queryRef
       .refetch({
         diseaseName: this.diseaseNameInput,
-        drugName: this.drugNameInput,
+        therapyName: this.therapyNameInput,
         variantName: this.variantNameInput ? this.variantNameInput : undefined,
         variantAlias: this.variantAliasInput ? this.variantAliasInput : undefined,
         entrezSymbol: this.geneSymbolInput,

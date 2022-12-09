@@ -56,7 +56,7 @@
           Diseases
         </th>
         <th nzWidth="225px">
-          Drugs
+          Therapies
         </th>
         <th nzWidth="75px"
           nzRight
@@ -107,7 +107,7 @@
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th>
-          <cvc-clearable-input-filter [(inputModel)]="drugInput"
+          <cvc-clearable-input-filter [(inputModel)]="therapyInput"
             (inputModelChange)="filterChange$.next()"></cvc-clearable-input-filter>
         </th>
         <th nzRight></th>
@@ -134,10 +134,10 @@
               [matchingText]="diseaseInput"> </cvc-tag-overflow>
           </td>
           <td>
-            <cvc-tag-overflow tagType='drug'
+            <cvc-tag-overflow tagType='therapy'
               [maxDisplayCount]="1"
-              [tags]="gene.drugs"
-              [matchingText]="drugInput"> </cvc-tag-overflow>
+              [tags]="gene.therapies"
+              [matchingText]="therapyInput"> </cvc-tag-overflow>
           </td>
           <td nzRight
             nzAlign="right">{{gene.variantCount}}</td>

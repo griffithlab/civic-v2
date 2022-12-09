@@ -1,0 +1,12 @@
+query TherapyPopover($therapyId: Int!) {
+  therapyPopover(id: $therapyId) {
+    id
+    name
+    therapyUrl
+    ncitId
+    therapyAliases
+    assertionCount
+    evidenceItemCount
+    link
+  }
+}

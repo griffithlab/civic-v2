@@ -2,11 +2,11 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { NetworkErrorsService } from '@app/core/services/network-errors.service';
 import { MutatorWithState } from '@app/core/utilities/mutation-state-wrapper';
-import { AcmgCode, AmpLevel, AssertionClinicalSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, ClingenCode, DrugInteraction, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, VariantOrigin } from '@app/generated/civic.apollo';
+import { AcmgCode, AmpLevel, AssertionSignificance, AssertionDetailGQL, AssertionDirection, AssertionRevisableFieldsGQL, AssertionType, ClingenCode, Maybe, ModeratedEntities, NccnGuideline, Organization, RevisableAssertionFieldsFragment, RevisionsGQL, RevisionStatus, SuggestAssertionRevisionGQL, SuggestAssertionRevisionInput, SuggestAssertionRevisionMutation, SuggestAssertionRevisionMutationVariables, TherapyInteraction, VariantOrigin } from '@app/generated/civic.apollo';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { AssertionState } from '../config/states/assertion.state';
-import { FormDisease, FormDrug, FormEvidence, FormMolecularProfile, FormPhenotype  } from '../forms.interfaces';
+import { FormDisease, FormTherapy, FormEvidence, FormMolecularProfile, FormPhenotype  } from '../forms.interfaces';
 import * as fmt from '@app/forms/config/utilities/input-formatters';
 import { takeUntil } from 'rxjs/operators';
 
@@ -18,12 +18,12 @@ interface FormModel {
     molecularProfile: FormMolecularProfile,
     variantOrigin: VariantOrigin
     evidenceType: AssertionType
-    clinicalSignificance: AssertionClinicalSignificance
+    significance: AssertionSignificance
     disease: Maybe<FormDisease>[]
     evidenceDirection: AssertionDirection
     phenotypes: FormPhenotype[]
-    drugs: FormDrug[]
-    drugInteractionType: Maybe<DrugInteraction>
+    therapies: FormTherapy[]
+    therapyInteractionType: Maybe<TherapyInteraction>
     ampLevel: Maybe<AmpLevel>
     evidenceItems: FormEvidence[]
     nccnGuideline: Maybe<NccnGuideline>
@@ -131,22 +131,22 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
             },
           },
           {
-            key: 'clinicalSignificance',
-            type: 'clinical-significance-select',
+            key: 'significance',
+            type: 'significance-select',
             templateOptions: {
               required: true
             }
           },
           {
-            key: 'drugs',
-            type: 'drug-array',
+            key: 'therapies',
+            type: 'therapy-array',
             templateOptions: {
               allowCreate: false
             }
           },
           {
-            key: 'drugInteractionType',
-            type: 'drug-interaction-select',
+            key: 'therapyInteractionType',
+            type: 'therapy-interaction-select',
             templateOptions: {}
           },
           {
@@ -277,12 +277,12 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
           molecularProfileId: fields.molecularProfile.id,
           variantOrigin: fields.variantOrigin,
           assertionType: fields.evidenceType,
-          clinicalSignificance: fields.clinicalSignificance,
+          significance: fields.significance,
           diseaseId: fmt.toNullableInput(fields.disease[0]?.id),
           assertionDirection: fields.evidenceDirection,
           phenotypeIds: fields.phenotypes.map(p => p.id),
-          drugIds: fields.drugs.map(d => d.id),
-          drugInteractionType: fmt.toNullableInput(fields.drugInteractionType),
+          therapyIds: fields.therapies.map(d => d.id),
+          therapyInteractionType: fmt.toNullableInput(fields.therapyInteractionType),
           ampLevel: fmt.toNullableInput(fields.ampLevel),
           nccnGuidelineId: fmt.toNullableInput(fields.nccnGuideline?.id),
           nccnGuidelineVersion: fmt.toNullableString(fields.nccnGuidelineVersion),
@@ -306,12 +306,12 @@ export class AssertionReviseForm implements OnDestroy, AfterViewInit {
         molecularProfile: fields.molecularProfile,
         variantOrigin: fields.variantOrigin,
         evidenceType: fields.assertionType,
-        clinicalSignificance: fields.clinicalSignificance,
+        significance: fields.significance,
         disease: [fields.disease],
         evidenceDirection: fields.assertionDirection,
         phenotypes: fields.phenotypes,
-        drugs: fields.drugs,
-        drugInteractionType: fields.drugInteractionType,
+        therapies: fields.therapies,
+        therapyInteractionType: fields.therapyInteractionType,
         ampLevel: fields.ampLevel,
         evidenceItems: fields.evidenceItems,
         nccnGuideline: fields.nccnGuideline,

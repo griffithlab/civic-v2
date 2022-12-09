@@ -4,7 +4,6 @@ import { CvcOrganizationCardComponent } from './organization-card.component';
 import { CvcPipesModule } from '@app/core/pipes/pipes.module';
 import { CvcPhenotypeTagModule } from '@app/components/phenotypes/phenotype-tag/phenotype-tag.module';
 import { CvcEvidenceRatingModule } from '@app/components/evidence/evidence-rating/evidence-rating.module';
-import { CvcDrugTagModule } from '@app/components/drugs/cvc-drug-tag/cvc-drug-tag.module';
 import { CvcDiseaseTagModule } from '@app/components/diseases/cvc-disease-tag/cvc-disease-tag.module';
 import { CvcClinicalTrialTagModule } from '@app/components/clinical-trials/clinical-trial-tag/clinical-trial-tag.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -21,6 +20,7 @@ import { CvcTagListModule } from '@app/components/shared/tag-list/tag-list.modul
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FormsModule } from '@angular/forms';
 import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.module';
+import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
 
 @NgModule({
   declarations: [CvcOrganizationCardComponent],
@@ -38,7 +38,7 @@ import { CvcLinkTagModule } from '@app/components/shared/link-tag/link-tag.modul
     CvcLinkTagModule,
     CvcClinicalTrialTagModule,
     CvcDiseaseTagModule,
-    CvcDrugTagModule,
+    CvcTherapyTagModule,
     CvcEvidenceRatingModule,
     CvcPhenotypeTagModule,
     CvcOrganizationAvatarModule,

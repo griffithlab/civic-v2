@@ -6,7 +6,7 @@ query CivicStats {
     diseases {
       ...TimepointCount
     }
-    drugs {
+    therapies {
       ...TimepointCount
     }
     evidenceItems {
