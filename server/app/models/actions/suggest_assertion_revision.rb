@@ -1,10 +1,9 @@
 class Actions::SuggestAssertionRevision < Actions::SuggestRevisionSet
   def editable_fields
     [
+      :molecular_profile_id,
       :description,
       :summary,
-      :variant_id,
-      :gene_id,
       :variant_origin,
       :evidence_type,
       :significance,
