@@ -38,6 +38,7 @@ import { CvcCommentInputFormModule } from '@app/forms/comment-input/comment-inpu
 import { CvcCommentBodyModule } from '@app/components/comments/comment-body/comment-body.module';
 import { CvcEvidenceTagModule } from '@app/components/evidence/evidence-tag/evidence-tag.module';
 import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/cvc-therapy-tag.module';
+import { CvcMolecularProfileTagModule } from '@app/components/molecular-profiles/molecular-profile-tag/molecular-profile-tag.module';
 
 @NgModule({
   declarations: [RevisionListComponent],
@@ -75,6 +76,7 @@ import { CvcTherapyTagModule } from '@app/components/therapies/cvc-therapy-tag/c
     CvcVariantTypeTagModule,
     CvcStatusTagModule,
     CvcCommentInputFormModule,
+    CvcMolecularProfileTagModule,
     CvcPipesModule,
     CvcCommentBodyModule,
     NzCollapseModule,
