@@ -100,7 +100,7 @@ export class EvidenceSubmitForm implements AfterViewInit, OnDestroy {
             type: 'molecular-profile-input',
             templateOptions: {
               label: 'Molecular Profile',
-              helpText: 'lorem ipsum',
+              helpText: 'TODO',
               required: true,
               allowCreate: true,
             },
