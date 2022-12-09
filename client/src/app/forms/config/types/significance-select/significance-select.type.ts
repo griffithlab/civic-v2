@@ -81,7 +81,7 @@ export const SignificanceSelectTypeOption: TypeOption = {
   wrappers: ['form-field'],
   defaultOptions: {
     templateOptions: {
-      label: 'Signficance',
+      label: 'Significance',
       helpText: 'The impact of the variant.',
       placeholder: 'None specified',
       options: [],
